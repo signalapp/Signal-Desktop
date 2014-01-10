@@ -1,0 +1,23 @@
+{
+	"manifest_version": 2,
+
+	"name": "TextSecure",
+	"description": "Secure texting ",
+	"version": "0.0.1",
+	"offline_enabled": false,
+
+	"icons": { "128": "icon.png" },
+
+	"browser_action": {
+		"default_icon": {
+			"19": "icon.png"
+		},
+		"default_popup": "popup.html"
+	},
+
+	"background": {
+		"scripts": ["background.js"]
+	},
+
+	"options_page": "options.html"
+}

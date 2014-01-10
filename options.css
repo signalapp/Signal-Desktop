@@ -1,0 +1,19 @@
+* {
+	font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif;
+}
+
+html {
+	margin: 12px 0 0 100px;
+}
+
+h1 {
+	font-size: 14pt;
+	font-weight: normal;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+h2 {
+	font-size: 12pt;
+	font-weight: normal;
+}

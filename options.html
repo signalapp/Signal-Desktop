@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>TextSecure Options</title>
+	<link rel="stylesheet" href="options.css">
+</head>
+<body>
+	<h1>TextSecure</h1>
+	<div id="init-setup" style="display: none;">
+		<h2>Welcome to TextSecure. To get startet please get a 6-digit setup code from your phone and enter it below.</h2>
+		Phone number: <input type="text" title="Enter the phone number which you've registered TextSecure with." size="8" id="number" />
+		Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /><br>
+		<button id="init-go" >Sync</button>
+	</div>
+	<div id="verify" style="display: none;">
+		<div id="verify1">Verifying number and setup code...<span id="verify1done"></span></div>
+		<div id="verify2">Generating keys...<span id="verify2done"></span></div>
+		<div id="verify3">Registering...<span id="verify3done"></span></div>
+	</div>
+	<div id="setup-complete" style="display: none;">
+		<h2>You are now registered on TextSecure with number <span id="complete-number"></span></h2>
+	</div>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="helpers.js"></script>
+	<script type="text/javascript" src="options.js"></script>
+</body>
+</html>
