@@ -34,6 +34,7 @@ var URL_BASE  = "http://textsecure-test.herokuapp.com";
 var URL_CALLS = {};
 URL_CALLS['devices'] = "/v1/devices";
 URL_CALLS['keys']    = "/v1/keys";
+URL_CALLS['push']    = "/v1/messagesocket";
 
 /**
   * REQUIRED PARAMS:
@@ -70,11 +71,38 @@ function doAjax(param) {
 	});
 }
 
+function subscribeToPush(user, password, message_callback) {
+	var request = { url: URL_BASE + URL_CALLS['push'],
+					contentType: 'application/json',
+					transport: 'websocket',
+					fallbackTransport: 'long-polling',
+					logLevel: 'debug', //TODO
+					headers: {'Authorization: Basic ' + btoa(user + ":" + password)},
+					onOpen = function(response) {
+						console.log('Connected to server using ' + response.transport);
+					},
+					onMessage = function(response) {
+						try {
+							var message = JSON.parse(response.responseBody);
+						} catch (e) {
+							console.log('Error parsing server JSON message: ' + response.responseBody);
+							return;
+						}
+						console.log('Received server message' + message); //TODO
+						message_callback(message);
+					},
+					onError = function(response) {
+						console.log('Server is down :(');
+						//TODO: GUI
+					}};
+	$.atmosphere.subscribe(request);
+}
+
 /*******************************************
  *** Utilities to manage keys/randomness ***
  *******************************************/
 function getRandomBytes(size) {
-	//TODO: Better random (https://www.grc.com/r&d/js.htm?
+	//TODO: Better random (https://www.grc.com/r&d/js.htm?)
 	try {
 		var array = new Uint8Array(size);
 		window.crypto.getRandomValues(array);

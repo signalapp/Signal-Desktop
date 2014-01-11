@@ -4,7 +4,8 @@ function codeMatches() {
 }
 
 function numberMatches() {
-	return $('#number').value().replace(/\D/g, '').length == 10;
+	var country_code = $('#countrycode').value().replace(/\D/g, '');
+	return $('#number').value().replace(/\D/g, '').length > 5 && country_code.length > 0 && country_code.length < 4;
 }
 
 $('#code').on('change', function() {
@@ -14,7 +15,7 @@ $('#code').on('change', function() {
 		$('#code').attr('style', '');
 });
 
-$('#number').on('change', function() {
+$('#number').on('change', function() {//TODO
 	if (!numberMatches())
 		$('#number').attr('style', 'background-color:#ff6666;');
 	else
@@ -25,7 +26,7 @@ $('#init-go').click(function() {
 	if (codeMatches() && numberMatches()) {
 		var signaling_key = getRandomBytes(32 + 20);
 		var password = getRandomBytes(16);
-		var number = $('#number').value().replace(/\D/g, '');
+		var number = "+" + $('#countrycode').value().replace(/\D/g, '') + $('#number').value().replace(/\D/g, '');
 
 		$('#init-setup').hide();
 		$('#verify1done').html('');
@@ -37,11 +38,13 @@ $('#init-go').click(function() {
 				$('#verify1done').html('done');
 				var keys = generateKeys();
 				$('#verify2done').html('done');
-				doAjax({call: 'keys', httpType: 'PUT', user: number + "." + response, password: password,
+				var number_id = number + "." + response;
+				doAjax({call: 'keys', httpType: 'PUT', user: number_id, password: password,
 					jsonData: keys, success_callback: function(response) {
 						$('#complete-number').html('');
 						$('#verify').hide();
 						$('#setup-complete').show();
+						storage.putUnencrypted("number_id", number_id);
 					}, error_callback: function(code) {
 						alert(code); //TODO
 					}
@@ -71,6 +74,6 @@ $('#init-go').click(function() {
 if (storage.getUnencrypted("number_id") === undefined) {
 	$('#init-setup').show();
 } else {
-	$('#complete-number').html(storage.getUnencrypted("number_id"));
+	$('#complete-number').html(storage.getUnencrypted("number_id").split(".")[0]);
 	$('#setup-complete').show();
 }
