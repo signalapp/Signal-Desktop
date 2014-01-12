@@ -30,16 +30,21 @@ if (storage.getUnencrypted("number_id") === undefined) {
 		for (var i = 0; i < MAX_CONVERSATIONS && i < conversations.length; i++) {
 			var conversation = conversations[i];
 			ul.append('<li>');
-			for (var j = 0; j < MAX_MESSAGES_PER_CONVERSATION && conversation.length; j++) {
-				ul.append(JSON.stringify(conversation[j]));
+			for (var j = 0; j < MAX_MESSAGES_PER_CONVERSATION && j < conversation.length; j++) {
+				var message = conversation[j];
+				ul.append("From: " + message.sender + ", at: " + timestampToHumanReadable(message.timestamp) + "<br>");
+				ul.append("Message: " + message.message + "<br><br>");
 			}
 			ul.append('</li>');
 		}
 	}
 
-	$(window).bind('storage', function() {
-		console.log("Got localStorage update");
-		fillMessages();
+	$(window).bind('storage', function(e) {
+		console.log("Got localStorage update for key " + e.key);
+		if (event.key == "emessageMap")//TODO: Fix when we get actual encryption
+			fillMessages();
 	});
 	fillMessages();
+	storage.putUnencrypted("unreadCount", 0);
+	chrome.browserAction.setBadgeText({text: ""});
 }

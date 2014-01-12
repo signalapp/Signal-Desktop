@@ -82,6 +82,12 @@ function getDeviceId(encodedNumber) {
 	return 1;
 }
 
+function timestampToHumanReadable(timestamp) {
+	var date = new Date();
+	date.setTime(timestamp*1000);
+	return date.toUTCString();
+}
+
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
