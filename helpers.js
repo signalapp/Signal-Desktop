@@ -214,16 +214,16 @@ function decryptWebsocketMessage(message) {
 		return;
 	}
 	var iv = CryptoJS.lib.WordArray.create(decodedMessage.subarray(1, 1 + 16));
-	var ciphertext = btoa(getString(decodedMessage.subarray(1 + 16, decodedMessage.length - 10)));
+	var ciphertext = decodedMessage.subarray(1 + 16, decodedMessage.length - 10);
 	var mac = CryptoJS.lib.WordArray.create(decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length));
 
 	var calculated_mac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, mac_key);
 	calculated_mac.update(CryptoJS.enc.Latin1.parse(String.fromCharCode(1)));
 	calculated_mac.update(iv);
-	calculated_mac.update(ciphertext);
+	calculated_mac.update(CryptoJS.lib.WordArray.create(ciphertext));
 	calculated_mac = calculated_mac.finalize();
 
-	var plaintext = CryptoJS.AES.decrypt(ciphertext, aes_key, {iv: iv});//TODO: Does this throw on invalid padding?
+	var plaintext = CryptoJS.AES.decrypt(btoa(getString(ciphertext)), aes_key, {iv: iv});//TODO: Does this throw on invalid padding?
 
 	if (calculated_mac.toString(CryptoJS.enc.Hex).substring(0, 20) != mac.toString(CryptoJS.enc.Hex)) {
 		console.log("Got message with bad MAC");
@@ -318,14 +318,12 @@ function subscribeToPush(message_callback) {
 						try {
 							var plaintext = decryptWebsocketMessage(message.message);
 							var proto = decodeProtobuf(plaintext);
+
+							doAjax({call: 'push', httpType: 'PUT', urlParameters: '/' + message.id, do_auth: true});
+							message_callback(proto);
 						} catch (e) {
 							console.log("Error decoding message: " + e);
-							return;
 						}
-
-						doAjax({call: 'push', httpType: 'PUT', urlParameters: '/' + message.id, do_auth: true});
-
-						message_callback(proto);
 					},
 					onError: function(response) {
 						console.log('Server is down :(');
