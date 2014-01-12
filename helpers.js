@@ -134,7 +134,7 @@ function storeMessage(outgoingMessageSignal) {
 		conversation = []
 		messageMap[outgoingMessageSignal.source] = conversation;
 	}
-	
+
 	conversation[conversation.length] = { message:    getString(outgoingMessageSignal.message),
 										destinations: outgoingMessageSignal.destinations,
 										sender:       outgoingMessageSignal.source,
