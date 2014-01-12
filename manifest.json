@@ -16,7 +16,8 @@
 	},
 
 	"background": {
-		"pages": ["background.html"]
+		"scripts": [ "jquery.js", "jquery.atmosphere.js", "aes.js", "hmac-sha256.js", "lib-typedarrays.js",
+					"Long.min.js", "ByteBuffer.min.js", "ProtoBuf.min.js", "helpers.js", "background.js" ]
 	},
 
 	"options_page": "options.html"

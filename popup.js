@@ -37,8 +37,8 @@ if (storage.getUnencrypted("number_id") === undefined) {
 		}
 	}
 
-	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		console.log("Got push message from background.js " + JSON.stringify(request));
+	$(window).bind('storage', function() {
+		console.log("Got localStorage update");
 		fillMessages();
 	});
 	fillMessages();
