@@ -37,9 +37,13 @@ function base64DecToArr (sBase64, nBlocksSize) {
 /*********************************
  *** Type conversion utilities ***
  *********************************/
+var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
+var StaticUint8ArrayProto = new Uint8Array().__proto__;
 function getString(thing) {
-	if (thing == "[object Uint8Array]")
+	if (thing.__proto__ == StaticUint8ArrayProto)
 		return String.fromCharCode.apply(null, thing);
+	if (thing != undefined && thing.__proto__ == StaticByteBufferProto)
+		return thing.toString("utf8");
 	return thing;
 }
 
@@ -85,6 +89,8 @@ var storage = {};
 
 storage.putEncrypted = function(key, value) {
 	//TODO
+	if (value === undefined)
+		throw "Tried to store undefined";
 	localStorage.setItem("e" + key, JSON.stringify(getString(value)));
 }
 
@@ -97,6 +103,8 @@ storage.getEncrypted = function(key, defaultValue) {
 }
 
 storage.putUnencrypted = function(key, value) {
+	if (value === undefined)
+		throw "Tried to store undefined";
 	localStorage.setItem("u" + key, JSON.stringify(getString(value)));
 }
 
@@ -105,6 +113,34 @@ storage.getUnencrypted = function(key, defaultValue) {
 	if (value === null)
 		return defaultValue;
 	return JSON.parse(value);
+}
+
+function registrationDone() {
+	storage.putUnencrypted("registration_done", "");
+}
+
+function isRegistrationDone() {
+	return storage.getUnencrypted("registration_done") !== undefined;
+}
+
+function getMessageMap() {
+	return storage.getEncrypted("messageMap", {});
+}
+
+function storeMessage(outgoingMessageSignal) {
+	var messageMap = getMessageMap();
+	var conversation = messageMap[outgoingMessageSignal.source]; //TODO: Also support Group message IDs here
+	if (conversation === undefined) {
+		conversation = []
+		messageMap[outgoingMessageSignal.source] = conversation;
+	}
+	
+	conversation[conversation.length] = { message:    getString(outgoingMessageSignal.message),
+										destinations: outgoingMessageSignal.destinations,
+										sender:       outgoingMessageSignal.source,
+										timestamp:    outgoingMessageSignal.timestamp.div(dcodeIO.Long.fromNumber(1000)).toNumber() };
+	storage.putEncrypted("messageMap", messageMap);
+	chrome.runtime.sendMessage(conversation[conversation.length - 1]);
 }
 
 /*******************************************

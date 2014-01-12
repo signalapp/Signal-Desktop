@@ -52,7 +52,10 @@ $('#init-go').click(function() {
 						$('#verify3done').html('done');
 						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
 							success_callback: function(response) {
-								$('#verify4done').html('done');
+								$('#complete-number').html(number);
+								$('#verify').hide();
+								$('#setup-complete').show();
+								registrationDone();
 							}, error_callback: function(code) {
 								alert(code); //TODO
 							}
@@ -81,7 +84,7 @@ $('#init-go').click(function() {
 	}
 });
 
-if (storage.getUnencrypted("number_id") === undefined) {
+if (!isRegistrationDone()) {
 	$('#init-setup').show();
 } else {
 	$('#complete-number').html(storage.getUnencrypted("number_id").split(".")[0]);

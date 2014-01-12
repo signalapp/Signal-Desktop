@@ -1,14 +1,45 @@
 $('#inbox_link').onclick = function() {
-	$('#inbox').style('display: none;'); $('#send').style('display: block;');
+	$('#inbox').show();
+	$('#send').hide();
 }
 $('#send_link').onclick = function() {
-	$('#send').style('display: block;'); $('#send').style('display: none;');
+	$('#inbox').hide();
+	$('#send').show();
 }
 
-if (storage.getUnencrypted("number_id") === undefined)
+if (storage.getUnencrypted("number_id") === undefined) {
 	chrome.tabs.create({url: "options.html"});
-else {
-	subscribeToPush(function(message) {
-		console.log("GOT MESSAGE IN POPUP! " + message);
+} else {
+	function fillMessages() {
+		var MAX_MESSAGES_PER_CONVERSATION = 4;
+		var MAX_CONVERSATIONS = 5;
+
+		var conversations = [];
+
+		var messageMap = getMessageMap();
+		for (conversation in messageMap) {
+			var messages = messageMap[conversation];
+			messages.sort(function(a, b) { return b.timestamp - a.timestamp; });
+			conversations[conversations.length] = messages;
+		}
+
+		conversations.sort(function(a, b) { return b[0].timestamp - a[0].timestamp });
+
+		var ul = $('#messages');
+		ul.html('');
+		for (var i = 0; i < MAX_CONVERSATIONS && i < conversations.length; i++) {
+			var conversation = conversations[i];
+			ul.append('<li>');
+			for (var j = 0; j < MAX_MESSAGES_PER_CONVERSATION && conversation.length; j++) {
+				ul.append(JSON.stringify(conversation[j]));
+			}
+			ul.append('</li>');
+		}
+	}
+
+	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+		console.log("Got push message from background.js " + JSON.stringify(request));
+		fillMessages();
 	});
+	fillMessages();
 }
