@@ -85,7 +85,7 @@ var storage = {};
 
 storage.putEncrypted = function(key, value) {
 	//TODO
-	localStorage.setItem("e" + key, getString(value));
+	localStorage.setItem("e" + key, JSON.stringify(getString(value)));
 }
 
 storage.getEncrypted = function(key, defaultValue) {
@@ -93,18 +93,18 @@ storage.getEncrypted = function(key, defaultValue) {
 	var value = localStorage.getItem("e" + key);
 	if (value === null)
 		return defaultValue;
-	return value;
+	return JSON.parse(value);
 }
 
 storage.putUnencrypted = function(key, value) {
-	localStorage.setItem("u" + key, getString(value));
+	localStorage.setItem("u" + key, JSON.stringify(getString(value)));
 }
 
 storage.getUnencrypted = function(key, defaultValue) {
 	var value = localStorage.getItem("u" + key);
 	if (value === null)
 		return defaultValue;
-	return value;
+	return JSON.parse(value);
 }
 
 /*******************************************
@@ -153,10 +153,7 @@ function generateKeys() {
 
 // Keep track of other's keys too
 function getDeviceObject(encodedNumber) {
-	var deviceObject = storage.getEncrypted("deviceObject" + encodedNumber);
-	if (deviceObject === undefined)
-		return deviceObject;
-	return JSON.parseJSON(deviceObject);
+	return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
 }
 
 function getDeviceIdListFromNumber(number) {
@@ -164,7 +161,7 @@ function getDeviceIdListFromNumber(number) {
 }
 
 function addDeviceIdForNumber(number, deviceId) {
-	var deviceIdList = JSON.parseJSON(getDeviceIdListFromNumber(getNumberFromString(number)));
+	var deviceIdList = getDeviceIdListFromNumber(getNumberFromString(number));
 	for (var i = 0; i < deviceIdList.length; i++) {
 		if (deviceIdList[i] == deviceId)
 			return;
@@ -176,6 +173,8 @@ function addDeviceIdForNumber(number, deviceId) {
 // throws "Identity key mismatch"
 function saveDeviceObject(deviceObject) {
 	var existing = getDeviceObject(deviceObject.encodedNumber);
+	if (existing === undefined)
+		existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
 	for (key in deviceObject) {
 		if (key == "encodedNumber")
 			continue;
@@ -185,7 +184,7 @@ function saveDeviceObject(deviceObject) {
 
 		existing[key] = deviceObject[key];
 	}
-	storage.putEncrypted("deviceObject", JSON.encode(existing));
+	storage.putEncrypted("deviceObject", existing);
 	addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
 }
 
@@ -246,7 +245,7 @@ var URL_CALLS = {};
 URL_CALLS['devices']  = "/v1/devices";
 URL_CALLS['keys']     = "/v1/keys";
 URL_CALLS['push']     = "/v1/messagesocket";
-URL_CALLS['messages'] = "/v1/messages";
+URL_CALLS['messages'] = "/v1/messages/";
 
 /**
   * REQUIRED PARAMS:
@@ -292,6 +291,7 @@ function doAjax(param) {
 	});
 }
 
+// message_callback(decoded_protobuf) (use decodeMessage(proto))
 function subscribeToPush(message_callback) {
 	var user = storage.getUnencrypted("number_id");
 	var password = storage.getEncrypted("password");
@@ -417,5 +417,6 @@ function sendMessageToNumbers(numbers, message, success_callback, error_callback
 
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
-	sendMessage(number, {message: "Identity Key request"}, function() {}, function() {});//TODO
+	sendMessageToDevices([getDeviceObject(getNumberFromString(number)) + ".1"],
+						{message: "Identity Key request"}, function() {}, function() {});//TODO
 }

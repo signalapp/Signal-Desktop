@@ -13,15 +13,22 @@
 	</div>
 	<div id="verify" style="display: none;">
 		<div id="verify1">Verifying number and setup code...<span id="verify1done"></span></div>
-		<div id="verify2">Generating keys...<span id="verify2done"></span></div>
-		<div id="verify3">Registering...<span id="verify3done"></span></div>
-		<div id="verify3">Syncing with existing devices...<span id="verify4done"></span></div>
+		<div id="verify3">Syncing with existing devices...<span id="verify2done"></span></div>
+		<div id="verify2">Generating keys...<span id="verify3done"></span></div>
+		<div id="verify3">Registering...<span id="verify4done"></span></div>
 	</div>
 	<div id="setup-complete" style="display: none;">
 		<h2>You are now registered on TextSecure with number <span id="complete-number"></span></h2>
 	</div>
+
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="jquery.atmosphere.js"></script>
+	<script type="text/javascript" src="aes.js"></script>
+	<script type="text/javascript" src="hmac-sha256.js"></script>
+	<script type="text/javascript" src="lib-typedarrays.js"></script>
+	<script type="text/javascript" src="Long.min.js"></script>
+	<script type="text/javascript" src="ByteBuffer.min.js"></script>
+	<script type="text/javascript" src="ProtoBuf.min.js"></script>
 	<script type="text/javascript" src="helpers.js"></script>
 	<script type="text/javascript" src="options.js"></script>
 </body>

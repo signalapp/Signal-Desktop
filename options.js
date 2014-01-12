@@ -35,30 +35,32 @@ $('#init-go').click(function() {
 		$('#verify3done').html('');
 		$('#verify').show();
 
-		doAjax({call: 'devices', httpType:  'PUT', urlParameters: '/' + $('#code').val(), success_callback: function(response) {
-				$('#verify1done').html('done');
-				var keys = generateKeys();
-				$('#verify2done').html('done');
+		doAjax({call: 'devices', httpType:  'PUT', urlParameters: '/' + $('#code').val(), user: number, password: password,
+			jsonData: {signalingKey: btoa(getString(signaling_key)), supportsSms: false, fetchesMessages: true},
+			success_callback: function(response) {
 				var number_id = number + "." + response;
-
-				storage.putUnencrypted("number_id", number_id);
 				storage.putEncrypted("password", password);
 				storage.putEncrypted('signaling_key', signaling_key);
+				storage.putUnencrypted("number_id", number_id);
+				$('#verify1done').html('done');
 
-				doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
-					success_callback: function(response) {
+				getKeysForNumber(number, function(identityKey) {
+					subscribeToPush(function(message) {
+						//TODO receive spuhared identity key
+						$('#verify2done').html('done');
+						var keys = generateKeys();
 						$('#verify3done').html('done');
-						getKeysForNumber(number, function(identityKey) {
-							get
-							$('#complete-number').html(number);
-							$('#verify').hide();
-							$('#setup-complete').show();
-						}, error_callback(error_msg) {
-							alert(error_msg); //TODO
+						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
+							success_callback: function(response) {
+								$('#verify4done').html('done');
+							}, error_callback: function(code) {
+								alert(code); //TODO
+							}
 						});
-					}, error_callback: function(code) {
-						alert(code); //TODO
-					}
+					});
+					requestIdentityPrivKeyFromMasterDevice(number);
+				}, function(error_msg) {
+					alert(error_msg); //TODO
 				});
 			}, error_callback: function(code) {
 				var error;
@@ -74,8 +76,7 @@ $('#init-go').click(function() {
 					console.log("Got error code " + code);
 				}
 				alert(error); //TODO
-			}, user: number, password: password,
-			jsonData: {signalingKey: btoa(getString(signaling_key)), supportsSms: false, fetchesMessages: true}
+			}
 		});
 	}
 });
