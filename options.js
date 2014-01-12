@@ -4,8 +4,8 @@ function codeMatches() {
 }
 
 function numberMatches() {
-	var country_code = $('#countrycode').value().replace(/\D/g, '');
-	return $('#number').value().replace(/\D/g, '').length > 5 && country_code.length > 0 && country_code.length < 4;
+	var country_code = $('#countrycode').val().replace(/\D/g, '');
+	return $('#number').val().replace(/\D/g, '').length > 5 && country_code.length > 0 && country_code.length < 4;
 }
 
 $('#code').on('change', function() {
@@ -20,13 +20,14 @@ $('#number').on('change', function() {//TODO
 		$('#number').attr('style', 'background-color:#ff6666;');
 	else
 		$('#number').attr('style', '');
-}
+});
 
 $('#init-go').click(function() {
 	if (codeMatches() && numberMatches()) {
 		var signaling_key = getRandomBytes(32 + 20);
-		var password = getRandomBytes(16);
-		var number = "+" + $('#countrycode').value().replace(/\D/g, '') + $('#number').value().replace(/\D/g, '');
+		var password = btoa(getRandomBytes(16));
+		password = password.substring(0, password.length - 2);
+		var number = "+" + $('#countrycode').val().replace(/\D/g, '') + $('#number').val().replace(/\D/g, '');
 
 		$('#init-setup').hide();
 		$('#verify1done').html('');
@@ -39,18 +40,26 @@ $('#init-go').click(function() {
 				var keys = generateKeys();
 				$('#verify2done').html('done');
 				var number_id = number + "." + response;
-				doAjax({call: 'keys', httpType: 'PUT', user: number_id, password: password,
-					jsonData: keys, success_callback: function(response) {
-						$('#complete-number').html('');
-						$('#verify').hide();
-						$('#setup-complete').show();
-						storage.putUnencrypted("number_id", number_id);
+
+				storage.putUnencrypted("number_id", number_id);
+				storage.putEncrypted("password", password);
+				storage.putEncrypted('signaling_key', signaling_key);
+
+				doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
+					success_callback: function(response) {
+						$('#verify3done').html('done');
+						getKeysForNumber(number, function(identityKey) {
+							get
+							$('#complete-number').html(number);
+							$('#verify').hide();
+							$('#setup-complete').show();
+						}, error_callback(error_msg) {
+							alert(error_msg); //TODO
+						});
 					}, error_callback: function(code) {
 						alert(code); //TODO
 					}
 				});
-				storage.putEncrypted('signaling_key', signaling_key);
-				storage.putEncrypted('login_password', password);
 			}, error_callback: function(code) {
 				var error;
 				switch(code) {
@@ -66,7 +75,7 @@ $('#init-go').click(function() {
 				}
 				alert(error); //TODO
 			}, user: number, password: password,
-			jsonData: {signalingKey: btoa(String.fromCharCode.apply(null, signaling_key)), supportsSms: false, fetchesMessages: true}
+			jsonData: {signalingKey: btoa(getString(signaling_key)), supportsSms: false, fetchesMessages: true}
 		});
 	}
 });

@@ -3,11 +3,22 @@
 <script type="text/javascript" src="jquery-2.0.3.min.js"></script>
 </head>
 <body>
-<a onclick="$('#inbox').style('display: block;'); $('#send').style('display: none;')">Inbox</a>
-<a onclick="$('#inbox').style('display: none;'); $('#send').style('display: block;')">Send</a>
+<a id="inbox_link">Inbox</a>
+<a id="send_link">Send</a>
 <div id="inbox">
 
 </div>
 <div id="send" style="display:none;"></div>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.atmosphere.js"></script>
+<script type="text/javascript" src="aes.js"></script>
+<script type="text/javascript" src="hmac-sha256.js"></script>
+<script type="text/javascript" src="lib-typedarrays.js"></script>
+<script type="text/javascript" src="Long.min.js"></script>
+<script type="text/javascript" src="ByteBuffer.min.js"></script>
+<script type="text/javascript" src="ProtoBuf.min.js"></script>
+<script type="text/javascript" src="helpers.js"></script>
+<script type="text/javascript" src="popup.js"></script>
 </body>
 </html>
