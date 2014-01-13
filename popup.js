@@ -35,6 +35,17 @@ if (storage.getUnencrypted("number_id") === undefined) {
 				ul.append("From: " + message.sender + ", at: " + timestampToHumanReadable(message.timestamp) + "<br>");
 				ul.append("Message: " + message.message + "<br><br>");
 			}
+			ul.append("<input type='text' id=text" + i + " /><button id=button" + i + ">Send</button><br>");
+			$('#button' + i).click(function() {
+				var sendDestinations = [conversation[0].sender];
+				for (var j = 0; j < conversation[0].destinations.length; j++)
+					sendDestinations[sendDestinations.length] = conversation[0].destinations[j];
+				sendMessageToNumbers(sendDestinations, { message: $('#text' + i).val() }, function(result) {
+					console.log("Sent message: " + JSON.stringify(result));
+				}, function(error_msg) {
+					alert(error_msg); //TODO
+				});
+			});
 			ul.append('</li>');
 		}
 	}

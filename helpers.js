@@ -149,6 +149,50 @@ function storeMessage(outgoingMessageSignal) {
 	chrome.runtime.sendMessage(conversation[conversation.length - 1]);
 }
 
+function getDeviceObject(encodedNumber) {
+	return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
+}
+
+function getDeviceIdListFromNumber(number) {
+	return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
+}
+
+function addDeviceIdForNumber(number, deviceId) {
+	var deviceIdList = getDeviceIdListFromNumber(getNumberFromString(number));
+	for (var i = 0; i < deviceIdList.length; i++) {
+		if (deviceIdList[i] == deviceId)
+			return;
+	}
+	deviceIdList[deviceIdList.length] = deviceId;
+	storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
+}
+
+// throws "Identity key mismatch"
+function saveDeviceObject(deviceObject) {
+	var existing = getDeviceObject(deviceObject.encodedNumber);
+	if (existing === undefined)
+		existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
+	for (key in deviceObject) {
+		if (key == "encodedNumber")
+			continue;
+
+		if (key == "identityKey" && deviceObject.identityKey != deviceObject.identityKey)
+			throw "Identity key mismatch";
+
+		existing[key] = deviceObject[key];
+	}
+	storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
+	addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
+}
+
+function getDeviceObjectListFromNumber(number) {
+	var deviceObjectList = [];
+	var deviceIdList = getDeviceIdListFromNumber(number);
+	for (var i = 0; i < deviceIdList.length; i++)
+		deviceObjectList[deviceObjectList.length] = getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
+	return deviceObjectList;
+}
+
 /*******************************************
  *** Utilities to manage keys/randomness ***
  *******************************************/
@@ -191,51 +235,6 @@ function generateKeys() {
 	// 0xFFFFFF == 16777215
 	keys.lastResortKey = {keyId: 16777215, publicKey: getNewPubKey("lastResortKey" + keyGroupId), identityKey: identityKey};
 	return keys;
-}
-
-// Keep track of other's keys too
-function getDeviceObject(encodedNumber) {
-	return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
-}
-
-function getDeviceIdListFromNumber(number) {
-	return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
-}
-
-function addDeviceIdForNumber(number, deviceId) {
-	var deviceIdList = getDeviceIdListFromNumber(getNumberFromString(number));
-	for (var i = 0; i < deviceIdList.length; i++) {
-		if (deviceIdList[i] == deviceId)
-			return;
-	}
-	deviceIdList[deviceIdList.length] = deviceId;
-	storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
-}
-
-// throws "Identity key mismatch"
-function saveDeviceObject(deviceObject) {
-	var existing = getDeviceObject(deviceObject.encodedNumber);
-	if (existing === undefined)
-		existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
-	for (key in deviceObject) {
-		if (key == "encodedNumber")
-			continue;
-
-		if (key == "identityKey" && deviceObject.identityKey != deviceObject.identityKey)
-			throw "Identity key mismatch";
-
-		existing[key] = deviceObject[key];
-	}
-	storage.putEncrypted("deviceObject", existing);
-	addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
-}
-
-function getDeviceObjectListFromNumber(number) {
-	var deviceObjectList = [];
-	var deviceIdList = getDeviceIdForNumber(number);
-	for (var i = 0; i < deviceIdList.length; i++)
-		deviceObjectList[deviceObjectList.length] = getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
-	return deviceObjectList;
 }
 
 /********************
@@ -407,14 +406,30 @@ function sendMessageToDevices(deviceObjectList, message, success_callback, error
 		jsonData[jsonData.length] = {
 			type: message.type,
 			destination: deviceObjectList[i].encodedNumber,
-			body: encryptMessageFor(deviceObjectList[i], message.message),
+			body: encryptMessageFor(deviceObjectList[i], message.message), //TODO: Protobuf?
 			relay: deviceObjectList[i].relay,
 			timestamp: new Date().getTime()
 		};
 	}
 	doAjax({call: 'messages', httpType: 'POST', do_auth: true, jsonData: jsonData,
 		success_callback: function(result) {
-			success_callback(result);
+			if (result.missingDeviceIds.length > 0) {
+				var responsesLeft = result.missingDeviceIds.length;
+				var errorThrown = 0;
+				for (var i = 0; i < result.missingDeviceIds.length; i++) {
+					getKeysForNumber(result.missingDeviceIds[i], function(identity_key) {
+							responsesLeft--;
+							if (responsesLeft == 0 && errorThrown == 0)
+								sendMessageToDevices(deviceObjectList, message, success_callback, error_callback);
+						}, function(error_msg) {
+							errorThrown++;
+							if (errorThrown == 1)
+								error_callback("Failed to retreive new device keys for number " + result.missingDeviceIds[i]);
+						});
+				}
+			} else {
+				success_callback(result);
+			}
 		}, error_callback: function(code) {
 			error_callback("Failed to conect to data channel: " + code);
 		}
@@ -424,28 +439,33 @@ function sendMessageToDevices(deviceObjectList, message, success_callback, error
 // success_callback(success/failure map, see second-to-last line), error_callback(error_msg)
 function sendMessageToNumbers(numbers, message, success_callback, error_callback) {
 	var deviceObjectList = [];
+
+	var deviceDatasMissing = 0;
+	var loopDone = 0;
+	var errorThrown = 0;
 	for (var i = 0; i < numbers.length; i++) {
 		var devicesForNumber = getDeviceObjectListFromNumber(numbers[i]);
 		for (var j = 0; j < devicesForNumber.length; j++)
 			deviceObjectList[deviceObjectList.length] = devicesForNumber[j];
+
+		if (devicesForNumber.length == 0) {
+			deviceDatasMissing++;
+			getKeysForNumber(numbers[i], function(identity_key) {
+					deviceDatasMissing--;
+					if (deviceDatasMissing == 0 && loopDone && errorThrown == 0)
+						sendMessageToNumbers(numbers, message, success_callback, error_callback);
+				}, function(error_msg) {
+					errorThrown++;
+					if (errorThrown == 1)
+						error_callback("Failed to retreive new device keys for number " + numbers[i]);
+				});
+		}
+	}
+	if (deviceDatasMissing > 0 || errorThrown > 0) {
+		loopDone = 1;
+		return;
 	}
 	return sendMessageToDevices(deviceObjectList, message, function(result) {
-		if (result.missingDeviceIds.length > 0) {
-			var responsesLeft = result.missingDeviceIds.length;
-			var errorThrown = 0;
-			for (var i = 0; i < result.missingDeviceIds.length; i++) {
-				getKeysForNumber(result.missingDeviceIds[i], function(identity_key) {
-						responsesLeft--;
-						if (responsesLeft == 0)
-							sendMessageToNumbers(numbers, message, success_callback, error_callback);
-					}, function(error_msg) {
-						errorThrown++;
-						if (errorThrown == 1)
-							error_callback("Failed to retreive new device keys for number " + result.missingDeviceIds[i]);
-					});
-			}
-		}
-
 		var successNumbers = {};
 		var failureNumbers = {};
 		for (var i = 0; i < result.success; i++)
