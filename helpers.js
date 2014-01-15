@@ -34,9 +34,17 @@ function base64DecToArr (sBase64, nBlocksSize) {
   return taBytes;
 }
 
+/****************************
+ *** Forward declarations ***
+ ****************************/
+var crypto = {};
+crypto._storage = {};
+var storage = {};
+
 /*********************************
  *** Type conversion utilities ***
  *********************************/
+// Strings/arrays
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticUint8ArrayProto = new Uint8Array().__proto__;
 function getString(thing) {
@@ -55,11 +63,34 @@ function base64ToUint8Array(string) {
 	return base64DecToArr(string);
 }
 
-var OutgoingMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("OutgoingMessageSignal.proto").build("textsecure.OutgoingMessageSignal");
-function decodeProtobuf(string) {
-	return OutgoingMessageProtobuf.decode(string);
+// Protobuf decodingA
+//TODO: throw on missing fields everywhere
+var IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
+function decodeIncomingPushMessageProtobuf(string) {
+	return IncomingPushMessageProtobuf.decode(btoa(string));
 }
 
+var PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
+function decodePPushMessageContentProtobuf(string) {
+	return PushMessageContentProtobuf.decode(btoa(string));
+}
+
+var WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
+function decodeWhisperMessageProtobuf(string) {
+	return WhisperMessageProtobuf.decode(btoa(string));
+}
+
+var PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
+function decodePreKeyWhisperMessageProtobuf(string) {
+	return PreKeyWhisperMessageProtobuf.decode(btoa(string));
+}
+
+var KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
+function decodeKeyExchangeMessageProtobuf(string) {
+	return KeyExchangeMessageProtobuf.decode(btoa(string));
+}
+
+// Number formatting
 function getNumberFromString(string) {
 	return string.split(".")[0];
 }
@@ -82,17 +113,26 @@ function getDeviceId(encodedNumber) {
 	return 1;
 }
 
+// Other
+
 function timestampToHumanReadable(timestamp) {
 	var date = new Date();
 	date.setTime(timestamp*1000);
 	return date.toUTCString();
 }
 
+function objectContainsKeys(object) {
+	var count = 0;
+	for (key in object) {
+		count++;
+		break;
+	}
+	return count != 0;
+}
+
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
-var storage = {};
-
 storage.putEncrypted = function(key, value) {
 	//TODO
 	if (value === undefined)
@@ -108,6 +148,10 @@ storage.getEncrypted = function(key, defaultValue) {
 	return JSON.parse(value);
 }
 
+storage.removeEncrypted = function(key) {
+	//TODO
+}
+
 storage.putUnencrypted = function(key, value) {
 	if (value === undefined)
 		throw "Tried to store undefined";
@@ -119,6 +163,10 @@ storage.getUnencrypted = function(key, defaultValue) {
 	if (value === null)
 		return defaultValue;
 	return JSON.parse(value);
+}
+
+storage.removeUnencrypted = function(key) {
+	//TODO
 }
 
 function registrationDone() {
@@ -204,50 +252,202 @@ function getRandomBytes(size) {
 		return array;
 	} catch (err) {
 		//TODO: ummm...wat?
+		throw err;
 	}
 }
 
-function getNewPubKey(keyName) {
+crypto._createNewKeyPair = function() {
 	//TODO
 	var pubKey = "BRTJzsHPUWRRBxyo5MoaBRidMk2fwDlfqvU91b6pzbED";
 	var privKey = "";
-	storage.putEncrypted("pubKey" + keyName, pubKey);
-	storage.putEncrypted("privKey" + keyName, privKey);
-	return pubKey;
+	return { pubKey: pubKey, privKey: privKey };
 }
 
-function getExistingPubKey(keyName) {
-	return storage.getEncrypted("pubKey" + keyName);
+crypto._storage.getNewPubKeySTORINGPrivKey = function(keyName) {
+	var keyPair = _createNewKeyPair();
+	storage.putEncrypted("25519Key" + keyName, keyPair);
+	return keyPair.pubKey;
 }
 
-function generateKeys() {
-	var identityKey = getExistingPubKey("identityKey");
-	if (identityKey === undefined)
-		identityKey = getNewPubKey("identityKey");
-
-	var keyGroupId = storage.getEncrypted("lastKeyGroupId", -1) + 1;
-	storage.putEncrypted("lastKeyGroupId", keyGroupId);
-
-	var keys = {};
-	keys.keys = [];
-	for (var i = 0; i < 100; i++)
-		keys.keys[i] = {keyId: i, publicKey: getNewPubKey("key" + keyGroupId + i), identityKey: identityKey};
-	// 0xFFFFFF == 16777215
-	keys.lastResortKey = {keyId: 16777215, publicKey: getNewPubKey("lastResortKey" + keyGroupId), identityKey: identityKey};
-	return keys;
+crypto._storage.getStoredPubKey = function(keyName) {
+	return storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey;
 }
 
-/********************
- *** Crypto stuff ***
- ********************/
+crypto._storage.getStoredKeyPair = function(keyName) {
+	return storage.getEncrypted("25519Key" + keyName);
+}
 
-// Decrypts message into a BASE64 string
-function decryptWebsocketMessage(message) {
+crypto._storage.getAndRemoveStoredKeyPair = function(keyName) {
+	var keyPair = getStoredKeyPair(keyName);
+	storage.removeEncrypted("25519Key" + keyName);
+	return keyPair;
+}
+
+crypto._storage.getAndRemovePreKeyPair = function(keyId) {
+	return getAndRemoveStoredKeyPair("preKey" + keyId);
+}
+
+crypto._storage.getIdentityPrivKey = function() {
+	return getStoredKeyPair("identityKey").privKey;
+}
+
+crypto._storage.saveSession = function(encodedNumber, session) {
+	storage.putEncrypted("session" + getEncodedNumber(encodedNumber), session);
+}
+
+crypto._storage.getSession = function(encodedNumber) {
+	return storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+}
+
+
+/*****************************
+ *** Internal Crypto stuff ***
+ *****************************/
+crypto._ECDHE = function(pubKey, privKey) {
+	return "ECDHE";//TODO
+}
+
+crypto._HKDF = function(input, salt, info) {
+	var hkdf = "HKDF(" + input + ", " + salt + ", " + info + ")"; //TODO
+	return [ hkdf.substring(0, 32), hkdf.substring(32, 64) ];
+}
+
+crypto._HMACSHA256 = function(input, key) {
+	//TODO: NativeA
+	//TODO: return string
+	return CryptoJS.HmacSHA256(input, CryptoJS.enc.Latin1.parse(getString(key)));
+}
+
+crypto._verifyMACWithVersionByte = function(data, key, mac) {
+	var calculated_mac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
+	calculated_mac.update(CryptoJS.enc.Latin1.parse(String.fromCharCode(1)));
+	calculated_mac.update(CryptoJS.enc.Latin1.parse(getString(data)));
+	calculated_mac = calculated_mac.finalize();
+
+	if (btoa(calculated_mac.toString(CryptoJS.enc.Base64)).substring(0, mac.length) != mac) {
+		console.log("Got message with bad MAC");
+		throw "Bad MAC";
+	}
+}
+
+/******************************
+ *** Ratchet implementation ***
+ ******************************/
+crypto._initSession = function(isInitiator, theirIdentityPubKey, ourEphemeralPrivKey, theirEphemeralPubKey) {
+	var ourIdentityPrivKey = _storage.getIdentityPrivKey();
+
+	var sharedSecret = _ECDHE(theirEphemeralPubKey, ourIdentityPrivKey);
+	if (isInitiator)
+		sharedSecret = sharedSecret + _ECDHE(theirIdentityPubKey, ourEphemeralPrivKey);
+	else
+		sharedSecret = _ECDHE(theirIdentityPubKey, ourEphemeralPrivKey) + sharedSecret;
+	sharedSecret += _ECDHE(theirEphemeralPubKey, ourEphemeralPrivKey);
+
+	var masterKey = _HKDF(sharedSecret, '', "WhisperText");
+	return { rootKey: masterKey[0], chainKey: masterKey[1] };
+}
+
+crypto._initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
+	//TODO: Check remote identity key matches known-good key
+
+	var preKeyPair = _storage.getAndRemovePreKeyPair(preKeyProto.preKeyId);
+	if (preKeyPair === undefined)
+		throw "Missing preKey for PreKeyWhisperMessage";
+
+	var firstRatchet = _initSession(false, message.identityKey, preKeyPair.privKey, message.baseKey);
+
+	var session = {currentRatchet: { rootKey: firstRatchet.rootKey, ephemeralKeyPair: preKeyPair,
+										lastRemoteEphemeralKey: message.baseKey },
+					oldRatchetList: []
+				};
+	session[preKeyPair.pubKey] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
+	_storage.saveSession(encodedNumber, session);
+}
+
+crypto._fillMessageKeys = function(chain, counter) {
+	var messageKeys = chain.messageKeys;
+	var key = chain.chainKey.key;
+	for (var i = chain.chainKey.counter; i < counter; i++) {
+		messageKeys[counter] = _HMACSHA256(key, String.fromCharCode(1));
+		key = _HMACSHA256(key, String.fromCharCode(2));
+	}
+	chain.chainKey.key = key;
+	chain.chainKey.counter = counter;
+}
+
+crypto._maybeStepRatchet = function(session, remoteKey, previousCounter) {
+	if (sesion[remoteKey] !== undefined) //TODO: null???
+		return;
+
+	var ratchet = session.currentRatchet;
+
+	var previousRatchet = session[ratchet.lastRemoteEphemeralKey];
+	_fillMessageKeys(previousRatchet, previousCounter);
+	if (!objectContainsKeys(previousRatchet.messageKeys))
+		delete session[ratchet.lastRemoteEphemeralKey];
+	else
+		session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+
+	delete session[ratchet.ephemeralKeyPair.pubKey];
+
+	var masterKey = _HKDF(_ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), ratchet.rootKey, "WhisperRatchet");
+	session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+
+	ratchet.ephemeralKeyPair = _createNewKeyPair();
+	masterKey = _HKDF(_ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
+	ratchet.rootKey = masterKey.substring(0, 32);
+	session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+
+	ratchet.lastRemoteEphemeralKey = remoteKey;
+}
+
+crypto._doDecryptWhisperMessage = function(ciphertext, mac, messageKey, counter) {
+	//TODO keys swapped?
+	var keys = _HKDF(messageKey, /* all 0x00 bytes????? */ '', "WhisperMessageKeys");
+	_verifyMACWithVersionByte(ciphertext, keys[0], mac);
+
+	return AES_CTR_NOPADDING(keys[1], CTR = counter, ciphertext);
+}
+
+// returns decrypted protobuf
+crypto._decryptWhisperMessage = function(encodedNumber, messageBytes) {
+	var session = _storage.getSession(encodedNumber);
+	if (session === undefined)
+		throw "No session currently open with " + encodedNumber;
+
+	if (messageBytes[0] != String.fromCharCode(1))
+		throw "Bad version number on WhisperMessage";
+
+	var messageProto = messageBytes.substring(1, messageBytes.length - 8);
+	var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
+
+	var message = decodeWhisperMessageProtobuf(messageProto);
+
+	_maybeStepRatchet(session, getString(message.ephemeralKey), message.previousCounter);
+	var chain = session[getString(message.ephemeralKey)];
+
+	_fillMessageKeys(chain, message.counter);
+
+	var plaintext = _doDecryptWhisperMessage(message.ciphertext, mac, chain.messageKeys[message.counter], message.counter);
+	delete chain.messageKeys[message.counter];
+
+	_removeOldChains(session);
+
+	_storage.saveSession(encodedNumber, session);
+	return decodeWhisperMessage(atob(plaintext));
+}
+
+/*************************
+ *** Public crypto API ***
+ *************************/
+// Decrypts message into a raw string
+crypto.decryptWebsocketMessage = function(message) {
 	//TODO: Use a native AES impl (so I dont feel so bad about side-channels)
-	var signaling_key = storage.getEncrypted("signaling_key");
-	var aes_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(0, 32));
+	var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto._storage
+	var aes_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(0, 32));//TODO: UTF8 breaks this?????
 	var mac_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(32, 32 + 20));
 
+	//TODO: Can we drop the uint8array in favor of raw strings?
 	var decodedMessage = base64ToUint8Array(message);
 	if (decodedMessage[0] != 1) {
 		console.log("Got bad version number: " + decodedMessage[0]);
@@ -263,19 +463,58 @@ function decryptWebsocketMessage(message) {
 	calculated_mac.update(CryptoJS.lib.WordArray.create(ciphertext));
 	calculated_mac = calculated_mac.finalize();
 
-	var plaintext = CryptoJS.AES.decrypt(btoa(getString(ciphertext)), aes_key, {iv: iv});//TODO: Does this throw on invalid padding?
-
 	if (calculated_mac.toString(CryptoJS.enc.Hex).substring(0, 20) != mac.toString(CryptoJS.enc.Hex)) {
 		console.log("Got message with bad MAC");
 		throw "Bad MAC";
 	}
 
-	return plaintext.toString(CryptoJS.enc.Base64);
+	var plaintext = CryptoJS.AES.decrypt(btoa(getString(ciphertext)), aes_key, {iv: iv});//TODO: Does this throw on invalid padding (seems not...)
+
+	return atob(plaintext.toString(CryptoJS.enc.Base64));
 }
 
-function encryptMessageFor(deviceObject, message) {
+crypto.handleIncomingPushMessageProto = function(proto) {
+	switch(proto.type) {
+	case 0: //TYPE_MESSAGE_PLAINTEXT
+		proto.message = decodePushMessageContent(toString(proto.message));
+		break;
+	case 1: //TYPE_MESSAGE_CIPHERTEXT
+		proto.message = _decryptWhisperMessage(proto.source, toString(proto.message));
+		break;
+	case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
+		var preKeyProto = decodePreKeyWhisperMessageProtobuf(toString(proto.message));
+		_initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto);
+		proto.message = _decryptWhisperMessage(proto.source, toString(preKeyProto.message));
+		break;
+	}
+}
+
+crypto.encryptMessageFor = function(deviceObject, message) {
 	return message + " encrypted to " + deviceObject.encodedNumber + " with relay " + deviceObject.relay +
 		" with identityKey " + deviceObject.identityKey + " and public key " + deviceObject.publicKey; //TODO
+}
+
+var GENERATE_KEYS_KEYS_GENERATED = 100;
+crypto.generateKeys = function() {
+	var identityKey = _storage.getStoredPubKey("identityKey");
+	if (identityKey === undefined)
+		identityKey = _storage.getNewPubKeySTORINGPrivKey("identityKey"); //TODO: should probably just throw?
+
+	var firstKeyId = storage.getEncrypted("maxPreKeyId", -1) + 1;
+	storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
+
+	if (firstKeyId > 16777000)
+		throw "You crazy motherfucker";
+
+	var keys = {};
+	keys.keys = [];
+	for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
+		keys.keys[i] = {keyId: i, publicKey: _storage.getNewPubKeySTORINGPrivKey("preKey" + i), identityKey: identityKey};
+	// 0xFFFFFF == 16777215
+	keys.lastResortKey = {keyId: 16777215, publicKey: _storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
+	if (keys.lastResortKey.publicKey === undefined)
+		keys.lastResortKey.publicKey = _storage.getNewPubKeySTORINGPrivKey("preKey16777215");
+	return keys;
 }
 
 /************************************************
@@ -356,14 +595,25 @@ function subscribeToPush(message_callback) {
 							return;
 						}
 
+						var proto;
 						try {
-							var plaintext = decryptWebsocketMessage(message.message);
-							var proto = decodeProtobuf(plaintext);
+							var plaintext = crypto.decryptWebsocketMessage(message.message);
+							var proto = decodeIncomingPushMessageProtobuf(plaintext);
+							// After this point, a) decoding errors are not the server's fault, and
+							// b) we should handle them gracefully and tell the user they received an invalid message
 
 							doAjax({call: 'push', httpType: 'PUT', urlParameters: '/' + message.id, do_auth: true});
-							message_callback(proto);
 						} catch (e) {
 							console.log("Error decoding message: " + e);
+							return;
+						}
+
+						try {
+							crypto.handleIncomingPushMessageProto(proto); // Decrypts/decodes/fills in fields/etc
+
+							message_callback(proto);
+						} catch (e) {
+							//TODO: Tell the user decryption failed
 						}
 					},
 					onError: function(response) {

@@ -48,7 +48,7 @@ $('#init-go').click(function() {
 					subscribeToPush(function(message) {
 						//TODO receive spuhared identity key
 						$('#verify2done').html('done');
-						var keys = generateKeys();
+						var keys = crypto.generateKeys();
 						$('#verify3done').html('done');
 						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
 							success_callback: function(response) {
