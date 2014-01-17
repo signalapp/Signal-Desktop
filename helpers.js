@@ -565,7 +565,7 @@ function doAjax(param) {
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			var code = jqXHR.status;
-			if (code == 200) {// happens sometimes when we get no response
+			if (code == 200) {// happens sometimes when we get no response (TODO: Fix server to return 204? instead)
 				if (param.success_callback !== undefined)
 					param.success_callback(null);
 				return;
