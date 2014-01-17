@@ -22,49 +22,85 @@ $('#number').on('change', function() {//TODO
 		$('#number').attr('style', '');
 });
 
+var single_device = false;
+var signaling_key = getRandomBytes(32 + 20);
+var password = btoa(getRandomBytes(16));
+password = password.substring(0, password.length - 2);
+
+$('#init-go-single-client').click(function() {
+	if (numberMatches()) {
+		var number = "+" + $('#countrycode').val().replace(/\D/g, '') + $('#number').val().replace(/\D/g, '');
+
+		$('#init-go').html('Setup');
+		$('#countrycode').prop('disabled', 'disabled');
+		$('#number').prop('disabled', 'disabled');
+		$('#init-go-single-client').prop('disabled', 'disabled');
+
+		single_device = true;
+
+		doAjax({call: 'accounts', httpType: 'GET', urlParameters: '/sms/code/' + number,
+			success_callback: function(response) { },
+			error_callback: function(code) {
+				alert("Failed to send key?" + code); //TODO
+			}
+		});
+	}
+});
+
 $('#init-go').click(function() {
 	if (codeMatches() && numberMatches()) {
-		var signaling_key = getRandomBytes(32 + 20);
-		var password = btoa(getRandomBytes(16));
-		password = password.substring(0, password.length - 2);
 		var number = "+" + $('#countrycode').val().replace(/\D/g, '') + $('#number').val().replace(/\D/g, '');
 
 		$('#init-setup').hide();
 		$('#verify1done').html('');
-		$('#verify2done').html('');
+		$('#verify2').hide();
 		$('#verify3done').html('');
+		$('#verify4done').html('');
 		$('#verify').show();
 
-		doAjax({call: 'devices', httpType:  'PUT', urlParameters: '/' + $('#code').val(), user: number, password: password,
+		var call = single_device ? 'accounts' : 'devices';
+		var urlPrefix = single_device ? '/code/' : '/';
+
+		doAjax({call: call, httpType:  'PUT', urlParameters: urlPrefix + $('#code').val(), user: number, password: password,
 			jsonData: {signalingKey: btoa(getString(signaling_key)), supportsSms: false, fetchesMessages: true},
 			success_callback: function(response) {
+				if (single_device)
+					response = 1;
 				var number_id = number + "." + response;
 				storage.putEncrypted("password", password);
 				storage.putEncrypted('signaling_key', signaling_key);
 				storage.putUnencrypted("number_id", number_id);
 				$('#verify1done').html('done');
 
-				getKeysForNumber(number, function(identityKey) {
-					subscribeToPush(function(message) {
-						//TODO receive spuhared identity key
-						$('#verify2done').html('done');
-						var keys = crypto.generateKeys();
-						$('#verify3done').html('done');
-						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
-							success_callback: function(response) {
-								$('#complete-number').html(number);
-								$('#verify').hide();
-								$('#setup-complete').show();
-								registrationDone();
-							}, error_callback: function(code) {
-								alert(code); //TODO
-							}
-						});
+				var register_keys_func = function() {
+					$('#verify2done').html('done');
+					var keys = crypto.generateKeys();
+					$('#verify3done').html('done');
+					doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
+						success_callback: function(response) {
+							$('#complete-number').html(number);
+							$('#verify').hide();
+							$('#setup-complete').show();
+							registrationDone();
+						}, error_callback: function(code) {
+							alert(code); //TODO
+						}
 					});
-					requestIdentityPrivKeyFromMasterDevice(number);
-				}, function(error_msg) {
-					alert(error_msg); //TODO
-				});
+				}
+
+				if (!single_device) {
+					getKeysForNumber(number, function(identityKey) {
+						subscribeToPush(function(message) {
+							//TODO receive shared identity key
+							register_keys_func();
+						});
+						requestIdentityPrivKeyFromMasterDevice(number);
+					}, function(error_msg) {
+						alert(error_msg); //TODO
+					});
+				} else {
+					register_keys_func();
+				}
 			}, error_callback: function(code) {
 				var error;
 				switch(code) {

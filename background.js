@@ -1,4 +1,4 @@
-if (localStorage.getItem('first_install_ran')) {
+if (!localStorage.getItem('first_install_ran')) {
 	localStorage.setItem('first_install_ran', 1);
 	chrome.tabs.create({url: "options.html"});
 } else {
