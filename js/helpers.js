@@ -58,27 +58,27 @@ function base64ToUint8Array(string) {
 
 // Protobuf decodingA
 //TODO: throw on missing fields everywhere
-var IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
+var IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
 function decodeIncomingPushMessageProtobuf(string) {
 	return IncomingPushMessageProtobuf.decode(btoa(string));
 }
 
-var PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
+var PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
 function decodePushMessageContentProtobuf(string) {
 	return PushMessageContentProtobuf.decode(btoa(string));
 }
 
-var WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
+var WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
 function decodeWhisperMessageProtobuf(string) {
 	return WhisperMessageProtobuf.decode(btoa(string));
 }
 
-var PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
+var PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
 function decodePreKeyWhisperMessageProtobuf(string) {
 	return PreKeyWhisperMessageProtobuf.decode(btoa(string));
 }
 
-var KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
+var KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
 function decodeKeyExchangeMessageProtobuf(string) {
 	return KeyExchangeMessageProtobuf.decode(btoa(string));
 }
@@ -256,6 +256,10 @@ function getRandomBytes(size) {
 (function(crypto, $, undefined) {
 	var createNewKeyPair = function() {
 		//TODO
+		var privKey = getRandomBytes(32);
+		privKey[0] &= 248;
+		privKey[31] &= 127;
+		privKey[31] |= 64;
 		var pubKey = "BRTJzsHPUWRRBxyo5MoaBRidMk2fwDlfqvU91b6pzbED";
 		var privKey = "";
 		return { pubKey: pubKey, privKey: privKey };
@@ -264,7 +268,7 @@ function getRandomBytes(size) {
 	var crypto_storage = {};
 
 	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName) {
-		var keyPair = crypto._createNewKeyPair();
+		var keyPair = createNewKeyPair();
 		storage.putEncrypted("25519Key" + keyName, keyPair);
 		return keyPair.pubKey;
 	}
@@ -393,7 +397,7 @@ function getRandomBytes(size) {
 		var masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), ratchet.rootKey, "WhisperRatchet");
 		session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
-		ratchet.ephemeralKeyPair = _createNewKeyPair();
+		ratchet.ephemeralKeyPair = createNewKeyPair();
 		masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
 		ratchet.rootKey = masterKey.substring(0, 32);
 		session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
