@@ -1,7 +1,10 @@
 <html>
 <head>
 </head>
-<body>
+<body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
+	<div id="listener"></div>
+	<div id="log"></div>
+
 	<a id="inbox_link">Inbox</a>
 	<a id="send_link">Send</a>
 	<div id="inbox">
@@ -10,6 +13,7 @@
 	</div>
 	<div id="send" style="display:none;"></div>
 
+	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.atmosphere.js"></script>
 	<script type="text/javascript" src="js-deps/aes.js"></script>

@@ -1,5 +1,6 @@
 <html>
 <head>
+	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.atmosphere.js"></script>
 	<script type="text/javascript" src="js-deps/aes.js"></script>
@@ -11,6 +12,8 @@
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/background.js"></script>
 </head>
-<body>
+<body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
+	<div id="listener"></div>
+	<div id="log"></div>
 </body>
 </html>

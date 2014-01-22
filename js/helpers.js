@@ -19,7 +19,9 @@ function b64ToUint6 (nChr) {
 function base64DecToArr (sBase64, nBlocksSize) {
   var
     sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""), nInLen = sB64Enc.length,
-    nOutLen = nBlocksSize ? Math.ceil((nInLen * 3 + 1 >> 2) / nBlocksSize) * nBlocksSize : nInLen * 3 + 1 >> 2, taBytes = new Uint8Array(nOutLen);
+    nOutLen = nBlocksSize ? Math.ceil((nInLen * 3 + 1 >> 2) / nBlocksSize) * nBlocksSize : nInLen * 3 + 1 >> 2;
+var aBBytes = new ArrayBuffer(nOutLen);
+var taBytes = new Uint8Array(aBBytes);
 
   for (var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0; nInIdx < nInLen; nInIdx++) {
     nMod4 = nInIdx & 3;
@@ -31,7 +33,7 @@ function base64DecToArr (sBase64, nBlocksSize) {
       nUint24 = 0;
     }
   }
-  return taBytes;
+  return aBBytes;
 }
 
 /*********************************
@@ -39,20 +41,20 @@ function base64DecToArr (sBase64, nBlocksSize) {
  *********************************/
 // Strings/arrays
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
-var StaticUint8ArrayProto = new Uint8Array().__proto__;
+var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 function getString(thing) {
-	if (thing.__proto__ == StaticUint8ArrayProto)
+	if (thing.__proto__ == StaticArrayBufferProto)
 		return String.fromCharCode.apply(null, thing);
 	if (thing != undefined && thing.__proto__ == StaticByteBufferProto)
 		return thing.toString("utf8");
 	return thing;
 }
 
-function getUint8Array(string) {
+function getArrayBuffer(string) {
 	return base64DecToArr(btoa(string));
 }
 
-function base64ToUint8Array(string) {
+function base64ToArrayBuffer(string) {
 	return base64DecToArr(string);
 }
 
@@ -238,15 +240,49 @@ function getDeviceObjectListFromNumber(number) {
 	return deviceObjectList;
 }
 
+/**********************
+ *** NaCL Interface ***
+ **********************/
+var onLoadCallbacks = [];
+var naclLoaded = 0;
+function registerOnLoadFunction(func) {
+	if (naclLoaded)
+		func();
+	onLoadCallbacks[onLoadCallbacks.length] = func;
+}
+
+var naclMessageNextId = 0;
+var naclMessageIdCallbackMap = {};
+function moduleDidLoad() {
+	common.hideModule();
+	naclLoaded = 1;
+	for (var i = 0; i < onLoadCallbacks.length; i++)
+		onLoadCallbacks[i]();
+	onLoadCallbacks = [];
+}
+
+function handleMessage(message) {
+	console.log("Got message");
+	console.log(message);
+	naclMessageIdCallbackMap[message.data.call_id](message.data);
+}
+
+function postNaclMessage(message, callback) {
+	naclMessageIdCallbackMap[naclMessageNextId] = callback;
+	message.call_id = naclMessageNextId++;
+	common.naclModule.postMessage(message);
+}
+
 /*******************************************
  *** Utilities to manage keys/randomness ***
  *******************************************/
 function getRandomBytes(size) {
 	//TODO: Better random (https://www.grc.com/r&d/js.htm?)
 	try {
-		var array = new Uint8Array(size);
+		var buffer = new ArrayBuffer(size);
+		var array = new Uint8Array(buffer);
 		window.crypto.getRandomValues(array);
-		return array;
+		return buffer;
 	} catch (err) {
 		//TODO: ummm...wat?
 		throw err;
@@ -254,23 +290,26 @@ function getRandomBytes(size) {
 }
 
 (function(crypto, $, undefined) {
-	var createNewKeyPair = function() {
+	var createNewKeyPair = function(callback) {
 		//TODO
 		var privKey = getRandomBytes(32);
 		privKey[0] &= 248;
 		privKey[31] &= 127;
 		privKey[31] |= 64;
-		var pubKey = "BRTJzsHPUWRRBxyo5MoaBRidMk2fwDlfqvU91b6pzbED";
-		var privKey = "";
-		return { pubKey: pubKey, privKey: privKey };
+		postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
+			postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
+				callback({ pubKey: message.res, privKey: privKey });
+			});
+		});
 	}
 
 	var crypto_storage = {};
 
-	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName) {
-		var keyPair = createNewKeyPair();
-		storage.putEncrypted("25519Key" + keyName, keyPair);
-		return keyPair.pubKey;
+	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, callback) {
+		createNewKeyPair(function(keyPair) {
+			storage.putEncrypted("25519Key" + keyName, keyPair);
+			callback(keyPair.pubKey);
+		});
 	}
 
 	crypto_storage.getStoredPubKey = function(keyName) {
@@ -379,7 +418,7 @@ function getRandomBytes(size) {
 		chain.chainKey.counter = counter;
 	}
 
-	var maybeStepRatchet = function(session, remoteKey, previousCounter) {
+	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
 		if (sesion[remoteKey] !== undefined) //TODO: null???
 			return;
 
@@ -397,12 +436,16 @@ function getRandomBytes(size) {
 		var masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), ratchet.rootKey, "WhisperRatchet");
 		session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
-		ratchet.ephemeralKeyPair = createNewKeyPair();
-		masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
-		ratchet.rootKey = masterKey.substring(0, 32);
-		session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+		createNewKeyPair(function(keyPair) {
+			ratchet.ephemeralKeyPair = keyPair;
 
-		ratchet.lastRemoteEphemeralKey = remoteKey;
+			masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
+			ratchet.rootKey = masterKey.substring(0, 32);
+			session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+
+			ratchet.lastRemoteEphemeralKey = remoteKey;
+			callback();
+		});
 	}
 
 	var doDecryptWhisperMessage = function(ciphertext, mac, messageKey, counter) {
@@ -414,7 +457,7 @@ function getRandomBytes(size) {
 	}
 
 	// returns decrypted protobuf
-	var decryptWhisperMessage = function(encodedNumber, messageBytes) {
+	var decryptWhisperMessage = function(encodedNumber, messageBytes, callback) {
 		var session = crypto_storage.getSession(encodedNumber);
 		if (session === undefined)
 			throw "No session currently open with " + encodedNumber;
@@ -427,18 +470,19 @@ function getRandomBytes(size) {
 
 		var message = decodeWhisperMessageProtobuf(messageProto);
 
-		maybeStepRatchet(session, getString(message.ephemeralKey), message.previousCounter);
-		var chain = session[getString(message.ephemeralKey)];
+		maybeStepRatchet(session, getString(message.ephemeralKey), message.previousCounter, function() {
+			var chain = session[getString(message.ephemeralKey)];
 
-		fillMessageKeys(chain, message.counter);
+			fillMessageKeys(chain, message.counter);
 
-		var plaintext = doDecryptWhisperMessage(message.ciphertext, mac, chain.messageKeys[message.counter], message.counter);
-		delete chain.messageKeys[message.counter];
+			var plaintext = doDecryptWhisperMessage(message.ciphertext, mac, chain.messageKeys[message.counter], message.counter);
+			delete chain.messageKeys[message.counter];
 
-		removeOldChains(session);
+			removeOldChains(session);
 
-		crypto_storage.saveSession(encodedNumber, session);
-		return decodePushMessageContentProtobuf(atob(plaintext));
+			crypto_storage.saveSession(encodedNumber, session);
+			callback(decodePushMessageContentProtobuf(atob(plaintext)));
+		});
 	}
 
 	/*************************
@@ -477,18 +521,18 @@ function getRandomBytes(size) {
 		return atob(plaintext.toString(CryptoJS.enc.Base64));
 	}
 
-	crypto.handleIncomingPushMessageProto = function(proto) {
+	crypto.handleIncomingPushMessageProto = function(proto, callback) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
-			proto.message = decodePushMessageContentProtobuf(getString(proto.message));
+			callback(decodePushMessageContentProtobuf(getString(proto.message)));
 			break;
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			proto.message = decryptWhisperMessage(proto.source, getString(proto.message));
+			decryptWhisperMessage(proto.source, getString(proto.message), function(result) { callback(result); });
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto);
-			proto.message = decryptWhisperMessage(proto.source, getString(preKeyProto.message));
+			decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
 			break;
 		}
 	}
@@ -499,26 +543,42 @@ function getRandomBytes(size) {
 	}
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
-	crypto.generateKeys = function() {
+	crypto.generateKeys = function(callback) {
 		var identityKey = crypto_storage.getStoredPubKey("identityKey");
+		var identityKeyCalculated = function(pubKey) {
+			identityKey = pubKey;
+
+			var firstKeyId = storage.getEncrypted("maxPreKeyId", -1) + 1;
+			storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
+
+			if (firstKeyId > 16777000)
+				throw "You crazy motherfucker";
+
+			var keys = {};
+			keys.keys = [];
+			var keysLeft = GENERATE_KEYS_KEYS_GENERATED;
+			for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++) {
+				crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, function(pubKey) {
+					keys.keys[i] = {keyId: i, publicKey: pubKey, identityKey: identityKey};
+					keysLeft--;
+					if (keysLeft == 0) {
+						// 0xFFFFFF == 16777215
+						keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
+						if (keys.lastResortKey.publicKey === undefined) {
+							crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", function(pubKey) {
+								keys.lastResortKey.publicKey = pubKey;
+								callback(keys);
+							});
+						} else
+							callback(keys);
+					}
+				});
+			}
+		}
 		if (identityKey === undefined)
-			identityKey = crypto_storage.getNewPubKeySTORINGPrivKey("identityKey"); //TODO: should probably just throw?
-
-		var firstKeyId = storage.getEncrypted("maxPreKeyId", -1) + 1;
-		storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
-
-		if (firstKeyId > 16777000)
-			throw "You crazy motherfucker";
-
-		var keys = {};
-		keys.keys = [];
-		for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
-			keys.keys[i] = {keyId: i, publicKey: crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i), identityKey: identityKey};
-		// 0xFFFFFF == 16777215
-		keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
-		if (keys.lastResortKey.publicKey === undefined)
-			keys.lastResortKey.publicKey = crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215");
-		return keys;
+			crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", function(pubKey) { identityKeyCalculated(pubKey); });
+		else
+			identityKeyCalculated(pubKey);
 	}
 
 }( window.crypto = window.crypto || {}, jQuery ));
@@ -621,9 +681,9 @@ function subscribeToPush(message_callback) {
 						}
 
 						try {
-							crypto.handleIncomingPushMessageProto(proto); // Decrypts/decodes/fills in fields/etc
-
-							message_callback(proto);
+							crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
+								message_callback(decrypted);
+							}); // Decrypts/decodes/fills in fields/etc
 						} catch (e) {
 							//TODO: Tell the user decryption failed
 						}
@@ -739,8 +799,8 @@ function sendMessageToNumbers(numbers, message, success_callback, error_callback
 	}, error_callback);
 }
 
-
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
 	sendMessageToDevices([getDeviceObject(getNumberFromString(number)) + ".1"],
 						{message: "Identity Key request"}, function() {}, function() {});//TODO
 }
+

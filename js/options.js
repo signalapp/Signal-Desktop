@@ -74,17 +74,18 @@ $('#init-go').click(function() {
 
 				var register_keys_func = function() {
 					$('#verify2done').html('done');
-					var keys = crypto.generateKeys();
-					$('#verify3done').html('done');
-					doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
-						success_callback: function(response) {
-							$('#complete-number').html(number);
-							$('#verify').hide();
-							$('#setup-complete').show();
-							registrationDone();
-						}, error_callback: function(code) {
-							alert(code); //TODO
-						}
+					crypto.generateKeys(function(keys) {
+						$('#verify3done').html('done');
+						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
+							success_callback: function(response) {
+								$('#complete-number').html(number);
+								$('#verify').hide();
+								$('#setup-complete').show();
+								registrationDone();
+							}, error_callback: function(code) {
+								alert(code); //TODO
+							}
+						});
 					});
 				}
 
@@ -120,9 +121,11 @@ $('#init-go').click(function() {
 	}
 });
 
-if (!isRegistrationDone()) {
-	$('#init-setup').show();
-} else {
-	$('#complete-number').html(storage.getUnencrypted("number_id").split(".")[0]);
-	$('#setup-complete').show();
-}
+registerOnLoadFunction(function() {
+	if (!isRegistrationDone()) {
+		$('#init-setup').show();
+	} else {
+		$('#complete-number').html(storage.getUnencrypted("number_id").split(".")[0]);
+		$('#setup-complete').show();
+	}
+});
