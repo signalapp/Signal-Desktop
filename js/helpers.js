@@ -293,9 +293,6 @@ function getRandomBytes(size) {
 	var createNewKeyPair = function(callback) {
 		//TODO
 		var privKey = getRandomBytes(32);
-		privKey[0] &= 248;
-		privKey[31] &= 127;
-		privKey[31] |= 64;
 		postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
 			postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
 				callback({ pubKey: message.res, privKey: privKey });
@@ -346,8 +343,10 @@ function getRandomBytes(size) {
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
-	var ECDHE = function(pubKey, privKey) {
-		return "ECDHE";//TODO
+	var ECDHE = function(pubKey, privKey, callback) {
+		postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}, function(message) {
+			callback(message.res);
+		});
 	}
 
 	var HKDF = function(input, salt, info) {
@@ -376,35 +375,53 @@ function getRandomBytes(size) {
 	/******************************
 	 *** Ratchet implementation ***
 	 ******************************/
-	var initSession = function(isInitiator, theirIdentityPubKey, ourEphemeralPrivKey, theirEphemeralPubKey) {
+	var initSession = function(isInitiator, theirIdentityPubKey, ourEphemeralPrivKey, theirEphemeralPubKey, callback) {
 		var ourIdentityPrivKey = crypto_storage.getIdentityPrivKey();
 
-		var sharedSecret = ECDHE(theirEphemeralPubKey, ourIdentityPrivKey);
-		if (isInitiator)
-			sharedSecret = sharedSecret + ECDHE(theirIdentityPubKey, ourEphemeralPrivKey);
-		else
-			sharedSecret = ECDHE(theirIdentityPubKey, ourEphemeralPrivKey) + sharedSecret;
-		sharedSecret += ECDHE(theirEphemeralPubKey, ourEphemeralPrivKey);
+		var sharedSecret;
+		ECDHE(theirEphemeralPubKey, ourIdentityPrivKey, function(ecRes) {
+			sharedSecret = ecRes;
 
-		var masterKey = HKDF(sharedSecret, '', "WhisperText");
-		return { rootKey: masterKey[0], chainKey: masterKey[1] };
+			function finishInit() {
+				ECDHE(theirEphemeralPubKey, ourEphemeralPrivKey, function(ecRes) {
+					sharedSecret += ecRes;
+
+					var masterKey = HKDF(sharedSecret, '', "WhisperText");
+					callback({ rootKey: masterKey[0], chainKey: masterKey[1] });
+				});
+			}
+
+			if (isInitiator) {
+				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
+					sharedSecret = sharedSecret + ecRes;
+					finishInit();
+				});
+			} else {
+				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
+					sharedSecret = ecRes + sharedSecret;
+					finishInit();
+				});
+			}
+		});
 	}
 
-	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
+	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message, callback) {
 		//TODO: Check remote identity key matches known-good key
 
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(preKeyProto.preKeyId);
 		if (preKeyPair === undefined)
 			throw "Missing preKey for PreKeyWhisperMessage";
 
-		var firstRatchet = initSession(false, message.identityKey, preKeyPair.privKey, message.baseKey);
+		initSession(false, message.identityKey, preKeyPair.privKey, message.baseKey, function(firstRatchet) {
+			var session = {currentRatchet: { rootKey: firstRatchet.rootKey, ephemeralKeyPair: preKeyPair,
+												lastRemoteEphemeralKey: message.baseKey },
+							oldRatchetList: []
+						};
+			session[preKeyPair.pubKey] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
+			storage.saveSession(encodedNumber, session);
 
-		var session = {currentRatchet: { rootKey: firstRatchet.rootKey, ephemeralKeyPair: preKeyPair,
-											lastRemoteEphemeralKey: message.baseKey },
-						oldRatchetList: []
-					};
-		session[preKeyPair.pubKey] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
-		storage.saveSession(encodedNumber, session);
+			callback();
+		});
 	}
 
 	var fillMessageKeys = function(chain, counter) {
@@ -433,18 +450,20 @@ function getRandomBytes(size) {
 
 		delete session[ratchet.ephemeralKeyPair.pubKey];
 
-		var masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), ratchet.rootKey, "WhisperRatchet");
-		session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
+			session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
-		createNewKeyPair(function(keyPair) {
-			ratchet.ephemeralKeyPair = keyPair;
+			createNewKeyPair(function(keyPair) {
+				ratchet.ephemeralKeyPair = keyPair;
 
-			masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
-			ratchet.rootKey = masterKey.substring(0, 32);
-			session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+				masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
+				ratchet.rootKey = masterKey.substring(0, 32);
+				session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
-			ratchet.lastRemoteEphemeralKey = remoteKey;
-			callback();
+				ratchet.lastRemoteEphemeralKey = remoteKey;
+				callback();
+			});
 		});
 	}
 
@@ -531,8 +550,9 @@ function getRandomBytes(size) {
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto);
-			decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
+			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto, function() {
+				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
+			});
 			break;
 		}
 	}
