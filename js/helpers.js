@@ -36,6 +36,43 @@ var taBytes = new Uint8Array(aBBytes);
   return aBBytes;
 }
 
+/* Base64 string to array encoding */
+
+function uint6ToB64 (nUint6) {
+
+  return nUint6 < 26 ?
+      nUint6 + 65
+    : nUint6 < 52 ?
+      nUint6 + 71
+    : nUint6 < 62 ?
+      nUint6 - 4
+    : nUint6 === 62 ?
+      43
+    : nUint6 === 63 ?
+      47
+    :
+      65;
+
+}
+
+function base64EncArr (aBytes) {
+
+  var nMod3, sB64Enc = "";
+
+  for (var nLen = aBytes.length, nUint24 = 0, nIdx = 0; nIdx < nLen; nIdx++) {
+    nMod3 = nIdx % 3;
+    //if (nIdx > 0 && (nIdx * 4 / 3) % 76 === 0) { sB64Enc += "\r\n"; }
+    nUint24 |= aBytes[nIdx] << (16 >>> nMod3 & 24);
+    if (nMod3 === 2 || aBytes.length - nIdx === 1) {
+      sB64Enc += String.fromCharCode(uint6ToB64(nUint24 >>> 18 & 63), uint6ToB64(nUint24 >>> 12 & 63), uint6ToB64(nUint24 >>> 6 & 63), uint6ToB64(nUint24 & 63));
+      nUint24 = 0;
+    }
+  }
+
+  return sB64Enc.replace(/A(?=A$|$)/g, "=");
+
+}
+
 /*********************************
  *** Type conversion utilities ***
  *********************************/
@@ -43,11 +80,53 @@ var taBytes = new Uint8Array(aBBytes);
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 function getString(thing) {
-	if (thing.__proto__ == StaticArrayBufferProto)
-		return String.fromCharCode.apply(null, thing);
-	if (thing != undefined && thing.__proto__ == StaticByteBufferProto)
-		return thing.toString("utf8");
+	if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
+		return String.fromCharCode.apply(null, new Uint8Array(thing));
+	if (thing === Object(thing) && thing.__proto__ == StaticByteBufferProto)
+		return thing.toString("binary");
 	return thing;
+}
+
+function getStringable(thing) {
+	return (typeof thing == "string" || typeof thing == "number" ||
+			(thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto) ||
+			(thing === Object(thing) && thing.__proto__ == StaticByteBufferProto));
+}
+
+function toArrayBuffer(thing) {
+	if (thing === undefined)
+		return undefined;
+	if (!getStringable(thing))
+		throw "Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer";
+	// This is usually very much overkill, but shorter code > efficient code here (crypto should dominate)
+	var str = getString(thing);
+	var res = new ArrayBuffer(str.length);
+	var uint = new Uint8Array(res);
+	for (var i = 0; i < str.length; i++)
+		uint[i] = str.charCodeAt(i);
+	return res;
+}
+
+function ensureStringed(thing) {
+	if (getStringable(thing))
+		return getString(thing);
+	else if (thing instanceof Array) {
+		var res = [];
+		for (var i = 0; i < thing.length; i++)
+			res[i] = ensureStringed(thing);
+		return res;
+	} else if (thing === Object(thing)) {
+		var res = {};
+		for (key in thing)
+			res[key] = ensureStringed(thing[key]);
+		return res;
+	}
+	throw "unsure of how to jsonify object of type " + typeof thing;
+
+}
+
+function jsonThing(thing) {
+	return JSON.stringify(ensureStringed(thing));
 }
 
 function getArrayBuffer(string) {
@@ -134,7 +213,7 @@ storage.putEncrypted = function(key, value) {
 	//TODO
 	if (value === undefined)
 		throw "Tried to store undefined";
-	localStorage.setItem("e" + key, JSON.stringify(getString(value)));
+	localStorage.setItem("e" + key, jsonThing(value));
 }
 
 storage.getEncrypted = function(key, defaultValue) {
@@ -152,7 +231,7 @@ storage.removeEncrypted = function(key) {
 storage.putUnencrypted = function(key, value) {
 	if (value === undefined)
 		throw "Tried to store undefined";
-	localStorage.setItem("u" + key, JSON.stringify(getString(value)));
+	localStorage.setItem("u" + key, jsonThing(value));
 }
 
 storage.getUnencrypted = function(key, defaultValue) {
@@ -262,15 +341,32 @@ function moduleDidLoad() {
 }
 
 function handleMessage(message) {
-	console.log("Got message");
-	console.log(message);
 	naclMessageIdCallbackMap[message.data.call_id](message.data);
 }
 
 function postNaclMessage(message, callback) {
 	naclMessageIdCallbackMap[naclMessageNextId] = callback;
-	message.call_id = naclMessageNextId++;
-	common.naclModule.postMessage(message);
+	var pass = { command: message.command };
+	pass.call_id = naclMessageNextId++;
+	if (message["priv"] !== undefined) {
+		pass.priv = toArrayBuffer(message.priv);
+		if (pass.priv.byteLength != 32)
+			throw "Invalid NACL Message";
+	}
+	if (message["pub"] !== undefined) {
+		var pub = toArrayBuffer(message.pub);
+		var pubView = new Uint8Array(pub);
+		if (pub.byteLength == 33 && pubView[0] == 5) {
+			pass.pub = new ArrayBuffer(32);
+			var pubCopy = new Uint8Array(pass.pub);
+			for (var i = 0; i < 32; i++)
+				pubCopy[i] = pubView[i+1];
+		} else if (pub.byteLength == 32)
+			pass.pub = pub;
+		else
+			throw "Invalid NACL Message";
+	}
+	common.naclModule.postMessage(pass);
 }
 
 /*******************************************
@@ -291,10 +387,15 @@ function getRandomBytes(size) {
 
 (function(crypto, $, undefined) {
 	var createNewKeyPair = function(callback) {
-		//TODO
 		var privKey = getRandomBytes(32);
 		postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
 			postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
+				var origPub = new Uint8Array(message.res);
+				var pub = new ArrayBuffer(33);
+				var pubWithPrefix = new Uint8Array(pub);
+				for (var i = 0; i < 32; i++)
+					pubWithPrefix[i+1] = origPub[i];
+				pubWithPrefix[0] = 5;
 				callback({ pubKey: message.res, privKey: privKey });
 			});
 		});
@@ -310,11 +411,14 @@ function getRandomBytes(size) {
 	}
 
 	crypto_storage.getStoredPubKey = function(keyName) {
-		return storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey;
+		return toArrayBuffer(storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey);
 	}
 
 	crypto_storage.getStoredKeyPair = function(keyName) {
-		return storage.getEncrypted("25519Key" + keyName);
+		var res = storage.getEncrypted("25519Key" + keyName);
+		if (res === undefined)
+			return undefined;
+		return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
 	}
 
 	crypto_storage.getAndRemoveStoredKeyPair = function(keyName) {
@@ -408,7 +512,7 @@ function getRandomBytes(size) {
 	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message, callback) {
 		//TODO: Check remote identity key matches known-good key
 
-		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(preKeyProto.preKeyId);
+		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
 		if (preKeyPair === undefined)
 			throw "Missing preKey for PreKeyWhisperMessage";
 
@@ -417,8 +521,8 @@ function getRandomBytes(size) {
 												lastRemoteEphemeralKey: message.baseKey },
 							oldRatchetList: []
 						};
-			session[preKeyPair.pubKey] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
-			storage.saveSession(encodedNumber, session);
+			session[getString(preKeyPair.pubKey)] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
+			crypto_storage.saveSession(encodedNumber, session);
 
 			callback();
 		});
@@ -436,15 +540,15 @@ function getRandomBytes(size) {
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
-		if (sesion[remoteKey] !== undefined) //TODO: null???
+		if (session[getString(remoteKey)] !== undefined) //TODO: null???
 			return;
 
 		var ratchet = session.currentRatchet;
 
-		var previousRatchet = session[ratchet.lastRemoteEphemeralKey];
+		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
 		fillMessageKeys(previousRatchet, previousCounter);
 		if (!objectContainsKeys(previousRatchet.messageKeys))
-			delete session[ratchet.lastRemoteEphemeralKey];
+			delete session[getString(ratchet.lastRemoteEphemeralKey)];
 		else
 			session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
 
@@ -452,14 +556,14 @@ function getRandomBytes(size) {
 
 		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
 			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
-			session[remoteKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
 			createNewKeyPair(function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
 
 				masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
 				ratchet.rootKey = masterKey.substring(0, 32);
-				session[nextRatchet.ephemeralKeyPair.pubKey] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+				session[getString(nextRatchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
 
 				ratchet.lastRemoteEphemeralKey = remoteKey;
 				callback();
@@ -481,7 +585,7 @@ function getRandomBytes(size) {
 		if (session === undefined)
 			throw "No session currently open with " + encodedNumber;
 
-		if (messageBytes[0] != String.fromCharCode(1))
+		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
 			throw "Bad version number on WhisperMessage";
 
 		var messageProto = messageBytes.substring(1, messageBytes.length - 8);
@@ -549,6 +653,8 @@ function getRandomBytes(size) {
 			decryptWhisperMessage(proto.source, getString(proto.message), function(result) { callback(result); });
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
+			if (proto.message.readUint8() != (2 << 4 | 2))
+				throw "Bad version byte";
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto, function() {
 				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
@@ -636,7 +742,7 @@ function doAjax(param) {
 	}
 	$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
 		type: param.httpType,
-		data: JSON.stringify(param.jsonData),
+		data: jsonThing(param.jsonData),
 		contentType: 'application/json; charset=utf-8',
 		dataType: 'json',
 		beforeSend: function(xhr) {
