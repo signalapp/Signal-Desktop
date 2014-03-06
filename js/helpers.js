@@ -470,10 +470,8 @@ function getRandomBytes(size) {
 		calculated_mac.update(CryptoJS.enc.Latin1.parse(getString(data)));
 		calculated_mac = calculated_mac.finalize();
 
-		if (btoa(calculated_mac.toString(CryptoJS.enc.Base64)).substring(0, mac.length) != mac) {
-			console.log("Got message with bad MAC");
+		if (btoa(calculated_mac.toString(CryptoJS.enc.Base64)).substring(0, mac.length) != mac)
 			throw "Bad MAC";
-		}
 	}
 
 	/******************************
@@ -521,7 +519,9 @@ function getRandomBytes(size) {
 												lastRemoteEphemeralKey: message.baseKey },
 							oldRatchetList: []
 						};
-			session[getString(preKeyPair.pubKey)] = { messageKeys: {},  chainKey: { counter: 0, key: firstRatchet.chainKey } };
+			session[getString(preKeyPair.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: firstRatchet.chainKey } };
+			// This isnt an actual ratchet, its just here to make maybeStepRatchet work
+			session[getString(message.baseKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
 			crypto_storage.saveSession(encodedNumber, session);
 
 			callback();
@@ -556,17 +556,19 @@ function getRandomBytes(size) {
 
 		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
 			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
-			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
 			createNewKeyPair(function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
 
-				masterKey = HKDF(ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey), masterKey.substring(0, 32), "WhisperRatchet");
-				ratchet.rootKey = masterKey.substring(0, 32);
-				session[getString(nextRatchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: 0, key: masterKey.substring(32, 64) } };
+				ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+					masterKey = HKDF(sharedSecret, masterKey[0], "WhisperRatchet");
+					ratchet.rootKey = masterKey[0];
+					session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
-				ratchet.lastRemoteEphemeralKey = remoteKey;
-				callback();
+					ratchet.lastRemoteEphemeralKey = remoteKey;
+					callback();
+				});
 			});
 		});
 	}
