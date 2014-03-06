@@ -469,8 +469,9 @@ function getRandomBytes(size) {
 	var HMACSHA256 = function(input, key) {
 		//TODO: return type
 		return CryptoJS.HmacSHA256(
-			CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
-			CryptoJS.enc.Latin1.parse(getString(key)));
+				CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
+				CryptoJS.enc.Latin1.parse(getString(key)))
+			.toString(CryptoJS.enc.Latin1);
 	}
 
 	var HKDF = function(input, salt, info) {
@@ -493,22 +494,20 @@ function getRandomBytes(size) {
 		return [ hkdf.substring(0, 32), hkdf.substring(32, 64) ];
 	}
 
-	var verifyMACWithVersionByte = function(data, key, mac) {
-		var calculated_mac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
-		calculated_mac.update(CryptoJS.enc.Latin1.parse(String.fromCharCode(1)));
-		calculated_mac.update(CryptoJS.enc.Latin1.parse(getString(data)));
-		calculated_mac = calculated_mac.finalize();
-
-		if (btoa(calculated_mac.toString(CryptoJS.enc.Base64)).substring(0, mac.length) != mac)
-			throw "Bad MAC";
-	}
-
-	var decryptAES = function(ciphertext, key, iv) {
+	var decryptPaddedAES = function(ciphertext, key, iv) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
 		return atob(CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
 				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
 			.toString(CryptoJS.enc.Base64));
+	}
+
+	var verifyMACWithVersionByte = function(data, key, mac) {
+		var calculated_mac = HMACSHA256(String.fromCharCode(1) + getString(data), key);
+		var macString = getString(mac);
+
+		if (calculated_mac.substring(0, macString.length) != macString)
+			throw "Bad MAC";
 	}
 
 	/******************************
@@ -652,31 +651,22 @@ function getRandomBytes(size) {
 	 *************************/
 	// Decrypts message into a raw string
 	crypto.decryptWebsocketMessage = function(message) {
-		//TODO: Use a native AES impl (so I dont feel so bad about side-channels)
 		var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
-		var aes_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(0, 32));//TODO: UTF8 breaks this?????
-		var mac_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(32, 32 + 20));
+		var aes_key = signaling_key.substring(0, 32);
+		var mac_key = signaling_key.substring(32, 32 + 20);
 
-		//TODO: Can we drop the uint8array in favor of raw strings?
 		var decodedMessage = new Uint8Array(base64DecToArr(getString(message)));
 		if (decodedMessage[0] != 1)
 			throw "Got bad version number: " + decodedMessage[0];
 
-		var iv = CryptoJS.lib.WordArray.create(decodedMessage.subarray(1, 1 + 16));
+		var iv = decodedMessage.subarray(1, 1 + 16);
 		var ciphertext = decodedMessage.subarray(1 + 16, decodedMessage.length - 10);
-		var mac = CryptoJS.lib.WordArray.create(decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length));
+		var ivAndCipherText = decodedMessage.subarray(1, decodedMessage.length - 10);
+		var mac = decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length);
 
-		//var calculated_mac = HMACSHA256(
-		var calculated_mac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, mac_key);
-		calculated_mac.update(CryptoJS.enc.Latin1.parse(String.fromCharCode(1)));
-		calculated_mac.update(iv);
-		calculated_mac.update(CryptoJS.lib.WordArray.create(ciphertext));
-		calculated_mac = calculated_mac.finalize();
+		verifyMACWithVersionByte(ivAndCipherText, mac_key, mac);
 
-		if (calculated_mac.toString(CryptoJS.enc.Hex).substring(0, 20) != mac.toString(CryptoJS.enc.Hex))
-			throw "Got message with bad MAC";
-
-		return decryptAES(ciphertext, aes_key, iv);
+		return decryptPaddedAES(ciphertext, aes_key, iv);
 	}
 
 	crypto.handleIncomingPushMessageProto = function(proto, callback) {
