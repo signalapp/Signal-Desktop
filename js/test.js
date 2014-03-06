@@ -168,18 +168,20 @@ registerOnLoadFunction(function() {
 	}, "Simple Curve25519 test vector");
 
 	var axolotlTestVectors = {
-aliceIdentityPriv: hexToArrayBuffer("5087904a02ae0179650f03fc2936d8e34a2620f3b9949858d520617918f9e243"),
-aliceIdentityPub: hexToArrayBuffer("05a7aff211e3c2c0eb98f49be243a998c56bf68faa2e41ba28ac3d755f30418f0b"),
-bobIdentityPriv: hexToArrayBuffer("c840406d2f749b5e0529193f9b782acbc3b256d1bd425613e299ccc4c31cef4c"),
-bobIdentityPub: hexToArrayBuffer("05f48c076e6a9730fa430edcb1c36818197589ef5e41a5874fa90ce1d48c7e4b3e"),
-aliceLastResort: hexToArrayBuffer("f04babb890c02b64afddfbdc749c4412d48aebc9154de9542bd5430ad412b54f"),
-bobLastResort: hexToArrayBuffer("3857c27f00fb284e1841f42611c4919bb3a99ac45cb7696fbd37fbb5e63d8748"),
-alicePre0: hexToArrayBuffer("88e31d1796eaa4a2dd5da6515157904e921d0b578b4b5089c056e922ae6d2554"),
-alicePre1: hexToArrayBuffer("a8ad7da1d1bbdf2f5a4dd2ad801cb081a158c66e5c7346a1a8ba1d5c91ef3145"),
-bobPre0: hexToArrayBuffer("e0b3c8a483b0499404df078d82d4f13e47c0f201c1001602be422728043a0f43"),
-bobPre1: hexToArrayBuffer("f0b65e60a10652b4eb30705b048040d5a69b26640b9b5736ba187f909336df56"),
-aliceToBob: hexToArrayBuffer("08031205414c4943452203424f4228fd90aebfc62832860122080012210554a41389487db5b021f9bb7bfb3741cb4dd270e1a0b5a6c02e960c492eb5343c1a2105a7aff211e3c2c0eb98f49be243a998c56bf68faa2e41ba28ac3d755f30418f0b223b220a21056c2b1e63ad99214e72518331f30c69d7eb6b5c0cd8ba074ac2cf16252ca48f06100018012209b5ffc5e00bfd41f3a0e6619ee91abd5184"),
-plain: hexToArrayBuffer("0a07486920426f6221")
+aliceIdentityPriv: hexToArrayBuffer("38115e981295947fb6130c3a9521760e9692476143810c64bb502d2a7757f953"),
+aliceIdentityPub: hexToArrayBuffer("057f6f0cf5a353e3c2fa73774d36b07d491c2ba5285388a4dc7be3b08de4528933"),
+bobIdentityPriv: hexToArrayBuffer("9069fadc08faaf6265a90a41fd1a9214bc70eb44ab30aa92ea5ad5a6b8609557"),
+bobIdentityPub: hexToArrayBuffer("05889d0f94f4049fac36cc939c50dabec18c2af8e344f2cdf72cb5b0b02323337c"),
+aliceLastResort: hexToArrayBuffer("10cd8adcbbf5a0157ed45e3be2e0bde5e91c3cdf77954530ac75c6ae9b8c2458"),
+bobLastResort: hexToArrayBuffer("9855c7ce178404bb02c6c026103cc7d74d68a12f77d35d03df40a5f2dff6784d"),
+alicePre0: hexToArrayBuffer("981bea233e094a34f7d564c63515af4691d3059268371c3b26f37a141e4fb553"),
+alicePre1: hexToArrayBuffer("18b27cac90879c8ba5b1d6eb29d08ee380bac2e1022ead9a7dbe5ddfa0009852"),
+bobPre0: hexToArrayBuffer("780fc02d2b8ffce8cd6f92233ce28b46a487dafeb97597461b1ed964fb118e5c"),
+bobPre1: hexToArrayBuffer("c8e218839b33ae6c54d73ef56ad77551b6575e64c5b4acc0f0710b93799c3b56"),
+aliceToBob: hexToArrayBuffer("08031205414c4943452203424f4228bff1f9c3c92832860122080012210541ef7f7215ffb6260413ab2c95bbd39d5d8d55241de87a6a7fa50ae5d99cbe741a21057f6f0cf5a353e3c2fa73774d36b07d491c2ba5285388a4dc7be3b08de4528933223b220a2105c851726034e7181614e21c6349d33f9bcff4f4becfc08c4422c6606cdc976d2c100018012209bb4876c684c88dd05207274341f4e3aa91"),
+plain: hexToArrayBuffer("0a07486920426f6221"),
+sessionKey: hexToArrayBuffer("03a3a58503e91c9e5ae179fa87bbb755f7afe35a2bffce4932cec2c2fcaa28832389e20000c7e1e7c7365959e4146d98f3620df9"),
+encryptedMessage: hexToArrayBuffer("41576d4e6f7431327748385470366f724c7735416a62425446767139314c376857757a663854394e54775256326955384f76376265494463587030396634356441506159515a456a6e71704176364852574f3539584e35796d73507548423342716f78594e7136396346424c6e4145766439495a2f6674593835555a586e5668493574704e673946354c56627a4e70474563436672762f6a69393661675837755936335867746342683177412b5967364a472b37626a4a3044542b526e67383579325852705473644d3931794144776b5a744478616d7976412f714746556b37447a7353367061704a364459532b6e35673841457230764f37413d3d"),
 	};
 
 	// Axolotl test vectors
@@ -198,6 +200,10 @@ plain: hexToArrayBuffer("0a07486920426f6221")
 			postNaclMessage({command: "privToPub", priv: v.bobPre1}, function(message) {
 				storage.putEncrypted("25519KeypreKey1", { pubKey: message.res, privKey: v.bobPre1 });
 				postNaclMessage({command: "privToPub", priv: v.bobLastResort}, function(message) {
+					storage.putEncrypted("signaling_key", v.sessionKey);
+					var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
+					if (getString(aliceToBob) != getString(v.aliceToBob))
+						callback(false);
 					storage.putEncrypted("25519KeypreKey16777215", { pubKey: message.res, privKey: v.bobLastResort });
 					var b64 = base64EncArr(new Uint8Array(v.aliceToBob));
 					crypto.handleIncomingPushMessageProto(IncomingPushMessageProtobuf.decode(b64), function(decrypted_message) {

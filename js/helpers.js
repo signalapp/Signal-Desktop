@@ -79,26 +79,37 @@ function base64EncArr (aBytes) {
 // Strings/arrays
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticArrayBufferProto = new ArrayBuffer().__proto__;
+var StaticUint8ArrayProto = new Uint8Array().__proto__;
+var StaticWordArrayProto = CryptoJS.lib.WordArray.create('').__proto__;
 function getString(thing) {
-	if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
-		return String.fromCharCode.apply(null, new Uint8Array(thing));
-	if (thing === Object(thing) && thing.__proto__ == StaticByteBufferProto)
-		return thing.toString("binary");
+	if (thing === Object(thing)) {
+		if (thing.__proto__ == StaticUint8ArrayProto)
+			return String.fromCharCode.apply(null, thing);
+		if (thing.__proto__ == StaticArrayBufferProto)
+			return getString(new Uint8Array(thing));
+		if (thing.__proto__ == StaticByteBufferProto)
+			return thing.toString("binary");
+		if (thing.__proto__ == StaticWordArrayProto)
+			return thing.toString(CryptoJS.enc.Latin1);
+	}
 	return thing;
 }
 
 function getStringable(thing) {
 	return (typeof thing == "string" || typeof thing == "number" ||
-			(thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto) ||
-			(thing === Object(thing) && thing.__proto__ == StaticByteBufferProto));
+			(thing === Object(thing) &&
+				(thing.__proto__ == StaticArrayBufferProto ||
+				thing.__proto__ == StaticUint8ArrayProto ||
+				thing.__proto__ == StaticByteBufferProto ||
+				thing.__proto__ == StaticWordArrayProto)));
 }
 
 function toArrayBuffer(thing) {
+	//TODO: Optimize this for specific cases
 	if (thing === undefined)
 		return undefined;
 	if (!getStringable(thing))
 		throw "Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer";
-	// This is usually very much overkill, but shorter code > efficient code here (crypto should dominate)
 	var str = getString(thing);
 	var res = new ArrayBuffer(str.length);
 	var uint = new Uint8Array(res);
@@ -447,21 +458,39 @@ function getRandomBytes(size) {
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
+	//TODO: Think about replacing CryptoJS stuff with optional NaCL-based implementations
+	// Probably means all of the low-level crypto stuff here needs pulled out into its own file
 	var ECDHE = function(pubKey, privKey, callback) {
 		postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}, function(message) {
 			callback(message.res);
 		});
 	}
 
-	var HKDF = function(input, salt, info) {
-		var hkdf = "HKDF(" + input + ", " + salt + ", " + info + ")"; //TODO
-		return [ hkdf.substring(0, 32), hkdf.substring(32, 64) ];
+	var HMACSHA256 = function(input, key) {
+		//TODO: return type
+		return CryptoJS.HmacSHA256(
+			CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
+			CryptoJS.enc.Latin1.parse(getString(key)));
 	}
 
-	var HMACSHA256 = function(input, key) {
-		//TODO: NativeA
-		//TODO: return string
-		return CryptoJS.HmacSHA256(input, CryptoJS.enc.Latin1.parse(getString(key)));
+	var HKDF = function(input, salt, info) {
+		var key;
+		if (salt == '') {
+			var key = new ArrayBuffer(32);
+			var uintKey = new Uint8Array(key);
+			for (var i = 0; i < 32; i++)
+				uintKey[i] = 0;
+		} else
+			key = toArrayBuffer(salt);
+
+		if (key.byteLength != 32)
+			throw "Got salt of incorrect length";
+
+		var PRK = HMACSHA256(input, salt);
+		
+		HMACSHA256(salt, input);
+		var hkdf = "HKDF(" + input + ", " + salt + ", " + info + ")"; //TODO
+		return [ hkdf.substring(0, 32), hkdf.substring(32, 64) ];
 	}
 
 	var verifyMACWithVersionByte = function(data, key, mac) {
@@ -472,6 +501,14 @@ function getRandomBytes(size) {
 
 		if (btoa(calculated_mac.toString(CryptoJS.enc.Base64)).substring(0, mac.length) != mac)
 			throw "Bad MAC";
+	}
+
+	var decryptAES = function(ciphertext, key, iv) {
+		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
+		return atob(CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
+				CryptoJS.enc.Latin1.parse(getString(key)),
+				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
+			.toString(CryptoJS.enc.Base64));
 	}
 
 	/******************************
@@ -575,7 +612,7 @@ function getRandomBytes(size) {
 
 	var doDecryptWhisperMessage = function(ciphertext, mac, messageKey, counter) {
 		//TODO keys swapped?
-		var keys = HKDF(messageKey, /* all 0x00 bytes????? */ '', "WhisperMessageKeys");
+		var keys = HKDF(messageKey, '', "WhisperMessageKeys");
 		verifyMACWithVersionByte(ciphertext, keys[0], mac);
 
 		return AES_CTR_NOPADDING(keys[1], CTR = counter, ciphertext);
@@ -621,29 +658,25 @@ function getRandomBytes(size) {
 		var mac_key = CryptoJS.enc.Latin1.parse(signaling_key.substring(32, 32 + 20));
 
 		//TODO: Can we drop the uint8array in favor of raw strings?
-		var decodedMessage = base64ToUint8Array(message);
-		if (decodedMessage[0] != 1) {
-			console.log("Got bad version number: " + decodedMessage[0]);
-			return;
-		}
+		var decodedMessage = new Uint8Array(base64DecToArr(getString(message)));
+		if (decodedMessage[0] != 1)
+			throw "Got bad version number: " + decodedMessage[0];
+
 		var iv = CryptoJS.lib.WordArray.create(decodedMessage.subarray(1, 1 + 16));
 		var ciphertext = decodedMessage.subarray(1 + 16, decodedMessage.length - 10);
 		var mac = CryptoJS.lib.WordArray.create(decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length));
 
+		//var calculated_mac = HMACSHA256(
 		var calculated_mac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, mac_key);
 		calculated_mac.update(CryptoJS.enc.Latin1.parse(String.fromCharCode(1)));
 		calculated_mac.update(iv);
 		calculated_mac.update(CryptoJS.lib.WordArray.create(ciphertext));
 		calculated_mac = calculated_mac.finalize();
 
-		if (calculated_mac.toString(CryptoJS.enc.Hex).substring(0, 20) != mac.toString(CryptoJS.enc.Hex)) {
-			console.log("Got message with bad MAC");
-			throw "Bad MAC";
-		}
+		if (calculated_mac.toString(CryptoJS.enc.Hex).substring(0, 20) != mac.toString(CryptoJS.enc.Hex))
+			throw "Got message with bad MAC";
 
-		var plaintext = CryptoJS.AES.decrypt(btoa(getString(ciphertext)), aes_key, {iv: iv});//TODO: Does this throw on invalid padding (seems not...)
-
-		return atob(plaintext.toString(CryptoJS.enc.Base64));
+		return decryptAES(ciphertext, aes_key, iv);
 	}
 
 	crypto.handleIncomingPushMessageProto = function(proto, callback) {
