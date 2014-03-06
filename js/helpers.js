@@ -77,6 +77,7 @@ function base64EncArr (aBytes) {
  *** Type conversion utilities ***
  *********************************/
 // Strings/arrays
+//TODO: Throw all this shit in favor of consistent types
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 var StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -108,6 +109,8 @@ function toArrayBuffer(thing) {
 	//TODO: Optimize this for specific cases
 	if (thing === undefined)
 		return undefined;
+	if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
+		return thing;
 	if (!getStringable(thing))
 		throw "Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer";
 	var str = getString(thing);
@@ -396,6 +399,8 @@ function getRandomBytes(size) {
 	}
 }
 
+var crypto_tests = {};
+
 (function(crypto, $, undefined) {
 	var createNewKeyPair = function(callback) {
 		var privKey = getRandomBytes(32);
@@ -467,31 +472,39 @@ function getRandomBytes(size) {
 	}
 
 	var HMACSHA256 = function(input, key) {
-		//TODO: return type
+		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
 		return CryptoJS.HmacSHA256(
 				CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
 				CryptoJS.enc.Latin1.parse(getString(key)))
 			.toString(CryptoJS.enc.Latin1);
 	}
 
+	crypto_tests.HKDF = function(input, salt, info) {
+		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
+		var PRK = HMACSHA256(input, salt);
+
+		var infoString = getString(info);
+		var T1 = HMACSHA256(infoString + String.fromCharCode(1), PRK);
+		var T2 = HMACSHA256(getString(T1) + infoString + String.fromCharCode(2), PRK);
+
+		return [ T1, T2 ];
+	}
+
 	var HKDF = function(input, salt, info) {
-		var key;
+		// HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
 		if (salt == '') {
-			var key = new ArrayBuffer(32);
-			var uintKey = new Uint8Array(key);
+			salt = new ArrayBuffer(32);
+			var uintKey = new Uint8Array(salt);
 			for (var i = 0; i < 32; i++)
 				uintKey[i] = 0;
-		} else
-			key = toArrayBuffer(salt);
+		}
 
-		if (key.byteLength != 32)
+		salt = toArrayBuffer(salt);
+
+		if (salt.byteLength != 32)
 			throw "Got salt of incorrect length";
 
-		var PRK = HMACSHA256(input, salt);
-		
-		HMACSHA256(salt, input);
-		var hkdf = "HKDF(" + input + ", " + salt + ", " + info + ")"; //TODO
-		return [ hkdf.substring(0, 32), hkdf.substring(32, 64) ];
+		return crypto_tests.HKDF(input, salt, info);
 	}
 
 	var decryptPaddedAES = function(ciphertext, key, iv) {
@@ -518,11 +531,11 @@ function getRandomBytes(size) {
 
 		var sharedSecret;
 		ECDHE(theirEphemeralPubKey, ourIdentityPrivKey, function(ecRes) {
-			sharedSecret = ecRes;
+			sharedSecret = getString(ecRes);
 
 			function finishInit() {
 				ECDHE(theirEphemeralPubKey, ourEphemeralPrivKey, function(ecRes) {
-					sharedSecret += ecRes;
+					sharedSecret += getString(ecRes);
 
 					var masterKey = HKDF(sharedSecret, '', "WhisperText");
 					callback({ rootKey: masterKey[0], chainKey: masterKey[1] });
@@ -531,12 +544,12 @@ function getRandomBytes(size) {
 
 			if (isInitiator) {
 				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
-					sharedSecret = sharedSecret + ecRes;
+					sharedSecret = sharedSecret + getString(ecRes);
 					finishInit();
 				});
 			} else {
 				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
-					sharedSecret = ecRes + sharedSecret;
+					sharedSecret = getString(ecRes) + sharedSecret;
 					finishInit();
 				});
 			}
@@ -631,7 +644,7 @@ function getRandomBytes(size) {
 
 		var message = decodeWhisperMessageProtobuf(messageProto);
 
-		maybeStepRatchet(session, getString(message.ephemeralKey), message.previousCounter, function() {
+		maybeStepRatchet(session, message.ephemeralKey, message.previousCounter, function() {
 			var chain = session[getString(message.ephemeralKey)];
 
 			fillMessageKeys(chain, message.counter);
