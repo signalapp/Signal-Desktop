@@ -221,12 +221,12 @@ encryptedMessage: hexToArrayBuffer("415733486e6d3165754275487778594d2f4b744a556e
 			postNaclMessage({command: "privToPub", priv: v.bobPre1}, function(message) {
 				storage.putEncrypted("25519KeypreKey1", { pubKey: message.res, privKey: v.bobPre1 });
 				postNaclMessage({command: "privToPub", priv: v.bobLastResort}, function(message) {
+					storage.putEncrypted("25519KeypreKey16777215", { pubKey: message.res, privKey: v.bobLastResort });
 					storage.putEncrypted("signaling_key", v.sessionKey);
 					var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
 					if (getString(aliceToBob) != getString(v.aliceToBob))
 						callback(false);
-					storage.putEncrypted("25519KeypreKey16777215", { pubKey: message.res, privKey: v.bobLastResort });
-					var b64 = base64EncArr(new Uint8Array(v.aliceToBob));
+					var b64 = base64EncArr(new Uint8Array(toArrayBuffer(aliceToBob)));
 					crypto.handleIncomingPushMessageProto(IncomingPushMessageProtobuf.decode(b64), function(decrypted_message) {
 						callback(decrypted_message.body == "Hi Bob!" && decrypted_message.attachments.length == 0);
 					});
@@ -251,5 +251,5 @@ encryptedMessage: hexToArrayBuffer("415733486e6d3165754275487778594d2f4b744a556e
 		startNextExclusiveTest();
 
 		localStorage.clear();
-	}, 250);
+	}, 500);
 });

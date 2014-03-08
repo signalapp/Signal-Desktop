@@ -537,7 +537,7 @@ var crypto_tests = {};
 	/******************************
 	 *** Ratchet implementation ***
 	 ******************************/
-	var initSession = function(isInitiator, theirIdentityPubKey, ourEphemeralPrivKey, theirEphemeralPubKey, callback) {
+	var initSession = function(isInitiator, ourEphemeralKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, callback) {
 		var ourIdentityPrivKey = crypto_storage.getIdentityPrivKey();
 
 		var sharedSecret;
@@ -545,21 +545,30 @@ var crypto_tests = {};
 			sharedSecret = getString(ecRes);
 
 			function finishInit() {
-				ECDHE(theirEphemeralPubKey, ourEphemeralPrivKey, function(ecRes) {
+				ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey, function(ecRes) {
 					sharedSecret += getString(ecRes);
-
 					var masterKey = HKDF(sharedSecret, '', "WhisperText");
-					callback({ rootKey: masterKey[0], chainKey: masterKey[1] });
+
+					var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourEphemeralKey,
+														lastRemoteEphemeralKey: theirEphemeralPubKey },
+									oldRatchetList: []
+								};
+					session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: masterKey[1] } };
+					// This isnt an actual ratchet, its just here to make maybeStepRatchet work
+					session[getString(theirEphemeralPubKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
+					crypto_storage.saveSession(encodedNumber, session);
+
+					callback();
 				});
 			}
 
 			if (isInitiator) {
-				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
+				ECDHE(theirIdentityPubKey, ourEphemeralKey.privKey, function(ecRes) {
 					sharedSecret = sharedSecret + getString(ecRes);
 					finishInit();
 				});
 			} else {
-				ECDHE(theirIdentityPubKey, ourEphemeralPrivKey, function(ecRes) {
+				ECDHE(theirIdentityPubKey, ourEphemeralKey.privKey, function(ecRes) {
 					sharedSecret = getString(ecRes) + sharedSecret;
 					finishInit();
 				});
@@ -574,16 +583,7 @@ var crypto_tests = {};
 		if (preKeyPair === undefined)
 			throw "Missing preKey for PreKeyWhisperMessage";
 
-		initSession(false, message.identityKey, preKeyPair.privKey, message.baseKey, function(firstRatchet) {
-			var session = {currentRatchet: { rootKey: firstRatchet.rootKey, ephemeralKeyPair: preKeyPair,
-												lastRemoteEphemeralKey: message.baseKey },
-							oldRatchetList: []
-						};
-			session[getString(preKeyPair.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: firstRatchet.chainKey } };
-			// This isnt an actual ratchet, its just here to make maybeStepRatchet work
-			session[getString(message.baseKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
-			crypto_storage.saveSession(encodedNumber, session);
-
+		initSession(false, preKeyPair, encodedNumber, message.identityKey, message.baseKey, function() {
 			callback();
 		});
 	}
@@ -631,14 +631,6 @@ var crypto_tests = {};
 				});
 			});
 		});
-	}
-
-	var doDecryptWhisperMessage = function(ciphertext, mac, messageKey, counter) {
-		//TODO keys swapped?
-		var keys = HKDF(messageKey, '', "WhisperMessageKeys");
-		verifyMACWithVersionByte(ciphertext, keys[0], mac);
-
-		return AES_CTR_NOPADDING(keys[1], CTR = counter, ciphertext);
 	}
 
 	// returns decrypted protobuf
@@ -715,9 +707,34 @@ var crypto_tests = {};
 		}
 	}
 
-	crypto.encryptMessageFor = function(deviceObject, message) {
-		return message + " encrypted to " + deviceObject.encodedNumber + " with relay " + deviceObject.relay +
-			" with identityKey " + deviceObject.identityKey + " and public key " + deviceObject.publicKey; //TODO
+	// callback(encoded [PreKey]WhisperMessage)
+	crypto.encryptMessageFor = function(deviceObject, pushMessageContent, callback) {
+		var session = crypto_storage.getSession(deviceObject.encodedNumber);
+
+		var doEncryptPushMessageContent = function(callback) {
+			var msg = new WhisperMessageProtobuf();
+			var plaintext = pushMessageContent.encode();
+			//TODO
+			msg.ciphertext = plaintext;//TODO: WAT?
+			callback(msg.encode());
+		}
+
+		if (session === undefined) {
+			var preKeyMsg = new PreKeyWhisperMessageProtobuf();
+			preKeyMsg.identityKey = getString(crypto_storage.getStoredPubKey("identityKey"));
+			createNewKeyPair(function(baseKey) {
+				preKeyMsg.baseKey = getString(baseKey.pubKey);
+				preKeyMsg.preKeyId = preKey.keyId;
+				initSession();//TODO
+				doEncryptPushMessageContent(function(message) {
+					preKeyMsg.message = getString(message);
+					callback(getString(preKeyMsg.encode()));
+				});
+			});
+		} else
+			doEncryptPushMessageContent(function(message) {
+				callback(getString(message));
+			});
 	}
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
