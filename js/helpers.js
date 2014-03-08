@@ -484,8 +484,9 @@ var crypto_tests = {};
 		var PRK = HMACSHA256(input, salt);
 
 		var infoString = getString(info);
-		var T1 = HMACSHA256(infoString + String.fromCharCode(1), PRK);
-		var T2 = HMACSHA256(getString(T1) + infoString + String.fromCharCode(2), PRK);
+		// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
+		var T1 = HMACSHA256(infoString + String.fromCharCode(0), PRK);
+		var T2 = HMACSHA256(getString(T1) + infoString + String.fromCharCode(1), PRK);
 
 		return [ T1, T2 ];
 	}
@@ -509,14 +510,24 @@ var crypto_tests = {};
 
 	var decryptPaddedAES = function(ciphertext, key, iv) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return atob(CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
+		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
 				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
-			.toString(CryptoJS.enc.Base64));
+			.toString(CryptoJS.enc.Latin1);
 	}
 
-	var verifyMACWithVersionByte = function(data, key, mac) {
-		var calculated_mac = HMACSHA256(String.fromCharCode(1) + getString(data), key);
+	var decryptAESCTR = function(ciphertext, key, counter) {
+		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
+				CryptoJS.enc.Latin1.parse(getString(key)),
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
+			.toString(CryptoJS.enc.Latin1);
+	}
+
+	var verifyMACWithVersionByte = function(data, key, mac, version) {
+		if (version === undefined)
+			version = 1;
+
+		var calculated_mac = HMACSHA256(String.fromCharCode(version) + getString(data), key);
 		var macString = getString(mac);
 
 		if (calculated_mac.substring(0, macString.length) != macString)
@@ -581,8 +592,8 @@ var crypto_tests = {};
 		var messageKeys = chain.messageKeys;
 		var key = chain.chainKey.key;
 		for (var i = chain.chainKey.counter; i < counter; i++) {
-			messageKeys[counter] = HMACSHA256(key, String.fromCharCode(1));
-			key = HMACSHA256(key, String.fromCharCode(2));
+			messageKeys[i + 1] = HMACSHA256(String.fromCharCode(1), key);
+			key = HMACSHA256(String.fromCharCode(2), key);
 		}
 		chain.chainKey.key = key;
 		chain.chainKey.counter = counter;
@@ -649,13 +660,16 @@ var crypto_tests = {};
 
 			fillMessageKeys(chain, message.counter);
 
-			var plaintext = doDecryptWhisperMessage(message.ciphertext, mac, chain.messageKeys[message.counter], message.counter);
+			var keys = HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys");
+			verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
+
+			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 			delete chain.messageKeys[message.counter];
 
-			removeOldChains(session);
+			//TODO: removeOldChains(session);
 
 			crypto_storage.saveSession(encodedNumber, session);
-			callback(decodePushMessageContentProtobuf(atob(plaintext)));
+			callback(decodePushMessageContentProtobuf(plaintext));
 		});
 	}
 
