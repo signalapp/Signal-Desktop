@@ -365,8 +365,9 @@ function postNaclMessage(message, callback) {
 	if (message["priv"] !== undefined) {
 		pass.priv = toArrayBuffer(message.priv);
 		if (pass.priv.byteLength != 32)
-			throw "Invalid NACL Message";
-	}
+			throw "Invalid NaCL Message";
+	} else
+		throw "Invalid NaCL Message";
 	if (message["pub"] !== undefined) {
 		var pub = toArrayBuffer(message.pub);
 		var pubView = new Uint8Array(pub);
@@ -378,7 +379,7 @@ function postNaclMessage(message, callback) {
 		} else if (pub.byteLength == 32)
 			pass.pub = pub;
 		else
-			throw "Invalid NACL Message";
+			throw "Invalid NaCL Message";
 	}
 	common.naclModule.postMessage(pass);
 }
@@ -523,6 +524,13 @@ var crypto_tests = {};
 			.toString(CryptoJS.enc.Latin1);
 	}
 
+	var encryptAESCTR = function(plaintext, key, counter) {
+		return CryptoJS.AES.encrypt(btoa(getString(plaintext)),
+				CryptoJS.enc.Latin1.parse(getString(key)),
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
+			.toString(CryptoJS.enc.Latin1);
+	}
+
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		if (version === undefined)
 			version = 1;
@@ -532,6 +540,13 @@ var crypto_tests = {};
 
 		if (calculated_mac.substring(0, macString.length) != macString)
 			throw "Bad MAC";
+	}
+
+	var calculateMACWithVersionByte = function(data, key, version) {
+		if (version === undefined)
+			version = 1;
+
+		return HMACSHA256(String.fromCharCode(version) + getString(data), key);
 	}
 
 	/******************************
@@ -651,12 +666,11 @@ var crypto_tests = {};
 			var chain = session[getString(message.ephemeralKey)];
 
 			fillMessageKeys(chain, message.counter);
-
 			var keys = HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys");
-			verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-
-			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 			delete chain.messageKeys[message.counter];
+
+			verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
+			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 
 			//TODO: removeOldChains(session);
 
@@ -714,9 +728,26 @@ var crypto_tests = {};
 		var doEncryptPushMessageContent = function(callback) {
 			var msg = new WhisperMessageProtobuf();
 			var plaintext = pushMessageContent.encode();
+
+			msg.ephemeralKey = getString(session.currentRatchet.ephemeralKeyPair.pubKey);
+			var chain = session[msg.ephemeralKey];
+
+			fillMessageKeys(chain, chain.counter + 1);
+			var keys = HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys");
+			delete chain.messageKeys[chain.counter];
+			msg.counter = chain.counter;
+
 			//TODO
-			msg.ciphertext = plaintext;//TODO: WAT?
-			callback(msg.encode());
+			msg.previousCounter = 1;
+
+			msg.ciphertext = encryptAESCTR(plaintext, keys[0], chain.counter);
+			var encodedMsg = getString(msg.encode());
+
+			var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
+			var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
+
+			crypto_storage.saveSession(deviceObject.encodedNumber, session);
+			callback(result);
 		}
 
 		if (session === undefined) {
@@ -724,16 +755,20 @@ var crypto_tests = {};
 			preKeyMsg.identityKey = getString(crypto_storage.getStoredPubKey("identityKey"));
 			createNewKeyPair(function(baseKey) {
 				preKeyMsg.baseKey = getString(baseKey.pubKey);
-				preKeyMsg.preKeyId = preKey.keyId;
-				initSession();//TODO
-				doEncryptPushMessageContent(function(message) {
-					preKeyMsg.message = getString(message);
-					callback(getString(preKeyMsg.encode()));
+				preKeyMsg.preKeyId = deviceObject.preKeyId;
+				initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey, function() {
+					//TODO: Delete preKey info now?
+					session = crypto_storage.getSession(deviceObject.encodedNumber);
+					//TODO: We need to step ratchet here, I think
+					doEncryptPushMessageContent(function(message) {
+						preKeyMsg.message = getString(message);
+						callback({type: 3, body: getString(preKeyMsg.encode())});
+					});
 				});
 			});
 		} else
 			doEncryptPushMessageContent(function(message) {
-				callback(getString(message));
+				callback({type: 1, body: getString(message)});
 			});
 	}
 
@@ -899,7 +934,8 @@ function getKeysForNumber(number, success_callback, error_callback) {
 					saveDeviceObject({
 						encodedNumber: number + "." + response[i].deviceId,
 						identityKey: response[i].identityKey,
-						publicKey: response[i].publicKey
+						publicKey: response[i].publicKey,
+						preKeyId: response[i].keyId
 					});
 				} catch (e) {
 					error_callback(e);
@@ -914,19 +950,19 @@ function getKeysForNumber(number, success_callback, error_callback) {
 }
 
 // success_callback(server success/failure map), error_callback(error_msg)
+// message == PushMessageContentProto (NOT STRING)
 function sendMessageToDevices(deviceObjectList, message, success_callback, error_callback) {
-	if (message.type === undefined)
-		message.type = 0; //TODO: Change to 1 for ciphertext instead of plaintext
-
 	var jsonData = [];
 	for (var i = 0; i < deviceObjectList.legnth; i++) {
+		var encryptedMsg = encryptMessageFor(deviceObjectList[i], message);
 		jsonData[jsonData.length] = {
-			type: message.type,
+			type: encryptedMsg.type,
 			destination: deviceObjectList[i].encodedNumber,
-			body: encryptMessageFor(deviceObjectList[i], message.message), //TODO: Protobuf?
+			body: encryptedMsg.body,
 			relay: deviceObjectList[i].relay,
 			timestamp: new Date().getTime()
 		};
+//TODO: need to encrypt with session key?
 	}
 	doAjax({call: 'messages', httpType: 'POST', do_auth: true, jsonData: jsonData,
 		success_callback: function(result) {
