@@ -1,0 +1,14 @@
+{
+  "files": {},
+  "program": {
+    "x86-64": {
+      "url": "curve25519_x86_64.nexe"
+    },
+    "arm": {
+      "url": "curve25519_arm.nexe"
+    },
+    "x86-32": {
+      "url": "curve25519_x86_32.nexe"
+    }
+  }
+}
