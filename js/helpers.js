@@ -525,9 +525,10 @@ var crypto_tests = {};
 	}
 
 	var encryptAESCTR = function(plaintext, key, counter) {
-		return CryptoJS.AES.encrypt(btoa(getString(plaintext)),
+		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
 				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
+			.ciphertext
 			.toString(CryptoJS.enc.Latin1);
 	}
 
@@ -615,8 +616,10 @@ var crypto_tests = {};
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
-		if (session[getString(remoteKey)] !== undefined) //TODO: null???
+		if (session[getString(remoteKey)] !== undefined) { //TODO: null???
+			callback();//TODO: This is happening in tests as alice (when bob is checking), probably shouldn't?
 			return;
+		}
 
 		var ratchet = session.currentRatchet;
 
@@ -712,7 +715,7 @@ var crypto_tests = {};
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
-				throw "Bad version byte";
+				throw "Bad version byte"; //TODO: I don't believe this actually happens on the wire
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto, function() {
 				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
@@ -727,10 +730,10 @@ var crypto_tests = {};
 
 		var doEncryptPushMessageContent = function(callback) {
 			var msg = new WhisperMessageProtobuf();
-			var plaintext = pushMessageContent.encode();
+			var plaintext = toArrayBuffer(pushMessageContent.encode());
 
-			msg.ephemeralKey = getString(session.currentRatchet.ephemeralKeyPair.pubKey);
-			var chain = session[msg.ephemeralKey];
+			msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
+			var chain = session[getString(msg.ephemeralKey)];
 
 			fillMessageKeys(chain, chain.counter + 1);
 			var keys = HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys");
@@ -740,7 +743,7 @@ var crypto_tests = {};
 			//TODO
 			msg.previousCounter = 1;
 
-			msg.ciphertext = encryptAESCTR(plaintext, keys[0], chain.counter);
+			msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
 			var encodedMsg = getString(msg.encode());
 
 			var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
@@ -752,17 +755,18 @@ var crypto_tests = {};
 
 		if (session === undefined) {
 			var preKeyMsg = new PreKeyWhisperMessageProtobuf();
-			preKeyMsg.identityKey = getString(crypto_storage.getStoredPubKey("identityKey"));
+			preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
 			createNewKeyPair(function(baseKey) {
-				preKeyMsg.baseKey = getString(baseKey.pubKey);
+				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				preKeyMsg.preKeyId = deviceObject.preKeyId;
 				initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey, function() {
 					//TODO: Delete preKey info now?
 					session = crypto_storage.getSession(deviceObject.encodedNumber);
 					//TODO: We need to step ratchet here, I think
 					doEncryptPushMessageContent(function(message) {
-						preKeyMsg.message = getString(message);
-						callback({type: 3, body: getString(preKeyMsg.encode())});
+						preKeyMsg.message = toArrayBuffer(message);
+						var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
+						callback({type: 3, body: result});
 					});
 				});
 			});

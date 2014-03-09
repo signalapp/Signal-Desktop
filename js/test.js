@@ -201,9 +201,34 @@ sessionKey: hexToArrayBuffer("3d71b56ab9763865905597a90c6746640a946bf3a11632b31a
 encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b5856346970342b6d45636f636c35424d396c4978364f525948696438634f4a68374c4e2f48534b776a4755556f304e73582f634255742b6a58464b6357697368364b363441315963316f5a47304168676466734e572b53484f313131306e664b6e6c47595445723661624e57556b394c515145706b6f52385746626c5952312b636a4b576d554d5131646f477a376b345955415055544e4d474b78413349694135797575706d6544453173545359552b736133575876366f5a7a624a614275486b5044345a4f3773416b34667558434135466e724e2f462f34445a61586952696f4a76744849413d3d"),
 	};
 
-	// Axolotl test vectors
+	function axolotlTestVectorsAsBob(v, callback) {
+		localStorage.clear();
+		storage.putEncrypted("25519KeyidentityKey", { pubKey: v.bobIdentityPub, privKey: v.bobIdentityPriv });
+		postNaclMessage({command: "privToPub", priv: v.bobPre0}, function(message) {
+			storage.putEncrypted("25519KeypreKey0", { pubKey: message.res, privKey: v.bobPre0 });
+
+			if (v.sessionKey !== undefined) {
+				storage.putEncrypted("signaling_key", v.sessionKey);
+				var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
+				if (getString(aliceToBob) != getString(v.aliceToBob)) {
+					callback(false);
+					return;
+				}
+			}
+
+			var b64 = base64EncArr(new Uint8Array(toArrayBuffer(v.aliceToBob)));
+			var thing = IncomingPushMessageProtobuf.decode(b64);
+			crypto.handleIncomingPushMessageProto(thing, function(decrypted_message) {
+				callback(decrypted_message.body == "Hi Bob!" && decrypted_message.attachments.length == 0);
+			});
+		});
+	};
+
 	TEST(function(callback) {
-		var v = axolotlTestVectors;
+		var v = {};
+		for (key in axolotlTestVectors)
+			v[key] = axolotlTestVectors[key];
+
 		storage.putEncrypted("25519KeyidentityKey", { pubKey: v.aliceIdentityPub, privKey: v.aliceIdentityPriv });
 		postNaclMessage({command: "privToPub", priv: v.alicePre0}, function(message) {
 			storage.putEncrypted("25519KeypreKey0", { pubKey: message.res, privKey: v.alicePre0 });
@@ -214,39 +239,23 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 				var message = new PushMessageContentProtobuf();
 				message.body = "Hi Bob!";
 				crypto.encryptMessageFor(bobsDevice, message, function(encryptedMsg) {
-					callback(true);
+					var message = new IncomingPushMessageProtobuf();
+					message.message = toArrayBuffer(encryptedMsg.body);
+					message.type = encryptedMsg.type;
+					if (message.type != 3) { callback(false); return; }
+					message.source = "ALICE";
+
+					delete v['sessionKey'];
+					v.aliceToBob = getString(message.encode());
+					axolotlTestVectorsAsBob(v, callback);
 				});
-				/*storage.putEncrypted("signaling_key", v.sessionKey);
-				var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
-				if (getString(aliceToBob) != getString(v.aliceToBob))
-					callback(false);
-				storage.putEncrypted("25519KeypreKey16777215", { pubKey: message.res, privKey: v.bobLastResort });
-				var b64 = base64EncArr(new Uint8Array(v.aliceToBob));
-				crypto.handleIncomingPushMessageProto(IncomingPushMessageProtobuf.decode(b64), function(decrypted_message) {
-					callback(decrypted_message.body == "Hi Bob!" && decrypted_message.attachments.length == 0);
-				});*/
 			});
 		});
-
 	}, "Axolotl test vectors as alice", true);
 
-	// Axolotl test vectors
 	TEST(function(callback) {
-		var v = axolotlTestVectors;
-		storage.putEncrypted("25519KeyidentityKey", { pubKey: v.bobIdentityPub, privKey: v.bobIdentityPriv });
-		postNaclMessage({command: "privToPub", priv: v.bobPre0}, function(message) {
-			storage.putEncrypted("25519KeypreKey0", { pubKey: message.res, privKey: v.bobPre0 });
-			storage.putEncrypted("signaling_key", v.sessionKey);
-			var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
-			if (getString(aliceToBob) != getString(v.aliceToBob))
-				callback(false);
-			var b64 = base64EncArr(new Uint8Array(toArrayBuffer(aliceToBob)));
-			crypto.handleIncomingPushMessageProto(IncomingPushMessageProtobuf.decode(b64), function(decrypted_message) {
-				callback(decrypted_message.body == "Hi Bob!" && decrypted_message.attachments.length == 0);
-			});
-		});
+		axolotlTestVectorsAsBob(axolotlTestVectors, callback);
 	}, "Axolotl test vectors as bob", true);
-
 
 	window.setInterval(function() {
 		for (var i = 0; i < maxTestId; i++) {
