@@ -99,7 +99,7 @@ function getString(thing) {
 }
 
 function getStringable(thing) {
-	return (typeof thing == "string" || typeof thing == "number" ||
+	return (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean" ||
 			(thing === Object(thing) &&
 				(thing.__proto__ == StaticArrayBufferProto ||
 				thing.__proto__ == StaticUint8ArrayProto ||
