@@ -893,7 +893,7 @@ function doAjax(param) {
 	}
 	$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
 		type: param.httpType,
-		data: jsonThing(param.jsonData),
+		data: param.jsonData && jsonThing(param.jsonData),
 		contentType: 'application/json; charset=utf-8',
 		dataType: 'json',
 		beforeSend: function(xhr) {
