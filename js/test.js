@@ -117,50 +117,44 @@ registerOnLoadFunction(function() {
 	}, "Test simple create key", true);
 
 	TEST(function(callback) {
-		// These are just some random curve25519 test vectors I found online
+		// These are just some random curve25519 test vectors I found online (with a version byte prepended to pubkeys)
 		var alice_priv = hexToArrayBuffer("77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
-		var alice_pub  = hexToArrayBuffer("8520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a");
+		var alice_pub  = hexToArrayBuffer("058520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a");
 		var bob_priv   = hexToArrayBuffer("5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb");
-		var bob_pub    = hexToArrayBuffer("de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
+		var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
 		var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-		postNaclMessage({command: "bytesToPriv", priv: alice_priv}, function(message) {
+		crypto_tests.privToPub(alice_priv, function(aliceKeyPair) {
 			var target = new Uint8Array(alice_priv.slice(0));
 			target[0] &= 248;
 			target[31] &= 127;
 			target[31] |= 64;
-			if (String.fromCharCode.apply(null, new Uint8Array(message.res)) != String.fromCharCode.apply(null, target))
+			if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.privKey)) != String.fromCharCode.apply(null, target))
 				callback(false);
-			var alice_calc_priv = message.res;
 
-			postNaclMessage({command: "bytesToPriv", priv: bob_priv}, function(message) {
+			crypto_tests.privToPub(bob_priv, function(bobKeyPair) {
 				var target = new Uint8Array(bob_priv.slice(0));
 				target[0] &= 248;
 				target[31] &= 127;
 				target[31] |= 64;
-				if (String.fromCharCode.apply(null, new Uint8Array(message.res)) != String.fromCharCode.apply(null, target))
+				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.privKey)) != String.fromCharCode.apply(null, target))
 					callback(false);
-				var bob_calc_priv = message.res;
 
-				postNaclMessage({command: "privToPub", priv: alice_calc_priv}, function(message) {
-					if (String.fromCharCode.apply(null, new Uint16Array(message.res)) != String.fromCharCode.apply(null, new Uint16Array(alice_pub)))
+				if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(alice_pub)))
+					callback(false);
+
+				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(bob_pub)))
+					callback(false);
+
+				crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey, function(ss) {
+					if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 						callback(false);
 
-					postNaclMessage({command: "privToPub", priv: bob_calc_priv}, function(message) {
-						if (String.fromCharCode.apply(null, new Uint16Array(message.res)) != String.fromCharCode.apply(null, new Uint16Array(bob_pub)))
+					crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey, function(ss) {
+						if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 							callback(false);
-
-						postNaclMessage({command: "ECDHE", priv: alice_calc_priv, pub: bob_pub}, function(message) {
-							if (String.fromCharCode.apply(null, new Uint16Array(message.res)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
-								callback(false);
-
-							postNaclMessage({command: "ECDHE", priv: bob_calc_priv, pub: alice_pub}, function(message) {
-								if (String.fromCharCode.apply(null, new Uint16Array(message.res)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
-									callback(false);
-								else
-									callback(true);
-							});
-						});
+						else
+							callback(true);
 					});
 				});
 			});
@@ -193,10 +187,8 @@ aliceIdentityPriv: hexToArrayBuffer("08ebc1e1fdbbc88d1a833a9d8c287328d4f749b7b7e
 aliceIdentityPub: hexToArrayBuffer("05b9c152cb9fefb0a12df319ae50c728c7909a8a080fcf22d5e1842352186d3870"),
 bobIdentityPriv: hexToArrayBuffer("08491ea8a9aff03a724cfb44411502f3e974010e62b6db2703b9506a2e18554e"),
 bobIdentityPub: hexToArrayBuffer("0562d9efab60407ac5f4b1bec9c3341db4b279f24a87234c9ff36a1f868fdd8104"),
-alicePre0: hexToArrayBuffer("886ec9c65f0c8c1281ca4c8115e3baf5c2ac75d2762826a3cf098c2a093b2250"),
 bobPre0: hexToArrayBuffer("009aa1809dbd29b15d3cc4c3c04ae45413b6396f286de46775e748c6daf36545"),
 aliceToBob: hexToArrayBuffer("08031205414c4943452203424f4228cfb3dbeec92832860122080012210503d7fa229643c84d5b33d42e50985fc64b77e0b4ec32c52000ce81e857b1ec141a2105b9c152cb9fefb0a12df319ae50c728c7909a8a080fcf22d5e1842352186d3870223b220a21052a59b346373f79d2aee25503b071fd4704a40db12afd6288519eeccf9aacec5b10001801220917468a49c79f0588a5037512abf4f66557"),
-plain: hexToArrayBuffer("0a07486920426f6221"),
 sessionKey: hexToArrayBuffer("3d71b56ab9763865905597a90c6746640a946bf3a11632b31a87990579925f92f2132869dbf3f22646d00a68430ecd29cb38186b"),
 encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b5856346970342b6d45636f636c35424d396c4978364f525948696438634f4a68374c4e2f48534b776a4755556f304e73582f634255742b6a58464b6357697368364b363441315963316f5a47304168676466734e572b53484f313131306e664b6e6c47595445723661624e57556b394c515145706b6f52385746626c5952312b636a4b576d554d5131646f477a376b345955415055544e4d474b78413349694135797575706d6544453173545359552b736133575876366f5a7a624a614275486b5044345a4f3773416b34667558434135466e724e2f462f34445a61586952696f4a76744849413d3d"),
 	};
@@ -204,8 +196,8 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 	function axolotlTestVectorsAsBob(v, callback) {
 		localStorage.clear();
 		storage.putEncrypted("25519KeyidentityKey", { pubKey: v.bobIdentityPub, privKey: v.bobIdentityPriv });
-		postNaclMessage({command: "privToPub", priv: v.bobPre0}, function(message) {
-			storage.putEncrypted("25519KeypreKey0", { pubKey: message.res, privKey: v.bobPre0 });
+		crypto_tests.privToPub(v.bobPre0, function(keyPair) {
+			storage.putEncrypted("25519KeypreKey0", { pubKey: keyPair.pubKey, privKey: keyPair.privKey });
 
 			if (v.sessionKey !== undefined) {
 				storage.putEncrypted("signaling_key", v.sessionKey);
@@ -230,25 +222,22 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 			v[key] = axolotlTestVectors[key];
 
 		storage.putEncrypted("25519KeyidentityKey", { pubKey: v.aliceIdentityPub, privKey: v.aliceIdentityPriv });
-		postNaclMessage({command: "privToPub", priv: v.alicePre0}, function(message) {
-			storage.putEncrypted("25519KeypreKey0", { pubKey: message.res, privKey: v.alicePre0 });
-			postNaclMessage({command: "privToPub", priv: v.bobPre0}, function(message) {
-				var bobsDevice = {encodedNumber: "BOB", identityKey: v.bobIdentityPub, publicKey: message.res, preKeyId: 0};
-				saveDeviceObject = bobsDevice;
+		crypto_tests.privToPub(v.bobPre0, function(keyPair) {
+			var bobsDevice = {encodedNumber: "BOB", identityKey: keyPair.privKey, publicKey: keyPair.pubKey, preKeyId: 0};
+			saveDeviceObject = bobsDevice;
 
-				var message = new PushMessageContentProtobuf();
-				message.body = "Hi Bob!";
-				crypto.encryptMessageFor(bobsDevice, message, function(encryptedMsg) {
-					var message = new IncomingPushMessageProtobuf();
-					message.message = toArrayBuffer(encryptedMsg.body);
-					message.type = encryptedMsg.type;
-					if (message.type != 3) { callback(false); return; }
-					message.source = "ALICE";
+			var message = new PushMessageContentProtobuf();
+			message.body = "Hi Bob!";
+			crypto.encryptMessageFor(bobsDevice, message, function(encryptedMsg) {
+				var message = new IncomingPushMessageProtobuf();
+				message.message = toArrayBuffer(encryptedMsg.body);
+				message.type = encryptedMsg.type;
+				if (message.type != 3) { callback(false); return; }
+				message.source = "ALICE";
 
-					delete v['sessionKey'];
-					v.aliceToBob = getString(message.encode());
-					axolotlTestVectorsAsBob(v, callback);
-				});
+				delete v['sessionKey'];
+				v.aliceToBob = getString(message.encode());
+				axolotlTestVectorsAsBob(v, callback);
 			});
 		});
 	}, "Axolotl test vectors as alice", true);
@@ -272,5 +261,5 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 		startNextExclusiveTest();
 
 		localStorage.clear();
-	}, 500);
+	}, 5000);
 });

@@ -73,6 +73,8 @@ function base64EncArr (aBytes) {
 
 }
 
+var USE_NACL = false;
+
 /*********************************
  *** Type conversion utilities ***
  *********************************/
@@ -111,6 +113,16 @@ function toArrayBuffer(thing) {
 		return undefined;
 	if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
 		return thing;
+
+	if (thing instanceof Array) {
+		// Assuming Uint16Array from curve25519
+		var res = new ArrayBuffer(thing.length * 2);
+		var uint = new Uint16Array(res);
+		for (var i = 0; i < thing.length; i++)
+			uint[i] = thing[i];
+		return res;
+	}
+
 	if (!getStringable(thing))
 		throw "Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer";
 	var str = getString(thing);
@@ -339,8 +351,10 @@ function getDeviceObjectListFromNumber(number) {
 var onLoadCallbacks = [];
 var naclLoaded = 0;
 function registerOnLoadFunction(func) {
-	if (naclLoaded)
+	if (naclLoaded || !USE_NACL) {
 		func();
+		return;
+	}
 	onLoadCallbacks[onLoadCallbacks.length] = func;
 }
 
@@ -359,29 +373,13 @@ function handleMessage(message) {
 }
 
 function postNaclMessage(message, callback) {
+	if (!USE_NACL)
+		throw "Attempted to make NaCL call with !USE_NACL?";
+
 	naclMessageIdCallbackMap[naclMessageNextId] = callback;
-	var pass = { command: message.command };
-	pass.call_id = naclMessageNextId++;
-	if (message["priv"] !== undefined) {
-		pass.priv = toArrayBuffer(message.priv);
-		if (pass.priv.byteLength != 32)
-			throw "Invalid NaCL Message";
-	} else
-		throw "Invalid NaCL Message";
-	if (message["pub"] !== undefined) {
-		var pub = toArrayBuffer(message.pub);
-		var pubView = new Uint8Array(pub);
-		if (pub.byteLength == 33 && pubView[0] == 5) {
-			pass.pub = new ArrayBuffer(32);
-			var pubCopy = new Uint8Array(pass.pub);
-			for (var i = 0; i < 32; i++)
-				pubCopy[i] = pubView[i+1];
-		} else if (pub.byteLength == 32)
-			pass.pub = pub;
-		else
-			throw "Invalid NaCL Message";
-	}
-	common.naclModule.postMessage(pass);
+	message.call_id = naclMessageNextId++;
+
+	common.naclModule.postMessage(message);
 }
 
 /*******************************************
@@ -400,22 +398,42 @@ function getRandomBytes(size) {
 	}
 }
 
+// functions exposed for testing
 var crypto_tests = {};
 
 (function(crypto, $, undefined) {
-	var createNewKeyPair = function(callback) {
-		var privKey = getRandomBytes(32);
-		postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
-			postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
-				var origPub = new Uint8Array(message.res);
-				var pub = new ArrayBuffer(33);
-				var pubWithPrefix = new Uint8Array(pub);
-				for (var i = 0; i < 32; i++)
-					pubWithPrefix[i+1] = origPub[i];
-				pubWithPrefix[0] = 5;
-				callback({ pubKey: message.res, privKey: privKey });
+	crypto_tests.privToPub = function(privKey, callback) {
+		if (privKey.byteLength != 32)
+			throw "Invalid private key";
+
+		var prependVersion = function(pubKey) {
+			var origPub = new Uint8Array(pubKey);
+			var pub = new ArrayBuffer(33);
+			var pubWithPrefix = new Uint8Array(pub);
+			for (var i = 0; i < 32; i++)
+				pubWithPrefix[i+1] = origPub[i];
+			pubWithPrefix[0] = 5;
+			return pub;
+		}
+
+		if (USE_NACL) {
+			postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
+				postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
+					callback({ pubKey: prependVersion(message.res), privKey: privKey });
+				});
 			});
-		});
+		} else {
+			var priv = new Uint16Array(privKey);
+			priv[0] &= 0xFFF8;
+			priv[15] = (priv[15] & 0x7FFF) | 0x4000;
+			//TODO: fscking type conversion
+			callback({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
+		}
+	
+	}
+
+	var createNewKeyPair = function(callback) {
+		crypto_tests.privToPub(getRandomBytes(32), callback);
 	}
 
 	var crypto_storage = {};
@@ -467,10 +485,34 @@ var crypto_tests = {};
 	//TODO: Think about replacing CryptoJS stuff with optional NaCL-based implementations
 	// Probably means all of the low-level crypto stuff here needs pulled out into its own file
 	var ECDHE = function(pubKey, privKey, callback) {
-		postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}, function(message) {
-			callback(message.res);
-		});
+		if (privKey !== undefined) {
+			privKey = toArrayBuffer(privKey);
+			if (privKey.byteLength != 32)
+				throw "Invalid private key";
+		} else
+			throw "Invalid private key";
+
+		if (pubKey !== undefined) {
+			pubKey = toArrayBuffer(pubKey);
+			var pubView = new Uint8Array(pubKey);
+			if (pubKey.byteLength == 33 && pubView[0] == 5) {
+				pubKey = new ArrayBuffer(32);
+				var pubCopy = new Uint8Array(pubKey);
+				for (var i = 0; i < 32; i++)
+					pubCopy[i] = pubView[i+1];
+			} else if (pubKey.byteLength != 32)
+				throw "Invalid public key";
+		}
+
+		if (USE_NACL) {
+			postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}, function(message) {
+				callback(message.res);
+			});
+		} else {
+			callback(toArrayBuffer(curve25519(new Uint16Array(privKey), new Uint16Array(pubKey))));
+		}
 	}
+	crypto_tests.ECDHE = ECDHE;
 
 	var HMACSHA256 = function(input, key) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
@@ -518,6 +560,7 @@ var crypto_tests = {};
 	}
 
 	var decryptAESCTR = function(ciphertext, key, counter) {
+		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
 		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
 				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
@@ -525,11 +568,11 @@ var crypto_tests = {};
 	}
 
 	var encryptAESCTR = function(plaintext, key, counter) {
+		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
 		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
 				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
-			.ciphertext
-			.toString(CryptoJS.enc.Latin1);
+			.ciphertext.toString(CryptoJS.enc.Latin1);
 	}
 
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
