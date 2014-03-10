@@ -20,7 +20,7 @@
 
 var c255lbase32chars = "abcdefghijklmnopqrstuvwxyz234567";
 var c255lbase32values = {"a":0, "b":1, "c":2, "d":3, "e":4, "f":5, "g":6, "h":7, "i":8, "j":9, "k":10, "l":11, "m":12, "n":13, "o":14, "p":15, "q":16, "r":17, "s":18, "t":19, "u":20, "v":21, "w":22, "x":23, "y":24, "z":25, "2":26, "3":27, "4":28, "5":29, "6":30, "7":31 };
-function c255lbase32encode(n, x) {
+function c255lbase32encode(n) {
   var c;
   var r = "";
   for (c = 0; c < 255; c+=5) {
@@ -28,7 +28,7 @@ function c255lbase32encode(n, x) {
   }
   return r;
 }
-function c255lbase32decode(n, x) {
+function c255lbase32decode(n) {
   var c = 0;
   var r = c255lzero();
   var l = n.length;
@@ -45,7 +45,7 @@ function c255lbase32decode(n, x) {
 }
 var c255lhexchars = "0123456789abcdef";
 var c255lhexvalues = {"0":0, "1":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7,  "8":8, "9":9, "a":10, "b":11, "c":12, "d":13, "e":14, "f":15 };
-function c255lhexencode(n, x) {
+function c255lhexencode(n) {
   var c;
   var r = "";
   for (c = 0; c < 255; c+=4) {
@@ -53,7 +53,7 @@ function c255lhexencode(n, x) {
   }
   return r;
 }
-function c255lhexdecode(n, x) {
+function c255lhexdecode(n) {
   var c = 0;
   var r = c255lzero();
   var l = n.length;
@@ -441,7 +441,7 @@ function curve25519_raw(f, c) {
 }
 
 function curve25519b32(a, b) {
-  return c255lbase32encode(curve25519(c255lbase32decode(a), c255lbase32decode(b)));
+  return c255lbase32encode(curve25519(c255lbase32decode(a), b && c255lbase32decode(b)));
 }
 
 function curve25519(f, c) {
