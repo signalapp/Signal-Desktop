@@ -1,11 +1,11 @@
-$('#inbox_link').onclick = function() {
+$('#inbox_link').click(function() {
 	$('#inbox').show();
 	$('#send').hide();
-}
-$('#send_link').onclick = function() {
+});
+$('#send_link').click(function() {
 	$('#inbox').hide();
 	$('#send').show();
-}
+});
 
 registerOnLoadFunction(function() {
 	if (storage.getUnencrypted("number_id") === undefined) {
