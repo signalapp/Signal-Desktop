@@ -22,7 +22,7 @@ $('#number').on('change', function() {//TODO
 		$('#number').attr('style', '');
 });
 
-var single_device = false;
+var single_device = true;
 var signaling_key = getRandomBytes(32 + 20);
 var password = btoa(getRandomBytes(16));
 password = password.substring(0, password.length - 2);
@@ -38,12 +38,12 @@ $('#init-go-single-client').click(function() {
 
 		single_device = true;
 
-		doAjax({call: 'accounts', httpType: 'GET', urlParameters: '/sms/code/' + number,
-			success_callback: function(response) { },
-			error_callback: function(code) {
+		API.requestVerificationCode(number,
+			function(response) { },
+			function(code) {
 				alert("Failed to send key?" + code); //TODO
 			}
-		});
+		);
 	}
 });
 
@@ -58,12 +58,8 @@ $('#init-go').click(function() {
 		$('#verify4done').html('');
 		$('#verify').show();
 
-		var call = single_device ? 'accounts' : 'devices';
-		var urlPrefix = single_device ? '/code/' : '/';
-
-		doAjax({call: call, httpType:  'PUT', urlParameters: urlPrefix + $('#code').val(), user: number, password: password,
-			jsonData: {signalingKey: btoa(getString(signaling_key)), supportsSms: false, fetchesMessages: true},
-			success_callback: function(response) {
+		API.confirmCode(code, number, password, signaling_key, single_device,
+			function(response) {
 				if (single_device)
 					response = 1;
 				var number_id = number + "." + response;
@@ -76,16 +72,16 @@ $('#init-go').click(function() {
 					$('#verify2done').html('done');
 					crypto.generateKeys(function(keys) {
 						$('#verify3done').html('done');
-						doAjax({call: 'keys', httpType: 'PUT', do_auth: true, jsonData: keys,
-							success_callback: function(response) {
+						API.registerKeys(keys,
+							function(response) {
 								$('#complete-number').html(number);
 								$('#verify').hide();
 								$('#setup-complete').show();
 								registrationDone();
-							}, error_callback: function(code) {
+							}, function(code) {
 								alert(code); //TODO
 							}
-						});
+						);
 					});
 				}
 
@@ -102,7 +98,7 @@ $('#init-go').click(function() {
 				} else {
 					register_keys_func();
 				}
-			}, error_callback: function(code) {
+			}, function(code) {
 				var error;
 				switch(code) {
 				case 403:
@@ -117,7 +113,7 @@ $('#init-go').click(function() {
 				}
 				alert(error); //TODO
 			}
-		});
+		);
 	}
 });
 
