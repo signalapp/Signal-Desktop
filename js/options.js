@@ -22,7 +22,7 @@ $('#number').on('change', function() {//TODO
 		$('#number').attr('style', '');
 });
 
-var single_device = true;
+var single_device = false;
 var signaling_key = getRandomBytes(32 + 20);
 var password = btoa(getRandomBytes(16));
 password = password.substring(0, password.length - 2);

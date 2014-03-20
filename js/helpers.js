@@ -139,7 +139,7 @@ function ensureStringed(thing) {
 	else if (thing instanceof Array) {
 		var res = [];
 		for (var i = 0; i < thing.length; i++)
-			res[i] = ensureStringed(thing);
+			res[i] = ensureStringed(thing[i]);
 		return res;
 	} else if (thing === Object(thing)) {
 		var res = {};
