@@ -891,8 +891,7 @@ function subscribeToPush(message_callback) {
 							var proto = decodeIncomingPushMessageProtobuf(plaintext);
 							// After this point, a) decoding errors are not the server's fault, and
 							// b) we should handle them gracefully and tell the user they received an invalid message
-
-              API.pushMessage(message.id);
+							API.pushMessage(message.id);
 						} catch (e) {
 							console.log("Error decoding message: " + e);
 							return;
@@ -915,7 +914,7 @@ function subscribeToPush(message_callback) {
 
 // success_callback(identity_key), error_callback(error_msg)
 function getKeysForNumber(number, success_callback, error_callback) {
-  API.getKeysForNumber(number,
+	API.getKeysForNumber(number,
 		function(response) {
 			for (var i = 0; i < response.length; i++) {
 				try {
@@ -951,7 +950,7 @@ function sendMessageToDevices(deviceObjectList, message, success_callback, error
 		};
 //TODO: need to encrypt with session key?
 	}
-  API.sendMessages(jsonData,
+	API.sendMessages(jsonData,
 		function(result) {
 			if (result.missingDeviceIds.length > 0) {
 				var responsesLeft = result.missingDeviceIds.length;
