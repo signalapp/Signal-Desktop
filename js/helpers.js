@@ -139,7 +139,7 @@ function ensureStringed(thing) {
 	else if (thing instanceof Array) {
 		var res = [];
 		for (var i = 0; i < thing.length; i++)
-			res[i] = ensureStringed(thing);
+			res[i] = ensureStringed(thing[i]);
 		return res;
 	} else if (thing === Object(thing)) {
 		var res = {};
@@ -860,65 +860,6 @@ var crypto_tests = {};
 
 }( window.crypto = window.crypto || {}, jQuery ));
 
-/************************************************
- *** Utilities to communicate with the server ***
- ************************************************/
-var URL_BASE  = "http://textsecure-test.herokuapp.com";
-var URL_CALLS = {};
-URL_CALLS['accounts'] = "/v1/accounts";
-URL_CALLS['devices']  = "/v1/devices";
-URL_CALLS['keys']     = "/v1/keys";
-URL_CALLS['push']     = "/v1/messagesocket";
-URL_CALLS['messages'] = "/v1/messages/";
-
-/**
-  * REQUIRED PARAMS:
-  * 	call:				URL_CALLS entry
-  * 	httpType:			POST/GET/PUT/etc
-  * OPTIONAL PARAMS:
-  * 	success_callback:	function(response object) called on success
-  * 	error_callback: 	function(http status code = -1 or != 200) called on failure
-  * 	urlParameters:		crap appended to the url (probably including a leading /)
-  * 	user:				user name to be sent in a basic auth header
-  * 	password:			password to be sent in a basic auth headerA
-  * 	do_auth:			alternative to user/password where user/password are figured out automagically
-  * 	jsonData:			JSON data sent in the request body
-  */
-function doAjax(param) {
-	if (param.urlParameters === undefined)
-		param.urlParameters = "";
-	if (param.do_auth) {
-		param.user = storage.getUnencrypted("number_id");
-		param.password = storage.getEncrypted("password");
-	}
-	$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
-		type: param.httpType,
-		data: param.jsonData && jsonThing(param.jsonData),
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'json',
-		beforeSend: function(xhr) {
-			if (param.user !== undefined && param.password !== undefined)
-				xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(param.user) + ":" + getString(param.password)));
-		},
-		success: function(response, textStatus, jqXHR) {
-			if (param.success_callback !== undefined)
-				param.success_callback(response);
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			var code = jqXHR.status;
-			if (code == 200) {// happens sometimes when we get no response (TODO: Fix server to return 204? instead)
-				if (param.success_callback !== undefined)
-					param.success_callback(null);
-				return;
-			}
-			if (code > 999 || code < 100)
-				code = -1;
-			if (param.error_callback !== undefined)
-				param.error_callback(code);
-		},
-		cache: false
-	});
-}
 
 // message_callback(decoded_protobuf) (use decodeMessage(proto))
 function subscribeToPush(message_callback) {
@@ -951,7 +892,7 @@ function subscribeToPush(message_callback) {
 							// After this point, a) decoding errors are not the server's fault, and
 							// b) we should handle them gracefully and tell the user they received an invalid message
 
-							doAjax({call: 'push', httpType: 'PUT', urlParameters: '/' + message.id, do_auth: true});
+              API.pushMessage(message.id);
 						} catch (e) {
 							console.log("Error decoding message: " + e);
 							return;
@@ -974,8 +915,8 @@ function subscribeToPush(message_callback) {
 
 // success_callback(identity_key), error_callback(error_msg)
 function getKeysForNumber(number, success_callback, error_callback) {
-	doAjax({call: 'keys', httpType: 'GET', do_auth: true, urlParameters: "/" + getNumberFromString(number) + "?multikeys",
-		success_callback: function(response) {
+  API.getKeysForNumber(number,
+		function(response) {
 			for (var i = 0; i < response.length; i++) {
 				try {
 					saveDeviceObject({
@@ -990,10 +931,9 @@ function getKeysForNumber(number, success_callback, error_callback) {
 				}
 			}
 			success_callback(response[0].identityKey);
-		}, error_callback: function(code) {
+		}, function(code) {
 			error_callback("Error making HTTP request: " + code);
-		}
-	});
+		});
 }
 
 // success_callback(server success/failure map), error_callback(error_msg)
@@ -1011,8 +951,8 @@ function sendMessageToDevices(deviceObjectList, message, success_callback, error
 		};
 //TODO: need to encrypt with session key?
 	}
-	doAjax({call: 'messages', httpType: 'POST', do_auth: true, jsonData: jsonData,
-		success_callback: function(result) {
+  API.sendMessages(jsonData,
+		function(result) {
 			if (result.missingDeviceIds.length > 0) {
 				var responsesLeft = result.missingDeviceIds.length;
 				var errorThrown = 0;
@@ -1030,10 +970,10 @@ function sendMessageToDevices(deviceObjectList, message, success_callback, error
 			} else {
 				success_callback(result);
 			}
-		}, error_callback: function(code) {
+		}, function(code) {
 			error_callback("Failed to conect to data channel: " + code);
 		}
-	});
+	);
 }
 
 // success_callback(success/failure map, see second-to-last line), error_callback(error_msg)
