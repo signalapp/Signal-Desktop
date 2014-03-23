@@ -99,6 +99,11 @@ var API	= new function() {
 	};
 
 	this.registerKeys = function(keys, success_callback, error_callback) {
+		//TODO: Do this conversion somewhere else?
+		var identityKey = btoa(getString(keys.keys[0].identityKey));
+		for (var i = 0; i < keys.keys.length; i++)
+			keys.keys[i] = {keyId: i, publicKey: btoa(getString(keys.keys[i].publicKey)), identityKey: identityKey};
+		keys.lastResortKey = {keyId: keys.lastResortKey.keyId, publicKey: btoa(getString(keys.lastResortKey.publicKey)), identityKey: identityKey};
 		this.doAjax({
 			call				: 'keys',
 			httpType			: 'PUT',

@@ -58,7 +58,7 @@ $('#init-go').click(function() {
 		$('#verify4done').html('');
 		$('#verify').show();
 
-		API.confirmCode(code, number, password, signaling_key, single_device,
+		API.confirmCode($('#code').val(), number, password, signaling_key, single_device,
 			function(response) {
 				if (single_device)
 					response = 1;

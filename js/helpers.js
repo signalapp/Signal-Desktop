@@ -855,7 +855,7 @@ var crypto_tests = {};
 		if (identityKey === undefined)
 			crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", function(pubKey) { identityKeyCalculated(pubKey); });
 		else
-			identityKeyCalculated(pubKey);
+			identityKeyCalculated(identityKey);
 	}
 
 }( window.crypto = window.crypto || {}, jQuery ));
