@@ -11,11 +11,16 @@
 		<ul id="messages">
 		</ul>
 	</div>
-	<div id="send" style="display:none;"></div>
+	<div id="send" style="display:none;">
+		<form>
+			<input id="popup_send_numbers" />
+			<input id="popup_send_text" />
+			<a id="popup_send_button">Send</a>
+		</form>
+	</div>
 
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.js"></script>
-	<script type="text/javascript" src="js-deps/jquery.atmosphere.js"></script>
 	<script type="text/javascript" src="js-deps/core.js"></script>
 	<script type="text/javascript" src="js-deps/enc-base64.js"></script>
 	<script type="text/javascript" src="js-deps/cipher-core.js"></script>
@@ -30,7 +35,6 @@
 	<script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/api.js"></script>
-	<script type="text/javascript" src="js/fake_api.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>
 </body>
 </html>

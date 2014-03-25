@@ -41,10 +41,12 @@ registerOnLoadFunction(function() {
 					var sendDestinations = [conversation[0].sender];
 					for (var j = 0; j < conversation[0].destinations.length; j++)
 						sendDestinations[sendDestinations.length] = conversation[0].destinations[j];
-					sendMessageToNumbers(sendDestinations, { message: $('#text' + i).val() }, function(result) {
-						console.log("Sent message: " + JSON.stringify(result));
-					}, function(error_msg) {
-						alert(error_msg); //TODO
+
+					var messageProto = new PushMessageContentProtobuf();
+					messageProto.body = $('#text' + i).val();
+
+					sendMessageToNumbers(sendDestinations, messageProto, function(result) {
+						console.log("Sent message: " + result);
 					});
 				});
 				ul.append('</li>');
@@ -59,5 +61,23 @@ registerOnLoadFunction(function() {
 		fillMessages();
 		storage.putUnencrypted("unreadCount", 0);
 		chrome.browserAction.setBadgeText({text: ""});
+
+		$("#popup_send_button").click(function() {
+			var numbers = [];
+			var splitString = $("#popup_send_numbers").val().split(",");
+			for (var i = 0; i < splitString.length; i++) {
+				try {
+					numbers.push(verifyNumber(splitString[i]));
+				} catch (numberError) {
+					//TODO
+					alert(numberError);
+				}
+			}
+			var messageProto = new PushMessageContentProtobuf();
+			messageProto.body = $("#popup_send_message").val();
+			sendMessageToNumbers(numbers, messageProto,
+				//TODO: Handle result
+				function(thing) {console.log(thing);});
+		});
 	}
 });

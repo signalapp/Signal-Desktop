@@ -7,8 +7,8 @@ var URL_CALLS = {};
 URL_CALLS['accounts']	= "/v1/accounts";
 URL_CALLS['devices']	= "/v1/devices";
 URL_CALLS['keys']		= "/v1/keys";
-URL_CALLS['push']		= "/v1/messagesocket";
-URL_CALLS['messages']	= "/v1/messages/";
+URL_CALLS['push']		= "/v1/websocket";
+URL_CALLS['messages']	= "/v1/messages";
 
 var API	= new function() {
 
@@ -119,16 +119,34 @@ var API	= new function() {
 			call				: 'keys',
 			httpType			: 'GET',
 			do_auth				: true,
-			urlParameters		: "/" + getNumberFromString(number) + "?multikeys",
-			success_callback	: success_callback,
+			urlParameters		: "/" + getNumberFromString(number) + "/*",
+			success_callback	: function(response) {
+				//TODO: Do this conversion somewhere else?
+				var res = response.keys;
+				for (var i = 0; i < res.length; i++) {
+					res[i].identityKey = base64DecToArr(res[i].identityKey);
+					res[i].publicKey = base64DecToArr(res[i].publicKey);
+					if (res[i].keyId === undefined)
+						res[i].keyId = 0;
+				}
+				success_callback(res);
+			},
 			error_callback		: error_callback
 		});
 	};
 
-	this.sendMessages = function(jsonData, success_callback, error_callback) {
+	this.sendMessages = function(destination, messageArray, success_callback, error_callback) {
+		//TODO: Do this conversion somewhere else?
+		for (var i = 0; i < messageArray.length; i++)
+			messageArray[i].body = btoa(messageArray[i].body);
+		var jsonData = { messages: messageArray };
+		if (messageArray[0].relay !== undefined)
+			jsonData.relay = messageArray[0].relay;
+		
 		this.doAjax({
 			call				: 'messages',
-			httpType			: 'POST',
+			httpType			: 'PUT',
+			urlParameters		: '/' + destination,
 			do_auth				: true,
 			jsonData			: jsonData,
 			success_callback	: success_callback,

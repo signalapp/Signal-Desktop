@@ -206,6 +206,11 @@ function getEncodedNumber(number) {
 		return number;
 }
 
+function verifyNumber(string) {
+	//TODO: fancy country-code guessing and number verification
+	return getEncodedNumber(string.trim());
+}
+
 function getDeviceId(encodedNumber) {
 	var split = encodedNumber.split(".");
 	if (split.length > 1)
@@ -865,51 +870,51 @@ var crypto_tests = {};
 function subscribeToPush(message_callback) {
 	var user = storage.getUnencrypted("number_id");
 	var password = storage.getEncrypted("password");
-	var request = { url: URL_BASE + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password),
-					method: 'GET',
-					fallbackMethod: 'GET',
-					transport: 'websocket',
-					fallbackTransport: 'websocket',
-					logLevel: 'debug', //TODO
-					trackMessageLength: false,
-					//data: "user=" + getString(user) + "&password=" + getString(password),
-					onOpen: function(response) {
-						console.log('Connected to server using ' + response.transport);
-					},
-					onMessage: function(response) {
-						try {
-							// Some bug in Atmosphere.js is forcing trackMessageLength to true
-							var message = JSON.parse(response.responseBody.split("|")[1]);
-						} catch (e) {
-							console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
-							return;
-						}
+	var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
+	var socket = new WebSocket(URL);
 
-						var proto;
-						try {
-							var plaintext = crypto.decryptWebsocketMessage(message.message);
-							var proto = decodeIncomingPushMessageProtobuf(plaintext);
-							// After this point, a) decoding errors are not the server's fault, and
-							// b) we should handle them gracefully and tell the user they received an invalid message
-							API.pushMessage(message.id);
-						} catch (e) {
-							console.log("Error decoding message: " + e);
-							return;
-						}
+	//TODO: GUI
+	socket.onerror = function(socketEvent) {
+		console.log('Server is down :(');
+		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
+	};
+	socket.onclose = function(socketEvent) {
+		console.log('Server closed :(');
+		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
+	};
+	socket.onopen = function(socketEvent) {
+		console.log('Connected to server!');
+	};
 
-						try {
-							crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
-								message_callback(decrypted);
-							}); // Decrypts/decodes/fills in fields/etc
-						} catch (e) {
-							//TODO: Tell the user decryption failed
-						}
-					},
-					onError: function(response) {
-						console.log('Server is down :(');
-						//TODO: GUI
-					}};
-	$.atmosphere.subscribe(request);
+	socket.onmessage = function(response) {
+		try {
+			// Some bug in Atmosphere.js is forcing trackMessageLength to true
+			var message = JSON.parse(response.responseBody.split("|")[1]);
+		} catch (e) {
+			console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
+			return;
+		}
+
+		var proto;
+		try {
+			var plaintext = crypto.decryptWebsocketMessage(message.message);
+			var proto = decodeIncomingPushMessageProtobuf(plaintext);
+			// After this point, a) decoding errors are not the server's fault, and
+			// b) we should handle them gracefully and tell the user they received an invalid message
+			API.pushMessage(message.id);
+		} catch (e) {
+			console.log("Error decoding message: " + e);
+			return;
+		}
+
+		try {
+			crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
+				message_callback(decrypted);
+			}); // Decrypts/decodes/fills in fields/etc
+		} catch (e) {
+			//TODO: Tell the user decryption failed
+		}
+	};
 }
 
 // success_callback(identity_key), error_callback(error_msg)
@@ -937,83 +942,98 @@ function getKeysForNumber(number, success_callback, error_callback) {
 
 // success_callback(server success/failure map), error_callback(error_msg)
 // message == PushMessageContentProto (NOT STRING)
-function sendMessageToDevices(deviceObjectList, message, success_callback, error_callback) {
+function sendMessageToDevices(number, deviceObjectList, message, success_callback, error_callback) {
 	var jsonData = [];
-	for (var i = 0; i < deviceObjectList.legnth; i++) {
-		var encryptedMsg = encryptMessageFor(deviceObjectList[i], message);
-		jsonData[jsonData.length] = {
-			type: encryptedMsg.type,
-			destination: deviceObjectList[i].encodedNumber,
-			body: encryptedMsg.body,
-			relay: deviceObjectList[i].relay,
-			timestamp: new Date().getTime()
-		};
-//TODO: need to encrypt with session key?
+	var relay = undefined;
+
+	var doSend = function() {
+		API.sendMessages(number, jsonData,
+			function(result) {
+				success_callback(result);
+			}, function(code) {
+				error_callback(code);
+			}
+		);
 	}
-	API.sendMessages(jsonData,
-		function(result) {
-			if (result.missingDeviceIds.length > 0) {
-				var responsesLeft = result.missingDeviceIds.length;
-				var errorThrown = 0;
-				for (var i = 0; i < result.missingDeviceIds.length; i++) {
-					getKeysForNumber(result.missingDeviceIds[i], function(identity_key) {
-							responsesLeft--;
-							if (responsesLeft == 0 && errorThrown == 0)
-								sendMessageToDevices(deviceObjectList, message, success_callback, error_callback);
-						}, function(error_msg) {
-							errorThrown++;
-							if (errorThrown == 1)
-								error_callback("Failed to retreive new device keys for number " + result.missingDeviceIds[i]);
-						});
+
+	var addEncryptionFor;
+	addEncryptionFor = function(i) {
+		crypto.encryptMessageFor(deviceObjectList[i], message, function(encryptedMsg) {
+			jsonData[i] = {
+				type: encryptedMsg.type,
+				destination: deviceObjectList[i].encodedNumber,
+				body: encryptedMsg.body,
+				timestamp: new Date().getTime()
+			};
+
+			if (deviceObjectList[i].relay !== undefined) {
+				jsonData[i].relay = deviceObjectList[i].relay;
+				if (relay === undefined)
+					relay = jsonData[i].relay;
+				else if (relay != jsonData[i].relay) {
+					error_callback("Mismatched relays for number " + number);
+					return;
 				}
 			} else {
-				success_callback(result);
+				if (relay === undefined)
+					relay = "";
+				else if (relay != "") {
+					error_callback("Mismatched relays for number " + number);
+					return;
+				}
 			}
-		}, function(code) {
-			error_callback("Failed to conect to data channel: " + code);
-		}
-	);
+
+			if (i+1 < deviceObjectList.length)
+				addEncryptionFor(i+1);
+			else
+				doSend();
+		});
+//TODO: need to encrypt with session key?
+	}
+	addEncryptionFor(0);
 }
 
-// success_callback(success/failure map, see second-to-last line), error_callback(error_msg)
-function sendMessageToNumbers(numbers, message, success_callback, error_callback) {
-	var deviceObjectList = [];
+// callback(success/failure map, see code)
+// message == PushMessageContentProto (NOT STRING)
+function sendMessageToNumbers(numbers, message, callback) {
+	var numbersCompleted = 0;
+	var errors = [];
+	var successfulNumbers = [];
 
-	var deviceDatasMissing = 0;
-	var loopDone = 0;
-	var errorThrown = 0;
+	var numberCompleted = function() {
+		numbersCompleted++;
+		if (numbersCompleted >= numbers.length)
+			callback({success: successfulNumbers, failure: errors});
+	}
+
+	var registerError = function(number, message) {
+		errors[errors.length] = { number: number, reason: message };
+		numberCompleted();
+	}
+
+	var doSendMessage = function(number, devicesForNumber, message) {
+		sendMessageToDevices(number, devicesForNumber, message, function(result) {
+			successfulNumbers[successfulNumbers.length] = number;
+			numberCompleted();
+		}, function(error_code) {
+			//TODO: Re-request keys for number here
+			if (error_code == 410 || error_code == 409) {}
+			registerError(number, message);
+		});
+	}
+
 	for (var i = 0; i < numbers.length; i++) {
 		var devicesForNumber = getDeviceObjectListFromNumber(numbers[i]);
-		for (var j = 0; j < devicesForNumber.length; j++)
-			deviceObjectList[deviceObjectList.length] = devicesForNumber[j];
 
 		if (devicesForNumber.length == 0) {
-			deviceDatasMissing++;
 			getKeysForNumber(numbers[i], function(identity_key) {
-					deviceDatasMissing--;
-					if (deviceDatasMissing == 0 && loopDone && errorThrown == 0)
-						sendMessageToNumbers(numbers, message, success_callback, error_callback);
+					doSendMessage(numbers[i], devicesForNumber, message);
 				}, function(error_msg) {
-					errorThrown++;
-					if (errorThrown == 1)
-						error_callback("Failed to retreive new device keys for number " + numbers[i]);
+					registerError(numbers[i], "Failed to retreive new device keys for number " + numbers[i]);
 				});
-		}
+		} else
+			doSendMessage(numbers[i], devicesForNumber, message);
 	}
-	if (deviceDatasMissing > 0 || errorThrown > 0) {
-		loopDone = 1;
-		return;
-	}
-	return sendMessageToDevices(deviceObjectList, message, function(result) {
-		var successNumbers = {};
-		var failureNumbers = {};
-		for (var i = 0; i < result.success; i++)
-			successNumbers[getNumberFromString(result.success[i])] = 1;
-		for (var i = 0; i < result.failure; i++)
-			failureNumbers[getNumberFromString(result.success[i])] = 1;
-
-		success_callback({success: successNumbers, failure: failureNumbers});
-	}, error_callback);
 }
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
