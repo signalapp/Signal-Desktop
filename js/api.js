@@ -1,8 +1,12 @@
 /************************************************
  *** Utilities to communicate with the server ***
  ************************************************/
+// WARNING: THIS SERVER LOGS KEY MATERIAL FOR TESTING
 var URL_BASE	= "http://sushiforeveryone.bluematt.me";
+
+// This is the real server
 //var URL_BASE	= "https://textsecure-service.whispersystems.org";
+
 var URL_CALLS = {};
 URL_CALLS['accounts']	= "/v1/accounts";
 URL_CALLS['devices']	= "/v1/devices";
@@ -151,15 +155,6 @@ var API	= new function() {
 			jsonData			: jsonData,
 			success_callback	: success_callback,
 			error_callback		: error_callback
-		});
-	};
-
-	this.pushMessage = function(messageId) {
-		this.doAjax({
-			call			: 'push',
-			httpType		: 'PUT',
-			urlParameters	: '/' + message.id,
-			do_auth			: true
 		});
 	};
 }(); // API

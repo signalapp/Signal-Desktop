@@ -74,7 +74,7 @@ registerOnLoadFunction(function() {
 				}
 			}
 			var messageProto = new PushMessageContentProtobuf();
-			messageProto.body = $("#popup_send_message").val();
+			messageProto.body = $("#popup_send_text").val();
 			sendMessageToNumbers(numbers, messageProto,
 				//TODO: Handle result
 				function(thing) {console.log(thing);});

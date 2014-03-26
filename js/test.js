@@ -104,8 +104,8 @@ registerOnLoadFunction(function() {
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
 		crypto.handleIncomingPushMessageProto(server_message, function(message) {
-			callback(message.body == text_message.body &&
-					message.attachments.length == text_message.attachments.length &&
+			callback(message.message.body == text_message.body &&
+					message.message.attachments.length == text_message.attachments.length &&
 					text_message.attachments.length == 0);
 		});
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
@@ -211,7 +211,7 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 			var b64 = base64EncArr(new Uint8Array(toArrayBuffer(v.aliceToBob)));
 			var thing = IncomingPushMessageProtobuf.decode(b64);
 			crypto.handleIncomingPushMessageProto(thing, function(decrypted_message) {
-				callback(decrypted_message.body == "Hi Bob!" && decrypted_message.attachments.length == 0);
+				callback(decrypted_message.message.body == "Hi Bob!" && decrypted_message.message.attachments.length == 0);
 			});
 		});
 	};

@@ -290,18 +290,17 @@ function getMessageMap() {
 	return storage.getEncrypted("messageMap", {});
 }
 
-function storeMessage(outgoingMessageSignal) {
+function storeMessage(messageObject) {
 	var messageMap = getMessageMap();
-	var conversation = messageMap[outgoingMessageSignal.source]; //TODO: Also support Group message IDs here
+	var conversation = messageMap[messageObject.pushMessage.source]; //TODO: Also support Group message IDs here
 	if (conversation === undefined) {
 		conversation = []
-		messageMap[outgoingMessageSignal.source] = conversation;
+		messageMap[messageObject.pushMessage.source] = conversation;
 	}
 
-	conversation[conversation.length] = { message:    getString(outgoingMessageSignal.message),
-										destinations: outgoingMessageSignal.destinations,
-										sender:       outgoingMessageSignal.source,
-										timestamp:    outgoingMessageSignal.timestamp.div(dcodeIO.Long.fromNumber(1000)).toNumber() };
+	conversation[conversation.length] = { message:    getString(messageObject.message.body),
+										sender:       messageObject.pushMessage.source,
+										timestamp:    messageObject.pushMessage.timestamp.div(dcodeIO.Long.fromNumber(1000)).toNumber() };
 	storage.putEncrypted("messageMap", messageMap);
 	chrome.runtime.sendMessage(conversation[conversation.length - 1]);
 }
@@ -756,17 +755,21 @@ var crypto_tests = {};
 	crypto.handleIncomingPushMessageProto = function(proto, callback) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
-			callback(decodePushMessageContentProtobuf(getString(proto.message)));
+			callback({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
 			break;
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			decryptWhisperMessage(proto.source, getString(proto.message), function(result) { callback(result); });
+			decryptWhisperMessage(proto.source, getString(proto.message), function(result) {
+				callback({message: result, pushMessage: proto});
+			});
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
-				throw "Bad version byte"; //TODO: I don't believe this actually happens on the wire
+				throw "Bad version byte";
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto, function() {
-				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) { callback(result); });
+				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) {
+					callback({message: result, pushMessage: proto});
+				});
 			});
 			break;
 		}
@@ -867,7 +870,12 @@ var crypto_tests = {};
 
 
 // message_callback(decoded_protobuf) (use decodeMessage(proto))
+var subscribeToPushMessageSemaphore = 1;
 function subscribeToPush(message_callback) {
+	if (subscribeToPushMessageSemaphore <= 0)
+		return;
+	subscribeToPushMessageSemaphore--;
+
 	var user = storage.getUnencrypted("number_id");
 	var password = storage.getEncrypted("password");
 	var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
@@ -876,10 +884,12 @@ function subscribeToPush(message_callback) {
 	//TODO: GUI
 	socket.onerror = function(socketEvent) {
 		console.log('Server is down :(');
+		subscribeToPushMessageSemaphore++;
 		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
 	};
 	socket.onclose = function(socketEvent) {
 		console.log('Server closed :(');
+		subscribeToPushMessageSemaphore++;
 		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
 	};
 	socket.onopen = function(socketEvent) {
@@ -888,8 +898,7 @@ function subscribeToPush(message_callback) {
 
 	socket.onmessage = function(response) {
 		try {
-			// Some bug in Atmosphere.js is forcing trackMessageLength to true
-			var message = JSON.parse(response.responseBody.split("|")[1]);
+			var message = JSON.parse(response.data);
 		} catch (e) {
 			console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
 			return;
@@ -901,7 +910,7 @@ function subscribeToPush(message_callback) {
 			var proto = decodeIncomingPushMessageProtobuf(plaintext);
 			// After this point, a) decoding errors are not the server's fault, and
 			// b) we should handle them gracefully and tell the user they received an invalid message
-			API.pushMessage(message.id);
+			socket.send(JSON.stringify({type: 1, id: message.id}));
 		} catch (e) {
 			console.log("Error decoding message: " + e);
 			return;
@@ -1023,16 +1032,21 @@ function sendMessageToNumbers(numbers, message, callback) {
 	}
 
 	for (var i = 0; i < numbers.length; i++) {
-		var devicesForNumber = getDeviceObjectListFromNumber(numbers[i]);
+		var number = numbers[i];
+		var devicesForNumber = getDeviceObjectListFromNumber(number);
 
 		if (devicesForNumber.length == 0) {
-			getKeysForNumber(numbers[i], function(identity_key) {
-					doSendMessage(numbers[i], devicesForNumber, message);
+			getKeysForNumber(number, function(identity_key) {
+					devicesForNumber = getDeviceObjectListFromNumber(number);
+					if (devicesForNumber.length == 0)
+						registerError(number, "Failed to retreive new device keys for number " + number);
+					else
+						doSendMessage(number, devicesForNumber, message);
 				}, function(error_msg) {
-					registerError(numbers[i], "Failed to retreive new device keys for number " + numbers[i]);
+					registerError(number, "Failed to retreive new device keys for number " + number);
 				});
 		} else
-			doSendMessage(numbers[i], devicesForNumber, message);
+			doSendMessage(number, devicesForNumber, message);
 	}
 }
 
