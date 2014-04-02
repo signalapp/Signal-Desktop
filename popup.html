@@ -1,22 +1,35 @@
 <html>
 <head>
+<link type='text/css' rel='stylesheet' href='popup.css'>
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
-	<div id="listener"></div>
-	<div id="log"></div>
-
-	<a id="inbox_link">Inbox</a>
-	<a id="send_link">Send</a>
-	<div id="inbox">
-		<ul id="messages">
-		</ul>
-	</div>
-	<div id="send" style="display:none;">
-		<form>
-			<input id="popup_send_numbers" />
-			<input id="popup_send_text" />
-			<a id="popup_send_button">Send</a>
-		</form>
+	<header class="clearfix">
+		<div class='container'>
+			<button id="inbox_link">Inbox</button>
+			<button id="send_link">Compose</button>
+		</div>
+	</header>
+	<div class='container'>
+		<div id="listener"></div>
+		<div id="log"></div>
+		<div id="inbox">
+			<ul id="messages">
+			</ul>
+		</div>
+		<div id="send" style="display:none;">
+			<form class="compose">
+				<input id="popup_send_numbers" type='text' placeholder="To">
+				<div class='contacts'>
+					<div id='me' class='contact'>
+						<span class='pic'></span>
+						<span class='name'>Me</span>
+						<span class='number my-number'></span>
+					</div>
+				</div>
+				<textarea id="popup_send_text"></textarea>
+				<button id="popup_send_button">Send</button>
+			</form>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
