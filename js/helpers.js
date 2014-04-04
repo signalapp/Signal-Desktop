@@ -881,19 +881,24 @@ function subscribeToPush(message_callback) {
 	var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
 	var socket = new WebSocket(URL);
 
+	var pingInterval;
+
 	//TODO: GUI
 	socket.onerror = function(socketEvent) {
 		console.log('Server is down :(');
+		clearInterval(pingInterval);
 		subscribeToPushMessageSemaphore++;
-		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
+		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
 	};
 	socket.onclose = function(socketEvent) {
 		console.log('Server closed :(');
+		clearInterval(pingInterval);
 		subscribeToPushMessageSemaphore++;
-		setTimeout(function() { subscribeToPush(message_callback); }, 1000);
+		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
 	};
 	socket.onopen = function(socketEvent) {
 		console.log('Connected to server!');
+		pingInterval = setInterval(function() { console.log("Sending server ping message."); socket.send(JSON.stringify({type: 2})); }, 30000);
 	};
 
 	socket.onmessage = function(response) {
@@ -904,24 +909,28 @@ function subscribeToPush(message_callback) {
 			return;
 		}
 
-		var proto;
-		try {
-			var plaintext = crypto.decryptWebsocketMessage(message.message);
-			var proto = decodeIncomingPushMessageProtobuf(plaintext);
-			// After this point, a) decoding errors are not the server's fault, and
-			// b) we should handle them gracefully and tell the user they received an invalid message
-			socket.send(JSON.stringify({type: 1, id: message.id}));
-		} catch (e) {
-			console.log("Error decoding message: " + e);
-			return;
-		}
+		if (message.type == 3) {
+			console.log("Got pong message");
+		} else if (message.type === undefined && message.id !== undefined) {
+			var proto;
+			try {
+				var plaintext = crypto.decryptWebsocketMessage(message.message);
+				var proto = decodeIncomingPushMessageProtobuf(plaintext);
+				// After this point, a) decoding errors are not the server's fault, and
+				// b) we should handle them gracefully and tell the user they received an invalid message
+				socket.send(JSON.stringify({type: 1, id: message.id}));
+			} catch (e) {
+				console.log("Error decoding message: " + e);
+				return;
+			}
 
-		try {
-			crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
-				message_callback(decrypted);
-			}); // Decrypts/decodes/fills in fields/etc
-		} catch (e) {
-			//TODO: Tell the user decryption failed
+			try {
+				crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
+					message_callback(decrypted);
+				}); // Decrypts/decodes/fills in fields/etc
+			} catch (e) {
+				//TODO: Tell the user decryption failed
+			}
 		}
 	};
 }
