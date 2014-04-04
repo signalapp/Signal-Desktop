@@ -918,6 +918,7 @@ function subscribeToPush(message_callback) {
 				var proto = decodeIncomingPushMessageProtobuf(plaintext);
 				// After this point, a) decoding errors are not the server's fault, and
 				// b) we should handle them gracefully and tell the user they received an invalid message
+				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
 			} catch (e) {
 				console.log("Error decoding message: " + e);
