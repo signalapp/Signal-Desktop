@@ -1,0 +1,91 @@
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }  
+.clearfix { zoom: 1; }  
+
+body {
+  margin: 0;
+  min-width: 300px;
+  min-height: 500px;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 0 1em;
+}
+
+header {
+  background-color: ccc;
+  padding: 5px 0;
+}
+
+form.compose {
+  position: relative;
+}
+
+label {
+  float: left;
+  margin-right: 1em;
+}
+
+input[type=text], textarea {
+  display: block;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  border-radius: 4px;
+  border: 1px solid #ddf;
+}
+
+textarea {
+  resize: vertical;
+  width: 100%;
+  min-height: 100px;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+#send input[type=submit] {
+  float: right;
+}
+
+#popup_send_numbers {
+  margin-bottom: 0;
+}
+
+#popup_send_numbers:focus + .contacts,
+.contacts:hover {
+  display: block;
+}
+
+.contacts {
+  display: none;
+  position: absolute;
+  left: 10px;
+}
+
+.contact {
+  border: solid 1px #ccc;
+  background: #fff;
+  font-size: 88%;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.contact .pic {
+  display: block;
+  float: left;
+  width: 30px;
+  height: 30px;
+  background: #ddd;
+}
+
+.contact .name, .contact .number {
+  line-height: 30px;
+  margin-left: 5px;
+}
+
+

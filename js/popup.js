@@ -59,8 +59,12 @@ registerOnLoadFunction(function() {
 				fillMessages();
 		});
 		fillMessages();
+		$('.my-number').text(storage.getUnencrypted("number_id").split(".")[0]);
 		storage.putUnencrypted("unreadCount", 0);
 		chrome.browserAction.setBadgeText({text: ""});
+		$("#me").click(function() {
+			$('#popup_send_numbers').val($('.my-number').text());
+		});
 
 		$("#popup_send_button").click(function() {
 			var numbers = [];
