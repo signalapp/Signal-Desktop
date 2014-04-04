@@ -13,6 +13,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* START CRAP TO BE DELETED */
 //TODO: Stolen from MDN (copyright...)
 function b64ToUint6 (nChr) {
 
@@ -88,11 +89,22 @@ function base64EncArr (aBytes) {
 
 }
 
+/* END CRAP TO BE DELETED */
+
 var USE_NACL = false;
 
 /*********************************
  *** Type conversion utilities ***
  *********************************/
+function intToArrayBuffer(nInt) {
+	return new ArrayBuffer([
+		(nInt >> 24) && 0xFF,
+		(nInt >> 16) && 0xFF,
+		(nInt >> 8)  && 0xFF,
+		nInt && 0xFF
+	]);
+}
+
 // Strings/arrays
 //TODO: Throw all this shit in favor of consistent types
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
@@ -543,24 +555,17 @@ var crypto_tests = {};
 	}
 	var ECDHE = function(pubKey, privKey, callback) { return crypto_tests.ECDHE(pubKey, privKey, callback); }
 
-	var HMACSHA256 = function(input, key) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.HmacSHA256(
-				CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
-				CryptoJS.enc.Latin1.parse(getString(key)))
-			.toString(CryptoJS.enc.Latin1);
-	}
-
 	crypto_tests.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
-		var PRK = HMACSHA256(input, salt);
-
-		var infoString = getString(info);
-		// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
-		var T1 = HMACSHA256(infoString + String.fromCharCode(0), PRK);
-		var T2 = HMACSHA256(getString(T1) + infoString + String.fromCharCode(1), PRK);
-
-		return [ T1, T2 ];
+		return HmacSHA256(salt, input).then(function(PRK) {
+			var infoString = getString(info);
+			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
+			return HmacSHA256(PRK, infoString + String.fromCharCode(0)).then(function(T1) {
+				return HmacSHA256(PRK, getString(T1) + infoString + String.fromCharCode(1)).then(function(T2) {
+					return [ T1, T2 ];
+				});
+			});
+		});
 	}
 
 	var HKDF = function(input, salt, info) {
@@ -580,48 +585,23 @@ var crypto_tests = {};
 		return crypto_tests.HKDF(input, salt, info);
 	}
 
-	var decryptPaddedAES = function(ciphertext, key, iv) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
-			.toString(CryptoJS.enc.Latin1);
-	}
-
-	var decryptAESCTR = function(ciphertext, key, counter) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		var iv = String.fromCharCode(counter & 0xff000000) + String.fromCharCode(counter & 0xff0000) + String.fromCharCode(counter & 0xff00) + String.fromCharCode(counter & 0xff);
-		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(iv), padding: CryptoJS.pad.NoPadding})
-			.toString(CryptoJS.enc.Latin1);
-	}
-
-	var encryptAESCTR = function(plaintext, key, counter) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		var iv = String.fromCharCode(counter & 0xff000000) + String.fromCharCode(counter & 0xff0000) + String.fromCharCode(counter & 0xff00) + String.fromCharCode(counter & 0xff);
-		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(iv), padding: CryptoJS.pad.NoPadding})
-			.ciphertext.toString(CryptoJS.enc.Latin1);
-	}
-
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		if (version === undefined)
 			version = 1;
 
-		var calculated_mac = HMACSHA256(String.fromCharCode(version) + getString(data), key);
-		var macString = getString(mac);
+		HmacSHA256(key, String.fromCharCode(version) + getString(data)).then(function(calculated_mac) {
+			var macString = getString(mac);
 
-		if (calculated_mac.substring(0, macString.length) != macString)
-			throw new Error("Bad MAC");
+			if (calculated_mac.substring(0, macString.length) != macString)
+				throw new Error("Bad MAC");
+		});
 	}
 
 	var calculateMACWithVersionByte = function(data, key, version) {
 		if (version === undefined)
 			version = 1;
 
-		return HMACSHA256(String.fromCharCode(version) + getString(data), key);
+		return HmacSHA256(key, String.fromCharCode(version) + getString(data));
 	}
 
 	/******************************
@@ -631,13 +611,14 @@ var crypto_tests = {};
 		var ratchet = session.currentRatchet;
 
 		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
-			if (sending)
-				session[getString(ratchet.ephemeralKeyPair.pubKey)]	= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
-			else
-				session[getString(remoteKey)]						= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
-			ratchet.rootKey = masterKey[0];
-			callback();
+			HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet").then(function(masterKey) {
+				if (sending)
+					session[getString(ratchet.ephemeralKeyPair.pubKey)]	= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+				else
+					session[getString(remoteKey)]						= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+				ratchet.rootKey = masterKey[0];
+				callback();
+			});
 		});
 	}
 
@@ -651,27 +632,28 @@ var crypto_tests = {};
 			function finishInit() {
 				ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey, function(ecRes) {
 					sharedSecret += getString(ecRes);
-					var masterKey = HKDF(sharedSecret, '', "WhisperText");
 
-					var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
-									oldRatchetList: []
-								};
+					HKDF(sharedSecret, '', "WhisperText").then(function(masterKey) {
+						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
+										oldRatchetList: []
+									};
 
-					// If we're initiating we go ahead and set our first sending ephemeral key now,
-					// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
-					if (isInitiator) {
-						createNewKeyPair(false, function(ourSendingEphemeralKey) {
-							session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
-							calculateRatchet(session, theirEphemeralPubKey, true, function() {
-								crypto_storage.saveSession(encodedNumber, session);
-								callback();
+						// If we're initiating we go ahead and set our first sending ephemeral key now,
+						// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
+						if (isInitiator) {
+							createNewKeyPair(false, function(ourSendingEphemeralKey) {
+								session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
+								calculateRatchet(session, theirEphemeralPubKey, true, function() {
+									crypto_storage.saveSession(encodedNumber, session);
+									callback();
+								});
 							});
-						});
-					} else {
-						session.currentRatchet.ephemeralKeyPair = ourEphemeralKey;
-						crypto_storage.saveSession(encodedNumber, session);
-						callback();
-					}
+						} else {
+							session.currentRatchet.ephemeralKeyPair = ourEphemeralKey;
+							crypto_storage.saveSession(encodedNumber, session);
+							callback();
+						}
+					});
 				});
 			}
 
@@ -707,16 +689,20 @@ var crypto_tests = {};
 
 	var fillMessageKeys = function(chain, counter) {
 		if (chain.chainKey.counter + 1000 < counter) //TODO: maybe 1000 is too low/high in some cases?
-			return; // Stalker, much?
+			return new Promise(function(resolve) { resolve() }); // Stalker, much?
 
-		var messageKeys = chain.messageKeys;
-		var key = chain.chainKey.key;
-		for (var i = chain.chainKey.counter; i < counter; i++) {
-			messageKeys[i + 1] = HMACSHA256(String.fromCharCode(1), key);
-			key = HMACSHA256(String.fromCharCode(2), key);
+		if (chain.chainKey.counter < counter) {
+			return HmacSHA256(chain.chainKey.key, String.fromCharCode(1)).then(function(mac) {
+				HmacSHA256(chain.chainKey.key, String.fromCharCode(2)).then(function(key) {
+					chain.messageKeys[chain.chainKey.counter + 1] = mac;
+					chain.chainKey.key = key
+					chain.chainKey.counter += 1;
+					fillMessageKeys(chain, counter);//XXX: return?
+				});
+			});
+		} else {
+			return new Promise(function(resolve) { resolve() });
 		}
-		chain.chainKey.key = key;
-		chain.chainKey.counter = counter;
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
@@ -727,34 +713,39 @@ var crypto_tests = {};
 
 		var ratchet = session.currentRatchet;
 
-		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
-		if (previousRatchet !== undefined) {
-			fillMessageKeys(previousRatchet, previousCounter);
-			if (!objectContainsKeys(previousRatchet.messageKeys))
-				delete session[getString(ratchet.lastRemoteEphemeralKey)];
-			else
-				session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
-		}
+		var finish = function() {
+			calculateRatchet(session, remoteKey, false, function() {
+				// Now swap the ephemeral key and calculate the new sending chain
+				var previousRatchet = getString(ratchet.ephemeralKeyPair.pubKey);
+				if (session[previousRatchet] !== undefined) {
+					ratchet.previousCounter = session[previousRatchet].chainKey.counter;
+					delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+				} else
+					// TODO: This is just an idiosyncrasy upstream, which we match for testing
+					// it should be changed upstream to something more reasonable.
+					ratchet.previousCounter = 4294967295;
 
-		calculateRatchet(session, remoteKey, false, function() {
-			// Now swap the ephemeral key and calculate the new sending chain
-			var previousRatchet = getString(ratchet.ephemeralKeyPair.pubKey);
-			if (session[previousRatchet] !== undefined) {
-				ratchet.previousCounter = session[previousRatchet].chainKey.counter;
-				delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
-			} else
-				// TODO: This is just an idiosyncrasy upstream, which we match for testing
-				// it should be changed upstream to something more reasonable.
-				ratchet.previousCounter = 4294967295;
-
-			createNewKeyPair(false, function(keyPair) {
-				ratchet.ephemeralKeyPair = keyPair;
-				calculateRatchet(session, remoteKey, true, function() {
-					ratchet.lastRemoteEphemeralKey = remoteKey;
-					callback();
+				createNewKeyPair(false, function(keyPair) {
+					ratchet.ephemeralKeyPair = keyPair;
+					calculateRatchet(session, remoteKey, true, function() {
+						ratchet.lastRemoteEphemeralKey = remoteKey;
+						callback();
+					});
 				});
 			});
-		});
+		}
+
+		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
+		if (previousRatchet !== undefined) {
+			fillMessageKeys(previousRatchet, previousCounter).then(function() {
+				if (!objectContainsKeys(previousRatchet.messageKeys))
+					delete session[getString(ratchet.lastRemoteEphemeralKey)];
+				else
+					session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+				finish();
+			});
+		} else
+			finish();
 	}
 
 	// returns decrypted protobuf
@@ -774,18 +765,22 @@ var crypto_tests = {};
 		maybeStepRatchet(session, message.ephemeralKey, message.previousCounter, function() {
 			var chain = session[getString(message.ephemeralKey)];
 
-			fillMessageKeys(chain, message.counter);
-			var keys = HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys");
-			delete chain.messageKeys[message.counter];
+			fillMessageKeys(chain, message.counter).then(function() {
+				HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys").then(function(keys) {
+					delete chain.messageKeys[message.counter];
 
-			verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
+					verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
+					var iv = getString(intToArrayBuffer(message.counter));
+					decryptAESCTR(message.ciphertext, keys[0], iv).then(function(plaintext) {
 
-			//TODO: removeOldChains(session);
-			delete session['pendingPreKey'];
+						//TODO: removeOldChains(session);
+						delete session['pendingPreKey'];
 
-			crypto_storage.saveSession(encodedNumber, session);
-			callback(decodePushMessageContentProtobuf(plaintext));
+						crypto_storage.saveSession(encodedNumber, session);
+						callback(decodePushMessageContentProtobuf(plaintext));
+					});
+				});
+			});
 		});
 	}
 
@@ -809,7 +804,7 @@ var crypto_tests = {};
 
 		verifyMACWithVersionByte(ivAndCipherText, mac_key, mac);
 
-		return decryptPaddedAES(ciphertext, aes_key, iv);
+		return decryptAESCBC(ciphertext, aes_key, iv);
 	}
 
 	crypto.handleIncomingPushMessageProto = function(proto, callback) {
@@ -846,21 +841,26 @@ var crypto_tests = {};
 			msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
 			var chain = session[getString(msg.ephemeralKey)];
 
-			fillMessageKeys(chain, chain.chainKey.counter + 1);
-			var keys = HKDF(chain.messageKeys[chain.chainKey.counter], '', "WhisperMessageKeys");
+			fillMessageKeys(chain, chain.counter + 1).then(function() {
+				HKDF(chain.messageKeys[chain.chainKey.counter], '', "WhisperMessageKeys").then(function(keys) {
+					delete chain.messageKeys[chain.chainKey.counter];
+					msg.counter = chain.chainKey.counter;
+					msg.previousCounter = session.currentRatchet.previousCounter;
 
-			delete chain.messageKeys[chain.chainKey.counter];
-			msg.counter = chain.chainKey.counter;
-			msg.previousCounter = session.currentRatchet.previousCounter;
+					var iv = intToArrayBuffer(chain.counter);
+					encryptAESCTR(plaintext, keys[0], iv).then(function(ciphertext) {
+						msg.ciphertext = ciphertext;
+						var encodedMsg = getString(msg.encode());
 
-			msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.chainKey.counter));
-			var encodedMsg = getString(msg.encode());
+						calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
+							var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
 
-			var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
-			var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
-
-			crypto_storage.saveSession(deviceObject.encodedNumber, session);
-			callback(result);
+							crypto_storage.saveSession(deviceObject.encodedNumber, session);
+							callback(result);
+						});
+					});
+				});
+			});
 		}
 
 		var preKeyMsg = new PreKeyWhisperMessageProtobuf();
@@ -979,27 +979,19 @@ function subscribeToPush(message_callback) {
 		if (message.type == 3) {
 			console.log("Got pong message");
 		} else if (message.type === undefined && message.id !== undefined) {
-			var proto;
-			try {
-				var plaintext = crypto.decryptWebsocketMessage(message.message);
+			crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
 				var proto = decodeIncomingPushMessageProtobuf(plaintext);
 				// After this point, a) decoding errors are not the server's fault, and
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
-			} catch (e) {
-				console.log("Error decoding message: " + e);
-				return;
-			}
-
-			try {
 				crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
 					storeMessage(decrypted);
 					message_callback(decrypted);
 				}); // Decrypts/decodes/fills in fields/etc
-			} catch (e) {
-				//TODO: Tell the user decryption failed
-			}
+			}).catch(function(e) {
+				console.log("Error decoding message: " + e);
+			});
 		}
 	};
 }
