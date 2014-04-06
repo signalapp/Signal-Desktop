@@ -177,10 +177,11 @@ registerOnLoadFunction(function() {
 		for (var i = 0; i < 10; i++)
 			info[i] = 240 + i;
 
-		var OKM = crypto_tests.HKDF(IKM, salt, info);
-		var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
-		var T2 = hexToArrayBuffer("34007208d5b887185865");
-		callback(getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
+		crypto_tests.HKDF(IKM, salt, info).then(function(OKM){
+			var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
+			var T2 = hexToArrayBuffer("34007208d5b887185865");
+			callback(getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
+		}, console.log);
 	}, "HMAC RFC5869 Test vectors");*/
 
 

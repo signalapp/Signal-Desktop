@@ -538,14 +538,15 @@ var crypto_tests = {};
 
 	crypto_tests.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
-		var PRK = HMACSHA256(input, salt);
-
-		var infoString = getString(info);
-		// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
-		var T1 = HMACSHA256(infoString + String.fromCharCode(0), PRK);
-		var T2 = HMACSHA256(getString(T1) + infoString + String.fromCharCode(1), PRK);
-
-		return [ T1, T2 ];
+		return window.crypto.subtle.sign(alg_hmacsha256, salt, input).then(function(PRK) {
+			var infoString = getString(info);
+			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
+			return window.crypto.subtle.sign(alg_hmacsha256, PRK, infoString + String.fromCharCode(0)).then(function(T1) {
+				return window.crypto.subtle.sign(alg_hmacsha256, PRK, getString(T1) + infoString + String.fromCharCode(1)).then(function(T2) {
+					return [ T1, T2 ];
+				});
+			});
+		});
 	}
 
 	var HKDF = function(input, salt, info) {
@@ -620,18 +621,19 @@ var crypto_tests = {};
 			function finishInit() {
 				ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey, function(ecRes) {
 					sharedSecret += getString(ecRes);
-					var masterKey = HKDF(sharedSecret, '', "WhisperText");
+					HKDF(sharedSecret, '', "WhisperText").then(function(masterKey) {
 
-					var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourEphemeralKey,
-														lastRemoteEphemeralKey: theirEphemeralPubKey },
-									oldRatchetList: []
-								};
-					session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: masterKey[1] } };
-					// This isnt an actual ratchet, its just here to make maybeStepRatchet work
-					session[getString(theirEphemeralPubKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
-					crypto_storage.saveSession(encodedNumber, session);
+						var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourEphemeralKey,
+															lastRemoteEphemeralKey: theirEphemeralPubKey },
+										oldRatchetList: []
+									};
+						session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: masterKey[1] } };
+						// This isnt an actual ratchet, its just here to make maybeStepRatchet work
+						session[getString(theirEphemeralPubKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
+						crypto_storage.saveSession(encodedNumber, session);
 
-					callback();
+						callback();
+					});
 				});
 			}
 
@@ -690,19 +692,21 @@ var crypto_tests = {};
 		delete session[ratchet.ephemeralKeyPair.pubKey];
 
 		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
-			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+			HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet").then(function(masterKey) {
+				session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
 			createNewKeyPair(false, function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
 
-				ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-					masterKey = HKDF(sharedSecret, masterKey[0], "WhisperRatchet");
-					ratchet.rootKey = masterKey[0];
-					session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+					ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+						HKDF(sharedSecret, masterKey[0], "WhisperRatchet").then(function(masterKey) {
+							ratchet.rootKey = masterKey[0];
+							session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
-					ratchet.lastRemoteEphemeralKey = remoteKey;
-					callback();
+							ratchet.lastRemoteEphemeralKey = remoteKey;
+							callback();
+						});
+					});
 				});
 			});
 		});
@@ -726,16 +730,17 @@ var crypto_tests = {};
 			var chain = session[getString(message.ephemeralKey)];
 
 			fillMessageKeys(chain, message.counter);
-			var keys = HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys");
-			delete chain.messageKeys[message.counter];
+			HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys").then(function(keys) {
+				delete chain.messageKeys[message.counter];
 
-			verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
+				verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
+				var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 
-			//TODO: removeOldChains(session);
+				//TODO: removeOldChains(session);
 
-			crypto_storage.saveSession(encodedNumber, session);
-			callback(decodePushMessageContentProtobuf(plaintext));
+				crypto_storage.saveSession(encodedNumber, session);
+				callback(decodePushMessageContentProtobuf(plaintext));
+			});
 		});
 	}
 
@@ -797,21 +802,22 @@ var crypto_tests = {};
 			var chain = session[getString(msg.ephemeralKey)];
 
 			fillMessageKeys(chain, chain.counter + 1);
-			var keys = HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys");
-			delete chain.messageKeys[chain.counter];
-			msg.counter = chain.counter;
+			HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys").then(function(keys) {
+				delete chain.messageKeys[chain.counter];
+				msg.counter = chain.counter;
 
-			//TODO
-			msg.previousCounter = 1;
+				//TODO
+				msg.previousCounter = 1;
 
-			msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
-			var encodedMsg = getString(msg.encode());
+				msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
+				var encodedMsg = getString(msg.encode());
 
-			var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
-			var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
+				var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
+				var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
 
-			crypto_storage.saveSession(deviceObject.encodedNumber, session);
-			callback(result);
+				crypto_storage.saveSession(deviceObject.encodedNumber, session);
+				callback(result);
+			});
 		}
 
 		if (session === undefined) {

@@ -1,3 +1,4 @@
+var alg_hmacsha256 = {name: "HMAC", hash: "SHA-256"};
 window.crypto.subtle = (function() {
 	if (window.crypto.subtle !== undefined && window.crypto.subtle !== null) {
 			return window.crypto.subtle;
@@ -48,7 +49,7 @@ window.crypto.subtle = (function() {
 			}
 		};
 		function sign(algorithm, key, data) {
-			if (algorithm.name === "HMAC" && algorithm.hash === "SHA256") {
+			if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256") {
 				return promise(HmacSHA256, data, key);
 			}
 		};
