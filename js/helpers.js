@@ -528,14 +528,6 @@ var crypto_tests = {};
 	}
 	var ECDHE = function(pubKey, privKey, callback) { return crypto_tests.ECDHE(pubKey, privKey, callback); }
 
-	var HMACSHA256 = function(input, key) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.HmacSHA256(
-				CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
-				CryptoJS.enc.Latin1.parse(getString(key)))
-			.toString(CryptoJS.enc.Latin1);
-	}
-
 	crypto_tests.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
 		return window.crypto.subtle.sign(alg_hmacsha256, salt, input).then(function(PRK) {
