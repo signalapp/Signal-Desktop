@@ -47,8 +47,9 @@ registerOnLoadFunction(function() {
 					).appendTo(ul);
 				$('#button' + i).click(function() {
 					var sendDestinations = [conversation[0].sender];
-					for (var j = 0; j < conversation[0].destinations.length; j++)
-						sendDestinations[sendDestinations.length] = conversation[0].destinations[j];
+					if (conversation[0].group) {
+							sendDestinations = conversation[0].group.members;
+					}
 
 					var messageProto = new PushMessageContentProtobuf();
 					messageProto.body = $('#text' + i).val();
