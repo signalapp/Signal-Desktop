@@ -594,11 +594,12 @@ var crypto_tests = {};
 		if (version === undefined)
 			version = 1;
 
-		var calculated_mac = HMACSHA256(String.fromCharCode(version) + getString(data), key);
-		var macString = getString(mac);
+		window.crypto.subtle.sign(alg_hmacsha256, key, String.fromCharCode(version) + getString(data)).then(function(calculated_mac) {
+			var macString = getString(mac);
 
-		if (calculated_mac.substring(0, macString.length) != macString)
-			throw "Bad MAC";
+			if (calculated_mac.substring(0, macString.length) != macString)
+				throw "Bad MAC";
+		});
 	}
 
 	var calculateMACWithVersionByte = function(data, key, version) {
