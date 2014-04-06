@@ -26,21 +26,30 @@ registerOnLoadFunction(function() {
 
 			conversations.sort(function(a, b) { return b[0].timestamp - a[0].timestamp });
 
-			var ul = $('#messages');
+			var ul = $('#conversations');
 			ul.html('');
 			for (var i = 0; i < MAX_CONVERSATIONS && i < conversations.length; i++) {
 				var conversation = conversations[i];
-				ul.append('<li>');
+				var messages = $('<ul class="conversation">');
 				for (var j = 0; j < MAX_MESSAGES_PER_CONVERSATION && j < conversation.length; j++) {
 					var message = conversation[j];
-					ul.append("From: " + message.sender + ", at: " + timestampToHumanReadable(message.timestamp) + "<br>");
-					ul.append("Message: " + message.message + "<br><br>");
+					$('<li class="message incoming">').
+						append($('<div class="avatar">')).
+						append($('<div class="bubble">').
+							append($('<span class="message-text">').text(message.message)).
+							append($('<span class="metadata">').text("From: " + message.sender + ", at: " + timestampToHumanReadable(message.timestamp)))
+						).appendTo(messages);
 				}
-				ul.append("<input type='text' id=text" + i + " /><button id=button" + i + ">Send</button><br>");
+				$('<li>').
+					append(messages).
+					append($("<form class='container'>").
+						append("<input type='text' id=text" + i + " /><button id=button" + i + ">Send</button><br>")
+					).appendTo(ul);
 				$('#button' + i).click(function() {
 					var sendDestinations = [conversation[0].sender];
-					for (var j = 0; j < conversation[0].destinations.length; j++)
-						sendDestinations[sendDestinations.length] = conversation[0].destinations[j];
+					if (conversation[0].group) {
+							sendDestinations = conversation[0].group.members;
+					}
 
 					var messageProto = new PushMessageContentProtobuf();
 					messageProto.body = $('#text' + i).val();
@@ -49,7 +58,6 @@ registerOnLoadFunction(function() {
 						console.log("Sent message: " + result);
 					});
 				});
-				ul.append('</li>');
 			}
 		}
 

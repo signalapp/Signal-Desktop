@@ -12,10 +12,6 @@
 	<div class='container'>
 		<div id="listener"></div>
 		<div id="log"></div>
-		<div id="inbox">
-			<ul id="messages">
-			</ul>
-		</div>
 		<div id="send" style="display:none;">
 			<form class="compose" action="#">
 				<input id="popup_send_numbers" type='text' placeholder="To">
@@ -30,6 +26,10 @@
 				<button id="popup_send_button">Send</button>
 			</form>
 		</div>
+	</div>
+	<div id="inbox">
+		<ul id="conversations">
+		</ul>
 	</div>
 
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>

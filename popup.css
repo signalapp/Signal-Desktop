@@ -88,4 +88,126 @@ textarea {
   margin-left: 5px;
 }
 
+ul {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+
+/* TS styles */
+.conversation {
+  background-color: #eeeeee;
+}
+
+.bubble {
+  background-color: #fafafa;
+  color: #333333;
+}
+
+.metadata {
+  color: #cccccc;
+}
+
+.incoming .bubble {
+  background-color: #ffffff;
+}
+
+.sending .bubble {
+  opacity: 0.7;
+}
+
+/* Style variants */
+.blue-background {
+  background: #3a7ef2;
+}
+
+/* Formatting */
+.message-text {
+  display: block;
+  padding: 0.5em 0.6em 0em;
+}
+
+.metadata {
+  display: block;
+  font-size: 0.70em;
+  padding: 0.2em 0.6em;
+}
+
+.conversation {
+  font-family: sans-serif;
+  line-height: 1.2em;
+}
+
+.avatar {
+  display: inline-block;
+  background-color: #d0d0da;
+  width: 36px;
+  height: 36px;
+  border-radius: 36px;
+  float: left;
+}
+
+.bubble {
+  position: relative;
+  border-radius: 4.36364px;
+  max-width: 75%;
+  border-bottom: 2.25px solid #dddddd;
+}
+
+.incoming .bubble {
+  float: left;
+}
+.incoming .bubble:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 11px;
+  left: -0.8em;
+  border-right: solid 0.5em #ffffff;
+  border-top: solid 7px transparent;
+  border-left: solid 0.4em transparent;
+  border-bottom: solid 7px transparent;
+}
+
+.outgoing .bubble {
+  float: right;
+}
+.outgoing .bubble:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 11px;
+  right: -0.8em;
+  border-left: solid 0.5em #ffffff;
+  border-top: solid 7px transparent;
+  border-right: solid 0.4em transparent;
+  border-bottom: solid 7px transparent;
+}
+
+.outgoing .bubble, .outgoing .metadata {
+  text-align: right;
+}
+
+.message {
+  padding: 0.3em 11.63636px;
+}
+
+.message:after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+/* debug styles */
+/*
+.conversation { border: 1px solid red; }
+.message { border: 1px solid blue; }
+*/
 
