@@ -606,7 +606,7 @@ var crypto_tests = {};
 		if (version === undefined)
 			version = 1;
 
-		return HMACSHA256(String.fromCharCode(version) + getString(data), key);
+		return window.crypto.subtle.sign(alg_hmacsha256, key, String.fromCharCode(version) + getString(data));
 	}
 
 	/******************************
@@ -813,11 +813,12 @@ var crypto_tests = {};
 				msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
 				var encodedMsg = getString(msg.encode());
 
-				var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
-				var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
+				calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
+					var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
 
-				crypto_storage.saveSession(deviceObject.encodedNumber, session);
-				callback(result);
+					crypto_storage.saveSession(deviceObject.encodedNumber, session);
+					callback(result);
+				});
 			});
 		}
 
