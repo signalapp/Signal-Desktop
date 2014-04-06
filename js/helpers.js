@@ -665,14 +665,19 @@ var crypto_tests = {};
 	}
 
 	var fillMessageKeys = function(chain, counter) {
-		var messageKeys = chain.messageKeys;
-		var key = chain.chainKey.key;
-		for (var i = chain.chainKey.counter; i < counter; i++) {
-			messageKeys[i + 1] = HMACSHA256(String.fromCharCode(1), key);
-			key = HMACSHA256(String.fromCharCode(2), key);
+		if (chain.chainKey.counter < counter) {
+			return window.crypto.subtle.sign(alg_hmacsha256, chain.chainKey.key, String.fromCharCode(1)).then(function(mac) {
+				window.crypto.subtle.sign(alg_hmacsha256, chain.chainKey.key, String.fromCharCode(2)).then(function(key) {
+					chain.messageKeys[chain.chainKey.counter + 1] = mac;
+					chain.chainKey.key = key
+					chain.chainKey.counter += 1;
+					fillMessageKeys(chain, counter);
+				});
+			});
+		} else {
+			// an empty promise is a promise to do nothing.
+			return new Promise(function(resolve){resolve()});
 		}
-		chain.chainKey.key = key;
-		chain.chainKey.counter = counter;
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
@@ -684,28 +689,29 @@ var crypto_tests = {};
 		var ratchet = session.currentRatchet;
 
 		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
-		fillMessageKeys(previousRatchet, previousCounter);
-		if (!objectContainsKeys(previousRatchet.messageKeys))
-			delete session[getString(ratchet.lastRemoteEphemeralKey)];
-		else
-			session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+		fillMessageKeys(previousRatchet, previousCounter).then(function() {
+			if (!objectContainsKeys(previousRatchet.messageKeys))
+				delete session[getString(ratchet.lastRemoteEphemeralKey)];
+			else
+				session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
 
-		delete session[ratchet.ephemeralKeyPair.pubKey];
+			delete session[ratchet.ephemeralKeyPair.pubKey];
 
-		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-			HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet").then(function(masterKey) {
-				session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+			ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+				HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet").then(function(masterKey) {
+					session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
-			createNewKeyPair(false, function(keyPair) {
-				ratchet.ephemeralKeyPair = keyPair;
+					createNewKeyPair(false, function(keyPair) {
+						ratchet.ephemeralKeyPair = keyPair;
 
-					ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-						HKDF(sharedSecret, masterKey[0], "WhisperRatchet").then(function(masterKey) {
-							ratchet.rootKey = masterKey[0];
-							session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+						ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+							HKDF(sharedSecret, masterKey[0], "WhisperRatchet").then(function(masterKey) {
+								ratchet.rootKey = masterKey[0];
+								session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
-							ratchet.lastRemoteEphemeralKey = remoteKey;
-							callback();
+								ratchet.lastRemoteEphemeralKey = remoteKey;
+								callback();
+							});
 						});
 					});
 				});
@@ -730,17 +736,18 @@ var crypto_tests = {};
 		maybeStepRatchet(session, message.ephemeralKey, message.previousCounter, function() {
 			var chain = session[getString(message.ephemeralKey)];
 
-			fillMessageKeys(chain, message.counter);
-			HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys").then(function(keys) {
-				delete chain.messageKeys[message.counter];
+			fillMessageKeys(chain, message.counter).then(function() {
+				HKDF(chain.messageKeys[message.counter], '', "WhisperMessageKeys").then(function(keys) {
+					delete chain.messageKeys[message.counter];
 
-				verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-				var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
+					verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
+					var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 
-				//TODO: removeOldChains(session);
+					//TODO: removeOldChains(session);
 
-				crypto_storage.saveSession(encodedNumber, session);
-				callback(decodePushMessageContentProtobuf(plaintext));
+					crypto_storage.saveSession(encodedNumber, session);
+					callback(decodePushMessageContentProtobuf(plaintext));
+				});
 			});
 		});
 	}
@@ -802,22 +809,23 @@ var crypto_tests = {};
 			msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
 			var chain = session[getString(msg.ephemeralKey)];
 
-			fillMessageKeys(chain, chain.counter + 1);
-			HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys").then(function(keys) {
-				delete chain.messageKeys[chain.counter];
-				msg.counter = chain.counter;
+			fillMessageKeys(chain, chain.counter + 1).then(function() {
+				HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys").then(function(keys) {
+					delete chain.messageKeys[chain.counter];
+					msg.counter = chain.counter;
 
-				//TODO
-				msg.previousCounter = 1;
+					//TODO
+					msg.previousCounter = 1;
 
-				msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
-				var encodedMsg = getString(msg.encode());
+					msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
+					var encodedMsg = getString(msg.encode());
 
-				calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
-					var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
+					calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
+						var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
 
-					crypto_storage.saveSession(deviceObject.encodedNumber, session);
-					callback(result);
+						crypto_storage.saveSession(deviceObject.encodedNumber, session);
+						callback(result);
+					});
 				});
 			});
 		}
