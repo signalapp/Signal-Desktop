@@ -402,11 +402,11 @@ function getRandomBytes(size) {
 	}
 }
 
-// functions exposed for testing
+// functions exposed for replacement and direct calling in test code
 var crypto_tests = {};
 
 (function(crypto, $, undefined) {
-	crypto_tests.privToPub = function(privKey, callback) {
+	crypto_tests.privToPub = function(privKey, isIdentity, callback) {
 		if (privKey.byteLength != 32)
 			throw "Invalid private key";
 
@@ -423,28 +423,37 @@ var crypto_tests = {};
 		if (USE_NACL) {
 			postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
 				var priv = message.res;
+				if (!isIdentity)
+					new Uint8Array(priv)[0] |= 0x01;
 				postNaclMessage({command: "privToPub", priv: priv}, function(message) {
 					callback({ pubKey: prependVersion(message.res), privKey: priv });
 				});
 			});
 		} else {
+			privKey = privKey.slice(0);
 			var priv = new Uint16Array(privKey);
 			priv[0] &= 0xFFF8;
 			priv[15] = (priv[15] & 0x7FFF) | 0x4000;
+
+			if (!isIdentity)
+				priv[0] |= 0x0001;
+
 			//TODO: fscking type conversion
 			callback({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
 		}
 	
 	}
+	var privToPub = function(privKey, isIdentity, callback) { return crypto_tests.privToPub(privKey, isIdentity, callback); }
 
-	var createNewKeyPair = function(callback) {
-		crypto_tests.privToPub(getRandomBytes(32), callback);
+	crypto_tests.createNewKeyPair = function(isIdentity, callback) {
+		return privToPub(getRandomBytes(32), isIdentity, callback);
 	}
+	var createNewKeyPair = function(isIdentity, callback) { return crypto_tests.createNewKeyPair(isIdentity, callback); }
 
 	var crypto_storage = {};
 
-	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, callback) {
-		createNewKeyPair(function(keyPair) {
+	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity, callback) {
+		createNewKeyPair(isIdentity, function(keyPair) {
 			storage.putEncrypted("25519Key" + keyName, keyPair);
 			callback(keyPair.pubKey);
 		});
@@ -489,7 +498,7 @@ var crypto_tests = {};
 	 *****************************/
 	//TODO: Think about replacing CryptoJS stuff with optional NaCL-based implementations
 	// Probably means all of the low-level crypto stuff here needs pulled out into its own file
-	var ECDHE = function(pubKey, privKey, callback) {
+	crypto_tests.ECDHE = function(pubKey, privKey, callback) {
 		if (privKey !== undefined) {
 			privKey = toArrayBuffer(privKey);
 			if (privKey.byteLength != 32)
@@ -517,7 +526,7 @@ var crypto_tests = {};
 			callback(toArrayBuffer(curve25519(new Uint16Array(privKey), new Uint16Array(pubKey))));
 		}
 	}
-	crypto_tests.ECDHE = ECDHE;
+	var ECDHE = function(pubKey, privKey, callback) { return crypto_tests.ECDHE(pubKey, privKey, callback); }
 
 	var HMACSHA256 = function(input, key) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
@@ -684,7 +693,7 @@ var crypto_tests = {};
 			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
 			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 
-			createNewKeyPair(function(keyPair) {
+			createNewKeyPair(false, function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
 
 				ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
@@ -808,7 +817,7 @@ var crypto_tests = {};
 		if (session === undefined) {
 			var preKeyMsg = new PreKeyWhisperMessageProtobuf();
 			preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
-			createNewKeyPair(function(baseKey) {
+			createNewKeyPair(false, function(baseKey) {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				preKeyMsg.preKeyId = deviceObject.preKeyId;
 				initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey, function() {
@@ -844,14 +853,14 @@ var crypto_tests = {};
 			keys.keys = [];
 			var keysLeft = GENERATE_KEYS_KEYS_GENERATED;
 			for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++) {
-				crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, function(pubKey) {
+				crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, false, function(pubKey) {
 					keys.keys[i] = {keyId: i, publicKey: pubKey, identityKey: identityKey};
 					keysLeft--;
 					if (keysLeft == 0) {
 						// 0xFFFFFF == 16777215
 						keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
 						if (keys.lastResortKey.publicKey === undefined) {
-							crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", function(pubKey) {
+							crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false, function(pubKey) {
 								keys.lastResortKey.publicKey = pubKey;
 								callback(keys);
 							});
@@ -862,7 +871,7 @@ var crypto_tests = {};
 			}
 		}
 		if (identityKey === undefined)
-			crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", function(pubKey) { identityKeyCalculated(pubKey); });
+			crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", true, function(pubKey) { identityKeyCalculated(pubKey); });
 		else
 			identityKeyCalculated(identityKey);
 	}

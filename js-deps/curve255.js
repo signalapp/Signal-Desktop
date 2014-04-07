@@ -446,7 +446,8 @@ function curve25519b32(a, b) {
 
 function curve25519(f, c) {
     if (!c) { c = c255lbase(); }
-    f[0]   &= 0xFFF8;
-    f[15]   = (f[15] & 0x7FFF) | 0x4000;
+	// The masking is done upstream (and not always done)
+    //f[0]   &= 0xFFF8;
+    //f[15]   = (f[15] & 0x7FFF) | 0x4000;
     return curve25519_raw(f, c);
 }
