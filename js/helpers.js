@@ -422,8 +422,9 @@ var crypto_tests = {};
 
 		if (USE_NACL) {
 			postNaclMessage({command: "bytesToPriv", priv: privKey}, function(message) {
-				postNaclMessage({command: "privToPub", priv: message.res}, function(message) {
-					callback({ pubKey: prependVersion(message.res), privKey: privKey });
+				var priv = message.res;
+				postNaclMessage({command: "privToPub", priv: priv}, function(message) {
+					callback({ pubKey: prependVersion(message.res), privKey: priv });
 				});
 			});
 		} else {
