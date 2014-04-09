@@ -33,26 +33,27 @@ registerOnLoadFunction(function() {
 				var messages = $('<ul class="conversation">');
 				for (var j = 0; j < MAX_MESSAGES_PER_CONVERSATION && j < conversation.length; j++) {
 					var message = conversation[j];
-					$('<li class="message incoming">').
+					$('<li class="message incoming container">').
 						append($('<div class="avatar">')).
 						append($('<div class="bubble">').
 							append($('<span class="message-text">').text(message.message)).
 							append($('<span class="metadata">').text("From: " + message.sender + ", at: " + timestampToHumanReadable(message.timestamp)))
 						).appendTo(messages);
 				}
+				var button = $('<button id="button' + i + '">').text('Send');
+				var input = $('<input id="text' + i + '">');
 				$('<li>').
 					append(messages).
-					append($("<form class='container'>").
-						append("<input type='text' id=text" + i + " /><button id=button" + i + ">Send</button><br>")
-					).appendTo(ul);
-				$('#button' + i).click(function() {
+					append($("<form class='container'>").append(input).append(button)).
+					appendTo(ul);
+				button.click(function() {
 					var sendDestinations = [conversation[0].sender];
 					if (conversation[0].group) {
 							sendDestinations = conversation[0].group.members;
 					}
 
 					var messageProto = new PushMessageContentProtobuf();
-					messageProto.body = $('#text' + i).val();
+					messageProto.body = input.val();
 
 					sendMessageToNumbers(sendDestinations, messageProto, function(result) {
 						console.log("Sent message: " + result);
