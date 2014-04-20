@@ -24,7 +24,7 @@ $('#number').on('change', function() {//TODO
 
 var single_device = false;
 var signaling_key = getRandomBytes(32 + 20);
-var password = btoa(getRandomBytes(16));
+var password = btoa(getString(getRandomBytes(16)));
 password = password.substring(0, password.length - 2);
 
 $('#init-go-single-client').click(function() {
