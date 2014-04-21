@@ -530,11 +530,11 @@ var crypto_tests = {};
 
 	crypto_tests.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
-		return window.crypto.subtle.sign(alg_hmacsha256, salt, input).then(function(PRK) {
+		return HmacSHA256(salt, input).then(function(PRK) {
 			var infoString = getString(info);
 			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
-			return window.crypto.subtle.sign(alg_hmacsha256, PRK, infoString + String.fromCharCode(0)).then(function(T1) {
-				return window.crypto.subtle.sign(alg_hmacsha256, PRK, getString(T1) + infoString + String.fromCharCode(1)).then(function(T2) {
+			return HmacSHA256(PRK, infoString + String.fromCharCode(0)).then(function(T1) {
+				return HmacSHA256(PRK, getString(T1) + infoString + String.fromCharCode(1)).then(function(T2) {
 					return [ T1, T2 ];
 				});
 			});
@@ -586,7 +586,7 @@ var crypto_tests = {};
 		if (version === undefined)
 			version = 1;
 
-		window.crypto.subtle.sign(alg_hmacsha256, key, String.fromCharCode(version) + getString(data)).then(function(calculated_mac) {
+		HmacSHA256(key, String.fromCharCode(version) + getString(data)).then(function(calculated_mac) {
 			var macString = getString(mac);
 
 			if (calculated_mac.substring(0, macString.length) != macString)
@@ -598,7 +598,7 @@ var crypto_tests = {};
 		if (version === undefined)
 			version = 1;
 
-		return window.crypto.subtle.sign(alg_hmacsha256, key, String.fromCharCode(version) + getString(data));
+		return HmacSHA256(key, String.fromCharCode(version) + getString(data));
 	}
 
 	/******************************
@@ -658,8 +658,8 @@ var crypto_tests = {};
 
 	var fillMessageKeys = function(chain, counter) {
 		if (chain.chainKey.counter < counter) {
-			return window.crypto.subtle.sign(alg_hmacsha256, chain.chainKey.key, String.fromCharCode(1)).then(function(mac) {
-				window.crypto.subtle.sign(alg_hmacsha256, chain.chainKey.key, String.fromCharCode(2)).then(function(key) {
+			return HmacSHA256(chain.chainKey.key, String.fromCharCode(1)).then(function(mac) {
+				HmacSHA256(chain.chainKey.key, String.fromCharCode(2)).then(function(key) {
 					chain.messageKeys[chain.chainKey.counter + 1] = mac;
 					chain.chainKey.key = key
 					chain.chainKey.counter += 1;
