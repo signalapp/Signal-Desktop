@@ -566,14 +566,6 @@ var crypto_tests = {};
 			.toString(CryptoJS.enc.Latin1);
 	}
 
-	var decryptAESCTR = function(ciphertext, key, counter) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
-			.toString(CryptoJS.enc.Latin1);
-	}
-
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		if (version === undefined)
 			version = 1;
@@ -725,12 +717,13 @@ var crypto_tests = {};
 					delete chain.messageKeys[message.counter];
 
 					verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-					var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
+					decryptAESCTR(message.ciphertext, keys[0], message.counter).then(function(plaintext) {
 
-					//TODO: removeOldChains(session);
+						//TODO: removeOldChains(session);
 
-					crypto_storage.saveSession(encodedNumber, session);
-					callback(decodePushMessageContentProtobuf(plaintext));
+						crypto_storage.saveSession(encodedNumber, session);
+						callback(decodePushMessageContentProtobuf(plaintext));
+					});
 				});
 			});
 		});
