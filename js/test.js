@@ -336,6 +336,15 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 		axolotlTestVectorsAsBob(axolotlTestVectors, callback);
 	}, "Axolotl test vectors as bob", true);
 
+	TEST(function(callback) {
+		var key = getString(hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245'));
+		var input = getString(hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b'));
+		var mac = getString(hexToArrayBuffer('05d1243e6465ed9620c9aec1c351a186'));
+		HmacSHA256(key, input).then(function(result) {
+			callback(result.substring(0, mac.length) === mac)
+		});
+	}, "HMAC SHA-256", true);
+
 	// Setup test timeouts (note that this will only work if things are actually
 	// being run async, ie in the case of NaCL)
 	window.setInterval(function() {

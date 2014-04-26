@@ -4,7 +4,7 @@ function HmacSHA256(key, input) {
 
 function encryptAESCTR(input, key, counter) {
 	return window.crypto.subtle.encrypt(
-		{name: "AES-CTR", hash: "SHA-256", counter : counter}, key, input);
+		{name: "AES-CTR", hash: "SHA-256", counter: counter}, key, input);
 }
 
 function decryptAESCTR(input, key, counter) {
