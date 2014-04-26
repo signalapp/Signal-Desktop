@@ -11,3 +11,8 @@ function decryptAESCTR(input, key, counter) {
 	return window.crypto.subtle.decrypt(
 		{name: "AES-CTR", hash: "SHA-256", counter: counter}, key, input);
 }
+
+function decryptAESCBC(input, key, iv) {
+	return window.crypto.subtle.decrypt(
+		{name: "AES-CBC", hash: "SHA-256", iv: iv}, key, input);
+}

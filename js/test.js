@@ -204,13 +204,12 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 
 			if (v.sessionKey !== undefined) {
 				storage.putEncrypted("signaling_key", v.sessionKey);
-				var aliceToBob = crypto.decryptWebsocketMessage(v.encryptedMessage);
-				if (getString(aliceToBob) != getString(v.aliceToBob)) {
-					callback(false);
-					return;
-				}
+				crypto.decryptWebsocketMessage(v.encryptedMessage).then(function(aliceToBob) {
+					if (getString(aliceToBob) != getString(v.aliceToBob)) {
+						callback(false);
+					}
+				});
 			}
-
 			var b64 = base64EncArr(new Uint8Array(toArrayBuffer(v.aliceToBob)));
 			var thing = IncomingPushMessageProtobuf.decode(b64);
 			crypto.handleIncomingPushMessageProto(thing, function(decrypted_message) {

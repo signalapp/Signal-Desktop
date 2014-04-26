@@ -28,6 +28,13 @@ window.crypto.subtle = (function() {
 					.toString(CryptoJS.enc.Latin1);
 		};
 
+		function decryptAESCBC(ciphertext, key, iv) {
+			return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
+					CryptoJS.enc.Latin1.parse(getString(key)),
+					{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
+				.toString(CryptoJS.enc.Latin1);
+		};
+
 		// utility function for connecting front and back ends via promises
 		// Takes an implementation function and 0 or more arguments
 		function promise(implementation) {
@@ -47,6 +54,9 @@ window.crypto.subtle = (function() {
 		function decrypt(algorithm, key, data) {
 			if (algorithm.name === "AES-CTR") {
 					return promise(decryptAESCTR, data, key, algorithm.counter);
+			}
+			if (algorithm.name === "AES-CBC") {
+					return promise(decryptAESCBC, data, key, algorithm.iv);
 			}
 		};
 		function sign(algorithm, key, data) {

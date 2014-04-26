@@ -558,14 +558,6 @@ var crypto_tests = {};
 		return crypto_tests.HKDF(input, salt, info);
 	}
 
-	var decryptPaddedAES = function(ciphertext, key, iv) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
-			.toString(CryptoJS.enc.Latin1);
-	}
-
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		if (version === undefined)
 			version = 1;
@@ -749,7 +741,7 @@ var crypto_tests = {};
 
 		verifyMACWithVersionByte(ivAndCipherText, mac_key, mac);
 
-		return decryptPaddedAES(ciphertext, aes_key, iv);
+		return decryptAESCBC(ciphertext, aes_key, iv);
 	}
 
 	crypto.handleIncomingPushMessageProto = function(proto, callback) {
@@ -916,26 +908,18 @@ function subscribeToPush(message_callback) {
 		if (message.type == 3) {
 			console.log("Got pong message");
 		} else if (message.type === undefined && message.id !== undefined) {
-			var proto;
-			try {
-				var plaintext = crypto.decryptWebsocketMessage(message.message);
+			crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
 				var proto = decodeIncomingPushMessageProtobuf(plaintext);
 				// After this point, a) decoding errors are not the server's fault, and
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
-			} catch (e) {
-				console.log("Error decoding message: " + e);
-				return;
-			}
-
-			try {
 				crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
 					message_callback(decrypted);
 				}); // Decrypts/decodes/fills in fields/etc
-			} catch (e) {
-				//TODO: Tell the user decryption failed
-			}
+			}).catch(function(e) {
+				console.log("Error decoding message: " + e);
+			});
 		}
 	};
 }
