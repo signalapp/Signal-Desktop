@@ -574,14 +574,6 @@ var crypto_tests = {};
 			.toString(CryptoJS.enc.Latin1);
 	}
 
-	var encryptAESCTR = function(plaintext, key, counter) {
-		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
-		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
-			.ciphertext.toString(CryptoJS.enc.Latin1);
-	}
-
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		if (version === undefined)
 			version = 1;
@@ -808,15 +800,16 @@ var crypto_tests = {};
 
 					//TODO
 					msg.previousCounter = 1;
+					encryptAESCTR(plaintext, keys[0], chain.counter).then(function(ciphertext) {
+						msg.ciphertext = toArrayBuffer(ciphertext);
+						var encodedMsg = getString(msg.encode());
 
-					msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
-					var encodedMsg = getString(msg.encode());
+						calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
+							var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
 
-					calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
-						var result = String.fromCharCode((2 << 4) | 2) + encodedMsg + mac.substring(0, 8);
-
-						crypto_storage.saveSession(deviceObject.encodedNumber, session);
-						callback(result);
+							crypto_storage.saveSession(deviceObject.encodedNumber, session);
+							callback(result);
+						});
 					});
 				});
 			});
