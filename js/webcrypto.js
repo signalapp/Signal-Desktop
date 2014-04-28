@@ -15,7 +15,7 @@ window.crypto.subtle = (function() {
 		function encryptAESCTR(plaintext, key, counter) {
 				return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
 						CryptoJS.enc.Latin1.parse(getString(key)),
-						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""),
+						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
 							padding: CryptoJS.pad.NoPadding})
 					.ciphertext.toString(CryptoJS.enc.Latin1);
 		};
@@ -23,7 +23,7 @@ window.crypto.subtle = (function() {
 		function decryptAESCTR(ciphertext, key, counter) {
 				return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 						CryptoJS.enc.Latin1.parse(getString(key)),
-						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""),
+						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
 							padding: CryptoJS.pad.NoPadding})
 					.toString(CryptoJS.enc.Latin1);
 		};

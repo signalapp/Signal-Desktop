@@ -345,6 +345,26 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 		});
 	}, "HMAC SHA-256", true);
 
+	TEST(function(callback) {
+		var key = getString(hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c'));
+		var counter = getString(hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'));
+		var plaintext = getString(hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a'));
+		var ciphertext = getString(hexToArrayBuffer('874d6191b620e3261bef6864990db6ce'));
+		encryptAESCTR(plaintext, key, counter).then(function(result) {
+			callback(result === ciphertext);
+		});
+	}, "Encrypt AES-CTR", true);
+
+	TEST(function(callback) {
+		var key = getString(hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c'));
+		var counter = getString(hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'));
+		var plaintext = getString(hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a'));
+		var ciphertext = getString(hexToArrayBuffer('874d6191b620e3261bef6864990db6ce'));
+		decryptAESCTR(ciphertext, key, counter).then(function(result) {
+			callback(result === plaintext);
+		});
+	}, "Decrypt AES-CTR", true);
+
 	// Setup test timeouts (note that this will only work if things are actually
 	// being run async, ie in the case of NaCL)
 	window.setInterval(function() {

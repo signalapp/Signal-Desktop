@@ -1,3 +1,11 @@
+function intToArrayBuffer(nInt) {
+	return new ArrayBuffer([
+		(nInt >> 24) && 0xFF,
+		(nInt >> 16) && 0xFF,
+		(nInt >> 8)  && 0xFF,
+		nInt && 0xFF
+	]);
+}
 //TODO: Stolen from MDN (copyright...)
 function b64ToUint6 (nChr) {
 
@@ -596,9 +604,9 @@ var crypto_tests = {};
 															lastRemoteEphemeralKey: theirEphemeralPubKey },
 										oldRatchetList: []
 									};
-						session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: masterKey[1] } };
+						session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  counter: -1, chainKey: { counter: -1, key: masterKey[1] } };
 						// This isnt an actual ratchet, its just here to make maybeStepRatchet work
-						session[getString(theirEphemeralPubKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
+						session[getString(theirEphemeralPubKey)] = { messageKeys: {},  counter: -1, chainKey: { counter: 0xffffffff, key: '' } };
 						crypto_storage.saveSession(encodedNumber, session);
 
 						callback();
@@ -709,7 +717,8 @@ var crypto_tests = {};
 					delete chain.messageKeys[message.counter];
 
 					verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-					decryptAESCTR(message.ciphertext, keys[0], message.counter).then(function(plaintext) {
+					var iv = getString(intToArrayBuffer(message.counter));
+					decryptAESCTR(message.ciphertext, keys[0], iv).then(function(plaintext) {
 
 						//TODO: removeOldChains(session);
 
@@ -785,7 +794,8 @@ var crypto_tests = {};
 
 					//TODO
 					msg.previousCounter = 1;
-					encryptAESCTR(plaintext, keys[0], chain.counter).then(function(ciphertext) {
+					var iv = getString(intToArrayBuffer(chain.counter));
+					encryptAESCTR(plaintext, keys[0], iv).then(function(ciphertext) {
 						msg.ciphertext = toArrayBuffer(ciphertext);
 						var encodedMsg = getString(msg.encode());
 
