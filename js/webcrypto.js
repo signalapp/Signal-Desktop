@@ -4,7 +4,7 @@ window.crypto.subtle = (function() {
 			return window.crypto.subtle;
 	} else {
 		// private implementation functions
-		function HmacSHA256(input, key) {
+		function HmacSHA256(key, input) {
 			return CryptoJS.HmacSHA256(
 					CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
 					CryptoJS.enc.Latin1.parse(getString(key))
@@ -60,7 +60,7 @@ window.crypto.subtle = (function() {
 		};
 		function sign(algorithm, key, data) {
 			if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256") {
-				return promise(HmacSHA256, data, key);
+				return promise(HmacSHA256, key, data);
 			}
 		};
 
