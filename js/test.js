@@ -184,7 +184,7 @@ registerOnLoadFunction(function() {
 	}, "HMAC RFC5869 Test vectors");*/
 
 
-	var simpleAxolotlTestVectors = {
+	/*var simpleAxolotlTestVectors = {
 aliceIdentityPriv: hexToArrayBuffer("08ebc1e1fdbbc88d1a833a9d8c287328d4f749b7b7eb20afda0957dc05efc258"),
 aliceIdentityPub: hexToArrayBuffer("05b9c152cb9fefb0a12df319ae50c728c7909a8a080fcf22d5e1842352186d3870"),
 bobIdentityPriv: hexToArrayBuffer("08491ea8a9aff03a724cfb44411502f3e974010e62b6db2703b9506a2e18554e"),
@@ -246,42 +246,42 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 
 	TEST(function(callback) {
 		simpleAxolotlTestVectorsAsBob(simpleAxolotlTestVectors, callback);
-	}, "Simple Axolotl test vectors as bob", true);
+	}, "Simple Axolotl test vectors as bob", true);*/
 
 
 	var axolotlTwoPartyTestVectorsAlice = [
 		["sendMessage",
 			{
-				smsText: "A",
-				ourBaseKey: hexToArrayBuffer('91918ad75986b7fa7546dcf9f36baa4997c2ab4c5f0f0e3a1274907e06dd027d'),
-				ourEphemeralKey: hexToArrayBuffer('11cd8695564c84153543ab4b47b7da6f89dca070249f734f08ab6f10062b857f'),
-				ourIdentityKey: hexToArrayBuffer('0806209dfac61e8d4e99a855908f86bf1eb874851223902718eed7a54d672960'),
-				theirPreKey: hexToArrayBuffer('05522fdfff7ded73e9006096be562eb2d99847fba6fb870300db82ccf9a557a534'),
-				theirPreKeyId: 16728523,
-				theirRegistrationId: 9072,//TODO: Figure out wtf this is for
-				theirIdentityKey: hexToArrayBuffer('05ae90af12c5cb02daa6bc29ac95082d7e66c96bf60215b33215079f0231a00763'),
+				smsText: "A             ",
+				ourBaseKey: hexToArrayBuffer('192b4892aa2e4cff1293999dc7c367874456c4d920aae7d9d42e5e62c965546c'),
+				ourEphemeralKey: hexToArrayBuffer('f12704787bab04a3cf544ebd9d421b6fe36147519eb5afa7c90e3fb67c141e64'),
+				ourIdentityKey: hexToArrayBuffer('a05fd14abb42ff393004eee526e3167441ee51021c6d801b784720c15637747c'),
+				theirPreKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e'),
+				theirPreKeyId: 13845842,
+				theirRegistrationId: 11593,//TODO: Figure out wtf this is for
+				theirIdentityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
 				//expectedPlaintext: hexToArrayBuffer('0a0e4120202020202020202020202020'),
 				//expectedCounter: 0,
-				expectedCiphertext: hexToArrayBuffer('2208cb83fd071221057f5f3adf3b11525967a6c7d9f4fb34df4c79f40b4827cced8d4cd9c0c85d7e601a210582d1fb7ab4f8f0ecfdea447de66a4e19cd2c3502f2b04b8829dd5bb36bd0d6242242220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100018002210f5dd335e2d1ec1e7335a11c9e1c2a159a0f432040b064abe28f046'),
+				expectedCiphertext: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be161000180022104bd27ab87ee151d71cdfe89828050ef4b05bddfb56da491728c95a'),
 			}],
-		/*["sendMessage",
+		["sendMessage",
 			{
-				smsText: "B",
+				smsText: "B             ",
 				//expectedPlaintext: hexToArrayBuffer('0a0e4220202020202020202020202020'),
 				//expectedCounter: 1,
-				expectedCiphertext: hexToArrayBuffer('2208cb83fd071221057f5f3adf3b11525967a6c7d9f4fb34df4c79f40b4827cced8d4cd9c0c85d7e601a210582d1fb7ab4f8f0ecfdea447de66a4e19cd2c3502f2b04b8829dd5bb36bd0d6242242220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100118002210efa08202abe3ad52828a9a782f3aa5fc18ea1a709fcc6e6828f046'),
+				expectedCiphertext: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be16100118002210b40da85e4998984b4bac1748045b3661f46657badd576b4128c95a'),
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('0801120c2b313333333333333333333328fec18dd4d3283239220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100018ffffffff0f220321deef7e214d158ebbd10c3801'),
-				newEphemeralKey: hexToArrayBuffer('21ba1f11c4e9be34da2af78345cb7a04143c67dc084c37b6bd9c3dbc68c86a58'),
-				//expectedPlaintext: hexToArrayBuffer('220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100018ffffffff0f220321deef7e214d158ebbd10c'),
+				message: hexToArrayBuffer('220a2105edf6feeea8ee95f4b227453d5942d15731cb7a962eff6d04706860a4d577476f100018ffffffff0f22032a53da435b5477336965c6'),
+				newEphemeralKey: hexToArrayBuffer('a92a28cf21fb48745ebf68b425a1811476fed69f8623ff5941fd4e547ee4027c'),
+				//expectedPlaintext: hexToArrayBuffer(''),
 				expectedSmsText: "C",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('0801120c2b313333333333333333333328b3da8dd4d3283239220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100118ffffffff0f220388e968d2d102a298b2c92a3801'),
-				//expectedPlaintext: hexToArrayBuffer('220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100118ffffffff0f220388e968d2d102a298b2c92a'),
+				message: hexToArrayBuffer('220a2105edf6feeea8ee95f4b227453d5942d15731cb7a962eff6d04706860a4d577476f100118ffffffff0f2203a439d199228e124820c28b'),
+				//expectedPlaintext: hexToArrayBuffer(''),
 				expectedSmsText: "D",
 			}],
 		["sendMessage",
@@ -289,24 +289,24 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 				smsText: "E",
 				//expectedPlaintext: hexToArrayBuffer('0a0145'),
 				//expectedCounter: 0,
-				expectedCiphertext: hexToArrayBuffer('220a2105f4465a6be68def783cb36b26fa4d2b6eb80b6fa7678a58181f0492121a760b48100018012203bf89479b777a890a700a36'),
-			}],*/
+				expectedCiphertext: hexToArrayBuffer('220a2105f94173eeb7ff19ab9196461d596324385611fadef0ca29592cc182d92eb653281000180122031b67b3e2c43b9a672c9cb0'),
+			}],
 		];
 
 	var axolotlTwoPartyTestVectorsBob = [
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('0803120c2b313232323232323232323228b3e48cd4d3283293012208cb83fd071221057f5f3adf3b11525967a6c7d9f4fb34df4c79f40b4827cced8d4cd9c0c85d7e601a210582d1fb7ab4f8f0ecfdea447de66a4e19cd2c3502f2b04b8829dd5bb36bd0d6242242220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100018002210f5dd335e2d1ec1e7335a11c9e1c2a159a0f432040b064abe28f0463801'),
- 				ourPreKey: hexToArrayBuffer('71f2d216192d22de45290135bb2cc9b140c864d9b92d8f238577f4fddb2fcb4d'),
-				ourIdentityKey: hexToArrayBuffer('08b66c917e27319f8f9a69791d7571ce47175e7e3db5fc85a51e264b31cdf56b'),
-				newEphemeralKey: hexToArrayBuffer('416f63ac4939c0bdd0d9e3b589e1ffde4906f54629742f189e6028c08a5d2666'),
-				//expectedPlaintext: hexToArrayBuffer('220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100018002210f5dd335e2d1ec1e7335a11c9e1c2a159a0f432040b064abe'),
+				message: hexToArrayBuffer(''),
+				ourPreKey: hexToArrayBuffer(''),
+				ourIdentityKey: hexToArrayBuffer(''),
+				newEphemeralKey: hexToArrayBuffer(''),
+				//expectedPlaintext: hexToArrayBuffer(''),
 				expectedSmsText: "A",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('0803120c2b313232323232323232323228e9898dd4d3283293012208cb83fd071221057f5f3adf3b11525967a6c7d9f4fb34df4c79f40b4827cced8d4cd9c0c85d7e601a210582d1fb7ab4f8f0ecfdea447de66a4e19cd2c3502f2b04b8829dd5bb36bd0d6242242220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100118002210efa08202abe3ad52828a9a782f3aa5fc18ea1a709fcc6e6828f0463801'),
-				//expectedPlaintext: hexToArrayBuffer('220a21059f20776ec3d0975ebe54f8efaf847fdf227ffb2cc057de845c2e963984e5a878100118002210efa08202abe3ad52828a9a782f3aa5fc18ea1a709fcc6e68'),
+				message: hexToArrayBuffer(''),
+				//expectedPlaintext: hexToArrayBuffer(''),
 				expectedSmsText: "B",
 			}],
 		["sendMessage",
@@ -314,27 +314,123 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 				smsText: "C",
 				//expectedPlaintext: hexToArrayBuffer('0a0143'),
 				//expectedCounter: 0,
-				expectedCiphertext: hexToArrayBuffer('220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100018ffffffff0f220321deef7e214d158ebbd10c'),
+				expectedCiphertext: hexToArrayBuffer(''),
 			}],
 		["sendMessage",
 			{
 				smsText: "D",
 				//expectedPlaintext: hexToArrayBuffer('0a0144'),
 				//expectedCounter: 1,
-				expectedCiphertext: hexToArrayBuffer('220a21051ac83687a0dc5acf4595e12411358fe7efeb068b7deb96f2ae6d25f2a4231f2e100118ffffffff0f220388e968d2d102a298b2c92a'),
+				expectedCiphertext: hexToArrayBuffer(''),
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('0801120c2b313232323232323232323228e1ad8ed4d3283235220a2105f4465a6be68def783cb36b26fa4d2b6eb80b6fa7678a58181f0492121a760b48100018012203bf89479b777a890a700a363801'),
-				newEphemeralKey: hexToArrayBuffer('31a5281df2a88cf8ddea3f34eb4ac2c7c55eb91cdf052c5f87d788b4649bae47'),
-				//expectedPlaintext: hexToArrayBuffer('220a2105f4465a6be68def783cb36b26fa4d2b6eb80b6fa7678a58181f0492121a760b48100018012203bf89479b777a890a700a36'),
+				message: hexToArrayBuffer(''),
+				newEphemeralKey: hexToArrayBuffer(''),
+				//expectedPlaintext: hexToArrayBuffer(''),
 				expectedSmsText: "E",
 			}],
 		];
 
 	TEST(function(callback) {
-		axolotlTestVectorsAsBob(axolotlTestVectors, callback);
-	}, "Axolotl test vectors as bob", true);
+		var v = axolotlTwoPartyTestVectorsAlice;
+		var origCreateNewKeyPair = crypto_tests.createNewKeyPair;
+		var remoteDevice = { encodedNumber: "BOB" };
+
+		var doStep;
+
+		var stepDone = function(res) {
+			if (!res || privKeyQueue.length != 0) {
+				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
+				callback(false);
+			} else if (step == v.length) {
+				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
+				callback(true);
+			} else
+				doStep();
+		}
+
+		var privKeyQueue = [];
+		crypto_tests.createNewKeyPair = function(isIdentity, callback) {
+			if (privKeyQueue.length == 0 || isIdentity)
+				stepDone(false);
+			else {
+				var privKey = privKeyQueue.shift();
+				crypto_tests.privToPub(privKey, false, function(keyPair) {
+					var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
+					if (getString(keyPair.privKey) != getString(privKey))
+						stepDone(false);
+					else
+						callback(keyPair);
+				});
+			}
+		}
+
+		var step = 0;
+		var doStep = function() {
+			var data = v[step][1];
+
+			switch(v[step++][0]) {
+			case "receiveMessage":
+				if (data.newEphemeralKey !== undefined)
+					privKeyQueue.push(data.newEphemeralKey);
+
+				var message = new IncomingPushMessageProtobuf();
+				message.type = 1;
+				message.source = "BOB";
+				message.message = data.message;
+				crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode())), function(res) {
+					stepDone(res.message.body == data.expectedSmsText);
+				});
+				break;
+
+			case "sendMessage":
+				var postLocalKeySetup = function() {
+					if (data.theirIdentityKey !== undefined)
+						remoteDevice.identityKey = data.theirIdentityKey;
+					if (data.theirPreKey !== undefined) {
+						remoteDevice.publicKey = data.theirPreKey;
+						remoteDevice.preKeyId = data.theirPreKeyId;
+						remoteDevice.registrationId = data.theirRegistrationId;
+					}
+
+					var message = new PushMessageContentProtobuf();
+					message.body = data.smsText;
+
+					crypto.encryptMessageFor(remoteDevice, message, function(res) {
+						if (res.type == 1) { //XXX: This should be used for everything...
+							stepDone(getString(data.expectedCiphertext) == getString(res.body));
+							return;
+						}
+						// Reencode expectedCiphertext...?
+						var decoded = decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
+						var reencoded = String.fromCharCode((2<<4) | 2) + getString(decoded.encode());
+
+						stepDone(getString(data.expectedCiphertext)[0] == String.fromCharCode((2 << 4) | 2) &&
+								reencoded == res.body);
+					});
+				}
+
+				if (data.ourBaseKey !== undefined)
+					privKeyQueue.push(data.ourBaseKey);
+				if (data.ourEphemeralKey !== undefined)
+					privKeyQueue.push(data.ourEphemeralKey);
+
+				if (data.ourIdentityKey !== undefined)
+					crypto_tests.privToPub(data.ourIdentityKey, true, function(keyPair) {
+						storage.putEncrypted("25519KeyidentityKey", keyPair);
+						postLocalKeySetup();
+					});
+				else
+					postLocalKeySetup();
+
+				break;
+			default:
+				stepDone(false);
+			}
+		}
+		doStep();
+	}, "Standard Axolotl Test Vectors as Alice", true);
 
 	// Setup test timeouts (note that this will only work if things are actually
 	// being run async, ie in the case of NaCL)

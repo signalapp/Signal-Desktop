@@ -575,17 +575,19 @@ var crypto_tests = {};
 
 	var decryptAESCTR = function(ciphertext, key, counter) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
+		var iv = String.fromCharCode(counter & 0xff000000) + String.fromCharCode(counter & 0xff0000) + String.fromCharCode(counter & 0xff00) + String.fromCharCode(counter & 0xff);
 		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(iv), padding: CryptoJS.pad.NoPadding})
 			.toString(CryptoJS.enc.Latin1);
 	}
 
 	var encryptAESCTR = function(plaintext, key, counter) {
 		//TODO: Waaayyyy less type conversion here (probably just means replacing CryptoJS)
+		var iv = String.fromCharCode(counter & 0xff000000) + String.fromCharCode(counter & 0xff0000) + String.fromCharCode(counter & 0xff00) + String.fromCharCode(counter & 0xff);
 		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
 				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(""), padding: CryptoJS.pad.NoPadding})
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(iv), padding: CryptoJS.pad.NoPadding})
 			.ciphertext.toString(CryptoJS.enc.Latin1);
 	}
 
@@ -610,6 +612,20 @@ var crypto_tests = {};
 	/******************************
 	 *** Ratchet implementation ***
 	 ******************************/
+	var calculateRatchet = function(session, remoteKey, sending, callback) {
+		var ratchet = session.currentRatchet;
+
+		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
+			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
+			if (sending)
+				session[getString(ratchet.ephemeralKeyPair.pubKey)]	= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+			else
+				session[getString(remoteKey)]						= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+			ratchet.rootKey = masterKey[0];
+			callback();
+		});
+	}
+
 	var initSession = function(isInitiator, ourEphemeralKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, callback) {
 		var ourIdentityPrivKey = crypto_storage.getIdentityPrivKey();
 
@@ -622,16 +638,19 @@ var crypto_tests = {};
 					sharedSecret += getString(ecRes);
 					var masterKey = HKDF(sharedSecret, '', "WhisperText");
 
-					var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourEphemeralKey,
-														lastRemoteEphemeralKey: theirEphemeralPubKey },
-									oldRatchetList: []
-								};
-					session[getString(ourEphemeralKey.pubKey)] = { messageKeys: {},  chainKey: { counter: -1, key: masterKey[1] } };
-					// This isnt an actual ratchet, its just here to make maybeStepRatchet work
-					session[getString(theirEphemeralPubKey)] = { messageKeys: {},  chainKey: { counter: 0xffffffff, key: '' } };
-					crypto_storage.saveSession(encodedNumber, session);
+					// Create new ephemeral key for sending
+					createNewKeyPair(false, function(ourSendingEphemeralKey) {
+						var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourSendingEphemeralKey,
+															lastRemoteEphemeralKey: theirEphemeralPubKey },
+										oldRatchetList: []
+									};
 
-					callback();
+						calculateRatchet(session, theirEphemeralPubKey, true, function() {
+							crypto_storage.saveSession(encodedNumber, session);
+
+							callback();
+						});
+					});
 				});
 			}
 
@@ -662,6 +681,9 @@ var crypto_tests = {};
 	}
 
 	var fillMessageKeys = function(chain, counter) {
+		if (chain.chainKey.counter + 1000 < counter)
+			return; // Stalker, much?
+
 		var messageKeys = chain.messageKeys;
 		var key = chain.chainKey.key;
 		for (var i = chain.chainKey.counter; i < counter; i++) {
@@ -673,34 +695,30 @@ var crypto_tests = {};
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter, callback) {
-		if (session[getString(remoteKey)] !== undefined) { //TODO: null???
-			callback();//TODO: This is happening in tests as alice (when bob is checking), probably shouldn't?
+		if (session[getString(remoteKey)] !== undefined) {
+			callback();
 			return;
 		}
 
 		var ratchet = session.currentRatchet;
 
 		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
-		fillMessageKeys(previousRatchet, previousCounter);
-		if (!objectContainsKeys(previousRatchet.messageKeys))
-			delete session[getString(ratchet.lastRemoteEphemeralKey)];
-		else
-			session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+		if (previousRatchet !== undefined) {
+			fillMessageKeys(previousRatchet, previousCounter);
+			if (!objectContainsKeys(previousRatchet.messageKeys))
+				delete session[getString(ratchet.lastRemoteEphemeralKey)];
+			else
+				session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+		}
 
-		delete session[ratchet.ephemeralKeyPair.pubKey];
-
-		ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-			var masterKey = HKDF(sharedSecret, ratchet.rootKey, "WhisperRatchet");
-			session[getString(remoteKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+		calculateRatchet(session, remoteKey, false, function() {
+			// Now swap the ephemeral key and calculate the new sending chain
+			ratchet.previousCounter = session[getString(ratchet.ephemeralKeyPair.pubKey)].chainKey.counter;
+			delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
 
 			createNewKeyPair(false, function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
-
-				ECDHE(remoteKey, ratchet.ephemeralKeyPair.privKey, function(sharedSecret) {
-					masterKey = HKDF(sharedSecret, masterKey[0], "WhisperRatchet");
-					ratchet.rootKey = masterKey[0];
-					session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
-
+				calculateRatchet(session, remoteKey, true, function() {
 					ratchet.lastRemoteEphemeralKey = remoteKey;
 					callback();
 				});
@@ -733,6 +751,7 @@ var crypto_tests = {};
 			var plaintext = decryptAESCTR(message.ciphertext, keys[0], message.counter);
 
 			//TODO: removeOldChains(session);
+			delete session['pendingPreKey'];
 
 			crypto_storage.saveSession(encodedNumber, session);
 			callback(decodePushMessageContentProtobuf(plaintext));
@@ -796,15 +815,14 @@ var crypto_tests = {};
 			msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
 			var chain = session[getString(msg.ephemeralKey)];
 
-			fillMessageKeys(chain, chain.counter + 1);
-			var keys = HKDF(chain.messageKeys[chain.counter], '', "WhisperMessageKeys");
-			delete chain.messageKeys[chain.counter];
-			msg.counter = chain.counter;
+			fillMessageKeys(chain, chain.chainKey.counter + 1);
+			var keys = HKDF(chain.messageKeys[chain.chainKey.counter], '', "WhisperMessageKeys");
 
-			//TODO
-			msg.previousCounter = 1;
+			delete chain.messageKeys[chain.chainKey.counter];
+			msg.counter = chain.chainKey.counter;
+			msg.previousCounter = session.currentRatchet.previousCounter;
 
-			msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.counter));
+			msg.ciphertext = toArrayBuffer(encryptAESCTR(plaintext, keys[0], chain.chainKey.counter));
 			var encodedMsg = getString(msg.encode());
 
 			var mac = calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2);
@@ -814,16 +832,18 @@ var crypto_tests = {};
 			callback(result);
 		}
 
+		var preKeyMsg = new PreKeyWhisperMessageProtobuf();
+		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
+		preKeyMsg.preKeyId = deviceObject.preKeyId;
+		preKeyMsg.registrationId = deviceObject.registrationId;
+
 		if (session === undefined) {
-			var preKeyMsg = new PreKeyWhisperMessageProtobuf();
-			preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
 			createNewKeyPair(false, function(baseKey) {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-				preKeyMsg.preKeyId = deviceObject.preKeyId;
 				initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey, function() {
-					//TODO: Delete preKey info now?
+					//TODO: Delete preKey info on first message received back
 					session = crypto_storage.getSession(deviceObject.encodedNumber);
-					//TODO: We need to step ratchet here, I think
+					session.pendingPreKey = baseKey.pubKey;
 					doEncryptPushMessageContent(function(message) {
 						preKeyMsg.message = toArrayBuffer(message);
 						var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
@@ -833,7 +853,13 @@ var crypto_tests = {};
 			});
 		} else
 			doEncryptPushMessageContent(function(message) {
-				callback({type: 1, body: getString(message)});
+				if (session.pendingPreKey !== undefined) {
+					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey);
+					preKeyMsg.message = toArrayBuffer(message);
+					var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
+					callback({type: 3, body: result});
+				} else
+					callback({type: 1, body: getString(message)});
 			});
 	}
 
@@ -956,7 +982,8 @@ function getKeysForNumber(number, success_callback, error_callback) {
 						encodedNumber: number + "." + response[i].deviceId,
 						identityKey: response[i].identityKey,
 						publicKey: response[i].publicKey,
-						preKeyId: response[i].keyId
+						preKeyId: response[i].keyId,
+						registrationId: response[i].registrationId
 					});
 				} catch (e) {
 					error_callback(e);
@@ -991,6 +1018,7 @@ function sendMessageToDevices(number, deviceObjectList, message, success_callbac
 			jsonData[i] = {
 				type: encryptedMsg.type,
 				destination: deviceObjectList[i].encodedNumber,
+				destinationRegistrationId: deviceObjectList[i].registrationId,
 				body: encryptedMsg.body,
 				timestamp: new Date().getTime()
 			};
