@@ -332,11 +332,8 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 			}],
 		];
 
-	TEST(function(callback) {
-		var v = axolotlTwoPartyTestVectorsAlice;
+	var axolotlTestVectors = function(v, remoteDevice, callback) {
 		var origCreateNewKeyPair = crypto_tests.createNewKeyPair;
-		var remoteDevice = { encodedNumber: "BOB" };
-
 		var doStep;
 
 		var stepDone = function(res) {
@@ -377,7 +374,7 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 
 				var message = new IncomingPushMessageProtobuf();
 				message.type = 1;
-				message.source = "BOB";
+				message.source = remoteDevice.encodedNumber;
 				message.message = data.message;
 				crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode())), function(res) {
 					stepDone(res.message.body == data.expectedSmsText);
@@ -430,6 +427,10 @@ encryptedMessage: hexToArrayBuffer("415a326e6f457937756a6c5355785876342f6b585634
 			}
 		}
 		doStep();
+	}
+
+	TEST(function(callback) {
+		axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" }, callback);
 	}, "Standard Axolotl Test Vectors as Alice", true);
 
 	// Setup test timeouts (note that this will only work if things are actually
