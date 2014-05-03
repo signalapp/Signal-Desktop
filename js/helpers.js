@@ -124,7 +124,7 @@ function toArrayBuffer(thing) {
 	}
 
 	if (!getStringable(thing))
-		throw "Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer";
+		throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
 	var str = getString(thing);
 	var res = new ArrayBuffer(str.length);
 	var uint = new Uint8Array(res);
@@ -147,7 +147,7 @@ function ensureStringed(thing) {
 			res[key] = ensureStringed(thing[key]);
 		return res;
 	}
-	throw "unsure of how to jsonify object of type " + typeof thing;
+	throw new Error("unsure of how to jsonify object of type " + typeof thing);
 
 }
 
@@ -243,7 +243,7 @@ var storage = {};
 storage.putEncrypted = function(key, value) {
 	//TODO
 	if (value === undefined)
-		throw "Tried to store undefined";
+		throw new Error("Tried to store undefined");
 	localStorage.setItem("e" + key, jsonThing(value));
 }
 
@@ -261,7 +261,7 @@ storage.removeEncrypted = function(key) {
 
 storage.putUnencrypted = function(key, value) {
 	if (value === undefined)
-		throw "Tried to store undefined";
+		throw new Error("Tried to store undefined");
 	localStorage.setItem("u" + key, jsonThing(value));
 }
 
@@ -333,7 +333,7 @@ function saveDeviceObject(deviceObject) {
 			continue;
 
 		if (key == "identityKey" && deviceObject.identityKey != deviceObject.identityKey)
-			throw "Identity key mismatch";
+			throw new Error("Identity key mismatch");
 
 		existing[key] = deviceObject[key];
 	}
@@ -378,7 +378,7 @@ function handleMessage(message) {
 
 function postNaclMessage(message, callback) {
 	if (!USE_NACL)
-		throw "Attempted to make NaCL call with !USE_NACL?";
+		throw new Error("Attempted to make NaCL call with !USE_NACL?");
 
 	naclMessageIdCallbackMap[naclMessageNextId] = callback;
 	message.call_id = naclMessageNextId++;
@@ -408,7 +408,7 @@ var crypto_tests = {};
 (function(crypto, $, undefined) {
 	crypto_tests.privToPub = function(privKey, isIdentity, callback) {
 		if (privKey.byteLength != 32)
-			throw "Invalid private key";
+			throw new Error("Invalid private key");
 
 		var prependVersion = function(pubKey) {
 			var origPub = new Uint8Array(pubKey);
@@ -502,9 +502,9 @@ var crypto_tests = {};
 		if (privKey !== undefined) {
 			privKey = toArrayBuffer(privKey);
 			if (privKey.byteLength != 32)
-				throw "Invalid private key";
+				throw new Error("Invalid private key");
 		} else
-			throw "Invalid private key";
+			throw new Error("Invalid private key");
 
 		if (pubKey !== undefined) {
 			pubKey = toArrayBuffer(pubKey);
@@ -515,7 +515,7 @@ var crypto_tests = {};
 				for (var i = 0; i < 32; i++)
 					pubCopy[i] = pubView[i+1];
 			} else if (pubKey.byteLength != 32)
-				throw "Invalid public key";
+				throw new Error("Invalid public key");
 		}
 
 		if (USE_NACL) {
@@ -560,7 +560,7 @@ var crypto_tests = {};
 		salt = toArrayBuffer(salt);
 
 		if (salt.byteLength != 32)
-			throw "Got salt of incorrect length";
+			throw new Error("Got salt of incorrect length");
 
 		return crypto_tests.HKDF(input, salt, info);
 	}
@@ -599,7 +599,7 @@ var crypto_tests = {};
 		var macString = getString(mac);
 
 		if (calculated_mac.substring(0, macString.length) != macString)
-			throw "Bad MAC";
+			throw new Error("Bad MAC");
 	}
 
 	var calculateMACWithVersionByte = function(data, key, version) {
@@ -673,7 +673,7 @@ var crypto_tests = {};
 
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
 		if (preKeyPair === undefined)
-			throw "Missing preKey for PreKeyWhisperMessage";
+			throw new Error("Missing preKey for PreKeyWhisperMessage");
 
 		initSession(false, preKeyPair, encodedNumber, message.identityKey, message.baseKey, function() {
 			callback();
@@ -730,10 +730,10 @@ var crypto_tests = {};
 	var decryptWhisperMessage = function(encodedNumber, messageBytes, callback) {
 		var session = crypto_storage.getSession(encodedNumber);
 		if (session === undefined)
-			throw "No session currently open with " + encodedNumber;
+			throw new Error("No session currently open with " + encodedNumber);
 
 		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
-			throw "Bad version number on WhisperMessage";
+			throw new Error("Bad version number on WhisperMessage");
 
 		var messageProto = messageBytes.substring(1, messageBytes.length - 8);
 		var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
@@ -769,7 +769,7 @@ var crypto_tests = {};
 
 		var decodedMessage = new Uint8Array(base64DecToArr(getString(message)));
 		if (decodedMessage[0] != 1)
-			throw "Got bad version number: " + decodedMessage[0];
+			throw new Error("Got bad version number: " + decodedMessage[0]);
 
 		var iv = decodedMessage.subarray(1, 1 + 16);
 		var ciphertext = decodedMessage.subarray(1 + 16, decodedMessage.length - 10);
@@ -793,7 +793,7 @@ var crypto_tests = {};
 			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
-				throw "Bad version byte";
+				throw new Error("Bad version byte");
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto, function() {
 				decryptWhisperMessage(proto.source, getString(preKeyProto.message), function(result) {
@@ -873,7 +873,7 @@ var crypto_tests = {};
 			storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
 			if (firstKeyId > 16777000)
-				throw "You crazy motherfucker";
+				throw new Error("You crazy motherfucker");
 
 			var keys = {};
 			keys.keys = [];
