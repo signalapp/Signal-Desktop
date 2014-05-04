@@ -22,10 +22,9 @@ registerOnLoadFunction(function() {
 			subscribeToPush(function(message) {
 				console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
 							': "' + getString(message.message.body) + '"');
-				var newUnreadCount = storage.getUnencrypted("unreadCount") + 1;
+				var newUnreadCount = storage.getUnencrypted("unreadCount", 0) + 1;
 				storage.putUnencrypted("unreadCount", newUnreadCount);
 				chrome.browserAction.setBadgeText({text: newUnreadCount + ""});
-				storeMessage(message);
 			});
 		}
 	}

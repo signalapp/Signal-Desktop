@@ -309,7 +309,7 @@ function storeMessage(messageObject) {
 	var messageMap = getMessageMap();
 	var conversation = messageMap[messageObject.pushMessage.source]; //TODO: Also support Group message IDs here
 	if (conversation === undefined) {
-		conversation = []
+		conversation = [];
 		messageMap[messageObject.pushMessage.source] = conversation;
 	}
 
@@ -937,11 +937,11 @@ var crypto_tests = {};
 
 
 // message_callback(decoded_protobuf) (use decodeMessage(proto))
-var subscribeToPushMessageSemaphore = 1;
+var subscribeToPushMessageSemaphore = 0;
 function subscribeToPush(message_callback) {
+	subscribeToPushMessageSemaphore++;
 	if (subscribeToPushMessageSemaphore <= 0)
 		return;
-	subscribeToPushMessageSemaphore--;
 
 	var user = storage.getUnencrypted("number_id");
 	var password = storage.getEncrypted("password");
@@ -954,13 +954,13 @@ function subscribeToPush(message_callback) {
 	socket.onerror = function(socketEvent) {
 		console.log('Server is down :(');
 		clearInterval(pingInterval);
-		subscribeToPushMessageSemaphore++;
+		subscribeToPushMessageSemaphore--;
 		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
 	};
 	socket.onclose = function(socketEvent) {
 		console.log('Server closed :(');
 		clearInterval(pingInterval);
-		subscribeToPushMessageSemaphore++;
+		subscribeToPushMessageSemaphore--;
 		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
 	};
 	socket.onopen = function(socketEvent) {
@@ -994,6 +994,7 @@ function subscribeToPush(message_callback) {
 
 			try {
 				crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
+					storeMessage(decrypted);
 					message_callback(decrypted);
 				}); // Decrypts/decodes/fills in fields/etc
 			} catch (e) {
