@@ -256,7 +256,7 @@ storage.getEncrypted = function(key, defaultValue) {
 }
 
 storage.removeEncrypted = function(key) {
-	//TODO
+	localStorage.removeItem("e" + key);
 }
 
 storage.putUnencrypted = function(key, value) {
@@ -273,7 +273,7 @@ storage.getUnencrypted = function(key, defaultValue) {
 }
 
 storage.removeUnencrypted = function(key) {
-	//TODO
+	localStorage.removeItem("u" + key);
 }
 
 function registrationDone() {
@@ -638,19 +638,25 @@ var crypto_tests = {};
 					sharedSecret += getString(ecRes);
 					var masterKey = HKDF(sharedSecret, '', "WhisperText");
 
-					// Create new ephemeral key for sending
-					createNewKeyPair(false, function(ourSendingEphemeralKey) {
-						var session = {currentRatchet: { rootKey: masterKey[0], ephemeralKeyPair: ourSendingEphemeralKey,
-															lastRemoteEphemeralKey: theirEphemeralPubKey },
-										oldRatchetList: []
-									};
+					var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
+									oldRatchetList: []
+								};
 
-						calculateRatchet(session, theirEphemeralPubKey, true, function() {
-							crypto_storage.saveSession(encodedNumber, session);
-
-							callback();
+					// If we're initiating we go ahead and set our first sending ephemeral key now,
+					// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
+					if (isInitiator) {
+						createNewKeyPair(false, function(ourSendingEphemeralKey) {
+							session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
+							calculateRatchet(session, theirEphemeralPubKey, true, function() {
+								crypto_storage.saveSession(encodedNumber, session);
+								callback();
+							});
 						});
-					});
+					} else {
+						session.currentRatchet.ephemeralKeyPair = ourEphemeralKey;
+						crypto_storage.saveSession(encodedNumber, session);
+						callback();
+					}
 				});
 			}
 
@@ -672,16 +678,20 @@ var crypto_tests = {};
 		//TODO: Check remote identity key matches known-good key
 
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
-		if (preKeyPair === undefined)
-			throw new Error("Missing preKey for PreKeyWhisperMessage");
-
-		initSession(false, preKeyPair, encodedNumber, message.identityKey, message.baseKey, function() {
-			callback();
-		});
+		if (preKeyPair === undefined) {
+			if (crypto_storage.getSession(encodedNumber) !== undefined)
+				callback();
+			else
+				throw new Error("Missing preKey for PreKeyWhisperMessage");
+		} else {
+			initSession(false, preKeyPair, encodedNumber, message.identityKey, message.baseKey, function() {
+				callback();
+			});
+		}
 	}
 
 	var fillMessageKeys = function(chain, counter) {
-		if (chain.chainKey.counter + 1000 < counter)
+		if (chain.chainKey.counter + 1000 < counter) //TODO: maybe 1000 is too low/high in some cases?
 			return; // Stalker, much?
 
 		var messageKeys = chain.messageKeys;
@@ -713,8 +723,14 @@ var crypto_tests = {};
 
 		calculateRatchet(session, remoteKey, false, function() {
 			// Now swap the ephemeral key and calculate the new sending chain
-			ratchet.previousCounter = session[getString(ratchet.ephemeralKeyPair.pubKey)].chainKey.counter;
-			delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+			var previousRatchet = getString(ratchet.ephemeralKeyPair.pubKey);
+			if (session[previousRatchet] !== undefined) {
+				ratchet.previousCounter = session[previousRatchet].chainKey.counter;
+				delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+			} else
+				// TODO: This is just an idiosyncrasy upstream, which we match for testing
+				// it should be changed upstream to something more reasonable.
+				ratchet.previousCounter = 4294967295;
 
 			createNewKeyPair(false, function(keyPair) {
 				ratchet.ephemeralKeyPair = keyPair;
