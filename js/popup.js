@@ -62,16 +62,21 @@ registerOnLoadFunction(function() {
 					append($("<form class='container'>").append(input).append(button)).
 					appendTo(ul);
 				button.click(function() {
+					button.attr("disabled", "disabled");
+					button.text("Sending");
+
 					var sendDestinations = [conversation[0].sender];
-					if (conversation[0].group) {
-							sendDestinations = conversation[0].group.members;
-					}
+					if (conversation[0].group)
+						sendDestinations = conversation[0].group.members;
 
 					var messageProto = new PushMessageContentProtobuf();
 					messageProto.body = input.val();
 
 					sendMessageToNumbers(sendDestinations, messageProto, function(result) {
-						console.log("Sent message: " + result);
+						console.log(result);
+						button.removeAttr("disabled");
+						button.text("Send");
+						input.val("");
 					});
 				});
 			}
