@@ -3,6 +3,7 @@ TODOs in no particular order
 
  * Support group messaging
  * Refactor helpers.js into more files
+ * Fix the type conversion hell I've gotten myself into
  * Min-ify js-deps into fewer files
  * Support attachments
  * Propose multi-device protos/protocol to upstream, support it here
