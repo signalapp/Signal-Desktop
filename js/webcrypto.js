@@ -41,28 +41,24 @@ window.crypto.subtle = (function() {
 			var args = Array.prototype.slice.call(arguments);
 			args.shift();
 			return new Promise(function(resolve) {
-				resolve(implementation.apply(this, args));
+				resolve(toArrayBuffer(implementation.apply(this, args)));
 			});
 		}
 
 		// public interface functions
 		function encrypt(algorithm, key, data) {
-			if (algorithm.name === "AES-CTR") {
-					return promise(encryptAESCTR, data, key, algorithm.counter);
-			}
+			if (algorithm.name === "AES-CTR")
+				return promise(encryptAESCTR, data, key, algorithm.counter);
 		};
 		function decrypt(algorithm, key, data) {
-			if (algorithm.name === "AES-CTR") {
-					return promise(decryptAESCTR, data, key, algorithm.counter);
-			}
-			if (algorithm.name === "AES-CBC") {
-					return promise(decryptAESCBC, data, key, algorithm.iv);
-			}
+			if (algorithm.name === "AES-CTR")
+				return promise(decryptAESCTR, data, key, algorithm.counter);
+			if (algorithm.name === "AES-CBC")
+				return promise(decryptAESCBC, data, key, algorithm.iv);
 		};
 		function sign(algorithm, key, data) {
-			if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256") {
+			if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256")
 				return promise(HmacSHA256, key, data);
-			}
 		};
 
 		return {

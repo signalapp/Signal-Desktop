@@ -140,7 +140,7 @@ registerOnLoadFunction(function() {
 		var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
 		var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-		crypto_tests.privToPub(alice_priv, true, function(aliceKeyPair) {
+		crypto_tests.privToPub(alice_priv, true).then(function(aliceKeyPair) {
 			var target = new Uint8Array(alice_priv.slice(0));
 			target[0] &= 248;
 			target[31] &= 127;
@@ -148,7 +148,7 @@ registerOnLoadFunction(function() {
 			if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.privKey)) != String.fromCharCode.apply(null, target))
 				callback(false);
 
-			crypto_tests.privToPub(bob_priv, true, function(bobKeyPair) {
+			crypto_tests.privToPub(bob_priv, true).then(function(bobKeyPair) {
 				var target = new Uint8Array(bob_priv.slice(0));
 				target[0] &= 248;
 				target[31] &= 127;
@@ -162,11 +162,11 @@ registerOnLoadFunction(function() {
 				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(bob_pub)))
 					callback(false);
 
-				crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey, function(ss) {
+				crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
 					if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 						callback(false);
 
-					crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey, function(ss) {
+					crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
 						if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 							callback(false);
 						else
@@ -303,17 +303,17 @@ registerOnLoadFunction(function() {
 		}
 
 		var privKeyQueue = [];
-		crypto_tests.createNewKeyPair = function(isIdentity, callback) {
+		crypto_tests.createNewKeyPair = function(isIdentity) {
 			if (privKeyQueue.length == 0 || isIdentity)
 				stepDone(false);
 			else {
 				var privKey = privKeyQueue.shift();
-				crypto_tests.privToPub(privKey, false, function(keyPair) {
+				return crypto_tests.privToPub(privKey, false).then(function(keyPair) {
 					var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
 					if (getString(keyPair.privKey) != getString(privKey))
 						stepDone(false);
 					else
-						callback(keyPair);
+						return keyPair;
 				});
 			}
 		}
@@ -338,9 +338,9 @@ registerOnLoadFunction(function() {
 				}
 
 				if (data.ourIdentityKey !== undefined)
-					crypto_tests.privToPub(data.ourIdentityKey, true, function(keyPair) {
+					crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
-						crypto_tests.privToPub(data.ourPreKey, false, function(keyPair) {
+						crypto_tests.privToPub(data.ourPreKey, false).then(function(keyPair) {
 							storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
 							postLocalKeySetup();
 						});
@@ -384,7 +384,7 @@ registerOnLoadFunction(function() {
 					privKeyQueue.push(data.ourEphemeralKey);
 
 				if (data.ourIdentityKey !== undefined)
-					crypto_tests.privToPub(data.ourIdentityKey, true, function(keyPair) {
+					crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
 						postLocalKeySetup();
 					});
@@ -435,37 +435,37 @@ registerOnLoadFunction(function() {
 		var input = getString(hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b'));
 		var mac = getString(hexToArrayBuffer('05d1243e6465ed9620c9aec1c351a186'));
 		HmacSHA256(key, input).then(function(result) {
-			callback(result.substring(0, mac.length) === mac)
+			callback(getString(result).substring(0, mac.length) === mac)
 		});
 	}, "HMAC SHA-256", true);
 
 	TEST(function(callback) {
-		var key = getString(hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c'));
-		var counter = getString(hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'));
-		var plaintext = getString(hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a'));
-		var ciphertext = getString(hexToArrayBuffer('874d6191b620e3261bef6864990db6ce'));
+		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
+		var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
+		var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
+		var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
 		encryptAESCTR(plaintext, key, counter).then(function(result) {
-			callback(result === ciphertext);
+			callback(getString(result) === getString(ciphertext));
 		});
 	}, "Encrypt AES-CTR", true);
 
 	TEST(function(callback) {
-		var key = getString(hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c'));
-		var counter = getString(hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'));
-		var plaintext = getString(hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a'));
-		var ciphertext = getString(hexToArrayBuffer('874d6191b620e3261bef6864990db6ce'));
+		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
+		var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
+		var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
+		var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
 		decryptAESCTR(ciphertext, key, counter).then(function(result) {
-			callback(result === plaintext);
+			callback(getString(result) === getString(plaintext));
 		});
 	}, "Decrypt AES-CTR", true);
 
 	TEST(function(callback) {
-		var key = getString(hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4'));
-		var iv = getString(hexToArrayBuffer('000102030405060708090a0b0c0d0e0f'));
-		var plaintext  = getString(hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710'));
-		var ciphertext = getString(hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644'));
+		var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');
+		var iv = hexToArrayBuffer('000102030405060708090a0b0c0d0e0f');
+		var plaintext  = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710');
+		var ciphertext = hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644');
 		decryptAESCBC(ciphertext, key, iv).then(function(result) {
-			callback(result === plaintext);
+			callback(getString(result) === getString(plaintext));
 		});
 	}, "Decrypt AES-CBC", true);
 
