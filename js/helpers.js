@@ -159,12 +159,6 @@ function toArrayBuffer(thing) {
 	return res;
 }
 
-function assertIsArrayBuffer(thing) {
-	if (thing !== Object(thing) || thing.__proto__ != StaticArrayBufferProto)
-		console.log("WARNING: Needed a ArrayBuffer");
-	return toArrayBuffer(thing);
-}
-
 function ensureStringed(thing) {
 	if (getStringable(thing))
 		return getString(thing);

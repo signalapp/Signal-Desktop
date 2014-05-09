@@ -4,8 +4,16 @@ window.crypto.subtle = (function() {
 	if (window.crypto.subtle !== undefined && window.crypto.subtle !== null) {
 			return window.crypto.subtle;
 	} else {
+		var StaticArrayBufferProto = new ArrayBuffer().__proto__;
+		function assertIsArrayBuffer(thing) {
+			if (thing !== Object(thing) || thing.__proto__ != StaticArrayBufferProto)
+				throw new Error("WARNING: Needed a ArrayBuffer");
+		}
+
 		// private implementation functions
 		function HmacSHA256(key, input) {
+			assertIsArrayBuffer(key);
+			assertIsArrayBuffer(input);
 			return CryptoJS.HmacSHA256(
 					CryptoJS.lib.WordArray.create(toArrayBuffer(input)),
 					CryptoJS.enc.Latin1.parse(getString(key))
@@ -13,6 +21,9 @@ window.crypto.subtle = (function() {
 		};
 
 		function encryptAESCTR(plaintext, key, counter) {
+			assertIsArrayBuffer(plaintext);
+			assertIsArrayBuffer(key);
+			assertIsArrayBuffer(counter);
 				return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
 						CryptoJS.enc.Latin1.parse(getString(key)),
 						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
@@ -21,6 +32,9 @@ window.crypto.subtle = (function() {
 		};
 
 		function decryptAESCTR(ciphertext, key, counter) {
+			assertIsArrayBuffer(ciphertext);
+			assertIsArrayBuffer(key);
+			assertIsArrayBuffer(counter);
 				return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 						CryptoJS.enc.Latin1.parse(getString(key)),
 						{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
@@ -29,6 +43,9 @@ window.crypto.subtle = (function() {
 		};
 
 		function decryptAESCBC(ciphertext, key, iv) {
+			assertIsArrayBuffer(ciphertext);
+			assertIsArrayBuffer(key);
+			assertIsArrayBuffer(iv);
 			return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
 					CryptoJS.enc.Latin1.parse(getString(key)),
 					{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
@@ -40,9 +57,7 @@ window.crypto.subtle = (function() {
 		function promise(implementation) {
 			var args = Array.prototype.slice.call(arguments);
 			args.shift();
-			return new Promise(function(resolve) {
-				resolve(toArrayBuffer(implementation.apply(this, args)));
-			});
+			return new Promise.resolve(toArrayBuffer(implementation.apply(this, args)));
 		}
 
 		// public interface functions

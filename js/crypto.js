@@ -1,30 +1,3 @@
-function HmacSHA256(key, input) {
-	input = assertIsArrayBuffer(input);
-	key = assertIsArrayBuffer(key);
-	return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
-}
-
-function encryptAESCTR(input, key, counter) {
-	input = assertIsArrayBuffer(input);
-	key = assertIsArrayBuffer(key);
-	counter = assertIsArrayBuffer(counter);
-	return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, key, input);
-}
-
-function decryptAESCTR(input, key, counter) {
-	input = assertIsArrayBuffer(input);
-	key = assertIsArrayBuffer(key);
-	counter = assertIsArrayBuffer(counter);
-	return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, key, input);
-}
-
-function decryptAESCBC(input, key, iv) {
-	input = assertIsArrayBuffer(input);
-	key = assertIsArrayBuffer(key);
-	iv = assertIsArrayBuffer(iv);
-	return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, key, input);
-}
-
 // functions exposed for replacement and direct calling in test code
 var crypto_tests = {};
 
@@ -41,6 +14,11 @@ window.crypto = (function() {
 			throw err;
 		}
 	}
+
+	function HmacSHA256(key, input) {
+		return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
+	}
+
 
 	crypto_tests.privToPub = function(privKey, isIdentity) {
 		if (privKey.byteLength != 32)
@@ -168,11 +146,11 @@ window.crypto = (function() {
 
 	crypto_tests.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
-		return HmacSHA256(salt, input).then(function(PRK) {
+		return HmacSHA256(salt, toArrayBuffer(input)).then(function(PRK) {
 			var infoString = getString(info);
 			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
-			return HmacSHA256(PRK, infoString + String.fromCharCode(0)).then(function(T1) {
-				return HmacSHA256(PRK, getString(T1) + infoString + String.fromCharCode(1)).then(function(T2) {
+			return HmacSHA256(PRK, toArrayBuffer(infoString + String.fromCharCode(0))).then(function(T1) {
+				return HmacSHA256(PRK, toArrayBuffer(getString(T1) + infoString + String.fromCharCode(1))).then(function(T2) {
 					return [ T1, T2 ];
 				});
 			});
@@ -200,7 +178,7 @@ window.crypto = (function() {
 		if (version === undefined)
 			version = 1;
 
-		return HmacSHA256(key, String.fromCharCode(version) + getString(data)).then(function(calculated_mac) {
+		return HmacSHA256(key, toArrayBuffer(String.fromCharCode(version) + getString(data))).then(function(calculated_mac) {
 			var macString = getString(mac);
 
 			if (calculated_mac.substring(0, macString.length) != macString)
@@ -212,7 +190,7 @@ window.crypto = (function() {
 		if (version === undefined)
 			version = 1;
 
-		return HmacSHA256(key, String.fromCharCode(version) + getString(data));
+		return HmacSHA256(key, toArrayBuffer(String.fromCharCode(version) + getString(data)));
 	}
 
 	/******************************
@@ -294,8 +272,9 @@ window.crypto = (function() {
 			return new Promise(function(resolve) { resolve() }); // Stalker, much?
 
 		if (chain.chainKey.counter < counter) {
-			return HmacSHA256(chain.chainKey.key, String.fromCharCode(1)).then(function(mac) {
-				return HmacSHA256(chain.chainKey.key, String.fromCharCode(2)).then(function(key) {
+			var key = toArrayBuffer(chain.chainKey.key);
+			return HmacSHA256(key, toArrayBuffer(String.fromCharCode(1))).then(function(mac) {
+				return HmacSHA256(key, toArrayBuffer(String.fromCharCode(2))).then(function(key) {
 					chain.messageKeys[chain.chainKey.counter + 1] = mac;
 					chain.chainKey.key = key
 					chain.chainKey.counter += 1;
@@ -367,8 +346,10 @@ window.crypto = (function() {
 					delete chain.messageKeys[message.counter];
 
 					verifyMACWithVersionByte(messageProto, keys[1], mac, (2 << 4) | 2);
-					var iv = getString(intToArrayBuffer(message.counter));
-					return decryptAESCTR(message.ciphertext, keys[0], iv).then(function(plaintext) {
+					var counter = intToArrayBuffer(message.counter);
+					return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
+												.then(function(plaintext) {
+
 						//TODO: removeOldChains(session);
 						delete session['pendingPreKey'];
 
@@ -399,7 +380,7 @@ window.crypto = (function() {
 		var mac = decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length);
 
 		return verifyMACWithVersionByte(ivAndCipherText, mac_key, mac).then(function() {
-			return decryptAESCBC(ciphertext, aes_key, iv);
+			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
 		});
 	};
 
@@ -440,8 +421,8 @@ window.crypto = (function() {
 					msg.counter = chain.chainKey.counter;
 					msg.previousCounter = session.currentRatchet.previousCounter;
 
-					var iv = intToArrayBuffer(chain.chainKey.counter);
-					return encryptAESCTR(plaintext, keys[0], iv).then(function(ciphertext) {
+					var counter = intToArrayBuffer(chain.chainKey.counter);
+					return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], plaintext).then(function(ciphertext) {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = getString(msg.encode());
 
