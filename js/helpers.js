@@ -488,10 +488,10 @@ var crypto_tests = {};
 
 	var crypto_storage = {};
 
-	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity, callback) {
-		createNewKeyPair(isIdentity).then(function(keyPair) {
+	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity) {
+		return createNewKeyPair(isIdentity).then(function(keyPair) {
 			storage.putEncrypted("25519Key" + keyName, keyPair);
-			callback(keyPair.pubKey);
+			return keyPair.pubKey;
 		});
 	}
 
@@ -890,7 +890,7 @@ var crypto_tests = {};
 	}
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
-	crypto.generateKeys = function(callback) {
+	crypto.generateKeys = function() {
 		var identityKey = crypto_storage.getStoredPubKey("identityKey");
 		var identityKeyCalculated = function(pubKey) {
 			identityKey = pubKey;
@@ -899,33 +899,35 @@ var crypto_tests = {};
 			storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
 			if (firstKeyId > 16777000)
-				throw new Error("You crazy motherfucker");
+				return new Promise(function() { throw new Error("You crazy motherfucker") });
 
 			var keys = {};
 			keys.keys = [];
 			var keysLeft = GENERATE_KEYS_KEYS_GENERATED;
-			for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++) {
-				crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, false, function(pubKey) {
-					keys.keys[i] = {keyId: i, publicKey: pubKey, identityKey: identityKey};
-					keysLeft--;
-					if (keysLeft == 0) {
-						// 0xFFFFFF == 16777215
-						keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
-						if (keys.lastResortKey.publicKey === undefined) {
-							crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false, function(pubKey) {
-								keys.lastResortKey.publicKey = pubKey;
-								callback(keys);
-							});
-						} else
-							callback(keys);
-					}
-				});
-			}
+			return new Promise(function(resolve) {
+				for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++) {
+					crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, false).then(function(pubKey) {
+						keys.keys[i] = {keyId: i, publicKey: pubKey, identityKey: identityKey};
+						keysLeft--;
+						if (keysLeft == 0) {
+							// 0xFFFFFF == 16777215
+							keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
+							if (keys.lastResortKey.publicKey === undefined) {
+								return crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false).then(function(pubKey) {
+									keys.lastResortKey.publicKey = pubKey;
+									resolve(keys);
+								});
+							} else
+								resolve(keys);
+						}
+					});
+				}
+			});
 		}
 		if (identityKey === undefined)
-			crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", true, function(pubKey) { identityKeyCalculated(pubKey); });
+			return crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", true).then(function(pubKey) { return identityKeyCalculated(pubKey); });
 		else
-			identityKeyCalculated(identityKey);
+			return identityKeyCalculated(identityKey);
 	}
 
 }( window.crypto = window.crypto || {}, jQuery ));

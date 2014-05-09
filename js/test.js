@@ -127,10 +127,19 @@ registerOnLoadFunction(function() {
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
 
 	TEST(function(callback) {
-		crypto.generateKeys(function() {
+		crypto.generateKeys().then(function() {
+			if (storage.getEncrypted("25519KeyidentityKey") === undefined)
+				return callback(false);
+			if (storage.getEncrypted("25519KeypreKey16777215") === undefined)
+				return callback(false);
+
+			for (var i = 0; i < 100; i++)
+				if (storage.getEncrypted("25519KeypreKey" + i) === undefined)
+					return callback(false);
+
 			callback(true);
 		});
-	}, "Test simple create key", true);
+	}, "Test Identity/Pre Key Creation", true);
 
 	TEST(function(callback) {
 		// These are just some random curve25519 test vectors I found online (with a version byte prepended to pubkeys)
@@ -437,7 +446,7 @@ registerOnLoadFunction(function() {
 		HmacSHA256(key, input).then(function(result) {
 			callback(getString(result).substring(0, mac.length) === mac)
 		});
-	}, "HMAC SHA-256", true);
+	}, "HMAC SHA-256", false);
 
 	TEST(function(callback) {
 		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
@@ -447,7 +456,7 @@ registerOnLoadFunction(function() {
 		encryptAESCTR(plaintext, key, counter).then(function(result) {
 			callback(getString(result) === getString(ciphertext));
 		});
-	}, "Encrypt AES-CTR", true);
+	}, "Encrypt AES-CTR", false);
 
 	TEST(function(callback) {
 		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
@@ -457,7 +466,7 @@ registerOnLoadFunction(function() {
 		decryptAESCTR(ciphertext, key, counter).then(function(result) {
 			callback(getString(result) === getString(plaintext));
 		});
-	}, "Decrypt AES-CTR", true);
+	}, "Decrypt AES-CTR", false);
 
 	TEST(function(callback) {
 		var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');
@@ -467,7 +476,7 @@ registerOnLoadFunction(function() {
 		decryptAESCBC(ciphertext, key, iv).then(function(result) {
 			callback(getString(result) === getString(plaintext));
 		});
-	}, "Decrypt AES-CBC", true);
+	}, "Decrypt AES-CBC", false);
 
 	// Setup test timeouts (note that this will only work if things are actually
 	// being run async, ie in the case of NaCL)
