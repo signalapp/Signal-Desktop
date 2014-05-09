@@ -471,7 +471,7 @@ function subscribeToPush(message_callback) {
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
-				crypto.handleIncomingPushMessageProto(proto, function(decrypted) {
+				crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
 					storeMessage(decrypted);
 					message_callback(decrypted);
 				}); // Decrypts/decodes/fills in fields/etc
@@ -524,7 +524,7 @@ function sendMessageToDevices(number, deviceObjectList, message, success_callbac
 
 	var addEncryptionFor;
 	addEncryptionFor = function(i) {
-		crypto.encryptMessageFor(deviceObjectList[i], message, function(encryptedMsg) {
+		crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
 			jsonData[i] = {
 				type: encryptedMsg.type,
 				destination: deviceObjectList[i].encodedNumber,

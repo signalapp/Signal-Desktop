@@ -57,14 +57,12 @@ window.crypto = (function() {
 		}
 
 		if (USE_NACL) {
-			return new Promise(function(resolve) {
-				postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
-					var priv = message.res;
-					if (!isIdentity)
-						new Uint8Array(priv)[0] |= 0x01;
-					postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
-						resolve({ pubKey: prependVersion(message.res), privKey: priv });
-					});
+			return postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
+				var priv = message.res;
+				if (!isIdentity)
+					new Uint8Array(priv)[0] |= 0x01;
+				return postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
+					return { pubKey: prependVersion(message.res), privKey: priv };
 				});
 			});
 		} else {
@@ -77,11 +75,11 @@ window.crypto = (function() {
 				priv[0] |= 0x0001;
 
 			//TODO: fscking type conversion
-			return new Promise(function(resolve) { resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey}); });
+			return new Promise.resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
 		}
 	
 	}
-	var privToPub = function(privKey, isIdentity, callback) { return crypto_tests.privToPub(privKey, isIdentity, callback); }
+	var privToPub = function(privKey, isIdentity) { return crypto_tests.privToPub(privKey, isIdentity); }
 
 	crypto_tests.createNewKeyPair = function(isIdentity) {
 		return privToPub(getRandomBytes(32), isIdentity);
@@ -405,31 +403,28 @@ window.crypto = (function() {
 		});
 	};
 
-	crypto.handleIncomingPushMessageProto = function(proto, callback) {
+	crypto.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
-			callback({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
-			break;
+			return Promise.resolve({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			decryptWhisperMessage(proto.source, getString(proto.message)).then(function(result) {
-				callback({message: result, pushMessage: proto});
+			return decryptWhisperMessage(proto.source, getString(proto.message)).then(function(result) {
+				return {message: result, pushMessage: proto};
 			});
-			break;
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function() {
-				decryptWhisperMessage(proto.source, getString(preKeyProto.message)).then(function(result) {
-					callback({message: result, pushMessage: proto});
+			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function() {
+				return decryptWhisperMessage(proto.source, getString(preKeyProto.message)).then(function(result) {
+					return {message: result, pushMessage: proto};
 				});
 			});
-			break;
 		}
 	}
 
-	// callback(encoded [PreKey]WhisperMessage)
-	crypto.encryptMessageFor = function(deviceObject, pushMessageContent, callback) {
+	// return Promise(encoded [PreKey]WhisperMessage)
+	crypto.encryptMessageFor = function(deviceObject, pushMessageContent) {
 		var session = crypto_storage.getSession(deviceObject.encodedNumber);
 
 		var doEncryptPushMessageContent = function() {
@@ -466,28 +461,28 @@ window.crypto = (function() {
 		preKeyMsg.registrationId = deviceObject.registrationId;
 
 		if (session === undefined) {
-			createNewKeyPair(false).then(function(baseKey) {
+			return createNewKeyPair(false).then(function(baseKey) {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-				initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey).then(function() {
+				return initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey).then(function() {
 					//TODO: Delete preKey info on first message received back
 					session = crypto_storage.getSession(deviceObject.encodedNumber);
 					session.pendingPreKey = baseKey.pubKey;
-					doEncryptPushMessageContent().then(function(message) {
+					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = toArrayBuffer(message);
 						var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
-						callback({type: 3, body: result});
+						return {type: 3, body: result};
 					});
 				});
 			});
 		} else
-			doEncryptPushMessageContent().then(function(message) {
+			return doEncryptPushMessageContent().then(function(message) {
 				if (session.pendingPreKey !== undefined) {
 					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey);
 					preKeyMsg.message = toArrayBuffer(message);
 					var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
-					callback({type: 3, body: result});
+					return {type: 3, body: result};
 				} else
-					callback({type: 1, body: getString(message)});
+					return {type: 1, body: getString(message)};
 			});
 	}
 

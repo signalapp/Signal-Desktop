@@ -44,13 +44,13 @@ function TEST(func, name, exclusive) {
 
 	maxTestId = maxTestId + 1;
 
-	function callback(result) {
+	function resolve(result) {
 		if (testsOutstanding[testIndex] == undefined)
 			testsdiv.append('<p style="color: red;">' + funcName + ' called back multiple times</p>');
-		else if (result)
+		else if (result === true)
 			testsdiv.append('<p style="color: green;">' + funcName + ' passed</p>');
 		else
-			testsdiv.append('<p style="color: red;">' + funcName + ' returned false</p>');
+			testsdiv.append('<p style="color: red;">' + funcName + ' returned ' + result + '</p>');
 		delete testsOutstanding[testIndex];
 
 		if (exclusive) {
@@ -71,7 +71,10 @@ function TEST(func, name, exclusive) {
 
 		try {
 			testsOutstanding[testIndex] = funcName;
-			func(callback);
+			func().then(resolve).catch(function(e) {
+				console.log(e.stack);
+				testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + e + '</p>');
+			});
 		} catch (e) {
 			console.log(e.stack);
 			testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + e + '</p>');
@@ -96,21 +99,21 @@ registerOnLoadFunction(function() {
 	localStorage.clear();
 
 	// Random tests to check my JS knowledge
-	TEST(function(callback) { callback(!objectContainsKeys({})); });
-	TEST(function(callback) { callback(objectContainsKeys({ a: undefined })); });
-	TEST(function(callback) { callback(objectContainsKeys({ a: null })); });
+	TEST(function() { return Promise.resolve(!objectContainsKeys({})); });
+	TEST(function() { return Promise.resolve(objectContainsKeys({ a: undefined })); });
+	TEST(function() { return Promise.resolve(objectContainsKeys({ a: null })); });
 
-	TEST(function(callback) {
+	TEST(function() {
 		var b = new ArrayBuffer(3);
 		var a = new Uint8Array(b);
 		a[0] = 0;
 		a[1] = 255;
 		a[2] = 128;
-		callback(getString(b) == "\x00\xff\x80");
+		return Promise.resolve(getString(b) == "\x00\xff\x80");
 	}, "ArrayBuffer->String conversion");
 
 	// Basic sanity-checks on the crypto library
-	TEST(function(callback) {
+	TEST(function() {
 		var PushMessageProto = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
 		var IncomingMessageProto = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
 
@@ -119,29 +122,29 @@ registerOnLoadFunction(function() {
 		var server_message = {type: 0, // unencrypted
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
-		crypto.handleIncomingPushMessageProto(server_message, function(message) {
-			callback(message.message.body == text_message.body &&
+		return crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
+			return (message.message.body == text_message.body &&
 					message.message.attachments.length == text_message.attachments.length &&
 					text_message.attachments.length == 0);
 		});
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
 
-	TEST(function(callback) {
-		crypto.generateKeys().then(function() {
+	TEST(function() {
+		return crypto.generateKeys().then(function() {
 			if (storage.getEncrypted("25519KeyidentityKey") === undefined)
-				return callback(false);
+				return false;
 			if (storage.getEncrypted("25519KeypreKey16777215") === undefined)
-				return callback(false);
+				return false;
 
 			for (var i = 0; i < 100; i++)
 				if (storage.getEncrypted("25519KeypreKey" + i) === undefined)
-					return callback(false);
+					return false;
 
-			callback(true);
+			return true;
 		});
 	}, "Test Identity/Pre Key Creation", true);
 
-	TEST(function(callback) {
+	TEST(function() {
 		// These are just some random curve25519 test vectors I found online (with a version byte prepended to pubkeys)
 		var alice_priv = hexToArrayBuffer("77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
 		var alice_pub  = hexToArrayBuffer("058520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a");
@@ -149,37 +152,37 @@ registerOnLoadFunction(function() {
 		var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
 		var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-		crypto_tests.privToPub(alice_priv, true).then(function(aliceKeyPair) {
+		return crypto_tests.privToPub(alice_priv, true).then(function(aliceKeyPair) {
 			var target = new Uint8Array(alice_priv.slice(0));
 			target[0] &= 248;
 			target[31] &= 127;
 			target[31] |= 64;
 			if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.privKey)) != String.fromCharCode.apply(null, target))
-				callback(false);
+				return false;
 
-			crypto_tests.privToPub(bob_priv, true).then(function(bobKeyPair) {
+			return crypto_tests.privToPub(bob_priv, true).then(function(bobKeyPair) {
 				var target = new Uint8Array(bob_priv.slice(0));
 				target[0] &= 248;
 				target[31] &= 127;
 				target[31] |= 64;
 				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.privKey)) != String.fromCharCode.apply(null, target))
-					callback(false);
+					return false;
 
 				if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(alice_pub)))
-					callback(false);
+					return false;
 
 				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(bob_pub)))
-					callback(false);
+					return false;
 
-				crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
+				return crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
 					if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
-						callback(false);
+						return false;
 
-					crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
+					return crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
 						if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
-							callback(false);
+							return false;
 						else
-							callback(true);
+							return true;
 					});
 				});
 			});
@@ -188,7 +191,7 @@ registerOnLoadFunction(function() {
 
 	// TextSecure implements a slightly tweaked version of RFC 5869 and thus this test fails
 	// If you tweak the HKDF as noted in the comment there, this test passes
-	/*TEST(function(callback) {
+	/*TEST(function() {
 		var IKM = new Uint8Array(new ArrayBuffer(22));
 		for (var i = 0; i < 22; i++)
 			IKM[i] = 11;
@@ -201,11 +204,11 @@ registerOnLoadFunction(function() {
 		for (var i = 0; i < 10; i++)
 			info[i] = 240 + i;
 
-		crypto_tests.HKDF(IKM, salt, info).then(function(OKM){
+		return crypto_tests.HKDF(IKM, salt, info).then(function(OKM){
 			var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
 			var T2 = hexToArrayBuffer("34007208d5b887185865");
-			callback(getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
-		}, console.log);
+			return (getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
+		});
 	}, "HMAC RFC5869 Test vectors");*/
 
 	var axolotlTwoPartyTestVectorsAlice = [
@@ -296,31 +299,32 @@ registerOnLoadFunction(function() {
 			}],
 		];
 
-	var axolotlTestVectors = function(v, remoteDevice, callback) {
+	var axolotlTestVectors = function(v, remoteDevice) {
 		var origCreateNewKeyPair = crypto_tests.createNewKeyPair;
 		var doStep;
 
 		var stepDone = function(res) {
+console.log('stepDone');
 			if (!res || privKeyQueue.length != 0) {
 				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
-				callback(false);
+				return false;
 			} else if (step == v.length) {
 				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
-				callback(true);
+				return true;
 			} else
-				doStep();
+				return doStep();
 		}
 
 		var privKeyQueue = [];
 		crypto_tests.createNewKeyPair = function(isIdentity) {
 			if (privKeyQueue.length == 0 || isIdentity)
-				stepDone(false);
+				throw new Error('Out of private keys');
 			else {
 				var privKey = privKeyQueue.shift();
 				return crypto_tests.privToPub(privKey, false).then(function(keyPair) {
 					var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
 					if (getString(keyPair.privKey) != getString(privKey))
-						stepDone(false);
+						throw new Error('Failed to rederive private key!');
 					else
 						return keyPair;
 				});
@@ -341,23 +345,22 @@ registerOnLoadFunction(function() {
 					message.type = data.type;
 					message.source = remoteDevice.encodedNumber;
 					message.message = data.message;
-					crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode())), function(res) {
-						stepDone(res.message.body == data.expectedSmsText);
+					return crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+						return res.message.body == data.expectedSmsText;
 					});
 				}
 
 				if (data.ourIdentityKey !== undefined)
-					crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+					return crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
-						crypto_tests.privToPub(data.ourPreKey, false).then(function(keyPair) {
+						return crypto_tests.privToPub(data.ourPreKey, false).then(function(keyPair) {
 							storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
-							postLocalKeySetup();
+							return postLocalKeySetup();
 						});
 					});
 				else
-					postLocalKeySetup();
+					return postLocalKeySetup();
 
-				break;
 			case "sendMessage":
 				var postLocalKeySetup = function() {
 					if (data.theirIdentityKey !== undefined)
@@ -371,18 +374,17 @@ registerOnLoadFunction(function() {
 					var message = new PushMessageContentProtobuf();
 					message.body = data.smsText;
 
-					crypto.encryptMessageFor(remoteDevice, message, function(res) {
+					return crypto.encryptMessageFor(remoteDevice, message).then(function(res) {
 						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
 						if (res.type == 1) { //XXX: This should be used for everything...
 							var expectedString = getString(data.expectedCiphertext);
 							var decoded = decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
 							var result = getString(res.body);
-							stepDone(getString(decoded.encode()) == result.substring(1, result.length - 8));
-							return;
+							return getString(decoded.encode()) == result.substring(1, result.length - 8);
 						} else {
 							var decoded = decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
 							var result = getString(res.body).substring(1);
-							stepDone(getString(decoded.encode()) == result);
+							return getString(decoded.encode()) == result;
 						}
 					});
 				}
@@ -393,39 +395,38 @@ registerOnLoadFunction(function() {
 					privKeyQueue.push(data.ourEphemeralKey);
 
 				if (data.ourIdentityKey !== undefined)
-					crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+					return crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
-						postLocalKeySetup();
+						return postLocalKeySetup();
 					});
 				else
-					postLocalKeySetup();
+					return postLocalKeySetup();
 
-				break;
 			default:
-				stepDone(false);
+				return Promise.resolve(false);
 			}
 		}
-		doStep();
+		return doStep().then(stepDone);
 	}
 
-	TEST(function(callback) {
-		axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" }, callback);
+	TEST(function() {
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" });
 	}, "Standard Axolotl Test Vectors as Alice", true);
 
-	TEST(function(callback) {
+	TEST(function() {
 		var t = axolotlTwoPartyTestVectorsAlice[2][1];
 		axolotlTwoPartyTestVectorsAlice[2][1] = axolotlTwoPartyTestVectorsAlice[3][1];
 		axolotlTwoPartyTestVectorsAlice[2][1].newEphemeralKey = t.newEphemeralKey;
 		axolotlTwoPartyTestVectorsAlice[3][1] = t;
 		delete axolotlTwoPartyTestVectorsAlice[3][1]['newEphemeralKey'];
-		axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" }, callback);
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" });
 	}, "Shuffled Axolotl Test Vectors as Alice", true);
 
-	TEST(function(callback) {
-		axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" }, callback);
+	TEST(function() {
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" });
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
-	TEST(function(callback) {
+	TEST(function() {
 		var v0 = axolotlTwoPartyTestVectorsBob[0][1];
 		var v1 = axolotlTwoPartyTestVectorsBob[1][1];
 
@@ -436,45 +437,45 @@ registerOnLoadFunction(function() {
 		axolotlTwoPartyTestVectorsBob[0][1].newEphemeralKey = v0.newEphemeralKey;
 
 		axolotlTwoPartyTestVectorsBob[1][1] = { message: v0.message, type: v0.type, expectedSmsText: v0.expectedSmsText };
-		axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" }, callback);
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" });
 	}, "Shuffled Axolotl Test Vectors as Bob", true);
 
-	TEST(function(callback) {
-		var key = getString(hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245'));
-		var input = getString(hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b'));
+	TEST(function() {
+		var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
+		var input = hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b');
 		var mac = getString(hexToArrayBuffer('05d1243e6465ed9620c9aec1c351a186'));
-		HmacSHA256(key, input).then(function(result) {
-			callback(getString(result).substring(0, mac.length) === mac)
+		return HmacSHA256(key, input).then(function(result) {
+			return getString(result).substring(0, mac.length) === mac;
 		});
 	}, "HMAC SHA-256", false);
 
-	TEST(function(callback) {
+	TEST(function() {
 		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
 		var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
 		var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
 		var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-		encryptAESCTR(plaintext, key, counter).then(function(result) {
-			callback(getString(result) === getString(ciphertext));
+		return encryptAESCTR(plaintext, key, counter).then(function(result) {
+			return getString(result) === getString(ciphertext);
 		});
 	}, "Encrypt AES-CTR", false);
 
-	TEST(function(callback) {
+	TEST(function() {
 		var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
 		var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
 		var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
 		var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-		decryptAESCTR(ciphertext, key, counter).then(function(result) {
-			callback(getString(result) === getString(plaintext));
+		return decryptAESCTR(ciphertext, key, counter).then(function(result) {
+			return getString(result) === getString(plaintext);
 		});
 	}, "Decrypt AES-CTR", false);
 
-	TEST(function(callback) {
+	TEST(function() {
 		var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');
 		var iv = hexToArrayBuffer('000102030405060708090a0b0c0d0e0f');
 		var plaintext  = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710');
 		var ciphertext = hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644');
-		decryptAESCBC(ciphertext, key, iv).then(function(result) {
-			callback(getString(result) === getString(plaintext));
+		return decryptAESCBC(ciphertext, key, iv).then(function(result) {
+			return getString(result) === getString(plaintext);
 		});
 	}, "Decrypt AES-CBC", false);
 
