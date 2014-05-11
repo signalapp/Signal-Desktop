@@ -2,7 +2,7 @@
 var crypto_tests = {};
 
 window.crypto = (function() {
-	function getRandomBytes(size) {
+	crypto.getRandomBytes = function(size) {
 		//TODO: Better random (https://www.grc.com/r&d/js.htm?)
 		try {
 			var buffer = new ArrayBuffer(size);
@@ -60,7 +60,7 @@ window.crypto = (function() {
 	var privToPub = function(privKey, isIdentity) { return crypto_tests.privToPub(privKey, isIdentity); }
 
 	crypto_tests.createNewKeyPair = function(isIdentity) {
-		return privToPub(getRandomBytes(32), isIdentity);
+		return privToPub(crypto.getRandomBytes(32), isIdentity);
 	}
 	var createNewKeyPair = function(isIdentity) { return crypto_tests.createNewKeyPair(isIdentity); }
 
