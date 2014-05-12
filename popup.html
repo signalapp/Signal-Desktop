@@ -1,3 +1,5 @@
+<!-- vim: ts=4:sw=4:noexpandtab:
+--!>
 <!--This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -14,13 +16,16 @@
 
 <html>
 <head>
-<link type='text/css' rel='stylesheet' href='popup.css'>
+<link type='text/css' rel='stylesheet' href='css/forms.css'>
+<link type='text/css' rel='stylesheet' href='css/buttons.css'>
+<link type='text/css' rel='stylesheet' href='css/conversation.css'>
+<link type='text/css' rel='stylesheet' href='css/popup.css'>
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
 	<header class="clearfix">
 		<div class='container'>
-			<button id="inbox_link">Inbox</button>
-			<button id="send_link">Compose</button>
+		<button class='btn selected' id='inbox_link'><span>Inbox</span></button>
+		<button class='btn' id='send_link'><span>Compose</span></button>
 		</div>
 	</header>
 	<div class='container'>
@@ -40,16 +45,18 @@
 				<button id="popup_send_button">Send</button>
 			</form>
 		</div>
+		<div id="inbox">
+		</div>
 	</div>
-	<div id="inbox">
-		<ul id="conversations">
-		</ul>
-	</div>
-
 	<script type="text/javascript" src="js/webcrypto.js"></script>
 	<script type="text/javascript" src="js/crypto.js"></script>
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.js"></script>
+	<script type="text/javascript" src="js-deps/underscore.js"></script>
+	<script type="text/javascript" src="js-deps/backbone.js"></script>
+	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
+	<script type="text/javascript" src="js/models/messages.js"></script>
+	<script type="text/javascript" src="js/views/messages.js"></script>
 	<script type="text/javascript" src="js-deps/core.js"></script>
 	<script type="text/javascript" src="js-deps/enc-base64.js"></script>
 	<script type="text/javascript" src="js-deps/cipher-core.js"></script>

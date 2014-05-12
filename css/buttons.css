@@ -1,0 +1,26 @@
+.btn span {
+  display: inline-block;
+  padding: 0.5em;
+  border: 2px solid #7fd0ed;
+  border-radius: 4px;
+}
+.btn {
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 2px;
+  border: none;
+}
+.btn:hover, .btn:focus {
+  cursor: pointer;
+  outline: none;
+  background-color: #f1fafd;
+}
+.btn:active {
+  outline: 2px dashed #acdbf5;
+}
+.btn.selected span,
+.btn:active span {
+  background-color: #7fd0ed;
+  border: 2px solid #acdbf5;
+  color: #fff;
+}

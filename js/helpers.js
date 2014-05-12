@@ -362,26 +362,6 @@ function isRegistrationDone() {
 	return storage.getUnencrypted("registration_done") !== undefined;
 }
 
-function getMessageMap() {
-	return storage.getEncrypted("messageMap", {});
-}
-
-function storeMessage(messageObject) {
-	var messageMap = getMessageMap();
-	var conversation = messageMap[messageObject.pushMessage.source]; //TODO: Also support Group message IDs here
-	if (conversation === undefined) {
-		conversation = [];
-		messageMap[messageObject.pushMessage.source] = conversation;
-	}
-
-	conversation[conversation.length] = { message:    messageObject.message.body != null && getString(messageObject.message.body),
-										sender:       messageObject.pushMessage.source,
-										timestamp:    messageObject.pushMessage.timestamp.div(dcodeIO.Long.fromNumber(1000)).toNumber() };
-	storage.putEncrypted("messageMap", messageMap);
-	chrome.runtime.sendMessage(conversation[conversation.length - 1]);
-}
-
-
 /**********************
  *** NaCL Interface ***
  **********************/
@@ -493,7 +473,7 @@ window.textsecure.subscribeToPush = function() {
 							promises[i] = handleAttachment(decrypted.message.attachments[i]);
 						}
 						return Promise.all(promises).then(function() {
-							storeMessage(decrypted);
+							Whisper.Messages.addIncomingMessage(decrypted);
 							message_callback(decrypted);
 						});
 					})

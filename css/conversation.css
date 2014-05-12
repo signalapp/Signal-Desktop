@@ -1,0 +1,176 @@
+.conversation {
+  position: relative;
+  max-width: 400px;
+  margin: auto;
+  padding: 1em;
+  border-radius: 10px;
+  border: 2px solid #acdbf5;
+  background-color: #7fd0ed;
+  color: #fff;
+  margin-bottom: 0.5em;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: convoopen;
+}
+
+.conversation.closed {
+  background-color: #fff;
+  color: #7fd0ed;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: convoclose;
+}
+@-webkit-keyframes convoclose {
+  from { background-color: #7fd0ed; }
+  to   { background-color: #fff; }
+}
+@-webkit-keyframes convoopen {
+  from { background-color: #fff; }
+  to   { background-color: #7fd0ed; }
+}
+
+.conversation.closed:hover {
+  background-color: #f1fafd;
+  cursor: pointer;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: hovercolorfadein;
+}
+.conversation.closed:not(hover) {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-name: hovercolorfadeout;
+}
+@-webkit-keyframes hovercolorfadein {
+  from { background-color: #fff; }
+  to   { background-color: #f1fafd; }
+}
+@-webkit-keyframes hovercolorfadeout {
+  from { background-color: #f1fafd; }
+  to   { background-color: #fff; }
+}
+
+.conversation .header {
+  padding: 0.3em 0.6em 0.3em 46px;
+}
+.avatar {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  display: inline-block;
+  background-color: #fff;
+  border: 2px solid #acdbf5;
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  float: left;
+}
+
+.conversation .header span {
+  display: inline-block;
+}
+
+.collapsable {
+  background-color: #fff;
+  border: 2px solid #acdbf5;
+  padding: 1em 0em;
+  line-height: 1.2em;
+  font-family: sans-serif;
+  border-radius: 30px;
+}
+
+.messages + form {
+  text-align: right;
+}
+
+.conversation form {
+  margin-top: 0.5em;
+}
+
+.message-text {
+  display: block;
+  padding: 0.5em 0.6em 0em;
+}
+
+.metadata {
+  display: block;
+  color: #cccccc;
+  font-size: 0.70em;
+  padding: 0.2em 0.6em;
+  visibility: hidden;
+}
+.bubble:hover .metadata {
+  visibility: visible;
+}
+
+.bubble {
+  display: inline-block;
+  background-color: #fafafa;
+  color: #333333;
+  border: 2px solid #7fd0ed;
+  position: relative;
+  border-radius: 8px;
+}
+
+.sending .bubble {
+  opacity: 0.7;
+}
+
+.incoming .bubble {
+  background-color: #ffffff;
+  float: left;
+}
+.incoming .bubble:after, .incoming .bubble:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 11px;
+  left: -0.8em;
+  border-right: solid 0.5em #ffffff;
+  border-top: solid 7px transparent;
+  border-left: solid 0.4em transparent;
+  border-bottom: solid 7px transparent;
+}
+
+.outgoing .bubble {
+  float: right;
+  background-color: #f5feff;
+}
+.outgoing .bubble:after, .outgoing .bubble:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 11px;
+  right: -0.8em;
+  border-top: solid 7px transparent;
+  border-right: solid 0.4em transparent;
+  border-bottom: solid 7px transparent;
+}
+
+.outgoing .bubble:after {
+  border-left: solid 0.5em #f5feff;
+}
+.outgoing .bubble:before {
+  border-left: solid 0.5em #7fd0ed;
+  right: -0.9em;
+}
+
+.incoming .bubble:before {
+  border-right: solid 0.5em #7fd0ed;
+  left: -0.9em;
+}
+
+.outgoing .bubble, .outgoing .metadata {
+  text-align: right;
+}
+
+.message {
+  padding: 0.3em 11.63636px;
+}
+
+.message:after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+}

@@ -1,0 +1,99 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+body {
+  margin: 0;
+  min-width: 400px;
+  min-height: 500px;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 0 1em;
+}
+
+header {
+  padding: 5px 0;
+}
+
+form.compose {
+  position: relative;
+}
+
+label {
+  float: left;
+  margin-right: 1em;
+}
+
+form.compose input[type=text], form.compose textarea {
+  margin: 0.5em 0;
+}
+#send input[type=submit] {
+  float: right;
+}
+
+#popup_send_numbers {
+  margin-bottom: 0;
+}
+
+#popup_send_numbers:focus + .contacts,
+.contacts:hover {
+  display: block;
+  z-index: 10;
+}
+
+.contacts {
+  display: none;
+  position: absolute;
+  left: 10px;
+}
+
+.contact {
+  border: solid 1px #ccc;
+  background: #fff;
+  font-size: 88%;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.contact .pic {
+  display: block;
+  float: left;
+  width: 30px;
+  height: 30px;
+  background: #ddd;
+}
+
+.contact .name, .contact .number {
+  line-height: 30px;
+  margin-left: 5px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+
+/* Formatting */

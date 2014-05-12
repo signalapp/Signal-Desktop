@@ -1,0 +1,25 @@
+input[type=text], textarea {
+  position: relative;
+  display: inline-block;
+  padding: 7px;
+  border: 2px solid #7fd0ed;
+  border-radius: 4px;
+  background-color: #fafafa;
+  color: #333333;
+}
+
+
+input[type=text]:focus {
+  outline: 2px dashed #acdbf5;
+  outline-offset: 2px;
+}
+
+textarea {
+  resize: vertical;
+  width: 100%;
+  min-height: 100px;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+}
