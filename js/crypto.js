@@ -115,16 +115,20 @@ window.crypto = (function() {
 		if (privKey === undefined || privKey.byteLength != 32)
 			throw new Error("Invalid private key");
 
-		if (pubKey === undefined || pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5)
+		if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
 			throw new Error("Invalid public key");
+		if (pubKey.byteLength == 33)
+			pubKey = pubKey.slice(1);
+		else
+			console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
 
 		return new Promise(function(resolve) {
 			if (USE_NACL) {
-				postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey.slice(1)}).then(function(message) {
+				postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}).then(function(message) {
 					resolve(message.res);
 				});
 			} else {
-				resolve(toArrayBuffer(curve25519(new Uint16Array(privKey), new Uint16Array(pubKey.slice(1)))));
+				resolve(toArrayBuffer(curve25519(new Uint16Array(privKey), new Uint16Array(pubKey))));
 			}
 		});
 	}
@@ -438,7 +442,9 @@ window.crypto = (function() {
 		if (session === undefined) {
 			return createNewKeyPair(false).then(function(baseKey) {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-				return initSession(true, baseKey, deviceObject.encodedNumber, deviceObject.identityKey, deviceObject.publicKey).then(function() {
+				return initSession(true, baseKey, deviceObject.encodedNumber,
+									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.publicKey))
+							.then(function() {
 					//TODO: Delete preKey info on first message received back
 					session = crypto_storage.getSession(deviceObject.encodedNumber);
 					session.pendingPreKey = baseKey.pubKey;
@@ -475,25 +481,27 @@ window.crypto = (function() {
 
 			var keys = {};
 			keys.keys = [];
-			var keysLeft = GENERATE_KEYS_KEYS_GENERATED;
-			return new Promise(function(resolve) {
-				for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++) {
-					crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + i, false).then(function(pubKey) {
-						keys.keys[i] = {keyId: i, publicKey: pubKey, identityKey: identityKey};
-						keysLeft--;
-						if (keysLeft == 0) {
-							// 0xFFFFFF == 16777215
-							keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
-							if (keys.lastResortKey.publicKey === undefined) {
-								return crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false).then(function(pubKey) {
-									keys.lastResortKey.publicKey = pubKey;
-									resolve(keys);
-								});
-							} else
-								resolve(keys);
-						}
+
+			var generateKey = function(keyId) {
+				return crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + keyId, false).then(function(pubKey) {
+					keys.keys[keyId] = {keyId: keyId, publicKey: pubKey, identityKey: identityKey};
+				});
+			};
+
+			var promises = [];
+			for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
+				promises[i] = generateKey(i);
+
+			return Promise.all(promises).then(function() {
+				// 0xFFFFFF == 16777215
+				keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
+				if (keys.lastResortKey.publicKey === undefined) {
+					return crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false).then(function(pubKey) {
+						keys.lastResortKey.publicKey = pubKey;
+						return keys;
 					});
-				}
+				} else
+					return keys;
 			});
 		}
 		if (identityKey === undefined)

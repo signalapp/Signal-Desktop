@@ -44,7 +44,7 @@ var API	= new function() {
 		* 	do_auth:			alternative to user/password where user/password are figured out automagically
 		* 	jsonData:			JSON data sent in the request body
 		*/
-	this.doAjax = function doAjax(param) {
+	var doAjax = function(param) {
 		if (param.urlParameters === undefined)
 			param.urlParameters = "";
 
@@ -53,47 +53,52 @@ var API	= new function() {
 			param.password	= storage.getEncrypted("password");
 		}
 
-		$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
-			type		: param.httpType,
-			data		: param.jsonData && jsonThing(param.jsonData),
-			contentType : 'application/json; charset=utf-8',
-			dataType	: 'json',
+		return new Promise(function(resolve, reject) {
+			$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
+				type		: param.httpType,
+				data		: param.jsonData && jsonThing(param.jsonData),
+				contentType : 'application/json; charset=utf-8',
+				dataType	: 'json',
 
-			beforeSend	: function(xhr) {
-							if (param.user		 !== undefined &&
-								param.password !== undefined)
-									xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(param.user) + ":" + getString(param.password)));
-							},
+				beforeSend	: function(xhr) {
+								if (param.user		 !== undefined &&
+									param.password !== undefined)
+										xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(param.user) + ":" + getString(param.password)));
+								},
 
-			success		: function(response, textStatus, jqXHR) {
-								if (param.success_callback !== undefined)
-									param.success_callback(response);
-							},
+				success		: function(response, textStatus, jqXHR) {
+									resolve(response);
+								},
 
-			error		: function(jqXHR, textStatus, errorThrown) {
-								var code = jqXHR.status;
-								if (code == 200) {
-									// happens sometimes when we get no response
-									// (TODO: Fix server to return 204? instead)
-									if (param.success_callback !== undefined)
-										param.success_callback(null);
-									return;
+				error		: function(jqXHR, textStatus, errorThrown) {
+									var code = jqXHR.status;
+									if (code == 200) {
+										// happens sometimes when we get no response
+										// (TODO: Fix server to return 204? instead)
+										resolve(null);
+										return;
+									}
+									if (code > 999 || code < 100)
+										code = -1;
+									var e = new Error(code);
+									e.name = "HTTPError";
+									reject(e);
 								}
-								if (code > 999 || code < 100)
-									code = -1;
-								if (param.error_callback !== undefined)
-									param.error_callback(code);
-							}
+			});
 		});
 	};
 
 	this.requestVerificationCode = function(number, success_callback, error_callback) {
-		this.doAjax({
+		doAjax({
 			call				: 'accounts',
 			httpType			: 'GET',
 			urlParameters		: '/sms/code/' + number,
-			success_callback	: success_callback,
-			error_callback		: error_callback
+		}).then(function(response) {
+			if (success_callback !== undefined)
+				success_callback(response);
+		}).catch(function(code) {
+			if (error_callback !== undefined)
+				error_callback(code);
 		});
 	};
 
@@ -103,7 +108,7 @@ var API	= new function() {
 		var call = single_device ? 'accounts' : 'devices';
 		var urlPrefix = single_device ? '/code/' : '/';
 
-		API.doAjax({
+		doAjax({
 			call				: call,
 			httpType			: 'PUT',
 			urlParameters		: urlPrefix + code,
@@ -112,8 +117,12 @@ var API	= new function() {
 			jsonData			: { signalingKey		: btoa(getString(signaling_key)),
 														  supportsSms		: false,
 														  fetchesMessages	: true },
-			success_callback	: success_callback,
-			error_callback		: error_callback
+		}).then(function(response) {
+			if (success_callback !== undefined)
+				success_callback(response);
+		}).catch(function(code) {
+			if (error_callback !== undefined)
+				error_callback(code);
 		});
 	};
 
@@ -123,23 +132,27 @@ var API	= new function() {
 		for (var i = 0; i < keys.keys.length; i++)
 			keys.keys[i] = {keyId: i, publicKey: btoa(getString(keys.keys[i].publicKey)), identityKey: identityKey};
 		keys.lastResortKey = {keyId: keys.lastResortKey.keyId, publicKey: btoa(getString(keys.lastResortKey.publicKey)), identityKey: identityKey};
-		this.doAjax({
+		doAjax({
 			call				: 'keys',
 			httpType			: 'PUT',
 			do_auth				: true,
 			jsonData			: keys,
-			success_callback	: success_callback,
-			error_callback		: error_callback
+		}).then(function(response) {
+			if (success_callback !== undefined)
+				success_callback(response);
+		}).catch(function(code) {
+			if (error_callback !== undefined)
+				error_callback(code);
 		});
 	};
 
 	this.getKeysForNumber = function(number, success_callback, error_callback) {
-		this.doAjax({
+		doAjax({
 			call				: 'keys',
 			httpType			: 'GET',
 			do_auth				: true,
 			urlParameters		: "/" + getNumberFromString(number) + "/*",
-			success_callback	: function(response) {
+		}).then(function(response) {
 				//TODO: Do this conversion somewhere else?
 				var res = response.keys;
 				for (var i = 0; i < res.length; i++) {
@@ -149,12 +162,13 @@ var API	= new function() {
 						res[i].keyId = 0;
 				}
 				success_callback(res);
-			},
-			error_callback		: error_callback
+		}).catch(function(code) {
+			if (error_callback !== undefined)
+				error_callback(code);
 		});
 	};
 
-	this.sendMessages = function(destination, messageArray, success_callback, error_callback) {
+	this.sendMessages = function(destination, messageArray) {
 		//TODO: Do this conversion somewhere else?
 		for (var i = 0; i < messageArray.length; i++)
 			messageArray[i].body = btoa(messageArray[i].body);
@@ -162,14 +176,12 @@ var API	= new function() {
 		if (messageArray[0].relay !== undefined)
 			jsonData.relay = messageArray[0].relay;
 		
-		this.doAjax({
+		return doAjax({
 			call				: 'messages',
 			httpType			: 'PUT',
 			urlParameters		: '/' + destination,
 			do_auth				: true,
 			jsonData			: jsonData,
-			success_callback	: success_callback,
-			error_callback		: error_callback
 		});
-	};
+	}
 }(); // API

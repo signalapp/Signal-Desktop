@@ -85,7 +85,7 @@ $('#init-go').click(function() {
 
 				var register_keys_func = function() {
 					$('#verify2done').html('done');
-					crypto.generateKeys(function(keys) {
+					crypto.generateKeys().then(function(keys) {
 						$('#verify3done').html('done');
 						API.registerKeys(keys,
 							function(response) {

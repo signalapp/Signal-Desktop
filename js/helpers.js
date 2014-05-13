@@ -181,10 +181,6 @@ function jsonThing(thing) {
 	return JSON.stringify(ensureStringed(thing));
 }
 
-function getArrayBuffer(string) {
-	return base64DecToArr(btoa(string));
-}
-
 function base64ToArrayBuffer(string) {
 	return base64DecToArr(string);
 }
@@ -505,20 +501,10 @@ function getKeysForNumber(number, success_callback, error_callback) {
 function sendMessageToDevices(number, deviceObjectList, message, success_callback, error_callback) {
 	var jsonData = [];
 	var relay = undefined;
+	var promises = [];
 
-	var doSend = function() {
-		API.sendMessages(number, jsonData,
-			function(result) {
-				success_callback(result);
-			}, function(code) {
-				error_callback(code);
-			}
-		);
-	}
-
-	var addEncryptionFor;
-	addEncryptionFor = function(i) {
-		crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+	var addEncryptionFor = function(i) {
+		return crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
 			jsonData[i] = {
 				type: encryptedMsg.type,
 				destination: deviceObjectList[i].encodedNumber,
@@ -531,27 +517,21 @@ function sendMessageToDevices(number, deviceObjectList, message, success_callbac
 				jsonData[i].relay = deviceObjectList[i].relay;
 				if (relay === undefined)
 					relay = jsonData[i].relay;
-				else if (relay != jsonData[i].relay) {
-					error_callback("Mismatched relays for number " + number);
-					return;
-				}
+				else if (relay != jsonData[i].relay)
+					throw new Error("Mismatched relays for number " + number);
 			} else {
 				if (relay === undefined)
 					relay = "";
-				else if (relay != "") {
-					error_callback("Mismatched relays for number " + number);
-					return;
-				}
+				else if (relay != "")
+					throw new Error("Mismatched relays for number " + number);
 			}
-
-			if (i+1 < deviceObjectList.length)
-				addEncryptionFor(i+1);
-			else
-				doSend();
 		});
-//TODO: need to encrypt with session key?
 	}
-	addEncryptionFor(0);
+	for (var i = 0; i < deviceObjectList.length; i++)
+		promises[i] = addEncryptionFor(i);
+	return Promise.all(promises).then(function() {
+		return API.sendMessages(number, jsonData);
+	});
 }
 
 // callback(success/failure map, see code)
@@ -573,13 +553,14 @@ function sendMessageToNumbers(numbers, message, callback) {
 	}
 
 	var doSendMessage = function(number, devicesForNumber, message) {
-		sendMessageToDevices(number, devicesForNumber, message, function(result) {
+		return sendMessageToDevices(number, devicesForNumber, message).then(function(result) {
 			successfulNumbers[successfulNumbers.length] = number;
 			numberCompleted();
-		}, function(error_code) {
-			//TODO: Re-request keys for number here
-			if (error_code == 410 || error_code == 409) {}
-			registerError(number, message);
+		}).catch(function(error) {
+			if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
+				//TODO: Re-request keys for number here
+			}
+			registerError(number, error);
 		});
 	}
 
@@ -591,11 +572,11 @@ function sendMessageToNumbers(numbers, message, callback) {
 			getKeysForNumber(number, function(identity_key) {
 					devicesForNumber = getDeviceObjectListFromNumber(number);
 					if (devicesForNumber.length == 0)
-						registerError(number, "Failed to retreive new device keys for number " + number);
+						registerError(number, new Error("Failed to retreive new device keys for number " + number));
 					else
 						doSendMessage(number, devicesForNumber, message);
 				}, function(error_msg) {
-					registerError(number, "Failed to retreive new device keys for number " + number);
+					registerError(number, new Error("Failed to retreive new device keys for number " + number));
 				});
 		} else
 			doSendMessage(number, devicesForNumber, message);
