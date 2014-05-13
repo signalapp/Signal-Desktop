@@ -44,10 +44,13 @@ function TEST(func, name, exclusive) {
 
 	maxTestId = maxTestId + 1;
 
-	function resolve(result) {
+	function resolve(result, error) {
 		if (testsOutstanding[testIndex] == undefined)
 			testsdiv.append('<p style="color: red;">' + funcName + ' called back multiple times</p>');
-		else if (result === true)
+		else if (error !== undefined) {
+			console.log(error.stack);
+			testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + error + '</p>');
+		} else if (result === true)
 			testsdiv.append('<p style="color: green;">' + funcName + ' passed</p>');
 		else
 			testsdiv.append('<p style="color: red;">' + funcName + ' returned ' + result + '</p>');
@@ -71,13 +74,9 @@ function TEST(func, name, exclusive) {
 
 		try {
 			testsOutstanding[testIndex] = funcName;
-			func().then(resolve).catch(function(e) {
-				console.log(e.stack);
-				testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + e + '</p>');
-			});
+			func().then(resolve).catch(function(e) { resolve(null, e); });
 		} catch (e) {
-			console.log(e.stack);
-			testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + e + '</p>');
+			resolve(null, e);
 		}
 	}
 
@@ -426,18 +425,90 @@ registerOnLoadFunction(function() {
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
 	TEST(function() {
-		var v0 = axolotlTwoPartyTestVectorsBob[0][1];
-		var v1 = axolotlTwoPartyTestVectorsBob[1][1];
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var orig = axolotlTwoPartyTestVectorsBob;
+		var v = [];
+		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
+			v[i] = [];
+			v[i][0] = orig[i][0];
+			v[i][1] = orig[i][1];
+		}
 
-		axolotlTwoPartyTestVectorsBob[0][1] = v1;
-		axolotlTwoPartyTestVectorsBob[0][1].ourPreKey = v0.ourPreKey;
-		axolotlTwoPartyTestVectorsBob[0][1].preKeyId = v0.preKeyId;
-		axolotlTwoPartyTestVectorsBob[0][1].ourIdentityKey = v0.ourIdentityKey;
-		axolotlTwoPartyTestVectorsBob[0][1].newEphemeralKey = v0.newEphemeralKey;
+		// Swap first and second received prekey messages
+		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
+		v[0][1].ourPreKey = orig[0][1].ourPreKey;
+		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
+		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
 
-		axolotlTwoPartyTestVectorsBob[1][1] = { message: v0.message, type: v0.type, expectedSmsText: v0.expectedSmsText };
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" });
-	}, "Shuffled Axolotl Test Vectors as Bob", true);
+		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
+		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+	}, "Shuffled Axolotl Test Vectors as Bob I", true);
+
+	TEST(function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var orig = axolotlTwoPartyTestVectorsBob;
+		var v = [];
+		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
+			v[i] = [];
+			v[i][0] = orig[i][0];
+			v[i][1] = orig[i][1];
+		}
+
+		// Swap second received prekey msg with the first send
+		v[1] = orig[2];
+		v[2] = orig[1];
+
+		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+	}, "Shuffled Axolotl Test Vectors as Bob II", true);
+
+	TEST(function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var orig = axolotlTwoPartyTestVectorsBob;
+		var v = [];
+		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
+			v[i] = [];
+			v[i][0] = orig[i][0];
+			v[i][1] = orig[i][1];
+		}
+
+		// Move second received prekey msg to the end (incl after the first received message in the second chain)
+		v[4] = orig[1];
+		v[1] = orig[2];
+		v[2] = orig[3];
+		v[3] = orig[4];
+
+		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+	}, "Shuffled Axolotl Test Vectors as Bob III", true);
+
+	TEST(function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var orig = axolotlTwoPartyTestVectorsBob;
+		var v = [];
+		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
+			v[i] = [];
+			v[i][0] = orig[i][0];
+			v[i][1] = orig[i][1];
+		}
+
+		// Move first received prekey msg to the end (incl after the first received message in the second chain)
+		// ... by first swapping first and second received prekey msg
+		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
+		v[0][1].ourPreKey = orig[0][1].ourPreKey;
+		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
+		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
+
+		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
+
+		// ... then moving the (now-second) message to the end
+		v[4] = v[1];
+		v[1] = orig[2];
+		v[2] = orig[3];
+		v[3] = orig[4];
+
+		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+	}, "Shuffled Axolotl Test Vectors as Bob IV", true);
 
 	TEST(function() {
 		var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
