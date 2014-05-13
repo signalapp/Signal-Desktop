@@ -362,17 +362,17 @@ window.crypto = (function() {
 	// Decrypts message into a raw string
 	crypto.decryptWebsocketMessage = function(message) {
 		var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
-		var aes_key = signaling_key.substring(0, 32);
-		var mac_key = signaling_key.substring(32, 32 + 20);
+		var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
+		var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
-		var decodedMessage = new Uint8Array(base64DecToArr(getString(message)));
-		if (decodedMessage[0] != 1)
+		var decodedMessage = base64DecToArr(getString(message));
+		if (new Uint8Array(decodedMessage)[0] != 1)
 			throw new Error("Got bad version number: " + decodedMessage[0]);
 
-		var iv = decodedMessage.subarray(1, 1 + 16);
-		var ciphertext = decodedMessage.subarray(1 + 16, decodedMessage.length - 10);
-		var ivAndCipherText = decodedMessage.subarray(1, decodedMessage.length - 10);
-		var mac = decodedMessage.subarray(decodedMessage.length - 10, decodedMessage.length);
+		var iv = decodedMessage.slice(1, 1 + 16);
+		var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
+		var ivAndCipherText = decodedMessage.slice(1, decodedMessage.byteLength - 10);
+		var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
 		return verifyMACWithVersionByte(ivAndCipherText, mac_key, mac).then(function() {
 			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);

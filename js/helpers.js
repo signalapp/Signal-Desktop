@@ -456,7 +456,7 @@ function subscribeToPush(message_callback) {
 			console.log("Got pong message");
 		} else if (message.type === undefined && message.id !== undefined) {
 			crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-				var proto = decodeIncomingPushMessageProtobuf(plaintext);
+				var proto = decodeIncomingPushMessageProtobuf(getString(plaintext));
 				// After this point, a) decoding errors are not the server's fault, and
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
@@ -473,27 +473,19 @@ function subscribeToPush(message_callback) {
 }
 
 // success_callback(identity_key), error_callback(error_msg)
-function getKeysForNumber(number, success_callback, error_callback) {
-	API.getKeysForNumber(number,
-		function(response) {
-			for (var i = 0; i < response.length; i++) {
-				try {
-					saveDeviceObject({
-						encodedNumber: number + "." + response[i].deviceId,
-						identityKey: response[i].identityKey,
-						publicKey: response[i].publicKey,
-						preKeyId: response[i].keyId,
-						registrationId: response[i].registrationId
-					});
-				} catch (e) {
-					error_callback(e);
-					return;
-				}
-			}
-			success_callback(response[0].identityKey);
-		}, function(code) {
-			error_callback("Error making HTTP request: " + code);
-		});
+function getKeysForNumber(number) {
+	return API.getKeysForNumber(number).then(function(response) {
+		for (var i = 0; i < response.length; i++) {
+			saveDeviceObject({
+				encodedNumber: number + "." + response[i].deviceId,
+				identityKey: response[i].identityKey,
+				publicKey: response[i].publicKey,
+				preKeyId: response[i].keyId,
+				registrationId: response[i].registrationId
+			});
+		}
+		return response[0].identityKey;
+	});
 }
 
 // success_callback(server success/failure map), error_callback(error_msg)
@@ -547,8 +539,8 @@ function sendMessageToNumbers(numbers, message, callback) {
 			callback({success: successfulNumbers, failure: errors});
 	}
 
-	var registerError = function(number, message) {
-		errors[errors.length] = { number: number, reason: message };
+	var registerError = function(number, message, error) {
+		errors[errors.length] = { number: number, reason: message, error: error };
 		numberCompleted();
 	}
 
@@ -560,7 +552,7 @@ function sendMessageToNumbers(numbers, message, callback) {
 			if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
 				//TODO: Re-request keys for number here
 			}
-			registerError(number, error);
+			registerError(number, "Failed to create or send message", error);
 		});
 	}
 
@@ -569,15 +561,15 @@ function sendMessageToNumbers(numbers, message, callback) {
 		var devicesForNumber = getDeviceObjectListFromNumber(number);
 
 		if (devicesForNumber.length == 0) {
-			getKeysForNumber(number, function(identity_key) {
-					devicesForNumber = getDeviceObjectListFromNumber(number);
-					if (devicesForNumber.length == 0)
-						registerError(number, new Error("Failed to retreive new device keys for number " + number));
-					else
-						doSendMessage(number, devicesForNumber, message);
-				}, function(error_msg) {
-					registerError(number, new Error("Failed to retreive new device keys for number " + number));
-				});
+			getKeysForNumber(number).then(function(identity_key) {
+				devicesForNumber = getDeviceObjectListFromNumber(number);
+				if (devicesForNumber.length == 0)
+					registerError(number, "Failed to retreive new device keys for number " + number, null);
+				else
+					doSendMessage(number, devicesForNumber, message);
+			}).catch(function(error) {
+				registerError(number, "Failed to retreive new device keys for number " + number, error);
+			});
 		} else
 			doSendMessage(number, devicesForNumber, message);
 	}

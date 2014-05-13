@@ -146,25 +146,22 @@ var API	= new function() {
 		});
 	};
 
-	this.getKeysForNumber = function(number, success_callback, error_callback) {
-		doAjax({
+	this.getKeysForNumber = function(number) {
+		return doAjax({
 			call				: 'keys',
 			httpType			: 'GET',
 			do_auth				: true,
 			urlParameters		: "/" + getNumberFromString(number) + "/*",
 		}).then(function(response) {
-				//TODO: Do this conversion somewhere else?
-				var res = response.keys;
-				for (var i = 0; i < res.length; i++) {
-					res[i].identityKey = base64DecToArr(res[i].identityKey);
-					res[i].publicKey = base64DecToArr(res[i].publicKey);
-					if (res[i].keyId === undefined)
-						res[i].keyId = 0;
-				}
-				success_callback(res);
-		}).catch(function(code) {
-			if (error_callback !== undefined)
-				error_callback(code);
+			//TODO: Do this conversion somewhere else?
+			var res = response.keys;
+			for (var i = 0; i < res.length; i++) {
+				res[i].identityKey = base64DecToArr(res[i].identityKey);
+				res[i].publicKey = base64DecToArr(res[i].publicKey);
+				if (res[i].keyId === undefined)
+					res[i].keyId = 0;
+			}
+			return res;
 		});
 	};
 

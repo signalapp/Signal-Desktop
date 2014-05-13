@@ -101,14 +101,14 @@ $('#init-go').click(function() {
 				}
 
 				if (!single_device) {
-					getKeysForNumber(number, function(identityKey) {
+					getKeysForNumber(number).then(function(identityKey) {
 						subscribeToPush(function(message) {
 							//TODO receive shared identity key
 							register_keys_func();
 						});
 						requestIdentityPrivKeyFromMasterDevice(number);
-					}, function(error_msg) {
-						alert(error_msg); //TODO
+					}).catch(function(error) {
+						alert(error); //TODO
 					});
 				} else {
 					register_keys_func();
