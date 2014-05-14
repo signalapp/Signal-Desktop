@@ -301,8 +301,9 @@ registerOnLoadFunction(function() {
 	var axolotlTestVectors = function(v, remoteDevice) {
 		var origCreateNewKeyPair = crypto_tests.createNewKeyPair;
 		var doStep;
+		var stepDone;
 
-		var stepDone = function(res) {
+		stepDone = function(res) {
 			if (!res || privKeyQueue.length != 0) {
 				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
 				return false;
@@ -310,7 +311,7 @@ registerOnLoadFunction(function() {
 				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
 				return true;
 			} else
-				return doStep();
+				return doStep().then(stepDone);
 		}
 
 		var privKeyQueue = [];
@@ -566,5 +567,5 @@ registerOnLoadFunction(function() {
 		startNextExclusiveTest();
 
 		localStorage.clear();
-	}, 5000);
+	}, 10000);
 });

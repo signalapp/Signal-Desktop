@@ -279,6 +279,25 @@ window.crypto = (function() {
 			return new Promise(function(resolve) { resolve() });
 	}
 
+	var removeOldChains = function(session) {
+		// Sending ratchets are always removed when we step because we never need them again
+		// Receiving ratchets are either removed if we step with all keys used up to previousCounter
+		// and are otherwise added to the oldRatchetList, which we parse here and remove ratchets
+		// older than a week (we assume the message was lost and move on with our lives at that point)
+		var newList = [];
+		for (var i = 0; i < session.oldRatchetList.length; i++) {
+			var entry = session.oldRatchetList[i];
+			var ratchet = getString(entry.ephemeralKey);
+			console.log("Checking old chain with added time " + (entry.added/1000));
+			if (!objectContainsKeys(session[ratchet].messageKeys) || entry.added < new Date().getTime() - 1000*60*60*24*7) {
+				delete session[ratchet];
+				console.log("...deleted");
+			} else
+				newList[newList.length] = entry;
+		}
+		session.oldRatchetList = newList;
+	}
+
 	var maybeStepRatchet = function(session, remoteKey, previousCounter) {
 		if (session[getString(remoteKey)] !== undefined)
 			return new Promise(function(resolve) { resolve() });
@@ -291,7 +310,7 @@ window.crypto = (function() {
 				var previousRatchet = getString(ratchet.ephemeralKeyPair.pubKey);
 				if (session[previousRatchet] !== undefined) {
 					ratchet.previousCounter = session[previousRatchet].chainKey.counter;
-					delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+					delete session[previousRatchet];
 				} else
 					// TODO: This is just an idiosyncrasy upstream, which we match for testing
 					// it should be changed upstream to something more reasonable.
@@ -342,9 +361,9 @@ window.crypto = (function() {
 					return verifyMACWithVersionByte(toArrayBuffer(messageProto), keys[1], mac, (2 << 4) | 2).then(function() {
 						var counter = intToArrayBuffer(message.counter);
 						return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
-													.then(function(plaintext) {
+									.then(function(plaintext) {
 
-							//TODO: removeOldChains(session);
+							removeOldChains(session);
 							delete session['pendingPreKey'];
 
 							crypto_storage.saveSession(encodedNumber, session);
