@@ -84,6 +84,7 @@ $('#init-go').click(function() {
 				storage.putEncrypted("password", password);
 				storage.putEncrypted('signaling_key', signaling_key);
 				storage.putUnencrypted("number_id", number_id);
+				storage.putUnencrypted("registrationId", registrationId);
 				$('#verify1done').html('done');
 
 				var register_keys_func = function() {
