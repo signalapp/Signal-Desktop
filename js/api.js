@@ -103,7 +103,7 @@ var API	= new function() {
 	};
 
 	this.confirmCode = function(code, number, password,
-								signaling_key, single_device,
+								signaling_key, registrationId, single_device,
 								success_callback, error_callback) {
 		var call = single_device ? 'accounts' : 'devices';
 		var urlPrefix = single_device ? '/code/' : '/';
@@ -115,8 +115,9 @@ var API	= new function() {
 			user				: number,
 			password			: password,
 			jsonData			: { signalingKey		: btoa(getString(signaling_key)),
-														  supportsSms		: false,
-														  fetchesMessages	: true },
+												supportsSms		: false,
+												fetchesMessages	: true,
+												registrationId: registrationId},
 		}).then(function(response) {
 			if (success_callback !== undefined)
 				success_callback(response);
