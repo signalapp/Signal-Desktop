@@ -2,6 +2,9 @@
 var crypto_tests = {};
 
 window.crypto = (function() {
+	// We consider messages lost after a week and might throw away keys at that point
+	var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
+
 	crypto.getRandomBytes = function(size) {
 		//TODO: Better random (https://www.grc.com/r&d/js.htm?)
 		try {
@@ -98,13 +101,70 @@ window.crypto = (function() {
 	}
 
 	crypto_storage.saveSession = function(encodedNumber, session) {
-		storage.putEncrypted("session" + getEncodedNumber(encodedNumber), session);
+		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		if (sessions === undefined)
+			sessions = {};
+
+		var doDeleteSession = false;
+		if (session.indexInfo.closed == -1)
+			sessions.identityKey = session.indexInfo.remoteIdentityKey;
+		else {
+			doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
+
+			if (!doDeleteSession) {
+				var keysLeft = false;
+				for (key in session) {
+					if (key != "indexInfo" && key != "indexInfo" && key != "oldRatchetList") {
+						keysLeft = true;
+						break;
+					}
+				}
+				doDeleteSession = !keysLeft;
+			}
+		}
+
+		if (doDeleteSession)
+			delete sessions[getString(session.indexInfo.baseKey)];
+		else
+			sessions[getString(session.indexInfo.baseKey)] = session;
+
+		storage.putEncrypted("session" + getEncodedNumber(encodedNumber), sessions);
 	}
 
-	crypto_storage.getSession = function(encodedNumber) {
-		return storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
-	}
+	crypto_storage.getSession = function(encodedNumber, remoteEphemeralKey) {
+		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		if (sessions === undefined)
+			return undefined;
 
+		var searchKey = "NOTAKEY";
+		if (remoteEphemeralKey !== undefined)
+			searchKey = getString(remoteEphemeralKey);
+
+		var preferredSession = sessions[searchKey];
+		if (preferredSession !== undefined)
+			return preferredSession;
+
+		var openSession = undefined;
+		for (key in sessions) {
+			if (key == "identityKey")
+				continue;
+
+			if (sessions[key].indexInfo.closed == -1) {
+				if (openSession !== undefined)
+					throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
+				openSession = sessions[key];
+			}
+			if (sessions[key][searchKey] !== undefined)
+				return sessions[key];
+		}
+		if (openSession !== undefined)
+			return openSession;
+
+		if (sessions.identityKey !== undefined && searchKey != "NOTAKEY")
+			return { indexInfo: { remoteIdentityKey: sessions.identityKey } };
+
+		return undefined;
+	}
 
 	/*****************************
 	 *** Internal Crypto stuff ***
@@ -212,6 +272,7 @@ window.crypto = (function() {
 
 					return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
 						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
+										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
 										oldRatchetList: []
 									};
 
@@ -221,12 +282,12 @@ window.crypto = (function() {
 							return createNewKeyPair(false).then(function(ourSendingEphemeralKey) {
 								session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
 								return calculateRatchet(session, theirEphemeralPubKey, true).then(function() {
-									crypto_storage.saveSession(encodedNumber, session);
+									return session;
 								});
 							});
 						} else {
 							session.currentRatchet.ephemeralKeyPair = ourEphemeralKey;
-							crypto_storage.saveSession(encodedNumber, session);
+							return session;
 						}
 					});
 				});
@@ -245,17 +306,53 @@ window.crypto = (function() {
 		});
 	}
 
-	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
-		//TODO: Check remote identity key matches known-good key
+	var closeSession = function(session) {
+		// Clear any data which would allow session continuation:
+		// Lock down current receive ratchet
+		// TODO: Some kind of delete chainKey['key']
+		// Delete current sending ratchet
+		delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+		// Delete current root key and our ephemeral key pair
+		delete session.currentRatchet['rootKey'];
+		delete session.currentRatchet['ephemeralKeyPair'];
+		session.indexInfo.closed = new Date().getTime();
+	}
 
+	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
+		var session = crypto_storage.getSession(encodedNumber, toArrayBuffer(message.baseKey));
 		if (preKeyPair === undefined) {
-			if (crypto_storage.getSession(encodedNumber) !== undefined)
-				return Promise.resolve();
+			// Session may or may not be the correct one, but if its not, we can't do anything about it
+			// ...fall through and let decryptWhisperMessage handle that case
+			if (session !== undefined && session.currentRatchet !== undefined)
+				return Promise.resolve(session);
 			else
 				throw new Error("Missing preKey for PreKeyWhisperMessage");
-		} else
-			return initSession(false, preKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey));
+		}
+		if (session !== undefined) {
+			// We already had a session:
+			if (getString(session.indexInfo.remoteIdentityKey) == getString(message.identityKey)) {
+				// If the identity key matches the previous one, close the previous one and use the new one
+				if (session.currentRatchet !== undefined) { // if its a real session
+					closeSession(session);
+					crypto_storage.saveSession(encodedNumber, session);
+				}
+			} else {
+				// ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
+				// TODO: Save the message for possible later renegotiation
+				var error = new Error("Received message with unknown identity key");
+				error.name = "WarnTryAgainError";
+				error.full_message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.";
+				throw new error;
+			}
+		}
+		return initSession(false, preKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey))
+						.then(function(new_session) {
+			// Note that the session is not actually saved until the very end of decryptWhisperMessage
+			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
+			new_session.indexInfo.baseKey = message.baseKey;
+			return new_session;
+		});;
 	}
 
 	var fillMessageKeys = function(chain, counter) {
@@ -292,7 +389,7 @@ window.crypto = (function() {
 			var entry = session.oldRatchetList[i];
 			var ratchet = getString(entry.ephemeralKey);
 			console.log("Checking old chain with added time " + (entry.added/1000));
-			if (!objectContainsKeys(session[ratchet].messageKeys) || entry.added < new Date().getTime() - 1000*60*60*24*7) {
+			if (!objectContainsKeys(session[ratchet].messageKeys) || entry.added < new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS) {
 				delete session[ratchet];
 				console.log("...deleted");
 			} else
@@ -342,11 +439,7 @@ window.crypto = (function() {
 	}
 
 	// returns decrypted protobuf
-	var decryptWhisperMessage = function(encodedNumber, messageBytes) {
-		var session = crypto_storage.getSession(encodedNumber);
-		if (session === undefined)
-			throw new Error("No session currently open with " + encodedNumber);
-
+	var decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
 		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
 			throw new Error("Bad version number on WhisperMessage");
 
@@ -354,8 +447,15 @@ window.crypto = (function() {
 		var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
 
 		var message = decodeWhisperMessageProtobuf(messageProto);
+		var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
 
-		return maybeStepRatchet(session, toArrayBuffer(message.ephemeralKey), message.previousCounter).then(function() {
+		if (session === undefined) {
+			var session = crypto_storage.getSession(encodedNumber, remoteEphemeralKey);
+			if (session === undefined)
+				throw new Error("No session found to decrypt message from " + encodedNumber);
+		}
+
+		return maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
 			var chain = session[getString(message.ephemeralKey)];
 
 			return fillMessageKeys(chain, message.counter).then(function() {
@@ -370,8 +470,13 @@ window.crypto = (function() {
 							removeOldChains(session);
 							delete session['pendingPreKey'];
 
+							var finalMessage = decodePushMessageContentProtobuf(getString(plaintext));
+
+							if ((finalMessage.flags & 1) == 1) // END_SESSION
+								closeSession(session);
+
 							crypto_storage.saveSession(encodedNumber, session);
-							return decodePushMessageContentProtobuf(getString(plaintext));
+							return finalMessage;
 						});
 					});
 				});
@@ -414,8 +519,8 @@ window.crypto = (function() {
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function() {
-				return decryptWhisperMessage(proto.source, getString(preKeyProto.message)).then(function(result) {
+			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function(session) {
+				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), session).then(function(result) {
 					return {message: result, pushMessage: proto};
 				});
 			});
@@ -467,9 +572,8 @@ window.crypto = (function() {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				return initSession(true, baseKey, deviceObject.encodedNumber,
 									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.publicKey))
-							.then(function() {
-					//TODO: Delete preKey info on first message received back
-					session = crypto_storage.getSession(deviceObject.encodedNumber);
+							.then(function(new_session) {
+					session = new_session;
 					session.pendingPreKey = baseKey.pubKey;
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
