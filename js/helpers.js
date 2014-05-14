@@ -95,7 +95,7 @@ function base64EncArr (aBytes) {
  *** Type conversion utilities ***
  *********************************/
 function intToArrayBuffer(nInt) {
-	var res = new ArrayBuffer(4);
+	var res = new ArrayBuffer(16);
 	var thing = new Uint8Array(res);
 	thing[0] = (nInt >> 24) & 0xff;
 	thing[1] = (nInt >> 16) & 0xff;
@@ -461,12 +461,13 @@ function subscribeToPush(message_callback) {
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
-				crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+				return crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
 					storeMessage(decrypted);
 					message_callback(decrypted);
-				}); // Decrypts/decodes/fills in fields/etc
+				})
 			}).catch(function(e) {
-				console.log("Error decoding message: " + e);
+				console.log("Error handling incoming message: ");
+				console.log(e);
 			});
 		}
 	};
