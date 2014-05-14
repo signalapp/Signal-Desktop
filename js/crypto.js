@@ -147,18 +147,27 @@ window.crypto = (function() {
 		storage.putEncrypted("session" + getEncodedNumber(encodedNumber), sessions);
 	}
 
-	crypto_storage.getSession = function(encodedNumber, remoteEphemeralKey) {
+	crypto_storage.getOpenSession = function(encodedNumber) {
 		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
 		if (sessions === undefined)
 			return undefined;
 
-		var searchKey = "NOTAKEY";
-		if (remoteEphemeralKey !== undefined)
-			searchKey = getString(remoteEphemeralKey);
+		for (key in sessions) {
+			if (key == "identityKey")
+				continue;
 
-		var preferredSession = sessions[searchKey];
-		if (preferredSession !== undefined)
-			return preferredSession;
+			if (sessions[key].indexInfo.closed == -1)
+				return sessions[key];
+		}
+		return undefined;
+	}
+
+	crypto_storage.getSessionByRemoteEphemeralKey = function(encodedNumber, remoteEphemeralKey) {
+		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		if (sessions === undefined)
+			return undefined;
+
+		var searchKey = getString(remoteEphemeralKey);
 
 		var openSession = undefined;
 		for (key in sessions) {
@@ -176,11 +185,25 @@ window.crypto = (function() {
 		if (openSession !== undefined)
 			return openSession;
 
-		if (sessions.identityKey !== undefined && searchKey != "NOTAKEY")
-			return { indexInfo: { remoteIdentityKey: sessions.identityKey } };
-
 		return undefined;
 	}
+
+
+	crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
+		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		if (sessions === undefined)
+			return undefined;
+
+		var preferredSession = sessions[getString(baseKey)];
+		if (preferredSession !== undefined)
+			return preferredSession;
+
+		if (sessions.identityKey !== undefined)
+			return { indexInfo: { remoteIdentityKey: sessions.identityKey } };
+
+		throw new Error("Datastore inconsistency: session was stored without identity key");
+	}
+
 
 	/*****************************
 	 *** Internal Crypto stuff ***
@@ -336,7 +359,8 @@ window.crypto = (function() {
 
 	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
-		var session = crypto_storage.getSession(encodedNumber, toArrayBuffer(message.baseKey));
+		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
+		var open_session = crypto_storage.getOpenSession(encodedNumber);
 		if (preKeyPair === undefined) {
 			// Session may or may not be the correct one, but if its not, we can't do anything about it
 			// ...fall through and let decryptWhisperMessage handle that case
@@ -346,13 +370,11 @@ window.crypto = (function() {
 				throw new Error("Missing preKey for PreKeyWhisperMessage");
 		}
 		if (session !== undefined) {
-			// We already had a session:
+			// We already had a session/known identity key:
 			if (getString(session.indexInfo.remoteIdentityKey) == getString(message.identityKey)) {
 				// If the identity key matches the previous one, close the previous one and use the new one
-				if (session.currentRatchet !== undefined)
-					closeSession(session); // To be returned and saved later
-				else
-					session = undefined; // Don't return an identityKey-only "session"
+				if (open_session !== undefined)
+					closeSession(open_session); // To be returned and saved later
 			} else {
 				// ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
 				// TODO: Save the message for possible later renegotiation
@@ -367,7 +389,7 @@ window.crypto = (function() {
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
 			new_session.indexInfo.baseKey = message.baseKey;
-			return [new_session, session];
+			return [new_session, open_session];
 		});;
 	}
 
@@ -466,7 +488,7 @@ window.crypto = (function() {
 		var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
 
 		if (session === undefined) {
-			var session = crypto_storage.getSession(encodedNumber, remoteEphemeralKey);
+			var session = crypto_storage.getSessionByRemoteEphemeralKey(encodedNumber, remoteEphemeralKey);
 			if (session === undefined)
 				throw new Error("No session found to decrypt message from " + encodedNumber);
 		}
@@ -547,7 +569,7 @@ window.crypto = (function() {
 
 	// return Promise(encoded [PreKey]WhisperMessage)
 	crypto.encryptMessageFor = function(deviceObject, pushMessageContent) {
-		var session = crypto_storage.getSession(deviceObject.encodedNumber);
+		var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
 		var doEncryptPushMessageContent = function() {
 			var msg = new WhisperMessageProtobuf();
