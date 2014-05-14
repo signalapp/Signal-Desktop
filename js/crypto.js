@@ -251,7 +251,7 @@ window.crypto = (function() {
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
 		if (preKeyPair === undefined) {
 			if (crypto_storage.getSession(encodedNumber) !== undefined)
-				return new Promise(function(resolve) { resolve() });
+				return Promise.resolve();
 			else
 				throw new Error("Missing preKey for PreKeyWhisperMessage");
 		} else
@@ -260,23 +260,26 @@ window.crypto = (function() {
 
 	var fillMessageKeys = function(chain, counter) {
 		if (chain.chainKey.counter + 1000 < counter) //TODO: maybe 1000 is too low/high in some cases?
-			return new Promise(function(resolve) { resolve() }); // Stalker, much?
+			return Promise.resolve(); // Stalker, much?
 
-		if (chain.chainKey.counter < counter) {
-			var key = toArrayBuffer(chain.chainKey.key);
-			var byteArray = new Uint8Array(1);
-			byteArray[0] = 1;
-			return HmacSHA256(key, byteArray.buffer).then(function(mac) {
-				byteArray[0] = 2;
-				return HmacSHA256(key, byteArray.buffer).then(function(key) {
-					chain.messageKeys[chain.chainKey.counter + 1] = mac;
-					chain.chainKey.key = key
-					chain.chainKey.counter += 1;
-					return fillMessageKeys(chain, counter);
-				});
+		if (chain.chainKey.counter >= counter)
+			return Promise.resolve(); // Already calculated
+
+		if (chain.chainKey.key === undefined)
+			throw new Error("Got invalid request to extend chain after it was already closed");
+
+		var key = toArrayBuffer(chain.chainKey.key);
+		var byteArray = new Uint8Array(1);
+		byteArray[0] = 1;
+		return HmacSHA256(key, byteArray.buffer).then(function(mac) {
+			byteArray[0] = 2;
+			return HmacSHA256(key, byteArray.buffer).then(function(key) {
+				chain.messageKeys[chain.chainKey.counter + 1] = mac;
+				chain.chainKey.key = key
+				chain.chainKey.counter += 1;
+				return fillMessageKeys(chain, counter);
 			});
-		} else
-			return new Promise(function(resolve) { resolve() });
+		});
 	}
 
 	var removeOldChains = function(session) {
@@ -300,7 +303,7 @@ window.crypto = (function() {
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter) {
 		if (session[getString(remoteKey)] !== undefined)
-			return new Promise(function(resolve) { resolve() });
+			return Promise.resolve();
 
 		var ratchet = session.currentRatchet;
 
@@ -328,6 +331,7 @@ window.crypto = (function() {
 		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
 		if (previousRatchet !== undefined) {
 			return fillMessageKeys(previousRatchet, previousCounter).then(function() {
+				delete previousRatchet.chainKey['key'];
 				if (!objectContainsKeys(previousRatchet.messageKeys))
 					delete session[getString(ratchet.lastRemoteEphemeralKey)];
 				else
