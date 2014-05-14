@@ -325,7 +325,7 @@ window.crypto = (function() {
 			// Session may or may not be the correct one, but if its not, we can't do anything about it
 			// ...fall through and let decryptWhisperMessage handle that case
 			if (session !== undefined && session.currentRatchet !== undefined)
-				return Promise.resolve(session);
+				return Promise.resolve([session, undefined]);
 			else
 				throw new Error("Missing preKey for PreKeyWhisperMessage");
 		}
@@ -333,10 +333,10 @@ window.crypto = (function() {
 			// We already had a session:
 			if (getString(session.indexInfo.remoteIdentityKey) == getString(message.identityKey)) {
 				// If the identity key matches the previous one, close the previous one and use the new one
-				if (session.currentRatchet !== undefined) { // if its a real session
-					closeSession(session);
-					crypto_storage.saveSession(encodedNumber, session);
-				}
+				if (session.currentRatchet !== undefined)
+					closeSession(session); // To be returned and saved later
+				else
+					session = undefined; // Don't return an identityKey-only "session"
 			} else {
 				// ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
 				// TODO: Save the message for possible later renegotiation
@@ -351,7 +351,7 @@ window.crypto = (function() {
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
 			new_session.indexInfo.baseKey = message.baseKey;
-			return new_session;
+			return [new_session, session];
 		});;
 	}
 
@@ -519,8 +519,10 @@ window.crypto = (function() {
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var preKeyProto = decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function(session) {
-				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), session).then(function(result) {
+			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function(sessions) {
+				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), sessions[0]).then(function(result) {
+					if (sessions[1] !== undefined)
+						crypto_storage.saveSession(proto.source, sessions[1]);
 					return {message: result, pushMessage: proto};
 				});
 			});
