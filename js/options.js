@@ -41,6 +41,8 @@ var single_device = false;
 var signaling_key = window.crypto.getRandomBytes(32 + 20);
 var password = btoa(getString(window.crypto.getRandomBytes(16)));
 password = password.substring(0, password.length - 2);
+var registrationId = new Uint16Array(window.crypto.getRandomBytes(2))[0];
+registrationId = registrationId & 0x3fff;
 
 $('#init-go-single-client').click(function() {
 	if (numberMatches()) {
@@ -73,7 +75,7 @@ $('#init-go').click(function() {
 		$('#verify4done').html('');
 		$('#verify').show();
 
-		API.confirmCode($('#code').val(), number, password, signaling_key, single_device,
+		API.confirmCode($('#code').val(), number, password, signaling_key, registrationId, single_device,
 			function(response) {
 				if (single_device)
 					response = 1;
