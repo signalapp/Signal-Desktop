@@ -463,8 +463,22 @@ function subscribeToPush(message_callback) {
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
 				return crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
-					storeMessage(decrypted);
-					message_callback(decrypted);
+					var handleAttachment = function(attachment) {
+						return API.getAttachment(attachment.id).then(function(encryptedBin) {
+							return crypto.decryptAttachment(encryptedBin, attachment.key).then(function(decryptedBin) {
+								attachment.decrypted = decryptedBin;
+							});
+						});
+					};
+
+					var promises = [];
+					for (var i = 0; i < decrypted.message.attachments.length; i++) {
+						promises[i] = handleAttachment(decrypted.message.attachments[i]);
+					}
+					return Promise.all(promises).then(function() {
+						storeMessage(decrypted);
+						message_callback(decrypted);
+					});
 				})
 			}).catch(function(e) {
 				console.log("Error handling incoming message: ");

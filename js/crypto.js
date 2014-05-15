@@ -538,10 +538,24 @@ window.crypto = (function() {
 
 		var iv = decodedMessage.slice(1, 1 + 16);
 		var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
-		var ivAndCipherText = decodedMessage.slice(1, decodedMessage.byteLength - 10);
+		var ivAndCiphertext = decodedMessage.slice(1, decodedMessage.byteLength - 10);
 		var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
-		return verifyMACWithVersionByte(ivAndCipherText, mac_key, mac).then(function() {
+		return verifyMACWithVersionByte(ivAndCiphertext, mac_key, mac).then(function() {
+			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
+		});
+	};
+
+	crypto.decryptAttachment = function(encryptedBin, keys) {
+		var aes_key = key.slice(0, 32);
+		var mac_key = key.slice(32, 64);
+
+		var iv = encryptedBin.slice(0, 32);
+		var ciphertext = encryptedBin.slice(32, encryptedBin.byteLength - 32);
+		var ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
+		var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
+
+		return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
 			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
 		});
 	};

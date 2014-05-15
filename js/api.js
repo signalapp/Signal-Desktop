@@ -29,6 +29,7 @@ URL_CALLS['devices']	= "/v1/devices";
 URL_CALLS['keys']		= "/v1/keys";
 URL_CALLS['push']		= "/v1/websocket";
 URL_CALLS['messages']	= "/v1/messages";
+URL_CALLS['attachment']	= "/v1/attachments";
 
 var API	= new function() {
 
@@ -116,9 +117,9 @@ var API	= new function() {
 			user				: number,
 			password			: password,
 			jsonData			: { signalingKey		: btoa(getString(signaling_key)),
-												supportsSms		: false,
-												fetchesMessages	: true,
-												registrationId: registrationId},
+										supportsSms		: false,
+										fetchesMessages	: true,
+										registrationId	: registrationId},
 		}).then(function(response) {
 			if (success_callback !== undefined)
 				success_callback(response);
@@ -182,5 +183,40 @@ var API	= new function() {
 			do_auth				: true,
 			jsonData			: jsonData,
 		});
-	}
+	};
+
+	this.getAttachment = function(id) {
+		return doAjax({
+			call				: 'attachment',
+			httpType			: 'GET',
+			urlParameters		: '/' + id,
+			do_auth				: true,
+		}).then(function(response) {
+			console.log(response);
+			return new Promise(function(resolve, reject) {
+				$.ajax(response.location, {
+					type		: "GET",
+					xhrFields: {
+						responseType: "arraybuffer"
+					},
+					/*headers: {
+						"Content-Type": "application/octet-stream"
+					},*/
+
+					success		: function(response, textStatus, jqXHR) {
+										resolve(response);
+									},
+
+					error		: function(jqXHR, textStatus, errorThrown) {
+										var code = jqXHR.status;
+										if (code > 999 || code < 100)
+											code = -1;
+										var e = new Error(code);
+										e.name = "HTTPError";
+										reject(e);
+									}
+				});
+			});
+		});
+	};
 }(); // API
