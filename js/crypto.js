@@ -283,6 +283,19 @@ window.crypto = (function() {
 		});
 	}
 
+	var calculateMAC = function(data, key) {
+		return HmacSHA256(key, data);
+	}
+
+	var verifyMAC = function(data, key, mac) {
+		return calculateMAC(data, key).then(function(calculated_mac) {
+			var macString = getString(mac);//TODO: Move away from strings for comparison?
+
+			if (getString(calculated_mac).substring(0, macString.length) != macString)
+				throw new Error("Bad MAC");
+		});
+	}
+
 	/******************************
 	 *** Ratchet implementation ***
 	 ******************************/
@@ -547,8 +560,8 @@ window.crypto = (function() {
 	};
 
 	crypto.decryptAttachment = function(encryptedBin, keys) {
-		var aes_key = key.slice(0, 32);
-		var mac_key = key.slice(32, 64);
+		var aes_key = keys.slice(0, 32);
+		var mac_key = keys.slice(32, 64);
 
 		var iv = encryptedBin.slice(0, 32);
 		var ciphertext = encryptedBin.slice(32, encryptedBin.byteLength - 32);

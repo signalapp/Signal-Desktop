@@ -321,7 +321,7 @@ function storeMessage(messageObject) {
 		messageMap[messageObject.pushMessage.source] = conversation;
 	}
 
-	conversation[conversation.length] = { message:    getString(messageObject.message.body),
+	conversation[conversation.length] = { message:    messageObject.message.body != null && getString(messageObject.message.body),
 										sender:       messageObject.pushMessage.source,
 										timestamp:    messageObject.pushMessage.timestamp.div(dcodeIO.Long.fromNumber(1000)).toNumber() };
 	storage.putEncrypted("messageMap", messageMap);
@@ -465,7 +465,7 @@ function subscribeToPush(message_callback) {
 				return crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
 					var handleAttachment = function(attachment) {
 						return API.getAttachment(attachment.id).then(function(encryptedBin) {
-							return crypto.decryptAttachment(encryptedBin, attachment.key).then(function(decryptedBin) {
+							return crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
 								attachment.decrypted = decryptedBin;
 							});
 						});

@@ -192,16 +192,15 @@ var API	= new function() {
 			urlParameters		: '/' + id,
 			do_auth				: true,
 		}).then(function(response) {
-			console.log(response);
 			return new Promise(function(resolve, reject) {
 				$.ajax(response.location, {
 					type		: "GET",
 					xhrFields: {
 						responseType: "arraybuffer"
 					},
-					/*headers: {
+					headers: {
 						"Content-Type": "application/octet-stream"
-					},*/
+					},
 
 					success		: function(response, textStatus, jqXHR) {
 										resolve(response);
