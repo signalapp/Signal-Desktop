@@ -359,8 +359,6 @@ window.crypto = (function() {
 
 	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
-		if (message.registrationId != storage.getUnencrypted("registrationId"))
-			throw new Error("Got a message encrypted for a different registration");
 
 		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
 		var open_session = crypto_storage.getOpenSession(encodedNumber);
@@ -608,7 +606,7 @@ window.crypto = (function() {
 		var preKeyMsg = new PreKeyWhisperMessageProtobuf();
 		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
 		preKeyMsg.preKeyId = deviceObject.preKeyId;
-		preKeyMsg.registrationId = deviceObject.registrationId;
+		preKeyMsg.registrationId = storage.getUnencrypted("registrationId");
 
 		if (session === undefined) {
 			return createNewKeyPair(false).then(function(baseKey) {

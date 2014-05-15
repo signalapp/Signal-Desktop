@@ -220,7 +220,7 @@ registerOnLoadFunction(function() {
 				ourIdentityKey: hexToArrayBuffer('a05fd14abb42ff393004eee526e3167441ee51021c6d801b784720c15637747c'),
 				theirPreKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e'),
 				theirPreKeyId: 13845842,
-				theirRegistrationId: 11593,
+				registrationId: 11593,
 				theirIdentityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
 				//expectedPlaintext: hexToArrayBuffer('0a0e4120202020202020202020202020'),
 				//expectedCounter: 0,
@@ -264,7 +264,6 @@ registerOnLoadFunction(function() {
 				type: 3,
 				ourPreKey: hexToArrayBuffer('799706c9a19c663b6970690beccb5ffdc55b9f592f1dcbcd954f3662842c076b'),
 				preKeyId: 13845842,
-				registrationId: 11593,
 				ourIdentityKey: hexToArrayBuffer('5024f863ed4a17505a5588cb464aa3cb349201f786e6f871a22cbed1ea6dd97c'),
 				newEphemeralKey: hexToArrayBuffer('d1d52b5a4403c32e81bc242b10502ad222ed47af16ba6548496217416c934252'),
 				//expectedPlaintext: hexToArrayBuffer(''),
@@ -356,7 +355,6 @@ registerOnLoadFunction(function() {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
 						return crypto_tests.privToPub(data.ourPreKey, false).then(function(keyPair) {
 							storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
-							storage.putUnencrypted("registrationId", data.registrationId);
 							return postLocalKeySetup();
 						});
 					});
@@ -370,7 +368,7 @@ registerOnLoadFunction(function() {
 					if (data.theirPreKey !== undefined) {
 						remoteDevice.publicKey = data.theirPreKey;
 						remoteDevice.preKeyId = data.theirPreKeyId;
-						remoteDevice.registrationId = data.theirRegistrationId;
+						storage.putUnencrypted("registrationId", data.registrationId);
 					}
 
 					var message = new PushMessageContentProtobuf();
