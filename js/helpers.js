@@ -449,13 +449,13 @@ window.textsecure.subscribeToPush = function() {
 			console.log('Server is down :(');
 			clearInterval(pingInterval);
 			subscribeToPushMessageSemaphore--;
-			setTimeout(function() { subscribeToPush(message_callback); }, 60000);
+			setTimeout(function() { textsecure.subscribeToPush(message_callback); }, 60000);
 		};
 		socket.onclose = function(socketEvent) {
 			console.log('Server closed :(');
 			clearInterval(pingInterval);
 			subscribeToPushMessageSemaphore--;
-			setTimeout(function() { subscribeToPush(message_callback); }, 60000);
+			setTimeout(function() { textsecure.subscribeToPush(message_callback); }, 60000);
 		};
 		socket.onopen = function(socketEvent) {
 			console.log('Connected to server!');
