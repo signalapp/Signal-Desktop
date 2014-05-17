@@ -69,11 +69,11 @@ window.textsecure.crypto = new function() {
 		}
 
 		if (textsecure.nacl.USE_NACL) {
-			return postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
+			return textsecure.nacl.postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
 				var priv = message.res;
 				if (!isIdentity)
 					new Uint8Array(priv)[0] |= 0x01;
-				return postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
+				return textsecure.nacl.postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
 					return { pubKey: prependVersion(message.res), privKey: priv };
 				});
 			});
@@ -240,7 +240,7 @@ window.textsecure.crypto = new function() {
 
 		return new Promise(function(resolve) {
 			if (textsecure.nacl.USE_NACL) {
-				postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}).then(function(message) {
+				textsecure.nacl.postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}).then(function(message) {
 					resolve(message.res);
 				});
 			} else {
