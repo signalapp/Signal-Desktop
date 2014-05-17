@@ -95,16 +95,6 @@ function base64EncArr (aBytes) {
 /*********************************
  *** Type conversion utilities ***
  *********************************/
-function intToArrayBuffer(nInt) {
-	var res = new ArrayBuffer(16);
-	var thing = new Uint8Array(res);
-	thing[0] = (nInt >> 24) & 0xff;
-	thing[1] = (nInt >> 16) & 0xff;
-	thing[2] = (nInt >> 8 ) & 0xff;
-	thing[3] = (nInt >> 0 ) & 0xff;
-	return res;
-}
-
 // Strings/arrays
 //TODO: Throw all this shit in favor of consistent types
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
@@ -261,43 +251,95 @@ function objectContainsKeys(object) {
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
-var storage = {};
+var storage = new function() {
+	/*****************************
+	 *** Base Storage Routines ***
+	 *****************************/
+	this.putEncrypted = function(key, value) {
+		//TODO
+		if (value === undefined)
+			throw new Error("Tried to store undefined");
+		localStorage.setItem("e" + key, jsonThing(value));
+	}
 
-storage.putEncrypted = function(key, value) {
+	this.getEncrypted = function(key, defaultValue) {
 	//TODO
-	if (value === undefined)
-		throw new Error("Tried to store undefined");
-	localStorage.setItem("e" + key, jsonThing(value));
-}
+		var value = localStorage.getItem("e" + key);
+		if (value === null)
+			return defaultValue;
+		return JSON.parse(value);
+	}
 
-storage.getEncrypted = function(key, defaultValue) {
-//TODO
-	var value = localStorage.getItem("e" + key);
-	if (value === null)
-		return defaultValue;
-	return JSON.parse(value);
-}
+	this.removeEncrypted = function(key) {
+		localStorage.removeItem("e" + key);
+	}
 
-storage.removeEncrypted = function(key) {
-	localStorage.removeItem("e" + key);
-}
+	this.putUnencrypted = function(key, value) {
+		if (value === undefined)
+			throw new Error("Tried to store undefined");
+		localStorage.setItem("u" + key, jsonThing(value));
+	}
 
-storage.putUnencrypted = function(key, value) {
-	if (value === undefined)
-		throw new Error("Tried to store undefined");
-	localStorage.setItem("u" + key, jsonThing(value));
-}
+	this.getUnencrypted = function(key, defaultValue) {
+		var value = localStorage.getItem("u" + key);
+		if (value === null)
+			return defaultValue;
+		return JSON.parse(value);
+	}
 
-storage.getUnencrypted = function(key, defaultValue) {
-	var value = localStorage.getItem("u" + key);
-	if (value === null)
-		return defaultValue;
-	return JSON.parse(value);
-}
+	this.removeUnencrypted = function(key) {
+		localStorage.removeItem("u" + key);
+	}
 
-storage.removeUnencrypted = function(key) {
-	localStorage.removeItem("u" + key);
-}
+	/**********************
+	 *** Device Storage ***
+	 **********************/
+	this.devices = new function() {
+		this.getDeviceObject = function(encodedNumber) {
+			return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
+		}
+
+		this.getDeviceIdListFromNumber = function(number) {
+			return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
+		}
+
+		this.addDeviceIdForNumber = function(number, deviceId) {
+			var deviceIdList = this.getDeviceIdListFromNumber(getNumberFromString(number));
+			for (var i = 0; i < deviceIdList.length; i++) {
+				if (deviceIdList[i] == deviceId)
+					return;
+			}
+			deviceIdList[deviceIdList.length] = deviceId;
+			storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
+		}
+
+		// throws "Identity key mismatch"
+		this.saveDeviceObject = function(deviceObject) {
+			var existing = this.getDeviceObject(deviceObject.encodedNumber);
+			if (existing === undefined)
+				existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
+			for (key in deviceObject) {
+				if (key == "encodedNumber")
+					continue;
+
+				if (key == "identityKey" && deviceObject.identityKey != deviceObject.identityKey)
+					throw new Error("Identity key mismatch");
+
+				existing[key] = deviceObject[key];
+			}
+			storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
+			this.addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
+		}
+
+		this.getDeviceObjectListFromNumber = function(number) {
+			var deviceObjectList = [];
+			var deviceIdList = this.getDeviceIdListFromNumber(number);
+			for (var i = 0; i < deviceIdList.length; i++)
+				deviceObjectList[deviceObjectList.length] = this.getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
+			return deviceObjectList;
+		}
+	};
+};
 
 function registrationDone() {
 	storage.putUnencrypted("registration_done", "");
@@ -328,49 +370,6 @@ function storeMessage(messageObject) {
 	chrome.runtime.sendMessage(conversation[conversation.length - 1]);
 }
 
-function getDeviceObject(encodedNumber) {
-	return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
-}
-
-function getDeviceIdListFromNumber(number) {
-	return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
-}
-
-function addDeviceIdForNumber(number, deviceId) {
-	var deviceIdList = getDeviceIdListFromNumber(getNumberFromString(number));
-	for (var i = 0; i < deviceIdList.length; i++) {
-		if (deviceIdList[i] == deviceId)
-			return;
-	}
-	deviceIdList[deviceIdList.length] = deviceId;
-	storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
-}
-
-// throws "Identity key mismatch"
-function saveDeviceObject(deviceObject) {
-	var existing = getDeviceObject(deviceObject.encodedNumber);
-	if (existing === undefined)
-		existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
-	for (key in deviceObject) {
-		if (key == "encodedNumber")
-			continue;
-
-		if (key == "identityKey" && deviceObject.identityKey != deviceObject.identityKey)
-			throw new Error("Identity key mismatch");
-
-		existing[key] = deviceObject[key];
-	}
-	storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
-	addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
-}
-
-function getDeviceObjectListFromNumber(number) {
-	var deviceObjectList = [];
-	var deviceIdList = getDeviceIdListFromNumber(number);
-	for (var i = 0; i < deviceIdList.length; i++)
-		deviceObjectList[deviceObjectList.length] = getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
-	return deviceObjectList;
-}
 
 /**********************
  *** NaCL Interface ***
@@ -456,16 +455,16 @@ function subscribeToPush(message_callback) {
 		if (message.type == 3) {
 			console.log("Got pong message");
 		} else if (message.type === undefined && message.id !== undefined) {
-			crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
+			textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
 				var proto = decodeIncomingPushMessageProtobuf(getString(plaintext));
 				// After this point, a) decoding errors are not the server's fault, and
 				// b) we should handle them gracefully and tell the user they received an invalid message
 				console.log("Successfully decoded message with id: " + message.id);
 				socket.send(JSON.stringify({type: 1, id: message.id}));
-				return crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+				return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
 					var handleAttachment = function(attachment) {
 						return API.getAttachment(attachment.id).then(function(encryptedBin) {
-							return crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
+							return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
 								attachment.decrypted = decryptedBin;
 							});
 						});
@@ -492,7 +491,7 @@ function subscribeToPush(message_callback) {
 function getKeysForNumber(number) {
 	return API.getKeysForNumber(number).then(function(response) {
 		for (var i = 0; i < response.length; i++) {
-			saveDeviceObject({
+			storage.devices.saveDeviceObject({
 				encodedNumber: number + "." + response[i].deviceId,
 				identityKey: response[i].identityKey,
 				publicKey: response[i].publicKey,
@@ -512,7 +511,7 @@ function sendMessageToDevices(number, deviceObjectList, message, success_callbac
 	var promises = [];
 
 	var addEncryptionFor = function(i) {
-		return crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+		return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
 			jsonData[i] = {
 				type: encryptedMsg.type,
 				destination: deviceObjectList[i].encodedNumber,
@@ -574,11 +573,11 @@ function sendMessageToNumbers(numbers, message, callback) {
 
 	for (var i = 0; i < numbers.length; i++) {
 		var number = numbers[i];
-		var devicesForNumber = getDeviceObjectListFromNumber(number);
+		var devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
 
 		if (devicesForNumber.length == 0) {
 			getKeysForNumber(number).then(function(identity_key) {
-				devicesForNumber = getDeviceObjectListFromNumber(number);
+				devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
 				if (devicesForNumber.length == 0)
 					registerError(number, "Failed to retreive new device keys for number " + number, null);
 				else
@@ -592,7 +591,7 @@ function sendMessageToNumbers(numbers, message, callback) {
 }
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
-	sendMessageToDevices([getDeviceObject(getNumberFromString(number)) + ".1"],
+	sendMessageToDevices([storage.devices.getDeviceObject(getNumberFromString(number)) + ".1"],
 						{message: "Identity Key request"}, function() {}, function() {});//TODO
 }
 

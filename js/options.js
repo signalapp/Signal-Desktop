@@ -39,10 +39,10 @@ $('#number').on('change', function() {//TODO
 });
 
 var single_device = false;
-var signaling_key = window.crypto.getRandomBytes(32 + 20);
-var password = btoa(getString(window.crypto.getRandomBytes(16)));
+var signaling_key = textsecure.crypto.getRandomBytes(32 + 20);
+var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
 password = password.substring(0, password.length - 2);
-var registrationId = new Uint16Array(window.crypto.getRandomBytes(2))[0];
+var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
 registrationId = registrationId & 0x3fff;
 
 $('#init-go-single-client').click(function() {
@@ -89,7 +89,7 @@ $('#init-go').click(function() {
 
 				var register_keys_func = function() {
 					$('#verify2done').html('done');
-					crypto.generateKeys().then(function(keys) {
+					textsecure.crypto.generateKeys().then(function(keys) {
 						$('#verify3done').html('done');
 						API.registerKeys(keys,
 							function(response) {

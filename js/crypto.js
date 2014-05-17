@@ -14,14 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// functions exposed for replacement and direct calling in test code
-var crypto_tests = {};
+var textsecure = textsecure || {};
 
-window.crypto = (function() {
+textsecure.crypto = new function() {
+	// functions exposed for replacement and direct calling in test code
+	var testing_only = {};
+
+	/******************************
+	 *** Random constants/utils ***
+	 ******************************/
 	// We consider messages lost after a week and might throw away keys at that point
 	var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
 
-	crypto.getRandomBytes = function(size) {
+	var getRandomBytes = function(size) {
 		//TODO: Better random (https://www.grc.com/r&d/js.htm?)
 		try {
 			var buffer = new ArrayBuffer(size);
@@ -33,13 +38,23 @@ window.crypto = (function() {
 			throw err;
 		}
 	}
+	this.getRandomBytes = getRandomBytes;
+
+	function intToArrayBuffer(nInt) {
+		var res = new ArrayBuffer(16);
+		var thing = new Uint8Array(res);
+		thing[0] = (nInt >> 24) & 0xff;
+		thing[1] = (nInt >> 16) & 0xff;
+		thing[2] = (nInt >> 8 ) & 0xff;
+		thing[3] = (nInt >> 0 ) & 0xff;
+		return res;
+	}
 
 	function HmacSHA256(key, input) {
 		return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
 	}
 
-
-	crypto_tests.privToPub = function(privKey, isIdentity) {
+	testing_only.privToPub = function(privKey, isIdentity) {
 		if (privKey.byteLength != 32)
 			throw new Error("Invalid private key");
 
@@ -75,13 +90,16 @@ window.crypto = (function() {
 		}
 	
 	}
-	var privToPub = function(privKey, isIdentity) { return crypto_tests.privToPub(privKey, isIdentity); }
+	var privToPub = function(privKey, isIdentity) { return testing_only.privToPub(privKey, isIdentity); }
 
-	crypto_tests.createNewKeyPair = function(isIdentity) {
-		return privToPub(crypto.getRandomBytes(32), isIdentity);
+	testing_only.createNewKeyPair = function(isIdentity) {
+		return privToPub(getRandomBytes(32), isIdentity);
 	}
-	var createNewKeyPair = function(isIdentity) { return crypto_tests.createNewKeyPair(isIdentity); }
+	var createNewKeyPair = function(isIdentity) { return testing_only.createNewKeyPair(isIdentity); }
 
+	/***************************
+	 *** Key/session storage ***
+	 ***************************/
 	var crypto_storage = {};
 
 	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity) {
@@ -208,9 +226,7 @@ window.crypto = (function() {
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
-	//TODO: Think about replacing CryptoJS stuff with optional NaCL-based implementations
-	// Probably means all of the low-level crypto stuff here needs pulled out into its own file
-	crypto_tests.ECDHE = function(pubKey, privKey) {
+	testing_only.ECDHE = function(pubKey, privKey) {
 		if (privKey === undefined || privKey.byteLength != 32)
 			throw new Error("Invalid private key");
 
@@ -231,9 +247,9 @@ window.crypto = (function() {
 			}
 		});
 	}
-	var ECDHE = function(pubKey, privKey) { return crypto_tests.ECDHE(pubKey, privKey); }
+	var ECDHE = function(pubKey, privKey) { return testing_only.ECDHE(pubKey, privKey); }
 
-	crypto_tests.HKDF = function(input, salt, info) {
+	testing_only.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
 		return HmacSHA256(salt, input).then(function(PRK) {
 			var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
@@ -260,7 +276,7 @@ window.crypto = (function() {
 
 		info = toArrayBuffer(info); // TODO: maybe convert calls?
 
-		return crypto_tests.HKDF(input, salt, info);
+		return testing_only.HKDF(input, salt, info);
 	}
 
 	var calculateMACWithVersionByte = function(data, key, version) {
@@ -363,7 +379,7 @@ window.crypto = (function() {
 		// Lock down current receive ratchet
 		// TODO: Some kind of delete chainKey['key']
 		// Delete current sending ratchet
-		delete session[getString(ratchet.ephemeralKeyPair.pubKey)];
+		delete session[getString(session.currentRatchet.ephemeralKeyPair.pubKey)];
 		// Delete current root key and our ephemeral key pair
 		delete session.currentRatchet['rootKey'];
 		delete session.currentRatchet['ephemeralKeyPair'];
@@ -540,7 +556,7 @@ window.crypto = (function() {
 	 *** Public crypto API ***
 	 *************************/
 	// Decrypts message into a raw string
-	crypto.decryptWebsocketMessage = function(message) {
+	this.decryptWebsocketMessage = function(message) {
 		var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
 		var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
 		var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
@@ -559,7 +575,7 @@ window.crypto = (function() {
 		});
 	};
 
-	crypto.decryptAttachment = function(encryptedBin, keys) {
+	this.decryptAttachment = function(encryptedBin, keys) {
 		var aes_key = keys.slice(0, 32);
 		var mac_key = keys.slice(32, 64);
 
@@ -573,7 +589,7 @@ window.crypto = (function() {
 		});
 	};
 
-	crypto.handleIncomingPushMessageProto = function(proto) {
+	this.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
 			return Promise.resolve({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
@@ -596,7 +612,7 @@ window.crypto = (function() {
 	}
 
 	// return Promise(encoded [PreKey]WhisperMessage)
-	crypto.encryptMessageFor = function(deviceObject, pushMessageContent) {
+	this.encryptMessageFor = function(deviceObject, pushMessageContent) {
 		var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
 		var doEncryptPushMessageContent = function() {
@@ -663,7 +679,7 @@ window.crypto = (function() {
 	}
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
-	crypto.generateKeys = function() {
+	this.generateKeys = function() {
 		var identityKey = crypto_storage.getStoredPubKey("identityKey");
 		var identityKeyCalculated = function(pubKey) {
 			identityKey = pubKey;
@@ -704,4 +720,6 @@ window.crypto = (function() {
 		else
 			return identityKeyCalculated(identityKey);
 	}
-})();
+
+	this.testing_only = testing_only;
+}();

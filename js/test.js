@@ -122,7 +122,7 @@ registerOnLoadFunction(function() {
 		var server_message = {type: 0, // unencrypted
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
-		return crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
+		return textsecure.crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
 			return (message.message.body == text_message.body &&
 					message.message.attachments.length == text_message.attachments.length &&
 					text_message.attachments.length == 0);
@@ -130,7 +130,7 @@ registerOnLoadFunction(function() {
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
 
 	TEST(function() {
-		return crypto.generateKeys().then(function() {
+		return textsecure.crypto.generateKeys().then(function() {
 			if (storage.getEncrypted("25519KeyidentityKey") === undefined)
 				return false;
 			if (storage.getEncrypted("25519KeypreKey16777215") === undefined)
@@ -152,7 +152,7 @@ registerOnLoadFunction(function() {
 		var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
 		var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-		return crypto_tests.privToPub(alice_priv, true).then(function(aliceKeyPair) {
+		return textsecure.crypto.testing_only.privToPub(alice_priv, true).then(function(aliceKeyPair) {
 			var target = new Uint8Array(alice_priv.slice(0));
 			target[0] &= 248;
 			target[31] &= 127;
@@ -160,7 +160,7 @@ registerOnLoadFunction(function() {
 			if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.privKey)) != String.fromCharCode.apply(null, target))
 				return false;
 
-			return crypto_tests.privToPub(bob_priv, true).then(function(bobKeyPair) {
+			return textsecure.crypto.testing_only.privToPub(bob_priv, true).then(function(bobKeyPair) {
 				var target = new Uint8Array(bob_priv.slice(0));
 				target[0] &= 248;
 				target[31] &= 127;
@@ -174,11 +174,11 @@ registerOnLoadFunction(function() {
 				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(bob_pub)))
 					return false;
 
-				return crypto_tests.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
+				return textsecure.crypto.testing_only.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
 					if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 						return false;
 
-					return crypto_tests.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
+					return textsecure.crypto.testing_only.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
 						if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
 							return false;
 						else
@@ -204,7 +204,7 @@ registerOnLoadFunction(function() {
 		for (var i = 0; i < 10; i++)
 			info[i] = 240 + i;
 
-		return crypto_tests.HKDF(IKM, salt, info).then(function(OKM){
+		return textsecure.crypto.testing_only.HKDF(IKM, salt, info).then(function(OKM){
 			var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
 			var T2 = hexToArrayBuffer("34007208d5b887185865");
 			return (getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
@@ -300,28 +300,28 @@ registerOnLoadFunction(function() {
 		];
 
 	var axolotlTestVectors = function(v, remoteDevice) {
-		var origCreateNewKeyPair = crypto_tests.createNewKeyPair;
+		var origCreateNewKeyPair = textsecure.crypto.testing_only.createNewKeyPair;
 		var doStep;
 		var stepDone;
 
 		stepDone = function(res) {
 			if (!res || privKeyQueue.length != 0) {
-				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
+				textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
 				return false;
 			} else if (step == v.length) {
-				crypto_tests.createNewKeyPair = origCreateNewKeyPair;
+				textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
 				return true;
 			} else
 				return doStep().then(stepDone);
 		}
 
 		var privKeyQueue = [];
-		crypto_tests.createNewKeyPair = function(isIdentity) {
+		textsecure.crypto.testing_only.createNewKeyPair = function(isIdentity) {
 			if (privKeyQueue.length == 0 || isIdentity)
 				throw new Error('Out of private keys');
 			else {
 				var privKey = privKeyQueue.shift();
-				return crypto_tests.privToPub(privKey, false).then(function(keyPair) {
+				return textsecure.crypto.testing_only.privToPub(privKey, false).then(function(keyPair) {
 					var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
 					if (getString(keyPair.privKey) != getString(privKey))
 						throw new Error('Failed to rederive private key!');
@@ -345,15 +345,15 @@ registerOnLoadFunction(function() {
 					message.type = data.type;
 					message.source = remoteDevice.encodedNumber;
 					message.message = data.message;
-					return crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+					return textsecure.crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
 						return res.message.body == data.expectedSmsText;
 					});
 				}
 
 				if (data.ourIdentityKey !== undefined)
-					return crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+					return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
-						return crypto_tests.privToPub(data.ourPreKey, false).then(function(keyPair) {
+						return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
 							storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
 							return postLocalKeySetup();
 						});
@@ -374,7 +374,7 @@ registerOnLoadFunction(function() {
 					var message = new PushMessageContentProtobuf();
 					message.body = data.smsText;
 
-					return crypto.encryptMessageFor(remoteDevice, message).then(function(res) {
+					return textsecure.crypto.encryptMessageFor(remoteDevice, message).then(function(res) {
 						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
 						if (res.type == 1) { //XXX: This should be used for everything...
 							var expectedString = getString(data.expectedCiphertext);
@@ -395,7 +395,7 @@ registerOnLoadFunction(function() {
 					privKeyQueue.push(data.ourEphemeralKey);
 
 				if (data.ourIdentityKey !== undefined)
-					return crypto_tests.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+					return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						storage.putEncrypted("25519KeyidentityKey", keyPair);
 						return postLocalKeySetup();
 					});
