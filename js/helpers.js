@@ -440,10 +440,7 @@ window.textsecure.subscribeToPush = function() {
 		if (subscribeToPushMessageSemaphore <= 0)
 			return;
 
-		var user = storage.getUnencrypted("number_id");
-		var password = storage.getEncrypted("password");
-		var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
-		var socket = new WebSocket(URL);
+		var socket = textsecure.api.getWebsocket();
 
 		var pingInterval;
 

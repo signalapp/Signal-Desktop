@@ -222,5 +222,16 @@ window.textsecure.api = function() {
 		});
 	};
 
+	self.getWebsocket = function() {
+		var user = storage.getUnencrypted("number_id");
+		var password = storage.getEncrypted("password");
+		var URL = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['push'] + '/?';
+		var params = $.param({
+			user: '+' + getString(user).substring(1),
+			password: getString(password)
+		});
+		return new WebSocket(URL+params);
+	}
+
 	return self;
 }();
