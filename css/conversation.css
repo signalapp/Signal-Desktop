@@ -1,6 +1,7 @@
 .conversation {
+  box-sizing: border-box;
   position: relative;
-  max-width: 400px;
+  min-height: 64px;
   margin: auto;
   padding: 1em;
   border-radius: 10px;
@@ -47,9 +48,12 @@
 }
 
 .conversation .header {
-  padding: 0.3em 0.6em 0.3em 46px;
+  padding: 0.3em 0 0.3em 46px;
 }
-.avatar {
+.conversation .btn.destroy {
+  float: right;
+}
+.conversation .image {
   position: absolute;
   top: 8px;
   left: 10px;
@@ -69,18 +73,20 @@
 .collapsable {
   background-color: #fff;
   border: 2px solid #acdbf5;
-  padding: 1em 0em;
+  padding: 1em 0em 0em;
   line-height: 1.2em;
   font-family: sans-serif;
-  border-radius: 30px;
+  border-radius: 20px 0;
 }
 
-.messages + form {
-  text-align: right;
+.collapsable form {
+  margin: 0;
+  padding: 1em;
 }
-
-.conversation form {
-  margin-top: 0.5em;
+.collapsable input[type=text] {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
 }
 
 .message-text {

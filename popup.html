@@ -24,28 +24,24 @@
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
 	<header class="clearfix">
 		<div class='container'>
-		<button class='btn selected' id='inbox_link'><span>Inbox</span></button>
-		<button class='btn' id='send_link'><span>Compose</span></button>
+			<button class='btn btn-square' id='send_link'>&plus;</button>
+			<span class='help' id='new-chat-help'>new message</span>
 		</div>
 	</header>
 	<div class='container'>
 		<div id="listener"></div>
 		<div id="log"></div>
-		<div id="send" style="display:none;">
-			<form class="compose" action="#">
-				<input id="popup_send_numbers" type='text' placeholder="To">
-				<div class='contacts'>
-					<div id='me' class='contact'>
-						<span class='pic'></span>
-						<span class='name'>Me</span>
-						<span class='number my-number'></span>
+		<div id="inbox">
+			<form id="send" style="display:none;">
+				<div class='closed conversation'>
+					<div class='header'>
+						<span class='image'></span>
+						<input id="send_numbers" type='text' placeholder="+xxxxxxxxxx">
+						<input type=submit id="compose-create" class='btn btn-square' value='>'>
+						<button id="compose-cancel" class='btn btn-square'>&times;</button>
 					</div>
 				</div>
-				<textarea id="popup_send_text"></textarea>
-				<button id="popup_send_button">Send</button>
 			</form>
-		</div>
-		<div id="inbox">
 		</div>
 	</div>
 	<script type="text/javascript" src="js/webcrypto.js"></script>
@@ -56,6 +52,10 @@
 	<script type="text/javascript" src="js-deps/backbone.js"></script>
 	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
 	<script type="text/javascript" src="js/models/messages.js"></script>
+	<script type="text/javascript" src="js/models/threads.js"></script>
+	<script type="text/javascript" src="js/views/notifications.js"></script>
+	<script type="text/javascript" src="js/views/message.js"></script>
+	<script type="text/javascript" src="js/views/conversation.js"></script>
 	<script type="text/javascript" src="js/views/messages.js"></script>
 	<script type="text/javascript" src="js-deps/core.js"></script>
 	<script type="text/javascript" src="js-deps/enc-base64.js"></script>

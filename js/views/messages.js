@@ -3,152 +3,71 @@ var Whisper = Whisper || {};
 (function () {
   'use strict';
 
-  var MessageView = Backbone.View.extend({
-    tagName:   "li",
-    className: "message",
-
-    initialize: function() {
-      this.$el.
-        append($('<div class="bubble">').
-          append($('<span class="message-text">')).
-          append($('<span class="message-attachment">')).
-          append($('<span class="metadata">'))
-        );
-      this.$el.addClass(this.model.get('type'));
-      this.listenTo(this.model, 'change:completed', this.render); // auto update
-    },
-
-    render: function() {
-      this.$el.find('.message-text').text(this.model.get('body'));
-
-      var attachments = this.model.get('attachments');
-      if (attachments) {
-        for (var i = 0; i < attachments.length; i++)
-          this.$el.find('.message-attachment').append('<img src="' + attachments[i] + '" />');
-      }
-
-      this.$el.find('.metadata').text(this.formatTimestamp());
-      return this;
-    },
-
-    formatTimestamp: function() {
-      var timestamp = this.model.get('timestamp');
-      var now = new Date().getTime() / 1000;
-      var date = new Date();
-      date.setTime(timestamp*1000);
-      if (now - timestamp > 60*60*24*7) {
-        return date.toLocaleDateString({month: 'short', day: 'numeric'});
-      }
-      if (now - timestamp > 60*60*24) {
-        return date.toLocaleDateString({weekday: 'short'});
-      }
-      return date.toTimeString();
-    }
-  });
-
-  var ConversationView = Backbone.View.extend({
-    tagName: 'li',
-    className: 'conversation',
-
-    initialize: function(options) {
-      this.$el.addClass('closed');
-      this.$header = $('<div class="header">').
-        append($('<span>').text(options.name)).appendTo(this.$el);
-      this.$header.prepend($('<div class="avatar">'));
-      this.$collapsable = $('<div class="collapsable">').hide();
-      this.$messages = $('<ul>').addClass('messages').appendTo(this.$collapsable);
-
-      this.$button = $('<button class="btn">').attr('id', 'button' + this.id).
-        append($('<span>').text('Send'));
-      this.$input = $('<input type="text">').attr('autocomplete','off');
-      this.$form = $("<form class='container'>").append(this.$input, this.$button);
-      this.$form.appendTo(this.$collapsable);
-      this.$collapsable.appendTo(this.$el);
-
-      this.$header.click(function(e) {
-        var $conversation = $(e.target).closest('.conversation');
-        if (!$conversation.hasClass('closed')) {
-          $conversation.addClass('closed');
-          $conversation.find('.collapsable').slideUp(600);
-          e.stopPropagation();
-        }
-      });
-
-      this.$el.click(function(e) {
-        var $conversation = $(e.target).closest('.conversation');
-        if ($conversation.hasClass('closed')) {
-          $conversation.removeClass('closed');
-          $conversation.find('.collapsable').slideDown(600);
-          $conversation.find('input').focus();
-        }
-      });
-
-      this.$button.click(function(e) {
-        var $button = $(e.target).closest('.btn');
-        var $input = $button.closest('form').find('input');
-        $button.attr("disabled", "disabled");
-        $button.find('span').text("Sending");
-
-
-        var message = Whisper.Messages.addOutgoingMessage(
-          $input.val(), options.recipients
-        );
-
-        textsecure.sendMessage(options.recipients, message.toProto(),
-          function(result) {
-            console.log(result);
-            $button.removeAttr("disabled");
-            $button.find('span').text("Send");
-            $input.val("");
-          }
-        );
-      });
-    },
-
-    addMessage: function (message) {
-      var view = new MessageView({ model: message });
-      this.$messages.append(view.render().el);
-    },
-
-  });
-
   Whisper.ConversationListView = new (Backbone.View.extend({ // singleton
 
     tagName: 'ul',
     id: 'conversations',
     initialize: function() {
       this.views = [];
-      this.messages = Whisper.Messages;
-      this.listenTo(this.messages, 'change:completed', this.render);
-      this.listenTo(this.messages, 'add', this.addMessage);
-      this.listenTo(this.messages, 'reset', this.addAll);
-      this.listenTo(this.messages, 'all', this.render);
+      this.threads = Whisper.Threads;
+      this.listenTo(this.threads, 'change:completed', this.render); // auto update
+      this.listenTo(this.threads, 'add', this.addThread);
+      this.listenTo(this.threads, 'reset', this.addAll);
+      this.listenTo(this.threads, 'all', this.render);
 
       // Suppresses 'add' events with {reset: true} and prevents the app view
       // from being re-rendered for every model. Only renders when the 'reset'
       // event is triggered at the end of the fetch.
-      //this.messages.fetch({reset: true});
+      //this.messages.threads({reset: true});
+      Whisper.Messages.fetch();
+      Whisper.Threads.fetch({reset: true});
 
       this.$el.appendTo($('#inbox'));
+
+      $('#send_link').click(function(e) {
+        $('#send').fadeIn().find('input[type=text]').focus();
+      });
+
+      $('#send').click(function() {
+        $('#send input[type=text]').focus();
+      });
+
+      $("#compose-cancel").click(function(e) {
+        $('#send').hide();
+        e.preventDefault();
+      });
+      $("#send").submit((function(e) {
+        e.preventDefault();
+        var numbers = [];
+        var splitString = $("#send_numbers").val().split(",");
+        for (var i = 0; i < splitString.length; i++) {
+          try {
+            numbers.push(verifyNumber(splitString[i]));
+          } catch (numberError) {
+            alert(numberError);
+          }
+        }
+        $("#send_numbers").val('');
+        numbers = _.filter(numbers, _.identity); // rm undefined, null, "", etc...
+        if (numbers.length) {
+          $('#send').hide();
+          Whisper.Threads.findOrCreateForRecipients(numbers).trigger('select');
+        } else {
+          Whisper.notify('recipient missing or invalid');
+          $('#send input[type=text]').focus();
+        }
+      }).bind(this));
+
     },
 
-    addMessage: function (message) {
-      // todo: find the right existing view
-      var threadId = message.get('person'); // TODO: groups
-      if (this.views[threadId] === undefined) {
-        this.views[threadId] = new ConversationView({
-          name: threadId, recipients: [threadId]
-        });
-        this.$el.append(this.views[threadId].render().el);
-      }
-
-      this.views[threadId].addMessage(message);
+    addThread: function(thread) {
+      this.views[thread.id] = new Whisper.ConversationView({model: thread});
+      this.$el.prepend(this.views[thread.id].render().el);
     },
 
-    // Add all items in the collection at once
-    addAll: function () {
+    addAll: function() {
       this.$el.html('');
-      this.messages.each(this.addMessage, this);
+      this.threads.each(this.addThread, this);
     },
   }))();
 })();
