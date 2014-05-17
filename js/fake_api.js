@@ -14,6 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//TODO: Redo this (API has changed to textsecure.api and changed)
 var FakeWhisperAPI = function() {
 	var doAjax = function(param) {
 		if (param.success_callback) {

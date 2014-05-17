@@ -92,6 +92,8 @@ function base64EncArr (aBytes) {
 
 /* END CRAP TO BE DELETED */
 
+window.textsecure = window.textsecure || {};
+
 /*********************************
  *** Type conversion utilities ***
  *********************************/
@@ -176,7 +178,7 @@ function base64ToArrayBuffer(string) {
 	return base64DecToArr(string);
 }
 
-// Protobuf decodingA
+// Protobuf decoding
 //TODO: throw on missing fields everywhere
 var IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
 function decodeIncomingPushMessageProtobuf(string) {
@@ -224,13 +226,6 @@ function verifyNumber(string) {
 	return getEncodedNumber(string.trim());
 }
 
-function getDeviceId(encodedNumber) {
-	var split = encodedNumber.split(".");
-	if (split.length > 1)
-		return split[1];
-	return 1;
-}
-
 // Other
 
 function timestampToHumanReadable(timestamp) {
@@ -251,18 +246,21 @@ function objectContainsKeys(object) {
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
-var storage = new function() {
+//TODO: textsecure.storage
+window.storage = function() {
+	var self = {};
+
 	/*****************************
 	 *** Base Storage Routines ***
 	 *****************************/
-	this.putEncrypted = function(key, value) {
+	self.putEncrypted = function(key, value) {
 		//TODO
 		if (value === undefined)
 			throw new Error("Tried to store undefined");
 		localStorage.setItem("e" + key, jsonThing(value));
 	}
 
-	this.getEncrypted = function(key, defaultValue) {
+	self.getEncrypted = function(key, defaultValue) {
 	//TODO
 		var value = localStorage.getItem("e" + key);
 		if (value === null)
@@ -270,40 +268,42 @@ var storage = new function() {
 		return JSON.parse(value);
 	}
 
-	this.removeEncrypted = function(key) {
+	self.removeEncrypted = function(key) {
 		localStorage.removeItem("e" + key);
 	}
 
-	this.putUnencrypted = function(key, value) {
+	self.putUnencrypted = function(key, value) {
 		if (value === undefined)
 			throw new Error("Tried to store undefined");
 		localStorage.setItem("u" + key, jsonThing(value));
 	}
 
-	this.getUnencrypted = function(key, defaultValue) {
+	self.getUnencrypted = function(key, defaultValue) {
 		var value = localStorage.getItem("u" + key);
 		if (value === null)
 			return defaultValue;
 		return JSON.parse(value);
 	}
 
-	this.removeUnencrypted = function(key) {
+	self.removeUnencrypted = function(key) {
 		localStorage.removeItem("u" + key);
 	}
 
 	/**********************
 	 *** Device Storage ***
 	 **********************/
-	this.devices = new function() {
-		this.getDeviceObject = function(encodedNumber) {
+	self.devices = function() {
+		var self = {};
+
+		self.getDeviceObject = function(encodedNumber) {
 			return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
 		}
 
-		this.getDeviceIdListFromNumber = function(number) {
+		self.getDeviceIdListFromNumber = function(number) {
 			return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
 		}
 
-		this.addDeviceIdForNumber = function(number, deviceId) {
+		self.addDeviceIdForNumber = function(number, deviceId) {
 			var deviceIdList = this.getDeviceIdListFromNumber(getNumberFromString(number));
 			for (var i = 0; i < deviceIdList.length; i++) {
 				if (deviceIdList[i] == deviceId)
@@ -313,8 +313,15 @@ var storage = new function() {
 			storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
 		}
 
+		var getDeviceId = function(encodedNumber) {
+			var split = encodedNumber.split(".");
+			if (split.length > 1)
+				return split[1];
+			return 1;
+		}
+
 		// throws "Identity key mismatch"
-		this.saveDeviceObject = function(deviceObject) {
+		self.saveDeviceObject = function(deviceObject) {
 			var existing = this.getDeviceObject(deviceObject.encodedNumber);
 			if (existing === undefined)
 				existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
@@ -331,15 +338,19 @@ var storage = new function() {
 			this.addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
 		}
 
-		this.getDeviceObjectListFromNumber = function(number) {
+		self.getDeviceObjectListFromNumber = function(number) {
 			var deviceObjectList = [];
 			var deviceIdList = this.getDeviceIdListFromNumber(number);
 			for (var i = 0; i < deviceIdList.length; i++)
 				deviceObjectList[deviceObjectList.length] = this.getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
 			return deviceObjectList;
 		}
-	};
-};
+
+		return self;
+	}();
+
+	return self;
+}();
 
 function registrationDone() {
 	storage.putUnencrypted("registration_done", "");
@@ -374,221 +385,232 @@ function storeMessage(messageObject) {
 /**********************
  *** NaCL Interface ***
  **********************/
-var USE_NACL = false;
+window.textsecure.nacl = function() {
+	var self = {};
 
-var onLoadCallbacks = [];
-var naclLoaded = 0;
-function registerOnLoadFunction(func) {
-	if (naclLoaded || !USE_NACL) {
-		func();
-		return;
-	}
-	onLoadCallbacks[onLoadCallbacks.length] = func;
-}
+	self.USE_NACL = false;
 
-var naclMessageNextId = 0;
-var naclMessageIdCallbackMap = {};
-function moduleDidLoad() {
-	common.hideModule();
-	naclLoaded = 1;
-	for (var i = 0; i < onLoadCallbacks.length; i++)
-		onLoadCallbacks[i]();
-	onLoadCallbacks = [];
-}
-
-function handleMessage(message) {
-	naclMessageIdCallbackMap[message.data.call_id](message.data);
-}
-
-function postNaclMessage(message) {
-	if (!USE_NACL)
-		throw new Error("Attempted to make NaCL call with !USE_NACL?");
-
-	return new Promise(function(resolve) {
-		naclMessageIdCallbackMap[naclMessageNextId] = resolve;
-		message.call_id = naclMessageNextId++;
-
-		common.naclModule.postMessage(message);
-	});
-}
-
-// message_callback(decoded_protobuf) (use decodeMessage(proto))
-var subscribeToPushMessageSemaphore = 0;
-function subscribeToPush(message_callback) {
-	subscribeToPushMessageSemaphore++;
-	if (subscribeToPushMessageSemaphore <= 0)
-		return;
-
-	var user = storage.getUnencrypted("number_id");
-	var password = storage.getEncrypted("password");
-	var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
-	var socket = new WebSocket(URL);
-
-	var pingInterval;
-
-	//TODO: GUI
-	socket.onerror = function(socketEvent) {
-		console.log('Server is down :(');
-		clearInterval(pingInterval);
-		subscribeToPushMessageSemaphore--;
-		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
-	};
-	socket.onclose = function(socketEvent) {
-		console.log('Server closed :(');
-		clearInterval(pingInterval);
-		subscribeToPushMessageSemaphore--;
-		setTimeout(function() { subscribeToPush(message_callback); }, 60000);
-	};
-	socket.onopen = function(socketEvent) {
-		console.log('Connected to server!');
-		pingInterval = setInterval(function() { console.log("Sending server ping message."); socket.send(JSON.stringify({type: 2})); }, 30000);
-	};
-
-	socket.onmessage = function(response) {
-		try {
-			var message = JSON.parse(response.data);
-		} catch (e) {
-			console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
+	var onLoadCallbacks = [];
+	var naclLoaded = 0;
+	self.registerOnLoadFunction = function(func) {
+		if (naclLoaded || !self.USE_NACL) {
+			func();
 			return;
 		}
+		onLoadCallbacks[onLoadCallbacks.length] = func;
+	}
 
-		if (message.type == 3) {
-			console.log("Got pong message");
-		} else if (message.type === undefined && message.id !== undefined) {
-			textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-				var proto = decodeIncomingPushMessageProtobuf(getString(plaintext));
-				// After this point, a) decoding errors are not the server's fault, and
-				// b) we should handle them gracefully and tell the user they received an invalid message
-				console.log("Successfully decoded message with id: " + message.id);
-				socket.send(JSON.stringify({type: 1, id: message.id}));
-				return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
-					var handleAttachment = function(attachment) {
-						return API.getAttachment(attachment.id).then(function(encryptedBin) {
-							return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
-								attachment.decrypted = decryptedBin;
+	var naclMessageNextId = 0;
+	var naclMessageIdCallbackMap = {};
+	window.moduleDidLoad = function() {
+		common.hideModule();
+		naclLoaded = 1;
+		for (var i = 0; i < onLoadCallbacks.length; i++)
+			onLoadCallbacks[i]();
+		onLoadCallbacks = [];
+	}
+
+	window.handleMessage = function(message) {
+		naclMessageIdCallbackMap[message.data.call_id](message.data);
+	}
+
+	self.postNaclMessage = function(message) {
+		if (!self.USE_NACL)
+			throw new Error("Attempted to make NaCL call with !USE_NACL?");
+
+		return new Promise(function(resolve) {
+			naclMessageIdCallbackMap[naclMessageNextId] = resolve;
+			message.call_id = naclMessageNextId++;
+
+			common.naclModule.postMessage(message);
+		});
+	}
+
+	return self;
+}();
+
+//TODO: Some kind of textsecure.init(use_nacl)
+window.textsecure.registerOnLoadFunction = window.textsecure.nacl.registerOnLoadFunction;
+
+// message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
+window.textsecure.subscribeToPush = function() {
+	var subscribeToPushMessageSemaphore = 0;
+	return function(message_callback) {
+		subscribeToPushMessageSemaphore++;
+		if (subscribeToPushMessageSemaphore <= 0)
+			return;
+
+		var user = storage.getUnencrypted("number_id");
+		var password = storage.getEncrypted("password");
+		var URL = URL_BASE.replace(/^http:/g, "ws:").replace(/^https:/g, "wss:") + URL_CALLS['push'] + "/?user=%2B" + getString(user).substring(1) + "&password=" + getString(password);
+		var socket = new WebSocket(URL);
+
+		var pingInterval;
+
+		//TODO: GUI
+		socket.onerror = function(socketEvent) {
+			console.log('Server is down :(');
+			clearInterval(pingInterval);
+			subscribeToPushMessageSemaphore--;
+			setTimeout(function() { subscribeToPush(message_callback); }, 60000);
+		};
+		socket.onclose = function(socketEvent) {
+			console.log('Server closed :(');
+			clearInterval(pingInterval);
+			subscribeToPushMessageSemaphore--;
+			setTimeout(function() { subscribeToPush(message_callback); }, 60000);
+		};
+		socket.onopen = function(socketEvent) {
+			console.log('Connected to server!');
+			pingInterval = setInterval(function() { console.log("Sending server ping message."); socket.send(JSON.stringify({type: 2})); }, 30000);
+		};
+
+		socket.onmessage = function(response) {
+			try {
+				var message = JSON.parse(response.data);
+			} catch (e) {
+				console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
+				return;
+			}
+
+			if (message.type == 3) {
+				console.log("Got pong message");
+			} else if (message.type === undefined && message.id !== undefined) {
+				textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
+					var proto = decodeIncomingPushMessageProtobuf(getString(plaintext));
+					// After this point, a) decoding errors are not the server's fault, and
+					// b) we should handle them gracefully and tell the user they received an invalid message
+					console.log("Successfully decoded message with id: " + message.id);
+					socket.send(JSON.stringify({type: 1, id: message.id}));
+					return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+						var handleAttachment = function(attachment) {
+							return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
+								return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
+									attachment.decrypted = decryptedBin;
+								});
 							});
+						};
+
+						var promises = [];
+						for (var i = 0; i < decrypted.message.attachments.length; i++) {
+							promises[i] = handleAttachment(decrypted.message.attachments[i]);
+						}
+						return Promise.all(promises).then(function() {
+							storeMessage(decrypted);
+							message_callback(decrypted);
 						});
-					};
-
-					var promises = [];
-					for (var i = 0; i < decrypted.message.attachments.length; i++) {
-						promises[i] = handleAttachment(decrypted.message.attachments[i]);
-					}
-					return Promise.all(promises).then(function() {
-						storeMessage(decrypted);
-						message_callback(decrypted);
-					});
-				})
-			}).catch(function(e) {
-				console.log("Error handling incoming message: ");
-				console.log(e);
-			});
-		}
-	};
-}
-
-// success_callback(identity_key), error_callback(error_msg)
-function getKeysForNumber(number) {
-	return API.getKeysForNumber(number).then(function(response) {
-		for (var i = 0; i < response.length; i++) {
-			storage.devices.saveDeviceObject({
-				encodedNumber: number + "." + response[i].deviceId,
-				identityKey: response[i].identityKey,
-				publicKey: response[i].publicKey,
-				preKeyId: response[i].keyId,
-				registrationId: response[i].registrationId
-			});
-		}
-		return response[0].identityKey;
-	});
-}
-
-// success_callback(server success/failure map), error_callback(error_msg)
-// message == PushMessageContentProto (NOT STRING)
-function sendMessageToDevices(number, deviceObjectList, message, success_callback, error_callback) {
-	var jsonData = [];
-	var relay = undefined;
-	var promises = [];
-
-	var addEncryptionFor = function(i) {
-		return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-			jsonData[i] = {
-				type: encryptedMsg.type,
-				destination: deviceObjectList[i].encodedNumber,
-				destinationRegistrationId: deviceObjectList[i].registrationId,
-				body: encryptedMsg.body,
-				timestamp: new Date().getTime()
-			};
-
-			if (deviceObjectList[i].relay !== undefined) {
-				jsonData[i].relay = deviceObjectList[i].relay;
-				if (relay === undefined)
-					relay = jsonData[i].relay;
-				else if (relay != jsonData[i].relay)
-					throw new Error("Mismatched relays for number " + number);
-			} else {
-				if (relay === undefined)
-					relay = "";
-				else if (relay != "")
-					throw new Error("Mismatched relays for number " + number);
+					})
+				}).catch(function(e) {
+					console.log("Error handling incoming message: ");
+					console.log(e);
+				});
 			}
+		};
+	}
+}();
+
+// sendMessage(numbers = [], message = PushMessageContentProto, callback(success/failure map))
+window.textsecure.sendMessage = function() {
+	function getKeysForNumber(number) {
+		return textsecure.api.getKeysForNumber(number).then(function(response) {
+			for (var i = 0; i < response.length; i++) {
+				storage.devices.saveDeviceObject({
+					encodedNumber: number + "." + response[i].deviceId,
+					identityKey: response[i].identityKey,
+					publicKey: response[i].publicKey,
+					preKeyId: response[i].keyId,
+					registrationId: response[i].registrationId
+				});
+			}
+			return response[0].identityKey;
 		});
 	}
-	for (var i = 0; i < deviceObjectList.length; i++)
-		promises[i] = addEncryptionFor(i);
-	return Promise.all(promises).then(function() {
-		return API.sendMessages(number, jsonData);
-	});
-}
 
-// callback(success/failure map, see code)
-// message == PushMessageContentProto (NOT STRING)
-function sendMessageToNumbers(numbers, message, callback) {
-	var numbersCompleted = 0;
-	var errors = [];
-	var successfulNumbers = [];
+	// success_callback(server success/failure map), error_callback(error_msg)
+	// message == PushMessageContentProto (NOT STRING)
+	function sendMessageToDevices(number, deviceObjectList, message, success_callback, error_callback) {
+		var jsonData = [];
+		var relay = undefined;
+		var promises = [];
 
-	var numberCompleted = function() {
-		numbersCompleted++;
-		if (numbersCompleted >= numbers.length)
-			callback({success: successfulNumbers, failure: errors});
+		var addEncryptionFor = function(i) {
+			return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+				jsonData[i] = {
+					type: encryptedMsg.type,
+					destination: deviceObjectList[i].encodedNumber,
+					destinationRegistrationId: deviceObjectList[i].registrationId,
+					body: encryptedMsg.body,
+					timestamp: new Date().getTime()
+				};
+
+				if (deviceObjectList[i].relay !== undefined) {
+					jsonData[i].relay = deviceObjectList[i].relay;
+					if (relay === undefined)
+						relay = jsonData[i].relay;
+					else if (relay != jsonData[i].relay)
+						throw new Error("Mismatched relays for number " + number);
+				} else {
+					if (relay === undefined)
+						relay = "";
+					else if (relay != "")
+						throw new Error("Mismatched relays for number " + number);
+				}
+			});
+		}
+		for (var i = 0; i < deviceObjectList.length; i++)
+			promises[i] = addEncryptionFor(i);
+		return Promise.all(promises).then(function() {
+			return textsecure.api.sendMessages(number, jsonData);
+		});
 	}
 
-	var registerError = function(number, message, error) {
-		errors[errors.length] = { number: number, reason: message, error: error };
-		numberCompleted();
-	}
+	return function(numbers, message, callback) {
+		var numbersCompleted = 0;
+		var errors = [];
+		var successfulNumbers = [];
 
-	var doSendMessage = function(number, devicesForNumber, message) {
-		return sendMessageToDevices(number, devicesForNumber, message).then(function(result) {
-			successfulNumbers[successfulNumbers.length] = number;
+		var numberCompleted = function() {
+			numbersCompleted++;
+			if (numbersCompleted >= numbers.length)
+				callback({success: successfulNumbers, failure: errors});
+		}
+
+		var registerError = function(number, message, error) {
+			errors[errors.length] = { number: number, reason: message, error: error };
 			numberCompleted();
-		}).catch(function(error) {
-			if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
-				//TODO: Re-request keys for number here
-			}
-			registerError(number, "Failed to create or send message", error);
-		});
-	}
+		}
 
-	for (var i = 0; i < numbers.length; i++) {
-		var number = numbers[i];
-		var devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
-
-		if (devicesForNumber.length == 0) {
-			getKeysForNumber(number).then(function(identity_key) {
-				devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
-				if (devicesForNumber.length == 0)
-					registerError(number, "Failed to retreive new device keys for number " + number, null);
-				else
-					doSendMessage(number, devicesForNumber, message);
+		var doSendMessage = function(number, devicesForNumber, message) {
+			return sendMessageToDevices(number, devicesForNumber, message).then(function(result) {
+				successfulNumbers[successfulNumbers.length] = number;
+				numberCompleted();
 			}).catch(function(error) {
-				registerError(number, "Failed to retreive new device keys for number " + number, error);
+				if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
+					//TODO: Re-request keys for number here
+				}
+				registerError(number, "Failed to create or send message", error);
 			});
-		} else
-			doSendMessage(number, devicesForNumber, message);
+		}
+
+		for (var i = 0; i < numbers.length; i++) {
+			var number = numbers[i];
+			var devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
+
+			if (devicesForNumber.length == 0) {
+				getKeysForNumber(number).then(function(identity_key) {
+					devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
+					if (devicesForNumber.length == 0)
+						registerError(number, "Failed to retreive new device keys for number " + number, null);
+					else
+						doSendMessage(number, devicesForNumber, message);
+				}).catch(function(error) {
+					registerError(number, "Failed to retreive new device keys for number " + number, error);
+				});
+			} else
+				doSendMessage(number, devicesForNumber, message);
+		}
 	}
-}
+}();
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
 	sendMessageToDevices([storage.devices.getDeviceObject(getNumberFromString(number)) + ".1"],

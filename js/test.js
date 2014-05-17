@@ -95,7 +95,7 @@ function hexToArrayBuffer(str) {
 	return ret;
 }
 
-registerOnLoadFunction(function() {
+textsecure.registerOnLoadFunction(function() {
 	localStorage.clear();
 
 	// Random tests to check my JS knowledge

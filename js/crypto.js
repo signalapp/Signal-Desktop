@@ -14,9 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var textsecure = textsecure || {};
+window.textsecure = window.textsecure || {};
 
-textsecure.crypto = new function() {
+window.textsecure.crypto = new function() {
+	var self = {};
 	// functions exposed for replacement and direct calling in test code
 	var testing_only = {};
 
@@ -38,7 +39,7 @@ textsecure.crypto = new function() {
 			throw err;
 		}
 	}
-	this.getRandomBytes = getRandomBytes;
+	self.getRandomBytes = getRandomBytes;
 
 	function intToArrayBuffer(nInt) {
 		var res = new ArrayBuffer(16);
@@ -67,7 +68,7 @@ textsecure.crypto = new function() {
 			return pub;
 		}
 
-		if (USE_NACL) {
+		if (textsecure.nacl.USE_NACL) {
 			return postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
 				var priv = message.res;
 				if (!isIdentity)
@@ -238,7 +239,7 @@ textsecure.crypto = new function() {
 			console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
 
 		return new Promise(function(resolve) {
-			if (USE_NACL) {
+			if (textsecure.nacl.USE_NACL) {
 				postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}).then(function(message) {
 					resolve(message.res);
 				});
@@ -556,7 +557,7 @@ textsecure.crypto = new function() {
 	 *** Public crypto API ***
 	 *************************/
 	// Decrypts message into a raw string
-	this.decryptWebsocketMessage = function(message) {
+	self.decryptWebsocketMessage = function(message) {
 		var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
 		var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
 		var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
@@ -575,7 +576,7 @@ textsecure.crypto = new function() {
 		});
 	};
 
-	this.decryptAttachment = function(encryptedBin, keys) {
+	self.decryptAttachment = function(encryptedBin, keys) {
 		var aes_key = keys.slice(0, 32);
 		var mac_key = keys.slice(32, 64);
 
@@ -589,7 +590,7 @@ textsecure.crypto = new function() {
 		});
 	};
 
-	this.handleIncomingPushMessageProto = function(proto) {
+	self.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
 			return Promise.resolve({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
@@ -612,7 +613,7 @@ textsecure.crypto = new function() {
 	}
 
 	// return Promise(encoded [PreKey]WhisperMessage)
-	this.encryptMessageFor = function(deviceObject, pushMessageContent) {
+	self.encryptMessageFor = function(deviceObject, pushMessageContent) {
 		var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
 		var doEncryptPushMessageContent = function() {
@@ -679,7 +680,7 @@ textsecure.crypto = new function() {
 	}
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
-	this.generateKeys = function() {
+	self.generateKeys = function() {
 		var identityKey = crypto_storage.getStoredPubKey("identityKey");
 		var identityKeyCalculated = function(pubKey) {
 			identityKey = pubKey;
@@ -721,5 +722,6 @@ textsecure.crypto = new function() {
 			return identityKeyCalculated(identityKey);
 	}
 
-	this.testing_only = testing_only;
+	self.testing_only = testing_only;
+	return self;
 }();

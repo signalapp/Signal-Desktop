@@ -14,24 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/************************************************
- *** Utilities to communicate with the server ***
- ************************************************/
-// WARNING: THIS SERVER LOGS KEY MATERIAL FOR TESTING
-var URL_BASE	= "http://sushiforeveryone.bluematt.me";
+window.textsecure = window.textsecure || {};
 
-// This is the real server
-//var URL_BASE	= "https://textsecure-service.whispersystems.org";
+window.textsecure.api = function() {
+	var self = {};
 
-var URL_CALLS = {};
-URL_CALLS['accounts']	= "/v1/accounts";
-URL_CALLS['devices']	= "/v1/devices";
-URL_CALLS['keys']		= "/v1/keys";
-URL_CALLS['push']		= "/v1/websocket";
-URL_CALLS['messages']	= "/v1/messages";
-URL_CALLS['attachment']	= "/v1/attachments";
+	/************************************************
+	 *** Utilities to communicate with the server ***
+	 ************************************************/
+	// WARNING: THIS SERVER LOGS KEY MATERIAL FOR TESTING
+	var URL_BASE	= "http://sushiforeveryone.bluematt.me";
 
-var API	= new function() {
+	// This is the real server
+	//var URL_BASE	= "https://textsecure-service.whispersystems.org";
+
+	var URL_CALLS = {};
+	URL_CALLS['accounts']	= "/v1/accounts";
+	URL_CALLS['devices']	= "/v1/devices";
+	URL_CALLS['keys']		= "/v1/keys";
+	URL_CALLS['push']		= "/v1/websocket";
+	URL_CALLS['messages']	= "/v1/messages";
+	URL_CALLS['attachment']	= "/v1/attachments";
 
 	/**
 		* REQUIRED PARAMS:
@@ -90,7 +93,7 @@ var API	= new function() {
 		});
 	};
 
-	this.requestVerificationCode = function(number, success_callback, error_callback) {
+	self.requestVerificationCode = function(number, success_callback, error_callback) {
 		doAjax({
 			call				: 'accounts',
 			httpType			: 'GET',
@@ -104,7 +107,7 @@ var API	= new function() {
 		});
 	};
 
-	this.confirmCode = function(code, number, password,
+	self.confirmCode = function(code, number, password,
 								signaling_key, registrationId, single_device,
 								success_callback, error_callback) {
 		var call = single_device ? 'accounts' : 'devices';
@@ -129,7 +132,7 @@ var API	= new function() {
 		});
 	};
 
-	this.registerKeys = function(keys, success_callback, error_callback) {
+	self.registerKeys = function(keys, success_callback, error_callback) {
 		//TODO: Do this conversion somewhere else?
 		var identityKey = btoa(getString(keys.keys[0].identityKey));
 		for (var i = 0; i < keys.keys.length; i++)
@@ -149,7 +152,7 @@ var API	= new function() {
 		});
 	};
 
-	this.getKeysForNumber = function(number) {
+	self.getKeysForNumber = function(number) {
 		return doAjax({
 			call				: 'keys',
 			httpType			: 'GET',
@@ -168,7 +171,7 @@ var API	= new function() {
 		});
 	};
 
-	this.sendMessages = function(destination, messageArray) {
+	self.sendMessages = function(destination, messageArray) {
 		//TODO: Do this conversion somewhere else?
 		for (var i = 0; i < messageArray.length; i++)
 			messageArray[i].body = btoa(messageArray[i].body);
@@ -185,7 +188,7 @@ var API	= new function() {
 		});
 	};
 
-	this.getAttachment = function(id) {
+	self.getAttachment = function(id) {
 		return doAjax({
 			call				: 'attachment',
 			httpType			: 'GET',
@@ -218,4 +221,6 @@ var API	= new function() {
 			});
 		});
 	};
-}(); // API
+
+	return self;
+}();

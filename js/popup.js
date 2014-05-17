@@ -23,7 +23,7 @@ $('#send_link').click(function() {
 	$('#send').show();
 });
 
-registerOnLoadFunction(function() {
+textsecure.registerOnLoadFunction(function() {
 	if (storage.getUnencrypted("number_id") === undefined) {
 		chrome.tabs.create({url: "options.html"});
 	} else {
@@ -73,7 +73,7 @@ registerOnLoadFunction(function() {
 					var messageProto = new PushMessageContentProtobuf();
 					messageProto.body = input.val();
 
-					sendMessageToNumbers(sendDestinations, messageProto, function(result) {
+					textsecure.sendMessage(sendDestinations, messageProto, function(result) {
 						console.log(result);
 						button.removeAttr("disabled");
 						button.text("Send");
@@ -109,7 +109,7 @@ registerOnLoadFunction(function() {
 			}
 			var messageProto = new PushMessageContentProtobuf();
 			messageProto.body = $("#popup_send_text").val();
-			sendMessageToNumbers(numbers, messageProto,
+			textsecure.sendMessage(numbers, messageProto,
 				//TODO: Handle result
 				function(thing) {console.log(thing);});
 		});

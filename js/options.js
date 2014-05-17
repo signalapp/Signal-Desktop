@@ -56,7 +56,7 @@ $('#init-go-single-client').click(function() {
 
 		single_device = true;
 
-		API.requestVerificationCode(number,
+		textsecure.api.requestVerificationCode(number,
 			function(response) { },
 			function(code) {
 				alert("Failed to send key?" + code); //TODO
@@ -76,7 +76,7 @@ $('#init-go').click(function() {
 		$('#verify4done').html('');
 		$('#verify').show();
 
-		API.confirmCode($('#code').val(), number, password, signaling_key, registrationId, single_device,
+		textsecure.api.confirmCode($('#code').val(), number, password, signaling_key, registrationId, single_device,
 			function(response) {
 				if (single_device)
 					response = 1;
@@ -91,7 +91,7 @@ $('#init-go').click(function() {
 					$('#verify2done').html('done');
 					textsecure.crypto.generateKeys().then(function(keys) {
 						$('#verify3done').html('done');
-						API.registerKeys(keys,
+						textsecure.api.registerKeys(keys,
 							function(response) {
 								$('#complete-number').html(number);
 								$('#verify').hide();
@@ -105,15 +105,17 @@ $('#init-go').click(function() {
 				}
 
 				if (!single_device) {
-					getKeysForNumber(number).then(function(identityKey) {
-						subscribeToPush(function(message) {
+					//TODO: Redo all this
+					/*getKeysForNumber(number).then(function(identityKey) {
+						textsecure.subscribeToPush(function(message) {
 							//TODO receive shared identity key
 							register_keys_func();
 						});
 						requestIdentityPrivKeyFromMasterDevice(number);
 					}).catch(function(error) {
 						alert(error); //TODO
-					});
+					});*/
+					register_keys_func();
 				} else {
 					register_keys_func();
 				}
@@ -136,7 +138,7 @@ $('#init-go').click(function() {
 	}
 });
 
-registerOnLoadFunction(function() {
+textsecure.registerOnLoadFunction(function() {
 	if (!isRegistrationDone()) {
 		$('#init-setup').show();
 	} else {
