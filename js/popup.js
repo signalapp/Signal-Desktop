@@ -53,6 +53,7 @@ textsecure.registerOnLoadFunction(function() {
 			}
 			var messageProto = new PushMessageContentProtobuf();
 			messageProto.body = $("#popup_send_text").val();
+			Whisper.Messages.addOutgoingMessage(messageProto, numbers[0]);
 			textsecure.sendMessage(numbers, messageProto,
 				//TODO: Handle result
 				function(thing) {console.log(thing);});
