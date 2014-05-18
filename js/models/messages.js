@@ -11,7 +11,7 @@ var Whisper = Whisper || {};
 
     addIncomingMessage: function(decrypted) {
       Whisper.Messages.add({
-        sender: decrypted.pushMessage.source,
+        person: decrypted.pushMessage.source,
         group: decrypted.message.group,
         body: decrypted.message.body,
         type: 'incoming',
@@ -19,9 +19,9 @@ var Whisper = Whisper || {};
       }).save();
     },
 
-    addOutgoingMessage: function(messageProto, sender) {
+    addOutgoingMessage: function(messageProto, recipients) {
       Whisper.Messages.add({
-        sender: sender,
+        person: recipients[0], // TODO: groups
         body: messageProto.body,
         type: 'outgoing',
         timestamp: new Date().getTime()

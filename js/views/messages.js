@@ -45,15 +45,14 @@ var Whisper = Whisper || {};
     initialize: function(options) {
       this.$el.addClass('closed');
       this.$header = $('<div class="header">').
-        append($('<span>').text(options.sender)).appendTo(this.$el);
+        append($('<span>').text(options.name)).appendTo(this.$el);
       this.$header.prepend($('<div class="avatar">'));
       this.$collapsable = $('<div class="collapsable">').hide();
       this.$messages = $('<ul>').addClass('messages').appendTo(this.$collapsable);
 
       this.$button = $('<button class="btn">').attr('id', 'button' + this.id).
         append($('<span>').text('Send'));
-      this.$input = $('<input type="text" id="text' + options.threadId + '">').
-        attr('autocomplete','off');
+      this.$input = $('<input type="text">').attr('autocomplete','off');
       this.$form = $("<form class='container'>").append(this.$input, this.$button);
       this.$form.appendTo(this.$collapsable);
       this.$collapsable.appendTo(this.$el);
@@ -82,14 +81,12 @@ var Whisper = Whisper || {};
         $button.attr("disabled", "disabled");
         $button.find('span').text("Sending");
 
-        var sendDestinations = [options.sender];
-
         var messageProto = new PushMessageContentProtobuf();
         messageProto.body = $input.val();
 
-        Whisper.Messages.addOutgoingMessage(messageProto, options.sender);
+        Whisper.Messages.addOutgoingMessage(messageProto, options.recipients);
 
-        textsecure.sendMessage(sendDestinations, messageProto, function(result) {
+        textsecure.sendMessage(options.recipients, messageProto, function(result) {
           console.log(result);
           $button.removeAttr("disabled");
           $button.find('span').text("Send");
@@ -127,9 +124,11 @@ var Whisper = Whisper || {};
 
     addMessage: function (message) {
       // todo: find the right existing view
-      var threadId = message.get('sender'); // TODO: groups
+      var threadId = message.get('person'); // TODO: groups
       if (this.views[threadId] === undefined) {
-        this.views[threadId] = new ConversationView({threadId: threadId, sender: message.get('sender')});
+        this.views[threadId] = new ConversationView({
+          name: threadId, recipients: [threadId]
+        });
         this.$el.append(this.views[threadId].render().el);
       }
 
