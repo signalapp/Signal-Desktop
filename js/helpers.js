@@ -469,13 +469,9 @@ window.textsecure.subscribeToPush = function() {
 						};
 
 						var promises = [];
-						for (var i = 0; i < decrypted.message.attachments.length; i++) {
+						for (var i = 0; i < decrypted.message.attachments.length; i++)
 							promises[i] = handleAttachment(decrypted.message.attachments[i]);
-						}
-						return Promise.all(promises).then(function() {
-							Whisper.Messages.addIncomingMessage(decrypted);
-							message_callback(decrypted);
-						});
+						return Promise.all(promises).then(message_callback);
 					})
 				}).catch(function(e) {
 					console.log("Error handling incoming message: ");
