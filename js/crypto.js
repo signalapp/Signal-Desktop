@@ -87,9 +87,9 @@ window.textsecure.crypto = new function() {
 				priv[0] |= 0x0001;
 
 			//TODO: fscking type conversion
-			return new Promise.resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
+			return Promise.resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
 		}
-	
+
 	}
 	var privToPub = function(privKey, isIdentity) { return testing_only.privToPub(privKey, isIdentity); }
 

@@ -73,7 +73,7 @@ window.crypto.subtle = (function() {
 		function promise(implementation) {
 			var args = Array.prototype.slice.call(arguments);
 			args.shift();
-			return new Promise.resolve(toArrayBuffer(implementation.apply(this, args)));
+			return Promise.resolve(toArrayBuffer(implementation.apply(this, args)));
 		}
 
 		// public interface functions
