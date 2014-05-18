@@ -51,10 +51,10 @@ textsecure.registerOnLoadFunction(function() {
 					alert(numberError);
 				}
 			}
-			var messageProto = new PushMessageContentProtobuf();
-			messageProto.body = $("#popup_send_text").val();
-			Whisper.Messages.addOutgoingMessage(messageProto, numbers);
-			textsecure.sendMessage(numbers, messageProto,
+			var message = Whisper.Messages.addOutgoingMessage(
+				$("#popup_send_text").val(), numbers
+			);
+			textsecure.sendMessage(numbers, message.toProto(),
 				//TODO: Handle result
 				function(thing) {console.log(thing);});
 		});

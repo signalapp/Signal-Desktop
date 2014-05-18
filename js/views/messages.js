@@ -81,17 +81,19 @@ var Whisper = Whisper || {};
         $button.attr("disabled", "disabled");
         $button.find('span').text("Sending");
 
-        var messageProto = new PushMessageContentProtobuf();
-        messageProto.body = $input.val();
 
-        Whisper.Messages.addOutgoingMessage(messageProto, options.recipients);
+        var message = Whisper.Messages.addOutgoingMessage(
+          $input.val(), options.recipients
+        );
 
-        textsecure.sendMessage(options.recipients, messageProto, function(result) {
-          console.log(result);
-          $button.removeAttr("disabled");
-          $button.find('span').text("Send");
-          $input.val("");
-        });
+        textsecure.sendMessage(options.recipients, message.toProto(),
+          function(result) {
+            console.log(result);
+            $button.removeAttr("disabled");
+            $button.find('span').text("Send");
+            $input.val("");
+          }
+        );
       });
     },
 
