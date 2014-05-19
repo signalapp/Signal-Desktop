@@ -89,7 +89,6 @@ window.textsecure.crypto = new function() {
 			//TODO: fscking type conversion
 			return Promise.resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
 		}
-
 	}
 	var privToPub = function(privKey, isIdentity) { return testing_only.privToPub(privKey, isIdentity); }
 
@@ -580,8 +579,8 @@ window.textsecure.crypto = new function() {
 		var aes_key = keys.slice(0, 32);
 		var mac_key = keys.slice(32, 64);
 
-		var iv = encryptedBin.slice(0, 32);
-		var ciphertext = encryptedBin.slice(32, encryptedBin.byteLength - 32);
+		var iv = encryptedBin.slice(0, 16);
+		var ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
 		var ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
 		var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 

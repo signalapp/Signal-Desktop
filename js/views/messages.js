@@ -11,6 +11,7 @@ var Whisper = Whisper || {};
       this.$el.
         append($('<div class="bubble">').
           append($('<span class="message-text">')).
+          append($('<span class="message-attachment">')).
           append($('<span class="metadata">'))
         );
       this.$el.addClass(this.model.get('type'));
@@ -19,6 +20,11 @@ var Whisper = Whisper || {};
 
     render: function() {
       this.$el.find('.message-text').text(this.model.get('body'));
+
+      var attachments = this.model.get('attachments');
+      for (var i = 0; i < attachments.length; i++)
+        this.$el.find('.message-attachment').append('<img src="' + attachments[i] + '" />');
+
       this.$el.find('.metadata').text(this.formatTimestamp());
       return this;
     },

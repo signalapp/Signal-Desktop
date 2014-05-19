@@ -15,10 +15,16 @@ var Whisper = Whisper || {};
     comparator: 'timestamp',
 
     addIncomingMessage: function(decrypted) {
+      //TODO: The data in decrypted (from subscribeToPush) should already be cleaned up
+      var attachments = [];
+      for (var i = 0; i < decrypted.message.attachments.length; i++)
+        attachments[i] = "data:" + decrypted.message.attachments[i].contentType + ";base64," + btoa(getString(decrypted.message.attachments[i].decrypted));
+
       var m = Whisper.Messages.add({
         person: decrypted.pushMessage.source,
         group: decrypted.message.group,
         body: decrypted.message.body,
+        attachments: attachments,
         type: 'incoming',
         timestamp: decrypted.message.timestamp
       });
