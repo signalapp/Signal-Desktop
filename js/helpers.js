@@ -226,28 +226,10 @@ function verifyNumber(string) {
 	return getEncodedNumber(string.trim());
 }
 
-// Other
-
-function timestampToHumanReadable(timestamp) {
-	var date = new Date();
-	date.setTime(timestamp*1000);
-	return date.toUTCString();
-}
-
-function objectContainsKeys(object) {
-	var count = 0;
-	for (key in object) {
-		count++;
-		break;
-	}
-	return count != 0;
-}
-
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
-//TODO: textsecure.storage
-window.storage = function() {
+window.textsecure.storage = function() {
 	var self = {};
 
 	/*****************************
@@ -296,11 +278,11 @@ window.storage = function() {
 		var self = {};
 
 		self.getDeviceObject = function(encodedNumber) {
-			return storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
+			return textsecure.storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
 		}
 
 		self.getDeviceIdListFromNumber = function(number) {
-			return storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
+			return textsecure.storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
 		}
 
 		self.addDeviceIdForNumber = function(number, deviceId) {
@@ -310,7 +292,7 @@ window.storage = function() {
 					return;
 			}
 			deviceIdList[deviceIdList.length] = deviceId;
-			storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
+			textsecure.storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
 		}
 
 		var getDeviceId = function(encodedNumber) {
@@ -334,7 +316,7 @@ window.storage = function() {
 
 				existing[key] = deviceObject[key];
 			}
-			storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
+			textsecure.storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
 			this.addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
 		}
 
@@ -351,16 +333,6 @@ window.storage = function() {
 
 	return self;
 }();
-
-function registrationDone() {
-	storage.putUnencrypted("registration_done", "");
-	//TODO: Fix dirty hack:
-	chrome.runtime.reload();
-}
-
-function isRegistrationDone() {
-	return storage.getUnencrypted("registration_done") !== undefined;
-}
 
 /**********************
  *** NaCL Interface ***
@@ -489,7 +461,7 @@ window.textsecure.sendMessage = function() {
 	function getKeysForNumber(number) {
 		return textsecure.api.getKeysForNumber(number).then(function(response) {
 			for (var i = 0; i < response.length; i++) {
-				storage.devices.saveDeviceObject({
+				textsecure.storage.devices.saveDeviceObject({
 					encodedNumber: number + "." + response[i].deviceId,
 					identityKey: response[i].identityKey,
 					publicKey: response[i].publicKey,
@@ -569,11 +541,11 @@ window.textsecure.sendMessage = function() {
 
 		for (var i = 0; i < numbers.length; i++) {
 			var number = numbers[i];
-			var devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
+			var devicesForNumber = textsecure.storage.devices.getDeviceObjectListFromNumber(number);
 
 			if (devicesForNumber.length == 0) {
 				getKeysForNumber(number).then(function(identity_key) {
-					devicesForNumber = storage.devices.getDeviceObjectListFromNumber(number);
+					devicesForNumber = textsecure.storage.devices.getDeviceObjectListFromNumber(number);
 					if (devicesForNumber.length == 0)
 						registerError(number, "Failed to retreive new device keys for number " + number, null);
 					else
@@ -588,7 +560,7 @@ window.textsecure.sendMessage = function() {
 }();
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
-	sendMessageToDevices([storage.devices.getDeviceObject(getNumberFromString(number)) + ".1"],
+	sendMessageToDevices([textsecure.storage.devices.getDeviceObject(getNumberFromString(number)) + ".1"],
 						{message: "Identity Key request"}, function() {}, function() {});//TODO
 }
 

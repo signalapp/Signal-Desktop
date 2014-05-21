@@ -28,13 +28,13 @@ $('#send_link').click(function(e) {
 });
 
 textsecure.registerOnLoadFunction(function() {
-	if (storage.getUnencrypted("number_id") === undefined) {
+	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
 		chrome.tabs.create({url: "options.html"});
 	} else {
 		$(window).bind('storage', function(e) { Whisper.Messages.fetch(); });
 		Whisper.Messages.fetch();
-		$('.my-number').text(storage.getUnencrypted("number_id").split(".")[0]);
-		storage.putUnencrypted("unreadCount", 0);
+		$('.my-number').text(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
+		textsecure.storage.putUnencrypted("unreadCount", 0);
 		chrome.browserAction.setBadgeText({text: ""});
 		$("#me").click(function() {
 			$('#popup_send_numbers').val($('.my-number').text());

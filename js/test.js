@@ -98,11 +98,6 @@ function hexToArrayBuffer(str) {
 textsecure.registerOnLoadFunction(function() {
 	localStorage.clear();
 
-	// Random tests to check my JS knowledge
-	TEST(function() { return Promise.resolve(!objectContainsKeys({})); });
-	TEST(function() { return Promise.resolve(objectContainsKeys({ a: undefined })); });
-	TEST(function() { return Promise.resolve(objectContainsKeys({ a: null })); });
-
 	TEST(function() {
 		var b = new ArrayBuffer(3);
 		var a = new Uint8Array(b);
@@ -131,13 +126,13 @@ textsecure.registerOnLoadFunction(function() {
 
 	TEST(function() {
 		return textsecure.crypto.generateKeys().then(function() {
-			if (storage.getEncrypted("25519KeyidentityKey") === undefined)
+			if (textsecure.storage.getEncrypted("25519KeyidentityKey") === undefined)
 				return false;
-			if (storage.getEncrypted("25519KeypreKey16777215") === undefined)
+			if (textsecure.storage.getEncrypted("25519KeypreKey16777215") === undefined)
 				return false;
 
 			for (var i = 0; i < 100; i++)
-				if (storage.getEncrypted("25519KeypreKey" + i) === undefined)
+				if (textsecure.storage.getEncrypted("25519KeypreKey" + i) === undefined)
 					return false;
 
 			return true;
@@ -352,9 +347,9 @@ textsecure.registerOnLoadFunction(function() {
 
 				if (data.ourIdentityKey !== undefined)
 					return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
-						storage.putEncrypted("25519KeyidentityKey", keyPair);
+						textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
 						return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
-							storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
+							textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
 							return postLocalKeySetup();
 						});
 					});
@@ -368,7 +363,7 @@ textsecure.registerOnLoadFunction(function() {
 					if (data.theirPreKey !== undefined) {
 						remoteDevice.publicKey = data.theirPreKey;
 						remoteDevice.preKeyId = data.theirPreKeyId;
-						storage.putUnencrypted("registrationId", data.registrationId);
+						textsecure.storage.putUnencrypted("registrationId", data.registrationId);
 					}
 
 					var message = new PushMessageContentProtobuf();
@@ -396,7 +391,7 @@ textsecure.registerOnLoadFunction(function() {
 
 				if (data.ourIdentityKey !== undefined)
 					return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
-						storage.putEncrypted("25519KeyidentityKey", keyPair);
+						textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
 						return postLocalKeySetup();
 					});
 				else

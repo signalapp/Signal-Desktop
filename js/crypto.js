@@ -51,6 +51,15 @@ window.textsecure.crypto = new function() {
 		return res;
 	}
 
+	function objectContainsKeys(object) {
+		var count = 0;
+		for (key in object) {
+			count++;
+			break;
+		}
+		return count != 0;
+	}
+
 	function HmacSHA256(key, input) {
 		return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
 	}
@@ -104,17 +113,17 @@ window.textsecure.crypto = new function() {
 
 	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity) {
 		return createNewKeyPair(isIdentity).then(function(keyPair) {
-			storage.putEncrypted("25519Key" + keyName, keyPair);
+			textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
 			return keyPair.pubKey;
 		});
 	}
 
 	crypto_storage.getStoredPubKey = function(keyName) {
-		return toArrayBuffer(storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey);
+		return toArrayBuffer(textsecure.storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey);
 	}
 
 	crypto_storage.getStoredKeyPair = function(keyName) {
-		var res = storage.getEncrypted("25519Key" + keyName);
+		var res = textsecure.storage.getEncrypted("25519Key" + keyName);
 		if (res === undefined)
 			return undefined;
 		return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
@@ -122,7 +131,7 @@ window.textsecure.crypto = new function() {
 
 	crypto_storage.getAndRemoveStoredKeyPair = function(keyName) {
 		var keyPair = this.getStoredKeyPair(keyName);
-		storage.removeEncrypted("25519Key" + keyName);
+		textsecure.storage.removeEncrypted("25519Key" + keyName);
 		return keyPair;
 	}
 
@@ -135,7 +144,7 @@ window.textsecure.crypto = new function() {
 	}
 
 	crypto_storage.saveSession = function(encodedNumber, session) {
-		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
 		if (sessions === undefined)
 			sessions = {};
 
@@ -162,11 +171,11 @@ window.textsecure.crypto = new function() {
 		else
 			sessions[getString(session.indexInfo.baseKey)] = session;
 
-		storage.putEncrypted("session" + getEncodedNumber(encodedNumber), sessions);
+		textsecure.storage.putEncrypted("session" + getEncodedNumber(encodedNumber), sessions);
 	}
 
 	crypto_storage.getOpenSession = function(encodedNumber) {
-		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
 		if (sessions === undefined)
 			return undefined;
 
@@ -181,7 +190,7 @@ window.textsecure.crypto = new function() {
 	}
 
 	crypto_storage.getSessionByRemoteEphemeralKey = function(encodedNumber, remoteEphemeralKey) {
-		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
 		if (sessions === undefined)
 			return undefined;
 
@@ -208,7 +217,7 @@ window.textsecure.crypto = new function() {
 
 
 	crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-		var sessions = storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
 		if (sessions === undefined)
 			return undefined;
 
@@ -557,7 +566,7 @@ window.textsecure.crypto = new function() {
 	 *************************/
 	// Decrypts message into a raw string
 	self.decryptWebsocketMessage = function(message) {
-		var signaling_key = storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
+		var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
 		var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
 		var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
@@ -592,11 +601,9 @@ window.textsecure.crypto = new function() {
 	self.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
-			return Promise.resolve({message: decodePushMessageContentProtobuf(getString(proto.message)), pushMessage:proto});
+			return Promise.resolve(decodePushMessageContentProtobuf(getString(proto.message)));
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			return decryptWhisperMessage(proto.source, getString(proto.message)).then(function(result) {
-				return {message: result, pushMessage: proto};
-			});
+			return decryptWhisperMessage(proto.source, getString(proto.message));
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
@@ -605,7 +612,7 @@ window.textsecure.crypto = new function() {
 				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), sessions[0]).then(function(result) {
 					if (sessions[1] !== undefined)
 						crypto_storage.saveSession(proto.source, sessions[1]);
-					return {message: result, pushMessage: proto};
+					return result;
 				});
 			});
 		}
@@ -649,7 +656,7 @@ window.textsecure.crypto = new function() {
 		var preKeyMsg = new PreKeyWhisperMessageProtobuf();
 		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
 		preKeyMsg.preKeyId = deviceObject.preKeyId;
-		preKeyMsg.registrationId = storage.getUnencrypted("registrationId");
+		preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 
 		if (session === undefined) {
 			return createNewKeyPair(false).then(function(baseKey) {
@@ -684,8 +691,8 @@ window.textsecure.crypto = new function() {
 		var identityKeyCalculated = function(pubKey) {
 			identityKey = pubKey;
 
-			var firstKeyId = storage.getEncrypted("maxPreKeyId", -1) + 1;
-			storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
+			var firstKeyId = textsecure.storage.getEncrypted("maxPreKeyId", -1) + 1;
+			textsecure.storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
 			if (firstKeyId > 16777000)
 				return new Promise(function() { throw new Error("You crazy motherfucker") });

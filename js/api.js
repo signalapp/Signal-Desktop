@@ -54,8 +54,8 @@ window.textsecure.api = function() {
 			param.urlParameters = "";
 
 		if (param.do_auth) {
-			param.user		= storage.getUnencrypted("number_id");
-			param.password	= storage.getEncrypted("password");
+			param.user		= textsecure.storage.getUnencrypted("number_id");
+			param.password	= textsecure.storage.getEncrypted("password");
 		}
 
 		return new Promise(function(resolve, reject) {
@@ -223,8 +223,8 @@ window.textsecure.api = function() {
 	};
 
 	self.getWebsocket = function() {
-		var user = storage.getUnencrypted("number_id");
-		var password = storage.getEncrypted("password");
+		var user = textsecure.storage.getUnencrypted("number_id");
+		var password = textsecure.storage.getEncrypted("password");
 		var URL = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['push'] + '/?';
 		var params = $.param({
 			user: '+' + getString(user).substring(1),

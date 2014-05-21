@@ -81,10 +81,10 @@ $('#init-go').click(function() {
 				if (single_device)
 					response = 1;
 				var number_id = number + "." + response;
-				storage.putEncrypted("password", password);
-				storage.putEncrypted('signaling_key', signaling_key);
-				storage.putUnencrypted("number_id", number_id);
-				storage.putUnencrypted("registrationId", registrationId);
+				textsecure.storage.putEncrypted("password", password);
+				textsecure.storage.putEncrypted('signaling_key', signaling_key);
+				textsecure.storage.putUnencrypted("number_id", number_id);
+				textsecure.storage.putUnencrypted("registrationId", registrationId);
 				$('#verify1done').html('done');
 
 				var register_keys_func = function() {
@@ -142,7 +142,7 @@ textsecure.registerOnLoadFunction(function() {
 	if (!isRegistrationDone()) {
 		$('#init-setup').show();
 	} else {
-		$('#complete-number').html(storage.getUnencrypted("number_id").split(".")[0]);
+		$('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
 		$('#setup-complete').show();
 	}
 });
