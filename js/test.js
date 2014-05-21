@@ -336,11 +336,11 @@ textsecure.registerOnLoadFunction(function() {
 					if (data.newEphemeralKey !== undefined)
 						privKeyQueue.push(data.newEphemeralKey);
 
-					var message = new IncomingPushMessageProtobuf();
+					var message = new textsecure.protos.IncomingPushMessageProtobuf();
 					message.type = data.type;
 					message.source = remoteDevice.encodedNumber;
 					message.message = data.message;
-					return textsecure.crypto.handleIncomingPushMessageProto(decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
 						return res.message.body == data.expectedSmsText;
 					});
 				}
@@ -373,11 +373,11 @@ textsecure.registerOnLoadFunction(function() {
 						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
 						if (res.type == 1) { //XXX: This should be used for everything...
 							var expectedString = getString(data.expectedCiphertext);
-							var decoded = decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
+							var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
 							var result = getString(res.body);
 							return getString(decoded.encode()) == result.substring(1, result.length - 8);
 						} else {
-							var decoded = decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
+							var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
 							var result = getString(res.body).substring(1);
 							return getString(decoded.encode()) == result;
 						}

@@ -5,7 +5,7 @@ var Whisper = Whisper || {};
 
   var Message  = Backbone.Model.extend({
     toProto: function() {
-      return new PushMessageContentProtobuf({body: this.get('body')});
+      return new textsecure.protos.PushMessageContentProtobuf({body: this.get('body')});
     }
   });
 

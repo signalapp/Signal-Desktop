@@ -152,27 +152,6 @@ function toArrayBuffer(thing) {
 	return res;
 }
 
-function ensureStringed(thing) {
-	if (getStringable(thing))
-		return getString(thing);
-	else if (thing instanceof Array) {
-		var res = [];
-		for (var i = 0; i < thing.length; i++)
-			res[i] = ensureStringed(thing[i]);
-		return res;
-	} else if (thing === Object(thing)) {
-		var res = {};
-		for (key in thing)
-			res[key] = ensureStringed(thing[key]);
-		return res;
-	}
-	throw new Error("unsure of how to jsonify object of type " + typeof thing);
-
-}
-
-function jsonThing(thing) {
-	return JSON.stringify(ensureStringed(thing));
-}
 
 function base64ToArrayBuffer(string) {
 	return base64DecToArr(string);
@@ -180,30 +159,36 @@ function base64ToArrayBuffer(string) {
 
 // Protobuf decoding
 //TODO: throw on missing fields everywhere
-var IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
-function decodeIncomingPushMessageProtobuf(string) {
-	return IncomingPushMessageProtobuf.decode(btoa(string));
-}
+window.textsecure.protos = function() {
+	var self = {};
 
-var PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
-function decodePushMessageContentProtobuf(string) {
-	return PushMessageContentProtobuf.decode(btoa(string));
-}
+	self.IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
+	self.decodeIncomingPushMessageProtobuf = function(string) {
+		return IncomingPushMessageProtobuf.decode(btoa(string));
+	}
 
-var WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
-function decodeWhisperMessageProtobuf(string) {
-	return WhisperMessageProtobuf.decode(btoa(string));
-}
+	self.PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
+	self.decodePushMessageContentProtobuf = function(string) {
+		return PushMessageContentProtobuf.decode(btoa(string));
+	}
 
-var PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
-function decodePreKeyWhisperMessageProtobuf(string) {
-	return PreKeyWhisperMessageProtobuf.decode(btoa(string));
-}
+	self.WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
+	self.decodeWhisperMessageProtobuf = function(string) {
+		return WhisperMessageProtobuf.decode(btoa(string));
+	}
 
-var KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
-function decodeKeyExchangeMessageProtobuf(string) {
-	return KeyExchangeMessageProtobuf.decode(btoa(string));
-}
+	self.PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
+	self.decodePreKeyWhisperMessageProtobuf = function(string) {
+		return PreKeyWhisperMessageProtobuf.decode(btoa(string));
+	}
+
+	self.KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
+	self.decodeKeyExchangeMessageProtobuf = function(string) {
+		return KeyExchangeMessageProtobuf.decode(btoa(string));
+	}
+
+	return self;
+}();
 
 // Number formatting
 function getNumberFromString(string) {
@@ -231,6 +216,31 @@ function verifyNumber(string) {
  ************************************************/
 window.textsecure.storage = function() {
 	var self = {};
+
+	/****************************
+	 *** Conversion Utilities ***
+	 ****************************/
+	function ensureStringed(thing) {
+		if (getStringable(thing))
+			return getString(thing);
+		else if (thing instanceof Array) {
+			var res = [];
+			for (var i = 0; i < thing.length; i++)
+				res[i] = ensureStringed(thing[i]);
+			return res;
+		} else if (thing === Object(thing)) {
+			var res = {};
+			for (key in thing)
+				res[key] = ensureStringed(thing[key]);
+			return res;
+		}
+		throw new Error("unsure of how to jsonify object of type " + typeof thing);
+
+	}
+
+	function jsonThing(thing) {
+		return JSON.stringify(ensureStringed(thing));
+	}
 
 	/*****************************
 	 *** Base Storage Routines ***
@@ -426,7 +436,7 @@ window.textsecure.subscribeToPush = function() {
 				console.log("Got pong message");
 			} else if (message.type === undefined && message.id !== undefined) {
 				textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-					var proto = decodeIncomingPushMessageProtobuf(getString(plaintext));
+					var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
 					// After this point, a) decoding errors are not the server's fault, and
 					// b) we should handle them gracefully and tell the user they received an invalid message
 					console.log("Successfully decoded message with id: " + message.id);
