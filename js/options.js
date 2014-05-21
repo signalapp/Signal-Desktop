@@ -139,10 +139,12 @@ $('#init-go').click(function() {
 });
 
 textsecure.registerOnLoadFunction(function() {
-	if (!isRegistrationDone()) {
-		$('#init-setup').show();
-	} else {
-		$('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
-		$('#setup-complete').show();
-	}
+    $(function() {
+        if (!isRegistrationDone()) {
+            $('#init-setup').show();
+        } else {
+            $('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
+            $('#setup-complete').show();
+        }
+    });
 });
