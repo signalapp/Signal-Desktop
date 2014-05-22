@@ -195,17 +195,6 @@ function getNumberFromString(string) {
 	return string.split(".")[0];
 }
 
-function getEncodedNumber(number) {
-	var split = number.split(".");
-	if (split.length > 1) {
-		if (split[1] == 1)
-			return split[0];
-		else
-			return number;
-	} else
-		return number;
-}
-
 function verifyNumber(string) {
 	//TODO: fancy country-code guessing and number verification
 	return getEncodedNumber(string.trim());
@@ -285,10 +274,11 @@ window.textsecure.storage = function() {
 	 *** Device Storage ***
 	 **********************/
 	self.devices = function() {
+		//TODO: Just store numbers with the device list in the object, not a list of pointers...
 		var self = {};
 
 		self.getDeviceObject = function(encodedNumber) {
-			return textsecure.storage.getEncrypted("deviceObject" + getEncodedNumber(encodedNumber));
+			return textsecure.storage.getEncrypted("deviceObject" + encodedNumber);
 		}
 
 		self.getDeviceIdListFromNumber = function(number) {
@@ -316,7 +306,7 @@ window.textsecure.storage = function() {
 		self.saveDeviceObject = function(deviceObject) {
 			var existing = this.getDeviceObject(deviceObject.encodedNumber);
 			if (existing === undefined)
-				existing = {encodedNumber: getEncodedNumber(deviceObject.encodedNumber)};
+				existing = {encodedNumber: deviceObject.encodedNumber};
 			for (key in deviceObject) {
 				if (key == "encodedNumber")
 					continue;
@@ -326,7 +316,7 @@ window.textsecure.storage = function() {
 
 				existing[key] = deviceObject[key];
 			}
-			textsecure.storage.putEncrypted("deviceObject" + getEncodedNumber(deviceObject.encodedNumber), existing);
+			textsecure.storage.putEncrypted("deviceObject" + deviceObject.encodedNumber, existing);
 			this.addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
 		}
 

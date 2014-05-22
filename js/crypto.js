@@ -144,7 +144,7 @@ window.textsecure.crypto = new function() {
 	}
 
 	crypto_storage.saveSession = function(encodedNumber, session) {
-		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
 		if (sessions === undefined)
 			sessions = {};
 
@@ -171,11 +171,11 @@ window.textsecure.crypto = new function() {
 		else
 			sessions[getString(session.indexInfo.baseKey)] = session;
 
-		textsecure.storage.putEncrypted("session" + getEncodedNumber(encodedNumber), sessions);
+		textsecure.storage.putEncrypted("session" + encodedNumber, sessions);
 	}
 
 	crypto_storage.getOpenSession = function(encodedNumber) {
-		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
 		if (sessions === undefined)
 			return undefined;
 
@@ -190,7 +190,7 @@ window.textsecure.crypto = new function() {
 	}
 
 	crypto_storage.getSessionByRemoteEphemeralKey = function(encodedNumber, remoteEphemeralKey) {
-		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
 		if (sessions === undefined)
 			return undefined;
 
@@ -217,7 +217,7 @@ window.textsecure.crypto = new function() {
 
 
 	crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-		var sessions = textsecure.storage.getEncrypted("session" + getEncodedNumber(encodedNumber));
+		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
 		if (sessions === undefined)
 			return undefined;
 
@@ -603,14 +603,15 @@ window.textsecure.crypto = new function() {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
 			return Promise.resolve(textsecure.protos.decodePushMessageContentProtobuf(getString(proto.message)));
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			return decryptWhisperMessage(proto.source, getString(proto.message)).then(function(result) {
+			return decryptWhisperMessage(proto.source + "." + proto.sourceDevice, getString(proto.message)).then(function(result) {
                 return {message:result, pushMessage: proto};
             });
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			return initSessionFromPreKeyWhisperMessage(proto.source, preKeyProto).then(function(sessions) {
+//XXX: proto.sourceDevice == jsNumber??? (and above)
+			return initSessionFromPreKeyWhisperMessage(proto.source + "." + proto.sourceDevice, preKeyProto).then(function(sessions) {
 				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), sessions[0]).then(function(result) {
 					if (sessions[1] !== undefined)
 						crypto_storage.saveSession(proto.source, sessions[1]);
