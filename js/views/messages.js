@@ -22,8 +22,10 @@ var Whisper = Whisper || {};
       this.$el.find('.message-text').text(this.model.get('body'));
 
       var attachments = this.model.get('attachments');
-      for (var i = 0; i < attachments.length; i++)
-        this.$el.find('.message-attachment').append('<img src="' + attachments[i] + '" />');
+      if (attachments) {
+        for (var i = 0; i < attachments.length; i++)
+          this.$el.find('.message-attachment').append('<img src="' + attachments[i] + '" />');
+      }
 
       this.$el.find('.metadata').text(this.formatTimestamp());
       return this;
