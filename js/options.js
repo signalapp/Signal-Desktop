@@ -62,6 +62,8 @@ $('#init-go-single-client').click(function() {
 				alert("Failed to send key?" + code); //TODO
 			}
 		);
+	} else {
+		console.error("Doesn't match phone number format");
 	}
 });
 
