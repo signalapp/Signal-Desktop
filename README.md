@@ -8,8 +8,8 @@ use a JS implementation for FF.
 Note that the code is currently quite messy (its all in one file!), but it
 needs to work first, then it can be heavily cleaned up later.
 
-Developing
-===========
+Getting Started with Development
+================================
 
 * Clone the repo
 * Open Chrome
@@ -17,3 +17,8 @@ Developing
 * Enable developer mode (checkbox on the top right)
 * Click "Load unpacked extension..."
 * Point to the repo's directory
+
+Tips/Tricks
+===========
+
+* For dev purposes the verification code is always 111111
