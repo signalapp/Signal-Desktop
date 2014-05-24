@@ -11,9 +11,9 @@ needs to work first, then it can be heavily cleaned up later.
 Developing
 ===========
 
-# Clone the repo
-# Open Chrome
-# Go to chrome://extensions/
-# Enable developer mode (checkbox on the top right)
-# Click "Load unpacked extension..."
-# Point to the repo's directory
+* Clone the repo
+* Open Chrome
+* Go to chrome://extensions/
+* Enable developer mode (checkbox on the top right)
+* Click "Load unpacked extension..."
+* Point to the repo's directory
