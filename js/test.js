@@ -118,8 +118,8 @@ textsecure.registerOnLoadFunction(function() {
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
 		return textsecure.crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
-			return (message.message.body == text_message.body &&
-					message.message.attachments.length == text_message.attachments.length &&
+			return (message.body == text_message.body &&
+					message.attachments.length == text_message.attachments.length &&
 					text_message.attachments.length == 0);
 		});
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
