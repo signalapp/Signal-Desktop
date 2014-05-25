@@ -21,5 +21,12 @@
 		"page": "background.html"
 	},
 
+	"permissions": [
+	  // allow Cross-Origin XMLHttpRequests to the following URLs
+      // TODO: update these URLs when going productive
+	  "https://textsecure-service.whispersystems.org/",
+	  "http://sushiforeveryone.bluematt.me/"
+    ],
+
 	"options_page": "options.html"
 }
