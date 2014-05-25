@@ -603,9 +603,7 @@ window.textsecure.crypto = new function() {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
 			return Promise.resolve(textsecure.protos.decodePushMessageContentProtobuf(getString(proto.message)));
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			return decryptWhisperMessage(proto.source + "." + proto.sourceDevice, getString(proto.message)).then(function(result) {
-                return {message:result, pushMessage: proto};
-            });
+			return decryptWhisperMessage(proto.source + "." + proto.sourceDevice, getString(proto.message));
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
@@ -615,7 +613,7 @@ window.textsecure.crypto = new function() {
 				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), sessions[0]).then(function(result) {
 					if (sessions[1] !== undefined)
 						crypto_storage.saveSession(proto.source, sessions[1]);
-					return {message: result, pushMessage:proto};
+					return result;
 				});
 			});
 		}
