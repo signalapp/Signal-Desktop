@@ -118,8 +118,8 @@ textsecure.registerOnLoadFunction(function() {
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
 		return textsecure.crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
-			return (message.message.body == text_message.body &&
-					message.message.attachments.length == text_message.attachments.length &&
+			return (message.body == text_message.body &&
+					message.attachments.length == text_message.attachments.length &&
 					text_message.attachments.length == 0);
 		});
 	}, 'Unencrypted PushMessageProto "decrypt"', true);
@@ -338,10 +338,10 @@ textsecure.registerOnLoadFunction(function() {
 
 					var message = new textsecure.protos.IncomingPushMessageProtobuf();
 					message.type = data.type;
-					message.source = remoteDevice.encodedNumber;
+					message.source = textsecure.utils.unencodeNumber(remoteDevice.encodedNumber);
 					message.message = data.message;
 					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
-						return res.message.body == data.expectedSmsText;
+						return res.body == data.expectedSmsText;
 					});
 				}
 
@@ -366,7 +366,7 @@ textsecure.registerOnLoadFunction(function() {
 						textsecure.storage.putUnencrypted("registrationId", data.registrationId);
 					}
 
-					var message = new PushMessageContentProtobuf();
+					var message = new textsecure.protos.PushMessageContentProtobuf();
 					message.body = data.smsText;
 
 					return textsecure.crypto.encryptMessageFor(remoteDevice, message).then(function(res) {
@@ -405,7 +405,7 @@ textsecure.registerOnLoadFunction(function() {
 	}
 
 	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB.0" });
 	}, "Standard Axolotl Test Vectors as Alice", true);
 
 	TEST(function() {
@@ -414,11 +414,11 @@ textsecure.registerOnLoadFunction(function() {
 		axolotlTwoPartyTestVectorsAlice[2][1].newEphemeralKey = t.newEphemeralKey;
 		axolotlTwoPartyTestVectorsAlice[3][1] = t;
 		delete axolotlTwoPartyTestVectorsAlice[3][1]['newEphemeralKey'];
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB.0" });
 	}, "Shuffled Axolotl Test Vectors as Alice", true);
 
 	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE.0" });
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
 	TEST(function() {
@@ -440,7 +440,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
 
 		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
-		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
 	}, "Shuffled Axolotl Test Vectors as Bob I", true);
 
 	TEST(function() {
@@ -457,7 +457,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[1] = orig[2];
 		v[2] = orig[1];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
 	}, "Shuffled Axolotl Test Vectors as Bob II", true);
 
 	TEST(function() {
@@ -476,7 +476,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[2] = orig[3];
 		v[3] = orig[4];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
 	}, "Shuffled Axolotl Test Vectors as Bob III", true);
 
 	TEST(function() {
@@ -506,7 +506,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[2] = orig[3];
 		v[3] = orig[4];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE" });
+		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
 	}, "Shuffled Axolotl Test Vectors as Bob IV", true);
 
 	TEST(function() {

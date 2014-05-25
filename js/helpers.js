@@ -164,27 +164,27 @@ window.textsecure.protos = function() {
 
 	self.IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
 	self.decodeIncomingPushMessageProtobuf = function(string) {
-		return IncomingPushMessageProtobuf.decode(btoa(string));
+		return self.IncomingPushMessageProtobuf.decode(btoa(string));
 	}
 
 	self.PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
 	self.decodePushMessageContentProtobuf = function(string) {
-		return PushMessageContentProtobuf.decode(btoa(string));
+		return self.PushMessageContentProtobuf.decode(btoa(string));
 	}
 
 	self.WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
 	self.decodeWhisperMessageProtobuf = function(string) {
-		return WhisperMessageProtobuf.decode(btoa(string));
+		return self.WhisperMessageProtobuf.decode(btoa(string));
 	}
 
 	self.PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
 	self.decodePreKeyWhisperMessageProtobuf = function(string) {
-		return PreKeyWhisperMessageProtobuf.decode(btoa(string));
+		return self.PreKeyWhisperMessageProtobuf.decode(btoa(string));
 	}
 
 	self.KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
 	self.decodeKeyExchangeMessageProtobuf = function(string) {
-		return KeyExchangeMessageProtobuf.decode(btoa(string));
+		return self.KeyExchangeMessageProtobuf.decode(btoa(string));
 	}
 
 	return self;

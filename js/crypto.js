@@ -603,14 +603,15 @@ window.textsecure.crypto = new function() {
 		case 0: //TYPE_MESSAGE_PLAINTEXT
 			return Promise.resolve(textsecure.protos.decodePushMessageContentProtobuf(getString(proto.message)));
 		case 1: //TYPE_MESSAGE_CIPHERTEXT
-			return decryptWhisperMessage(proto.source + "." + proto.sourceDevice, getString(proto.message));
+			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
+			return decryptWhisperMessage(from, getString(proto.message));
 		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
+			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-//XXX: proto.sourceDevice == jsNumber??? (and above)
-			return initSessionFromPreKeyWhisperMessage(proto.source + "." + proto.sourceDevice, preKeyProto).then(function(sessions) {
-				return decryptWhisperMessage(proto.source, getString(preKeyProto.message), sessions[0]).then(function(result) {
+			return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
+				return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0]).then(function(result) {
 					if (sessions[1] !== undefined)
 						crypto_storage.saveSession(proto.source, sessions[1]);
 					return result;
