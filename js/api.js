@@ -61,7 +61,7 @@ window.textsecure.api = function() {
 		return new Promise(function(resolve, reject) {
 			$.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
 				type		: param.httpType,
-				data		: param.jsonData && jsonThing(param.jsonData),
+				data		: param.jsonData && textsecure.utils.jsonThing(param.jsonData),
 				contentType : 'application/json; charset=utf-8',
 				dataType	: 'json',
 

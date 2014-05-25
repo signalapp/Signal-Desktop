@@ -194,6 +194,10 @@ window.textsecure.protos = function() {
 window.textsecure.utils = function() {
 	var self = {};
 
+
+	/****************************************
+	 *** Number conversion/checking stuff ***
+	 ****************************************/
 	function isNumeric(string) {
 		return string.replace(/\D/g, '') === string;
 	}
@@ -244,22 +248,14 @@ window.textsecure.utils = function() {
 		return '+' + country_code + number;
 	}
 
-	self.unencodeNumber(number) {
-		return string.split(".")[0];
+	self.unencodeNumber = function(number) {
+		return number.split(".")[0];
 	}
 
-	return self;
-}
 
-/************************************************
- *** Utilities to store data in local storage ***
- ************************************************/
-window.textsecure.storage = function() {
-	var self = {};
-
-	/****************************
-	 *** Conversion Utilities ***
-	 ****************************/
+	/**************************
+	 *** JSON'ing Utilities ***
+	 **************************/
 	function ensureStringed(thing) {
 		if (getStringable(thing))
 			return getString(thing);
@@ -278,9 +274,18 @@ window.textsecure.storage = function() {
 
 	}
 
-	function jsonThing(thing) {
+	self.jsonThing = function(thing) {
 		return JSON.stringify(ensureStringed(thing));
 	}
+
+	return self;
+}();
+
+/************************************************
+ *** Utilities to store data in local storage ***
+ ************************************************/
+window.textsecure.storage = function() {
+	var self = {};
 
 	/*****************************
 	 *** Base Storage Routines ***
@@ -289,7 +294,7 @@ window.textsecure.storage = function() {
 		//TODO
 		if (value === undefined)
 			throw new Error("Tried to store undefined");
-		localStorage.setItem("e" + key, jsonThing(value));
+		localStorage.setItem("e" + key, textsecure.utils.jsonThing(value));
 	}
 
 	self.getEncrypted = function(key, defaultValue) {
@@ -307,7 +312,7 @@ window.textsecure.storage = function() {
 	self.putUnencrypted = function(key, value) {
 		if (value === undefined)
 			throw new Error("Tried to store undefined");
-		localStorage.setItem("u" + key, jsonThing(value));
+		localStorage.setItem("u" + key, textsecure.utils.jsonThing(value));
 	}
 
 	self.getUnencrypted = function(key, defaultValue) {
