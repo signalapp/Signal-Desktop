@@ -21,4 +21,4 @@ Getting Started with Development
 Tips/Tricks
 ===========
 
-* For dev purposes the verification code is always 111111
+* For Dev purposes, the test server always uses code 111111
