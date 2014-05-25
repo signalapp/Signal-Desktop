@@ -157,7 +157,7 @@ window.textsecure.api = function() {
 			call				: 'keys',
 			httpType			: 'GET',
 			do_auth				: true,
-			urlParameters		: "/" + getNumberFromString(number) + "/*",
+			urlParameters		: "/" + number + "/*",
 		}).then(function(response) {
 			//TODO: Do this conversion somewhere else?
 			var res = response.keys;

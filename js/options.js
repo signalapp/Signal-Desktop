@@ -14,29 +14,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function codeMatches() {
-	var match = $('#code').val().match(/[0-9]{3}-?[0-9]{3}/g)
-	return match != null && match.length == 1 && match[0] == $('#code').val();
-}
-
-function numberMatches() {
-	var country_code = $('#countrycode').val().replace(/\D/g, '');
-	return $('#number').val().replace(/\D/g, '').length > 5 && country_code.length > 0 && country_code.length < 4;
-}
-
-$('#code').on('change', function() {
-	if (!codeMatches())
-		$('#code').attr('style', 'background-color:#ff6666;');
-	else
-		$('#code').attr('style', '');
-});
-
-$('#number').on('change', function() {//TODO
-	if (!numberMatches())
-		$('#number').attr('style', 'background-color:#ff6666;');
-	else
+function updateCodeNumberColors() {
+	try {
+		textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
 		$('#number').attr('style', '');
-});
+		$('#code').attr('style', '');
+	} catch (e) {
+		if (e.countryCodeValid)
+			$('#code').attr('style', '');
+		else
+			$('#code').attr('style', 'background-color:#ff6666;');
+
+		if (e.numberValid)
+			$('#number').attr('style', '');
+		else
+			$('#number').attr('style', 'background-color:#ff6666;');
+	}
+}
+
+$('#code').on('change', updateCodeNumberColors);
+$('#number').on('change', updateCodeNumberColors);
 
 var single_device = false;
 var signaling_key = textsecure.crypto.getRandomBytes(32 + 20);
@@ -46,23 +43,21 @@ var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
 registrationId = registrationId & 0x3fff;
 
 $('#init-go-single-client').click(function() {
-	if (numberMatches()) {
-		var number = "+" + $('#countrycode').val().replace(/\D/g, '') + $('#number').val().replace(/\D/g, '');
+	var number = textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
 
-		$('#init-go').html('Setup');
-		$('#countrycode').prop('disabled', 'disabled');
-		$('#number').prop('disabled', 'disabled');
-		$('#init-go-single-client').prop('disabled', 'disabled');
+	$('#init-go').html('Setup');
+	$('#countrycode').prop('disabled', 'disabled');
+	$('#number').prop('disabled', 'disabled');
+	$('#init-go-single-client').prop('disabled', 'disabled');
 
-		single_device = true;
+	single_device = true;
 
-		textsecure.api.requestVerificationCode(number,
-			function(response) { },
-			function(code) {
-				alert("Failed to send key?" + code); //TODO
-			}
-		);
-	}
+	textsecure.api.requestVerificationCode(number,
+		function(response) { },
+		function(code) {
+			alert("Failed to send key?" + code); //TODO
+		}
+	);
 });
 
 $('#init-go').click(function() {

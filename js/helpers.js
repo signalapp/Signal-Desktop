@@ -190,14 +190,65 @@ window.textsecure.protos = function() {
 	return self;
 }();
 
-// Number formatting
-function getNumberFromString(string) {
-	return string.split(".")[0];
-}
+// Number formatting utils
+window.textsecure.utils = function() {
+	var self = {};
 
-function verifyNumber(string) {
-	//TODO: fancy country-code guessing and number verification
-	return getEncodedNumber(string.trim());
+	function isNumeric(string) {
+		return string.replace(/\D/g, '') === string;
+	}
+
+	function splitPrefixedNumber(number) {
+		// number == "+CCNumber"
+		return [number.substr(1, 1), number.substr(2)]; //XXX
+	}
+
+	function numberValid(number) {
+		return true; //XXX
+	}
+
+	function countryCodeValid(number) {
+		return true; //XXX
+	}
+
+	self.verifyNumber = function(number, countryCode) {
+		var countryCodeValid = true;
+		var numberValid = true;
+
+		if (countryCode !== undefined) {
+			var match = countryCode.match(/[0-9]{3}-?[0-9]{3}/g)
+			if (match == null || match.length == 1 || match[0] == countryCode) {
+				countryCodeValid = false;
+				countryCode = '1'; // Continue testing number with a fake countryCode
+			}
+		}
+		if (!isNumeric(number)) {
+			if (countryCode !== undefined || !number.startsWith('+') || !isNumeric(number.substr(1))) {
+				numberValid = false;
+				number = '2222222222'; // Continue testing countryCode with a fake number
+			} else {
+				var numberCCPair = splitPrefixedNumber(number);
+				countryCode = numberCCPair[0];
+				number = numberCCPair[1];
+			}
+		}
+
+		if (numberValid && !verifyNumber(number))
+			numberValid = false;
+		if (countryCodeValid && !verifyCountryCode(countryCode))
+			countryCodeValid = false;
+
+		if (!countryCodeValid || !numberValid)
+			throw { countryCodeValid: countryCodeValid, numberValid: numberValid };
+
+		return '+' + country_code + number;
+	}
+
+	self.unencodeNumber(number) {
+		return string.split(".")[0];
+	}
+
+	return self;
 }
 
 /************************************************
@@ -281,18 +332,18 @@ window.textsecure.storage = function() {
 			return textsecure.storage.getEncrypted("deviceObject" + encodedNumber);
 		}
 
-		self.getDeviceIdListFromNumber = function(number) {
-			return textsecure.storage.getEncrypted("deviceIdList" + getNumberFromString(number), []);
+		var getDeviceIdListFromNumber = function(number) {
+			return textsecure.storage.getEncrypted("deviceIdList" + number, []);
 		}
 
-		self.addDeviceIdForNumber = function(number, deviceId) {
-			var deviceIdList = this.getDeviceIdListFromNumber(getNumberFromString(number));
+		var addDeviceIdForNumber = function(number, deviceId) {
+			var deviceIdList = getDeviceIdListFromNumber(number);
 			for (var i = 0; i < deviceIdList.length; i++) {
 				if (deviceIdList[i] == deviceId)
 					return;
 			}
 			deviceIdList[deviceIdList.length] = deviceId;
-			textsecure.storage.putEncrypted("deviceIdList" + getNumberFromString(number), deviceIdList);
+			textsecure.storage.putEncrypted("deviceIdList" + number, deviceIdList);
 		}
 
 		var getDeviceId = function(encodedNumber) {
@@ -317,14 +368,14 @@ window.textsecure.storage = function() {
 				existing[key] = deviceObject[key];
 			}
 			textsecure.storage.putEncrypted("deviceObject" + deviceObject.encodedNumber, existing);
-			this.addDeviceIdForNumber(deviceObject.encodedNumber, getDeviceId(deviceObject.encodedNumber));
+			addDeviceIdForNumber(textsecure.utils.unencodeNumber(deviceObject.encodedNumber), getDeviceId(deviceObject.encodedNumber));
 		}
 
 		self.getDeviceObjectListFromNumber = function(number) {
 			var deviceObjectList = [];
-			var deviceIdList = this.getDeviceIdListFromNumber(number);
+			var deviceIdList = getDeviceIdListFromNumber(number);
 			for (var i = 0; i < deviceIdList.length; i++)
-				deviceObjectList[deviceObjectList.length] = this.getDeviceObject(getNumberFromString(number) + "." + deviceIdList[i]);
+				deviceObjectList[deviceObjectList.length] = self.getDeviceObject(number + "." + deviceIdList[i]);
 			return deviceObjectList;
 		}
 
@@ -560,7 +611,6 @@ window.textsecure.sendMessage = function() {
 }();
 
 function requestIdentityPrivKeyFromMasterDevice(number, identityKey) {
-	sendMessageToDevices([textsecure.storage.devices.getDeviceObject(getNumberFromString(number)) + ".1"],
-						{message: "Identity Key request"}, function() {}, function() {});//TODO
+	//TODO
 }
 
