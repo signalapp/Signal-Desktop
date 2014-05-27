@@ -231,6 +231,11 @@ window.textsecure.crypto = new function() {
 		throw new Error("Datastore inconsistency: session was stored without identity key");
 	}
 
+	// Used when device keys change - we assume key compromise so refuse all new messages
+	self.forceRemoveAllSessions = function(encodedNumber) {
+		textsecure.storage.removeEncrypted("session" + encodedNumber);
+	}
+
 
 	/*****************************
 	 *** Internal Crypto stuff ***

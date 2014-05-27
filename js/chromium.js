@@ -17,11 +17,11 @@
 // Random shared utilities that are used only by chromium things
 
 function registrationDone() {
-	textsecure.storage.putUnencrypted("registration_done", "");
+	localStorage.setItem("chromiumRegistrationDone", "");
 	//TODO: Fix dirty hack:
 	chrome.runtime.reload();
 }
 
 function isRegistrationDone() {
-	return textsecure.storage.getUnencrypted("registration_done") !== undefined;
+	return localStorage.getItem("chromiumRegistrationDone") !== null;
 }

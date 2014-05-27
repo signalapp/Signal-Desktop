@@ -218,8 +218,11 @@ window.textsecure.api = function() {
 										var code = jqXHR.status;
 										if (code > 999 || code < 100)
 											code = -1;
+
 										var e = new Error(code);
 										e.name = "HTTPError";
+										if (jqXHR.responseJSON)
+											e.response = jqXHR.responseJSON;
 										reject(e);
 									}
 				});
