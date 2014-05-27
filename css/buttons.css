@@ -1,26 +1,44 @@
-.btn span {
+.btn {
   display: inline-block;
   padding: 0.5em;
-  border: 2px solid #7fd0ed;
-  border-radius: 4px;
-}
-.btn {
+  border: 2px solid #acdbf5;
   border-radius: 4px;
   background-color: #fff;
-  padding: 2px;
-  border: none;
+  color: #7fd0ed;
+  font-weight: bold;
 }
 .btn:hover, .btn:focus {
   cursor: pointer;
   outline: none;
-  background-color: #f1fafd;
+}
+.btn:hover {
+  background-color: #7fd0ed;
+  border-color: #acdbf5;
+  color: #fff;
 }
 .btn:active {
   outline: 2px dashed #acdbf5;
+  outline-offset: 2px;
 }
-.btn.selected span,
-.btn:active span {
+.btn.selected ,
+.btn:active {
   background-color: #7fd0ed;
   border: 2px solid #acdbf5;
   color: #fff;
+}
+.btn:active {
+  background-color: #f1fafd;
+  color: #7fd0ed;
+}
+
+.btn-square {
+  display: inline-block;
+  width: 32px;
+  line-height: 15px;
+}
+
+.btn-sm.btn-square {
+  padding: 0;
+  width: 25px;
+  height: 25px;
 }

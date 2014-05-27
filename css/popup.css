@@ -35,20 +35,17 @@ header {
   padding: 5px 0;
 }
 
-form.compose {
-  position: relative;
-}
-
 label {
   float: left;
   margin-right: 1em;
 }
 
-form.compose input[type=text], form.compose textarea {
-  margin: 0.5em 0;
-}
-#send input[type=submit] {
+#compose-cancel {
   float: right;
+}
+
+#send .conversation {
+  padding: 0.3em 1em;
 }
 
 #popup_send_numbers {
@@ -95,5 +92,19 @@ ul {
 li {
   list-style: none;
 }
-
-/* Formatting */
+#send_link ~ #new-chat-help,
+#new-group ~ #new-group-help {
+  display: none;
+}
+#send_link:hover ~ #new-chat-help,
+#new-group:hover ~ #new-group-help {
+  display: block;
+}
+.help {
+  display: inline-block;
+  position: fixed;
+  top: 10;
+  right: 10;
+  font-size: 0.8em;
+  color: #7fd0ed;
+}

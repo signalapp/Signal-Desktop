@@ -14,49 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$('#inbox_link').click(function(e) {
-	$('#send').hide();
-  $('#send_link').removeClass('selected');
-	$('#inbox').show();
-  $('#inbox_link').addClass('selected');
-});
-$('#send_link').click(function(e) {
-	$('#inbox').hide();
-  $('#inbox_link').removeClass('selected');
-	$('#send').show();
-  $('#send_link').addClass('selected');
-});
 
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
 		chrome.tabs.create({url: "options.html"});
 	} else {
-		$(window).bind('storage', function(e) { Whisper.Messages.fetch(); });
-		Whisper.Messages.fetch();
 		$('.my-number').text(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
 		textsecure.storage.putUnencrypted("unreadCount", 0);
 		chrome.browserAction.setBadgeText({text: ""});
 		$("#me").click(function() {
 			$('#popup_send_numbers').val($('.my-number').text());
-		});
-
-		$("#popup_send_button").click(function() {
-			var numbers = [];
-			var splitString = $("#popup_send_numbers").val().split(",");
-			for (var i = 0; i < splitString.length; i++) {
-				try {
-					numbers.push(verifyNumber(splitString[i]));
-				} catch (numberError) {
-					//TODO
-					alert(numberError);
-				}
-			}
-			var message = Whisper.Messages.addOutgoingMessage(
-				$("#popup_send_text").val(), numbers
-			);
-			textsecure.sendMessage(numbers, message.toProto(),
-				//TODO: Handle result
-				function(thing) {console.log(thing);});
 		});
 	}
 });
