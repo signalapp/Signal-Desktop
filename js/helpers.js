@@ -207,45 +207,41 @@ window.textsecure.utils = function() {
 		return [number.substr(1, 1), number.substr(2)]; //XXX
 	}
 
-	function numberValid(number) {
-		return true; //XXX
+	function validateNumber(number, countryCode) {
+		return isNumeric(number) && number.length > 3 && number.length < 11; //XXX
 	}
 
-	function countryCodeValid(number) {
-		return true; //XXX
+	function validateCountryCode(countryCode) {
+		return isNumeric(countryCode) && countryCode.length < 4 && countryCode.length > 0;
 	}
 
 	self.verifyNumber = function(number, countryCode) {
+		//XXX: All verifyNumber stuff needs to match the server-side verification
 		var countryCodeValid = true;
 		var numberValid = true;
 
-		if (countryCode !== undefined) {
-			var match = countryCode.match(/[0-9]{3}-?[0-9]{3}/g)
-			if (match == null || match.length == 1 || match[0] == countryCode) {
-				countryCodeValid = false;
-				countryCode = '1'; // Continue testing number with a fake countryCode
-			}
-		}
-		if (!isNumeric(number)) {
-			if (countryCode !== undefined || !number.startsWith('+') || !isNumeric(number.substr(1))) {
-				numberValid = false;
-				number = '2222222222'; // Continue testing countryCode with a fake number
-			} else {
+		if (number.substr(0, 1) == '+') {
+			if (countryCode === undefined) {
 				var numberCCPair = splitPrefixedNumber(number);
-				countryCode = numberCCPair[0];
-				number = numberCCPair[1];
-			}
-		}
-
-		if (numberValid && !verifyNumber(number))
+				if (numberCCPair != null) {
+					countryCode = numberCCPair[0];
+					number = numberCCPair[1];
+				} else
+					numberValid = false;
+			} else
+				numberValid = false;
+		} else if (countryCode === undefined)
 			numberValid = false;
-		if (countryCodeValid && !verifyCountryCode(countryCode))
-			countryCodeValid = false;
+
+		if (numberValid && !validateNumber(number, countryCode))
+			numberValid = false;
+		if (countryCode !== undefined)
+			countryCodeValid = validateCountryCode(countryCode);
 
 		if (!countryCodeValid || !numberValid)
 			throw { countryCodeValid: countryCodeValid, numberValid: numberValid };
 
-		return '+' + country_code + number;
+		return '+' + countryCode + number;
 	}
 
 	self.unencodeNumber = function(number) {
@@ -612,6 +608,41 @@ window.textsecure.sendMessage = function() {
 			} else
 				doSendMessage(number, devicesForNumber, message);
 		}
+	}
+}();
+
+window.textsecure.register = function() {
+	return function(number, verificationCode, singleDevice, stepDone) {
+		var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+		textsecure.storage.putEncrypted('signaling_key', signalingKey);
+
+		var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+		password = password.substring(0, password.length - 2);
+		textsecure.storage.putEncrypted("password", password);
+
+		var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
+		registrationId = registrationId & 0x3fff;
+		textsecure.storage.putUnencrypted("registrationId", registrationId);
+
+		return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, singleDevice).then(function(response) {
+			if (singleDevice)
+				response = 1;
+			var numberId = number + "." + response;
+			textsecure.storage.putUnencrypted("number_id", numberId);
+			stepDone(1);
+
+			if (!singleDevice) {
+				//TODO: Do things???
+				stepDone(2);
+			}
+
+			return textsecure.crypto.generateKeys().then(function(keys) {
+				stepDone(3);
+				return textsecure.api.registerKeys(keys).then(function() {
+					stepDone(4);
+				});
+			});
+		});
 	}
 }();
 

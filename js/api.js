@@ -87,6 +87,28 @@ window.textsecure.api = function() {
 										code = -1;
 									var e = new Error(code);
 									e.name = "HTTPError";
+									switch (code) {
+									case -1:
+										e.human_error = "Failed to connect to the server, please check your network connection.";
+										break;
+									case 413:
+										e.human_error = "Rate limit exceeded, please try again later.";
+										break;
+									case 403:
+										e.human_error = "Invalid code, please try again.";
+										break;
+									case 417:
+										e.human_error = "Number already registered"; // TODO: This shouldn't be a thing?, but its in the API doc?
+										break;
+									case 401:
+										e.human_error = "Invalid authentication, most likely someone re-registered and invalidated our registration";
+										break;
+									case 404:
+										e.human_error = "Number is not registered with TextSecure..";
+										break;
+									default:
+										e.human_error = "The server rejected our query, please file a bug report.";
+									}
 									reject(e);
 								}
 			});
@@ -108,28 +130,21 @@ window.textsecure.api = function() {
 	};
 
 	self.confirmCode = function(code, number, password,
-								signaling_key, registrationId, single_device,
-								success_callback, error_callback) {
-		var call = single_device ? 'accounts' : 'devices';
-		var urlPrefix = single_device ? '/code/' : '/';
+								signaling_key, registrationId, single_device) {
+			var call = single_device ? 'accounts' : 'devices';
+			var urlPrefix = single_device ? '/code/' : '/';
 
-		doAjax({
-			call				: call,
-			httpType			: 'PUT',
-			urlParameters		: urlPrefix + code,
-			user				: number,
-			password			: password,
-			jsonData			: { signalingKey		: btoa(getString(signaling_key)),
-										supportsSms		: false,
-										fetchesMessages	: true,
-										registrationId	: registrationId},
-		}).then(function(response) {
-			if (success_callback !== undefined)
-				success_callback(response);
-		}).catch(function(code) {
-			if (error_callback !== undefined)
-				error_callback(code);
-		});
+			return doAjax({
+				call				: call,
+				httpType			: 'PUT',
+				urlParameters		: urlPrefix + code,
+				user				: number,
+				password			: password,
+				jsonData			: { signalingKey		: btoa(getString(signaling_key)),
+											supportsSms		: false,
+											fetchesMessages	: true,
+											registrationId	: registrationId},
+			});
 	};
 
 	self.registerKeys = function(keys, success_callback, error_callback) {

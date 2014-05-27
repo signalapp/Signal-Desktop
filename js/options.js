@@ -14,16 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function updateCodeNumberColors() {
+function updateNumberColors() {
 	try {
 		textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
 		$('#number').attr('style', '');
-		$('#code').attr('style', '');
+		$('#countrycode').attr('style', '');
 	} catch (e) {
 		if (e.countryCodeValid)
-			$('#code').attr('style', '');
+			$('#countrycode').attr('style', '');
 		else
-			$('#code').attr('style', 'background-color:#ff6666;');
+			$('#countrycode').attr('style', 'background-color:#ff6666;');
 
 		if (e.numberValid)
 			$('#number').attr('style', '');
@@ -32,15 +32,22 @@ function updateCodeNumberColors() {
 	}
 }
 
-$('#code').on('change', updateCodeNumberColors);
-$('#number').on('change', updateCodeNumberColors);
+$('#number').on('change', updateNumberColors);
+$('#countrycode').on('change', updateNumberColors);
+
+function isCodeValid() {
+	var code = $('#code');
+	return code.val().replace(/\D/g, '') == code.val() && code.val().length == 6;
+}
+
+$('#code').on('change', function() {
+	if (!isCodeValid())
+		$('#code').attr('style', 'background-color:#ff6666;');
+	else
+		$('#code').attr('style', '');
+});
 
 var single_device = false;
-var signaling_key = textsecure.crypto.getRandomBytes(32 + 20);
-var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
-password = password.substring(0, password.length - 2);
-var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-registrationId = registrationId & 0x3fff;
 
 $('#init-go-single-client').click(function() {
 	var number = textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
@@ -61,76 +68,40 @@ $('#init-go-single-client').click(function() {
 });
 
 $('#init-go').click(function() {
-	if (codeMatches() && numberMatches()) {
-		var number = "+" + $('#countrycode').val().replace(/\D/g, '') + $('#number').val().replace(/\D/g, '');
-
-		$('#init-setup').hide();
-		$('#verify1done').html('');
-		$('#verify2').hide();
-		$('#verify3done').html('');
-		$('#verify4done').html('');
-		$('#verify').show();
-
-		textsecure.api.confirmCode($('#code').val(), number, password, signaling_key, registrationId, single_device,
-			function(response) {
-				if (single_device)
-					response = 1;
-				var number_id = number + "." + response;
-				textsecure.storage.putEncrypted("password", password);
-				textsecure.storage.putEncrypted('signaling_key', signaling_key);
-				textsecure.storage.putUnencrypted("number_id", number_id);
-				textsecure.storage.putUnencrypted("registrationId", registrationId);
-				$('#verify1done').html('done');
-
-				var register_keys_func = function() {
-					$('#verify2done').html('done');
-					textsecure.crypto.generateKeys().then(function(keys) {
-						$('#verify3done').html('done');
-						textsecure.api.registerKeys(keys,
-							function(response) {
-								$('#complete-number').html(number);
-								$('#verify').hide();
-								$('#setup-complete').show();
-								registrationDone();
-							}, function(code) {
-								alert(code); //TODO
-							}
-						);
-					});
-				}
-
-				if (!single_device) {
-					//TODO: Redo all this
-					/*getKeysForNumber(number).then(function(identityKey) {
-						textsecure.subscribeToPush(function(message) {
-							//TODO receive shared identity key
-							register_keys_func();
-						});
-						requestIdentityPrivKeyFromMasterDevice(number);
-					}).catch(function(error) {
-						alert(error); //TODO
-					});*/
-					register_keys_func();
-				} else {
-					register_keys_func();
-				}
-			}, function(code) {
-				var error;
-				switch(code) {
-				case 403:
-					error = "Invalid code, please try again.";
-					break;
-				case -1:
-					error = "Error connecting to server, please check your network connection.";
-					break;
-				default:
-					error = "Unknown error, please try again later.";
-					console.log("Got error code " + code);
-				}
-				alert(error); //TODO
-			}
-		);
+	var number = textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
+	if (!isCodeValid()) {
+		updateCodeColor();
+		return;
 	}
+
+
+	$('#init-setup').hide();
+	$('#verify1done').html('');
+	$('#verify2').hide();
+	$('#verify3done').html('');
+	$('#verify4done').html('');
+	$('#verify').show();
+
+	textsecure.register($('#code').val(), number, single_device, function(step) {
+		switch(step) {
+		case 1:
+			$('#verify1done').html('done');
+			break;
+		case 2:
+			$('#verify2done').html('done');
+			break;
+		case 3:
+			$('#verify3done').html('done');
+			break;
+		case 4:
+			$('#complete-number').html(number);
+			$('#verify').hide();
+			$('#setup-complete').show();
+			registrationDone();
+		}
+	}).catch(function(error) {
+		alert(error.human_error);
+	});
 });
 
 textsecure.registerOnLoadFunction(function() {
@@ -138,7 +109,7 @@ textsecure.registerOnLoadFunction(function() {
         if (!isRegistrationDone()) {
             $('#init-setup').show();
         } else {
-            $('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
+            $('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);//TODO: no
             $('#setup-complete').show();
         }
     });
