@@ -59,12 +59,13 @@ $('#init-go-single-client').click(function() {
 
 	single_device = true;
 
-	textsecure.api.requestVerificationCode(number,
-		function(response) { },
-		function(code) {
-			alert("Failed to send key?" + code); //TODO
-		}
-	);
+	textsecure.api.requestVerificationCode(number).catch(function(error) {
+		//TODO: No alerts
+		if (error.humanReadable)
+			alert(error.humanReadable);
+		else
+			alert(error); // XXX
+	});
 });
 
 $('#init-go').click(function() {

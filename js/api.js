@@ -111,17 +111,11 @@ window.textsecure.api = function() {
 		});
 	};
 
-	self.requestVerificationCode = function(number, success_callback, error_callback) {
+	self.requestVerificationCode = function(number) {
 		doAjax({
 			call				: 'accounts',
 			httpType			: 'GET',
 			urlParameters		: '/sms/code/' + number,
-		}).then(function(response) {
-			if (success_callback !== undefined)
-				success_callback(response);
-		}).catch(function(code) {
-			if (error_callback !== undefined)
-				error_callback(code);
 		});
 	};
 
