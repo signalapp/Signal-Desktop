@@ -17,7 +17,7 @@
 textsecure.registerOnLoadFunction(function() {
 	if (!localStorage.getItem('first_install_ran')) {
 		localStorage.setItem('first_install_ran', 1);
-		chrome.tabs.create({url: "options.html"});
+		extension.navigator.tabs.create("options.html");
 	} else {
 		if (isRegistrationDone()) {
 			textsecure.subscribeToPush(function(message) {
@@ -26,7 +26,7 @@ textsecure.registerOnLoadFunction(function() {
 							': "' + getString(message.message.body) + '"');
 				var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
 				textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
-				chrome.browserAction.setBadgeText({text: newUnreadCount + ""});
+				extension.navigator.setBadgeText(newUnreadCount);
 			});
 		}
 	}
