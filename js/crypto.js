@@ -16,7 +16,7 @@
 
 window.textsecure = window.textsecure || {};
 
-window.textsecure.crypto = new function() {
+window.textsecure.crypto = function() {
 	var self = {};
 	// functions exposed for replacement and direct calling in test code
 	var testing_only = {};
