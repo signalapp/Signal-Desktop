@@ -417,10 +417,7 @@ window.textsecure.crypto = new function() {
 			} else {
 				// ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
 				// TODO: Save the message for possible later renegotiation
-				var error = new Error("Received message with unknown identity key");
-				error.name = "WarnTryAgainError";
-				error.full_message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.";
-				throw new error;
+				textsecure.throwHumanError("Received message with unknown identity key", "WarnTryAgainError", "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.");
 			}
 		}
 		return initSession(false, preKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey))

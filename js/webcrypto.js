@@ -23,7 +23,7 @@ window.crypto.subtle = (function() {
 		var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 		function assertIsArrayBuffer(thing) {
 			if (thing !== Object(thing) || thing.__proto__ != StaticArrayBufferProto)
-				throw new Error("WARNING: Needed a ArrayBuffer");
+				throw new Error("Needed a ArrayBuffer");
 		}
 
 		// private implementation functions

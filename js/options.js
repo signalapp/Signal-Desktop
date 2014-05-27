@@ -100,7 +100,11 @@ $('#init-go').click(function() {
 			registrationDone();
 		}
 	}).catch(function(error) {
-		alert(error.human_error);
+		//TODO: No alerts...
+		if (error.humanError)
+			alert(error.humanError);
+		else
+			alert(error); //XXX
 	});
 });
 

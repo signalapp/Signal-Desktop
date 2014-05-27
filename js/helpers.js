@@ -277,6 +277,14 @@ window.textsecure.utils = function() {
 	return self;
 }();
 
+window.textsecure.throwHumanError = function(error, type, humanError) {
+	var e = new Error(error);
+	if (type !== undefined)
+		e.name = type;
+	e.humanError = humanError;
+	throw e;
+}
+
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
@@ -500,6 +508,7 @@ window.textsecure.subscribeToPush = function() {
 						});
 					})
 				}).catch(function(e) {
+					// TODO: Show "Invalid message" messages?
 					console.log("Error handling incoming message: ");
 					console.log(e);
 				});
@@ -533,20 +542,11 @@ window.textsecure.sendMessage = function() {
 		var promises = [];
 
 		var addEncryptionFor = function(i) {
-			return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-				jsonData[i] = {
-					type: encryptedMsg.type,
-					destination: deviceObjectList[i].encodedNumber,
-					destinationRegistrationId: deviceObjectList[i].registrationId,
-					body: encryptedMsg.body,
-					timestamp: new Date().getTime()
-				};
-
+			return new Promise(function(resolve) { // Wrap in a promise for the throws
 				if (deviceObjectList[i].relay !== undefined) {
-					jsonData[i].relay = deviceObjectList[i].relay;
 					if (relay === undefined)
-						relay = jsonData[i].relay;
-					else if (relay != jsonData[i].relay)
+						relay = deviceObjectList[i].relay;
+					else if (relay != deviceObjectList[i].relay)
 						throw new Error("Mismatched relays for number " + number);
 				} else {
 					if (relay === undefined)
@@ -554,8 +554,22 @@ window.textsecure.sendMessage = function() {
 					else if (relay != "")
 						throw new Error("Mismatched relays for number " + number);
 				}
+
+				return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+					jsonData[i] = {
+						type: encryptedMsg.type,
+						destination: deviceObjectList[i].encodedNumber,
+						destinationRegistrationId: deviceObjectList[i].registrationId,
+						body: encryptedMsg.body,
+						timestamp: new Date().getTime()
+					};
+
+					if (deviceObjectList[i].relay !== undefined)
+						jsonData[i].relay = deviceObjectList[i].relay;
+				});
 			});
 		}
+
 		for (var i = 0; i < deviceObjectList.length; i++)
 			promises[i] = addEncryptionFor(i);
 		return Promise.all(promises).then(function() {
@@ -575,6 +589,8 @@ window.textsecure.sendMessage = function() {
 		}
 
 		var registerError = function(number, message, error) {
+			if (error.humanError)
+				message = error.humanError;
 			errors[errors.length] = { number: number, reason: message, error: error };
 			numberCompleted();
 		}
