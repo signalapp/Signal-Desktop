@@ -112,14 +112,14 @@ window.textsecure.api = function() {
 	};
 
 	self.requestVerificationCode = function(number) {
-		doAjax({
+		return doAjax({
 			call				: 'accounts',
 			httpType			: 'GET',
 			urlParameters		: '/sms/code/' + number,
 		});
 	};
 
-	self.confirmCode = function(code, number, password,
+	self.confirmCode = function(number, code, password,
 								signaling_key, registrationId, single_device) {
 			var call = single_device ? 'accounts' : 'devices';
 			var urlPrefix = single_device ? '/code/' : '/';
@@ -137,23 +137,17 @@ window.textsecure.api = function() {
 			});
 	};
 
-	self.registerKeys = function(keys, success_callback, error_callback) {
+	self.registerKeys = function(keys) {
 		//TODO: Do this conversion somewhere else?
 		var identityKey = btoa(getString(keys.keys[0].identityKey));
 		for (var i = 0; i < keys.keys.length; i++)
 			keys.keys[i] = {keyId: i, publicKey: btoa(getString(keys.keys[i].publicKey)), identityKey: identityKey};
 		keys.lastResortKey = {keyId: keys.lastResortKey.keyId, publicKey: btoa(getString(keys.lastResortKey.publicKey)), identityKey: identityKey};
-		doAjax({
+		return doAjax({
 			call				: 'keys',
 			httpType			: 'PUT',
 			do_auth				: true,
 			jsonData			: keys,
-		}).then(function(response) {
-			if (success_callback !== undefined)
-				success_callback(response);
-		}).catch(function(code) {
-			if (error_callback !== undefined)
-				error_callback(code);
 		});
 	};
 

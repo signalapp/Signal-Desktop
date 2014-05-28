@@ -83,7 +83,7 @@ $('#init-go').click(function() {
 	$('#verify4done').html('');
 	$('#verify').show();
 
-	textsecure.register($('#code').val(), number, single_device, function(step) {
+	textsecure.register(number, $('#code').val(), single_device, function(step) {
 		switch(step) {
 		case 1:
 			$('#verify1done').html('done');
