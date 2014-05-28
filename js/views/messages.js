@@ -42,7 +42,7 @@ var Whisper = Whisper || {};
         var splitString = $("#send_numbers").val().split(",");
         for (var i = 0; i < splitString.length; i++) {
           try {
-            numbers.push(verifyNumber(splitString[i]));
+            numbers.push(textsecure.utils.verifyNumber(splitString[i]));
           } catch (numberError) {
             alert(numberError);
           }

@@ -360,14 +360,14 @@ window.textsecure.storage = function() {
 
 			var newDevices = [];
 			var devicesRemoved = 0;
-			for (device in map.devices) {
+			for (i in map.devices) {
 				var keep = true;
 				for (idToRemove in deviceIdsToRemove)
-					if (device.deviceId == idToRemove)
+					if (map.devices[i].deviceId == idToRemove)
 						keep = false;
 
 				if (keep)
-					newDevices.push(device);
+					newDevices.push(map.devices[i]);
 				else
 					devicesRemoved++;
 			}
@@ -510,24 +510,24 @@ window.textsecure.sendMessage = function() {
 	function getKeysForNumber(number, updateDevices) {
 		return textsecure.api.getKeysForNumber(number).then(function(response) {
 			var identityKey = getString(response[0].identityKey);
-			for (device in response)
-				if (getString(device.identityKey) != identityKey)
+			for (i in response)
+				if (getString(response[i].identityKey) != identityKey)
 					throw new Error("Identity key changed");
 
-			for (device in response) {
+			for (i in response) {
 				var updateDevice = (updateDevices === undefined);
 				if (!updateDevice)
 					for (deviceId in updateDevices)
-						if (deviceId == device.deviceId)
+						if (deviceId == response[i].deviceId)
 							updateDevice = true;
 
 				if (updateDevice)
 					textsecure.storage.devices.saveDeviceObject({
-						encodedNumber: number + "." + device.deviceId,
-						identityKey: device.identityKey,
-						publicKey: device.publicKey,
-						preKeyId: device.keyId,
-						registrationId: device.registrationId
+						encodedNumber: number + "." + response[i].deviceId,
+						identityKey: response[i].identityKey,
+						publicKey: response[i].publicKey,
+						preKeyId: response[i].keyId,
+						registrationId: response[i].registrationId
 					});
 			}
 		});
@@ -541,31 +541,29 @@ window.textsecure.sendMessage = function() {
 		var promises = [];
 
 		var addEncryptionFor = function(i) {
-			return new Promise(function(resolve) { // Wrap in a promise for the direct throws
-				if (deviceObjectList[i].relay !== undefined) {
-					if (relay === undefined)
-						relay = deviceObjectList[i].relay;
-					else if (relay != deviceObjectList[i].relay)
-						throw new Error("Mismatched relays for number " + number);
-				} else {
-					if (relay === undefined)
-						relay = "";
-					else if (relay != "")
-						throw new Error("Mismatched relays for number " + number);
-				}
+			if (deviceObjectList[i].relay !== undefined) {
+				if (relay === undefined)
+					relay = deviceObjectList[i].relay;
+				else if (relay != deviceObjectList[i].relay)
+					return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
+			} else {
+				if (relay === undefined)
+					relay = "";
+				else if (relay != "")
+					return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
+			}
 
-				return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-					jsonData[i] = {
-						type: encryptedMsg.type,
-						destination: deviceObjectList[i].encodedNumber,
-						destinationRegistrationId: deviceObjectList[i].registrationId,
-						body: encryptedMsg.body,
-						timestamp: new Date().getTime()
-					};
+			return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+				jsonData[i] = {
+					type: encryptedMsg.type,
+					destination: deviceObjectList[i].encodedNumber,
+					destinationRegistrationId: deviceObjectList[i].registrationId,
+					body: encryptedMsg.body,
+					timestamp: new Date().getTime()
+				};
 
-					if (deviceObjectList[i].relay !== undefined)
-						jsonData[i].relay = deviceObjectList[i].relay;
-				});
+				if (deviceObjectList[i].relay !== undefined)
+					jsonData[i].relay = deviceObjectList[i].relay;
 			});
 		}
 
@@ -606,8 +604,8 @@ window.textsecure.sendMessage = function() {
 							resetDevices = resetDevices.concat(error.response.extraDevices);
 
 						textsecure.storage.devices.removeDeviceIdsForNumber(number, resetDevices);
-						for (deviceId in resetDevices)
-							textsecure.crypto.forceRemoveAllSessions(number + "." + resetDevices);
+						for (i in resetDevices)
+							textsecure.crypto.forceRemoveAllSessions(number + "." + resetDevices[i]);
 
 						//TODO: Try again
 					}).catch(function(error) {
