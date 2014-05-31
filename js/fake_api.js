@@ -14,30 +14,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//TODO: Redo this (API has changed to textsecure.api and changed)
-var FakeWhisperAPI = function() {
-	var doAjax = function(param) {
-		if (param.success_callback) {
-			setTimeout(param.success_callback, 100, param.response);
-		}
+var getKeysForNumberMap = {};
+textsecure.api.getKeysForNumber = function(number) {
+	var res = getKeysForNumberMap[number];
+	if (res !== undefined) {
+		delete getKeysForNumberMap[number];
+		return Promise.resolve(res);
+	} else
+		throw new Error("getKeysForNumber of unknown/used number");
+}
+
+var messagesSentMap = {};
+textsecure.api.sendMessages = function(destination, messageArray) {
+	for (i in messageArray) {
+		var msg = messageArray[i];
+		if ((msg.type != 1 && msg.type != 3) ||
+				msg.destinationDeviceId === undefined ||
+				msg.destinationRegistrationId === undefined ||
+				msg.body === undefined ||
+				msg.timestamp == undefined ||
+				msg.relay !== undefined)
+			throw new Error("Invalid message");
+
+		messagesSentMap[destination + "." + messageArray[i].destinationDeviceId] = msg;
 	}
-
-	this.getKeysForNumber = function(number, success_callback, error_callback) {
-		doAjax({ success_callback	: success_callback,
-						response		: [{ identityKey	: 1,
-											deviceId		: 1,
-											publicKey		: 1,
-											keyId			: 1 }]
-		});
-	}
-
-	this.sendMessages = function(jsonData, success_callback, error_callback) {
-		doAjax({ success_callback	: success_callback,
-						response		: { missingDeviceIds: [] }
-		});
-	}
-};
-
-FakeWhisperAPI.prototype = API;
-API = new FakeWhisperAPI();
-
+}

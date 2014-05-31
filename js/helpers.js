@@ -245,9 +245,8 @@ window.textsecure.utils = function() {
 	}
 
 	self.unencodeNumber = function(number) {
-		return number.split(".")[0];
+		return number.split(".");
 	}
-
 
 	/**************************
 	 *** JSON'ing Utilities ***
@@ -337,13 +336,28 @@ window.textsecure.storage = function() {
 		var self = {};
 
 		self.saveDeviceObject = function(deviceObject) {
-			var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber);
+			if (deviceObject.identityKey === undefined || deviceObject.registrationId === undefined || deviceObject.encodedNumber === undefined)
+				throw new Error("Tried to store invalid deviceObject");
+
+			var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
 			var map = textsecure.storage.getEncrypted("devices" + number);
 
 			if (map === undefined)
 				map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
 			else if (map.identityKey != getString(deviceObject.identityKey))
 				throw new Error("Identity key changed");
+			else {
+				var updated = false;
+				for (i in map.devices) {
+					if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
+						map.devices[i] = deviceObject;
+						updated = true;
+					}
+				}
+
+				if (!updated)
+					map.devices.push(deviceObject);
+			}
 
 			textsecure.storage.putEncrypted("devices" + number, map);
 		}
@@ -351,6 +365,19 @@ window.textsecure.storage = function() {
 		self.getDeviceObjectsForNumber = function(number) {
 			var map = textsecure.storage.getEncrypted("devices" + number);
 			return map === undefined ? [] : map.devices;
+		}
+
+		self.getDeviceObject = function(encodedNumber) {
+			var number = textsecure.utils.unencodeNumber(encodedNumber);
+			var devices = self.getDeviceObjectsForNumber(number[0]);
+			if (devices === undefined)
+				return undefined;
+
+			for (i in devices)
+				if (devices[i].encodedNumber == encodedNumber)
+					return devices[i];
+
+			return undefined;
 		}
 
 		self.removeDeviceIdsForNumber = function(number, deviceIdsToRemove) {
@@ -363,7 +390,7 @@ window.textsecure.storage = function() {
 			for (i in map.devices) {
 				var keep = true;
 				for (idToRemove in deviceIdsToRemove)
-					if (map.devices[i].deviceId == idToRemove)
+					if (map.devices[i].encodedNumber == number + "." + idToRemove)
 						keep = false;
 
 				if (keep)
@@ -556,7 +583,8 @@ window.textsecure.sendMessage = function() {
 			return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
 				jsonData[i] = {
 					type: encryptedMsg.type,
-					destination: deviceObjectList[i].encodedNumber,
+					destination: number,
+					destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
 					destinationRegistrationId: deviceObjectList[i].registrationId,
 					body: encryptedMsg.body,
 					timestamp: new Date().getTime()

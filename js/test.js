@@ -213,10 +213,13 @@ textsecure.registerOnLoadFunction(function() {
 				ourBaseKey: hexToArrayBuffer('192b4892aa2e4cff1293999dc7c367874456c4d920aae7d9d42e5e62c965546c'),
 				ourEphemeralKey: hexToArrayBuffer('f12704787bab04a3cf544ebd9d421b6fe36147519eb5afa7c90e3fb67c141e64'),
 				ourIdentityKey: hexToArrayBuffer('a05fd14abb42ff393004eee526e3167441ee51021c6d801b784720c15637747c'),
-				theirPreKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e'),
-				theirPreKeyId: 13845842,
 				registrationId: 11593,
-				theirIdentityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
+				getKeys: [{deviceId: 0,
+						keyId: 13845842,
+						publicKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e'),
+						identityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
+						registrationId: 42}
+					],
 				//expectedPlaintext: hexToArrayBuffer('0a0e4120202020202020202020202020'),
 				//expectedCounter: 0,
 				expectedCiphertext: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be161000180022104bd27ab87ee151d71cdfe89828050ef4b05bddfb56da491728c95a'),
@@ -294,13 +297,13 @@ textsecure.registerOnLoadFunction(function() {
 			}],
 		];
 
-	var axolotlTestVectors = function(v, remoteDevice) {
+	var axolotlTestVectors = function(v, remoteNumber) {
 		var origCreateNewKeyPair = textsecure.crypto.testing_only.createNewKeyPair;
 		var doStep;
 		var stepDone;
 
 		stepDone = function(res) {
-			if (!res || privKeyQueue.length != 0) {
+			if (!res || privKeyQueue.length != 0 || Object.keys(getKeysForNumberMap).length != 0 || Object.keys(messagesSentMap).length != 0) {
 				textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
 				return false;
 			} else if (step == v.length) {
@@ -338,7 +341,7 @@ textsecure.registerOnLoadFunction(function() {
 
 					var message = new textsecure.protos.IncomingPushMessageProtobuf();
 					message.type = data.type;
-					message.source = textsecure.utils.unencodeNumber(remoteDevice.encodedNumber);
+					message.source = remoteNumber;
 					message.message = data.message;
 					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
 						return res.body == data.expectedSmsText;
@@ -358,29 +361,34 @@ textsecure.registerOnLoadFunction(function() {
 
 			case "sendMessage":
 				var postLocalKeySetup = function() {
-					if (data.theirIdentityKey !== undefined)
-						remoteDevice.identityKey = data.theirIdentityKey;
-					if (data.theirPreKey !== undefined) {
-						remoteDevice.publicKey = data.theirPreKey;
-						remoteDevice.preKeyId = data.theirPreKeyId;
+					if (data.registrationId !== undefined)
 						textsecure.storage.putUnencrypted("registrationId", data.registrationId);
-					}
+
+					if (data.getKeys !== undefined)
+						getKeysForNumberMap[remoteNumber] = data.getKeys;
 
 					var message = new textsecure.protos.PushMessageContentProtobuf();
 					message.body = data.smsText;
 
-					return textsecure.crypto.encryptMessageFor(remoteDevice, message).then(function(res) {
-						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
-						if (res.type == 1) { //XXX: This should be used for everything...
-							var expectedString = getString(data.expectedCiphertext);
-							var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
-							var result = getString(res.body);
-							return getString(decoded.encode()) == result.substring(1, result.length - 8);
-						} else {
-							var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
-							var result = getString(res.body).substring(1);
-							return getString(decoded.encode()) == result;
-						}
+					return new Promise(function(resolve) {
+						textsecure.sendMessage([remoteNumber], message, function(res) {
+							if (res.failure.length != 0 || res.success.length != 1 || res.success[0] != remoteNumber)
+								return resolve(false);
+
+							var msg = messagesSentMap[remoteNumber + "." + 0];
+							delete messagesSentMap[remoteNumber + "." + 0];
+							//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
+							if (msg.type == 1) {
+								var expectedString = getString(data.expectedCiphertext);
+								var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
+								var result = getString(msg.body);
+								resolve(getString(decoded.encode()) == result.substring(1, result.length - 8));
+							} else {
+								var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
+								var result = getString(msg.body).substring(1);
+								resolve(getString(decoded.encode()) == result);
+							}
+						});
 					});
 				}
 
@@ -405,7 +413,7 @@ textsecure.registerOnLoadFunction(function() {
 	}
 
 	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB.0" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
 	}, "Standard Axolotl Test Vectors as Alice", true);
 
 	TEST(function() {
@@ -414,11 +422,11 @@ textsecure.registerOnLoadFunction(function() {
 		axolotlTwoPartyTestVectorsAlice[2][1].newEphemeralKey = t.newEphemeralKey;
 		axolotlTwoPartyTestVectorsAlice[3][1] = t;
 		delete axolotlTwoPartyTestVectorsAlice[3][1]['newEphemeralKey'];
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, { encodedNumber: "BOB.0" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
 	}, "Shuffled Axolotl Test Vectors as Alice", true);
 
 	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, { encodedNumber: "ALICE.0" });
+		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, "ALICE");
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
 	TEST(function() {
@@ -440,7 +448,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
 
 		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
-		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
+		return axolotlTestVectors(v, "ALICE");
 	}, "Shuffled Axolotl Test Vectors as Bob I", true);
 
 	TEST(function() {
@@ -457,7 +465,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[1] = orig[2];
 		v[2] = orig[1];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
+		return axolotlTestVectors(v, "ALICE");
 	}, "Shuffled Axolotl Test Vectors as Bob II", true);
 
 	TEST(function() {
@@ -476,7 +484,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[2] = orig[3];
 		v[3] = orig[4];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
+		return axolotlTestVectors(v, "ALICE");
 	}, "Shuffled Axolotl Test Vectors as Bob III", true);
 
 	TEST(function() {
@@ -506,7 +514,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[2] = orig[3];
 		v[3] = orig[4];
 
-		return axolotlTestVectors(v, { encodedNumber: "ALICE.0" });
+		return axolotlTestVectors(v, "ALICE");
 	}, "Shuffled Axolotl Test Vectors as Bob IV", true);
 
 	TEST(function() {

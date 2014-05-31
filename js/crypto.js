@@ -143,14 +143,21 @@ window.textsecure.crypto = function() {
 		return this.getStoredKeyPair("identityKey").privKey;
 	}
 
-	crypto_storage.saveSession = function(encodedNumber, session) {
-		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
-		if (sessions === undefined)
-			sessions = {};
+	crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
+		var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+		if (device === undefined)
+			device = { sessions: {}, encodedNumber: encodedNumber };
+		if (device.sessions === undefined)
+			device.sessions = {};
+
+		if (registrationId !== undefined)
+			device.registrationId = registrationId;
+
+		var sessions = device.sessions;
 
 		var doDeleteSession = false;
 		if (session.indexInfo.closed == -1)
-			sessions.identityKey = session.indexInfo.remoteIdentityKey;
+			device.identityKey = session.indexInfo.remoteIdentityKey;
 		else {
 			doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
 
@@ -171,26 +178,29 @@ window.textsecure.crypto = function() {
 		else
 			sessions[getString(session.indexInfo.baseKey)] = session;
 
-		textsecure.storage.putEncrypted("session" + encodedNumber, sessions);
+		textsecure.storage.devices.saveDeviceObject(device);
+	}
+
+	var getSessions = function(encodedNumber) {
+		var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+		if (device === undefined || device.sessions === undefined)
+			return undefined;
+		return device.sessions;
 	}
 
 	crypto_storage.getOpenSession = function(encodedNumber) {
-		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
+		var sessions = getSessions(encodedNumber);
 		if (sessions === undefined)
 			return undefined;
 
-		for (key in sessions) {
-			if (key == "identityKey")
-				continue;
-
+		for (key in sessions)
 			if (sessions[key].indexInfo.closed == -1)
 				return sessions[key];
-		}
 		return undefined;
 	}
 
 	crypto_storage.getSessionByRemoteEphemeralKey = function(encodedNumber, remoteEphemeralKey) {
-		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
+		var sessions = getSessions(encodedNumber);
 		if (sessions === undefined)
 			return undefined;
 
@@ -198,9 +208,6 @@ window.textsecure.crypto = function() {
 
 		var openSession = undefined;
 		for (key in sessions) {
-			if (key == "identityKey")
-				continue;
-
 			if (sessions[key].indexInfo.closed == -1) {
 				if (openSession !== undefined)
 					throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
@@ -215,20 +222,20 @@ window.textsecure.crypto = function() {
 		return undefined;
 	}
 
-
 	crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-		var sessions = textsecure.storage.getEncrypted("session" + encodedNumber);
-		if (sessions === undefined)
+		var sessions = getSessions(encodedNumber);
+		var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+		if (device === undefined)
 			return undefined;
 
-		var preferredSession = sessions[getString(baseKey)];
+		var preferredSession = device.sessions && device.sessions[getString(baseKey)];
 		if (preferredSession !== undefined)
 			return preferredSession;
 
-		if (sessions.identityKey !== undefined)
-			return { indexInfo: { remoteIdentityKey: sessions.identityKey } };
+		if (device.identityKey !== undefined)
+			return { indexInfo: { remoteIdentityKey: device.identityKey } };
 
-		throw new Error("Datastore inconsistency: session was stored without identity key");
+		throw new Error("Datastore inconsistency: device was stored without identity key");
 	}
 
 	// Used when device keys change - we assume key compromise so refuse all new messages
@@ -518,7 +525,7 @@ window.textsecure.crypto = function() {
 	}
 
 	// returns decrypted protobuf
-	var decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
+	var decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
 		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
 			throw new Error("Bad version number on WhisperMessage");
 
@@ -554,7 +561,7 @@ window.textsecure.crypto = function() {
 							if ((finalMessage.flags & 1) == 1) // END_SESSION
 								closeSession(session);
 
-							crypto_storage.saveSession(encodedNumber, session);
+							crypto_storage.saveSession(encodedNumber, session, registrationId);
 							return finalMessage;
 						});
 					});
@@ -613,7 +620,7 @@ window.textsecure.crypto = function() {
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(proto.message));
 			return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-				return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0]).then(function(result) {
+				return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
 					if (sessions[1] !== undefined)
 						crypto_storage.saveSession(proto.source, sessions[1]);
 					return result;
