@@ -516,8 +516,8 @@ window.textsecure.subscribeToPush = function() {
 						};
 
 						var promises = [];
-						for (var i = 0; i < decrypted.message.attachments.length; i++)
-							promises[i] = handleAttachment(decrypted.message.attachments[i]);
+						for (var i = 0; i < decrypted.attachments.length; i++)
+							promises[i] = handleAttachment(decrypted.attachments[i]);
 						return Promise.all(promises).then(function() {
 							message_callback({pushMessage: proto, message: decrypted});
 						});
