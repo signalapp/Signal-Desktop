@@ -32,3 +32,7 @@ h2 {
 	font-size: 12pt;
 	font-weight: normal;
 }
+
+#init-go-single-client {
+    display:block;
+}

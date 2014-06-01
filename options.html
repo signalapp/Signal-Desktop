@@ -15,7 +15,9 @@
 <html>
 <head>
 	<title>TextSecure Options</title>
-	<link rel="stylesheet" href="options.css">
+	<link rel="stylesheet" href="css/options.css">
+	<link rel="stylesheet" href="css/forms.css">
+	<link rel="stylesheet" href="css/buttons.css">
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="pnacl/{config}">
 	<div id="listener"></div>
@@ -24,10 +26,12 @@
 	<h1 style="font-size: 30pt;"><img src='icon.png' height='50px' width='50px'/> TextSecure</h1>
 	<div id="init-setup" style="display: none;">
 		<h2>Welcome to TextSecure. To get started please get a 6-digit setup code from your phone and enter it below.</h2>
-		Phone number (including country code): +<input type="text" size="2" id="countrycode" /><input type="text" size="8" id="number" /><br>
-		<button id="init-go-single-client" >Send single-client code</button><br>
-		Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /><br>
-		<button id="init-go" >Sync</button>
+		<p>Phone number (including country code): +<input type="text" maxlength=3 size="3" id="countrycode" /> <input type="text" maxlength=14 size="14" id="number" /></p>
+		<button id="init-go-single-client" class="btn">Send single-client code</button>
+		<div id="init-setup-verification" style="display: none;">
+			<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
+			<button id="init-go" class="btn">Sync</button>
+		</div>
 	</div>
 	<div id="verify" style="display: none;">
 		<div id="verify1">Verifying number and setup code...<span id="verify1done"></span></div>
