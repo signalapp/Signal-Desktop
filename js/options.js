@@ -17,18 +17,18 @@
 function updateNumberColors() {
 	try {
 		textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
-		$('#number').attr('style', '');
-		$('#countrycode').attr('style', '');
+		$('#number').removeClass('invalid');
+		$('#number').removeClass('invalid');
 	} catch (e) {
 		if (e.countryCodeValid)
-			$('#countrycode').attr('style', '');
+			$('#countrycode').removeClass('invalid');
 		else
-			$('#countrycode').attr('style', 'background-color:#ff6666;');
+			$('#countrycode').addClass('invalid');
 
 		if (e.numberValid)
-			$('#number').attr('style', '');
+			$('#number').removeClass('invalid');
 		else
-			$('#number').attr('style', 'background-color:#ff6666;');
+			$('#number').addClass('invalid');
 	}
 }
 
@@ -42,9 +42,9 @@ function isCodeValid() {
 
 $('#code').on('change', function() {
 	if (!isCodeValid())
-		$('#code').attr('style', 'background-color:#ff6666;');
+		$('#code').addClass('invalid');
 	else
-		$('#code').attr('style', '');
+		$('#code').removeClass('invalid');
 });
 
 var single_device = false;
@@ -56,6 +56,7 @@ $('#init-go-single-client').click(function() {
 	$('#countrycode').prop('disabled', 'disabled');
 	$('#number').prop('disabled', 'disabled');
 	$('#init-go-single-client').prop('disabled', 'disabled');
+    $('#init-setup-verification').show();
 
 	single_device = true;
 

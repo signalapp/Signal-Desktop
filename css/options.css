@@ -18,17 +18,24 @@
 }
 
 html {
-	margin: 12px 0 0 100px;
-}
+	margin: 12px 0 0 100px; }
 
 h1 {
-	font-size: 14pt;
+	font-size: 30pt;
 	font-weight: normal;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #e0e0e0;
-}
+	border-bottom: 1px solid #e0e0e0; }
 
 h2 {
 	font-size: 12pt;
-	font-weight: normal;
-}
+	font-weight: normal; }
+
+.hidden {
+	display: none; }
+
+#textsecure-icon {
+	width: 50px;
+	height: 50px; }
+
+#init-go-single-client {
+    display:block; }

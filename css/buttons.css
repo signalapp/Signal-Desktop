@@ -7,16 +7,14 @@
   color: #7fd0ed;
   font-weight: bold;
 }
-.btn:hover, .btn:focus {
+.btn:hover {
   cursor: pointer;
   outline: none;
-}
-.btn:hover {
   background-color: #7fd0ed;
   border-color: #acdbf5;
   color: #fff;
 }
-.btn:active {
+.btn:active, .btn:focus {
   outline: 2px dashed #acdbf5;
   outline-offset: 2px;
 }
