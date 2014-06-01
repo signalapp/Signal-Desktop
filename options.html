@@ -23,23 +23,23 @@
 	<div id="listener"></div>
 	<div id="log"></div>
 
-	<h1 style="font-size: 30pt;"><img src='icon.png' height='50px' width='50px'/> TextSecure</h1>
-	<div id="init-setup" style="display: none;">
+	<h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
+	<div id="init-setup" class="hidden">
 		<h2>Welcome to TextSecure. To get started please get a 6-digit setup code from your phone and enter it below.</h2>
 		<p>Phone number (including country code): +<input type="text" maxlength=3 size="3" id="countrycode" /> <input type="text" maxlength=14 size="14" id="number" /></p>
 		<button id="init-go-single-client" class="btn">Send single-client code</button>
-		<div id="init-setup-verification" style="display: none;">
+		<div id="init-setup-verification" class="hidden">
 			<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
 			<button id="init-go" class="btn">Sync</button>
 		</div>
 	</div>
-	<div id="verify" style="display: none;">
+	<div id="verify" class="hidden">
 		<div id="verify1">Verifying number and setup code...<span id="verify1done"></span></div>
 		<div id="verify2">Syncing with existing devices...<span id="verify2done"></span></div>
 		<div id="verify3">Generating keys...<span id="verify3done"></span></div>
 		<div id="verify4">Registering...<span id="verify4done"></span></div>
 	</div>
-	<div id="setup-complete" style="display: none;">
+	<div id="setup-complete" class="hidden">
 		<h2>You are now registered on TextSecure with number <span id="complete-number"></span></h2>
 	</div>
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
