@@ -104,6 +104,8 @@ window.textsecure.api = function() {
 											textsecure.throwHumanError(code, "HTTPError", "The server rejected our query, please file a bug report.");
 										}
 									} catch (e) {
+										if (jqXHR.responseJSON)
+											e.response = jqXHR.responseJSON;
 										reject(e);
 									}
 								}

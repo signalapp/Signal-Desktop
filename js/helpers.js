@@ -389,8 +389,8 @@ window.textsecure.storage = function() {
 			var devicesRemoved = 0;
 			for (i in map.devices) {
 				var keep = true;
-				for (idToRemove in deviceIdsToRemove)
-					if (map.devices[i].encodedNumber == number + "." + idToRemove)
+				for (j in deviceIdsToRemove)
+					if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
 						keep = false;
 
 				if (keep)
@@ -458,6 +458,41 @@ window.textsecure.nacl = function() {
 
 //TODO: Some kind of textsecure.init(use_nacl)
 window.textsecure.registerOnLoadFunction = window.textsecure.nacl.registerOnLoadFunction;
+
+window.textsecure.replay = function() {
+	var self = {};
+
+	self.REPLAY_FUNCS = {
+		SEND_MESSAGE: 1,
+		INIT_SESSION: 2,
+	}
+
+	var functions = {};
+
+	self.registerReplayFunction = function(func, functionCode) {
+		functions[functionCode] = func;
+	}
+
+	self.replayError = function(replayData) {
+		var args = Array.prototype.slice.call(arguments);
+		args.shift();
+		args = replayData.args.concat(args);
+		functions[replayData.replayFunction].apply(window, args);
+	}
+
+	self.createReplayableError = function(shortMsg, longMsg, replayFunction, args) {
+		var e = new Error(shortMsg);
+		e.name = "ReplayableError";
+		e.humanError = e.longMessage = longMsg;
+		e.replayData = { replayFunction: replayFunction, args: args };
+		e.replay = function() {
+			self.replayError(e.replayData);
+		}
+		return e;
+	}
+
+	return self;
+}();
 
 // message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
 window.textsecure.subscribeToPush = function() {
@@ -539,13 +574,13 @@ window.textsecure.sendMessage = function() {
 			var identityKey = getString(response[0].identityKey);
 			for (i in response)
 				if (getString(response[i].identityKey) != identityKey)
-					throw new Error("Identity key changed");
+					throw new Error("Identity key not consistent");
 
 			for (i in response) {
 				var updateDevice = (updateDevices === undefined);
 				if (!updateDevice)
-					for (deviceId in updateDevices)
-						if (deviceId == response[i].deviceId)
+					for (j in updateDevices)
+						if (updateDevices[j] == response[i].deviceId)
 							updateDevice = true;
 
 				if (updateDevice)
@@ -602,6 +637,13 @@ window.textsecure.sendMessage = function() {
 		});
 	}
 
+	var tryMessageAgain = function(number, encodedMessage, callback) {
+		//TODO: Wipe identity key!
+		var message = textsecure.protos.decodePushMessageContentProtobuf(encodedMessage);
+		textsecure.sendMessage([number], message, callback);
+	}
+	textsecure.replay.registerReplayFunction(tryMessageAgain, textsecure.replay.SEND_MESSAGE);
+
 	return function(numbers, message, callback) {
 		var numbersCompleted = 0;
 		var errors = [];
@@ -620,30 +662,41 @@ window.textsecure.sendMessage = function() {
 			numberCompleted();
 		}
 
-		var doSendMessage = function(number, devicesForNumber, message) {
+		var doSendMessage;
+		var reloadDevicesAndSend = function(number, recurse) {
+			return function() {
+				var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+				if (devicesForNumber.length == 0)
+					registerError(number, "Go empty device list when loading device keys", null);
+				else
+					doSendMessage(number, devicesForNumber, recurse);
+			}
+		}
+
+		doSendMessage = function(number, devicesForNumber, recurse) {
 			return sendMessageToDevices(number, devicesForNumber, message).then(function(result) {
 				successfulNumbers[successfulNumbers.length] = number;
 				numberCompleted();
 			}).catch(function(error) {
 				if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
+					if (!recurse)
+						return registerError(number, "Hit retry limit attempting to reload device list", error);
+
+					if (error.message == 409)
+						textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
+
 					var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
-					getKeysForNumber(number, resetDevices).then(function() {
-						if (error.message == 409)
-							resetDevices = resetDevices.concat(error.response.extraDevices);
-
-						textsecure.storage.devices.removeDeviceIdsForNumber(number, resetDevices);
-						for (i in resetDevices)
-							textsecure.crypto.forceRemoveAllSessions(number + "." + resetDevices[i]);
-
-						//TODO: Try again
-					}).catch(function(error) {
-						if (error.message !== "Identity key changed")
-							registerError(number, "Failed to reload device keys", error);
-						else {
-							// TODO: Identity key changed, check which devices it changed for and get upset
-							registerError(number, "Identity key changed!!!!", error);
-						}
-					});
+					getKeysForNumber(number, resetDevices)
+						.then(reloadDevicesAndSend(number, false))
+						.catch(function(error) {
+							if (error.message !== "Identity key changed")
+								registerError(number, "Failed to reload device keys", error);
+							else {
+								error = textsecure.replay.createReplayableError("The destination's identity key has changed", "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled TextSecure.",
+										textsecure.replay.SEND_MESSAGE, [number, getString(message.encode())]);
+								registerError(number, "Identity key changed", error);
+							}
+						});
 				} else
 					registerError(number, "Failed to create or send message", error);
 			});
@@ -654,17 +707,13 @@ window.textsecure.sendMessage = function() {
 			var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
 			if (devicesForNumber.length == 0) {
-				getKeysForNumber(number).then(function() {
-					devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-					if (devicesForNumber.length == 0)
-						registerError(number, "Failed to retreive new device keys for number " + number, null);
-					else
-						doSendMessage(number, devicesForNumber, message);
-				}).catch(function(error) {
-					registerError(number, "Failed to retreive new device keys for number " + number, error);
-				});
+				getKeysForNumber(number)
+					.then(reloadDevicesAndSend(number, true))
+					.catch(function(error) {
+						registerError(number, "Failed to retreive new device keys for number " + number, error);
+					});
 			} else
-				doSendMessage(number, devicesForNumber, message);
+				doSendMessage(number, devicesForNumber, true);
 		}
 	}
 }();

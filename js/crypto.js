@@ -238,12 +238,6 @@ window.textsecure.crypto = function() {
 		throw new Error("Datastore inconsistency: device was stored without identity key");
 	}
 
-	// Used when device keys change - we assume key compromise so refuse all new messages
-	self.forceRemoveAllSessions = function(encodedNumber) {
-		textsecure.storage.removeEncrypted("session" + encodedNumber);
-	}
-
-
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
@@ -407,7 +401,26 @@ window.textsecure.crypto = function() {
 		session.indexInfo.closed = new Date().getTime();
 	}
 
-	var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
+	var initSessionFromPreKeyWhisperMessage;
+	var decryptWhisperMessage;
+	var handlePreKeyWhisperMessage = function(from, encodedMessage) {
+		var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(encodedMessage);
+		return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
+			return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+				if (sessions[1] !== undefined)
+					crypto_storage.saveSession(from, sessions[1]);
+				return result;
+			});
+		});
+	}
+
+	var wipeIdentityAndTryMessageAgain = function(from, encodedMessage) {
+		//TODO: Wipe identity key!
+		return handlePreKeyWhisperMessage(from, encodedMessage);
+	}
+	textsecure.replay.registerReplayFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.REPLAY_FUNCS.INIT_SESSION);
+
+	initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
 		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
 
 		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
@@ -428,8 +441,7 @@ window.textsecure.crypto = function() {
 					closeSession(open_session); // To be returned and saved later
 			} else {
 				// ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-				// TODO: Save the message for possible later renegotiation
-				textsecure.throwHumanError("Received message with unknown identity key", "WarnTryAgainError", "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.");
+				throw textsecure.createTryAgainError("Received message with unknown identity key", "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.", textsecure.replay.REPLAY_FUNCS.INIT_SESSION, [encodedNumber, getString(message.encode())]);
 			}
 		}
 		return initSession(false, preKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey))
@@ -525,7 +537,7 @@ window.textsecure.crypto = function() {
 	}
 
 	// returns decrypted protobuf
-	var decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+	decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
 		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
 			throw new Error("Bad version number on WhisperMessage");
 
@@ -618,14 +630,7 @@ window.textsecure.crypto = function() {
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-			var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(proto.message));
-			return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-				return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
-					if (sessions[1] !== undefined)
-						crypto_storage.saveSession(proto.source, sessions[1]);
-					return result;
-				});
-			});
+			return handlePreKeyWhisperMessage(from, getString(proto.message));
 		}
 	}
 
