@@ -17,11 +17,11 @@
 
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
-		chrome.tabs.create({url: "options.html"});
+		extension.navigator.tabs.create("options.html");
 	} else {
 		$('.my-number').text(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
 		textsecure.storage.putUnencrypted("unreadCount", 0);
-		chrome.browserAction.setBadgeText({text: ""});
+		extension.navigator.setBadgeText("");
 		$("#me").click(function() {
 			$('#popup_send_numbers').val($('.my-number').text());
 		});

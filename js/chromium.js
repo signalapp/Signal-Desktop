@@ -14,6 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+window.extension = window.extension || {};
+
+window.extension.navigator = function() {
+    var self = {};
+    
+    var tabs = {};
+    tabs.create = function(url){
+        chrome.tabs.create({url: url});
+    };
+    self.tabs = tabs;
+    
+    self.setBadgeText = function(text){
+        chrome.browserAction.setBadgeText({text: text + ""});
+    };
+    
+    return self;
+}();
+
 // Random shared utilities that are used only by chromium things
 
 function registrationDone() {
