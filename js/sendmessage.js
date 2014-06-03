@@ -209,7 +209,20 @@ window.textsecure.messaging = function() {
 	}
 
 	self.closeSession = function(number) {
-		//TODO
+		var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+		for (i in devices)
+			textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
+
+		return new Promise(function(resolve, reject) {
+			var proto = new textsecure.protos.PushMessageContentProtobuf();
+			proto.flags = textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
+			sendMessageProto([number], proto, function(res) {
+				if (res.failure.length > 0)
+					reject(res.failure[0].error);
+				else
+					resolve();
+			});
+		});
 	}
 
 	return self;

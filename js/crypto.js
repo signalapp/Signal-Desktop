@@ -401,6 +401,15 @@ window.textsecure.crypto = function() {
 		session.indexInfo.closed = new Date().getTime();
 	}
 
+	self.closeOpenSessionForDevice = function(encodedNumber) {
+		var session = crypto_storage.getOpenSession(encodedNumber);
+		if (session === undefined)
+			return;
+
+		closeSession(session);
+		crypto_storage.saveSession(encodedNumber, session);
+	}
+
 	var initSessionFromPreKeyWhisperMessage;
 	var decryptWhisperMessage;
 	var handlePreKeyWhisperMessage = function(from, encodedMessage) {
@@ -570,7 +579,8 @@ window.textsecure.crypto = function() {
 
 							var finalMessage = textsecure.protos.decodePushMessageContentProtobuf(getString(plaintext));
 
-							if ((finalMessage.flags & 1) == 1) // END_SESSION
+							if ((finalMessage.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 								closeSession(session);
 
 							crypto_storage.saveSession(encodedNumber, session, registrationId);
