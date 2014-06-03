@@ -33,7 +33,8 @@ textsecure.api.sendMessages = function(destination, messageArray) {
 				msg.destinationRegistrationId === undefined ||
 				msg.body === undefined ||
 				msg.timestamp == undefined ||
-				msg.relay !== undefined)
+				msg.relay !== undefined ||
+				msg.destination !== undefined)
 			throw new Error("Invalid message");
 
 		messagesSentMap[destination + "." + messageArray[i].destinationDeviceId] = msg;

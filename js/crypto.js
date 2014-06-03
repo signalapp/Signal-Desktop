@@ -619,18 +619,38 @@ window.textsecure.crypto = function() {
 		});
 	};
 
+	self.encryptAttachment = function(plaintext, keys, iv) {
+		var aes_key = keys.slice(0, 32);
+		var mac_key = keys.slice(32, 64);
+
+		return window.crypto.subtle.encrypt({name: "AES-CBC", iv: iv}, aes_key, plaintext).then(function(ciphertext) {
+			var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
+			ivAndCiphertext.set(iv);
+			ivAndCiphertext.set(ciphertext, 16);
+
+			return calculateMAC(ivAndCiphertext.buffer, mac_key).then(function(mac) {
+				var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
+				encryptedBin.set(ivAndCiphertext.buffer);
+				encryptedBin.set(mac, 16 + ciphertext.byteLength);
+				return encryptedBin.buffer;
+			});
+		});
+	};
+
 	self.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
-		case 0: //TYPE_MESSAGE_PLAINTEXT
+		case textsecure.protos.IncomingPushMessageProtobuf.Type.PLAINTEXT:
 			return Promise.resolve(textsecure.protos.decodePushMessageContentProtobuf(getString(proto.message)));
-		case 1: //TYPE_MESSAGE_CIPHERTEXT
+		case textsecure.protos.IncomingPushMessageProtobuf.Type.CIPHERTEXT:
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return decryptWhisperMessage(from, getString(proto.message));
-		case 3: //TYPE_MESSAGE_PREKEY_BUNDLE
+		case textsecure.protos.IncomingPushMessageProtobuf.Type.PREKEY_BUNDLE:
 			if (proto.message.readUint8() != (2 << 4 | 2))
 				throw new Error("Bad version byte");
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return handlePreKeyWhisperMessage(from, getString(proto.message));
+		default:
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
 		}
 	}
 

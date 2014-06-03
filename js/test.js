@@ -114,7 +114,7 @@ textsecure.registerOnLoadFunction(function() {
 
 		var text_message = new PushMessageProto();
 		text_message.body = "Hi Mom";
-		var server_message = {type: 0, // unencrypted
+		var server_message = {type: 4, // unencrypted
 						source: "+19999999999", timestamp: 42, message: text_message.encode() };
 
 		return textsecure.crypto.handleIncomingPushMessageProto(server_message).then(function(message) {
@@ -367,28 +367,20 @@ textsecure.registerOnLoadFunction(function() {
 					if (data.getKeys !== undefined)
 						getKeysForNumberMap[remoteNumber] = data.getKeys;
 
-					var message = new textsecure.protos.PushMessageContentProtobuf();
-					message.body = data.smsText;
-
-					return new Promise(function(resolve) {
-						textsecure.sendMessage([remoteNumber], message, function(res) {
-							if (res.failure.length != 0 || res.success.length != 1 || res.success[0] != remoteNumber)
-								return resolve(false);
-
-							var msg = messagesSentMap[remoteNumber + "." + 0];
-							delete messagesSentMap[remoteNumber + "." + 0];
-							//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
-							if (msg.type == 1) {
-								var expectedString = getString(data.expectedCiphertext);
-								var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
-								var result = getString(msg.body);
-								resolve(getString(decoded.encode()) == result.substring(1, result.length - 8));
-							} else {
-								var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
-								var result = getString(msg.body).substring(1);
-								resolve(getString(decoded.encode()) == result);
-							}
-						});
+					return textsecure.messaging.sendMessageToNumber(remoteNumber, data.smsText, []).then(function() {
+						var msg = messagesSentMap[remoteNumber + "." + 0];
+						delete messagesSentMap[remoteNumber + "." + 0];
+						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
+						if (msg.type == 1) {
+							var expectedString = getString(data.expectedCiphertext);
+							var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expectedString.substring(1, expectedString.length - 8));
+							var result = getString(msg.body);
+							return getString(decoded.encode()) == result.substring(1, result.length - 8);
+						} else {
+							var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
+							var result = getString(msg.body).substring(1);
+							return getString(decoded.encode()) == result;
+						}
 					});
 				}
 

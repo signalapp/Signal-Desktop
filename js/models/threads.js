@@ -13,27 +13,26 @@ var Whisper = Whisper || {};
     },
 
     validate: function(attributes, options) {
-      var required = ['id', 'type', 'recipients', 'timestamp', 'image', 'name'];
+      var required = ['id', 'type', 'timestamp', 'image', 'name'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
       if (missing.length) { return "Thread must have " + missing; }
-      if (attributes.recipients.length === 0) {
-        return "No recipients for thread " + this.id;
-      }
-      for (var person in attributes.recipients) {
-        if (!person) return "Invalid recipient";
-      }
     },
 
     sendMessage: function(message) {
-      return new Promise(function(resolve) {
-        var m = Whisper.Messages.addOutgoingMessage(message, this);
-        textsecure.sendMessage(this.get('recipients'), m.toProto(),
-          function(result) {
-            console.log(result);
-            resolve();
-          }
-        );
-      }.bind(this));
+      var m = Whisper.Messages.addOutgoingMessage(message, this);
+      if (this.get('type') == 'private')
+        var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, []);
+      else
+        var promise = textsecure.messaging.sendMessageToGroup(this.get('id'), message, []);
+      promise.then(
+        function(result) {
+          console.log(result);
+        }
+      ).catch(
+        function(error) {
+          console.log(error);
+        }
+      );
     },
 
     messages: function() {
@@ -51,23 +50,13 @@ var Whisper = Whisper || {};
       return thread;
     },
 
-    findOrCreateForRecipients: function(recipients) {
+    findOrCreateForRecipient: function(recipient) {
       var attributes = {};
-      if (recipients.length > 1) {
-        attributes = {
-          //TODO group id formatting?
-          name       : recipients,
-          recipients : recipients,
-          type       : 'group',
-        };
-      } else {
-        attributes = {
-          id         : recipients[0],
-          name       : recipients[0],
-          recipients : recipients,
-          type       : 'private',
-        };
-      }
+	  attributes = {
+	    id        : recipient,
+	    name      : recipient,
+	    type      : 'private',
+	  };
       return this.findOrCreate(attributes);
     },
 
@@ -77,14 +66,12 @@ var Whisper = Whisper || {};
         attributes = {
           id         : decrypted.message.group.id,
           name       : decrypted.message.group.name,
-          recipients : decrypted.message.group.members,
           type       : 'group',
         };
       } else {
         attributes = {
           id         : decrypted.pushMessage.source,
           name       : decrypted.pushMessage.source,
-          recipients : [decrypted.pushMessage.source],
           type       : 'private'
         };
       }

@@ -226,6 +226,40 @@ window.textsecure.api = function() {
 		});
 	};
 
+	self.putAttachment = function(encryptedBin) {
+		return doAjax({
+			call				: 'attachment',
+			httpType			: 'GET',
+			do_auth				: true,
+		}).then(function(response) {
+			return new Promise(function(resolve, reject) {
+				$.ajax(response.location, {
+					type		: "PUT",
+					headers: {
+						"Content-Type": "application/octet-stream"
+					},
+					data: encryptedBin,
+
+					success		: function() {
+										resolve(response.id);
+									},
+
+					error		: function(jqXHR, textStatus, errorThrown) {
+										var code = jqXHR.status;
+										if (code > 999 || code < 100)
+											code = -1;
+
+										var e = new Error(code);
+										e.name = "HTTPError";
+										if (jqXHR.responseJSON)
+											e.response = jqXHR.responseJSON;
+										reject(e);
+									}
+				});
+			});
+		});
+	};
+
 	self.getWebsocket = function() {
 		var user = textsecure.storage.getUnencrypted("number_id");
 		var password = textsecure.storage.getEncrypted("password");

@@ -51,7 +51,7 @@ var Whisper = Whisper || {};
         numbers = _.filter(numbers, _.identity); // rm undefined, null, "", etc...
         if (numbers.length) {
           $('#send').hide();
-          Whisper.Threads.findOrCreateForRecipients(numbers).trigger('select');
+          Whisper.Threads.findOrCreateForRecipient(numbers).trigger('select');
         } else {
           Whisper.notify('recipient missing or invalid');
           $('#send input[type=text]').focus();

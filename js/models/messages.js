@@ -10,10 +10,6 @@ var Whisper = Whisper || {};
       if (missing.length) { return "Message must have " + missing; }
     },
 
-    toProto: function() {
-      return new textsecure.protos.PushMessageContentProtobuf({body: this.get('body')});
-    },
-
     thread: function() {
       return Whisper.Threads.get(this.get('threadId'));
     }
