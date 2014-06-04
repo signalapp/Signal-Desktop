@@ -53,7 +53,6 @@ var Whisper = Whisper || {};
         timestamp: new Date().getTime()
       });
       m.save();
-      thread.trigger('message', m);
       return m;
     }
   }))();
