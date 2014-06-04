@@ -7,7 +7,7 @@ var Whisper = Whisper || {};
     validate: function(attributes, options) {
       var required = ['body', 'timestamp', 'threadId'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
-      if (missing.length) { return "Message must have " + missing; }
+      if (missing.length) { console.log("Message missing attributes: " + missing); }
     },
 
     thread: function() {
@@ -33,7 +33,7 @@ var Whisper = Whisper || {};
         body: decrypted.message.body,
         attachments: attachments,
         type: 'incoming',
-        timestamp: decrypted.message.timestamp
+        timestamp: decrypted.pushMessage.timestamp
       });
       m.save();
 
@@ -42,7 +42,6 @@ var Whisper = Whisper || {};
         thread.set('unreadCount', thread.get('unreadCount') + 1);
         thread.save();
       }
-      thread.trigger('message', m);
       return m;
     },
 

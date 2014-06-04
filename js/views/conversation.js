@@ -34,6 +34,7 @@ var Whisper = Whisper || {};
       this.listenTo(this.model, 'message', this.addMessage); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
       this.listenTo(this.model, 'select', this.open);
+      this.listenTo(Whisper.Messages, 'reset', this.addAllMessages); // auto update
 
       this.$el.addClass('closed');
       this.$destroy = (new destroyer({model: this.model})).$el;
@@ -51,7 +52,6 @@ var Whisper = Whisper || {};
       this.$collapsable.append(this.$messages, this.$form);
 
       this.$el.append(this.$destroy, this.$header, this.$collapsable);
-      this.addAllMessages();
 
       this.$form.submit(function(input,thread){ return function(e) {
         if (!input.val().length) { return false; }

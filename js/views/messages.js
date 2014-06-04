@@ -14,13 +14,14 @@ var Whisper = Whisper || {};
       this.listenTo(this.threads, 'add', this.addThread);
       this.listenTo(this.threads, 'reset', this.addAll);
       this.listenTo(this.threads, 'all', this.render);
+      this.listenTo(Whisper.Messages, 'add', this.addMessage);
 
       // Suppresses 'add' events with {reset: true} and prevents the app view
       // from being re-rendered for every model. Only renders when the 'reset'
       // event is triggered at the end of the fetch.
       //this.messages.threads({reset: true});
-      Whisper.Messages.fetch();
       Whisper.Threads.fetch({reset: true});
+      Whisper.Messages.fetch();
 
       this.$el.appendTo($('#inbox'));
 
@@ -69,5 +70,9 @@ var Whisper = Whisper || {};
       this.$el.html('');
       this.threads.each(this.addThread, this);
     },
+
+    addMessage: function(message) {
+      message.thread().trigger('message', message);
+    }
   }))();
 })();
