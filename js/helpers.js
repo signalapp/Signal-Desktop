@@ -431,6 +431,21 @@ window.textsecure.storage = function() {
 			return group.numbers;
 		}
 
+		self.removeNumber = function(groupId, number) {
+			var group = textsecure.storage.getEncrypted("group" + groupId);
+			if (group === undefined)
+				return undefined;
+
+			for (i in group.numbers)
+				if (group.numbers[i] == number) {
+					group.numbers.slice(i, 1);
+					break;
+				}
+
+			textsecure.storage.putEncrypted("group" + groupId, group);
+			return group.numbers;
+		}
+
 		self.addNumber = function(groupId, number) {
 			var group = textsecure.storage.getEncrypted("group" + groupId);
 			if (group === undefined)
@@ -441,6 +456,19 @@ window.textsecure.storage = function() {
 					return group.numbers;
 
 			group.numbers.push(number);
+			textsecure.storage.putEncrypted("group" + groupId, group);
+			return group.numbers;
+		}
+
+		self.addNumbers = function(groupId, numbers) {
+			var group = textsecure.storage.getEncrypted("group" + groupId);
+			if (group === undefined)
+				return undefined;
+
+			for (i in numbers)
+				if (group.numbers.indexOf(numbers[i]) < 0)
+					group.numbers.push(numbers[i]);
+
 			textsecure.storage.putEncrypted("group" + groupId, group);
 			return group.numbers;
 		}
@@ -597,8 +625,49 @@ window.textsecure.subscribeToPush = function() {
 						};
 
 						var promises = [];
-						for (var i = 0; i < decrypted.attachments.length; i++)
-							promises[i] = handleAttachment(decrypted.attachments[i]);
+
+						if (decrypted.group !== null) {
+							var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
+							if (existingGroup === undefined) {
+								if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE)
+									throw new Error("Got message for unknown group");
+								textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
+							} else {
+								var fromIndex = -1;
+								for (i in existingGroup)
+									if (existingGroup[i] == proto.source)
+										fromIndex = i;
+
+								if (fromIndex == -1) //TODO: This could be indication of a race...
+									throw new Error("Sender was not a member of the group they were sending from");
+
+								switch(decrypted.group.type) {
+								case textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE:
+									if (decrypted.group.avatar !== null)
+										promises.push(handleAttachment(decrypted.group.avatar));
+
+									if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
+										throw new Error("Attempted to remove numbers from group with an UPDATE");
+									decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
+
+									var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
+									if (newGroup.length != decrypted.group.members.length ||
+												newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
+										throw new Error("Error calculating group member difference");
+									break;
+								case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
+									break;
+								case textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT:
+									textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+									break;
+								default:
+									throw new Error("Unknown group message type");
+								}
+							}
+						}
+
+						for (i in decrypted.attachments)
+							promises.push(handleAttachment(decrypted.attachments[i]));
 						return Promise.all(promises).then(function() {
 							message_callback({pushMessage: proto, message: decrypted});
 						});

@@ -216,6 +216,8 @@ window.textsecure.messaging = function() {
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		if (numbers === undefined)
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		proto.group.members = numbers;
 
 		var promises = [];
@@ -250,6 +252,8 @@ window.textsecure.messaging = function() {
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
 
 		var numbers = textsecure.storage.groups.addNumber(groupId, number);
+		if (numbers === undefined)
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		proto.group.members = numbers;
 
 		return sendGroupProto(numbers, proto);
@@ -263,6 +267,8 @@ window.textsecure.messaging = function() {
 		proto.group.name = name;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		if (numbers === undefined)
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		proto.group.members = numbers;
 
 		return sendGroupProto(numbers, proto);
@@ -275,6 +281,8 @@ window.textsecure.messaging = function() {
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		if (numbers === undefined)
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		proto.group.members = numbers;
 
 		return makeAttachmentPointer(avatar).then(function(attachment) {
@@ -290,6 +298,8 @@ window.textsecure.messaging = function() {
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		if (numbers === undefined)
+			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		textsecure.storage.groups.deleteGroup(groupId);
 
 		return sendGroupProto(numbers, proto);
