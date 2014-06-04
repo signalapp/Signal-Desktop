@@ -163,48 +163,38 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	self.sendMessageToNumber = function(number, messageText, attachments) {
+	var sendIndividualProto = function(number, proto) {
 		return new Promise(function(resolve, reject) {
-			var proto = new textsecure.protos.PushMessageContentProtobuf();
-			proto.body = messageText;
-
-			var promises = [];
-			for (i in attachments)
-				promises.push(makeAttachmentPointer(attachments[i]));
-			Promise.all(promises).then(function(attachmentsArray) {
-				proto.attachments = attachmentsArray;
-				sendMessageProto([number], proto, function(res) {
-					if (res.failure.length > 0)
-						reject(res.failure[0].error);
-					else
-						resolve();
-				});
+			sendMessageProto([number], proto, function(res) {
+				if (res.failure.length > 0)
+					reject(res.failure[0].error);
+				else
+					resolve();
 			});
 		});
 	}
 
-	self.sendMessageToGroup = function(groupId, messageText, attachments) {
+	var sendGroupProto = function(numbers, proto) {
 		return new Promise(function(resolve, reject) {
-			var proto = new textsecure.protos.PushMessageContentProtobuf();
-			proto.body = messageText;
-			proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-			proto.group.id = groupId;
-			proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER;
-
-			var numbers = textsecure.storage.groups.getNumbers(groupId);
-
-			var promises = [];
-			for (i in attachments)
-				promises.push(makeAttachmentPointer(attachments[i]));
-			Promise.all(promises).then(function(attachmentsArray) {
-				proto.attachments = attachmentsArray;
-				sendMessageProto(numbers, proto, function(res) {
-					if (res.failure.length > 0) {
-						reject(res.failure);
-					} else
-						resolve();
-				});
+			sendMessageProto(numbers, proto, function(res) {
+				if (res.failure.length > 0)
+					reject(res.failure);
+				else
+					resolve();
 			});
+		});
+	}
+
+	self.sendMessageToNumber = function(number, messageText, attachments) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.body = messageText;
+
+		var promises = [];
+		for (i in attachments)
+			promises.push(makeAttachmentPointer(attachments[i]));
+		return Promise.all(promises).then(function(attachmentsArray) {
+			proto.attachments = attachmentsArray;
+			return sendIndividualProto(number, proto);
 		});
 	}
 
@@ -213,16 +203,96 @@ window.textsecure.messaging = function() {
 		for (i in devices)
 			textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
 
-		return new Promise(function(resolve, reject) {
-			var proto = new textsecure.protos.PushMessageContentProtobuf();
-			proto.flags = textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
-			sendMessageProto([number], proto, function(res) {
-				if (res.failure.length > 0)
-					reject(res.failure[0].error);
-				else
-					resolve();
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.flags = textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
+		return sendIndividualProto(number, proto);
+	}
+
+	self.sendMessageToGroup = function(groupId, messageText, attachments) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.body = messageText;
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = groupId;
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER;
+
+		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		proto.group.members = numbers;
+
+		var promises = [];
+		for (i in attachments)
+			promises.push(makeAttachmentPointer(attachments[i]));
+		return Promise.all(promises).then(function(attachmentsArray) {
+			proto.attachments = attachmentsArray;
+			return sendGroupProto(numbers, proto);
+		});
+	}
+
+	self.createGroup = function(numbers, name, avatar) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = textsecure.storage.groups.createNewGroup(numbers);
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
+		proto.group.members = numbers;
+		proto.group.name = name;
+
+		return makeAttachmentPointer(avatar).then(function(attachment) {
+			proto.group.avatar = attachment;
+			return sendGroupProto(numbers, proto).then(function() {
+				return proto.group.id;
 			});
 		});
+	}
+
+	self.addNumberToGroup = function(groupId, number) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = groupId;
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
+
+		var numbers = textsecure.storage.groups.addNumber(groupId, number);
+		proto.group.members = numbers;
+
+		return sendGroupProto(numbers, proto);
+	}
+
+	self.setGroupName = function(groupId, name) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = groupId;
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
+		proto.group.name = name;
+
+		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		proto.group.members = numbers;
+
+		return sendGroupProto(numbers, proto);
+	}
+
+	self.setGroupAvatar = function(groupId, avatar) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = groupId;
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
+
+		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		proto.group.members = numbers;
+
+		return makeAttachmentPointer(avatar).then(function(attachment) {
+			proto.group.avatar = attachment;
+			return sendGroupProto(numbers, proto);
+		});
+	}
+
+	self.leaveGroup = function(groupId) {
+		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+		proto.group.id = groupId;
+		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT;
+
+		var numbers = textsecure.storage.groups.getNumbers(groupId);
+		textsecure.storage.groups.deleteGroup(groupId);
+
+		return sendGroupProto(numbers, proto);
 	}
 
 	return self;

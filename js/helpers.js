@@ -412,10 +412,41 @@ window.textsecure.storage = function() {
 	self.groups = function() {
 		var self = {};
 
-		//TODO
+		self.createNewGroup = function(numbers, groupId) {
+			if (groupId === undefined) {
+				while (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+					groupId = new Uint32Array(textsecure.crypto.getRandomBytes(4))[0];
+			}
+
+			textsecure.storage.putEncrypted("group" + groupId, {numbers: numbers});
+
+			return groupId;
+		}
 
 		self.getNumbers = function(groupId) {
-			return [];
+			var group = textsecure.storage.getEncrypted("group" + groupId);
+			if (group === undefined)
+				return undefined;
+
+			return group.numbers;
+		}
+
+		self.addNumber = function(groupId, number) {
+			var group = textsecure.storage.getEncrypted("group" + groupId);
+			if (group === undefined)
+				return undefined;
+
+			for (i in group.numbers)
+				if (group.numbers[i] == number)
+					return group.numbers;
+
+			group.numbers.push(number);
+			textsecure.storage.putEncrypted("group" + groupId, group);
+			return group.numbers;
+		}
+
+		self.deleteGroup = function(groupId) {
+			textsecure.storage.removeEncrypted("group" + groupId);
 		}
 
 		return self;
