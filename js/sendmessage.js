@@ -175,6 +175,9 @@ window.textsecure.messaging = function() {
 	}
 
 	var sendGroupProto = function(numbers, proto) {
+		var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+		numbers = numbers.filter(function(number) { return number != me; });
+
 		return new Promise(function(resolve, reject) {
 			sendMessageProto(numbers, proto, function(res) {
 				if (res.failure.length > 0)
@@ -218,7 +221,6 @@ window.textsecure.messaging = function() {
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
 		if (numbers === undefined)
 			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
-		proto.group.members = numbers;
 
 		var promises = [];
 		for (i in attachments)
@@ -232,17 +234,27 @@ window.textsecure.messaging = function() {
 	self.createGroup = function(numbers, name, avatar) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = textsecure.storage.groups.createNewGroup(numbers);
+
+		var group = textsecure.storage.groups.createNewGroup(numbers);
+		proto.group.id = group.id;
+		numbers = group.numbers;
+
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
 		proto.group.members = numbers;
 		proto.group.name = name;
 
-		return makeAttachmentPointer(avatar).then(function(attachment) {
-			proto.group.avatar = attachment;
+		if (avatar !== undefined) {
+			return makeAttachmentPointer(avatar).then(function(attachment) {
+				proto.group.avatar = attachment;
+				return sendGroupProto(numbers, proto).then(function() {
+					return proto.group.id;
+				});
+			});
+		} else {
 			return sendGroupProto(numbers, proto).then(function() {
 				return proto.group.id;
 			});
-		});
+		}
 	}
 
 	self.addNumberToGroup = function(groupId, number) {

@@ -418,9 +418,23 @@ window.textsecure.storage = function() {
 					groupId = new Uint32Array(textsecure.crypto.getRandomBytes(4))[0];
 			}
 
-			textsecure.storage.putEncrypted("group" + groupId, {numbers: numbers});
+			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+			var haveMe = false;
+			var finalNumbers = [];
+			for (i in numbers) {
+				var number = textsecure.utils.verifyNumber(numbers[i]);
+				if (number == me)
+					haveMe = true;
+				if (finalNumbers.indexOf(number) < 0)
+					finalNumbers.push(number);
+			}
 
-			return groupId;
+			if (!haveMe)
+				finalNumbers.push(me);
+
+			textsecure.storage.putEncrypted("group" + groupId, {numbers: finalNumbers});
+
+			return {id: groupId, numbers: finalNumbers};
 		}
 
 		self.getNumbers = function(groupId) {
@@ -436,13 +450,22 @@ window.textsecure.storage = function() {
 			if (group === undefined)
 				return undefined;
 
-			for (i in group.numbers)
-				if (group.numbers[i] == number) {
-					group.numbers.slice(i, 1);
-					break;
-				}
+			try {
+				number = textsecure.utils.verifyNumber(number);
+			} catch (e) {
+				return group.numbers;
+			}
 
-			textsecure.storage.putEncrypted("group" + groupId, group);
+			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+			if (number == me)
+				throw new Error("Cannot remove ourselves from a group, leave the group instead");
+
+			var i = group.numbers.indexOf(number);
+			if (i > -1) {
+				group.numbers.slice(i, 1);
+				textsecure.storage.putEncrypted("group" + groupId, group);
+			}
+
 			return group.numbers;
 		}
 
@@ -451,12 +474,13 @@ window.textsecure.storage = function() {
 			if (group === undefined)
 				return undefined;
 
-			for (i in group.numbers)
-				if (group.numbers[i] == number)
-					return group.numbers;
+			if (group.numbers.indexOf(number) > -1)
+				return group.numbers;
 
+			number = textsecure.utils.verifyNumber(number);
 			group.numbers.push(number);
 			textsecure.storage.putEncrypted("group" + groupId, group);
+
 			return group.numbers;
 		}
 
@@ -465,9 +489,11 @@ window.textsecure.storage = function() {
 			if (group === undefined)
 				return undefined;
 
-			for (i in numbers)
-				if (group.numbers.indexOf(numbers[i]) < 0)
-					group.numbers.push(numbers[i]);
+			for (i in numbers) {
+				var number = textsecure.utils.verifyNumber(numbers[i]);
+				if (group.numbers.indexOf(number) < 0)
+					group.numbers.push(number);
+			}
 
 			textsecure.storage.putEncrypted("group" + groupId, group);
 			return group.numbers;
@@ -616,6 +642,16 @@ window.textsecure.subscribeToPush = function() {
 					console.log("Successfully decoded message with id: " + message.id);
 					socket.send(JSON.stringify({type: 1, id: message.id}));
 					return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+						// Now that its decrypted, validate the message and clean it up for consumer processing
+						// Note that messages may (generally) only perform one action and we ignore remaining fields
+						// after the first action.
+
+						if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+							return;
+						if (decrypted.flags != 0)
+							throw new Error("Unknown flags in message");
+
 						var handleAttachment = function(attachment) {
 							return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
 								return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
@@ -633,12 +669,9 @@ window.textsecure.subscribeToPush = function() {
 									throw new Error("Got message for unknown group");
 								textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
 							} else {
-								var fromIndex = -1;
-								for (i in existingGroup)
-									if (existingGroup[i] == proto.source)
-										fromIndex = i;
+								var fromIndex = existingGroup.indexOf(proto.source);
 
-								if (fromIndex == -1) //TODO: This could be indication of a race...
+								if (fromIndex < 0) //TODO: This could be indication of a race...
 									throw new Error("Sender was not a member of the group they were sending from");
 
 								switch(decrypted.group.type) {
@@ -654,11 +687,21 @@ window.textsecure.subscribeToPush = function() {
 									if (newGroup.length != decrypted.group.members.length ||
 												newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
 										throw new Error("Error calculating group member difference");
-									break;
-								case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
+
+									decrypted.body = null;
+									decrypted.attachments = [];
+
 									break;
 								case textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT:
 									textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+
+									decrypted.body = null;
+									decrypted.attachments = [];
+								case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
+									decrypted.group.name = null;
+									decrypted.group.members = [];
+									decrypted.group.avatar = null;
+
 									break;
 								default:
 									throw new Error("Unknown group message type");
