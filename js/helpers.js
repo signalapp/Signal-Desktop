@@ -15,7 +15,7 @@
  */
 
 /* START CRAP TO BE DELETED */
-//TODO: Stolen from MDN (copyright...)
+//Stolen from MDN (TODO: replace with something else so we arent infringing their copyright)
 function b64ToUint6 (nChr) {
 
   return nChr > 64 && nChr < 91 ?
