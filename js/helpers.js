@@ -430,6 +430,10 @@ window.textsecure.storage = function() {
 				textsecure.storage.putEncrypted("groupMembership" + number, membership);
 		}
 
+		self.getGroupListForNumber = function(number) {
+			return textsecure.storage.getEncrypted("groupMembership" + number, []);
+		}
+
 		self.createNewGroup = function(numbers, groupId) {
 			if (groupId === undefined) {
 				while (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
@@ -491,22 +495,6 @@ window.textsecure.storage = function() {
 			return group.numbers;
 		}
 
-		self.addNumber = function(groupId, number) {
-			var group = textsecure.storage.getEncrypted("group" + groupId);
-			if (group === undefined)
-				return undefined;
-
-			if (group.numbers.indexOf(number) > -1)
-				return group.numbers;
-
-			number = textsecure.utils.verifyNumber(number);
-			group.numbers.push(number);
-			addGroupToNumber(groupId, number);
-			textsecure.storage.putEncrypted("group" + groupId, group);
-
-			return group.numbers;
-		}
-
 		self.addNumbers = function(groupId, numbers) {
 			var group = textsecure.storage.getEncrypted("group" + groupId);
 			if (group === undefined)
@@ -514,8 +502,10 @@ window.textsecure.storage = function() {
 
 			for (i in numbers) {
 				var number = textsecure.utils.verifyNumber(numbers[i]);
-				if (group.numbers.indexOf(number) < 0)
+				if (group.numbers.indexOf(number) < 0) {
 					group.numbers.push(number);
+					addGroupToNumber(groupId, number);
+				}
 			}
 
 			textsecure.storage.putEncrypted("group" + groupId, group);
@@ -524,6 +514,14 @@ window.textsecure.storage = function() {
 
 		self.deleteGroup = function(groupId) {
 			textsecure.storage.removeEncrypted("group" + groupId);
+		}
+
+		self.getGroup = function(groupId) {
+			var group = textsecure.storage.getEncrypted("group" + groupId);
+			if (group === undefined)
+				return undefined;
+
+			return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
 		}
 
 		return self;

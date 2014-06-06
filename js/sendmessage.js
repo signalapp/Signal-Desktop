@@ -63,11 +63,40 @@ window.textsecure.messaging = function() {
 		});
 	}
 
+	var sendGroupProto;
+	var makeAttachmentPointer;
+	var refreshGroups = function(number) {
+		var groups = textsecure.storage.groups.getGroupListForNumber(number);
+		var promises = [];
+		for (i in groups) {
+			var group = textsecure.storage.groups.getGroup(groups[i]);
+
+			var proto = new textsecure.protos.PushMessageContentProtobuf();
+			proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
+
+			proto.group.id = group.id;
+			proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
+			proto.group.members = group.numbers;
+			proto.group.name = group.name === undefined ? null : group.name;
+
+			if (group.avatar !== undefined) {
+				return makeAttachmentPointer(group.avatar).then(function(attachment) {
+					proto.group.avatar = attachment;
+					promises.push(sendGroupProto([number], proto));
+				});
+			} else {
+				promises.push(sendGroupProto([number], proto));
+			}
+		}
+		return Promise.all(promises);
+	}
+
 	var tryMessageAgain = function(number, encodedMessage, callback) {
 		//TODO: Wipe identity key!
-		//TODO: refresh groups
-		var message = textsecure.protos.decodePushMessageContentProtobuf(encodedMessage);
-		textsecure.sendMessage([number], message, callback);
+		refreshGroups(number).then(function() {
+			var message = textsecure.protos.decodePushMessageContentProtobuf(encodedMessage);
+			textsecure.sendMessage([number], message, callback);
+		});
 	}
 	textsecure.replay.registerReplayFunction(tryMessageAgain, textsecure.replay.SEND_MESSAGE);
 
@@ -95,8 +124,9 @@ window.textsecure.messaging = function() {
 				var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 				if (devicesForNumber.length == 0)
 					return registerError(number, "Go empty device list when loading device keys", null);
-				//TODO: Refresh groups
-				doSendMessage(number, devicesForNumber, recurse);
+				refreshGroups(number).then(function() {
+					doSendMessage(number, devicesForNumber, recurse);
+				});
 			}
 		}
 
@@ -144,7 +174,7 @@ window.textsecure.messaging = function() {
 		}
 	}
 
-	var makeAttachmentPointer = function(attachment) {
+	makeAttachmentPointer = function(attachment) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf.AttachmentPointer();
 		proto.key = textsecure.crypto.getRandomBytes(64);
 
@@ -169,7 +199,7 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	var sendGroupProto = function(numbers, proto) {
+	sendGroupProto = function(numbers, proto) {
 		var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
 		numbers = numbers.filter(function(number) { return number != me; });
 
@@ -232,7 +262,7 @@ window.textsecure.messaging = function() {
 
 		var group = textsecure.storage.groups.createNewGroup(numbers);
 		proto.group.id = group.id;
-		numbers = group.numbers;
+		var numbers = group.numbers;
 
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
 		proto.group.members = numbers;
@@ -258,7 +288,7 @@ window.textsecure.messaging = function() {
 		proto.group.id = groupId;
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE;
 
-		var numbers = textsecure.storage.groups.addNumber(groupId, number);
+		var numbers = textsecure.storage.groups.addNumbers(groupId, [number]);
 		if (numbers === undefined)
 			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 		proto.group.members = numbers;
