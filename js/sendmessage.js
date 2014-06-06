@@ -10,13 +10,7 @@ window.textsecure.messaging = function() {
 					throw new Error("Identity key not consistent");
 
 			for (i in response) {
-				var updateDevice = (updateDevices === undefined);
-				if (!updateDevice)
-					for (j in updateDevices)
-						if (updateDevices[j] == response[i].deviceId)
-							updateDevice = true;
-
-				if (updateDevice)
+				if (updateDevices === undefined || updateDevices.indexOf(response[i].deviceId) > -1)
 					textsecure.storage.devices.saveDeviceObject({
 						encodedNumber: number + "." + response[i].deviceId,
 						identityKey: response[i].identityKey,
@@ -71,6 +65,7 @@ window.textsecure.messaging = function() {
 
 	var tryMessageAgain = function(number, encodedMessage, callback) {
 		//TODO: Wipe identity key!
+		//TODO: refresh groups
 		var message = textsecure.protos.decodePushMessageContentProtobuf(encodedMessage);
 		textsecure.sendMessage([number], message, callback);
 	}
@@ -99,9 +94,9 @@ window.textsecure.messaging = function() {
 			return function() {
 				var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 				if (devicesForNumber.length == 0)
-					registerError(number, "Go empty device list when loading device keys", null);
-				else
-					doSendMessage(number, devicesForNumber, recurse);
+					return registerError(number, "Go empty device list when loading device keys", null);
+				//TODO: Refresh groups
+				doSendMessage(number, devicesForNumber, recurse);
 			}
 		}
 

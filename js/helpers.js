@@ -215,6 +215,8 @@ window.textsecure.utils = function() {
 		return isNumeric(countryCode) && countryCode.length < 4 && countryCode.length > 0;
 	}
 
+	// Verifies a number (possibly tweaking its format)
+	// This should be used ONLY to verify numbers provided by the user
 	self.verifyNumber = function(number, countryCode) {
 		//XXX: All verifyNumber stuff needs to match the server-side verification
 		var countryCodeValid = true;
@@ -412,11 +414,28 @@ window.textsecure.storage = function() {
 	self.groups = function() {
 		var self = {};
 
+		var addGroupToNumber = function(groupId, number) {
+			var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
+			if (membership.indexOf(groupId) < 0)
+				membership.push(groupId);
+			textsecure.storage.putEncrypted("groupMembership" + number, membership);
+		}
+
+		var removeGroupFromNumber = function(groupId, number) {
+			var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
+			membership = membership.filter(function(group) { return group != groupId; });
+			if (membership.length == 0)
+				textsecure.storage.removeEncrypted("groupMembership" + number);
+			else
+				textsecure.storage.putEncrypted("groupMembership" + number, membership);
+		}
+
 		self.createNewGroup = function(numbers, groupId) {
 			if (groupId === undefined) {
 				while (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
 					groupId = new Uint32Array(textsecure.crypto.getRandomBytes(4))[0];
-			}
+			} else if (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+				throw new Error("Tried to recreate group");
 
 			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
 			var haveMe = false;
@@ -425,8 +444,10 @@ window.textsecure.storage = function() {
 				var number = textsecure.utils.verifyNumber(numbers[i]);
 				if (number == me)
 					haveMe = true;
-				if (finalNumbers.indexOf(number) < 0)
+				if (finalNumbers.indexOf(number) < 0) {
 					finalNumbers.push(number);
+					addGroupToNumber(groupId, number);
+				}
 			}
 
 			if (!haveMe)
@@ -464,6 +485,7 @@ window.textsecure.storage = function() {
 			if (i > -1) {
 				group.numbers.slice(i, 1);
 				textsecure.storage.putEncrypted("group" + groupId, group);
+				removeGroupFromNumber(groupId, number);
 			}
 
 			return group.numbers;
@@ -479,6 +501,7 @@ window.textsecure.storage = function() {
 
 			number = textsecure.utils.verifyNumber(number);
 			group.numbers.push(number);
+			addGroupToNumber(groupId, number);
 			textsecure.storage.putEncrypted("group" + groupId, group);
 
 			return group.numbers;
@@ -687,6 +710,12 @@ window.textsecure.subscribeToPush = function() {
 									if (newGroup.length != decrypted.group.members.length ||
 												newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
 										throw new Error("Error calculating group member difference");
+
+									//TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
+									if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
+										return;
+
+									//TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
 
 									decrypted.body = null;
 									decrypted.attachments = [];
