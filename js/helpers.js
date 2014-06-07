@@ -235,7 +235,7 @@ window.textsecure.utils = function() {
 		if (!countryCodeValid || !numberValid)
 			throw { countryCodeValid: countryCodeValid, numberValid: numberValid };
 
-		return '+' + countryCode + number;
+		return '+' + ((countryCode!==undefined)?countryCode:"") + number;
 	}
 
 	self.unencodeNumber = function(number) {
