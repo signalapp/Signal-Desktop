@@ -3,7 +3,7 @@ var Whisper = Whisper || {};
 (function () {
   'use strict';
 
-  Whisper.ConversationListView = new (Backbone.View.extend({ // singleton
+  Whisper.ConversationListView = Backbone.View.extend({
 
     tagName: 'ul',
     id: 'conversations',
@@ -24,41 +24,6 @@ var Whisper = Whisper || {};
       Whisper.Messages.fetch();
 
       this.$el.appendTo($('#inbox'));
-
-      $('#send_link').click(function(e) {
-        $('#send').fadeIn().find('input[type=text]').focus();
-      });
-
-      $('#send').click(function() {
-        $('#send input[type=text]').focus();
-      });
-
-      $("#compose-cancel").click(function(e) {
-        $('#send').hide();
-        e.preventDefault();
-      });
-      $("#send").submit((function(e) {
-        e.preventDefault();
-        var numbers = [];
-        var splitString = $("#send_numbers").val().split(",");
-        for (var i = 0; i < splitString.length; i++) {
-          try {
-            numbers.push(textsecure.utils.verifyNumber(splitString[i]));
-          } catch (numberError) {
-            alert(numberError);
-          }
-        }
-        $("#send_numbers").val('');
-        numbers = _.filter(numbers, _.identity); // rm undefined, null, "", etc...
-        if (numbers.length) {
-          $('#send').hide();
-          Whisper.Threads.findOrCreateForRecipient(numbers).trigger('select');
-        } else {
-          Whisper.notify('recipient missing or invalid');
-          $('#send input[type=text]').focus();
-        }
-      }).bind(this));
-
     },
 
     addThread: function(thread) {
@@ -74,5 +39,5 @@ var Whisper = Whisper || {};
     addMessage: function(message) {
       message.thread().trigger('message', message);
     }
-  }))();
+  });
 })();
