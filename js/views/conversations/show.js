@@ -6,9 +6,11 @@ var Whisper = Whisper || {};
   var destroyer = Backbone.View.extend({
     tagName: 'button',
     className: 'btn btn-square btn-sm destroy',
+    events: {
+      'click': 'destroy'
+    },
     initialize: function() {
       this.$el.html('&times;');
-      this.$el.click(this.destroy.bind(this));
     },
 
     destroy: function() {
@@ -31,11 +33,14 @@ var Whisper = Whisper || {};
     tagName: 'li',
     className: 'conversation',
 
+    events: {
+      'click': 'toggle',
+      'submit form': 'sendMessage'
+    },
     initialize: function() {
       this.listenTo(this.model, 'change', this.render); // auto update
       this.listenTo(this.model, 'message', this.addMessage); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
-      this.listenTo(this.model, 'select', this.open);
       this.listenTo(Whisper.Messages, 'reset', this.addAllMessages); // auto update
 
       this.$el.addClass('closed');
@@ -54,42 +59,24 @@ var Whisper = Whisper || {};
       this.$collapsable.append(this.$messages, this.$form);
 
       this.$el.append(this.$destroy, this.$header, this.$collapsable);
-
-      this.$form.submit(function(input,thread){ return function(e) {
-        if (!input.val().length) { return false; }
-        thread.sendMessage(input.val());
-        input.val("");
-        e.preventDefault();
-      };}(this.$input, this.model));
-
-      this.$header.click(function(e) {
-        var $conversation = $(e.target).closest('.conversation');
-        if (!$conversation.hasClass('closed')) {
-          $conversation.addClass('closed');
-          $conversation.find('.collapsable').slideUp(600);
-          e.stopPropagation();
-        }
-      });
-
-      this.$button.click(function(button,input,thread){ return function(e) {
-        if (!input.val().length) { return false; }
-        button.attr("disabled", "disabled");
-        button.find('span').text("Sending");
-
-        thread.sendMessage(input.val()).then(function(){
-          button.removeAttr("disabled");
-          button.find('span').text("Send");
-        });
-
-        input.val("");
-      };}(this.$button, this.$input, this.model));
-
-      this.$el.click(this.open.bind(this));
     },
 
-	remove: function() {
-	  this.$el.remove();
-	},
+    sendMessage: function(e) {
+      if (!this.$input.val().length) { return false; }
+      this.model.sendMessage(this.$input.val());
+      this.$input.val("");
+      e.preventDefault();
+    },
+
+    remove: function() {
+      this.$el.remove();
+    },
+
+    close: function() {
+      if (!this.$el.hasClass('closed')) {
+        this.$el.addClass('closed').find('.collapsable').slideUp(600);
+      }
+    },
 
     open: function(e) {
       if (this.$el.hasClass('closed')) {
@@ -97,6 +84,14 @@ var Whisper = Whisper || {};
         this.$collapsable.slideDown(600);
       }
       this.$input.focus();
+    },
+
+    toggle: function() {
+      if (this.$el.hasClass('closed')) {
+        this.open();
+      } else {
+        this.close();
+      }
     },
 
     addMessage: function (message) {

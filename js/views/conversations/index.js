@@ -4,11 +4,10 @@ var Whisper = Whisper || {};
   'use strict';
 
   Whisper.ConversationListView = Backbone.View.extend({
-
     tagName: 'ul',
     id: 'conversations',
     initialize: function() {
-      this.views = [];
+      this.views = {};
       this.threads = Whisper.Threads;
       this.listenTo(this.threads, 'change:completed', this.render); // auto update
       this.listenTo(this.threads, 'add', this.addThread);
