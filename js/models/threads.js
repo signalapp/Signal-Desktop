@@ -1,3 +1,4 @@
+/* vim: ts=2:sw=2:expandtab: */
 var Whisper = Whisper || {};
 
 (function () {
@@ -20,10 +21,12 @@ var Whisper = Whisper || {};
 
     sendMessage: function(message) {
       var m = Whisper.Messages.addOutgoingMessage(message, this);
-      if (this.get('type') == 'private')
+      if (this.get('type') == 'private') {
         var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, []);
-      else
+      }
+      else {
         var promise = textsecure.messaging.sendMessageToGroup(this.get('id'), message, []);
+      }
       promise.then(
         function(result) {
           console.log(result);
@@ -54,11 +57,11 @@ var Whisper = Whisper || {};
 
     findOrCreateForRecipient: function(recipient) {
       var attributes = {};
-	  attributes = {
-	    id        : recipient,
-	    name      : recipient,
-	    type      : 'private',
-	  };
+      attributes = {
+        id        : recipient,
+        name      : recipient,
+        type      : 'private',
+      };
       return this.findOrCreate(attributes);
     },
 
