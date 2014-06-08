@@ -12,9 +12,10 @@ var Whisper = Whisper || {};
     },
 
     destroy: function() {
-
       this.model.messages().each(function(message) { message.destroy(); });
-      this.model.destroy();
+      this.model.set('active', false);
+      this.model.save();
+      this.model.trigger('destroy');
     }
   });
 

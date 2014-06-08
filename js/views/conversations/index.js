@@ -33,11 +33,15 @@ var Whisper = Whisper || {};
 
     addAll: function() {
       this.$el.html('');
-      this.threads.each(this.addThread, this);
+      _.each(this.threads.where({'active': true}), this.addThread, this);
     },
 
     addMessage: function(message) {
-      message.thread().trigger('message', message);
+      var thread = message.thread();
+      if (!_.has(this.views, thread.id)) {
+        this.addThread(thread);
+      }
+      thread.trigger('message', message);
     }
   });
 })();

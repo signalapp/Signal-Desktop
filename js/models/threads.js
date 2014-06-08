@@ -1,4 +1,4 @@
-/* vim: ts=2:sw=2:expandtab: */
+// vim: ts=2:sw=2:expandtab:
 var Whisper = Whisper || {};
 
 (function () {
@@ -9,7 +9,8 @@ var Whisper = Whisper || {};
       return {
         image: '/images/default.png',
         unreadCount: 0,
-        timestamp: new Date().getTime()
+        timestamp: new Date().getTime(),
+        active: true
       };
     },
 

@@ -46,10 +46,11 @@ var Whisper = Whisper || {};
       m.save();
 
       if (decrypted.message.timestamp > thread.get('timestamp')) {
-        thread.set({timestamp: decrypted.message.timestamp});
-        thread.set({unreadCount: thread.get('unreadCount') + 1});
-        thread.save();
+        thread.set('timestamp', decrypted.message.timestamp);
       }
+      thread.set('unreadCount', thread.get('unreadCount') + 1);
+      thread.set('active', true);
+      thread.save();
       return m;
     },
 
@@ -61,6 +62,11 @@ var Whisper = Whisper || {};
         timestamp: new Date().getTime()
       });
       m.save();
+
+      thread.set('timestamp', new Date().getTime());
+      thread.set('unreadCount', 0);
+      thread.set('active', true);
+      thread.save();
       return m;
     }
   }))();
