@@ -17,6 +17,8 @@
 window.textsecure = window.textsecure || {};
 
 window.textsecure.crypto = function() {
+	'use strict';
+
 	var self = {};
 	// functions exposed for replacement and direct calling in test code
 	var testing_only = {};
@@ -28,16 +30,12 @@ window.textsecure.crypto = function() {
 	var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
 
 	var getRandomBytes = function(size) {
-		//TODO: Better random (https://www.grc.com/r&d/js.htm?)
-		try {
-			var buffer = new ArrayBuffer(size);
-			var array = new Uint8Array(buffer);
-			window.crypto.getRandomValues(array);
-			return buffer;
-		} catch (err) {
-			//TODO: ummm...wat?
-			throw err;
-		}
+		// At some point we might consider XORing in hashes of random
+		// UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
+		// ie maybe take a look at how Gibson does it at https://www.grc.com/r&d/js.htm
+		var array = new Uint8Array(size);
+		window.crypto.getRandomValues(array);
+		return array.buffer;
 	}
 	self.getRandomBytes = getRandomBytes;
 
@@ -392,7 +390,9 @@ window.textsecure.crypto = function() {
 	var closeSession = function(session) {
 		// Clear any data which would allow session continuation:
 		// Lock down current receive ratchet
-		// TODO: Some kind of delete chainKey['key']
+		for (key in session)
+			if (key.chainKey !== undefined && key.chainKey.key !== undefined)
+				delete key.chainKey.key;
 		// Delete current sending ratchet
 		delete session[getString(session.currentRatchet.ephemeralKeyPair.pubKey)];
 		// Delete current root key and our ephemeral key pair
@@ -535,7 +535,7 @@ window.textsecure.crypto = function() {
 		var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
 		if (previousRatchet !== undefined) {
 			return fillMessageKeys(previousRatchet, previousCounter).then(function() {
-				delete previousRatchet.chainKey['key'];
+				delete previousRatchet.chainKey.key;
 				if (!objectContainsKeys(previousRatchet.messageKeys))
 					delete session[getString(ratchet.lastRemoteEphemeralKey)];
 				else
