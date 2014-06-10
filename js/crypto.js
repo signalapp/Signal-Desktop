@@ -353,7 +353,7 @@ window.textsecure.crypto = function() {
 
 					return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
 						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
-										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
+										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1, baseKey: theirEphemeralPubKey },
 										oldRatchetList: []
 									};
 
@@ -457,7 +457,6 @@ window.textsecure.crypto = function() {
 						.then(function(new_session) {
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
-			new_session.indexInfo.baseKey = message.baseKey;
 			return [new_session, open_session];
 		});;
 	}
