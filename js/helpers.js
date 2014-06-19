@@ -202,13 +202,18 @@ window.textsecure.utils = function() {
 		return string.replace(/\D/g, '') === string;
 	}
 
-	function splitPrefixedNumber(number) {
+	function validatePrefixedNumber(number) {
 		// number == "+CCNumber"
-		return [number.substr(1, 1), number.substr(2)]; //XXX
+		if (number.substr(0, 1) != '+')
+			return false;
+
+		number = number.substr(1);
+		return isNumeric(number) && number.length > 9 && number.length < 16;
 	}
 
 	function validateNumber(number, countryCode) {
-		return isNumeric(number) && number.length > 3 && number.length < 11; //XXX
+		return isNumeric(number) && (number.length + countryCode.length) > 9
+			&& (number.length + countryCode.length) < 16;
 	}
 
 	function validateCountryCode(countryCode) {
@@ -218,32 +223,19 @@ window.textsecure.utils = function() {
 	// Verifies a number (possibly tweaking its format)
 	// This should be used ONLY to verify numbers provided by the user
 	self.verifyNumber = function(number, countryCode) {
-		//XXX: All verifyNumber stuff needs to match the server-side verification
 		var countryCodeValid = true;
 		var numberValid = true;
 
-		if (number.substr(0, 1) == '+') {
-			if (countryCode === undefined) {
-				var numberCCPair = splitPrefixedNumber(number);
-				if (numberCCPair != null) {
-					countryCode = numberCCPair[0];
-					number = numberCCPair[1];
-				} else
-					numberValid = false;
-			} else
-				numberValid = false;
-		} else if (countryCode === undefined)
-			numberValid = false;
-
-		if (numberValid && !validateNumber(number, countryCode))
-			numberValid = false;
-		if (countryCode !== undefined)
+		if (countryCode !== undefined) {
 			countryCodeValid = validateCountryCode(countryCode);
+			numberValid = validateNumber(number, countryCode);
+		} else
+			numberValid = validatePrefixedNumber(number);
 
 		if (!countryCodeValid || !numberValid)
 			throw { countryCodeValid: countryCodeValid, numberValid: numberValid };
 
-		return '+' + countryCode + number;
+		return '+' + ((countryCode!==undefined)?countryCode:"") + number;
 	}
 
 	self.unencodeNumber = function(number) {
