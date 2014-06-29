@@ -16,24 +16,16 @@
 
 function updateNumberColors() {
 	try {
-		textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
+		if($('#number').val() != "" && $('#regionCode').val() != "")
+			textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
+		$('#countrycode').removeClass('invalid');
 		$('#number').removeClass('invalid');
-		$('#number').removeClass('invalid');
-	} catch (e) {
-		if (e.countryCodeValid)
-			$('#countrycode').removeClass('invalid');
-		else
-			$('#countrycode').addClass('invalid');
-
-		if (e.numberValid)
-			$('#number').removeClass('invalid');
-		else
-			$('#number').addClass('invalid');
+	} catch (numberInvalidError) {
+		console.log(numberInvalidError);
+		$('#countrycode').addClass('invalid');
+		$('#number').addClass('invalid');
 	}
 }
-
-$('#number').on('change', updateNumberColors);
-$('#countrycode').on('change', updateNumberColors);
 
 function isCodeValid() {
 	var code = $('#code');
@@ -50,9 +42,14 @@ $('#code').on('change', function() {
 var single_device = false;
 
 $('#init-go-single-client').click(function() {
-	var number = textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
+	try {
+		var parsedNumber = textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
+	} catch(e) {
+		alert("Please enter a valid phone number first.");
+		return false;
+	}
 
-	$('#init-go').html('Setup');
+	$('#init-go').text('Setup');
 	$('#countrycode').prop('disabled', 'disabled');
 	$('#number').prop('disabled', 'disabled');
 	$('#init-go-single-client').prop('disabled', 'disabled');
@@ -60,7 +57,7 @@ $('#init-go-single-client').click(function() {
 
 	single_device = true;
 
-	textsecure.api.requestVerificationCode(number).catch(function(error) {
+	textsecure.api.requestVerificationCode(parsedNumber).catch(function(error) {
 		//TODO: No alerts
 		if (error.humanReadable)
 			alert(error.humanReadable);
@@ -70,7 +67,7 @@ $('#init-go-single-client').click(function() {
 });
 
 $('#init-go').click(function() {
-	var number = textsecure.utils.verifyNumber($('#number').val(), $('#countrycode').val());
+	var parsedNumber = textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
 	if (!isCodeValid()) {
 		updateCodeColor();
 		return;
@@ -78,25 +75,25 @@ $('#init-go').click(function() {
 
 
 	$('#init-setup').hide();
-	$('#verify1done').html('');
+	$('#verify1done').text('');
 	$('#verify2').hide();
-	$('#verify3done').html('');
-	$('#verify4done').html('');
+	$('#verify3done').text('');
+	$('#verify4done').text('');
 	$('#verify').show();
 
-	textsecure.register(number, $('#code').val(), single_device, function(step) {
+	textsecure.register(parsedNumber, $('#code').val(), single_device, function(step) {
 		switch(step) {
 		case 1:
-			$('#verify1done').html('done');
+			$('#verify1done').text('done');
 			break;
 		case 2:
-			$('#verify2done').html('done');
+			$('#verify2done').text('done');
 			break;
 		case 3:
-			$('#verify3done').html('done');
+			$('#verify3done').text('done');
 			break;
 		case 4:
-			$('#complete-number').html(number);
+			$('#complete-number').text(parsedNumber);
 			$('#verify').hide();
 			$('#setup-complete').show();
 			registrationDone();
@@ -111,12 +108,37 @@ $('#init-go').click(function() {
 });
 
 textsecure.registerOnLoadFunction(function() {
-    $(function() {
-        if (!isRegistrationDone()) {
-            $('#init-setup').show();
-        } else {
-            $('#complete-number').html(textsecure.storage.getUnencrypted("number_id").split(".")[0]);//TODO: no
-            $('#setup-complete').show();
+	$(function() {
+		if (!isRegistrationDone()) {
+			$('#init-setup').show();
+
+			var countrys = textsecure.utils.getAllRegionCodes();
+			$.each(countrys, function (regionCode, countryName) {
+				$('#regionCode').append($('<option>', {
+					value: regionCode,
+					text : countryName
+				}));
+			});
+
+			$('#regionCode').change(function(){
+				$('#countrycode').val(textsecure.utils.getCountryCodeForRegion(this.value));
+				updateNumberColors();
+			});
+
+			$('#countrycode').keyup(function(){
+				$('#regionCode').val(textsecure.utils.getRegionCodeForCountryCode($('#countrycode').val()));
+				updateNumberColors();
+			});
+
+			$('#number').change(updateNumberColors);
+
+			// handle form data cached by the browser (after a page ref
+			$('#regionCode').val(textsecure.utils.getRegionCodeForCountryCode($('#countrycode').val()));
+			updateNumberColors();
+
+		} else {
+			$('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
+			$('#setup-complete').show();
         }
     });
 });

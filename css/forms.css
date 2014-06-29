@@ -9,8 +9,7 @@ input[type=text], textarea {
 }
 
 input.invalid {
-    background-color: #ff6666;
-    border-color: #ff3333;
+  border-color: #ff3333;
 }
 
 input[type=submit]:focus,
