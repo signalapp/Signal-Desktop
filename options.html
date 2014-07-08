@@ -12,9 +12,11 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<!DOCTYPE html>
 <html>
 <head>
 	<title>TextSecure Options</title>
+	<meta charset="utf-8">
 	<link rel="stylesheet" href="css/options.css">
 	<link rel="stylesheet" href="css/forms.css">
 	<link rel="stylesheet" href="css/buttons.css">
@@ -26,7 +28,11 @@
 	<h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
 	<div id="init-setup" class="hidden">
 		<h2>Welcome to TextSecure. To get started please get a 6-digit setup code from your phone and enter it below.</h2>
-		<p>Phone number (including country code): +<input type="text" maxlength=3 size="3" id="countrycode" /> <input type="text" maxlength=14 size="14" id="number" /></p>
+		<span>Please select your country:</span>
+		<select id="regionCode">
+			<option value="ZZ" selected>Please choose your country.</option>
+		</select>
+		<span id="phonenumberspan">Enter your phone number (including country code): + <input type="text" size="3" id="countrycode"> <input type="text" size="14" id="number"></span>
 		<button id="init-go-single-client" class="btn">Send single-client code</button>
 		<div id="init-setup-verification" class="hidden">
 			<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
@@ -52,6 +58,7 @@
 	<script type="text/javascript" src="js-deps/underscore.js"></script>
 	<script type="text/javascript" src="js-deps/backbone.js"></script>
 	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
+	<script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
 
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/webcrypto.js"></script>

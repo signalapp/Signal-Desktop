@@ -39,3 +39,10 @@ h2 {
 
 #init-go-single-client {
     display:block; }
+
+#phonenumberspan {
+	display: block;
+	margin: .5em auto 1em auto; }
+
+#countrycode {
+	text-align: right; }
