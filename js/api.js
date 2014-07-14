@@ -54,7 +54,7 @@ window.textsecure.api = function() {
 			param.urlParameters = "";
 
 		if (param.do_auth) {
-			param.user		= textsecure.storage.getUnencrypted("number_id");
+			param.login	= textsecure.storage.getUnencrypted("number_id");
 			param.password	= textsecure.storage.getEncrypted("password");
 		}
 
