@@ -312,12 +312,8 @@ window.textsecure.crypto = function() {
 		});
 	}
 
-	var calculateMAC = function(data, key) {
-		return HmacSHA256(key, data);
-	}
-
 	var verifyMAC = function(data, key, mac) {
-		return calculateMAC(data, key).then(function(calculated_mac) {
+		return HmacSHA256(key, data).then(function(calculated_mac) {
 			var macString = getString(mac);//TODO: Move away from strings for comparison?
 
 			if (getString(calculated_mac).substring(0, macString.length) != macString)
@@ -637,7 +633,7 @@ window.textsecure.crypto = function() {
 			ivAndCiphertext.set(iv);
 			ivAndCiphertext.set(ciphertext, 16);
 
-			return calculateMAC(ivAndCiphertext.buffer, mac_key).then(function(mac) {
+			return HmacSHA256(mac_key, ivAndCiphertext.buffer).then(function(mac) {
 				var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
 				encryptedBin.set(ivAndCiphertext.buffer);
 				encryptedBin.set(mac, 16 + ciphertext.byteLength);
