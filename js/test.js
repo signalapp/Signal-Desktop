@@ -22,12 +22,24 @@ var exclusiveRunning = -1;
 var exclusiveTestsWaiting = [];
 
 var maxTestId = 0;
+var forceNextTestInverval;
+
+var allTestsDefined = false;
+function printTestsDone() {
+	if (!allTestsDefined)
+		return;
+	for (var i = 0; i < maxTestId; i++)
+		if (testsOutstanding[i] !== undefined)
+			return;
+	testsdiv.append('<p>All tests done</p>');
+	window.clearInterval(forceNextTestInverval);
+}
 
 function startNextExclusiveTest() {
 	for (var i = 0; i < maxTestId; i++) {
 		if (exclusiveTestsWaiting[i] !== undefined) {
 			exclusiveTestsWaiting[i]();
-			break;
+			return;
 		}
 	}
 }
@@ -64,6 +76,7 @@ function TEST(func, name, exclusive) {
 				delete exclusiveTestsWaiting[exclusiveIndex];
 			startNextExclusiveTest();
 		}
+		printTestsDone();
 	}
 
 
@@ -96,8 +109,6 @@ function hexToArrayBuffer(str) {
 }
 
 textsecure.registerOnLoadFunction(function() {
-	localStorage.clear();
-
 	TEST(function() {
 		var b = new ArrayBuffer(3);
 		var a = new Uint8Array(b);
@@ -548,9 +559,8 @@ textsecure.registerOnLoadFunction(function() {
 		});
 	}, "Decrypt AES-CBC", false);
 
-	// Setup test timeouts (note that this will only work if things are actually
-	// being run async, ie in the case of NaCL)
-	window.setInterval(function() {
+	// Setup test timeouts
+	forceNextTestInverval = window.setInterval(function() {
 		for (var i = 0; i < maxTestId; i++) {
 			if (testsOutstanding[i] !== undefined) {
 				testsdiv.append('<p style="color: red;">' + testsOutstanding[i] + ' timed out</p>');
@@ -563,7 +573,8 @@ textsecure.registerOnLoadFunction(function() {
 		}
 
 		startNextExclusiveTest();
-
-		localStorage.clear();
 	}, 10000);
+
+	allTestsDefined = true;
+	printTestsDone();
 });
