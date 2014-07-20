@@ -779,15 +779,14 @@ window.textsecure.crypto = function() {
 
 			var signedKeyId = textsecure.storage.getEncrypted("signedKeyId", 0);
 			textsecure.storage.putEncrypted("signedKeyId", signedKeyId + 1);
-			textsecure.storage.putEncrypted("lastSignedKeyUpdate", Date.now());
 
 			var keys = {};
 			keys.identityKey = identityKeyPair.pubKey;
-			keys.keys = [];
+			keys.preKeys = [];
 
 			var generateKey = function(keyId) {
 				return crypto_storage.getNewStoredKeyPair("preKey" + keyId, false).then(function(keyPair) {
-					keys.keys[keyId] = {keyId: keyId, publicKey: keyPair.pubKey};
+					keys.preKeys[keyId] = {keyId: keyId, publicKey: keyPair.pubKey};
 				});
 			};
 
@@ -797,7 +796,7 @@ window.textsecure.crypto = function() {
 
 			promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
 				return Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
-					keys.signedKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
+					keys.signedPreKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
 				});
 			});
 
@@ -814,6 +813,7 @@ window.textsecure.crypto = function() {
 	}
 
 	window.textsecure.registerOnLoadFunction(function() {
+		//TODO: Dont always update prekeys here
 		if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
 			self.generateKeys();
 	});
