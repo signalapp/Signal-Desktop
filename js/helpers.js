@@ -526,7 +526,7 @@ window.textsecure.storage = function() {
 window.textsecure.nacl = function() {
 	var self = {};
 
-	self.USE_NACL = false;
+	self.USE_NACL = true;
 
 	var onLoadCallbacks = [];
 	var naclLoaded = 0;
