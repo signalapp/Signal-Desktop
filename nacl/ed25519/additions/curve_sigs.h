@@ -2,6 +2,10 @@
 #ifndef __CURVE_SIGS_H__
 #define __CURVE_SIGS_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void curve25519_keygen(unsigned char* curve25519_pubkey_out,
                        unsigned char* curve25519_privkey_in);
 
@@ -21,5 +25,9 @@ int crypto_sign_modified(
   const unsigned char *m,unsigned long long mlen,
   const unsigned char *sk
   );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

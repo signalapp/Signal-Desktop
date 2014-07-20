@@ -1,6 +1,7 @@
 # Updated by fix_deps.py
 pnacl/Release/curve25519-donna-wrapper_pnacl.o: \
   curve25519-donna-wrapper.cpp curve25519-donna.h \
+  ed25519/additions/curve_sigs.h \
   /home/matt/nacl_sdk/pepper_31//include/ppapi/cpp/instance.h \
   /home/matt/nacl_sdk/pepper_31//include/ppapi/c/pp_instance.h \
   /home/matt/nacl_sdk/pepper_31//include/ppapi/c/pp_macros.h \
@@ -34,6 +35,7 @@ pnacl/Release/curve25519-donna-wrapper_pnacl.o: \
 :
 curve25519-donna-wrapper.cpp:
 curve25519-donna.h:
+ed25519/additions/curve_sigs.h:
 /home/matt/nacl_sdk/pepper_31//include/ppapi/cpp/instance.h:
 /home/matt/nacl_sdk/pepper_31//include/ppapi/c/pp_instance.h:
 /home/matt/nacl_sdk/pepper_31//include/ppapi/c/pp_macros.h:

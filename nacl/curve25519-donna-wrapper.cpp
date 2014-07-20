@@ -15,6 +15,7 @@
  */
 
 #include "curve25519-donna.h"
+#include "ed25519/additions/curve_sigs.h"
 
 #include <ppapi/cpp/instance.h>
 #include <ppapi/cpp/module.h>
@@ -26,6 +27,37 @@
 
 const unsigned char basepoint[32] = {9};
 
+template<int Length>
+class AutoArrayBufferObject {
+private:
+	pp::VarArrayBuffer buf;
+	unsigned char* map;
+public:
+	AutoArrayBufferObject(pp::Var v) : buf(v), map(NULL) {}
+
+	unsigned char *Get() {
+		if (map)
+			return map;
+
+		if (buf.is_null())
+			return NULL;
+		if (Length > 0 && buf.ByteLength() != Length)
+			return NULL;
+
+		map = static_cast<unsigned char*>(buf.Map());
+		return map;
+	}
+
+	long GetLength() {
+		return buf.is_null() ? -1 : buf.ByteLength();
+	}
+
+	~AutoArrayBufferObject() {
+		if (map)
+			buf.Unmap();
+	}
+};
+
 class Curve25519Instance : public pp::Instance {
 public:
 	explicit Curve25519Instance(PP_Instance instance) : pp::Instance(instance) {}
@@ -35,37 +67,61 @@ public:
 			return; // Go away broken client
 
 		pp::VarDictionary dictionary(var_message);
-		pp::VarArrayBuffer privArrBuff(dictionary.Get("priv"));
-		if (privArrBuff.is_null() || privArrBuff.ByteLength() != 32)
-			return; // Go away broken client
-		unsigned char* priv = static_cast<unsigned char*>(privArrBuff.Map());
+		std::string command = dictionary.Get("command").AsString();
 
-		pp::VarArrayBuffer resBuffer(32);
+		pp::VarDictionary returnMessage;
+
+		pp::VarArrayBuffer resBuffer(64);
 		unsigned char* res = static_cast<unsigned char*>(resBuffer.Map());
 
-		std::string command = dictionary.Get("command").AsString();
 		if (command == "bytesToPriv") {
-			memcpy(res, priv, 32);
+			AutoArrayBufferObject<32> priv(dictionary.Get("priv"));
+			if (!priv.Get())
+				return; // Go away broken client
+
+			memcpy(res, priv.Get(), 32);
 			res[0] &= 248;
 			res[31] &= 127;
 			res[31] |= 64;
 		} else if (command == "privToPub") {
-			curve25519_donna(res, priv, basepoint);
+			AutoArrayBufferObject<32> priv(dictionary.Get("priv"));
+			if (!priv.Get())
+				return; // Go away broken client
+
+			curve25519_donna(res, priv.Get(), basepoint);
 		} else if (command == "ECDHE") {
-			pp::VarArrayBuffer pubArrBuff(dictionary.Get("pub"));
-			if (!pubArrBuff.is_null() && pubArrBuff.ByteLength() == 32) {
-				unsigned char* pub = static_cast<unsigned char*>(pubArrBuff.Map());
-				curve25519_donna(res, priv, pub);
-				pubArrBuff.Unmap();
-			}
+			AutoArrayBufferObject<32> priv(dictionary.Get("priv"));
+			AutoArrayBufferObject<32> pub(dictionary.Get("pub"));
+			if (!priv.Get() || !pub.Get())
+				return; // Go away broken client
+
+			curve25519_donna(res, priv.Get(), pub.Get());
+		} else if (command == "Ed25519Sign") {
+			AutoArrayBufferObject<32> priv(dictionary.Get("priv"));
+			AutoArrayBufferObject<-1> msg(dictionary.Get("msg"));
+			if (!priv.Get() || !msg.Get())
+				return; // Go away broken client
+
+			curve25519_sign(res, priv.Get(), msg.Get(), msg.GetLength());
 		}
 
 		resBuffer.Unmap();
-		privArrBuff.Unmap();
 
-		pp::VarDictionary returnMessage;
+		if (command != "Ed25519Verify")
+			returnMessage.Set("res", resBuffer);
+		else {
+			AutoArrayBufferObject<32> pub(dictionary.Get("pub"));
+			AutoArrayBufferObject<-1> msg(dictionary.Get("msg"));
+			AutoArrayBufferObject<64> sig(dictionary.Get("sig"));
+			if (!pub.Get() || !msg.Get() || !sig.Get())
+				return; // Go away broken client
+
+			bool res = curve25519_verify(sig.Get(), pub.Get(), msg.Get(), msg.GetLength()) == 0;
+
+			returnMessage.Set("res", res);
+		}
+
 		returnMessage.Set("call_id", dictionary.Get("call_id").AsInt());
-		returnMessage.Set("res", resBuffer);
 		PostMessage(returnMessage);
 	}
 };

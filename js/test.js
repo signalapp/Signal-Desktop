@@ -163,7 +163,7 @@ textsecure.registerOnLoadFunction(function() {
 			target[0] &= 248;
 			target[31] &= 127;
 			target[31] |= 64;
-			if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.privKey)) != String.fromCharCode.apply(null, target))
+			if (getString(aliceKeyPair.privKey) != getString(target))
 				return false;
 
 			return textsecure.crypto.testing_only.privToPub(bob_priv, true).then(function(bobKeyPair) {
@@ -171,21 +171,21 @@ textsecure.registerOnLoadFunction(function() {
 				target[0] &= 248;
 				target[31] &= 127;
 				target[31] |= 64;
-				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.privKey)) != String.fromCharCode.apply(null, target))
+				if (getString(bobKeyPair.privKey) != getString(target))
 					return false;
 
-				if (String.fromCharCode.apply(null, new Uint8Array(aliceKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(alice_pub)))
+				if (getString(aliceKeyPair.pubKey) != getString(alice_pub))
 					return false;
 
-				if (String.fromCharCode.apply(null, new Uint8Array(bobKeyPair.pubKey)) != String.fromCharCode.apply(null, new Uint8Array(bob_pub)))
+				if (getString(bobKeyPair.pubKey) != getString(bob_pub))
 					return false;
 
 				return textsecure.crypto.testing_only.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
-					if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
+					if (getString(ss) != getString(shared_sec))
 						return false;
 
 					return textsecure.crypto.testing_only.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
-						if (String.fromCharCode.apply(null, new Uint16Array(ss)) != String.fromCharCode.apply(null, new Uint16Array(shared_sec)))
+						if (getString(ss) != getString(shared_sec))
 							return false;
 						else
 							return true;
@@ -193,7 +193,30 @@ textsecure.registerOnLoadFunction(function() {
 				});
 			});
 		});
-	}, "Simple Curve25519 test vector");
+	}, "Simple Curve25519 test vectors");
+
+	TEST(function() {
+		// Some self-generated test vectors
+		var priv = hexToArrayBuffer("48a8892cc4e49124b7b57d94fa15becfce071830d6449004685e387c62409973");
+		var pub  = hexToArrayBuffer("0555f1bfede27b6a03e0dd389478ffb01462e5c52dbbac32cf870f00af1ed9af3a");
+		var msg  = hexToArrayBuffer("617364666173646661736466");
+		var sig  = hexToArrayBuffer("2bc06c745acb8bae10fbc607ee306084d0c28e2b3bb819133392473431291fd0"+
+								"dfa9c7f11479996cf520730d2901267387e08d85bbf2af941590e3035a545285");
+
+		return textsecure.crypto.testing_only.privToPub(priv, false).then(function(pubCalc) {
+			//if (getString(pub) != getString(pubCalc))
+			//	return false;
+
+			return textsecure.crypto.testing_only.Ed25519Sign(priv, msg).then(function(sigCalc) {
+				if (getString(sig) != getString(sigCalc))
+					return false;
+
+				return textsecure.crypto.testing_only.Ed25519Verify(pub, msg, sig).then(function() {
+					return true;
+				});
+			});
+		});
+	}, "Simple Ed25519 tests");
 
 	// TextSecure implements a slightly tweaked version of RFC 5869 and thus this test fails
 	// If you tweak the HKDF as noted in the comment there, this test passes

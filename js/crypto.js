@@ -77,11 +77,11 @@ window.textsecure.crypto = function() {
 
 		if (textsecure.nacl.USE_NACL) {
 			return textsecure.nacl.postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
-				var priv = message.res;
+				var priv = message.res.slice(0, 32);
 				if (!isIdentity)
 					new Uint8Array(priv)[0] |= 0x01;
 				return textsecure.nacl.postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
-					return { pubKey: prependVersion(message.res), privKey: priv };
+					return { pubKey: prependVersion(message.res.slice(0, 32)), privKey: priv };
 				});
 			});
 		} else {
@@ -239,21 +239,25 @@ window.textsecure.crypto = function() {
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
+	var validatePubKeyFormat = function(pubKey) {
+		if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
+			throw new Error("Invalid public key");
+		if (pubKey.byteLength == 33)
+			return pubKey.slice(1);
+		else
+			console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
+	}
+
 	testing_only.ECDHE = function(pubKey, privKey) {
 		if (privKey === undefined || privKey.byteLength != 32)
 			throw new Error("Invalid private key");
 
-		if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
-			throw new Error("Invalid public key");
-		if (pubKey.byteLength == 33)
-			pubKey = pubKey.slice(1);
-		else
-			console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
+		pubKey = validatePubKeyFormat(pubKey);
 
 		return new Promise(function(resolve) {
 			if (textsecure.nacl.USE_NACL) {
 				textsecure.nacl.postNaclMessage({command: "ECDHE", priv: privKey, pub: pubKey}).then(function(message) {
-					resolve(message.res);
+					resolve(message.res.slice(0, 32));
 				});
 			} else {
 				resolve(toArrayBuffer(curve25519(new Uint16Array(privKey), new Uint16Array(pubKey))));
@@ -261,6 +265,49 @@ window.textsecure.crypto = function() {
 		});
 	}
 	var ECDHE = function(pubKey, privKey) { return testing_only.ECDHE(pubKey, privKey); }
+
+	testing_only.Ed25519Sign = function(privKey, message) {
+		if (privKey === undefined || privKey.byteLength != 32)
+			throw new Error("Invalid private key");
+
+		if (message === undefined)
+			throw new Error("Invalid message");
+
+		if (textsecure.nacl.USE_NACL) {
+			return textsecure.nacl.postNaclMessage({command: "Ed25519Sign", priv: privKey, msg: message}).then(function(message) {
+				return message.res;
+			});
+		} else {
+			throw new Error("Ed25519 in JS not yet supported");
+		}
+	}
+	var Ed25519Sign = function(privKey, pubKeyToSign) {
+		pubKeyToSign = validatePubKeyFormat(pubKeyToSign);
+		return testing_only.Ed25519Sign(privKey, pubKeyToSign);
+	}
+
+	testing_only.Ed25519Verify = function(pubKey, msg, sig) {
+		pubKey = validatePubKeyFormat(pubKey);
+
+		if (msg === undefined)
+			throw new Error("Invalid message");
+
+		if (sig === undefined || sig.byteLength != 64)
+			throw new Error("Invalid signature");
+
+		if (textsecure.nacl.USE_NACL) {
+			return textsecure.nacl.postNaclMessage({command: "Ed25519Verify", pub: pubKey, msg: msg, sig: sig}).then(function(message) {
+				if (!message.res)
+					throw new Error("Invalid signature");
+			});
+		} else {
+			throw new Error("Ed25519 in JS not yet supported");
+		}
+	}
+	var Ed25519Verify = function(pubKey, signedPubKey, sig) {
+		signedPubKey = validatePubKeyFormat(signedPubKey);
+		return testing_only.Ed25519Verify(pubKey, signedPubKey, sig);
+	}
 
 	testing_only.HKDF = function(input, salt, info) {
 		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
