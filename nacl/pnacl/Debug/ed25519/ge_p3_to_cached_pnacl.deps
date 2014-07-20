@@ -1,0 +1,9 @@
+# Updated by fix_deps.py
+pnacl/Debug/ed25519/ge_p3_to_cached_pnacl.o: ed25519/ge_p3_to_cached.c \
+  ed25519/ge.h ed25519/fe.h ed25519/nacl_includes/crypto_int32.h \
+  ed25519/d2.h
+ed25519/ge_p3_to_cached.c:
+ed25519/ge.h:
+ed25519/fe.h:
+ed25519/nacl_includes/crypto_int32.h:
+ed25519/d2.h:

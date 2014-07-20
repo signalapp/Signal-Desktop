@@ -1,0 +1,10 @@
+# Updated by fix_deps.py
+pnacl/Release/ed25519/ge_double_scalarmult_pnacl.o: \
+  ed25519/ge_double_scalarmult.c ed25519/ge.h ed25519/fe.h \
+  ed25519/nacl_includes/crypto_int32.h ed25519/base2.h
+:
+ed25519/ge_double_scalarmult.c:
+ed25519/ge.h:
+ed25519/fe.h:
+ed25519/nacl_includes/crypto_int32.h:
+ed25519/base2.h:

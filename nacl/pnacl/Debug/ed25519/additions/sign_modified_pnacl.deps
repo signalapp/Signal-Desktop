@@ -1,0 +1,15 @@
+# Updated by fix_deps.py
+pnacl/Debug/ed25519/additions/sign_modified_pnacl.o: \
+  ed25519/additions/sign_modified.c ed25519/nacl_includes/crypto_sign.h \
+  ed25519/nacl_includes/crypto_sign_edwards25519sha512batch.h \
+  ed25519/nacl_includes/crypto_hash_sha512.h ed25519/ge.h ed25519/fe.h \
+  ed25519/nacl_includes/crypto_int32.h ed25519/sc.h
+:
+ed25519/additions/sign_modified.c:
+ed25519/nacl_includes/crypto_sign.h:
+ed25519/nacl_includes/crypto_sign_edwards25519sha512batch.h:
+ed25519/nacl_includes/crypto_hash_sha512.h:
+ed25519/ge.h:
+ed25519/fe.h:
+ed25519/nacl_includes/crypto_int32.h:
+ed25519/sc.h:

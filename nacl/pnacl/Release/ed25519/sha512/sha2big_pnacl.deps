@@ -1,0 +1,8 @@
+# Updated by fix_deps.py
+pnacl/Release/ed25519/sha512/sha2big_pnacl.o: ed25519/sha512/sha2big.c \
+  ed25519/sha512/sph_sha2.h ed25519/sha512/sph_types.h \
+  ed25519/sha512/md_helper.c
+ed25519/sha512/sha2big.c:
+ed25519/sha512/sph_sha2.h:
+ed25519/sha512/sph_types.h:
+ed25519/sha512/md_helper.c:

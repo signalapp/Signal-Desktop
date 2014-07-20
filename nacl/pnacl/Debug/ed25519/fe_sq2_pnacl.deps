@@ -1,0 +1,8 @@
+# Updated by fix_deps.py
+pnacl/Debug/ed25519/fe_sq2_pnacl.o: ed25519/fe_sq2.c ed25519/fe.h \
+  ed25519/nacl_includes/crypto_int32.h \
+  ed25519/nacl_includes/crypto_int64.h
+ed25519/fe_sq2.c:
+ed25519/fe.h:
+ed25519/nacl_includes/crypto_int32.h:
+ed25519/nacl_includes/crypto_int64.h:
