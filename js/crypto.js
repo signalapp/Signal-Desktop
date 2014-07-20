@@ -27,6 +27,7 @@ window.textsecure.crypto = function() {
 	 *** Random constants/utils ***
 	 ******************************/
 	// We consider messages lost after a week and might throw away keys at that point
+	// (also the time between signedPreKey regenerations)
 	var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
 
 	var getRandomBytes = function(size) {
@@ -109,10 +110,10 @@ window.textsecure.crypto = function() {
 	 ***************************/
 	var crypto_storage = {};
 
-	crypto_storage.getNewPubKeySTORINGPrivKey = function(keyName, isIdentity) {
+	crypto_storage.getNewStoredKeyPair = function(keyName, isIdentity) {
 		return createNewKeyPair(isIdentity).then(function(keyPair) {
 			textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
-			return keyPair.pubKey;
+			return keyPair;
 		});
 	}
 
@@ -771,46 +772,51 @@ window.textsecure.crypto = function() {
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
 	self.generateKeys = function() {
-		var identityKey = crypto_storage.getStoredPubKey("identityKey");
-		var identityKeyCalculated = function(pubKey) {
-			identityKey = pubKey;
+		var identityKeyPair = crypto_storage.getStoredKeyPair("identityKey");
+		var identityKeyCalculated = function(identityKeyPair) {
+			var firstPreKeyId = textsecure.storage.getEncrypted("maxPreKeyId", 0);
+			textsecure.storage.putEncrypted("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
-			var firstKeyId = textsecure.storage.getEncrypted("maxPreKeyId", -1) + 1;
-			textsecure.storage.putEncrypted("maxPreKeyId", firstKeyId + GENERATE_KEYS_KEYS_GENERATED);
-
-			if (firstKeyId > 16777000)
-				return new Promise(function() { throw new Error("You crazy motherfucker") });
+			var signedKeyId = textsecure.storage.getEncrypted("signedKeyId", 0);
+			textsecure.storage.putEncrypted("signedKeyId", signedKeyId + 1);
+			textsecure.storage.putEncrypted("lastSignedKeyUpdate", Date.now());
 
 			var keys = {};
+			keys.identityKey = identityKeyPair.pubKey;
 			keys.keys = [];
 
 			var generateKey = function(keyId) {
-				return crypto_storage.getNewPubKeySTORINGPrivKey("preKey" + keyId, false).then(function(pubKey) {
-					keys.keys[keyId] = {keyId: keyId, publicKey: pubKey, identityKey: identityKey};
+				return crypto_storage.getNewStoredKeyPair("preKey" + keyId, false).then(function(keyPair) {
+					keys.keys[keyId] = {keyId: keyId, publicKey: keyPair.pubKey};
 				});
 			};
 
 			var promises = [];
-			for (var i = firstKeyId; i < firstKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
+			for (var i = firstPreKeyId; i < firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
 				promises[i] = generateKey(i);
 
+			promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
+				return Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+					keys.signedKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
+				});
+			});
+
+			crypto_storage.getAndRemoveStoredKeyPair("signedKey" + (signedKeyId - 2));
+
 			return Promise.all(promises).then(function() {
-				// 0xFFFFFF == 16777215
-				keys.lastResortKey = {keyId: 16777215, publicKey: crypto_storage.getStoredPubKey("preKey16777215"), identityKey: identityKey};//TODO: Rotate lastResortKey
-				if (keys.lastResortKey.publicKey === undefined) {
-					return crypto_storage.getNewPubKeySTORINGPrivKey("preKey16777215", false).then(function(pubKey) {
-						keys.lastResortKey.publicKey = pubKey;
-						return keys;
-					});
-				} else
-					return keys;
+				return keys;
 			});
 		}
-		if (identityKey === undefined)
-			return crypto_storage.getNewPubKeySTORINGPrivKey("identityKey", true).then(function(pubKey) { return identityKeyCalculated(pubKey); });
+		if (identityKeyPair === undefined)
+			return crypto_storage.getNewStoredKeyPair("identityKey", true).then(function(keyPair) { return identityKeyCalculated(keyPair); });
 		else
-			return identityKeyCalculated(identityKey);
+			return identityKeyCalculated(identityKeyPair);
 	}
+
+	window.textsecure.registerOnLoadFunction(function() {
+		if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
+			self.generateKeys();
+	});
 
 	self.testing_only = testing_only;
 	return self;

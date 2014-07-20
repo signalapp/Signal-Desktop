@@ -139,14 +139,44 @@ textsecure.registerOnLoadFunction(function() {
 		return textsecure.crypto.generateKeys().then(function() {
 			if (textsecure.storage.getEncrypted("25519KeyidentityKey") === undefined)
 				return false;
-			if (textsecure.storage.getEncrypted("25519KeypreKey16777215") === undefined)
+			if (textsecure.storage.getEncrypted("25519KeysignedKey0") === undefined)
 				return false;
 
 			for (var i = 0; i < 100; i++)
 				if (textsecure.storage.getEncrypted("25519KeypreKey" + i) === undefined)
 					return false;
 
-			return true;
+			var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
+			return textsecure.crypto.generateKeys().then(function() {
+				if (textsecure.storage.getEncrypted("25519KeyidentityKey") === undefined ||
+						getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey) != origIdentityKey)
+					return false;
+
+				if (textsecure.storage.getEncrypted("25519KeysignedKey0") === undefined ||
+						textsecure.storage.getEncrypted("25519KeysignedKey1") === undefined)
+					return false;
+
+				for (var i = 0; i < 200; i++)
+					if (textsecure.storage.getEncrypted("25519KeypreKey" + i) === undefined)
+						return false;
+
+				return textsecure.crypto.generateKeys().then(function() {
+					if (textsecure.storage.getEncrypted("25519KeyidentityKey") === undefined ||
+							getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey) != origIdentityKey)
+						return false;
+
+					if (textsecure.storage.getEncrypted("25519KeysignedKey0") !== undefined ||
+							textsecure.storage.getEncrypted("25519KeysignedKey1") === undefined ||
+							textsecure.storage.getEncrypted("25519KeysignedKey2") === undefined)
+						return false;
+
+					for (var i = 0; i < 300; i++)
+						if (textsecure.storage.getEncrypted("25519KeypreKey" + i) === undefined)
+							return false;
+
+					return true;
+				});
+			});
 		});
 	}, "Test Identity/Pre Key Creation", true);
 
