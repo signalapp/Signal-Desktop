@@ -15,7 +15,7 @@ int crypto_sign_modified(
 )
 {
   unsigned char pk[32];
-  unsigned char az[64];
+  //unsigned char az[64];
   unsigned char nonce[64];
   unsigned char hram[64];
   ge_p3 R;
