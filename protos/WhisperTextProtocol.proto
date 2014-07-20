@@ -1,6 +1,6 @@
 package textsecure;
 
-option java_package = "org.whispersystems.textsecure.crypto.protocol";
+option java_package = "org.whispersystems.libaxolotl.protocol";
 option java_outer_classname = "WhisperProtos";
 
 message WhisperMessage {
@@ -12,15 +12,19 @@ message WhisperMessage {
 
 message PreKeyWhisperMessage {
   optional uint32 registrationId = 5;
-  optional uint32 preKeyId    = 1;
-  optional bytes  baseKey     = 2;
-  optional bytes  identityKey = 3;
-  optional bytes  message     = 4; // WhisperMessage
+  optional uint32 preKeyId       = 1;
+  optional uint32 signedPreKeyId = 6;
+  optional bytes  baseKey        = 2;
+  optional bytes  identityKey    = 3;
+  optional bytes  verification   = 7;
+  optional bytes  message        = 4; // WhisperMessage
 }
 
 message KeyExchangeMessage {
-  optional uint32 id           = 1;
-  optional bytes  baseKey      = 2;
-  optional bytes  ephemeralKey = 3;
-  optional bytes  identityKey  = 4;
+  optional uint32 id               = 1;
+  optional bytes  baseKey          = 2;
+  optional bytes  ephemeralKey     = 3;
+  optional bytes  identityKey      = 4;
+  optional bytes  baseKeySignature = 5;
+  optional bytes  verification     = 6;
 }
