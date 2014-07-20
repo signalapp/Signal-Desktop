@@ -1,3 +1,0 @@
-# Updated by fix_deps.py
-pnacl/Debug/curve25519-donna_pnacl.o: curve25519-donna.c
-curve25519-donna.c:
