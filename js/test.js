@@ -218,9 +218,7 @@ textsecure.registerOnLoadFunction(function() {
 		});
 	}, "Simple Ed25519 tests");
 
-	// TextSecure implements a slightly tweaked version of RFC 5869 and thus this test fails
-	// If you tweak the HKDF as noted in the comment there, this test passes
-	/*TEST(function() {
+	TEST(function() {
 		var IKM = new Uint8Array(new ArrayBuffer(22));
 		for (var i = 0; i < 22; i++)
 			IKM[i] = 11;
@@ -233,12 +231,12 @@ textsecure.registerOnLoadFunction(function() {
 		for (var i = 0; i < 10; i++)
 			info[i] = 240 + i;
 
-		return textsecure.crypto.testing_only.HKDF(IKM, salt, info).then(function(OKM){
+		return textsecure.crypto.testing_only.HKDF(IKM.buffer, salt.buffer, info.buffer).then(function(OKM){
 			var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
 			var T2 = hexToArrayBuffer("34007208d5b887185865");
 			return (getString(OKM[0]) == getString(T1) && getString(OKM[1]).substring(0, 10) == getString(T2));
 		});
-	}, "HMAC RFC5869 Test vectors");*/
+	}, "HMAC RFC5869 Test vectors");
 
 	var axolotlTwoPartyTestVectorsAlice = [
 		["sendMessage",

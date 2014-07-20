@@ -315,11 +315,11 @@ window.textsecure.crypto = function() {
 			var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
 			var infoArray = new Uint8Array(infoBuffer);
 			infoArray.set(new Uint8Array(info), 32);
-			infoArray[infoArray.length - 1] = 0;
+			infoArray[infoArray.length - 1] = 1;
 			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
 			return HmacSHA256(PRK, infoBuffer.slice(32)).then(function(T1) {
 				infoArray.set(new Uint8Array(T1));
-				infoArray[infoArray.length - 1] = 1;
+				infoArray[infoArray.length - 1] = 2;
 				return HmacSHA256(PRK, infoBuffer).then(function(T2) {
 					return [ T1, T2 ];
 				});
