@@ -99,10 +99,6 @@
   color: #cccccc;
   font-size: 0.70em;
   padding: 0.2em 0.6em;
-  visibility: hidden;
-}
-.bubble:hover .metadata {
-  visibility: visible;
 }
 
 .bubble {

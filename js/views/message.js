@@ -17,28 +17,22 @@ var Whisper = Whisper || {};
     className: "message",
 
     initialize: function() {
-      this.$el.
-        append($('<div class="bubble">').
-          append(
-            $('<span class="message-text">'),
-            $('<span class="message-attachment">'),
-            $('<span class="metadata">')
-          )
-        );
       this.$el.addClass(this.model.get('type'));
       this.listenTo(this.model, 'change', this.render); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
+      this.template = $('#message').html();
+      Mustache.parse(this.template);
     },
 
     render: function() {
-      this.$el.find('.message-text').text(this.model.get('body'));
-      var attachments = this.model.get('attachments');
-      if (attachments) {
-        for (var i = 0; i < attachments.length; i++)
-          this.$el.find('.message-attachment').append('<img src="' + attachments[i] + '" />');
-      }
+      this.$el.html(
+        Mustache.render(this.template, {
+          body: this.model.get('body'),
+          date: this.formatTimestamp(),
+          attachments: this.model.get('attachments')
+        })
+      );
 
-      this.$el.find('.metadata').text(this.formatTimestamp());
       return this;
     },
 
