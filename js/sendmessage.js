@@ -4,19 +4,16 @@ window.textsecure.messaging = function() {
 
 	function getKeysForNumber(number, updateDevices) {
 		return textsecure.api.getKeysForNumber(number).then(function(response) {
-			var identityKey = getString(response[0].identityKey);
-			for (i in response)
-				if (getString(response[i].identityKey) != identityKey)
-					throw new Error("Identity key not consistent");
-
-			for (i in response) {
-				if (updateDevices === undefined || updateDevices.indexOf(response[i].deviceId) > -1)
+			for (i in response.devices) {
+				if (updateDevices === undefined || updateDevices.indexOf(response.devices[i].deviceId) > -1)
 					textsecure.storage.devices.saveDeviceObject({
-						encodedNumber: number + "." + response[i].deviceId,
-						identityKey: response[i].identityKey,
-						publicKey: response[i].publicKey,
-						preKeyId: response[i].keyId,
-						registrationId: response[i].registrationId
+						encodedNumber: number + "." + response.devices[i].deviceId,
+						identityKey: response.identityKey,
+						preKey: response.devices[i].preKey.publicKey,
+						preKeyId: response.devices[i].preKey.keyId,
+						signedKey: response.devices[i].signedPreKey.publicKey,
+						signedKeyId: response.devices[i].signedPreKey.keyId,
+						registrationId: response.devices[i].registrationId
 					});
 			}
 		});
@@ -112,8 +109,11 @@ window.textsecure.messaging = function() {
 		}
 
 		var registerError = function(number, message, error) {
-			if (error.humanError)
-				message = error.humanError;
+			if (error) {
+				if (error.humanError)
+					message = error.humanError;
+			} else
+				error = new Error(message);
 			errors[errors.length] = { number: number, reason: message, error: error };
 			numberCompleted();
 		}
@@ -123,7 +123,7 @@ window.textsecure.messaging = function() {
 			return function() {
 				var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 				if (devicesForNumber.length == 0)
-					return registerError(number, "Go empty device list when loading device keys", null);
+					return registerError(number, "Got empty device list when loading device keys", null);
 				refreshGroups(number).then(function() {
 					doSendMessage(number, devicesForNumber, recurse);
 				});

@@ -61,8 +61,11 @@ function TEST(func, name, exclusive) {
 		if (testsOutstanding[testIndex] == undefined)
 			testsdiv.append('<p style="color: red;">' + funcName + ' called back multiple times</p>');
 		else if (error !== undefined) {
-			console.log(error.stack);
-			testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + error + '</p>');
+			if (error && error.stack) {
+				console.log(error.stack);
+				testsdiv.append('<p style="color: red;">' + funcName + ' threw ' + error + '</p>');
+			} else
+				testsdiv.append('<p style="color: red;">' + funcName + ' threw non-Error: ' + error + '</p>');
 		} else if (result === true)
 			testsdiv.append('<p style="color: green;">' + funcName + ' passed</p>');
 		else
@@ -276,12 +279,14 @@ textsecure.registerOnLoadFunction(function() {
 				ourEphemeralKey: hexToArrayBuffer('f12704787bab04a3cf544ebd9d421b6fe36147519eb5afa7c90e3fb67c141e64'),
 				ourIdentityKey: hexToArrayBuffer('a05fd14abb42ff393004eee526e3167441ee51021c6d801b784720c15637747c'),
 				registrationId: 11593,
-				getKeys: [{deviceId: 0,
-						keyId: 13845842,
-						publicKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e'),
-						identityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
-						registrationId: 42}
-					],
+				getKeys: {identityKey: hexToArrayBuffer('05276e4df34557386f67df38b708eeddb1a8924e0428b9eefdc9213c3e8927cc7d'),
+						devices: [{
+							deviceId: 0,
+							preKey: {keyId: 13845842, publicKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e')},
+							signedPreKey: {keyId: 13845842, publicKey: hexToArrayBuffer('05fee424a5b6ccb717d85ef2207e2057ab1144c40afe89cdc80e9c424dd90c146e')},
+							registrationId: 42
+						}]
+					},
 				//expectedPlaintext: hexToArrayBuffer('0a0e4120202020202020202020202020'),
 				//expectedCounter: 0,
 				expectedCiphertext: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be161000180022104bd27ab87ee151d71cdfe89828050ef4b05bddfb56da491728c95a'),

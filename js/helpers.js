@@ -127,12 +127,13 @@ function getStringable(thing) {
 				thing.__proto__ == StaticWordArrayProto)));
 }
 
-function isEqual(a, b, maxLegnth) {
+function isEqual(a, b) {
 	// TODO: Special-case arraybuffers, etc
 	a = getString(a);
 	b = getString(b);
-	if (maxLength === undefined)
-		maxLength = Math.max(a.length, b.length);
+	var maxLength = Math.min(a.length, b.length);
+	if (maxLength < 5)
+		throw new Error("a/b compare too short");
 	return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
 }
 
@@ -642,7 +643,14 @@ window.textsecure.subscribeToPush = function() {
 		};
 		socket.onopen = function(socketEvent) {
 			console.log('Connected to server!');
-			pingInterval = setInterval(function() { console.log("Sending server ping message."); socket.send(JSON.stringify({type: 2})); }, 30000);
+			pingInterval = setInterval(function() {
+				console.log("Sending server ping message.");
+				if (socket.readyState == socket.CLOSED || socket.readyState == socket.CLOSING) {
+					socket.close();
+					socket.onclose();
+				} else
+					socket.send(JSON.stringify({type: 2}));
+			}, 30000);
 		};
 
 		socket.onmessage = function(response) {

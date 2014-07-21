@@ -128,14 +128,8 @@ window.textsecure.crypto = function() {
 		return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
 	}
 
-	crypto_storage.getAndRemoveStoredKeyPair = function(keyName) {
-		var keyPair = this.getStoredKeyPair(keyName);
+	crypto_storage.removeStoredKeyPair = function(keyName) {
 		textsecure.storage.removeEncrypted("25519Key" + keyName);
-		return keyPair;
-	}
-
-	crypto_storage.getAndRemovePreKeyPair = function(keyId) {
-		return this.getAndRemoveStoredKeyPair("preKey" + keyId);
 	}
 
 	crypto_storage.getIdentityPrivKey = function() {
@@ -240,20 +234,30 @@ window.textsecure.crypto = function() {
 	/*****************************
 	 *** Internal Crypto stuff ***
 	 *****************************/
-	var validatePubKeyFormat = function(pubKey) {
+	var validatePubKeyFormat = function(pubKey, needVersionByte) {
 		if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
 			throw new Error("Invalid public key");
-		if (pubKey.byteLength == 33)
-			return pubKey.slice(1);
-		else
+		if (pubKey.byteLength == 33) {
+			if (!needVersionByte)
+				return pubKey.slice(1);
+			else
+				return pubKey;
+		} else {
 			console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
+			if (!needVersionByte)
+				return pubKey;
+			var res = new Uint8Array(33);
+			res[0] = 5;
+			res.set(new Uint8Array(pubKey), 1);
+			return res.buffer;
+		}
 	}
 
 	testing_only.ECDHE = function(pubKey, privKey) {
 		if (privKey === undefined || privKey.byteLength != 32)
 			throw new Error("Invalid private key");
 
-		pubKey = validatePubKeyFormat(pubKey);
+		pubKey = validatePubKeyFormat(pubKey, false);
 
 		return new Promise(function(resolve) {
 			if (textsecure.nacl.USE_NACL) {
@@ -283,12 +287,12 @@ window.textsecure.crypto = function() {
 		}
 	}
 	var Ed25519Sign = function(privKey, pubKeyToSign) {
-		pubKeyToSign = validatePubKeyFormat(pubKeyToSign);
+		pubKeyToSign = validatePubKeyFormat(pubKeyToSign, true);
 		return testing_only.Ed25519Sign(privKey, pubKeyToSign);
 	}
 
 	testing_only.Ed25519Verify = function(pubKey, msg, sig) {
-		pubKey = validatePubKeyFormat(pubKey);
+		pubKey = validatePubKeyFormat(pubKey, false);
 
 		if (msg === undefined)
 			throw new Error("Invalid message");
@@ -306,7 +310,7 @@ window.textsecure.crypto = function() {
 		}
 	}
 	var Ed25519Verify = function(pubKey, signedPubKey, sig) {
-		signedPubKey = validatePubKeyFormat(signedPubKey);
+		signedPubKey = validatePubKeyFormat(signedPubKey, true);
 		return testing_only.Ed25519Verify(pubKey, signedPubKey, sig);
 	}
 
@@ -353,14 +357,14 @@ window.textsecure.crypto = function() {
 
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		return calculateMACWithVersionByte(data, key, version).then(function(calculated_mac) {
-			if (!isEqual(calculated_mac, mac, mac.byteLength))
+			if (!isEqual(calculated_mac, mac))
 				throw new Error("Bad MAC");
 		});
 	}
 
 	var verifyMAC = function(data, key, mac) {
 		return HmacSHA256(key, data).then(function(calculated_mac) {
-			if (!isEqual(calculated_mac, mac, mac.byteLength))
+			if (!isEqual(calculated_mac, mac))
 				throw new Error("Bad MAC");
 		});
 	}
@@ -382,48 +386,79 @@ window.textsecure.crypto = function() {
 		});
 	}
 
-	var initSession = function(isInitiator, ourEphemeralKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey) {
+	var initSession = function(isInitiator, ourEphemeralKey, ourSignedKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, theirSignedPubKey) {
 		var ourIdentityPrivKey = crypto_storage.getIdentityPrivKey();
 
-		var sharedSecret = new Uint8Array(32 * 3);
-		return ECDHE(theirEphemeralPubKey, ourIdentityPrivKey).then(function(ecRes1) {
+		if (isInitiator) {
+			if (ourSignedKey !== undefined)
+				throw new Error("Invalid call to initSession");
+			ourSignedKey = ourEphemeralKey;
+		} else {
+			if (theirSignedPubKey !== undefined)
+				throw new Error("Invalid call to initSession");
+			theirSignedPubKey = theirEphemeralPubKey;
+		}
+
+		var sharedSecret;
+		if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
+			sharedSecret = new Uint8Array(32 * 4);
+		else
+			sharedSecret = new Uint8Array(32 * 5);
+
+		for (var i = 0; i < 32; i++)
+			sharedSecret[i] = 0xff;
+
+		return ECDHE(theirSignedPubKey, ourIdentityPrivKey).then(function(ecRes1) {
 			function finishInit() {
-				return ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey).then(function(ecRes) {
-					sharedSecret.set(new Uint8Array(ecRes), 32 * 2);
+				return ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
+					sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
 					return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
-						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirEphemeralPubKey },
-										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1, baseKey: theirEphemeralPubKey },
+						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirSignedPubKey },
+										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
 										oldRatchetList: []
 									};
+						if (!isInitiator)
+							session.indexInfo.baseKey = theirEphemeralPubKey;
+						else
+							session.indexInfo.baseKey = ourEphemeralKey.pubKey;
 
 						// If we're initiating we go ahead and set our first sending ephemeral key now,
 						// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
 						if (isInitiator) {
 							return createNewKeyPair(false).then(function(ourSendingEphemeralKey) {
 								session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
-								return calculateRatchet(session, theirEphemeralPubKey, true).then(function() {
+								return calculateRatchet(session, theirSignedPubKey, true).then(function() {
 									return session;
 								});
 							});
 						} else {
-							session.currentRatchet.ephemeralKeyPair = ourEphemeralKey;
+							session.currentRatchet.ephemeralKeyPair = ourSignedKey;
 							return session;
 						}
 					});
 				});
 			}
 
-			if (isInitiator)
-				return ECDHE(theirIdentityPubKey, ourEphemeralKey.privKey).then(function(ecRes2) {
-					sharedSecret.set(new Uint8Array(ecRes1));
-					sharedSecret.set(new Uint8Array(ecRes2), 32);
-				}).then(finishInit);
+			var promise;
+			if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
+				promise = Promise.resolve(new ArrayBuffer(0));
 			else
-				return ECDHE(theirIdentityPubKey, ourEphemeralKey.privKey).then(function(ecRes2) {
-					sharedSecret.set(new Uint8Array(ecRes1), 32);
-					sharedSecret.set(new Uint8Array(ecRes2))
-				}).then(finishInit);
+				promise = ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
+
+			return promise.then(function(ecRes4) {
+				sharedSecret.set(new Uint8Array(ecRes4), 32 * 4);
+				if (isInitiator)
+					return ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+						sharedSecret.set(new Uint8Array(ecRes1), 32);
+						sharedSecret.set(new Uint8Array(ecRes2), 32 * 2);
+					}).then(finishInit);
+				else
+					return ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+						sharedSecret.set(new Uint8Array(ecRes1), 32 * 2);
+						sharedSecret.set(new Uint8Array(ecRes2), 32)
+					}).then(finishInit);
+			});
 		});
 	}
 
@@ -457,7 +492,7 @@ window.textsecure.crypto = function() {
 		return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
 			return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
 				if (sessions[1] !== undefined)
-					crypto_storage.saveSession(from, sessions[1]);
+					sessions[1]();
 				return result;
 			});
 		});
@@ -470,21 +505,22 @@ window.textsecure.crypto = function() {
 	textsecure.replay.registerReplayFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.REPLAY_FUNCS.INIT_SESSION);
 
 	initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
-		var preKeyPair = crypto_storage.getAndRemovePreKeyPair(message.preKeyId);
+		var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
+		var signedPreKeyPair = crypto_storage.getStoredKeyPair("signedKey" + message.signedPreKeyId);
 
 		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
 		var open_session = crypto_storage.getOpenSession(encodedNumber);
-		if (preKeyPair === undefined) {
+		if (signedPreKeyPair === undefined) {
 			// Session may or may not be the correct one, but if its not, we can't do anything about it
 			// ...fall through and let decryptWhisperMessage handle that case
 			if (session !== undefined && session.currentRatchet !== undefined)
 				return Promise.resolve([session, undefined]);
 			else
-				throw new Error("Missing preKey for PreKeyWhisperMessage");
+				throw new Error("Missing signedPreKey for PreKeyWhisperMessage");
 		}
 		if (session !== undefined) {
 			// We already had a session/known identity key:
-			if (getString(session.indexInfo.remoteIdentityKey) == getString(message.identityKey)) {
+			if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
 				// If the identity key matches the previous one, close the previous one and use the new one
 				if (open_session !== undefined)
 					closeSession(open_session); // To be returned and saved later
@@ -493,11 +529,15 @@ window.textsecure.crypto = function() {
 				throw textsecure.createTryAgainError("Received message with unknown identity key", "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.", textsecure.replay.REPLAY_FUNCS.INIT_SESSION, [encodedNumber, getString(message.encode())]);
 			}
 		}
-		return initSession(false, preKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey))
+		return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
 						.then(function(new_session) {
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
-			return [new_session, open_session];
+			return [new_session, function() {
+				if (open_session !== undefined)
+					crypto_storage.saveSession(encodedNumber, open_session);
+				crypto_storage.removeStoredKeyPair("preKey" + message.preKeyId);
+			}];
 		});;
 	}
 
@@ -586,7 +626,7 @@ window.textsecure.crypto = function() {
 
 	// returns decrypted protobuf
 	decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
-		if (messageBytes[0] != String.fromCharCode((2 << 4) | 2))
+		if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
 			throw new Error("Bad version number on WhisperMessage");
 
 		var messageProto = messageBytes.substring(1, messageBytes.length - 8);
@@ -607,8 +647,7 @@ window.textsecure.crypto = function() {
 			return fillMessageKeys(chain, message.counter).then(function() {
 				return HKDF(toArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
 					delete chain.messageKeys[message.counter];
-
-					return verifyMACWithVersionByte(toArrayBuffer(messageProto), keys[1], mac, (2 << 4) | 2).then(function() {
+					return verifyMACWithVersionByte(toArrayBuffer(messageProto), keys[1], mac, (3 << 4) | 3).then(function() {
 						var counter = intToArrayBuffer(message.counter);
 						return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
 									.then(function(plaintext) {
@@ -694,7 +733,7 @@ window.textsecure.crypto = function() {
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return decryptWhisperMessage(from, getString(proto.message));
 		case textsecure.protos.IncomingPushMessageProtobuf.Type.PREKEY_BUNDLE:
-			if (proto.message.readUint8() != (2 << 4 | 2))
+			if (proto.message.readUint8() != ((3 << 4) | 3))
 				throw new Error("Bad version byte");
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return handlePreKeyWhisperMessage(from, getString(proto.message));
@@ -725,9 +764,9 @@ window.textsecure.crypto = function() {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = toArrayBuffer(msg.encode());
 
-						return calculateMACWithVersionByte(encodedMsg, keys[1], (2 << 4) | 2).then(function(mac) {
+						return calculateMACWithVersionByte(encodedMsg, keys[1], (3 << 4) | 3).then(function(mac) {
 							var result = new Uint8Array(encodedMsg.byteLength + 9);
-							result[0] = (2 << 4) | 2;
+							result[0] = (3 << 4) | 3;
 							result.set(new Uint8Array(encodedMsg), 1);
 							result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 							crypto_storage.saveSession(deviceObject.encodedNumber, session);
@@ -741,19 +780,20 @@ window.textsecure.crypto = function() {
 		var preKeyMsg = new textsecure.protos.PreKeyWhisperMessageProtobuf();
 		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
 		preKeyMsg.preKeyId = deviceObject.preKeyId;
+		preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
 		preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 
 		if (session === undefined) {
 			return createNewKeyPair(false).then(function(baseKey) {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-				return initSession(true, baseKey, deviceObject.encodedNumber,
-									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.publicKey))
+				return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
+									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
 							.then(function(new_session) {
 					session = new_session;
 					session.pendingPreKey = baseKey.pubKey;
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
-						var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
+						var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
 						return {type: 3, body: result};
 					});
 				});
@@ -763,7 +803,7 @@ window.textsecure.crypto = function() {
 				if (session.pendingPreKey !== undefined) {
 					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey);
 					preKeyMsg.message = message;
-					var result = String.fromCharCode((2 << 4) | 2) + getString(preKeyMsg.encode());
+					var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
 					return {type: 3, body: result};
 				} else
 					return {type: 1, body: getString(message)};
@@ -800,7 +840,8 @@ window.textsecure.crypto = function() {
 				});
 			});
 
-			crypto_storage.getAndRemoveStoredKeyPair("signedKey" + (signedKeyId - 2));
+			//TODO: Process by date added and agressively call generateKeys when we get near maxPreKeyId in a message
+			crypto_storage.removeStoredKeyPair("signedKey" + (signedKeyId - 2));
 
 			return Promise.all(promises).then(function() {
 				return keys;
@@ -817,6 +858,8 @@ window.textsecure.crypto = function() {
 		if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
 			self.generateKeys();
 	});
+
+	self.Ed25519Verify = Ed25519Verify;
 
 	self.testing_only = testing_only;
 	return self;

@@ -22,8 +22,8 @@ window.textsecure.api = function() {
 	/************************************************
 	 *** Utilities to communicate with the server ***
 	 ************************************************/
-	// WARNING: THIS SERVER LOGS KEY MATERIAL FOR TESTING
-	var URL_BASE	= "http://sushiforeveryone.bluematt.me";
+	// Staging server
+	var URL_BASE	= "https://textsecure-service-ca.whispersystems.org:4433";
 
 	// This is the real server
 	//var URL_BASE	= "https://textsecure-service.whispersystems.org";
@@ -139,12 +139,21 @@ window.textsecure.api = function() {
 			});
 	};
 
-	self.registerKeys = function(keys) {
-		//TODO: Do this conversion somewhere else?
-		var identityKey = btoa(getString(keys.keys[0].identityKey));
-		for (var i = 0; i < keys.keys.length; i++)
-			keys.keys[i] = {keyId: i, publicKey: btoa(getString(keys.keys[i].publicKey)), identityKey: identityKey};
-		keys.lastResortKey = {keyId: keys.lastResortKey.keyId, publicKey: btoa(getString(keys.lastResortKey.publicKey)), identityKey: identityKey};
+	self.registerKeys = function(genKeys) {
+		var keys = {};
+		keys.identityKey = btoa(getString(genKeys.identityKey));
+		keys.signedPreKey = {keyId: genKeys.signedPreKey.keyId, publicKey: btoa(getString(genKeys.signedPreKey.publicKey)),
+							signature: btoa(getString(genKeys.signedPreKey.signature))};
+
+		keys.preKeys = [];
+		var j = 0;
+		for (i in genKeys.preKeys)
+			keys.preKeys[j++] = {keyId: i, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
+
+		//TODO: This is just to make the server happy (v2 clients should choke on publicKey),
+		// it needs removed before release
+		keys.lastResortKey = {keyId: 0x7fffFFFF, publicKey: btoa("42")};
+
 		return doAjax({
 			call				: 'keys',
 			httpType			: 'PUT',
@@ -159,16 +168,21 @@ window.textsecure.api = function() {
 			httpType			: 'GET',
 			do_auth				: true,
 			urlParameters		: "/" + number + "/*",
-		}).then(function(response) {
-			//TODO: Do this conversion somewhere else?
-			var res = response.keys;
-			for (var i = 0; i < res.length; i++) {
-				res[i].identityKey = base64DecToArr(res[i].identityKey);
-				res[i].publicKey = base64DecToArr(res[i].publicKey);
-				if (res[i].keyId === undefined)
-					res[i].keyId = 0;
+		}).then(function(res) {
+			var promises = [];
+			res.identityKey = base64DecToArr(res.identityKey);
+			for (var i = 0; i < res.devices.length; i++) {
+				res.devices[i].signedPreKey.publicKey = base64DecToArr(res.devices[i].signedPreKey.publicKey);
+				res.devices[i].signedPreKey.signature = base64DecToArr(res.devices[i].signedPreKey.signature);
+				promises[i] = window.textsecure.crypto.Ed25519Verify(res.identityKey, res.devices[i].signedPreKey.publicKey, res.devices[i].signedPreKey.signature);
+				res.devices[i].preKey.publicKey = base64DecToArr(res.devices[i].preKey.publicKey);
+				//TODO: Is this still needed?
+				//if (res.devices[i].keyId === undefined)
+				//	res.devices[i].keyId = 0;
 			}
-			return res;
+			return Promise.all(promises).then(function() {
+				return res;
+			});
 		});
 	};
 
@@ -265,7 +279,7 @@ window.textsecure.api = function() {
 		var password = textsecure.storage.getEncrypted("password");
 		var URL = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['push'] + '/?';
 		var params = $.param({
-			user: '+' + getString(user).substring(1),
+			login: '+' + getString(user).substring(1),
 			password: getString(password)
 		});
 		return new WebSocket(URL+params);
