@@ -99,6 +99,7 @@ window.textsecure = window.textsecure || {};
  *********************************/
 // Strings/arrays
 //TODO: Throw all this shit in favor of consistent types
+//TODO: Namespace
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 var StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -124,6 +125,15 @@ function getStringable(thing) {
 				thing.__proto__ == StaticUint8ArrayProto ||
 				thing.__proto__ == StaticByteBufferProto ||
 				thing.__proto__ == StaticWordArrayProto)));
+}
+
+function isEqual(a, b, maxLegnth) {
+	// TODO: Special-case arraybuffers, etc
+	a = getString(a);
+	b = getString(b);
+	if (maxLength === undefined)
+		maxLength = Math.max(a.length, b.length);
+	return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
 }
 
 function toArrayBuffer(thing) {

@@ -352,18 +352,14 @@ window.textsecure.crypto = function() {
 
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		return calculateMACWithVersionByte(data, key, version).then(function(calculated_mac) {
-			var macString = getString(mac);//TODO: Move away from strings for comparison?
-
-			if (getString(calculated_mac).substring(0, macString.length) != macString)
+			if (!isEqual(calculated_mac, mac, mac.byteLength))
 				throw new Error("Bad MAC");
 		});
 	}
 
 	var verifyMAC = function(data, key, mac) {
 		return HmacSHA256(key, data).then(function(calculated_mac) {
-			var macString = getString(mac);//TODO: Move away from strings for comparison?
-
-			if (getString(calculated_mac).substring(0, macString.length) != macString)
+			if (!isEqual(calculated_mac, mac, mac.byteLength))
 				throw new Error("Bad MAC");
 		});
 	}
