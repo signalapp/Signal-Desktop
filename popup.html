@@ -30,22 +30,28 @@
 			<span class='help' id='new-chat-help'>new message</span>
 		</div>
 	</header>
-	<div class='container'>
-		<div id="listener"></div>
-		<div id="log"></div>
-		<div id="inbox">
-			<form id="send" style="display:none;">
-				<div class='closed conversation'>
-					<div class='header'>
-						<span class='image'></span>
-						<input id="send_numbers" type='text' placeholder="+xxxxxxxxxx">
-						<input type=submit id="compose-create" class='btn btn-square' value='>'>
-						<button id="compose-cancel" class='btn btn-square'>&times;</button>
-					</div>
+	<div class='colmask leftmenu'>
+		<div class='colleft'>
+			<div id='main' class='col1'>
+				<div class='container'>
+					<div id="listener"></div>
+					<div id="log"></div>
 				</div>
-			</form>
+			</div>
+			<div id='sidebar' class="col2">
+				<form id="send" class='clearfix'>
+					<input type=submit id="compose-create" class='btn btn-square' value='>'>
+					<input id="send_numbers" type='text' placeholder="+xxxxxxxxxx">
+				</form>
+				<ul id="contacts"></ul>
+			</div>
 		</div>
 	</div>
+	<script type="text/x-tmpl-mustache" id="contact">
+		<div class='image'></div>
+		<div class='name'>{{name}}</div>
+		<div class='snippet'>{{lastMessage}}</div>
+	</script>
 	<script type="text/x-tmpl-mustache" id="message">
 		<div class="bubble">
 			<span class="message-text">
@@ -84,8 +90,10 @@
 	<script type="text/javascript" src="js/chromium.js"></script>
 	<script type="text/javascript" src="js/views/notifications.js"></script>
 	<script type="text/javascript" src="js/views/message_view.js"></script>
+	<script type="text/javascript" src="js/views/list_view.js"></script>
+	<script type="text/javascript" src="js/views/message_list_view.js"></script>
 	<script type="text/javascript" src="js/views/conversations/show.js"></script>
-	<script type="text/javascript" src="js/views/conversations/index.js"></script>
+	<script type="text/javascript" src="js/views/conversation_list_view.js"></script>
 	<script type="text/javascript" src="js/views/conversations/new.js"></script>
 	<script type="text/javascript" src="js/popup.js"></script>
 </body>

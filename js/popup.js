@@ -20,8 +20,9 @@ textsecure.registerOnLoadFunction(function() {
 		extension.navigator.tabs.create("options.html");
 	} else {
 
-		new Whisper.ConversationListView();
+		new Whisper.ConversationListView({el: $('#contacts')});
 		new Whisper.ConversationComposeView({el: $('body')});
+		Whisper.Threads.fetch({reset: true});
 		$('.my-number').text(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
 		textsecure.storage.putUnencrypted("unreadCount", 0);
 		extension.navigator.setBadgeText("");

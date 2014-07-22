@@ -34,10 +34,13 @@ var Whisper = Whisper || {};
     className: 'conversation',
 
     events: {
-      'click': 'toggle',
+      'click': 'open',
       'submit form': 'sendMessage'
     },
     initialize: function() {
+      this.template = $('#contact').html();
+      Mustache.parse(this.template);
+
       this.listenTo(this.model, 'change', this.render); // auto update
       this.listenTo(this.model, 'message', this.addMessage); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
@@ -50,15 +53,7 @@ var Whisper = Whisper || {};
       this.$name   = $('<span class="name">');
       this.$header = $('<div class="header">').append(this.$image, this.$name);
 
-      this.$button = $('<button class="btn">').append($('<span>').text('Send'));
-      this.$input  = $('<input type="text">').attr('autocomplete','off');
-      this.$form   = $("<form class=''>").append(this.$input);
-
-      this.$messages    = $('<ul class="messages">');
-      this.$collapsable = $('<div class="collapsable">').hide();
-      this.$collapsable.append(this.$messages, this.$form);
-
-      this.$el.append(this.$destroy, this.$header, this.$collapsable);
+      this.$el.append(this.$header, this.$collapsable);
     },
 
     sendMessage: function(e) {
@@ -74,16 +69,15 @@ var Whisper = Whisper || {};
 
     close: function() {
       if (!this.$el.hasClass('closed')) {
-        this.$el.addClass('closed').find('.collapsable').slideUp(600);
+        this.$el.addClass('closed');
       }
     },
 
     open: function(e) {
-      if (this.$el.hasClass('closed')) {
-        this.$el.removeClass('closed');
-        this.$el.find('.collapsable').slideDown(600);
-      }
-      this.$el.find('input').focus();
+      this.$el.siblings().addClass('closed');
+      this.$el.removeClass('closed');
+      var v = new Whisper.MessageListView({collection: this.model.messages()});
+      v.render();
     },
 
     toggle: function() {
@@ -105,9 +99,14 @@ var Whisper = Whisper || {};
     },
 
     render: function() {
-      this.$name.text(this.model.get('name'));
-      this.$image.css('background-image: ' + this.model.get('image') + ';');
+      this.$el.html(
+        Mustache.render(this.template, {
+          name: this.model.get('name')
+        })
+      );
+
       return this;
-    }
+    },
+
   });
 })();

@@ -3,14 +3,19 @@
   position: relative;
   min-height: 64px;
   margin: auto;
-  padding: 1em;
-  border-radius: 10px;
-  border: 2px solid #acdbf5;
+  padding: 0.5em;
   background-color: #7fd0ed;
   color: #fff;
-  margin-bottom: 0.5em;
   -webkit-animation-duration: 1s;
   -webkit-animation-name: convoopen;
+  clear: both;
+}
+li.conversation {
+  border-bottom: 1px solid #ccc;
+}
+
+.conversation .name {
+  padding: 1em 0 1em 3em;
 }
 
 .conversation.closed {
@@ -54,9 +59,7 @@
   float: right;
 }
 .conversation .image {
-  position: absolute;
-  top: 8px;
-  left: 10px;
+  float: left;
   display: inline-block;
   background-color: #fff;
   border: 2px solid #acdbf5;
