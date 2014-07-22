@@ -81,9 +81,9 @@ var Whisper = Whisper || {};
     open: function(e) {
       if (this.$el.hasClass('closed')) {
         this.$el.removeClass('closed');
-        this.$collapsable.slideDown(600);
+        this.$el.find('.collapsable').slideDown(600);
       }
-      this.$input.focus();
+      this.$el.find('input').focus();
     },
 
     toggle: function() {
