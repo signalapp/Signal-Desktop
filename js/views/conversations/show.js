@@ -12,7 +12,8 @@ var Whisper = Whisper || {};
     },
 
     destroy: function() {
-      _.each(this.model.messages(), function(message) { message.destroy(); });
+
+      this.model.messages().each(function(message) { message.destroy(); });
       this.model.destroy();
     }
   });
@@ -103,7 +104,7 @@ var Whisper = Whisper || {};
     },
 
     addAllMessages: function () {
-      _.each(this.model.messages(), this.addMessage, this);
+      this.model.messages().each(this.addMessage, this);
       this.render();
     },
 

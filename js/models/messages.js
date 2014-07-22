@@ -15,6 +15,14 @@ var Whisper = Whisper || {};
     }
   });
 
+  Whisper.MessageCollection = Backbone.Collection.extend({
+    model: Message,
+    comparator: 'timestamp',
+    initialize: function(models, options) {
+      this.localStorage = new Backbone.LocalStorage("Messages-" + options.threadId);
+    }
+  });
+
   Whisper.Messages = new (Backbone.Collection.extend({
     localStorage: new Backbone.LocalStorage("Messages"),
     model: Message,
@@ -27,7 +35,7 @@ var Whisper = Whisper || {};
         attachments[i] = "data:" + decrypted.message.attachments[i].contentType + ";base64," + btoa(getString(decrypted.message.attachments[i].decrypted));
 
       var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
-      var m = Whisper.Messages.add({
+      var m = thread.messages().add({
         person: decrypted.pushMessage.source,
         threadId: thread.id,
         body: decrypted.message.body,
@@ -38,15 +46,15 @@ var Whisper = Whisper || {};
       m.save();
 
       if (decrypted.message.timestamp > thread.get('timestamp')) {
-        thread.set('timestamp', decrypted.message.timestamp);
-        thread.set('unreadCount', thread.get('unreadCount') + 1);
+        thread.set({timestamp: decrypted.message.timestamp});
+        thread.set({unreadCount: thread.get('unreadCount') + 1});
         thread.save();
       }
       return m;
     },
 
     addOutgoingMessage: function(message, thread) {
-      var m = Whisper.Messages.add({
+      var m = thread.messages().add({
         threadId: thread.id,
         body: message,
         type: 'outgoing',

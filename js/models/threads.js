@@ -36,7 +36,9 @@ var Whisper = Whisper || {};
     },
 
     messages: function() {
-      return Whisper.Messages.where({threadId: this.id});
+      var messages = new Whisper.MessageCollection([], {threadId: this.id});
+      messages.fetch();
+      return messages;
     },
   });
 
