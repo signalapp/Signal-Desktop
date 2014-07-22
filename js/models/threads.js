@@ -40,9 +40,11 @@ var Whisper = Whisper || {};
     },
 
     messages: function() {
-      var messages = new Whisper.MessageCollection([], {threadId: this.id});
-      messages.fetch();
-      return messages;
+      if (!this.messageCollection) {
+        this.messageCollection = new Whisper.MessageCollection([], {threadId: this.id});
+      }
+      this.messageCollection.fetch();
+      return this.messageCollection;
     },
   });
 
