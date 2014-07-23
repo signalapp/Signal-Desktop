@@ -17,7 +17,6 @@
 
 
 new Whisper.ConversationListView({el: $('#contacts')});
-new Whisper.ConversationComposeView({el: $('body')});
 Whisper.Threads.fetch({reset: true});
 
 textsecure.registerOnLoadFunction(function() {
