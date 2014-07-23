@@ -696,6 +696,7 @@ window.textsecure.crypto = function() {
 
 							removeOldChains(session);
 							delete session['pendingPreKey'];
+							delete session['pendingVerification'];
 
 							var finalMessage = textsecure.protos.decodePushMessageContentProtobuf(getString(plaintext));
 
@@ -839,6 +840,7 @@ window.textsecure.crypto = function() {
 
 					session = res[0];
 					session.pendingPreKey = baseKey.pubKey;
+					session.pendingVerification = preKeyMsg.verification;
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
 						var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
@@ -850,6 +852,7 @@ window.textsecure.crypto = function() {
 			return doEncryptPushMessageContent().then(function(message) {
 				if (session.pendingPreKey !== undefined) {
 					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey);
+					preKeyMsg.verification = toArrayBuffer(session.pendingVerification);
 					preKeyMsg.message = message;
 					var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
 					return {type: 3, body: result};
