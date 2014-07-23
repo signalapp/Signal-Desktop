@@ -132,8 +132,8 @@ window.textsecure.crypto = function() {
 		textsecure.storage.removeEncrypted("25519Key" + keyName);
 	}
 
-	crypto_storage.getIdentityPrivKey = function() {
-		return this.getStoredKeyPair("identityKey").privKey;
+	crypto_storage.getIdentityKey = function() {
+		return this.getStoredKeyPair("identityKey");
 	}
 
 	crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
@@ -326,7 +326,11 @@ window.textsecure.crypto = function() {
 				infoArray.set(new Uint8Array(T1));
 				infoArray[infoArray.length - 1] = 2;
 				return HmacSHA256(PRK, infoBuffer).then(function(T2) {
-					return [ T1, T2 ];
+					infoArray.set(new Uint8Array(T2));
+					infoArray[infoArray.length - 1] = 3;
+					return HmacSHA256(PRK, infoBuffer).then(function(T3) {
+						return [ T1, T2, T3 ];
+					});
 				});
 			});
 		});
@@ -387,7 +391,7 @@ window.textsecure.crypto = function() {
 	}
 
 	var initSession = function(isInitiator, ourEphemeralKey, ourSignedKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, theirSignedPubKey) {
-		var ourIdentityPrivKey = crypto_storage.getIdentityPrivKey();
+		var ourIdentityKey = crypto_storage.getIdentityKey();
 
 		if (isInitiator) {
 			if (ourSignedKey !== undefined)
@@ -399,43 +403,65 @@ window.textsecure.crypto = function() {
 			theirSignedPubKey = theirEphemeralPubKey;
 		}
 
-		var sharedSecret;
-		if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
+		var PUB_KEYS_VERIFICATION_MAGIC = toArrayBuffer("TextSecure Verification Tag");
+
+		var sharedSecret; var pubKeysVerification;
+		if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined) {
 			sharedSecret = new Uint8Array(32 * 4);
-		else
+			pubKeysVerification = new Uint8Array(33 * 5 + PUB_KEYS_VERIFICATION_MAGIC.byteLength);
+		} else {
 			sharedSecret = new Uint8Array(32 * 5);
+			pubKeysVerification = new Uint8Array(33 * 6 + PUB_KEYS_VERIFICATION_MAGIC.byteLength);
+		}
 
 		for (var i = 0; i < 32; i++)
 			sharedSecret[i] = 0xff;
 
-		return ECDHE(theirSignedPubKey, ourIdentityPrivKey).then(function(ecRes1) {
+		return ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
 			function finishInit() {
 				return ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
 					sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
 					return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
-						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirSignedPubKey },
-										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
-										oldRatchetList: []
-									};
-						if (!isInitiator)
-							session.indexInfo.baseKey = theirEphemeralPubKey;
-						else
-							session.indexInfo.baseKey = ourEphemeralKey.pubKey;
 
-						// If we're initiating we go ahead and set our first sending ephemeral key now,
-						// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
-						if (isInitiator) {
-							return createNewKeyPair(false).then(function(ourSendingEphemeralKey) {
-								session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
-								return calculateRatchet(session, theirSignedPubKey, true).then(function() {
-									return session;
-								});
-							});
-						} else {
-							session.currentRatchet.ephemeralKeyPair = ourSignedKey;
-							return session;
+						pubKeysVerification.set(new Uint8Array(PUB_KEYS_VERIFICATION_MAGIC));
+						var i = PUB_KEYS_VERIFICATION_MAGIC.byteLength - 33;
+
+						pubKeysVerification.set(new Uint8Array(isInitiator ? ourSignedKey.pubKey : theirSignedPubKey), i += 33);
+						pubKeysVerification.set(new Uint8Array(isInitiator ? ourIdentityKey.pubKey : theirIdentityPubKey), i += 33);
+
+						pubKeysVerification.set(new Uint8Array(!isInitiator ? ourSignedKey.pubKey : theirSignedPubKey), i += 33);
+						pubKeysVerification.set(new Uint8Array(!isInitiator ? ourIdentityKey.pubKey : theirIdentityPubKey), i += 33);
+
+						if (ourEphemeralKey !== undefined && theirEphemeralPubKey !== undefined) {
+							pubKeysVerification.set(new Uint8Array(isInitiator ? ourEphemeralKey.pubKey : theirEphemeralPubKey), i += 33);
+							pubKeysVerification.set(new Uint8Array(!isInitiator ? ourEphemeralKey.pubKey : theirEphemeralPubKey), i += 33);
 						}
+
+						return HmacSHA256(masterKey[2], pubKeysVerification.buffer).then(function(verificationTag) {
+							var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirSignedPubKey },
+											indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
+											oldRatchetList: []
+										};
+							if (!isInitiator)
+								session.indexInfo.baseKey = theirEphemeralPubKey;
+							else
+								session.indexInfo.baseKey = ourEphemeralKey.pubKey;
+
+							// If we're initiating we go ahead and set our first sending ephemeral key now,
+							// otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
+							if (isInitiator) {
+								return createNewKeyPair(false).then(function(ourSendingEphemeralKey) {
+									session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
+									return calculateRatchet(session, theirSignedPubKey, true).then(function() {
+										return [session, verificationTag];
+									});
+								});
+							} else {
+								session.currentRatchet.ephemeralKeyPair = ourSignedKey;
+								return [session, verificationTag];
+							}
+						});
 					});
 				});
 			}
@@ -445,9 +471,9 @@ window.textsecure.crypto = function() {
 				promise = Promise.resolve(new ArrayBuffer(0));
 			else
 				promise = ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
-
 			return promise.then(function(ecRes4) {
 				sharedSecret.set(new Uint8Array(ecRes4), 32 * 4);
+
 				if (isInitiator)
 					return ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
 						sharedSecret.set(new Uint8Array(ecRes1), 32);
@@ -530,10 +556,14 @@ window.textsecure.crypto = function() {
 			}
 		}
 		return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
-						.then(function(new_session) {
+						.then(function(res) {
+			if (!isEqual(res[1] , message.verification, true))
+				throw new Error('Invalid verification tag');
+
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
-			return [new_session, function() {
+			// (though this is actually not needed any more thanks to the verification tag)
+			return [res[0], function() {
 				if (open_session !== undefined)
 					crypto_storage.saveSession(encodedNumber, open_session);
 				crypto_storage.removeStoredKeyPair("preKey" + message.preKeyId);
@@ -794,7 +824,7 @@ window.textsecure.crypto = function() {
 		}
 
 		var preKeyMsg = new textsecure.protos.PreKeyWhisperMessageProtobuf();
-		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getStoredPubKey("identityKey"));
+		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
 		preKeyMsg.preKeyId = deviceObject.preKeyId;
 		preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
 		preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
@@ -804,8 +834,10 @@ window.textsecure.crypto = function() {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
 									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-							.then(function(new_session) {
-					session = new_session;
+							.then(function(res) {
+					preKeyMsg.verification = res[1].slice(0, 8);
+
+					session = res[0];
 					session.pendingPreKey = baseKey.pubKey;
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
@@ -828,7 +860,7 @@ window.textsecure.crypto = function() {
 
 	var GENERATE_KEYS_KEYS_GENERATED = 100;
 	self.generateKeys = function() {
-		var identityKeyPair = crypto_storage.getStoredKeyPair("identityKey");
+		var identityKeyPair = crypto_storage.getIdentityKey();
 		var identityKeyCalculated = function(identityKeyPair) {
 			var firstPreKeyId = textsecure.storage.getEncrypted("maxPreKeyId", 0);
 			textsecure.storage.putEncrypted("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);

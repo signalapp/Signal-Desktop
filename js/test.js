@@ -438,8 +438,7 @@ textsecure.registerOnLoadFunction(function() {
 						} else {
 							var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
 							var result = getString(msg.body).substring(1);
-							return getString(decoded.message) == getString(decoded.message);
-							//return getString(decoded.encode()) == result;
+							return getString(decoded.encode()) == result;
 						}
 					});
 				}
@@ -468,7 +467,7 @@ textsecure.registerOnLoadFunction(function() {
 		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
 	}, "Standard Axolotl Test Vectors as Alice", true);
 
-	/*TEST(function() {
+	TEST(function() {
 		var t = axolotlTwoPartyTestVectorsAlice[2][1];
 		axolotlTwoPartyTestVectorsAlice[2][1] = axolotlTwoPartyTestVectorsAlice[3][1];
 		axolotlTwoPartyTestVectorsAlice[2][1].newEphemeralKey = t.newEphemeralKey;
@@ -477,7 +476,7 @@ textsecure.registerOnLoadFunction(function() {
 		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
 	}, "Shuffled Axolotl Test Vectors as Alice", true);
 
-	TEST(function() {
+	/*TEST(function() {
 		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, "ALICE");
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
