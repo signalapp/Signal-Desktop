@@ -15,10 +15,12 @@ var Whisper = Whisper || {};
     },
 
     sendMessage: function(e) {
-      if (!this.$input.val().length) { return false; }
-      this.model.sendMessage(this.$input.val());
-      this.$input.val("");
       e.preventDefault();
+      var input = $('#new-message-text');
+      if (input.val().length > 0) {
+        this.model.sendMessage(input.val());
+        input.val("");
+      }
     },
 
     render: function() {
