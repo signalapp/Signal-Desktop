@@ -357,14 +357,14 @@ window.textsecure.crypto = function() {
 
 	var verifyMACWithVersionByte = function(data, key, mac, version) {
 		return calculateMACWithVersionByte(data, key, version).then(function(calculated_mac) {
-			if (!isEqual(calculated_mac, mac))
+			if (!isEqual(calculated_mac, mac, true))
 				throw new Error("Bad MAC");
 		});
 	}
 
 	var verifyMAC = function(data, key, mac) {
 		return HmacSHA256(key, data).then(function(calculated_mac) {
-			if (!isEqual(calculated_mac, mac))
+			if (!isEqual(calculated_mac, mac, true))
 				throw new Error("Bad MAC");
 		});
 	}
@@ -520,7 +520,7 @@ window.textsecure.crypto = function() {
 		}
 		if (session !== undefined) {
 			// We already had a session/known identity key:
-			if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
+			if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey, false)) {
 				// If the identity key matches the previous one, close the previous one and use the new one
 				if (open_session !== undefined)
 					closeSession(open_session); // To be returned and saved later
@@ -650,7 +650,19 @@ window.textsecure.crypto = function() {
 					return verifyMACWithVersionByte(toArrayBuffer(messageProto), keys[1], mac, (3 << 4) | 3).then(function() {
 						var counter = intToArrayBuffer(message.counter);
 						return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
-									.then(function(plaintext) {
+									.then(function(paddedPlaintext) {
+
+							paddedPlaintext = new Uint8Array(paddedPlaintext);
+							var plaintext;
+							for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+								if (paddedPlaintext[i] == 0x80) {
+									plaintext = new Uint8Array(i);
+									plaintext.set(paddedPlaintext.subarray(0, i));
+									plaintext = plaintext.buffer;
+									break;
+								} else if (paddedPlaintext[i] != 0x00)
+									throw new Error('Invalid padding');
+							}
 
 							removeOldChains(session);
 							delete session['pendingPreKey'];
@@ -750,6 +762,10 @@ window.textsecure.crypto = function() {
 			var msg = new textsecure.protos.WhisperMessageProtobuf();
 			var plaintext = toArrayBuffer(pushMessageContent.encode());
 
+			var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160);
+			paddedPlaintext.set(new Uint8Array(plaintext));
+			paddedPlaintext[plaintext.byteLength] = 0x80;
+
 			msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
 			var chain = session[getString(msg.ephemeralKey)];
 
@@ -760,7 +776,7 @@ window.textsecure.crypto = function() {
 					msg.previousCounter = session.currentRatchet.previousCounter;
 
 					var counter = intToArrayBuffer(chain.chainKey.counter);
-					return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], plaintext).then(function(ciphertext) {
+					return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], paddedPlaintext.buffer).then(function(ciphertext) {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = toArrayBuffer(msg.encode());
 

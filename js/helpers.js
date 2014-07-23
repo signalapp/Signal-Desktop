@@ -127,11 +127,11 @@ function getStringable(thing) {
 				thing.__proto__ == StaticWordArrayProto)));
 }
 
-function isEqual(a, b) {
+function isEqual(a, b, mayBeShort) {
 	// TODO: Special-case arraybuffers, etc
 	a = getString(a);
 	b = getString(b);
-	var maxLength = Math.min(a.length, b.length);
+	var maxLength = mayBeShort ? Math.min(a.length, b.length) : Math.max(a.length, b.length);
 	if (maxLength < 5)
 		throw new Error("a/b compare too short");
 	return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
