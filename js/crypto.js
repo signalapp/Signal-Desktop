@@ -536,15 +536,21 @@ window.textsecure.crypto = function() {
 
 		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
 		var open_session = crypto_storage.getOpenSession(encodedNumber);
-		if (signedPreKeyPair === undefined) {
-			// Session may or may not be the correct one, but if its not, we can't do anything about it
+		if (preKeyPair === undefined || signedPreKeyPair === undefined) {
+			// Session may or may not be the right one, but if its not, we can't do anything about it
 			// ...fall through and let decryptWhisperMessage handle that case
 			if (session !== undefined && session.currentRatchet !== undefined)
 				return Promise.resolve([session, undefined]);
+			else if (preKeyPair === undefined)
+				throw new Error("Missing PreKey for PreKeyWhisperMessage");
 			else
-				throw new Error("Missing signedPreKey for PreKeyWhisperMessage");
+				throw new Error("Missing Signed PreKey for PreKeyWhisperMessage");
 		}
 		if (session !== undefined) {
+			// Duplicate PreKeyMessage for session:
+			if (isEqual(session.indexInfo.baseKey, message.baseKey, false))
+				return Promise.resolve([session, undefined]);
+
 			// We already had a session/known identity key:
 			if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey, false)) {
 				// If the identity key matches the previous one, close the previous one and use the new one

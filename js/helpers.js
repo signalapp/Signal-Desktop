@@ -129,6 +129,8 @@ function getStringable(thing) {
 
 function isEqual(a, b, mayBeShort) {
 	// TODO: Special-case arraybuffers, etc
+	if (a === undefined || b === undefined)
+		return false;
 	a = getString(a);
 	b = getString(b);
 	var maxLength = mayBeShort ? Math.min(a.length, b.length) : Math.max(a.length, b.length);
