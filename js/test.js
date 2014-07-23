@@ -494,6 +494,8 @@ textsecure.registerOnLoadFunction(function() {
 		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
 		v[0][1].ourPreKey = orig[0][1].ourPreKey;
 		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
+		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
 		v[0][1].registrationId = orig[0][1].registrationId;
 		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
 		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
@@ -553,6 +555,8 @@ textsecure.registerOnLoadFunction(function() {
 		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
 		v[0][1].ourPreKey = orig[0][1].ourPreKey;
 		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
+		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
 		v[0][1].registrationId = orig[0][1].registrationId;
 		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
 		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
