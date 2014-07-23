@@ -52,7 +52,7 @@ window.textsecure.crypto = function() {
 
 	function objectContainsKeys(object) {
 		var count = 0;
-		for (key in object) {
+		for (var key in object) {
 			count++;
 			break;
 		}
@@ -156,7 +156,7 @@ window.textsecure.crypto = function() {
 
 			if (!doDeleteSession) {
 				var keysLeft = false;
-				for (key in session) {
+				for (var key in session) {
 					if (key != "indexInfo" && key != "indexInfo" && key != "oldRatchetList") {
 						keysLeft = true;
 						break;
@@ -186,7 +186,7 @@ window.textsecure.crypto = function() {
 		if (sessions === undefined)
 			return undefined;
 
-		for (key in sessions)
+		for (var key in sessions)
 			if (sessions[key].indexInfo.closed == -1)
 				return sessions[key];
 		return undefined;
@@ -200,7 +200,7 @@ window.textsecure.crypto = function() {
 		var searchKey = getString(remoteEphemeralKey);
 
 		var openSession = undefined;
-		for (key in sessions) {
+		for (var key in sessions) {
 			if (sessions[key].indexInfo.closed == -1) {
 				if (openSession !== undefined)
 					throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
@@ -465,7 +465,7 @@ window.textsecure.crypto = function() {
 	var closeSession = function(session) {
 		// Clear any data which would allow session continuation:
 		// Lock down current receive ratchet
-		for (key in session)
+		for (var key in session)
 			if (key.chainKey !== undefined && key.chainKey.key !== undefined)
 				delete key.chainKey.key;
 		// Delete current sending ratchet

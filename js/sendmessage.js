@@ -1,10 +1,12 @@
 // sendMessage(numbers = [], message = PushMessageContentProto, callback(success/failure map))
 window.textsecure.messaging = function() {
+	'use strict';
+
 	var self = {};
 
 	function getKeysForNumber(number, updateDevices) {
 		return textsecure.api.getKeysForNumber(number).then(function(response) {
-			for (i in response.devices) {
+			for (var i in response.devices) {
 				if (updateDevices === undefined || updateDevices.indexOf(response.devices[i].deviceId) > -1)
 					textsecure.storage.devices.saveDeviceObject({
 						encodedNumber: number + "." + response.devices[i].deviceId,
@@ -65,7 +67,7 @@ window.textsecure.messaging = function() {
 	var refreshGroups = function(number) {
 		var groups = textsecure.storage.groups.getGroupListForNumber(number);
 		var promises = [];
-		for (i in groups) {
+		for (var i in groups) {
 			var group = textsecure.storage.groups.getGroup(groups[i]);
 
 			var proto = new textsecure.protos.PushMessageContentProtobuf();
@@ -218,7 +220,7 @@ window.textsecure.messaging = function() {
 		proto.body = messageText;
 
 		var promises = [];
-		for (i in attachments)
+		for (var i in attachments)
 			promises.push(makeAttachmentPointer(attachments[i]));
 		return Promise.all(promises).then(function(attachmentsArray) {
 			proto.attachments = attachmentsArray;
@@ -228,7 +230,7 @@ window.textsecure.messaging = function() {
 
 	self.closeSession = function(number) {
 		var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-		for (i in devices)
+		for (var i in devices)
 			textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
 
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
@@ -248,7 +250,7 @@ window.textsecure.messaging = function() {
 			return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
 
 		var promises = [];
-		for (i in attachments)
+		for (var i in attachments)
 			promises.push(makeAttachmentPointer(attachments[i]));
 		return Promise.all(promises).then(function(attachmentsArray) {
 			proto.attachments = attachmentsArray;

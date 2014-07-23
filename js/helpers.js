@@ -264,7 +264,7 @@ window.textsecure.utils = function() {
 			return res;
 		} else if (thing === Object(thing)) {
 			var res = {};
-			for (key in thing)
+			for (var key in thing)
 				res[key] = ensureStringed(thing[key]);
 			return res;
 		}
@@ -351,7 +351,7 @@ window.textsecure.storage = function() {
 				throw new Error("Identity key changed");
 			else {
 				var updated = false;
-				for (i in map.devices) {
+				for (var i in map.devices) {
 					if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
 						map.devices[i] = deviceObject;
 						updated = true;
@@ -376,7 +376,7 @@ window.textsecure.storage = function() {
 			if (devices === undefined)
 				return undefined;
 
-			for (i in devices)
+			for (var i in devices)
 				if (devices[i].encodedNumber == encodedNumber)
 					return devices[i];
 
@@ -390,9 +390,9 @@ window.textsecure.storage = function() {
 
 			var newDevices = [];
 			var devicesRemoved = 0;
-			for (i in map.devices) {
+			for (var i in map.devices) {
 				var keep = true;
-				for (j in deviceIdsToRemove)
+				for (var j in deviceIdsToRemove)
 					if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
 						keep = false;
 
@@ -445,7 +445,7 @@ window.textsecure.storage = function() {
 			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
 			var haveMe = false;
 			var finalNumbers = [];
-			for (i in numbers) {
+			for (var i in numbers) {
 				var number = textsecure.utils.verifyNumber(numbers[i]);
 				if (number == me)
 					haveMe = true;
@@ -501,7 +501,7 @@ window.textsecure.storage = function() {
 			if (group === undefined)
 				return undefined;
 
-			for (i in numbers) {
+			for (var i in numbers) {
 				var number = textsecure.utils.verifyNumber(numbers[i]);
 				if (group.numbers.indexOf(number) < 0) {
 					group.numbers.push(number);
@@ -744,7 +744,7 @@ window.textsecure.subscribeToPush = function() {
 							}
 						}
 
-						for (i in decrypted.attachments)
+						for (var i in decrypted.attachments)
 							promises.push(handleAttachment(decrypted.attachments[i]));
 						return Promise.all(promises).then(function() {
 							message_callback({pushMessage: proto, message: decrypted});

@@ -17,6 +17,8 @@
 window.textsecure = window.textsecure || {};
 
 window.textsecure.api = function() {
+	'use strict';
+
 	var self = {};
 
 	/************************************************
@@ -147,7 +149,7 @@ window.textsecure.api = function() {
 
 		keys.preKeys = [];
 		var j = 0;
-		for (i in genKeys.preKeys)
+		for (var i in genKeys.preKeys)
 			keys.preKeys[j++] = {keyId: i, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
 
 		//TODO: This is just to make the server happy (v2 clients should choke on publicKey),
