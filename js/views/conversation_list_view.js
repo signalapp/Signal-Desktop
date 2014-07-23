@@ -11,7 +11,6 @@ var Whisper = Whisper || {};
 
     events: {
       'select .conversation': 'select',
-      'deselect': 'deselect'
     },
 
     select: function(e) {
@@ -20,10 +19,5 @@ var Whisper = Whisper || {};
       target.addClass('selected').trigger('open');
       return false;
     },
-
-    deselect: function() {
-      this.$el.find('.selected').removeClass('selected').trigger('close');
-      this.$el.find('.conversation').show();
-    }
   });
 })();

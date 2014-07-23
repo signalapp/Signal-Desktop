@@ -43,7 +43,6 @@ var Whisper = Whisper || {};
       if (!this.messageCollection) {
         this.messageCollection = new Whisper.MessageCollection([], {threadId: this.id});
       }
-      this.messageCollection.fetch();
       return this.messageCollection;
     },
   });

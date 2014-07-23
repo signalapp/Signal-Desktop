@@ -3,15 +3,6 @@ var Whisper = Whisper || {};
 (function () {
   'use strict';
 
-  var Destroyer = Backbone.View.extend({
-    tagName: 'button',
-    className: 'btn btn-square btn-sm',
-    initialize: function() {
-      this.$el.html('&times;');
-      this.listenTo(this.$el, 'click', this.model.destroy);
-    }
-  });
-
   Whisper.MessageView = Backbone.View.extend({
     tagName:   "li",
     className: "message",
