@@ -675,6 +675,9 @@ window.textsecure.subscribeToPush = function() {
 						// Note that messages may (generally) only perform one action and we ignore remaining fields
 						// after the first action.
 
+						if (decrypted.flags == null)
+							decrypted.flags = 0;
+
 						if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 							return;
