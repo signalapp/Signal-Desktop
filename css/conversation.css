@@ -73,25 +73,6 @@ li.conversation {
   display: inline-block;
 }
 
-.collapsable {
-  background-color: #fff;
-  border: 2px solid #acdbf5;
-  padding: 1em 0em 0em;
-  line-height: 1.2em;
-  font-family: sans-serif;
-  border-radius: 20px 0;
-}
-
-.collapsable form {
-  margin: 0;
-  padding: 1em;
-}
-.collapsable input[type=text] {
-  box-sizing: border-box;
-  width: 100%;
-  border: none;
-}
-
 .message-text {
   display: block;
   padding: 0.5em 0.6em 0em;
