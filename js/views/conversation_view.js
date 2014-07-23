@@ -6,11 +6,13 @@ var Whisper = Whisper || {};
   Whisper.ConversationView = Backbone.View.extend({
     initialize: function() {
       this.listenTo(this.model, 'destroy', this.remove); // auto update
+
       var v = new Whisper.MessageListView({collection: this.model.messages()});
       v.render();
     },
     events: {
       'submit #new-message': 'sendMessage',
+      'close': 'remove'
     },
 
     sendMessage: function(e) {

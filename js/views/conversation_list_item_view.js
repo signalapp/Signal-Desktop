@@ -21,6 +21,7 @@ var Whisper = Whisper || {};
     },
 
     open: function(e) {
+      $('#main').trigger('close'); // detach any existing conversation views
       var v = new Whisper.ConversationView({el: $('#main'), model: this.model});
     },
 
