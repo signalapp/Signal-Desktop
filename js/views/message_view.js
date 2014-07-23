@@ -9,10 +9,13 @@ var Whisper = Whisper || {};
 
     initialize: function() {
       this.$el.addClass(this.model.get('type'));
-      this.listenTo(this.model, 'change', this.render); // auto update
-      this.listenTo(this.model, 'destroy', this.remove); // auto update
+
       this.template = $('#message').html();
       Mustache.parse(this.template);
+
+      this.listenTo(this.model, 'change',  this.render); // auto update
+      this.listenTo(this.model, 'destroy', this.remove); // auto update
+
     },
 
     render: function() {
