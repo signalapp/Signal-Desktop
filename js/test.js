@@ -317,43 +317,37 @@ textsecure.registerOnLoadFunction(function() {
 	var axolotlTwoPartyTestVectorsBob = [
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be161000180022104bd27ab87ee151d71cdfe89828050ef4b05bddfb56da491728c95a'),
+				message: hexToArrayBuffer('3308b8896f1221050b71f7b43cf24b70b80fcd0f3c2724a3efcbd194a7d9b46b04757c73ba4a58181a2105eeef4cd089a1b01cbd27ae8c5c4fc46c949c40db889ac1bd5363c3767167bf5122d301330a2105b19f1f4d00684eaf0271b7645356e3313d3d1a55848ca3858fec00e3c34bf60c1000180022a00154c90de4cd2531713f43aba32ee43d40aea071c9a19bdfa9ca04e66972208b31f2f6a97c73105ae192f8b7990113ef33b1c6e7a8fc7481b0b22b2279995e819a295aa076ae6d9670c96376260663f728ecd24ee71e9a5cced7e79dd01efa30bfd4e087ca3be65af8bdaf28dd097cc042b675cc80e66c9f8e8dfc82542b898fb9725acef0619522056f4bd18f8dfed859b2979d45ea64095bb0dd19ab5ab5f0bf1ecd73a516502f7d28823730dffc623a08aa53b8af6e52a86f'),
 				type: 3,
-				ourPreKey: hexToArrayBuffer('799706c9a19c663b6970690beccb5ffdc55b9f592f1dcbcd954f3662842c076b'),
-				preKeyId: 13845842,
-				ourSignedPreKey: hexToArrayBuffer('5024f863ed4a17505a5588cb464aa3cb349201f786e6f871a22cbed1ea6dd97c'),
-				preSignedPreKeyId: 13845842,
-				ourIdentityKey: hexToArrayBuffer('5024f863ed4a17505a5588cb464aa3cb349201f786e6f871a22cbed1ea6dd97c'),
-				newEphemeralKey: hexToArrayBuffer('d1d52b5a4403c32e81bc242b10502ad222ed47af16ba6548496217416c934252'),
-				//expectedPlaintext: hexToArrayBuffer(''),
-				expectedSmsText: "A             ",
+				ourPreKey: hexToArrayBuffer('e1354a0f1c965b455a581bd1c38535810566bd2ff1b76248df9a05a382d44862'),
+				preKeyId: 1819832,
+				ourSignedPreKey: hexToArrayBuffer('11986d91051e87552a095fbf588cad3e0813f82e7e297aee866c0d433502c974'),
+				signedPreKeyId: 1621599,
+				ourIdentityKey: hexToArrayBuffer('c063b14b5d3282293acb065e73a45c0b02db15ff775d66469c01de023fd9c340'),
+				newEphemeralKey: hexToArrayBuffer('e130fe7596d6e1b886d5e9be954b43c01a8c2b672989935c95e50bb7b3e54476'),
+				expectedSmsText: "A",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('2208d28acd061221059ab4e844771bfeb96382edac5f80e757a1109b5611c770b2ba9f28b363d7c2541a2105bd61aea7fa5304f4dc914892bc3795812cda8bb90b73de9920e22c609cf0ec4e2242220a21058c0c357a3a25e6da46b0186d93fec31d5b86a4ac4973742012d8e9de2346be16100118002210b40da85e4998984b4bac1748045b3661f46657badd576b4128c95a'),
+				message: hexToArrayBuffer('3308b8896f1221050b71f7b43cf24b70b80fcd0f3c2724a3efcbd194a7d9b46b04757c73ba4a58181a2105eeef4cd089a1b01cbd27ae8c5c4fc46c949c40db889ac1bd5363c3767167bf5122d301330a2105b19f1f4d00684eaf0271b7645356e3313d3d1a55848ca3858fec00e3c34bf60c1001180022a00192e2da45b87829811e1491f3383f269f6d5b20b76ca1783dfc64e1a360a4c417bdc7d4955699657716a4d700648c5d301c97ad189568a6b4ccb12e8d9a4537551a6aca14871756cd551e0da703c153ac9fb3c58fd008648c30c588c79324f58cfe4acc2b4444c623300bf0bd1619bbd75333f2c5afd298c90f6d3a506c97e64512df66b0e0d2a19de863311876b5b009f746fb2e49b8db38202d57cf1dff2f021aea0d9fbc3520bc28823730dffc623a08aa53b8af6e52a86f'),
 				type: 3,
-				//expectedPlaintext: hexToArrayBuffer(''),
-				expectedSmsText: "B             ",
+				expectedSmsText: "B",
 			}],
 		["sendMessage",
 			{
 				smsText: "C",
-				//expectedPlaintext: hexToArrayBuffer('0a0143'),
-				//expectedCounter: 0,
-				expectedCiphertext: hexToArrayBuffer('220a2105edf6feeea8ee95f4b227453d5942d15731cb7a962eff6d04706860a4d577476f100018ffffffff0f22032a53da435b5477336965c6'),
+				expectedCiphertext: hexToArrayBuffer('330a2105bfaa1c2c963b89a1246a8740faae44089392416f20355d7d036e6a610423537c100018ffffffff0f22a00191f5a898f23b227e04436446956fc587425011118aec789bc0402010716b8a98071f4f52431b4b98db5515d8e89bf35fc83f3f220e173eb121d46a6645dde12a7970ec614a1eb379989a79965e668a90ba3357909a9ca5b76ea1793f47dcfc1cffd343cf0dfdeed0a1a4ea33f42c4effb87923ac3c240ea1134647075525cfc709165a707578bd7bbf13047f992782cd1201df7fcf01df6f8ef44585d4868b5c73e605b6e15612bf'),
 			}],
 		["sendMessage",
 			{
 				smsText: "D",
-				//expectedPlaintext: hexToArrayBuffer('0a0144'),
-				//expectedCounter: 1,
-				expectedCiphertext: hexToArrayBuffer('220a2105edf6feeea8ee95f4b227453d5942d15731cb7a962eff6d04706860a4d577476f100118ffffffff0f2203a439d199228e124820c28b'),
+				expectedCiphertext: hexToArrayBuffer('330a2105bfaa1c2c963b89a1246a8740faae44089392416f20355d7d036e6a610423537c100118ffffffff0f22a00110ce40b78a14f999286ebd455ab1939d9dc16c346cd1d2d24e77156a802f5535a6c1c33d66da1493a0e5f296444a8208e6d88d831fa61c0a70ba52a25f817517010226ab72b4192ee394a3c957104ef6034de142f1033ae76a35530284575d7be404395d34b0de7eeee34f299d14ea811f8042bfb4d34aae565d212e2c7f246bb9bc1127edfcece449f1d0d1334cbc15b97dddb76068c2ff8dfd9e7f630bb08a0dceb58a4a231072'),
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('220a2105f94173eeb7ff19ab9196461d596324385611fadef0ca29592cc182d92eb653281000180122031b67b3e2c43b9a672c9cb0'),
+				message: hexToArrayBuffer('330a2105d5f827f3214d70183a169bd32de9afd8dcdd05d3e96c7a105fb71f9ce18ff7621000180122a001ff2755491df88bab3be92f48a5846fa382d6a4a92dc24d036bb6dfd87be5fa3ee0be4ef60e78ff44baf1e9f78fa698b8db597d0717a0b6c396a3b776c3f2a21244462105ddda15389f116777fa63419ce5a16575fe118a2f46c8bc857daad0352ee3cb4f2940933c7309533f2e856d34747cc6d1237b7529e45bdbc003df1d744c03da07d77e2692295acdb667b403c7c55088f43451bdec48c5f96e5bd2389a87edc2fb44a1a3e8'),
 				type: 1,
-				newEphemeralKey: hexToArrayBuffer('c1ad88addc5a74b0028e669c70d2860dfdd315af542ebd7394921d91f5cd5558'),
+				newEphemeralKey: hexToArrayBuffer('214e876235741e8f496142594055dc9d9a6d217dddf62391af6745a925a11164'),
 				expectedSmsText: "E",
 			}],
 		];
@@ -415,7 +409,10 @@ textsecure.registerOnLoadFunction(function() {
 						textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
 						return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
 							textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
-							return postLocalKeySetup();
+							return textsecure.crypto.testing_only.privToPub(data.ourSignedPreKey, false).then(function(keyPair) {
+								textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
+								return postLocalKeySetup();
+							});
 						});
 					});
 				else
@@ -432,9 +429,12 @@ textsecure.registerOnLoadFunction(function() {
 					return textsecure.messaging.sendMessageToNumber(remoteNumber, data.smsText, []).then(function() {
 						var msg = messagesSentMap[remoteNumber + "." + 1];
 						delete messagesSentMap[remoteNumber + "." + 1];
-						//XXX: This should be all we do: stepDone(getString(data.expectedCiphertext) == getString(res.body));
+						//XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
 						if (msg.type == 1) {
-							return isEqual(data.expectedCiphertext, msg.body, false);
+							var expected = getString(data.expectedCiphertext);
+							var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expected.substring(1, expected.length - 8));
+							var result = getString(msg.body);
+							return getString(decoded.encode()) == result.substring(1, result.length - 8);
 						} else {
 							var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
 							var result = getString(msg.body).substring(1);
@@ -476,7 +476,7 @@ textsecure.registerOnLoadFunction(function() {
 		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
 	}, "Shuffled Axolotl Test Vectors as Alice", true);
 
-	/*TEST(function() {
+	TEST(function() {
 		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, "ALICE");
 	}, "Standard Axolotl Test Vectors as Bob", true);
 
@@ -566,7 +566,7 @@ textsecure.registerOnLoadFunction(function() {
 		v[3] = orig[4];
 
 		return axolotlTestVectors(v, "ALICE");
-	}, "Shuffled Axolotl Test Vectors as Bob IV", true);*/
+	}, "Shuffled Axolotl Test Vectors as Bob IV", true);
 
 	TEST(function() {
 		var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
