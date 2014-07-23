@@ -9,7 +9,7 @@ var Whisper = Whisper || {};
     itemView: Whisper.MessageView,
 
     render: function() {
-      $('#main').html('').append(this.el);
+      $('#main .message-container').html('').append(this.el);
     }
   });
 })();
