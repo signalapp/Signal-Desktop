@@ -10,13 +10,13 @@ var Whisper = Whisper || {};
     collection: Whisper.Threads,
 
     events: {
-      'select .conversation': 'select',
+      'click .conversation': 'select',
     },
 
     select: function(e) {
       var target = $(e.target).closest('.conversation');
       target.siblings().addClass('closed');
-      target.addClass('selected').trigger('open');
+      target.removeClass('closed').addClass('selected');
       return false;
     },
   });
