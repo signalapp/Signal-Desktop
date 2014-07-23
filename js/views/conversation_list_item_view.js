@@ -22,7 +22,15 @@ var Whisper = Whisper || {};
 
     open: function(e) {
       $('#main').trigger('close'); // detach any existing conversation views
-      var v = new Whisper.ConversationView({el: $('#main'), model: this.model});
+      if (!this.view) {
+        this.view = new Whisper.ConversationView({
+          el: $('#main'),
+          model: this.model
+        });
+      } else {
+        this.view.delegateEvents();
+      }
+      this.view.render();
     },
 
     render: function() {

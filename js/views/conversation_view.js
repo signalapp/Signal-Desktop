@@ -5,14 +5,13 @@ var Whisper = Whisper || {};
 
   Whisper.ConversationView = Backbone.View.extend({
     initialize: function() {
-      this.listenTo(this.model, 'destroy', this.remove); // auto update
+      this.listenTo(this.model, 'destroy', this.stopListening); // auto update
 
-      var v = new Whisper.MessageListView({collection: this.model.messages()});
-      v.render();
+      this.view = new Whisper.MessageListView({collection: this.model.messages()});
     },
     events: {
       'submit #new-message': 'sendMessage',
-      'close': 'remove'
+      'close': 'undelegateEvents'
     },
 
     sendMessage: function(e) {
@@ -21,5 +20,10 @@ var Whisper = Whisper || {};
       this.$input.val("");
       e.preventDefault();
     },
+
+    render: function() {
+      this.view.render();
+      return this;
+    }
   });
 })();
