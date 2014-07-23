@@ -15,8 +15,10 @@ var Whisper = Whisper || {};
 
     select: function(e) {
       var target = $(e.target).closest('.conversation');
-      target.siblings().addClass('closed');
-      target.removeClass('closed').addClass('selected');
+      if (target.hasClass('closed')) {
+        target.siblings().addClass('closed');
+        target.removeClass('closed').addClass('selected');
+      }
       return false;
     },
   });
