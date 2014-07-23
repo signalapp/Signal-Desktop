@@ -15,19 +15,16 @@
  */
 
 
+
+new Whisper.ConversationListView({el: $('#contacts')});
+new Whisper.ConversationComposeView({el: $('body')});
+Whisper.Threads.fetch({reset: true});
+
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
 		extension.navigator.tabs.create("options.html");
 	} else {
-
-		new Whisper.ConversationListView({el: $('#contacts')});
-		new Whisper.ConversationComposeView({el: $('body')});
-		Whisper.Threads.fetch({reset: true});
-		$('.my-number').text(textsecure.storage.getUnencrypted("number_id").split(".")[0]);
 		textsecure.storage.putUnencrypted("unreadCount", 0);
 		extension.navigator.setBadgeText("");
-		$("#me").click(function() {
-			$('#popup_send_numbers').val($('.my-number').text());
-		});
 	}
 });
