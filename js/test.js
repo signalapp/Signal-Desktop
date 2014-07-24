@@ -263,7 +263,7 @@ textsecure.registerOnLoadFunction(function() {
 		});
 	}, "HMAC RFC5869 Test vectors");
 
-	var axolotlTestVectors = function(v, remoteNumber) {
+	var runAxolotlTest = function(v) {
 		var origCreateNewKeyPair = textsecure.crypto.testing_only.createNewKeyPair;
 		var doStep;
 		var stepDone;
@@ -307,7 +307,7 @@ textsecure.registerOnLoadFunction(function() {
 
 					var message = new textsecure.protos.IncomingPushMessageProtobuf();
 					message.type = data.type;
-					message.source = remoteNumber;
+					message.source = "SNOWDEN";
 					message.message = data.message;
 					message.sourceDevice = 1;
 					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
@@ -335,11 +335,11 @@ textsecure.registerOnLoadFunction(function() {
 						textsecure.storage.putUnencrypted("registrationId", data.registrationId);
 
 					if (data.getKeys !== undefined)
-						getKeysForNumberMap[remoteNumber] = data.getKeys;
+						getKeysForNumberMap["SNOWDEN"] = data.getKeys;
 
-					return textsecure.messaging.sendMessageToNumber(remoteNumber, data.smsText, []).then(function() {
-						var msg = messagesSentMap[remoteNumber + "." + 1];
-						delete messagesSentMap[remoteNumber + "." + 1];
+					return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, []).then(function() {
+						var msg = messagesSentMap["SNOWDEN.1"];
+						delete messagesSentMap["SNOWDEN.1"];
 						//XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
 						if (msg.type == 1) {
 							var expected = getString(data.expectedCiphertext);
@@ -374,114 +374,13 @@ textsecure.registerOnLoadFunction(function() {
 		return doStep().then(stepDone);
 	}
 
-	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
-	}, "Standard Axolotl Test Vectors as Alice", true);
-
-	TEST(function() {
-		var t = axolotlTwoPartyTestVectorsAlice[2][1];
-		axolotlTwoPartyTestVectorsAlice[2][1] = axolotlTwoPartyTestVectorsAlice[3][1];
-		axolotlTwoPartyTestVectorsAlice[2][1].newEphemeralKey = t.newEphemeralKey;
-		axolotlTwoPartyTestVectorsAlice[3][1] = t;
-		delete axolotlTwoPartyTestVectorsAlice[3][1]['newEphemeralKey'];
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsAlice, "BOB");
-	}, "Shuffled Axolotl Test Vectors as Alice", true);
-
-	TEST(function() {
-		return axolotlTestVectors(axolotlTwoPartyTestVectorsBob, "ALICE");
-	}, "Standard Axolotl Test Vectors as Bob", true);
-
-	TEST(function() {
-		// Copy axolotlTwoPartyTestVectorsBob into v
-		var orig = axolotlTwoPartyTestVectorsBob;
-		var v = [];
-		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
-			v[i] = [];
-			v[i][0] = orig[i][0];
-			v[i][1] = orig[i][1];
-		}
-
-		// Swap first and second received prekey messages
-		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
-		v[0][1].ourPreKey = orig[0][1].ourPreKey;
-		v[0][1].preKeyId = orig[0][1].preKeyId;
-		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
-		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
-		v[0][1].registrationId = orig[0][1].registrationId;
-		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
-		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
-
-		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
-		return axolotlTestVectors(v, "ALICE");
-	}, "Shuffled Axolotl Test Vectors as Bob I", true);
-
-	TEST(function() {
-		// Copy axolotlTwoPartyTestVectorsBob into v
-		var orig = axolotlTwoPartyTestVectorsBob;
-		var v = [];
-		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
-			v[i] = [];
-			v[i][0] = orig[i][0];
-			v[i][1] = orig[i][1];
-		}
-
-		// Swap second received prekey msg with the first send
-		v[1] = orig[2];
-		v[2] = orig[1];
-
-		return axolotlTestVectors(v, "ALICE");
-	}, "Shuffled Axolotl Test Vectors as Bob II", true);
-
-	TEST(function() {
-		// Copy axolotlTwoPartyTestVectorsBob into v
-		var orig = axolotlTwoPartyTestVectorsBob;
-		var v = [];
-		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
-			v[i] = [];
-			v[i][0] = orig[i][0];
-			v[i][1] = orig[i][1];
-		}
-
-		// Move second received prekey msg to the end (incl after the first received message in the second chain)
-		v[4] = orig[1];
-		v[1] = orig[2];
-		v[2] = orig[3];
-		v[3] = orig[4];
-
-		return axolotlTestVectors(v, "ALICE");
-	}, "Shuffled Axolotl Test Vectors as Bob III", true);
-
-	TEST(function() {
-		// Copy axolotlTwoPartyTestVectorsBob into v
-		var orig = axolotlTwoPartyTestVectorsBob;
-		var v = [];
-		for (var i = 0; i < axolotlTwoPartyTestVectorsBob.length; i++) {
-			v[i] = [];
-			v[i][0] = orig[i][0];
-			v[i][1] = orig[i][1];
-		}
-
-		// Move first received prekey msg to the end (incl after the first received message in the second chain)
-		// ... by first swapping first and second received prekey msg
-		v[0][1] = { message: orig[1][1].message, type: orig[1][1].type, expectedSmsText: orig[1][1].expectedSmsText };
-		v[0][1].ourPreKey = orig[0][1].ourPreKey;
-		v[0][1].preKeyId = orig[0][1].preKeyId;
-		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
-		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
-		v[0][1].registrationId = orig[0][1].registrationId;
-		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
-		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
-
-		v[1][1] = { message: orig[0][1].message, type: orig[0][1].type, expectedSmsText: orig[0][1].expectedSmsText };
-
-		// ... then moving the (now-second) message to the end
-		v[4] = v[1];
-		v[1] = orig[2];
-		v[2] = orig[3];
-		v[3] = orig[4];
-
-		return axolotlTestVectors(v, "ALICE");
-	}, "Shuffled Axolotl Test Vectors as Bob IV", true);
+	for (index in axolotlTestVectors) {
+		var _ = function(i) {
+			TEST(function() {
+				return runAxolotlTest(axolotlTestVectors[i].vectors);
+			}, axolotlTestVectors[i].name, true);
+		}(index);
+	}
 
 	TEST(function() {
 		var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
