@@ -536,7 +536,7 @@ window.textsecure.crypto = function() {
 			}
 		}
 		return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
-						.then(function(new_sesion) {
+						.then(function(new_session) {
 			// Note that the session is not actually saved until the very end of decryptWhisperMessage
 			// ... to ensure that the sender actually holds the private keys for all reported pubkeys
 			return [new_session, function() {
@@ -603,10 +603,7 @@ window.textsecure.crypto = function() {
 				if (session[previousRatchet] !== undefined) {
 					ratchet.previousCounter = session[previousRatchet].chainKey.counter;
 					delete session[previousRatchet];
-				} else
-					// TODO: This is just an idiosyncrasy upstream, which we match for testing
-					// it should be changed upstream to something more reasonable.
-					ratchet.previousCounter = 4294967295;
+				}
 
 				return createNewKeyPair(false).then(function(keyPair) {
 					ratchet.ephemeralKeyPair = keyPair;

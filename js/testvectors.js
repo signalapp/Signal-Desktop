@@ -71,42 +71,42 @@ axolotlTestVectors = function() {
 		test[4] = axolotlTwoPartyTestVectorsAlice[4];
 		return {name: "Shuffled Axolotl Test Vectors as Alice", vectors: test};
 	}();
-/*
+
 	// The common-case BOB test vectors themselves...
 	var axolotlTwoPartyTestVectorsBob = [
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer(),
+				message: hexToArrayBuffer('3308f7e5a307122105b4c506b0597283bbc7660cbad18d423f0c810aab007df7003d1cda16622fa27f1a21052f8905593aa6c1f59fa815c4f5e0042c7bf377b554f18d05be30842f1cd7707722d301330a210587164cfcd62b5133353aba2028317c0e1e8b590a63d51ce534d77212468ee57d1000180022a001126be8ea6120f1162b1e82931ecf35627d5ea99cf70196a49b8a84df9fbbc7e2b5a0bd6158514bf3ae71a9b2e4f11e4140fd376c60b8a0f1fa989e632e7ba5e7a15b1d242b01017750fc3b0f855e0394032ed2fd2c1b5c87c66af2ef6d1c441400f0d9bcec4b7e3058b5629b286eae6ea1041e1c74dd14887fceb99d45373572aa91eb44ba582582e3f4039ee846370a3643973c930ffe78ad077b6694c650e15b392b83c106bb2028cf7830b5d68c06'),
 				type: 3,
-				ourPreKey: hexToArrayBuffer(),
-				preKeyId: 1819832,
-				ourSignedPreKey: hexToArrayBuffer(),
-				signedPreKeyId: 1621599,
-				ourIdentityKey: hexToArrayBuffer(),
-				newEphemeralKey: hexToArrayBuffer(),
+				ourPreKey: hexToArrayBuffer('515c64408cbf2dfc5b98d42f64c1463a63cb977225c7b286d515eb31e1b8cb69'),
+				preKeyId: 15266551,
+				ourSignedPreKey: hexToArrayBuffer('e18cdb42e74881050a28c01511332919d39c322243831497bf59d76a368daf4a'),
+				signedPreKeyId: 12790581,
+				ourIdentityKey: hexToArrayBuffer('f0fa85c5a95df57915426a650fb9822d6e34a54fab52b5a8245492950660b278'),
+				newEphemeralKey: hexToArrayBuffer('d9f5074018de79237270bdb6fba38e50acd5b60285df2ec480169840da11c972'),
 				expectedSmsText: "A",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer(),
+				message: hexToArrayBuffer('3308f7e5a307122105b4c506b0597283bbc7660cbad18d423f0c810aab007df7003d1cda16622fa27f1a21052f8905593aa6c1f59fa815c4f5e0042c7bf377b554f18d05be30842f1cd7707722d301330a210587164cfcd62b5133353aba2028317c0e1e8b590a63d51ce534d77212468ee57d1001180022a0014e799f9a75e7d9d6acdbd9c14805fb479dc3bb1066962d709d1a287f825bfa23525c6fd5d148f92ccabe039d8b03daf9751d64696cacca3f8b2f1e2e7287b5675cf649fcda014d2f0007ff170e20863d42976d9268154c26300c092032c6378c57a4453d8f4f6f47afade84b5a441633881b4958c32289bf2280c8826f92846249a30711ef26d6faa29d8f1aca7523b73f6d07df4065c06aa8e3ac83d549f953d1da1ab86a5c6aa828cf7830b5d68c06'),
 				type: 3,
 				expectedSmsText: "B",
 			}],
 		["sendMessage",
 			{
 				smsText: "C",
-				expectedCiphertext: hexToArrayBuffer(),
+				expectedCiphertext: hexToArrayBuffer('330a21059a4dcddc25653447f2ae38ae850592859caace2630e6351b2f8c4ed7795f01571000180022a001cbf8638afc1f79ca320093b2d07d2ec00d6f6bf3a3997ecd9444dc45a7d91beaa49e017f793d55fbfc3d155ef12980200ae4eef74aed794b4a663c81e5df1f273fa5075f0d8a5b0a751ca434cc9a918fc5f5488a0fc1a8fa4974cc6c494126deaf6ebf9955fe5f5bd52ef6121f5c13420269fa4157a39bd8f614e0b9eb4906fc953d14785ee1037c8ceebc173798f1ba31afdb7a40f686139da9ff77f0dcf4e1a338586f208c3c87'),
 			}],
 		["sendMessage",
 			{
 				smsText: "D",
-				expectedCiphertext: hexToArrayBuffer(),
+				expectedCiphertext: hexToArrayBuffer('330a21059a4dcddc25653447f2ae38ae850592859caace2630e6351b2f8c4ed7795f01571001180022a00109535996341be5075eba25586722fb219fe07e362812273a50a5026dc2b6e25cf6ed821e5fc700ee9d2824f296bfe15d6dd03b3f4e991d7119b844358b911250a4451502b5c8efdd1673231652597f13c400e554e1bf5842b733344eb440c9d3f7e53180e1766a344d5325bc8c8346ebccb51be89c488cfe92c832f644e94828e323fa48b321c00fa02ea4276f8f8f9dc36da2379655618e2a91403eb47e42763b76acc16ff812d3'),
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer(),
+				message: hexToArrayBuffer('330a2105d196165cbdbf67c3934213c5c4f7d776c7e7e22c86d8dcaca49b92ae5f269b051000180122a0011748da617e44e5e42a92a99c8b1f5ee429718687159d742129cdc2916a56626709579a82f4621c6290329c0862fcfe764abe65eccefd5b9b763685f49f1ef65fc6d22cf0bb8c95fa389219c3c9daf7ecddec996e99e22663b0da0a37019971de29ec5ed895d9d89960998dd4dd63a931a141a8d19eeca24b25887a6f21ba03ebb6fe449786a6e7fc06c5f0b64163e7ecac4c4d202236bbe83018de1d918332af4ecfbfd869af258e'),
 				type: 1,
-				newEphemeralKey: hexToArrayBuffer(),
+				newEphemeralKey: hexToArrayBuffer('e99b2d4806bb1e4b5366578795404a3222966454f13486dd9f9f6c0fce8d1858'),
 				expectedSmsText: "E",
 			}],
 		];
@@ -196,6 +196,6 @@ axolotlTestVectors = function() {
 
 		return {name: "Shuffled Axolotl Test Vectors as Bob IV", vectors: v};
 	}();
-*/
+
 	return tests;
 }();
