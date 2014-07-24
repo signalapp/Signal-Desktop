@@ -197,5 +197,141 @@ axolotlTestVectors = function() {
 		return {name: "Shuffled Axolotl Test Vectors as Bob IV", vectors: v};
 	}();
 
+	// Test vectors around an end-session
+	var axolotlEndSessionTestVectorsBob = [
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471000180022a001db82c2d9e6339a6de86de74210c46653ff36255a48f3cdd6c29a55f1329b979407584cd77f92ece28acc7198a039b44c77b096675d8231936862d40b366624800f8393aba6a95470216c149e9cb079004a346f5aaee2b142152282efea45070b4ac4515bfa167f0cd6a527441f4b17fda0e85011e901a9cc39a97929038e2e3d8bb8f926108f126b3549f042cf1c7325ed012ca072a46f133569dfc8509d5c19bd34582d80542dbd289a2630b5d68c06'),
+				type: 3,
+				ourPreKey: hexToArrayBuffer('71d89635655137e455ea2283df690a5f0af9eb6caacd4227d6720a92343aaa61'),
+				preKeyId: 15266552,
+				ourSignedPreKey: hexToArrayBuffer('e18cdb42e74881050a28c01511332919d39c322243831497bf59d76a368daf4a'),
+				signedPreKeyId: 12790581,
+				ourIdentityKey: hexToArrayBuffer('f0fa85c5a95df57915426a650fb9822d6e34a54fab52b5a8245492950660b278'),
+				newEphemeralKey: hexToArrayBuffer('f1e8896bdf0881cf1861f84ea041fa24b42c0f6b96c50fcc717f927d5256ca5f'),
+				expectedSmsText: "A",
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471001180022a001b59b82e80576d513c42503ba52a7029f0faa3e13e754268ea91319fbc66172d78ac48c32e567784bbcdc4626d6d2911d5a37663174dd3e2ff88e95d510a0aad9d66b1f7eb482b4b2026adfd01445fc7d1e34590d4731c8c49b8007ef1faad23f57ca1ebd58074c9b3b001596e1b40acba8afdf204692dd7d5c6a3641a577eba1f1d35006fb633e92088af155a36457dc5b453e3e28eba9337b16f663fcb8fa8e569475192cd0ad5c289a2630b5d68c06'),
+				type: 3,
+				expectedSmsText: "B",
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471002180022a00126aefaf23d64fcf4fb2ed430db2da12651edcd70bd285b83ccc54944c49885fb83c30fe58d387b034da00456104ca7018ae5b4ddcead14985824eb3aea14993f33216f35c40620b97fc3c7557052fc9febf85a7074fdca78543c715bf551bc3f8afc0d44b97c2f4f04ada9529674f90a03384e3e82402a2735d312ee09e2c236fe2742777cb62e857e31442259fc37b72cf83daf2b6ccd862ac16101c5b300b40116273731a0425e289a2630b5d68c06'),
+				type: 3,
+				expectTerminateSession: true,
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308f9e5a307122105bcdadcdaeebbd0c8b561c80d3b97675a38a2123bb37949c3d5b3471ec3571c701a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a21059be1ae60273d31f22cbc61218e7961dd445d7f372a04af4f0394d5eb1458be411000180022a0013bcd783936b3b4b5861f7341038bab1d231705c222e7636fed5a9224e4e0f85e67ae151f8a7e9373a7e5749a4c826798c42b165381b7765d847b4e77143ba87bc164ce36b9a5b64de4b678ed2aebf8ce1d41d57eecffe0b413ee35989d2d2d3420f18a65892befcd0d6c69d0e2042c7c0411fc70fd3426980d1d540c7b6cc344bbdd6a9003f611d64ce86115020d755ddc51c5c342a80cd3e946687a8db00f414945a3114e58fd1d289a2630b5d68c06'),
+				type: 3,
+				ourPreKey: hexToArrayBuffer('093e8b6dfc3847205e570918b216fbf517c6aa35902dbb8ee63577430cc5b563'),
+				preKeyId: 15266553,
+				ourSignedPreKey: hexToArrayBuffer('e18cdb42e74881050a28c01511332919d39c322243831497bf59d76a368daf4a'),
+				signedPreKeyId: 12790581,
+				ourIdentityKey: hexToArrayBuffer('f0fa85c5a95df57915426a650fb9822d6e34a54fab52b5a8245492950660b278'),
+				newEphemeralKey: hexToArrayBuffer('1932166257dc274ed3350857747bfb4e8ec5e30d53aeae58aa09f12bcc4c3968'),
+				expectedSmsText: "C",
+			}],
+		];
+	tests[tests.length] = {name: "Axolotl End Session Test Vectors as Bob", vectors: axolotlEndSessionTestVectorsBob};
+
+	var axolotlEndSessionTestVectorsBobCopy = function() {
+		var orig = axolotlEndSessionTestVectorsBob;
+		var v = [];
+		for (var i = 0; i < axolotlEndSessionTestVectorsBob.length; i++) {
+			v[i] = [];
+			v[i][0] = orig[i][0];
+			v[i][1] = orig[i][1];
+		}
+		return v;
+	}
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
+		// Swap message 2 and 3, moving 2 after its session close
+		var tmp = v[2][1];
+		v[2][1] = v[1][1];
+		v[1][1] = tmp;
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob I", vectors: v};
+	}();
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
+		// Swap message 2 and 4, moving 2 after the new session
+		var tmp = v[3][1];
+		v[3][1] = v[1][1];
+		v[1][1] = tmp;
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob II", vectors: v};
+	}();
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
+		// Swap message 3 and 4, starting a new session before closing the last
+		var tmp = v[3][1];
+		v[3][1] = v[2][1];
+		v[2][1] = tmp;
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob III", vectors: v};
+	}();
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
+		// Put the end session message before all the cooresponding messages
+		var tmp = v[0][1];
+		v[0][1] = { message: orig[2][1].message, type: orig[2][1].type, expectTerminateSession: orig[2][1].expectTerminateSession };
+		v[0][1].ourPreKey = orig[0][1].ourPreKey;
+		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
+		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
+		v[0][1].registrationId = orig[0][1].registrationId;
+		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
+		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
+		v[2][1] = { message: tmp.message, type: tmp.type, expectedSmsText: tmp.expectedSmsText };
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob IV", vectors: v};
+	}();
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
+		// Put the end session message before all the cooresponding messages
+		var tmp = v[0][1];
+		v[0][1] = { message: orig[2][1].message, type: orig[2][1].type, expectTerminateSession: orig[2][1].expectTerminateSession };
+		v[0][1].ourPreKey = orig[0][1].ourPreKey;
+		v[0][1].preKeyId = orig[0][1].preKeyId;
+		v[0][1].ourSignedPreKey = orig[0][1].ourSignedPreKey;
+		v[0][1].signedPreKeyId = orig[0][1].signedPreKeyId;
+		v[0][1].registrationId = orig[0][1].registrationId;
+		v[0][1].ourIdentityKey = orig[0][1].ourIdentityKey;
+		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
+		v[2][1] = { message: tmp.message, type: tmp.type, expectedSmsText: tmp.expectedSmsText };
+
+		// ... and also open a new session before receiving the pending messages
+		tmp = v[3][1];
+		v[3][1] = v[2][1];
+		v[2][1] = tmp;
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob V", vectors: v};
+	}();
+
 	return tests;
 }();

@@ -311,6 +311,8 @@ textsecure.registerOnLoadFunction(function() {
 					message.message = data.message;
 					message.sourceDevice = 1;
 					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+						if (data.expectTerminateSession)
+							return res.flags == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
 						return res.body == data.expectedSmsText;
 					});
 				}

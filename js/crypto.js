@@ -149,9 +149,10 @@ window.textsecure.crypto = function() {
 		var sessions = device.sessions;
 
 		var doDeleteSession = false;
-		if (session.indexInfo.closed == -1)
+		if (session.indexInfo.closed == -1 || device.identityKey === undefined)
 			device.identityKey = session.indexInfo.remoteIdentityKey;
-		else {
+
+		if (session.indexInfo.closed != -1) {
 			doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
 
 			if (!doDeleteSession) {
@@ -463,6 +464,8 @@ window.textsecure.crypto = function() {
 	}
 
 	var closeSession = function(session) {
+		if (session.indexInfo.closed > -1)
+			return;
 		// Clear any data which would allow session continuation:
 		// Lock down current receive ratchet
 		for (var key in session)
