@@ -653,7 +653,15 @@ window.textsecure.crypto = function() {
 			return fillMessageKeys(chain, message.counter).then(function() {
 				return HKDF(toArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
 					delete chain.messageKeys[message.counter];
-					return verifyMACWithVersionByte(toArrayBuffer(messageProto), keys[1], mac, (3 << 4) | 3).then(function() {
+
+					var messageProtoArray = toArrayBuffer(messageProto);
+					var macInput = new Uint8Array(messageProtoArray.byteLength + 33*2 + 1);
+					macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)));
+					macInput.set(new Uint8Array(toArrayBuffer(crypto_storage.getIdentityKey().pubKey)), 33);
+					macInput[33*2] = (3 << 4) | 3;
+					macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
+
+					return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
 						var counter = intToArrayBuffer(message.counter);
 						return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
 									.then(function(paddedPlaintext) {
@@ -786,7 +794,13 @@ window.textsecure.crypto = function() {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = toArrayBuffer(msg.encode());
 
-						return calculateMACWithVersionByte(encodedMsg, keys[1], (3 << 4) | 3).then(function(mac) {
+						var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
+						macInput.set(new Uint8Array(toArrayBuffer(crypto_storage.getIdentityKey().pubKey)));
+						macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
+						macInput[33*2] = (3 << 4) | 3;
+						macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
+
+						return HmacSHA256(keys[1], macInput.buffer).then(function(mac) {
 							var result = new Uint8Array(encodedMsg.byteLength + 9);
 							result[0] = (3 << 4) | 3;
 							result.set(new Uint8Array(encodedMsg), 1);
@@ -810,7 +824,8 @@ window.textsecure.crypto = function() {
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
 									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-							.then(function(session) {
+							.then(function(new_session) {
+					session = new_session;
 					session.pendingPreKey = baseKey.pubKey;
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
