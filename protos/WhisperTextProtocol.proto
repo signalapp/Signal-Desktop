@@ -16,7 +16,6 @@ message PreKeyWhisperMessage {
   optional uint32 signedPreKeyId = 6;
   optional bytes  baseKey        = 2;
   optional bytes  identityKey    = 3;
-  optional bytes  verification   = 7;
   optional bytes  message        = 4; // WhisperMessage
 }
 
@@ -26,5 +25,4 @@ message KeyExchangeMessage {
   optional bytes  ephemeralKey     = 3;
   optional bytes  identityKey      = 4;
   optional bytes  baseKeySignature = 5;
-  optional bytes  verification     = 6;
 }
