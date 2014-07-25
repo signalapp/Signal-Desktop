@@ -201,43 +201,48 @@ axolotlTestVectors = function() {
 	var axolotlEndSessionTestVectorsBob = [
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471000180022a001db82c2d9e6339a6de86de74210c46653ff36255a48f3cdd6c29a55f1329b979407584cd77f92ece28acc7198a039b44c77b096675d8231936862d40b366624800f8393aba6a95470216c149e9cb079004a346f5aaee2b142152282efea45070b4ac4515bfa167f0cd6a527441f4b17fda0e85011e901a9cc39a97929038e2e3d8bb8f926108f126b3549f042cf1c7325ed012ca072a46f133569dfc8509d5c19bd34582d80542dbd289a2630b5d68c06'),
+				message: hexToArrayBuffer('3308d49d980512210513595fc079c0170ea2e849ae4d63d5f5828bb804770a441032b6184ddfe79f7c1a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105fde2b4eca4b7a66a53cd838a45b4ce5847684b3ac2fcb966afabd7e160ada5701000180022a0014949fd0f39d5990f2d1954c84ce626ab4a10149df50daf06f033ec16680d32c479dff81d3782b9042e44d0e3d57096c8b36199360dd1b985afa70033d9c918a4a4355c7d314256225bbc66ace964ddc24d1cd6927a4a878dd97353dd07c298b2c440027009ce28c2cff7b42f7cfd3a1fc16d1e586c9319f011651efe41d98dd585314c7859c1f334aa0f3083f93940757debf1760642954d23b50ed96b0b13f277033dc529eefc3728ac3930a0b68d01'),
 				type: 3,
-				ourPreKey: hexToArrayBuffer('71d89635655137e455ea2283df690a5f0af9eb6caacd4227d6720a92343aaa61'),
-				preKeyId: 15266552,
-				ourSignedPreKey: hexToArrayBuffer('e18cdb42e74881050a28c01511332919d39c322243831497bf59d76a368daf4a'),
-				signedPreKeyId: 12790581,
-				ourIdentityKey: hexToArrayBuffer('f0fa85c5a95df57915426a650fb9822d6e34a54fab52b5a8245492950660b278'),
-				newEphemeralKey: hexToArrayBuffer('f1e8896bdf0881cf1861f84ea041fa24b42c0f6b96c50fcc717f927d5256ca5f'),
+				ourPreKey: hexToArrayBuffer('89cca67d7e79ad337735876666b284e4f0aa4ccc7a1a9a1d3d6432898923d179'),
+				preKeyId: 10882772,
+				ourSignedPreKey: hexToArrayBuffer('b1899b87fa3f6e84894cffded76843ef339f41474ec1ccf1a1c068046c18fb61'),
+				signedPreKeyId: 2317088,
+				ourIdentityKey: hexToArrayBuffer('18a3c6d4e4522e8f224c0b1efffdc1d91e6aced52f9fa18e14b888eec462394b'),
+				newEphemeralKey: hexToArrayBuffer('21daf6374126ee4c2a15bcaa57eb869ece53f6020d55ad20809eb9fe8917457e'),
 				expectedSmsText: "A",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471001180022a001b59b82e80576d513c42503ba52a7029f0faa3e13e754268ea91319fbc66172d78ac48c32e567784bbcdc4626d6d2911d5a37663174dd3e2ff88e95d510a0aad9d66b1f7eb482b4b2026adfd01445fc7d1e34590d4731c8c49b8007ef1faad23f57ca1ebd58074c9b3b001596e1b40acba8afdf204692dd7d5c6a3641a577eba1f1d35006fb633e92088af155a36457dc5b453e3e28eba9337b16f663fcb8fa8e569475192cd0ad5c289a2630b5d68c06'),
+				message: hexToArrayBuffer('3308d49d980512210513595fc079c0170ea2e849ae4d63d5f5828bb804770a441032b6184ddfe79f7c1a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105fde2b4eca4b7a66a53cd838a45b4ce5847684b3ac2fcb966afabd7e160ada5701001180022a0010f4a39c86969af983c89b38aa9f968046fdac3e8b1bb59befc998a734bb5f91d457b26eadb7b54ccc07e16a236581fddf73cdcc0c19ca59fd0e261c23ba9d22d351c51aa307cf69e8446ada5d4131cb58f4324e183d059797dcba4d7cc0babd7beda6e25327907d97c39e24d4270c0bdb593da09fdc955f50b228d918b6e03d178737bb42b81b6f4080f92db80a5e0c07dcca1220014f71631401734ac97b723e366e771a85b942128ac3930a0b68d01'),
 				type: 3,
 				expectedSmsText: "B",
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('3308f8e5a3071221058bfe7fc6b3c58d5313030d8fb4025ad362fd7add0fbb994020864b3533c6b62c1a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a2105f1b7246bba4cf224f06faab8b460db45d49ff9ecd0fb033eacbee78ebb329f471002180022a00126aefaf23d64fcf4fb2ed430db2da12651edcd70bd285b83ccc54944c49885fb83c30fe58d387b034da00456104ca7018ae5b4ddcead14985824eb3aea14993f33216f35c40620b97fc3c7557052fc9febf85a7074fdca78543c715bf551bc3f8afc0d44b97c2f4f04ada9529674f90a03384e3e82402a2735d312ee09e2c236fe2742777cb62e857e31442259fc37b72cf83daf2b6ccd862ac16101c5b300b40116273731a0425e289a2630b5d68c06'),
+				message: hexToArrayBuffer('3308d49d980512210513595fc079c0170ea2e849ae4d63d5f5828bb804770a441032b6184ddfe79f7c1a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105fde2b4eca4b7a66a53cd838a45b4ce5847684b3ac2fcb966afabd7e160ada5701002180022a001b75b0124e0a077de4ceae3addfb722469638fad82577680afe7060da2f7c6dbc9ffe924af37952141ef6f5a78138ba93f2e71102432ee1ed0f1b05cfed069c7cace2103432c92160785ac07d111fbaf535b2a740bc73391a2e370a05db41c883592d7f12129e7c1ee12ac99793b0d9fb38a696e5410d9e3f2df45de2f72ee7812cc66b6770c37e5c882a193b42236563968974ce57c0f9d73631790dce3460f16712a351c428853d28ac3930a0b68d01'),
 				type: 3,
 				expectTerminateSession: true,
 			}],
 		["receiveMessage",
 			{
-				message: hexToArrayBuffer('3308f9e5a307122105bcdadcdaeebbd0c8b561c80d3b97675a38a2123bb37949c3d5b3471ec3571c701a210526d5e02d2701cf54b6e6ad184b4cde14c3aa2b10574708b018d1be9b99c0d82e22d301330a21059be1ae60273d31f22cbc61218e7961dd445d7f372a04af4f0394d5eb1458be411000180022a0013bcd783936b3b4b5861f7341038bab1d231705c222e7636fed5a9224e4e0f85e67ae151f8a7e9373a7e5749a4c826798c42b165381b7765d847b4e77143ba87bc164ce36b9a5b64de4b678ed2aebf8ce1d41d57eecffe0b413ee35989d2d2d3420f18a65892befcd0d6c69d0e2042c7c0411fc70fd3426980d1d540c7b6cc344bbdd6a9003f611d64ce86115020d755ddc51c5c342a80cd3e946687a8db00f414945a3114e58fd1d289a2630b5d68c06'),
+				message: hexToArrayBuffer('3308d59d98051221052338a4fb6cbb6d39936ab8b623802d684871c4c4eaf285f2afb7692b5183132c1a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105418a8942643b5278746f1740e05a8ad403380bfaff87a7a8f9b6cbc5db6f38381000180022a00165ffb1279d2d0c25e3f4c3e51e8b6e480724e5858f9078e15346df33b84d61ca33a88fe883c312e93cd560e0d76975aa09fac2c6f348051f6e2a035f08960e3c94001037fb3e6e2328471ac24cc35d6d19f568e27de3d091ff5d7fb861c81ed21ca8da5ece8d4dab705391a03072fbd34b30b1614c4083e0679a66bb487364d36e8b21bd40ba9271c9cc31414e925971b5936000d191724bbfaf6d653f3ecfd0d6f201dbafe17c0d28ac3930a0b68d01'),
 				type: 3,
-				ourPreKey: hexToArrayBuffer('093e8b6dfc3847205e570918b216fbf517c6aa35902dbb8ee63577430cc5b563'),
-				preKeyId: 15266553,
-				ourSignedPreKey: hexToArrayBuffer('e18cdb42e74881050a28c01511332919d39c322243831497bf59d76a368daf4a'),
-				signedPreKeyId: 12790581,
-				ourIdentityKey: hexToArrayBuffer('f0fa85c5a95df57915426a650fb9822d6e34a54fab52b5a8245492950660b278'),
-				newEphemeralKey: hexToArrayBuffer('1932166257dc274ed3350857747bfb4e8ec5e30d53aeae58aa09f12bcc4c3968'),
+				ourPreKey: hexToArrayBuffer('e187c9f9a1d6b46e12df13c80b8b51f02cdc8859ff65a222968c1f3ab2484440'),
+				preKeyId: 10882773,
+				ourSignedPreKey: hexToArrayBuffer('b1899b87fa3f6e84894cffded76843ef339f41474ec1ccf1a1c068046c18fb61'),
+				signedPreKeyId: 2317088,
+				ourIdentityKey: hexToArrayBuffer('18a3c6d4e4522e8f224c0b1efffdc1d91e6aced52f9fa18e14b888eec462394b'),
+				newEphemeralKey: hexToArrayBuffer('5108fbaaf136969412c691dfbf6108c64cde5235fc30015c5b62d2188784887b'),
 				expectedSmsText: "C",
+			}],
+		["sendMessage",
+			{
+				smsText: "D",
+				expectedCiphertext: hexToArrayBuffer('330a21051b6216eb6bb717294b6140f129f1c706b073e80a57f9c44a912be90489f5214f1000180022a0011b73670e71cc82d5f4d487bfbdf0c6210eacefdb45fe4a4b7aeda5b390873d0e66aa9b2b968d74bbed4dfff9c3ce2c3613afc6cd6711d68335e3b07929ae92c2083ebbb7e212a6af4a799a8f5245806c96dc7f73e99e8b45a6ee81be3fbe2ddc52b1eee7c888e29070ffacbb8adcb4eca9165a7a7036acd5adda63a1a7fb5ee45f9fefb697e96c205f069a2e0d7b005a1255c4ca5fc0c6d263920dd2657835bc7888c173a441b9f4'),
 			}],
 		];
 
-	// Now shuffle them around and make 5 tests
+	// Now shuffle them around and make 6 tests
 	tests[tests.length] = {name: "Axolotl End Session Test Vectors as Bob", vectors: axolotlEndSessionTestVectorsBob};
 
 	var axolotlEndSessionTestVectorsBobCopy = function() {
@@ -295,6 +300,24 @@ axolotlTestVectors = function() {
 		var v = axolotlEndSessionTestVectorsBobCopy();
 		var orig = axolotlEndSessionTestVectorsBob;
 
+		// Swap message 3 and 4, starting a new session before closing the last
+		var tmp = v[3][1];
+		v[3][1] = v[2][1];
+		v[2][1] = tmp;
+
+		//...and also swap 4 and 5, sending before the last is closed
+		tmp = v[3][1];
+		v[3] = ["sendMessage", v[4][1]];
+		v[4] = ["receiveMessage", tmp];
+
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob IV", vectors: v};
+	}();
+
+	tests[tests.length] = function() {
+		// Copy axolotlTwoPartyTestVectorsBob into v
+		var v = axolotlEndSessionTestVectorsBobCopy();
+		var orig = axolotlEndSessionTestVectorsBob;
+
 		// Put the end session message before all the cooresponding messages
 		var tmp = v[0][1];
 		v[0][1] = { message: orig[2][1].message, type: orig[2][1].type, expectTerminateSession: orig[2][1].expectTerminateSession };
@@ -307,7 +330,7 @@ axolotlTestVectors = function() {
 		v[0][1].newEphemeralKey = orig[0][1].newEphemeralKey;
 		v[2][1] = { message: tmp.message, type: tmp.type, expectedSmsText: tmp.expectedSmsText };
 
-		return {name: "Shuffled End Session Axolotl Test Vectors as Bob IV", vectors: v};
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob V", vectors: v};
 	}();
 
 	tests[tests.length] = function() {
@@ -332,10 +355,10 @@ axolotlTestVectors = function() {
 		v[3][1] = v[2][1];
 		v[2][1] = tmp;
 
-		return {name: "Shuffled End Session Axolotl Test Vectors as Bob V", vectors: v};
+		return {name: "Shuffled End Session Axolotl Test Vectors as Bob VI", vectors: v};
 	}();
 
-	// Same as above except as Alice
+	// Nearly same as above except as Alice
 	var axolotlEndSessionTestVectorsAlice = [
 		["sendMessage",
 			{
@@ -385,7 +408,64 @@ axolotlTestVectors = function() {
 
 	tests[tests.length] = {name: "Standard End Session Axolotl Test Vectors as Alice", vectors: axolotlEndSessionTestVectorsAlice};
 
+	// Nearly same as above except as Alice
+	var axolotlNoPreKeyEndSessionTestVectorsBob = [
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308ffffffff0f1221050a1fe3a769c05c50e8f09747969099d072f4c343b09ceae56543391349b5bc701a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105896760e61f619db748eb761225b49890aa4e5b286ff8d0575a06660158e40d4e1000180022a0010ced8428b53359fcf2f3dbb6f8be97e77309481df1013a86db4bd41aebc94f7c9d0077c81f53b96501caeece31bd8171f25255ebfe774a981f007849aa38da51904c57a1334a5a11d983205c4cb49e9dd7f308678e34734e6eb9a9297cf03abc8bdd1b1a07c9445474136656ac38cf5ddf41606cf511e20c002fd74bf4b1f8cec738c380b8d4dae0afa0ffc7e091ef5382787eb678b2d9c61dd6fa4ec146c8c30aade6666ee4325228ac3930a0b68d01'),
+				type: 3,
+				//ourPreKey: hexToArrayBuffer(''),
+				//preKeyId: -1,
+				ourSignedPreKey: hexToArrayBuffer('b1899b87fa3f6e84894cffded76843ef339f41474ec1ccf1a1c068046c18fb61'),
+				signedPreKeyId: 2317088,
+				ourIdentityKey: hexToArrayBuffer('18a3c6d4e4522e8f224c0b1efffdc1d91e6aced52f9fa18e14b888eec462394b'),
+				newEphemeralKey: hexToArrayBuffer('d10237bd4906b68aa3c9105376747a30fb71ef8a2de9f4f5121f4ca458347355'),
+				expectedSmsText: "A",
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308ffffffff0f1221050a1fe3a769c05c50e8f09747969099d072f4c343b09ceae56543391349b5bc701a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105896760e61f619db748eb761225b49890aa4e5b286ff8d0575a06660158e40d4e1001180022a0019ac9ba3b905c2a92bef7ece4d3c741cedcd05d15dd848be7fa5034db6de7835414f803b40301cf5b8c144b13582322d81dfbe3cf5db237595d16706b1cf2258bcf75b5ac69174341eb931c65a52130825c1f1f97641a7cc1c90c530e7cde0c09919ceb0ada3ea8d987295884f4d42561d793129035b8d298cab1fcba8f7a0bec75a1fe4a3440d59dd48c18f0372ab6952da75bf7f350d28132900e8c48210795aaf4296255be120428ac3930a0b68d01'),
+				type: 3,
+				expectedSmsText: "B",
+			}],
+		["sendMessage",
+			{
+				smsText: "C",
+				expectedCiphertext: hexToArrayBuffer('330a21051b4f7303e61b8e0f08dca7b31ce01151831d572e31270b3d291214a6e193b27b1000180022a0015b2f37c95192845d947febe6be26ded465f6d98ccef660216d17887dc32d32609ba7a91d3a332539faf483315952c79383fdd5b9768d4b42c665f5c117e2e1f82e10e07a61f63e8318ff687b3e3704336a9ed76565e088706704b680a6931f9adeacb7320c69c043b72db6b3d19646d67be2112be53e782e3b0f4523c6a019f4a693d1ced9d2379763e867ab2d7a03eb222948e1ce86a515d2da519336f7be53bc19af1c68326b3b'),
+			}],
+		["sendMessage",
+			{
+				smsText: "D",
+				expectedCiphertext: hexToArrayBuffer('330a21051b4f7303e61b8e0f08dca7b31ce01151831d572e31270b3d291214a6e193b27b1001180022a0016637465b06e81e2bf100cc7ff5dada7c837374b6a51123e6770d7c2ef032436255cdf866487da20de412efa5b99633aa76d833f8542d6d93d21cd2672904783079e4908a126708dfdfb087f48053bc16e3e28e8ac913d55fc25fb59e9bb3f6009a6938aaa86dbb911984d1425f4b4c959e71faeb85a0a017662d5d5a315b341966baf6dc8fa2e9736655d82249741fdcdb93a432346e218b153e5fbef5f064d9e6f6211cb9a6af36'),
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('330a21056076ed503123ff2662f1c3fce3f0d49084351d0a25fc08d67115a336e8d4be5c1000180122a0012cc6305372c347f141f7690ecc7cf2cc3a47c2c12d3a492e3be7fd6e2723e29e5e858378781d45eb795f32d47f8539987687db4b54e420b06980700b9c5bfe1780445a097c8a47f94080a4e8d88fe12a2c37e04bcb22e23685b7b955391f99ac2da52fbbb25d83269b6584c68de3b61f7f37ffda8c7350a15e798ca59891dd8f62f59afe3544c4a99118edddda322f4aa516536a64dce05e091b125fb06a9c37501e344b993f2a8b'),
+				type: 1,
+				expectTerminateSession: true,
+				newEphemeralKey: hexToArrayBuffer('3131dd7adb8c2eb01e10d6441ede57e499b929354740cea99f6e79fea0eadf58'),
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('330a21056076ed503123ff2662f1c3fce3f0d49084351d0a25fc08d67115a336e8d4be5c1001180122a001f0898aaaaa4f7928793c4c14b16256e5b797e99a55e12b69242ed4086fb5c1f71982b683f2324305ebccb2eaae146ee783b23f8cebb0aa970e209e554b4ae6140ef30f2f0d83b73ca3f74075194574a9c260ad0e1d08df218aa334ead582efa9a8e705ff17a8e22994a4ac91359cadf9b9cf6853eae12a4bd9c5e5bcad4b8ca991005f0699a5960d09244fa2f01e9f0fb50e85f7318556b314358bfd0fbbc8055dc1090c7d214d83'),
+				type: 1,
+				expectException: true,
+			}],
+		["receiveMessage",
+			{
+				message: hexToArrayBuffer('3308ffffffff0f122105018086d77ab095075239bc2e54a24355114985c8c897b1a56d253d3449ba416b1a21053841429a37322af3f786be4df3dd8cea5403a79f258e254d4738970acbbe633422d301330a2105578d8b0420b0b68fe817772d4dd4f5eea2f786da22f33a109b57adb7ad084c6f1000180022a001cb7303e83ac80b6cd251a93107061aa96ad7bd9b2983a597ba500b0d3402e93af6bcc9304f1ca3a37e9e5a26743ec50dea620c474cec8101a5439cb357c1a4479bb50b33061405fbfddae119edead07ff4fd292f5d6666fc94b8d36cd96ef6fd58fc70d478b182f3cf15a8f1be6a51e560671f901e09fa8b2376462a4cc953751ddc027e15cd0a92f86bb40d3b199b2dab1e0c2e208b104a2594220ff6129f0650ca8aff90c6e06228ac3930a0b68d01'),
+				type: 3,
+				//ourPreKey: hexToArrayBuffer(''),
+				//preKeyId: -1,
+				ourSignedPreKey: hexToArrayBuffer('b1899b87fa3f6e84894cffded76843ef339f41474ec1ccf1a1c068046c18fb61'),
+				signedPreKeyId: 2317088,
+				ourIdentityKey: hexToArrayBuffer('18a3c6d4e4522e8f224c0b1efffdc1d91e6aced52f9fa18e14b888eec462394b'),
+				newEphemeralKey: hexToArrayBuffer('c9411ca8636f8462308135ae6aff6ec30338ae2c87808b6ee35ef21530971070'),
+				expectedSmsText: "F",
+			}],
+		];
 
+	tests[tests.length] = {name: "No-PreKey fake end-session test as Bob", vectors: axolotlNoPreKeyEndSessionTestVectorsBob};
 
 	return tests;
 }();

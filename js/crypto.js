@@ -162,13 +162,15 @@ window.textsecure.crypto = function() {
 			if (!doDeleteSession) {
 				var keysLeft = false;
 				for (var key in session) {
-					if (key != "indexInfo" && key != "indexInfo" && key != "oldRatchetList") {
+					if (key != "indexInfo" && key != "oldRatchetList" && key != "currentRatchet") {
 						keysLeft = true;
 						break;
 					}
 				}
 				doDeleteSession = !keysLeft;
-			}
+				console.log((doDeleteSession ? "Deleting " : "Not deleting ") + "closed session which has not yet timed out");
+			} else
+				console.log("Deleting closed session due to timeout (created at " + session.indexInfo.closed + ")");
 		}
 
 		if (doDeleteSession)
@@ -476,20 +478,50 @@ window.textsecure.crypto = function() {
 		});
 	}
 
-	var closeSession = function(session) {
+	var removeOldChains = function(session) {
+		// Sending ratchets are always removed when we step because we never need them again
+		// Receiving ratchets are either removed if we step with all keys used up to previousCounter
+		// and are otherwise added to the oldRatchetList, which we parse here and remove ratchets
+		// older than a week (we assume the message was lost and move on with our lives at that point)
+		var newList = [];
+		for (var i = 0; i < session.oldRatchetList.length; i++) {
+			var entry = session.oldRatchetList[i];
+			var ratchet = getString(entry.ephemeralKey);
+			console.log("Checking old chain with added time " + (entry.added/1000));
+			if ((!objectContainsKeys(session[ratchet].messageKeys) && (session[ratchet].chainKey === undefined || session[ratchet].chainKey.key === undefined))
+					 || entry.added < new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS) {
+				delete session[ratchet];
+				console.log("...deleted");
+			} else
+				newList[newList.length] = entry;
+		}
+		session.oldRatchetList = newList;
+	}
+
+	var closeSession = function(session, sessionClosedByRemote) {
 		if (session.indexInfo.closed > -1)
 			return;
-		// Clear any data which would allow session continuation:
-		// Lock down current receive ratchet
-		for (var key in session)
-			if (key.chainKey !== undefined && key.chainKey.key !== undefined)
-				delete key.chainKey.key;
+
+		// After this has run, we can still receive messages on ratchet chains which
+		// were already open (unless we know we dont need them),
+		// but we cannot send messages or step the ratchet
+
 		// Delete current sending ratchet
 		delete session[getString(session.currentRatchet.ephemeralKeyPair.pubKey)];
-		// Delete current root key and our ephemeral key pair
+		// Move all receive ratchets to the oldRatchetList to mark them for deletion
+		for (var i in session) {
+			if (session[i].chainKey !== undefined && session[i].chainKey.key !== undefined) {
+				if (!sessionClosedByRemote)
+					session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: i };
+				else
+					delete session[i].chainKey.key;
+			}
+		}
+		// Delete current root key and our ephemeral key pair to disallow ratchet stepping
 		delete session.currentRatchet['rootKey'];
 		delete session.currentRatchet['ephemeralKeyPair'];
 		session.indexInfo.closed = new Date().getTime();
+		removeOldChains(session);
 	}
 
 	self.closeOpenSessionForDevice = function(encodedNumber) {
@@ -526,13 +558,11 @@ window.textsecure.crypto = function() {
 
 		var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
 		var open_session = crypto_storage.getOpenSession(encodedNumber);
-		if (preKeyPair === undefined || signedPreKeyPair === undefined) {
+		if (signedPreKeyPair === undefined) {
 			// Session may or may not be the right one, but if its not, we can't do anything about it
 			// ...fall through and let decryptWhisperMessage handle that case
 			if (session !== undefined && session.currentRatchet !== undefined)
 				return Promise.resolve([session, undefined]);
-			else if (preKeyPair === undefined)
-				throw new Error("Missing PreKey for PreKeyWhisperMessage");
 			else
 				throw new Error("Missing Signed PreKey for PreKeyWhisperMessage");
 		}
@@ -585,25 +615,6 @@ window.textsecure.crypto = function() {
 				return fillMessageKeys(chain, counter);
 			});
 		});
-	}
-
-	var removeOldChains = function(session) {
-		// Sending ratchets are always removed when we step because we never need them again
-		// Receiving ratchets are either removed if we step with all keys used up to previousCounter
-		// and are otherwise added to the oldRatchetList, which we parse here and remove ratchets
-		// older than a week (we assume the message was lost and move on with our lives at that point)
-		var newList = [];
-		for (var i = 0; i < session.oldRatchetList.length; i++) {
-			var entry = session.oldRatchetList[i];
-			var ratchet = getString(entry.ephemeralKey);
-			console.log("Checking old chain with added time " + (entry.added/1000));
-			if (!objectContainsKeys(session[ratchet].messageKeys) || entry.added < new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS) {
-				delete session[ratchet];
-				console.log("...deleted");
-			} else
-				newList[newList.length] = entry;
-		}
-		session.oldRatchetList = newList;
 	}
 
 	var maybeStepRatchet = function(session, remoteKey, previousCounter) {
@@ -697,7 +708,7 @@ window.textsecure.crypto = function() {
 
 							if ((finalMessage.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-								closeSession(session);
+								closeSession(session, true);
 
 							removeOldChains(session);
 
@@ -826,6 +837,8 @@ window.textsecure.crypto = function() {
 								delete deviceObject['preKey'];
 								delete deviceObject['preKeyId'];
 							} catch(_) {}
+
+							removeOldChains(session);
 
 							crypto_storage.saveSessionAndDevice(deviceObject, session);
 							return result;

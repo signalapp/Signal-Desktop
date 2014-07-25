@@ -310,22 +310,36 @@ textsecure.registerOnLoadFunction(function() {
 					message.source = "SNOWDEN";
 					message.message = data.message;
 					message.sourceDevice = 1;
-					return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
-						if (data.expectTerminateSession)
-							return res.flags == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
-						return res.body == data.expectedSmsText;
-					});
+					try {
+						return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+							if (data.expectTerminateSession)
+								return res.flags == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
+							return res.body == data.expectedSmsText;
+						}).catch(function(e) {
+							if (data.expectException)
+								return true;
+							throw e;
+						});
+					} catch(e) {
+						if (data.expectException)
+							return Promise.resolve(true);
+						throw e;
+					}
 				}
 
 				if (data.ourIdentityKey !== undefined)
 					return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
 						textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
-						return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
-							textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
-							return textsecure.crypto.testing_only.privToPub(data.ourSignedPreKey, false).then(function(keyPair) {
-								textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
+						return textsecure.crypto.testing_only.privToPub(data.ourSignedPreKey, false).then(function(keyPair) {
+							textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
+
+							if (data.ourPreKey !== undefined)
+								return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
+									textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
+									return postLocalKeySetup();
+								});
+							else
 								return postLocalKeySetup();
-							});
 						});
 					});
 				else
