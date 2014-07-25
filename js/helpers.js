@@ -340,8 +340,8 @@ window.textsecure.storage = function() {
 	self.devices = function() {
 		var self = {};
 
-		self.saveDeviceObject = function(deviceObject) {
-			if (deviceObject.identityKey === undefined || deviceObject.registrationId === undefined || deviceObject.encodedNumber === undefined)
+		var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
+			if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
 				throw new Error("Tried to store invalid deviceObject");
 
 			var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
@@ -355,7 +355,15 @@ window.textsecure.storage = function() {
 				var updated = false;
 				for (var i in map.devices) {
 					if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
-						map.devices[i] = deviceObject;
+						if (!onlyKeys)
+							map.devices[i] = deviceObject;
+						else {
+							map.devices[i].preKey = deviceObject.preKey;
+							map.devices[i].preKeyId = deviceObject.preKeyId;
+							map.devices[i].signedKey = deviceObject.signedKey;
+							map.devices[i].signedKeyId = deviceObject.signedKeyId;
+							map.devices[i].registrationId = deviceObject.registrationId;
+						}
 						updated = true;
 					}
 				}
@@ -365,6 +373,14 @@ window.textsecure.storage = function() {
 			}
 
 			textsecure.storage.putEncrypted("devices" + number, map);
+		}
+
+		self.saveDeviceObject = function(deviceObject) {
+			return internalSaveDeviceObject(deviceObject, false);
+		}
+
+		self.saveKeysToDeviceObject = function(deviceObject) {
+			return internalSaveDeviceObject(deviceObject, true);
 		}
 
 		self.getDeviceObjectsForNumber = function(number) {

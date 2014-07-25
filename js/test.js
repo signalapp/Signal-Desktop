@@ -339,7 +339,7 @@ textsecure.registerOnLoadFunction(function() {
 					if (data.getKeys !== undefined)
 						getKeysForNumberMap["SNOWDEN"] = data.getKeys;
 
-					return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, []).then(function() {
+					var checkMessage = function() {
 						var msg = messagesSentMap["SNOWDEN.1"];
 						delete messagesSentMap["SNOWDEN.1"];
 						//XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
@@ -353,7 +353,12 @@ textsecure.registerOnLoadFunction(function() {
 							var result = getString(msg.body).substring(1);
 							return getString(decoded.encode()) == result;
 						}
-					});
+					}
+
+					if (data.endSession)
+						return textsecure.messaging.closeSession("SNOWDEN").then(checkMessage);
+					else
+						return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, []).then(checkMessage);
 				}
 
 				if (data.ourBaseKey !== undefined)
@@ -435,6 +440,7 @@ textsecure.registerOnLoadFunction(function() {
 			}
 			delete testsOutstanding[i];
 		}
+		printTestsDone();
 
 		startNextExclusiveTest();
 	}, 10000);

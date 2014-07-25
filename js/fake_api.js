@@ -15,7 +15,7 @@
  */
 
 var getKeysForNumberMap = {};
-textsecure.api.getKeysForNumber = function(number) {
+textsecure.api.getKeysForNumber = function(number, deviceId) {
 	var res = getKeysForNumberMap[number];
 	if (res !== undefined) {
 		delete getKeysForNumberMap[number];

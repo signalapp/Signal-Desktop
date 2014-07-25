@@ -140,12 +140,16 @@ window.textsecure.crypto = function() {
 		var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
 		if (device === undefined)
 			device = { sessions: {}, encodedNumber: encodedNumber };
-		if (device.sessions === undefined)
-			device.sessions = {};
 
 		if (registrationId !== undefined)
 			device.registrationId = registrationId;
 
+		crypto_storage.saveSessionAndDevice(device, session);
+	}
+
+	crypto_storage.saveSessionAndDevice = function(device, session) {
+		if (device.sessions === undefined)
+			device.sessions = {};
 		var sessions = device.sessions;
 
 		var doDeleteSession = false;
@@ -171,6 +175,15 @@ window.textsecure.crypto = function() {
 			delete sessions[getString(session.indexInfo.baseKey)];
 		else
 			sessions[getString(session.indexInfo.baseKey)] = session;
+
+		var openSessionRemaining = false;
+		for (var key in sessions)
+			if (sessions[key].indexInfo.closed == -1)
+				openSessionRemaining = true;
+		if (!openSessionRemaining)
+			try {
+				delete device['registrationId'];
+			} catch(_) {}
 
 		textsecure.storage.devices.saveDeviceObject(device);
 	}
@@ -678,7 +691,6 @@ window.textsecure.crypto = function() {
 									throw new Error('Invalid padding');
 							}
 
-							removeOldChains(session);
 							delete session['pendingPreKey'];
 
 							var finalMessage = textsecure.protos.decodePushMessageContentProtobuf(getString(plaintext));
@@ -686,6 +698,8 @@ window.textsecure.crypto = function() {
 							if ((finalMessage.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
 								closeSession(session);
+
+							removeOldChains(session);
 
 							crypto_storage.saveSession(encodedNumber, session, registrationId);
 							return finalMessage;
@@ -805,7 +819,15 @@ window.textsecure.crypto = function() {
 							result[0] = (3 << 4) | 3;
 							result.set(new Uint8Array(encodedMsg), 1);
 							result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
-							crypto_storage.saveSession(deviceObject.encodedNumber, session);
+
+							try {
+								delete deviceObject['signedKey'];
+								delete deviceObject['signedKeyId'];
+								delete deviceObject['preKey'];
+								delete deviceObject['preKeyId'];
+							} catch(_) {}
+
+							crypto_storage.saveSessionAndDevice(deviceObject, session);
 							return result;
 						});
 					});
@@ -815,18 +837,18 @@ window.textsecure.crypto = function() {
 
 		var preKeyMsg = new textsecure.protos.PreKeyWhisperMessageProtobuf();
 		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
-		preKeyMsg.preKeyId = deviceObject.preKeyId;
-		preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
 		preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 
 		if (session === undefined) {
 			return createNewKeyPair(false).then(function(baseKey) {
+				preKeyMsg.preKeyId = deviceObject.preKeyId;
+				preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
 				preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
 				return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
 									toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
 							.then(function(new_session) {
 					session = new_session;
-					session.pendingPreKey = baseKey.pubKey;
+					session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
 					return doEncryptPushMessageContent().then(function(message) {
 						preKeyMsg.message = message;
 						var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
@@ -837,8 +859,11 @@ window.textsecure.crypto = function() {
 		} else
 			return doEncryptPushMessageContent().then(function(message) {
 				if (session.pendingPreKey !== undefined) {
-					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey);
+					preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey.baseKey);
+					preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
+					preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
 					preKeyMsg.message = message;
+
 					var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
 					return {type: 3, body: result};
 				} else

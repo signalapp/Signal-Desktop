@@ -5,10 +5,10 @@ window.textsecure.messaging = function() {
 	var self = {};
 
 	function getKeysForNumber(number, updateDevices) {
-		return textsecure.api.getKeysForNumber(number).then(function(response) {
+		var handleResult = function(response) {
 			for (var i in response.devices) {
 				if (updateDevices === undefined || updateDevices.indexOf(response.devices[i].deviceId) > -1)
-					textsecure.storage.devices.saveDeviceObject({
+					textsecure.storage.devices.saveKeysToDeviceObject({
 						encodedNumber: number + "." + response.devices[i].deviceId,
 						identityKey: response.identityKey,
 						preKey: response.devices[i].preKey.publicKey,
@@ -18,7 +18,16 @@ window.textsecure.messaging = function() {
 						registrationId: response.devices[i].registrationId
 					});
 			}
-		});
+		};
+
+		var promises = [];
+		if (updateDevices !== undefined)
+			for (var i in updateDevices)
+				promises[promises.length] = textsecure.api.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+		else
+			return textsecure.api.getKeysForNumber(number).then(handleResult);
+
+		return Promise.all(promises);
 	}
 
 	// success_callback(server success/failure map), error_callback(error_msg)
@@ -165,14 +174,23 @@ window.textsecure.messaging = function() {
 			var number = numbers[i];
 			var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
-			if (devicesForNumber.length == 0) {
-				getKeysForNumber(number)
-					.then(reloadDevicesAndSend(number, true))
-					.catch(function(error) {
-						registerError(number, "Failed to retreive new device keys for number " + number, error);
-					});
-			} else
-				doSendMessage(number, devicesForNumber, true);
+			var promises = [];
+			for (var i in devicesForNumber)
+				if (devicesForNumber[i].registrationId === undefined)
+					promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[i].encodedNumber)[1])]);
+
+			Promise.all(promises).then(function() {
+				devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+
+				if (devicesForNumber.length == 0) {
+					getKeysForNumber(number)
+						.then(reloadDevicesAndSend(number, true))
+						.catch(function(error) {
+							registerError(number, "Failed to retreive new device keys for number " + number, error);
+						});
+				} else
+					doSendMessage(number, devicesForNumber, true);
+			});
 		}
 	}
 
@@ -229,13 +247,16 @@ window.textsecure.messaging = function() {
 	}
 
 	self.closeSession = function(number) {
-		var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-		for (var i in devices)
-			textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
-
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
+		proto.body = "TERMINATE";
 		proto.flags = textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
-		return sendIndividualProto(number, proto);
+		return sendIndividualProto(number, proto).then(function(res) {
+			var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+			for (var i in devices)
+				textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
+
+			return res;
+		});
 	}
 
 	self.sendMessageToGroup = function(groupId, messageText, attachments) {

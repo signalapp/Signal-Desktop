@@ -164,12 +164,15 @@ window.textsecure.api = function() {
 		});
 	};
 
-	self.getKeysForNumber = function(number) {
+	self.getKeysForNumber = function(number, deviceId) {
+		if (deviceId === undefined)
+			deviceId = "*";
+
 		return doAjax({
 			call				: 'keys',
 			httpType			: 'GET',
 			do_auth				: true,
-			urlParameters		: "/" + number + "/*",
+			urlParameters		: "/" + number + "/" + deviceId,
 		}).then(function(res) {
 			var promises = [];
 			res.identityKey = base64DecToArr(res.identityKey);

@@ -236,6 +236,8 @@ axolotlTestVectors = function() {
 				expectedSmsText: "C",
 			}],
 		];
+
+	// Now shuffle them around and make 5 tests
 	tests[tests.length] = {name: "Axolotl End Session Test Vectors as Bob", vectors: axolotlEndSessionTestVectorsBob};
 
 	var axolotlEndSessionTestVectorsBobCopy = function() {
@@ -332,6 +334,58 @@ axolotlTestVectors = function() {
 
 		return {name: "Shuffled End Session Axolotl Test Vectors as Bob V", vectors: v};
 	}();
+
+	// Same as above except as Alice
+	var axolotlEndSessionTestVectorsAlice = [
+		["sendMessage",
+			{
+				smsText: "A",
+				ourBaseKey: hexToArrayBuffer('b9f458404bb8d9a50b4c58fd373ec109f83dc820ae410d6f933c6f9a72e35e4c'),
+				ourEphemeralKey: hexToArrayBuffer('9133b17c81c14cdf89b3cd449c7b2ad9c91c223a2e627cc9619e20fbac1b8b6a'),
+				ourIdentityKey: hexToArrayBuffer('a898043b1b447cfae63e2633e34c49d91cfbad8562c815e300c879e10d4c3456'),
+				registrationId: 5405,
+				getKeys: {identityKey: hexToArrayBuffer('056c8e7e99343ae057d3962465a42f9b493e35d06c29140fb95bf01bf8b185852f'),
+						devices: [{
+							deviceId: 1,
+							preKey: {keyId: 6598766, publicKey: hexToArrayBuffer('05cbb234552f2b607fc0b08d76d78dd8ce1f6fc7e2dab8dc5103747cfb398b990d')},
+							signedPreKey: {keyId: 1564819, publicKey: hexToArrayBuffer('05ac707620d65fe630483f17b43f281d6310d43c3a8d2a27d870300a992f241b5e')},
+							registrationId: 2966
+						}]
+					},
+				expectedCiphertext: hexToArrayBuffer('3308eee09203122105266863a2585d725c244d440ef03a4ffee9a194a454f92b48500210342cf47e171a2105a028c496fa0850958a9ff1a1dfa528f75fa26a763b168de533f01be99b6b971422d301330a2105cbacb784b46fff7eed25243c96d280306b6336ffb6072b425f3fad2d3f9a1c581000180022a001efa8f1802e2e407754ec82aa7cfc18285733dce8d1bdd9ef934599c816b6d942949391184a74f2f1f156d515a91d9b09352d4116bdb023704c7d5d45b1ed7c9a2555d272fd81d871b9a1c8946ea84d094bb44e184ba03a0fd46c8ac827a05e682c6adb10626cfd98d8e267d6bb7daba7dff77affea1d090592fbe6929736154c16c4648da485b3a5996c8e3536b25844fb2763b2c62fbbcecd21608252e27b34dfd3eb6c618c284b289d2a3093c15f'),
+			}],
+		["sendMessage",
+			{
+				smsText: "B",
+				expectedCiphertext: hexToArrayBuffer('3308eee09203122105266863a2585d725c244d440ef03a4ffee9a194a454f92b48500210342cf47e171a2105a028c496fa0850958a9ff1a1dfa528f75fa26a763b168de533f01be99b6b971422d301330a2105cbacb784b46fff7eed25243c96d280306b6336ffb6072b425f3fad2d3f9a1c581001180022a001744576061111ffb4e2df634cf2b155e1cc6d252d3f72cd5d7bad5cb68dc46fc7822176975087abddc65b34d5dc2f644314b4be4deb01e050904ff2c067491324736305c8fc8ce7527d1b6e1c20a08f2d3b3208eacb6e6ce0b8af80f941cc7de1b2d625ae8cdd2e40a2ab27aafe13377bc2a407014492a3a9f21cbf0207997873697d02cd7eea97981860a574333e098c4f55094742c24cfbc73da2640609dc2566e9ed7834240ac5289d2a3093c15f'),
+			}],
+		["sendMessage",
+			{
+				endSession: true,
+				expectedCiphertext: hexToArrayBuffer('3308eee09203122105266863a2585d725c244d440ef03a4ffee9a194a454f92b48500210342cf47e171a2105a028c496fa0850958a9ff1a1dfa528f75fa26a763b168de533f01be99b6b971422d301330a2105cbacb784b46fff7eed25243c96d280306b6336ffb6072b425f3fad2d3f9a1c581002180022a001e0b7b0679fa466e677a3e18a28b574c286c59ac48dbf5b5e24e289b7222a2353726ad190aa4ab1cc57d8ac50711adb32ebbed369214bde90a66bcc0b042970224206cb05dd02fab534f12e07e7c909fbbf77e678fb282b81298bc01eae024db13eba6b915651487a06a9b62606c844406496c0c878c6c3422d709d8b08db4d22a7c09a036a3aed6479e0ad07da2f6dfc0b9ee58b11a46d72fe38b662e1c09604a76358b7856dadd7289d2a3093c15f'),
+			}],
+		["sendMessage",
+			{
+				smsText: "C",
+				ourBaseKey: hexToArrayBuffer('49a4bb5a4da5ddd29697ff77f787177cd9da36007e456e77bc9107a9f4392b66'),
+				ourEphemeralKey: hexToArrayBuffer('a189e070781266fbc55e27180a6654e496e98f47e98b0a9e9c4e5e66219dd56e'),
+				ourIdentityKey: hexToArrayBuffer('a898043b1b447cfae63e2633e34c49d91cfbad8562c815e300c879e10d4c3456'),
+				registrationId: 5405,
+				getKeys: {identityKey: hexToArrayBuffer('056c8e7e99343ae057d3962465a42f9b493e35d06c29140fb95bf01bf8b185852f'),
+						devices: [{
+							deviceId: 1,
+							preKey: {keyId: 6598767, publicKey: hexToArrayBuffer('054508c2343459b6a0085f216885096ffa7b8312d073b9bcd1748423b1bfc1ab42')},
+							signedPreKey: {keyId: 1564819, publicKey: hexToArrayBuffer('05ac707620d65fe630483f17b43f281d6310d43c3a8d2a27d870300a992f241b5e')},
+							registrationId: 2966
+						}]
+					},
+				expectedCiphertext: hexToArrayBuffer('3308efe092031221054057ff80fb53953c149baf1628fb91b8fcd7df883bf63e94b1bab4037d20966a1a2105a028c496fa0850958a9ff1a1dfa528f75fa26a763b168de533f01be99b6b971422d301330a210591ce9658f1587e42d16b76bfc5035837becde75d630802353c5a215612b385431000180022a001cfd82605cf03277ea76d0c65c9c906a0c4568e312ae9c869ebfcca8c5fe4fe2e80e8eb8d674da589cc45522431903fd0540d4c84bc296332273c165ccbb443859fa697a809a33009a7df03a6f32ac9621807433a456227020e209eec06898af1291e5acf2285ea77aeb04c416464b1e5345a4bf237c3004a0b6f8d334c5783599ea4c1e68d2198872cda7e4e224b24a8fac5e17ce641763f4b14a45a48cc7bcf14e69b2a9272a156289d2a3093c15f'),
+			}],
+		];
+
+	tests[tests.length] = {name: "Standard End Session Axolotl Test Vectors as Alice", vectors: axolotlEndSessionTestVectorsAlice};
+
+
 
 	return tests;
 }();
