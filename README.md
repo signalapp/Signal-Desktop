@@ -2,8 +2,7 @@ TextSecure Chromium Implementation
 ==================================
 
 This is very early stuff and exists primarily to get the crypto in place.
-Note that the code is currently quite messy (its all in one file!), but it
-needs to work first, then it can be heavily cleaned up later.
+*This does not currently work, dont bother trying to use it seriously yet*
 
 Getting Started with Development
 ================================
@@ -25,8 +24,6 @@ chai:
 
 Tips/Tricks
 ===========
-
-* For Dev purposes, the test server always uses code 111111
 * Loading the `test.html` page may read, write or clear localStorage. To avoid
   having to choose between running tests and preserving your existing messages,
   keys, and other extension data, much of the test suite can be run by starting
