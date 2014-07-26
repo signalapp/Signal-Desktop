@@ -31,4 +31,4 @@ Tips/Tricks
   having to choose between running tests and preserving your existing messages,
   keys, and other extension data, much of the test suite can be run by starting
   a local webserver in the repository root, e.g. `python -m SimpleHTTPServer`.
-  You can then access the test page at `http://0.0.0.0:8000`.
+  You can then access the test page at `http://0.0.0.0:8000/test.html`.
