@@ -26,6 +26,7 @@ window.textsecure.api = function() {
 	 ************************************************/
 	// Staging server
 	var URL_BASE	= "https://textsecure-service-ca.whispersystems.org:4433";
+	self.relay		= "textsecure-service-staging.whispersystems.org";
 
 	// This is the real server
 	//var URL_BASE	= "https://textsecure-service.whispersystems.org";
@@ -35,6 +36,7 @@ window.textsecure.api = function() {
 	URL_CALLS['devices']	= "/v1/devices";
 	URL_CALLS['keys']		= "/v2/keys";
 	URL_CALLS['push']		= "/v1/websocket";
+	URL_CALLS['temp_push']	= "/v1/temp_websocket";
 	URL_CALLS['messages']	= "/v1/messages";
 	URL_CALLS['attachment']	= "/v1/attachments";
 
@@ -279,15 +281,93 @@ window.textsecure.api = function() {
 		});
 	};
 
-	self.getWebsocket = function() {
-		var user = textsecure.storage.getUnencrypted("number_id");
-		var password = textsecure.storage.getEncrypted("password");
-		var URL = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['push'] + '/?';
-		var params = $.param({
-			login: '+' + getString(user).substring(1),
-			password: getString(password)
-		});
-		return new WebSocket(URL+params);
+	var getWebsocket = function(url, auth, reconnectTimeout) {
+		var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
+		if (auth) {
+			var user = textsecure.storage.getUnencrypted("number_id");
+			var password = textsecure.storage.getEncrypted("password");
+			var params = $.param({
+				login: '+' + getString(user).substring(1),
+				password: getString(password)
+			});
+		} else
+			var params = $.param({});
+
+		var reconnectSemaphore = 0;
+		var pingInterval;
+
+		var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
+
+		var connect = function() {
+			reconnectSemaphore++;
+			if (reconnectSemaphore <= 0)
+				return;
+
+			var socket = new WebSocket(URL+params);
+
+			socket.onerror = function(socketEvent) {
+				console.log('Server is down :(');
+				clearInterval(pingInterval);
+				reconnectSemaphore--;
+				setTimeout(function() { connect(); }, reconnectTimeout);
+				socketWrapper.ondisconnect();
+			};
+
+			socket.onclose = function(socketEvent) {
+				console.log('Server closed :(');
+				clearInterval(pingInterval);
+				reconnectSemaphore--;
+				setTimeout(function() { connect(); }, reconnectTimeout);
+				socketWrapper.ondisconnect();
+			};
+
+			socket.onopen = function(socketEvent) {
+				console.log('Connected to server!');
+				pingInterval = setInterval(function() {
+					console.log("Sending server ping message.");
+					if (socket.readyState == socket.CLOSED || socket.readyState == socket.CLOSING) {
+						socket.close();
+						socket.onclose();
+					} else
+						socket.send(JSON.stringify({type: 2}));
+				}, reconnectTimeout / 2);
+				socketWrapper.onconnect();
+			};
+
+			//TODO: wrap onmessage so that we reconnect on missing pong
+			socket.onmessage = function(response) {
+				try {
+					var message = JSON.parse(response.data);
+				} catch (e) {
+					console.log('Error parsing server JSON message: ' + response);
+					return;
+				}
+
+				if (message.type == 3)
+					console.log("Got pong message");
+				else if ((message.type === undefined && message.id !== undefined) || message.type === 4)
+					socketWrapper.onmessage(message);
+				else
+					console.log("Got invalid message from server: " + message);
+			};
+		};
+		connect();
+
+		return socketWrapper;
+	}
+
+	self.getMessageWebsocket = function() {
+		return getWebsocket(URL_CALLS['push'], true, 60000);
+	}
+
+	self.getTempWebsocket = function() {
+		//XXX
+		var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
+		setTimeout(function() {
+			socketWrapper.onmessage({type: 4, message: "404-42-magic"});
+		}, 1000);
+		return socketWrapper;
+		//return getWebsocket(URL_CALLS['temp_push'], false, 5000);
 	}
 
 	return self;

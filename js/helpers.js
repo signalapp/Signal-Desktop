@@ -195,9 +195,19 @@ window.textsecure.protos = function() {
 		return self.PreKeyWhisperMessageProtobuf.decode(btoa(string));
 	}
 
-	self.KeyExchangeMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.KeyExchangeMessage");
-	self.decodeKeyExchangeMessageProtobuf = function(string) {
-		return self.KeyExchangeMessageProtobuf.decode(btoa(string));
+	self.DeviceInitProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceInit");
+	self.decodeDeviceInitProtobuf = function(string) {
+		return self.DeviceInitProtobuf.decode(btoa(string));
+	}
+
+	self.IdentityKeyProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.IdentityKey");
+	self.decodeIdentityKeyProtobuf = function(string) {
+		return self.IdentityKeyProtobuf.decode(btoa(string));
+	}
+
+	self.DeviceControlProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceControl");
+	self.decodeDeviceControlProtobuf = function(string) {
+		return self.DeviceControlProtobuf.decode(btoa(string));
 	}
 
 	return self;
@@ -635,154 +645,109 @@ window.textsecure.replay = function() {
 }();
 
 // message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
-window.textsecure.subscribeToPush = function() {
-	var subscribeToPushMessageSemaphore = 0;
-	return function(message_callback) {
-		subscribeToPushMessageSemaphore++;
-		if (subscribeToPushMessageSemaphore <= 0)
-			return;
+window.textsecure.subscribeToPush = function(message_callback) {
+	var socket = textsecure.api.getMessageWebsocket();
 
-		var socket = textsecure.api.getWebsocket();
+	socket.onmessage = function(message) {
+		textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
+			var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
+			// After this point, a) decoding errors are not the server's fault, and
+			// b) we should handle them gracefully and tell the user they received an invalid message
+			console.log("Successfully decoded message with id: " + message.id);
+			socket.send(JSON.stringify({type: 1, id: message.id}));
+			return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+				// Now that its decrypted, validate the message and clean it up for consumer processing
+				// Note that messages may (generally) only perform one action and we ignore remaining fields
+				// after the first action.
 
-		var pingInterval;
+				if (decrypted.flags == null)
+					decrypted.flags = 0;
 
-		//TODO: GUI
-		socket.onerror = function(socketEvent) {
-			console.log('Server is down :(');
-			clearInterval(pingInterval);
-			subscribeToPushMessageSemaphore--;
-			setTimeout(function() { textsecure.subscribeToPush(message_callback); }, 60000);
-		};
-		socket.onclose = function(socketEvent) {
-			console.log('Server closed :(');
-			clearInterval(pingInterval);
-			subscribeToPushMessageSemaphore--;
-			setTimeout(function() { textsecure.subscribeToPush(message_callback); }, 60000);
-		};
-		socket.onopen = function(socketEvent) {
-			console.log('Connected to server!');
-			pingInterval = setInterval(function() {
-				console.log("Sending server ping message.");
-				if (socket.readyState == socket.CLOSED || socket.readyState == socket.CLOSING) {
-					socket.close();
-					socket.onclose();
-				} else
-					socket.send(JSON.stringify({type: 2}));
-			}, 30000);
-		};
+				if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+							== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+					return;
+				if (decrypted.flags != 0)
+					throw new Error("Unknown flags in message");
 
-		socket.onmessage = function(response) {
-			try {
-				var message = JSON.parse(response.data);
-			} catch (e) {
-				console.log('Error parsing server JSON message: ' + response.responseBody.split("|")[1]);
-				return;
-			}
-
-			if (message.type == 3) {
-				console.log("Got pong message");
-			} else if (message.type === undefined && message.id !== undefined) {
-				textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-					var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
-					// After this point, a) decoding errors are not the server's fault, and
-					// b) we should handle them gracefully and tell the user they received an invalid message
-					console.log("Successfully decoded message with id: " + message.id);
-					socket.send(JSON.stringify({type: 1, id: message.id}));
-					return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
-						// Now that its decrypted, validate the message and clean it up for consumer processing
-						// Note that messages may (generally) only perform one action and we ignore remaining fields
-						// after the first action.
-
-						if (decrypted.flags == null)
-							decrypted.flags = 0;
-
-						if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-							return;
-						if (decrypted.flags != 0)
-							throw new Error("Unknown flags in message");
-
-						var handleAttachment = function(attachment) {
-							return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
-								return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
-									attachment.decrypted = decryptedBin;
-								});
-							});
-						};
-
-						var promises = [];
-
-						if (decrypted.group !== null) {
-							var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
-							if (existingGroup === undefined) {
-								if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE)
-									throw new Error("Got message for unknown group");
-								textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
-							} else {
-								var fromIndex = existingGroup.indexOf(proto.source);
-
-								if (fromIndex < 0) //TODO: This could be indication of a race...
-									throw new Error("Sender was not a member of the group they were sending from");
-
-								switch(decrypted.group.type) {
-								case textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE:
-									if (decrypted.group.avatar !== null)
-										promises.push(handleAttachment(decrypted.group.avatar));
-
-									if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
-										throw new Error("Attempted to remove numbers from group with an UPDATE");
-									decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
-
-									var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
-									if (newGroup.length != decrypted.group.members.length ||
-												newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
-										throw new Error("Error calculating group member difference");
-
-									//TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
-									if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
-										return;
-
-									//TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
-
-									decrypted.body = null;
-									decrypted.attachments = [];
-
-									break;
-								case textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT:
-									textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
-
-									decrypted.body = null;
-									decrypted.attachments = [];
-								case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
-									decrypted.group.name = null;
-									decrypted.group.members = [];
-									decrypted.group.avatar = null;
-
-									break;
-								default:
-									throw new Error("Unknown group message type");
-								}
-							}
-						}
-
-						for (var i in decrypted.attachments)
-							promises.push(handleAttachment(decrypted.attachments[i]));
-						return Promise.all(promises).then(function() {
-							message_callback({pushMessage: proto, message: decrypted});
+				var handleAttachment = function(attachment) {
+					return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
+						return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
+							attachment.decrypted = decryptedBin;
 						});
-					})
-				}).catch(function(e) {
-					// TODO: Show "Invalid message" messages?
-					console.log("Error handling incoming message: ");
-					console.log(e);
-				});
-			}
-		};
-	}
-}();
+					});
+				};
 
-window.textsecure.register = function() {
-	return function(number, verificationCode, singleDevice, stepDone) {
+				var promises = [];
+
+				if (decrypted.group !== null) {
+					var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
+					if (existingGroup === undefined) {
+						if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE)
+							throw new Error("Got message for unknown group");
+						textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
+					} else {
+						var fromIndex = existingGroup.indexOf(proto.source);
+
+						if (fromIndex < 0) //TODO: This could be indication of a race...
+							throw new Error("Sender was not a member of the group they were sending from");
+
+						switch(decrypted.group.type) {
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE:
+							if (decrypted.group.avatar !== null)
+								promises.push(handleAttachment(decrypted.group.avatar));
+
+							if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
+								throw new Error("Attempted to remove numbers from group with an UPDATE");
+							decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
+
+							var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
+							if (newGroup.length != decrypted.group.members.length ||
+										newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
+								throw new Error("Error calculating group member difference");
+
+							//TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
+							if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
+								return;
+
+							//TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
+
+							decrypted.body = null;
+							decrypted.attachments = [];
+
+							break;
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT:
+							textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+
+							decrypted.body = null;
+							decrypted.attachments = [];
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
+							decrypted.group.name = null;
+							decrypted.group.members = [];
+							decrypted.group.avatar = null;
+
+							break;
+						default:
+							throw new Error("Unknown group message type");
+						}
+					}
+				}
+
+				for (var i in decrypted.attachments)
+					promises.push(handleAttachment(decrypted.attachments[i]));
+				return Promise.all(promises).then(function() {
+					message_callback({pushMessage: proto, message: decrypted});
+				});
+			})
+		}).catch(function(e) {
+			// TODO: Show "Invalid message" messages?
+			console.log("Error handling incoming message: ");
+			console.log(e);
+		});
+	};
+};
+
+window.textsecure.registerSingleDevice = function() {
+	return function(number, verificationCode, stepDone) {
 		var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
 		textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
@@ -794,25 +759,55 @@ window.textsecure.register = function() {
 		registrationId = registrationId & 0x3fff;
 		textsecure.storage.putUnencrypted("registrationId", registrationId);
 
-		return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, singleDevice).then(function(response) {
-			if (singleDevice)
-				response = 1;
-			var numberId = number + "." + response;
+		return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
+			var numberId = number + ".1";
 			textsecure.storage.putUnencrypted("number_id", numberId);
 			textsecure.storage.putUnencrypted("regionCode", textsecure.utils.getRegionCodeForNumber(number));
 			stepDone(1);
 
-			if (!singleDevice) {
-				//TODO: Do things???
-				stepDone(2);
-			}
-
 			return textsecure.crypto.generateKeys().then(function(keys) {
-				stepDone(3);
+				stepDone(2);
 				return textsecure.api.registerKeys(keys).then(function() {
-					stepDone(4);
+					stepDone(3);
 				});
 			});
 		});
 	}
 }();
+
+window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo, stepDone) {
+	var deviceInit = textsecure.protos.decodeDeviceInit(encodedDeviceInit);
+	return cryptoInfo.decryptAndHandleDeviceInit(deviceInit).then(function(identityKey) {
+		if (identityKey.server != textsecure.api.relay)
+			throw new Error("Unknown relay used by master");
+		var number = identityKey.phoneNumber;
+
+		stepDone(1);
+
+		var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+		textsecure.storage.putEncrypted('signaling_key', signalingKey);
+
+		var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+		password = password.substring(0, password.length - 2);
+		textsecure.storage.putEncrypted("password", password);
+
+		var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
+		registrationId = registrationId & 0x3fff;
+		textsecure.storage.putUnencrypted("registrationId", registrationId);
+
+		return textsecure.api.confirmCode(number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
+			var numberId = number + "." + result;
+			textsecure.storage.putUnencrypted("number_id", numberId);
+			textsecure.storage.putUnencrypted("regionCode", textsecure.utils.getRegionCodeForNumber(number));
+			stepDone(2);
+
+			return textsecure.crypto.generateKeys().then(function(keys) {
+				stepDone(3);
+				return textsecure.api.registerKeys(keys).then(function() {
+					stepDone(4);
+					//TODO: Send DeviceControl.NEW_DEVICE_REGISTERED to all other devices
+				});
+			});
+		});
+	});
+};

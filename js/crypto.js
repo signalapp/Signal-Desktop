@@ -110,9 +110,13 @@ window.textsecure.crypto = function() {
 	 ***************************/
 	var crypto_storage = {};
 
+	crypto_storage.putKeyPair = function(keyName, keyPair) {
+		textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
+	}
+
 	crypto_storage.getNewStoredKeyPair = function(keyName, isIdentity) {
 		return createNewKeyPair(isIdentity).then(function(keyPair) {
-			textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
+			crypto_storage.putKeyPair(keyName, keyPair);
 			return keyPair;
 		});
 	}
@@ -736,10 +740,10 @@ window.textsecure.crypto = function() {
 
 		var iv = decodedMessage.slice(1, 1 + 16);
 		var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
-		var ivAndCiphertext = decodedMessage.slice(1, decodedMessage.byteLength - 10);
+		var ivAndCiphertext = decodedMessage.slice(0, decodedMessage.byteLength - 10);
 		var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
-		return verifyMACWithVersionByte(ivAndCiphertext, mac_key, mac).then(function() {
+		return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
 			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
 		});
 	};
@@ -934,6 +938,47 @@ window.textsecure.crypto = function() {
 	});
 
 	self.Ed25519Verify = Ed25519Verify;
+
+	self.prepareTempWebsocket = function() {
+		var socketInfo = {};
+		var keyPair;
+
+		socketInfo.decryptAndHandleDeviceInit = function(deviceInit) {
+			var masterEphemeral = toArrayBuffer(deviceInit.masterEphemeralPubKey);
+			var message = toArrayBuffer(deviceInit.identityKeyMessage);
+
+			return ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
+				return HKDF(ecRes, masterEphemeral, "WhisperDeviceInit").then(function(keys) {
+					if (new Uint8Array(message)[0] != (3 << 4) | 3)
+						throw new Error("Bad version number on IdentityKeyMessage");
+
+					var iv = message.slice(1, 16 + 1);
+					var mac = message.slice(message.length - 32, message.length);
+					var ivAndCiphertext = message.slice(0, message.length - 32);
+					var ciphertext = message.slice(16 + 1, message.length - 32);
+
+					return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
+						window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, ecRes[0], ciphertext).then(function(plaintext) {
+							var identityKeyMsg = textsecure.protos.decodeIdentityKeyProtobuf(getString(plaintext));
+
+							privToPub(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
+								crypto_storage.putKeyPair("identityKey", identityKeyPair);
+								identityKeyMsg.identityKey = null;
+
+								return identityKeyMsg;
+							});
+						});
+					});
+				});
+			});
+		}
+
+		return createNewKeyPair(false).then(function(newKeyPair) {
+			keyPair = newKeyPair;
+			socketInfo.pubKey = keyPair.pubKey;
+			return socketInfo;
+		});
+	}
 
 	self.testing_only = testing_only;
 	return self;

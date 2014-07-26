@@ -27,23 +27,38 @@
 
 	<h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
 	<div id="init-setup" class="hidden">
-		<h2>Welcome to TextSecure. To get started please get a 6-digit setup code from your phone and enter it below.</h2>
-		<span>Please select your country:</span>
-		<select id="regionCode">
-			<option value="ZZ" selected>Please choose your country.</option>
-		</select>
-		<span id="phonenumberspan">Enter your phone number (including country code): + <input type="text" size="3" id="countrycode"> <input type="text" size="14" id="number"></span>
-		<button id="init-go-single-client" class="btn">Send single-client code</button>
-		<div id="init-setup-verification" class="hidden">
-			<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
-			<button id="init-go" class="btn">Sync</button>
+		<h2>Welcome to TextSecure. If you want to register as a secondary device, follow the instructions on the left, if you want to register as the only device, follow the instructions on the right</h2>
+
+		<div id="left-connecting" class="left-column">
+			Please wait while we connect to the push server...
+		</div>
+		<div id="left-setup" class="left-column hidden">
+			Please scan the QR code below on the master device: <br>
+			<div id="setup-qr"></div>
+		</div>
+		<div id="left-reconnecting" class="left-column hidden">
+			The push server disconnected, please wait while we reconnect...
+		</div>
+
+		<div class="right-column">
+			<span>Please select your country or enter your country code below:</span>
+			<select id="regionCode">
+				<option value="ZZ" selected>Please choose your country.</option>
+			</select>
+			<span id="phonenumberspan">+ <input type="text" size="3" id="countrycode"> <input type="text" size="14" id="number"></span>
+			<button id="init-go-single-client" class="btn">Send single-client code</button>
+			<div id="init-setup-verification" class="hidden">
+				<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
+				<button id="init-go" class="btn">Sync</button>
+			</div>
 		</div>
 	</div>
 	<div id="verify" class="hidden">
-		<div id="verify1">Verifying number and setup code...<span id="verify1done"></span></div>
-		<div id="verify2">Syncing with existing devices...<span id="verify2done"></span></div>
+		<div id="verify1">Receiving identity key...<span id="verify1done"></span></div>
+		<div id="verify2">Verifying number and setup code...<span id="verify2done"></span></div>
 		<div id="verify3">Generating keys...<span id="verify3done"></span></div>
 		<div id="verify4">Registering...<span id="verify4done"></span></div>
+		<div id="verify5">Syncing with existing devices...<span id="verify5done"></span></div>
 	</div>
 	<div id="setup-complete" class="hidden">
 		<h2>You are now registered on TextSecure with number <span id="complete-number"></span></h2>
@@ -59,6 +74,7 @@
 	<script type="text/javascript" src="js-deps/backbone.js"></script>
 	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
 	<script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
+	<script type="text/javascript" src="js-deps/qrcode.min.js"></script>
 
 	<script type="text/javascript" src="js/helpers.js"></script>
 	<script type="text/javascript" src="js/webcrypto.js"></script>

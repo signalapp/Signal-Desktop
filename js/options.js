@@ -73,26 +73,23 @@ $('#init-go').click(function() {
 		return;
 	}
 
-
 	$('#init-setup').hide();
-	$('#verify1done').text('');
-	$('#verify2').hide();
+	$('#verify1').hide();
+	$('#verify2done').text('');
 	$('#verify3done').text('');
 	$('#verify4done').text('');
+	$('#verify5').hide();
 	$('#verify').show();
 
-	textsecure.register(parsedNumber, $('#code').val(), single_device, function(step) {
+	textsecure.registerSingleDevice(parsedNumber, $('#code').val(), function(step) {
 		switch(step) {
 		case 1:
-			$('#verify1done').text('done');
-			break;
-		case 2:
 			$('#verify2done').text('done');
 			break;
-		case 3:
+		case 2:
 			$('#verify3done').text('done');
 			break;
-		case 4:
+		case 3:
 			$('#complete-number').text(parsedNumber);
 			$('#verify').hide();
 			$('#setup-complete').show();
@@ -136,6 +133,61 @@ textsecure.registerOnLoadFunction(function() {
 			$('#regionCode').val(textsecure.utils.getRegionCodeForCountryCode($('#countrycode').val()));
 			updateNumberColors();
 
+			textsecure.crypto.prepareTempWebsocket().then(function(cryptoInfo) {
+				var qrCode = new QRCode(document.getElementById('setup-qr'));
+				var socket = textsecure.api.getTempWebsocket();
+
+				socket.onmessage = function(message) {
+					//TODO: Get a server format for this
+					if (message.type === 4) {
+						qrCode.makeCode('textsecure-device-init:/' +
+										'?channel_uuid=' + message.message +
+										'&channel_server=' + textsecure.api.relay +
+										'&publicKey=' + btoa(getString(cryptoInfo.publicKey)));
+						$('img').removeAttr('style');
+						$('#left-connecting').hide();
+						$('#left-setup').show();
+						$('#left-reconnecting').hide();
+					} else {
+						$('#init-setup').hide();
+						$('#verify1done').text('');
+						$('#verify2done').text('');
+						$('#verify3done').text('');
+						$('#verify4done').text('');
+						$('#verify5done').text('');
+						$('#verify').show();
+
+
+						textsecure.registerSecondDevice(cryptoInfo, message.message, function(step) {
+							switch(step) {
+							case 1:
+								$('#verify1done').text('done');
+								break;
+							case 2:
+								$('#verify2done').text('done');
+								break;
+							case 3:
+								$('#verify3done').text('done');
+								break;
+							case 4:
+								//TODO: User needs to verify number before we continue
+								$('#complete-number').text(parsedNumber);
+								$('#verify4done').text('done');
+							case 5:
+								$('#verify').hide();
+								$('#setup-complete').show();
+								registrationDone();
+							}
+						});
+					}
+				};
+
+				socket.ondisconnect = function() {
+					$('#left-connecting').hide();
+					$('#left-setup').hide();
+					$('#left-reconnecting').show();
+				};
+			});
 		} else {
 			$('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
 			$('#setup-complete').show();
