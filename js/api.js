@@ -294,8 +294,6 @@ window.textsecure.api = function() {
 			var params = $.param({});
 
 		var reconnectSemaphore = 0;
-		var pingInterval;
-
 		var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
 
 		var connect = function() {
@@ -307,7 +305,6 @@ window.textsecure.api = function() {
 
 			socket.onerror = function(socketEvent) {
 				console.log('Server is down :(');
-				clearInterval(pingInterval);
 				reconnectSemaphore--;
 				setTimeout(function() { connect(); }, reconnectTimeout);
 				socketWrapper.ondisconnect();
@@ -315,7 +312,6 @@ window.textsecure.api = function() {
 
 			socket.onclose = function(socketEvent) {
 				console.log('Server closed :(');
-				clearInterval(pingInterval);
 				reconnectSemaphore--;
 				setTimeout(function() { connect(); }, reconnectTimeout);
 				socketWrapper.ondisconnect();
@@ -323,14 +319,6 @@ window.textsecure.api = function() {
 
 			socket.onopen = function(socketEvent) {
 				console.log('Connected to server!');
-				pingInterval = setInterval(function() {
-					console.log("Sending server ping message.");
-					if (socket.readyState == socket.CLOSED || socket.readyState == socket.CLOSING) {
-						socket.close();
-						socket.onclose();
-					} else
-						socket.send(JSON.stringify({type: 2}));
-				}, reconnectTimeout / 2);
 				socketWrapper.onconnect();
 			};
 
@@ -343,9 +331,7 @@ window.textsecure.api = function() {
 					return;
 				}
 
-				if (message.type == 3)
-					console.log("Got pong message");
-				else if ((message.type === undefined && message.id !== undefined) || message.type === 4)
+				if ((message.type === undefined && message.id !== undefined) || message.type === 4)
 					socketWrapper.onmessage(message);
 				else
 					console.log("Got invalid message from server: " + message);
@@ -368,7 +354,7 @@ window.textsecure.api = function() {
 		//XXX
 		var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
 		setTimeout(function() {
-			socketWrapper.onmessage({type: 4, message: "404-42-magic"});
+			socketWrapper.onmessage({uuid: "404-42-magic"});
 		}, 1000);
 		return socketWrapper;
 		//return getWebsocket(URL_CALLS['temp_push'], false, 5000);

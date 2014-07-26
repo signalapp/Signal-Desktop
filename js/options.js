@@ -138,10 +138,9 @@ textsecure.registerOnLoadFunction(function() {
 				var socket = textsecure.api.getTempWebsocket();
 
 				socket.onmessage = function(message) {
-					//TODO: Get a server format for this
-					if (message.type === 4) {
+					if (message.uuid) {
 						qrCode.makeCode('textsecure-device-init:/' +
-										'?channel_uuid=' + message.message +
+										'?channel_uuid=' + message.uuid +
 										'&channel_server=' + textsecure.api.relay +
 										'&publicKey=' + btoa(getString(cryptoInfo.publicKey)));
 						$('img').removeAttr('style');
