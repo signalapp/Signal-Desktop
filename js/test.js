@@ -14,6 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+mocha.setup("bdd");
+window.assert = chai.assert;
+
 describe("ArrayBuffer->String conversion", function() {
     it('works', function() {
         var b = new ArrayBuffer(3);
@@ -137,9 +140,9 @@ describe("Curve25519", function() {
         // this is a just cute little trick to get a nice-looking note about
         // which curve25519 impl we're using.
         if (window.textsecure.nacl.USE_NACL) {
-            it("is NACL");
+            it("is NACL", function(done) { done(); });
         } else {
-            it("is JavaScript");
+            it("is JavaScript", function(done) { done(); });
         }
     });
 
@@ -395,3 +398,8 @@ describe("Axolotl", function() {
         });
     });
 });
+
+if (window.mochaPhantomJS)
+	mochaPhantomJS.run();
+else
+	mocha.run();

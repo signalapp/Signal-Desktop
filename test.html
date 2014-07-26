@@ -19,10 +19,10 @@
   <link rel="stylesheet" href="test/mocha.css" />
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+	<h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
+
 	<div id="listener"></div>
 	<div id="log"></div>
-
-	<h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h1>
 
 	<div id="mocha">
 	</div>
@@ -31,10 +31,6 @@
 
 	<script type="text/javascript" src="test/mocha.js"></script>
 	<script type="text/javascript" src="test/chai.js"></script>
-  <script>
-    mocha.setup("bdd")
-    window.assert = chai.assert;
-  </script>
 
 	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="js-deps/jquery.js"></script>
@@ -62,12 +58,5 @@
 	<script type="text/javascript" src="js/fake_api.js"></script>
 	<script type="text/javascript" src="js/testvectors.js"></script>
 	<script type="text/javascript" src="js/test.js"></script>
-
-	<script type="text/javascript">
-    if (window.mochaPhantomJS)
-      mochaPhantomJS.run();
-    else
-      mocha.run();
-  </script>
 </body>
 </html>
