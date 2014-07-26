@@ -21,5 +21,8 @@
 		"page": "background.html"
 	},
 
-	"options_page": "options.html"
+	"options_page": "options.html",
+
+	// XXX: FOR TESTING ONLY, REMOVE BEFORE RELEASE:
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

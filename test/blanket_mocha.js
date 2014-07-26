@@ -4331,10 +4331,11 @@ _blanket.extend({
         }
     },
     _addScript: function(data){
-        var script = document.createElement("script");
+        /*var script = document.createElement("script");
         script.type = "text/javascript";
         script.text = data;
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(script);
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(script);*/
+		(1,eval)(data);
     },
     hasAdapter: function(callback){
         return _blanket.options("adapter") !== null;
@@ -4494,10 +4495,11 @@ blanket.defaultReporter = function(coverage){
     }
 
 
-    var script = document.createElement("script");
+    /*var script = document.createElement("script");
     script.type = "text/javascript";
     script.text = blanket_toggleSource.toString().replace('function ' + blanket_toggleSource.name, 'function blanket_toggleSource');
-    body.appendChild(script);
+    body.appendChild(script);*/
+	(1,eval)(blanket_toggleSource.toString().replace('function ' + blanket_toggleSource.name, 'function blanket_toggleSource'));
 
     var percentage = function(number, total) {
         return (Math.round(((number/total) * 100)*100)/100);
