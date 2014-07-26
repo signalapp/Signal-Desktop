@@ -19,3 +19,8 @@ Tips/Tricks
 ===========
 
 * For Dev purposes, the test server always uses code 111111
+* Loading the `test.html` page may read, write or clear localStorage. To avoid
+  having to chooes between running tests and preserving your existing messages,
+  keys, and other extension data, much of the test suite can be run by starting
+  a local webserver in the repository root, e.g. `python -m SimpleHTTPServer`.
+  You can then access the test page at `http://0.0.0.0:8000`.
