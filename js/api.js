@@ -350,6 +350,10 @@ window.textsecure.api = function() {
 				else
 					console.log("Got invalid message from server: " + message);
 			};
+
+			socketWrapper.send = function(msg) {
+				socket.send(msg);
+			}
 		};
 		connect();
 

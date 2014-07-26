@@ -792,6 +792,8 @@ window.textsecure.crypto = function() {
 				throw new Error("Bad version byte");
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return handlePreKeyWhisperMessage(from, getString(proto.message));
+		case textsecure.protos.IncomingPushMessageProtobuf.Type.RECEIPT:
+			return Promise.resolve(null);
 		default:
 			return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
 		}

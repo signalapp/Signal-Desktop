@@ -656,6 +656,11 @@ window.textsecure.subscribeToPush = function(message_callback) {
 			console.log("Successfully decoded message with id: " + message.id);
 			socket.send(JSON.stringify({type: 1, id: message.id}));
 			return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+				// Delivery receipt
+				if (decrypted === null)
+					//TODO: Pass to UI
+					return;
+
 				// Now that its decrypted, validate the message and clean it up for consumer processing
 				// Note that messages may (generally) only perform one action and we ignore remaining fields
 				// after the first action.
