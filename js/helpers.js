@@ -570,11 +570,11 @@ window.textsecure.nacl = function() {
 	var onLoadCallbacks = [];
 	var naclLoaded = 0;
 	self.registerOnLoadFunction = function(func) {
-		if (naclLoaded || !self.USE_NACL) {
-			func();
-			return;
-		}
-		onLoadCallbacks[onLoadCallbacks.length] = func;
+		return new Promise(function(resolve, reject) {
+			if (naclLoaded || !self.USE_NACL)
+				return resolve(func());
+			onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
+		});
 	}
 
 	var naclMessageNextId = 0;
@@ -582,8 +582,13 @@ window.textsecure.nacl = function() {
 	window.moduleDidLoad = function() {
 		common.hideModule();
 		naclLoaded = 1;
-		for (var i = 0; i < onLoadCallbacks.length; i++)
-			onLoadCallbacks[i]();
+		for (var i = 0; i < onLoadCallbacks.length; i++) {
+			try {
+				onLoadCallbacks[i][1](onLoadCallbacks[i][0]());
+			} catch (e) {
+				onLoadCallbacks[i][2](e);
+			}
+		}
 		onLoadCallbacks = [];
 	}
 
