@@ -104,6 +104,7 @@ describe("Cryptographic primitives", function() {
 describe('Unencrypted PushMessageProto "decrypt"', function() {
     //exclusive
     it('works', function(done) {
+		localStorage.clear();
         var PushMessageProto = dcodeIO.ProtoBuf.loadProtoFile(
             "protos/IncomingPushMessageSignal.proto"
         ).build("textsecure.PushMessageContent");
@@ -208,6 +209,7 @@ describe("Curve25519", function() {
         before(function() { localStorage.clear(); });
         after(function()  { localStorage.clear(); });
         it ('works', function(done) {
+			localStorage.clear();
             return textsecure.registerOnLoadFunction(function() {
                 return textsecure.crypto.generateKeys().then(function() {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
@@ -382,6 +384,7 @@ describe("Axolotl", function() {
     describe("test vectors", function() {
         _.each(axolotlTestVectors, function(t, i) {
             it(t.name, function(done) {
+				localStorage.clear();
             	return textsecure.registerOnLoadFunction(function() {
 					return runAxolotlTest(t.vectors).then(function(res) {
 						assert(res);
