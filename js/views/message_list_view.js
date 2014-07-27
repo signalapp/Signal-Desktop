@@ -5,11 +5,11 @@ var Whisper = Whisper || {};
 
   Whisper.MessageListView = Whisper.ListView.extend({
     tagName: 'ul',
-    className: 'messages',
+    className: 'discussion',
     itemView: Whisper.MessageView,
 
     render: function() {
-      $('#main .message-container').html('').append(this.el);
+      $('#discussion').html('').append(this.el);
     }
   });
 })();

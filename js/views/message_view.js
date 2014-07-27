@@ -5,7 +5,7 @@ var Whisper = Whisper || {};
 
   Whisper.MessageView = Backbone.View.extend({
     tagName:   "li",
-    className: "message",
+    className: "entry",
 
     initialize: function() {
       this.$el.addClass(this.model.get('type'));
@@ -21,9 +21,10 @@ var Whisper = Whisper || {};
     render: function() {
       this.$el.html(
         Mustache.render(this.template, {
-          body: this.model.get('body'),
+          message: this.model.get('body'),
           date: this.formatTimestamp(),
-          attachments: this.model.get('attachments')
+          attachments: this.model.get('attachments'),
+          bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming'
         })
       );
 

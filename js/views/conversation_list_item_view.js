@@ -4,8 +4,8 @@ var Whisper = Whisper || {};
   'use strict';
 
   Whisper.ConversationListItemView = Backbone.View.extend({
-    tagName: 'li',
-    className: 'conversation',
+    tagName: 'div',
+    className: 'contact',
 
     events: {
       'click': 'open',
@@ -36,7 +36,9 @@ var Whisper = Whisper || {};
     render: function() {
       this.$el.html(
         Mustache.render(this.template, {
-          name: this.model.get('name')
+          contact_name: this.model.get('name'),
+          last_message: this.model.get('lastMessage'),
+          last_message_timestamp: this.model.get('timestamp')
         })
       );
 

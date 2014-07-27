@@ -4,7 +4,7 @@ var Whisper = Whisper || {};
   'use strict';
 
   Whisper.ConversationListView = Whisper.ListView.extend({
-    tagName: 'ul',
+    tagName: 'div',
     id: 'contacts',
     itemView: Whisper.ConversationListItemView,
     collection: Whisper.Threads,
