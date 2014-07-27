@@ -121,10 +121,6 @@ window.textsecure.crypto = function() {
 		});
 	}
 
-	crypto_storage.getStoredPubKey = function(keyName) {
-		return toArrayBuffer(textsecure.storage.getEncrypted("25519Key" + keyName, { pubKey: undefined }).pubKey);
-	}
-
 	crypto_storage.getStoredKeyPair = function(keyName) {
 		var res = textsecure.storage.getEncrypted("25519Key" + keyName);
 		if (res === undefined)
