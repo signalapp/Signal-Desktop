@@ -1,111 +1,114 @@
 <!DOCTYPE html>
 <html class='no-js' lang='en'>
-  <head>
-    <meta charset='utf-8'>
-    <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>
-      Signal for Chrome
-    </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='/favicon.ico' rel='shortcut icon'>
-    <link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
-    <div class='title-bar'>
-      <h1>Signal</h1>
-    </div>
-    <div class='notifications'>
-      <div class='notification info'>
-        <p>
-          These conversations may be missing SMS messages
-        </p>
-        <a class='button'>
-          X
-        </a>
-      </div>
-    </div>
-    <div class='search'>
-      <input name='contact_search' placeholder='Search' type='search'>
-    </div>
-    <div id='gutter' class='gutter'>
-      <div class='search'>
-        <input name='contact_search' placeholder='Search' type='search'>
-      </div>
-      <script type='text/x-tmpl-mustache' id='contact'>
-        <img class='avatar' src='{{ contact_avatar }}'>
-        <div class='contact-details'>
-          <h3>
-            {{ contact_name }}
-          </h3>
-          <p class='last-message'>
-            {{ last_message }}
-          </p>
-          <span class='last-timestamp'>
-            {{ last_message_timestamp }}
-          </span>
-      </script>
-    </div>
-    <div class='conversation'>
-      <ul id='discussion' class='discussion'>
-        <script type='text/x-tmpl-mustache' id='message'>
-          <div class='bubble bubble_context {{ bubble_class }}'>
-            <ul class='volley'>
-              <li class='message'>
-                {{ message }}
-              </li>
+    <head>
+        <meta charset='utf-8'>
+        <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+        Signal for Chrome
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='/favicon.ico' rel='shortcut icon'>
+        <link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" />
+        <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+        <div class='title-bar'>
+            <h1>Signal</h1>
+        </div>
+        <div class='notifications'>
+            <div class='notification info'>
+                <p>
+                These conversations may be missing SMS messages
+                </p>
+                <a class='button'>
+                X
+                </a>
+            </div>
+        </div>
+        <div class='search'>
+            <input name='contact_search' placeholder='Search' type='search'>
+        </div>
+        <div id='gutter' class='gutter'>
+            <div class='search'>
+                <input name='contact_search' placeholder='Search' type='search'>
+            </div>
+        </div>
+        <div id= 'conversation' class='conversation'>
+            <ul id='discussion' class='discussion'>
             </ul>
-          </div>
+            <div class='send-message-area'>
+                <div class='message-composer'>
+                    <form id='send'>
+                        <input class='send-message' rows='6' type='textarea'>
+                        <div class='attachments'>
+                            Add Files
+                        </div>
+                    </form>
+                </div>
+                <div class='extension-details'>
+                    <ul>
+                        <li>Signal for Chrome</li>
+                        <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                        <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                        <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type='text/x-tmpl-mustache' id='message'>
+            <div class='bubble bubble_context {{ bubble_class }}'>
+            <ul class='volley'>
+                <li class='message'>
+                {{ message }}
+                </li>
+            </ul>
+            </div>
         </script>
-      </ul>
-      <div class='send-message-area'>
-        <div class='message-composer'>
-          <input class='send-message' rows='6' type='textarea'>
-          <div class='attachments'>
-            Add Files
-          </div>
-        </div>
-        <div class='extension-details'>
-          <ul>
-            <li>Signal for Chrome</li>
-            <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
-            <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
-            <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- / Final Scripts -->
-	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
-	<script type="text/javascript" src="js-deps/CryptoJS.js"></script>
-	<script type="text/javascript" src="js-deps/curve255.js"></script>
-	<script type="text/javascript" src="js-deps/Long.min.js"></script>
-	<script type="text/javascript" src="js-deps/ByteBuffer.min.js"></script>
-	<script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
-	<script type="text/javascript" src="js-deps/underscore.js"></script>
-	<script type="text/javascript" src="js-deps/backbone.js"></script>
-	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
-	<script type="text/javascript" src="js-deps/mustache.js"></script>
-	<script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
+        <script type='text/x-tmpl-mustache' id='contact'>
+            <img class='avatar' src='{{ contact_avatar }}'>
+            <div class='contact-details'>
+                <h3>
+                {{ contact_name }}
+                </h3>
+                <p class='last-message'>
+                {{ last_message }}
+                </p>
+                <span class='last-timestamp'>
+                {{ last_message_timestamp }}
+                </span>
+            </div>
+        </script>
+        <script type="text/javascript" src="js-deps/nacl-common.js"></script>
+        <script type="text/javascript" src="js-deps/jquery.js"></script>
+        <script type="text/javascript" src="js-deps/CryptoJS.js"></script>
+        <script type="text/javascript" src="js-deps/curve255.js"></script>
+        <script type="text/javascript" src="js-deps/Long.min.js"></script>
+        <script type="text/javascript" src="js-deps/ByteBuffer.min.js"></script>
+        <script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
+        <script type="text/javascript" src="js-deps/underscore.js"></script>
+        <script type="text/javascript" src="js-deps/backbone.js"></script>
+        <script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
+        <script type="text/javascript" src="js-deps/mustache.js"></script>
+        <script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
 
-	<script type="text/javascript" src="js/helpers.js"></script>
-	<script type="text/javascript" src="js/webcrypto.js"></script>
-	<script type="text/javascript" src="js/crypto.js"></script>
-	<script type="text/javascript" src="js/models/messages.js"></script>
-	<script type="text/javascript" src="js/models/threads.js"></script>
-	<script type="text/javascript" src="js/api.js"></script>
-	<script type="text/javascript" src="js/sendmessage.js"></script>
+        <script type="text/javascript" src="js/helpers.js"></script>
+        <script type="text/javascript" src="js/webcrypto.js"></script>
+        <script type="text/javascript" src="js/crypto.js"></script>
+        <script type="text/javascript" src="js/models/messages.js"></script>
+        <script type="text/javascript" src="js/models/threads.js"></script>
+        <script type="text/javascript" src="js/api.js"></script>
+        <script type="text/javascript" src="js/sendmessage.js"></script>
 
-	<script type="text/javascript" src="js/chromium.js"></script>
-	<script type="text/javascript" src="js/views/notifications.js"></script>
-	<script type="text/javascript" src="js/views/list_view.js"></script>
-	<script type="text/javascript" src="js/views/message_view.js"></script>
-	<script type="text/javascript" src="js/views/message_list_view.js"></script>
-	<script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
-	<script type="text/javascript" src="js/views/conversation_list_view.js"></script>
-	<script type="text/javascript" src="js/views/conversation_view.js"></script>
-	<script type="text/javascript" src="js/popup.js"></script>
-
-  </body>
+        <script type="text/javascript" src="js/chromium.js"></script>
+        <script type="text/javascript" src="js/views/notifications.js"></script>
+        <script type="text/javascript" src="js/views/list_view.js"></script>
+        <script type="text/javascript" src="js/views/message_view.js"></script>
+        <script type="text/javascript" src="js/views/message_list_view.js"></script>
+        <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
+        <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
+        <script type="text/javascript" src="js/views/conversation_view.js"></script>
+        <script type="text/javascript" src="js/popup.js"></script>
+    </body>
 </html>

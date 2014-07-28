@@ -21,10 +21,10 @@ var Whisper = Whisper || {};
     },
 
     open: function(e) {
-      $('#main').trigger('close'); // detach any existing conversation views
+      $('#conversation').trigger('close'); // detach any existing conversation views
       if (!this.view) {
         this.view = new Whisper.ConversationView({
-          el: $('#main'),
+          el: $('#conversation'),
           model: this.model
         });
       } else {

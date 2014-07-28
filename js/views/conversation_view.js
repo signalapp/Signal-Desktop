@@ -10,13 +10,13 @@ var Whisper = Whisper || {};
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
     },
     events: {
-      'submit #new-message': 'sendMessage',
+      'submit #send': 'sendMessage',
       'close': 'undelegateEvents'
     },
 
     sendMessage: function(e) {
       e.preventDefault();
-      var input = $('#new-message-text');
+      var input = this.$el.find('#send input');
       if (input.val().length > 0) {
         this.model.sendMessage(input.val());
         input.val("");
