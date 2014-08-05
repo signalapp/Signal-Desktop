@@ -16,7 +16,7 @@
 
 
 
-new Whisper.ConversationListView().$el.appendTo($('#gutter'));
+new Whisper.ConversationListView({el: $('#contacts')});
 Whisper.Threads.fetch({reset: true});
 
 textsecure.registerOnLoadFunction(function() {
