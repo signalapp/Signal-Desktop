@@ -4,19 +4,24 @@ var Whisper = Whisper || {};
   'use strict';
 
   Whisper.ConversationView = Backbone.View.extend({
+    className: 'conversation',
     initialize: function() {
       this.listenTo(this.model, 'destroy', this.stopListening); // auto update
+      this.template = $('#conversation').html();
+      Mustache.parse(this.template);
+      this.$el.html(Mustache.render(this.template));
 
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
+      this.$el.find('.discussion').append(this.view.el);
     },
     events: {
-      'submit #send': 'sendMessage',
-      'close': 'undelegateEvents'
+      'submit .send': 'sendMessage',
+      'close': 'remove'
     },
 
     sendMessage: function(e) {
       e.preventDefault();
-      var input = this.$el.find('#send input');
+      var input = this.$el.find('.send input');
       if (input.val().length > 0) {
         this.model.sendMessage(input.val());
         input.val("");
@@ -24,7 +29,7 @@ var Whisper = Whisper || {};
     },
 
     render: function() {
-      this.view.render();
+      this.$el.show().insertAfter($('#gutter'));
       return this;
     }
   });

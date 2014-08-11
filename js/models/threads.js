@@ -21,7 +21,15 @@ var Whisper = Whisper || {};
     },
 
     sendMessage: function(message) {
-      var m = Whisper.Messages.addOutgoingMessage(message, this);
+      this.messages().add({ type: 'outgoing',
+                            body: message,
+                            threadId: this.id,
+                            timestamp: new Date().getTime() }).save();
+
+      this.save({ timestamp:   new Date().getTime(),
+                  unreadCount: 0,
+                  active:      true});
+
       if (this.get('type') == 'private') {
         var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, []);
       }
@@ -55,6 +63,18 @@ var Whisper = Whisper || {};
       var thread = Whisper.Threads.add(attributes, {merge: true});
       thread.save();
       return thread;
+    },
+
+    createGroup: function(recipients, name) {
+      var group = textsecure.storage.groups.createNewGroup(numbers);
+      var attributes = {};
+      attributes = {
+        id        : group.id,
+        name      : name,
+        numbers   : group.numbers,
+        type      : 'group',
+      };
+      return this.findOrCreate(attributes);
     },
 
     findOrCreateForRecipient: function(recipient) {

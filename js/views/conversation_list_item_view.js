@@ -21,12 +21,9 @@ var Whisper = Whisper || {};
     },
 
     open: function(e) {
-      $('#conversation').trigger('close'); // detach any existing conversation views
+      $('.conversation').trigger('close'); // detach any existing conversation views
       if (!this.view) {
-        this.view = new Whisper.ConversationView({
-          el: $('#conversation'),
-          model: this.model
-        });
+        this.view = new Whisper.ConversationView({ model: this.model });
       } else {
         this.view.delegateEvents();
       }

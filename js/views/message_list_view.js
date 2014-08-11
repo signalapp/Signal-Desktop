@@ -6,10 +6,6 @@ var Whisper = Whisper || {};
   Whisper.MessageListView = Whisper.ListView.extend({
     tagName: 'ul',
     className: 'discussion',
-    itemView: Whisper.MessageView,
-
-    render: function() {
-      $('#discussion').html('').append(this.el);
-    }
+    itemView: Whisper.MessageView
   });
 })();

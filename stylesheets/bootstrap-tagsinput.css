@@ -29,6 +29,12 @@
 .bootstrap-tagsinput .tag {
   margin-right: 2px;
   color: white;
+  background-color: #00badd;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+.bootstrap-tagsinput .tag.error {
+  background-color: #ccc;
 }
 .bootstrap-tagsinput .tag [data-role="remove"] {
   margin-left: 8px;

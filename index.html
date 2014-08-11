@@ -12,10 +12,14 @@
         <link href='/favicon.ico' rel='shortcut icon'>
         <link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" />
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+        <link href="/stylesheets/index.css" rel="stylesheet" type="text/css" />
+        <link href="/stylesheets/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
     </head>
     <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
-        <div class='title-bar'>
+        <div class='title-bar' id='header'>
             <h1>Signal</h1>
+            <a href id='new-message'>New message</a>
+            <a href id='new-group'>New group</a>
         </div>
         <div class='notifications'>
             <div class='notification info'>
@@ -32,20 +36,19 @@
         </div>
         <div id='gutter' class='gutter'>
             <div class='search'>
-                <input name='contact_search' placeholder='Search' type='search'>
+                <form>
+                  <input name='contact_search' placeholder='Search' type='search'>
+                </form>
             </div>
             <div id='contacts'></div>
         </div>
-        <div id= 'conversation' class='conversation'>
-            <ul id='discussion' class='discussion'>
-            </ul>
+        <script type='text/x-tmpl-mustache' id='conversation'>
+            <ul class='discussion'></ul>
             <div class='send-message-area'>
                 <div class='message-composer'>
-                    <form id='send'>
+                    <form class='send'>
                         <input class='send-message' rows='6' type='textarea'>
-                        <div class='attachments'>
-                            Add Files
-                        </div>
+                        <div class='attachments'> Add Files </div>
                     </form>
                 </div>
                 <div class='extension-details'>
@@ -57,7 +60,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </script>
         <script type='text/x-tmpl-mustache' id='message'>
             <div class='bubble bubble_context {{ bubble_class }}'>
             <ul class='volley'>
@@ -81,8 +84,48 @@
                 </span>
             </div>
         </script>
+        <script type='text/x-tmpl-mustache' id='new-message-form'>
+          <form class='send message'>
+            <input name='number' class='number'>
+            <div class='send-message-area'>
+                <div class='message-composer'>
+                    <input class='send-message' rows='6' type='textarea'>
+                    <div class='attachments'> Add Files </div>
+                </div>
+                <div class='extension-details'>
+                    <ul>
+                        <li>Signal for Chrome</li>
+                        <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                        <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                        <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+                    </ul>
+                </div>
+            </div>
+          </form>
+        </script>
+        <script type='text/x-tmpl-mustache' id='new-group-form'>
+          <form class='send group'>
+            <input name='name' placeholder='New Group'>
+            <input name='numbers' class='numbers' data-role=tagsinput placeholder='Add Recipient'>
+            <div class='send-message-area'>
+                <div class='message-composer'>
+                    <input class='send-message' rows='6' type='textarea'>
+                    <div class='attachments'> Add Files </div>
+                </div>
+                <div class='extension-details'>
+                    <ul>
+                        <li>Signal for Chrome</li>
+                        <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                        <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                        <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+                    </ul>
+                </div>
+            </div>
+          </form>
+        </script>
         <script type="text/javascript" src="js-deps/nacl-common.js"></script>
         <script type="text/javascript" src="js-deps/jquery.js"></script>
+        <script type="text/javascript" src="js-deps/bootstrap-tagsinput.js"></script>
         <script type="text/javascript" src="js-deps/CryptoJS.js"></script>
         <script type="text/javascript" src="js-deps/curve255.js"></script>
         <script type="text/javascript" src="js-deps/Long.min.js"></script>
@@ -110,6 +153,7 @@
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_view.js"></script>
+        <script type="text/javascript" src="js/views/new_message_button.js"></script>
         <script type="text/javascript" src="js/popup.js"></script>
     </body>
 </html>

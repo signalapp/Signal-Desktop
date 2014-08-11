@@ -48,26 +48,9 @@ var Whisper = Whisper || {};
       if (decrypted.message.timestamp > thread.get('timestamp')) {
         thread.set('timestamp', decrypted.message.timestamp);
       }
-      thread.set('unreadCount', thread.get('unreadCount') + 1);
-      thread.set('active', true);
-      thread.save();
-      return m;
-    },
-
-    addOutgoingMessage: function(message, thread) {
-      var m = thread.messages().add({
-        threadId: thread.id,
-        body: message,
-        type: 'outgoing',
-        timestamp: new Date().getTime()
-      });
-      m.save();
-
-      thread.set('timestamp', new Date().getTime());
-      thread.set('unreadCount', 0);
-      thread.set('active', true);
-      thread.save();
+      thread.save({unreadCount: thread.get('unreadCount') + 1, active: true});
       return m;
     }
+
   }))();
 })()
