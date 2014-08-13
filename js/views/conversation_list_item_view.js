@@ -38,12 +38,25 @@ var Whisper = Whisper || {};
         Mustache.render(this.template, {
           contact_name: this.model.get('name'),
           last_message: this.model.get('lastMessage'),
-          last_message_timestamp: this.model.get('timestamp')
+          last_message_timestamp: this.formatTimestamp()
         })
       );
 
       return this;
     },
+    formatTimestamp: function() {
+      var timestamp = this.model.get('timestamp');
+      var now = new Date().getTime();
+      var date = new Date();
+      date.setTime(timestamp*1000);
+      if (now - timestamp > 60*60*24*7) {
+        return date.toLocaleDateString('en-US',{month: 'short', day: 'numeric'});
+      }
+      if (now - timestamp > 60*60*24) {
+        return date.toLocaleDateString('en-US',{weekday: 'short'});
+      }
+      return date.toTimeString();
+    }
 
   });
 })();
