@@ -86,11 +86,12 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-message-form'>
           <form class='send message'>
-            <input name='number' class='number'>
+            <input type='text' name='number' class='number'>
             <div class='send-message-area'>
                 <div class='message-composer'>
-                    <input class='send-message' rows='6' type='textarea'>
+                    <input name='message' class='send-message' rows='6' type='textarea'>
                     <div class='attachments'> Add Files </div>
+                    <input type='submit'>
                 </div>
                 <div class='extension-details'>
                     <ul>

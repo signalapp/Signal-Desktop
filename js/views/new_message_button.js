@@ -26,7 +26,7 @@ var Whisper = Whisper || {};
       new Whisper.GroupRecipientsInputView({el: this.$el.find('input.numbers')}).$el.appendTo(this.$el);
     },
     events: {
-      'submit #send': 'send'
+      'submit .send': 'send'
     },
 
     send: function(e) {
@@ -65,34 +65,36 @@ var Whisper = Whisper || {};
   });
 
   Whisper.NewConversationView = Backbone.View.extend({
+    className: 'conversation',
     initialize: function() {
       this.template = $('#new-message-form').html();
       Mustache.parse(this.template);
+      this.render();
       this.input = this.$el.find('input.number');
       new Whisper.MessageRecipientInputView({el: this.input});
     },
 
     events: {
-      'submit #send': 'send',
-      'close': 'undelegateEvents'
+      'submit .send': 'send',
+      'close': 'remove'
     },
 
     send: function(e) {
       e.preventDefault();
       var number = this.input.val();
-      if (textsecure.utils.verifyNumber(number)) {
-        var thread = Whisper.Threads.findOrCreateForRecipient(number);
-        var send_input = this.$el.find('#send input');
-        thread.sendMessage(send_input.val());
-        send_input.val('');
-        this.$el.find('form.message').remove();
-        this.$el.trigger('close');
-        new Whisper.ConversationView({model: thread});
-      }
+      try {
+        if (textsecure.utils.verifyNumber(number)) {
+          var thread = Whisper.Threads.findOrCreateForRecipient(number);
+          var message_input = this.$el.find('input.send-message');
+          thread.sendMessage(message_input.val());
+          this.remove();
+        }
+      } catch(ex) {}
     },
 
     render: function() {
       this.$el.html(Mustache.render(this.template));
+      this.$el.show().insertAfter($('#gutter'));
       return this;
     }
   });
@@ -106,7 +108,7 @@ var Whisper = Whisper || {};
     new_message: function(e) {
       e.preventDefault();
       $('.conversation').hide().trigger('close'); // detach any existing conversation views
-      this.view = new Whisper.NewConversationView().render().$el.insertAfter($('#gutter'));
+      this.view = new Whisper.NewConversationView().$el.insertAfter($('#gutter'));
       //todo: less new
     },
 
