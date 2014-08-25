@@ -16,6 +16,8 @@
         <link href="/stylesheets/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
     </head>
     <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+        <div id="listener"></div>
+        <div id="log"></div>
         <div class='title-bar' id='header'>
             <h1>Signal</h1>
             <a href id='new-message'>New message</a>
@@ -31,9 +33,6 @@
                 </a>
             </div>
         </div>
-        <div class='search'>
-            <input name='contact_search' placeholder='Search' type='search'>
-        </div>
         <div id='gutter' class='gutter'>
             <div class='search'>
                 <form>
@@ -43,7 +42,7 @@
             <div id='contacts'></div>
         </div>
         <script type='text/x-tmpl-mustache' id='conversation'>
-            <ul class='discussion'></ul>
+            <div class='discussion-container'></ul>
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <form class='send'>

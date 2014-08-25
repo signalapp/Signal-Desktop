@@ -1,3 +1,5 @@
 .number.error {
   background-color: #ffdddd;
 }
+
+#listener, #log { display: none; }

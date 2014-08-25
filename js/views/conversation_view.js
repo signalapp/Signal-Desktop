@@ -12,7 +12,7 @@ var Whisper = Whisper || {};
       this.$el.html(Mustache.render(this.template));
 
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
-      this.$el.find('.discussion').append(this.view.el);
+      this.$el.find('.discussion-container').append(this.view.el);
     },
     events: {
       'submit .send': 'sendMessage',
