@@ -3,3 +3,26 @@
 }
 
 #listener, #log { display: none; }
+
+.gutter {
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+#contacts {
+  overflow-y: scroll;
+}
+#contacts::-webkit-scrollbar {
+  display: none;
+}
+
+.conversation {
+  margin: 0;
+  padding: 0;
+}
+
+ul.discussion {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}

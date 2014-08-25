@@ -30,6 +30,7 @@ var Whisper = Whisper || {};
 
     render: function() {
       this.$el.show().insertAfter($('#gutter'));
+      resizer();
       return this;
     }
   });

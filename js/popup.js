@@ -20,6 +20,23 @@ new Whisper.ConversationListView({el: $('#contacts')});
 new Whisper.Header({el: $('#header')});
 Whisper.Threads.fetch({reset: true});
 
+function resizer(e) {
+	var windowheight = window.innerHeight;
+	var form = $('.send-message-area').outerHeight();
+	var gutter_offset = $('#gutter').offset().top;
+	var contacts_offset = $('#contacts').offset().top;
+	if (window.innerWidth < 480) {
+		$('#gutter').css('height', windowheight - gutter_offset - form);
+		$('#contacts').css('height', windowheight - contacts_offset - form);
+	} else {
+		$('#gutter').css('height', windowheight - gutter_offset);
+		$('#contacts').css('height', windowheight - contacts_offset);
+	}
+	$('.discussion').css('height', windowheight - gutter_offset - form);
+}
+window.addEventListener('resize', resizer, false);
+resizer();
+
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
 		extension.navigator.tabs.create("options.html");
