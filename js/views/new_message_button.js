@@ -108,7 +108,7 @@ var Whisper = Whisper || {};
     new_message: function(e) {
       e.preventDefault();
       $('.conversation').hide().trigger('close'); // detach any existing conversation views
-      this.view = new Whisper.NewConversationView().$el.insertAfter($('#gutter'));
+      this.view = new Whisper.NewConversationView();
       //todo: less new
     },
 
