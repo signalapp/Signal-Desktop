@@ -12,7 +12,7 @@
 		"default_icon": {
 			"19": "icon.png"
 		},
-		"default_popup": "popup.html"
+		"default_popup": "index.html"
 	},
 
 	"background": {
