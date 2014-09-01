@@ -43,24 +43,4 @@ var Whisper = Whisper || {};
     }
   });
 
-  Whisper.Header = Backbone.View.extend({
-    events: {
-      'click #new-message': 'new_message',
-      'click #new-group': 'new_group'
-    },
-
-    new_message: function(e) {
-      e.preventDefault();
-      $('.conversation').hide().trigger('close'); // detach any existing conversation views
-      this.view = new Whisper.NewConversationView();
-      //todo: less new
-    },
-
-    new_group: function(e) {
-      e.preventDefault();
-      $('.conversation').trigger('close'); // detach any existing conversation views
-      new Whisper.NewGroupView({ el: $('.conversation') });
-    }
-  });
-
 })();

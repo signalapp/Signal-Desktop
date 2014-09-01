@@ -21,12 +21,26 @@ Whisper.Layout = new (Backbone.View.extend({
 		this.resize();
 
 		new Whisper.ConversationListView({el: $('#contacts')});
-		new Whisper.Header({el: $('#header')});
+		window.addEventListener('resize', this.resize.bind(this));
 		Whisper.Threads.fetch({reset: true});
 	},
 	events: {
-		'resize': 'resize'
-	},
+		'click #new-message': 'new_message',
+		'click #new-group': 'new_group'
+    },
+
+    new_message: function(e) {
+      e.preventDefault();
+      $('.conversation').hide().trigger('close'); // detach any existing conversation views
+      this.view = new Whisper.NewConversationView();
+      //todo: less new
+    },
+
+    new_group: function(e) {
+      e.preventDefault();
+      $('.conversation').trigger('close'); // detach any existing conversation views
+      new Whisper.NewGroupView({ el: $('.conversation') });
+    },
 	resize: function (e) {
 		var windowheight = window.innerHeight;
 		var form = $('.send-message-area').outerHeight();
@@ -45,7 +59,7 @@ Whisper.Layout = new (Backbone.View.extend({
 		$(content).insertAfter(this.gutter);
 		this.resize();
 	}
-}))({el: window});
+}))({el: document});
 
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
