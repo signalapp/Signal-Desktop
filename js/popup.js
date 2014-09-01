@@ -14,28 +14,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+Whisper.Layout = new (Backbone.View.extend({
+	initialize: function() {
+		this.gutter = $('#gutter');
+		this.contacts = $('#contacts');
+		this.resize();
 
-
-new Whisper.ConversationListView({el: $('#contacts')});
-new Whisper.Header({el: $('#header')});
-Whisper.Threads.fetch({reset: true});
-
-function resizer(e) {
-	var windowheight = window.innerHeight;
-	var form = $('.send-message-area').outerHeight();
-	var gutter_offset = $('#gutter').offset().top;
-	var contacts_offset = $('#contacts').offset().top;
-	if (window.innerWidth < 480) {
-		$('#gutter').css('height', windowheight - gutter_offset - form);
-		$('#contacts').css('height', windowheight - contacts_offset - form);
-	} else {
-		$('#gutter').css('height', windowheight - gutter_offset);
-		$('#contacts').css('height', windowheight - contacts_offset);
+		new Whisper.ConversationListView({el: $('#contacts')});
+		new Whisper.Header({el: $('#header')});
+		Whisper.Threads.fetch({reset: true});
+	},
+	events: {
+		'resize': 'resize'
+	},
+	resize: function (e) {
+		var windowheight = window.innerHeight;
+		var form = $('.send-message-area').outerHeight();
+		var gutter_offset = this.gutter.offset().top;
+		var contacts_offset = this.contacts.offset().top;
+		if (window.innerWidth < 480) {
+			this.gutter.css('height', windowheight - gutter_offset - form);
+			this.contacts.css('height', windowheight - contacts_offset - form);
+		} else {
+			this.gutter.css('height', windowheight - gutter_offset);
+			this.contacts.css('height', windowheight - contacts_offset);
+		}
+		$('.discussion').css('height', windowheight - gutter_offset - form);
+	},
+	setContent: function(content) {
+		$(content).insertAfter(this.gutter);
+		this.resize();
 	}
-	$('.discussion').css('height', windowheight - gutter_offset - form);
-}
-window.addEventListener('resize', resizer, false);
-resizer();
+}))({el: window});
 
 textsecure.registerOnLoadFunction(function() {
 	if (textsecure.storage.getUnencrypted("number_id") === undefined) {

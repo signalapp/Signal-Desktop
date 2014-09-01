@@ -94,7 +94,7 @@ var Whisper = Whisper || {};
 
     render: function() {
       this.$el.html(Mustache.render(this.template));
-      this.$el.show().insertAfter($('#gutter'));
+      Whisper.Layout.setContent(this.$el.show());
       return this;
     }
   });

@@ -29,8 +29,7 @@ var Whisper = Whisper || {};
     },
 
     render: function() {
-      this.$el.show().insertAfter($('#gutter'));
-      resizer();
+      Whisper.Layout.setContent(this.$el.show());
       return this;
     }
   });
