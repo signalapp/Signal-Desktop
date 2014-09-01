@@ -1,0 +1,152 @@
+<!--This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+
+	You should have received a copy of the GNU Lesser General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html>
+
+<head>
+  <title>TextSecure test runner</title>
+  <link rel="stylesheet" href="mocha.css" />
+</head>
+<body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+	<div id="listener"></div>
+	<div id="log"></div>
+
+	<div id="mocha">
+	</div>
+	<div id="tests">
+	</div>
+
+	<script type="text/javascript" src="mocha.js"></script>
+	<script type="text/javascript" src="chai.js"></script>
+	<script type="text/javascript" src="blanket_mocha.js"></script>
+  <script type='text/x-tmpl-mustache' id='conversation'>
+      <div class='discussion-container'></ul>
+      <div class='send-message-area'>
+          <div class='message-composer'>
+              <form class='send'>
+                  <input class='send-message' rows='6' type='textarea'>
+                  <div class='attachments'> Add Files </div>
+              </form>
+          </div>
+          <div class='extension-details'>
+              <ul>
+                  <li>Signal for Chrome</li>
+                  <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                  <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                  <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+              </ul>
+          </div>
+      </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='message'>
+      <div class='bubble bubble_context {{ bubble_class }}'>
+      <ul class='volley'>
+          <li class='message'>
+          {{ message }}
+          </li>
+      </ul>
+      </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='contact'>
+      <img class='avatar' src='{{ contact_avatar }}'>
+      <div class='contact-details'>
+          <h3>
+          {{ contact_name }}
+          </h3>
+          <p class='last-message'>
+          {{ last_message }}
+          </p>
+          <span class='last-timestamp'>
+          {{ last_message_timestamp }}
+          </span>
+      </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='new-message-form'>
+    <form class='send message'>
+      <input type='text' name='number' class='number'>
+      <div class='send-message-area'>
+          <div class='message-composer'>
+              <input name='message' class='send-message' rows='6' type='textarea'>
+              <div class='attachments'> Add Files </div>
+              <input type='submit'>
+          </div>
+          <div class='extension-details'>
+              <ul>
+                  <li>Signal for Chrome</li>
+                  <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                  <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                  <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+              </ul>
+          </div>
+      </div>
+    </form>
+  </script>
+  <script type='text/x-tmpl-mustache' id='new-group-form'>
+    <form class='send group'>
+      <input name='name' placeholder='New Group'>
+      <input name='numbers' class='numbers' data-role=tagsinput placeholder='Add Recipient'>
+      <div class='send-message-area'>
+          <div class='message-composer'>
+              <input class='send-message' rows='6' type='textarea'>
+              <div class='attachments'> Add Files </div>
+          </div>
+          <div class='extension-details'>
+              <ul>
+                  <li>Signal for Chrome</li>
+                  <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
+                  <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
+                  <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
+              </ul>
+          </div>
+      </div>
+    </form>
+  </script>
+
+	<script type="text/javascript" src="../js-deps/nacl-common.js"></script>
+	<script type="text/javascript" src="../js-deps/jquery.js"></script>
+	<script type="text/javascript" src="../js-deps/CryptoJS.js"></script>
+	<script type="text/javascript" src="../js-deps/curve255.js"></script>
+	<script type="text/javascript" src="../js-deps/Long.min.js"></script>
+	<script type="text/javascript" src="../js-deps/ByteBuffer.min.js"></script>
+	<script type="text/javascript" src="../js-deps/ProtoBuf.min.js"></script>
+	<script type="text/javascript" src="../js-deps/underscore.js"></script>
+	<script type="text/javascript" src="../js-deps/backbone.js"></script>
+	<script type="text/javascript" src="../js-deps/backbone.localStorage.js"></script>
+  <script type="text/javascript" src="../js-deps/mustache.js"></script>
+	<script type="text/javascript" src="../js-deps/libphonenumber_api-compiled.js"></script>
+
+	<script type="text/javascript" src="../js/helpers.js" data-cover></script>
+	<script type="text/javascript" src="../js/webcrypto.js"></script>
+	<script type="text/javascript" src="../js/crypto.js" data-cover></script>
+	<script type="text/javascript" src="../js/models/messages.js"></script>
+	<script type="text/javascript" src="../js/models/threads.js"></script>
+	<script type="text/javascript" src="../js/api.js"></script>
+	<script type="text/javascript" src="../js/sendmessage.js" data-cover></script>
+
+	<script type="text/javascript" src="../js/chromium.js"><//script>
+	<script type="text/javascript" src="../js/fake_api.js"></script>
+  <script type="text/javascript" src="../js/views/notifications.js"></script>
+  <script type="text/javascript" src="../js/views/list_view.js"></script>
+  <script type="text/javascript" src="../js/views/message_view.js"></script>
+  <script type="text/javascript" src="../js/views/message_list_view.js"></script>
+  <script type="text/javascript" src="../js/views/conversation_list_item_view.js"></script>
+  <script type="text/javascript" src="../js/views/conversation_list_view.js"></script>
+  <script type="text/javascript" src="../js/views/conversation_view.js"></script>
+  <script type="text/javascript" src="../js/views/new_conversation_view.js"></script>
+  <script type="text/javascript" src="../js/views/new_group_view.js"></script>
+	<script type="text/javascript" src="views/message_view_test.js"></script>
+</body>
+
+
+</html>
