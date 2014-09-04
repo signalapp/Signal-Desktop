@@ -31,10 +31,6 @@ var Whisper = Whisper || {};
       return this;
     },
 
-    remove: function() {
-      this.$el.remove();
-    },
-
     formatTimestamp: function() {
       var timestamp = this.model.get('timestamp');
       var now = new Date().getTime();
