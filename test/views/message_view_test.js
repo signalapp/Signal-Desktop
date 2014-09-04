@@ -1,5 +1,3 @@
-mocha.setup("bdd");
-window.assert = chai.assert;
 describe('MessageView', function() {
   var message = Whisper.Messages.add({
     threadId: 'test-thread',

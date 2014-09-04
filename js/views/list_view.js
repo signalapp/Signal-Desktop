@@ -9,12 +9,12 @@ var Whisper = Whisper || {};
    */
   Whisper.ListView = Backbone.View.extend({
     tagName: 'ul',
+    itemView: Backbone.View,
     initialize: function() {
       this.listenTo(this.collection, 'change', this.render); // auto update
       this.listenTo(this.collection, 'add', this.addOne);
       this.listenTo(this.collection, 'reset', this.addAll);
       this.listenTo(this.collection, 'all', this.render);
-      this.collection.fetch({reset: true});
     },
 
     addOne: function(model) {
@@ -27,10 +27,6 @@ var Whisper = Whisper || {};
     addAll: function() {
       this.$el.html('');
       this.collection.each(this.addOne, this);
-    },
-
-    last: function() {
-      this.collection.at(this.collection.length - 1);
     }
   });
 })();
