@@ -47,6 +47,7 @@ var Whisper = Whisper || {};
           var message_input = this.$el.find('input.send-message');
           thread.sendMessage(message_input.val());
           this.remove();
+          thread.trigger('render');
         }
       } catch(ex) {}
     },
