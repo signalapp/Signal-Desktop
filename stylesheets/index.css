@@ -10,8 +10,6 @@ body {
   background-color: #ffdddd;
 }
 
-#listener, #log { display: none; }
-
 .gutter {
   padding-bottom: 0;
   overflow: hidden;
