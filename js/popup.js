@@ -1,4 +1,4 @@
-/* vim: ts=4:sw=4:noexpandtab:
+/* vim: ts=4:sw=4:expandtab:
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,57 +15,57 @@
  */
 
 Whisper.Layout = new (Backbone.View.extend({
-	initialize: function() {
-		this.gutter = $('#gutter');
-		this.contacts = $('#contacts');
-		this.resize();
+    initialize: function() {
+        this.gutter = $('#gutter');
+        this.contacts = $('#contacts');
+        this.resize();
 
-		new Whisper.ConversationListView({el: $('#contacts')});
-		window.addEventListener('resize', this.resize.bind(this));
-		Whisper.Threads.fetch({reset: true});
-	},
-	events: {
-		'click #new-message': 'new_message',
-		'click #new-group': 'new_group'
+        new Whisper.ConversationListView({el: $('#contacts')});
+        window.addEventListener('resize', this.resize.bind(this));
+        Whisper.Threads.fetch({reset: true});
+    },
+    events: {
+        'click #new-message': 'new_message',
+        'click #new-group': 'new_group'
     },
 
     new_message: function(e) {
-      e.preventDefault();
-      $('.conversation').hide().trigger('close'); // detach any existing conversation views
-      this.view = new Whisper.NewConversationView();
-      //todo: less new
+        e.preventDefault();
+        $('.conversation').hide().trigger('close'); // detach any existing conversation views
+        this.view = new Whisper.NewConversationView();
+        //todo: less new
     },
 
     new_group: function(e) {
-      e.preventDefault();
-      $('.conversation').trigger('close'); // detach any existing conversation views
-      new Whisper.NewGroupView({ el: $('.conversation') });
+        e.preventDefault();
+        $('.conversation').trigger('close'); // detach any existing conversation views
+        new Whisper.NewGroupView({ el: $('.conversation') });
     },
-	resize: function (e) {
-		var windowheight = window.innerHeight;
-		var form = $('.send-message-area').outerHeight();
-		var gutter_offset = this.gutter.offset().top;
-		var contacts_offset = this.contacts.offset().top;
-		if (window.innerWidth < 480) {
-			this.gutter.css('height', windowheight - gutter_offset - form);
-			this.contacts.css('height', windowheight - contacts_offset - form);
-		} else {
-			this.gutter.css('height', windowheight - gutter_offset);
-			this.contacts.css('height', windowheight - contacts_offset);
-		}
-		$('.discussion').css('height', windowheight - gutter_offset - form);
-	},
-	setContent: function(content) {
-		$(content).insertAfter(this.gutter);
-		this.resize();
-	}
+    resize: function (e) {
+        var windowheight = window.innerHeight;
+        var form = $('.send-message-area').outerHeight();
+        var gutter_offset = this.gutter.offset().top;
+        var contacts_offset = this.contacts.offset().top;
+        if (window.innerWidth < 480) {
+            this.gutter.css('height', windowheight - gutter_offset - form);
+            this.contacts.css('height', windowheight - contacts_offset - form);
+        } else {
+            this.gutter.css('height', windowheight - gutter_offset);
+            this.contacts.css('height', windowheight - contacts_offset);
+        }
+        $('.discussion').css('height', windowheight - gutter_offset - form);
+    },
+    setContent: function(content) {
+        $(content).insertAfter(this.gutter);
+        this.resize();
+    }
 }))({el: document});
 
 textsecure.registerOnLoadFunction(function() {
-	if (textsecure.storage.getUnencrypted("number_id") === undefined) {
-		extension.navigator.tabs.create("options.html");
-	} else {
-		textsecure.storage.putUnencrypted("unreadCount", 0);
-		extension.navigator.setBadgeText("");
-	}
+    if (textsecure.storage.getUnencrypted("number_id") === undefined) {
+        extension.navigator.tabs.create("options.html");
+    } else {
+        textsecure.storage.putUnencrypted("unreadCount", 0);
+        extension.navigator.setBadgeText("");
+    }
 });
