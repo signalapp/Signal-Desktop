@@ -25,7 +25,7 @@ window.textsecure.api = function() {
 	 *** Utilities to communicate with the server ***
 	 ************************************************/
 	// Staging server
-	var URL_BASE	= "https://textsecure-service-ca.whispersystems.org:4433";
+	var URL_BASE	= "https://textsecure-service-staging.whispersystems.org";
 	self.relay		= "textsecure-service-staging.whispersystems.org";
 
 	// This is the real server
