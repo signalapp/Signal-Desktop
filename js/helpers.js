@@ -756,34 +756,32 @@ window.textsecure.subscribeToPush = function(message_callback) {
 	};
 };
 
-window.textsecure.registerSingleDevice = function() {
-	return function(number, verificationCode, stepDone) {
-		var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-		textsecure.storage.putEncrypted('signaling_key', signalingKey);
+window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
+    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+    textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-		var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
-		password = password.substring(0, password.length - 2);
-		textsecure.storage.putEncrypted("password", password);
+    var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+    password = password.substring(0, password.length - 2);
+    textsecure.storage.putEncrypted("password", password);
 
-		var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-		registrationId = registrationId & 0x3fff;
-		textsecure.storage.putUnencrypted("registrationId", registrationId);
+    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
+    registrationId = registrationId & 0x3fff;
+    textsecure.storage.putUnencrypted("registrationId", registrationId);
 
-		return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
-			var numberId = number + ".1";
-			textsecure.storage.putUnencrypted("number_id", numberId);
-			textsecure.storage.putUnencrypted("regionCode", textsecure.utils.getRegionCodeForNumber(number));
-			stepDone(1);
+    return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
+        var numberId = number + ".1";
+        textsecure.storage.putUnencrypted("number_id", numberId);
+        textsecure.storage.putUnencrypted("regionCode", textsecure.utils.getRegionCodeForNumber(number));
+        stepDone(1);
 
-			return textsecure.crypto.generateKeys().then(function(keys) {
-				stepDone(2);
-				return textsecure.api.registerKeys(keys).then(function() {
-					stepDone(3);
-				});
-			});
-		});
-	}
-}();
+        return textsecure.crypto.generateKeys().then(function(keys) {
+            stepDone(2);
+            return textsecure.api.registerKeys(keys).then(function() {
+                stepDone(3);
+            });
+        });
+    });
+}
 
 window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo, stepDone) {
 	var deviceInit = textsecure.protos.decodeDeviceInit(encodedDeviceInit);
