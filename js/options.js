@@ -28,8 +28,8 @@ function updateNumberColors() {
 }
 
 function isCodeValid() {
-	var code = $('#code');
-	return code.val().replace(/\D/g, '') == code.val() && code.val().length == 6;
+    var verificationCode = $('#code').val().replace(/\D/g, '');
+	return verificationCode.length == 6;
 }
 
 $('#code').on('change', function() {
