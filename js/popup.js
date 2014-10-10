@@ -22,6 +22,7 @@ Whisper.Layout = new (Backbone.View.extend({
 
         new Whisper.ConversationListView({el: $('#contacts')});
         window.addEventListener('resize', this.resize.bind(this));
+        window.addEventListener('storage', function(){Whisper.Threads.fetch();});
         Whisper.Threads.fetch({reset: true});
     },
     events: {

@@ -14,10 +14,17 @@ var Whisper = Whisper || {};
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
       this.model.messages().fetch({reset: true});
       this.$el.find('.discussion-container').append(this.view.el);
+      window.addEventListener('storage', (function(){
+        this.fetch();
+      }).bind(this));
     },
     events: {
       'submit .send': 'sendMessage',
       'close': 'remove'
+    },
+
+    fetch: function() {
+      this.model.messages().fetch({reset: true});
     },
 
     sendMessage: function(e) {
