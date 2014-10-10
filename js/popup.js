@@ -39,7 +39,7 @@ Whisper.Layout = new (Backbone.View.extend({
     new_group: function(e) {
         e.preventDefault();
         $('.conversation').trigger('close'); // detach any existing conversation views
-        new Whisper.NewGroupView({ el: $('.conversation') });
+        new Whisper.NewGroupView();
     },
     resize: function (e) {
         var windowheight = window.innerHeight;

@@ -39,6 +39,7 @@ var Whisper = Whisper || {};
 
     render: function() {
       this.$el.prepend($(Mustache.render(this.template)));
+      Whisper.Layout.setContent(this.$el.show());
       return this;
     }
   });
