@@ -14,8 +14,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* START CRAP TO BE DELETED */
-//Stolen from MDN (TODO: replace with something else so we arent infringing their copyright)
 function b64ToUint6 (nChr) {
 
   return nChr > 64 && nChr < 91 ?
@@ -90,7 +88,6 @@ function base64EncArr (aBytes) {
 
 }
 
-/* END CRAP TO BE DELETED */
 
 window.textsecure = window.textsecure || {};
 
