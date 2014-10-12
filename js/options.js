@@ -18,7 +18,7 @@
     function updateNumberColors() {
         try {
             if($('#number').val() != "" && $('#regionCode').val() != "")
-                textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
+                libphonenumber.util.verifyNumber($('#number').val(), $('#regionCode').val());
             $('#countrycode').removeClass('invalid');
             $('#number').removeClass('invalid');
         } catch (numberInvalidError) {
@@ -44,7 +44,7 @@
 
     $('#init-go-single-client').click(function() {
         try {
-            var parsedNumber = textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
+            var parsedNumber = libphonenumber.util.verifyNumber($('#number').val(), $('#regionCode').val());
         } catch(e) {
             alert("Please enter a valid phone number first.");
             return false;
@@ -68,7 +68,7 @@
     });
 
     $('#init-go').click(function() {
-        var parsedNumber = textsecure.utils.verifyNumber($('#number').val(), $('#regionCode').val());
+        var parsedNumber = libphonenumber.util.verifyNumber($('#number').val(), $('#regionCode').val());
         if (!isCodeValid()) {
             updateCodeColor();
             return;
@@ -110,7 +110,7 @@
             if (!isRegistrationDone()) {
                 $('#init-setup').show();
 
-                var countrys = textsecure.utils.getAllRegionCodes();
+                var countrys = libphonenumber.util.getAllRegionCodes();
                 $.each(countrys, function (regionCode, countryName) {
                     $('#regionCode').append($('<option>', {
                         value: regionCode,
@@ -119,19 +119,19 @@
                 });
 
                 $('#regionCode').change(function(){
-                    $('#countrycode').val(textsecure.utils.getCountryCodeForRegion(this.value));
+                    $('#countrycode').val(libphonenumber.util.getCountryCodeForRegion(this.value));
                     updateNumberColors();
                 });
 
                 $('#countrycode').keyup(function(){
-                    $('#regionCode').val(textsecure.utils.getRegionCodeForCountryCode($('#countrycode').val()));
+                    $('#regionCode').val(libphonenumber.util.getRegionCodeForCountryCode($('#countrycode').val()));
                     updateNumberColors();
                 });
 
                 $('#number').change(updateNumberColors);
 
                 // handle form data cached by the browser (after a page ref
-                $('#regionCode').val(textsecure.utils.getRegionCodeForCountryCode($('#countrycode').val()));
+                $('#regionCode').val(libphonenumber.util.getRegionCodeForCountryCode($('#countrycode').val()));
                 updateNumberColors();
 
                 textsecure.crypto.prepareTempWebsocket().then(function(cryptoInfo) {

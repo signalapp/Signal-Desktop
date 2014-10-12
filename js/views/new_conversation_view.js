@@ -14,7 +14,7 @@ var Whisper = Whisper || {};
 
     verifyNumber: function(item) {
       try {
-        if (textsecure.utils.verifyNumber(this.$el.val())) {
+        if (libphonenumber.util.verifyNumber(this.$el.val())) {
           this.removeError();
           return;
         }
@@ -42,7 +42,7 @@ var Whisper = Whisper || {};
       e.preventDefault();
       var number = this.input.val();
       try {
-        if (textsecure.utils.verifyNumber(number)) {
+        if (libphonenumber.util.verifyNumber(number)) {
           var thread = Whisper.Threads.findOrCreateForRecipient(number);
           var message_input = this.$el.find('input.send-message');
           thread.sendMessage(message_input.val());
