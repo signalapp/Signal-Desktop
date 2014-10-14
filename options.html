@@ -1,91 +1,119 @@
 <!--This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TextSecure Options</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="css/options.css">
-	<link rel="stylesheet" href="css/forms.css">
-	<link rel="stylesheet" href="css/buttons.css">
+  <title>TextSecure Options</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/options.css">
+  <link rel="stylesheet" href="stylesheets/bootstrap.css">
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
-	<div id="listener"></div>
-	<div id="log"></div>
+  <div id="listener"></div>
+  <div id="log"></div>
 
-	<h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
-	<div id="init-setup" class="hidden">
-		<h2>Welcome to TextSecure. If you want to register as a secondary device, follow the instructions on the left, if you want to register as the only device, follow the instructions on the right</h2>
+  <div class='container'>
+    <h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
+    <div id='choose-setup' class='collapse'>
+      <div class='row'>
+        <div class='col-xs-5 col-xs-offset-1'>
+          <p>I'm new to TextSecure</p>
+        </div>
+        <div class='col-xs-5'>
+          <p>I have TextSecure installed on my phone.</p>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-xs-5 col-xs-offset-1'>
+          <p><button type='button' id='new-account' class='btn btn-default'>Register</button></p>
+        </div>
+        <div class='col-xs-5'>
+          <p><button type='button' id='new-device' class='btn btn-default'>Add a device</button></p>
+        </div>
+      </div>
+    </div>
+    <div id="init-setup">
+      <div id='multi-device' class='collapse'>
+        <button class='back btn btn-link'>Back</button>
+        <div class='narrow'>
+          <div class='status'></div>
+          <div id="setup-qr"></div>
+        </div>
+      </div>
+      <div id='single-device' class='row collapse'>
+        <div class='col-xs-offset-1 col-md-6'>
+          <button class='back btn btn-link'>Back</button>
+          <div class='narrow'>
+            <div id='step1'>
+              <div id='number-container'>
+                <input type="text" id="number" placeholder="Phone Number">
+              </div>
+              <div>
+                <select id="regionCode">
+                  <option value="ZZ" selected>Country</option>
+                </select>
+              </div>
+              <div class='clearfix'>
+                <button id="request-sms" class="btn btn-default">Send SMS</button>
+                <button id="request-voice" class="btn btn-default">Call</button>
+              </div>
+            </div>
+            <form id="step2" class="collapse">
+              <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+              <button id="verifyCode" class="btn btn-info">Submit</button>
+              <div id='error' class='collapse'></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="verify" class="hidden">
+      <div id="verify1">Receiving identity key...<span id="verify1done"></span></div>
+      <div id="verify2">Verifying number and setup code...<span id="verify2done"></span></div>
+      <div id="verify3">Generating keys...<span id="verify3done"></span></div>
+      <div id="verify4">Registering...<span id="verify4done"></span></div>
+      <div id="verify5">Syncing with existing devices...<span id="verify5done"></span></div>
+    </div>
+    <div id="setup-complete" class="collapse">
+      <h3>You are registered on TextSecure with number <span id="complete-number"></span></h3>
+    </div>
+  </div>
+  <script type="text/javascript" src="js-deps/nacl-common.js"></script>
+  <script type="text/javascript" src="js-deps/jquery.js"></script>
+  <script type="text/javascript" src="js-deps/bootstrap.js"></script>
+  <script type="text/javascript" src="js-deps/CryptoJS.js"></script>
+  <script type="text/javascript" src="js-deps/curve255.js"></script>
+  <script type="text/javascript" src="js-deps/Long.min.js"></script>
+  <script type="text/javascript" src="js-deps/ByteBuffer.min.js"></script>
+  <script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
+  <script type="text/javascript" src="js-deps/underscore.js"></script>
+  <script type="text/javascript" src="js-deps/backbone.js"></script>
+  <script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
+  <script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
+  <script type="text/javascript" src="js-deps/qrcode.min.js"></script>
 
-		<div id="left-connecting" class="left-column">
-			Please wait while we connect to the push server...
-		</div>
-		<div id="left-setup" class="left-column hidden">
-			Please scan the QR code below on the master device: <br>
-			<div id="setup-qr"></div>
-		</div>
-		<div id="left-reconnecting" class="left-column hidden">
-			The push server disconnected, please wait while we reconnect...
-		</div>
-
-		<div class="right-column">
-			<span>Please select your country or enter your country code below:</span>
-			<select id="regionCode">
-				<option value="ZZ" selected>Please choose your country.</option>
-			</select>
-			<span id="phonenumberspan">+ <input type="text" size="3" id="countrycode"> <input type="text" size="14" id="number"></span>
-			<button id="init-go-single-client" class="btn">Send single-client code</button>
-			<div id="init-setup-verification" class="hidden">
-				<p>Code: <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter the 6-didgit verificaion code displayed on your phone." size="8" id="code" /></p>
-				<button id="init-go" class="btn">Sync</button>
-			</div>
-		</div>
-	</div>
-	<div id="verify" class="hidden">
-		<div id="verify1">Receiving identity key...<span id="verify1done"></span></div>
-		<div id="verify2">Verifying number and setup code...<span id="verify2done"></span></div>
-		<div id="verify3">Generating keys...<span id="verify3done"></span></div>
-		<div id="verify4">Registering...<span id="verify4done"></span></div>
-		<div id="verify5">Syncing with existing devices...<span id="verify5done"></span></div>
-	</div>
-	<div id="setup-complete" class="hidden">
-		<h2>You are now registered on TextSecure with number <span id="complete-number"></span></h2>
-	</div>
-	<script type="text/javascript" src="js-deps/nacl-common.js"></script>
-	<script type="text/javascript" src="js-deps/jquery.js"></script>
-	<script type="text/javascript" src="js-deps/CryptoJS.js"></script>
-	<script type="text/javascript" src="js-deps/curve255.js"></script>
-	<script type="text/javascript" src="js-deps/Long.min.js"></script>
-	<script type="text/javascript" src="js-deps/ByteBuffer.min.js"></script>
-	<script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
-	<script type="text/javascript" src="js-deps/underscore.js"></script>
-	<script type="text/javascript" src="js-deps/backbone.js"></script>
-	<script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
-	<script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
-	<script type="text/javascript" src="js-deps/qrcode.min.js"></script>
-
-	<script type="text/javascript" src="js/helpers.js"></script>
+  <script type="text/javascript" src="js/helpers.js"></script>
   <script type="text/javascript" src="js/libphonenumber-util.js"></script>
-	<script type="text/javascript" src="js/webcrypto.js"></script>
-	<script type="text/javascript" src="js/crypto.js"></script>
-	<script type="text/javascript" src="js/models/messages.js"></script>
-	<script type="text/javascript" src="js/models/threads.js"></script>
-	<script type="text/javascript" src="js/api.js"></script>
-	<script type="text/javascript" src="js/sendmessage.js"></script>
+  <script type="text/javascript" src="js/webcrypto.js"></script>
+  <script type="text/javascript" src="js/crypto.js"></script>
+  <script type="text/javascript" src="js/models/messages.js"></script>
+  <script type="text/javascript" src="js/models/threads.js"></script>
+  <script type="text/javascript" src="js/api.js"></script>
+  <script type="text/javascript" src="js/sendmessage.js"></script>
 
-	<script type="text/javascript" src="js/chromium.js"></script>
-	<script type="text/javascript" src="js/options.js"></script>
+  <script type="text/javascript" src="js/chromium.js"></script>
+  <script type="text/javascript" src="js/options.js"></script>
 </body>
 </html>

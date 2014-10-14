@@ -17,39 +17,126 @@
 	font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif;
 }
 
-html {
-	margin: 12px 100px 0 100px; }
+.paper {
+  background-color: #fafafa;
+  @include box-shadow(5px 0 5px -2px #ddd, -5px 0 5px -2px #ddd);
+}
+
 
 h1 {
 	font-size: 30pt;
 	font-weight: normal;
 	padding-bottom: 10px;
-	border-bottom: 1px solid #e0e0e0; }
+}
 
 h2 {
 	font-size: 12pt;
-	font-weight: normal; }
+	font-weight: normal;
+}
 
 .left-column {
 	float: left;
 	width: 45%;
-	text-align: center; }
+}
 
 .right-column {
 	float: right;
 	width: 50%;
-	text-align: center; }
+}
 
 .hidden {
-	display: none; }
+	display: none;
+}
 
 #textsecure-icon {
 	width: 50px;
-	height: 50px; }
+	height: 50px;
+}
 
-#phonenumberspan {
-	display: block;
-	margin: .5em auto 1em auto; }
+#setup-qr {
+  max-width: 256px;
+  margin-top: 1em;
+}
 
-#countrycode {
-	text-align: right; }
+#verifyCode,
+#code,
+#number {
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+#request-voice,
+#request-sms {
+  box-sizing: border-box;
+}
+#request-sms {
+  width: 57%;
+  float: right;
+}
+#request-voice {
+  width: 40%;
+  float: left;
+}
+
+#regionCode {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+#number-container {
+  position: relative;
+  margin-bottom: 0.5em;
+}
+#number-container::after {
+  visibility: hidden;
+  content: ' ';
+  display: inline-block;
+  border-radius: 1.5em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.5em;
+  color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin: 3px 8px;
+  text-align: center;
+}
+#number-container.valid::after {
+  visibility: visible;
+  content: '✓';
+  background-color: #0f9d58;
+  color: #ffffff;
+}
+#number-container.invalid::after {
+  visibility: visible;
+  content: '!';
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+#error {
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  text-align: center;
+}
+#error   { background-color: #f44336; }
+#error:before {
+  content: '\26a0';
+  padding-right: 0.5em;
+}
+.narrow {
+  box-sizing: border-box;
+  margin: 0 auto 5px;
+  width: 275px;
+  max-width: 100%;
+}
+
+#single-device form {
+  margin: 2em 0;
+}
+#log, #listener { height: 0; }

@@ -117,12 +117,18 @@ window.textsecure.api = function() {
 		});
 	};
 
-	self.requestVerificationCode = function(number) {
+    function requestVerificationCode(number, transport) {
 		return doAjax({
 			call				: 'accounts',
 			httpType			: 'GET',
-			urlParameters		: '/sms/code/' + number,
+			urlParameters		: '/' + transport + '/code/' + number,
 		});
+	};
+	self.requestVerificationSMS = function(number) {
+        return requestVerificationCode(number, 'sms');
+    };
+	self.requestVerificationVoice = function(number) {
+        return requestVerificationCode(number, 'voice');
 	};
 
 	self.confirmCode = function(number, code, password,
