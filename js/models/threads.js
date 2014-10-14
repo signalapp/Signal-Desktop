@@ -66,7 +66,7 @@ var Whisper = Whisper || {};
     },
 
     createGroup: function(recipients, name) {
-      var group = textsecure.storage.groups.createNewGroup(numbers);
+      var group = textsecure.storage.groups.createNewGroup(recipients);
       var attributes = {};
       attributes = {
         id        : group.id,

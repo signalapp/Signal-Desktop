@@ -23,6 +23,7 @@ var Whisper = Whisper || {};
       this.template = $('#new-group-form').html();
       Mustache.parse(this.template);
       this.render();
+      this.input = this.$el.find('input.number');
       new Whisper.GroupRecipientsInputView({el: this.$el.find('input.numbers')}).$el.appendTo(this.$el);
     },
     events: {
@@ -30,10 +31,11 @@ var Whisper = Whisper || {};
     },
 
     send: function(e) {
+      e.preventDefault();
       var numbers = this.$el.find('input.numbers').val().split(',');
       var name = this.$el.find('input.name').val();
       var thread = Whisper.Threads.createGroup(numbers, name);
-      thread.sendMessage(input.val());
+      thread.sendMessage(this.input.val());
       // close this, select the new thread
     },
 
