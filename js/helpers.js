@@ -418,11 +418,13 @@ window.textsecure.storage = function() {
 		}
 
 		self.createNewGroup = function(numbers, groupId) {
-			if (groupId === undefined) {
-				while (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
-					groupId = new Uint32Array(textsecure.crypto.getRandomBytes(4))[0];
-			} else if (textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+			if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
 				throw new Error("Tried to recreate group");
+            }
+
+            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
+                groupId = new Uint32Array(textsecure.crypto.getRandomBytes(4))[0];
+            }
 
 			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
 			var haveMe = false;
