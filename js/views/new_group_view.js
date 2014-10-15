@@ -19,6 +19,7 @@ var Whisper = Whisper || {};
   });
 
   Whisper.NewGroupView = Backbone.View.extend({
+    className: 'conversation',
     initialize: function() {
       this.template = $('#new-group-form').html();
       Mustache.parse(this.template);
@@ -27,7 +28,8 @@ var Whisper = Whisper || {};
       new Whisper.GroupRecipientsInputView({el: this.$el.find('input.numbers')}).$el.appendTo(this.$el);
     },
     events: {
-      'submit .send': 'send'
+      'submit .send': 'send',
+      'close': 'remove'
     },
 
     send: function(e) {
@@ -35,7 +37,7 @@ var Whisper = Whisper || {};
       var numbers = this.$el.find('input.numbers').val().split(',');
       var name = this.$el.find('input.name').val();
       var thread = Whisper.Threads.createGroup(numbers, name);
-      thread.sendMessage(this.input.val());
+      thread.sendMessage(this.$el.find('input.send-message').val());
       // close this, select the new thread
     },
 
