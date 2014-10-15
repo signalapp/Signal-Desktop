@@ -648,7 +648,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 				if (decrypted.group !== null) {
 					var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
 					if (existingGroup === undefined) {
-						if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE)
+						if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE)
 							throw new Error("Got message for unknown group");
 						textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
 					} else {
@@ -658,7 +658,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 							throw new Error("Sender was not a member of the group they were sending from");
 
 						switch(decrypted.group.type) {
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.UPDATE:
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE:
 							if (decrypted.group.avatar !== null)
 								promises.push(handleAttachment(decrypted.group.avatar));
 
@@ -681,12 +681,12 @@ window.textsecure.subscribeToPush = function(message_callback) {
 							decrypted.attachments = [];
 
 							break;
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.QUIT:
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.QUIT:
 							textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
 
 							decrypted.body = null;
 							decrypted.attachments = [];
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.DELIVER:
+						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.DELIVER:
 							decrypted.group.name = null;
 							decrypted.group.members = [];
 							decrypted.group.avatar = null;
