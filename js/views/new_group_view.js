@@ -38,7 +38,8 @@ var Whisper = Whisper || {};
       var name = this.$el.find('input.name').val();
       var thread = Whisper.Threads.createGroup(numbers, name);
       thread.sendMessage(this.$el.find('input.send-message').val());
-      // close this, select the new thread
+      this.remove();
+      thread.trigger('render');
     },
 
     render: function() {
