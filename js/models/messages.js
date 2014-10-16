@@ -35,18 +35,20 @@ var Whisper = Whisper || {};
         attachments[i] = "data:" + decrypted.message.attachments[i].contentType + ";base64," + btoa(getString(decrypted.message.attachments[i].decrypted));
 
       var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
+      var timestamp = Math.pow(2,32) * decrypted.pushMessage.timestamp.high
+                                     + decrypted.pushMessage.timestamp.low;
       var m = thread.messages().add({
         person: decrypted.pushMessage.source,
         threadId: thread.id,
         body: decrypted.message.body,
         attachments: attachments,
         type: 'incoming',
-        timestamp: decrypted.pushMessage.timestamp
+        timestamp: timestamp
       });
       m.save();
 
-      if (decrypted.message.timestamp > thread.get('timestamp')) {
-        thread.set('timestamp', decrypted.message.timestamp);
+      if (timestamp > thread.get('timestamp')) {
+        thread.set('timestamp', timestamp);
       }
       thread.save({unreadCount: thread.get('unreadCount') + 1, active: true});
       return m;
