@@ -36,10 +36,12 @@ var Whisper = Whisper || {};
       e.preventDefault();
       var numbers = this.$el.find('input.numbers').val().split(',');
       var name = this.$el.find('input.name').val();
-      var thread = Whisper.Threads.createGroup(numbers, name);
-      thread.sendMessage(this.$el.find('input.send-message').val());
-      this.remove();
-      thread.trigger('render');
+      var view = this;
+      Whisper.Threads.createGroup(numbers, name).then(function(thread){
+        thread.sendMessage(view.$el.find('input.send-message').val());
+        view.remove();
+        thread.trigger('render');
+      });
     },
 
     render: function() {

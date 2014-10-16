@@ -36,7 +36,7 @@ var Whisper = Whisper || {};
         var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, []);
       }
       else {
-        var promise = textsecure.messaging.sendMessageToGroup(this.get('id'), message, []);
+        var promise = textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, []);
       }
       promise.then(
         function(result) {
@@ -68,15 +68,18 @@ var Whisper = Whisper || {};
     },
 
     createGroup: function(recipients, name) {
-      var group = textsecure.storage.groups.createNewGroup(recipients);
       var attributes = {};
       attributes = {
-        id        : group.id,
         name      : name,
-        numbers   : group.numbers,
+        numbers   : recipients,
         type      : 'group',
       };
-      return this.findOrCreate(attributes);
+      var thread = this.findOrCreate(attributes);
+      return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
+        thread.set('groupId', groupId);
+        thread.save();
+        return thread;
+      });
     },
 
     findOrCreateForRecipient: function(recipient) {
