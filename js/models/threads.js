@@ -21,12 +21,14 @@ var Whisper = Whisper || {};
     },
 
     sendMessage: function(message) {
+      var timestamp = Date.now();
+
       this.messages().add({ type: 'outgoing',
                             body: message,
                             threadId: this.id,
-                            timestamp: new Date().getTime() }).save();
+                            timestamp: timestamp }).save();
 
-      this.save({ timestamp:   new Date().getTime(),
+      this.save({ timestamp:   timestamp,
                   unreadCount: 0,
                   active:      true});
 
