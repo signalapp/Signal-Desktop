@@ -70,6 +70,8 @@ extend(Backbone.LocalStorage.prototype, {
 
   // Save the current state of the **Store** to *localStorage*.
   save: function() {
+    var store = this.localStorage().getItem(this.name);
+    this.records = _.union(this.records, store && store.split(","));
     this.localStorage().setItem(this.name, this.records.join(","));
   },
 
