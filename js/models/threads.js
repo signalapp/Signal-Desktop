@@ -15,7 +15,7 @@ var Whisper = Whisper || {};
     },
 
     validate: function(attributes, options) {
-      var required = ['id', 'type', 'timestamp', 'image', 'name'];
+      var required = ['type', 'timestamp', 'image', 'name'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
       if (missing.length) { return "Thread must have " + missing; }
     },
