@@ -423,7 +423,7 @@ window.textsecure.storage = function() {
             }
 
             while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
-                groupId = textsecure.crypto.getRandomBytes(16);
+                groupId = getString(textsecure.crypto.getRandomBytes(16));
             }
 
 			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
