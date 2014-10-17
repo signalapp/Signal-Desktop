@@ -7,6 +7,7 @@ var Whisper = Whisper || {};
   var Thread = Backbone.Model.extend({
     defaults: function() {
       return {
+        name: 'New Group',
         image: '/images/default.png',
         unreadCount: 0,
         timestamp: new Date().getTime(),
@@ -97,7 +98,7 @@ var Whisper = Whisper || {};
       if (decrypted.message.group) {
         attributes = {
           groupId    : decrypted.message.group.id,
-          name       : decrypted.message.group.name,
+          name       : decrypted.message.group.name || 'New group',
           type       : 'group',
         };
       } else {
