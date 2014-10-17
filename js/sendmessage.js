@@ -175,9 +175,9 @@ window.textsecure.messaging = function() {
 			var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
 			var promises = [];
-			for (var i in devicesForNumber)
-				if (devicesForNumber[i].registrationId === undefined)
-					promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[i].encodedNumber)[1])]);
+			for (var j in devicesForNumber)
+				if (devicesForNumber[j].registrationId === undefined)
+					promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
 
 			Promise.all(promises).then(function() {
 				devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
