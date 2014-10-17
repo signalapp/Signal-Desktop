@@ -96,7 +96,7 @@ var Whisper = Whisper || {};
       var attributes = {};
       if (decrypted.message.group) {
         attributes = {
-          id         : decrypted.message.group.id,
+          groupId    : decrypted.message.group.id,
           name       : decrypted.message.group.name,
           type       : 'group',
         };
