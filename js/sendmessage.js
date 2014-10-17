@@ -82,7 +82,7 @@ window.textsecure.messaging = function() {
 			var proto = new textsecure.protos.PushMessageContentProtobuf();
 			proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
 
-			proto.group.id = group.id;
+			proto.group.id = toArrayBuffer(group.id);
 			proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE;
 			proto.group.members = group.numbers;
 			proto.group.name = group.name === undefined ? null : group.name;
@@ -263,7 +263,7 @@ window.textsecure.messaging = function() {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.body = messageText;
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = groupId;
+		proto.group.id = toArrayBuffer(groupId);
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.DELIVER;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
@@ -284,7 +284,7 @@ window.textsecure.messaging = function() {
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
 
 		var group = textsecure.storage.groups.createNewGroup(numbers);
-		proto.group.id = group.id;
+		proto.group.id = toArrayBuffer(group.id);
 		var numbers = group.numbers;
 
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE;
@@ -308,7 +308,7 @@ window.textsecure.messaging = function() {
 	self.addNumberToGroup = function(groupId, number) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = groupId;
+		proto.group.id = toArrayBuffer(groupId);
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE;
 
 		var numbers = textsecure.storage.groups.addNumbers(groupId, [number]);
@@ -322,7 +322,7 @@ window.textsecure.messaging = function() {
 	self.setGroupName = function(groupId, name) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = groupId;
+		proto.group.id = toArrayBuffer(groupId);
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE;
 		proto.group.name = name;
 
@@ -337,7 +337,7 @@ window.textsecure.messaging = function() {
 	self.setGroupAvatar = function(groupId, avatar) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = groupId;
+		proto.group.id = toArrayBuffer(groupId);
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
@@ -354,7 +354,7 @@ window.textsecure.messaging = function() {
 	self.leaveGroup = function(groupId) {
 		var proto = new textsecure.protos.PushMessageContentProtobuf();
 		proto.group = new textsecure.protos.PushMessageContentProtobuf.GroupContext();
-		proto.group.id = groupId;
+		proto.group.id = toArrayBuffer(groupId);
 		proto.group.type = textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.QUIT;
 
 		var numbers = textsecure.storage.groups.getNumbers(groupId);
