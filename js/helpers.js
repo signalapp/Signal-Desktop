@@ -646,6 +646,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 				var promises = [];
 
 				if (decrypted.group !== null) {
+                    decrypted.group.id = getString(decrypted.group.id);
 					var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
 					if (existingGroup === undefined) {
 						if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE)
