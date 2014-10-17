@@ -77,6 +77,7 @@ var Whisper = Whisper || {};
       };
       var thread = this.findOrCreate(attributes);
       return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
+        thread.set('id', getString(groupId));
         thread.set('groupId', getString(groupId));
         thread.save();
         return thread;
@@ -97,6 +98,7 @@ var Whisper = Whisper || {};
       var attributes = {};
       if (decrypted.message.group) {
         attributes = {
+          id         : decrypted.message.group.id,
           groupId    : decrypted.message.group.id,
           name       : decrypted.message.group.name || 'New group',
           type       : 'group',
