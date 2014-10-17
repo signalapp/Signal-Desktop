@@ -76,7 +76,7 @@ var Whisper = Whisper || {};
       };
       var thread = this.findOrCreate(attributes);
       return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
-        thread.set('groupId', groupId);
+        thread.set('groupId', getString(groupId));
         thread.save();
         return thread;
       });
