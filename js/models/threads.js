@@ -61,7 +61,11 @@ var Whisper = Whisper || {};
   Whisper.Threads = new (Backbone.Collection.extend({
     localStorage: new Backbone.LocalStorage("Threads"),
     model: Thread,
-    comparator: 'timestamp',
+
+    comparator: function(m) {
+      return -m.get('timestamp');
+    },
+
     findOrCreate: function(attributes) {
       var thread = Whisper.Threads.add(attributes, {merge: true});
       thread.save();
@@ -112,5 +116,6 @@ var Whisper = Whisper || {};
       }
       return this.findOrCreate(attributes);
     }
+
   }))();
 })();
