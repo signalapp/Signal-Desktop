@@ -170,8 +170,7 @@ window.textsecure.messaging = function() {
 			});
 		}
 
-		for (var i = 0; i < numbers.length; i++) {
-			var number = numbers[i];
+    _.each(numbers, function(number) {
 			var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
 			var promises = [];
@@ -191,7 +190,7 @@ window.textsecure.messaging = function() {
 				} else
 					doSendMessage(number, devicesForNumber, true);
 			});
-		}
+		});
 	}
 
 	makeAttachmentPointer = function(attachment) {
