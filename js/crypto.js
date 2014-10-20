@@ -536,7 +536,7 @@ window.textsecure.crypto = function() {
 	var initSessionFromPreKeyWhisperMessage;
 	var decryptWhisperMessage;
 	var handlePreKeyWhisperMessage = function(from, encodedMessage) {
-		var preKeyProto = textsecure.protos.decodePreKeyWhisperMessageProtobuf(encodedMessage);
+		var preKeyProto = textsecure.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
 		return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
 			return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
 				if (sessions[1] !== undefined)
@@ -662,7 +662,7 @@ window.textsecure.crypto = function() {
 		var messageProto = messageBytes.substring(1, messageBytes.length - 8);
 		var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
 
-		var message = textsecure.protos.decodeWhisperMessageProtobuf(messageProto);
+		var message = textsecure.protobuf.WhisperMessage.decode(messageProto, 'binary');
 		var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
 
 		if (session === undefined) {
@@ -704,10 +704,10 @@ window.textsecure.crypto = function() {
 
 							delete session['pendingPreKey'];
 
-							var finalMessage = textsecure.protos.decodePushMessageContentProtobuf(getString(plaintext));
+							var finalMessage = textsecure.protobuf.PushMessageContent.decode(plaintext);
 
-							if ((finalMessage.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-									== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+							if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+									== textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
 								closeSession(session, true);
 
 							removeOldChains(session);
@@ -778,17 +778,17 @@ window.textsecure.crypto = function() {
 
 	self.handleIncomingPushMessageProto = function(proto) {
 		switch(proto.type) {
-		case textsecure.protos.IncomingPushMessageProtobuf.Type.PLAINTEXT:
-			return Promise.resolve(textsecure.protos.decodePushMessageContentProtobuf(getString(proto.message)));
-		case textsecure.protos.IncomingPushMessageProtobuf.Type.CIPHERTEXT:
+		case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
+			return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
+		case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return decryptWhisperMessage(from, getString(proto.message));
-		case textsecure.protos.IncomingPushMessageProtobuf.Type.PREKEY_BUNDLE:
+		case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
 			if (proto.message.readUint8() != ((3 << 4) | 3))
 				throw new Error("Bad version byte");
 			var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
 			return handlePreKeyWhisperMessage(from, getString(proto.message));
-		case textsecure.protos.IncomingPushMessageProtobuf.Type.RECEIPT:
+		case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
 			return Promise.resolve(null);
 		default:
 			return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
@@ -800,7 +800,7 @@ window.textsecure.crypto = function() {
 		var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
 		var doEncryptPushMessageContent = function() {
-			var msg = new textsecure.protos.WhisperMessageProtobuf();
+			var msg = new textsecure.protobuf.WhisperMessage();
 			var plaintext = toArrayBuffer(pushMessageContent.encode());
 
 			var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160);
@@ -850,7 +850,7 @@ window.textsecure.crypto = function() {
 			});
 		}
 
-		var preKeyMsg = new textsecure.protos.PreKeyWhisperMessageProtobuf();
+		var preKeyMsg = new textsecure.protobuf.PreKeyWhisperMessage();
 		preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
 		preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 
@@ -957,7 +957,7 @@ window.textsecure.crypto = function() {
 
 					return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
 						window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, ecRes[0], ciphertext).then(function(plaintext) {
-							var identityKeyMsg = textsecure.protos.decodeIdentityKeyProtobuf(getString(plaintext));
+							var identityKeyMsg = textsecure.protobuf.IdentityKey.decode(plaintext);
 
 							privToPub(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
 								crypto_storage.putKeyPair("identityKey", identityKeyPair);

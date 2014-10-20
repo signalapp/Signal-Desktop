@@ -167,49 +167,6 @@ function base64ToArrayBuffer(string) {
     return base64DecToArr(string);
 }
 
-// Protobuf decoding
-//TODO: throw on missing fields everywhere
-window.textsecure.protos = function() {
-    var self = {};
-
-    self.IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
-    self.decodeIncomingPushMessageProtobuf = function(string) {
-        return self.IncomingPushMessageProtobuf.decode(btoa(string));
-    }
-
-    self.PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
-    self.decodePushMessageContentProtobuf = function(string) {
-        return self.PushMessageContentProtobuf.decode(btoa(string));
-    }
-
-    self.WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
-    self.decodeWhisperMessageProtobuf = function(string) {
-        return self.WhisperMessageProtobuf.decode(btoa(string));
-    }
-
-    self.PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
-    self.decodePreKeyWhisperMessageProtobuf = function(string) {
-        return self.PreKeyWhisperMessageProtobuf.decode(btoa(string));
-    }
-
-    self.DeviceInitProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceInit");
-    self.decodeDeviceInitProtobuf = function(string) {
-        return self.DeviceInitProtobuf.decode(btoa(string));
-    }
-
-    self.IdentityKeyProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.IdentityKey");
-    self.decodeIdentityKeyProtobuf = function(string) {
-        return self.IdentityKeyProtobuf.decode(btoa(string));
-    }
-
-    self.DeviceControlProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceControl");
-    self.decodeDeviceControlProtobuf = function(string) {
-        return self.DeviceControlProtobuf.decode(btoa(string));
-    }
-
-    return self;
-}();
-
 // Number formatting utils
 window.textsecure.utils = function() {
     var self = {};
@@ -611,7 +568,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 
     socket.onmessage = function(message) {
         textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-            var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
+            var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
             // After this point, a) decoding errors are not the server's fault, and
             // b) we should handle them gracefully and tell the user they received an invalid message
             console.log("Successfully decoded message with id: " + message.id);
@@ -629,8 +586,8 @@ window.textsecure.subscribeToPush = function(message_callback) {
                 if (decrypted.flags == null)
                     decrypted.flags = 0;
 
-                if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-                            == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+                if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                            == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                     return;
                 if (decrypted.flags != 0)
                     throw new Error("Unknown flags in message");
@@ -649,7 +606,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
                     decrypted.group.id = getString(decrypted.group.id);
                     var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
                     if (existingGroup === undefined) {
-                        if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE)
+                        if (decrypted.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE)
                             throw new Error("Got message for unknown group");
                         textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
                     } else {
@@ -659,7 +616,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
                             throw new Error("Sender was not a member of the group they were sending from");
 
                         switch(decrypted.group.type) {
-                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE:
+                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE:
                             if (decrypted.group.avatar !== null)
                                 promises.push(handleAttachment(decrypted.group.avatar));
 
@@ -682,12 +639,12 @@ window.textsecure.subscribeToPush = function(message_callback) {
                             decrypted.attachments = [];
 
                             break;
-                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.QUIT:
+                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT:
                             textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
 
                             decrypted.body = null;
                             decrypted.attachments = [];
-                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.DELIVER:
+                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.DELIVER:
                             decrypted.group.name = null;
                             decrypted.group.members = [];
                             decrypted.group.avatar = null;
@@ -741,7 +698,7 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
 }
 
 window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo, stepDone) {
-    var deviceInit = textsecure.protos.decodeDeviceInit(encodedDeviceInit);
+    var deviceInit = textsecure.protobuf.DeviceInit.decode(encodedDeviceInit, 'binary');
     return cryptoInfo.decryptAndHandleDeviceInit(deviceInit).then(function(identityKey) {
         if (identityKey.server != textsecure.api.relay)
             throw new Error("Unknown relay used by master");

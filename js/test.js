@@ -291,15 +291,16 @@ describe("Axolotl", function() {
                     if (data.newEphemeralKey !== undefined)
                         privKeyQueue.push(data.newEphemeralKey);
 
-                    var message = new textsecure.protos.IncomingPushMessageProtobuf();
+                    var message = new textsecure.protobuf.IncomingPushMessageSignal();
                     message.type = data.type;
                     message.source = "SNOWDEN";
                     message.message = data.message;
                     message.sourceDevice = 1;
                     try {
-                        return textsecure.crypto.handleIncomingPushMessageProto(textsecure.protos.decodeIncomingPushMessageProtobuf(getString(message.encode()))).then(function(res) {
+                        var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(message.encode());
+                        return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(res) {
                             if (data.expectTerminateSession)
-                                return res.flags == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION;
+                                return res.flags == textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
                             return res.body == data.expectedSmsText;
                         }).catch(function(e) {
                             if (data.expectException)
@@ -345,11 +346,11 @@ describe("Axolotl", function() {
                         //XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
                         if (msg.type == 1) {
                             var expected = getString(data.expectedCiphertext);
-                            var decoded = textsecure.protos.decodeWhisperMessageProtobuf(expected.substring(1, expected.length - 8));
+                            var decoded = textsecure.protobuf.WhisperMessage.decode(expected.substring(1, expected.length - 8), 'binary');
                             var result = getString(msg.body);
                             return getString(decoded.encode()) == result.substring(1, result.length - 8);
                         } else {
-                            var decoded = textsecure.protos.decodePreKeyWhisperMessageProtobuf(getString(data.expectedCiphertext).substr(1));
+                            var decoded = textsecure.protobuf.PreKeyWhisperMessage.decode(getString(data.expectedCiphertext).substr(1), 'binary');
                             var result = getString(msg.body).substring(1);
                             return getString(decoded.encode()) == result;
                         }
