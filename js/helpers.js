@@ -1,4 +1,4 @@
-/* vim: ts=4:sw=4
+/* vim: ts=4:sw=4:expandtab
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -102,615 +102,615 @@ var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 var StaticUint8ArrayProto = new Uint8Array().__proto__;
 var StaticWordArrayProto = CryptoJS.lib.WordArray.create('').__proto__;
 function getString(thing) {
-	if (thing === Object(thing)) {
-		if (thing.__proto__ == StaticUint8ArrayProto)
-			return String.fromCharCode.apply(null, thing);
-		if (thing.__proto__ == StaticArrayBufferProto)
-			return getString(new Uint8Array(thing));
-		if (thing.__proto__ == StaticByteBufferProto)
-			return thing.toString("binary");
-		if (thing.__proto__ == StaticWordArrayProto)
-			return thing.toString(CryptoJS.enc.Latin1);
-	}
-	return thing;
+    if (thing === Object(thing)) {
+        if (thing.__proto__ == StaticUint8ArrayProto)
+            return String.fromCharCode.apply(null, thing);
+        if (thing.__proto__ == StaticArrayBufferProto)
+            return getString(new Uint8Array(thing));
+        if (thing.__proto__ == StaticByteBufferProto)
+            return thing.toString("binary");
+        if (thing.__proto__ == StaticWordArrayProto)
+            return thing.toString(CryptoJS.enc.Latin1);
+    }
+    return thing;
 }
 
 function getStringable(thing) {
-	return (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean" ||
-			(thing === Object(thing) &&
-				(thing.__proto__ == StaticArrayBufferProto ||
-				thing.__proto__ == StaticUint8ArrayProto ||
-				thing.__proto__ == StaticByteBufferProto ||
-				thing.__proto__ == StaticWordArrayProto)));
+    return (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean" ||
+            (thing === Object(thing) &&
+                (thing.__proto__ == StaticArrayBufferProto ||
+                thing.__proto__ == StaticUint8ArrayProto ||
+                thing.__proto__ == StaticByteBufferProto ||
+                thing.__proto__ == StaticWordArrayProto)));
 }
 
 function isEqual(a, b, mayBeShort) {
-	// TODO: Special-case arraybuffers, etc
-	if (a === undefined || b === undefined)
-		return false;
-	a = getString(a);
-	b = getString(b);
-	var maxLength = mayBeShort ? Math.min(a.length, b.length) : Math.max(a.length, b.length);
-	if (maxLength < 5)
-		throw new Error("a/b compare too short");
-	return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
+    // TODO: Special-case arraybuffers, etc
+    if (a === undefined || b === undefined)
+        return false;
+    a = getString(a);
+    b = getString(b);
+    var maxLength = mayBeShort ? Math.min(a.length, b.length) : Math.max(a.length, b.length);
+    if (maxLength < 5)
+        throw new Error("a/b compare too short");
+    return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
 }
 
 function toArrayBuffer(thing) {
-	//TODO: Optimize this for specific cases
-	if (thing === undefined)
-		return undefined;
-	if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
-		return thing;
+    //TODO: Optimize this for specific cases
+    if (thing === undefined)
+        return undefined;
+    if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
+        return thing;
 
-	if (thing instanceof Array) {
-		// Assuming Uint16Array from curve25519
-		var res = new ArrayBuffer(thing.length * 2);
-		var uint = new Uint16Array(res);
-		for (var i = 0; i < thing.length; i++)
-			uint[i] = thing[i];
-		return res;
-	}
+    if (thing instanceof Array) {
+        // Assuming Uint16Array from curve25519
+        var res = new ArrayBuffer(thing.length * 2);
+        var uint = new Uint16Array(res);
+        for (var i = 0; i < thing.length; i++)
+            uint[i] = thing[i];
+        return res;
+    }
 
-	if (!getStringable(thing))
-		throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
-	var str = getString(thing);
-	var res = new ArrayBuffer(str.length);
-	var uint = new Uint8Array(res);
-	for (var i = 0; i < str.length; i++)
-		uint[i] = str.charCodeAt(i);
-	return res;
+    if (!getStringable(thing))
+        throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
+    var str = getString(thing);
+    var res = new ArrayBuffer(str.length);
+    var uint = new Uint8Array(res);
+    for (var i = 0; i < str.length; i++)
+        uint[i] = str.charCodeAt(i);
+    return res;
 }
 
 
 function base64ToArrayBuffer(string) {
-	return base64DecToArr(string);
+    return base64DecToArr(string);
 }
 
 // Protobuf decoding
 //TODO: throw on missing fields everywhere
 window.textsecure.protos = function() {
-	var self = {};
+    var self = {};
 
-	self.IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
-	self.decodeIncomingPushMessageProtobuf = function(string) {
-		return self.IncomingPushMessageProtobuf.decode(btoa(string));
-	}
+    self.IncomingPushMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.IncomingPushMessageSignal");
+    self.decodeIncomingPushMessageProtobuf = function(string) {
+        return self.IncomingPushMessageProtobuf.decode(btoa(string));
+    }
 
-	self.PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
-	self.decodePushMessageContentProtobuf = function(string) {
-		return self.PushMessageContentProtobuf.decode(btoa(string));
-	}
+    self.PushMessageContentProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/IncomingPushMessageSignal.proto").build("textsecure.PushMessageContent");
+    self.decodePushMessageContentProtobuf = function(string) {
+        return self.PushMessageContentProtobuf.decode(btoa(string));
+    }
 
-	self.WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
-	self.decodeWhisperMessageProtobuf = function(string) {
-		return self.WhisperMessageProtobuf.decode(btoa(string));
-	}
+    self.WhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.WhisperMessage");
+    self.decodeWhisperMessageProtobuf = function(string) {
+        return self.WhisperMessageProtobuf.decode(btoa(string));
+    }
 
-	self.PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
-	self.decodePreKeyWhisperMessageProtobuf = function(string) {
-		return self.PreKeyWhisperMessageProtobuf.decode(btoa(string));
-	}
+    self.PreKeyWhisperMessageProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/WhisperTextProtocol.proto").build("textsecure.PreKeyWhisperMessage");
+    self.decodePreKeyWhisperMessageProtobuf = function(string) {
+        return self.PreKeyWhisperMessageProtobuf.decode(btoa(string));
+    }
 
-	self.DeviceInitProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceInit");
-	self.decodeDeviceInitProtobuf = function(string) {
-		return self.DeviceInitProtobuf.decode(btoa(string));
-	}
+    self.DeviceInitProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceInit");
+    self.decodeDeviceInitProtobuf = function(string) {
+        return self.DeviceInitProtobuf.decode(btoa(string));
+    }
 
-	self.IdentityKeyProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.IdentityKey");
-	self.decodeIdentityKeyProtobuf = function(string) {
-		return self.IdentityKeyProtobuf.decode(btoa(string));
-	}
+    self.IdentityKeyProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.IdentityKey");
+    self.decodeIdentityKeyProtobuf = function(string) {
+        return self.IdentityKeyProtobuf.decode(btoa(string));
+    }
 
-	self.DeviceControlProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceControl");
-	self.decodeDeviceControlProtobuf = function(string) {
-		return self.DeviceControlProtobuf.decode(btoa(string));
-	}
+    self.DeviceControlProtobuf = dcodeIO.ProtoBuf.loadProtoFile("protos/DeviceMessages.proto").build("textsecure.DeviceControl");
+    self.decodeDeviceControlProtobuf = function(string) {
+        return self.DeviceControlProtobuf.decode(btoa(string));
+    }
 
-	return self;
+    return self;
 }();
 
 // Number formatting utils
 window.textsecure.utils = function() {
-	var self = {};
-	self.unencodeNumber = function(number) {
-		return number.split(".");
-	};
+    var self = {};
+    self.unencodeNumber = function(number) {
+        return number.split(".");
+    };
 
-	/**************************
-	 *** JSON'ing Utilities ***
-	 **************************/
-	function ensureStringed(thing) {
-		if (getStringable(thing))
-			return getString(thing);
-		else if (thing instanceof Array) {
-			var res = [];
-			for (var i = 0; i < thing.length; i++)
-				res[i] = ensureStringed(thing[i]);
-			return res;
-		} else if (thing === Object(thing)) {
-			var res = {};
-			for (var key in thing)
-				res[key] = ensureStringed(thing[key]);
-			return res;
-		}
-		throw new Error("unsure of how to jsonify object of type " + typeof thing);
+    /**************************
+     *** JSON'ing Utilities ***
+     **************************/
+    function ensureStringed(thing) {
+        if (getStringable(thing))
+            return getString(thing);
+        else if (thing instanceof Array) {
+            var res = [];
+            for (var i = 0; i < thing.length; i++)
+                res[i] = ensureStringed(thing[i]);
+            return res;
+        } else if (thing === Object(thing)) {
+            var res = {};
+            for (var key in thing)
+                res[key] = ensureStringed(thing[key]);
+            return res;
+        }
+        throw new Error("unsure of how to jsonify object of type " + typeof thing);
 
-	}
+    }
 
-	self.jsonThing = function(thing) {
-		return JSON.stringify(ensureStringed(thing));
-	}
+    self.jsonThing = function(thing) {
+        return JSON.stringify(ensureStringed(thing));
+    }
 
-	return self;
+    return self;
 }();
 
 window.textsecure.throwHumanError = function(error, type, humanError) {
-	var e = new Error(error);
-	if (type !== undefined)
-		e.name = type;
-	e.humanError = humanError;
-	throw e;
+    var e = new Error(error);
+    if (type !== undefined)
+        e.name = type;
+    e.humanError = humanError;
+    throw e;
 }
 
 /************************************************
  *** Utilities to store data in local storage ***
  ************************************************/
 window.textsecure.storage = function() {
-	var self = {};
+    var self = {};
 
-	/*****************************
-	 *** Base Storage Routines ***
-	 *****************************/
-	self.putEncrypted = function(key, value) {
-		//TODO
-		if (value === undefined)
-			throw new Error("Tried to store undefined");
-		localStorage.setItem("e" + key, textsecure.utils.jsonThing(value));
-	}
+    /*****************************
+     *** Base Storage Routines ***
+     *****************************/
+    self.putEncrypted = function(key, value) {
+        //TODO
+        if (value === undefined)
+            throw new Error("Tried to store undefined");
+        localStorage.setItem("e" + key, textsecure.utils.jsonThing(value));
+    }
 
-	self.getEncrypted = function(key, defaultValue) {
-	//TODO
-		var value = localStorage.getItem("e" + key);
-		if (value === null)
-			return defaultValue;
-		return JSON.parse(value);
-	}
+    self.getEncrypted = function(key, defaultValue) {
+    //TODO
+        var value = localStorage.getItem("e" + key);
+        if (value === null)
+            return defaultValue;
+        return JSON.parse(value);
+    }
 
-	self.removeEncrypted = function(key) {
-		localStorage.removeItem("e" + key);
-	}
+    self.removeEncrypted = function(key) {
+        localStorage.removeItem("e" + key);
+    }
 
-	self.putUnencrypted = function(key, value) {
-		if (value === undefined)
-			throw new Error("Tried to store undefined");
-		localStorage.setItem("u" + key, textsecure.utils.jsonThing(value));
-	}
+    self.putUnencrypted = function(key, value) {
+        if (value === undefined)
+            throw new Error("Tried to store undefined");
+        localStorage.setItem("u" + key, textsecure.utils.jsonThing(value));
+    }
 
-	self.getUnencrypted = function(key, defaultValue) {
-		var value = localStorage.getItem("u" + key);
-		if (value === null)
-			return defaultValue;
-		return JSON.parse(value);
-	}
+    self.getUnencrypted = function(key, defaultValue) {
+        var value = localStorage.getItem("u" + key);
+        if (value === null)
+            return defaultValue;
+        return JSON.parse(value);
+    }
 
-	self.removeUnencrypted = function(key) {
-		localStorage.removeItem("u" + key);
-	}
+    self.removeUnencrypted = function(key) {
+        localStorage.removeItem("u" + key);
+    }
 
-	/**********************
-	 *** Device Storage ***
-	 **********************/
-	self.devices = function() {
-		var self = {};
+    /**********************
+     *** Device Storage ***
+     **********************/
+    self.devices = function() {
+        var self = {};
 
-		var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-			if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
-				throw new Error("Tried to store invalid deviceObject");
+        var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
+            if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
+                throw new Error("Tried to store invalid deviceObject");
 
-			var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-			var map = textsecure.storage.getEncrypted("devices" + number);
+            var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
+            var map = textsecure.storage.getEncrypted("devices" + number);
 
-			if (map === undefined)
-				map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
-			else if (map.identityKey != getString(deviceObject.identityKey))
-				throw new Error("Identity key changed");
-			else {
-				var updated = false;
-				for (var i in map.devices) {
-					if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
-						if (!onlyKeys)
-							map.devices[i] = deviceObject;
-						else {
-							map.devices[i].preKey = deviceObject.preKey;
-							map.devices[i].preKeyId = deviceObject.preKeyId;
-							map.devices[i].signedKey = deviceObject.signedKey;
-							map.devices[i].signedKeyId = deviceObject.signedKeyId;
-							map.devices[i].registrationId = deviceObject.registrationId;
-						}
-						updated = true;
-					}
-				}
+            if (map === undefined)
+                map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
+            else if (map.identityKey != getString(deviceObject.identityKey))
+                throw new Error("Identity key changed");
+            else {
+                var updated = false;
+                for (var i in map.devices) {
+                    if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
+                        if (!onlyKeys)
+                            map.devices[i] = deviceObject;
+                        else {
+                            map.devices[i].preKey = deviceObject.preKey;
+                            map.devices[i].preKeyId = deviceObject.preKeyId;
+                            map.devices[i].signedKey = deviceObject.signedKey;
+                            map.devices[i].signedKeyId = deviceObject.signedKeyId;
+                            map.devices[i].registrationId = deviceObject.registrationId;
+                        }
+                        updated = true;
+                    }
+                }
 
-				if (!updated)
-					map.devices.push(deviceObject);
-			}
+                if (!updated)
+                    map.devices.push(deviceObject);
+            }
 
-			textsecure.storage.putEncrypted("devices" + number, map);
-		}
+            textsecure.storage.putEncrypted("devices" + number, map);
+        }
 
-		self.saveDeviceObject = function(deviceObject) {
-			return internalSaveDeviceObject(deviceObject, false);
-		}
+        self.saveDeviceObject = function(deviceObject) {
+            return internalSaveDeviceObject(deviceObject, false);
+        }
 
-		self.saveKeysToDeviceObject = function(deviceObject) {
-			return internalSaveDeviceObject(deviceObject, true);
-		}
+        self.saveKeysToDeviceObject = function(deviceObject) {
+            return internalSaveDeviceObject(deviceObject, true);
+        }
 
-		self.getDeviceObjectsForNumber = function(number) {
-			var map = textsecure.storage.getEncrypted("devices" + number);
-			return map === undefined ? [] : map.devices;
-		}
+        self.getDeviceObjectsForNumber = function(number) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            return map === undefined ? [] : map.devices;
+        }
 
-		self.getDeviceObject = function(encodedNumber) {
-			var number = textsecure.utils.unencodeNumber(encodedNumber);
-			var devices = self.getDeviceObjectsForNumber(number[0]);
-			if (devices === undefined)
-				return undefined;
+        self.getDeviceObject = function(encodedNumber) {
+            var number = textsecure.utils.unencodeNumber(encodedNumber);
+            var devices = self.getDeviceObjectsForNumber(number[0]);
+            if (devices === undefined)
+                return undefined;
 
-			for (var i in devices)
-				if (devices[i].encodedNumber == encodedNumber)
-					return devices[i];
+            for (var i in devices)
+                if (devices[i].encodedNumber == encodedNumber)
+                    return devices[i];
 
-			return undefined;
-		}
+            return undefined;
+        }
 
-		self.removeDeviceIdsForNumber = function(number, deviceIdsToRemove) {
-			var map = textsecure.storage.getEncrypted("devices" + number);
-			if (map === undefined)
-				throw new Error("Tried to remove device for unknown number");
+        self.removeDeviceIdsForNumber = function(number, deviceIdsToRemove) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            if (map === undefined)
+                throw new Error("Tried to remove device for unknown number");
 
-			var newDevices = [];
-			var devicesRemoved = 0;
-			for (var i in map.devices) {
-				var keep = true;
-				for (var j in deviceIdsToRemove)
-					if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
-						keep = false;
+            var newDevices = [];
+            var devicesRemoved = 0;
+            for (var i in map.devices) {
+                var keep = true;
+                for (var j in deviceIdsToRemove)
+                    if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
+                        keep = false;
 
-				if (keep)
-					newDevices.push(map.devices[i]);
-				else
-					devicesRemoved++;
-			}
+                if (keep)
+                    newDevices.push(map.devices[i]);
+                else
+                    devicesRemoved++;
+            }
 
-			if (devicesRemoved != deviceIdsToRemove.length)
-				throw new Error("Tried to remove unknown device");
-		}
+            if (devicesRemoved != deviceIdsToRemove.length)
+                throw new Error("Tried to remove unknown device");
+        }
 
-		return self;
-	}();
+        return self;
+    }();
 
-	/*********************
-	 *** Group Storage ***
-	 *********************/
-	self.groups = function() {
-		var self = {};
+    /*********************
+     *** Group Storage ***
+     *********************/
+    self.groups = function() {
+        var self = {};
 
-		var addGroupToNumber = function(groupId, number) {
-			var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
-			if (membership.indexOf(groupId) < 0)
-				membership.push(groupId);
-			textsecure.storage.putEncrypted("groupMembership" + number, membership);
-		}
+        var addGroupToNumber = function(groupId, number) {
+            var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
+            if (membership.indexOf(groupId) < 0)
+                membership.push(groupId);
+            textsecure.storage.putEncrypted("groupMembership" + number, membership);
+        }
 
-		var removeGroupFromNumber = function(groupId, number) {
-			var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
-			membership = membership.filter(function(group) { return group != groupId; });
-			if (membership.length == 0)
-				textsecure.storage.removeEncrypted("groupMembership" + number);
-			else
-				textsecure.storage.putEncrypted("groupMembership" + number, membership);
-		}
+        var removeGroupFromNumber = function(groupId, number) {
+            var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
+            membership = membership.filter(function(group) { return group != groupId; });
+            if (membership.length == 0)
+                textsecure.storage.removeEncrypted("groupMembership" + number);
+            else
+                textsecure.storage.putEncrypted("groupMembership" + number, membership);
+        }
 
-		self.getGroupListForNumber = function(number) {
-			return textsecure.storage.getEncrypted("groupMembership" + number, []);
-		}
+        self.getGroupListForNumber = function(number) {
+            return textsecure.storage.getEncrypted("groupMembership" + number, []);
+        }
 
-		self.createNewGroup = function(numbers, groupId) {
-			if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
-				throw new Error("Tried to recreate group");
+        self.createNewGroup = function(numbers, groupId) {
+            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
+                throw new Error("Tried to recreate group");
             }
 
             while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
             }
 
-			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
-			var haveMe = false;
-			var finalNumbers = [];
-			for (var i in numbers) {
-				var number = libphonenumber.util.verifyNumber(numbers[i]);
-				if (number == me)
-					haveMe = true;
-				if (finalNumbers.indexOf(number) < 0) {
-					finalNumbers.push(number);
-					addGroupToNumber(groupId, number);
-				}
-			}
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var haveMe = false;
+            var finalNumbers = [];
+            for (var i in numbers) {
+                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                if (number == me)
+                    haveMe = true;
+                if (finalNumbers.indexOf(number) < 0) {
+                    finalNumbers.push(number);
+                    addGroupToNumber(groupId, number);
+                }
+            }
 
-			if (!haveMe)
-				finalNumbers.push(me);
+            if (!haveMe)
+                finalNumbers.push(me);
 
-			textsecure.storage.putEncrypted("group" + groupId, {numbers: finalNumbers});
+            textsecure.storage.putEncrypted("group" + groupId, {numbers: finalNumbers});
 
-			return {id: groupId, numbers: finalNumbers};
-		}
+            return {id: groupId, numbers: finalNumbers};
+        }
 
-		self.getNumbers = function(groupId) {
-			var group = textsecure.storage.getEncrypted("group" + groupId);
-			if (group === undefined)
-				return undefined;
+        self.getNumbers = function(groupId) {
+            var group = textsecure.storage.getEncrypted("group" + groupId);
+            if (group === undefined)
+                return undefined;
 
-			return group.numbers;
-		}
+            return group.numbers;
+        }
 
-		self.removeNumber = function(groupId, number) {
-			var group = textsecure.storage.getEncrypted("group" + groupId);
-			if (group === undefined)
-				return undefined;
+        self.removeNumber = function(groupId, number) {
+            var group = textsecure.storage.getEncrypted("group" + groupId);
+            if (group === undefined)
+                return undefined;
 
-			try {
-				number = libphonenumber.util.verifyNumber(number);
-			} catch (e) {
-				return group.numbers;
-			}
+            try {
+                number = libphonenumber.util.verifyNumber(number);
+            } catch (e) {
+                return group.numbers;
+            }
 
-			var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
-			if (number == me)
-				throw new Error("Cannot remove ourselves from a group, leave the group instead");
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            if (number == me)
+                throw new Error("Cannot remove ourselves from a group, leave the group instead");
 
-			var i = group.numbers.indexOf(number);
-			if (i > -1) {
-				group.numbers.slice(i, 1);
-				textsecure.storage.putEncrypted("group" + groupId, group);
-				removeGroupFromNumber(groupId, number);
-			}
+            var i = group.numbers.indexOf(number);
+            if (i > -1) {
+                group.numbers.slice(i, 1);
+                textsecure.storage.putEncrypted("group" + groupId, group);
+                removeGroupFromNumber(groupId, number);
+            }
 
-			return group.numbers;
-		}
+            return group.numbers;
+        }
 
-		self.addNumbers = function(groupId, numbers) {
-			var group = textsecure.storage.getEncrypted("group" + groupId);
-			if (group === undefined)
-				return undefined;
+        self.addNumbers = function(groupId, numbers) {
+            var group = textsecure.storage.getEncrypted("group" + groupId);
+            if (group === undefined)
+                return undefined;
 
-			for (var i in numbers) {
-				var number = libphonenumber.util.verifyNumber(numbers[i]);
-				if (group.numbers.indexOf(number) < 0) {
-					group.numbers.push(number);
-					addGroupToNumber(groupId, number);
-				}
-			}
+            for (var i in numbers) {
+                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                if (group.numbers.indexOf(number) < 0) {
+                    group.numbers.push(number);
+                    addGroupToNumber(groupId, number);
+                }
+            }
 
-			textsecure.storage.putEncrypted("group" + groupId, group);
-			return group.numbers;
-		}
+            textsecure.storage.putEncrypted("group" + groupId, group);
+            return group.numbers;
+        }
 
-		self.deleteGroup = function(groupId) {
-			textsecure.storage.removeEncrypted("group" + groupId);
-		}
+        self.deleteGroup = function(groupId) {
+            textsecure.storage.removeEncrypted("group" + groupId);
+        }
 
-		self.getGroup = function(groupId) {
-			var group = textsecure.storage.getEncrypted("group" + groupId);
-			if (group === undefined)
-				return undefined;
+        self.getGroup = function(groupId) {
+            var group = textsecure.storage.getEncrypted("group" + groupId);
+            if (group === undefined)
+                return undefined;
 
-			return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
-		}
+            return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
+        }
 
-		return self;
-	}();
+        return self;
+    }();
 
-	return self;
+    return self;
 }();
 
 /**********************
  *** NaCL Interface ***
  **********************/
 window.textsecure.nacl = function() {
-	var self = {};
+    var self = {};
 
-	self.USE_NACL = true;
+    self.USE_NACL = true;
 
-	var onLoadCallbacks = [];
-	var naclLoaded = 0;
-	self.registerOnLoadFunction = function(func) {
-		return new Promise(function(resolve, reject) {
-			if (naclLoaded || !self.USE_NACL)
-				return resolve(func());
-			onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
-		});
-	}
+    var onLoadCallbacks = [];
+    var naclLoaded = 0;
+    self.registerOnLoadFunction = function(func) {
+        return new Promise(function(resolve, reject) {
+            if (naclLoaded || !self.USE_NACL)
+                return resolve(func());
+            onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
+        });
+    }
 
-	var naclMessageNextId = 0;
-	var naclMessageIdCallbackMap = {};
-	window.moduleDidLoad = function() {
-		common.hideModule();
-		naclLoaded = 1;
-		for (var i = 0; i < onLoadCallbacks.length; i++) {
-			try {
-				onLoadCallbacks[i][1](onLoadCallbacks[i][0]());
-			} catch (e) {
-				onLoadCallbacks[i][2](e);
-			}
-		}
-		onLoadCallbacks = [];
-	}
+    var naclMessageNextId = 0;
+    var naclMessageIdCallbackMap = {};
+    window.moduleDidLoad = function() {
+        common.hideModule();
+        naclLoaded = 1;
+        for (var i = 0; i < onLoadCallbacks.length; i++) {
+            try {
+                onLoadCallbacks[i][1](onLoadCallbacks[i][0]());
+            } catch (e) {
+                onLoadCallbacks[i][2](e);
+            }
+        }
+        onLoadCallbacks = [];
+    }
 
-	window.handleMessage = function(message) {
-		naclMessageIdCallbackMap[message.data.call_id](message.data);
-	}
+    window.handleMessage = function(message) {
+        naclMessageIdCallbackMap[message.data.call_id](message.data);
+    }
 
-	self.postNaclMessage = function(message) {
-		if (!self.USE_NACL)
-			throw new Error("Attempted to make NaCL call with !USE_NACL?");
+    self.postNaclMessage = function(message) {
+        if (!self.USE_NACL)
+            throw new Error("Attempted to make NaCL call with !USE_NACL?");
 
-		return new Promise(function(resolve) {
-			naclMessageIdCallbackMap[naclMessageNextId] = resolve;
-			message.call_id = naclMessageNextId++;
+        return new Promise(function(resolve) {
+            naclMessageIdCallbackMap[naclMessageNextId] = resolve;
+            message.call_id = naclMessageNextId++;
 
-			common.naclModule.postMessage(message);
-		});
-	}
+            common.naclModule.postMessage(message);
+        });
+    }
 
-	return self;
+    return self;
 }();
 
 //TODO: Some kind of textsecure.init(use_nacl)
 window.textsecure.registerOnLoadFunction = window.textsecure.nacl.registerOnLoadFunction;
 
 window.textsecure.replay = function() {
-	var self = {};
+    var self = {};
 
-	self.REPLAY_FUNCS = {
-		SEND_MESSAGE: 1,
-		INIT_SESSION: 2,
-	}
+    self.REPLAY_FUNCS = {
+        SEND_MESSAGE: 1,
+        INIT_SESSION: 2,
+    }
 
-	var functions = {};
+    var functions = {};
 
-	self.registerReplayFunction = function(func, functionCode) {
-		functions[functionCode] = func;
-	}
+    self.registerReplayFunction = function(func, functionCode) {
+        functions[functionCode] = func;
+    }
 
-	self.replayError = function(replayData) {
-		var args = Array.prototype.slice.call(arguments);
-		args.shift();
-		args = replayData.args.concat(args);
-		functions[replayData.replayFunction].apply(window, args);
-	}
+    self.replayError = function(replayData) {
+        var args = Array.prototype.slice.call(arguments);
+        args.shift();
+        args = replayData.args.concat(args);
+        functions[replayData.replayFunction].apply(window, args);
+    }
 
-	self.createReplayableError = function(shortMsg, longMsg, replayFunction, args) {
-		var e = new Error(shortMsg);
-		e.name = "ReplayableError";
-		e.humanError = e.longMessage = longMsg;
-		e.replayData = { replayFunction: replayFunction, args: args };
-		e.replay = function() {
-			self.replayError(e.replayData);
-		}
-		return e;
-	}
+    self.createReplayableError = function(shortMsg, longMsg, replayFunction, args) {
+        var e = new Error(shortMsg);
+        e.name = "ReplayableError";
+        e.humanError = e.longMessage = longMsg;
+        e.replayData = { replayFunction: replayFunction, args: args };
+        e.replay = function() {
+            self.replayError(e.replayData);
+        }
+        return e;
+    }
 
-	return self;
+    return self;
 }();
 
 // message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
 window.textsecure.subscribeToPush = function(message_callback) {
-	var socket = textsecure.api.getMessageWebsocket();
+    var socket = textsecure.api.getMessageWebsocket();
 
-	socket.onmessage = function(message) {
-		textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
-			var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
-			// After this point, a) decoding errors are not the server's fault, and
-			// b) we should handle them gracefully and tell the user they received an invalid message
-			console.log("Successfully decoded message with id: " + message.id);
-			socket.send(JSON.stringify({type: 1, id: message.id}));
-			return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
-				// Delivery receipt
-				if (decrypted === null)
-					//TODO: Pass to UI
-					return;
+    socket.onmessage = function(message) {
+        textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
+            var proto = textsecure.protos.decodeIncomingPushMessageProtobuf(getString(plaintext));
+            // After this point, a) decoding errors are not the server's fault, and
+            // b) we should handle them gracefully and tell the user they received an invalid message
+            console.log("Successfully decoded message with id: " + message.id);
+            socket.send(JSON.stringify({type: 1, id: message.id}));
+            return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+                // Delivery receipt
+                if (decrypted === null)
+                    //TODO: Pass to UI
+                    return;
 
-				// Now that its decrypted, validate the message and clean it up for consumer processing
-				// Note that messages may (generally) only perform one action and we ignore remaining fields
-				// after the first action.
+                // Now that its decrypted, validate the message and clean it up for consumer processing
+                // Note that messages may (generally) only perform one action and we ignore remaining fields
+                // after the first action.
 
-				if (decrypted.flags == null)
-					decrypted.flags = 0;
+                if (decrypted.flags == null)
+                    decrypted.flags = 0;
 
-				if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-							== textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
-					return;
-				if (decrypted.flags != 0)
-					throw new Error("Unknown flags in message");
+                if ((decrypted.flags & textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+                            == textsecure.protos.PushMessageContentProtobuf.Flags.END_SESSION)
+                    return;
+                if (decrypted.flags != 0)
+                    throw new Error("Unknown flags in message");
 
-				var handleAttachment = function(attachment) {
-					return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
-						return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
-							attachment.decrypted = decryptedBin;
-						});
-					});
-				};
+                var handleAttachment = function(attachment) {
+                    return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
+                        return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
+                            attachment.decrypted = decryptedBin;
+                        });
+                    });
+                };
 
-				var promises = [];
+                var promises = [];
 
-				if (decrypted.group !== null) {
+                if (decrypted.group !== null) {
                     decrypted.group.id = getString(decrypted.group.id);
-					var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
-					if (existingGroup === undefined) {
-						if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE)
-							throw new Error("Got message for unknown group");
-						textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
-					} else {
-						var fromIndex = existingGroup.indexOf(proto.source);
+                    var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
+                    if (existingGroup === undefined) {
+                        if (decrypted.group.type != textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE)
+                            throw new Error("Got message for unknown group");
+                        textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
+                    } else {
+                        var fromIndex = existingGroup.indexOf(proto.source);
 
-						if (fromIndex < 0) //TODO: This could be indication of a race...
-							throw new Error("Sender was not a member of the group they were sending from");
+                        if (fromIndex < 0) //TODO: This could be indication of a race...
+                            throw new Error("Sender was not a member of the group they were sending from");
 
-						switch(decrypted.group.type) {
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE:
-							if (decrypted.group.avatar !== null)
-								promises.push(handleAttachment(decrypted.group.avatar));
+                        switch(decrypted.group.type) {
+                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.UPDATE:
+                            if (decrypted.group.avatar !== null)
+                                promises.push(handleAttachment(decrypted.group.avatar));
 
-							if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
-								throw new Error("Attempted to remove numbers from group with an UPDATE");
-							decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
+                            if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
+                                throw new Error("Attempted to remove numbers from group with an UPDATE");
+                            decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
 
-							var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
-							if (newGroup.length != decrypted.group.members.length ||
-										newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
-								throw new Error("Error calculating group member difference");
+                            var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
+                            if (newGroup.length != decrypted.group.members.length ||
+                                        newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
+                                throw new Error("Error calculating group member difference");
 
-							//TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
-							if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
-								return;
+                            //TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
+                            if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
+                                return;
 
-							//TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
+                            //TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
 
-							decrypted.body = null;
-							decrypted.attachments = [];
+                            decrypted.body = null;
+                            decrypted.attachments = [];
 
-							break;
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.QUIT:
-							textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+                            break;
+                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.QUIT:
+                            textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
 
-							decrypted.body = null;
-							decrypted.attachments = [];
-						case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.DELIVER:
-							decrypted.group.name = null;
-							decrypted.group.members = [];
-							decrypted.group.avatar = null;
+                            decrypted.body = null;
+                            decrypted.attachments = [];
+                        case textsecure.protos.PushMessageContentProtobuf.GroupContext.Type.DELIVER:
+                            decrypted.group.name = null;
+                            decrypted.group.members = [];
+                            decrypted.group.avatar = null;
 
-							break;
-						default:
-							throw new Error("Unknown group message type");
-						}
-					}
-				}
+                            break;
+                        default:
+                            throw new Error("Unknown group message type");
+                        }
+                    }
+                }
 
-				for (var i in decrypted.attachments)
-					promises.push(handleAttachment(decrypted.attachments[i]));
-				return Promise.all(promises).then(function() {
-					message_callback({pushMessage: proto, message: decrypted});
-				});
-			})
-		}).catch(function(e) {
-			// TODO: Show "Invalid message" messages?
-			console.log("Error handling incoming message: ");
-			console.log(e);
-		});
-	};
+                for (var i in decrypted.attachments)
+                    promises.push(handleAttachment(decrypted.attachments[i]));
+                return Promise.all(promises).then(function() {
+                    message_callback({pushMessage: proto, message: decrypted});
+                });
+            })
+        }).catch(function(e) {
+            // TODO: Show "Invalid message" messages?
+            console.log("Error handling incoming message: ");
+            console.log(e);
+        });
+    };
 };
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
@@ -741,38 +741,38 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
 }
 
 window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo, stepDone) {
-	var deviceInit = textsecure.protos.decodeDeviceInit(encodedDeviceInit);
-	return cryptoInfo.decryptAndHandleDeviceInit(deviceInit).then(function(identityKey) {
-		if (identityKey.server != textsecure.api.relay)
-			throw new Error("Unknown relay used by master");
-		var number = identityKey.phoneNumber;
+    var deviceInit = textsecure.protos.decodeDeviceInit(encodedDeviceInit);
+    return cryptoInfo.decryptAndHandleDeviceInit(deviceInit).then(function(identityKey) {
+        if (identityKey.server != textsecure.api.relay)
+            throw new Error("Unknown relay used by master");
+        var number = identityKey.phoneNumber;
 
-		stepDone(1);
+        stepDone(1);
 
-		var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-		textsecure.storage.putEncrypted('signaling_key', signalingKey);
+        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+        textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-		var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
-		password = password.substring(0, password.length - 2);
-		textsecure.storage.putEncrypted("password", password);
+        var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+        password = password.substring(0, password.length - 2);
+        textsecure.storage.putEncrypted("password", password);
 
-		var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-		registrationId = registrationId & 0x3fff;
-		textsecure.storage.putUnencrypted("registrationId", registrationId);
+        var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
+        registrationId = registrationId & 0x3fff;
+        textsecure.storage.putUnencrypted("registrationId", registrationId);
 
-		return textsecure.api.confirmCode(number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-			var numberId = number + "." + result;
-			textsecure.storage.putUnencrypted("number_id", numberId);
-			textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegion(number));
-			stepDone(2);
+        return textsecure.api.confirmCode(number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
+            var numberId = number + "." + result;
+            textsecure.storage.putUnencrypted("number_id", numberId);
+            textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegion(number));
+            stepDone(2);
 
-			return textsecure.crypto.generateKeys().then(function(keys) {
-				stepDone(3);
-				return textsecure.api.registerKeys(keys).then(function() {
-					stepDone(4);
-					//TODO: Send DeviceControl.NEW_DEVICE_REGISTERED to all other devices
-				});
-			});
-		});
-	});
+            return textsecure.crypto.generateKeys().then(function(keys) {
+                stepDone(3);
+                return textsecure.api.registerKeys(keys).then(function() {
+                    stepDone(4);
+                    //TODO: Send DeviceControl.NEW_DEVICE_REGISTERED to all other devices
+                });
+            });
+        });
+    });
 };
