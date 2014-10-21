@@ -353,7 +353,7 @@ window.textsecure.api = function() {
     }
 
     self.getMessageWebsocket = function() {
-        return getWebsocket(URL_CALLS['push'], true, 60000);
+        return getWebsocket(URL_CALLS['push'], true, 1000);
     }
 
     self.getTempWebsocket = function() {
