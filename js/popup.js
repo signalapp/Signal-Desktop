@@ -68,5 +68,8 @@ textsecure.registerOnLoadFunction(function() {
     } else {
         textsecure.storage.putUnencrypted("unreadCount", 0);
         extension.navigator.setBadgeText("");
+        if (Whisper.Threads.length) {
+            Whisper.Threads.at(0).trigger('render');
+        }
     }
 });
