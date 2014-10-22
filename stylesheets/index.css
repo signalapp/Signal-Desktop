@@ -36,3 +36,23 @@ ul.discussion {
 .conversation .bootstrap-tagsinput {
   max-width: 40%;
 }
+
+li.entry .sender {
+  font-size: 0.75em;
+  opacity: 0.54;
+}
+
+li.entry .avatar {
+  height:32px;
+  width:32px;
+  border-radius:32px;
+  cursor:pointer;
+  display:inline-block;
+  float:left;
+  clear:both;
+  background-color:whitesmoke;
+}
+
+li.entry.outgoing .avatar {
+  display: none;
+}
