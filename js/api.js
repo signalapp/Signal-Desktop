@@ -299,12 +299,12 @@ window.textsecure.api = function() {
         } else
             var params = $.param({});
 
-        var reconnectTimer;
+        var keepAliveTimer;
         var reconnectSemaphore = 0;
         var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
 
         var connect = function() {
-            clearTimeout(reconnectTimer);
+            clearTimeout(keepAliveTimer);
             reconnectSemaphore++;
             if (reconnectSemaphore <= 0)
                 return;
@@ -312,12 +312,12 @@ window.textsecure.api = function() {
             if (socket) { socket.close(); }
             var socket = new WebSocket(URL+params);
 
-            function setReconnectTimeout() {
-                clearTimeout(reconnectTimer);
-                reconnectTimer = setTimeout(function() {
-                    reconnectSemaphore--;
-                    connect();
-                }, 60000);
+            function resetKeepAliveTimer() {
+                clearTimeout(keepAliveTimer);
+                keepAliveTimer = setTimeout(function() {
+                    socket.send(JSON.stringify({type: 1, id: 0}));
+                    resetKeepAliveTimer();
+                }, 50000);
             };
 
             socket.onerror = function(socketEvent) {
@@ -337,7 +337,7 @@ window.textsecure.api = function() {
             socket.onopen = function(socketEvent) {
                 console.log('Connected to server!');
                 socketWrapper.onconnect();
-                setReconnectTimeout();
+                resetKeepAliveTimer();
             };
 
             //TODO: wrap onmessage so that we reconnect on missing pong
@@ -356,7 +356,7 @@ window.textsecure.api = function() {
                     console.log("Got invalid message from server: " + message);
                 }
 
-                setReconnectTimeout();
+                resetKeepAliveTimer();
             };
 
             socketWrapper.send = function(msg) {
