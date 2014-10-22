@@ -25,6 +25,7 @@ var Whisper = Whisper || {};
           var number = libphonenumber.util.verifyNumber(val, myRegionCode);
         }
         this.removeError();
+        return number;
       } catch(ex) {
         this.$el.addClass('error');
         console.log(ex);
@@ -38,8 +39,7 @@ var Whisper = Whisper || {};
       this.template = $('#new-message-form').html();
       Mustache.parse(this.template);
       this.render();
-      this.input = this.$el.find('input.number');
-      new MessageRecipientInputView({el: this.input});
+      this.input = new MessageRecipientInputView({el: this.$el.find('input.number')});
     },
 
     events: {
