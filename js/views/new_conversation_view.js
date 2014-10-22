@@ -12,14 +12,23 @@ var Whisper = Whisper || {};
       this.$el.removeClass('error');
     },
 
-    verifyNumber: function(item) {
+    verifyNumber: function() {
       try {
-        if (libphonenumber.util.verifyNumber(this.$el.val())) {
-          this.removeError();
-          return;
+        var val = this.$el.val();
+        if (val[0] === '+') {
+          // assume that the country code is specified
+          var number = libphonenumber.util.verifyNumber(val);
+        } else {
+          // assume that the country code should match our own
+          var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+          var myRegionCode = libphonenumber.util.getRegionCodeForNumber(me);
+          var number = libphonenumber.util.verifyNumber(val, myRegionCode);
         }
-      } catch(ex) { console.log(ex); }
-      this.$el.addClass('error');
+        this.removeError();
+      } catch(ex) {
+        this.$el.addClass('error');
+        console.log(ex);
+      }
     }
   });
 
@@ -40,16 +49,14 @@ var Whisper = Whisper || {};
 
     send: function(e) {
       e.preventDefault();
-      var number = this.input.val();
-      try {
-        if (libphonenumber.util.verifyNumber(number)) {
-          var thread = Whisper.Threads.findOrCreateForRecipient(number);
-          var message_input = this.$el.find('input.send-message');
-          thread.sendMessage(message_input.val());
-          this.remove();
-          thread.trigger('render');
-        }
-      } catch(ex) {}
+      var number = this.input.verifyNumber();
+      if (number) {
+        var thread = Whisper.Threads.findOrCreateForRecipient(number);
+        var message_input = this.$el.find('input.send-message');
+        thread.sendMessage(message_input.val());
+        this.remove();
+        thread.trigger('render');
+      }
     },
 
     render: function() {
