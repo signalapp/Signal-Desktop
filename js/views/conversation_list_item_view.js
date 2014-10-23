@@ -27,6 +27,7 @@ var Whisper = Whisper || {};
         this.view.delegateEvents();
       }
       this.view.render();
+      this.$el.addClass('selected');
     },
 
     render: function() {

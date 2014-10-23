@@ -10,15 +10,12 @@ var Whisper = Whisper || {};
     collection: Whisper.Threads,
 
     events: {
-      'click .conversation': 'select',
+      'click .contact': 'select',
     },
 
     select: function(e) {
-      var target = $(e.target).closest('.conversation');
-      if (!target.is('.selected')) {
-        target.siblings().removeClass('slected');
-        target.addClass('selected');
-      }
+      var target = $(e.target).closest('.contact');
+      target.siblings().removeClass('selected');
       return false;
     },
   });

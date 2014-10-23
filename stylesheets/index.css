@@ -22,6 +22,10 @@ body {
   display: none;
 }
 
+.contact.selected {
+  background-color: aliceblue;
+}
+
 .conversation {
   margin: 0;
   padding: 0;
