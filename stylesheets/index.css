@@ -37,10 +37,6 @@ ul.discussion {
   box-sizing: border-box;
 }
 
-.conversation .bootstrap-tagsinput {
-  max-width: 40%;
-}
-
 li.entry .sender {
   font-size: 0.75em;
   opacity: 0.54;

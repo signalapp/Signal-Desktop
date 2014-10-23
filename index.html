@@ -78,7 +78,7 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-message-form'>
           <form class='send message'>
-            <input type='text' name='number' class='number'>
+            <input type='text' name='number' class='number' placeholder='Phone number'>
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <input name='message' class='send-message' rows='6' type='textarea'>
@@ -98,8 +98,8 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-group-form'>
           <form class='send group'>
-            <input name='name' class='name' placeholder='New Group'>
-            <input name='numbers' class='numbers' data-role=tagsinput placeholder='Add Recipient'>
+            <div><input name='name' class='name' placeholder='Group Name'></div>
+            <div><input name='numbers' class='numbers' data-role=tagsinput></div>
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <input class='send-message' rows='6' type='textarea'>
