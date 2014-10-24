@@ -59,23 +59,32 @@ window.textsecure.subtle = (function() {
 		return Promise.resolve(toArrayBuffer(implementation.apply(this, args)));
 	}
 
-	// public interface functions
-	function encrypt(algorithm, key, data) {
-		if (algorithm.name === "AES-CBC")
-			return promise(encryptAESCBC, data, key, algorithm.iv);
-	};
-	function decrypt(algorithm, key, data) {
-		if (algorithm.name === "AES-CBC")
-			return promise(decryptAESCBC, data, key, algorithm.iv);
-	};
-	function sign(algorithm, key, data) {
-		if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256")
-			return promise(HmacSHA256, key, data);
-	};
+    // public interface functions
+    function encrypt(algorithm, key, data) {
+        if (algorithm.name === "AES-CTR")
+            return promise(encryptAESCTR, data, key, algorithm.counter);
+        if (algorithm.name === "AES-CBC")
+            return promise(encryptAESCBC, data, key, algorithm.iv.buffer || algorithm.iv);
+    };
+    function decrypt(algorithm, key, data) {
+        if (algorithm.name === "AES-CTR")
+            return promise(decryptAESCTR, data, key, algorithm.counter);
+        if (algorithm.name === "AES-CBC")
+            return promise(decryptAESCBC, data, key, algorithm.iv.buffer || algorithm.iv);
+    };
+    function sign(algorithm, key, data) {
+        if (algorithm.name === "HMAC" && algorithm.hash === "SHA-256")
+            return promise(HmacSHA256, key, data);
+    };
 
-	return {
-		encrypt	 : encrypt,
-		decrypt	 : decrypt,
-		sign     : sign,
-	}
+    function importKey(format, key, algorithm, extractable, usages) {
+        return new Promise(function(resolve,reject){ resolve(key); });
+    };
+
+    return {
+        encrypt     : encrypt,
+        decrypt     : decrypt,
+        sign        : sign,
+        importKey   : importKey,
+    }
 })();
