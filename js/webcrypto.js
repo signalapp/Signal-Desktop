@@ -16,7 +16,7 @@
 
 /* Web Crypto polyfill. TODO: replace with web crypto */
 // All inputs/outputs are arraybuffers!
-window.crypto.subtle = (function() {
+window.textsecure.subtle = (function() {
 /*    if (window.crypto.subtle !== undefined && window.crypto.subtle !== null) {
             return window.crypto.subtle;
     } else*/ {

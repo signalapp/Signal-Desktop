@@ -35,7 +35,7 @@ describe("Cryptographic primitives", function() {
             var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
             var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
             var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-			return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, key, plaintext).then(function(result) {
+			return window.textsecure.subtle.encrypt({name: "AES-CTR", counter: counter}, key, plaintext).then(function(result) {
 				assert.strictEqual(getString(result) +"", getString(ciphertext));
 			}).then(done).catch(done);
         });
@@ -47,7 +47,7 @@ describe("Cryptographic primitives", function() {
             var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
             var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
             var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-            return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, key, ciphertext).then(function(result) {
+            return window.textsecure.subtle.decrypt({name: "AES-CTR", counter: counter}, key, ciphertext).then(function(result) {
                 assert.strictEqual(getString(result), getString(plaintext));
 			}).then(done).catch(done);
         });
@@ -59,7 +59,7 @@ describe("Cryptographic primitives", function() {
             var iv = hexToArrayBuffer('000102030405060708090a0b0c0d0e0f');
             var plaintext  = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710');
             var ciphertext = hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644');
-            return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, key, ciphertext).then(function(result) {
+            return window.textsecure.subtle.decrypt({name: "AES-CBC", iv: iv}, key, ciphertext).then(function(result) {
                 assert.strictEqual(getString(result), getString(plaintext));
 			}).then(done).catch(done);
         });
@@ -70,7 +70,7 @@ describe("Cryptographic primitives", function() {
             var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
             var input = hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b');
             var mac = getString(hexToArrayBuffer('05d1243e6465ed9620c9aec1c351a186'));
-            return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input).then(function(result) {
+            return window.textsecure.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input).then(function(result) {
                 assert.strictEqual(getString(result).substring(0, mac.length), mac);
 			}).then(done).catch(done);
         });

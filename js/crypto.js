@@ -60,7 +60,7 @@ window.textsecure.crypto = function() {
 	}
 
 	function HmacSHA256(key, input) {
-		return window.crypto.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
+		return window.textsecure.subtle.sign({name: "HMAC", hash: "SHA-256"}, key, input);
 	}
 
 	testing_only.privToPub = function(privKey, isIdentity) {
@@ -687,7 +687,7 @@ window.textsecure.crypto = function() {
 
 					return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
 						var counter = intToArrayBuffer(message.counter);
-						return window.crypto.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
+						return window.textsecure.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
 									.then(function(paddedPlaintext) {
 
 							paddedPlaintext = new Uint8Array(paddedPlaintext);
@@ -740,7 +740,7 @@ window.textsecure.crypto = function() {
 		var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
 		return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
+			return window.textsecure.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
 		});
 	};
 
@@ -754,7 +754,7 @@ window.textsecure.crypto = function() {
 		var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
 		return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-			return window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
+			return window.textsecure.subtle.decrypt({name: "AES-CBC", iv: iv}, aes_key, ciphertext);
 		});
 	};
 
@@ -762,7 +762,7 @@ window.textsecure.crypto = function() {
 		var aes_key = keys.slice(0, 32);
 		var mac_key = keys.slice(32, 64);
 
-		return window.crypto.subtle.encrypt({name: "AES-CBC", iv: iv}, aes_key, plaintext).then(function(ciphertext) {
+		return window.textsecure.subtle.encrypt({name: "AES-CBC", iv: iv}, aes_key, plaintext).then(function(ciphertext) {
 			var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
 			ivAndCiphertext.set(iv);
 			ivAndCiphertext.set(ciphertext, 16);
@@ -817,7 +817,7 @@ window.textsecure.crypto = function() {
 					msg.previousCounter = session.currentRatchet.previousCounter;
 
 					var counter = intToArrayBuffer(chain.chainKey.counter);
-					return window.crypto.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], paddedPlaintext.buffer).then(function(ciphertext) {
+					return window.textsecure.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], paddedPlaintext.buffer).then(function(ciphertext) {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = toArrayBuffer(msg.encode());
 
@@ -956,7 +956,7 @@ window.textsecure.crypto = function() {
 					var ciphertext = message.slice(16 + 1, message.length - 32);
 
 					return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
-						window.crypto.subtle.decrypt({name: "AES-CBC", iv: iv}, ecRes[0], ciphertext).then(function(plaintext) {
+						window.textsecure.subtle.decrypt({name: "AES-CBC", iv: iv}, ecRes[0], ciphertext).then(function(plaintext) {
 							var identityKeyMsg = textsecure.protobuf.IdentityKey.decode(plaintext);
 
 							privToPub(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
