@@ -12,19 +12,17 @@ var Whisper = Whisper || {};
       this.$el.html(Mustache.render(this.template));
 
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
+      this.listenTo(this.model.messages(), 'add', this.scrollToBottom);
+
       this.model.messages().fetch({reset: true});
       this.$el.find('.discussion-container').append(this.view.el);
       window.addEventListener('storage', (function(){
-        this.fetch();
+        this.model.messages().fetch();
       }).bind(this));
     },
     events: {
       'submit .send': 'sendMessage',
       'close': 'remove'
-    },
-
-    fetch: function() {
-      this.model.messages().fetch({reset: true});
     },
 
     sendMessage: function(e) {
@@ -36,8 +34,13 @@ var Whisper = Whisper || {};
       }
     },
 
+    scrollToBottom: function() {
+        this.view.$el.scrollTop(this.view.el.scrollHeight);
+    },
+
     render: function() {
       Whisper.Layout.setContent(this.$el.show());
+      this.scrollToBottom();
       return this;
     }
   });
