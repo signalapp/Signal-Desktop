@@ -21,7 +21,7 @@ var Whisper = Whisper || {};
       if (missing.length) { return "Thread must have " + missing; }
     },
 
-    sendMessage: function(message) {
+    sendMessage: function(message, attachments) {
       var timestamp = Date.now();
 
       this.messages().add({ type: 'outgoing',
@@ -34,10 +34,10 @@ var Whisper = Whisper || {};
                   active:      true});
 
       if (this.get('type') == 'private') {
-        var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, []);
+        var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, attachments)
       }
       else {
-        var promise = textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, []);
+        var promise = textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, attachments);
       }
       promise.then(
         function(result) {

@@ -14,6 +14,8 @@ var Whisper = Whisper || {};
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
       this.listenTo(this.model.messages(), 'add', this.scrollToBottom);
 
+      this.fileInput = new Whisper.FileInputView({el: this.$el.find('.attachments')});
+
       this.model.messages().fetch({reset: true});
       this.$el.find('.discussion-container').append(this.view.el);
       window.addEventListener('storage', (function(){
@@ -28,8 +30,13 @@ var Whisper = Whisper || {};
     sendMessage: function(e) {
       e.preventDefault();
       var input = this.$el.find('.send input');
-      if (input.val().length > 0) {
-        this.model.sendMessage(input.val());
+      var message = input.val();
+      var thread = this.model;
+
+      if (message.length > 0 || this.fileInput.hasFiles()) {
+        this.fileInput.getFiles().then(function(attachments) {
+          thread.sendMessage(message, attachments);
+        });
         input.val("");
       }
     },

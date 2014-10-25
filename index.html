@@ -38,7 +38,9 @@
                 <div class='message-composer'>
                     <form class='send'>
                         <input class='send-message' rows='6' type='textarea'>
-                        <div class='attachments'> Add Files </div>
+                        <div class='attachments'>
+                          <input type='file' name='files[]' multiple class='file-input'>
+                        </div>
                     </form>
                 </div>
                 <div class='extension-details'>
@@ -143,6 +145,7 @@
 
         <script type="text/javascript" src="js/chromium.js"></script>
         <script type="text/javascript" src="js/views/notifications.js"></script>
+        <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
