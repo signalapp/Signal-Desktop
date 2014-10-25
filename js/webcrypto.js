@@ -58,6 +58,15 @@ window.textsecure.subtle = (function() {
                     .toString(CryptoJS.enc.Latin1);
         };
 
+        function encryptAESCBC(plaintext, key, iv) {
+            assertIsArrayBuffer(plaintext);
+            assertIsArrayBuffer(key);
+            assertIsArrayBuffer(iv);
+            return CryptoJS.AES.encrypt(btoa(getString(plaintext)),
+                    CryptoJS.enc.Latin1.parse(getString(key)),
+                    {iv: CryptoJS.enc.Latin1.parse(getString(iv))})
+                .toString(CryptoJS.enc.Latin1);
+        };
         function decryptAESCBC(ciphertext, key, iv) {
             assertIsArrayBuffer(ciphertext);
             assertIsArrayBuffer(key);
@@ -80,6 +89,8 @@ window.textsecure.subtle = (function() {
         function encrypt(algorithm, key, data) {
             if (algorithm.name === "AES-CTR")
                 return promise(encryptAESCTR, data, key, algorithm.counter);
+            if (algorithm.name === "AES-CBC")
+                return promise(encryptAESCBC, data, key, algorithm.iv);
         };
         function decrypt(algorithm, key, data) {
             if (algorithm.name === "AES-CTR")
