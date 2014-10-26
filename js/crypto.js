@@ -764,13 +764,13 @@ window.textsecure.crypto = function() {
 
 		return window.textsecure.subtle.encrypt({name: "AES-CBC", iv: iv}, aes_key, plaintext).then(function(ciphertext) {
 			var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
-			ivAndCiphertext.set(iv);
-			ivAndCiphertext.set(ciphertext, 16);
+			ivAndCiphertext.set(new Uint8Array(iv));
+			ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
 
 			return HmacSHA256(mac_key, ivAndCiphertext.buffer).then(function(mac) {
 				var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
-				encryptedBin.set(ivAndCiphertext.buffer);
-				encryptedBin.set(mac, 16 + ciphertext.byteLength);
+				encryptedBin.set(ivAndCiphertext);
+				encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
 				return encryptedBin.buffer;
 			});
 		});

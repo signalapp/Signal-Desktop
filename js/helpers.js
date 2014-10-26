@@ -594,7 +594,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 
                 var handleAttachment = function(attachment) {
                     return textsecure.api.getAttachment(attachment.id.toString()).then(function(encryptedBin) {
-                        return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
+                        return textsecure.crypto.decryptAttachment(encryptedBin, attachment.key.toArrayBuffer()).then(function(decryptedBin) {
                             attachment.decrypted = decryptedBin;
                         });
                     });
