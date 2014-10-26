@@ -14,7 +14,7 @@ axolotlTestVectors = function() {
 	var tests = [];
 
 	// The common-case ALICE test vectors themselves...
-	var axolotlTwoPartyTestVectorsAlice = [
+/*	var axolotlTwoPartyTestVectorsAlice = [
 		["sendMessage",
 			{
 				smsText: "A",
@@ -470,6 +470,6 @@ axolotlTestVectors = function() {
 		];
 
 	tests[tests.length] = {name: "No-PreKey fake end-session test as Bob", vectors: axolotlNoPreKeyEndSessionTestVectorsBob};
-
+*/
 	return tests;
 }();
