@@ -331,18 +331,22 @@ window.textsecure.crypto = function() {
 	}
 
 	testing_only.HKDF = function(input, salt, info) {
-		// Specific implementation of RFC 5869 that only returns exactly 64 bytes
+		// Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
+		// TODO: We dont always need the third chunk, we might skip it
 		return HmacSHA256(salt, input).then(function(PRK) {
 			var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
 			var infoArray = new Uint8Array(infoBuffer);
 			infoArray.set(new Uint8Array(info), 32);
 			infoArray[infoArray.length - 1] = 1;
-			// TextSecure implements a slightly tweaked version of RFC 5869: the 0 and 1 should be 1 and 2 here
 			return HmacSHA256(PRK, infoBuffer.slice(32)).then(function(T1) {
 				infoArray.set(new Uint8Array(T1));
 				infoArray[infoArray.length - 1] = 2;
 				return HmacSHA256(PRK, infoBuffer).then(function(T2) {
-					return [ T1, T2 ];
+					infoArray.set(new Uint8Array(T2));
+					infoArray[infoArray.length - 1] = 3;
+					return HmacSHA256(PRK, infoBuffer).then(function(T3) {
+						return [ T1, T2, T3 ];
+					});
 				});
 			});
 		});
@@ -686,8 +690,7 @@ window.textsecure.crypto = function() {
 					macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
 					return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
-						var counter = intToArrayBuffer(message.counter);
-						return window.textsecure.subtle.decrypt({name: "AES-CTR", counter: counter}, keys[0], toArrayBuffer(message.ciphertext))
+						return window.textsecure.subtle.decrypt({name: "AES-CBC", iv: keys[2].slice(0, 16)}, keys[0], toArrayBuffer(message.ciphertext))
 									.then(function(paddedPlaintext) {
 
 							paddedPlaintext = new Uint8Array(paddedPlaintext);
@@ -816,8 +819,7 @@ window.textsecure.crypto = function() {
 					msg.counter = chain.chainKey.counter;
 					msg.previousCounter = session.currentRatchet.previousCounter;
 
-					var counter = intToArrayBuffer(chain.chainKey.counter);
-					return window.textsecure.subtle.encrypt({name: "AES-CTR", counter: counter}, keys[0], paddedPlaintext.buffer).then(function(ciphertext) {
+					return window.textsecure.subtle.encrypt({name: "AES-CBC", iv: keys[2].slice(0, 16)}, keys[0], paddedPlaintext.buffer).then(function(ciphertext) {
 						msg.ciphertext = ciphertext;
 						var encodedMsg = toArrayBuffer(msg.encode());
 
