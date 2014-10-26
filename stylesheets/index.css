@@ -57,6 +57,10 @@ li.entry.outgoing .avatar {
   display: none;
 }
 
+li.entry img {
+  max-width: 100%;
+}
+
 .attachments img {
   width: 30px;
   height: 30px;

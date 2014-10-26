@@ -57,11 +57,14 @@
             <div class='sender'>{{ sender }}</div>
             <img class='avatar' src='{{ contact_avatar }}'>
             <div class='bubble bubble_context {{ bubble_class }}'>
-            <ul class='volley'>
-                <li class='message'>
-                {{ message }}
-                </li>
-            </ul>
+              <ul class='volley'>
+                  <li class='message'>
+                  {{ message }}
+                  </li>
+              </ul>
+              {{#attachments}}
+                <img src={{.}}>
+              {{/attachments}}
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='contact'>
