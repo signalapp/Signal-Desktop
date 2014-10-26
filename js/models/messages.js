@@ -35,8 +35,7 @@ var Whisper = Whisper || {};
         attachments[i] = "data:" + decrypted.message.attachments[i].contentType + ";base64," + btoa(getString(decrypted.message.attachments[i].decrypted));
 
       var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
-      var timestamp = Math.pow(2,32) * decrypted.pushMessage.timestamp.high
-                                     + decrypted.pushMessage.timestamp.low;
+      var timestamp = decrypted.pushMessage.timestamp.toNumber();
       var m = thread.messages().add({
         person: decrypted.pushMessage.source,
         threadId: thread.id,
