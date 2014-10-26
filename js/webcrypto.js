@@ -31,28 +31,6 @@ window.textsecure.subtle = (function() {
 			).toString(CryptoJS.enc.Latin1);
 	};
 
-	function encryptAESCTR(plaintext, key, counter) {
-		assertIsArrayBuffer(plaintext);
-		assertIsArrayBuffer(key);
-		assertIsArrayBuffer(counter);
-		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
-					padding: CryptoJS.pad.NoPadding})
-			.ciphertext.toString(CryptoJS.enc.Latin1);
-	};
-
-	function decryptAESCTR(ciphertext, key, counter) {
-		assertIsArrayBuffer(ciphertext);
-		assertIsArrayBuffer(key);
-		assertIsArrayBuffer(counter);
-		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-				CryptoJS.enc.Latin1.parse(getString(key)),
-				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
-					padding: CryptoJS.pad.NoPadding})
-			.toString(CryptoJS.enc.Latin1);
-	};
-
 	function encryptAESCBC(plaintext, key, iv) {
 		assertIsArrayBuffer(plaintext);
 		assertIsArrayBuffer(key);
@@ -83,14 +61,10 @@ window.textsecure.subtle = (function() {
 
 	// public interface functions
 	function encrypt(algorithm, key, data) {
-		if (algorithm.name === "AES-CTR")
-			return promise(encryptAESCTR, data, key, algorithm.counter);
 		if (algorithm.name === "AES-CBC")
 			return promise(encryptAESCBC, data, key, algorithm.iv);
 	};
 	function decrypt(algorithm, key, data) {
-		if (algorithm.name === "AES-CTR")
-			return promise(decryptAESCTR, data, key, algorithm.counter);
 		if (algorithm.name === "AES-CBC")
 			return promise(decryptAESCBC, data, key, algorithm.iv);
 	};

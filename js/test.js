@@ -29,30 +29,6 @@ describe("ArrayBuffer->String conversion", function() {
 });
 
 describe("Cryptographic primitives", function() {
-    describe("Encrypt AES-CTR", function() {
-        it('works', function(done) {
-            var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
-            var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
-            var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
-            var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-			return window.textsecure.subtle.encrypt({name: "AES-CTR", counter: counter}, key, plaintext).then(function(result) {
-				assert.strictEqual(getString(result) +"", getString(ciphertext));
-			}).then(done).catch(done);
-        });
-    });
-
-    describe("Decrypt AES-CTR", function() {
-        it('works', function(done) {
-            var key = hexToArrayBuffer('2b7e151628aed2a6abf7158809cf4f3c');
-            var counter = hexToArrayBuffer('f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff');
-            var plaintext = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172a');
-            var ciphertext = hexToArrayBuffer('874d6191b620e3261bef6864990db6ce');
-            return window.textsecure.subtle.decrypt({name: "AES-CTR", counter: counter}, key, ciphertext).then(function(result) {
-                assert.strictEqual(getString(result), getString(plaintext));
-			}).then(done).catch(done);
-        });
-    });
-
     describe("Encrypt AES-CBC", function() {
         it('works', function(done) {
             var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');
