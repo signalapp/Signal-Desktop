@@ -1,3 +1,7 @@
+// Copyright (c) 2014 Matt Corallo
+// Distributed under the X11 software license, see the accompanying
+// file MIT
+
 function hexToArrayBuffer(str) {
 	var ret = new ArrayBuffer(str.length / 2);
 	var array = new Uint8Array(ret);
