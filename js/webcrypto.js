@@ -35,22 +35,22 @@ window.textsecure.subtle = (function() {
 		assertIsArrayBuffer(plaintext);
 		assertIsArrayBuffer(key);
 		assertIsArrayBuffer(counter);
-			return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
-					CryptoJS.enc.Latin1.parse(getString(key)),
-					{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
-						padding: CryptoJS.pad.NoPadding})
-				.ciphertext.toString(CryptoJS.enc.Latin1);
+		return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
+				CryptoJS.enc.Latin1.parse(getString(key)),
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
+					padding: CryptoJS.pad.NoPadding})
+			.ciphertext.toString(CryptoJS.enc.Latin1);
 	};
 
 	function decryptAESCTR(ciphertext, key, counter) {
 		assertIsArrayBuffer(ciphertext);
 		assertIsArrayBuffer(key);
 		assertIsArrayBuffer(counter);
-			return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
-					CryptoJS.enc.Latin1.parse(getString(key)),
-					{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
-						padding: CryptoJS.pad.NoPadding})
-				.toString(CryptoJS.enc.Latin1);
+		return CryptoJS.AES.decrypt(btoa(getString(ciphertext)),
+				CryptoJS.enc.Latin1.parse(getString(key)),
+				{mode: CryptoJS.mode.CTR, iv: CryptoJS.enc.Latin1.parse(getString(counter)),
+					padding: CryptoJS.pad.NoPadding})
+			.toString(CryptoJS.enc.Latin1);
 	};
 
 	function encryptAESCBC(plaintext, key, iv) {
@@ -62,6 +62,7 @@ window.textsecure.subtle = (function() {
 				{iv: CryptoJS.enc.Latin1.parse(getString(iv))})
 			.ciphertext.toString(CryptoJS.enc.Latin1);
 	};
+
 	function decryptAESCBC(ciphertext, key, iv) {
 		assertIsArrayBuffer(ciphertext);
 		assertIsArrayBuffer(key);
