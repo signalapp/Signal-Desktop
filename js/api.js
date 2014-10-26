@@ -257,16 +257,17 @@ window.textsecure.api = function() {
     var id_regex = RegExp( "^https:\/\/" + ATTACHMENT_HOST + "\/(\\d+)\?");
     self.putAttachment = function(encryptedBin) {
         return doAjax({
-            call                : 'attachment',
-            httpType            : 'GET',
-            do_auth             : true,
+            call     : 'attachment',
+            httpType : 'GET',
+            do_auth  : true,
         }).then(function(response) {
             return new Promise(function(resolve, reject) {
                 $.ajax(response.location, {
-                    type    : "PUT",
-                    headers : {"Content-Type" : "application/octet-stream"},
-                    data    : encryptedBin,
-                    success : function() {
+                    type        : "PUT",
+                    headers     : {"Content-Type" : "application/octet-stream"},
+                    data        : encryptedBin,
+                    processData : false,
+                    success     : function() {
                         try {
                             // Parse the id as a string from the location url
                             // (workaround for ids too large for Javascript numbers)
