@@ -23,11 +23,16 @@ var Whisper = Whisper || {};
 
     sendMessage: function(message, attachments) {
       var timestamp = Date.now();
+      var base64_attachments = _.map(attachments, function(a) {
+        return ['data:', a.contentType, ';base64,', btoa(getString(a.data))].join('');
+      });
 
       this.messages().add({ type: 'outgoing',
                             body: message,
                             threadId: this.id,
+                            attachments: base64_attachments,
                             timestamp: timestamp }).save();
+
 
       this.save({ timestamp:   timestamp,
                   unreadCount: 0,
