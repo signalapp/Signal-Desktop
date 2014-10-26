@@ -593,7 +593,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
                     throw new Error("Unknown flags in message");
 
                 var handleAttachment = function(attachment) {
-                    return textsecure.api.getAttachment(attachment.id).then(function(encryptedBin) {
+                    return textsecure.api.getAttachment(attachment.id.toString()).then(function(encryptedBin) {
                         return textsecure.crypto.decryptAttachment(encryptedBin, toArrayBuffer(attachment.key)).then(function(decryptedBin) {
                             attachment.decrypted = decryptedBin;
                         });

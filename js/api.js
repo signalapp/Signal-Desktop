@@ -27,6 +27,7 @@ window.textsecure.api = function() {
     // Staging server
     var URL_BASE    = "https://textsecure-service-staging.whispersystems.org";
     self.relay      = "textsecure-service-staging.whispersystems.org";
+    var ATTACHMENT_HOST = "whispersystems-textsecure-attachments-staging.s3.amazonaws.com"
 
     // This is the real server
     //var URL_BASE  = "https://textsecure-service.whispersystems.org";
@@ -253,6 +254,7 @@ window.textsecure.api = function() {
         });
     };
 
+    var id_regex = RegExp( "^https:\/\/" + ATTACHMENT_HOST + "\/(\\d+)\?");
     self.putAttachment = function(encryptedBin) {
         return doAjax({
             call                : 'attachment',
@@ -261,27 +263,30 @@ window.textsecure.api = function() {
         }).then(function(response) {
             return new Promise(function(resolve, reject) {
                 $.ajax(response.location, {
-                    type        : "PUT",
-                    headers: {
-                        "Content-Type": "application/octet-stream"
+                    type    : "PUT",
+                    headers : {"Content-Type" : "application/octet-stream"},
+                    data    : encryptedBin,
+                    success : function() {
+                        try {
+                            // Parse the id as a string from the location url
+                            // (workaround for ids too large for Javascript numbers)
+                            var id = response.location.match(id_regex)[1];
+                            resolve(id);
+                        } catch(e) {
+                            reject(e);
+                        }
                     },
-                    data: encryptedBin,
+                    error   : function(jqXHR, textStatus, errorThrown) {
+                        var code = jqXHR.status;
+                        if (code > 999 || code < 100)
+                            code = -1;
 
-                    success     : function() {
-                                        resolve(response.id);
-                                    },
-
-                    error       : function(jqXHR, textStatus, errorThrown) {
-                                        var code = jqXHR.status;
-                                        if (code > 999 || code < 100)
-                                            code = -1;
-
-                                        var e = new Error(code);
-                                        e.name = "HTTPError";
-                                        if (jqXHR.responseJSON)
-                                            e.response = jqXHR.responseJSON;
-                                        reject(e);
-                                    }
+                        var e = new Error(code);
+                        e.name = "HTTPError";
+                        if (jqXHR.responseJSON)
+                            e.response = jqXHR.responseJSON;
+                        reject(e);
+                    }
                 });
             });
         });
