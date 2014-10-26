@@ -62,10 +62,10 @@ window.textsecure.subtle = (function() {
             assertIsArrayBuffer(plaintext);
             assertIsArrayBuffer(key);
             assertIsArrayBuffer(iv);
-            return CryptoJS.AES.encrypt(btoa(getString(plaintext)),
+            return CryptoJS.AES.encrypt(CryptoJS.enc.Latin1.parse(getString(plaintext)),
                     CryptoJS.enc.Latin1.parse(getString(key)),
                     {iv: CryptoJS.enc.Latin1.parse(getString(iv))})
-                .toString(CryptoJS.enc.Latin1);
+                .ciphertext.toString(CryptoJS.enc.Latin1);
         };
         function decryptAESCBC(ciphertext, key, iv) {
             assertIsArrayBuffer(ciphertext);
