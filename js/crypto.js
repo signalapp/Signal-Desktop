@@ -364,24 +364,6 @@ window.textsecure.crypto = function() {
 		return testing_only.HKDF(input, salt, info);
 	}
 
-	var calculateMACWithVersionByte = function(data, key, version) {
-		if (version === undefined)
-			version = 1;
-
-		var prependedData = new Uint8Array(data.byteLength + 1);
-		prependedData[0] = version;
-		prependedData.set(new Uint8Array(data), 1);
-
-		return HmacSHA256(key, prependedData.buffer);
-	}
-
-	var verifyMACWithVersionByte = function(data, key, mac, version) {
-		return calculateMACWithVersionByte(data, key, version).then(function(calculated_mac) {
-			if (!isEqual(calculated_mac, mac, true))
-				throw new Error("Bad MAC");
-		});
-	}
-
 	var verifyMAC = function(data, key, mac) {
 		return HmacSHA256(key, data).then(function(calculated_mac) {
 			if (!isEqual(calculated_mac, mac, true))
