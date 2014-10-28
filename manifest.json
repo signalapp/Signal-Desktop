@@ -17,7 +17,7 @@
 
 	"background": {
 //		"scripts": [ "js-deps/jquery.js", "js-deps/jquery.atmosphere.js", "js-deps/aes.js", "js-deps/hmac-sha256.js", "js-deps/lib-typedarrays.js",
-//					"js-deps/Long.min.js", "js-deps/ByteBuffer.min.js", "js-deps/ProtoBuf.min.js", "js/helpers.js", "js/background.js" ]
+//					"js-deps/Long.min.js", "js-deps/ByteBuffer.min.js", "js-deps/ProtoBuf.min.js", "js-deps/moment.min.js", js/helpers.js", "js/background.js"]
 		"page": "background.html"
 	},
 
