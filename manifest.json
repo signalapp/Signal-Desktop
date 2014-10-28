@@ -25,6 +25,7 @@
 
     "options_page": "options.html",
 
-    // XXX: FOR TESTING ONLY, REMOVE BEFORE RELEASE:
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy":
+    "default-src 'self'; img-src 'self' data:; connect-src https://textsecure-service-staging.whispersystems.org wss://textsecure-service-staging.whispersystems.org https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com"
+
 }
