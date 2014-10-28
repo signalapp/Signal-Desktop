@@ -2,6 +2,7 @@ var Whisper = Whisper || {};
 
 (function () {
   'use strict';
+  moment.locale('en');
 
   Whisper.MessageView = Backbone.View.extend({
     tagName:   "li",
