@@ -162,11 +162,6 @@ function toArrayBuffer(thing) {
     return res;
 }
 
-
-function base64ToArrayBuffer(string) {
-    return base64DecToArr(string);
-}
-
 // Number formatting utils
 window.textsecure.utils = function() {
     var self = {};
