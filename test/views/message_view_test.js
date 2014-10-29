@@ -1,5 +1,7 @@
 describe('MessageView', function() {
-  var message = Whisper.Messages.add({
+  var thread = Whisper.Threads.add({id: 'foo'});
+  var message = thread.messages().add({
+    threadId: thread.id,
     body: 'hello world',
     type: 'outgoing',
     timestamp: new Date().getTime()
