@@ -26,6 +26,12 @@ Now, in the extension's options, you can register for TextSecure:
 
 You should now be able to use the extension. If you need to reset your development environment, open a browser console within the extension options page (or inspect `background.html`) and execute `localStorage.clear()` to clear out the settings.
 
+Dependencies
+============
+Dependencies are managed by [bower](bower.io). You'll need to install
+node, npm, and bower to change them. If you add a dependency, please
+only check in the package files that we actually need.
+
 Tests
 =====
 Please write tests! Our testing framework is mocha and our assertion library is
