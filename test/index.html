@@ -16,9 +16,11 @@
 
 <head>
   <title>TextSecure test runner</title>
-  <link rel="stylesheet" href="mocha.css" />
+  <link rel="stylesheet" href="../test/mocha.css" />
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="../nacl/pnacl/{config}">
+	<h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
+
 	<div id="listener"></div>
 	<div id="log"></div>
 
@@ -26,17 +28,15 @@
 	</div>
 	<div id="tests">
 	</div>
-
-	<script type="text/javascript" src="mocha.js"></script>
-	<script type="text/javascript" src="chai.js"></script>
-	<script type="text/javascript" src="blanket_mocha.js"></script>
   <script type='text/x-tmpl-mustache' id='conversation'>
-      <div class='discussion-container'></ul>
+      <div class='discussion-container'></div>
       <div class='send-message-area'>
           <div class='message-composer'>
               <form class='send'>
                   <input class='send-message' rows='6' type='textarea'>
-                  <div class='attachments'> Add Files </div>
+                  <div class='attachments'>
+                    <input type='file' name='files[]' multiple class='file-input'>
+                  </div>
               </form>
           </div>
           <div class='extension-details'>
@@ -50,16 +50,21 @@
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
+      <div class='sender'>{{ sender }}</div>
+      <img class='avatar' src='{{ contact_avatar }}'>
       <div class='bubble bubble_context {{ bubble_class }}'>
-      <ul class='volley'>
-          <li class='message'>
-          {{ message }}
-          </li>
-      </ul>
+        <ul class='volley'>
+            <li class='message'>
+            {{ message }}
+            </li>
+        </ul>
+        {{#attachments}}
+          <img src={{.}}>
+        {{/attachments}}
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
-      <img class='avatar' src='{{ contact_avatar }}'>
+      <div class='avatar' style='background-image: url({{ contact_avatar }});'></div>
       <div class='contact-details'>
           <h3>
           {{ contact_name }}
@@ -74,7 +79,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='new-message-form'>
     <form class='send message'>
-      <input type='text' name='number' class='number'>
+      <input type='text' name='number' class='number' placeholder='Phone number'>
       <div class='send-message-area'>
           <div class='message-composer'>
               <input name='message' class='send-message' rows='6' type='textarea'>
@@ -94,12 +99,13 @@
   </script>
   <script type='text/x-tmpl-mustache' id='new-group-form'>
     <form class='send group'>
-      <input name='name' placeholder='New Group'>
-      <input name='numbers' class='numbers' data-role=tagsinput placeholder='Add Recipient'>
+      <div><input name='name' class='name' placeholder='Group Name'></div>
+      <div><input name='numbers' class='numbers' data-role=tagsinput></div>
       <div class='send-message-area'>
           <div class='message-composer'>
               <input class='send-message' rows='6' type='textarea'>
               <div class='attachments'> Add Files </div>
+              <input type='submit'>
           </div>
           <div class='extension-details'>
               <ul>
@@ -112,6 +118,10 @@
       </div>
     </form>
   </script>
+
+	<script type="text/javascript" src="mocha.js"></script>
+	<script type="text/javascript" src="chai.js"></script>
+	<script type="text/javascript" src="blanket_mocha.js"></script>
 
 	<script type="text/javascript" src="../js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="../js-deps/jquery.js"></script>
@@ -126,19 +136,20 @@
   <script type="text/javascript" src="../js-deps/mustache.js"></script>
 	<script type="text/javascript" src="../js-deps/libphonenumber_api-compiled.js"></script>
 
-	<script type="text/javascript" src="../js/helpers.js" ></script>
+	<script type="text/javascript" src="../js/protobufs.js" data-cover></script>
+	<script type="text/javascript" src="../js/helpers.js" data-cover></script>
   <script type="text/javascript" src="../js/storage.js"></script>
   <script type="text/javascript" src="../js/storage/devices.js"></script>
   <script type="text/javascript" src="../js/storage/groups.js"></script>
+  <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
 	<script type="text/javascript" src="../js/webcrypto.js"></script>
-	<script type="text/javascript" src="../js/crypto.js" ></script>
+	<script type="text/javascript" src="../js/crypto.js" data-cover></script>
 	<script type="text/javascript" src="../js/models/messages.js"></script>
 	<script type="text/javascript" src="../js/models/threads.js"></script>
 	<script type="text/javascript" src="../js/api.js"></script>
-	<script type="text/javascript" src="../js/sendmessage.js" ></script>
+	<script type="text/javascript" src="../js/sendmessage.js" data-cover></script>
 
-	<script type="text/javascript" src="../js/chromium.js"><//script>
-	<script type="text/javascript" src="../js/fake_api.js"></script>
+	<script type="text/javascript" src="../js/chromium.js"></script>
 
   <script type="text/javascript" src="../js/views/notifications.js"></script>
   <script type="text/javascript" src="../js/views/list_view.js" data-cover></script>
@@ -150,13 +161,12 @@
   <script type="text/javascript" src="../js/views/new_conversation_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/new_group_view.js" data-cover></script>
 
+	<script type="text/javascript" src="fake_api.js"></script>
+	<script type="text/javascript" src="testvectors.js"></script>
 	<script type="text/javascript" src="test.js"></script>
+	<script type="text/javascript" src="crypto_test.js"></script>
 	<script type="text/javascript" src="views/message_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
 	<script type="text/javascript" src="views/threads_test.js"></script>
-
-
 </body>
-
-
 </html>
