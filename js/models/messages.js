@@ -5,7 +5,7 @@ var Whisper = Whisper || {};
 
   var Message  = Backbone.Model.extend({
     validate: function(attributes, options) {
-      var required = ['body', 'timestamp', 'threadId'];
+      var required = ['timestamp', 'threadId'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
       if (missing.length) { console.log("Message missing attributes: " + missing); }
     },
