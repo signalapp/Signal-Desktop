@@ -1,0 +1,49 @@
+{
+  "name": "textsecure-chrome",
+  "version": "0.0.0",
+  "homepage": "https://github.com/WhisperSystems/TextSecure-Browser",
+  "license": "GPLV3",
+  "private": true,
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "underscore": "~1.7.0",
+    "protobuf": "~3.8.0",
+    "bootstrap": "~3.3.0",
+    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
+    "mustache": "~0.8.2",
+    "qrcode": "git://github.com/davidshimjs/qrcodejs.git"
+  },
+  "preen": {
+    "jquery": [
+      "dist/jquery.js"
+    ],
+    "long": [
+      "dist/Long.js"
+    ],
+    "bytebuffer": [
+      "dist/ByteBufferAB.js"
+    ],
+    "protobuf": [
+      "dist/ProtoBuf.js"
+    ],
+    "mustache": [
+      "mustache.js"
+    ],
+    "underscore": [
+      "underscore.js"
+    ],
+    "backbone": [
+      "backbone.js"
+    ],
+    "bootstrap": [
+      "dist/css/bootstrap.css"
+    ],
+    "qrcode": [
+      "qrcode.js"
+    ]
+  },
+  "devDependencies": {
+    "mocha": "~2.0.1",
+    "chai": "~1.9.2"
+  }
+}

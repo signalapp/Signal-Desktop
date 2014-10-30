@@ -41,16 +41,16 @@
     };
 
     function displayError(error) {
-        $('#error').hide().text(error).fadeIn();
+        $('#error').hide().text(error).addClass('in').fadeIn();
     };
 
     textsecure.registerOnLoadFunction(function() {
         $(function() {
             if (isRegistrationDone()) {
                 $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
-                $('#setup-complete').show();
+                $('#setup-complete').show().addClass('in');
             } else {
-                $('#choose-setup').show();
+                $('#choose-setup').show().addClass('in');
                 $('#number').keyup(validateNumber);
                 $('#regionCode').change(validateNumber);
 
@@ -71,7 +71,7 @@
                     var number = validateNumber();
                     if (number) {
                         textsecure.api.requestVerificationVoice(number).catch(displayError);
-                        $('#step2').fadeIn();
+                        $('#step2').addClass('in').fadeIn();
                     } else {
                         $('#number-container').addClass('invalid');
                     }
@@ -81,7 +81,7 @@
                     var number = validateNumber();
                     if (number) {
                         textsecure.api.requestVerificationSMS(number).catch(displayError);
-                        $('#step2').fadeIn();
+                        $('#step2').addClass('in').fadeIn();
                     } else {
                         $('#number-container').addClass('invalid');
                     }
@@ -89,12 +89,12 @@
 
                 $('#new-account').click(function(){
                     $('#choose-setup').fadeOut(function() {
-                        $('#single-device').fadeIn();
+                        $('#single-device').addClass('in').fadeIn();
                     });
 
                     $('#single-device .back').click(function() {
                         $('#single-device').fadeOut(function() {
-                            $('#choose-setup').fadeIn();
+                            $('#choose-setup').addClass('in').fadeIn();
                             $('#number').removeClass('invalid');
                         });
                     });
@@ -110,7 +110,7 @@
                             $('#verify3done').text('');
                             $('#verify4done').text('');
                             $('#verify5').hide();
-                            $('#verify').show();
+                            $('#verify').show().addClass('in');
 
                             textsecure.registerSingleDevice(number, verificationCode, function(step) {
                                 switch(step) {
@@ -123,7 +123,7 @@
                                 case 3:
                                     $('#complete-number').text(number);
                                     $('#verify').hide();
-                                    $('#setup-complete').show();
+                                    $('#setup-complete').show().addClass('in');
                                     registrationDone();
                                 }
                             }).catch(function(error) {
@@ -139,12 +139,12 @@
 
                 $('#new-device').click(function(){
                     $('#choose-setup').fadeOut(function() {
-                        $('#multi-device').fadeIn();
+                        $('#multi-device').addClass('in').fadeIn();
                     });
 
                     $('#multi-device .back').click(function() {
                         $('#multi-device').fadeOut(function() {
-                            $('#choose-setup').fadeIn();
+                            $('#choose-setup').addClass('in').fadeIn();
                             $('#number').removeClass('invalid');
                         });
                     });
@@ -170,7 +170,7 @@
                                 $('#verify3done').text('');
                                 $('#verify4done').text('');
                                 $('#verify5done').text('');
-                                $('#verify').show();
+                                $('#verify').show().addClass('in');
 
 
                                 textsecure.registerSecondDevice(cryptoInfo, message.message, function(step) {
@@ -190,7 +190,7 @@
                                         $('#verify4done').text('done');
                                     case 5:
                                         $('#verify').hide();
-                                        $('#setup-complete').show();
+                                        $('#setup-complete').show().addClass('in');
                                         registrationDone();
                                     }
                                 });

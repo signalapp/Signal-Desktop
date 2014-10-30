@@ -69,7 +69,7 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='contact'>
-            <img class='avatar' src='{{ contact_avatar }}'>
+            <div class='avatar' style='background-image: url({{ contact_avatar }});'></div>
             <div class='contact-details'>
                 <h3>
                 {{ contact_name }}
@@ -124,22 +124,18 @@
           </form>
         </script>
         <script type="text/javascript" src="js-deps/nacl-common.js"></script>
-        <script type="text/javascript" src="js-deps/jquery.js"></script>
-        <script type="text/javascript" src="js-deps/moment.min.js"></script>
-        <script type="text/javascript" src="js-deps/bootstrap-tagsinput.js"></script>
         <script type="text/javascript" src="js-deps/CryptoJS.js"></script>
         <script type="text/javascript" src="js-deps/curve255.js"></script>
-        <script type="text/javascript" src="js-deps/Long.min.js"></script>
-        <script type="text/javascript" src="js-deps/ByteBuffer.min.js"></script>
-        <script type="text/javascript" src="js-deps/ProtoBuf.min.js"></script>
-        <script type="text/javascript" src="js-deps/underscore.js"></script>
-        <script type="text/javascript" src="js-deps/backbone.js"></script>
+        <script type="text/javascript" src="js-deps/bower_components.js"></script>
         <script type="text/javascript" src="js-deps/backbone.localStorage.js"></script>
-        <script type="text/javascript" src="js-deps/mustache.js"></script>
         <script type="text/javascript" src="js-deps/libphonenumber_api-compiled.js"></script>
+        <script type="text/javascript" src="js-deps/bootstrap-tagsinput.js"></script>
 
         <script type="text/javascript" src="js/protobufs.js"></script>
         <script type="text/javascript" src="js/helpers.js"></script>
+        <script type="text/javascript" src="js/storage.js"></script>
+        <script type="text/javascript" src="js/storage/devices.js"></script>
+        <script type="text/javascript" src="js/storage/groups.js"></script>
         <script type="text/javascript" src="js/libphonenumber-util.js"></script>
         <script type="text/javascript" src="js/webcrypto.js"></script>
         <script type="text/javascript" src="js/crypto.js"></script>
@@ -159,7 +155,7 @@
         <script type="text/javascript" src="js/views/conversation_view.js"></script>
         <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
         <script type="text/javascript" src="js/views/new_group_view.js"></script>
-        <script type="text/javascript" src="js/popup.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
         <div id="listener"></div>
         <div id="log"></div>
     </body>

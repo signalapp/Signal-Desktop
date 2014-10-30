@@ -40,16 +40,6 @@ window.textsecure.crypto = function() {
 	}
 	self.getRandomBytes = getRandomBytes;
 
-	function intToArrayBuffer(nInt) {
-		var res = new ArrayBuffer(16);
-		var thing = new Uint8Array(res);
-		thing[0] = (nInt >> 24) & 0xff;
-		thing[1] = (nInt >> 16) & 0xff;
-		thing[2] = (nInt >> 8 ) & 0xff;
-		thing[3] = (nInt >> 0 ) & 0xff;
-		return res;
-	}
-
 	function objectContainsKeys(object) {
 		var count = 0;
 		for (var key in object) {

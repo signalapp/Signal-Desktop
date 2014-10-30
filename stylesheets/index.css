@@ -26,6 +26,11 @@ body {
   background-color: aliceblue;
 }
 
+.gutter .contact .avatar {
+  background-position: center;
+  background-size: cover;
+}
+
 .conversation {
   margin: 0;
   padding: 0;

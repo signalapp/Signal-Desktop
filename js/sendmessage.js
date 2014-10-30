@@ -200,7 +200,7 @@ window.textsecure.messaging = function() {
 		var iv = textsecure.crypto.getRandomBytes(16);
 		return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
 			return textsecure.api.putAttachment(encryptedBin).then(function(id) {
-				proto.id = dcodeIO.Long.fromString(id);
+				proto.id = id;
 				proto.contentType = attachment.contentType;
 				return proto;
 			});
