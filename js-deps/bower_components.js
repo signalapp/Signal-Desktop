@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v2.1.1
+ * jQuery JavaScript Library v2.1.1-pre
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -9,7 +9,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-05-01T17:11Z
+ * Date: 2014-10-30T07:56Z
  */
 
 (function( global, factory ) {
@@ -67,7 +67,7 @@ var
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
 
-	version = "2.1.1",
+	version = "2.1.1-pre",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -7842,7 +7842,8 @@ jQuery.extend({
 		responseFields: {
 			xml: "responseXML",
 			text: "responseText",
-			json: "responseJSON"
+			json: "responseJSON",
+			native: "responseNative"
 		},
 
 		// Data converters
@@ -7859,7 +7860,10 @@ jQuery.extend({
 			"text json": jQuery.parseJSON,
 
 			// Parse text as xml
-			"text xml": jQuery.parseXML
+			"text xml": jQuery.parseXML,
+
+			// Don't convert a native response
+			"* native": true
 		},
 
 		// For options that shouldn't be deep extended:
@@ -8549,7 +8553,8 @@ jQuery.ajaxTransport(function( options ) {
 			send: function( headers, complete ) {
 				var i,
 					xhr = options.xhr(),
-					id = ++xhrId;
+					id = ++xhrId,
+					responses = {};
 
 				xhr.open( options.type, options.url, options.async, options.username, options.password );
 
@@ -8595,15 +8600,25 @@ jQuery.ajaxTransport(function( options ) {
 									xhr.statusText
 								);
 							} else {
+								// Verify the responseType attribute to avoid InvalidStateError Exception (XHR2 Spec)
+								// Support: IE9
+								// Accessing binary-data responseText throws an exception
+								// (#11426)
+								if ( (!xhr.responseType || xhr.responseType === "text") &&
+										typeof xhr.responseText === "string" ) {
+									responses.text = xhr.responseText;
+								}
+
+								// The native response associated with the responseType
+								// Stored in the xhr.response attribute (XHR2 Spec)
+								if ( xhr.response ) {
+									responses.native = xhr.response;
+								}
+
 								complete(
 									xhrSuccessStatus[ xhr.status ] || xhr.status,
 									xhr.statusText,
-									// Support: IE9
-									// Accessing binary-data responseText throws an exception
-									// (#11426)
-									typeof xhr.responseText === "string" ? {
-										text: xhr.responseText
-									} : undefined,
+									responses,
 									xhr.getAllResponseHeaders()
 								);
 							}

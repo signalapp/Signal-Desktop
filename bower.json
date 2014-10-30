@@ -8,16 +8,30 @@
     "backbone": "~1.1.2",
     "underscore": "~1.7.0",
     "protobuf": "~3.8.0",
-    "jquery": "~2.1.1",
-    "bootstrap": "~3.3.0"
+    "bootstrap": "~3.3.0",
+    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport"
   },
   "preen": {
-    "jquery":      ["dist/jquery.js"],
-    "long":        ["dist/Long.js"],
-    "bytebuffer":  ["dist/ByteBufferAB.js"],
-    "protobuf":    ["dist/ProtoBuf.js"],
-    "underscore":  ["underscore.js"],
-    "backbone":    ["backbone.js"],
-    "bootstrap":   ["dist/css/bootstrap.css"]
+    "jquery": [
+      "dist/jquery.js"
+    ],
+    "long": [
+      "dist/Long.js"
+    ],
+    "bytebuffer": [
+      "dist/ByteBufferAB.js"
+    ],
+    "protobuf": [
+      "dist/ProtoBuf.js"
+    ],
+    "underscore": [
+      "underscore.js"
+    ],
+    "backbone": [
+      "backbone.js"
+    ],
+    "bootstrap": [
+      "dist/css/bootstrap.css"
+    ]
   }
 }
