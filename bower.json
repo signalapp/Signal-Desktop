@@ -9,7 +9,8 @@
     "underscore": "~1.7.0",
     "protobuf": "~3.8.0",
     "bootstrap": "~3.3.0",
-    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport"
+    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
+    "mustache": "~0.8.2"
   },
   "preen": {
     "jquery": [
@@ -23,6 +24,9 @@
     ],
     "protobuf": [
       "dist/ProtoBuf.js"
+    ],
+    "mustache": [
+      "mustache.js"
     ],
     "underscore": [
       "underscore.js"
