@@ -61,11 +61,11 @@ actually use from the new package, e.g.:
 ```
 
 Now, run `grunt` to delete unused package files and concatenate the remaining
-javascript files into `js-deps/bower_components.js`. Note that packages will be
+javascript files into `js/components.js`. Note that packages will be
 concatenated **in the order** that they are listed in the preen config.
 
-Finally, stage and commit changes to bower.json, js-deps/bower_components.js,
-and bower_components/. The latter should be limited to files we actually use.
+Finally, stage and commit changes to bower.json, `js/bower_components.js`,
+and `components/`. The latter should be limited to files we actually use.
 
 Tests
 =====
