@@ -28,8 +28,10 @@ You should now be able to use the extension. If you need to reset your developme
 
 Dependencies
 ============
-Dependencies are managed by [bower](bower.io). You'll need to install
-node, npm, and bower to change them.
+
+Dependencies are managed by [bower](bower.io) and built with
+[grunt](gruntjs.com). To change them, you'll need to install node and npm, then
+run `npm install` to install bower, grunt, and related plugins.
 
 ### Adding a bower component
 
