@@ -40,6 +40,13 @@
     ],
     "qrcode": [
       "qrcode.js"
+    ],
+    "mocha": [
+      "mocha.js",
+      "mocha.css"
+    ],
+    "chai": [
+      "chai.js"
     ]
   },
   "devDependencies": {
