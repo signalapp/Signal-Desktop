@@ -10,5 +10,14 @@
     "protobuf": "~3.8.0",
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.0"
+  },
+  "preen": {
+    "jquery":      ["dist/jquery.js"],
+    "long":        ["dist/Long.js"],
+    "bytebuffer":  ["dist/ByteBufferAB.js"],
+    "protobuf":    ["dist/ProtoBuf.js"],
+    "underscore":  ["underscore.js"],
+    "backbone":    ["backbone.js"],
+    "bootstrap":   ["dist/css/bootstrap.css"]
   }
 }

@@ -29,8 +29,29 @@ You should now be able to use the extension. If you need to reset your developme
 Dependencies
 ============
 Dependencies are managed by [bower](bower.io). You'll need to install
-node, npm, and bower to change them. If you add a dependency, please
-only check in the package files that we actually need.
+node, npm, and bower to change them.
+
+### Adding a bower component
+
+Add the package to bower.json under 'dependencies' or
+
+`bower install *package-name* --save`
+
+Next update the "preen" config in bower.json with the list of files we will
+actually use from the new package, e.g.:
+```
+  "preen": {
+    "new-package": ["path/to/main.js", "directory/**/*.js"],
+    ...
+  }
+```
+Now, run `grunt` to delete unused package files and concatenate the
+remaining javascript files into `js-deps/bower_components.js`. Note that
+packages will be concatenated **in order** as specified in the preen
+config.
+
+Finally, stage and commit changes to bower.json, js-deps/bower_components.js,
+and bower_components/. The latter should be limited to files we actually use.
 
 Tests
 =====
