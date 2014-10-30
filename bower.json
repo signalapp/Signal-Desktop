@@ -10,7 +10,8 @@
     "protobuf": "~3.8.0",
     "bootstrap": "~3.3.0",
     "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
-    "mustache": "~0.8.2"
+    "mustache": "~0.8.2",
+    "qrcode": "git://github.com/davidshimjs/qrcodejs.git"
   },
   "preen": {
     "jquery": [
@@ -36,6 +37,9 @@
     ],
     "bootstrap": [
       "dist/css/bootstrap.css"
+    ],
+    "qrcode": [
+      "qrcode.js"
     ]
   },
   "devDependencies": {
