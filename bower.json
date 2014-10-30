@@ -33,5 +33,9 @@
     "bootstrap": [
       "dist/css/bootstrap.css"
     ]
+  },
+  "devDependencies": {
+    "mocha": "~2.0.1",
+    "chai": "~1.9.2"
   }
 }
