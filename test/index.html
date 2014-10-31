@@ -16,7 +16,7 @@
 
 <head>
   <title>TextSecure test runner</title>
-  <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
+  <link rel="stylesheet" href="../components/mocha/mocha.css" />
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="../nacl/pnacl/{config}">
 	<h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
@@ -119,14 +119,14 @@
     </form>
   </script>
 
-	<script type="text/javascript" src="../bower_components/mocha/mocha.js"></script>
-	<script type="text/javascript" src="../bower_components/chai/chai.js"></script>
+	<script type="text/javascript" src="../components/mocha/mocha.js"></script>
+	<script type="text/javascript" src="../components/chai/chai.js"></script>
 	<script type="text/javascript" src="blanket_mocha.js"></script>
 
 	<script type="text/javascript" src="../js-deps/nacl-common.js"></script>
 	<script type="text/javascript" src="../js-deps/CryptoJS.js"></script>
 	<script type="text/javascript" src="../js-deps/curve255.js"></script>
-	<script type="text/javascript" src="../js-deps/bower_components.js"></script>
+	<script type="text/javascript" src="../js/components.js"></script>
 	<script type="text/javascript" src="../js-deps/backbone.localStorage.js"></script>
 	<script type="text/javascript" src="../js-deps/libphonenumber_api-compiled.js"></script>
 
