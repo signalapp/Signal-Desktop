@@ -7,6 +7,7 @@
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-preen": "^1.0.0",
-    "bower": "^1.3.12"
+    "bower": "^1.3.12",
+    "grunt-contrib-clean": "~0.6.0"
   }
 }
