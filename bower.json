@@ -11,24 +11,52 @@
     "protobuf": "~3.8.0",
     "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
-    "qrcode": "git://github.com/davidshimjs/qrcodejs.git"
+    "qrcode": "git://github.com/davidshimjs/qrcodejs.git",
+    "bootstrap-tagsinput": "~0.4.2"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
     "chai": "~1.9.2"
   },
   "preen": {
-    "jquery"     : [ "dist/jquery.js"         ],
-    "long"       : [ "dist/Long.js"           ],
-    "bytebuffer" : [ "dist/ByteBufferAB.js"   ],
-    "protobuf"   : [ "dist/ProtoBuf.js"       ],
-    "mustache"   : [ "mustache.js"            ],
-    "underscore" : [ "underscore.js"          ],
-    "backbone"   : [ "backbone.js"            ],
-    "qrcode"     : [ "qrcode.js"              ],
-    "mocha"      : [ "mocha.js", "mocha.css"  ],
-    "chai"       : [ "chai.js"                ],
-    "bootstrap"  : [ "dist/css/bootstrap.css" ]
+    "jquery": [
+      "dist/jquery.js"
+    ],
+    "long": [
+      "dist/Long.js"
+    ],
+    "bytebuffer": [
+      "dist/ByteBufferAB.js"
+    ],
+    "protobuf": [
+      "dist/ProtoBuf.js"
+    ],
+    "mustache": [
+      "mustache.js"
+    ],
+    "underscore": [
+      "underscore.js"
+    ],
+    "backbone": [
+      "backbone.js"
+    ],
+    "qrcode": [
+      "qrcode.js"
+    ],
+    "mocha": [
+      "mocha.js",
+      "mocha.css"
+    ],
+    "chai": [
+      "chai.js"
+    ],
+    "bootstrap": [
+      "dist/css/bootstrap.css"
+    ],
+    "bootstrap-tagsinput": [
+      "dist/bootstrap-tagsinput.js",
+      "dist/bootstrap-tagsinput.css"
+    ]
   },
   "concat": {
     "app": [

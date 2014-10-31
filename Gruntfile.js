@@ -1,8 +1,10 @@
+'use strict';
+
 module.exports = function(grunt) {
 
   var bower = grunt.file.readJSON('bower.json');
   var components = [];
-  for (i in bower.concat.app) {
+  for (var i in bower.concat.app) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 

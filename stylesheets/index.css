@@ -70,3 +70,9 @@ li.entry img {
   width: 30px;
   height: 30px;
 }
+
+.bootstrap-tagsinput .tag {
+  background-color: #00badd;
+  padding: 5px;
+  border-radius: 3px;
+}
