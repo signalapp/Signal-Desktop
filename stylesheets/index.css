@@ -58,6 +58,21 @@ li.entry .avatar {
   background-color:whitesmoke;
 }
 
+.timestamp {
+  font-size: 0.75em;
+  display: block;
+}
+
+.timestamp.incoming
+{
+    color: gray;
+}
+
+.timestamp.sent
+{
+  color: LightSkyBlue;
+}
+
 li.entry.outgoing .avatar {
   display: none;
 }
@@ -70,3 +85,6 @@ li.entry img {
   width: 30px;
   height: 30px;
 }
+
+
+
