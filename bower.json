@@ -5,52 +5,41 @@
   "license": "GPLV3",
   "private": true,
   "dependencies": {
-    "backbone": "~1.1.2",
+    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
     "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
     "protobuf": "~3.8.0",
     "bootstrap": "~3.3.0",
-    "jquery": "liliakai/jquery#2.1.1-ajax-nativetransport",
     "mustache": "~0.8.2",
     "qrcode": "git://github.com/davidshimjs/qrcodejs.git"
-  },
-  "preen": {
-    "jquery": [
-      "dist/jquery.js"
-    ],
-    "long": [
-      "dist/Long.js"
-    ],
-    "bytebuffer": [
-      "dist/ByteBufferAB.js"
-    ],
-    "protobuf": [
-      "dist/ProtoBuf.js"
-    ],
-    "mustache": [
-      "mustache.js"
-    ],
-    "underscore": [
-      "underscore.js"
-    ],
-    "backbone": [
-      "backbone.js"
-    ],
-    "bootstrap": [
-      "dist/css/bootstrap.css"
-    ],
-    "qrcode": [
-      "qrcode.js"
-    ],
-    "mocha": [
-      "mocha.js",
-      "mocha.css"
-    ],
-    "chai": [
-      "chai.js"
-    ]
   },
   "devDependencies": {
     "mocha": "~2.0.1",
     "chai": "~1.9.2"
+  },
+  "preen": {
+    "jquery"     : [ "dist/jquery.js"         ],
+    "long"       : [ "dist/Long.js"           ],
+    "bytebuffer" : [ "dist/ByteBufferAB.js"   ],
+    "protobuf"   : [ "dist/ProtoBuf.js"       ],
+    "mustache"   : [ "mustache.js"            ],
+    "underscore" : [ "underscore.js"          ],
+    "backbone"   : [ "backbone.js"            ],
+    "qrcode"     : [ "qrcode.js"              ],
+    "mocha"      : [ "mocha.js", "mocha.css"  ],
+    "chai"       : [ "chai.js"                ],
+    "bootstrap"  : [ "dist/css/bootstrap.css" ]
+  },
+  "concat": {
+    "app": [
+      "jquery",
+      "long",
+      "bytebuffer",
+      "protobuf",
+      "mustache",
+      "underscore",
+      "backbone",
+      "qrcode"
+    ]
   }
 }

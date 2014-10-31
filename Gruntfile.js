@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
 
-  // build the concat config from the preen config
+  var bower = grunt.file.readJSON('bower.json');
   var components = [];
-  for (component in grunt.file.readJSON('bower.json').preen) {
-    components.push('components/' + component + '/**/*.js');
+  for (i in bower.concat.app) {
+    components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 
   grunt.initConfig({
@@ -12,7 +12,15 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
-    },
+      test: {
+        src: [
+          'components/mocha/mocha.js',
+          'components/chai/chai.js',
+          'test/_test.js'
+        ],
+        dest: 'test/test.js',
+      }
+    }
   });
   grunt.loadNpmTasks('grunt-preen');
   grunt.loadNpmTasks('grunt-contrib-concat');
