@@ -64,7 +64,11 @@ all html pages, simply append the package name to the concat.app list in
 `bower.json`. Take care to insert it in the order you would like it
 concatenated.
 
-Now, run `grunt` to delete unused package files and build `js/components.js`.
+Now, run `grunt setup` to delete unused package files and concatenate the remaining
+javascript files into `js/components.js`. Note that packages will be
+concatenated **in the order** that they are listed in the preen config.
+Note 2: `grunt setup` also runs `grunt clean` which will wipe your node_modules/ folder
+this is to avoid getting errors when loading the dev version of the extension in Chrome.
 
 Finally, stage and commit changes to bower.json, `js/components.js`,
 and `components/`. The latter should be limited to files we actually use.

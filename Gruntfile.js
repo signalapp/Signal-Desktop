@@ -19,11 +19,20 @@ module.exports = function(grunt) {
           'test/_test.js'
         ],
         dest: 'test/test.js',
-      }
+      },
+    clean: {
+      options: {
+          'no-write': false,
+          'force': false
+      },
+      node_modules: ['./node_modules/*', './node_modules/']
+    }
     }
   });
   grunt.loadNpmTasks('grunt-preen');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('default', ['preen', 'concat']);
+  grunt.registerTask('setup', ['preen', 'concat', 'clean']);
 };
