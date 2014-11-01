@@ -13,7 +13,8 @@
     "mustache": "~0.8.2",
     "qrcode": "git://github.com/davidshimjs/qrcodejs.git",
     "bootstrap-tagsinput": "~0.4.2",
-    "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2"
+    "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
+    "libphonenumber-api": "git://github.com/codedust/libphonenumber-api"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -67,6 +68,9 @@
       "src/evpkdf.js",
       "src/cipher-core.js",
       "src/aes.js"
+    ],
+    "libphonenumber-api": [
+      "libphonenumber_api-compiled.js"
     ]
   },
   "concat": {
@@ -78,7 +82,8 @@
       "mustache",
       "underscore",
       "backbone",
-      "qrcode"
+      "qrcode",
+      "libphonenumber-api"
     ]
   }
 }
