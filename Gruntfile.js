@@ -14,6 +14,19 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
+      cryptojs: {
+        src: [
+          "components/cryptojs/src/core.js",
+          "components/cryptojs/src/sha256.js",
+          "components/cryptojs/src/hmac.js",
+          "components/cryptojs/src/enc-base64.js",
+          "components/cryptojs/src/md5.js",
+          "components/cryptojs/src/evpkdf.js",
+          "components/cryptojs/src/cipher-core.js",
+          "components/cryptojs/src/aes.js"
+        ],
+        dest: 'js-deps/CryptoJS.js'
+      },
       test: {
         src: [
           'components/mocha/mocha.js',

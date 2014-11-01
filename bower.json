@@ -12,7 +12,8 @@
     "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
     "qrcode": "git://github.com/davidshimjs/qrcodejs.git",
-    "bootstrap-tagsinput": "~0.4.2"
+    "bootstrap-tagsinput": "~0.4.2",
+    "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -56,6 +57,16 @@
     "bootstrap-tagsinput": [
       "dist/bootstrap-tagsinput.js",
       "dist/bootstrap-tagsinput.css"
+    ],
+    "cryptojs": [
+      "src/core.js",
+      "src/sha256.js",
+      "src/hmac.js",
+      "src/enc-base64.js",
+      "src/md5.js",
+      "src/evpkdf.js",
+      "src/cipher-core.js",
+      "src/aes.js"
     ]
   },
   "concat": {
