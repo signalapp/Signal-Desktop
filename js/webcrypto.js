@@ -30,7 +30,7 @@
                 assertIsArrayBuffer(key);
                 assertIsArrayBuffer(input);
                 return CryptoJS.HmacSHA256(
-                    CryptoJS.lib.WordArray.create(input),
+                    CryptoJS.enc.Latin1.parse(getString(input)),
                     CryptoJS.enc.Latin1.parse(getString(key))
                 ).toString(CryptoJS.enc.Latin1);
             };
