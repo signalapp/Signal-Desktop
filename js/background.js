@@ -21,12 +21,13 @@ textsecure.registerOnLoadFunction(function() {
 	} else {
 		if (isRegistrationDone()) {
 			textsecure.subscribeToPush(function(message) {
-				Whisper.Messages.addIncomingMessage(message);
-				console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
-							': "' + getString(message.message.body) + '"');
-				var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
-				textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
-				extension.navigator.setBadgeText(newUnreadCount);
+				Whisper.Messages.addIncomingMessage(message).then(function() {
+					console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
+								': "' + getString(message.message.body) + '"');
+					var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
+					textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+					extension.navigator.setBadgeText(newUnreadCount);
+				});
 			});
 		}
 	}

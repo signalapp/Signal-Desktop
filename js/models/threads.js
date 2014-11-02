@@ -22,37 +22,41 @@ var Whisper = Whisper || {};
     },
 
     sendMessage: function(message, attachments) {
-      var timestamp = Date.now();
-      var base64_attachments = _.map(attachments, function(a) {
-        return ['data:', a.contentType, ';base64,', btoa(getString(a.data))].join('');
+      return Promise.all(attachments.map(function(a) {
+        return new Promise(function(resolve, reject) {
+          var dataView = new DataView(a.data);
+          var blob = new Blob([dataView], { type: a.contentType });
+          var FR = new FileReader();
+          FR.onload = function(e) {
+            resolve(e.target.result);
+          };
+          FR.onerror = reject;
+          FR.readAsDataURL(blob);
+        });
+      })).then(function(base64_attachments) {
+        var timestamp = Date.now();
+
+        this.messages().add({ type: 'outgoing',
+                              body: message,
+                              threadId: this.id,
+                              attachments: base64_attachments,
+                              timestamp: timestamp }).save();
+
+        this.save({ timestamp:   timestamp,
+                    unreadCount: 0,
+                    active:      true});
+
+        if (this.get('type') == 'private') {
+          return textsecure.messaging.sendMessageToNumber(this.get('id'), message, attachments);
+        }
+        else {
+          return textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, attachments);
+        }
+      }.bind(this)).then(function(result) {
+        console.log(result);
+      }).catch(function(error) {
+        console.log(error);
       });
-
-      this.messages().add({ type: 'outgoing',
-                            body: message,
-                            threadId: this.id,
-                            attachments: base64_attachments,
-                            timestamp: timestamp }).save();
-
-
-      this.save({ timestamp:   timestamp,
-                  unreadCount: 0,
-                  active:      true});
-
-      if (this.get('type') == 'private') {
-        var promise = textsecure.messaging.sendMessageToNumber(this.get('id'), message, attachments)
-      }
-      else {
-        var promise = textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, attachments);
-      }
-      promise.then(
-        function(result) {
-          console.log(result);
-        }
-      ).catch(
-        function(error) {
-          console.log(error);
-        }
-      );
     },
 
     messages: function() {
