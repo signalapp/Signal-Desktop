@@ -116,7 +116,7 @@
          * @const
          * @expose
          */
-        ByteBuffer.VERSION = "3.5.3";
+        ByteBuffer.VERSION = "3.5.4";
 
         /**
          * Little endian constant that can be used instead of its boolean value. Evaluates to `true`.
@@ -2136,11 +2136,10 @@
                 if (begin < 0 || begin > end || end > this.buffer.byteLength)
                     throw RangeError("Illegal range: 0 <= "+begin+" <= "+end+" <= "+this.buffer.byteLength);
             }
-            if (begin >= end) return this; // Nothing to fill
+            if (begin >= end)
+                return this; // Nothing to fill
             while (begin < end) this.view.setUint8(begin++, value);
-            if (relative) {
-                this.offset = begin;
-            }
+            if (relative) this.offset = begin;
             return this;
         };
 
