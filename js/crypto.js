@@ -370,7 +370,7 @@ window.textsecure.crypto = function() {
 		return ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
 			return HKDF(sharedSecret, toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
 				if (sending)
-					session[getString(ratchet.ephemeralKeyPair.pubKey)]	= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+					session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 				else
 					session[getString(remoteKey)]						= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
 				ratchet.rootKey = masterKey[0];
@@ -406,7 +406,7 @@ window.textsecure.crypto = function() {
 					sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
 					return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
-						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirSignedPubKey },
+						var session = {currentRatchet: { rootKey: masterKey[0], lastRemoteEphemeralKey: theirSignedPubKey, previousCounter: 0 },
 										indexInfo: { remoteIdentityKey: theirIdentityPubKey, closed: -1 },
 										oldRatchetList: []
 									};
