@@ -87,7 +87,9 @@
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <input name='message' class='send-message' rows='6' type='textarea'>
-                    <div class='attachments'> Add Files </div>
+                    <div class='attachments'>
+                      <input type='file' name='files[]' multiple class='file-input'>
+                    </div>
                     <input type='submit'>
                 </div>
                 <div class='extension-details'>

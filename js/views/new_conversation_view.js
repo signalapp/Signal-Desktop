@@ -40,6 +40,7 @@ var Whisper = Whisper || {};
       Mustache.parse(this.template);
       this.render();
       this.input = new MessageRecipientInputView({el: this.$el.find('input.number')});
+      this.fileInput = new Whisper.FileInputView({el: this.$el.find('.attachments')});
     },
 
     events: {
@@ -53,7 +54,13 @@ var Whisper = Whisper || {};
       if (number) {
         var thread = Whisper.Threads.findOrCreateForRecipient(number);
         var message_input = this.$el.find('input.send-message');
-        thread.sendMessage(message_input.val());
+        var message = message_input.val();
+        if (message.length > 0 || this.fileInput.hasFiles()) {
+          this.fileInput.getFiles().then(function(attachments) {
+            thread.sendMessage(message, attachments);
+          });
+          message_input.val("");
+        }
         this.remove();
         thread.trigger('render');
       }
