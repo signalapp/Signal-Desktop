@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-mocha.setup("bdd");
-window.assert = chai.assert;
+'use strict';
 
 describe("ArrayBuffer->String conversion", function() {
     it('works', function() {
@@ -35,7 +34,7 @@ describe("Cryptographic primitives", function() {
             var iv = hexToArrayBuffer('000102030405060708090a0b0c0d0e0f');
             var plaintext  = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710');
             var ciphertext = hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644');
-            window.textsecure.subtle.encrypt(key, plaintext, iv).then(function(result) {
+            window.textsecure.crypto.encrypt(key, plaintext, iv).then(function(result) {
                 assert.strictEqual(getString(result), getString(ciphertext));
             }).then(done).catch(done);
         });
@@ -47,7 +46,7 @@ describe("Cryptographic primitives", function() {
             var iv = hexToArrayBuffer('000102030405060708090a0b0c0d0e0f');
             var plaintext  = hexToArrayBuffer('6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411e5fbc1191a0a52eff69f2445df4f9b17ad2b417be66c3710');
             var ciphertext = hexToArrayBuffer('f58c4c04d6e5f1ba779eabfb5f7bfbd69cfc4e967edb808d679f777bc6702c7d39f23369a9d9bacfa530e26304231461b2eb05e2c39be9fcda6c19078c6a9d1b3f461796d6b0d6b2e0c2a72b4d80e644');
-            window.textsecure.subtle.decrypt(key, ciphertext, iv).then(function(result) {
+            window.textsecure.crypto.decrypt(key, ciphertext, iv).then(function(result) {
                 assert.strictEqual(getString(result), getString(plaintext));
             }).then(done).catch(done);
         });
@@ -58,7 +57,7 @@ describe("Cryptographic primitives", function() {
             var key = hexToArrayBuffer('6f35628d65813435534b5d67fbdb54cb33403d04e843103e6399f806cb5df95febbdd61236f33245');
             var input = hexToArrayBuffer('752cff52e4b90768558e5369e75d97c69643509a5e5904e0a386cbe4d0970ef73f918f675945a9aefe26daea27587e8dc909dd56fd0468805f834039b345f855cfe19c44b55af241fff3ffcd8045cd5c288e6c4e284c3720570b58e4d47b8feeedc52fd1401f698a209fccfa3b4c0d9a797b046a2759f82a54c41ccd7b5f592b');
             var mac = getString(hexToArrayBuffer('05d1243e6465ed9620c9aec1c351a186'));
-            window.textsecure.subtle.sign(key, input).then(function(result) {
+            window.textsecure.crypto.sign(key, input).then(function(result) {
                 assert.strictEqual(getString(result).substring(0, mac.length), mac);
             }).then(done).catch(done);
         });
@@ -79,7 +78,7 @@ describe("Cryptographic primitives", function() {
             for (var i = 0; i < 10; i++)
                 info[i] = 240 + i;
 
-            return textsecure.crypto.testing_only.HKDF(IKM.buffer, salt.buffer, info.buffer).then(function(OKM){
+            return textsecure.crypto.HKDF(IKM.buffer, salt.buffer, info.buffer).then(function(OKM){
                 var T1 = hexToArrayBuffer("3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf");
                 var T2 = hexToArrayBuffer("34007208d5b887185865");
                 assert.equal(getString(OKM[0]), getString(T1));
@@ -109,7 +108,7 @@ describe('Unencrypted PushMessageProto "decrypt"', function() {
             message: text_message.encode()
         };
 
-        return textsecure.crypto.handleIncomingPushMessageProto(server_message).
+        return textsecure.protocol.handleIncomingPushMessageProto(server_message).
             then(function(message) {
                 assert.equal(message.body, text_message.body);
                 assert.equal(message.attachments.length, text_message.attachments.length);
@@ -122,8 +121,8 @@ describe("Curve25519", function() {
     describe("Implementation", function() {
         // this is a just cute little trick to get a nice-looking note about
         // which curve25519 impl we're using.
-        if (window.textsecure.nacl.USE_NACL) {
-            it("is NACL", function(done) { done(); });
+        if (window.textsecure.NATIVE_CLIENT) {
+            it("is Native Client", function(done) { done(); });
         } else {
             it("is JavaScript", function(done) { done(); });
         }
@@ -139,26 +138,26 @@ describe("Curve25519", function() {
                 var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
                 var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-                return textsecure.crypto.testing_only.privToPub(alice_priv, true).then(function(aliceKeyPair) {
+                return textsecure.crypto.createKeyPair(alice_priv).then(function(aliceKeyPair) {
                     var target = new Uint8Array(alice_priv.slice(0));
                     target[0] &= 248;
                     target[31] &= 127;
                     target[31] |= 64;
+                    assert.equal(getString(aliceKeyPair.pubKey), getString(alice_pub));
                     assert.equal(getString(aliceKeyPair.privKey), getString(target));
 
-                    return textsecure.crypto.testing_only.privToPub(bob_priv, true).then(function(bobKeyPair) {
+                    return textsecure.crypto.createKeyPair(bob_priv).then(function(bobKeyPair) {
                         var target = new Uint8Array(bob_priv.slice(0));
                         target[0] &= 248;
                         target[31] &= 127;
                         target[31] |= 64;
                         assert.equal(getString(bobKeyPair.privKey), getString(target));
-                        assert.equal(getString(aliceKeyPair.pubKey), getString(alice_pub));
                         assert.equal(getString(bobKeyPair.pubKey), getString(bob_pub));
 
-                        return textsecure.crypto.testing_only.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
+                        return textsecure.crypto.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
                             assert.equal(getString(ss), getString(shared_sec));
 
-                            return textsecure.crypto.testing_only.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
+                            return textsecure.crypto.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
                                 assert.equal(getString(ss), getString(shared_sec));
                             });
                         });
@@ -178,14 +177,14 @@ describe("Curve25519", function() {
                 var sig  = hexToArrayBuffer("2bc06c745acb8bae10fbc607ee306084d0c28e2b3bb819133392473431291fd0"+
                                         "dfa9c7f11479996cf520730d2901267387e08d85bbf2af941590e3035a545285");
 
-                return textsecure.crypto.testing_only.privToPub(priv, false).then(function(pubCalc) {
+                return textsecure.crypto.createKeyPair(priv).then(function(pubCalc) {
                     //if (getString(pub) != getString(pubCalc))
                     //	return false;
 
-                    return textsecure.crypto.testing_only.Ed25519Sign(priv, msg).then(function(sigCalc) {
+                    return textsecure.crypto.Ed25519Sign(priv, msg).then(function(sigCalc) {
                         assert.equal(getString(sig), getString(sigCalc));
 
-                        return textsecure.crypto.testing_only.Ed25519Verify(pub, msg, sig);
+                        return textsecure.crypto.Ed25519Verify(pub, msg, sig);
                     });
                 });
 			}).then(done).catch(done);
@@ -199,14 +198,14 @@ describe("Curve25519", function() {
         it ('works', function(done) {
 			localStorage.clear();
             return textsecure.registerOnLoadFunction(function() {
-                return textsecure.crypto.generateKeys().then(function() {
+                return textsecure.protocol.generateKeys().then(function() {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
                     for (var i = 0; i < 100; i++) {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                     }
                     var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
-                    return textsecure.crypto.generateKeys().then(function() {
+                    return textsecure.protocol.generateKeys().then(function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                         assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
@@ -217,7 +216,7 @@ describe("Curve25519", function() {
                             assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                         }
 
-                        return textsecure.crypto.generateKeys().then(function() {
+                        return textsecure.protocol.generateKeys().then(function() {
                             assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                             assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
@@ -259,7 +258,7 @@ describe("Axolotl", function() {
                 throw new Error('Out of private keys');
             else {
                 var privKey = privKeyQueue.shift();
-                return textsecure.crypto.testing_only.privToPub(privKey, false).then(function(keyPair) {
+                return textsecure.crypto.createKeyPair(privKey).then(function(keyPair) {
                     var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
                     if (getString(keyPair.privKey) != getString(privKey))
                         throw new Error('Failed to rederive private key!');
@@ -286,7 +285,7 @@ describe("Axolotl", function() {
                     message.sourceDevice = 1;
                     try {
                         var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(message.encode());
-                        return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(res) {
+                        return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(res) {
                             if (data.expectTerminateSession)
                                 return res.flags == textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
                             return res.body == data.expectedSmsText;
@@ -303,13 +302,13 @@ describe("Axolotl", function() {
                 }
 
                 if (data.ourIdentityKey !== undefined)
-                    return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+                    return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
                         textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
-                        return textsecure.crypto.testing_only.privToPub(data.ourSignedPreKey, false).then(function(keyPair) {
+                        return textsecure.crypto.createKeyPair(data.ourSignedPreKey).then(function(keyPair) {
                             textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
 
                             if (data.ourPreKey !== undefined)
-                                return textsecure.crypto.testing_only.privToPub(data.ourPreKey, false).then(function(keyPair) {
+                                return textsecure.crypto.createKeyPair(data.ourPreKey).then(function(keyPair) {
                                     textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
                                     return postLocalKeySetup();
                                 });
@@ -356,7 +355,7 @@ describe("Axolotl", function() {
                     privKeyQueue.push(data.ourEphemeralKey);
 
                 if (data.ourIdentityKey !== undefined)
-                    return textsecure.crypto.testing_only.privToPub(data.ourIdentityKey, true).then(function(keyPair) {
+                    return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
                         textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
                         return postLocalKeySetup();
                     });

@@ -151,7 +151,7 @@
 
                     $('#multi-device .status').text("Connecting...");
                     $('#setup-qr').html('');
-                    textsecure.crypto.prepareTempWebsocket().then(function(cryptoInfo) {
+                    textsecure.protocol.prepareTempWebsocket().then(function(cryptoInfo) {
                         var qrCode = new QRCode(document.getElementById('setup-qr'));
                         var socket = textsecure.api.getTempWebsocket();
 

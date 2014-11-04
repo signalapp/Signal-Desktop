@@ -205,60 +205,21 @@ window.textsecure.throwHumanError = function(error, type, humanError) {
     throw e;
 }
 
-/**********************
- *** NaCL Interface ***
- **********************/
-window.textsecure.nacl = function() {
-    var self = {};
+;(function() {
+    'use strict';
+    window.textsecure = window.textsecure || {};
+    window.textsecure.NATIVE_CLIENT = window.textsecure.NATIVE_CLIENT || true;
 
-    self.USE_NACL = true;
-
-    var onLoadCallbacks = [];
-    var naclLoaded = 0;
-    self.registerOnLoadFunction = function(func) {
-        return new Promise(function(resolve, reject) {
-            if (naclLoaded || !self.USE_NACL)
+    if (!textsecure.NATIVE_CLIENT) {
+        window.textsecure.registerOnLoadFunction = window.textsecure.nativeclient.registerOnLoadFunction;
+    } else {
+        window.textsecure.registerOnLoadFunction = function(func) {
+            return new Promise(function(resolve, reject) {
                 return resolve(func());
-            onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
-        });
+            });
+        };
     }
-
-    var naclMessageNextId = 0;
-    var naclMessageIdCallbackMap = {};
-    window.moduleDidLoad = function() {
-        common.hideModule();
-        naclLoaded = 1;
-        for (var i = 0; i < onLoadCallbacks.length; i++) {
-            try {
-                onLoadCallbacks[i][1](onLoadCallbacks[i][0]());
-            } catch (e) {
-                onLoadCallbacks[i][2](e);
-            }
-        }
-        onLoadCallbacks = [];
-    }
-
-    window.handleMessage = function(message) {
-        naclMessageIdCallbackMap[message.data.call_id](message.data);
-    }
-
-    self.postNaclMessage = function(message) {
-        if (!self.USE_NACL)
-            throw new Error("Attempted to make NaCL call with !USE_NACL?");
-
-        return new Promise(function(resolve) {
-            naclMessageIdCallbackMap[naclMessageNextId] = resolve;
-            message.call_id = naclMessageNextId++;
-
-            common.naclModule.postMessage(message);
-        });
-    }
-
-    return self;
-}();
-
-//TODO: Some kind of textsecure.init(use_nacl)
-window.textsecure.registerOnLoadFunction = window.textsecure.nacl.registerOnLoadFunction;
+})();
 
 window.textsecure.replay = function() {
     var self = {};
@@ -300,13 +261,13 @@ window.textsecure.subscribeToPush = function(message_callback) {
     var socket = textsecure.api.getMessageWebsocket();
 
     socket.onmessage = function(message) {
-        textsecure.crypto.decryptWebsocketMessage(message.message).then(function(plaintext) {
+        textsecure.protocol.decryptWebsocketMessage(message.message).then(function(plaintext) {
             var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
             // After this point, a) decoding errors are not the server's fault, and
             // b) we should handle them gracefully and tell the user they received an invalid message
             console.log("Successfully decoded message with id: " + message.id);
             socket.send(JSON.stringify({type: 1, id: message.id}));
-            return textsecure.crypto.handleIncomingPushMessageProto(proto).then(function(decrypted) {
+            return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(decrypted) {
                 // Delivery receipt
                 if (decrypted === null)
                     //TODO: Pass to UI
@@ -327,7 +288,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
 
                 var handleAttachment = function(attachment) {
                     return textsecure.api.getAttachment(attachment.id.toString()).then(function(encryptedBin) {
-                        return textsecure.crypto.decryptAttachment(encryptedBin, attachment.key.toArrayBuffer()).then(function(decryptedBin) {
+                        return textsecure.protocol.decryptAttachment(encryptedBin, attachment.key.toArrayBuffer()).then(function(decryptedBin) {
                             attachment.decrypted = decryptedBin;
                         });
                     });
@@ -421,7 +382,7 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
         textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         stepDone(1);
 
-        return textsecure.crypto.generateKeys().then(function(keys) {
+        return textsecure.protocol.generateKeys().then(function(keys) {
             stepDone(2);
             return textsecure.api.registerKeys(keys).then(function() {
                 stepDone(3);
@@ -456,7 +417,7 @@ window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo,
             textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegion(number));
             stepDone(2);
 
-            return textsecure.crypto.generateKeys().then(function(keys) {
+            return textsecure.protocol.generateKeys().then(function(keys) {
                 stepDone(3);
                 return textsecure.api.registerKeys(keys).then(function() {
                     stepDone(4);

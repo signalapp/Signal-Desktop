@@ -89,22 +89,4 @@
             };
         })();
     } // if !window.crypto.subtle
-
-    window.textsecure.subtle = {
-        encrypt: function(key, data, iv) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-                return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-            });
-        },
-        decrypt: function(key, data, iv) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
-                return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-            });
-        },
-        sign: function(key, data) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
-                return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
-            });
-        },
-    };
 })();

@@ -50,7 +50,7 @@ window.textsecure.messaging = function() {
 					return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
 			}
 
-			return textsecure.crypto.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+			return textsecure.protocol.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
 				jsonData[i] = {
 					type: encryptedMsg.type,
 					destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
@@ -198,7 +198,7 @@ window.textsecure.messaging = function() {
 		proto.key = textsecure.crypto.getRandomBytes(64);
 
 		var iv = textsecure.crypto.getRandomBytes(16);
-		return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
+		return textsecure.protocol.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
 			return textsecure.api.putAttachment(encryptedBin).then(function(id) {
 				proto.id = id;
 				proto.contentType = attachment.contentType;
@@ -252,7 +252,7 @@ window.textsecure.messaging = function() {
 		return sendIndividualProto(number, proto).then(function(res) {
 			var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 			for (var i in devices)
-				textsecure.crypto.closeOpenSessionForDevice(devices[i].encodedNumber);
+				textsecure.protocol.closeOpenSessionForDevice(devices[i].encodedNumber);
 
 			return res;
 		});
