@@ -22,9 +22,9 @@
      *    for all low-level crypto operations,
      */
 
-    // TODO Select an ecc implementation
-    //var ecc = textsecure.NATIVE_CLIENT ? textsecure.nativeclient : textsecure.tweetnacl || asmjs;
-    var ecc = textsecure.nativeclient;
+    // TODO Select an curve25519 implementation
+    //var curve25519 = textsecure.NATIVE_CLIENT ? textsecure.nativeclient : textsecure.tweetnacl || asmjs;
+    var curve25519 = textsecure.nativeclient;
 
     window.textsecure.crypto = {
         getRandomBytes: function(size) {
@@ -82,7 +82,7 @@
                 throw new Error("Invalid private key");
             }
 
-            return ecc.privToPub(privKey).then(function(raw_keys) {
+            return curve25519.privToPub(privKey).then(function(raw_keys) {
                 // prepend version byte
                 var origPub = new Uint8Array(raw_keys.pubKey);
                 var pub = new Uint8Array(33);
@@ -100,7 +100,7 @@
             if (pubKey === undefined || pubKey.byteLength != 32)
                 throw new Error("Invalid public key");
 
-            return ecc.ECDHE(pubKey, privKey);
+            return curve25519.ECDHE(pubKey, privKey);
         },
         Ed25519Sign: function(privKey, message) {
             if (privKey === undefined || privKey.byteLength != 32)
@@ -109,7 +109,7 @@
             if (message === undefined)
                 throw new Error("Invalid message");
 
-            return ecc.Ed25519Sign(privKey, message);
+            return curve25519.Ed25519Sign(privKey, message);
         },
         Ed25519Verify: function(pubKey, msg, sig) {
             pubKey = validatePubKeyFormat(pubKey);
@@ -123,7 +123,7 @@
             if (sig === undefined || sig.byteLength != 64)
                 throw new Error("Invalid signature");
 
-            return ecc.Ed25519Verify(pubKey, msg, sig);
+            return curve25519.Ed25519Verify(pubKey, msg, sig);
         }
     };
 
