@@ -16,18 +16,7 @@
 
 'use strict';
 
-describe("ArrayBuffer->String conversion", function() {
-    it('works', function() {
-        var b = new ArrayBuffer(3);
-        var a = new Uint8Array(b);
-        a[0] = 0;
-        a[1] = 255;
-        a[2] = 128;
-        assert.equal(getString(b), "\x00\xff\x80");
-    });
-});
-
-describe("Cryptographic primitives", function() {
+describe("Crypto", function() {
     describe("Encrypt AES-CBC", function() {
         it('works', function(done) {
             var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');
@@ -86,45 +75,14 @@ describe("Cryptographic primitives", function() {
 			}).then(done).catch(done);
         });
     });
-});
 
-describe('Unencrypted PushMessageProto "decrypt"', function() {
-    //exclusive
-    it('works', function(done) {
-		localStorage.clear();
-        var PushMessageProto = dcodeIO.ProtoBuf.loadProtoFile(
-            "protos/IncomingPushMessageSignal.proto"
-        ).build("textsecure.PushMessageContent");
-        var IncomingMessageProto = dcodeIO.ProtoBuf.loadProtoFile(
-            "protos/IncomingPushMessageSignal.proto"
-        ).build("textsecure.IncomingPushMessageSignal");
-
-        var text_message = new PushMessageProto();
-        text_message.body = "Hi Mom";
-        var server_message = {
-            type: 4, // unencrypted
-            source: "+19999999999",
-            timestamp: 42,
-            message: text_message.encode()
-        };
-
-        return textsecure.protocol.handleIncomingPushMessageProto(server_message).
-            then(function(message) {
-                assert.equal(message.body, text_message.body);
-                assert.equal(message.attachments.length, text_message.attachments.length);
-                assert.equal(text_message.attachments.length, 0);
-			}).then(done).catch(done);
-    });
-});
-
-describe("Curve25519", function() {
-    describe("Implementation", function() {
+    describe("Curve25519 implementation", function() {
         // this is a just cute little trick to get a nice-looking note about
         // which curve25519 impl we're using.
         if (window.textsecure.NATIVE_CLIENT) {
-            it("is Native Client", function(done) { done(); });
+            it("is Native Client", function() {});
         } else {
-            it("is JavaScript", function(done) { done(); });
+            it("is JavaScript", function() {});
         }
     });
 
@@ -190,200 +148,4 @@ describe("Curve25519", function() {
 			}).then(done).catch(done);
         });
     });
-
-    describe("Identity and Pre Key Creation", function() {
-        this.timeout(10000);
-        before(function() { localStorage.clear(); });
-        after(function()  { localStorage.clear(); });
-        it ('works', function(done) {
-			localStorage.clear();
-            return textsecure.registerOnLoadFunction(function() {
-                return textsecure.protocol.generateKeys().then(function() {
-                    assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
-                    assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
-                    for (var i = 0; i < 100; i++) {
-                        assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
-                    }
-                    var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
-                    return textsecure.protocol.generateKeys().then(function() {
-                        assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
-                        assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
-
-                        assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
-                        assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey1"));
-
-                        for (var i = 0; i < 200; i++) {
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
-                        }
-
-                        return textsecure.protocol.generateKeys().then(function() {
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
-                            assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
-
-                            assert.isUndefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey1"));
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey2"));
-
-                            for (var i = 0; i < 300; i++) {
-                                assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
-                            }
-                        });
-                    });
-                });
-			}).then(done).catch(done);
-        });
-    });
 });
-
-describe("Axolotl", function() {
-    var runAxolotlTest = function(v) {
-        var origCreateNewKeyPair = textsecure.crypto.testing_only.createNewKeyPair;
-        var doStep;
-        var stepDone;
-
-        stepDone = function(res) {
-            if (!res || privKeyQueue.length != 0 || Object.keys(getKeysForNumberMap).length != 0 || Object.keys(messagesSentMap).length != 0) {
-                textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
-                return false;
-            } else if (step == v.length) {
-                textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
-                return true;
-            } else
-                return doStep().then(stepDone);
-        }
-
-        var privKeyQueue = [];
-        textsecure.crypto.testing_only.createNewKeyPair = function(isIdentity) {
-            if (privKeyQueue.length == 0 || isIdentity)
-                throw new Error('Out of private keys');
-            else {
-                var privKey = privKeyQueue.shift();
-                return textsecure.crypto.createKeyPair(privKey).then(function(keyPair) {
-                    var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
-                    if (getString(keyPair.privKey) != getString(privKey))
-                        throw new Error('Failed to rederive private key!');
-                    else
-                        return keyPair;
-                });
-            }
-        }
-
-        var step = 0;
-        var doStep = function() {
-            var data = v[step][1];
-
-            switch(v[step++][0]) {
-            case "receiveMessage":
-                var postLocalKeySetup = function() {
-                    if (data.newEphemeralKey !== undefined)
-                        privKeyQueue.push(data.newEphemeralKey);
-
-                    var message = new textsecure.protobuf.IncomingPushMessageSignal();
-                    message.type = data.type;
-                    message.source = "SNOWDEN";
-                    message.message = data.message;
-                    message.sourceDevice = 1;
-                    try {
-                        var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(message.encode());
-                        return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(res) {
-                            if (data.expectTerminateSession)
-                                return res.flags == textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
-                            return res.body == data.expectedSmsText;
-                        }).catch(function(e) {
-                            if (data.expectException)
-                                return true;
-                            throw e;
-                        });
-                    } catch(e) {
-                        if (data.expectException)
-                            return Promise.resolve(true);
-                        throw e;
-                    }
-                }
-
-                if (data.ourIdentityKey !== undefined)
-                    return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
-                        textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
-                        return textsecure.crypto.createKeyPair(data.ourSignedPreKey).then(function(keyPair) {
-                            textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
-
-                            if (data.ourPreKey !== undefined)
-                                return textsecure.crypto.createKeyPair(data.ourPreKey).then(function(keyPair) {
-                                    textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
-                                    return postLocalKeySetup();
-                                });
-                            else
-                                return postLocalKeySetup();
-                        });
-                    });
-                else
-                    return postLocalKeySetup();
-
-            case "sendMessage":
-                var postLocalKeySetup = function() {
-                    if (data.registrationId !== undefined)
-                        textsecure.storage.putUnencrypted("registrationId", data.registrationId);
-
-                    if (data.getKeys !== undefined)
-                        getKeysForNumberMap["SNOWDEN"] = data.getKeys;
-
-                    var checkMessage = function() {
-                        var msg = messagesSentMap["SNOWDEN.1"];
-                        delete messagesSentMap["SNOWDEN.1"];
-                        //XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
-                        if (msg.type == 1) {
-                            var expected = getString(data.expectedCiphertext);
-                            var decoded = textsecure.protobuf.WhisperMessage.decode(expected.substring(1, expected.length - 8), 'binary');
-                            var result = getString(msg.body);
-                            return getString(decoded.encode()) == result.substring(1, result.length - 8);
-                        } else {
-                            var decoded = textsecure.protobuf.PreKeyWhisperMessage.decode(getString(data.expectedCiphertext).substr(1), 'binary');
-                            var result = getString(msg.body).substring(1);
-                            return getString(decoded.encode()) == result;
-                        }
-                    }
-
-                    if (data.endSession)
-                        return textsecure.messaging.closeSession("SNOWDEN").then(checkMessage);
-                    else
-                        return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, []).then(checkMessage);
-                }
-
-                if (data.ourBaseKey !== undefined)
-                    privKeyQueue.push(data.ourBaseKey);
-                if (data.ourEphemeralKey !== undefined)
-                    privKeyQueue.push(data.ourEphemeralKey);
-
-                if (data.ourIdentityKey !== undefined)
-                    return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
-                        textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
-                        return postLocalKeySetup();
-                    });
-                else
-                    return postLocalKeySetup();
-
-            default:
-                return Promise.resolve(false);
-            }
-        }
-        return doStep().then(stepDone);
-    };
-
-    describe("test vectors", function() {
-        _.each(axolotlTestVectors, function(t, i) {
-            it(t.name, function(done) {
-				localStorage.clear();
-            	return textsecure.registerOnLoadFunction(function() {
-					return runAxolotlTest(t.vectors).then(function(res) {
-						assert(res);
-					});
-				}).then(done).catch(done);
-            });
-        });
-    });
-});
-
-if (window.mochaPhantomJS)
-	mochaPhantomJS.run();
-else
-	mocha.run();
