@@ -28,16 +28,6 @@ window.textsecure.protocol = function() {
     // (also the time between signedPreKey regenerations)
     var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
 
-    var getRandomBytes = function(size) {
-        // At some point we might consider XORing in hashes of random
-        // UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
-        // ie maybe take a look at how Gibson does it at https://www.grc.com/r&d/js.htm
-        var array = new Uint8Array(size);
-        window.crypto.getRandomValues(array);
-        return array.buffer;
-    }
-    self.getRandomBytes = getRandomBytes;
-
     function objectContainsKeys(object) {
         var count = 0;
         for (var key in object) {
