@@ -69,8 +69,6 @@ window.textsecure.crypto = function() {
 		if (textsecure.nacl.USE_NACL) {
 			return textsecure.nacl.postNaclMessage({command: "bytesToPriv", priv: privKey}).then(function(message) {
 				var priv = message.res.slice(0, 32);
-				if (!isIdentity)
-					new Uint8Array(priv)[0] |= 0x01;
 				return textsecure.nacl.postNaclMessage({command: "privToPub", priv: priv}).then(function(message) {
 					return { pubKey: prependVersion(message.res.slice(0, 32)), privKey: priv };
 				});
@@ -80,9 +78,6 @@ window.textsecure.crypto = function() {
 			var priv = new Uint16Array(privKey);
 			priv[0] &= 0xFFF8;
 			priv[15] = (priv[15] & 0x7FFF) | 0x4000;
-
-			if (!isIdentity)
-				priv[0] |= 0x0001;
 
 			//TODO: fscking type conversion
 			return Promise.resolve({ pubKey: prependVersion(toArrayBuffer(curve25519(priv))), privKey: privKey});
