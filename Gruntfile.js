@@ -35,10 +35,19 @@ module.exports = function(grunt) {
         ],
         dest: 'test/test.js',
       }
+    },
+    sass: {
+        stylesheets: {
+            files: {
+                'stylesheets/manifest.css': 'stylesheets/manifest.scss'
+            }
+        }
     }
   });
   grunt.loadNpmTasks('grunt-preen');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('default', ['preen', 'concat']);
+
+  grunt.registerTask('default', ['preen', 'concat', 'sass']);
 };
