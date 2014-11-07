@@ -205,21 +205,9 @@ window.textsecure.throwHumanError = function(error, type, humanError) {
     throw e;
 }
 
-;(function() {
-    'use strict';
-    window.textsecure = window.textsecure || {};
-    window.textsecure.NATIVE_CLIENT = window.textsecure.NATIVE_CLIENT || true;
-
-    if (!textsecure.NATIVE_CLIENT) {
-        window.textsecure.registerOnLoadFunction = window.textsecure.nativeclient.registerOnLoadFunction;
-    } else {
-        window.textsecure.registerOnLoadFunction = function(func) {
-            return new Promise(function(resolve, reject) {
-                return resolve(func());
-            });
-        };
-    }
-})();
+window.textsecure.registerOnLoadFunction = textsecure.registerOnLoadFunction || function(func) {
+    return Promise.resolve(func());
+};
 
 window.textsecure.replay = function() {
     var self = {};

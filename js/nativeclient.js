@@ -16,6 +16,11 @@
 ;(function() {
     'use strict';
     window.textsecure = window.textsecure || {};
+    window.textsecure.NATIVE_CLIENT = window.textsecure.NATIVE_CLIENT || true;
+
+    if (!textsecure.NATIVE_CLIENT) {
+        window.textsecure.registerOnLoadFunction = window.textsecure.nativeclient.registerOnLoadFunction;
+    }
 
     var naclMessageNextId = 0;
     var naclMessageIdCallbackMap = {};
