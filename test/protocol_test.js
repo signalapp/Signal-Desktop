@@ -21,14 +21,8 @@ describe('Protocol', function() {
         //exclusive
         it('works', function(done) {
             localStorage.clear();
-            var PushMessageProto = dcodeIO.ProtoBuf.loadProtoFile(
-                "protos/IncomingPushMessageSignal.proto"
-            ).build("textsecure.PushMessageContent");
-            var IncomingMessageProto = dcodeIO.ProtoBuf.loadProtoFile(
-                "protos/IncomingPushMessageSignal.proto"
-            ).build("textsecure.IncomingPushMessageSignal");
 
-            var text_message = new PushMessageProto();
+            var text_message = new textsecure.protobuf.PushMessageContent();
             text_message.body = "Hi Mom";
             var server_message = {
                 type: 4, // unencrypted
