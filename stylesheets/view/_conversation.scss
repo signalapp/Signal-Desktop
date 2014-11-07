@@ -1,0 +1,58 @@
+.conversation {
+  margin-top:10px;
+  width:100%;
+  padding-right:12px;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom:10px;
+  text-align: left;
+}
+
+ul.discussion {
+  display:block;
+  overflow:auto;
+  padding:0;
+}
+
+.entry {
+  display:block;
+  width:100%;
+  float:left;
+  margin-bottom:10px;
+}
+
+.bubble {
+  //position:relative;
+  border-radius:16px;
+  padding:12px;
+  bottom:10px;
+  width:auto;
+  background-color:whitesmoke;
+  &:first-of-type {
+    margin-top: 0;
+  }
+  ul, li {
+    display:block;
+    margin:0;
+    padding:0;
+  }
+  .message {
+    position:relative;
+    font-size:14px;
+    -webkit-text-stroke: 0.35px;
+  }
+  &.incoming {
+    float:left;
+    text-align: left;
+    margin-left:12px;
+  }
+  &.sent {
+    float:right;
+    clear:right;
+    text-align: right;
+    background-color:#00badd;
+    color:white;
+  }
+  &.sent .volley {
+  }
+}
