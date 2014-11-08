@@ -38,12 +38,14 @@ module.exports = function(grunt) {
       },
       curve25519: {
         src: [
-          'build/_before.js',
           'build/curve25519_compiled.js',
           'build/curve25519.js',
-          'build/_after.js'
         ],
-        dest: 'js/curve25519_compiled.js'
+        dest: 'js/curve25519_compiled.js',
+        options: {
+          banner: ';(function(){\n',
+          footer: '\n})();'
+        }
       }
     },
     sass: {
