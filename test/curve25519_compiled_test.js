@@ -18,11 +18,5 @@
 
 
 describe('curve25519_compiled.js', function() {
-    describe('curve25519_donna', function() {
-        it('exists', function() {
-            var curve25519_donna = Module.cwrap('curve25519_sign', 'string', 'string');
-            assert.isDefined(Module.cwrap);
-        });
-    });
     test_curve25519_implementation(curve25519);
 });
