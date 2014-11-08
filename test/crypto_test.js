@@ -15,6 +15,7 @@
  */
 
 'use strict';
+window.assert = chai.assert;
 
 describe("Crypto", function() {
     describe("Encrypt AES-CBC", function() {

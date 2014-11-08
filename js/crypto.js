@@ -22,9 +22,8 @@
      *    for all low-level crypto operations,
      */
 
-    // TODO Select an curve25519 implementation
-    //var curve25519 = textsecure.NATIVE_CLIENT ? textsecure.nativeclient : textsecure.tweetnacl || asmjs;
-    var curve25519 = textsecure.nativeclient;
+    var curve25519 = window.curve25519;
+    if (textsecure.NATIVE_CLIENT) curve25519 = textsecure.nativeclient;
 
     window.textsecure.crypto = {
         getRandomBytes: function(size) {
