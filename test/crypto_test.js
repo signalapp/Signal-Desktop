@@ -80,7 +80,7 @@ describe("Crypto", function() {
     describe("Curve25519 implementation", function() {
         // this is a just cute little trick to get a nice-looking note about
         // which curve25519 impl we're using.
-        if (window.textsecure.NATIVE_CLIENT) {
+        if (window.textsecure.nativeclient) {
             it("is Native Client", function() {});
         } else {
             it("is JavaScript", function() {});
@@ -89,36 +89,34 @@ describe("Crypto", function() {
 
     describe("Simple Curve25519 test vectors", function() {
         it('works', function(done) {
-            return textsecure.registerOnLoadFunction(function() {
-                // These are just some random curve25519 test vectors I found online (with a version byte prepended to pubkeys)
-                var alice_priv = hexToArrayBuffer("77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
-                var alice_pub  = hexToArrayBuffer("058520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a");
-                var bob_priv   = hexToArrayBuffer("5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb");
-                var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
-                var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
+            // These are just some random curve25519 test vectors I found online (with a version byte prepended to pubkeys)
+            var alice_priv = hexToArrayBuffer("77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
+            var alice_pub  = hexToArrayBuffer("058520f0098930a754748b7ddcb43ef75a0dbf3a0d26381af4eba4a98eaa9b4e6a");
+            var bob_priv   = hexToArrayBuffer("5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb");
+            var bob_pub    = hexToArrayBuffer("05de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
+            var shared_sec = hexToArrayBuffer("4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09b3c1e161742");
 
-                return textsecure.crypto.createKeyPair(alice_priv).then(function(aliceKeyPair) {
-                    var target = new Uint8Array(alice_priv.slice(0));
+            return textsecure.crypto.createKeyPair(alice_priv).then(function(aliceKeyPair) {
+                var target = new Uint8Array(alice_priv.slice(0));
+                target[0] &= 248;
+                target[31] &= 127;
+                target[31] |= 64;
+                assert.equal(getString(aliceKeyPair.pubKey), getString(alice_pub));
+                assert.equal(getString(aliceKeyPair.privKey), getString(target));
+
+                return textsecure.crypto.createKeyPair(bob_priv).then(function(bobKeyPair) {
+                    var target = new Uint8Array(bob_priv.slice(0));
                     target[0] &= 248;
                     target[31] &= 127;
                     target[31] |= 64;
-                    assert.equal(getString(aliceKeyPair.pubKey), getString(alice_pub));
-                    assert.equal(getString(aliceKeyPair.privKey), getString(target));
+                    assert.equal(getString(bobKeyPair.privKey), getString(target));
+                    assert.equal(getString(bobKeyPair.pubKey), getString(bob_pub));
 
-                    return textsecure.crypto.createKeyPair(bob_priv).then(function(bobKeyPair) {
-                        var target = new Uint8Array(bob_priv.slice(0));
-                        target[0] &= 248;
-                        target[31] &= 127;
-                        target[31] |= 64;
-                        assert.equal(getString(bobKeyPair.privKey), getString(target));
-                        assert.equal(getString(bobKeyPair.pubKey), getString(bob_pub));
+                    return textsecure.crypto.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
+                        assert.equal(getString(ss), getString(shared_sec));
 
-                        return textsecure.crypto.ECDHE(bobKeyPair.pubKey, aliceKeyPair.privKey).then(function(ss) {
+                        return textsecure.crypto.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
                             assert.equal(getString(ss), getString(shared_sec));
-
-                            return textsecure.crypto.ECDHE(aliceKeyPair.pubKey, bobKeyPair.privKey).then(function(ss) {
-                                assert.equal(getString(ss), getString(shared_sec));
-                            });
                         });
                     });
                 });
@@ -128,23 +126,21 @@ describe("Crypto", function() {
 
     describe("Simple Ed25519 tests", function() {
         it('works', function(done) {
-            return textsecure.registerOnLoadFunction(function() {
-                // Some self-generated test vectors
-                var priv = hexToArrayBuffer("48a8892cc4e49124b7b57d94fa15becfce071830d6449004685e387c62409973");
-                var pub  = hexToArrayBuffer("0555f1bfede27b6a03e0dd389478ffb01462e5c52dbbac32cf870f00af1ed9af3a");
-                var msg  = hexToArrayBuffer("617364666173646661736466");
-                var sig  = hexToArrayBuffer("2bc06c745acb8bae10fbc607ee306084d0c28e2b3bb819133392473431291fd0"+
-                                        "dfa9c7f11479996cf520730d2901267387e08d85bbf2af941590e3035a545285");
+            // Some self-generated test vectors
+            var priv = hexToArrayBuffer("48a8892cc4e49124b7b57d94fa15becfce071830d6449004685e387c62409973");
+            var pub  = hexToArrayBuffer("0555f1bfede27b6a03e0dd389478ffb01462e5c52dbbac32cf870f00af1ed9af3a");
+            var msg  = hexToArrayBuffer("617364666173646661736466");
+            var sig  = hexToArrayBuffer("2bc06c745acb8bae10fbc607ee306084d0c28e2b3bb819133392473431291fd0"+
+                                    "dfa9c7f11479996cf520730d2901267387e08d85bbf2af941590e3035a545285");
 
-                return textsecure.crypto.createKeyPair(priv).then(function(pubCalc) {
-                    //if (getString(pub) != getString(pubCalc))
-                    //	return false;
+            return textsecure.crypto.createKeyPair(priv).then(function(pubCalc) {
+                //if (getString(pub) != getString(pubCalc))
+                //	return false;
 
-                    return textsecure.crypto.Ed25519Sign(priv, msg).then(function(sigCalc) {
-                        assert.equal(getString(sig), getString(sigCalc));
+                return textsecure.crypto.Ed25519Sign(priv, msg).then(function(sigCalc) {
+                    assert.equal(getString(sig), getString(sigCalc));
 
-                        return textsecure.crypto.Ed25519Verify(pub, msg, sig);
-                    });
+                    return textsecure.crypto.Ed25519Verify(pub, msg, sig);
                 });
 			}).then(done).catch(done);
         });

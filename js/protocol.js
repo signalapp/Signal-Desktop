@@ -743,11 +743,10 @@ window.textsecure.protocol = function() {
             return identityKeyCalculated(identityKeyPair);
     }
 
-    window.textsecure.registerOnLoadFunction(function() {
-        //TODO: Dont always update prekeys here
-        if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
-            self.generateKeys();
-    });
+    //TODO: Dont always update prekeys here
+    if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
+        new Promise(function(resolve) { resolve(self.generateKeys()); });
+    }
 
 
     self.prepareTempWebsocket = function() {

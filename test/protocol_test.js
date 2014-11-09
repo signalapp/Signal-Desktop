@@ -47,37 +47,35 @@ describe('Protocol', function() {
         after(function()  { localStorage.clear(); });
         it ('works', function(done) {
             localStorage.clear();
-            return textsecure.registerOnLoadFunction(function() {
+            return textsecure.protocol.generateKeys().then(function() {
+                assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
+                assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
+                for (var i = 0; i < 100; i++) {
+                    assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
+                }
+                var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
                 return textsecure.protocol.generateKeys().then(function() {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
+                    assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
+
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
-                    for (var i = 0; i < 100; i++) {
+                    assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey1"));
+
+                    for (var i = 0; i < 200; i++) {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                     }
-                    var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
+
                     return textsecure.protocol.generateKeys().then(function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                         assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
-                        assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
+                        assert.isUndefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey1"));
+                        assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey2"));
 
-                        for (var i = 0; i < 200; i++) {
+                        for (var i = 0; i < 300; i++) {
                             assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                         }
-
-                        return textsecure.protocol.generateKeys().then(function() {
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
-                            assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
-
-                            assert.isUndefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey1"));
-                            assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey2"));
-
-                            for (var i = 0; i < 300; i++) {
-                                assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
-                            }
-                        });
                     });
                 });
             }).then(done).catch(done);
@@ -222,10 +220,8 @@ describe('Protocol', function() {
             _.each(axolotlTestVectors, function(t, i) {
                 it(t.name, function(done) {
                     localStorage.clear();
-                    return textsecure.registerOnLoadFunction(function() {
-                        return runAxolotlTest(t.vectors).then(function(res) {
-                            assert(res);
-                        });
+                    return runAxolotlTest(t.vectors).then(function(res) {
+                        assert(res);
                     }).then(done).catch(done);
                 });
             });

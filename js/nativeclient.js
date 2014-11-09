@@ -16,10 +16,11 @@
 ;(function() {
     'use strict';
     window.textsecure = window.textsecure || {};
-    window.textsecure.NATIVE_CLIENT = window.textsecure.NATIVE_CLIENT || true;
 
-    if (!textsecure.NATIVE_CLIENT) {
-        window.textsecure.registerOnLoadFunction = window.textsecure.nativeclient.registerOnLoadFunction;
+    if (navigator.mimeTypes['application/x-nacl'] === undefined &&
+        navigator.mimeTypes['application/x-pnacl'] === undefined) {
+            // browser does not support native client.
+            return;
     }
 
     var naclMessageNextId = 0;
@@ -30,9 +31,11 @@
 
     function postMessage(message) {
         return new Promise(function(resolve) {
-            naclMessageIdCallbackMap[naclMessageNextId] = resolve;
-            message.call_id = naclMessageNextId++;
-            common.naclModule.postMessage(message);
+            return registerOnLoadFunction(function() {
+                naclMessageIdCallbackMap[naclMessageNextId] = resolve;
+                message.call_id = naclMessageNextId++;
+                common.naclModule.postMessage(message);
+            });
         });
     };
 
@@ -49,7 +52,17 @@
             }
         }
         onLoadCallbacks = [];
-    }
+    };
+
+    function registerOnLoadFunction(func) {
+        return new Promise(function(resolve, reject) {
+            if (naclLoaded) {
+                return resolve(func());
+            } else {
+                onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
+            }
+        });
+    };
 
     window.textsecure.nativeclient = {
         privToPub: function(priv) {
@@ -75,16 +88,6 @@
                 if (!message.res)
                     throw new Error("Invalid signature");
             });
-        },
-        registerOnLoadFunction: function(func) {
-            return new Promise(function(resolve, reject) {
-                if (naclLoaded) {
-                    return resolve(func());
-                } else {
-                    onLoadCallbacks[onLoadCallbacks.length] = [ func, resolve, reject ];
-                }
-            });
         }
     };
-
 })();

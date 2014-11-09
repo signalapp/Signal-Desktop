@@ -17,11 +17,9 @@
 'use strict';
 
 describe("Native Client", function()  {
-    test_curve25519_implementation(textsecure.nativeclient);
-
-    describe("registerOnLoadFunction", function() {
-      it('queues a callback til native client is loaded', function(done) {
-        textsecure.nativeclient.registerOnLoadFunction(done);
-      });
-    });
+    if (textsecure.nativeclient) {
+        test_curve25519_implementation(textsecure.nativeclient);
+    } else {
+        it.skip('Not supported');
+    }
 });

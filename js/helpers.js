@@ -205,10 +205,6 @@ window.textsecure.throwHumanError = function(error, type, humanError) {
     throw e;
 }
 
-window.textsecure.registerOnLoadFunction = textsecure.registerOnLoadFunction || function(func) {
-    return Promise.resolve(func());
-};
-
 window.textsecure.replay = function() {
     var self = {};
 

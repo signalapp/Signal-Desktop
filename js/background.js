@@ -1,4 +1,4 @@
-/* vim: ts=4:sw=4
+/* vim: ts=4:sw=4:expandtab
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -14,21 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-textsecure.registerOnLoadFunction(function() {
-	if (!localStorage.getItem('first_install_ran')) {
-		localStorage.setItem('first_install_ran', 1);
-		extension.navigator.tabs.create("options.html");
-	} else {
-		if (isRegistrationDone()) {
-			textsecure.subscribeToPush(function(message) {
-				Whisper.Messages.addIncomingMessage(message).then(function() {
-					console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
-								': "' + getString(message.message.body) + '"');
-					var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
-					textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
-					extension.navigator.setBadgeText(newUnreadCount);
-				});
-			});
-		}
-	}
-});
+;(function() {
+    'use strict';
+
+    if (!localStorage.getItem('first_install_ran')) {
+        localStorage.setItem('first_install_ran', 1);
+        extension.navigator.tabs.create("options.html");
+    } else {
+        if (isRegistrationDone()) {
+            textsecure.subscribeToPush(function(message) {
+                Whisper.Messages.addIncomingMessage(message).then(function() {
+                    console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
+                                ': "' + getString(message.message.body) + '"');
+                    var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
+                    textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+                    extension.navigator.setBadgeText(newUnreadCount);
+                });
+            });
+        }
+    }
+})();

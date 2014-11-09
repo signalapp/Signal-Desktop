@@ -16,7 +16,6 @@
 
 'use strict';
 
-
 describe('curve25519_compiled.js', function() {
     test_curve25519_implementation(curve25519);
 });
