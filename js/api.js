@@ -16,7 +16,7 @@
 
 window.textsecure = window.textsecure || {};
 
-window.textsecure.api = function() {
+window.textsecure.api = function () {
     'use strict';
 
     var self = {};
@@ -27,19 +27,19 @@ window.textsecure.api = function() {
     // Staging server
     var URL_BASE    = "https://textsecure-service-staging.whispersystems.org";
     self.relay      = "textsecure-service-staging.whispersystems.org";
-    var ATTACHMENT_HOST = "whispersystems-textsecure-attachments-staging.s3.amazonaws.com"
+    var ATTACHMENT_HOST = "whispersystems-textsecure-attachments-staging.s3.amazonaws.com";
 
     // This is the real server
     //var URL_BASE  = "https://textsecure-service.whispersystems.org";
 
     var URL_CALLS = {};
-    URL_CALLS['accounts']   = "/v1/accounts";
-    URL_CALLS['devices']    = "/v1/devices";
-    URL_CALLS['keys']       = "/v2/keys";
-    URL_CALLS['push']       = "/v1/websocket";
-    URL_CALLS['temp_push']  = "/v1/temp_websocket";
-    URL_CALLS['messages']   = "/v1/messages";
-    URL_CALLS['attachment'] = "/v1/attachments";
+    URL_CALLS.accounts   = "/v1/accounts";
+    URL_CALLS.devices    = "/v1/devices";
+    URL_CALLS.keys       = "/v2/keys";
+    URL_CALLS.push       = "/v1/websocket";
+    URL_CALLS.temp_push  = "/v1/temp_websocket";
+    URL_CALLS.messages   = "/v1/messages";
+    URL_CALLS.attachment = "/v1/attachments";
 
     /**
         * REQUIRED PARAMS:
@@ -54,23 +54,24 @@ window.textsecure.api = function() {
         *   do_auth:            alternative to user/password where user/password are figured out automagically
         *   jsonData:           JSON data sent in the request body
         */
-    var doAjax = function(param) {
-        if (param.urlParameters === undefined)
+    var doAjax = function (param) {
+        if (param.urlParameters === undefined) {
             param.urlParameters = "";
+        }
 
         if (param.do_auth) {
             param.user      = textsecure.storage.getUnencrypted("number_id");
             param.password  = textsecure.storage.getEncrypted("password");
         }
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             $.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
                 type        : param.httpType,
                 data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
                 contentType : 'application/json; charset=utf-8',
                 dataType    : 'json',
 
-                beforeSend  : function(xhr) {
+                beforeSend  : function (xhr) {
                                 if (param.user       !== undefined &&
                                     param.password !== undefined)
                                         xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(param.user) + ":" + getString(param.password)));
@@ -82,7 +83,7 @@ window.textsecure.api = function() {
 
                 error       : function(jqXHR, textStatus, errorThrown) {
                     var code = jqXHR.status;
-                    if (code == 200) {
+                    if (code === 200) {
                         // happens sometimes when we get no response
                         // (TODO: Fix server to return 204? instead)
                         resolve(null);
@@ -153,7 +154,7 @@ window.textsecure.api = function() {
                 jsonData            : { signalingKey        : btoa(getString(signaling_key)),
                                             supportsSms     : false,
                                             fetchesMessages : true,
-                                            registrationId  : registrationId},
+                                            registrationId  : registrationId}
             });
     };
 

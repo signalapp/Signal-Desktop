@@ -1,3 +1,4 @@
+/*global chrome*/
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,41 +14,42 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+(function () {
+    'use strict';
+    window.extension = window.extension || {};
 
-window.extension = window.extension || {};
+    window.extension.navigator = (function () {
+        var self = {},
+            tabs = {};
+        tabs.create = function (url) {
+            chrome.tabs.create({url: url});
+        };
+        self.tabs = tabs;
 
-window.extension.navigator = function() {
-    var self = {};
-    
-    var tabs = {};
-    tabs.create = function(url){
-        chrome.tabs.create({url: url});
-    };
-    self.tabs = tabs;
-    
-    self.setBadgeText = function(text){
-        chrome.browserAction.setBadgeText({text: text + ""});
-    };
-    
-    return self;
-}();
+        self.setBadgeText = function (text) {
+            chrome.browserAction.setBadgeText({text: String(text)});
+        };
 
-// Random shared utilities that are used only by chromium things
+        return self;
+    }());
 
-function registrationDone() {
-	localStorage.setItem("chromiumRegistrationDone", "");
-    chrome.runtime.sendMessage('registration_done');
-    window.location = '/index.html';
-}
+    // Random shared utilities that are used only by chromium things
 
-function isRegistrationDone() {
-	return localStorage.getItem("chromiumRegistrationDone") !== null;
-}
+    function registrationDone() {
+        localStorage.setItem("chromiumRegistrationDone", "");
+        chrome.runtime.sendMessage('registration_done');
+        window.location = '/index.html';
+    }
 
-function addRegistrationListener(callback) {
-    chrome.runtime.onMessage.addListener(function(message) {
-        if (message === 'registration_done') {
-            callback();
-        }
-    });
-};
+    function isRegistrationDone() {
+        return localStorage.getItem("chromiumRegistrationDone") !== null;
+    }
+
+    function addRegistrationListener(callback) {
+        chrome.runtime.onMessage.addListener(function(message) {
+            if (message === 'registration_done') {
+                callback();
+            }
+        });
+    }
+}());
