@@ -1,3 +1,4 @@
+/*global chrome*/
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,30 +17,32 @@
 
 window.extension = window.extension || {};
 
-window.extension.navigator = function() {
-    var self = {};
-    
-    var tabs = {};
-    tabs.create = function(url){
+window.extension.navigator = (function () {
+    'use strict';
+    var self = {},
+        tabs = {};
+    tabs.create = function (url) {
         chrome.tabs.create({url: url});
     };
     self.tabs = tabs;
     
-    self.setBadgeText = function(text){
-        chrome.browserAction.setBadgeText({text: text + ""});
+    self.setBadgeText = function (text) {
+        chrome.browserAction.setBadgeText({text: String(text)});
     };
     
     return self;
-}();
+}());
 
 // Random shared utilities that are used only by chromium things
 
 function registrationDone() {
+    'use strict';
 	localStorage.setItem("chromiumRegistrationDone", "");
 	//TODO: Fix dirty hack:
 	chrome.runtime.reload();
 }
 
 function isRegistrationDone() {
+    'use strict';
 	return localStorage.getItem("chromiumRegistrationDone") !== null;
 }
