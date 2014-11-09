@@ -65,7 +65,7 @@
     };
 
     window.textsecure.nativeclient = {
-        privToPub: function(priv) {
+        keyPair: function(priv) {
             return postMessage({command: "bytesToPriv", priv: priv}).then(function(message) {
                 var priv = message.res.slice(0, 32);
                 return postMessage({command: "privToPub", priv: priv}).then(function(message) {
@@ -73,17 +73,17 @@
                 });
             });
         },
-        ECDHE: function(pub, priv) {
+        sharedSecret: function(pub, priv) {
             return postMessage({command: "ECDHE", pub: pub, priv: priv}).then(function(message) {
                 return message.res.slice(0, 32);
             });
         },
-        Ed25519Sign: function(priv, msg) {
+        sign: function(priv, msg) {
             return postMessage({command: "Ed25519Sign", priv: priv, msg: msg}).then(function(message) {
                 return message.res;
             });
         },
-        Ed25519Verify: function(pub, msg, sig) {
+        verify: function(pub, msg, sig) {
             return postMessage({command: "Ed25519Verify", pub: pub, msg: msg, sig: sig}).then(function(message) {
                 if (!message.res)
                     throw new Error("Invalid signature");

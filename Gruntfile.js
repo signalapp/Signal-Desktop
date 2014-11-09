@@ -113,4 +113,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
+  grunt.registerTask('build', ['compile', 'concat:curve25519']);
 };

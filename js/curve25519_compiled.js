@@ -2919,49 +2919,52 @@ run();
     basepoint[0] = 9;
 
     window.curve25519 = {
-        privToPub: function(privKey) {
+        keyPair: function(privKey) {
             var priv = new Uint8Array(privKey);
             priv[0]  &= 248;
             priv[31] &= 127;
             priv[31] |= 64
 
             // Where to store the result
-            var pubKey = new Uint8Array(32);
-            //var publicKey_ptr = Module._malloc(32);
-            var publicKey_ptr = _allocate(pubKey);
+            var publicKey_ptr = Module._malloc(32);
 
             // Get a pointer to the private key
             var privateKey_ptr = _allocate(priv);
 
-            // The basepoint for generating public keys is 0x09 followed by 31 null bytes
+            // The basepoint for generating public keys
             var basepoint_ptr = _allocate(basepoint);
 
             // The return value is just 0, the operation is done in place
-            var err = Module._curve25519_donna(publicKey_ptr, privateKey_ptr, basepoint_ptr);
+            var err = Module._curve25519_donna(publicKey_ptr,
+                                               privateKey_ptr,
+                                               basepoint_ptr);
 
             var res = new Uint8Array(32);
             _readBytes(publicKey_ptr, 32, res);
 
             return Promise.resolve({ pubKey: res.buffer, privKey: privKey });
         },
-        ECDHE: function(pubKey, privKey) {
+        sharedSecret: function(pubKey, privKey) {
             // Where to store the result
             var sharedKey_ptr = Module._malloc(32);
 
             // Get a pointer to our private key
             var privateKey_ptr = _allocate(new Uint8Array(privKey));
 
-            // Get a pointer to their public key, the basepoint when you're generating a shared secret
+            // Get a pointer to their public key, the basepoint when you're
+            // generating a shared secret
             var basepoint_ptr = _allocate(new Uint8Array(pubKey));
 
             // Return value is 0 here too of course
-            var err = Module._curve25519_donna(sharedKey_ptr, privateKey_ptr, basepoint_ptr);
+            var err = Module._curve25519_donna(sharedKey_ptr,
+                                               privateKey_ptr,
+                                               basepoint_ptr);
 
             var res = new Uint8Array(32);
             _readBytes(sharedKey_ptr, 32, res);
             return Promise.resolve(res.buffer);
         },
-        Ed25519Sign: function(privKey, message) {
+        sign: function(privKey, message) {
             // Where to store the result
             var signature_ptr = Module._malloc(32);
 
@@ -2971,13 +2974,16 @@ run();
             // Get a pointer to the message
             var message_ptr = _allocate(new Uint8Array(message));
 
-            var err = Module._curve25519_sign(signature_ptr, privateKey_ptr, message_ptr, message.byteLength);
+            var err = Module._curve25519_sign(signature_ptr,
+                                              privateKey_ptr,
+                                              message_ptr,
+                                              message.byteLength);
 
             var res = new Uint8Array(64);
             _readBytes(signature_ptr, 64, res);
             return Promise.resolve(res.buffer);
         },
-        Ed25519Verify: function(pubKey, message, sig) {
+        verify: function(pubKey, message, sig) {
             // Get a pointer to their public key
             var publicKey_ptr = _allocate(new Uint8Array(pubKey));
 
@@ -2987,12 +2993,17 @@ run();
             // Get a pointer to the message
             var message_ptr = _allocate(new Uint8Array(message));
 
-            var res = Module._curve25519_verify(signature_ptr, publicKey_ptr, message_ptr, message.byteLength);
+            var res = Module._curve25519_verify(signature_ptr,
+                                                publicKey_ptr,
+                                                message_ptr,
+                                                message.byteLength);
+
             return new Promise(function(resolve, reject) {
                 if (res !== 0) {
                     reject(new Error("Invalid signature"));
+                } else {
+                    resolve();
                 }
-                resolve();
             });
         }
     };
