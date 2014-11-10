@@ -42,7 +42,7 @@ describe('Protocol', function() {
 
 
     describe("Identity and Pre Key Creation", function() {
-        this.timeout(10000);
+        this.timeout(200000);
         before(function() { localStorage.clear(); });
         after(function()  { localStorage.clear(); });
         it ('works', function(done) {
