@@ -15,19 +15,6 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
-      cryptojs: {
-        src: [
-          "components/cryptojs/src/core.js",
-          "components/cryptojs/src/sha256.js",
-          "components/cryptojs/src/hmac.js",
-          "components/cryptojs/src/enc-base64.js",
-          "components/cryptojs/src/md5.js",
-          "components/cryptojs/src/evpkdf.js",
-          "components/cryptojs/src/cipher-core.js",
-          "components/cryptojs/src/aes.js"
-        ],
-        dest: 'js-deps/CryptoJS.js'
-      },
       test: {
         src: [
           'components/mocha/mocha.js',
@@ -42,6 +29,24 @@ module.exports = function(grunt) {
           'build/curve25519.js',
         ],
         dest: 'js/curve25519_compiled.js',
+        options: {
+          banner: ';(function(){\n',
+          footer: '\n})();'
+        }
+      },
+      webcrypto: {
+        src: [
+          'components/cryptojs/src/core.js',
+          'components/cryptojs/src/sha256.js',
+          'components/cryptojs/src/hmac.js',
+          'components/cryptojs/src/enc-base64.js',
+          'components/cryptojs/src/md5.js',
+          'components/cryptojs/src/evpkdf.js',
+          'components/cryptojs/src/cipher-core.js',
+          'components/cryptojs/src/aes.js',
+          'build/webcrypto.js'
+        ],
+        dest: 'js/webcrypto.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'

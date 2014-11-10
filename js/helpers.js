@@ -100,7 +100,6 @@ window.textsecure = window.textsecure || {};
 var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
 var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 var StaticUint8ArrayProto = new Uint8Array().__proto__;
-var StaticWordArrayProto = CryptoJS.lib.WordArray.create('').__proto__;
 function getString(thing) {
     if (thing === Object(thing)) {
         if (thing.__proto__ == StaticUint8ArrayProto)
@@ -109,8 +108,6 @@ function getString(thing) {
             return getString(new Uint8Array(thing));
         if (thing.__proto__ == StaticByteBufferProto)
             return thing.toString("binary");
-        if (thing.__proto__ == StaticWordArrayProto)
-            return thing.toString(CryptoJS.enc.Latin1);
     }
     return thing;
 }
