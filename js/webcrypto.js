@@ -2578,7 +2578,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 return CryptoJS.HmacSHA256(
                     CryptoJS.enc.Latin1.parse(getString(input)),
                     CryptoJS.enc.Latin1.parse(getString(key))
-                ).toString(CryptoJS.enc.Latin1);
+                );
             };
 
             function encryptAESCBC(plaintext, key, iv) {
@@ -2589,7 +2589,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
                         CryptoJS.enc.Latin1.parse(getString(plaintext)),
                         CryptoJS.enc.Latin1.parse(getString(key)),
                         { iv: CryptoJS.enc.Latin1.parse(getString(iv)) }
-                ).ciphertext.toString(CryptoJS.enc.Latin1);
+                ).ciphertext;
             };
 
             function decryptAESCBC(ciphertext, key, iv) {
@@ -2600,7 +2600,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
                         btoa(getString(ciphertext)),
                         CryptoJS.enc.Latin1.parse(getString(key)),
                         { iv: CryptoJS.enc.Latin1.parse(getString(iv)) }
-                ).toString(CryptoJS.enc.Latin1);
+                );
             };
 
             // utility function for connecting front and back ends via promises
@@ -2609,7 +2609,14 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 var args = Array.prototype.slice.call(arguments);
                 args.shift();
                 return new Promise(function(resolve) {
-                    resolve(toArrayBuffer(implementation.apply(this, args)));
+                    var wordArray = implementation.apply(this, args);
+                    // convert 32bit WordArray to array buffer
+                    var buffer = new ArrayBuffer(wordArray.sigBytes);
+                    var view =  new DataView(buffer);
+                    for(var i = 0; i*4 < buffer.byteLength; i++) {
+                      view.setInt32(i*4, wordArray.words[i]);
+                    }
+                    resolve(buffer);
                 });
             };
 

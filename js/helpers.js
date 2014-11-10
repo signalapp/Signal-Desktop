@@ -117,8 +117,7 @@ function getStringable(thing) {
             (thing === Object(thing) &&
                 (thing.__proto__ == StaticArrayBufferProto ||
                 thing.__proto__ == StaticUint8ArrayProto ||
-                thing.__proto__ == StaticByteBufferProto ||
-                thing.__proto__ == StaticWordArrayProto)));
+                thing.__proto__ == StaticByteBufferProto)));
 }
 
 function isEqual(a, b, mayBeShort) {
