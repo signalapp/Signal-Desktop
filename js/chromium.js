@@ -36,10 +36,18 @@ window.extension.navigator = function() {
 
 function registrationDone() {
 	localStorage.setItem("chromiumRegistrationDone", "");
-	//TODO: Fix dirty hack:
-	chrome.runtime.reload();
+    chrome.runtime.sendMessage('registration_done');
+    window.location = '/index.html';
 }
 
 function isRegistrationDone() {
 	return localStorage.getItem("chromiumRegistrationDone") !== null;
 }
+
+function addRegistrationListener(callback) {
+    chrome.runtime.onMessage.addListener(function(message) {
+        if (message === 'registration_done') {
+            callback();
+        }
+    });
+};

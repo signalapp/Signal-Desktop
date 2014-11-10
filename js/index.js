@@ -63,7 +63,7 @@ Whisper.Layout = new (Backbone.View.extend({
 }))({el: document});
 
 if (textsecure.storage.getUnencrypted("number_id") === undefined) {
-    extension.navigator.tabs.create("options.html");
+    window.location = '/options.html';
 } else {
     textsecure.storage.putUnencrypted("unreadCount", 0);
     extension.navigator.setBadgeText("");
