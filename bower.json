@@ -11,7 +11,7 @@
     "protobuf": "~3.8.0",
     "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
-    "qrcode": "git://github.com/davidshimjs/qrcodejs.git",
+    "qrcode": "git://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
     "bootstrap-tagsinput": "~0.4.2",
     "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
