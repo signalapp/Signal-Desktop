@@ -738,7 +738,7 @@ window.textsecure.protocol = function() {
             });
         }
         if (identityKeyPair === undefined)
-            return crypto_storage.getNewStoredKeyPair("identityKey", true).then(function(keyPair) { return identityKeyCalculated(keyPair); });
+            return crypto_storage.getNewStoredKeyPair("identityKey").then(function(keyPair) { return identityKeyCalculated(keyPair); });
         else
             return identityKeyCalculated(identityKeyPair);
     }
