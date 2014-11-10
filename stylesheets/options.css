@@ -64,7 +64,6 @@ h2 {
   box-sizing: border-box;
   width: 100%;
   display: block;
-  text-align: center;
   margin-bottom: 0.5em;
 }
 
@@ -140,3 +139,7 @@ h2 {
   margin: 2em 0;
 }
 #log, #listener { height: 0; }
+
+input.form-control, select.form-control {
+  border-radius: 0;
+}

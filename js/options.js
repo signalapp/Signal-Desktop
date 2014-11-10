@@ -67,6 +67,7 @@
             });
 
             $('#request-voice').click(function() {
+                $('#error').hide();
                 var number = validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationVoice(number).catch(displayError);
@@ -77,6 +78,7 @@
             });
 
             $('#request-sms').click(function() {
+                $('#error').hide();
                 var number = validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationSMS(number).catch(displayError);
@@ -104,29 +106,29 @@
                     var number = validateNumber();
                     var verificationCode = validateCode();
                     if (number && verificationCode) {
-                        $('#verify1').hide();
-                        $('#verify2done').text('');
-                        $('#verify3done').text('');
-                        $('#verify4done').text('');
-                        $('#verify5').hide();
+                        $('#verifyCode').prop('disabled', 'disabled');
+                        $('#verify *').hide();
                         $('#verify').show().addClass('in');
+                        $('#verify2').show();
 
                         textsecure.registerSingleDevice(number, verificationCode, function(step) {
                             switch(step) {
                             case 1:
-                                $('#verify2done').text('done');
+                                $('#verify3').show();
                                 break;
                             case 2:
-                                $('#verify3done').text('done');
+                                $('#verify4').show();
                                 break;
                             case 3:
                                 $('#complete-number').text(number);
                                 $('#verify').hide();
+                                $('#init-setup').hide().removeClass('in');
                                 $('#setup-complete').show().addClass('in');
                                 registrationDone();
                             }
                         }).catch(function(error) {
-                            //TODO: No alerts...
+                            $('#verify *').hide();
+                            $('#verifyCode').removeAttr('disabled');
                             if (error.humanError)
                                 displayError(error.humanError);
                             else

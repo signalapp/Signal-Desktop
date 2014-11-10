@@ -54,37 +54,41 @@
       </div>
       <div id='single-device' class='row collapse'>
         <div class='col-xs-offset-1 col-md-6'>
-          <button class='back btn btn-link'>Back</button>
           <div class='narrow'>
             <div id='step1'>
               <div id='number-container'>
-                <input type="text" id="number" placeholder="Phone Number">
+                <input class='form-control' type="text" id="number" placeholder="Phone Number" tabindex=0>
               </div>
               <div>
-                <select id="regionCode">
+                <select class='form-control' id="regionCode">
                   <option value="ZZ" selected>Country</option>
                 </select>
               </div>
               <div class='clearfix'>
-                <button id="request-sms" class="btn btn-default">Send SMS</button>
-                <button id="request-voice" class="btn btn-default">Call</button>
+                <button id="request-sms" class="btn btn-info">Send SMS</button>
+                <button id="request-voice" class="btn btn-info" tabindex=-1>Call</button>
               </div>
             </div>
             <form id="step2" class="collapse">
-              <input type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
-              <button id="verifyCode" class="btn btn-info">Submit</button>
+              <input class='form-control' type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+              <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
               <div id='error' class='collapse'></div>
             </form>
           </div>
+          <button class='back btn btn-link'>Back</button>
         </div>
       </div>
     </div>
-    <div id="verify" class="hidden">
-      <div id="verify1">Receiving identity key...<span id="verify1done"></span></div>
-      <div id="verify2">Verifying number and setup code...<span id="verify2done"></span></div>
-      <div id="verify3">Generating keys...<span id="verify3done"></span></div>
-      <div id="verify4">Registering...<span id="verify4done"></span></div>
-      <div id="verify5">Syncing with existing devices...<span id="verify5done"></span></div>
+    <div class='row'>
+      <div class='col-xs-offset-1 col-md-6'>
+        <div id="verify" class="collapse narrow">
+          <div id="verify1">Receiving identity key...<span class="done"></span></div>
+          <div id="verify2">Verifying number and setup code...<span class="done" id="verify2done"></span></div>
+          <div id="verify3">Generating keys...<span class="done" id="verify3done"></span></div>
+          <div id="verify4">Registering...<span class="done" id="verify4done"></span></div>
+          <div id="verify5">Syncing with existing devices...<span class="done" id="verify5done"></span></div>
+        </div>
+      </div>
     </div>
     <div id="setup-complete" class="collapse">
       <h3>You are registered on TextSecure with number <span id="complete-number"></span></h3>
