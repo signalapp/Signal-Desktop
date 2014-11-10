@@ -15,14 +15,6 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
-      test: {
-        src: [
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
-          'test/_test.js'
-        ],
-        dest: 'test/test.js',
-      },
       curve25519: {
         src: [
           'build/curve25519_compiled.js',
@@ -51,6 +43,14 @@ module.exports = function(grunt) {
           banner: ';(function(){\n',
           footer: '\n})();'
         }
+      },
+      test: {
+        src: [
+          'components/mocha/mocha.js',
+          'components/chai/chai.js',
+          'test/_test.js'
+        ],
+        dest: 'test/test.js',
       }
     },
     sass: {
