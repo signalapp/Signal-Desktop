@@ -13,11 +13,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-;(function() {
+(function () {
+    'use strict';
     // Test for webcrypto support, polyfill if needed.
     if (window.crypto.subtle === undefined || window.crypto.subtle === null) {
-        window.crypto.subtle = (function() {
+        window.crypto.subtle = (function () {
             var StaticArrayBufferProto = new ArrayBuffer().__proto__;
             function assertIsArrayBuffer(thing) {
                 if (thing !== Object(thing) || thing.__proto__ != StaticArrayBufferProto)
