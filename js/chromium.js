@@ -14,35 +14,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-window.extension = window.extension || {};
-
-window.extension.navigator = (function () {
+(function () {
     'use strict';
-    var self = {},
-        tabs = {};
-    tabs.create = function (url) {
-        chrome.tabs.create({url: url});
-    };
-    self.tabs = tabs;
-    
-    self.setBadgeText = function (text) {
-        chrome.browserAction.setBadgeText({text: String(text)});
-    };
-    
-    return self;
+    window.extension = window.extension || {};
+
+    window.extension.navigator = (function () {
+        var self = {},
+            tabs = {};
+        tabs.create = function (url) {
+            chrome.tabs.create({url: url});
+        };
+        self.tabs = tabs;
+
+        self.setBadgeText = function (text) {
+            chrome.browserAction.setBadgeText({text: String(text)});
+        };
+
+        return self;
+    }());
+
+    // Random shared utilities that are used only by chromium things
+
+    function registrationDone() {
+        localStorage.setItem("chromiumRegistrationDone", "");
+        //TODO: Fix dirty hack:
+        chrome.runtime.reload();
+    }
+
+    function isRegistrationDone() {
+        return localStorage.getItem("chromiumRegistrationDone") !== null;
+    }
 }());
-
-// Random shared utilities that are used only by chromium things
-
-function registrationDone() {
-    'use strict';
-	localStorage.setItem("chromiumRegistrationDone", "");
-	//TODO: Fix dirty hack:
-	chrome.runtime.reload();
-}
-
-function isRegistrationDone() {
-    'use strict';
-	return localStorage.getItem("chromiumRegistrationDone") !== null;
-}
