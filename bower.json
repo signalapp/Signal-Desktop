@@ -15,7 +15,8 @@
     "bootstrap-tagsinput": "~0.4.2",
     "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
-    "backbone.localstorage": "liliakai/Backbone.localStorage#master"
+    "backbone.localstorage": "liliakai/Backbone.localStorage#master",
+    "momentjs": "~2.8.3"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -75,6 +76,9 @@
     ],
     "backbone.localstorage": [
       "backbone.localStorage.js"
+    ],
+    "momentjs": [
+      "moment.js"
     ]
   },
   "concat": {
@@ -89,6 +93,7 @@
       "backbone.localstorage",
       "qrcode",
       "libphonenumber-api",
+      "momentjs",
       "native-client"
     ]
   }

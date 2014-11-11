@@ -36,24 +36,11 @@ var Whisper = Whisper || {};
           contact_name: this.model.get('name'),
           contact_avatar: this.model.get('image'),
           last_message: this.model.get('lastMessage'),
-          last_message_timestamp: this.formatTimestamp()
+          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM M')
         })
       );
 
       return this;
-    },
-    formatTimestamp: function() {
-      var timestamp = this.model.get('timestamp');
-      var now = new Date().getTime();
-      var date = new Date();
-      date.setTime(timestamp*1000);
-      if (now - timestamp > 60*60*24*7) {
-        return date.toLocaleDateString('en-US',{month: 'short', day: 'numeric'});
-      }
-      if (now - timestamp > 60*60*24) {
-        return date.toLocaleDateString('en-US',{weekday: 'short'});
-      }
-      return date.toTimeString();
     }
 
   });
