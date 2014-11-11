@@ -12,7 +12,6 @@ var Whisper = Whisper || {};
       this.$el.html(Mustache.render(this.template));
 
       this.view = new Whisper.MessageListView({collection: this.model.messages()});
-      this.listenTo(this.model.messages(), 'add', this.scrollToBottom);
 
       this.fileInput = new Whisper.FileInputView({el: this.$el.find('.attachments')});
 
@@ -41,13 +40,9 @@ var Whisper = Whisper || {};
       }
     },
 
-    scrollToBottom: function() {
-        this.view.$el.scrollTop(this.view.el.scrollHeight);
-    },
-
     render: function() {
       Whisper.Layout.setContent(this.$el.show());
-      this.scrollToBottom();
+      this.view.scrollToBottom();
       return this;
     }
   });

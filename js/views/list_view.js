@@ -21,6 +21,7 @@ var Whisper = Whisper || {};
       if (this.itemView) {
         var view = new this.itemView({model: model});
         this.$el.append(view.render().el);
+        this.$el.trigger('add');
       }
     },
 
