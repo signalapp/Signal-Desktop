@@ -3,6 +3,20 @@ var Whisper = Whisper || {};
 
 (function () {
   'use strict';
+   function encodeAttachments (attachments) {
+     return Promise.all(attachments.map(function(a) {
+       return new Promise(function(resolve, reject) {
+         var dataView = new DataView(a.data);
+         var blob = new Blob([dataView], { type: a.contentType });
+         var FR = new FileReader();
+         FR.onload = function(e) {
+           resolve(e.target.result);
+         };
+         FR.onerror = reject;
+         FR.readAsDataURL(blob);
+       });
+     }));
+   };
 
   var Thread = Backbone.Model.extend({
     defaults: function() {
@@ -22,20 +36,8 @@ var Whisper = Whisper || {};
     },
 
     sendMessage: function(message, attachments) {
-      return Promise.all(attachments.map(function(a) {
-        return new Promise(function(resolve, reject) {
-          var dataView = new DataView(a.data);
-          var blob = new Blob([dataView], { type: a.contentType });
-          var FR = new FileReader();
-          FR.onload = function(e) {
-            resolve(e.target.result);
-          };
-          FR.onerror = reject;
-          FR.readAsDataURL(blob);
-        });
-      })).then(function(base64_attachments) {
+      encodeAttachments(attachments).then(function(base64_attachments) {
         var timestamp = Date.now();
-
         this.messages().add({ type: 'outgoing',
                               body: message,
                               threadId: this.id,
@@ -57,6 +59,28 @@ var Whisper = Whisper || {};
       }).catch(function(error) {
         console.log(error);
       });
+    },
+
+    receiveMessage: function(decrypted) {
+      var thread = this;
+      encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
+        var timestamp = decrypted.pushMessage.timestamp.toNumber();
+        var m = this.messages().add({
+          person: decrypted.pushMessage.source,
+          threadId: this.id,
+          body: decrypted.message.body,
+          attachments: base64_attachments,
+          type: 'incoming',
+          timestamp: timestamp
+        });
+        m.save();
+
+        if (timestamp > this.get('timestamp')) {
+          this.set('timestamp', timestamp);
+        }
+        this.save({unreadCount: this.get('unreadCount') + 1, active: true});
+        return m;
+      }.bind(this));
     },
 
     messages: function() {
@@ -124,7 +148,11 @@ var Whisper = Whisper || {};
         };
       }
       return this.findOrCreate(attributes);
-    }
+    },
 
+    addIncomingMessage: function(decrypted) {
+        var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
+        thread.receiveMessage(decrypted);
+    }
   }))();
 })();
