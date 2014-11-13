@@ -1,8 +1,10 @@
 // vim: ts=2:sw=2:expandtab:
-var Whisper = Whisper || {};
 
 (function () {
   'use strict';
+
+   window.Whisper = window.Whisper || {};
+
    function encodeAttachments (attachments) {
      return Promise.all(attachments.map(function(a) {
        return new Promise(function(resolve, reject) {
@@ -21,7 +23,7 @@ var Whisper = Whisper || {};
   var Thread = Backbone.Model.extend({
     defaults: function() {
       return {
-        name: 'New Group',
+        name: 'New Conversation',
         image: '/images/default.png',
         unreadCount: 0,
         timestamp: new Date().getTime(),
@@ -114,9 +116,10 @@ var Whisper = Whisper || {};
       };
       var thread = this.findOrCreate(attributes);
       return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
-        thread.set('id', getString(groupId));
-        thread.set('groupId', getString(groupId));
-        thread.save();
+        thread.save({
+          id      : getString(groupId),
+          groupId : getString(groupId)
+        });
         return thread;
       });
     },
