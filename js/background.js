@@ -22,7 +22,7 @@
             localStorage.setItem('first_install_ran', 1);
             extension.navigator.tabs.create("options.html");
         } else {
-            if (isRegistrationDone()) {
+            if (textsecure.registration.isDone()) {
                 textsecure.subscribeToPush(function(message) {
                     Whisper.Messages.addIncomingMessage(message).then(function() {
                         console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
@@ -36,6 +36,6 @@
         }
     };
 
-    addRegistrationListener(init);
+    textsecure.registration.addListener(init);
     init();
 })();

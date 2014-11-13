@@ -35,21 +35,24 @@
 
     // Random shared utilities that are used only by chromium things
 
-    function registrationDone() {
-        localStorage.setItem("chromiumRegistrationDone", "");
-        chrome.runtime.sendMessage('registration_done');
-        window.location = '/index.html';
-    }
+    window.textsecure = window.textsecure || {};
+    window.textsecure.registration = {
+        done: function () {
+            localStorage.setItem("chromiumRegistrationDone", "");
+            chrome.runtime.sendMessage('registration_done');
+            window.location = '/index.html';
+        },
 
-    function isRegistrationDone() {
-        return localStorage.getItem("chromiumRegistrationDone") !== null;
-    }
+        isDone: function () {
+            return localStorage.getItem("chromiumRegistrationDone") !== null;
+        },
 
-    function addRegistrationListener(callback) {
-        chrome.runtime.onMessage.addListener(function(message) {
-            if (message === 'registration_done') {
-                callback();
-            }
-        });
-    }
+        addListener: function (callback) {
+            chrome.runtime.onMessage.addListener(function(message) {
+                if (message === 'registration_done') {
+                    callback();
+                }
+            });
+        }
+    };
 }());

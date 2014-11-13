@@ -45,7 +45,7 @@
     };
 
     $(function() {
-        if (isRegistrationDone()) {
+        if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
             $('#setup-complete').show().addClass('in');
         } else {
@@ -124,7 +124,7 @@
                                 $('#verify').hide();
                                 $('#init-setup').hide().removeClass('in');
                                 $('#setup-complete').show().addClass('in');
-                                registrationDone();
+                                textsecure.registration.done();
                             }
                         }).catch(function(error) {
                             $('#verify *').hide();
@@ -192,7 +192,7 @@
                                 case 5:
                                     $('#verify').hide();
                                     $('#setup-complete').show().addClass('in');
-                                    registrationDone();
+                                    textsecure.registration.done();
                                 }
                             });
                         }
