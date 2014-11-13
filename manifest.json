@@ -6,6 +6,10 @@
 	"version": "0.0.1",
 	"offline_enabled": false,
 
+  "permissions": [
+    "unlimitedStorage"
+  ],
+
 	"icons": { "128": "icon.png" },
 
 	"browser_action": {

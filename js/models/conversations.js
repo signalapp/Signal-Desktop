@@ -1,5 +1,18 @@
-// vim: ts=2:sw=2:expandtab:
-
+/* vim: ts=4:sw=4:expandtab
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 (function () {
   'use strict';
 
@@ -20,7 +33,9 @@
      }));
    };
 
-  var Thread = Backbone.Model.extend({
+  var Conversation = Whisper.Conversation = Backbone.Model.extend({
+    database: Whisper.Database,
+    storeName: 'conversations',
     defaults: function() {
       return {
         name: 'New Conversation',
@@ -31,20 +46,26 @@
       };
     },
 
+    initialize: function() {
+        this.messageCollection = new Whisper.MessageCollection();
+    },
+
     validate: function(attributes, options) {
       var required = ['type', 'timestamp', 'image', 'name'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
-      if (missing.length) { return "Thread must have " + missing; }
+      if (missing.length) { return "Conversation must have " + missing; }
     },
 
     sendMessage: function(message, attachments) {
       return encodeAttachments(attachments).then(function(base64_attachments) {
         var timestamp = Date.now();
-        this.messages().add({ type: 'outgoing',
-                              body: message,
-                              threadId: this.id,
-                              attachments: base64_attachments,
-                              timestamp: timestamp }).save();
+        this.messages().add({ body: message,
+                              timestamp: timestamp,
+                              conversationId: this.id,
+                              conversationType: this.get('type'),
+                              type: 'outgoing',
+                              attachments: base64_attachments
+        }).save();
 
         this.save({ timestamp:   timestamp,
                     unreadCount: 0,
@@ -64,16 +85,17 @@
     },
 
     receiveMessage: function(decrypted) {
-      var thread = this;
+      var conversation = this;
       encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
         var m = this.messages().add({
-          person: decrypted.pushMessage.source,
-          threadId: this.id,
           body: decrypted.message.body,
+          timestamp: timestamp,
+          conversationId: this.id,
+          conversationType: this.get('type'),
           attachments: base64_attachments,
           type: 'incoming',
-          timestamp: timestamp
+          sender: decrypted.pushMessage.source
         });
         m.save();
 
@@ -85,26 +107,22 @@
       }.bind(this));
     },
 
+    fetch: function() {
+        return this.messageCollection.fetch({conditions: {conversationId: this.id }});
+    },
+
     messages: function() {
-      if (!this.messageCollection) {
-        this.messageCollection = new Whisper.MessageCollection([], {threadId: this.id});
-      }
       return this.messageCollection;
     },
   });
 
-  Whisper.Threads = new (Backbone.Collection.extend({
-    localStorage: new Backbone.LocalStorage("Threads"),
-    model: Thread,
+  Whisper.ConversationCollection = Backbone.Collection.extend({
+    database: Whisper.Database,
+    storeName: 'conversations',
+    model: Conversation,
 
     comparator: function(m) {
       return -m.get('timestamp');
-    },
-
-    findOrCreate: function(attributes) {
-      var thread = Whisper.Threads.add(attributes, {merge: true});
-      thread.save();
-      return thread;
     },
 
     createGroup: function(recipients, name) {
@@ -114,13 +132,13 @@
         numbers   : recipients,
         type      : 'group',
       };
-      var thread = this.findOrCreate(attributes);
+      var conversation = this.add(attributes, {merge: true});
       return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
-        thread.save({
+        conversation.save({
           id      : getString(groupId),
           groupId : getString(groupId)
         });
-        return thread;
+        return conversation;
       });
     },
 
@@ -131,10 +149,12 @@
         name      : recipient,
         type      : 'private',
       };
-      return this.findOrCreate(attributes);
+      var conversation = this.add(attributes, {merge: true});
+      conversation.save();
+      return conversation;
     },
 
-    findOrCreateForIncomingMessage: function(decrypted) {
+    addIncomingMessage: function(decrypted) {
       var attributes = {};
       if (decrypted.message.group) {
         attributes = {
@@ -150,12 +170,18 @@
           type       : 'private'
         };
       }
-      return this.findOrCreate(attributes);
+      var conversation = this.add(attributes, {merge: true});
+      conversation.receiveMessage(decrypted);
     },
 
-    addIncomingMessage: function(decrypted) {
-        var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
-        return thread.receiveMessage(decrypted);
+    destroyAll: function () {
+        return Promise.all(this.models.map(function(m) {
+            return new Promise(function(resolve, reject) {
+                m.destroy().then(resolve).fail(reject);
+            });
+        }));
     }
-  }))();
+  });
+
+  Whisper.Conversations = new Whisper.ConversationCollection();
 })();

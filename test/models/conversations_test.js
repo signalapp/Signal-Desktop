@@ -1,0 +1,149 @@
+/* vim: ts=4:sw=4:expandtab
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+(function () {
+    'use strict';
+    function clear(done) {
+        var convos = new Whisper.ConversationCollection();
+        return convos.fetch().then(function() {
+            convos.destroyAll().then(function() {
+                var messages = new Whisper.MessageCollection();
+                return messages.fetch().then(function() {
+                    messages.destroyAll().then(function() {
+                        done();
+                    });
+                });
+            });
+        });
+    }
+
+    var attributes = { type: 'outgoing',
+                        body: 'hi',
+                        conversationId: 'foo',
+                        attachments: [],
+                        timestamp: new Date().getTime() };
+
+    describe('ConversationCollection', function() {
+        before(clear);
+        after(clear);
+
+        it('adds without saving', function() {
+            var convos = new Whisper.ConversationCollection();
+            var message = convos.add(attributes);
+            assert.notEqual(convos.length, 0);
+
+            var convos = new Whisper.ConversationCollection();
+            assert.strictEqual(convos.length, 0);
+        });
+
+        it('saves asynchronously', function(done) {
+            new Whisper.ConversationCollection().add(attributes).save().then(done);
+        });
+
+        it('fetches persistent convos', function(done) {
+            var convos = new Whisper.ConversationCollection();
+            assert.strictEqual(convos.length, 0);
+            convos.fetch().then(function() {
+                var m = convos.at(0).attributes;
+                _.each(attributes, function(val, key) {
+                    assert.deepEqual(m[key], val);
+                });
+                done();
+            });
+        });
+
+        it('destroys persistent convos', function(done) {
+            var convos = new Whisper.ConversationCollection();
+            convos.fetch().then(function() {
+                convos.destroyAll().then(function() {
+                    var convos = new Whisper.ConversationCollection();
+                    convos.fetch().then(function() {
+                        assert.strictEqual(convos.length, 0);
+                        done();
+                    });
+                });
+            });
+        });
+
+        it('should be ordered newest to oldest', function() {
+            var conversations = new Whisper.ConversationCollection();
+            // Timestamps
+            var today = new Date();
+            var tomorrow = new Date();
+            tomorrow.setDate(today.getDate()+1);
+
+            // Add convos
+            conversations.add({ timestamp: today });
+            conversations.add({ timestamp: tomorrow });
+
+            var models = conversations.models;
+            var firstTimestamp = models[0].get('timestamp').getTime();
+            var secondTimestamp = models[1].get('timestamp').getTime();
+
+            // Compare timestamps
+            assert(firstTimestamp > secondTimestamp);
+        });
+    });
+
+    describe('Conversation', function() {
+        var attributes = { type: 'private', id: 'foobar' };
+        before(function(done) {
+            var convo = new Whisper.ConversationCollection().add(attributes);
+            convo.save().then(function() {
+                var message = convo.messages().add({body: 'hello world', conversationId: convo.id});
+                message.save().then(done)
+            });
+        });
+        after(clear);
+
+        it('contains its own messages', function (done) {
+            var convo = new Whisper.ConversationCollection().add({id: 'foobar'});
+            convo.fetch().then(function() {
+                assert.notEqual(convo.messages().length, 0);
+                done();
+            });
+        });
+
+        it('contains only its own messages', function (done) {
+            var convo = new Whisper.ConversationCollection().add({id: 'barfoo'});
+            convo.fetch().then(function() {
+                assert.strictEqual(convo.messages().length, 0);
+                done();
+            });
+        });
+
+        it('has most recent messages first', function(done) {
+            var convo = new Whisper.ConversationCollection().add({id: 'barfoo'});
+            convo.messages().add({
+                body: 'first message',
+                conversationId: convo.id,
+                timestamp: new Date().getTime() - 5000
+            }).save().then(function() {
+                convo.messages().add({
+                    body: 'second message',
+                    conversationId: convo.id
+                }).save().then(function() {
+                    convo.fetch().then(function() {
+                        assert.strictEqual(convo.messages().at(0).get('body'), 'second message');
+                        assert.strictEqual(convo.messages().at(1).get('body'), 'first message');
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+})();;

@@ -1,7 +1,11 @@
 describe('MessageView', function() {
-  var thread = Whisper.Threads.add({id: 'foo'});
-  var message = thread.messages().add({
-    threadId: thread.id,
+  before(function(done) {
+    Whisper.Conversations.fetch().then(done);
+  });
+
+  var convo = Whisper.Conversations.add({id: 'foo'});
+  var message = convo.messages().add({
+    conversationId: convo.id,
     body: 'hello world',
     type: 'outgoing',
     timestamp: new Date().getTime()

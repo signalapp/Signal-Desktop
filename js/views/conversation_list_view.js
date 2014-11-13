@@ -7,7 +7,7 @@ var Whisper = Whisper || {};
     tagName: 'div',
     id: 'contacts',
     itemView: Whisper.ConversationListItemView,
-    collection: Whisper.Threads,
+    collection: Whisper.Conversations,
 
     events: {
       'click .contact': 'select',

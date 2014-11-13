@@ -13,5 +13,12 @@ var Whisper = Whisper || {};
     scrollToBottom: function() {
         this.$el.scrollTop(this.el.scrollHeight);
     },
+    addAll: function() {
+      this.$el.html('');
+      this.collection.each(function(model) {
+        var view = new this.itemView({model: model});
+        this.$el.prepend(view.render().el);
+      });
+    },
   });
 })();

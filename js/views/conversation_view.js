@@ -45,11 +45,11 @@ var Whisper = Whisper || {};
       e.preventDefault();
       var input = this.$el.find('.send input');
       var message = input.val();
-      var thread = this.model;
+      var convo = this.model;
 
       if (message.length > 0 || this.fileInput.hasFiles()) {
         this.fileInput.getFiles().then(function(attachments) {
-          thread.sendMessage(message, attachments);
+          convo.sendMessage(message, attachments);
         });
         input.val("");
       }

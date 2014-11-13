@@ -37,10 +37,10 @@ var Whisper = Whisper || {};
       var numbers = this.$el.find('input.numbers').val().split(',');
       var name = this.$el.find('input.name').val();
       var view = this;
-      Whisper.Threads.createGroup(numbers, name).then(function(thread){
-        thread.sendMessage(view.$el.find('input.send-message').val());
+      Whisper.Conversations.createGroup(numbers, name).then(function(convo){
+        convo.sendMessage(view.$el.find('input.send-message').val());
         view.remove();
-        thread.trigger('render');
+        convo.trigger('render');
       });
     },
 

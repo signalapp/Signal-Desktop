@@ -67,17 +67,17 @@ var Whisper = Whisper || {};
       e.preventDefault();
       var number = this.input.verifyNumber();
       if (number) {
-        var thread = Whisper.Threads.findOrCreateForRecipient(number);
+        var convo = Whisper.Conversations.findOrCreateForRecipient(number);
         var message_input = this.$el.find('input.send-message');
         var message = message_input.val();
         if (message.length > 0 || this.fileInput.hasFiles()) {
           this.fileInput.getFiles().then(function(attachments) {
-            thread.sendMessage(message, attachments);
+            convo.sendMessage(message, attachments);
           });
           message_input.val("");
         }
         this.remove();
-        thread.trigger('render');
+        convo.trigger('render');
       }
     },
 

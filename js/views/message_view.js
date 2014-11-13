@@ -25,7 +25,7 @@ var Whisper = Whisper || {};
           timestamp: moment(this.model.get('timestamp')).fromNow(),
           attachments: this.model.get('attachments'),
           bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
-          sender: this.model.thread().get('type') === 'group' ? this.model.get('person') : ''
+          sender: this.model.get('conversationType') === 'group' ? this.model.get('sender') : ''
         })
       );
 

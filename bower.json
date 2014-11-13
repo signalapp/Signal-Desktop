@@ -16,7 +16,8 @@
     "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
     "backbone.localstorage": "liliakai/Backbone.localStorage#master",
-    "momentjs": "~2.8.3"
+    "momentjs": "~2.8.3",
+    "indexeddb-backbonejs-adapter": "*"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -79,6 +80,9 @@
     ],
     "momentjs": [
       "moment.js"
+    ],
+    "indexeddb-backbonejs-adapter": [
+      "backbone-indexeddb.js"
     ]
   },
   "concat": {
@@ -90,7 +94,7 @@
       "mustache",
       "underscore",
       "backbone",
-      "backbone.localstorage",
+      "indexeddb-backbonejs-adapter",
       "qrcode",
       "libphonenumber-api",
       "momentjs",
