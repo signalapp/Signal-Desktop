@@ -38,7 +38,7 @@
     },
 
     sendMessage: function(message, attachments) {
-      encodeAttachments(attachments).then(function(base64_attachments) {
+      return encodeAttachments(attachments).then(function(base64_attachments) {
         var timestamp = Date.now();
         this.messages().add({ type: 'outgoing',
                               body: message,
@@ -155,7 +155,7 @@
 
     addIncomingMessage: function(decrypted) {
         var thread = Whisper.Threads.findOrCreateForIncomingMessage(decrypted);
-        thread.receiveMessage(decrypted);
+        return thread.receiveMessage(decrypted);
     }
   }))();
 })();

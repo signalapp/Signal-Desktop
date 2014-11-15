@@ -356,19 +356,27 @@ window.textsecure.api = function () {
 
             //TODO: wrap onmessage so that we reconnect on missing pong
             socket.onmessage = function(response) {
-                try {
-                    var message = JSON.parse(response.data);
-                } catch (e) {
-                    console.log('Error parsing server JSON message: ' + response);
-                    return;
-                }
+                var blob = response.data;
+                var reader = new FileReader();
+                reader.addEventListener("loadend", function() {
+                    // reader.result contains the contents of blob as a typed array
+                    try {
+                        var message = textsecure.protobuf.WebSocketMessage.decode(reader.result);
+                        console.log(message);
+                        if (message.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST ) {
+                            socketWrapper.onmessage(message.request);
+                        }
+                        else {
+                            throw "Got invalid message from server: " + message;
+                        }
 
-                if ((message.type === undefined && message.id !== undefined) || message.type === 4) {
-                    socketWrapper.onmessage(message);
-                }
-                else {
-                    console.log("Got invalid message from server: " + message);
-                }
+                    } catch (e) {
+                        console.log('Error parsing server JSON message: ' + response);
+                        return;
+                    }
+                });
+
+                reader.readAsArrayBuffer(blob);
 
                 resetKeepAliveTimer();
             };

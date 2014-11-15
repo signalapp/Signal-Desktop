@@ -241,12 +241,19 @@ window.textsecure.subscribeToPush = function(message_callback) {
     var socket = textsecure.api.getMessageWebsocket();
 
     socket.onmessage = function(message) {
-        textsecure.protocol.decryptWebsocketMessage(message.message).then(function(plaintext) {
+        textsecure.protocol.decryptWebsocketMessage(message.body).then(function(plaintext) {
             var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
             // After this point, a) decoding errors are not the server's fault, and
             // b) we should handle them gracefully and tell the user they received an invalid message
             console.log("Successfully decoded message with id: " + message.id);
-            socket.send(JSON.stringify({type: 1, id: message.id}));
+
+            socket.send(
+                new textsecure.protobuf.WebSocketMessage({
+                    response: { id: message.id, message: 'OK', status: 200 },
+                    type: textsecure.protobuf.WebSocketMessage.Type.RESPONSE
+                }).encode().toArrayBuffer()
+            );
+
             return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(decrypted) {
                 // Delivery receipt
                 if (decrypted === null)

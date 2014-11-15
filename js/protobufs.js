@@ -6,6 +6,7 @@
 
     var pushMessages     = loadProtoBufs('IncomingPushMessageSignal.proto');
     var protocolMessages = loadProtoBufs('WhisperTextProtocol.proto');
+    var subProtocolMessages = loadProtoBufs('SubProtocol.proto');
     var deviceMessages   = loadProtoBufs('DeviceMessages.proto');
 
     window.textsecure = window.textsecure || {};
@@ -16,6 +17,9 @@
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
         DeviceInit                : deviceMessages.DeviceInit,
         IdentityKey               : deviceMessages.IdentityKey,
-        DeviceControl             : deviceMessages.DeviceControl
+        DeviceControl             : deviceMessages.DeviceControl,
+        WebSocketResponseMessage  : subProtocolMessages.WebSocketResponseMessage,
+        WebSocketRequestMessage   : subProtocolMessages.WebSocketRequestMessage,
+        WebSocketMessage          : subProtocolMessages.WebSocketMessage
     };
 })();
