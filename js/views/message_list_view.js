@@ -19,6 +19,7 @@ var Whisper = Whisper || {};
         var view = new this.itemView({model: model});
         this.$el.prepend(view.render().el);
       }, this);
+      this.scrollToBottom();
     },
   });
 })();

@@ -59,12 +59,13 @@
     sendMessage: function(message, attachments) {
       return encodeAttachments(attachments).then(function(base64_attachments) {
         var timestamp = Date.now();
-        this.messages().add({ body: message,
-                              timestamp: timestamp,
-                              conversationId: this.id,
-                              conversationType: this.get('type'),
-                              type: 'outgoing',
-                              attachments: base64_attachments
+        this.messageCollection.add({
+            body             : message,
+            timestamp        : timestamp,
+            conversationId   : this.id,
+            conversationType : this.get('type'),
+            type             : 'outgoing',
+            attachments      : base64_attachments
         }).save();
 
         this.save({ timestamp:   timestamp,
@@ -88,7 +89,7 @@
       var conversation = this;
       return encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
-        var m = this.messages().add({
+        var m = this.messageCollection.add({
           body: decrypted.message.body,
           timestamp: timestamp,
           conversationId: this.id,
@@ -103,19 +104,15 @@
         }
         this.save({unreadCount: this.get('unreadCount') + 1, active: true});
 
-        return new Promise(function (resolve) { m.save().then(resolve) });
+        return new Promise(function (resolve) { m.save().then(resolve(m)) });
       }.bind(this));
     },
 
-    fetch: function(options) {
+    fetchMessages: function(options) {
         options = options || {};
         options.conditions = {conversationId: this.id };
         return this.messageCollection.fetch(options);
-    },
-
-    messages: function() {
-      return this.messageCollection;
-    },
+    }
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({

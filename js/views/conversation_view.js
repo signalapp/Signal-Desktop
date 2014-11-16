@@ -13,10 +13,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var Whisper = Whisper || {};
-
 (function () {
   'use strict';
+    window.Whisper = window.Whisper || {};
 
     Whisper.ConversationView = Backbone.View.extend({
         className: 'conversation',
@@ -31,12 +30,11 @@ var Whisper = Whisper || {};
             });
 
             this.view = new Whisper.MessageListView({
-                collection: this.model.messages()
+                collection: this.model.messageCollection
             });
             this.$el.find('.discussion-container').append(this.view.el);
 
-            this.model.fetch({reset: true});
-            extension.onMessage('message', this.model.fetch.bind(this.model));
+            this.model.fetchMessages({reset: true});
         },
 
         events: {
@@ -60,7 +58,6 @@ var Whisper = Whisper || {};
 
         render: function() {
             Whisper.Layout.setContent(this.$el.show());
-            this.view.scrollToBottom();
             return this;
         }
     });
