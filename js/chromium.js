@@ -16,6 +16,7 @@
  */
 (function () {
     'use strict';
+    // Browser specific functions for Chrom*
     window.extension = window.extension || {};
 
     window.extension.navigator = (function () {
@@ -33,7 +34,17 @@
         return self;
     }());
 
-    // Random shared utilities that are used only by chromium things
+    window.extension.trigger = function (name, object) {
+        chrome.runtime.sendMessage(null, { name: name, data: object });
+    };
+
+    window.extension.onMessage = function (name, callback) {
+        chrome.runtime.onMessage.addListener(function(e) {
+            if (e.name === name) {
+                callback(e.data);
+            }
+        });
+    };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {

@@ -18,7 +18,7 @@ var Whisper = Whisper || {};
       this.collection.each(function(model) {
         var view = new this.itemView({model: model});
         this.$el.prepend(view.render().el);
-      });
+      }, this);
     },
   });
 })();

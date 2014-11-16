@@ -16,20 +16,6 @@
 
 (function () {
     'use strict';
-    function clear(done) {
-        var convos = new Whisper.ConversationCollection();
-        return convos.fetch().then(function() {
-            convos.destroyAll().then(function() {
-                var messages = new Whisper.MessageCollection();
-                return messages.fetch().then(function() {
-                    messages.destroyAll().then(function() {
-                        done();
-                    });
-                });
-            });
-        });
-    }
-
     var attributes = { type: 'outgoing',
                         body: 'hi',
                         conversationId: 'foo',
@@ -37,8 +23,8 @@
                         timestamp: new Date().getTime() };
 
     describe('ConversationCollection', function() {
-        before(clear);
-        after(clear);
+        before(clearDatabase);
+        after(clearDatabase);
 
         it('adds without saving', function() {
             var convos = new Whisper.ConversationCollection();
@@ -107,7 +93,7 @@
                 message.save().then(done)
             });
         });
-        after(clear);
+        after(clearDatabase);
 
         it('contains its own messages', function (done) {
             var convo = new Whisper.ConversationCollection().add({id: 'foobar'});
@@ -122,26 +108,6 @@
             convo.fetch().then(function() {
                 assert.strictEqual(convo.messages().length, 0);
                 done();
-            });
-        });
-
-        it('has most recent messages first', function(done) {
-            var convo = new Whisper.ConversationCollection().add({id: 'barfoo'});
-            convo.messages().add({
-                body: 'first message',
-                conversationId: convo.id,
-                timestamp: new Date().getTime() - 5000
-            }).save().then(function() {
-                convo.messages().add({
-                    body: 'second message',
-                    conversationId: convo.id
-                }).save().then(function() {
-                    convo.fetch().then(function() {
-                        assert.strictEqual(convo.messages().at(0).get('body'), 'second message');
-                        assert.strictEqual(convo.messages().at(1).get('body'), 'first message');
-                        done();
-                    });
-                });
             });
         });
     });

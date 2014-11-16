@@ -10957,3 +10957,23 @@ function hexToArrayBuffer(str) {
     array[i] = parseInt(str.substr(i*2, 2), 16);
   return ret;
 };
+
+function deleteDatabase(done) {
+  indexedDB.deleteDatabase('test').then(done);
+};
+
+function clearDatabase(done) {
+    var convos = new Whisper.ConversationCollection();
+    return convos.fetch().then(function() {
+        convos.destroyAll().then(function() {
+            var messages = new Whisper.MessageCollection();
+            return messages.fetch().then(function() {
+                messages.destroyAll().then(function() {
+                    if (done) {
+                      done();
+                    }
+                });
+            });
+        });
+    });
+}

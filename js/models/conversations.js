@@ -86,7 +86,7 @@
 
     receiveMessage: function(decrypted) {
       var conversation = this;
-      encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
+      return encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
         var m = this.messages().add({
           body: decrypted.message.body,
@@ -97,18 +97,20 @@
           type: 'incoming',
           sender: decrypted.pushMessage.source
         });
-        m.save();
 
         if (timestamp > this.get('timestamp')) {
           this.set('timestamp', timestamp);
         }
         this.save({unreadCount: this.get('unreadCount') + 1, active: true});
-        return m;
+
+        return new Promise(function (resolve) { m.save().then(resolve) });
       }.bind(this));
     },
 
-    fetch: function() {
-        return this.messageCollection.fetch({conditions: {conversationId: this.id }});
+    fetch: function(options) {
+        options = options || {};
+        options.conditions = {conversationId: this.id };
+        return this.messageCollection.fetch(options);
     },
 
     messages: function() {
@@ -171,7 +173,7 @@
         };
       }
       var conversation = this.add(attributes, {merge: true});
-      conversation.receiveMessage(decrypted);
+      return conversation.receiveMessage(decrypted);
     },
 
     destroyAll: function () {

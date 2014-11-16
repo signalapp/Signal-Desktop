@@ -25,7 +25,9 @@
             if (textsecure.registration.isDone()) {
                 var conversations = new Whisper.ConversationCollection();
                 textsecure.subscribeToPush(function(message) {
-                    conversations.addIncomingMessage(message);
+                    conversations.addIncomingMessage(message).then(function(message) {
+                        extension.trigger('message', message);
+                    });
                     console.log("Got message from " + message.pushMessage.source + "." + message.pushMessage.sourceDevice +
                                 ': "' + getString(message.message.body) + '"');
                     var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
