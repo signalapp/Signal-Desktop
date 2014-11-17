@@ -53,7 +53,7 @@ var Whisper = Whisper || {};
     initialize: function() {
       this.template = $('#new-message-form').html();
       Mustache.parse(this.template);
-      this.render();
+      this.$el.html($(Mustache.render(this.template)));
       this.input = new MessageRecipientInputView({el: this.$el.find('input.number')});
       this.fileInput = new Whisper.FileInputView({el: this.$el.find('.attachments')});
     },
@@ -67,7 +67,7 @@ var Whisper = Whisper || {};
       e.preventDefault();
       var number = this.input.verifyNumber();
       if (number) {
-        var convo = Whisper.Conversations.findOrCreateForRecipient(number);
+        var convo = this.collection.findOrCreateForRecipient(number);
         var message_input = this.$el.find('input.send-message');
         var message = message_input.val();
         if (message.length > 0 || this.fileInput.hasFiles()) {
@@ -79,12 +79,6 @@ var Whisper = Whisper || {};
         this.remove();
         convo.trigger('render');
       }
-    },
-
-    render: function() {
-      this.$el.html(Mustache.render(this.template));
-      Whisper.Layout.setContent(this.$el.show());
-      return this;
     }
   });
 

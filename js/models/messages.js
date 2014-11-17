@@ -28,10 +28,6 @@
             if (missing.length) {
                 console.log("Message missing attributes: " + missing);
             }
-        },
-
-        conversation: function() {
-            return Whisper.Conversations.get(this.get('conversationId'));
         }
     });
 

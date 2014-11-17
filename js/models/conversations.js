@@ -181,6 +181,4 @@
         }));
     }
   });
-
-  Whisper.Conversations = new Whisper.ConversationCollection();
 })();

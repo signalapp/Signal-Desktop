@@ -1,9 +1,10 @@
 describe('MessageView', function() {
+  var conversations = new Whisper.ConversationCollection();
   before(function(done) {
-    Whisper.Conversations.fetch().then(done);
+    conversations.fetch().then(done);
   });
 
-  var convo = Whisper.Conversations.add({id: 'foo'});
+  var convo = conversations.add({id: 'foo'});
   var message = convo.messages().add({
     conversationId: convo.id,
     body: 'hello world',

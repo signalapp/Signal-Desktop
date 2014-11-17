@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-  'use strict';
+    'use strict';
 
-   window.Whisper = window.Whisper || {};
+    window.Whisper = window.Whisper || {};
 
     Whisper.InboxView = Backbone.View.extend({
         initialize: function () {
@@ -27,16 +27,21 @@
             window.addEventListener('resize', this.resize.bind(this));
             this.conversations = new Whisper.ConversationCollection();
 
-            new Whisper.ConversationListView({el: $('#contacts'), collection: Whisper.Conversations});
-            Whisper.Conversations.fetch({reset: true}).then(function() {
-                if (Whisper.Conversations.length) {
-                    Whisper.Conversations.at(0).trigger('render');
-                }
+            new Whisper.ConversationListView({
+                el         : $('#contacts'),
+                collection : this.conversations
             });
+
+            this.conversations.fetch({reset: true}).then(function() {
+                if (this.conversations.length) {
+                    this.conversations.at(0).trigger('render');
+                }
+            }.bind(this));
+
             extension.onMessage('message', function(message) {
-                Whisper.Conversations.fetch({id: message.conversationId}).then(function() {
-                    Whisper.Conversations.get(message.conversationId).fetchMessages();
-                });
+                this.conversations.fetch({id: message.conversationId}).then(function() {
+                    this.conversations.get(message.conversationId).fetchMessages();
+                }.bind(this));
             }.bind(this));
 
         },
@@ -44,18 +49,21 @@
             'click #new-message': 'new_message',
             'click #new-group': 'new_group'
         },
-
         new_message: function (e) {
             e.preventDefault();
             $('.conversation').hide().trigger('close'); // detach any existing conversation views
-            this.view = new Whisper.NewConversationView();
-            //todo: less new
+            this.view = new Whisper.NewConversationView({
+                collection: this.conversations
+            });
+            this.setContent(this.view.render().$el.show());
         },
-
         new_group: function (e) {
             e.preventDefault();
             $('.conversation').trigger('close'); // detach any existing conversation views
-            new Whisper.NewGroupView();
+            var view = new Whisper.NewGroupView({
+                collection: this.conversations
+            });
+            this.setContent(view.render().$el.show());
         },
         resize: function (e) {
             var windowheight = window.innerHeight,

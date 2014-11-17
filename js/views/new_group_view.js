@@ -23,7 +23,7 @@ var Whisper = Whisper || {};
     initialize: function() {
       this.template = $('#new-group-form').html();
       Mustache.parse(this.template);
-      this.render();
+      this.$el.html($(Mustache.render(this.template)));
       this.input = this.$el.find('input.number');
       new Whisper.GroupRecipientsInputView({el: this.$el.find('input.numbers')}).$el.appendTo(this.$el);
     },
@@ -37,17 +37,11 @@ var Whisper = Whisper || {};
       var numbers = this.$el.find('input.numbers').val().split(',');
       var name = this.$el.find('input.name').val();
       var view = this;
-      Whisper.Conversations.createGroup(numbers, name).then(function(convo){
+      this.collection.createGroup(numbers, name).then(function(convo){
         convo.sendMessage(view.$el.find('input.send-message').val());
         view.remove();
         convo.trigger('render');
       });
-    },
-
-    render: function() {
-      this.$el.prepend($(Mustache.render(this.template)));
-      Whisper.Layout.setContent(this.$el.show());
-      return this;
     }
   });
 
