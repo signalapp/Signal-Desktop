@@ -58,6 +58,7 @@
 
         render: function() {
             Whisper.Layout.setContent(this.$el.show());
+            this.view.scrollToBottom();
             return this;
         }
     });
