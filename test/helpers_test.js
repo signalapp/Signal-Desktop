@@ -30,12 +30,12 @@ describe("Helpers", function() {
 
   describe("toArrayBuffer", function() {
       it('returns undefined when passed undefined', function() {
-          assert.equal(toArrayBuffer(undefined), undefined);
+          assert.strictEqual(toArrayBuffer(undefined), undefined);
       });
       it('returns ArrayBuffer when passed ArrayBuffer', function() {
           var StaticArrayBufferProto = new ArrayBuffer().__proto__;
           var anArrayBuffer = new ArrayBuffer();
-          assert.equal(toArrayBuffer(anArrayBuffer), anArrayBuffer);
+          assert.strictEqual(toArrayBuffer(anArrayBuffer), anArrayBuffer);
       });
       it('throws an error when passed a non Stringable thing', function() {
           var madeUpObject = function() {};
