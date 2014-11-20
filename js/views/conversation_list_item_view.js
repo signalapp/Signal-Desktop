@@ -20,14 +20,14 @@ var Whisper = Whisper || {};
     },
 
     open: function(e) {
-      $('.conversation').trigger('close'); // detach any existing conversation views
+      this.$el.addClass('selected');
+
       if (!this.view) {
         this.view = new Whisper.ConversationView({ model: this.model });
       } else {
         this.view.delegateEvents();
       }
-      this.view.render();
-      this.$el.addClass('selected');
+      this.model.collection.trigger('selected', this.view);
     },
 
     render: function() {

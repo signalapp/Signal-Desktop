@@ -44,6 +44,11 @@
                 }.bind(this));
             }.bind(this));
 
+            this.conversations.on('selected', function(view) {
+                $('.conversation').hide().trigger('close'); // detach any existing conversation views
+                this.setContent(view.$el.show());
+                view.render();
+            }, this);
         },
         events: {
             'click #new-message': 'new_message',
