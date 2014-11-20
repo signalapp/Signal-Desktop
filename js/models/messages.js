@@ -21,7 +21,12 @@
     var Message  = Backbone.Model.extend({
         database: Whisper.Database,
         storeName: 'messages',
-        defaults: function() { return { timestamp: new Date().getTime() }; },
+        defaults: function() {
+            return {
+                timestamp: new Date().getTime(),
+                attachments: []
+            };
+        },
         validate: function(attributes, options) {
             var required = ['timestamp', 'conversationId'];
             var missing = _.filter(required, function(attr) { return !attributes[attr]; });

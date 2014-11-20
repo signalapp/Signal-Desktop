@@ -18,21 +18,6 @@
 
    window.Whisper = window.Whisper || {};
 
-   function encodeAttachments (attachments) {
-     return Promise.all(attachments.map(function(a) {
-       return new Promise(function(resolve, reject) {
-         var dataView = new DataView(a.data);
-         var blob = new Blob([dataView], { type: a.contentType });
-         var FR = new FileReader();
-         FR.onload = function(e) {
-           resolve(e.target.result);
-         };
-         FR.onerror = reject;
-         FR.readAsDataURL(blob);
-       });
-     }));
-   };
-
   var Conversation = Whisper.Conversation = Backbone.Model.extend({
     database: Whisper.Database,
     storeName: 'conversations',
@@ -57,7 +42,6 @@
     },
 
     sendMessage: function(message, attachments) {
-      return encodeAttachments(attachments).then(function(base64_attachments) {
         var timestamp = Date.now();
         this.messageCollection.add({
             body             : message,
@@ -65,7 +49,7 @@
             conversationId   : this.id,
             conversationType : this.get('type'),
             type             : 'outgoing',
-            attachments      : base64_attachments
+            attachments      : attachments,
         }).save();
 
         this.save({ timestamp:   timestamp,
@@ -78,23 +62,17 @@
         else {
           return textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, attachments);
         }
-      }.bind(this)).then(function(result) {
-        console.log(result);
-      }).catch(function(error) {
-        console.log(error);
-      });
     },
 
     receiveMessage: function(decrypted) {
-      var conversation = this;
-      return encodeAttachments(decrypted.message.attachments).then(function(base64_attachments) {
+        var conversation = this;
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
         var m = this.messageCollection.add({
           body: decrypted.message.body,
           timestamp: timestamp,
           conversationId: this.id,
           conversationType: this.get('type'),
-          attachments: base64_attachments,
+          attachments: decrypted.message.attachments,
           type: 'incoming',
           sender: decrypted.pushMessage.source
         });
@@ -105,7 +83,6 @@
         this.save({unreadCount: this.get('unreadCount') + 1, active: true});
 
         return new Promise(function (resolve) { m.save().then(resolve(m)) });
-      }.bind(this));
     },
 
     fetchMessages: function(options) {

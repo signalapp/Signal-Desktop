@@ -64,9 +64,10 @@ li.entry.outgoing .avatar {
 
 li.entry img {
   max-width: 100%;
+  margin-top: 5px;
 }
 
-.attachments img {
+.send .attachments img {
   width: 30px;
   height: 30px;
 }

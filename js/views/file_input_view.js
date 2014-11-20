@@ -20,10 +20,9 @@ var Whisper = Whisper || {};
         previewImages: function() {
             this.$el.find('img').remove();
             var files = this.$input.prop('files');
-            var onload = this.addThumb.bind(this);
             for (var i = 0; i < files.length; i++) {
                 var FR = new FileReader();
-                FR.onload = onload;
+                FR.onload = this.addThumb.bind(this);
                 FR.readAsDataURL(files[i]);
             }
         },

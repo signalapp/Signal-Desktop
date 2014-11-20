@@ -60,12 +60,10 @@
               <ul class='volley'>
                   <li class='message'>
                   {{ message }}
+                  <div class='attachments'></div>
                   <span class='timestamp'>{{ timestamp }}</span>
                   </li>
               </ul>
-              {{#attachments}}
-                <img src={{.}}>
-              {{/attachments}}
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='contact'>

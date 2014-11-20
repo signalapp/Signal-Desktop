@@ -8,9 +8,11 @@ var Whisper = Whisper || {};
     className: 'discussion',
     itemView: Whisper.MessageView,
     events: {
-      'add': 'scrollToBottom'
+      'add': 'scrollToBottom',
+      'update *': 'scrollToBottom'
     },
     scrollToBottom: function() {
+        // TODO: Avoid scrolling if user has manually scrolled up?
         this.$el.scrollTop(this.el.scrollHeight);
     },
     addAll: function() {
