@@ -89,7 +89,7 @@
         before(function(done) {
             var convo = new Whisper.ConversationCollection().add(attributes);
             convo.save().then(function() {
-                var message = convo.messages().add({body: 'hello world', conversationId: convo.id});
+                var message = convo.messageCollection.add({body: 'hello world', conversationId: convo.id});
                 message.save().then(done)
             });
         });
@@ -97,16 +97,16 @@
 
         it('contains its own messages', function (done) {
             var convo = new Whisper.ConversationCollection().add({id: 'foobar'});
-            convo.fetch().then(function() {
-                assert.notEqual(convo.messages().length, 0);
+            convo.fetchMessages().then(function() {
+                assert.notEqual(convo.messageCollection.length, 0);
                 done();
             });
         });
 
         it('contains only its own messages', function (done) {
             var convo = new Whisper.ConversationCollection().add({id: 'barfoo'});
-            convo.fetch().then(function() {
-                assert.strictEqual(convo.messages().length, 0);
+            convo.fetchMessages().then(function() {
+                assert.strictEqual(convo.messageCollection.length, 0);
                 done();
             });
         });

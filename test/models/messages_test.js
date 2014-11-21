@@ -72,5 +72,25 @@
                 });
             });
         });
+
+        it('should be ordered oldest to newest', function() {
+            var messages = new Whisper.MessageCollection();
+            // Timestamps
+            var today = new Date();
+            var tomorrow = new Date();
+            tomorrow.setDate(today.getDate()+1);
+
+            // Add threads
+            messages.add({ timestamp: today });
+            messages.add({ timestamp: tomorrow });
+
+            var models = messages.models;
+            var firstTimestamp = models[0].get('timestamp').getTime();
+            var secondTimestamp = models[1].get('timestamp').getTime();
+
+            // Compare timestamps
+            assert(firstTimestamp < secondTimestamp);
+        });
+
     });
 })();

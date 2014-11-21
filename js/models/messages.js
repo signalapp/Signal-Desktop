@@ -35,7 +35,7 @@
         model: Message,
         database: Whisper.Database,
         storeName: 'messages',
-        comparator: function(m) { return -m.get('timestamp'); },
+        comparator: 'timestamp',
         destroyAll: function () {
             return Promise.all(this.models.map(function(m) {
                 return new Promise(function(resolve, reject) {

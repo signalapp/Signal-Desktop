@@ -14,11 +14,7 @@ var Whisper = Whisper || {};
         this.$el.scrollTop(this.el.scrollHeight);
     },
     addAll: function() {
-      this.$el.html('');
-      this.collection.each(function(model) {
-        var view = new this.itemView({model: model});
-        this.$el.prepend(view.render().el);
-      }, this);
+      Whisper.ListView.prototype.addAll.apply(this, arguments); // super()
       this.scrollToBottom();
     },
   });

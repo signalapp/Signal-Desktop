@@ -5,7 +5,7 @@ describe('MessageView', function() {
   });
 
   var convo = conversations.add({id: 'foo'});
-  var message = convo.messages().add({
+  var message = convo.messageCollection.add({
     conversationId: convo.id,
     body: 'hello world',
     type: 'outgoing',
@@ -13,12 +13,12 @@ describe('MessageView', function() {
   });
 
   it('should display the message text', function() {
-    var view = new Whisper.MessageView({model: message});
-    assert.match(view.render().$el.html(), /hello world/);
+    var view = new Whisper.MessageView({model: message}).render();
+    assert.match(view.$el.text(), /hello world/);
   });
 
   it('should auto-update the message text', function() {
-    var view = new Whisper.MessageView({model: message});
+    var view = new Whisper.MessageView({model: message}).render();
     message.set('body', 'goodbye world');
     assert.match(view.$el.html(), /goodbye world/);
   });
