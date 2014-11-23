@@ -1,6 +1,8 @@
 TextSecure Chromium Implementation
 ==================================
 
+[![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
+
 This is very early stuff and exists primarily to get the crypto in place.
 *This does not currently work, dont bother trying to use it seriously yet*
 
