@@ -545,7 +545,7 @@ window.textsecure.protocol = function() {
         var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
         var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
-        var decodedMessage = base64DecToArr(getString(message));
+        var decodedMessage = StringView.base64ToBytes(getString(message));
         if (new Uint8Array(decodedMessage)[0] != 1)
             throw new Error("Got bad version number: " + decodedMessage[0]);
 
