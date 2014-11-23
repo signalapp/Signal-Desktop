@@ -1,8 +1,9 @@
-'use strict';
 var child_process = require('child_process');
 var util = require('util');
 
 module.exports = function(grunt) {
+  'use strict';
+
   var bower = grunt.file.readJSON('bower.json');
   var components = [];
   for (var i in bower.concat.app) {
@@ -10,6 +11,7 @@ module.exports = function(grunt) {
   }
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     concat: {
       components: {
         src: components,
@@ -77,11 +79,40 @@ module.exports = function(grunt) {
               'malloc'
             ]
         }
+    },
+    jshint: {
+      files: ['Gruntfile.js'],  // add 'src/**/*.js', 'test/**/*.js'
+      options: { jshintrc: '.jshintrc' },
+    },
+    watch: {
+      files: ['<%= jshint.files %>'],
+      tasks: ['jshint']
+    },
+    connect: {
+      server: {
+        options: {
+          base: '.',
+          port: 9999
+        }
+      }
+    },
+    'saucelabs-mocha': {
+      all: {
+        options: {
+          urls: ['http://127.0.0.1:9999/test/index.html'],
+          build: process.env.TRAVIS_JOB_ID,
+          browsers: [{ browserName: 'chrome' }],
+          testname: 'TextSecure-Browser Tests'
+        }
+      }
     }
   });
-  grunt.loadNpmTasks('grunt-preen');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+
+  Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {
+    if (/^grunt(?!(-cli)?$)/.test(key)) {  // ignore grunt and grunt-cli
+      grunt.loadNpmTasks(key);
+    }
+  });
 
   grunt.registerMultiTask('compile', 'Compile the C libraries with emscripten.', function() {
       var callback = this.async();
@@ -117,6 +148,9 @@ module.exports = function(grunt) {
       });
   });
 
+  grunt.registerTask('dev', ['connect', 'watch']);
+  grunt.registerTask('test', ['jshint', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
   grunt.registerTask('build', ['compile', 'concat:curve25519']);
+
 };
