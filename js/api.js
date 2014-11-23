@@ -192,12 +192,12 @@ window.textsecure.api = function () {
             urlParameters       : "/" + number + "/" + deviceId,
         }).then(function(res) {
             var promises = [];
-            res.identityKey = base64DecToArr(res.identityKey);
+            res.identityKey = StringView.base64ToBytes(res.identityKey);
             for (var i = 0; i < res.devices.length; i++) {
-                res.devices[i].signedPreKey.publicKey = base64DecToArr(res.devices[i].signedPreKey.publicKey);
-                res.devices[i].signedPreKey.signature = base64DecToArr(res.devices[i].signedPreKey.signature);
+                res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
+                res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
                 promises[i] = window.textsecure.crypto.Ed25519Verify(res.identityKey, res.devices[i].signedPreKey.publicKey, res.devices[i].signedPreKey.signature);
-                res.devices[i].preKey.publicKey = base64DecToArr(res.devices[i].preKey.publicKey);
+                res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
                 //TODO: Is this still needed?
                 //if (res.devices[i].keyId === undefined)
                 //  res.devices[i].keyId = 0;
