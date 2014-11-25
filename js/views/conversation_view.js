@@ -57,6 +57,8 @@
         },
 
         render: function() {
+            this.delegateEvents();
+            this.view.delegateEvents();
             this.view.scrollToBottom();
             return this;
         }

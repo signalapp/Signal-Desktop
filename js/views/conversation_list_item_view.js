@@ -24,8 +24,6 @@ var Whisper = Whisper || {};
 
       if (!this.view) {
         this.view = new Whisper.ConversationView({ model: this.model });
-      } else {
-        this.view.delegateEvents();
       }
       this.model.collection.trigger('selected', this.view);
     },
