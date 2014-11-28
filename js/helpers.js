@@ -240,19 +240,14 @@ window.textsecure.replay = function() {
 window.textsecure.subscribeToPush = function(message_callback) {
     var socket = textsecure.api.getMessageWebsocket();
 
-    socket.onmessage = function(message) {
-        textsecure.protocol.decryptWebsocketMessage(message.body).then(function(plaintext) {
+    var resource = new WebSocketResource(socket, function(request) {
+        // TODO: handle different types of requests. for now we only receive
+        // PUT /messages <base64-encoded encrypted IncomingPushMessageSignal>
+        textsecure.protocol.decryptWebsocketMessage(request.body).then(function(plaintext) {
             var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
             // After this point, a) decoding errors are not the server's fault, and
             // b) we should handle them gracefully and tell the user they received an invalid message
-            console.log("Successfully decoded message with id: " + message.id);
-
-            socket.send(
-                new textsecure.protobuf.WebSocketMessage({
-                    response: { id: message.id, message: 'OK', status: 200 },
-                    type: textsecure.protobuf.WebSocketMessage.Type.RESPONSE
-                }).encode().toArrayBuffer()
-            );
+            request.respond(200, 'OK');
 
             return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(decrypted) {
                 // Delivery receipt
@@ -348,7 +343,7 @@ window.textsecure.subscribeToPush = function(message_callback) {
             console.log("Error handling incoming message: ");
             console.log(e);
         });
-    };
+    });
 };
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {

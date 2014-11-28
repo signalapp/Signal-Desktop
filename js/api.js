@@ -303,91 +303,16 @@ window.textsecure.api = function () {
 
     var getWebsocket = function(url, auth, reconnectTimeout) {
         var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
+        var params = '';
         if (auth) {
             var user = textsecure.storage.getUnencrypted("number_id");
             var password = textsecure.storage.getEncrypted("password");
             var params = $.param({
-                login: '+' + getString(user).substring(1),
-                password: getString(password)
+                login: '+' + user.substring(1),
+                password: password
             });
-        } else
-            var params = $.param({});
-
-        var keepAliveTimer;
-        var reconnectSemaphore = 0;
-        var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
-
-        var connect = function() {
-            clearTimeout(keepAliveTimer);
-            reconnectSemaphore++;
-            if (reconnectSemaphore <= 0)
-                return;
-
-            if (socket) { socket.close(); }
-            var socket = new WebSocket(URL+params);
-
-            function resetKeepAliveTimer() {
-                clearTimeout(keepAliveTimer);
-                keepAliveTimer = setTimeout(function() {
-                    socket.send(JSON.stringify({type: 1, id: 0}));
-                    resetKeepAliveTimer();
-                }, 50000);
-            };
-
-            socket.onerror = function(socketEvent) {
-                console.log('Server is down :(');
-                reconnectSemaphore--;
-                setTimeout(function() { connect(); }, reconnectTimeout);
-                socketWrapper.ondisconnect();
-            };
-
-            socket.onclose = function(socketEvent) {
-                console.log('Server closed :(');
-                reconnectSemaphore--;
-                setTimeout(function() { connect(); }, reconnectTimeout);
-                socketWrapper.ondisconnect();
-            };
-
-            socket.onopen = function(socketEvent) {
-                console.log('Connected to server!');
-                socketWrapper.onconnect();
-                resetKeepAliveTimer();
-            };
-
-            //TODO: wrap onmessage so that we reconnect on missing pong
-            socket.onmessage = function(response) {
-                var blob = response.data;
-                var reader = new FileReader();
-                reader.addEventListener("loadend", function() {
-                    // reader.result contains the contents of blob as a typed array
-                    try {
-                        var message = textsecure.protobuf.WebSocketMessage.decode(reader.result);
-                        console.log(message);
-                        if (message.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST ) {
-                            socketWrapper.onmessage(message.request);
-                        }
-                        else {
-                            throw "Got invalid message from server: " + message;
-                        }
-
-                    } catch (e) {
-                        console.log('Error parsing server JSON message: ' + response);
-                        return;
-                    }
-                });
-
-                reader.readAsArrayBuffer(blob);
-
-                resetKeepAliveTimer();
-            };
-
-            socketWrapper.send = function(msg) {
-                socket.send(msg);
-            }
-        };
-        connect();
-
-        return socketWrapper;
+        }
+        return window.textsecure.websocket(URL+params)
     }
 
     self.getMessageWebsocket = function() {
