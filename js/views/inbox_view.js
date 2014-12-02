@@ -32,7 +32,11 @@
                 collection : this.conversations
             });
 
-            this.conversations.fetch({reset: true}).then(function() {
+            this.conversations.fetch({ reset: true }).then(function() {
+                this.conversations.reset(
+                    //TODO: Add an index to support this operation at the db level
+                    this.conversations.filter(function(c) { return c.get('active'); })
+                );
                 if (this.conversations.length) {
                     this.conversations.at(0).trigger('render');
                 }

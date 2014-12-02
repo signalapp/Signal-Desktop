@@ -89,6 +89,13 @@
         options = options || {};
         options.conditions = {conversationId: this.id };
         return this.messageCollection.fetch(options);
+    },
+
+    destroyMessages: function() {
+        var models = this.messageCollection.models;
+        this.messageCollection.reset([]);
+        _.each(models, function(message) { message.destroy(); });
+        return this.save({active: false});
     }
   });
 

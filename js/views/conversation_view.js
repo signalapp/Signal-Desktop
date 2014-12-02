@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-  'use strict';
+    'use strict';
     window.Whisper = window.Whisper || {};
 
     Whisper.ConversationView = Backbone.View.extend({
@@ -39,7 +39,17 @@
 
         events: {
             'submit .send': 'sendMessage',
-            'close': 'remove'
+            'close': 'remove',
+            'click .destroy': 'destroyMessages'
+        },
+
+        destroyMessages: function(e) {
+            if (confirm("Permanently delete this conversation?")) {
+                this.model.destroyMessages();
+                this.model.collection.remove(this.model);
+                this.remove();
+                this.model.trigger('destroy');
+            }
         },
 
         sendMessage: function(e) {
