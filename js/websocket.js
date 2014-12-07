@@ -36,7 +36,7 @@
             keepAliveTimer = setTimeout(function() {
                 socket.send(JSON.stringify({type: 1, id: 0}));
                 resetKeepAliveTimer();
-            }, 50000);
+            }, 15000);
         };
 
         function reconnect(e) {
