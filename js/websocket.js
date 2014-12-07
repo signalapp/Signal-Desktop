@@ -25,7 +25,10 @@
      */
 
     window.textsecure.websocket = function (url) {
-        var socketWrapper = { onmessage: function() {}, ondisconnect: function() {} };
+        var socketWrapper = {
+            onmessage    : function() {},
+            ondisconnect : function() {},
+        };
         var socket;
         var keepAliveTimer;
         var reconnectSemaphore = 0;
@@ -34,7 +37,13 @@
         function resetKeepAliveTimer() {
             clearTimeout(keepAliveTimer);
             keepAliveTimer = setTimeout(function() {
-                socket.send(JSON.stringify({type: 1, id: 0}));
+                socket.send(
+                    new textsecure.protobuf.WebSocketMessage({
+                        type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
+                        request: { verb: 'GET', path: '/v1/keepalive' }
+                    }).encode().toArrayBuffer()
+                );
+
                 resetKeepAliveTimer();
             }, 15000);
         };
@@ -45,7 +54,7 @@
             socketWrapper.ondisconnect(e);
         };
 
-        var connect = function() {
+        function connect() {
             clearTimeout(keepAliveTimer);
             if (++reconnectSemaphore <= 0) { return; }
 
@@ -64,7 +73,7 @@
             socketWrapper.send = function(msg) {
                 socket.send(msg);
             }
-        };
+        }
 
         connect();
         return socketWrapper;
