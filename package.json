@@ -1,6 +1,6 @@
 {
-  "name": "textsecure-chrome",
-  "repository": "https://github.com/WhisperSystems/TextSecure.git",
+  "name": "textsecure-browser",
+  "repository": "https://github.com/WhisperSystems/TextSecure-Browser.git",
   "version": "0.0.0",
   "devDependencies": {
     "bower": "^1.3.12",
