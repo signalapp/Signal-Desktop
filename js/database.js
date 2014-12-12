@@ -24,12 +24,14 @@
         {
             version: "1.0",
             migrate: function(transaction, next) {
-                console.log('migratetion 1.0');
+                console.log('migration 1.0');
                 var messages = transaction.db.createObjectStore("messages");
-                messages.createIndex("conversation", "conversationId", { unique: false });
+                messages.createIndex("conversation", ["conversationId", "received_at"], { unique: false });
+                messages.createIndex("receipt", "sent_at", { unique: false });
 
                 var conversations = transaction.db.createObjectStore("conversations");
-                conversations.createIndex("timestamp", "timestamp", { unique: false });
+                conversations.createIndex("inbox", "active_at", { unique: false });
+                conversations.createIndex("group", "members", { unique: false, multiEntry: true });
                 next();
             }
         }

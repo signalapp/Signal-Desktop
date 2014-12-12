@@ -73,7 +73,7 @@
         this.$el.html(
           Mustache.render(this.template, {
             message: this.model.get('body'),
-            timestamp: moment(this.model.get('timestamp')).fromNow(),
+            timestamp: moment(this.model.get('received_at')).fromNow(),
             bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
             sender: this.model.get('sender')
           })

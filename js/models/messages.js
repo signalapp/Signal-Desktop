@@ -19,16 +19,16 @@
     window.Whisper = window.Whisper || {};
 
     var Message  = Backbone.Model.extend({
-        database: Whisper.Database,
-        storeName: 'messages',
-        defaults: function() {
+        database  : Whisper.Database,
+        storeName : 'messages',
+        defaults  : function() {
             return {
                 timestamp: new Date().getTime(),
                 attachments: []
             };
         },
         validate: function(attributes, options) {
-            var required = ['timestamp', 'conversationId'];
+            var required = ['conversationId', 'received_at', 'sent_at'];
             var missing = _.filter(required, function(attr) { return !attributes[attr]; });
             if (missing.length) {
                 console.log("Message missing attributes: " + missing);
@@ -37,11 +37,11 @@
     });
 
     Whisper.MessageCollection = Backbone.Collection.extend({
-        model: Message,
-        database: Whisper.Database,
-        storeName: 'messages',
-        comparator: 'timestamp',
-        destroyAll: function () {
+        model      : Message,
+        database   : Whisper.Database,
+        storeName  : 'messages',
+        comparator : 'received_at',
+        destroyAll : function () {
             return Promise.all(this.models.map(function(m) {
                 return new Promise(function(resolve, reject) {
                     m.destroy().then(resolve).fail(reject);
