@@ -9,7 +9,7 @@ describe('MessageView', function() {
     conversationId: convo.id,
     body: 'hello world',
     type: 'outgoing',
-    timestamp: new Date().getTime()
+    received_at: new Date().getTime()
   });
 
   it('should display the message text', function() {
@@ -25,13 +25,13 @@ describe('MessageView', function() {
 
   it('should have a nice timestamp', function() {
     var view = new Whisper.MessageView({model: message});
-    message.set({'timestamp': new Date().getTime() - 5000});
+    message.set({'received_at': new Date().getTime() - 5000});
     assert.match(view.$el.html(), /seconds ago/);
 
-    message.set({'timestamp': new Date().getTime() - 60000});
+    message.set({'received_at': new Date().getTime() - 60000});
     assert.match(view.$el.html(), /minute ago/);
 
-    message.set({'timestamp': new Date().getTime() - 3600000});
+    message.set({'received_at': new Date().getTime() - 3600000});
     assert.match(view.$el.html(), /hour ago/);
   });
 

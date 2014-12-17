@@ -28,7 +28,7 @@
                         body: 'hi',
                         conversationId: 'foo',
                         attachments: [],
-                        timestamp: new Date().getTime() };
+                        received_at: new Date().getTime() };
 
     describe('MessageCollection', function() {
         before(clear);
@@ -81,12 +81,12 @@
             tomorrow.setDate(today.getDate()+1);
 
             // Add threads
-            messages.add({ timestamp: today });
-            messages.add({ timestamp: tomorrow });
+            messages.add({ received_at: today });
+            messages.add({ received_at: tomorrow });
 
             var models = messages.models;
-            var firstTimestamp = models[0].get('timestamp').getTime();
-            var secondTimestamp = models[1].get('timestamp').getTime();
+            var firstTimestamp = models[0].get('received_at').getTime();
+            var secondTimestamp = models[1].get('received_at').getTime();
 
             // Compare timestamps
             assert(firstTimestamp < secondTimestamp);
