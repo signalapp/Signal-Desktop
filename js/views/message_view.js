@@ -38,6 +38,20 @@
     }
   });
 
+  var ErrorView = Backbone.View.extend({
+      className: 'error',
+      events: {
+          'click' : 'replay'
+      },
+      replay: function() {
+          new window.textsecure.ReplayableError(this.model).replay();
+      },
+      render: function() {
+          this.$el.text(this.model.message);
+          return this;
+      }
+  });
+
   window.Whisper = window.Whisper || {};
 
   Whisper.MessageView = Backbone.View.extend({
@@ -70,6 +84,15 @@
                 return new AttachmentView({model: attachment}).render().el;
             })
         );
+
+        var errors = this.model.get('errors');
+        if (errors && errors.length) {
+            this.$el.find('.message').append(
+                errors.map(function(error) {
+                    return new ErrorView({model: error}).render().el;
+                })
+            );
+        }
 
         return this;
     }
