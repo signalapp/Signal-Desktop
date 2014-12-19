@@ -47,7 +47,6 @@
             body             : message,
             timestamp        : timestamp,
             conversationId   : this.id,
-            conversationType : this.get('type'),
             type             : 'outgoing',
             attachments      : attachments,
         }).save();
@@ -68,13 +67,12 @@
         var conversation = this;
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
         var m = this.messageCollection.add({
-          body: decrypted.message.body,
-          timestamp: timestamp,
-          conversationId: this.id,
-          conversationType: this.get('type'),
-          attachments: decrypted.message.attachments,
-          type: 'incoming',
-          sender: decrypted.pushMessage.source
+            body           : decrypted.message.body,
+            timestamp      : timestamp,
+            conversationId : this.id,
+            attachments    : decrypted.message.attachments,
+            type           : 'incoming',
+            sender         : decrypted.pushMessage.source
         });
 
         if (timestamp > this.get('timestamp')) {

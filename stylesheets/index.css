@@ -43,9 +43,15 @@ ul.discussion {
 }
 
 li.entry .sender {
+  display: none;
   font-size: 0.75em;
   opacity: 0.54;
 }
+
+.group.conversation li.entry .sender {
+  display: block;
+}
+
 
 li.entry .avatar {
   height:32px;

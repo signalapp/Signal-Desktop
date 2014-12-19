@@ -35,6 +35,10 @@
             this.$el.find('.discussion-container').append(this.view.el);
 
             this.model.fetchMessages({reset: true});
+
+            if (this.model.get('type') === 'group') {
+                this.$el.addClass('group');
+            }
         },
 
         events: {

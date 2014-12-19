@@ -61,7 +61,7 @@
             message: this.model.get('body'),
             timestamp: moment(this.model.get('timestamp')).fromNow(),
             bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
-            sender: this.model.get('conversationType') === 'group' ? this.model.get('sender') : ''
+            sender: this.model.get('sender')
           })
         );
 
