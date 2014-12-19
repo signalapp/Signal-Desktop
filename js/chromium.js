@@ -38,7 +38,12 @@
         chrome.runtime.sendMessage(null, { name: name, data: object });
     };
 
-    window.extension.onMessage = function (name, callback) {
+    window.extension.on = function (name, callback) {
+        // this causes every listener to fire on every message.
+        // if we eventually end up with lots of listeners (lol)
+        // might be worth making a map of 'name' -> [callbacks, ...]
+        // so we can fire a single listener that calls only the necessary
+        // calllbacks for that message name
         chrome.runtime.onMessage.addListener(function(e) {
             if (e.name === name) {
                 callback(e.data);
@@ -50,20 +55,12 @@
     window.textsecure.registration = {
         done: function () {
             localStorage.setItem("chromiumRegistrationDone", "");
-            chrome.runtime.sendMessage('registration_done');
+            extension.trigger('registration_done');
             window.location = '/index.html';
         },
 
         isDone: function () {
             return localStorage.getItem("chromiumRegistrationDone") !== null;
         },
-
-        addListener: function (callback) {
-            chrome.runtime.onMessage.addListener(function(message) {
-                if (message === 'registration_done') {
-                    callback();
-                }
-            });
-        }
     };
 }());

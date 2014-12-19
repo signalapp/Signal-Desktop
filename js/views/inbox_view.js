@@ -42,7 +42,7 @@
                 }
             }.bind(this));
 
-            extension.onMessage('message', function(message) {
+            extension.on('message', function(message) {
                 this.conversations.fetch({id: message.conversationId}).then(function() {
                     this.conversations.get(message.conversationId).fetchMessages();
                 }.bind(this));

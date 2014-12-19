@@ -38,6 +38,6 @@
         }
     };
 
-    textsecure.registration.addListener(init);
+    extension.on('registration_done', init);
     init();
 })();
