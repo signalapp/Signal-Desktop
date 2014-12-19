@@ -87,18 +87,7 @@
     },
 
     fetchMessages: function(options) {
-        options = options || {};
-        options.index = {
-            // 'conversation' index on conversationId
-            // WHERE conversationId = this.id ORDER received_at DESC
-            name  : 'conversation',
-            lower : [this.id],
-            upper : [this.id, Number.MAX_VALUE],
-            order : 'desc'
-        };
-        return this.messageCollection.fetch(options);
-        // TODO pagination/infinite scroll
-        // limit: 10, offset: page*10,
+        return this.messageCollection.fetchConversation(this.id, options);
     },
 
     archive: function() {
@@ -187,6 +176,17 @@
                 only: number
             }
         });
+    },
+
+    fetchActive: function(options) {
+        return this.fetch(_.extend(options, {
+            index: {
+                name: 'inbox', // 'inbox' index on active_at
+                order: 'desc'  // ORDER timestamp DESC
+            }
+            // TODO pagination/infinite scroll
+            // limit: 10, offset: page*10,
+        }));
     }
   });
 })();

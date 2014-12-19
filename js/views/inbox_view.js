@@ -32,15 +32,7 @@
                 collection : this.conversations
             });
 
-            this.conversations.fetch({
-                index: {
-                    name: 'inbox', // 'inbox' index on active_at
-                    order: 'desc'  // ORDER timestamp DESC
-                },
-                reset: true
-                // TODO pagination/infinite scroll
-                // limit: 10, offset: page*10,
-            }).then(function() {
+            this.conversations.fetchActive({reset: true}).then(function() {
                 if (this.conversations.length) {
                     this.conversations.at(0).trigger('render');
                 }

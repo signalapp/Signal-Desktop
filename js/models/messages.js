@@ -57,6 +57,22 @@
                     only: timestamp
                 }
             });
+        },
+
+        fetchConversation: function(conversationId, options) {
+            options = options || {};
+            options.index = {
+                // 'conversation' index on [conversationId, received_at]
+                name  : 'conversation',
+                lower : [conversationId],
+                upper : [conversationId, Number.MAX_VALUE],
+                order : 'desc'
+                // SELECT messages WHERE conversationId = this.id ORDER
+                // received_at DESC
+            };
+            // TODO pagination/infinite scroll
+            // limit: 10, offset: page*10,
+            return this.fetch(options);
         }
     });
 })()
