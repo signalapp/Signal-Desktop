@@ -117,11 +117,11 @@ window.textsecure.messaging = function() {
 	var tryMessageAgain = function(number, encodedMessage, callback) {
 		//TODO: Wipe identity key!
 		refreshGroups(number).then(function() {
-			var message = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
-			textsecure.sendMessage([number], message, callback);
+			var message = textsecure.protobuf.PushMessageContent.decode(encodedMessage);
+			textsecure.sendMessageProto([number], message, callback);
 		});
 	};
-	textsecure.replay.registerReplayFunction(tryMessageAgain, textsecure.replay.SEND_MESSAGE);
+	textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.SEND_MESSAGE);
 
 	var sendMessageProto = function(numbers, message, callback) {
 		var numbersCompleted = 0;
@@ -175,8 +175,7 @@ window.textsecure.messaging = function() {
 							if (error.message !== "Identity key changed")
 								registerError(number, "Failed to reload device keys", error);
 							else {
-								error = textsecure.replay.createReplayableError("The destination's identity key has changed", "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled TextSecure.",
-										textsecure.replay.SEND_MESSAGE, [number, getString(message.encode())]);
+                                error = new textsecure.OutgoingIdentityKeyError(encodedNumber, message.encode());
 								registerError(number, "Identity key changed", error);
 							}
 						});

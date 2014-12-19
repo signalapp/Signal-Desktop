@@ -126,41 +126,6 @@ window.textsecure.throwHumanError = function(error, type, humanError) {
     throw e;
 }
 
-window.textsecure.replay = function() {
-    var self = {};
-
-    self.REPLAY_FUNCS = {
-        SEND_MESSAGE: 1,
-        INIT_SESSION: 2,
-    }
-
-    var functions = {};
-
-    self.registerReplayFunction = function(func, functionCode) {
-        functions[functionCode] = func;
-    }
-
-    self.replayError = function(replayData) {
-        var args = Array.prototype.slice.call(arguments);
-        args.shift();
-        args = replayData.args.concat(args);
-        functions[replayData.replayFunction].apply(window, args);
-    }
-
-    self.createReplayableError = function(shortMsg, longMsg, replayFunction, args) {
-        var e = new Error(shortMsg);
-        e.name = "ReplayableError";
-        e.humanError = e.longMessage = longMsg;
-        e.replayData = { replayFunction: replayFunction, args: args };
-        e.replay = function() {
-            self.replayError(e.replayData);
-        }
-        return e;
-    }
-
-    return self;
-}();
-
 // message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
 window.textsecure.subscribeToPush = function(message_callback) {
     var socket = textsecure.api.getMessageWebsocket();

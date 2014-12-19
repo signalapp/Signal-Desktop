@@ -366,7 +366,7 @@ window.textsecure.protocol = function() {
         //TODO: Wipe identity key!
         return handlePreKeyWhisperMessage(from, encodedMessage);
     }
-    textsecure.replay.registerReplayFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.REPLAY_FUNCS.INIT_SESSION);
+    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 
     initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
         var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
@@ -394,7 +394,7 @@ window.textsecure.protocol = function() {
                     closeSession(open_session); // To be returned and saved later
             } else {
                 // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-                throw new Error("Received message with unknown identity key", "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.", textsecure.replay.REPLAY_FUNCS.INIT_SESSION, [encodedNumber, getString(message.encode())]);
+                throw new textsecure.IncomingIdentityKeyError(encodedNumber, getString(message.encode()));
             }
         }
         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
