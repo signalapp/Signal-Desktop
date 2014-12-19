@@ -419,6 +419,25 @@
                         }
                     }
                 });
+            } else if (options.index) {
+                index = store.index(options.index.name);
+                if (index) {
+                    if (options.index.lower && options.index.upper) {
+                        bounds = IDBKeyRange.bound(options.index.lower, options.index.upper);
+                    } else if (options.index.lower) {
+                        bounds = IDBKeyRange.lowerBound(options.index.lower);
+                    } else if (options.index.upper) {
+                        bounds = IDBKeyRange.upperBound(options.index.upper);
+                    } else if (options.index.only) {
+                        bounds = IDBKeyRange.only(options.index.only);
+                    }
+
+                    if (typeof options.index.order === 'string' && options.index.order.toLowerCase() === 'desc') {
+                        readCursor = index.openCursor(bounds, window.IDBCursor.PREV || "prev");
+                    } else {
+                        readCursor = index.openCursor(bounds, window.IDBCursor.NEXT || "next");
+                    }
+                }
             } else {
                 // No conditions, use the index
                 if (options.range) {
