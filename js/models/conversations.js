@@ -42,28 +42,40 @@
       if (missing.length) { return "Conversation must have " + missing; }
     },
 
-    sendMessage: function(message, attachments) {
+    sendMessage: function(body, attachments) {
         var now = Date.now();
-        this.messageCollection.add({
-            body           : message,
+        var message = this.messageCollection.add({
+            body           : body,
             conversationId : this.id,
             type           : 'outgoing',
             attachments    : attachments,
             sent_at        : now,
             received_at    : now
-        }).save();
+        });
+        message.save();
 
         this.save({
             unreadCount : 0,
             active_at   : now
         });
 
+        var sendFunc;
         if (this.get('type') == 'private') {
-          return textsecure.messaging.sendMessageToNumber(this.get('id'), message, attachments);
+            sendFunc = textsecure.messaging.sendMessageToNumber;
         }
         else {
-          return textsecure.messaging.sendMessageToGroup(this.get('groupId'), message, attachments);
+            sendFunc = textsecure.messaging.sendMessageToGroup;
         }
+        sendFunc(this.get('id'), body, attachments).catch(function(e) {
+            if (e.name === 'OutgoingIdentityKeyError') {
+                e.args.push(message.id);
+                message.save({ errors : [e] }).then(function() {
+                    extension.trigger('message', message); // notify frontend listeners
+                });
+            } else {
+                throw e;
+            }
+        });
     },
 
     receiveMessage: function(decrypted) {
