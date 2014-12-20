@@ -178,6 +178,15 @@
                 m.destroy().then(resolve).fail(reject);
             });
         }));
+    },
+
+    fetchGroups: function(number) {
+        return this.fetch({
+            index: {
+                name: 'group',
+                only: number
+            }
+        });
     }
   });
 })();

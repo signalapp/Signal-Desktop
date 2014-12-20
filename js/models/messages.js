@@ -47,6 +47,16 @@
                     m.destroy().then(resolve).fail(reject);
                 });
             }));
+        },
+
+        fetchSentAt: function(timestamp) {
+            return this.fetch({
+                index: {
+                    // 'receipt' index on sent_at
+                    name: 'receipt',
+                    only: timestamp
+                }
+            });
         }
     });
 })()
