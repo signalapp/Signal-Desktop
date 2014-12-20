@@ -126,115 +126,112 @@ window.textsecure.throwHumanError = function(error, type, humanError) {
     throw e;
 }
 
-// message_callback({message: decryptedMessage, pushMessage: server-providedPushMessage})
-window.textsecure.subscribeToPush = function(message_callback) {
-    var socket = textsecure.api.getMessageWebsocket();
+var handleAttachment = function(attachment) {
+    function getAttachment() {
+        return textsecure.api.getAttachment(attachment.id.toString());
+    }
 
-    var resource = new WebSocketResource(socket, function(request) {
-        // TODO: handle different types of requests. for now we only receive
-        // PUT /messages <base64-encoded encrypted IncomingPushMessageSignal>
-        textsecure.protocol.decryptWebsocketMessage(request.body).then(function(plaintext) {
-            var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
-            // After this point, a) decoding errors are not the server's fault, and
-            // b) we should handle them gracefully and tell the user they received an invalid message
-            request.respond(200, 'OK');
+    function decryptAttachment(encrypted) {
+        return textsecure.protocol.decryptAttachment(
+            encrypted,
+            attachment.key.toArrayBuffer()
+        );
+    }
 
-            return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(decrypted) {
-                // Delivery receipt
-                if (decrypted === null)
-                    //TODO: Pass to UI
-                    return;
+    function updateAttachment(data) {
+        attachment.data = data;
+    }
 
-                // Now that its decrypted, validate the message and clean it up for consumer processing
-                // Note that messages may (generally) only perform one action and we ignore remaining fields
-                // after the first action.
+    return getAttachment().
+      then(decryptAttachment).
+      then(updateAttachment);
+};
 
-                if (decrypted.flags == null)
-                    decrypted.flags = 0;
+textsecure.processDecrypted = function(decrypted) {
 
-                if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                            == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                    return;
-                if (decrypted.flags != 0)
-                    throw new Error("Unknown flags in message");
+    // Now that its decrypted, validate the message and clean it up for consumer processing
+    // Note that messages may (generally) only perform one action and we ignore remaining fields
+    // after the first action.
 
-                var handleAttachment = function(attachment) {
-                    return textsecure.api.getAttachment(attachment.id.toString()).then(function(encryptedBin) {
-                        return textsecure.protocol.decryptAttachment(encryptedBin, attachment.key.toArrayBuffer()).then(function(decryptedBin) {
-                            attachment.data = decryptedBin;
-                        });
-                    });
-                };
+    if (decrypted.flags == null)
+        decrypted.flags = 0;
 
-                var promises = [];
+    if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+        return;
+    if (decrypted.flags != 0) {
+        throw new Error("Unknown flags in message");
+    }
 
-                if (decrypted.group !== null) {
-                    decrypted.group.id = getString(decrypted.group.id);
-                    var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
-                    if (existingGroup === undefined) {
-                        if (decrypted.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE)
-                            throw new Error("Got message for unknown group");
-                        textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
-                    } else {
-                        var fromIndex = existingGroup.indexOf(proto.source);
+    var promises = [];
 
-                        if (fromIndex < 0) //TODO: This could be indication of a race...
-                            throw new Error("Sender was not a member of the group they were sending from");
+    if (decrypted.group !== null) {
+        decrypted.group.id = getString(decrypted.group.id);
+        var existingGroup = textsecure.storage.groups.getNumbers(decrypted.group.id);
+        if (existingGroup === undefined) {
+            if (decrypted.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
+                throw new Error("Got message for unknown group");
+            }
+            textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
+        } else {
+            var fromIndex = existingGroup.indexOf(proto.source);
 
-                        switch(decrypted.group.type) {
-                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE:
-                            if (decrypted.group.avatar !== null)
-                                promises.push(handleAttachment(decrypted.group.avatar));
+            if (fromIndex < 0) {
+                //TODO: This could be indication of a race...
+                throw new Error("Sender was not a member of the group they were sending from");
+            }
 
-                            if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
-                                throw new Error("Attempted to remove numbers from group with an UPDATE");
-                            decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
+            switch(decrypted.group.type) {
+            case textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE:
+                if (decrypted.group.avatar !== null)
+                    promises.push(handleAttachment(decrypted.group.avatar));
 
-                            var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
-                            if (newGroup.length != decrypted.group.members.length ||
-                                        newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0)
-                                throw new Error("Error calculating group member difference");
+                if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0) {
+                    throw new Error("Attempted to remove numbers from group with an UPDATE");
+                }
+                decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
 
-                            //TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
-                            if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null)
-                                return;
-
-                            //TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
-
-                            decrypted.body = null;
-                            decrypted.attachments = [];
-
-                            break;
-                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT:
-                            textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
-
-                            decrypted.body = null;
-                            decrypted.attachments = [];
-                        case textsecure.protobuf.PushMessageContent.GroupContext.Type.DELIVER:
-                            decrypted.group.name = null;
-                            decrypted.group.members = [];
-                            decrypted.group.avatar = null;
-
-                            break;
-                        default:
-                            throw new Error("Unknown group message type");
-                        }
-                    }
+                var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
+                if (newGroup.length != decrypted.group.members.length ||
+                    newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0) {
+                    throw new Error("Error calculating group member difference");
                 }
 
-                for (var i in decrypted.attachments)
-                    promises.push(handleAttachment(decrypted.attachments[i]));
-                return Promise.all(promises).then(function() {
-                    message_callback({pushMessage: proto, message: decrypted});
-                });
-            })
-        }).catch(function(e) {
-            // TODO: Show "Invalid message" messages?
-            console.log("Error handling incoming message: ");
-            console.log(e);
-        });
+                //TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
+                if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null) {
+                    return;
+                }
+
+                //TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
+
+                decrypted.body = null;
+                decrypted.attachments = [];
+
+                break;
+            case textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT:
+                textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+
+                decrypted.body = null;
+                decrypted.attachments = [];
+            case textsecure.protobuf.PushMessageContent.GroupContext.Type.DELIVER:
+                decrypted.group.name = null;
+                decrypted.group.members = [];
+                decrypted.group.avatar = null;
+
+                break;
+            default:
+                throw new Error("Unknown group message type");
+            }
+        }
+    }
+
+    for (var i in decrypted.attachments) {
+        promises.push(handleAttachment(decrypted.attachments[i]));
+    }
+    return Promise.all(promises).then(function() {
+        return decrypted;
     });
-};
+}
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
     var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
