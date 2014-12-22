@@ -147,7 +147,7 @@ var handleAttachment = function(attachment) {
       then(updateAttachment);
 };
 
-textsecure.processDecrypted = function(decrypted) {
+textsecure.processDecrypted = function(decrypted, source) {
 
     // Now that its decrypted, validate the message and clean it up for consumer processing
     // Note that messages may (generally) only perform one action and we ignore remaining fields
@@ -174,7 +174,7 @@ textsecure.processDecrypted = function(decrypted) {
             }
             textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
         } else {
-            var fromIndex = existingGroup.indexOf(proto.source);
+            var fromIndex = existingGroup.indexOf(source);
 
             if (fromIndex < 0) {
                 //TODO: This could be indication of a race...
@@ -209,7 +209,7 @@ textsecure.processDecrypted = function(decrypted) {
 
                 break;
             case textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT:
-                textsecure.storage.groups.removeNumber(decrypted.group.id, proto.source);
+                textsecure.storage.groups.removeNumber(decrypted.group.id, source);
 
                 decrypted.body = null;
                 decrypted.attachments = [];

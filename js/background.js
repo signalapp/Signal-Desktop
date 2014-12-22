@@ -118,9 +118,9 @@
         // This function can be called from the background script on an
         // incoming message or from the frontend after the user accepts an
         // identity key change.
-        return textsecure.processDecrypted(pushMessageContent).then(function(pushMessageContent) {
+        var source = message.get('source');
+        return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
             var now = new Date().getTime();
-            var source = message.get('source');
             var conversationId = pushMessageContent.group ? pushMessageContent.group.id : source;
             var conversation = conversations.add({id: conversationId}, {merge: true});
             conversation.fetch().always(function() {
