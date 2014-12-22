@@ -66,14 +66,20 @@
         else {
             sendFunc = textsecure.messaging.sendMessageToGroup;
         }
-        sendFunc(this.get('id'), body, attachments, now).catch(function(e) {
-            if (e.name === 'OutgoingIdentityKeyError') {
-                e.args.push(message.id);
-                message.save({ errors : [e] }).then(function() {
+        sendFunc(this.get('id'), body, attachments, now).catch(function(errors) {
+            var keyErrors = [];
+            _.each(errors, function(e) {
+                if (e.error.name === 'OutgoingIdentityKeyError') {
+                    e.error.args.push(message.id);
+                    keyErrors.push(e.error);
+                }
+            });
+            if (keyErrors.length) {
+                message.save({ errors : keyErrors }).then(function() {
                     extension.trigger('message', message); // notify frontend listeners
                 });
             } else {
-                throw e;
+                throw errors;
             }
         });
     },

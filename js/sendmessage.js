@@ -238,7 +238,7 @@ window.textsecure.messaging = function() {
 		return new Promise(function(resolve, reject) {
 			sendMessageProto(timestamp, [number], proto, function(res) {
 				if (res.failure.length > 0)
-					reject(res.failure[0].error);
+					reject(res.failure);
 				else
 					resolve();
 			});
