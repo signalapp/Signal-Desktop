@@ -66,7 +66,7 @@
         else {
             sendFunc = textsecure.messaging.sendMessageToGroup;
         }
-        sendFunc(this.get('id'), body, attachments).catch(function(e) {
+        sendFunc(this.get('id'), body, attachments, now).catch(function(e) {
             if (e.name === 'OutgoingIdentityKeyError') {
                 e.args.push(message.id);
                 message.save({ errors : [e] }).then(function() {

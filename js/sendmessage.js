@@ -47,7 +47,7 @@ window.textsecure.messaging = function() {
 
 	// success_callback(server success/failure map), error_callback(error_msg)
 	// message == PushMessageContentProto (NOT STRING)
-	function sendMessageToDevices(number, deviceObjectList, message, success_callback, error_callback) {
+	function sendMessageToDevices(timestamp, number, deviceObjectList, message, success_callback, error_callback) {
 		var jsonData = [];
 		var relay = undefined;
 		var promises = [];
@@ -71,7 +71,7 @@ window.textsecure.messaging = function() {
 					destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
 					destinationRegistrationId: deviceObjectList[i].registrationId,
 					body: encryptedMsg.body,
-					timestamp: new Date().getTime()
+					timestamp: timestamp
 				};
 
 				if (deviceObjectList[i].relay !== undefined)
@@ -136,7 +136,7 @@ window.textsecure.messaging = function() {
 	};
 	textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.SEND_MESSAGE);
 
-	var sendMessageProto = function(numbers, message, callback) {
+	var sendMessageProto = function(timestamp, numbers, message, callback) {
 		var numbersCompleted = 0;
 		var errors = [];
 		var successfulNumbers = [];
@@ -170,7 +170,7 @@ window.textsecure.messaging = function() {
 		}
 
 		doSendMessage = function(number, devicesForNumber, recurse) {
-			return sendMessageToDevices(number, devicesForNumber, message).then(function(result) {
+			return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
 				successfulNumbers[successfulNumbers.length] = number;
 				numberCompleted();
 			}).catch(function(error) {
@@ -234,9 +234,9 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	var sendIndividualProto = function(number, proto) {
+	var sendIndividualProto = function(number, proto, timestamp) {
 		return new Promise(function(resolve, reject) {
-			sendMessageProto([number], proto, function(res) {
+			sendMessageProto(timestamp, [number], proto, function(res) {
 				if (res.failure.length > 0)
 					reject(res.failure[0].error);
 				else
@@ -245,12 +245,13 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	sendGroupProto = function(numbers, proto) {
+	sendGroupProto = function(numbers, proto, timestamp) {
+        timestamp = timestamp || Date.now();
 		var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
 		numbers = numbers.filter(function(number) { return number != me; });
 
 		return new Promise(function(resolve, reject) {
-			sendMessageProto(numbers, proto, function(res) {
+			sendMessageProto(timestamp, numbers, proto, function(res) {
 				if (res.failure.length > 0)
 					reject(res.failure);
 				else
@@ -259,7 +260,7 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	self.sendMessageToNumber = function(number, messageText, attachments) {
+	self.sendMessageToNumber = function(number, messageText, attachments, timestamp) {
 		var proto = new textsecure.protobuf.PushMessageContent();
 		proto.body = messageText;
 
@@ -268,7 +269,7 @@ window.textsecure.messaging = function() {
 			promises.push(makeAttachmentPointer(attachments[i]));
 		return Promise.all(promises).then(function(attachmentsArray) {
 			proto.attachments = attachmentsArray;
-			return sendIndividualProto(number, proto);
+			return sendIndividualProto(number, proto, timestamp);
 		});
 	}
 
@@ -285,7 +286,7 @@ window.textsecure.messaging = function() {
 		});
 	}
 
-	self.sendMessageToGroup = function(groupId, messageText, attachments) {
+	self.sendMessageToGroup = function(groupId, messageText, attachments, timestamp) {
 		var proto = new textsecure.protobuf.PushMessageContent();
 		proto.body = messageText;
 		proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
@@ -301,7 +302,7 @@ window.textsecure.messaging = function() {
 			promises.push(makeAttachmentPointer(attachments[i]));
 		return Promise.all(promises).then(function(attachmentsArray) {
 			proto.attachments = attachmentsArray;
-			return sendGroupProto(numbers, proto);
+			return sendGroupProto(numbers, proto, timestamp);
 		});
 	}
 

@@ -85,6 +85,10 @@
             })
         );
 
+        if (this.model.get('delivered')) {
+            this.$el.addClass('delivered');
+        }
+
         var errors = this.model.get('errors');
         if (errors && errors.length) {
             this.$el.find('.message').append(

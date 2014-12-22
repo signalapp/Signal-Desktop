@@ -215,6 +215,7 @@ window.textsecure.api = function () {
         var jsonData = { messages: messageArray };
         if (messageArray[0].relay !== undefined)
             jsonData.relay = messageArray[0].relay;
+        jsonData.timestamp = messageArray[0].timestamp;
 
         return doAjax({
             call                : 'messages',

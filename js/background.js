@@ -157,17 +157,20 @@
     }
 
     function onDeliveryReceipt(pushMessage) {
-        console.log('delivery receipt', pushMessage.source, timestamp);
         var timestamp = pushMessage.timestamp.toNumber();
         var messages  = new Whisper.MessageCollection();
         var groups    = new Whisper.ConversationCollection();
+        console.log('delivery receipt', pushMessage.source, timestamp);
         messages.fetchSentAt(timestamp).then(function() {
             groups.fetchGroups(pushMessage.source).then(function() {
-                for (var message in messages.where({type: 'outgoing'})) {
+                for (var i in messages.where({type: 'outgoing'})) {
+                    var message = messages.at(i);
                     var deliveries     = message.get('delivered') || 0;
                     var conversationId = message.get('conversationId');
                     if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1});
+                        message.save({delivered: deliveries + 1}).then(function() {
+                            extension.trigger('message', message); // notify frontend listeners
+                        });
                         return;
                         // TODO: consider keeping a list of numbers we've
                         // successfully delivered to?
