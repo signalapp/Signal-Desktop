@@ -437,7 +437,6 @@
                     readCursor = index.openCursor(bounds, window.IDBCursor.NEXT || "next");
                 }
             } else {
-
                 // No conditions, use the index
                 if (options.range) {
                     lower = options.range[0] > options.range[1] ? options.range[1] : options.range[0];
