@@ -123,13 +123,16 @@
             var now = new Date().getTime();
             var conversationId = pushMessageContent.group ? pushMessageContent.group.id : source;
             var conversation = conversations.add({id: conversationId}, {merge: true});
-            conversation.fetch().always(function() {
-                var attributes = { active_at: now };
+            var attributes = {};
+            conversation.fetch().fail(function() {
+                // this is a new conversation
                 if (pushMessageContent.group) {
                     attributes = {
+                        type       : 'group',
                         groupId    : pushMessageContent.group.id,
                         name       : pushMessageContent.group.name,
-                        type       : 'group',
+                        avatar     : pushMessageContent.group.avatar,
+                        members    : pushMessageContent.group.members,
                     };
                 } else {
                     attributes = {
@@ -137,6 +140,17 @@
                         type       : 'private'
                     };
                 }
+            }).always(function() {
+                if (pushMessageContent.group &&
+                    pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
+                    attributes = {
+                        groupId    : pushMessageContent.group.id,
+                        name       : pushMessageContent.group.name,
+                        avatar     : pushMessageContent.group.avatar,
+                        members    : pushMessageContent.group.members,
+                    };
+                }
+                attributes.active_at = now;
                 conversation.set(attributes);
 
                 message.set({
