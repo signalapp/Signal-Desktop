@@ -161,6 +161,10 @@
                     errors         : []
                 });
 
+                if (message.get('sent_at') > conversation.get('timestamp')) {
+                    conversation.set({ timestamp: message.get('sent_at'), lastMessage: message.get('body') });
+                }
+
                 conversation.save().then(function() {
                     message.save().then(function() {
                         extension.trigger('message', message); // notify frontend listeners

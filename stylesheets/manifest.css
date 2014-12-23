@@ -162,7 +162,11 @@ body {
         letter-spacing: 0.15px;
         -webkit-text-stroke: 0.2px;
         margin: 0;
-        font-size: 12px; }
+        font-size: 12px;
+        width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
       .gutter .contact .contact-details .last-timestamp {
         position: absolute;
         top: 14px;

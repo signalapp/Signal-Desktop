@@ -99,6 +99,10 @@
           -webkit-text-stroke: 0.2px;
           margin:0;
           font-size: 12px;
+          width: 150px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .last-timestamp {
           position:absolute;
