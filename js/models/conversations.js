@@ -56,7 +56,9 @@
 
         this.save({
             unreadCount : 0,
-            active_at   : now
+            active_at   : now,
+            timestamp   : now,
+            lastMessage : body
         });
 
         var sendFunc;
