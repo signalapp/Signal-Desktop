@@ -34,7 +34,7 @@ var Whisper = Whisper || {};
           contact_name: this.model.get('name'),
           contact_avatar: this.model.get('image'),
           last_message: this.model.get('lastMessage'),
-          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM M')
+          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D')
         })
       );
 
