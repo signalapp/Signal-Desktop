@@ -19,6 +19,26 @@ ul.discussion {
   width:100%;
   float:left;
   margin-bottom:10px;
+
+  .timestamp {
+    font-size: 0.75em;
+    display: block;
+
+    &:incoming {
+      color: gray;
+    }
+
+    &:outgoing {
+      color: whitesmoke;
+    }
+  }
+
+  &.delivered .timestamp {
+    &::after {
+      margin-left: 4px;
+      content: "✓";
+    }
+  }
 }
 
 .bubble {
