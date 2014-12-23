@@ -87,6 +87,12 @@
           font-size:13px;
           margin-bottom:4px;
         }
+        .contact-name {
+          width: 105px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         .last-message {
           color:lighten(#333, 40%);
           letter-spacing:0.15px;
