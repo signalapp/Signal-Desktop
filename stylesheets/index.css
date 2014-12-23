@@ -83,16 +83,3 @@ li.entry img {
   padding: 5px;
   border-radius: 3px;
 }
-
-.timestamp {
-  font-size: 0.75em;
-  display: block;
-}
-
-.incoming .timestamp {
-  color: gray;
-}
-
-.outgoing .timestamp {
-  color: whitesmoke;
-}
