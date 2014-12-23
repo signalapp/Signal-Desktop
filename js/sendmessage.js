@@ -122,10 +122,10 @@ window.textsecure.messaging = function() {
                 var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
                 sendMessageProto([number], proto, function(res) {
                     if (res.failure.length > 0) {
-                        message.set('errors', []);
+                        message.set('errors', res.failure);
                     }
                     else {
-                        message.set('errors', res.failures);
+                        message.set('errors', []);
                     }
                     message.save().then(function(){
                         extension.trigger('message', message); // notify frontend listeners
