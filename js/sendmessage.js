@@ -119,7 +119,7 @@ window.textsecure.messaging = function() {
         message.fetch().then(function() {
             textsecure.storage.removeEncrypted("devices" + number);
             var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
-            sendMessageProto([number], proto, function(res) {
+            sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
                 if (res.failure.length > 0) {
                     message.set('errors', res.failure);
                 }
