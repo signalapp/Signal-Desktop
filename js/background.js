@@ -96,7 +96,12 @@
                         message.save({ errors : [e] }).then(function() {
                             extension.trigger('message', message); // notify frontend listeners
                         });
+                    } else if (e.message === 'Bad MAC') {
+                        message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                            extension.trigger('message', message); // notify frontend listeners
+                        });
                     } else {
+                        console.log(e);
                         throw e;
                     }
                 });
