@@ -118,18 +118,16 @@ window.textsecure.messaging = function() {
         var message = new Whisper.MessageCollection().add({id: message_id});
         message.fetch().then(function() {
             textsecure.storage.removeEncrypted("devices" + number);
-            refreshGroups(number).then(function() {
-                var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
-                sendMessageProto([number], proto, function(res) {
-                    if (res.failure.length > 0) {
-                        message.set('errors', res.failure);
-                    }
-                    else {
-                        message.set('errors', []);
-                    }
-                    message.save().then(function(){
-                        extension.trigger('message', message); // notify frontend listeners
-                    });
+            var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
+            sendMessageProto([number], proto, function(res) {
+                if (res.failure.length > 0) {
+                    message.set('errors', res.failure);
+                }
+                else {
+                    message.set('errors', []);
+                }
+                message.save().then(function(){
+                    extension.trigger('message', message); // notify frontend listeners
                 });
             });
         });
