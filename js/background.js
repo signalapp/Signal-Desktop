@@ -130,7 +130,7 @@
                     attributes = {
                         type       : 'group',
                         groupId    : pushMessageContent.group.id,
-                        name       : pushMessageContent.group.name,
+                        name       : pushMessageContent.group.name || '',
                         avatar     : pushMessageContent.group.avatar,
                         members    : pushMessageContent.group.members,
                     };
