@@ -24,18 +24,12 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage.groups = {
-        getGroupListForNumber: function(number) {
-            return textsecure.storage.getEncrypted("groupMembership" + number, []);
-        },
-
         createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
+            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
-            }
 
-            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined) {
+            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
-            }
 
             var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
             var haveMe = false;
@@ -44,16 +38,18 @@
                 var number = libphonenumber.util.verifyNumber(numbers[i]);
                 if (number == me)
                     haveMe = true;
-                if (finalNumbers.indexOf(number) < 0) {
+                if (finalNumbers.indexOf(number) < 0)
                     finalNumbers.push(number);
-                    addGroupToNumber(groupId, number);
-                }
             }
 
             if (!haveMe)
                 finalNumbers.push(me);
 
-            textsecure.storage.putEncrypted("group" + groupId, {numbers: finalNumbers});
+            var groupObject = {numbers: finalNumbers, numberRegistrationIds: {}};
+            for (var i in finalNumbers)
+                groupObject.numberRegistrationIds[finalNumbers[i]] = {};
+
+            textsecure.storage.putEncrypted("group" + groupId, groupObject);
 
             return {id: groupId, numbers: finalNumbers};
         },
@@ -84,8 +80,8 @@
             var i = group.numbers.indexOf(number);
             if (i > -1) {
                 group.numbers.slice(i, 1);
+                delete group.numberRegistrationIds[number];
                 textsecure.storage.putEncrypted("group" + groupId, group);
-                removeGroupFromNumber(groupId, number);
             }
 
             return group.numbers;
@@ -100,7 +96,7 @@
                 var number = libphonenumber.util.verifyNumber(numbers[i]);
                 if (group.numbers.indexOf(number) < 0) {
                     group.numbers.push(number);
-                    addGroupToNumber(groupId, number);
+                    group.numberRegistrationIds[number] = {};
                 }
             }
 
@@ -118,23 +114,24 @@
                 return undefined;
 
             return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
-        }
+        },
+
+        needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
+            var group = textsecure.storage.getEncrypted("group" + groupId);
+            if (group === undefined)
+                throw new Error("Unknown group for device registration id");
+
+            if (group.numberRegistrationIds[number] === undefined)
+                throw new Error("Unknown number in group for device registration id");
+
+            if (group.numberRegistrationIds[number][encodedNumber] == registrationId)
+                return false;
+
+            var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
+            group.numberRegistrationIds[number][encodedNumber] = registrationId;
+            textsecure.storage.putEncrypted("group" + groupId, group);
+            return needUpdate;
+        },
     };
-
-    var addGroupToNumber = function(groupId, number) {
-        var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
-        if (membership.indexOf(groupId) < 0)
-            membership.push(groupId);
-        textsecure.storage.putEncrypted("groupMembership" + number, membership);
-    }
-
-    var removeGroupFromNumber = function(groupId, number) {
-        var membership = textsecure.storage.getEncrypted("groupMembership" + number, [groupId]);
-        membership = membership.filter(function(group) { return group != groupId; });
-        if (membership.length == 0)
-            textsecure.storage.removeEncrypted("groupMembership" + number);
-        else
-            textsecure.storage.putEncrypted("groupMembership" + number, membership);
-    }
 
 })();
