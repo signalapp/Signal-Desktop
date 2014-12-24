@@ -141,7 +141,6 @@
                     };
                 } else {
                     attributes = {
-                        name       : source,
                         type       : 'private'
                     };
                 }

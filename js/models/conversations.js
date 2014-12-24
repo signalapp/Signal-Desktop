@@ -24,7 +24,6 @@
     defaults: function() {
       var timestamp = new Date().getTime();
       return {
-        name        : 'New Conversation',
         image       : '/images/default.png',
         unreadCount : 0,
         timestamp   : timestamp,
@@ -37,7 +36,7 @@
     },
 
     validate: function(attributes, options) {
-      var required = ['type', 'timestamp', 'image', 'name'];
+      var required = ['type', 'timestamp', 'image'];
       var missing = _.filter(required, function(attr) { return !attributes[attr]; });
       if (missing.length) { return "Conversation must have " + missing; }
     },
