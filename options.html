@@ -70,7 +70,7 @@
               </div>
             </div>
             <form id="step2" class="collapse">
-              <input class='form-control' type="text" pattern="[0-9]{3}-?[0-9]{3}" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+              <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
               <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
               <div id='error' class='collapse'></div>
             </form>
