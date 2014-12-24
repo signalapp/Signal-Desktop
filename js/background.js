@@ -127,27 +127,13 @@
         return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
             var now = new Date().getTime();
             var conversationId = pushMessageContent.group ? pushMessageContent.group.id : source;
-            var conversation = conversations.add({id: conversationId}, {merge: true});
+            var conversation = new Whisper.Conversation({id: conversationId});
             var attributes = {};
-            conversation.fetch().fail(function() {
-                // this is a new conversation
-                if (pushMessageContent.group) {
-                    attributes = {
-                        type       : 'group',
-                        groupId    : pushMessageContent.group.id,
-                        name       : pushMessageContent.group.name || '',
-                        avatar     : pushMessageContent.group.avatar,
-                        members    : pushMessageContent.group.members,
-                    };
-                } else {
-                    attributes = {
-                        type       : 'private'
-                    };
-                }
-            }).always(function() {
+            conversation.fetch().always(function() {
                 if (pushMessageContent.group &&
                     pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
                     attributes = {
+                        type       : 'group',
                         groupId    : pushMessageContent.group.id,
                         name       : pushMessageContent.group.name,
                         avatar     : pushMessageContent.group.avatar,
