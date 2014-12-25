@@ -10,7 +10,7 @@ var Whisper = Whisper || {};
 
     tagClass: function(item) {
       try {
-        if (libphonenumber.util.verifyNumber(item)) {
+        if (window.textsecure.verifyNumber(item)) {
           return;
         }
       } catch(ex) {}

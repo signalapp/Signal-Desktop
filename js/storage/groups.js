@@ -41,7 +41,7 @@
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
-                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                var number = window.textsecure.verifyNumber(numbers[i]);
                 if (number == me)
                     haveMe = true;
                 if (finalNumbers.indexOf(number) < 0) {
@@ -72,7 +72,7 @@
                 return undefined;
 
             try {
-                number = libphonenumber.util.verifyNumber(number);
+                number = window.textsecure.verifyNumber(number);
             } catch (e) {
                 return group.numbers;
             }
@@ -97,7 +97,7 @@
                 return undefined;
 
             for (var i in numbers) {
-                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                var number = window.textsecure.verifyNumber(numbers[i]);
                 if (group.numbers.indexOf(number) < 0) {
                     group.numbers.push(number);
                     addGroupToNumber(groupId, number);

@@ -296,3 +296,15 @@ window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo,
         });
     });
 };
+
+window.textsecure.verifyNumber = function(number) {
+    if (number[0] === '+') {
+      // assume that the country code is specified
+      return libphonenumber.util.verifyNumber(number);
+    } else {
+      // assume that the country code should match our own
+      var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+      var myRegionCode = libphonenumber.util.getRegionCodeForNumber(me);
+      return libphonenumber.util.verifyNumber(number, myRegionCode);
+    }
+}
