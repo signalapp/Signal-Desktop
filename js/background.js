@@ -139,6 +139,10 @@
                         avatar     : pushMessageContent.group.avatar,
                         members    : pushMessageContent.group.members,
                     };
+                    pushMessageContent.body = source + ' added you to ' + attributes.name;
+                    message.set('control', true);
+                } else {
+                    message.set('control', false);
                 }
                 attributes.active_at = now;
                 conversation.set(attributes);

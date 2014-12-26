@@ -70,11 +70,15 @@
     },
 
     render: function() {
+        var bubble_class = this.model.get('type') === 'outgoing' ? 'sent' : 'incoming';
+        if (this.model.get('control')) {
+          bubble_class += ' control';
+        }
         this.$el.html(
           Mustache.render(this.template, {
             message: this.model.get('body'),
             timestamp: moment(this.model.get('received_at')).fromNow(),
-            bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
+            bubble_class: bubble_class,
             sender: this.model.get('source')
           })
         );
