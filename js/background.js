@@ -26,9 +26,8 @@
 
     if (textsecure.registration.isDone()) {
         init();
-    } else {
-        extension.on('registration_done', init);
     }
+    extension.on('registration_done', init);
 
     function init() {
         if (!textsecure.registration.isDone()) { return; }
