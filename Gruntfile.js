@@ -149,7 +149,14 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('dev', ['connect', 'watch']);
-  grunt.registerTask('test', ['jshint', 'connect', 'saucelabs-mocha']);
+  //Don't run saucelabs on pull requests
+  var pullRequest = process.env.TRAVIS_PULL_REQUEST;
+  if (pullRequest === "false"){
+    grunt.registerTask('test', ['jshint', 'connect']);
+  }
+  else{
+    grunt.registerTask('test', ['jshint', 'connect', 'saucelabs-mocha']);
+  }
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
   grunt.registerTask('build', ['compile', 'concat:curve25519']);
 
