@@ -71,12 +71,15 @@
 
     render: function() {
         var bubble_class = this.model.get('type') === 'outgoing' ? 'sent' : 'incoming';
+        var message = this.model.get('body');
         if (this.model.get('control')) {
           bubble_class += ' control';
+          message = this.model.get('control_message');
         }
+
         this.$el.html(
           Mustache.render(this.template, {
-            message: this.model.get('body'),
+            message: message,
             timestamp: moment(this.model.get('received_at')).fromNow(),
             bubble_class: bubble_class,
             sender: this.model.get('source')

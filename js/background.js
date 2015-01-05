@@ -139,8 +139,8 @@
                         avatar     : pushMessageContent.group.avatar,
                         members    : pushMessageContent.group.members,
                     };
-                    pushMessageContent.body = source + ' added you to ' + attributes.name;
                     message.set('control', true);
+                    message.set('control_message', source + ' added you to ' + attributes.name);
                 } else {
                     message.set('control', false);
                 }
