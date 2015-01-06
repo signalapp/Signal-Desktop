@@ -14,7 +14,7 @@
  */
 
 * {
-	font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif;
+  font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif;
 }
 
 .paper {
@@ -24,33 +24,33 @@
 
 
 h1 {
-	font-size: 30pt;
-	font-weight: normal;
-	padding-bottom: 10px;
+  font-size: 30pt;
+  font-weight: normal;
+  padding-bottom: 10px;
 }
 
 h2 {
-	font-size: 12pt;
-	font-weight: normal;
+  font-size: 12pt;
+  font-weight: normal;
 }
 
 .left-column {
-	float: left;
-	width: 45%;
+  float: left;
+  width: 45%;
 }
 
 .right-column {
-	float: right;
-	width: 50%;
+  float: right;
+  width: 50%;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 #textsecure-icon {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 #setup-qr {
