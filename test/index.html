@@ -1,15 +1,15 @@
 <!--This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <html>
@@ -19,15 +19,15 @@
   <link rel="stylesheet" href="../components/mocha/mocha.css" />
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="../nacl/pnacl/{config}">
-	<h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
+  <h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
 
-	<div id="listener"></div>
-	<div id="log"></div>
+  <div id="listener"></div>
+  <div id="log"></div>
 
-	<div id="mocha">
-	</div>
-	<div id="tests">
-	</div>
+  <div id="mocha">
+  </div>
+  <div id="tests">
+  </div>
   <script type='text/x-tmpl-mustache' id='conversation'>
       <div class='discussion-container'></div>
       <div class='send-message-area'>
@@ -120,12 +120,12 @@
     </form>
   </script>
 
-	<script type="text/javascript" src="test.js"></script>
-	<script type="text/javascript" src="blanket_mocha.js"></script>
+  <script type="text/javascript" src="test.js"></script>
+  <script type="text/javascript" src="blanket_mocha.js"></script>
 
-	<script type="text/javascript" src="../js/components.js"></script>
+  <script type="text/javascript" src="../js/components.js"></script>
 
-	<script type="text/javascript" src="../js/protobufs.js" data-cover></script>
+  <script type="text/javascript" src="../js/protobufs.js" data-cover></script>
   <script type="text/javascript" src="../js/websocket.js"></script>
   <script type="text/javascript" src="../js/websocket-resources.js"></script>
   <script type="text/javascript" src="../js/helpers.js" data-cover></script>
@@ -135,17 +135,17 @@
   <script type="text/javascript" src="../js/storage/devices.js"></script>
   <script type="text/javascript" src="../js/storage/groups.js"></script>
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
-	<script type="text/javascript" src="../js/webcrypto.js"></script>
+  <script type="text/javascript" src="../js/webcrypto.js"></script>
   <script type="text/javascript" src="../js/crypto.js"></script>
-	<script type="text/javascript" src="../js/protocol.js" data-cover></script>
-	<script type="text/javascript" src="../js/database.js"></script>
-	<script type="text/javascript" src="../js/models/messages.js" data-cover></script>
-	<script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
-	<script type="text/javascript" src="../js/api.js"></script>
-	<script type="text/javascript" src="../js/sendmessage.js" data-cover></script>
+  <script type="text/javascript" src="../js/protocol.js" data-cover></script>
+  <script type="text/javascript" src="../js/database.js"></script>
+  <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
+  <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
+  <script type="text/javascript" src="../js/api.js"></script>
+  <script type="text/javascript" src="../js/sendmessage.js" data-cover></script>
 
-	<script type="text/javascript" src="../js/chromium.js"></script>
-	<script type="text/javascript" src="../js/curve25519_compiled.js"></script>
+  <script type="text/javascript" src="../js/chromium.js"></script>
+  <script type="text/javascript" src="../js/curve25519_compiled.js"></script>
 
   <script type="text/javascript" src="../js/views/notifications.js"></script>
   <script type="text/javascript" src="../js/views/list_view.js" data-cover></script>
@@ -157,19 +157,19 @@
   <script type="text/javascript" src="../js/views/new_conversation_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/new_group_view.js" data-cover></script>
 
-	<script type="text/javascript" src="fake_api.js"></script>
-	<script type="text/javascript" src="testvectors.js"></script>
-	<script type="text/javascript" src="curve25519_test.js"></script>
-	<script type="text/javascript" src="crypto_test.js"></script>
-	<script type="text/javascript" src="nativeclient_test.js"></script>
-	<script type="text/javascript" src="curve25519_compiled_test.js"></script>
-	<script type="text/javascript" src="helpers_test.js"></script>
-	<script type="text/javascript" src="views/message_view_test.js"></script>
+  <script type="text/javascript" src="fake_api.js"></script>
+  <script type="text/javascript" src="testvectors.js"></script>
+  <script type="text/javascript" src="curve25519_test.js"></script>
+  <script type="text/javascript" src="crypto_test.js"></script>
+  <script type="text/javascript" src="nativeclient_test.js"></script>
+  <script type="text/javascript" src="curve25519_compiled_test.js"></script>
+  <script type="text/javascript" src="helpers_test.js"></script>
+  <script type="text/javascript" src="views/message_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
-	<script type="text/javascript" src="views/message_list_view_test.js"></script>
-	<script type="text/javascript" src="models/conversations_test.js"></script>
-	<script type="text/javascript" src="models/messages_test.js"></script>
-	<script type="text/javascript" src="websocket-resources_test.js"></script>
-	<script type="text/javascript" src="protocol_test.js"></script>
+  <script type="text/javascript" src="views/message_list_view_test.js"></script>
+  <script type="text/javascript" src="models/conversations_test.js"></script>
+  <script type="text/javascript" src="models/messages_test.js"></script>
+  <script type="text/javascript" src="websocket-resources_test.js"></script>
+  <script type="text/javascript" src="protocol_test.js"></script>
 </body>
 </html>
