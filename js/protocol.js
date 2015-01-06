@@ -212,7 +212,7 @@ window.textsecure.protocol = function() {
                 if (sending)
                     session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
                 else
-                    session[getString(remoteKey)]						= { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+                    session[getString(remoteKey)]                       = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
                 ratchet.rootKey = masterKey[0];
             });
         });
