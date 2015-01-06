@@ -78,7 +78,7 @@ describe("Crypto", function() {
             return textsecure.crypto.HKDF(IKM.buffer, salt.buffer, info.buffer).then(function(OKM){
                 assertEqualArrayBuffers(OKM[0], T1);
                 assertEqualArrayBuffers(OKM[1].slice(0, 10), T2);
-			}).then(done).catch(done);
+            }).then(done).catch(done);
         });
     });
 
