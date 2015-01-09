@@ -41,9 +41,9 @@ Dependencies
 **Note**: Unless you need to make changes to dependencies, you can skip this
 section and just use the checked in versions.
 
-Dependencies are managed by [bower](bower.io) and built with
-[grunt](gruntjs.com). To change them, you'll need to install node and npm, then
-run `npm install` to install bower, grunt, and related plugins.
+Dependencies are managed by [bower](http://bower.io) and built with
+[grunt](http://gruntjs.com). To change them, you'll need to install node and
+npm, then run `npm install` to install bower, grunt, and related plugins.
 
 ### Adding a bower component
 
