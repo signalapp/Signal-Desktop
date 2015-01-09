@@ -61,7 +61,13 @@
     initialize: function() {
       this.$el.addClass(this.model.get('type'));
 
-      this.template = $('#message').html();
+      if (this.model.get('group_update')) {
+          this.group_update_view = new Whisper.GroupUpdateView({
+              model: this.model.get('group_update')
+          }).render();
+      } else {
+        this.template = $('#message').html();
+      }
       Mustache.parse(this.template);
 
       this.listenTo(this.model, 'change',  this.render); // auto update
@@ -70,32 +76,36 @@
     },
 
     render: function() {
-        this.$el.html(
-          Mustache.render(this.template, {
-            message: this.model.get('body'),
-            timestamp: moment(this.model.get('received_at')).fromNow(),
-            bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
-            sender: this.model.get('source')
-          })
-        );
-
-        this.$el.find('.attachments').append(
-            this.model.get('attachments').map(function(attachment) {
-                return new AttachmentView({model: attachment}).render().el;
-            })
-        );
-
-        if (this.model.get('delivered')) {
-            this.$el.addClass('delivered');
-        }
-
-        var errors = this.model.get('errors');
-        if (errors && errors.length) {
-            this.$el.find('.message').append(
-                errors.map(function(error) {
-                    return new ErrorView({model: error}).render().el;
+        if (this.group_update_view) {
+            this.$el.append(this.group_update_view.$el);
+        } else {
+            this.$el.html(
+                Mustache.render(this.template, {
+                    message: this.model.get('body'),
+                    timestamp: moment(this.model.get('received_at')).fromNow(),
+                    bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
+                    sender: this.model.get('source')
                 })
             );
+
+            this.$el.find('.attachments').append(
+                this.model.get('attachments').map(function(attachment) {
+                    return new AttachmentView({model: attachment}).render().el;
+                })
+            );
+
+            if (this.model.get('delivered')) {
+                this.$el.addClass('delivered');
+            }
+
+            var errors = this.model.get('errors');
+            if (errors && errors.length) {
+                this.$el.find('.message').append(
+                    errors.map(function(error) {
+                        return new ErrorView({model: error}).render().el;
+                    })
+                );
+            }
         }
 
         return this;
