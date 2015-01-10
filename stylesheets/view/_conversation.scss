@@ -73,6 +73,7 @@ ul.discussion {
     background-color:#00badd;
     color:white;
   }
-  &.sent .volley {
+  &.control {
+    border: 1px solid darken(whitesmoke, 35%);
   }
 }

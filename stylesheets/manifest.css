@@ -230,6 +230,8 @@ ul.discussion {
     text-align: right;
     background-color: #00badd;
     color: white; }
+  .bubble.control {
+    border: 1px solid #9c9c9c; }
 
 @media screen and (min-width: 320px) {
   .send-message-area {
