@@ -1,9 +1,17 @@
-var Whisper = Whisper || {};
-
 (function () {
 	'use strict';
-	Whisper.PhoneInputView = Backbone.View.extend({
-		
+	window.Whisper = window.Whisper || {};
 
+	Whisper.PhoneInputView = Backbone.View.extend({
+		className: 'phone-input',
+		initialize: function() {
+
+		},
+
+		events: {
+
+		},
+
+		
 	});
 })();
