@@ -5,13 +5,14 @@
 	Whisper.PhoneInputView = Backbone.View.extend({
 		className: 'phone-input',
 		initialize: function() {
-
+			this.template = $('#phone-input').html();
+			Mustache.parse(this.template);
 		},
 
 		events: {
-
+			'change': 'validateNumber'
 		},
 
-		
+
 	});
 })();
