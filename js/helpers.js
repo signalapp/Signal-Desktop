@@ -173,6 +173,9 @@ textsecure.processDecrypted = function(decrypted, source) {
                 throw new Error("Got message for unknown group");
             }
             textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
+            if (decrypted.group.avatar !== null) {
+                promises.push(handleAttachment(decrypted.group.avatar));
+            }
         } else {
             var fromIndex = existingGroup.indexOf(source);
 
