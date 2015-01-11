@@ -16,28 +16,6 @@
 (function () {
   'use strict';
 
-  var AttachmentView = Backbone.View.extend({
-    tagName:   "img",
-    encode: function  () {
-        return new Promise(function(resolve, reject) {
-            var blob = new Blob([this.model.data], { type: this.model.contentType });
-            var FR = new FileReader();
-            FR.onload = function(e) {
-                resolve(e.target.result);
-            };
-            FR.onerror = reject;
-            FR.readAsDataURL(blob);
-        }.bind(this));
-    },
-    render: function() {
-        this.encode().then(function(base64) {
-            this.$el.attr('src', base64);
-            this.$el.trigger('update');
-        }.bind(this));
-        return this;
-    }
-  });
-
   var ErrorView = Backbone.View.extend({
       className: 'error',
       events: {
@@ -90,7 +68,7 @@
 
             this.$el.find('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
-                    return new AttachmentView({model: attachment}).render().el;
+                    return new Whisper.AttachmentView({model: attachment}).render().el;
                 })
             );
 

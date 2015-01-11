@@ -68,7 +68,7 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='contact'>
-            <div class='avatar' style='background-image: url({{ contact_avatar }});'></div>
+            <span class='avatar'></span>
             <div class='contact-details'>
                 <h3 class='contact-name'>
                 {{ contact_name }}
@@ -106,11 +106,16 @@
         <script type='text/x-tmpl-mustache' id='new-group-form'>
           <form class='send group'>
             <div><input name='name' class='name' placeholder='Group Name'></div>
+            <div class='group-avatar'>
+              <div><input type='file' name='avatar' class='file-input'></div>
+            </div>
             <div><input name='numbers' class='numbers' data-role=tagsinput></div>
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <input class='send-message' rows='6' type='textarea'>
-                    <div class='attachments'> Add Files </div>
+                    <div class='attachments'>
+                      <input type='file' name='files[]' multiple class='file-input'>
+                    </div>
                     <input type='submit'>
                 </div>
                 <div class='extension-details'>
@@ -156,6 +161,7 @@
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
         <script type="text/javascript" src="js/views/group_update_view.js"></script>
+        <script type="text/javascript" src="js/views/attachment_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>

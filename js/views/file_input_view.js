@@ -14,7 +14,9 @@ var Whisper = Whisper || {};
         },
 
         addThumb: function(e) {
-          this.$el.append($('<img>').attr( "src", e.target.result ));
+          this.$el.append(
+            $('<img>').attr( "src", e.target.result ).addClass('preview')
+          );
         },
 
         previewImages: function() {

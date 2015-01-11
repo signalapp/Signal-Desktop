@@ -73,7 +73,7 @@ li.entry img {
   margin-top: 5px;
 }
 
-.send .attachments img {
+img.preview {
   width: 30px;
   height: 30px;
 }

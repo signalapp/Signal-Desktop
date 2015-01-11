@@ -131,15 +131,16 @@
       return -m.get('timestamp');
     },
 
-    createGroup: function(recipients, name) {
+    createGroup: function(recipients, name, avatar) {
       var attributes = {};
       attributes = {
         name      : name,
         members   : recipients,
         type      : 'group',
+        avatar    : avatar
       };
       var conversation = this.add(attributes, {merge: true});
-      return textsecure.messaging.createGroup(recipients, name).then(function(groupId) {
+      return textsecure.messaging.createGroup(recipients, name, avatar).then(function(groupId) {
         conversation.save({
           id      : getString(groupId),
           groupId : getString(groupId)

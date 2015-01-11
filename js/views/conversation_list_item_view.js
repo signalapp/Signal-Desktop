@@ -32,11 +32,15 @@ var Whisper = Whisper || {};
       this.$el.html(
         Mustache.render(this.template, {
           contact_name: this.model.get('name') || this.model.get('members') || this.model.id,
-          contact_avatar: this.model.get('image'),
           last_message: this.model.get('lastMessage'),
           last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D')
         })
       );
+      if (this.model.get('avatar')) {
+        this.$el.find('.avatar').append(
+          new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
+        );
+      }
 
       return this;
     }

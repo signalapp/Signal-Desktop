@@ -231,6 +231,9 @@ ul.discussion {
     background-color: #00badd;
     color: white; }
 
+.avatar img {
+  max-width: 100%; }
+
 @media screen and (min-width: 320px) {
   .send-message-area {
     position: fixed;
