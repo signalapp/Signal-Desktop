@@ -21,8 +21,6 @@
   <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
-
-
   <div class='container'>
     <h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
     <div id='choose-setup' class='collapse'>
@@ -93,6 +91,7 @@
       <h3>You are registered on TextSecure with number <span id="complete-number"></span></h3>
     </div>
   </div>
+  <div id="phone"></div>
   <script type="text/x-tmpl-mustache" id="phone-number">
     <p>TEST</p>
   </script>
@@ -120,8 +119,8 @@
   <script type="text/javascript" src="js/sendmessage.js"></script>
 
   <script type="text/javascript" src="js/chromium.js"></script>
-  <script type="text/javascript" src="js/options.js"></script>
   <script type="text/javascript" src="js/views/phone-input-view.js"></script>
+  <script type="text/javascript" src="js/options.js"></script>
     <div id="listener"></div>
   <div id="log"></div>
 </body>

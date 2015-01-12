@@ -15,6 +15,7 @@
  */
 
 ;(function() {
+    new Whisper.PhoneInputView({$el: $('#phone')});
     function validateNumber() {
         try {
             var regionCode = $('#regionCode').val();

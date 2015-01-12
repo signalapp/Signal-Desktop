@@ -1,13 +1,13 @@
-var Whisper = Whisper || {};
-
 (function () {
 	'use strict';
+	window.Whisper = window.Whisper || {};
 	Whisper.PhoneInputView = Backbone.View.extend({
-		className: "phone-input",
+		tagName: 'div',
+		className: 'phone-input',
 		initialize: function() {
 			this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
-			this.render;
+			this.render();
 		},
 
 		render: function() {
