@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="512"
+   width="512"
+   version="1.1"
+   id="Flag of Åland"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="ax.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview17"
+     showgrid="false"
+     inkscape:zoom="0.33529412"
+     inkscape:cx="650"
+     inkscape:cy="462.2807"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Flag of Åland" />
+  <metadata
+     id="metadata21">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs19">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3032">
+      <rect
+         id="rect3034"
+         height="850"
+         x="166.01562"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="850"
+         y="-1.6601564e-06" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     transform="matrix(0.60235294,0,0,0.60235294,-100,1.0000001e-6)"
+     clip-path="url(#clipPath3032)"
+     inkscape:label="#g2998">
+    <rect
+       height="850"
+       width="1300"
+       id="rect3"
+       x="0"
+       y="0"
+       style="fill:#0053a5" />
+    <g
+       id="g5"
+       style="fill:#ffce00">
+      <rect
+         height="850"
+         width="250"
+         x="400"
+         id="rect7"
+         y="0" />
+      <rect
+         height="250"
+         width="1300"
+         y="300"
+         id="rect9"
+         x="0" />
+    </g>
+    <g
+       id="g11"
+       style="fill:#d21034">
+      <rect
+         height="850"
+         width="100"
+         x="475"
+         id="rect13"
+         y="0" />
+      <rect
+         height="100"
+         width="1300"
+         y="375"
+         id="rect15"
+         x="0" />
+    </g>
+  </g>
+</svg>

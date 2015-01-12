@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!-- /Creative Commons Public Domain -->
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:title>SVG graphic of Tanzanian flag</dc:title>
+   <dc:rights><Agent>
+      <dc:title>Russell Cloran</dc:title>
+   </Agent></dc:rights>
+   <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+
+</rdf:RDF>
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0.00000000"
+   y="0.00000000"
+   width="512"
+   height="512"
+   id="svg548"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="tz.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview4164"
+     showgrid="false"
+     inkscape:zoom="0.57452381"
+     inkscape:cx="372.04724"
+     inkscape:cy="269.78864"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg548" />
+  <metadata
+     id="metadata4166">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs550">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath5123">
+      <rect
+         id="rect5125"
+         height="496.06293"
+         x="102.86997"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="496.06293"
+         y="8.3063469e-06" />
+    </clipPath>
+  </defs>
+  <g
+     transform="matrix(1.0321271,0,0,1.0321271,-106.17489,-8.5732054e-6)"
+     id="flag"
+     clip-path="url(#clipPath5123)"
+     inkscape:label="#g5092">
+    <g
+       transform="matrix(4.133858,0,0,4.133858,0,-1.525879e-5)"
+       style="font-size:12px"
+       id="g589">
+      <rect
+         width="180"
+         height="120"
+         x="0"
+         y="0"
+         style="fill:#0099ff;fill-rule:evenodd;stroke-width:1pt"
+         id="rect583" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,0 180,0 0,120 0,0 z"
+         style="fill:#009900;fill-rule:evenodd;stroke-width:1pt"
+         id="path584" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,120 40,120 180,25 180,0 140,0 0,95 0,120 z"
+         style="fill-rule:evenodd;stroke-width:1pt"
+         id="path586" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 0,91.4561 137.184,0 150.705,0 0,100.47 0,91.4561 z"
+         style="fill:#ffff00;fill-rule:evenodd;stroke-width:1pt"
+         id="path587" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M -0.704896,95.47 150,-4.99993 150,4.01395 12.8159,95.47 l -13.520796,0 z"
+         transform="translate(30,24.53)"
+         style="fill:#ffff00;fill-rule:evenodd;stroke-width:1pt"
+         id="path588" />
+    </g>
+  </g>
+</svg>

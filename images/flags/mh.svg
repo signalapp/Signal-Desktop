@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:title>SVG graphic of the Marshall Islands' Flag</dc:title>
+   <dc:rights><Agent>
+      <dc:title>Andrew Duhan</dc:title>
+   </Agent></dc:rights>
+   <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+
+</rdf:RDF>
+
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg650"
+   sodipodi:version="0.32"
+   width="512"
+   height="512"
+   sodipodi:docname="mh.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.5248"
+     inkscape:cx="312.5"
+     inkscape:cy="156.25"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg650" />
+  <metadata
+     id="metadata3495">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs652" />
+  <g
+     id="flag"
+     inkscape:label="#g6456">
+    <rect
+       style="font-size:12px;fill:#3b5aa3;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect659"
+       width="511.90338"
+       height="512"
+       x="0"
+       y="3.30925e-14" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M 139.05875,1.2406509 133.65518,89.203064 110.5427,33.107843 119.40941,92.817645 83.613836,44.565701 107.07685,99.621437 60.066726,63.153933 96.658744,108.97679 43.518961,85.427508 l 46.548544,35.243642 -57.894822,-7.65468 54.705611,21.68682 -85.8705157,7.85429 86.0830677,5.75329 -54.546812,22.42666 57.310919,-7.75497 -46.376954,34.24485 53.818676,-23.6146 -36.707962,46.20183 46.700417,-35.35794 -23.136157,53.81663 37.381937,-46.80056 -10.1186,58.33843 23.5139,-54.51063 5.31513,86.11152 8.29246,-85.89923 20.27394,54.84264 -7.72911,-59.09501 37.19769,46.84138 -24.44058,-54.70793 46.68081,37.64947 -37.11332,-47.00469 55.48084,23.10024 -49.1016,-35.85735 59.79716,10.0805 -57.24574,-21.98713 89.0385,-5.52875 -89.0385,-8.29247 58.6065,-19.53478 -60.73337,7.62815 50.17933,-35.081988 -56.5572,22.750378 39.0592,-47.351936 -47.56394,37.146246 22.88796,-56.831794 -36.92146,48.326924 7.93049,-60.270164 -21.96263,56.868268 -8.20402,-87.9624131 z"
+       id="path656"
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccc" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#e2ae57;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M 0,498.21941 511.93611,1.0683888e-4 511.91072,92.709842 0,512 0,498.21941 z"
+       id="path655"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M 17.917593,511.97706 512,191.16851 511.88942,89.323433 0,512 17.917593,511.9771 z"
+       id="path654"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

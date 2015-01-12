@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg665"
+   sodipodi:version="0.32"
+   width="512"
+   height="512"
+   sodipodi:docname="lr.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.98242188"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg665" />
+  <metadata
+     id="metadata3336">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs667">
+    <clipPath
+       id="clipPath8058"
+       clipPathUnits="userSpaceOnUse">
+      <rect
+         y="-0.11480368"
+         width="708.77728"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         x="-1.9999999e-05"
+         height="708.77728"
+         id="rect8060" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3051">
+      <rect
+         id="rect3053"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     clip-path="url(#clipPath3051)"
+     inkscape:label="#g3004">
+    <rect
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect560"
+       width="767.87439"
+       height="511.91635"
+       x="1.4447415e-05"
+       y="0.083530389" />
+    <rect
+       style="font-size:12px;fill:#000066;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect668"
+       width="232.74429"
+       height="232.7527"
+       x="-3.5027591e-14"
+       y="-9.5483415e-07" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect669"
+       width="767.89337"
+       height="47.127022"
+       x="1.4447415e-05"
+       y="464.87296" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect670"
+       width="767.89337"
+       height="46.573524"
+       x="1.4447415e-05"
+       y="465.42648" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect672"
+       width="767.89337"
+       height="46.210339"
+       x="0"
+       y="372.52307" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect673"
+       width="765.95782"
+       height="46.700382"
+       x="0"
+       y="279.25656" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect675"
+       width="535.17041"
+       height="46.494164"
+       x="232.66693"
+       y="0.055372376" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect676"
+       width="535.17041"
+       height="46.795849"
+       x="232.66701"
+       y="186.06282" />
+    <rect
+       style="font-size:12px;fill:#cc0000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect677"
+       width="535.17041"
+       height="46.494137"
+       x="232.66701"
+       y="93.360664" />
+    <path
+       inkscape:connector-curvature="0"
+       d="M 166.35482,177.47319 115.64053,146.48928 65.174747,177.77752 83.944101,126.93256 33.570898,95.535926 95.891779,95.098182 115.22148,44.407474 l 19.74388,50.573977 62.32089,0.0667 -50.11496,31.692636 19.18353,50.7324 z"
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:0.112872"
+       id="path205" />
+  </g>
+</svg>
