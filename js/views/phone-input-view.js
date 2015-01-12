@@ -8,11 +8,12 @@ var Whisper = Whisper || {};
 		initialize: function() {
 			this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
+			//this.template = _.template($('#phone-number').html());
 			this.render();
 		},
 
 		render: function() {
-			this.$el.html(Mustache.render(this.template));
+			this.$el.html(Mustache.render(this.template, {}));
 			return this;
 		}
 	});
