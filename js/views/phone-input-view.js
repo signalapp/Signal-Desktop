@@ -7,9 +7,6 @@ var Whisper = Whisper || {};
 		initialize: function() {
 			this.template = $('#phone').html();
 			Mustache.parse(this.template);
-
-			this.listenTo(this.model, 'change', this.render);
-			this.listenTo(this.model, 'destroy', this.remove);
 		},
 
 		render: function() {
