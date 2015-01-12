@@ -15,7 +15,6 @@
  */
 
 ;(function() {
-    new Whisper.PhoneInputView({$el: $('#phone')});
     function validateNumber() {
         try {
             var regionCode = $('#regionCode').val();
@@ -46,6 +45,7 @@
     };
 
     $(function() {
+        var phoneView = new Whisper.PhoneView({$el: $('#phone-number')});
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
             $('#setup-complete').show().addClass('in');
