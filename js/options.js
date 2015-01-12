@@ -45,7 +45,9 @@
     };
 
     $(function() {
-        var phoneView = new Whisper.PhoneView({$el: $('#phone-number')});
+        var phoneView = new Whisper.PhoneInputView();
+        phoneView.$el.html('<p>TEST</p>');
+        phoneView.$el.show();
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
             $('#setup-complete').show().addClass('in');
