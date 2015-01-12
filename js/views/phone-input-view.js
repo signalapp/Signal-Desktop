@@ -16,6 +16,6 @@ var Whisper = Whisper || {};
 			this.$el.html(
 				Mustache.render(this.template));
 			return this;
-		},
+		}
 	});
 })();
