@@ -1,4 +1,3 @@
-/*global $, Whisper, Backbone, textsecure, extension*/
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
