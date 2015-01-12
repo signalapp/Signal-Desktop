@@ -38,7 +38,7 @@
          * @const
          * @expose
          */
-        ProtoBuf.VERSION = "3.8.0";
+        ProtoBuf.VERSION = "3.8.2";
 
         /**
          * Wire types.
@@ -402,7 +402,7 @@
             ID: /^(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             NEGID: /^\-?(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             WHITESPACE: /\s/,
-            STRING: /['"]([^'"\\]*(\\.[^"\\]*)*)['"]/g,
+            STRING: /(?:"([^"\\]*(?:\\.[^"\\]*)*)")|(?:'([^'\\]*(?:\\.[^'\\]*)*)')/g,
             BOOL: /^(?:true|false)$/i
         };
 
@@ -488,7 +488,7 @@
                 Lang.STRING.lastIndex = this.index-1; // Include the open quote
                 var match;
                 if ((match = Lang.STRING.exec(this.source)) !== null) {
-                    var s = match[1];
+                    var s = typeof match[1] !== 'undefined' ? match[1] : match[2];
                     this.index = Lang.STRING.lastIndex;
                     this.stack.push(this.stringEndsWith);
                     return s;
@@ -4285,7 +4285,6 @@
                 json = JSON.parse(json);
             builder["import"](json, filename);
             builder.resolveAll();
-            builder.build();
             return builder;
         };
 

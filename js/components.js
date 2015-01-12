@@ -13463,7 +13463,7 @@ return jQuery;
          * @const
          * @expose
          */
-        ProtoBuf.VERSION = "3.8.0";
+        ProtoBuf.VERSION = "3.8.2";
 
         /**
          * Wire types.
@@ -13827,7 +13827,7 @@ return jQuery;
             ID: /^(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             NEGID: /^\-?(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             WHITESPACE: /\s/,
-            STRING: /['"]([^'"\\]*(\\.[^"\\]*)*)['"]/g,
+            STRING: /(?:"([^"\\]*(?:\\.[^"\\]*)*)")|(?:'([^'\\]*(?:\\.[^'\\]*)*)')/g,
             BOOL: /^(?:true|false)$/i
         };
 
@@ -13913,7 +13913,7 @@ return jQuery;
                 Lang.STRING.lastIndex = this.index-1; // Include the open quote
                 var match;
                 if ((match = Lang.STRING.exec(this.source)) !== null) {
-                    var s = match[1];
+                    var s = typeof match[1] !== 'undefined' ? match[1] : match[2];
                     this.index = Lang.STRING.lastIndex;
                     this.stack.push(this.stringEndsWith);
                     return s;
@@ -17710,7 +17710,6 @@ return jQuery;
                 json = JSON.parse(json);
             builder["import"](json, filename);
             builder.resolveAll();
-            builder.build();
             return builder;
         };
 
@@ -21382,6 +21381,8 @@ return jQuery;
     }
 
     if ( _(indexedDB).isUndefined() ) { return; }
+    
+    var Deferred = Backbone.$ && Backbone.$.Deferred;
 
     // Driver object
     // That's the interesting part.
@@ -21694,7 +21695,7 @@ return jQuery;
 
             var store = deleteTransaction.objectStore(storeName);
             var json = object.toJSON();
-            var idAttribute = _.result(object, 'idAttribute');
+            var idAttribute = store.keyPath || _.result(object, 'idAttribute');
 
             var deleteRequest = store.delete(json[idAttribute]);
 
@@ -21740,7 +21741,8 @@ return jQuery;
             var index = null,
                 lower = null,
                 upper = null,
-                bounds = null;
+                bounds = null,
+                key;
 
             if (options.conditions) {
                 // We have a condition, we need to use it for the cursor
@@ -21777,25 +21779,6 @@ return jQuery;
                         }
                     }
                 });
-            } else if (options.index) {
-                index = store.index(options.index.name);
-                if (index) {
-                    if (options.index.lower && options.index.upper) {
-                        bounds = IDBKeyRange.bound(options.index.lower, options.index.upper);
-                    } else if (options.index.lower) {
-                        bounds = IDBKeyRange.lowerBound(options.index.lower);
-                    } else if (options.index.upper) {
-                        bounds = IDBKeyRange.upperBound(options.index.upper);
-                    } else if (options.index.only) {
-                        bounds = IDBKeyRange.only(options.index.only);
-                    }
-
-                    if (typeof options.index.order === 'string' && options.index.order.toLowerCase() === 'desc') {
-                        readCursor = index.openCursor(bounds, window.IDBCursor.PREV || "prev");
-                    } else {
-                        readCursor = index.openCursor(bounds, window.IDBCursor.NEXT || "next");
-                    }
-                }
             } else {
                 // No conditions, use the index
                 if (options.range) {
@@ -21806,6 +21789,12 @@ return jQuery;
                         readCursor = store.openCursor(bounds, window.IDBCursor.PREV || "prev");
                     } else {
                         readCursor = store.openCursor(bounds, window.IDBCursor.NEXT || "next");
+                    }
+                } else if (options.sort && options.sort.index) {
+                    if (options.sort.order === -1) {
+                        readCursor = store.index(options.sort.index).openCursor(null, window.IDBCursor.PREV || "prev");
+                    } else {
+                        readCursor = store.index(options.sort.index).openCursor(null, window.IDBCursor.NEXT || "next");
                     }
                 } else {
                     readCursor = store.openCursor();
@@ -21823,16 +21812,14 @@ return jQuery;
                     var cursor = e.target.result;
                     if (!cursor) {
                         if (options.addIndividually || options.clear) {
-                            // nothing!
-                            // We need to indicate that we're done. But, how?
-                            collection.trigger("reset");
+                            options.success(elements, true);
                         } else {
                             options.success(elements); // We're done. No more elements.
                         }
                     }
                     else {
                         // Cursor is not over yet.
-                        if (options.limit && processed >= options.limit) {
+                        if (options.abort || (options.limit && processed >= options.limit)) {
                             // Yet, we have processed enough elements. So, let's just skip.
                             if (bounds && options.conditions[index.keyPath]) {
                                 cursor.continue(options.conditions[index.keyPath][1] + 1); /* We need to 'terminate' the cursor cleany, by moving to the end */
@@ -21845,19 +21832,21 @@ return jQuery;
                             cursor.continue(); /* We need to Moving the cursor forward */
                         } else {
                             // This time, it looks like it's good!
-                            if (options.addIndividually) {
-                                collection.add(cursor.value);
-                            } else if (options.clear) {
-                                var deleteRequest = store.delete(cursor.value[idAttribute]);
-                                deleteRequest.onsuccess = function (event) {
-                                    elements.push(cursor.value);
-                                };
-                                deleteRequest.onerror = function (event) {
-                                    elements.push(cursor.value);
-                                };
+                            if (!options.filter || typeof(options.filter) !== 'function' || options.filter(cursor.value)) {
+                                if (options.addIndividually) {
+                                    collection.add(cursor.value);
+                                } else if (options.clear) {
+                                    var deleteRequest = store.delete(cursor.value[idAttribute]);
+                                    deleteRequest.onsuccess = function (event) {
+                                        elements.push(cursor.value);
+                                    };
+                                    deleteRequest.onerror = function (event) {
+                                        elements.push(cursor.value);
+                                    };
 
-                            } else {
-                                elements.push(cursor.value);
+                                } else {
+                                    elements.push(cursor.value);
+                                }
                             }
                             processed++;
                             cursor.continue();
@@ -21938,7 +21927,7 @@ return jQuery;
             });
             // Clean up active databases object.
             Databases = {};
-            return Backbone.$.Deferred().resolve();
+            return Deferred && Deferred().resolve();
         }
 
         // If a model or a collection does not define a database, fall back on ajaxSync
@@ -21954,31 +21943,34 @@ return jQuery;
             }
         }
 
-        var promise;
-
-        if (typeof Backbone.$ === 'undefined' || typeof Backbone.$.Deferred === 'undefined') {
-            var noop = function() {};
-            var resolve = noop;
-            var reject = noop;
-        } else {
-            var dfd = Backbone.$.Deferred();
-            var resolve = dfd.resolve;
-            var reject = dfd.reject;
-
+        var dfd, promise;
+        if (Deferred) {
+            dfd = Deferred();
             promise = dfd.promise();
+            promise.abort = function () {
+                options.abort = true;
+            };
         }
 
         var success = options.success;
-        options.success = function(resp) {
-            if (success) success(resp);
-            resolve();
-            object.trigger('sync', object, resp, options);
+        options.success = function(resp, silenced) {
+            if (!silenced) {
+                if (success) success(resp);
+                object.trigger('sync', object, resp, options);
+            }
+            if (dfd) {
+                if (!options.abort) {
+                    dfd.resolve(resp);
+                } else {
+                    dfd.reject();
+                }
+            }
         };
 
         var error = options.error;
         options.error = function(resp) {
             if (error) error(resp);
-            reject();
+            if (dfd) dfd.reject(resp);
             object.trigger('error', object, resp, options);
         };
 
@@ -23353,7 +23345,7 @@ goog.exportSymbol("libphonenumber.isValidNumber",libphonenumber.isValidNumber);g
 goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.PhoneNumberFormat.NATIONAL);goog.exportSymbol("libphonenumber.PhoneNumberFormat.RFC3966",libphonenumber.PhoneNumberFormat.RFC3966);goog.exportSymbol("libphonenumber.format",libphonenumber.format);})();
 
 //! moment.js
-//! version : 2.8.3
+//! version : 2.8.4
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -23364,7 +23356,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
     ************************************/
 
     var moment,
-        VERSION = '2.8.3',
+        VERSION = '2.8.4',
         // the global-scope this is NOT the global object in Node.js
         globalScope = typeof global !== 'undefined' ? global : this,
         oldGlobalMoment,
@@ -23387,7 +23379,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         momentProperties = [],
 
         // check for nodeJS
-        hasModule = (typeof module !== 'undefined' && module.exports),
+        hasModule = (typeof module !== 'undefined' && module && module.exports),
 
         // ASP.NET json date format regex
         aspNetJsonRegex = /^\/?Date\((\-?\d+)/i,
@@ -23398,8 +23390,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         isoDurationRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/,
 
         // format tokens
-        formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|X|zz?|ZZ?|.)/g,
-        localFormattingTokens = /(\[[^\[]*\])|(\\)?(LT|LL?L?L?|l{1,4})/g,
+        formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|x|X|zz?|ZZ?|.)/g,
+        localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,
 
         // parsing token regexes
         parseTokenOneOrTwoDigits = /\d\d?/, // 0 - 99
@@ -23410,8 +23402,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         parseTokenWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i, // any word (or two) characters or numbers including two/three word month in arabic.
         parseTokenTimezone = /Z|[\+\-]\d\d:?\d\d/gi, // +00:00 -00:00 +0000 -0000 or Z
         parseTokenT = /T/i, // T (ISO separator)
+        parseTokenOffsetMs = /[\+\-]?\d+/, // 1234567890123
         parseTokenTimestampMs = /[\+\-]?\d+(\.\d{1,3})?/, // 123456789 123456789.123
-        parseTokenOrdinal = /\d{1,2}/,
 
         //strict parsing regexes
         parseTokenOneDigit = /\d/, // 0 - 9
@@ -23625,6 +23617,9 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             },
             zz : function () {
                 return this.zoneName();
+            },
+            x    : function () {
+                return this.valueOf();
             },
             X    : function () {
                 return this.unix();
@@ -24052,7 +24047,10 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             overflow =
                 m._a[MONTH] < 0 || m._a[MONTH] > 11 ? MONTH :
                 m._a[DATE] < 1 || m._a[DATE] > daysInMonth(m._a[YEAR], m._a[MONTH]) ? DATE :
-                m._a[HOUR] < 0 || m._a[HOUR] > 23 ? HOUR :
+                m._a[HOUR] < 0 || m._a[HOUR] > 24 ||
+                    (m._a[HOUR] === 24 && (m._a[MINUTE] !== 0 ||
+                                           m._a[SECOND] !== 0 ||
+                                           m._a[MILLISECOND] !== 0)) ? HOUR :
                 m._a[MINUTE] < 0 || m._a[MINUTE] > 59 ? MINUTE :
                 m._a[SECOND] < 0 || m._a[SECOND] > 59 ? SECOND :
                 m._a[MILLISECOND] < 0 || m._a[MILLISECOND] > 999 ? MILLISECOND :
@@ -24079,7 +24077,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             if (m._strict) {
                 m._isValid = m._isValid &&
                     m._pf.charsLeftOver === 0 &&
-                    m._pf.unusedTokens.length === 0;
+                    m._pf.unusedTokens.length === 0 &&
+                    m._pf.bigHour === undefined;
             }
         }
         return m._isValid;
@@ -24131,8 +24130,18 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
     // Return a moment from input, that is local/utc/zone equivalent to model.
     function makeAs(input, model) {
-        return model._isUTC ? moment(input).zone(model._offset || 0) :
-            moment(input).local();
+        var res, diff;
+        if (model._isUTC) {
+            res = model.clone();
+            diff = (moment.isMoment(input) || isDate(input) ?
+                    +input : +moment(input)) - (+res);
+            // Use low-level api, because this fn is low-level api.
+            res._d.setTime(+res._d + diff);
+            moment.updateOffset(res, false);
+            return res;
+        } else {
+            return moment(input).local();
+        }
     }
 
     /************************************
@@ -24152,6 +24161,9 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
                     this['_' + i] = prop;
                 }
             }
+            // Lenient ordinal parsing accepts just a number in addition to
+            // number + (possibly) stuff coming from _ordinalParseLenient.
+            this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + /\d{1,2}/.source);
         },
 
         _months : 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
@@ -24164,22 +24176,32 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             return this._monthsShort[m.month()];
         },
 
-        monthsParse : function (monthName) {
+        monthsParse : function (monthName, format, strict) {
             var i, mom, regex;
 
             if (!this._monthsParse) {
                 this._monthsParse = [];
+                this._longMonthsParse = [];
+                this._shortMonthsParse = [];
             }
 
             for (i = 0; i < 12; i++) {
                 // make the regex if we don't have it already
-                if (!this._monthsParse[i]) {
-                    mom = moment.utc([2000, i]);
+                mom = moment.utc([2000, i]);
+                if (strict && !this._longMonthsParse[i]) {
+                    this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
+                    this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
+                }
+                if (!strict && !this._monthsParse[i]) {
                     regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
                     this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
                 }
                 // test the regex
-                if (this._monthsParse[i].test(monthName)) {
+                if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
+                    return i;
+                } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
+                    return i;
+                } else if (!strict && this._monthsParse[i].test(monthName)) {
                     return i;
                 }
             }
@@ -24222,6 +24244,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         },
 
         _longDateFormat : {
+            LTS : 'h:mm:ss A',
             LT : 'h:mm A',
             L : 'MM/DD/YYYY',
             LL : 'MMMM D, YYYY',
@@ -24262,9 +24285,9 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             lastWeek : '[Last] dddd [at] LT',
             sameElse : 'L'
         },
-        calendar : function (key, mom) {
+        calendar : function (key, mom, now) {
             var output = this._calendar[key];
-            return typeof output === 'function' ? output.apply(mom) : output;
+            return typeof output === 'function' ? output.apply(mom, [now]) : output;
         },
 
         _relativeTime : {
@@ -24299,6 +24322,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             return this._ordinal.replace('%d', number);
         },
         _ordinal : '%d',
+        _ordinalParse : /\d{1,2}/,
 
         preparse : function (string) {
             return string;
@@ -24440,6 +24464,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         case 'a':
         case 'A':
             return config._locale._meridiemParse;
+        case 'x':
+            return parseTokenOffsetMs;
         case 'X':
             return parseTokenTimestampMs;
         case 'Z':
@@ -24474,7 +24500,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         case 'E':
             return parseTokenOneOrTwoDigits;
         case 'Do':
-            return parseTokenOrdinal;
+            return strict ? config._locale._ordinalParse : config._locale._ordinalParseLenient;
         default :
             a = new RegExp(regexpEscape(unescapeFormat(token.replace('\\', '')), 'i'));
             return a;
@@ -24511,7 +24537,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             break;
         case 'MMM' : // fall through to MMMM
         case 'MMMM' :
-            a = config._locale.monthsParse(input);
+            a = config._locale.monthsParse(input, token, config._strict);
             // if we didn't find a month name, mark the date as invalid.
             if (a != null) {
                 datePartArray[MONTH] = a;
@@ -24528,7 +24554,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             break;
         case 'Do' :
             if (input != null) {
-                datePartArray[DATE] = toInt(parseInt(input, 10));
+                datePartArray[DATE] = toInt(parseInt(
+                            input.match(/\d{1,2}/)[0], 10));
             }
             break;
         // DAY OF YEAR
@@ -24553,11 +24580,13 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         case 'A' :
             config._isPm = config._locale.isPM(input);
             break;
-        // 24 HOUR
-        case 'H' : // fall through to hh
-        case 'HH' : // fall through to hh
+        // HOUR
         case 'h' : // fall through to hh
         case 'hh' :
+            config._pf.bigHour = true;
+            /* falls through */
+        case 'H' : // fall through to HH
+        case 'HH' :
             datePartArray[HOUR] = toInt(input);
             break;
         // MINUTE
@@ -24576,6 +24605,10 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         case 'SSS' :
         case 'SSSS' :
             datePartArray[MILLISECOND] = toInt(('0.' + input) * 1000);
+            break;
+        // UNIX OFFSET (MILLISECONDS)
+        case 'x':
+            config._d = new Date(toInt(input));
             break;
         // UNIX TIMESTAMP WITH MS
         case 'X':
@@ -24713,11 +24746,24 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             config._a[i] = input[i] = (config._a[i] == null) ? (i === 2 ? 1 : 0) : config._a[i];
         }
 
+        // Check for 24:00:00.000
+        if (config._a[HOUR] === 24 &&
+                config._a[MINUTE] === 0 &&
+                config._a[SECOND] === 0 &&
+                config._a[MILLISECOND] === 0) {
+            config._nextDay = true;
+            config._a[HOUR] = 0;
+        }
+
         config._d = (config._useUTC ? makeUTCDate : makeDate).apply(null, input);
         // Apply timezone offset from input. The actual zone can be changed
         // with parseZone.
         if (config._tzm != null) {
             config._d.setUTCMinutes(config._d.getUTCMinutes() + config._tzm);
+        }
+
+        if (config._nextDay) {
+            config._a[HOUR] = 24;
         }
     }
 
@@ -24732,7 +24778,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         config._a = [
             normalizedInput.year,
             normalizedInput.month,
-            normalizedInput.day,
+            normalizedInput.day || normalizedInput.date,
             normalizedInput.hour,
             normalizedInput.minute,
             normalizedInput.second,
@@ -24805,6 +24851,10 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             config._pf.unusedInput.push(string);
         }
 
+        // clear _12h flag if hour is <= 12
+        if (config._pf.bigHour === true && config._a[HOUR] <= 12) {
+            config._pf.bigHour = undefined;
+        }
         // handle am pm
         if (config._isPm && config._a[HOUR] < 12) {
             config._a[HOUR] += 12;
@@ -24813,7 +24863,6 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         if (config._isPm === false && config._a[HOUR] === 12) {
             config._a[HOUR] = 0;
         }
-
         dateFromConfig(config);
         checkOverflow(config);
     }
@@ -25073,7 +25122,8 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
     function makeMoment(config) {
         var input = config._i,
-            format = config._f;
+            format = config._f,
+            res;
 
         config._locale = config._locale || moment.localeData(config._l);
 
@@ -25097,7 +25147,14 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
             makeDateFromInput(config);
         }
 
-        return new Moment(config);
+        res = new Moment(config);
+        if (res._nextDay) {
+            // Adding is smart enough around DST
+            res.add(1, 'd');
+            res._nextDay = undefined;
+        }
+
+        return res;
     }
 
     moment = function (input, format, locale, strict) {
@@ -25129,7 +25186,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         'release. Please refer to ' +
         'https://github.com/moment/moment/issues/1407 for more info.',
         function (config) {
-            config._d = new Date(config._i);
+            config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
         }
     );
 
@@ -25441,7 +25498,12 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         toISOString : function () {
             var m = moment(this).utc();
             if (0 < m.year() && m.year() <= 9999) {
-                return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+                if ('function' === typeof Date.prototype.toISOString) {
+                    // native implementation is ~50x faster, use it when we can
+                    return this.toDate().toISOString();
+                } else {
+                    return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+                }
             } else {
                 return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
             }
@@ -25560,7 +25622,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
                     diff < 1 ? 'sameDay' :
                     diff < 2 ? 'nextDay' :
                     diff < 7 ? 'nextWeek' : 'sameElse';
-            return this.format(this.localeData().calendar(format, this));
+            return this.format(this.localeData().calendar(format, this, moment(now)));
         },
 
         isLeapYear : function () {
@@ -25629,36 +25691,45 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
         endOf: function (units) {
             units = normalizeUnits(units);
+            if (units === undefined || units === 'millisecond') {
+                return this;
+            }
             return this.startOf(units).add(1, (units === 'isoWeek' ? 'week' : units)).subtract(1, 'ms');
         },
 
         isAfter: function (input, units) {
+            var inputMs;
             units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
             if (units === 'millisecond') {
                 input = moment.isMoment(input) ? input : moment(input);
                 return +this > +input;
             } else {
-                return +this.clone().startOf(units) > +moment(input).startOf(units);
+                inputMs = moment.isMoment(input) ? +input : +moment(input);
+                return inputMs < +this.clone().startOf(units);
             }
         },
 
         isBefore: function (input, units) {
+            var inputMs;
             units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
             if (units === 'millisecond') {
                 input = moment.isMoment(input) ? input : moment(input);
                 return +this < +input;
             } else {
-                return +this.clone().startOf(units) < +moment(input).startOf(units);
+                inputMs = moment.isMoment(input) ? +input : +moment(input);
+                return +this.clone().endOf(units) < inputMs;
             }
         },
 
         isSame: function (input, units) {
+            var inputMs;
             units = normalizeUnits(units || 'millisecond');
             if (units === 'millisecond') {
                 input = moment.isMoment(input) ? input : moment(input);
                 return +this === +input;
             } else {
-                return +this.clone().startOf(units) === +makeAs(input, this).startOf(units);
+                inputMs = +moment(input);
+                return +(this.clone().startOf(units)) <= inputMs && inputMs <= +(this.clone().endOf(units));
             }
         },
 
@@ -25835,7 +25906,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
         },
 
         lang : deprecate(
-            'moment().lang() is deprecated. Use moment().localeData() instead.',
+            'moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.',
             function (key) {
                 if (key === undefined) {
                     return this.localeData();
@@ -26056,7 +26127,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
                 return units === 'month' ? months : months / 12;
             } else {
                 // handle milliseconds separately because of floating point math errors (issue #1867)
-                days = this._days + yearsToDays(this._months / 12);
+                days = this._days + Math.round(yearsToDays(this._months / 12));
                 switch (units) {
                     case 'week': return days / 7 + this._milliseconds / 6048e5;
                     case 'day': return days + this._milliseconds / 864e5;
@@ -26158,6 +26229,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
     // Set default locale, other locale will inherit from English.
     moment.locale('en', {
+        ordinalParse: /\d{1,2}(th|st|nd|rd)/,
         ordinal : function (number) {
             var b = number % 10,
                 output = (toInt(number % 100 / 10) === 1) ? 'th' :
@@ -26657,3 +26729,363 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+//Title: Custom DropDown plugin by PC
+//Documentation: http://designwithpc.com/Plugins/ddslick
+//Author: PC 
+//Website: http://designwithpc.com
+//Twitter: http://twitter.com/chaudharyp
+
+(function ($) {
+
+    $.fn.ddslick = function (method) {
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Method ' + method + ' does not exists.');
+        }
+    };
+
+    var methods = {},
+
+    //Set defauls for the control
+    defaults = {
+        data: [],
+        keepJSONItemsOnTop: false,
+        width: 260,
+        height: null,
+        background: "#eee",
+        selectText: "",
+        defaultSelectedIndex: null,
+        truncateDescription: true,
+        imagePosition: "left",
+        showSelectedHTML: true,
+        clickOffToClose: true,
+		embedCSS: true,
+        onSelected: function () { }
+    },
+
+    ddSelectHtml = '<div class="dd-select"><input class="dd-selected-value" type="hidden" /><a class="dd-selected"></a><span class="dd-pointer dd-pointer-down"></span></div>',
+    ddOptionsHtml = '<ul class="dd-options"></ul>',
+
+    //CSS for ddSlick
+    ddslickCSS = '<style id="css-ddslick" type="text/css">' +
+                '.dd-select{ border-radius:2px; border:solid 1px #ccc; position:relative; cursor:pointer;}' +
+                '.dd-desc { color:#aaa; display:block; overflow: hidden; font-weight:normal; line-height: 1.4em; }' +
+                '.dd-selected{ overflow:hidden; display:block; padding:10px; font-weight:bold;}' +
+                '.dd-pointer{ width:0; height:0; position:absolute; right:10px; top:50%; margin-top:-3px;}' +
+                '.dd-pointer-down{ border:solid 5px transparent; border-top:solid 5px #000; }' +
+                '.dd-pointer-up{border:solid 5px transparent !important; border-bottom:solid 5px #000 !important; margin-top:-8px;}' +
+                '.dd-options{ border:solid 1px #ccc; border-top:none; list-style:none; box-shadow:0px 1px 5px #ddd; display:none; position:absolute; z-index:2000; margin:0; padding:0;background:#fff; overflow:auto;}' +
+                '.dd-option{ padding:10px; display:block; border-bottom:solid 1px #ddd; overflow:hidden; text-decoration:none; color:#333; cursor:pointer;-webkit-transition: all 0.25s ease-in-out; -moz-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;-ms-transition: all 0.25s ease-in-out; }' +
+                '.dd-options > li:last-child > .dd-option{ border-bottom:none;}' +
+                '.dd-option:hover{ background:#f3f3f3; color:#000;}' +
+                '.dd-selected-description-truncated { text-overflow: ellipsis; white-space:nowrap; }' +
+                '.dd-option-selected { background:#f6f6f6; }' +
+                '.dd-option-image, .dd-selected-image { vertical-align:middle; float:left; margin-right:5px; max-width:64px;}' +
+                '.dd-image-right { float:right; margin-right:15px; margin-left:5px;}' +
+                '.dd-container{ position:relative;}​ .dd-selected-text { font-weight:bold}​</style>';
+
+    //Public methods 
+    methods.init = function (userOptions) {
+        //Preserve the original defaults by passing an empty object as the target
+        //The object is used to get global flags like embedCSS.
+        var options = $.extend({}, defaults, userOptions);
+        
+        //CSS styles are only added once.
+	    if ($('#css-ddslick').length <= 0 && options.embedCSS) {
+	        $(ddslickCSS).appendTo('head');
+	    }
+
+        //Apply on all selected elements
+        return this.each(function () {
+            //Preserve the original defaults by passing an empty object as the target 
+            //The object is used to save drop-down's corresponding settings and data.
+            var options = $.extend({}, defaults, userOptions);
+            
+            var obj = $(this),
+                data = obj.data('ddslick');
+            //If the plugin has not been initialized yet
+            if (!data) {
+
+                var ddSelect = [], ddJson = options.data;
+
+                //Get data from HTML select options
+                obj.find('option').each(function () {
+                    var $this = $(this), thisData = $this.data();
+                    ddSelect.push({
+                        text: $.trim($this.text()),
+                        value: $this.val(),
+                        selected: $this.is(':selected'),
+                        description: thisData.description,
+                        imageSrc: thisData.imagesrc //keep it lowercase for HTML5 data-attributes
+                    });
+                });
+
+                //Update Plugin data merging both HTML select data and JSON data for the dropdown
+                if (options.keepJSONItemsOnTop)
+                    $.merge(options.data, ddSelect);
+                else options.data = $.merge(ddSelect, options.data);
+
+                //Replace HTML select with empty placeholder, keep the original
+                var original = obj, placeholder = $('<div').attr('id', obj.attr('id') + '-dd-placeholder');
+                obj.replaceWith(placeholder);
+                obj = placeholder;
+
+                //Add classes and append ddSelectHtml & ddOptionsHtml to the container
+                obj.addClass('dd-container').append(ddSelectHtml).append(ddOptionsHtml);
+
+                // Inherit name attribute from original element
+                obj.find("input.dd-selected-value")
+                    .attr("id", $(original).attr("id"))
+                    .attr("name", $(original).attr("name"));
+
+                //Get newly created ddOptions and ddSelect to manipulate
+                var ddSelect = obj.find('.dd-select'),
+                    ddOptions = obj.find('.dd-options');
+
+                //Set widths
+                ddOptions.css({ width: options.width });
+                ddSelect.css({ width: options.width, background: options.background });
+                obj.css({ width: options.width });
+
+                //Set height
+                if (options.height != null)
+                    ddOptions.css({ height: options.height, overflow: 'auto' });
+
+                //Add ddOptions to the container. Replace with template engine later.
+                $.each(options.data, function (index, item) {
+                    if (item.selected) options.defaultSelectedIndex = index;
+                    ddOptions.append('<li>' +
+                        '<a class="dd-option">' +
+                            (item.value ? ' <input class="dd-option-value" type="hidden" value="' + item.value + '" />' : '') +
+                            (item.imageSrc ? ' <img class="dd-option-image' + (options.imagePosition == "right" ? ' dd-image-right' : '') + '" src="' + item.imageSrc + '" />' : '') +
+                            (item.text ? ' <label class="dd-option-text">' + item.text + '</label>' : '') +
+                            (item.description ? ' <small class="dd-option-description dd-desc">' + item.description + '</small>' : '') +
+                        '</a>' +
+                    '</li>');
+                });
+
+                //Save plugin data.
+                var pluginData = {
+                    settings: options,
+                    original: original,
+                    selectedIndex: -1,
+                    selectedItem: null,
+                    selectedData: null
+                }
+                obj.data('ddslick', pluginData);
+
+                //Check if needs to show the select text, otherwise show selected or default selection
+                if (options.selectText.length > 0 && options.defaultSelectedIndex == null) {
+                    obj.find('.dd-selected').html(options.selectText);
+                }
+                else {
+                    var index = (options.defaultSelectedIndex != null && options.defaultSelectedIndex >= 0 && options.defaultSelectedIndex < options.data.length)
+                                ? options.defaultSelectedIndex
+                                : 0;
+                    selectIndex(obj, index);
+                }
+
+                //EVENTS
+                //Displaying options
+                obj.find('.dd-select').on('click.ddslick', function () {
+                    open(obj);
+                });
+
+                //Selecting an option
+                obj.find('.dd-option').on('click.ddslick', function () {
+                    selectIndex(obj, $(this).closest('li').index());
+                });
+
+                //Click anywhere to close
+                if (options.clickOffToClose) {
+                    ddOptions.addClass('dd-click-off-close');
+                    obj.on('click.ddslick', function (e) { e.stopPropagation(); });
+                    $('body').on('click', function () {
+                    $('.dd-open').removeClass('dd-open');
+                        $('.dd-click-off-close').slideUp(50).siblings('.dd-select').find('.dd-pointer').removeClass('dd-pointer-up');
+                    });
+                }
+            }
+        });
+    };
+
+    //Public method to select an option by its index
+    methods.select = function (options) {
+        return this.each(function () {
+            if (options.index!==undefined)
+                selectIndex($(this), options.index);
+            if (options.id)
+                selectId($(this), options.id);
+        });
+    }
+
+    //Public method to open drop down
+    methods.open = function () {
+        return this.each(function () {
+            var $this = $(this),
+                pluginData = $this.data('ddslick');
+
+            //Check if plugin is initialized
+            if (pluginData)
+                open($this);
+        });
+    };
+
+    //Public method to close drop down
+    methods.close = function () {
+        return this.each(function () {
+            var $this = $(this),
+                pluginData = $this.data('ddslick');
+
+            //Check if plugin is initialized
+            if (pluginData)
+                close($this);
+        });
+    };
+
+    //Public method to destroy. Unbind all events and restore the original Html select/options
+    methods.destroy = function () {
+        return this.each(function () {
+            var $this = $(this),
+                pluginData = $this.data('ddslick');
+
+            //Check if already destroyed
+            if (pluginData) {
+                var originalElement = pluginData.original;
+                $this.removeData('ddslick').unbind('.ddslick').replaceWith(originalElement);
+            }
+        });
+    }
+    
+     //Private: Select id
+    function selectId(obj, id) {
+    
+       var index = obj.find(".dd-option-value[value= '" + id + "']").parents("li").prevAll().length;
+       selectIndex(obj, index);
+       
+    }
+
+    //Private: Select index
+    function selectIndex(obj, index) {
+
+        //Get plugin data
+        var pluginData = obj.data('ddslick');
+
+        //Get required elements
+        var ddSelected = obj.find('.dd-selected'),
+            ddSelectedValue = ddSelected.siblings('.dd-selected-value'),
+            ddOptions = obj.find('.dd-options'),
+            ddPointer = ddSelected.siblings('.dd-pointer'),
+            selectedOption = obj.find('.dd-option').eq(index),
+            selectedLiItem = selectedOption.closest('li'),
+            settings = pluginData.settings,
+            selectedData = pluginData.settings.data[index];
+
+        //Highlight selected option
+        obj.find('.dd-option').removeClass('dd-option-selected');
+        selectedOption.addClass('dd-option-selected');
+
+        //Update or Set plugin data with new selection
+        pluginData.selectedIndex = index;
+        pluginData.selectedItem = selectedLiItem;
+        pluginData.selectedData = selectedData;
+
+        //If set to display to full html, add html
+        if (settings.showSelectedHTML) {
+            ddSelected.html(
+                    (selectedData.imageSrc ? '<img class="dd-selected-image' + (settings.imagePosition == "right" ? ' dd-image-right' : '') + '" src="' + selectedData.imageSrc + '" />' : '') +
+                    (selectedData.text ? '<label class="dd-selected-text">' + selectedData.text + '</label>' : '') +
+                    (selectedData.description ? '<small class="dd-selected-description dd-desc' + (settings.truncateDescription ? ' dd-selected-description-truncated' : '') + '" >' + selectedData.description + '</small>' : '')
+                );
+
+        }
+            //Else only display text as selection
+        else ddSelected.html(selectedData.text);
+
+        //Updating selected option value
+        ddSelectedValue.val(selectedData.value);
+
+        //BONUS! Update the original element attribute with the new selection
+        pluginData.original.val(selectedData.value);
+        obj.data('ddslick', pluginData);
+
+        //Close options on selection
+        close(obj);
+
+        //Adjust appearence for selected option
+        adjustSelectedHeight(obj);
+
+        //Callback function on selection
+        if (typeof settings.onSelected == 'function') {
+            settings.onSelected.call(this, pluginData);
+        }
+    }
+
+    //Private: Close the drop down options
+    function open(obj) {
+
+        var $this = obj.find('.dd-select'),
+            ddOptions = $this.siblings('.dd-options'),
+            ddPointer = $this.find('.dd-pointer'),
+            wasOpen = ddOptions.is(':visible');
+
+        //Close all open options (multiple plugins) on the page
+        $('.dd-click-off-close').not(ddOptions).slideUp(50);
+        $('.dd-pointer').removeClass('dd-pointer-up');
+        $this.removeClass('dd-open');
+
+        if (wasOpen) {
+            ddOptions.slideUp('fast');
+            ddPointer.removeClass('dd-pointer-up');
+            $this.removeClass('dd-open');
+        }
+        else {
+            $this.addClass('dd-open');
+            ddOptions.slideDown('fast');
+            ddPointer.addClass('dd-pointer-up');
+        }
+
+        //Fix text height (i.e. display title in center), if there is no description
+        adjustOptionsHeight(obj);
+    }
+
+    //Private: Close the drop down options
+    function close(obj) {
+        //Close drop down and adjust pointer direction
+        obj.find('.dd-select').removeClass('dd-open');
+        obj.find('.dd-options').slideUp(50);
+        obj.find('.dd-pointer').removeClass('dd-pointer-up').removeClass('dd-pointer-up');
+    }
+
+    //Private: Adjust appearence for selected option (move title to middle), when no desripction
+    function adjustSelectedHeight(obj) {
+
+        //Get height of dd-selected
+        var lSHeight = obj.find('.dd-select').css('height');
+
+        //Check if there is selected description
+        var descriptionSelected = obj.find('.dd-selected-description');
+        var imgSelected = obj.find('.dd-selected-image');
+        if (descriptionSelected.length <= 0 && imgSelected.length > 0) {
+            obj.find('.dd-selected-text').css('lineHeight', lSHeight);
+        }
+    }
+
+    //Private: Adjust appearence for drop down options (move title to middle), when no desripction
+    function adjustOptionsHeight(obj) {
+        obj.find('.dd-option').each(function () {
+            var $this = $(this);
+            var lOHeight = $this.css('height');
+            var descriptionOption = $this.find('.dd-option-description');
+            var imgOption = obj.find('.dd-option-image');
+            if (descriptionOption.length <= 0 && imgOption.length > 0) {
+                $this.find('.dd-option-text').css('lineHeight', lOHeight);
+            }
+        });
+    }
+
+})(jQuery);
