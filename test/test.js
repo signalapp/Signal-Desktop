@@ -10939,17 +10939,6 @@ function assertEqualArrayBuffers(ab1, ab2) {
   assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
 };
 
-function arrayBufferToHex(buffer) {
-  var array = new Uint8Array(buffer);
-  var s = '';
-  for (var i in array) {
-    var h = array[i].toString(16);
-    if (h.length < 2) { s += '0'; }
-    s += h;
-  }
-  return s;
-};
-
 function hexToArrayBuffer(str) {
   var ret = new ArrayBuffer(str.length / 2);
   var array = new Uint8Array(ret);
