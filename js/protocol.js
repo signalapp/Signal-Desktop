@@ -626,7 +626,7 @@ window.textsecure.protocol = function() {
             var msg = new textsecure.protobuf.WhisperMessage();
             var plaintext = toArrayBuffer(pushMessageContent.encode());
 
-            var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160);
+            var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
             paddedPlaintext.set(new Uint8Array(plaintext));
             paddedPlaintext[plaintext.byteLength] = 0x80;
 
