@@ -15,24 +15,6 @@
  */
 
 ;(function() {
-    /*function validateNumber() {
-        try {
-            var regionCode = $('#regionCode').val();
-            var number     = $('#number').val();
-
-            var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
-
-            $('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
-            $('#number-container').removeClass('invalid');
-            $('#number-container').addClass('valid');
-            $('#request-sms, #request-voice').removeAttr('disabled');
-            return parsedNumber;
-        } catch(e) {
-            $('#number-container').removeClass('valid');
-            $('#request-sms, #request-voice').prop('disabled', 'disabled');
-        }
-    };*/
-
     function validateCode() {
         var verificationCode = $('#code').val().replace(/\D/g, '');
         if (verificationCode.length == 6) {
@@ -51,15 +33,6 @@
             $('#setup-complete').show().addClass('in');
         } else {
             $('#choose-setup').show().addClass('in');
-            /*$('#number').keyup(validateNumber);
-            $('#regionCode').change(validateNumber);*/
-
-            /*$.each(libphonenumber.util.getAllRegionCodes(), function (regionCode, countryName) {
-                $('#regionCode').append(
-                    $('<option>', { value: regionCode, text: countryName })
-                );
-            });*/
-
             $('#code').on('change', function() {
                 if (!validateCode())
                     $('#code').addClass('invalid');
