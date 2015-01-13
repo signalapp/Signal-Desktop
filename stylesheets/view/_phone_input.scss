@@ -1,12 +1,12 @@
-@media #{$D7} {
-    #phone-input-form {
-        display: inline;
-    }
-    .dd-container
-    {
-        float: left;
-        width: 60px !important;
-    }
+#phone-input-form 
+{
+    display: inline;
+}
+#regionCodeTest
+{
+    float: left;
+    width: 60px !important;
+}
 #phoneNumberTest
 {
     float: left;
@@ -44,5 +44,4 @@
 {
     width: 60px !important;
     height: 45px !important;
-}
 }
