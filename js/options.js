@@ -51,14 +51,14 @@
             $('#setup-complete').show().addClass('in');
         } else {
             $('#choose-setup').show().addClass('in');
-            $('#number').keyup(validateNumber);
-            $('#regionCode').change(validateNumber);
+            /*$('#number').keyup(validateNumber);
+            $('#regionCode').change(validateNumber);*/
 
-            $.each(libphonenumber.util.getAllRegionCodes(), function (regionCode, countryName) {
+            /*$.each(libphonenumber.util.getAllRegionCodes(), function (regionCode, countryName) {
                 $('#regionCode').append(
                     $('<option>', { value: regionCode, text: countryName })
                 );
-            });
+            });*/
 
             $('#code').on('change', function() {
                 if (!validateCode())

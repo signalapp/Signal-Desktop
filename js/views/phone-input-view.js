@@ -6,7 +6,7 @@ var Whisper = Whisper || {};
 		tagName: 'div',
 		className: 'phone-input',
 		initialize: function() {
-			this.template = '<div id="phone-input-form"><select id="regionCodeTest"><option value="US" data-imagesrc="images/flags/us.svg" selected>United States</option><option value="CA" data-imagesrc="images/flags/ca.svg">Canada</option></select><input type="text" id="phoneNumberTest" placeholder="Phone Number" /></div>';
+			this.template = '<div id="phone-input-form"><select id="regionCode"><option value="ZZ" data-imagesrc="images/flags/zz.svg" selected>Country</option></select><div id="number-container"><input type="text" id="number" placeholder="Phone Number" /></div></div>';
 			//this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
 			this.render();
@@ -15,15 +15,35 @@ var Whisper = Whisper || {};
 		render: function() {
 			this.$el.html(Mustache.render(this.template, {}));
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-				if (regionCode != "US" && regionCode != "CA") {
-						var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
-						$('#regionCodeTest').append(
-						$('<option>', { value: regionCode, text: countryName, 'data-imagesrc': imageName })
-				);
-				}
+					var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
+					$('#regionCode').append(
+					$('<option>', { value: regionCode, text: countryName, 'data-imagesrc': imageName }));
 			});
-			$('#regionCodeTest').ddslick();
+			$('#regionCode').ddslick();
             return this;
+		},
+
+		events: {
+			'change': 'validateNumber',
+			'keyup': 'validateNumber'
+		},
+
+		validateNumber: function() {
+			try {
+				var regionCode = $('#regionCode').val();
+				var number = $('#number').val();
+
+				var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
+
+				$('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
+				$('#number-container').removeClass('invalid');
+				$('#number-container').addClass('valid');
+				$('#request-sms, #request-voice').removeAttr('disabled');
+				return parsedNumber;
+			} catch(e) {
+				$('#number-container').removeClass('valid');
+				$('#request-sms, #request-voice').prop('disabled', 'disabled');
+			}
 		}
 	});
 })();
