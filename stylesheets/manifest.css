@@ -296,7 +296,7 @@ ul.discussion {
 #phone-input-form {
   display: inline; }
 
-#regionCodeTest {
+.dd-container {
   float: left;
   width: 60px !important; }
 
