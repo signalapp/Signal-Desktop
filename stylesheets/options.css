@@ -143,3 +143,50 @@ h2 {
 input.form-control, select.form-control {
   border-radius: 0;
 }
+
+#phone-input-form {
+        display: inline;
+    }
+    .dd-container
+    {
+        float: left;
+        width: 60px !important;
+    }
+#phoneNumberTest
+{
+    float: left;
+    height: 41px !important;
+    width: 197px !important;
+    text-indent: 10px;
+    font-size: 1em;
+}
+.dd-selected
+{
+    overflow: hidden;
+}
+.dd-selected-image, .dd-option-image
+{
+    max-width: 25px !important;
+    height: auto !important;
+}
+.dd-selected-text
+{
+    display: none !important;
+}  
+.dd-selected-description
+{
+    display: none !important;
+}
+.dd-option-text
+{
+    font-family: sans-serif !important;
+}
+.dd-desc
+{
+    font-family: sans-serif !important;
+}
+.dd-select
+{
+    width: 60px !important;
+    height: 45px !important;
+}
