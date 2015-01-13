@@ -35,7 +35,9 @@
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
-                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                var number = numbers[i];
+                if (!textsecure.utils.isNumberSane(number))
+                    throw new Error("Invalid number in group");
                 if (number == me)
                     haveMe = true;
                 if (finalNumbers.indexOf(number) < 0)
@@ -67,12 +69,6 @@
             if (group === undefined)
                 return undefined;
 
-            try {
-                number = libphonenumber.util.verifyNumber(number);
-            } catch (e) {
-                return group.numbers;
-            }
-
             var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
             if (number == me)
                 throw new Error("Cannot remove ourselves from a group, leave the group instead");
@@ -93,7 +89,9 @@
                 return undefined;
 
             for (var i in numbers) {
-                var number = libphonenumber.util.verifyNumber(numbers[i]);
+                var number = numbers[i];
+                if (!textsecure.utils.isNumberSane(number))
+                    throw new Error("Invalid number in set to add to group");
                 if (group.numbers.indexOf(number) < 0) {
                     group.numbers.push(number);
                     group.numberRegistrationIds[number] = {};
