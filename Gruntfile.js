@@ -126,6 +126,7 @@ module.exports = function(grunt) {
           '-Qunused-arguments',
           '-o',  outfile,
           '-Inacl/ed25519/nacl_includes -Inacl/ed25519 -Inacl/ed25519/sha512',
+          '--memory-init-file 0',
           '-s', "EXPORTED_FUNCTIONS=\"[" + exported_functions.join(',') + "]\""];
       var command = [].concat('emcc', this.data.src_files, flags).join(' ');
       grunt.log.writeln('Compiling via emscripten to ' + outfile);

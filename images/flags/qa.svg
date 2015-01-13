@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   sodipodi:version="0.32"
+   sodipodi:docname="qa.svg"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.30856358"
+     inkscape:cx="531.495"
+     inkscape:cy="354.33051"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <metadata
+     id="metadata4320">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4479">
+      <rect
+         id="rect4481"
+         height="708.66101"
+         x="96.887245"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="708.66101"
+         y="-3.3378826e-06" />
+    </clipPath>
+  </defs>
+  <g
+     transform="matrix(0.7224893,0,0,0.7224893,-70,2.4115845e-6)"
+     id="flag"
+     clip-path="url(#clipPath4479)"
+     inkscape:label="#g4460">
+    <rect
+       width="1062.99"
+       height="708.66101"
+       x="0"
+       y="0"
+       style="font-size:12px;fill:#660057;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect171"
+       sodipodi:fill-cmyk="(0 1 0.15 0.6)" />
+    <path
+       inkscape:connector-curvature="0"
+       d="M 216.658,708.323 0,708.661 0,0 215.645,0.112762 354.782,44.8555 216.661,88.4698 l 0,0 138.121,44.9682 -138.121,43.615 0,0 138.121,44.968 -138.121,43.614 0,0 138.121,44.968 -138.121,43.615 0,0 138.121,44.969 -138.121,43.614 0,0 138.121,44.969 -138.121,43.614 0,0 138.121,44.968 -138.121,43.615 0,0 138.121,44.968 -138.121,43.615"
+       style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+       id="path193" />
+  </g>
+</svg>

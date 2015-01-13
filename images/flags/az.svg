@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!-- /Creative Commons Public Domain -->
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+    <dc:title>New Zealand, Australia, United Kingdom, United States, 
+Bosnia and Herzegovina, Azerbaijan, Armenia, Bahamas, Belgium, Benin, 
+Bulgaria, Estonia, Finland, Gabon, Gambia, Germany, Greece, Greenland, 
+Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
+    <dc:rights><Agent>
+       <dc:title>Daniel McRae</dc:title>
+    </Agent></dc:rights>
+    <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+    <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+    <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+    <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+</rdf:RDF>
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg618"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="az.svg">
+  <metadata
+     id="metadata3211">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview3209"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:zoom="0.511"
+     inkscape:cx="500"
+     inkscape:cy="274.46184"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg618" />
+  <defs
+     id="defs620" />
+  <g
+     id="flag"
+     inkscape:label="#g5231">
+    <g
+       transform="matrix(4.2666667,0,0,8.5333333,0,-2e-5)"
+       id="g646"
+       style="font-size:12px">
+      <rect
+         width="120"
+         height="20"
+         x="0"
+         y="20"
+         style="fill:#cc3333;fill-rule:evenodd;stroke-width:1pt"
+         id="rect622" />
+      <rect
+         width="120"
+         height="20"
+         x="0"
+         y="0"
+         style="fill:#0099cc;fill-rule:evenodd;stroke-width:1pt"
+         id="rect621" />
+      <rect
+         width="120"
+         height="20"
+         x="0"
+         y="40"
+         style="fill:#009933;fill-rule:evenodd;stroke-width:1pt"
+         id="rect623" />
+    </g>
+    <g
+       transform="matrix(8.333333,0,0,8.333333,-238.74756,6.1291586)"
+       id="g575"
+       style="font-size:12px">
+      <g
+         id="g638">
+        <path
+           d="m 66,30 c 0.004,4.968 -4.0248,9 -8.9928,9 C 52.0392,39.0079 48.004,34.9823 48,30.0143 47.9881,25.0463 52.0105,21.0079 56.9785,21 c 4.968,-0.0158 9.0096,4.0033 9.0215,8.9713 0,0.0101 0,0.0186 0,0.0287 z"
+           style="fill:#ffffff;stroke-width:1pt"
+           id="path637"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 66.5,30 c 0.0033,4.0848 -3.3093,7.4 -7.3941,7.4 -4.0848,0.0065 -7.4026,-3.3034 -7.4059,-7.3882 -0.0098,-4.0848 3.2975,-7.4053 7.3823,-7.4118 4.0848,-0.013 7.4079,3.2916 7.4177,7.3764 0,0.0083 0,0.0153 0,0.0236 z"
+           style="fill:#cc3333;stroke-width:1pt"
+           id="path636"
+           inkscape:connector-curvature="0" />
+      </g>
+      <polygon
+         points="63.4645,33.5355 64.6903,30.9567 62,30 64.6903,29.0433 63.4645,26.4645 66.0433,27.6903 67,25 67,25 67.9567,27.6903 70.5355,26.4645 69.3097,29.0433 72,30 69.3097,30.9567 70.5355,33.5355 67.9567,32.3097 67,35 66.0433,32.3097 "
+         style="fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+         id="polygon574" />
+    </g>
+  </g>
+</svg>

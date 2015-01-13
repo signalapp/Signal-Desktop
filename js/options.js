@@ -15,24 +15,6 @@
  */
 
 ;(function() {
-    function validateNumber() {
-        try {
-            var regionCode = $('#regionCode').val();
-            var number     = $('#number').val();
-
-            var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
-
-            $('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
-            $('#number-container').removeClass('invalid');
-            $('#number-container').addClass('valid');
-            $('#request-sms, #request-voice').removeAttr('disabled');
-            return parsedNumber;
-        } catch(e) {
-            $('#number-container').removeClass('valid');
-            $('#request-sms, #request-voice').prop('disabled', 'disabled');
-        }
-    };
-
     function validateCode() {
         var verificationCode = $('#code').val().replace(/\D/g, '');
         if (verificationCode.length == 6) {
@@ -45,20 +27,12 @@
     };
 
     $(function() {
+        var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
             $('#setup-complete').show().addClass('in');
         } else {
             $('#choose-setup').show().addClass('in');
-            $('#number').keyup(validateNumber);
-            $('#regionCode').change(validateNumber);
-
-            $.each(libphonenumber.util.getAllRegionCodes(), function (regionCode, countryName) {
-                $('#regionCode').append(
-                    $('<option>', { value: regionCode, text: countryName })
-                );
-            });
-
             $('#code').on('change', function() {
                 if (!validateCode())
                     $('#code').addClass('invalid');
@@ -68,7 +42,7 @@
 
             $('#request-voice').click(function() {
                 $('#error').hide();
-                var number = validateNumber();
+                var number = phoneView.validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationVoice(number).catch(displayError);
                     $('#step2').addClass('in').fadeIn();
@@ -79,7 +53,7 @@
 
             $('#request-sms').click(function() {
                 $('#error').hide();
-                var number = validateNumber();
+                var number = phoneView.validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationSMS(number).catch(displayError);
                     $('#step2').addClass('in').fadeIn();
@@ -103,7 +77,7 @@
                 $('#single-device form').submit(function(e) {
                     e.preventDefault();
                     $('#error').hide();
-                    var number = validateNumber();
+                    var number = phoneView.validateNumber();
                     var verificationCode = validateCode();
                     if (number && verificationCode) {
                         $('#verifyCode').prop('disabled', 'disabled');

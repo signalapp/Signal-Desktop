@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!-- Creative Commons Public Domain -->
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <Work rdf:about="">
+    <dc:title>SVG graphic of South African Flag</dc:title>
+                                                                                                 
+    <dc:rights>
+      <Agent>
+        <dc:title>Farrel Lifson</dc:title>
+      </Agent>
+    </dc:rights>
+                                                                                                 
+    <license
+    rdf:resource="http://web.resource.org/cc/PublicDomain" />
+  </Work>
+                                                                                                 
+  <License rdf:about="http://web.resource.org/cc/PublicDomain">
+    <permits
+    rdf:resource="http://web.resource.org/cc/Reproduction" />
+                                                                                                 
+    <permits
+    rdf:resource="http://web.resource.org/cc/Distribution" />
+                                                                                                 
+    <permits
+    rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+  </License>
+</rdf:RDF>
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0.00000000"
+   y="0.00000000"
+   width="512"
+   height="512"
+   id="svg548"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="za.svg">
+  <sodipodi:namedview
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview3792"
+     showgrid="false"
+     inkscape:zoom="0.98242188"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg548" />
+  <metadata
+     id="metadata3794">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs550">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4085">
+      <rect
+         id="rect4087"
+         height="499.60632"
+         x="70.133392"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="499.60632"
+         y="-1.2807692e-05" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     inkscape:label="#g5620">
+    <g
+       clip-path="url(#clipPath4085)"
+       id="g4048"
+       transform="matrix(1.0248069,0,0,1.0248069,-71.873186,1.3125411e-5)">
+      <g
+         id="g603"
+         style="font-size:12px"
+         transform="matrix(1.998266,0,0,1.998801,-74.83725,-1553.702)">
+        <path
+           id="path581"
+           style="fill-rule:evenodd;stroke-width:1pt"
+           d="m 37.4511,976.386 0,-148.125 110.2779,74.022 -110.2779,74.103 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path597"
+           style="fill:#0000cc;fill-rule:evenodd;stroke-width:1pt"
+           d="m 112.695,1027.27 123.808,-83.306 175.978,0 0,83.306 -299.786,0 z"
+           inkscape:connector-curvature="0" />
+        <path
+           sodipodi:nodetypes="ccccc"
+           id="path598"
+           style="fill:#ff0000;fill-rule:evenodd;stroke-width:1pt"
+           d="m 104.74208,777.317 307.73892,0.006 0,83.32 -175.978,0 c 0,0 -130.11092,-84.15 -131.76092,-83.326 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path599"
+           style="fill:#ffcc00;fill-rule:evenodd;stroke-width:1pt"
+           d="m 37.4511,808.573 c 0,0 0,19.688 0,19.688 l 110.2779,74.022 -110.2779,74.103 0,19.687 138.8989,-93.79 -138.8989,-93.71 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path600"
+           style="fill:#009933;fill-rule:evenodd;stroke-width:1pt"
+           d="m 37.4511,808.573 0,-31.25 46.338,0 147.1389,99.531 181.553,0 0,50.899 -181.553,0 -147.1389,99.517 -46.338,0 0,-31.197 138.8989,-93.79 -138.8989,-93.71 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path601"
+           style="fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+           d="m 83.7891,777.323 28.9059,0 123.808,83.32 175.978,0 0,16.211 -181.553,0 -147.1389,-99.531 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="path602"
+           style="fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+           d="m 83.7891,1027.27 28.9059,0 123.808,-83.306 175.978,0 0,-16.211 -181.553,0 -147.1389,99.517 z"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+</svg>

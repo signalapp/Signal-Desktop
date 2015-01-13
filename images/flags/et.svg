@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   sodipodi:version="0.32"
+   sodipodi:docname="et.svg"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     inkscape:zoom="0.33060318"
+     inkscape:cx="496.06299"
+     inkscape:cy="248.03149"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378">
+    <inkscape:grid
+       empspacing="5"
+       empopacity="0.4"
+       opacity="0.2"
+       empcolor="#0000ff"
+       color="#0000ff"
+       spacingy="15mm"
+       spacingx="15mm"
+       originy="-9mm"
+       originx="0px"
+       type="xygrid"
+       id="GridFromPre046Settings"
+       units="mm"
+       visible="true"
+       enabled="false"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3768">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3804">
+      <rect
+         id="rect3806"
+         height="489.26254"
+         x="229.34183"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="489.26254"
+         y="6.346138" />
+    </clipPath>
+  </defs>
+  <g
+     transform="matrix(1.0464729,0,0,1.0464729,-240,-6.6410614)"
+     id="flag"
+     clip-path="url(#clipPath3804)"
+     inkscape:label="#g3770">
+    <rect
+       width="991.83551"
+       height="475.8887"
+       x="1.923095"
+       y="9.6895847"
+       style="font-size:12px;fill:#ffc621;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect171" />
+    <rect
+       width="993.18176"
+       height="161.97267"
+       x="0"
+       y="333.63602"
+       style="font-size:12px;fill:#ef2118;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect289" />
+    <rect
+       width="991.93158"
+       height="172.0031"
+       x="1.923121"
+       y="6.3461509"
+       style="font-size:12px;fill:#298c08;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect288" />
+    <ellipse
+       d="m 733.8736,352.9678 c 0,110.26463 -89.38716,199.65177 -199.6518,199.65177 -110.26464,0 -199.65179,-89.38714 -199.65179,-199.65177 0,-110.26462 89.38715,-199.65176 199.65179,-199.65176 110.26464,0 199.6518,89.38714 199.6518,199.65176 z"
+       sodipodi:ry="199.65176"
+       sodipodi:rx="199.65179"
+       sodipodi:cy="352.9678"
+       sodipodi:cx="534.2218"
+       cx="534.2218"
+       cy="352.9678"
+       rx="199.65179"
+       ry="199.65176"
+       style="font-size:12px;fill:#006bc6;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="path316"
+       transform="matrix(0.515258,0,0,0.515257,204.6805,77.01319)" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 445.21,211.89 -11.929,8.386 43.572,61.24 11.622,-7.411 -43.265,-62.215 z m 54.544,144.551 -17.917,-12.493 7.404,-23.509 -89.247,1.246 -25.832,-19.778 121.83,-1.313 22.594,-68.45 12.137,27.677 -30.969,96.62 z m 141.916,-131.08 -11.599,-8.837 -45.211,60.04 10.577,8.839 46.233,-60.042 z m -121.313,95.673 6.496,-20.855 24.647,-0.045 -28.156,-84.699 11.049,-30.601 38.064,115.739 72.077,0.854 -22.715,19.933 -101.462,-0.326 z m 168.159,94.891 4.849,-13.752 -71.021,-24.595 -5.165,12.779 71.337,25.568 z m -128.298,-86.082 21.842,-0.221 7.611,23.443 71.964,-52.799 32.515,1.12 -98.463,71.759 21.315,68.858 -25.944,-15.499 -30.84,-96.661 z m -36.627,189.315 14.58,0.213 0.674,-75.156 -13.759,-0.822 -1.495,75.765 z m 40.697,-149.044 7.171,20.633 -19.794,14.685 72.983,51.381 9.303,31.176 -99.401,-70.454 -58.472,42.152 6.421,-29.531 81.789,-60.042 z m -191.517,24.083 4.312,13.93 71.672,-22.632 -3.48,-13.338 -72.504,22.04 z m 154.32,-7.455 -17.397,13.207 -20.094,-14.273 -26.255,85.306 -26.763,18.499 36.211,-116.332 -58.187,-42.545 30.068,-3.039 82.417,59.177 z"
+       style="font-size:12px;fill:#ffc621;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="path322"
+       transform="matrix(0.515258,0,0,0.515257,204.6805,77.01319)" />
+  </g>
+</svg>
