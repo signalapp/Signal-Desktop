@@ -24,8 +24,6 @@
     }
 
     if ( _(indexedDB).isUndefined() ) { return; }
-    
-    var Deferred = Backbone.$ && Backbone.$.Deferred;
 
     // Driver object
     // That's the interesting part.
@@ -338,7 +336,7 @@
 
             var store = deleteTransaction.objectStore(storeName);
             var json = object.toJSON();
-            var idAttribute = store.keyPath || _.result(object, 'idAttribute');
+            var idAttribute = _.result(object, 'idAttribute');
 
             var deleteRequest = store.delete(json[idAttribute]);
 
@@ -384,8 +382,7 @@
             var index = null,
                 lower = null,
                 upper = null,
-                bounds = null,
-                key;
+                bounds = null;
 
             if (options.conditions) {
                 // We have a condition, we need to use it for the cursor
@@ -422,6 +419,25 @@
                         }
                     }
                 });
+            } else if (options.index) {
+                index = store.index(options.index.name);
+                if (index) {
+                    if (options.index.lower && options.index.upper) {
+                        bounds = IDBKeyRange.bound(options.index.lower, options.index.upper);
+                    } else if (options.index.lower) {
+                        bounds = IDBKeyRange.lowerBound(options.index.lower);
+                    } else if (options.index.upper) {
+                        bounds = IDBKeyRange.upperBound(options.index.upper);
+                    } else if (options.index.only) {
+                        bounds = IDBKeyRange.only(options.index.only);
+                    }
+
+                    if (typeof options.index.order === 'string' && options.index.order.toLowerCase() === 'desc') {
+                        readCursor = index.openCursor(bounds, window.IDBCursor.PREV || "prev");
+                    } else {
+                        readCursor = index.openCursor(bounds, window.IDBCursor.NEXT || "next");
+                    }
+                }
             } else {
                 // No conditions, use the index
                 if (options.range) {
@@ -432,12 +448,6 @@
                         readCursor = store.openCursor(bounds, window.IDBCursor.PREV || "prev");
                     } else {
                         readCursor = store.openCursor(bounds, window.IDBCursor.NEXT || "next");
-                    }
-                } else if (options.sort && options.sort.index) {
-                    if (options.sort.order === -1) {
-                        readCursor = store.index(options.sort.index).openCursor(null, window.IDBCursor.PREV || "prev");
-                    } else {
-                        readCursor = store.index(options.sort.index).openCursor(null, window.IDBCursor.NEXT || "next");
                     }
                 } else {
                     readCursor = store.openCursor();
@@ -455,14 +465,16 @@
                     var cursor = e.target.result;
                     if (!cursor) {
                         if (options.addIndividually || options.clear) {
-                            options.success(elements, true);
+                            // nothing!
+                            // We need to indicate that we're done. But, how?
+                            collection.trigger("reset");
                         } else {
                             options.success(elements); // We're done. No more elements.
                         }
                     }
                     else {
                         // Cursor is not over yet.
-                        if (options.abort || (options.limit && processed >= options.limit)) {
+                        if (options.limit && processed >= options.limit) {
                             // Yet, we have processed enough elements. So, let's just skip.
                             if (bounds && options.conditions[index.keyPath]) {
                                 cursor.continue(options.conditions[index.keyPath][1] + 1); /* We need to 'terminate' the cursor cleany, by moving to the end */
@@ -475,21 +487,19 @@
                             cursor.continue(); /* We need to Moving the cursor forward */
                         } else {
                             // This time, it looks like it's good!
-                            if (!options.filter || typeof(options.filter) !== 'function' || options.filter(cursor.value)) {
-                                if (options.addIndividually) {
-                                    collection.add(cursor.value);
-                                } else if (options.clear) {
-                                    var deleteRequest = store.delete(cursor.value[idAttribute]);
-                                    deleteRequest.onsuccess = function (event) {
-                                        elements.push(cursor.value);
-                                    };
-                                    deleteRequest.onerror = function (event) {
-                                        elements.push(cursor.value);
-                                    };
-
-                                } else {
+                            if (options.addIndividually) {
+                                collection.add(cursor.value);
+                            } else if (options.clear) {
+                                var deleteRequest = store.delete(cursor.value[idAttribute]);
+                                deleteRequest.onsuccess = function (event) {
                                     elements.push(cursor.value);
-                                }
+                                };
+                                deleteRequest.onerror = function (event) {
+                                    elements.push(cursor.value);
+                                };
+
+                            } else {
+                                elements.push(cursor.value);
                             }
                             processed++;
                             cursor.continue();
@@ -570,7 +580,7 @@
             });
             // Clean up active databases object.
             Databases = {};
-            return Deferred && Deferred().resolve();
+            return Backbone.$.Deferred().resolve();
         }
 
         // If a model or a collection does not define a database, fall back on ajaxSync
@@ -586,34 +596,31 @@
             }
         }
 
-        var dfd, promise;
-        if (Deferred) {
-            dfd = Deferred();
+        var promise;
+
+        if (typeof Backbone.$ === 'undefined' || typeof Backbone.$.Deferred === 'undefined') {
+            var noop = function() {};
+            var resolve = noop;
+            var reject = noop;
+        } else {
+            var dfd = Backbone.$.Deferred();
+            var resolve = dfd.resolve;
+            var reject = dfd.reject;
+
             promise = dfd.promise();
-            promise.abort = function () {
-                options.abort = true;
-            };
         }
 
         var success = options.success;
-        options.success = function(resp, silenced) {
-            if (!silenced) {
-                if (success) success(resp);
-                object.trigger('sync', object, resp, options);
-            }
-            if (dfd) {
-                if (!options.abort) {
-                    dfd.resolve(resp);
-                } else {
-                    dfd.reject();
-                }
-            }
+        options.success = function(resp) {
+            if (success) success(resp);
+            resolve();
+            object.trigger('sync', object, resp, options);
         };
 
         var error = options.error;
         options.error = function(resp) {
             if (error) error(resp);
-            if (dfd) dfd.reject(resp);
+            reject();
             object.trigger('error', object, resp, options);
         };
 

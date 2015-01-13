@@ -92,8 +92,22 @@
       <h3>You are registered on TextSecure with number <span id="complete-number"></span></h3>
     </div>
   </div>
+  <script type="text/javascript" src="components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="components/ddslick/jquery.ddslick.js"></script>
   <script type="text/x-tmpl-mustache" id="phone-number">
     <p>TEST</p>
+    <div id="phone-input-form">
+      <div id="countrySelectTest">
+        <select id="regionCodeTest">
+          <option value="AA" data-imagesrc="images/flags/us.svg">Country</option>
+          <option value="AR" data-imagesrc="images/flags/ar.svg">Something</option>
+          <option value="US" data-imagesrc="images/flags/gb.svg" selected>United States</option>
+        </select>
+      </div>
+      <div>
+        <input type="text" id="phoneNumberTest" placeholder="Phone Number"/>
+      </div>
+    </div>
   </script>
   <script type="text/javascript" src="js/components.js"></script>
   <script type="text/javascript" src="js/database.js"></script>
