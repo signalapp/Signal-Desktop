@@ -6,7 +6,8 @@ var Whisper = Whisper || {};
 		tagName: 'div',
 		className: 'phone-input',
 		initialize: function() {
-			this.template = $('#phone-number').html();
+			this.template = '<div id="phone-input-form"><select id="regionCodeTest"><option value="US" data-imagesrc="images/flags/us.svg" selected>United States</option><option value="CA" data-imagesrc="images/flags/ca.svg">Canada</option></select><input type="text" id="phoneNumberTest" placeholder="Phone Number" /></div>';
+			//this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
 			this.render();
 		},
