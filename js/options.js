@@ -15,7 +15,7 @@
  */
 
 ;(function() {
-    function validateNumber() {
+    /*function validateNumber() {
         try {
             var regionCode = $('#regionCode').val();
             var number     = $('#number').val();
@@ -31,7 +31,7 @@
             $('#number-container').removeClass('valid');
             $('#request-sms, #request-voice').prop('disabled', 'disabled');
         }
-    };
+    };*/
 
     function validateCode() {
         var verificationCode = $('#code').val().replace(/\D/g, '');
@@ -69,7 +69,7 @@
 
             $('#request-voice').click(function() {
                 $('#error').hide();
-                var number = validateNumber();
+                var number = phoneView.validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationVoice(number).catch(displayError);
                     $('#step2').addClass('in').fadeIn();
@@ -80,7 +80,7 @@
 
             $('#request-sms').click(function() {
                 $('#error').hide();
-                var number = validateNumber();
+                var number = phoneView.validateNumber();
                 if (number) {
                     textsecure.api.requestVerificationSMS(number).catch(displayError);
                     $('#step2').addClass('in').fadeIn();
@@ -104,7 +104,7 @@
                 $('#single-device form').submit(function(e) {
                     e.preventDefault();
                     $('#error').hide();
-                    var number = validateNumber();
+                    var number = phoneView.validateNumber();
                     var verificationCode = validateCode();
                     if (number && verificationCode) {
                         $('#verifyCode').prop('disabled', 'disabled');

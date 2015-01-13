@@ -35,6 +35,8 @@
 .dd-options
 {
     width: 300px !important;
+    overflow: scroll !important;
+    max-height: 120px !important;
 }
 .dd-option-text
 {
