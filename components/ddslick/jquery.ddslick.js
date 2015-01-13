@@ -98,7 +98,7 @@
                 else options.data = $.merge(ddSelect, options.data);
 
                 //Replace HTML select with empty placeholder, keep the original
-                var original = obj, placeholder = $('<div').attr('id', obj.attr('id') + '-dd-placeholder');
+                var original = obj, placeholder = $('<div>').attr('id', obj.attr('id') + '-dd-placeholder');
                 obj.replaceWith(placeholder);
                 obj = placeholder;
 

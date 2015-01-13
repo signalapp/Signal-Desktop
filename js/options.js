@@ -46,10 +46,6 @@
 
     $(function() {
         var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
-        $.getScript('../components/ddslick/jquery.ddslick.js', function() {
-            $('#regionCodeTest').ddslick();
-        });
-        phoneView.$el.show();
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]);//TODO: no
             $('#setup-complete').show().addClass('in');
