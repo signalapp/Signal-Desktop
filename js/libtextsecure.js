@@ -8319,6 +8319,34 @@ window.textsecure.messaging = function() {
         }
     }
 
+    self.updateGroup = function(groupId, name, avatar, numbers) {
+        var proto = new textsecure.protobuf.PushMessageContent();
+        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+
+        proto.group.id = toArrayBuffer(groupId);
+        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.name = name;
+
+        var numbers = textsecure.storage.groups.addNumbers(groupId, numbers);
+        if (numbers === undefined) {
+            return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+        }
+        proto.group.members = numbers;
+
+        if (avatar !== undefined) {
+            return makeAttachmentPointer(avatar).then(function(attachment) {
+                proto.group.avatar = attachment;
+                return sendGroupProto(numbers, proto).then(function() {
+                    return proto.group.id;
+                });
+            });
+        } else {
+            return sendGroupProto(numbers, proto).then(function() {
+                return proto.group.id;
+            });
+        }
+    }
+
     self.addNumberToGroup = function(groupId, number) {
         var proto = new textsecure.protobuf.PushMessageContent();
         proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();

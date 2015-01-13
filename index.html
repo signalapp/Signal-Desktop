@@ -32,6 +32,16 @@
             </div>
             <div id='contacts'></div>
         </div>
+        <script type='text/x-tmpl-mustache' id='new-group-update-form'>
+            <div>
+              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+            </div>
+            <div class='group-avatar'>
+              <div><input type='file' name='avatar' class='file-input'></div>
+            </div>
+            <div>Add members: <input name='members' class='members' role=tagsinput></div>
+            <button class='send'>Update</button>
+        </script>
         <script type='text/x-tmpl-mustache' id='conversation'>
             <div class='discussion-container'></div>
             <div class='send-message-area'>
@@ -145,6 +155,7 @@
         <script type="text/javascript" src="js/views/notifications.js"></script>
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
+        <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
         <script type="text/javascript" src="js/views/group_update_view.js"></script>
         <script type="text/javascript" src="js/views/attachment_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>

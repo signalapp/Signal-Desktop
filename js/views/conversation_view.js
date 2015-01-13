@@ -38,13 +38,26 @@
 
             if (this.model.get('type') === 'group') {
                 this.$el.addClass('group');
+                this.$el.find('.send-message-area').append($('<button>').addClass('new-group-update').text('Update group'));
             }
         },
 
         events: {
             'submit .send': 'sendMessage',
             'close': 'remove',
-            'click .destroy': 'destroyMessages'
+            'click .destroy': 'destroyMessages',
+            'click .new-group-update': 'newGroupUpdate'
+        },
+
+        newGroupUpdate: function() {
+            if (!this.newGroupUpdateView) {
+                this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
+                    model: this.model
+                });
+            } else {
+                this.newGroupUpdateView.delegateEvents();
+            }
+            this.newGroupUpdateView.render().$el.insertBefore(this.view.el);
         },
 
         destroyMessages: function(e) {
