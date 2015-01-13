@@ -14,11 +14,13 @@ var Whisper = Whisper || {};
 		render: function() {
 			this.$el.html(Mustache.render(this.template, {}));
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-				var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
-				$('#regionCodeTest').append(
-					$('<option>', { value: regionCode, text: countryName, 'data-imagesrc': imageName })
+				if (regionCode != "US" && regionCode != "CA") {
+						var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
+						$('#regionCodeTest').append(
+						$('<option>', { value: regionCode, text: countryName, 'data-imagesrc': imageName })
 				);
-			})
+				}
+			});
 			$('#regionCodeTest').ddslick();
             return this;
 		}

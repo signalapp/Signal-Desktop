@@ -320,8 +320,12 @@ ul.discussion {
 .dd-selected-description {
   display: none !important; }
 
+.dd-options {
+  width: 300px !important; }
+
 .dd-option-text {
-  font-family: sans-serif !important; }
+  font-family: sans-serif !important;
+  line-height: 20px !important; }
 
 .dd-desc {
   font-family: sans-serif !important; }
