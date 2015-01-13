@@ -101,7 +101,7 @@ module.exports = function(grunt) {
         options: {
           urls: ['http://127.0.0.1:9999/test/index.html'],
           build: process.env.TRAVIS_JOB_ID,
-          browsers: [{ browserName: 'chrome' }],
+          browsers: [{ browserName: 'chrome', version: '38' }],
           testname: 'TextSecure-Browser Tests'
         }
       }
