@@ -8,7 +8,6 @@ var Whisper = Whisper || {};
 		initialize: function() {
 			this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
-			//this.template = _.template($('#phone-number').html());
 			this.render();
 		},
 
