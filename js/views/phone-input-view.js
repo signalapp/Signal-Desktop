@@ -14,7 +14,7 @@ var Whisper = Whisper || {};
 
 		render: function() {
 			this.$el.html(Mustache.render(this.template, {}));
-			return this;
+            return this;
 		}
 	});
 })();
