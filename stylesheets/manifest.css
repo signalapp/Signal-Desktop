@@ -321,9 +321,9 @@ ul.discussion {
   display: none !important; }
 
 .dd-options {
-  width: 300px !important;
+  width: 350px !important;
   overflow: scroll !important;
-  max-height: 120px !important; }
+  max-height: 350px !important; }
 
 .dd-option-text {
   font-family: sans-serif !important;
