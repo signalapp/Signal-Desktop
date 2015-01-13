@@ -84,24 +84,26 @@ describe('Protocol', function() {
 
     describe("Axolotl", function() {
         var runAxolotlTest = function(v) {
-            var origCreateNewKeyPair = textsecure.crypto.testing_only.createNewKeyPair;
+            var origCreateKeyPair = textsecure.crypto.createKeyPair;
             var doStep;
             var stepDone;
 
             stepDone = function(res) {
                 if (!res || privKeyQueue.length != 0 || Object.keys(getKeysForNumberMap).length != 0 || Object.keys(messagesSentMap).length != 0) {
-                    textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
+                    textsecure.crypto.createKeyPair = origCreateKeyPair;
                     return false;
                 } else if (step == v.length) {
-                    textsecure.crypto.testing_only.createNewKeyPair = origCreateNewKeyPair;
+                    textsecure.crypto.createKeyPair = origCreateKeyPair;
                     return true;
                 } else
                     return doStep().then(stepDone);
             }
 
             var privKeyQueue = [];
-            textsecure.crypto.testing_only.createNewKeyPair = function(isIdentity) {
-                if (privKeyQueue.length == 0 || isIdentity)
+            textsecure.crypto.createKeyPair = function(privKey) {
+                if (privKey !== undefined)
+                    return origCreateKeyPair(privKey);
+                if (privKeyQueue.length == 0)
                     throw new Error('Out of private keys');
                 else {
                     var privKey = privKeyQueue.shift();
@@ -193,7 +195,7 @@ describe('Protocol', function() {
                         if (data.endSession)
                             return textsecure.messaging.closeSession("SNOWDEN").then(checkMessage);
                         else
-                            return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, []).then(checkMessage);
+                            return textsecure.messaging.sendMessageToNumber("SNOWDEN", data.smsText, [], Date.now()).then(checkMessage);
                     }
 
                     if (data.ourBaseKey !== undefined)
