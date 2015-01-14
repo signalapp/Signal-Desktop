@@ -20,7 +20,7 @@ var Whisper = Whisper || {};
 					countryNames.push(countryName);
 			});
 			for (var i = 0; i < regionCodes.length; i++) {
-				this.$el.find('select.regionCode').append($('<option>', { value: regionCodes[i], text: countryNames[i]}));
+				this.$el.find('#regionCode').append($('<option>', { value: regionCodes[i], text: countryNames[i]}));
 			}
             return this;
 		},
@@ -32,12 +32,12 @@ var Whisper = Whisper || {};
 
 		validateNumber: function() {
 			try {
-				var regionCode = this.$el.find('select.regionCode').val();
+				var regionCode = this.$el.find('#regionCode').val();
 				var number = this.$el.find('input.number').val();
 
 				var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
-				this.$el.find('select.regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
+				this.$el.find('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
 				this.$el.find('#number-container').removeClass('invalid');
 				this.$el.find('#number-container').addClass('valid');
 				return parsedNumber;
