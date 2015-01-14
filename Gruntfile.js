@@ -31,7 +31,7 @@ module.exports = function(grunt) {
           'build/curve25519_compiled.js',
           'build/curve25519.js',
         ],
-        dest: 'js/curve25519_compiled.js',
+        dest: 'libtextsecure/curve25519_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
           'components/cryptojs/src/aes.js',
           'build/webcrypto.js'
         ],
-        dest: 'js/webcrypto.js',
+        dest: 'libtextsecure/webcrypto_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -65,6 +65,10 @@ module.exports = function(grunt) {
       },
       libtextsecure: {
         src: [
+          'libtextsecure/curve25519_concat.js',
+          'libtextsecure/nativeclient.js',
+          'libtextsecure/webcrypto_concat.js',
+
           'libtextsecure/protobufs.js',
           'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
