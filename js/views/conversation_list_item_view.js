@@ -41,6 +41,11 @@ var Whisper = Whisper || {};
           new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
         );
       }
+      else {
+        this.$el.find('.avatar').append(
+            $('<img>').attr('src', '/images/default.png')
+        );
+      }
 
       return this;
     }
