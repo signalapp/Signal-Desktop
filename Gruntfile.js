@@ -86,6 +86,7 @@ module.exports = function(grunt) {
       },
       libtextsecure: {
         src: [
+          'libtextsecure/axolotl_wrapper.js',
           'libtextsecure/libaxolotl_concat.js',
 
           'libtextsecure/storage.js',
