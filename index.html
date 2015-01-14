@@ -42,6 +42,16 @@
             <div>Add members: <input name='members' class='members' role=tagsinput></div>
             <button class='send'>Update</button>
         </script>
+        <script type="text/x-tmpl-mustache" id="phone-number">
+            <div class="phone-input-form">
+                <select class="regionCode">
+                    <option value="ZZ" selected>Country</option>
+                </select>
+                <div class="number-container">
+                    <input type="text" class="number" placeholder="Phone Number" />
+                </div>
+            </div>
+        </script>
         <script type='text/x-tmpl-mustache' id='conversation'>
             <div class='discussion-container'></div>
             <div class='send-message-area'>
@@ -93,7 +103,7 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-message-form'>
           <form class='send message'>
-            <input type='text' name='number' class='number' placeholder='Phone number'>
+            <div class="phone-number-input"></div>
             <div class='send-message-area'>
                 <div class='message-composer'>
                     <input name='message' class='send-message' rows='6' type='textarea'>
@@ -160,6 +170,7 @@
         <script type="text/javascript" src="js/views/attachment_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
+        <script type="text/javascript" src="js/views/phone-input-view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_view.js"></script>

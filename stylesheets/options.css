@@ -80,16 +80,16 @@ h2 {
   float: left;
 }
 
-#regionCode {
+.regionCode {
   width: 100%;
   margin-bottom: 1em;
 }
 
-#number-container {
+.number-container {
   position: relative;
   margin-bottom: 0.5em;
 }
-#number-container::after {
+.number-container::after {
   visibility: hidden;
   content: ' ';
   display: inline-block;
@@ -104,13 +104,13 @@ h2 {
   margin: 3px 8px;
   text-align: center;
 }
-#number-container.valid::after {
+.number-container.valid::after {
   visibility: visible;
   content: '✓';
   background-color: #0f9d58;
   color: #ffffff;
 }
-#number-container.invalid::after {
+.number-container.invalid::after {
   visibility: visible;
   content: '!';
   background-color: #f44336;
