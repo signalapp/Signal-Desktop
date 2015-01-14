@@ -99,6 +99,13 @@
       "libphonenumber-api",
       "momentjs",
       "native-client"
+    ],
+    "lib": [
+      "jquery",
+      "long",
+      "bytebuffer",
+      "protobuf",
+      "native-client"
     ]
   }
 }

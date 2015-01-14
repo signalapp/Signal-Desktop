@@ -10,12 +10,21 @@ module.exports = function(grunt) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 
+  var libcomponents = [];
+  for (i in bower.concat.lib) {
+    libcomponents.push('components/' + bower.concat.lib[i] + '/**/*.js');
+  }
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       components: {
         src: components,
         dest: 'js/components.js',
+      },
+      libcomponents: {
+        src: libcomponents,
+        dest: 'libtextsecure/components.js',
       },
       curve25519: {
         src: [

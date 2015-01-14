@@ -219,14 +219,14 @@ describe('Protocol', function() {
         };
 
         describe("test vectors", function() {
-            _.each(axolotlTestVectors, function(t, i) {
-                it(t.name, function(done) {
+            for (var i in axolotlTestVectors) {
+                it(axolotlTestVectors[i].name, function(done) {
                     localStorage.clear();
-                    return runAxolotlTest(t.vectors).then(function(res) {
+                    return runAxolotlTest(axolotlTestVectors[i].vectors).then(function(res) {
                         assert(res);
                     }).then(done).catch(done);
                 });
-            });
+            }
         });
     });
 });
