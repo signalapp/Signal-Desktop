@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="islenskifaninn"
+   sodipodi:version="0.32"
+   sodipodi:docname="no.svg"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     snaptogrid="true"
+     inkscape:zoom="0.47574604"
+     inkscape:cx="-49.26097"
+     inkscape:cy="248.03149"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="islenskifaninn">
+    <inkscape:grid
+       empspacing="5"
+       empopacity="0.4"
+       opacity="0.2"
+       empcolor="#0000ff"
+       color="#0000ff"
+       spacingy="7mm"
+       spacingx="7mm"
+       originy="4mm"
+       originx="0px"
+       type="xygrid"
+       id="GridFromPre046Settings" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3163">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8618">
+      <rect
+         id="rect8620"
+         height="494.68155"
+         x="67.63224"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="494.68155"
+         y="2.4179447" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8719">
+      <rect
+         id="rect8721"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     clip-path="url(#clipPath8719)"
+     inkscape:label="#g8676">
+    <rect
+       id="rect8153"
+       height="512"
+       x="0"
+       style="width:0;stroke:none;fill-opacity:1;fill:#ffffff"
+       width="512"
+       y="0" />
+    <rect
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect583"
+       width="699.737"
+       height="511.8425"
+       x="-70.000008"
+       y="0.15751544" />
+    <rect
+       style="font-size:12px;fill:#d72828;fill-rule:evenodd;stroke-width:1pt"
+       id="rect561"
+       width="222.94188"
+       height="221.46707"
+       x="-99.212601"
+       y="-23.03937" />
+    <rect
+       style="font-size:12px;fill:#d72828;fill-rule:evenodd;stroke-width:1pt"
+       id="rect562"
+       width="380.91339"
+       height="221.46713"
+       x="247.42451"
+       y="-23.03937" />
+    <rect
+       style="font-size:12px;fill:#d72828;fill-rule:evenodd;stroke-width:1pt"
+       id="rect563"
+       width="219.9996"
+       height="225.76466"
+       x="-99.212601"
+       y="321.6684" />
+    <rect
+       style="font-size:12px;fill:#d72828;fill-rule:evenodd;stroke-width:1pt"
+       id="rect564"
+       width="419.68353"
+       height="223.64763"
+       x="250.00148"
+       y="323.78543" />
+    <rect
+       style="font-size:12px;fill:#003897;fill-rule:evenodd;stroke-width:1pt"
+       id="rect565"
+       width="64.424599"
+       height="545.66931"
+       x="154.65305"
+       y="-23.03937" />
+    <rect
+       style="font-size:12px;fill:#003897;fill-rule:evenodd;stroke-width:1pt"
+       id="rect566"
+       width="744.09448"
+       height="63.443913"
+       x="-99.212601"
+       y="224.84007" />
+  </g>
+</svg>

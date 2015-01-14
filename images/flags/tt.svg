@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg614"
+   sodipodi:version="0.32"
+   width="512"
+   height="512"
+   sodipodi:docname="tt.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="1.0139841"
+     inkscape:cx="190.58483"
+     inkscape:cy="248.03149"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg614" />
+  <metadata
+     id="metadata4118">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs616" />
+  <rect
+     id="rect5779"
+     height="512"
+     x="0"
+     style="width:0;stroke:none;fill-opacity:1;fill:#ffffff"
+     width="512"
+     y="0" />
+  <g
+     id="flag"
+     transform="matrix(0.68997286,0,0,1.0344751,-1.0321384,-1.6544991)"
+     inkscape:label="#g5415">
+    <path
+       transform="matrix(0,0.66266,-1.088238,0,540.9344,3.17141)"
+       id="path701"
+       d="M 744.522,1.68979 -0.810527,495.65 744.128,495.699 744.522,1.68979 z"
+       style="font-size:12px;fill:#e00000;fill-rule:evenodd;stroke-width:1pt"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="matrix(0,-0.66266,1.088238,0,204.1156,494.9643)"
+       id="path702"
+       d="M 744.522,1.68979 -0.810527,495.65 744.128,495.699 744.522,1.68979 z"
+       style="font-size:12px;fill:#e00000;fill-rule:evenodd;stroke-width:1pt"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="matrix(0.989104,0,0,1.014135,20.63234,-5.527779)"
+       sodipodi:nodetypes="ccccc"
+       id="path703"
+       d="M 13.1713,7.26089 152.202,7.26086 701.007,494.6 557.586,494.599 13.1713,7.26089 z"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   sodipodi:version="0.33pre"
+   sodipodi:docname="dz.svg"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.30856358"
+     inkscape:cx="531.495"
+     inkscape:cy="354.33051"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <metadata
+     id="metadata9942">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380" />
+  <g
+     id="flag"
+     inkscape:label="#g9964">
+    <g
+       id="g10429"
+       transform="matrix(0.48166023,0,0,0.7224893,0,2.4115845e-6)">
+      <rect
+         id="rect171"
+         style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+         y="0"
+         x="0"
+         height="708.66101"
+         width="1062.99" />
+      <rect
+         sodipodi:fill-cmyk="(1 0 0.896552 0.25)"
+         id="rect186"
+         style="font-size:12px;fill:#00bf13;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+         y="0"
+         x="0"
+         height="708.66101"
+         width="531.49597" />
+    </g>
+    <g
+       id="g10433"
+       transform="matrix(0.67903326,0,0,0.67903326,-106.72736,24.002862)">
+      <path
+         sodipodi:fill-cmyk="(0 0.896552 0.801724 0.0517241)"
+         id="path184"
+         style="font-size:12px;fill:#f21930;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+         d="M 692.446,439.713 C 642.304,529.914 531.687,561.955 443.8,513.547 355.912,465.138 323.872,354.521 372.28,266.634 c 48.409,-87.887 159.025,-119.928 246.913,-71.519 32.491,17.896 55.625,41.423 73.819,74.936 -6.64,-9.132 -14.053,-16.67 -23.784,-24.32 -59.948,-47.132 -146.851,-36.73 -193.983,23.218 -47.13,59.947 -36.729,146.851 23.218,193.982 59.948,47.131 146.852,36.729 193.983,-23.218 z"
+         inkscape:connector-curvature="0" />
+      <polygon
+         sodipodi:fill-cmyk="(0 0.896552 0.801724 0.0517241)"
+         id="polygon185"
+         style="font-size:12px;fill:#f21930;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+         transform="translate(2.18124,-2.90514)"
+         points="532.151,298.035 604.026,322.501 648.588,261.029 647.531,336.946 719.765,360.331 647.236,382.785 647.317,458.71 647.317,458.71 603.55,396.67 531.366,420.209 576.844,359.412 " />
+    </g>
+  </g>
+</svg>

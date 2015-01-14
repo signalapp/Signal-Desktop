@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   sodipodi:version="0.32-hydra1"
+   sodipodi:docname="bf.svg"
+   inkscape:version="0.48.1 r9760">
+  <metadata
+     id="metadata2999">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.98242188"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <defs
+     id="defs380" />
+  <g
+     id="flag"
+     transform="matrix(0.48137719,0,0,0.72185273,0.06752939,142.41139)"
+     style="stroke:none"
+     inkscape:label="#g3044">
+    <rect
+       transform="scale(-1,-1)"
+       id="rect149"
+       style="font-size:12px;fill:#de0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       y="-511.375"
+       x="-1063.615"
+       height="708.66101"
+       width="1062.99" />
+    <rect
+       transform="scale(-1,-1)"
+       id="rect148"
+       style="font-size:12px;fill:#35a100;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       y="-511.99994"
+       x="-1062.99"
+       height="354.33099"
+       width="1062.99" />
+  </g>
+  <polygon
+     points="626.445,324.23 569.104,365.812 591.041,433.161 591.041,433.161 533.774,391.476 476.501,433.151 498.449,365.806 441.115,324.214 511.946,324.278 533.785,256.897 555.613,324.281 "
+     style="font-size:12px;fill:#fff300;fill-rule:evenodd;stroke-width:1pt"
+     id="polygon136"
+     transform="matrix(1.445156,0,0,1.36004,-516.32609,-217.17897)" />
+</svg>

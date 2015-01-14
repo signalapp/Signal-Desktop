@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg548"
+   sodipodi:version="0.32"
+   width="512"
+   height="512"
+   sodipodi:docname="ht.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.44080424"
+     inkscape:cx="372.04724"
+     inkscape:cy="248.03149"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg548" />
+  <metadata
+     id="metadata3791">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs550">
+    <linearGradient
+       id="linearGradient565">
+      <stop
+         id="stop566"
+         offset="0.000000"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop567"
+         offset="1.000000"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       spreadMethod="pad"
+       gradientUnits="objectBoundingBox"
+       y2="-0.00000004"
+       x2="1.00000000"
+       y1="-0.00000004"
+       x1="0.00000000"
+       id="linearGradient568"
+       xlink:href="#linearGradient565" />
+    <radialGradient
+       spreadMethod="pad"
+       gradientUnits="objectBoundingBox"
+       r="0.50000000"
+       fy="0.49999997"
+       fx="0.50000000"
+       cy="0.49999997"
+       cx="0.50000000"
+       id="radialGradient569"
+       xlink:href="#linearGradient565" />
+  </defs>
+  <g
+     id="flag"
+     transform="matrix(0.68236264,0,0,1.0201659,0,1.5434324e-5)"
+     inkscape:label="#g9391">
+    <g
+       id="g9387">
+      <rect
+         height="251.76776"
+         width="750.33417"
+         y="-1.5e-05"
+         x="0"
+         id="rect555"
+         style="font-size:12px;fill:#132c77;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt" />
+      <rect
+         height="250.11139"
+         width="750.33417"
+         y="251.76775"
+         x="0"
+         id="rect564"
+         style="font-size:12px;fill:#c00011;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt" />
+    </g>
+  </g>
+</svg>

@@ -21,9 +21,6 @@
   <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
-  <div id="listener"></div>
-  <div id="log"></div>
-
   <div class='container'>
     <h1><img id="textsecure-icon" src='icon.png'/> TextSecure</h1>
     <div id='choose-setup' class='collapse'>
@@ -56,14 +53,7 @@
         <div class='col-xs-offset-1 col-md-6'>
           <div class='narrow'>
             <div id='step1'>
-              <div id='number-container'>
-                <input class='form-control' type="text" id="number" placeholder="Phone Number" tabindex=0>
-              </div>
-              <div>
-                <select class='form-control' id="regionCode">
-                  <option value="ZZ" selected>Country</option>
-                </select>
-              </div>
+              <div id="phone-number-input"></div>
               <div class='clearfix'>
                 <button id="request-sms" class="btn btn-info">Send SMS</button>
                 <button id="request-voice" class="btn btn-info" tabindex=-1>Call</button>
@@ -94,9 +84,18 @@
       <h3>You are registered on TextSecure with number <span id="complete-number"></span></h3>
     </div>
   </div>
+  <script type="text/x-tmpl-mustache" id="phone-number">
+    <div class="phone-input-form">
+        <select class="regionCode">
+          <option value="ZZ" selected>Country</option>
+        </select>
+        <div id="number-container">
+          <input type="text" class="number" placeholder="Phone Number" />
+        </div>
+    </div>
+  </script>
   <script type="text/javascript" src="js/components.js"></script>
   <script type="text/javascript" src="js/database.js"></script>
-
   <script type="text/javascript" src="js/protobufs.js"></script>
   <script type="text/javascript" src="js/curve25519_compiled.js"></script>
   <script type="text/javascript" src="js/nativeclient.js"></script>
@@ -116,8 +115,10 @@
   <script type="text/javascript" src="js/models/conversations.js"></script>
   <script type="text/javascript" src="js/api.js"></script>
   <script type="text/javascript" src="js/sendmessage.js"></script>
-
   <script type="text/javascript" src="js/chromium.js"></script>
+  <script type="text/javascript" src="js/views/phone-input-view.js"></script>
   <script type="text/javascript" src="js/options.js"></script>
+    <div id="listener"></div>
+  <div id="log"></div>
 </body>
 </html>
