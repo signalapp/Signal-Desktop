@@ -6,8 +6,7 @@ var Whisper = Whisper || {};
 		tagName: 'div',
 		className: 'phone-input',
 		initialize: function() {
-			this.template = '<div id="phone-input-form"><select id="regionCode"><option value="ZZ" data-imagesrc="images/flags/zz.svg" selected>Country</option></select><div id="number-container"><input type="text" id="number" placeholder="Phone Number" /></div></div>';
-			//this.template = $('#phone-number').html();
+			this.template = $('#phone-number').html();
 			Mustache.parse(this.template);
 			this.render();
 		},
@@ -15,7 +14,6 @@ var Whisper = Whisper || {};
 		render: function() {
 			this.$el.html(Mustache.render(this.template, {}));
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-					var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
 					$('#regionCode').append(
 					$('<option>', { value: regionCode, text: countryName}));
 			});
