@@ -231,9 +231,9 @@ window.textsecure.messaging = function() {
 
     makeAttachmentPointer = function(attachment) {
         var proto = new textsecure.protobuf.PushMessageContent.AttachmentPointer();
-        proto.key = textsecure.crypto.getRandomBytes(64);
+        proto.key = axolotl.crypto.getRandomBytes(64);
 
-        var iv = textsecure.crypto.getRandomBytes(16);
+        var iv = axolotl.crypto.getRandomBytes(16);
         return textsecure.protocol.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
             return textsecure.api.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
