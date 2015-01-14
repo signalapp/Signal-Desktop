@@ -53,6 +53,25 @@ module.exports = function(grunt) {
           'test/_test.js'
         ],
         dest: 'test/test.js',
+      },
+      libtextsecure: {
+        src: [
+          'libtextsecure/protobufs.js',
+          'libtextsecure/websocket.js',
+          'libtextsecure/websocket-resources.js',
+          'libtextsecure/helpers.js',
+          'libtextsecure/errors.js',
+          'libtextsecure/stringview.js',
+          'libtextsecure/storage.js',
+          'libtextsecure/storage/devices.js',
+          'libtextsecure/storage/groups.js',
+          'libtextsecure/api.js',
+          'libtextsecure/crypto.js',
+          'libtextsecure/protocol.js',
+          'libtextsecure/sendmessage.js',
+        ],
+        dest: 'js/libtextsecure.js',
+      },
       }
     },
     sass: {
