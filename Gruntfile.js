@@ -194,6 +194,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', ['connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
-  grunt.registerTask('build', ['compile', 'concat:curve25519']);
+  grunt.registerTask('build', ['compile', 'concat:curve25519', 'concat:libtextsecure']);
 
 };
