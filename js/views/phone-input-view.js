@@ -32,17 +32,17 @@ var Whisper = Whisper || {};
 
 		validateNumber: function() {
 			try {
-				var regionCode = $('select.regionCode').val();
-				var number = $('input.number').val();
+				var regionCode = this.$el.find('select.regionCode').val();
+				var number = this.$el.find('input.number').val();
 
 				var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
-				$('select.regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
-				$('#number-container').removeClass('invalid');
-				$('#number-container').addClass('valid');
+				this.$el.find('select.regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
+				this.$el.find('#number-container').removeClass('invalid');
+				this.$el.find('#number-container').addClass('valid');
 				return parsedNumber;
 			} catch(e) {
-				$('#number-container').removeClass('valid');
+				this.$el.find('#number-container').removeClass('valid');
 			}
 		}
 	});

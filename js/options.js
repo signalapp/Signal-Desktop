@@ -79,7 +79,7 @@
                 $('#single-device .back').click(function() {
                     $('#single-device').fadeOut(function() {
                         $('#choose-setup').addClass('in').fadeIn();
-                        $('#number').removeClass('invalid');
+                        $('input.number').removeClass('invalid');
                     });
                 });
 
@@ -129,7 +129,7 @@
                 $('#multi-device .back').click(function() {
                     $('#multi-device').fadeOut(function() {
                         $('#choose-setup').addClass('in').fadeIn();
-                        $('#number').removeClass('invalid');
+                        $('input.number').removeClass('invalid');
                     });
                 });
 
