@@ -17,9 +17,8 @@ var Whisper = Whisper || {};
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
 					var imageName = "images/flags/" + regionCode.toLowerCase() + ".svg";
 					$('#regionCode').append(
-					$('<option>', { value: regionCode, text: countryName/*, 'data-imagesrc': imageName*/ }));
+					$('<option>', { value: regionCode, text: countryName}));
 			});
-			/*$('#regionCode').ddslick();*/
             return this;
 		},
 
