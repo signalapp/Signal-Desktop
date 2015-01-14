@@ -19,7 +19,6 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheets/options.css">
   <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="stylesheets/manifest.css">
 </head>
 <body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
   <div class='container'>
@@ -86,13 +85,13 @@
     </div>
   </div>
   <script type="text/x-tmpl-mustache" id="phone-number">
-    <p>TEST</p>
-    <div id="phone-input-form">
-        <select id="regionCodeTest">
-          <option value="US" data-imagesrc="images/flags/us.svg" selected>United States</option>
-          <option value="CA" data-imagesrc="images/flags/ca.svg">Canada</option>
+    <div class="phone-input-form">
+        <select id="regionCode">
+          <option value="ZZ" selected>Country</option>
         </select>
-      <input type="text" id="phoneNumberTest" placeholder="Phone Number" />
+        <div id="number-container">
+          <input type="text" class="number" placeholder="Phone Number" />
+        </div>
     </div>
   </script>
   <script type="text/javascript" src="js/components.js"></script>

@@ -33,6 +33,15 @@
             $('#setup-complete').show().addClass('in');
         } else {
             $('#choose-setup').show().addClass('in');
+
+            $('input.number').on('keyup', function() {
+                if ($('#number-container').hasClass('valid')) {
+                    $('#request-sms, #request-voice').removeAttr('disabled');
+                } else {
+                    $('#request-sms, #request-voice').prop('disabled', 'disabled');
+                }
+            });
+
             $('#code').on('change', function() {
                 if (!validateCode())
                     $('#code').addClass('invalid');
@@ -70,7 +79,7 @@
                 $('#single-device .back').click(function() {
                     $('#single-device').fadeOut(function() {
                         $('#choose-setup').addClass('in').fadeIn();
-                        $('#number').removeClass('invalid');
+                        $('input.number').removeClass('invalid');
                     });
                 });
 
@@ -120,7 +129,7 @@
                 $('#multi-device .back').click(function() {
                     $('#multi-device').fadeOut(function() {
                         $('#choose-setup').addClass('in').fadeIn();
-                        $('#number').removeClass('invalid');
+                        $('input.number').removeClass('invalid');
                     });
                 });
 

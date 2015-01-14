@@ -54,8 +54,9 @@ var Whisper = Whisper || {};
       this.template = $('#new-message-form').html();
       Mustache.parse(this.template);
       this.$el.html($(Mustache.render(this.template)));
-      this.input = new MessageRecipientInputView({el: this.$el.find('input.number')});
+      this.input = new Whisper.PhoneInputView({el: this.$el.find('div.phone-number-input')});
       this.fileInput = new Whisper.FileInputView({el: this.$el.find('.attachments')});
+      this.$el.find('#phone-number-input').append(this.input.render().el);
     },
 
     events: {
@@ -65,7 +66,7 @@ var Whisper = Whisper || {};
 
     send: function(e) {
       e.preventDefault();
-      var number = this.input.verifyNumber();
+      var number = this.input.validateNumber();
       if (number) {
         var convo = this.collection.findOrCreateForRecipient(number);
         var message_input = this.$el.find('input.send-message');
