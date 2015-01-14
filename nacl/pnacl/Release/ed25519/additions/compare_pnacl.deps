@@ -1,6 +1,0 @@
-# Updated by fix_deps.py
-pnacl/Release/ed25519/additions/compare_pnacl.o: \
-  ed25519/additions/compare.c ed25519/additions/compare.h
-:
-ed25519/additions/compare.c:
-ed25519/additions/compare.h:

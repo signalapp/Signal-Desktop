@@ -1,7 +1,0 @@
-# Updated by fix_deps.py
-pnacl/Debug/ed25519/ge_p1p1_to_p3_pnacl.o: ed25519/ge_p1p1_to_p3.c \
-  ed25519/ge.h ed25519/fe.h ed25519/nacl_includes/crypto_int32.h
-ed25519/ge_p1p1_to_p3.c:
-ed25519/ge.h:
-ed25519/fe.h:
-ed25519/nacl_includes/crypto_int32.h:

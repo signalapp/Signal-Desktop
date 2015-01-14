@@ -66,7 +66,6 @@ module.exports = function(grunt) {
       libtextsecure: {
         src: [
           'libtextsecure/curve25519_concat.js',
-          'libtextsecure/nativeclient.js',
           'libtextsecure/webcrypto_concat.js',
 
           'libtextsecure/protobufs.js',

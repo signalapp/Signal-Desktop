@@ -18,11 +18,8 @@
   <title>libTextSecure test runner</title>
   <link rel="stylesheet" href="../../components/mocha/mocha.css" />
 </head>
-<body data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="../../nacl/pnacl/{config}">
+<body>
   <h2>Run this out of the chrome-plugin:// namespace (and expect plugin state to be cleared/corrupted), not file://</h2>
-
-  <div id="listener"></div>
-  <div id="log"></div>
 
   <div id="mocha">
   </div>
@@ -35,7 +32,6 @@
   <script type="text/javascript" src="../components.js"></script>
 
   <script type="text/javascript" src="../curve25519_concat.js"></script>
-  <script type="text/javascript" src="../nativeclient.js"></script>
   <script type="text/javascript" src="../webcrypto_concat.js"></script>
 
   <script type="text/javascript" src="../protobufs.js" data-cover></script>
@@ -54,10 +50,7 @@
 
   <script type="text/javascript" src="fake_api.js"></script>
   <script type="text/javascript" src="testvectors.js"></script>
-  <script type="text/javascript" src="curve25519_test.js"></script>
   <script type="text/javascript" src="crypto_test.js"></script>
-  <script type="text/javascript" src="nativeclient_test.js"></script>
-  <script type="text/javascript" src="curve25519_compiled_test.js"></script>
   <script type="text/javascript" src="helpers_test.js"></script>
   <script type="text/javascript" src="websocket-resources_test.js"></script>
   <script type="text/javascript" src="protocol_test.js"></script>
