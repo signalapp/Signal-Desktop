@@ -17,8 +17,9 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    if (navigator.mimeTypes['application/x-nacl'] === undefined &&
-        navigator.mimeTypes['application/x-pnacl'] === undefined) {
+    if ((navigator.mimeTypes['application/x-nacl'] === undefined &&
+        navigator.mimeTypes['application/x-pnacl'] === undefined) ||
+        window.location.protocol != "chrome-extension:") {
             // browser does not support native client.
             return;
     }
