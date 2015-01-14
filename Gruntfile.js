@@ -103,10 +103,10 @@ module.exports = function(grunt) {
     compile: {
         curve25519_compiled: {
             src_files: [
-              'nacl/ed25519/additions/*.c',
-              'nacl/curve25519-donna.c',
-              'nacl/ed25519/*.c',
-              'nacl/ed25519/sha512/sha2big.c'
+              'native/ed25519/additions/*.c',
+              'native/curve25519-donna.c',
+              'native/ed25519/*.c',
+              'native/ed25519/sha512/sha2big.c'
             ],
             methods: [
               'curve25519_donna',
@@ -168,7 +168,7 @@ module.exports = function(grunt) {
           '-O2',
           '-Qunused-arguments',
           '-o',  outfile,
-          '-Inacl/ed25519/nacl_includes -Inacl/ed25519 -Inacl/ed25519/sha512',
+          '-Inative/ed25519/nacl_includes -Inative/ed25519 -Inative/ed25519/sha512',
           '-s', "EXPORTED_FUNCTIONS=\"[" + exported_functions.join(',') + "]\""];
       var command = [].concat('emcc', this.data.src_files, flags).join(' ');
       grunt.log.writeln('Compiling via emscripten to ' + outfile);
