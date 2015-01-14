@@ -86,32 +86,39 @@ window.textsecure.messaging = function() {
         });
     }
 
-    var sendGroupProto;
     var makeAttachmentPointer;
-    var refreshGroups = function(number) {
-        var groups = textsecure.storage.groups.getGroupListForNumber(number);
-        var promises = [];
-        for (var i in groups) {
-            var group = textsecure.storage.groups.getGroup(groups[i]);
+    var refreshGroup = function(number, groupId, devicesForNumber) {
+        groupId = getString(groupId);
 
-            var proto = new textsecure.protobuf.PushMessageContent();
-            proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
-
-            proto.group.id = toArrayBuffer(group.id);
-            proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
-            proto.group.members = group.numbers;
-            proto.group.name = group.name === undefined ? null : group.name;
-
-            if (group.avatar !== undefined) {
-                return makeAttachmentPointer(group.avatar).then(function(attachment) {
-                    proto.group.avatar = attachment;
-                    promises.push(sendGroupProto([number], proto));
-                });
-            } else {
-                promises.push(sendGroupProto([number], proto));
-            }
+        var doUpdate = false;
+        for (var i in devicesForNumber) {
+            if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, devicesForNumber[i].registrationId))
+                doUpdate = true;
         }
-        return Promise.all(promises);
+        if (!doUpdate)
+            return Promise.resolve(true);
+
+        var group = textsecure.storage.groups.getGroup(groupId);
+        var numberIndex = group.numbers.indexOf(number);
+        if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
+            return Promise.reject("Tried to refresh group to non-member");
+
+        var proto = new textsecure.protobuf.PushMessageContent();
+        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+
+        proto.group.id = toArrayBuffer(group.id);
+        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.members = group.numbers;
+        proto.group.name = group.name === undefined ? null : group.name;
+
+        if (group.avatar !== undefined) {
+            return makeAttachmentPointer(group.avatar).then(function(attachment) {
+                proto.group.avatar = attachment;
+                return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+            });
+        } else {
+            return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+        }
     }
 
     var tryMessageAgain = function(number, encodedMessage, message_id) {
@@ -120,12 +127,10 @@ window.textsecure.messaging = function() {
             textsecure.storage.removeEncrypted("devices" + number);
             var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
             sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
-                if (res.failure.length > 0) {
+                if (res.failure.length > 0)
                     message.set('errors', res.failure);
-                }
-                else {
+                else
                     message.set('errors', []);
-                }
                 message.save().then(function(){
                     extension.trigger('message', message); // notify frontend listeners
                 });
@@ -161,16 +166,19 @@ window.textsecure.messaging = function() {
                 var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
                 if (devicesForNumber.length == 0)
                     return registerError(number, "Got empty device list when loading device keys", null);
-                refreshGroups(number).then(function() {
-                    doSendMessage(number, devicesForNumber, recurse);
-                });
+                doSendMessage(number, devicesForNumber, recurse);
             }
         }
 
         doSendMessage = function(number, devicesForNumber, recurse) {
-            return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
-                successfulNumbers[successfulNumbers.length] = number;
-                numberCompleted();
+            var groupUpdate = Promise.resolve(true);
+            if (message.group && message.group.id)
+                groupUpdate = refreshGroup(number, message.group.id, devicesForNumber);
+            return groupUpdate.then(function() {
+                return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
+                    successfulNumbers[successfulNumbers.length] = number;
+                    numberCompleted();
+                });
             }).catch(function(error) {
                 if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
                     if (!recurse)
@@ -243,7 +251,7 @@ window.textsecure.messaging = function() {
         });
     }
 
-    sendGroupProto = function(numbers, proto, timestamp) {
+    var sendGroupProto = function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
         var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
         numbers = numbers.filter(function(number) { return number != me; });
