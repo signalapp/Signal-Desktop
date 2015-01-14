@@ -2,11 +2,6 @@
 {
     display: inline;
 }
-.dd-container
-{
-    float: left;
-    width: 60px !important;
-}
 #number
 {
     float: left;
@@ -14,41 +9,4 @@
     width: 197px !important;
     text-indent: 10px;
     font-size: 1em;
-}
-.dd-selected
-{
-    overflow: hidden;
-}
-.dd-selected-image, .dd-option-image
-{
-    max-width: 25px !important;
-    height: auto !important;
-}
-.dd-selected-text
-{
-    display: none !important;
-}  
-.dd-selected-description
-{
-    display: none !important;
-}
-.dd-options
-{
-    width: 350px !important;
-    overflow: scroll !important;
-    max-height: 350px !important;
-}
-.dd-option-text
-{
-    font-family: sans-serif !important;
-    line-height: 20px !important;
-}
-.dd-desc
-{
-    font-family: sans-serif !important;
-}
-.dd-select
-{
-    width: 60px !important;
-    height: 45px !important;
 }

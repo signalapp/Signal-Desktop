@@ -17,8 +17,7 @@
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
     "backbone.localstorage": "liliakai/Backbone.localStorage#master",
     "momentjs": "~2.8.3",
-    "indexeddb-backbonejs-adapter": "*",
-    "ddslick": "*"
+    "indexeddb-backbonejs-adapter": "*"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -84,9 +83,6 @@
     ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
-    ],
-    "ddslick": [
-      "jquery.ddslick.js"
     ]
   },
   "concat": {
@@ -102,8 +98,7 @@
       "qrcode",
       "libphonenumber-api",
       "momentjs",
-      "native-client",
-      "ddslick"
+      "native-client"
     ]
   }
 }
