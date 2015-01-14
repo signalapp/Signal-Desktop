@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 ;(function() {
-    window.textsecure = window.textsecure || {};
+    window.axolotl = window.axolotl || {};
 
     /*
      *  textsecure.crypto
@@ -22,7 +22,7 @@
      *    for all low-level crypto operations,
      */
 
-    window.textsecure.crypto = {
+    window.axolotl.crypto = {
         getRandomBytes: function(size) {
             // At some point we might consider XORing in hashes of random
             // UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
@@ -50,18 +50,18 @@
         HKDF: function(input, salt, info) {
             // Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
             // TODO: We dont always need the third chunk, we might skip it
-            return window.textsecure.crypto.sign(salt, input).then(function(PRK) {
+            return window.axolotl.crypto.sign(salt, input).then(function(PRK) {
                 var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
                 var infoArray = new Uint8Array(infoBuffer);
                 infoArray.set(new Uint8Array(info), 32);
                 infoArray[infoArray.length - 1] = 1;
-                return window.textsecure.crypto.sign(PRK, infoBuffer.slice(32)).then(function(T1) {
+                return window.axolotl.crypto.sign(PRK, infoBuffer.slice(32)).then(function(T1) {
                     infoArray.set(new Uint8Array(T1));
                     infoArray[infoArray.length - 1] = 2;
-                    return window.textsecure.crypto.sign(PRK, infoBuffer).then(function(T2) {
+                    return window.axolotl.crypto.sign(PRK, infoBuffer).then(function(T2) {
                         infoArray.set(new Uint8Array(T2));
                         infoArray[infoArray.length - 1] = 3;
-                        return window.textsecure.crypto.sign(PRK, infoBuffer).then(function(T3) {
+                        return window.axolotl.crypto.sign(PRK, infoBuffer).then(function(T3) {
                             return [ T1, T2, T3 ];
                         });
                     });
@@ -72,7 +72,7 @@
         // Curve 25519 crypto
         createKeyPair: function(privKey) {
             if (privKey === undefined) {
-                privKey = textsecure.crypto.getRandomBytes(32);
+                privKey = axolotl.crypto.getRandomBytes(32);
             }
             if (privKey.byteLength != 32) {
                 throw new Error("Invalid private key");

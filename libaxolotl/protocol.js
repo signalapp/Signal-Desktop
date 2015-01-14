@@ -47,7 +47,7 @@ window.textsecure.protocol = function() {
     }
 
     crypto_storage.getNewStoredKeyPair = function(keyName) {
-        return textsecure.crypto.createKeyPair().then(function(keyPair) {
+        return axolotl.crypto.createKeyPair().then(function(keyPair) {
             crypto_storage.putKeyPair(keyName, keyPair);
             return keyPair;
         });
@@ -191,11 +191,11 @@ window.textsecure.protocol = function() {
 
         info = toArrayBuffer(info); // TODO: maybe convert calls?
 
-        return textsecure.crypto.HKDF(input, salt, info);
+        return axolotl.crypto.HKDF(input, salt, info);
     }
 
     var verifyMAC = function(data, key, mac) {
-        return textsecure.crypto.sign(key, data).then(function(calculated_mac) {
+        return axolotl.crypto.sign(key, data).then(function(calculated_mac) {
             if (!isEqual(calculated_mac, mac, true))
                 throw new Error("Bad MAC");
         });
@@ -207,7 +207,7 @@ window.textsecure.protocol = function() {
     var calculateRatchet = function(session, remoteKey, sending) {
         var ratchet = session.currentRatchet;
 
-        return textsecure.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
+        return axolotl.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
             return HKDF(sharedSecret, toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
                 if (sending)
                     session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
@@ -240,9 +240,9 @@ window.textsecure.protocol = function() {
         for (var i = 0; i < 32; i++)
             sharedSecret[i] = 0xff;
 
-        return textsecure.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
+        return axolotl.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
             function finishInit() {
-                return textsecure.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
+                return axolotl.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
                     sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
                     return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
@@ -258,7 +258,7 @@ window.textsecure.protocol = function() {
                         // If we're initiating we go ahead and set our first sending ephemeral key now,
                         // otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
                         if (isInitiator) {
-                            return textsecure.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
+                            return axolotl.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
                                 session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
                                 return calculateRatchet(session, theirSignedPubKey, true).then(function() {
                                     return session;
@@ -276,17 +276,17 @@ window.textsecure.protocol = function() {
             if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
                 promise = Promise.resolve(new ArrayBuffer(0));
             else
-                promise = textsecure.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
+                promise = axolotl.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
             return promise.then(function(ecRes4) {
                 sharedSecret.set(new Uint8Array(ecRes4), 32 * 4);
 
                 if (isInitiator)
-                    return textsecure.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32);
                         sharedSecret.set(new Uint8Array(ecRes2), 32 * 2);
                     }).then(finishInit);
                 else
-                    return textsecure.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32 * 2);
                         sharedSecret.set(new Uint8Array(ecRes2), 32)
                     }).then(finishInit);
@@ -430,9 +430,9 @@ window.textsecure.protocol = function() {
         var key = toArrayBuffer(chain.chainKey.key);
         var byteArray = new Uint8Array(1);
         byteArray[0] = 1;
-        return textsecure.crypto.sign(key, byteArray.buffer).then(function(mac) {
+        return axolotl.crypto.sign(key, byteArray.buffer).then(function(mac) {
             byteArray[0] = 2;
-            return textsecure.crypto.sign(key, byteArray.buffer).then(function(key) {
+            return axolotl.crypto.sign(key, byteArray.buffer).then(function(key) {
                 chain.messageKeys[chain.chainKey.counter + 1] = mac;
                 chain.chainKey.key = key
                 chain.chainKey.counter += 1;
@@ -456,7 +456,7 @@ window.textsecure.protocol = function() {
                     delete session[previousRatchet];
                 }
 
-                return textsecure.crypto.createKeyPair().then(function(keyPair) {
+                return axolotl.crypto.createKeyPair().then(function(keyPair) {
                     ratchet.ephemeralKeyPair = keyPair;
                     return calculateRatchet(session, remoteKey, true).then(function() {
                         ratchet.lastRemoteEphemeralKey = remoteKey;
@@ -510,7 +510,7 @@ window.textsecure.protocol = function() {
                     macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
                     return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
-                        return window.textsecure.crypto.decrypt(keys[0], toArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
+                        return window.axolotl.crypto.decrypt(keys[0], toArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
                                     .then(function(paddedPlaintext) {
 
                             paddedPlaintext = new Uint8Array(paddedPlaintext);
@@ -563,7 +563,7 @@ window.textsecure.protocol = function() {
         var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
         return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.textsecure.crypto.decrypt(aes_key, ciphertext, iv);
+            return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
         });
     };
 
@@ -577,7 +577,7 @@ window.textsecure.protocol = function() {
         var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
         return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.textsecure.crypto.decrypt(aes_key, ciphertext, iv);
+            return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
         });
     };
 
@@ -585,12 +585,12 @@ window.textsecure.protocol = function() {
         var aes_key = keys.slice(0, 32);
         var mac_key = keys.slice(32, 64);
 
-        return window.textsecure.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
+        return window.axolotl.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
             var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
             ivAndCiphertext.set(new Uint8Array(iv));
             ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
 
-            return textsecure.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
+            return axolotl.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
                 var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
                 encryptedBin.set(ivAndCiphertext);
                 encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
@@ -639,7 +639,7 @@ window.textsecure.protocol = function() {
                     msg.counter = chain.chainKey.counter;
                     msg.previousCounter = session.currentRatchet.previousCounter;
 
-                    return window.textsecure.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
+                    return window.axolotl.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
                         msg.ciphertext = ciphertext;
                         var encodedMsg = toArrayBuffer(msg.encode());
 
@@ -649,7 +649,7 @@ window.textsecure.protocol = function() {
                         macInput[33*2] = (3 << 4) | 3;
                         macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
 
-                        return textsecure.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
+                        return axolotl.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
                             var result = new Uint8Array(encodedMsg.byteLength + 9);
                             result[0] = (3 << 4) | 3;
                             result.set(new Uint8Array(encodedMsg), 1);
@@ -677,7 +677,7 @@ window.textsecure.protocol = function() {
         preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 
         if (session === undefined) {
-            return textsecure.crypto.createKeyPair().then(function(baseKey) {
+            return axolotl.crypto.createKeyPair().then(function(baseKey) {
                 preKeyMsg.preKeyId = deviceObject.preKeyId;
                 preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
                 preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
@@ -733,7 +733,7 @@ window.textsecure.protocol = function() {
                 promises[i] = generateKey(i);
 
             promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
-                return textsecure.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+                return axolotl.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
                     keys.signedPreKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
                 });
             });
@@ -766,7 +766,7 @@ window.textsecure.protocol = function() {
             var masterEphemeral = toArrayBuffer(deviceInit.masterEphemeralPubKey);
             var message = toArrayBuffer(deviceInit.identityKeyMessage);
 
-            return textsecure.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
+            return axolotl.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
                 return HKDF(ecRes, masterEphemeral, "WhisperDeviceInit").then(function(keys) {
                     if (new Uint8Array(message)[0] != (3 << 4) | 3)
                         throw new Error("Bad version number on IdentityKeyMessage");
@@ -777,10 +777,10 @@ window.textsecure.protocol = function() {
                     var ciphertext = message.slice(16 + 1, message.length - 32);
 
                     return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
-                        window.textsecure.crypto.decrypt(ecRes[0], ciphertext, iv).then(function(plaintext) {
+                        window.axolotl.crypto.decrypt(ecRes[0], ciphertext, iv).then(function(plaintext) {
                             var identityKeyMsg = textsecure.protobuf.IdentityKey.decode(plaintext);
 
-                            textsecure.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
+                            axolotl.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
                                 crypto_storage.putKeyPair("identityKey", identityKeyPair);
                                 identityKeyMsg.identityKey = null;
 
@@ -792,7 +792,7 @@ window.textsecure.protocol = function() {
             });
         }
 
-        return textsecure.crypto.createKeyPair().then(function(newKeyPair) {
+        return axolotl.crypto.createKeyPair().then(function(newKeyPair) {
             keyPair = newKeyPair;
             socketInfo.pubKey = keyPair.pubKey;
             return socketInfo;
