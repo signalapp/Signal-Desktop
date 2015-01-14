@@ -142,3 +142,7 @@ h2 {
 input.form-control, select.form-control {
   border-radius: 0;
 }
+
+ul.country-list {
+  min-width: 197px !important;
+}
