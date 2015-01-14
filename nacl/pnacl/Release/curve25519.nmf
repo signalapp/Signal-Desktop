@@ -1,9 +1,0 @@
-{
-  "program": {
-    "portable": {
-      "pnacl-translate": {
-        "url": "curve25519_unstripped.pexe"
-      }
-    }
-  }
-}

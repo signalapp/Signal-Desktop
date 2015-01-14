@@ -138,7 +138,6 @@ h2 {
 #single-device form {
   margin: 2em 0;
 }
-#log, #listener { height: 0; }
 
 input.form-control, select.form-control {
   border-radius: 0;

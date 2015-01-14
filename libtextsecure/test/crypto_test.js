@@ -18,10 +18,6 @@
 window.assert = chai.assert;
 
 describe("Crypto", function() {
-    if (window.textsecure.nativeclient) {
-        it("supports Native Client", function() {});
-    }
-
     describe("Encrypt AES-CBC", function() {
         it('works', function(done) {
             var key = hexToArrayBuffer('603deb1015ca71be2b73aef0857d77811f352c073b6108d72d9810a30914dff4');

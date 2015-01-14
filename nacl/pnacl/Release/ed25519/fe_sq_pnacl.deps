@@ -1,8 +1,0 @@
-# Updated by fix_deps.py
-pnacl/Release/ed25519/fe_sq_pnacl.o: ed25519/fe_sq.c ed25519/fe.h \
-  ed25519/nacl_includes/crypto_int32.h \
-  ed25519/nacl_includes/crypto_int64.h
-ed25519/fe_sq.c:
-ed25519/fe.h:
-ed25519/nacl_includes/crypto_int32.h:
-ed25519/nacl_includes/crypto_int64.h:

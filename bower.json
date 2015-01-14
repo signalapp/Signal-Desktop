@@ -97,15 +97,13 @@
       "indexeddb-backbonejs-adapter",
       "qrcode",
       "libphonenumber-api",
-      "momentjs",
-      "native-client"
+      "momentjs"
     ],
     "lib": [
       "jquery",
       "long",
       "bytebuffer",
-      "protobuf",
-      "native-client"
+      "protobuf"
     ]
   }
 }

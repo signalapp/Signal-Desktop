@@ -22,11 +22,6 @@
      *    for all low-level crypto operations,
      */
 
-    function curve25519() {
-        // use native client opportunistically, since it's faster
-        return textsecure.nativeclient || window.curve25519;
-    }
-
     window.textsecure.crypto = {
         getRandomBytes: function(size) {
             // At some point we might consider XORing in hashes of random
@@ -83,7 +78,7 @@
                 throw new Error("Invalid private key");
             }
 
-            return curve25519().keyPair(privKey).then(function(raw_keys) {
+            return window.curve25519.keyPair(privKey).then(function(raw_keys) {
                 // prepend version byte
                 var origPub = new Uint8Array(raw_keys.pubKey);
                 var pub = new Uint8Array(33);
@@ -101,7 +96,7 @@
             if (pubKey === undefined || pubKey.byteLength != 32)
                 throw new Error("Invalid public key");
 
-            return curve25519().sharedSecret(pubKey, privKey);
+            return window.curve25519.sharedSecret(pubKey, privKey);
         },
         Ed25519Sign: function(privKey, message) {
             if (privKey === undefined || privKey.byteLength != 32)
@@ -110,7 +105,7 @@
             if (message === undefined)
                 throw new Error("Invalid message");
 
-            return curve25519().sign(privKey, message);
+            return window.curve25519.sign(privKey, message);
         },
         Ed25519Verify: function(pubKey, msg, sig) {
             pubKey = validatePubKeyFormat(pubKey);
@@ -124,7 +119,7 @@
             if (sig === undefined || sig.byteLength != 64)
                 throw new Error("Invalid signature");
 
-            return curve25519().verify(pubKey, msg, sig);
+            return window.curve25519.verify(pubKey, msg, sig);
         }
     };
 

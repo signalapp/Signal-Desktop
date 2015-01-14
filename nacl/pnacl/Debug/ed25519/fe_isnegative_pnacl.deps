@@ -1,6 +1,0 @@
-# Updated by fix_deps.py
-pnacl/Debug/ed25519/fe_isnegative_pnacl.o: ed25519/fe_isnegative.c \
-  ed25519/fe.h ed25519/nacl_includes/crypto_int32.h
-ed25519/fe_isnegative.c:
-ed25519/fe.h:
-ed25519/nacl_includes/crypto_int32.h:
