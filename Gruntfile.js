@@ -84,6 +84,11 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js'],  // add 'src/**/*.js', 'test/**/*.js'
       options: { jshintrc: '.jshintrc' },
     },
+    jscs: {
+      all: {
+        src: ['js/**/*.js', '!js/components.js', 'test/**/*.js']
+      }
+    },
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint']
@@ -149,7 +154,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('dev', ['connect', 'watch']);
-  grunt.registerTask('test', ['jshint', 'connect', 'saucelabs-mocha']);
+  grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
   grunt.registerTask('build', ['compile', 'concat:curve25519']);
 
