@@ -90,6 +90,11 @@ window.textsecure.utils = function() {
         return number.split(".");
     };
 
+    self.isNumberSane = function(number) {
+        return number[0] == "+" &&
+            /^[0-9]+$/.test(number.substring(1));
+    }
+
     /**************************
      *** JSON'ing Utilities ***
      **************************/
@@ -189,9 +194,11 @@ textsecure.processDecrypted = function(decrypted, source) {
                 if (decrypted.group.avatar !== null)
                     promises.push(handleAttachment(decrypted.group.avatar));
 
-                if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0) {
+                if (decrypted.group.members.filter(function(number) { return !textsecure.utils.isNumberSane(number); }).length != 0)
+                    throw new Error("Invalid number in new group members");
+
+                if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
                     throw new Error("Attempted to remove numbers from group with an UPDATE");
-                }
                 decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
 
                 var newGroup = textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added);
@@ -204,8 +211,6 @@ textsecure.processDecrypted = function(decrypted, source) {
                 if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null) {
                     return;
                 }
-
-                //TODO: Strictly verify all numbers (ie dont let verifyNumber do any user-magic tweaking)
 
                 decrypted.body = null;
                 decrypted.attachments = [];

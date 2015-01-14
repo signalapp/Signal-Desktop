@@ -10,6 +10,11 @@ module.exports = function(grunt) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 
+  var libcomponents = [];
+  for (i in bower.concat.lib) {
+    libcomponents.push('components/' + bower.concat.lib[i] + '/**/*.js');
+  }
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
@@ -17,12 +22,16 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
+      libcomponents: {
+        src: libcomponents,
+        dest: 'libtextsecure/components.js',
+      },
       curve25519: {
         src: [
           'build/curve25519_compiled.js',
           'build/curve25519.js',
         ],
-        dest: 'js/curve25519_compiled.js',
+        dest: 'libtextsecure/curve25519_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -40,7 +49,7 @@ module.exports = function(grunt) {
           'components/cryptojs/src/aes.js',
           'build/webcrypto.js'
         ],
-        dest: 'js/webcrypto.js',
+        dest: 'libtextsecure/webcrypto_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -53,6 +62,36 @@ module.exports = function(grunt) {
           'test/_test.js'
         ],
         dest: 'test/test.js',
+      },
+      libtextsecure: {
+        src: [
+          'libtextsecure/curve25519_concat.js',
+          'libtextsecure/nativeclient.js',
+          'libtextsecure/webcrypto_concat.js',
+
+          'libtextsecure/protobufs.js',
+          'libtextsecure/websocket.js',
+          'libtextsecure/websocket-resources.js',
+          'libtextsecure/helpers.js',
+          'libtextsecure/errors.js',
+          'libtextsecure/stringview.js',
+          'libtextsecure/storage.js',
+          'libtextsecure/storage/devices.js',
+          'libtextsecure/storage/groups.js',
+          'libtextsecure/api.js',
+          'libtextsecure/crypto.js',
+          'libtextsecure/protocol.js',
+          'libtextsecure/sendmessage.js',
+        ],
+        dest: 'js/libtextsecure.js',
+      },
+      libtextsecuretest: {
+        src: [
+          'components/mocha/mocha.js',
+          'components/chai/chai.js',
+          'libtextsecure/test/_test.js'
+        ],
+        dest: 'libtextsecure/test/test.js',
       }
     },
     sass: {
@@ -104,9 +143,9 @@ module.exports = function(grunt) {
     'saucelabs-mocha': {
       all: {
         options: {
-          urls: ['http://127.0.0.1:9999/test/index.html'],
+          urls: ['http://127.0.0.1:9999/test/index.html', 'http://127.0.0.1:9999/libtextsecure/test/index.html'],
           build: process.env.TRAVIS_JOB_ID,
-          browsers: [{ browserName: 'chrome', version: '38' }],
+          browsers: [{ browserName: 'chrome', version: '38' }, { browserName: 'firefox', version: '34' }],
           testname: 'TextSecure-Browser Tests'
         }
       }
