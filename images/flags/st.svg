@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1207"
+   sodipodi:version="0.33pre"
+   width="512"
+   height="512"
+   sodipodi:docname="st.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     snaptogrid="false"
+     inkscape:zoom="0.98242188"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1207" />
+  <metadata
+     id="metadata3328">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1209">
+    <clipPath
+       id="clipPath4428"
+       clipPathUnits="userSpaceOnUse">
+      <rect
+         y="0"
+         width="512"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         x="0"
+         height="512"
+         id="rect4430" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3036">
+      <rect
+         id="rect3038"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     clip-path="url(#clipPath3036)"
+     inkscape:label="#g2998">
+    <rect
+       y="-1.3872538e-05"
+       x="0"
+       height="504.30481"
+       width="1024"
+       id="rect3472"
+       style="font-size:12px;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt" />
+    <rect
+       y="-2.5191425e-06"
+       x="7.8441641e-05"
+       height="146.28575"
+       width="1023.9998"
+       id="rect1276"
+       style="font-size:12px;fill:#009d00;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt" />
+    <rect
+       y="365.71429"
+       x="0"
+       height="146.28569"
+       width="1023.9998"
+       id="rect3471"
+       style="font-size:12px;fill:#009d00;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt" />
+    <path
+       sodipodi:nodetypes="cccc"
+       id="path570"
+       d="M 0.70830431,-1.6777871e-5 C 2.1249119,-1.6777871e-5 255.99947,253.03214 255.99947,253.03214 L 0,512 0.70830431,-1.6777871e-5 z"
+       style="font-size:12px;fill:#f10600;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="matrix(0.78651383,0,0,0.78651383,-154.6612,-225.35543)"
+       id="g1310">
+      <polygon
+         transform="matrix(0.709044,0,0,0.730348,367.0069,360.9774)"
+         id="polygon136"
+         style="font-size:12px;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+         points="591.041,433.161 591.041,433.161 533.774,391.476 476.501,433.151 498.449,365.806 441.115,324.214 511.946,324.278 533.785,256.897 555.613,324.281 626.445,324.23 569.104,365.812 " />
+      <polygon
+         transform="matrix(0.709044,0,0,0.730348,116.6428,360.9774)"
+         id="polygon1309"
+         style="font-size:12px;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+         points="591.041,433.161 591.041,433.161 533.774,391.476 476.501,433.151 498.449,365.806 441.115,324.214 511.946,324.278 533.785,256.897 555.613,324.281 626.445,324.23 569.104,365.812 " />
+    </g>
+  </g>
+</svg>

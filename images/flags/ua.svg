@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="ua.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview4172"
+     showgrid="false"
+     inkscape:zoom="0.4021669"
+     inkscape:cx="531.495"
+     inkscape:cy="385.41213"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <metadata
+     id="metadata4174">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380" />
+  <g
+     transform="matrix(0.48166023,0,0,0.7224893,0,2.4115845e-6)"
+     id="flag"
+     inkscape:label="#g4901">
+    <rect
+       width="1062.99"
+       height="708.66101"
+       x="0"
+       y="0"
+       style="font-size:12px;fill:#ffff0b;fill-rule:evenodd;stroke-width:1pt"
+       id="rect171" />
+    <rect
+       width="1062.99"
+       height="354.33099"
+       x="0"
+       y="0"
+       style="font-size:12px;fill:#268cff;fill-rule:evenodd;stroke-width:1pt"
+       id="rect403" />
+  </g>
+</svg>

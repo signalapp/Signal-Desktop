@@ -293,3 +293,11 @@ ul.discussion {
 @media screen and (min-width: 822px) {
   .send-message-area {
     padding-right: 258px; } }
+.number {
+  float: left;
+  height: 45px !important;
+  width: 197px !important;
+  text-indent: 10px;
+  font-size: 1em; }
+
+/*# sourceMappingURL=manifest.css.map */

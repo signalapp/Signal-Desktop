@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!-- /Creative Commons Public Domain -->
+
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:title>SVG graphic of Puerto Rico flag</dc:title>
+   <dc:rights><Agent>
+      <dc:title>Ricardo Veguilla González</dc:title>
+   </Agent></dc:rights>
+   <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+</rdf:RDF>
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="pr.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     id="namedview3700"
+     showgrid="false"
+     inkscape:zoom="0.4021669"
+     inkscape:cx="531.495"
+     inkscape:cy="385.41213"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <metadata
+     id="metadata3702">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs380">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6343">
+      <rect
+         id="rect6345"
+         height="708.66101"
+         x="51.624222"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="708.66101"
+         y="-3.3378826e-06" />
+    </clipPath>
+  </defs>
+  <g
+     transform="matrix(0.7224893,0,0,0.7224893,-37.297948,2.4115845e-6)"
+     id="flag"
+     clip-path="url(#clipPath6343)"
+     inkscape:label="#g6315">
+    <rect
+       width="1062.99"
+       height="708.66101"
+       x="0"
+       y="0"
+       style="font-size:12px;fill:#ed0000;fill-rule:evenodd;stroke-width:1pt"
+       id="rect149" />
+    <rect
+       width="1062.99"
+       height="141.73199"
+       x="0"
+       y="141.73199"
+       style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+       id="rect280" />
+    <rect
+       width="1062.99"
+       height="141.73199"
+       x="0"
+       y="425.19699"
+       style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+       id="rect281" />
+    <path
+       inkscape:connector-curvature="0"
+       d="M 0,0 609.958,353.876 0,707.296 0,0 z"
+       style="font-size:12px;fill:#0050f0;fill-rule:evenodd;stroke-width:1pt"
+       id="path279" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 266.186,534.45 -10.408,-7.432 -10.357,7.505 3.852,-12.196 -10.338,-7.531 12.79,-0.105 3.967,-12.159 4.052,12.131 12.79,0.016 -10.285,7.602 3.937,12.169 z"
+       transform="matrix(6.30967,0,0,6.59872,-1411.38,-3076.2)"
+       style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.112872"
+       id="path205" />
+  </g>
+</svg>

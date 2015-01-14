@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:title>SVG graphic of Western Sahara's Flag</dc:title>
+   <dc:rights><Agent>
+      <dc:title>Andrew Duhan</dc:title>
+   </Agent></dc:rights>
+   <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+
+</rdf:RDF>
+
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg607"
+   sodipodi:version="0.32"
+   width="512"
+   height="512"
+   sodipodi:docname="eh.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.98242188"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg607" />
+  <metadata
+     id="metadata3053">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs609">
+    <clipPath
+       id="clipPath5337"
+       clipPathUnits="userSpaceOnUse">
+      <rect
+         y="0.00012859597"
+         width="312.49997"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         x="109.86327"
+         height="312.49997"
+         id="rect5339" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3036">
+      <rect
+         id="rect3038"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     clip-path="url(#clipPath3036)"
+     inkscape:label="#g2998">
+    <rect
+       style="font-size:12px;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect611"
+       width="1024.0001"
+       height="256.00003"
+       x="-180"
+       y="-3.0517578e-05" />
+    <rect
+       style="font-size:12px;fill:#107b00;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect612"
+       width="1024.0001"
+       height="256.00006"
+       x="-180"
+       y="255.99988" />
+    <rect
+       style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="rect643"
+       width="1024.0001"
+       height="176.12801"
+       x="-180"
+       y="169.30821" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ff00ff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 309.97669,195.54613 c -45.20183,-19.42323 -84.10728,20.64384 -84.06304,58.08456 0.0459,39.15777 38.02071,80.91895 86.16838,62.43124 -34.08691,-10.03847 -48.15586,-35.21577 -48.1493,-60.67979 -0.24576,-25.21661 15.88592,-54.5407 46.04396,-59.83601 z"
+       id="path645"
+       sodipodi:nodetypes="cscsc" />
+    <polygon
+       d="m 331.8761,176.56204 -15.90909,-11.31718 -15.71867,11.7239 5.8471,-18.62764 -16.00743,-11.32646 19.5228,-0.19533 5.82553,-18.72404 6.21865,18.50692 19.60781,-0.24564 -15.67946,11.63324 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:type="star"
+       style="font-size:12px;fill:#ff1800;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+       id="polygon644"
+       sodipodi:sides="5"
+       sodipodi:cx="315.78232"
+       sodipodi:cy="154.99947"
+       sodipodi:r1="26.906403"
+       sodipodi:r2="10.247056"
+       sodipodi:arg1="0.9296189"
+       sodipodi:arg2="1.5527715"
+       points="331.876,176.562 315.967,165.245 300.248,176.969 306.095,158.341 290.088,147.015 309.611,146.819 315.436,128.095 321.655,146.602 341.263,146.357 325.583,157.99 331.876,176.562 "
+       transform="matrix(1.638274,0.02029765,-0.02029765,1.638274,-176.99263,-1.7807421)" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 314.33647,315.64742 c -50.51679,17.5358 -88.55389,-20.48 -89.21581,-59.45591 -0.66027,-38.9759 37.58982,-79.16749 89.47304,-60.86493 -29.35522,4.35323 -50.91165,30.08103 -51.16888,59.16919 -0.19661,21.99388 12.81065,53.34467 50.91165,61.15165 z"
+       id="path648"
+       sodipodi:nodetypes="cscsc" />
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="M -179.98351,4.3251969e-5 168.63443,256.61769 l -348.63439,255.38237 0.002,-509.3782987 0.0148,-2.621718048031 z"
+       id="path615"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

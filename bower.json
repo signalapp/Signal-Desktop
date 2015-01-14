@@ -17,7 +17,8 @@
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
     "backbone.localstorage": "liliakai/Backbone.localStorage#master",
     "momentjs": "~2.8.3",
-    "indexeddb-backbonejs-adapter": "*"
+    "indexeddb-backbonejs-adapter": "*",
+    "msdropdown": "git://github.com/marghoobsuleman/ms-Dropdown"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -83,6 +84,15 @@
     ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
+    ],
+    "msdropdown": [
+      "css/msdropdown/dd.css",
+      "css/msdropdown/flags.css",
+      "js/msdropdown/jquery.dd.js",
+      "images/msdropdown/icons/blank.gif",
+      "images/msdropdown/icons/flagssprite_small.png",
+      "images/msdropdown/skin1/dd_arrow.gif",
+      "images/msdropdown/skin1/title-bg.gif"
     ]
   },
   "concat": {
@@ -98,7 +108,8 @@
       "qrcode",
       "libphonenumber-api",
       "momentjs",
-      "native-client"
+      "native-client",
+      "msdropdown"
     ]
   }
 }

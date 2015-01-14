@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<!-- /Creative Commons Public Domain -->
+
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:title>Nepal SVG Flag</dc:title>
+   <dc:rights><Agent>
+      <dc:title>Tobias Jakobs</dc:title>
+   </Agent></dc:rights>
+   <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
+</Work>
+
+<License rdf:about="http://web.resource.org/cc/PublicDomain">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+</License>
+</rdf:RDF>
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg548"
+   sodipodi:version="0.33pre"
+   width="512"
+   height="512"
+   sodipodi:docname="np.svg"
+   version="1.1"
+   inkscape:version="0.48.1 r9760">
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.47574604"
+     inkscape:cx="-183.02081"
+     inkscape:cy="248.03149"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg548" />
+  <metadata
+     id="metadata3171">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs550">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8578">
+      <rect
+         id="rect8580"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="-15.957393" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath9289">
+      <rect
+         id="rect9291"
+         height="512"
+         x="0"
+         style="fill:#000000;fill-opacity:0.67000002;stroke:none"
+         width="512"
+         y="0" />
+    </clipPath>
+  </defs>
+  <g
+     id="flag"
+     clip-path="url(#clipPath9289)"
+     inkscape:label="#g9254">
+    <rect
+       id="rect8734"
+       height="512"
+       x="0"
+       style="width:0;stroke:none;fill-opacity:1;fill:#ffffff"
+       width="512"
+       y="0" />
+    <g
+       clip-path="url(#clipPath8578)"
+       id="g8553"
+       transform="translate(0,15.957393)">
+      <g
+         id="g8531"
+         transform="matrix(1.0432422,0,0,1.0432422,-0.00240513,-21.449966)">
+        <path
+           sodipodi:nodetypes="cccccc"
+           id="path552"
+           d="M 6.27122,489.827 369.372,489.824 131.709,248.807 378.318,249.096 6.29398,11.4805 6.27122,489.827 z"
+           style="font-size:12px;fill:#ce0000;fill-rule:evenodd;stroke:#000063;stroke-width:12.43120003;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+        <polygon
+           sodipodi:arg1="0"
+           sodipodi:r2="39.732399"
+           sodipodi:r1="60.115585"
+           sodipodi:sides="16"
+           transform="matrix(1.230083,0,0,1.199659,-192.062,-266.1039)"
+           points="296.979,523.243 275.949,530.379 292.403,546.248 270.243,544.793 279.371,565.751 259.456,555.927 259.868,578.782 245.228,562.085 236.863,583.359 229.727,562.329 213.858,578.782 215.313,556.623 194.355,565.751 204.179,545.835 181.324,546.248 198.021,531.608 176.748,523.243 197.777,516.107 181.324,500.238 203.483,501.693 194.355,480.735 214.271,490.559 213.858,467.703 228.498,484.401 236.863,463.127 243.999,484.157 259.868,467.703 258.413,489.863 279.371,480.735 269.547,500.65 292.403,500.238 275.705,514.878 296.979,523.243 "
+           sodipodi:arg2="0.18057635"
+           sodipodi:cy="523.24292"
+           sodipodi:cx="236.8631"
+           id="polygon555"
+           style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+           sodipodi:type="star"
+           inkscape:flatsided="false"
+           inkscape:rounded="0"
+           inkscape:randomized="0"
+           d="m 296.97868,523.24292 -21.02922,7.1358 16.4532,15.86944 -22.15922,-1.45491 9.1278,20.95781 -19.91568,-9.82413 0.41278,22.85555 -14.64016,-16.69771 -8.36508,21.27374 -7.1358,-21.02923 -15.86944,16.4532 1.45491,-22.15922 -20.95781,9.1278 9.82413,-19.91568 -22.85555,0.41278 16.69771,-14.64016 -21.27374,-8.36508 21.02922,-7.1358 -16.45319,-15.86944 22.15922,1.45491 -9.1278,-20.95781 19.91568,9.82413 -0.41278,-22.85555 14.64016,16.69771 8.36508,-21.27374 7.1358,21.02923 15.86944,-16.4532 -1.45492,22.15922 20.95782,-9.1278 -9.82413,19.91568 22.85555,-0.41278 -16.69772,14.64016 z" />
+        <path
+           sodipodi:nodetypes="ccccscccccccccccccccccc"
+           id="path563"
+           d="m 142.178,184.595 -10.861,8.04 5.353,4.423 c 13,-10.048 22.25,-19.231 29.48,-34.471 1.695,20.342 -16.951,66.004 -65.884,66.508 -52.3712,-0.044 -70.5434,-48.492 -68.5222,-67.366 9.621,17.455 15.492,25.966 30.5937,35.054 l 4.6206,-4.241 -10.2292,-8.523 13.168,-3.424 -7.0846,-11.924 13.796,1.005 -1.7336,-13.885 12.0935,7.077 3.784,-12.926 8.6895,10.411 8.1403,-9.87 4.432,13.411 11.301,-7.864 -1.449,13.639 13.548,-1.59 -6.351,12.608 13.115,3.908 z"
+           style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+           inkscape:connector-curvature="0" />
+      </g>
+    </g>
+  </g>
+</svg>

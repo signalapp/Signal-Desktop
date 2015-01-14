@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1"
+   x="0"
+   y="0"
+   width="512"
+   height="512"
+   id="svg378"
+   sodipodi:version="0.32-hydra1"
+   sodipodi:docname="at.svg"
+   inkscape:version="0.48.1 r9760">
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     id="base"
+     showgrid="false"
+     inkscape:zoom="0.27057957"
+     inkscape:cx="531.49426"
+     inkscape:cy="511.32922"
+     inkscape:window-width="1280"
+     inkscape:window-height="723"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg378" />
+  <defs
+     id="defs380" />
+  <g
+     id="flag"
+     inkscape:label="#g5211">
+    <rect
+       transform="scale(-1,-1)"
+       id="rect149"
+       style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke:none"
+       y="-512"
+       x="-512"
+       height="512"
+       width="512" />
+    <rect
+       transform="scale(-1,-1)"
+       id="rect148"
+       style="font-size:12px;fill:#df0000;fill-rule:evenodd;stroke:none"
+       y="-512"
+       x="-512"
+       height="170.66667"
+       width="512" />
+    <rect
+       transform="scale(-1,-1)"
+       id="rect585"
+       style="font-size:12px;fill:#df0000;fill-rule:evenodd;stroke:none"
+       y="-170.80479"
+       x="-512"
+       height="170.66667"
+       width="512" />
+  </g>
+</svg>
