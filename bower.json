@@ -17,7 +17,8 @@
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
     "backbone.localstorage": "liliakai/Backbone.localStorage#master",
     "momentjs": "~2.8.3",
-    "indexeddb-backbonejs-adapter": "*"
+    "indexeddb-backbonejs-adapter": "*",
+    "intl-tel-input": "~4.0.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -83,6 +84,11 @@
     ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
+    ],
+    "intl-tel-input": [
+      "build/css/intlTelInput.css",
+      "build/img/flags.png",
+      "build/js/intlTelInput.js"
     ]
   },
   "concat": {
@@ -97,7 +103,8 @@
       "indexeddb-backbonejs-adapter",
       "qrcode",
       "libphonenumber-api",
-      "momentjs"
+      "momentjs",
+      "intl-tel-input"
     ],
     "lib": [
       "jquery",
