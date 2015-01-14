@@ -106,8 +106,13 @@
       "intl-tel-input",
       "backbone.typeahead"
     ],
-    "lib": [
+    "libtextsecure": [
       "jquery",
+      "long",
+      "bytebuffer",
+      "protobuf"
+    ],
+    "libaxolotl": [
       "long",
       "bytebuffer",
       "protobuf"

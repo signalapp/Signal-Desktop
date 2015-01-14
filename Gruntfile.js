@@ -10,9 +10,14 @@ module.exports = function(grunt) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 
-  var libcomponents = [];
-  for (i in bower.concat.lib) {
-    libcomponents.push('components/' + bower.concat.lib[i] + '/**/*.js');
+  var libaxolotlcomponents = [];
+  for (i in bower.concat.libaxolotl) {
+    libaxolotlcomponents.push('components/' + bower.concat.libaxolotl[i] + '/**/*.js');
+  }
+
+  var libtextsecurecomponents = [];
+  for (i in bower.concat.libtextsecure) {
+    libtextsecurecomponents.push('components/' + bower.concat.libtextsecure[i] + '/**/*.js');
   }
 
   grunt.initConfig({
@@ -22,8 +27,12 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
-      libcomponents: {
-        src: libcomponents,
+      libaxolotlcomponents: {
+        src: libaxolotlcomponents,
+        dest: 'libaxolotl/components.js',
+      },
+      libtextsecurecomponents: {
+        src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
       },
       curve25519: {
@@ -31,7 +40,7 @@ module.exports = function(grunt) {
           'build/curve25519_compiled.js',
           'build/curve25519.js',
         ],
-        dest: 'libtextsecure/curve25519_concat.js',
+        dest: 'libaxolotl/curve25519_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -49,7 +58,7 @@ module.exports = function(grunt) {
           'components/cryptojs/src/aes.js',
           'build/webcrypto.js'
         ],
-        dest: 'libtextsecure/webcrypto_concat.js',
+        dest: 'libaxolotl/webcrypto_concat.js',
         options: {
           banner: ';(function(){\n',
           footer: '\n})();'
@@ -63,23 +72,31 @@ module.exports = function(grunt) {
         ],
         dest: 'test/test.js',
       },
+      libaxolotl: {
+        src: [
+          'libaxolotl/curve25519_concat.js',
+          'libaxolotl/webcrypto_concat.js',
+          'libaxolotl/components.js',
+
+          'libaxolotl/groups_storage.js',
+          'libaxolotl/crypto.js',
+          'libaxolotl/protocol.js',
+        ],
+        dest: 'libtextsecure/libaxolotl_concat.js',
+      },
       libtextsecure: {
         src: [
-          'libtextsecure/curve25519_concat.js',
-          'libtextsecure/webcrypto_concat.js',
+          'libtextsecure/libaxolotl_concat.js',
 
+          'libtextsecure/storage.js',
+          'libtextsecure/storage/devices.js',
           'libtextsecure/protobufs.js',
           'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
           'libtextsecure/helpers.js',
           'libtextsecure/errors.js',
           'libtextsecure/stringview.js',
-          'libtextsecure/storage.js',
-          'libtextsecure/storage/devices.js',
-          'libtextsecure/storage/groups.js',
           'libtextsecure/api.js',
-          'libtextsecure/crypto.js',
-          'libtextsecure/protocol.js',
           'libtextsecure/sendmessage.js',
         ],
         dest: 'js/libtextsecure.js',
