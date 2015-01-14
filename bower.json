@@ -90,7 +90,8 @@
       "css/msdropdown/flags.css",
       "js/msdropdown/jquery.dd.js",
       "images/msdropdown/icons/blank.gif",
-      "images/msdropdown/icons/flagssprite_small.png"
+      "images/msdropdown/icons/flagssprite_small.png",
+      "images/msdropdown/skin1/dd_arrow.gif"
     ]
   },
   "concat": {
