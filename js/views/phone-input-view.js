@@ -12,11 +12,14 @@ var Whisper = Whisper || {};
 		},
 
 		render: function() {
-			this.$el.html(Mustache.render(this.template, {}));
+			this.$el.html($(Mustache.render(this.template)));
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-					$('#regionCode').append(
+					$('select.regionCode').append(
 					$('<option>', { value: regionCode, text: countryName}));
+					console.log(countryName);
+
 			});
+			console.log(this.$el);
             return this;
 		},
 
@@ -27,12 +30,12 @@ var Whisper = Whisper || {};
 
 		validateNumber: function() {
 			try {
-				var regionCode = $('#regionCode').val();
-				var number = $('#number').val();
+				var regionCode = $('select.regionCode').val();
+				var number = $('input.number').val();
 
 				var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
-				$('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
+				$('select.regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
 				$('#number-container').removeClass('invalid');
 				$('#number-container').addClass('valid');
 				return parsedNumber;

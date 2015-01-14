@@ -293,10 +293,7 @@ ul.discussion {
 @media screen and (min-width: 822px) {
   .send-message-area {
     padding-right: 258px; } }
-#phone-input-form {
-  display: inline; }
-
-#number {
+.number {
   float: left;
   height: 45px !important;
   width: 197px !important;

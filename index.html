@@ -32,6 +32,16 @@
             </div>
             <div id='contacts'></div>
         </div>
+        <script type="text/x-tmpl-mustache" id="phone-number">
+            <div class="phone-input-form">
+                <select class="regionCode">
+                    <option value="ZZ" selected>Country</option>
+                </select>
+                <div id="number-container">
+                    <input type="text" class="number" placeholder="Phone Number" />
+                </div>
+            </div>
+        </script>
         <script type='text/x-tmpl-mustache' id='conversation'>
             <div class='discussion-container'></div>
             <div class='send-message-area'>
@@ -83,6 +93,7 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-message-form'>
           <form class='send message'>
+            <div class="phone-number-input"></div>
             <input type='text' name='number' class='number' placeholder='Phone number'>
             <div class='send-message-area'>
                 <div class='message-composer'>
@@ -129,16 +140,6 @@
             </div>
           </form>
         </script>
-        <script type="text/x-tmpl-mustache" id="phone-number">
-            <div id="phone-input-form">
-                <select id="regionCode">
-                    <option value="ZZ" selected>Country</option>
-                </select>
-                <div id="number-container">
-                    <input type="text" id="number" placeholder="Phone Number" />
-                </div>
-            </div>
-        </script>
         <script type="text/javascript" src="js/components.js"></script>
         <script type="text/javascript" src="js/database.js"></script>
 
@@ -168,13 +169,13 @@
 
         <script type="text/javascript" src="js/chromium.js"></script>
         <script type="text/javascript" src="js/views/notifications.js"></script>
-        <script type="text/javascript" src="js/views/phone-input-view.js"></script>
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
         <script type="text/javascript" src="js/views/group_update_view.js"></script>
         <script type="text/javascript" src="js/views/attachment_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
+        <script type="text/javascript" src="js/views/phone-input-view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_view.js"></script>
