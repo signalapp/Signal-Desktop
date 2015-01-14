@@ -752,7 +752,8 @@ window.textsecure.protocol = function() {
     }
 
     //TODO: Dont always update prekeys here
-    if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
+    //XXX: This is busted as fuck
+    if (axolotl.api.storage.get("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
         new Promise(function(resolve) { resolve(self.generateKeys()); });
     }
 
