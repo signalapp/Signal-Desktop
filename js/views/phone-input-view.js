@@ -13,13 +13,15 @@ var Whisper = Whisper || {};
 
 		render: function() {
 			this.$el.html($(Mustache.render(this.template)));
+			var regionCodes = [];
+			var countryNames = [];
 			$.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-					$('select.regionCode').append(
-					$('<option>', { value: regionCode, text: countryName}));
-					console.log(countryName);
-
+					regionCodes.push(regionCode);
+					countryNames.push(countryName);
 			});
-			console.log(this.$el);
+			for (var i = 0; i < regionCodes.length; i++) {
+				this.$el.find('select.regionCode').append($('<option>', { value: regionCodes[i], text: countryNames[i]}));
+			}
             return this;
 		},
 
