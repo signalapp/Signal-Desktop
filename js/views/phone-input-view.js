@@ -38,11 +38,9 @@ var Whisper = Whisper || {};
 				$('#regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
 				$('#number-container').removeClass('invalid');
 				$('#number-container').addClass('valid');
-				$('#request-sms, #request-voice').removeAttr('disabled');
 				return parsedNumber;
 			} catch(e) {
 				$('#number-container').removeClass('valid');
-				$('#request-sms, #request-voice').prop('disabled', 'disabled');
 			}
 		}
 	});

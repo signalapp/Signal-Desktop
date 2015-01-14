@@ -33,6 +33,15 @@
             $('#setup-complete').show().addClass('in');
         } else {
             $('#choose-setup').show().addClass('in');
+
+            $('#number').on('keyup', function() {
+                if ($('#number-container').hasClass('valid')) {
+                    $('#request-sms, #request-voice').removeAttr('disabled');
+                } else {
+                    $('#request-sms, #request-voice').prop('disabled', 'disabled');
+                }
+            });
+
             $('#code').on('change', function() {
                 if (!validateCode())
                     $('#code').addClass('invalid');
