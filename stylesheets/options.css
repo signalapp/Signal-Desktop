@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,51 +13,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 * {
-  font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif;
-}
+  font-family: Ubuntu, Segoe, 'Lucidia Grande', sans-serif; }
 
 .paper {
   background-color: #fafafa;
-  @include box-shadow(5px 0 5px -2px #ddd, -5px 0 5px -2px #ddd);
-}
-
+  box-shadow: 5px 0 5px -2px #ddd;
+  box-shadow: -5px 0 5px -2px #ddd; }
 
 h1 {
   font-size: 30pt;
   font-weight: normal;
-  padding-bottom: 10px;
-}
+  padding-bottom: 10px; }
 
 h2 {
   font-size: 12pt;
-  font-weight: normal;
-}
+  font-weight: normal; }
 
 .left-column {
   float: left;
-  width: 45%;
-}
+  width: 45%; }
 
 .right-column {
   float: right;
-  width: 50%;
-}
+  width: 50%; }
 
 .hidden {
-  display: none;
-}
+  display: none; }
 
 #textsecure-icon {
   width: 50px;
-  height: 50px;
-}
+  height: 50px; }
 
 #setup-qr {
   max-width: 256px;
-  margin-top: 1em;
-}
+  margin-top: 1em; }
 
 #verifyCode,
 #code,
@@ -64,31 +55,28 @@ h2 {
   box-sizing: border-box;
   width: 100%;
   display: block;
-  margin-bottom: 0.5em;
-}
+  margin-bottom: 0.5em; }
 
 #request-voice,
 #request-sms {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
+
 #request-sms {
   width: 57%;
-  float: right;
-}
+  float: right; }
+
 #request-voice {
   width: 40%;
-  float: left;
-}
+  float: left; }
 
 #regionCode {
   width: 100%;
-  margin-bottom: 1em;
-}
+  margin-bottom: 1em; }
 
 #number-container {
   position: relative;
-  margin-bottom: 0.5em;
-}
+  margin-bottom: 0.5em; }
+
 #number-container::after {
   visibility: hidden;
   content: ' ';
@@ -102,43 +90,43 @@ h2 {
   top: 0;
   left: 100%;
   margin: 3px 8px;
-  text-align: center;
-}
+  text-align: center; }
+
 #number-container.valid::after {
   visibility: visible;
   content: '✓';
   background-color: #0f9d58;
-  color: #ffffff;
-}
+  color: #ffffff; }
+
 #number-container.invalid::after {
   visibility: visible;
   content: '!';
   background-color: #f44336;
-  color: #ffffff;
-}
+  color: #ffffff; }
 
 #error {
   color: white;
   font-weight: bold;
   padding: 0.5em;
-  text-align: center;
-}
-#error   { background-color: #f44336; }
+  text-align: center; }
+
+#error {
+  background-color: #f44336; }
+
 #error:before {
   content: '\26a0';
-  padding-right: 0.5em;
-}
+  padding-right: 0.5em; }
+
 .narrow {
   box-sizing: border-box;
   margin: 0 auto 5px;
   width: 275px;
-  max-width: 100%;
-}
+  max-width: 100%; }
 
 #single-device form {
-  margin: 2em 0;
-}
+  margin: 2em 0; }
 
 input.form-control, select.form-control {
-  border-radius: 0;
-}
+  border-radius: 0; }
+
+/*# sourceMappingURL=options.css.map */
