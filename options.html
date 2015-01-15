@@ -19,6 +19,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="stylesheets/options.css">
   <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="components/intl-tel-input/build/css/intlTelInput.css">
 </head>
 <body>
   <div class='container'>
@@ -86,11 +87,8 @@
   </div>
   <script type="text/x-tmpl-mustache" id="phone-number">
     <div class="phone-input-form">
-        <select class="regionCode">
-          <option value="ZZ" selected>Country</option>
-        </select>
-        <div class="number-container">
-          <input type="text" class="number" placeholder="Phone Number" />
+        <div id="number-container">
+          <input type="tel" class="number" placeholder="Phone Number" />
         </div>
     </div>
   </script>

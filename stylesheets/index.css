@@ -83,3 +83,7 @@ img.preview {
   padding: 5px;
   border-radius: 3px;
 }
+
+ul.country-list {
+  min-width: 197px !important;
+}

@@ -28,15 +28,7 @@ var Whisper = Whisper || {};
 
         render: function() {
             this.$el.html($(Mustache.render(this.template)));
-            var regionCodes = [];
-            var countryNames = [];
-            $.each(libphonenumber.util.getAllRegionCodes(), function(regionCode, countryName) {
-                regionCodes.push(regionCode);
-                countryNames.push(countryName);
-            });
-            for (var i = 0; i < regionCodes.length; i++) {
-                this.$el.find('.regionCode').append($('<option>', { value: regionCodes[i], text: countryNames[i]}));
-            }
+            this.$el.find('input.number').intlTelInput();
             return this;
         },
 
@@ -47,12 +39,11 @@ var Whisper = Whisper || {};
 
         validateNumber: function() {
             try {
-                var regionCode = this.$el.find('.regionCode').val();
+                var regionCode = this.$el.find('li.active').attr('data-country-code').toUpperCase();
                 var number = this.$el.find('input.number').val();
 
                 var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
-                this.$el.find('.regionCode').val(libphonenumber.util.getRegionCodeForNumber(parsedNumber));
                 this.$el.find('.number-container').removeClass('invalid');
                 this.$el.find('.number-container').addClass('valid');
                 return parsedNumber;

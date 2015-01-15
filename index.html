@@ -14,6 +14,7 @@
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
         <link href="/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
         <link href="/stylesheets/index.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/components/intl-tel-input/build/css/intlTelInput.css" type="text/css" />
     </head>
     <body class='signal index'>
         <div class='title-bar' id='header'>
@@ -44,11 +45,8 @@
         </script>
         <script type="text/x-tmpl-mustache" id="phone-number">
             <div class="phone-input-form">
-                <select class="regionCode">
-                    <option value="ZZ" selected>Country</option>
-                </select>
-                <div class="number-container">
-                    <input type="text" class="number" placeholder="Phone Number" />
+                <div id="number-container">
+                    <input type="tel" class="number" placeholder="Phone Number" />
                 </div>
             </div>
         </script>
