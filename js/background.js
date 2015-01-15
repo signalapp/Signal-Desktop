@@ -84,7 +84,7 @@
         conversation.save().then(function() {
             message.save().then(function() {
                 return new Promise(function(resolve) {
-                    resolve(textsecure.protocol.handleIncomingPushMessageProto(pushMessage).then(
+                    resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
                         function(pushMessageContent) {
                             handlePushMessageContent(pushMessageContent, message);
                         }
