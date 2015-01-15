@@ -349,20 +349,8 @@ window.textsecure.protocol = function() {
         crypto_storage.saveSession(encodedNumber, session);
     }
 
-    var initSessionFromPreKeyWhisperMessage;
-    var decryptWhisperMessage;
-    var handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = textsecure.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
-        return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
-                if (sessions[1] !== undefined)
-                    sessions[1]();
-                return result;
-            });
-        });
-    }
-
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
+    //TODO: Rewrite this!
+    /*var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
         // Wipe identity key!
         textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
         return handlePreKeyWhisperMessage(from, encodedMessage).then(
@@ -374,9 +362,9 @@ window.textsecure.protocol = function() {
             }
         );
     }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);*/
 
-    initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
+    var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
         var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
         var signedPreKeyPair = crypto_storage.getStoredKeyPair("signedKey" + message.signedPreKeyId);
 
@@ -478,15 +466,18 @@ window.textsecure.protocol = function() {
             return finish();
     }
 
-    // returns decrypted protobuf
-    decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+    /*************************
+    *** Public crypto API ***
+    *************************/
+    // returns decrypted plaintext
+    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
 
         var messageProto = messageBytes.substring(1, messageBytes.length - 8);
         var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
 
-        var message = textsecure.protobuf.WhisperMessage.decode(messageProto, 'binary');
+        var message = axolotl.protobuf.WhisperMessage.decode(messageProto, 'binary');
         var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
 
         if (session === undefined) {
@@ -526,17 +517,9 @@ window.textsecure.protocol = function() {
                             }
 
                             delete session['pendingPreKey'];
-
-                            var finalMessage = textsecure.protobuf.PushMessageContent.decode(plaintext);
-
-                            if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                                    == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                                closeSession(session, true);
-
                             removeOldChains(session);
-
                             crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return finalMessage;
+                            return [plaintext, session];
                         });
                     });
                 });
@@ -544,9 +527,18 @@ window.textsecure.protocol = function() {
         });
     }
 
-    /*************************
-    *** Public crypto API ***
-    *************************/
+    // Inits a session (maybe) and then decrypts the message
+    self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
+        var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
+        return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
+            return self.decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+                if (sessions[1] !== undefined)
+                    sessions[1]();
+                return result;
+            });
+        });
+    }
+
     // Decrypts message into a raw string
     self.decryptWebsocketMessage = function(message) {
         var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
@@ -599,31 +591,12 @@ window.textsecure.protocol = function() {
         });
     };
 
-    self.handleIncomingPushMessageProto = function(proto) {
-        switch(proto.type) {
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
-            return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
-            var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-            return decryptWhisperMessage(from, getString(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
-            if (proto.message.readUint8() != ((3 << 4) | 3))
-                throw new Error("Bad version byte");
-            var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-            return handlePreKeyWhisperMessage(from, getString(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
-            return Promise.resolve(null);
-        default:
-            return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
-        }
-    }
-
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, pushMessageContent) {
         var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
         var doEncryptPushMessageContent = function() {
-            var msg = new textsecure.protobuf.WhisperMessage();
+            var msg = new axolotl.protobuf.WhisperMessage();
             var plaintext = toArrayBuffer(pushMessageContent.encode());
 
             var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
@@ -672,7 +645,7 @@ window.textsecure.protocol = function() {
             });
         }
 
-        var preKeyMsg = new textsecure.protobuf.PreKeyWhisperMessage();
+        var preKeyMsg = new axolotl.protobuf.PreKeyWhisperMessage();
         preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
         preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
 

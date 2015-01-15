@@ -5,7 +5,6 @@
     };
 
     var pushMessages     = loadProtoBufs('IncomingPushMessageSignal.proto');
-    var protocolMessages = loadProtoBufs('WhisperTextProtocol.proto');
     var subProtocolMessages = loadProtoBufs('SubProtocol.proto');
     var deviceMessages   = loadProtoBufs('DeviceMessages.proto');
 
@@ -13,8 +12,6 @@
     window.textsecure.protobuf = {
         IncomingPushMessageSignal : pushMessages.IncomingPushMessageSignal,
         PushMessageContent        : pushMessages.PushMessageContent,
-        WhisperMessage            : protocolMessages.WhisperMessage,
-        PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
         ProvisioningUuid          : deviceMessages.ProvisioningUuid,
         ProvisionEnvelope         : deviceMessages.ProvisionEnvelope,
         ProvisionMessage          : deviceMessages.ProvisionMessage,
