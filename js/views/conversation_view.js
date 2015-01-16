@@ -18,12 +18,17 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.ConversationView = Backbone.View.extend({
-        className: 'conversation',
+        className: function() {
+            return [ 'conversation', this.model.get('type') ].join(' ');
+        },
         initialize: function() {
             this.listenTo(this.model, 'destroy', this.stopListening); // auto update
             this.template = $('#conversation').html();
             Mustache.parse(this.template);
-            this.$el.html(Mustache.render(this.template));
+
+            this.$el.html(Mustache.render(this.template,
+                { group: this.model.get('type') === 'group' }
+            ));
 
             this.fileInput = new Whisper.FileInputView({
                 el: this.$el.find('.attachments')
@@ -35,11 +40,6 @@
             this.$el.find('.discussion-container').append(this.view.el);
 
             this.model.fetchMessages({reset: true});
-
-            if (this.model.get('type') === 'group') {
-                this.$el.addClass('group');
-                this.$el.find('.send-message-area').append($('<button>').addClass('new-group-update').text('Update group'));
-            }
         },
 
         events: {
