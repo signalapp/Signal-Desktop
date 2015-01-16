@@ -349,24 +349,12 @@ window.textsecure.protocol = function() {
         crypto_storage.saveSession(encodedNumber, session);
     }
 
-    //TODO: Rewrite this!
-    /*var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
-        // Wipe identity key!
-        textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
-        return handlePreKeyWhisperMessage(from, encodedMessage).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
-    }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);*/
-
+    var refreshPreKeys;
     var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
         var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
         var signedPreKeyPair = crypto_storage.getStoredKeyPair("signedKey" + message.signedPreKeyId);
+
+        //TODO: Call refreshPreKeys when it looks like all our prekeys are used up?
 
         var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
         var open_session = crypto_storage.getOpenSession(encodedNumber);
@@ -715,6 +703,7 @@ window.textsecure.protocol = function() {
             crypto_storage.removeStoredKeyPair("signedKey" + (signedKeyId - 2));
 
             return Promise.all(promises).then(function() {
+                axolotl.api.storage.put("lastPreKeyUpdate", Date.now());
                 return keys;
             });
         }
@@ -724,12 +713,21 @@ window.textsecure.protocol = function() {
             return identityKeyCalculated(identityKeyPair);
     }
 
-    //TODO: Dont always update prekeys here
-    //XXX: This is busted as fuck
-    if (axolotl.api.storage.get("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
-        new Promise(function(resolve) { resolve(self.generateKeys()); });
+    refreshPreKeys = function() {
+        self.generateKeys().then(function(keys) {
+            console.log("Pre Keys updated!");
+            return axolotl.api.updateKeys(keys);
+        }).catch(function(e) {
+            //TODO: Notify the user somehow???
+            console.error(e);
+        });
     }
 
+    window.setInterval(function() {
+        // Note that this will not ever run until generateKeys has been called at least once
+        if (axolotl.api.storage.get("lastPreKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
+            refreshPreKeys();
+    }, 60 * 1000);
 
     self.prepareTempWebsocket = function() {
         var socketInfo = {};
