@@ -22,25 +22,33 @@ var Whisper = Whisper || {};
         className: 'file-input',
         initialize: function() {
             this.$input = this.$el.find('input[type=file]');
+            this.modal = new Whisper.ModalView({el: $('#file-modal')});
         },
 
         events: {
-            'change': 'previewImages'
+            'change': 'previewImages',
+            'click .close': 'deleteFiles'
         },
 
         addThumb: function(e) {
-          this.$el.append(
-            $('<img>').attr( "src", e.target.result ).addClass('preview')
-          );
+            var attachmentPreview = $('#attachment-preview').html();
+            Mustache.parse(attachmentPreview);
+            this.$el.append($(Mustache.render(attachmentPreview, {source: e.target.result})));
         },
 
         previewImages: function() {
-            this.$el.find('img').remove();
+            this.clearForm();
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
                 var FR = new FileReader();
-                FR.onload = this.addThumb.bind(this);
-                FR.readAsDataURL(files[i]);
+                if ((files[i].size/1024).toFixed(4) >= 420) {
+                    this.modal.open();
+                    this.deleteFiles();
+                }
+                else {
+                    FR.onload = this.addThumb.bind(this);
+                    FR.readAsDataURL(files[i]);
+                }
             }
         },
 
@@ -63,9 +71,18 @@ var Whisper = Whisper || {};
                 }.bind(this));
                 promises.push(p);
             }
-            this.$el.find('img').remove();
+            this.clearForm();
             return Promise.all(promises);
-        }
+        },
 
+        clearForm: function() {
+            this.$el.find('div.imageAttachment').remove();
+        },
+
+        deleteFiles: function() {
+            this.clearForm();
+            this.$input.wrap('<form>').parent('form').trigger('reset');
+            this.$input.unwrap();
+        }
     });
 })();
