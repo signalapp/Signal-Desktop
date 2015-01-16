@@ -61,6 +61,13 @@
                         </div>
                     </form>
                 </div>
+                {{#group}}
+                    <button class='new-group-update'>Update group</button>
+                    <button class='leave-group'>Leave group</button>
+                {{/group}}
+                {{^group}}
+                    <button class='end-session'>End Session</button>
+                {{/group}}
                 <div class='extension-details'>
                     <ul>
                         <li>Signal for Chrome</li>
