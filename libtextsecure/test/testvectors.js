@@ -464,5 +464,8 @@ axolotlTestVectors = function() {
 
     tests[tests.length] = {name: "No-PreKey fake end-session test as Bob", vectors: axolotlNoPreKeyEndSessionTestVectorsBob};
 */
+
+    //TODO: GROUPS
+
     return tests;
 }();

@@ -203,8 +203,7 @@ window.textsecure.messaging = function() {
             });
         }
 
-        for (var i in numbers) {
-            var number = numbers[i];
+        var getDevicesAndSendToNumber = function(number) {
             var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
             var promises = [];
@@ -225,6 +224,9 @@ window.textsecure.messaging = function() {
                     doSendMessage(number, devicesForNumber, true);
             });
         }
+
+        for (var i in numbers)
+            getDevicesAndSendToNumber(numbers[i]);
     }
 
     makeAttachmentPointer = function(attachment) {
