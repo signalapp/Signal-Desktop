@@ -242,14 +242,14 @@ textsecure.processDecrypted = function(decrypted, source) {
 }
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
-    var signalingKey = axolotl.crypto.getRandomBytes(32 + 20);
+    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
     textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-    var password = btoa(getString(axolotl.crypto.getRandomBytes(16)));
+    var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
     password = password.substring(0, password.length - 2);
     textsecure.storage.putEncrypted("password", password);
 
-    var registrationId = new Uint16Array(axolotl.crypto.getRandomBytes(2))[0];
+    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
     registrationId = registrationId & 0x3fff;
     textsecure.storage.putUnencrypted("registrationId", registrationId);
 
@@ -273,14 +273,14 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
     return cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(identityKey) {
         stepDone(1);
 
-        var signalingKey = axolotl.crypto.getRandomBytes(32 + 20);
+        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
         textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-        var password = btoa(getString(axolotl.crypto.getRandomBytes(16)));
+        var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
         password = password.substring(0, password.length - 2);
         textsecure.storage.putEncrypted("password", password);
 
-        var registrationId = new Uint16Array(axolotl.crypto.getRandomBytes(2))[0];
+        var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
         registrationId = registrationId & 0x3fff;
         textsecure.storage.putUnencrypted("registrationId", registrationId);
 
