@@ -23,6 +23,7 @@ var Whisper = Whisper || {};
         initialize: function() {
             this.$input = this.$el.find('input[type=file]');
             this.modal = new Whisper.ModalView({el: $('#file-modal')});
+            this.thumb = new Whisper.AttachmentPreviewView();
         },
 
         events: {
@@ -31,9 +32,8 @@ var Whisper = Whisper || {};
         },
 
         addThumb: function(e) {
-            var attachmentPreview = $('#attachment-preview').html();
-            Mustache.parse(attachmentPreview);
-            this.$el.append($(Mustache.render(attachmentPreview, {source: e.target.result})));
+            this.thumb.src = e.target.result;
+            this.$el.append(this.thumb.render().el);
         },
 
         previewImages: function() {
@@ -76,7 +76,7 @@ var Whisper = Whisper || {};
         },
 
         clearForm: function() {
-            this.$el.find('div.imageAttachment').remove();
+            this.thumb.remove();
         },
 
         deleteFiles: function() {
