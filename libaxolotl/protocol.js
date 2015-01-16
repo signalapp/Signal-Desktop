@@ -16,9 +16,9 @@
 ;(function() {
 
 'use strict';
-window.textsecure = window.textsecure || {};
+window.axolotl = window.axolotl || {};
 
-window.textsecure.protocol = function() {
+window.axolotl.protocol = function() {
     var self = {};
 
     /******************************
@@ -677,7 +677,7 @@ window.textsecure.protocol = function() {
             refreshPreKeys();
     }, 60 * 1000);
 
-    self.prepareTempWebsocket = function() {
+    self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
         var keyPair;
 
@@ -697,9 +697,12 @@ window.textsecure.protocol = function() {
 
                     return verifyMAC(ivAndCiphertext, keys[1], mac).then(function() {
                         return window.axolotl.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
-                            var identityKeyMsg = textsecure.protobuf.ProvisionMessage.decode(plaintext);
+                            var identityKeyMsg = axolotl.protobuf.ProvisionMessage.decode(plaintext);
 
                             return axolotl.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKeyPrivate)).then(function(identityKeyPair) {
+                                if (crypto_storage.getStoredKeyPair("identityKey") !== undefined)
+                                    throw new Error("Tried to overwrite identity key");
+
                                 crypto_storage.putKeyPair("identityKey", identityKeyPair);
                                 identityKeyMsg.identityKeyPrivate = null;
 
