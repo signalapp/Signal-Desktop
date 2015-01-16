@@ -52,11 +52,13 @@ var Whisper = Whisper || {};
         width: 280,
         height: 420
       }, function (windowInfo) {
-	debugger;
-        extension.trigger('loadConversation', {
-          windowId: windowInfo.id,
-          conversationId: modelId
-        });
+        extension.trigger('log', 'maybe up here?');
+        extension.trigger('log', localStorage.getItem('idPairs'));
+
+        var idPairs = JSON.parse(localStorage.getItem('idPairs') || '{}');
+        idPairs[windowInfo.id] = modelId;
+        localStorage.setItem('idPairs', JSON.stringify(idPairs));
+        extension.trigger('log', 'set idPairs item');
       });
 
       this.model.collection.trigger('selected', this.view);

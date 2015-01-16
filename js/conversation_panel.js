@@ -24,31 +24,33 @@
         conversation.fetch().then(function () {
             new Whisper.ConversationView({ model: conversation}).render().$el.appendTo($('#conversation-container'));
         });
-
-        // clean 'er up
-        conversationInfo = undefined;
     };
 
-    var conversationInfo = {
-        id: '',
-        idPairs: {}
-    };
+    var windowId, windowMap = {};
 
-    extension.on('loadConversation', function (message) {
-        debugger;
-        if (conversationInfo.id) {
-            if (message.windowId === conversationInfo.id) {
-                loadConversation(message.conversationId);
+    extension.trigger('log', 'loaded page');
+
+    window.addEventListener('storage', function (e) {
+        extension.trigger('log', 'got storage event');
+        if (e.key = 'idPairs') {
+            windowMap = JSON.parse(e.newValue);
+
+            if (windowId) {
+                var conversationId = windowMap[windowId];
+
+                if (conversationId) {
+                    loadConversation(conversationId);
+                }
             }
-        } else {
-            conversationInfo.idPairs[message.windowId] = message.conversationId;
         }
     });
 
     chrome.windows.getCurrent(function (windowInfo) {
-        window.document.title = conversationInfo.id = windowInfo.id;
+        window.document.title = windowId = windowInfo.id;
 
-        var conversationId = conversationInfo.idPairs[conversationInfo.id];
+        extension.trigger('log', 'got page id');
+
+        var conversationId = windowMap[windowId];
 
         if (typeof conversationId !== 'undefined') {
             loadConversation(conversationId);

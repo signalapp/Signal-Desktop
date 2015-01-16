@@ -222,4 +222,7 @@
             console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
         });
     };
+
+    extension.on('log', console.log.bind(console));
+
 })();
