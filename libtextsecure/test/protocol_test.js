@@ -47,14 +47,14 @@ describe('Protocol', function() {
         after(function()  { localStorage.clear(); });
         it ('works', function(done) {
             localStorage.clear();
-            return textsecure.protocol.generateKeys().then(function() {
+            return axolotl.protocol.generateKeys().then(function() {
                 assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                 assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
                 for (var i = 0; i < 100; i++) {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                 }
                 var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
-                return textsecure.protocol.generateKeys().then(function() {
+                return axolotl.protocol.generateKeys().then(function() {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                     assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
@@ -65,7 +65,7 @@ describe('Protocol', function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                     }
 
-                    return textsecure.protocol.generateKeys().then(function() {
+                    return axolotl.protocol.generateKeys().then(function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                         assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 

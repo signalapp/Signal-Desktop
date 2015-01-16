@@ -39,7 +39,7 @@
         //TODO
         /*if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-            textsecure.protocol.closeSession(res[1], true);*/
+            axolotl.protocol.closeSession(res[1], true);*/
 
         return finalMessage;
     }
@@ -47,31 +47,29 @@
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
         handleIncomingPushMessageProto: function(proto) {
-
-
             switch(proto.type) {
             case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
                 return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
             case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
                 return Promise.resolve(null);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE_DEVICE_CONTROL:
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(function(res) {
+                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(function(res) {
                     return textsecure.protobuf.DeviceControl.decode(res[0]);
                 });
             case textsecure.protobuf.IncomingPushMessageSignal.Type.DEVICE_CONTROL:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol.decryptWhisperMessage(from, getString(proto.message)).then(function(res) {
+                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(function(res) {
                     return textsecure.protobuf.DeviceControl.decode(res[0]);
                 });
             default:
@@ -85,7 +83,7 @@
         //TODO: Encapsuate with the rest of textsecure.storage.devices
         textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
         //TODO: Probably breaks with a devicecontrol message
-        return textsecure.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
+        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
             function(pushMessageContent) {
                 extension.trigger('message:decrypted', {
                     message_id : message_id,
