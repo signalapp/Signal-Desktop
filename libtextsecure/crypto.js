@@ -19,8 +19,26 @@
 
     // Various wrappers around low-level crypto operation for specific functions
 
+    var encrypt = function(key, data, iv) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
+            return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+        });
+    };
+
+    var decrypt = function(key, data, iv) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
+            return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+        });
+    };
+
+    var calculateMAC = function(key, data) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
+            return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
+        });
+    };
+
     var verifyMAC = function(data, key, mac) {
-        return axolotl.crypto.sign(key, data).then(function(calculated_mac) {
+        return calculateMAC(key, data).then(function(calculated_mac) {
             if (!isEqual(calculated_mac, mac, true))
                 throw new Error("Bad MAC");
         });
@@ -44,7 +62,7 @@
             var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-                return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
+                return decrypt(aes_key, ciphertext, iv);
             });
         },
 
@@ -58,7 +76,7 @@
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-                return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
+                return decrypt(aes_key, ciphertext, iv);
             });
         },
 
@@ -66,12 +84,12 @@
             var aes_key = keys.slice(0, 32);
             var mac_key = keys.slice(32, 64);
 
-            return window.axolotl.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
+            return encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
                 var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
                 ivAndCiphertext.set(new Uint8Array(iv));
                 ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
 
-                return axolotl.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
+                return calculateMAC(mac_key, ivAndCiphertext.buffer).then(function(mac) {
                     var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
                     encryptedBin.set(ivAndCiphertext);
                     encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
