@@ -30,6 +30,7 @@ window.textsecure.messaging = function() {
                         preKeyId: response.devices[i].preKey.keyId,
                         signedKey: response.devices[i].signedPreKey.publicKey,
                         signedKeyId: response.devices[i].signedPreKey.keyId,
+                        signedKeySignature: response.devices[i].signedPreKey.signature,
                         registrationId: response.devices[i].registrationId
                     });
             }
