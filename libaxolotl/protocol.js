@@ -527,58 +527,6 @@ window.textsecure.protocol = function() {
         });
     }
 
-    // Decrypts message into a raw string
-    self.decryptWebsocketMessage = function(message) {
-        var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
-        var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
-        var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
-
-        var decodedMessage = message.toArrayBuffer();
-        if (new Uint8Array(decodedMessage)[0] != 1)
-            throw new Error("Got bad version number: " + decodedMessage[0]);
-
-        var iv = decodedMessage.slice(1, 1 + 16);
-        var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
-        var ivAndCiphertext = decodedMessage.slice(0, decodedMessage.byteLength - 10);
-        var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
-
-        return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
-        });
-    };
-
-    self.decryptAttachment = function(encryptedBin, keys) {
-        var aes_key = keys.slice(0, 32);
-        var mac_key = keys.slice(32, 64);
-
-        var iv = encryptedBin.slice(0, 16);
-        var ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
-        var ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
-        var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
-
-        return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
-        });
-    };
-
-    self.encryptAttachment = function(plaintext, keys, iv) {
-        var aes_key = keys.slice(0, 32);
-        var mac_key = keys.slice(32, 64);
-
-        return window.axolotl.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
-            var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
-            ivAndCiphertext.set(new Uint8Array(iv));
-            ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
-
-            return axolotl.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
-                var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
-                encryptedBin.set(ivAndCiphertext);
-                encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
-                return encryptedBin.buffer;
-            });
-        });
-    };
-
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, pushMessageContent) {
         var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);

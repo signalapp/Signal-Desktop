@@ -137,7 +137,7 @@ var handleAttachment = function(attachment) {
     }
 
     function decryptAttachment(encrypted) {
-        return textsecure.protocol.decryptAttachment(
+        return textsecure.crypto.decryptAttachment(
             encrypted,
             attachment.key.toArrayBuffer()
         );

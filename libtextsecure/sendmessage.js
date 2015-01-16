@@ -234,7 +234,7 @@ window.textsecure.messaging = function() {
         proto.key = axolotl.crypto.getRandomBytes(64);
 
         var iv = axolotl.crypto.getRandomBytes(16);
-        return textsecure.protocol.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
+        return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
             return textsecure.api.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
                 proto.contentType = attachment.contentType;
