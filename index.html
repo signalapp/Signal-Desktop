@@ -33,6 +33,7 @@
             </div>
             <div id='contacts'></div>
         </div>
+        <div id='file-modal'></div>
         <script type='text/x-tmpl-mustache' id='new-group-update-form'>
             <div>
               <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
@@ -57,7 +58,7 @@
                     <form class='send'>
                         <input class='send-message' rows='6' type='textarea'>
                         <div class='attachments'>
-                          <input type='file' name='files[]' multiple class='file-input'>
+                          <input type='file' name='files[]' class='file-input'>
                         </div>
                     </form>
                 </div>
@@ -113,7 +114,7 @@
                 <div class='message-composer'>
                     <input name='message' class='send-message' rows='6' type='textarea'>
                     <div class='attachments'>
-                      <input type='file' name='files[]' multiple class='file-input'>
+                      <input type='file' name='files[]' class='file-input'>
                     </div>
                     <input type='submit'>
                 </div>
@@ -139,7 +140,7 @@
                 <div class='message-composer'>
                     <input class='send-message' rows='6' type='textarea'>
                     <div class='attachments'>
-                      <input type='file' name='files[]' multiple class='file-input'>
+                      <input type='file' name='files[]' class='file-input'>
                     </div>
                     <input type='submit'>
                 </div>
@@ -153,6 +154,28 @@
                 </div>
             </div>
           </form>
+        </script>
+        <script type='text/x-tmpl-mustache' id='attachment-preview'>
+            <div class="imageAttachment">
+                <img src="{{ source }}" class="preview" />
+                <div class="close">x</div>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='file-size-modal'>
+            <div id="modal" class="modal-wrapper">
+                <div class="modal-content">
+                    <div class="modal-container">
+                        <div class="modal-banner">
+                            <span>File Too Large</span>
+                            <div class="modal-close"><a class="modal-close-button"  href="#" title="Close">X</a></div>
+                        </div>
+                        <div class="modal-inner modal-padding">
+                            <p>This file exceeds 420KB. Please attach a smaller file.</p>
+                            <button id="closeModal"><a href="#">OK</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </script>
         <script type="text/javascript" src="js/components.js"></script>
 
@@ -168,6 +191,7 @@
 
         <script type="text/javascript" src="js/chromium.js"></script>
         <script type="text/javascript" src="js/views/notifications.js"></script>
+        <script type="text/javascript" src="js/views/file_modal_view.js"></script>
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
         <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
