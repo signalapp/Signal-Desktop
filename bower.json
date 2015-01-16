@@ -113,6 +113,7 @@
       "protobuf"
     ],
     "libaxolotl": [
+      "jquery",
       "long",
       "bytebuffer",
       "protobuf"
