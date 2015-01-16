@@ -85,8 +85,10 @@ module.exports = function(grunt) {
         ],
         dest: 'libtextsecure/libaxolotl_concat.js',
       },
+      //TODO: Move errors back down?
       libtextsecure: {
         src: [
+          'libtextsecure/errors.js',
           'libtextsecure/axolotl_wrapper.js',
           'libtextsecure/libaxolotl_concat.js',
 
@@ -96,7 +98,6 @@ module.exports = function(grunt) {
           'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
           'libtextsecure/helpers.js',
-          'libtextsecure/errors.js',
           'libtextsecure/stringview.js',
           'libtextsecure/api.js',
           'libtextsecure/sendmessage.js',
