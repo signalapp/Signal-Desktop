@@ -17,7 +17,7 @@
     window.axolotl = window.axolotl || {};
 
     /*
-     *  textsecure.crypto
+     *  axolotl.crypto
      *    glues together various implementations into a single interface
      *    for all low-level crypto operations,
      */

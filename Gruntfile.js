@@ -92,6 +92,7 @@ module.exports = function(grunt) {
           'libtextsecure/axolotl_wrapper.js',
           'libtextsecure/libaxolotl_concat.js',
 
+          'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
           'libtextsecure/storage/devices.js',
           'libtextsecure/protobufs.js',
