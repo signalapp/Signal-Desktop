@@ -24,9 +24,6 @@
 
     window.axolotl.crypto = {
         getRandomBytes: function(size) {
-            // At some point we might consider XORing in hashes of random
-            // UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
-            // ie maybe take a look at how Gibson does it at https://www.grc.com/r&d/js.htm
             var array = new Uint8Array(size);
             window.crypto.getRandomValues(array);
             return array.buffer;

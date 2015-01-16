@@ -78,6 +78,12 @@
                     return encryptedBin.buffer;
                 });
             });
+        },
+
+        getRandomBytes: function(size) {
+            var array = new Uint8Array(size);
+            window.crypto.getRandomValues(array);
+            return array.buffer;
         }
     };
 })();
