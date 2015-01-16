@@ -567,6 +567,7 @@ window.axolotl.protocol = function() {
                             try {
                                 delete deviceObject['signedKey'];
                                 delete deviceObject['signedKeyId'];
+                                delete deviceObject['signedKeySignature'];
                                 delete deviceObject['preKey'];
                                 delete deviceObject['preKeyId'];
                             } catch(_) {}
@@ -586,19 +587,23 @@ window.axolotl.protocol = function() {
         preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
 
         if (session === undefined) {
-            return axolotl.crypto.createKeyPair().then(function(baseKey) {
-                preKeyMsg.preKeyId = deviceObject.preKeyId;
-                preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-                return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                    toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-                            .then(function(new_session) {
-                    session = new_session;
-                    session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
-                    return doEncryptPushMessageContent().then(function(message) {
-                        preKeyMsg.message = message;
-                        var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
-                        return {type: 3, body: result};
+            var deviceIdentityKey = toArrayBuffer(deviceObject.identityKey);
+            var deviceSignedKey = toArrayBuffer(deviceObject.signedKey);
+            return axolotl.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, toArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                return axolotl.crypto.createKeyPair().then(function(baseKey) {
+                    preKeyMsg.preKeyId = deviceObject.preKeyId;
+                    preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
+                    preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
+                    return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
+                                        deviceIdentityKey, toArrayBuffer(deviceObject.preKey), deviceSignedKey)
+                                .then(function(new_session) {
+                        session = new_session;
+                        session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
+                        return doEncryptPushMessageContent().then(function(message) {
+                            preKeyMsg.message = message;
+                            var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                            return {type: 3, body: result};
+                        });
                     });
                 });
             });
