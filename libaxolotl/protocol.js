@@ -43,7 +43,7 @@ window.textsecure.protocol = function() {
     var crypto_storage = {};
 
     crypto_storage.putKeyPair = function(keyName, keyPair) {
-        textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
+        axolotl.api.storage.put("25519Key" + keyName, keyPair);
     }
 
     crypto_storage.getNewStoredKeyPair = function(keyName) {
@@ -54,14 +54,14 @@ window.textsecure.protocol = function() {
     }
 
     crypto_storage.getStoredKeyPair = function(keyName) {
-        var res = textsecure.storage.getEncrypted("25519Key" + keyName);
+        var res = axolotl.api.storage.get("25519Key" + keyName);
         if (res === undefined)
             return undefined;
         return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
     }
 
     crypto_storage.removeStoredKeyPair = function(keyName) {
-        textsecure.storage.removeEncrypted("25519Key" + keyName);
+        axolotl.api.storage.remove("25519Key" + keyName);
     }
 
     crypto_storage.getIdentityKey = function() {
@@ -583,7 +583,7 @@ window.textsecure.protocol = function() {
 
         var preKeyMsg = new axolotl.protobuf.PreKeyWhisperMessage();
         preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
-        preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
+        preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
 
         if (session === undefined) {
             return axolotl.crypto.createKeyPair().then(function(baseKey) {
@@ -621,11 +621,11 @@ window.textsecure.protocol = function() {
     self.generateKeys = function() {
         var identityKeyPair = crypto_storage.getIdentityKey();
         var identityKeyCalculated = function(identityKeyPair) {
-            var firstPreKeyId = textsecure.storage.getEncrypted("maxPreKeyId", 0);
-            textsecure.storage.putEncrypted("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
+            var firstPreKeyId = axolotl.api.storage.get("maxPreKeyId", 0);
+            axolotl.api.storage.put("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
-            var signedKeyId = textsecure.storage.getEncrypted("signedKeyId", 0);
-            textsecure.storage.putEncrypted("signedKeyId", signedKeyId + 1);
+            var signedKeyId = axolotl.api.storage.get("signedKeyId", 0);
+            axolotl.api.storage.put("signedKeyId", signedKeyId + 1);
 
             var keys = {};
             keys.identityKey = identityKeyPair.pubKey;
