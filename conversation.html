@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html class='no-js' lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='/favicon.ico' rel='shortcut icon'>
+        <link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" />
+        <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+        <link href="/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
+        <link href="/stylesheets/index.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+        <div class='title-bar' id='header'>Settings and whatever</div>
+        <ul id='conversation-container'>
+
+        </ul>
+
+        <div class="bottom-bar">
+            <button>Attachments</button>
+            <form class='send'>
+                <input class='send-message' rows='6' type='textarea'>
+                <div class='attachments'>
+                    <input type='file' name='files[]' multiple class='file-input'>
+                </div>
+            </form>
+            <button>Send</button>
+        </div>
+
+        <script type='text/x-tmpl-mustache' id='message'>
+            <li>
+                <img class="avatar" src="#" alt="">
+                <div class="bubble {{ bubble_class }}">
+                    <p class="content">{{ message }}</p>
+                    <p class="sender">{{ sender }}</p>
+                    <p class="timestamp">{{ timestamp }}</p>
+                </div>
+            </li>
+        </script>
+
+        <script type="text/javascript" src="js/components.js"></script>
+
+        <script type="text/javascript" src="js/libtextsecure.js"></script>
+        <script type="text/javascript" src="js/database.js"></script>
+
+        <script type="text/javascript" src="components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+
+        <script type="text/javascript" src="js/libphonenumber-util.js"></script>
+
+        <script type="text/javascript" src="js/models/messages.js"></script>
+        <script type="text/javascript" src="js/models/conversations.js"></script>
+
+        <script type="text/javascript" src="js/chromium.js"></script>
+
+        <script type="text/javascript" src="js/views/file_modal_view.js"></script>
+        <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
+        <script type="text/javascript" src="js/views/file_input_view.js"></script>
+        <script type="text/javascript" src="js/views/list_view.js"></script>
+        <script type="text/javascript" src="js/views/group_update_view.js"></script>
+        <script type="text/javascript" src="js/views/attachment_view.js"></script>
+        <script type="text/javascript" src="js/views/message_view.js"></script>
+        <script type="text/javascript" src="js/views/message_list_view.js"></script>
+
+        <script type="text/javascript" src="js/views/conversation_view.js"></script>
+
+        <script type="text/javascript" src="js/conversation_panel.js"></script>
+
+        <div id="listener"></div>
+        <div id="log"></div>
+    </body>
+</html>

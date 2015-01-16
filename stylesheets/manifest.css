@@ -81,99 +81,94 @@ body {
 
   .gutter .search {
     display: block; } }
-@media screen and (min-width: 320px) {
-  .gutter {
-    width: 64px;
+.gutter {
+  width: 100%;
+  float: left;
+  border-right: 1px solid lightgray;
+  position: relative;
+  box-sizing: border-box;
+  overflow: scroll;
+  background-color: white;
+  padding-bottom: 80px;
+  z-index: 100; }
+  .gutter .contact {
+    cursor: pointer;
     float: left;
-    border-right: 1px solid lightgray;
-    position: relative;
-    box-sizing: border-box;
-    height: 458px;
-    overflow: scroll;
-    background-color: white;
-    padding-bottom: 80px; }
-    .gutter .contact {
-      cursor: pointer;
-      float: left;
-      width: 100%;
-      border-bottom: 1px solid whitesmoke;
-      color: #333; }
-      .gutter .contact:hover {
-        background-color: whitesmoke;
-        margin-top: -1px;
-        border-bottom: 1px solid lightgray;
-        border-top: 1px solid lightgray; }
-      .gutter .contact.active {
-        background-color: #ecfcff;
-        margin-top: -1px;
-        border-bottom: 1px solid lightgray;
-        border-top: 1px solid lightgray; }
-      .gutter .contact .avatar {
-        height: 42px;
-        width: 42px;
-        border-radius: 42px;
-        cursor: pointer;
-        display: inline-block;
-        margin: 10px;
-        margin-right: 14px;
-        float: left;
-        clear: both;
-        background-color: whitesmoke; }
-      .gutter .contact .contact-details {
-        display: none; } }
-@media screen and (min-width: 480px) {
-  .gutter {
-    width: 240px;
-    height: auto;
-    z-index: 100; }
-    .gutter .search {
-      padding: 10px;
-      border-bottom: 1px solid whitesmoke; }
-      .gutter .search input[type=search] {
-        box-sizing: border-box;
-        font-size: 12px;
-        outline: 0;
-        width: 100%;
-        margin: 0;
-        letter-spacing: 0.25px;
-        padding: 4px 8px;
-        border: 1px solid lightgray; }
-      .gutter .search.d6 {
-        display: block; }
+    width: 100%;
+    border-bottom: 1px solid whitesmoke;
+    color: #333; }
+    .gutter .contact:hover {
+      background-color: whitesmoke;
+      margin-top: -1px;
+      border-bottom: 1px solid lightgray;
+      border-top: 1px solid lightgray; }
+    .gutter .contact.active {
+      background-color: #ecfcff;
+      margin-top: -1px;
+      border-bottom: 1px solid lightgray;
+      border-top: 1px solid lightgray; }
     .gutter .contact .avatar {
-      height: 56px;
-      width: 56px; }
-    .gutter .contact .contact-details {
-      display: block;
-      position: relative;
-      width: 156px;
+      height: 42px;
+      width: 42px;
+      border-radius: 42px;
+      cursor: pointer;
+      display: inline-block;
+      margin: 10px;
+      margin-right: 14px;
       float: left;
-      text-align: left; }
-      .gutter .contact .contact-details h3 {
-        font-size: 13px;
-        margin-bottom: 4px; }
-      .gutter .contact .contact-details .contact-name {
-        width: 105px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis; }
-      .gutter .contact .contact-details .last-message {
-        color: #999999;
-        letter-spacing: 0.15px;
-        -webkit-text-stroke: 0.2px;
-        margin: 0;
-        font-size: 12px;
-        width: 150px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis; }
-      .gutter .contact .contact-details .last-timestamp {
-        position: absolute;
-        top: 14px;
-        right: 8px;
-        font-size: 12px;
-        font-weight: 500;
-        color: gray; } }
+      clear: both;
+      background-color: whitesmoke; }
+    .gutter .contact .contact-details {
+      display: none; }
+  .gutter .search {
+    padding: 10px;
+    border-bottom: 1px solid whitesmoke; }
+    .gutter .search input[type=search] {
+      box-sizing: border-box;
+      font-size: 12px;
+      outline: 0;
+      width: 100%;
+      margin: 0;
+      letter-spacing: 0.25px;
+      padding: 4px 8px;
+      border: 1px solid lightgray; }
+    .gutter .search.d6 {
+      display: block; }
+  .gutter .contact .avatar {
+    height: 56px;
+    width: 56px; }
+  .gutter .contact .contact-details {
+    display: block;
+    position: relative;
+    width: 156px;
+    float: left;
+    text-align: left; }
+    .gutter .contact .contact-details h3 {
+      font-size: 13px;
+      margin-bottom: 4px; }
+    .gutter .contact .contact-details .contact-name {
+      width: 105px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .gutter .contact .contact-details .last-message {
+      color: #999999;
+      letter-spacing: 0.15px;
+      -webkit-text-stroke: 0.2px;
+      margin: 0;
+      font-size: 12px;
+      width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .gutter .contact .contact-details .last-timestamp {
+      position: absolute;
+      top: 14px;
+      right: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: gray; }
+
 .conversation {
   margin-top: 10px;
   width: 100%;

@@ -22,9 +22,7 @@
         initialize: function () {
             this.gutter = $('#gutter');
             this.contacts = $('#contacts');
-            this.resize();
 
-            window.addEventListener('resize', this.resize.bind(this));
             this.conversations = new Whisper.ConversationCollection();
 
             new Whisper.ConversationListView({
@@ -70,23 +68,8 @@
             });
             this.setContent(view.render().$el.show());
         },
-        resize: function (e) {
-            var windowheight = window.innerHeight,
-                form = $('.send-message-area').outerHeight(),
-                gutter_offset = this.gutter.offset().top,
-                contacts_offset = this.contacts.offset().top;
-            if (window.innerWidth < 480) {
-                this.gutter.css('height', windowheight - gutter_offset - form);
-                this.contacts.css('height', windowheight - contacts_offset - form);
-            } else {
-                this.gutter.css('height', windowheight - gutter_offset);
-                this.contacts.css('height', windowheight - contacts_offset);
-            }
-            $('.discussion').css('height', windowheight - gutter_offset - form);
-        },
         setContent: function (content) {
             $(content).insertAfter(this.gutter);
-            this.resize();
         }
     });
 

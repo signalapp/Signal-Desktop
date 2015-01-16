@@ -37,8 +37,8 @@
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection
             });
-            this.$el.find('.discussion-container').append(this.view.el);
-
+            $('#conversation-container').append(this.view.el);
+//new ...({el: $(#conversation-container)})
             this.model.fetchMessages({reset: true});
         },
 
@@ -83,7 +83,20 @@
             }
         },
 
+        /*addAll: function() {
+            this.collection.each(this.addOne);
+        },
+        addOne: function(model) {
+            var view = new Whisper.Message({model: model});
+            view.render();
+            $(this.el).append(view.el);
+            model.bind('remove', view.remove);
+        },*/
+
         render: function() {
+            //this.$el.empty();
+            //this.addAll();
+
             this.delegateEvents();
             this.view.delegateEvents();
             this.view.scrollToBottom();

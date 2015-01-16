@@ -56,6 +56,32 @@
                 request.respond(500, 'Bad encrypted websocket message');
             });
         });
+        var opened = false;
+        var panel = 0;
+
+        chrome.browserAction.onClicked.addListener(function () {
+            if (opened === false) {
+                opened = true;
+                chrome.windows.create({
+                    url: 'index2.html',
+                    type: 'panel',
+                    focused: true,
+                    width: 260, // 280 for chat
+                    height: 440 // 420 for chat
+                }, function (window) {
+                    var isPanelEnabled = window.alwaysOnTop;
+                    panel = window.id;
+                });
+            } else if (opened === true) {
+                chrome.windows.update(panel, { focused: true });
+            }
+            chrome.windows.onRemoved.addListener(function (windowId) {
+                if (windowId === panel) {
+                    panel = 0;
+                    opened = false;
+                }
+            });
+        });
     };
 
     function onMessageReceived(pushMessage) {
@@ -196,5 +222,4 @@
             console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
         });
     };
-
 })();
