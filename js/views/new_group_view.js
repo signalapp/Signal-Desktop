@@ -48,7 +48,7 @@ var Whisper = Whisper || {};
             view.fileInput.getFiles().then(function(attachments) {
                 convo.sendMessage(view.$el.find('input.send-message').val());
             });
-            convo.trigger('render');
+            convo.trigger('open');
           });
         });
       }

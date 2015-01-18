@@ -34,7 +34,7 @@
 
             this.conversations.fetchActive({reset: true}).then(function() {
                 if (this.conversations.length) {
-                    this.conversations.at(0).trigger('render');
+                    this.conversations.at(0).trigger('open');
                 }
             }.bind(this));
 

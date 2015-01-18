@@ -48,7 +48,7 @@ var Whisper = Whisper || {};
           message_input.val("");
         }
         this.remove();
-        convo.trigger('render');
+        convo.trigger('open');
       }
     }
   });
