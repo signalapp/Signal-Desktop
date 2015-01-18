@@ -39,10 +39,20 @@
     var decodeMessageContents = function(res) {
         var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
 
-        //TODO
+        if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+            res[1]();
+
+        return finalMessage;
+    }
+
+    var decodeDeviceContents = function(res) {
+        var finalMessage = textsecure.protobuf.DeviceControl.decode(res[0]);
+
+        //TODO: Add END_SESSION flag for device control messages
         /*if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-            axolotl.protocol.closeSession(res[1], true);*/
+            res[1]();*/
 
         return finalMessage;
     }
@@ -67,14 +77,10 @@
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(function(res) {
-                    return textsecure.protobuf.DeviceControl.decode(res[0]);
-                });
+                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeDeviceContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.DEVICE_CONTROL:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(function(res) {
-                    return textsecure.protobuf.DeviceControl.decode(res[0]);
-                });
+                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(decodeDeviceContents);
             default:
                 return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
             }

@@ -457,7 +457,7 @@ window.axolotl.protocol = function() {
     /*************************
     *** Public crypto API ***
     *************************/
-    // returns decrypted plaintext
+    // returns decrypted plaintext and a function that MUST BE CALLED SYNCHRONOUSLY if the message indicates session close
     self.decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
@@ -507,7 +507,11 @@ window.axolotl.protocol = function() {
                             delete session['pendingPreKey'];
                             removeOldChains(session);
                             crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return [plaintext, session];
+                            return [plaintext, function() {
+                                closeSession(session, true);
+                                removeOldChains(session);
+                                crypto_storage.saveSession(encodedNumber, session, registrationId);
+                            }];
                         });
                     });
                 });
