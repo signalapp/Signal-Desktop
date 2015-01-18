@@ -90,6 +90,10 @@ h2 {
   position: relative;
   margin-bottom: 0.5em;
 }
+.number-container .intl-tel-input,
+.number-container .number {
+  width: 100%;
+}
 .number-container::after {
   visibility: hidden;
   content: ' ';
