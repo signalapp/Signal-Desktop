@@ -34,7 +34,7 @@
         } else {
             $('#choose-setup').show().addClass('in');
 
-            $('input.number').on('keyup', function() {
+            $('input.number').on('validation', function() {
                 if ($('#number-container').hasClass('valid')) {
                     $('#request-sms, #request-voice').removeAttr('disabled');
                 } else {

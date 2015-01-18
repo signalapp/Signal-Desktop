@@ -38,9 +38,10 @@ var Whisper = Whisper || {};
         },
 
         validateNumber: function() {
+            var input = this.$el.find('input.number');
             try {
                 var regionCode = this.$el.find('li.active').attr('data-country-code').toUpperCase();
-                var number = this.$el.find('input.number').val();
+                var number = input.val();
 
                 var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
@@ -49,6 +50,8 @@ var Whisper = Whisper || {};
                 return parsedNumber;
             } catch(e) {
                 this.$el.find('.number-container').removeClass('valid');
+            } finally {
+                input.trigger('validation');
             }
         }
     });
