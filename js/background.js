@@ -225,4 +225,12 @@
 
     extension.on('log', console.log.bind(console));
 
+    chrome.runtime.onConnect.addListener(function (port) {
+        if (port.name === 'panel_presence') {
+            port.onDisconnect.addListener(function (message) {
+                closeConversation(message.sender.tab.windowId);
+            });
+        }
+    });
+
 })();

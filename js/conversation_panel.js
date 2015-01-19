@@ -26,12 +26,9 @@
         });
     };
 
-    var windowId, windowMap = {};
-
-    extension.trigger('log', 'loaded page');
+    var windowId, windowMap = JSON.parse(localStorage.getItem('idPairs'));
 
     window.addEventListener('storage', function (e) {
-        extension.trigger('log', 'got storage event');
         if (e.key = 'idPairs') {
             windowMap = JSON.parse(e.newValue);
 
@@ -48,12 +45,13 @@
     chrome.windows.getCurrent(function (windowInfo) {
         window.document.title = windowId = windowInfo.id;
 
-        extension.trigger('log', 'got page id');
-
         var conversationId = windowMap[windowId];
 
         if (typeof conversationId !== 'undefined') {
             loadConversation(conversationId);
         }
     });
+
+    // lets background.js know when a panel disconnects
+    var port = chrome.runtime.connect({name: "panel_presence"});
 }());

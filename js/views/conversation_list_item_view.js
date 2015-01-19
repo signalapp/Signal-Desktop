@@ -45,21 +45,7 @@ var Whisper = Whisper || {};
         this.view = new Whisper.ConversationView({ model: this.model });
       }
 
-      chrome.windows.create({
-        url: 'conversation.html#' + modelId,
-        type: 'panel',
-        focused: true,
-        width: 280,
-        height: 420
-      }, function (windowInfo) {
-        extension.trigger('log', 'maybe up here?');
-        extension.trigger('log', localStorage.getItem('idPairs'));
-
-        var idPairs = JSON.parse(localStorage.getItem('idPairs') || '{}');
-        idPairs[windowInfo.id] = modelId;
-        localStorage.setItem('idPairs', JSON.stringify(idPairs));
-        extension.trigger('log', 'set idPairs item');
-      });
+      openConversation(modelId);
 
       this.model.collection.trigger('selected', this.view);
     },

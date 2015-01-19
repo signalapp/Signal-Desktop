@@ -17,6 +17,7 @@ var Whisper = Whisper || {};
 
 (function () {
     'use strict';
+
     Whisper.FileInputView = Backbone.View.extend({
         tagName: 'span',
         className: 'file-input',
