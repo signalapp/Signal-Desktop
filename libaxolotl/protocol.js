@@ -69,25 +69,22 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined)
-            device = { sessions: {}, encodedNumber: encodedNumber };
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined) {
+            if (registrationId === undefined)
+                throw new Error("Tried to save a session for an existing device that didn't exist");
+            else
+                record = new axolotl.sessions.RecipientRecord(session.indexInfo.remoteIdentityKey, registrationId);
+        }
 
-        if (registrationId !== undefined)
-            device.registrationId = registrationId;
+        var sessions = record._sessions;
 
-        crypto_storage.saveSessionAndDevice(device, session);
-    }
-
-    crypto_storage.saveSessionAndDevice = function(device, session) {
-        if (device.sessions === undefined)
-            device.sessions = {};
-        var sessions = device.sessions;
+        if (record.identityKey === null)
+            record.identityKey = session.indexInfo.remoteIdentityKey;
+        if (getString(record.identityKey) !== getString(session.indexInfo.remoteIdentityKey))
+            throw new Error("Identity key changed at session save time");
 
         var doDeleteSession = false;
-        if (session.indexInfo.closed == -1 || device.identityKey === undefined)
-            device.identityKey = session.indexInfo.remoteIdentityKey;
-
         if (session.indexInfo.closed != -1) {
             doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
 
@@ -114,19 +111,17 @@ window.axolotl.protocol = function() {
         for (var key in sessions)
             if (sessions[key].indexInfo.closed == -1)
                 openSessionRemaining = true;
-        if (!openSessionRemaining)
-            try {
-                delete device['registrationId'];
-            } catch(_) {}
+        if (!openSessionRemaining) // Used as a flag to get new pre keys for the next session
+            record.registrationId = null;
 
-        axolotl.api.storage.sessions.put(device);
+        axolotl.api.storage.sessions.put(encodedNumber, record);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined || device.sessions === undefined)
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined)
             return undefined;
-        return device.sessions;
+        return record._sessions;
     }
 
     crypto_storage.getOpenSession = function(encodedNumber) {
@@ -164,17 +159,17 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-        var sessions = getSessions(encodedNumber);
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined)
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined)
             return undefined;
+        var sessions = record._sessions;
 
-        var preferredSession = device.sessions && device.sessions[getString(baseKey)];
+        var preferredSession = record._sessions[getString(baseKey)];
         if (preferredSession !== undefined)
             return preferredSession;
 
-        if (device.identityKey !== undefined)
-            return { indexInfo: { remoteIdentityKey: device.identityKey } };
+        if (record.identityKey !== undefined)
+            return { indexInfo: { remoteIdentityKey: record.identityKey } };
 
         throw new Error("Datastore inconsistency: device was stored without identity key");
     }
@@ -540,6 +535,7 @@ window.axolotl.protocol = function() {
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, pushMessageContent) {
         var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
+        var hadSession = session !== undefined;
 
         var doEncryptPushMessageContent = function() {
             var msg = new axolotl.protobuf.WhisperMessage();
@@ -574,17 +570,9 @@ window.axolotl.protocol = function() {
                             result.set(new Uint8Array(encodedMsg), 1);
                             result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
-                            try {
-                                delete deviceObject['signedKey'];
-                                delete deviceObject['signedKeyId'];
-                                delete deviceObject['signedKeySignature'];
-                                delete deviceObject['preKey'];
-                                delete deviceObject['preKeyId'];
-                            } catch(_) {}
-
                             removeOldChains(session);
 
-                            crypto_storage.saveSessionAndDevice(deviceObject, session);
+                            crypto_storage.saveSession(deviceObject.encodedNumber, session, !hadSession ? deviceObject.registrationId : undefined);
                             return result;
                         });
                     });

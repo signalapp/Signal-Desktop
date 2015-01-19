@@ -67,6 +67,7 @@ window.textsecure.messaging = function() {
             }
 
             return axolotl.protocol.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+                textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
                 jsonData[i] = {
                     type: encryptedMsg.type,
                     destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],

@@ -32,20 +32,41 @@
             return internalSaveDeviceObject(deviceObject, true);
         },
 
+        removeTempKeysFromDevice: function(encodedNumber) {
+            var deviceObject = textsecure.storage.devices.getDeviceObject(encodedNumber);
+            try {
+                delete deviceObject['signedKey'];
+                delete deviceObject['signedKeyId'];
+                delete deviceObject['signedKeySignature'];
+                delete deviceObject['preKey'];
+                delete deviceObject['preKeyId'];
+            } catch(_) {}
+            return internalSaveDeviceObject(deviceObject, false);
+        },
+
         getDeviceObjectsForNumber: function(number) {
             var map = textsecure.storage.getEncrypted("devices" + number);
             return map === undefined ? [] : map.devices;
         },
 
-        getDeviceObject: function(encodedNumber) {
-            var number = textsecure.utils.unencodeNumber(encodedNumber);
-            var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number[0]);
-            if (devices === undefined)
+        getDeviceObject: function(encodedNumber, returnIdentityKey) {
+            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+            var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+            if (devices.length == 0) {
+                if (returnIdentityKey) {
+                    var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
+                    if (identityKey !== undefined)
+                        return {identityKey: identityKey};
+                }
                 return undefined;
+            }
 
             for (var i in devices)
                 if (devices[i].encodedNumber == encodedNumber)
                     return devices[i];
+
+            if (returnIdentityKey)
+                return {identityKey: devices[0].identityKey};
 
             return undefined;
         },
@@ -96,6 +117,7 @@
                         map.devices[i].preKeyId = deviceObject.preKeyId;
                         map.devices[i].signedKey = deviceObject.signedKey;
                         map.devices[i].signedKeyId = deviceObject.signedKeyId;
+                        map.devices[i].signedKeySignature = deviceObject.signedKeySignature;
                         map.devices[i].registrationId = deviceObject.registrationId;
                     }
                     updated = true;

@@ -81,6 +81,7 @@ module.exports = function(grunt) {
           'libaxolotl/crypto.js',
           'libaxolotl/protocol.js',
           'libaxolotl/protobufs.js',
+          'libaxolotl/session_storage.js',
         ],
         dest: 'libtextsecure/libaxolotl_concat.js',
       },

@@ -21,10 +21,32 @@
 
             sessions: {
                 get: function(identifier) {
-                    return textsecure.storage.devices.getDeviceObject(identifier);
+                    var device = textsecure.storage.devices.getDeviceObject(identifier, true);
+                    if (device === undefined)
+                        return undefined;
+                    var record = new axolotl.sessions.RecipientRecord();
+                    if (device.sessions !== undefined)
+                        record.deserialize(device.sessions);
+                    else
+                        // TODO: (even for numbers, not devices) We MUST return an identityKey if we have one available
+                        record.identityKey = device.identityKey;
+                    if (getString(device.identityKey) !== getString(record.identityKey))
+                        throw new Error("Got mismatched identity key on sessions load");
+                    return record;
                 },
-                put: function(object) {
-                    return textsecure.storage.devices.saveDeviceObject(object);
+                put: function(identifier, record) {
+                    var device = textsecure.storage.devices.getDeviceObject(identifier);
+                    if (device === undefined) {
+                        device = { encodedNumber: identifier,
+                                   //TODO: Remove this duplication (esp registrationId?)
+                                   identityKey: record.identityKey,
+                                   registrationId: record.registrationId
+                                 };
+                    }
+                    if (getString(device.identityKey) !== getString(record.identityKey))
+                        throw new Error("Tried to put session for device with changed identity key");
+                    device.sessions = record.serialize();
+                    return textsecure.storage.devices.saveDeviceObject(device);
                 }
             }
         },
