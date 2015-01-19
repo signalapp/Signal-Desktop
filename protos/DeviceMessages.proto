@@ -1,5 +1,9 @@
 package textsecure;
 
+message ProvisioningUuid {
+ optional string uuid = 1;
+}
+
 message DeviceInit {
  required bytes masterEphemeralPubKey = 1;
  required bytes identityKeyMessage    = 2; // contains an IdentityKey

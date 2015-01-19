@@ -137,16 +137,18 @@
                 $('#setup-qr').html('');
                 textsecure.protocol.prepareTempWebsocket().then(function(cryptoInfo) {
                     var qrCode = new QRCode(document.getElementById('setup-qr'));
-                    var socket = textsecure.api.getTempWebsocket();
 
-                    socket.onmessage = function(message) {
-                        if (message.uuid) {
+                    var socket = textsecure.api.getTempWebsocket();
+                    new WebSocketResource(socket, function(request) {
+                        if (request.path == "/v1/address" && request.verb == "PUT") {
+                            var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             qrCode.makeCode('textsecure-device-init:/' +
-                                            '?channel_uuid=' + message.uuid +
+                                            '?channel_uuid=' + proto.uuid +
                                             '&channel_server=' + textsecure.api.relay +
                                             '&publicKey=' + btoa(getString(cryptoInfo.publicKey)));
                             $('img').removeAttr('style');
                             $('#multi-device .status').text("Use your phone to scan the QR code.")
+                            request.respond(200, 'OK');
                         } else {
                             $('#init-setup').hide();
                             $('#verify1done').text('');
@@ -157,7 +159,7 @@
                             $('#verify').show().addClass('in');
 
 
-                            textsecure.registerSecondDevice(cryptoInfo, message.message, function(step) {
+                            textsecure.registerSecondDevice(message.body, cryptoInfo, function(step) {
                                 switch(step) {
                                 case 1:
                                     $('#verify1done').text('done');
@@ -179,11 +181,7 @@
                                 }
                             });
                         }
-                    };
-
-                    socket.ondisconnect = function() {
-                        $('#multi-device .status').text("The push server disconnected, please wait while we reconnect...");
-                    };
+                    });
                 });
             });
         }

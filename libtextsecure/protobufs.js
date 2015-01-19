@@ -15,6 +15,7 @@
         PushMessageContent        : pushMessages.PushMessageContent,
         WhisperMessage            : protocolMessages.WhisperMessage,
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
+        ProvisioningUuid          : deviceMessages.ProvisioningUuid,
         DeviceInit                : deviceMessages.DeviceInit,
         IdentityKey               : deviceMessages.IdentityKey,
         DeviceControl             : deviceMessages.DeviceControl,

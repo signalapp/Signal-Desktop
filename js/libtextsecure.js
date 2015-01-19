@@ -5674,6 +5674,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
         PushMessageContent        : pushMessages.PushMessageContent,
         WhisperMessage            : protocolMessages.WhisperMessage,
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
+        ProvisioningUuid          : deviceMessages.ProvisioningUuid,
         DeviceInit                : deviceMessages.DeviceInit,
         IdentityKey               : deviceMessages.IdentityKey,
         DeviceControl             : deviceMessages.DeviceControl,
@@ -6739,7 +6740,7 @@ window.textsecure.api = function () {
     URL_CALLS.devices    = "/v1/devices";
     URL_CALLS.keys       = "/v2/keys";
     URL_CALLS.push       = "/v1/websocket";
-    URL_CALLS.temp_push  = "/v1/temp_websocket";
+    URL_CALLS.temp_push  = "/v1/provisioning";
     URL_CALLS.messages   = "/v1/messages";
     URL_CALLS.attachment = "/v1/attachments";
 
@@ -7023,13 +7024,7 @@ window.textsecure.api = function () {
     }
 
     self.getTempWebsocket = function() {
-        //XXX
-        var socketWrapper = { onmessage: function() {}, ondisconnect: function() {}, onconnect: function() {} };
-        setTimeout(function() {
-            socketWrapper.onmessage({uuid: "404-42-magic"});
-        }, 1000);
-        return socketWrapper;
-        //return getWebsocket(URL_CALLS['temp_push'], false, 5000);
+        return getWebsocket(URL_CALLS['temp_push'], false, 1000);
     }
 
     return self;
