@@ -92,6 +92,13 @@
 
             if (devicesRemoved != deviceIdsToRemove.length)
                 throw new Error("Tried to remove unknown device");
+
+            if (newDevices.length === 0)
+                textsecure.storage.removeEncrypted("devices" + number);
+            else {
+                map.devices = newDevices;
+                textsecure.storage.putEncrypted("devices" + number, map);
+            }
         }
     };
 
