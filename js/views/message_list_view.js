@@ -20,7 +20,7 @@ var Whisper = Whisper || {};
 
   Whisper.MessageListView = Whisper.ListView.extend({
     tagName: 'ul',
-    className: 'discussion',
+    className: 'message-list',
     itemView: Whisper.MessageView,
     events: {
       'add': 'scrollToBottom',

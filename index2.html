@@ -10,22 +10,22 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='/favicon.ico' rel='shortcut icon'>
-        <link href="/stylesheets/normalize.css" rel="stylesheet" type="text/css" />
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
         <link href="/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
-        <link href="/stylesheets/index.css" rel="stylesheet" type="text/css" />
     </head>
     <body class='signal index' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
         <div class='title-bar' id='header'>
-            <a href id='new-message'>New message</a>
-            <a href id='new-group'>New group</a>
+            <button>●</button>
         </div>
+
+        <button class="fab">+</button>
+
         <div id='gutter' class='gutter'>
-            <div class='search'>
+            <!--<div class='search'>
                 <form>
                   <input name='contact_search' placeholder='Search' type='search'>
                 </form>
-            </div>
+            </div>-->
             <div id='contacts'></div>
         </div>
 
@@ -38,7 +38,7 @@
                 <p class='last-message'>
                 {{ last_message }}
                 </p>
-                <span class='last-timestamp'>
+                <span class='timestamp'>
                 {{ last_message_timestamp }}
                 </span>
             </div>
@@ -65,7 +65,6 @@
         <script type="text/javascript" src="js/views/list_view.js"></script>
         <script type="text/javascript" src="js/views/group_update_view.js"></script>
         <script type="text/javascript" src="js/views/attachment_view.js"></script>
-        <script type="text/javascript" src="js/views/message_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_view.js"></script>

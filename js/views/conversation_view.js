@@ -37,7 +37,7 @@
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection
             });
-            $('#conversation-container').append(this.view.el);
+            $('#header').after(this.view.el);
 //new ...({el: $(#conversation-container)})
             this.model.fetchMessages({reset: true});
         },

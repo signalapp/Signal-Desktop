@@ -1,26 +1,15 @@
-// Signal for the Browser 
+// Signal for the Browser
 // A universally compatible extension
 // Below is the ship's manifest
 
 // Global Settings, Variables, and Mixins
-
-  @import "settings/reset"; // set body style and resets
-  @import "settings/swatchbook";
-  @import "settings/breakpoints";
-
-// Provide some context 
-
-  @import "context/title_bar";
-  @import "context/notifications";
+  @import 'variables';
 
 // Build the main view
-  @import "view/search";
-  @import "view/gutter";
-  @import "view/conversation";
-  @import "view/send_message_area";
+  @import 'view/conversation';
 
 // Not sure where something goes, or
 // implementing a known CSS hack? Add it
 // to `shame.scss`, and it will be fixed!
 
-  @import "shame";
+  @import 'shame';
