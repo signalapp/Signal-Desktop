@@ -1,87 +1,36 @@
-TextSecure Chromium Implementation
-==================================
+TextSecure for the Browser
+==========================
 
 [![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
 
-This is very early stuff and exists primarily to get the crypto in place.
-*This does not currently work, dont bother trying to use it seriously yet*
+:warning: *This project is still in the prototype phase. It contains many bugs
+and lacks many features.*
 
-Getting Started with Development
-================================
+Private text and chat for the browser.
 
-These steps are for **development only**.
+## Interoperability
 
-* Clone the repo
-* Open Chrome
-* Go to chrome://extensions/
-* Enable developer mode (checkbox on the top right)
-* Click "Load unpacked extension..."
-* Point to the repo's directory
+TextSecure for the Browser works with [Signal for
+iOS](https://github.com/WhisperSystems/Signal-iOS) and
+[TextSecure](https://github.com/WhisperSystems/TextSecure) on Android.
 
-Note that for development, the TextSecure staging environment uses a
-self-signed certificate, which Chrome will complain is insecure. So first visit
-<https://textsecure-service-staging.whispersystems.org/> in your browser and
-allow the certificate.
+## Cryptography Notice
 
-Now, in the extension's options, you can register for TextSecure:
+This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
+BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted.
+See <http://www.wassenaar.org/> for more information.
 
-* Select "Register" under "I'm new to TextSecure".
-* Enter a real phone number (Google Voice numbers work too) and country
-  combination and choose to send an SMS. You will receive a real SMS.
-* Enter the verification code you received by SMS.
+The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms.
+The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.
 
-You should now be able to use the extension. If you need to reset your
-development environment, open a browser console within the extension options
-page (or inspect `background.html`) and execute `localStorage.clear()` to clear
-out the settings.
+## License
 
-Dependencies
-============
+Copyright 2014 Open Whisper Systems
 
-**Note**: Unless you need to make changes to dependencies, you can skip this
-section and just use the checked in versions.
+Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
-Dependencies are managed by [bower](http://bower.io) and built with
-[grunt](http://gruntjs.com). To change them, you'll need to install node and
-npm, then run `npm install` to install bower, grunt, and related plugins.
 
-### Adding a bower component
-
-Add the package name and version to bower.json under 'dependencies' or `bower
-install package-name --save`
-
-Next update the "preen" config in bower.json with the list of files we will
-actually use from the new package, e.g.:
-```
-  "preen": {
-    "package-name": [
-      "path/to/main.js",
-      "directory/**/*.js"
-    ],
-    ...
-  }
-```
-If you'd like to add the new dependency to js/components.js to be included on
-all html pages, simply append the package name to the concat.app list in
-`bower.json`. Take care to insert it in the order you would like it
-concatenated.
-
-Now, run `grunt` to delete unused package files and build `js/components.js`.
-
-Finally, stage and commit changes to bower.json, `js/components.js`,
-and `components/`. The latter should be limited to files we actually use.
-
-Tests
-=====
-Please write tests! Our testing framework is
-[mocha](http://visionmedia.github.io/mocha/) and our assertion library is
-[chai](http://chaijs.com/api/assert/).
-
-To run tests, open `test/index.html` in your browser. Note that
-
- * Some tests depend on the native client module. These will fail unless you
-   load the test page from the `chrome-extension://` namespace (as opposed to
-   the `file://` namespace or via a local webserver.
- * Some tests may read, write or clear localStorage. It is recommended that you
-   create a Chrome user profile just for running tests to avoid clobbering any
-   existing account and message data.
+### Developers Developers Developers Developers!
+Please see
+[CONTRIBUTING.md](https://github.com/WhisperSystems/TextSecure-Browser/blob/master/CONTRIBUTING.md)
+for setup instructions and contributor guidelines.
