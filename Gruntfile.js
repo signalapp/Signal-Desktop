@@ -78,7 +78,6 @@ module.exports = function(grunt) {
           'libaxolotl/webcrypto_concat.js',
           'libaxolotl/components.js',
 
-          'libaxolotl/groups_storage.js',
           'libaxolotl/crypto.js',
           'libaxolotl/protocol.js',
           'libaxolotl/protobufs.js',
@@ -95,6 +94,7 @@ module.exports = function(grunt) {
           'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
           'libtextsecure/storage/devices.js',
+          'libtextsecure/storage/groups.js',
           'libtextsecure/protobufs.js',
           'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
