@@ -5,14 +5,8 @@
 ;(function() {
     window.axolotl = window.axolotl || {};
     window.axolotl.api = {
-        getMyIdentifier: function() {
-            return textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
-        },
         getMyRegistrationId: function() {
             return textsecure.storage.getUnencrypted("registrationId");
-        },
-        isIdentifierSane: function(identifier) {
-            return textsecure.utils.isNumberSane(identifier);
         },
         storage: {
             put: function(key, value) {

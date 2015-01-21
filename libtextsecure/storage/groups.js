@@ -20,10 +20,10 @@
     /*********************
      *** Group Storage ***
      *********************/
-    window.axolotl = window.axolotl || {};
-    window.axolotl.storage = window.axolotl.storage || {};
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
 
-    window.axolotl.storage.groups = {
+    window.textsecure.storage.groups = {
         createNewGroup: function(numbers, groupId) {
             if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
@@ -31,12 +31,12 @@
             while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
                 groupId = getString(axolotl.crypto.getRandomBytes(16));
 
-            var me = axolotl.api.getMyIdentifier();
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
                 var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
+                if (!textsecure.utils.isNumberSane(number))
                     throw new Error("Invalid number in group");
                 if (number == me)
                     haveMe = true;
@@ -69,7 +69,7 @@
             if (group === undefined)
                 return undefined;
 
-            var me = axolotl.api.getMyIdentifier();
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
             if (number == me)
                 throw new Error("Cannot remove ourselves from a group, leave the group instead");
 
@@ -90,7 +90,7 @@
 
             for (var i in numbers) {
                 var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
+                if (!textsecure.utils.isNumberSane(number))
                     throw new Error("Invalid number in set to add to group");
                 if (group.numbers.indexOf(number) < 0) {
                     group.numbers.push(number);
@@ -131,10 +131,4 @@
             return needUpdate;
         },
     };
-
-    //TODO: RM
-    window.textsecure = window.textsecure || {};
-    window.textsecure.storage = window.textsecure.storage || {};
-    window.textsecure.storage.groups = window.axolotl.storage.groups;
-
 })();
