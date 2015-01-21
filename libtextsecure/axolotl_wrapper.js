@@ -24,6 +24,15 @@
             remove: function(key) {
                 return textsecure.storage.removeEncrypted(key);
             },
+
+            sessions: {
+                get: function(identifier) {
+                    return textsecure.storage.devices.getDeviceObject(identifier);
+                },
+                put: function(object) {
+                    return textsecure.storage.devices.saveDeviceObject(object);
+                }
+            }
         },
         updateKeys: function(keys) {
             return textsecure.api.registerKeys(keys).catch(function(e) {
