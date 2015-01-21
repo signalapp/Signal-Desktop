@@ -33,11 +33,7 @@
                     var device = textsecure.storage.devices.getDeviceObject(identifier, true);
                     if (device === undefined || device.sessions === undefined)
                         return undefined;
-                    var record = new axolotl.sessions.RecipientRecord();
-                    record.deserialize(device.sessions);
-                    if (getString(device.identityKey) !== getString(record.identityKey))
-                        throw new Error("Got mismatched identity key on sessions load");
-                    return record;
+                    return device.sessions;
                 },
                 put: function(identifier, record) {
                     var device = textsecure.storage.devices.getDeviceObject(identifier);
@@ -50,7 +46,7 @@
                     }
                     if (getString(device.identityKey) !== getString(record.identityKey))
                         throw new Error("Tried to put session for device with changed identity key");
-                    device.sessions = record.serialize();
+                    device.sessions = record;
                     return textsecure.storage.devices.saveDeviceObject(device);
                 }
             }

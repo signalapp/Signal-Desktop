@@ -46,7 +46,18 @@
 
         getDeviceObjectsForNumber: function(number) {
             var map = textsecure.storage.getEncrypted("devices" + number);
-            return map === undefined ? [] : map.devices;
+            if (map === undefined)
+               return [];
+            for (key in map.devices) {
+                if (map.devices[key].sessions !== undefined) {
+                    var record = new axolotl.sessions.RecipientRecord();
+                    record.deserialize(map.devices[key].sessions);
+                    if (getString(map.identityKey) !== getString(record.identityKey))
+                        throw new Error("Got mismatched identity key on device object load");
+                    map.devices[key].sessions = record;
+                }
+            }
+            return map.devices;
         },
 
         getIdentityKeyForNumber: function(number) {
@@ -121,6 +132,9 @@
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
         var map = textsecure.storage.getEncrypted("devices" + number);
+
+        if (deviceObject.sessions !== undefined)
+            deviceObject.sessions = deviceObject.sessions.serialize()
 
         if (map === undefined)
             map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
