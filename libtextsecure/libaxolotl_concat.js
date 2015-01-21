@@ -23644,25 +23644,22 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined)
-            device = { sessions: {}, encodedNumber: encodedNumber };
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined) {
+            if (registrationId === undefined)
+                throw new Error("Tried to save a session for an existing device that didn't exist");
+            else
+                record = new axolotl.sessions.RecipientRecord(session.indexInfo.remoteIdentityKey, registrationId);
+        }
 
-        if (registrationId !== undefined)
-            device.registrationId = registrationId;
+        var sessions = record._sessions;
 
-        crypto_storage.saveSessionAndDevice(device, session);
-    }
-
-    crypto_storage.saveSessionAndDevice = function(device, session) {
-        if (device.sessions === undefined)
-            device.sessions = {};
-        var sessions = device.sessions;
+        if (record.identityKey === null)
+            record.identityKey = session.indexInfo.remoteIdentityKey;
+        if (getString(record.identityKey) !== getString(session.indexInfo.remoteIdentityKey))
+            throw new Error("Identity key changed at session save time");
 
         var doDeleteSession = false;
-        if (session.indexInfo.closed == -1 || device.identityKey === undefined)
-            device.identityKey = session.indexInfo.remoteIdentityKey;
-
         if (session.indexInfo.closed != -1) {
             doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
 
@@ -23689,19 +23686,27 @@ window.axolotl.protocol = function() {
         for (var key in sessions)
             if (sessions[key].indexInfo.closed == -1)
                 openSessionRemaining = true;
-        if (!openSessionRemaining)
-            try {
-                delete device['registrationId'];
-            } catch(_) {}
+        if (!openSessionRemaining) // Used as a flag to get new pre keys for the next session
+            record.registrationId = null;
+        else if (record.registrationId === null && registrationId !== undefined)
+            record.registrationId = registrationId;
+        else if (record.registrationId === null)
+            throw new Error("Had open sessions on a record that had no registrationId set");
 
-        axolotl.api.storage.sessions.put(device);
+        var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+        if (identityKey === undefined)
+            axolotl.api.storage.identityKeys.put(encodedNumber, record.identityKey);
+        else if (getString(identityKey) !== getString(record.identityKey))
+            throw new Error("Tried to change identity key at save time");
+
+        axolotl.api.storage.sessions.put(encodedNumber, record);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined || device.sessions === undefined)
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined)
             return undefined;
-        return device.sessions;
+        return record._sessions;
     }
 
     crypto_storage.getOpenSession = function(encodedNumber) {
@@ -23739,17 +23744,21 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-        var sessions = getSessions(encodedNumber);
-        var device = axolotl.api.storage.sessions.get(encodedNumber);
-        if (device === undefined)
-            return undefined;
+        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        if (record === undefined) {
+            var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+            if (identityKey === undefined)
+                return undefined;
+            return { indexInfo: { remoteIdentityKey: identityKey } };
+        }
+        var sessions = record._sessions;
 
-        var preferredSession = device.sessions && device.sessions[getString(baseKey)];
+        var preferredSession = record._sessions[getString(baseKey)];
         if (preferredSession !== undefined)
             return preferredSession;
 
-        if (device.identityKey !== undefined)
-            return { indexInfo: { remoteIdentityKey: device.identityKey } };
+        if (record.identityKey !== undefined)
+            return { indexInfo: { remoteIdentityKey: record.identityKey } };
 
         throw new Error("Datastore inconsistency: device was stored without identity key");
     }
@@ -24115,6 +24124,7 @@ window.axolotl.protocol = function() {
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, pushMessageContent) {
         var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
+        var hadSession = session !== undefined;
 
         var doEncryptPushMessageContent = function() {
             var msg = new axolotl.protobuf.WhisperMessage();
@@ -24149,17 +24159,9 @@ window.axolotl.protocol = function() {
                             result.set(new Uint8Array(encodedMsg), 1);
                             result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
-                            try {
-                                delete deviceObject['signedKey'];
-                                delete deviceObject['signedKeyId'];
-                                delete deviceObject['signedKeySignature'];
-                                delete deviceObject['preKey'];
-                                delete deviceObject['preKeyId'];
-                            } catch(_) {}
-
                             removeOldChains(session);
 
-                            crypto_storage.saveSessionAndDevice(deviceObject, session);
+                            crypto_storage.saveSession(deviceObject.encodedNumber, session, !hadSession ? deviceObject.registrationId : undefined);
                             return result;
                         });
                     });
@@ -24332,4 +24334,58 @@ window.axolotl.protocol = function() {
         IdentityKey               : deviceMessages.IdentityKey,
         DeviceControl             : deviceMessages.DeviceControl,
     };
+})();
+
+/* vim: ts=4:sw=4
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+;(function() {
+
+'use strict';
+window.axolotl = window.axolotl || {};
+
+var RecipientRecord = function(identityKey, registrationId) {
+    this._sessions = {};
+    this.identityKey = identityKey !== undefined ? getString(identityKey) : null;
+    this.registrationId = registrationId;
+
+    if (this.registrationId === undefined || typeof this.registrationId !== "number")
+        this.registrationId = null;
+};
+
+RecipientRecord.prototype.serialize = function() {
+    return textsecure.utils.jsonThing({sessions: this._sessions, registrationId: this.registrationId, identityKey: this.identityKey});
+}
+
+RecipientRecord.prototype.deserialize = function(serialized) {
+    var data = JSON.parse(serialized);
+    this._sessions = data.sessions;
+    if (this._sessions === undefined || this._sessions === null || typeof this._sessions !== "object" || Array.isArray(this._sessions))
+        throw new Error("Error deserializing RecipientRecord");
+    this.identityKey = data.identityKey;
+    this.registrationId = data.registrationId;
+    if (this.identityKey === undefined || this.registrationId === undefined)
+        throw new Error("Error deserializing RecipientRecord");
+}
+
+RecipientRecord.prototype.haveOpenSession = function() {
+    return this.registrationId !== null;
+}
+
+window.axolotl.sessions = {
+    RecipientRecord: RecipientRecord,
+};
+
 })();
