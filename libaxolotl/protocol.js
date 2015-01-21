@@ -69,7 +69,7 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             device = { sessions: {}, encodedNumber: encodedNumber };
 
@@ -119,11 +119,11 @@ window.axolotl.protocol = function() {
                 delete device['registrationId'];
             } catch(_) {}
 
-        textsecure.storage.devices.saveDeviceObject(device);
+        axolotl.api.storage.sessions.put(device);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined || device.sessions === undefined)
             return undefined;
         return device.sessions;
@@ -165,7 +165,7 @@ window.axolotl.protocol = function() {
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         var sessions = getSessions(encodedNumber);
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             return undefined;
 
