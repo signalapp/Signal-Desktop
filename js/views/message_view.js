@@ -37,11 +37,12 @@
     className: "entry",
 
     initialize: function() {
+      var groupUpdate = this.model.get('group_update');
       this.$el.addClass(this.model.get('type'));
 
-      if (this.model.get('group_update')) {
+      if (groupUpdate) {
           this.group_update_view = new Whisper.GroupUpdateView({
-              model: this.model.get('group_update')
+              model: groupUpdate
           }).render();
       } else {
         this.template = $('#message').html();
