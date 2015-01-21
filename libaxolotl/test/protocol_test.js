@@ -224,6 +224,7 @@ describe('Protocol', function() {
                 it(axolotlTestVectors[i].name, function(done) {
                     localStorage.clear();
                     testSessionMap = {};
+                    testIdentityKeysMap = {};
                     return runAxolotlTest(axolotlTestVectors[i].vectors).then(function(res) {
                         assert(res);
                     }).then(done).catch(done);

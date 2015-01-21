@@ -113,6 +113,16 @@ window.axolotl.protocol = function() {
                 openSessionRemaining = true;
         if (!openSessionRemaining) // Used as a flag to get new pre keys for the next session
             record.registrationId = null;
+        else if (record.registrationId === null && registrationId !== undefined)
+            record.registrationId = registrationId;
+        else if (record.registrationId === null)
+            throw new Error("Had open sessions on a record that had no registrationId set");
+
+        var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+        if (identityKey === undefined)
+            axolotl.api.storage.identityKeys.put(encodedNumber, record.identityKey);
+        else if (getString(identityKey) !== getString(record.identityKey))
+            throw new Error("Tried to change identity key at save time");
 
         axolotl.api.storage.sessions.put(encodedNumber, record);
     }
@@ -160,8 +170,12 @@ window.axolotl.protocol = function() {
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         var record = axolotl.api.storage.sessions.get(encodedNumber);
-        if (record === undefined)
-            return undefined;
+        if (record === undefined) {
+            var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+            if (identityKey === undefined)
+                return undefined;
+            return { indexInfo: { remoteIdentityKey: identityKey } };
+        }
         var sessions = record._sessions;
 
         var preferredSession = record._sessions[getString(baseKey)];

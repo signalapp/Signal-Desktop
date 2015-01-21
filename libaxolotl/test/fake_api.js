@@ -1,6 +1,7 @@
 'use strict';
 
 var testSessionMap = {};
+var testIdentityKeysMap = {};
 
 ;(function() {
     window.axolotl = window.axolotl || {};
@@ -22,6 +23,15 @@ var testSessionMap = {};
             },
             remove: function(key) {
                 localStorage.removeItem(key);
+            },
+
+            identityKeys: {
+                get: function(identifier) {
+                    return testIdentityKeysMap[identifier];
+                },
+                put: function(identifier, identityKey) {
+                    testIdentityKeysMap[identifier] = identityKey;
+                },
             },
 
             sessions: {

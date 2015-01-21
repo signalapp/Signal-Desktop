@@ -19,17 +19,22 @@
                 return textsecure.storage.removeEncrypted(key);
             },
 
+            identityKeys: {
+                get: function(identifier) {
+                    return textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0]);
+                },
+                put: function(identifier, identityKey) {
+                    return textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey);
+                },
+            },
+
             sessions: {
                 get: function(identifier) {
                     var device = textsecure.storage.devices.getDeviceObject(identifier, true);
-                    if (device === undefined)
+                    if (device === undefined || device.sessions === undefined)
                         return undefined;
                     var record = new axolotl.sessions.RecipientRecord();
-                    if (device.sessions !== undefined)
-                        record.deserialize(device.sessions);
-                    else
-                        // TODO: (even for numbers, not devices) We MUST return an identityKey if we have one available
-                        record.identityKey = device.identityKey;
+                    record.deserialize(device.sessions);
                     if (getString(device.identityKey) !== getString(record.identityKey))
                         throw new Error("Got mismatched identity key on sessions load");
                     return record;

@@ -49,6 +49,19 @@
             return map === undefined ? [] : map.devices;
         },
 
+        getIdentityKeyForNumber: function(number) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            return map === undefined ? undefined : map.identityKey;
+        },
+
+        checkSaveIdentityKeyForNumber: function(number, identityKey) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            if (map === undefined)
+                textsecure.storage.putEncrypted("devices" + number, { devices: [], identityKey: identityKey});
+            else if (getString(map.identityKey) !== getString(identityKey))
+                throw new Error("Attempted to overwrite a different identity key");
+        },
+
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
