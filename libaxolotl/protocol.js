@@ -454,11 +454,7 @@ window.axolotl.protocol = function() {
             return finish();
     }
 
-    /*************************
-    *** Public crypto API ***
-    *************************/
-    // returns decrypted plaintext and a function that MUST BE CALLED SYNCHRONOUSLY if the message indicates session close
-    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+    var doDecryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
 
@@ -510,7 +506,7 @@ window.axolotl.protocol = function() {
                             return [plaintext, function() {
                                 closeSession(session, true);
                                 removeOldChains(session);
-                                crypto_storage.saveSession(encodedNumber, session, registrationId);
+                                crypto_storage.saveSession(encodedNumber, session);
                             }];
                         });
                     });
@@ -519,11 +515,21 @@ window.axolotl.protocol = function() {
         });
     }
 
+    /*************************
+    *** Public crypto API ***
+    *************************/
+    //TODO: SHARP EDGE HERE
+    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
+    // returns decrypted plaintext and a function that must be called if the message indicates session close
+    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
+        return doDecryptWhisperMessage(encodedNumber, messageBytes, session);
+    }
+
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
         var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return self.decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+            return doDecryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
                     sessions[1]();
                 return result;
