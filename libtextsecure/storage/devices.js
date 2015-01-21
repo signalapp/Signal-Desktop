@@ -40,6 +40,7 @@
                 delete deviceObject['signedKeySignature'];
                 delete deviceObject['preKey'];
                 delete deviceObject['preKeyId'];
+                delete deviceObject['registrationId'];
             } catch(_) {}
             return internalSaveDeviceObject(deviceObject, false);
         },
@@ -127,7 +128,7 @@
     };
 
     var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined || deviceObject.registrationId === undefined)
+        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
             throw new Error("Tried to store invalid deviceObject");
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];

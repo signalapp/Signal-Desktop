@@ -39,9 +39,8 @@
                     var device = textsecure.storage.devices.getDeviceObject(identifier);
                     if (device === undefined) {
                         device = { encodedNumber: identifier,
-                                   //TODO: Remove this duplication (esp registrationId?)
-                                   identityKey: record.identityKey,
-                                   registrationId: record.registrationId
+                                   //TODO: Remove this duplication
+                                   identityKey: record.identityKey
                                  };
                     }
                     if (getString(device.identityKey) !== getString(record.identityKey))

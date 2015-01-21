@@ -19,6 +19,7 @@ window.textsecure.messaging = function() {
 
     var self = {};
 
+    //TODO: Dont hit disk for any of the key-fetching!
     function getKeysForNumber(number, updateDevices) {
         var handleResult = function(response) {
             for (var i in response.devices) {
@@ -68,10 +69,12 @@ window.textsecure.messaging = function() {
 
             return axolotl.protocol.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
                 textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
+                var registrationId = deviceObjectList[i].registrationId || deviceObjectList[i].sessions.registrationId;
+
                 jsonData[i] = {
                     type: encryptedMsg.type,
                     destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
-                    destinationRegistrationId: deviceObjectList[i].registrationId,
+                    destinationRegistrationId: registrationId,
                     body: encryptedMsg.body,
                     timestamp: timestamp
                 };
@@ -94,7 +97,8 @@ window.textsecure.messaging = function() {
 
         var doUpdate = false;
         for (var i in devicesForNumber) {
-            if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, devicesForNumber[i].registrationId))
+            var registrationId = devicesForNumber[i].registrationId || devicesForNumber[i].sessions.registrationId;
+            if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
                 doUpdate = true;
         }
         if (!doUpdate)
@@ -210,7 +214,7 @@ window.textsecure.messaging = function() {
 
             var promises = [];
             for (var j in devicesForNumber)
-                if (devicesForNumber[j].registrationId === undefined)
+                if (devicesForNumber[j].sessions === undefined || !devicesForNumber[j].sessions.haveOpenSession())
                     promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
 
             Promise.all(promises).then(function() {
