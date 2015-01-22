@@ -128,8 +128,8 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      files: ['<%= jshint.files %>', './js/**/*.js', './stylesheets/**/!(manifest.css)'],
+      tasks: ['jshint', 'sass']
     },
     connect: {
       server: {
@@ -191,7 +191,7 @@ module.exports = function(grunt) {
       });
   });
 
-  grunt.registerTask('dev', ['connect', 'watch']);
+  grunt.registerTask('dev', ['connect', 'watch', 'sass']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['preen', 'concat', 'sass']);
   grunt.registerTask('build', ['compile', 'concat:curve25519', 'concat:libtextsecure']);
