@@ -63,7 +63,7 @@
             if (opened === false) {
                 opened = true;
                 chrome.windows.create({
-                    url: 'index2.html',
+                    url: 'index.html',
                     type: 'panel',
                     focused: true,
                     width: 260, // 280 for chat
