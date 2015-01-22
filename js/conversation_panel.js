@@ -24,7 +24,7 @@
         conversation.fetch().then(function () {
             new Whisper.ConversationView({
                 model: conversation
-            }).render().$el.appendTo($('#conversation-container'));
+            }).render().$el.prependTo($('body'));
         });
     };
 

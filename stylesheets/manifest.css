@@ -8,7 +8,9 @@ body {
   margin: 0; }
 
 .title-bar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  width: 100%;
   z-index: 1;
   height: 36px;
   line-height: 24px;
@@ -22,7 +24,6 @@ body {
     padding: 0;
     border: 0;
     outline: 0;
-    font-size: 36px;
     color: white;
     background: transparent; }
 
@@ -53,7 +54,7 @@ button {
   font-size: 12px; }
 
 .message-list {
-  margin-bottom: 52px;
+  margin: 52px 0;
   padding: 0;
   list-style: none;
   font-size: 16px;
@@ -74,7 +75,7 @@ button {
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 2 * 54px - 2 * 12px - 8px);
+    max-width: calc(100% - 54px - 2 * 12px);
     padding: 9px 12px;
     border-radius: 4px;
     box-shadow: 0 3px 3px -4px black; }
@@ -114,11 +115,13 @@ button {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2a92e7; }
-  .message-list img {
+  .message-list .attachments img {
+    max-width: 100%; }
+  .message-list img.avatar {
     height: 54px;
     width: 54px;
     box-sizing: border-box;
-    border: 27px #2a92e7 solid;
+    border: 27px #f3f3f3 solid;
     border-radius: 27px; }
   .message-list .timestamp {
     margin-top: 3px;
@@ -143,22 +146,47 @@ button {
     outline: 0;
     font-size: 24px;
     background: transparent; }
-  .bottom-bar .attachments-btn {
-    left: 0; }
+  .bottom-bar .attachments {
+    position: relative;
+    height: 100%;
+    width: 36px;
+    float: left; }
+    .bottom-bar .attachments .paperclip {
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+      background: url("/images/paperclip.png") no-repeat;
+      background-size: 90%;
+      background-position: center 6px; }
+    .bottom-bar .attachments input[type=file] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      z-index: 1; }
   .bottom-bar .send-btn {
-    right: 0; }
+    float: right;
+    height: 100%;
+    width: 36px;
+    border: none;
+    outline: none;
+    background: url("/images/send.png") no-repeat;
+    background-size: 90%;
+    background-position: center 1px;
+    cursor: pointer; }
+    .bottom-bar .send-btn::before {
+      content: '+'; }
   .bottom-bar form, .bottom-bar input {
+    height: 100%; }
+  .bottom-bar input[type=textarea] {
+    display: block;
     height: 100%;
-    width: 100%; }
-  .bottom-bar input {
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 36px;
     border: 0;
     outline: 0;
-    font-size: 16px;
-    background: white; }
+    z-index: 5; }
 
 .index {
   color: #454545;
@@ -206,8 +234,6 @@ button {
     width: 54px;
     background: #f3f3f3;
     border-radius: 27px; }
-  .index .message-list {
-    display: none; }
 
 .settings {
   height: 100%;
@@ -216,5 +242,3 @@ button {
   display: none; }
   .settings-open .settings {
     display: block; }
-
-/*# sourceMappingURL=manifest.css.map */

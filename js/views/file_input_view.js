@@ -34,7 +34,7 @@ var Whisper = Whisper || {};
 
         addThumb: function(e) {
             this.thumb.src = e.target.result;
-            this.$el.append(this.thumb.render().el);
+            this.$el.find('.paperclip').append(this.thumb.render().el);
         },
 
         previewImages: function() {

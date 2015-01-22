@@ -11,37 +11,45 @@
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
         <link href="/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
     </head>
-    <body class='signal' data-name="curve25519" data-tools="pnacl" data-configs="Debug Release" data-path="nacl/pnacl/{config}">
+    <body class='signal'>
+        <script type='text/x-tmpl-mustache' id='conversation'>
+            <div class='title-bar' id='header'>
+                {{#group}}
+                    <button class='new-group-update'>Update group</button>
+                    <button class='leave-group'>Leave group</button>
+                {{/group}}
+                {{^group}}
+                    <button class='end-session'>End Session</button>
+                {{/group}}
+                <button class='destroy'>Delete this conversation</button>
+            </div>
 
-        <div class='title-bar' id='header'>
-            <button class='settings-btn'>●</button>
-        </div>
+            <div class='discussion-container'></div>
 
+            <div class="bottom-bar">
+                <form class='send'>
+                    <div class='attachments'>
+                        <div class='paperclip'></div>
+                        <input type='file' name='files[]' multiple class='file-input'>
+                    </div>
+                    <input class="send-btn" type='submit' value='' />
+                    <input class='send-message' type='textarea' placeholder="Send a message">
+                </form>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='attachment-preview'>
+              <img src="{{ source }}" class="preview" />
+              <div class="close">x</div>
+        </script>
         <script type='text/x-tmpl-mustache' id='message'>
-
-            <img class="avatar" src="#" alt="">
+            <div class='sender'>{{ sender }}</div>
+            <img class='avatar' src='{{ contact_avatar }}'>
             <div class="bubble {{ bubble_class }}">
                 <p class="content">{{ message }}</p>
-                <!--<p class="sender">{{ sender }}</p>-->
+                <div class='attachments'></div>
                 <p class="timestamp">{{ timestamp }}</p>
             </div>
         </script>
-
-        <div class="bottom-bar">
-            <button class="attachment-btn">●</button>
-            <form class='send'>
-                <input class='send-message' rows='6' type='textarea' placeholder="Send TextSecure message">
-                <!--<div class='attachments'>
-                    <input type='file' name='files[]' multiple class='file-input'>
-                </div>-->
-            </form>
-            <button class="send-btn">●</button>
-        </div>
-
-        <div class="settings">
-            Welcome to the settings page!!
-            <a href="#" class="go-back">Go Back?</a>
-        </div>
 
         <script type="text/javascript" src="js/components.js"></script>
 

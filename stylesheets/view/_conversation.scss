@@ -12,7 +12,9 @@ body {
 }
 
 .title-bar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  width: 100%;
   z-index: 1;
   height: 36px;
   line-height: 24px;
@@ -27,7 +29,6 @@ body {
     padding: 0;
     border: 0;
     outline: 0;
-    font-size: 36px;
     color: white;
     background: transparent;
   }
@@ -65,7 +66,7 @@ button {
 }
 
 .message-list {
-  margin-bottom: 36px + 16px;
+  margin: 36px + 16px 0;
   padding: 0;
   list-style: none;
   font-size: 16px;
@@ -93,7 +94,7 @@ button {
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 2 * 54px - 2 * 12px - 8px);
+    max-width: calc(100% - 54px - 2 * 12px);
     padding: 9px 12px;
     border-radius: 4px;
     box-shadow: 0 3px 3px -4px black;
@@ -163,12 +164,15 @@ button {
   }
 
 
-  img {
+  .attachments img {
+    max-width: 100%;
+  }
+  img.avatar {
     height: 54px;
     width: 54px;
     // delete next 2 lines
     box-sizing: border-box;
-    border: (54px / 2) $blue solid;
+    border: (54px / 2) $grey_l solid;
     border-radius: (54px / 2);
   }
 
@@ -202,28 +206,59 @@ button {
     background: transparent;
   }
 
-  .attachments-btn {
-    left: 0;
+  .attachments {
+    position: relative;
+    height: 100%;
+    width: 36px;
+
+    .paperclip {
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+      background: url('/images/paperclip.png') no-repeat;
+      background-size: 90%;
+      background-position: center 6px;
+    }
+    input[type=file] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    float: left;
   }
 
   .send-btn {
-    right: 0;
+    float: right;
+    height: 100%;
+    width: 36px;
+    border: none;
+    outline: none;
+    background: url('/images/send.png') no-repeat;
+    background-size: 90%;
+    background-position: center 1px;
+    cursor: pointer;
+
+    &::before {
+      content: '+';
+    }
   }
 
   form, input {
     height: 100%;
-    width: 100%;
   }
 
-  input {
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 36px;
-    border: 0;
-    outline: 0;
-    font-size: 16px;
-    background: white;
+  input[type=textarea] {
+      display: block;
+      height: 100%;
+      border: 0;
+      outline: 0;
+      z-index: 5;
   }
 }
 
@@ -293,12 +328,6 @@ button {
     width: 54px;
     background: $grey_l;
     border-radius: (54px / 2);
-  }
-
-  // TODO: RJS
-  // SHAAAAAAME!!!!
-  .message-list {
-    display: none;
   }
 
 }

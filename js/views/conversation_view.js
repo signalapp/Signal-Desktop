@@ -37,7 +37,7 @@
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection
             });
-            $('#header').after(this.view.el);
+            this.$el.find('.discussion-container').append(this.view.el);
 
             this.model.fetchMessages({reset: true});
         },
@@ -73,7 +73,7 @@
 
         sendMessage: function(e) {
             e.preventDefault();
-            var input = this.$el.find('.send input');
+            var input = this.$el.find('.send input.send-message');
             var message = input.val();
             var convo = this.model;
 
