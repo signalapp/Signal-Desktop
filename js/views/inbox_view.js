@@ -30,23 +30,13 @@
                 collection : this.conversations
             });
 
-            this.conversations.fetchActive({reset: true}).then(function() {
-                if (this.conversations.length) {
-                    this.conversations.at(0).trigger('open');
-                }
-            }.bind(this));
+            this.conversations.fetchActive({reset: true});
 
             extension.on('message', function(message) {
                 this.conversations.fetch({id: message.conversationId}).then(function() {
                     this.conversations.get(message.conversationId).fetchMessages();
                 }.bind(this));
             }.bind(this));
-
-            this.conversations.on('selected', function(view) {
-                $('.conversation').hide().trigger('close'); // detach any existing conversation views
-                this.setContent(view.$el.show());
-                view.render();
-            }, this);
         },
         events: {
             'click #new-message': 'new_message',

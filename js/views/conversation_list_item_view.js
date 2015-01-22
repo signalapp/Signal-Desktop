@@ -20,7 +20,6 @@ var Whisper = Whisper || {};
   'use strict';
 
   var bg = extension.windows.getBackground();
-
   // list of conversations, showing user/group and last message sent
   Whisper.ConversationListItemView = Backbone.View.extend({
     tagName: 'div',
@@ -39,17 +38,8 @@ var Whisper = Whisper || {};
     },
 
     open: function(e) {
-      var modelId = this.model.id;
-
       this.$el.addClass('selected');
-
-      if (!this.view) {
-        this.view = new Whisper.ConversationView({ model: this.model });
-      }
-
-      bg.openConversation(modelId);
-
-      this.model.collection.trigger('selected', this.view);
+      bg.openConversation(this.model.id);
     },
 
     render: function() {
