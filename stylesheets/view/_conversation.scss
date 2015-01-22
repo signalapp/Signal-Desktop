@@ -62,6 +62,7 @@ button {
 }
 
 .message-list {
+  margin-bottom: 36px + 16px;
   padding: 0;
   list-style: none;
   font-size: 16px;
@@ -299,4 +300,15 @@ button {
     display: none;
   }
 
+}
+
+.settings {
+  height: 100%;
+  width: 100%;
+  background: red;
+  display: none;
+
+  .settings-open & {
+    display: block;
+  }
 }

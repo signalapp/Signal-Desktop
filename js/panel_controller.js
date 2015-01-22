@@ -15,39 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// This script should only be included in background.html
+// Whisper.windowMap is defined in background.js
 (function () {
   'use strict';
 
   window.Whisper = window.Whisper || {};
 
-  // TODO: RJS
-  // resetting for now, but super fragile:
-  //   1. if this file is included in conversation.html we're doomed.
-  //   2. if index.html is refreshed, duplicates can be opened
-  //   2.5. ...and refreshing conversation windows will fuck up.
-  if (!localStorage.getItem('activeConversations')) {
-    localStorage.setItem('activeConversations', '{}');
-  }
+  var windowMap = Whisper.windowMap;
 
-  if (!localStorage.getItem('idPairs')) {
-    localStorage.setItem('idPairs', '{}');
-  }
-
-  // TODO: RJS
-  // How do we normally export from modules like this?
-  // Is it necessary to have n copies of each of these scripts..?
-  //   (n Whisper objects, etc in existence) Using localStorage for
-  //   sync feels like a hack...
-  //
   window.openConversation = function openConversation (modelId) {
-    var activeConversations = JSON.parse(localStorage.getItem('activeConversations'));
-    var windowId = activeConversations[modelId];
+
+    var windowId = windowMap.windowIdFrom(modelId);
 
     // prevent multiple copies of the same conversation from being opened
     if (!windowId) {
-      localStorage.setItem('activeConversations', JSON.stringify(activeConversations));
-
-      // open the window
+      // open the panel
       chrome.windows.create({
         url: 'conversation.html',
         type: 'panel',
@@ -58,40 +41,26 @@
         var idPairs = JSON.parse(localStorage.getItem('idPairs'));
         var newWindowId = windowInfo.id;
 
-        // TODO: RJS
-        // should we make a class for bijection?
-        // bit sketchy that we have to keep these two hashes synced...
-        activeConversations[modelId] = newWindowId;
-        idPairs[newWindowId] = modelId;
-
-        localStorage.setItem('activeConversations', JSON.stringify(activeConversations));
-        localStorage.setItem('idPairs', JSON.stringify(idPairs));
+        windowMap.add({
+          windowId: windowInfo.id,
+          modelId: modelId
+        });
       });
     } else {
-      try {
-        chrome.windows.update(windowId, { focused: true }, function () {
-            if (chrome.runtime.lastError) {
-                window.closeConversation(windowId);
-            } else {
-                // Tab exists
-            }
-        });
-      } catch (err) {
-        // TODO: RJS
-        //  - should check the err type
-        //  - should open a new panel here
-      }
+      // focus the panel
+      chrome.windows.update(windowId, { focused: true }, function () {
+        if (chrome.runtime.lastError) {
+          // panel isn't actually open...
+          window.closeConversation(windowId);
+
+          // ...and so we try again.
+          openConversation(modelId);
+        }
+      });
     }
   };
 
   window.closeConversation = function closeConversation (windowId) {
-    var activeConversations = JSON.parse(localStorage.getItem('activeConversations'));
-    var idPairs = JSON.parse(localStorage.getItem('idPairs'));
-
-    delete activeConversations[idPairs[windowId]];
-    delete idPairs[windowId];
-
-    localStorage.setItem('activeConversations', JSON.stringify(activeConversations));
-    localStorage.setItem('idPairs', JSON.stringify(idPairs));
+    windowMap.remove('windowId', windowId);
   };
-}());
+})();

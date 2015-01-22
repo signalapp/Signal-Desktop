@@ -38,7 +38,7 @@
                 collection: this.model.messageCollection
             });
             $('#header').after(this.view.el);
-//new ...({el: $(#conversation-container)})
+
             this.model.fetchMessages({reset: true});
         },
 
@@ -46,7 +46,9 @@
             'submit .send': 'sendMessage',
             'close': 'remove',
             'click .destroy': 'destroyMessages',
-            'click .new-group-update': 'newGroupUpdate'
+            'click .new-group-update': 'newGroupUpdate',
+            'click .settings-btn': 'toggleSettings',
+            'click .go-back': 'toggleSettings'
         },
 
         newGroupUpdate: function() {
@@ -83,20 +85,13 @@
             }
         },
 
-        /*addAll: function() {
-            this.collection.each(this.addOne);
+        toggleSettings: function (e) {
+            $('body').toggleClass('settings-open');
+            console.log('toggling');
+            debugger;
         },
-        addOne: function(model) {
-            var view = new Whisper.Message({model: model});
-            view.render();
-            $(this.el).append(view.el);
-            model.bind('remove', view.remove);
-        },*/
 
         render: function() {
-            //this.$el.empty();
-            //this.addAll();
-
             this.delegateEvents();
             this.view.delegateEvents();
             this.view.scrollToBottom();

@@ -26,32 +26,16 @@
         });
     };
 
-    var windowId, windowMap = JSON.parse(localStorage.getItem('idPairs'));
-
-    window.addEventListener('storage', function (e) {
-        if (e.key = 'idPairs') {
-            windowMap = JSON.parse(e.newValue);
-
-            if (windowId) {
-                var conversationId = windowMap[windowId];
-
-                if (conversationId) {
-                    loadConversation(conversationId);
-                }
-            }
-        }
-    });
+    var bg = chrome.extension.getBackgroundPage();
 
     chrome.windows.getCurrent(function (windowInfo) {
-        window.document.title = windowId = windowInfo.id;
+        var windowId = window.document.title = windowInfo.id;
 
-        var conversationId = windowMap[windowId];
+        // close the panel if background.html is refreshed
+        bg.addEventListener('beforeunload', function () {
+            chrome.windows.remove(windowId);
+        });
 
-        if (typeof conversationId !== 'undefined') {
-            loadConversation(conversationId);
-        }
+        loadConversation(bg.Whisper.windowMap.modelIdFrom(windowId));
     });
-
-    // lets background.js know when a panel disconnects
-    var port = chrome.runtime.connect({name: "panel_presence"});
 }());

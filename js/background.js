@@ -223,13 +223,12 @@
         });
     };
 
-    extension.on('log', console.log.bind(console));
+    var windowMap = Whisper.windowMap = new Whisper.Bimap('windowId', 'modelId');
 
-    chrome.runtime.onConnect.addListener(function (port) {
-        if (port.name === 'panel_presence') {
-            port.onDisconnect.addListener(function (message) {
-                closeConversation(message.sender.tab.windowId);
-            });
+    // make sure panels are cleaned up on close
+    chrome.windows.onRemoved.addListener(function (windowId) {
+        if (windowMap.windowId[windowId]) {
+            closeConversation(windowId);
         }
     });
 

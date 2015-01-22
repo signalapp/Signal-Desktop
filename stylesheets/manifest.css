@@ -51,6 +51,7 @@ button {
   font-size: 12px; }
 
 .message-list {
+  margin-bottom: 52px;
   padding: 0;
   list-style: none;
   font-size: 16px;
@@ -206,5 +207,13 @@ button {
     border-radius: 27px; }
   .index .message-list {
     display: none; }
+
+.settings {
+  height: 100%;
+  width: 100%;
+  background: red;
+  display: none; }
+  .settings-open .settings {
+    display: block; }
 
 /*# sourceMappingURL=manifest.css.map */
