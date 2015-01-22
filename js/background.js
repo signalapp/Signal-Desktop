@@ -59,10 +59,10 @@
         var opened = false;
         var panel = 0;
 
-        chrome.browserAction.onClicked.addListener(function () {
+        extension.browserAction(function () {
             if (opened === false) {
                 opened = true;
-                chrome.windows.create({
+                extension.windows.open({
                     url: 'index.html',
                     type: 'panel',
                     focused: true,
@@ -73,9 +73,9 @@
                     panel = window.id;
                 });
             } else if (opened === true) {
-                chrome.windows.update(panel, { focused: true });
+                extension.windows.focus(panel);
             }
-            chrome.windows.onRemoved.addListener(function (windowId) {
+            extension.windows.onClosed(function (windowId) {
                 if (windowId === panel) {
                     panel = 0;
                     opened = false;
@@ -226,7 +226,7 @@
     var windowMap = Whisper.windowMap = new Whisper.Bimap('windowId', 'modelId');
 
     // make sure panels are cleaned up on close
-    chrome.windows.onRemoved.addListener(function (windowId) {
+    extension.windows.onClosed(function (windowId) {
         if (windowMap.windowId[windowId]) {
             closeConversation(windowId);
         }

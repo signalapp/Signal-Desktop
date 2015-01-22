@@ -19,7 +19,7 @@ var Whisper = Whisper || {};
 (function () {
   'use strict';
 
-  var bg = chrome.extension.getBackgroundPage();
+  var bg = extension.windows.getBackground();
 
   // list of conversations, showing user/group and last message sent
   Whisper.ConversationListItemView = Backbone.View.extend({

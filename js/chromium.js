@@ -51,6 +51,36 @@
         });
     };
 
+    extension.windows = {
+        open: function(options, callback) {
+            chrome.windows.create(options, callback);
+        },
+
+        focus: function(id, callback) {
+            chrome.windows.update(id, { focused: true }, callback);
+        },
+
+        onClosed: function(callback) {
+            chrome.windows.onRemoved.addListener(callback);
+        },
+
+        getCurrent: function(callback) {
+            chrome.windows.getCurrent(callback);
+        },
+
+        remove: function(windowId) {
+            chrome.windows.remove(windowId);
+        },
+
+        getBackground: function() {
+            return chrome.extension.getBackgroundPage();
+        }
+    };
+
+    extension.browserAction = function(callback) {
+        chrome.browserAction.onClicked.addListener(callback);
+    };
+
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {
         done: function () {

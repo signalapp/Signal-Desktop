@@ -31,7 +31,7 @@
     // prevent multiple copies of the same conversation from being opened
     if (!windowId) {
       // open the panel
-      chrome.windows.create({
+      extension.windows.open({
         url: 'conversation.html',
         type: 'panel',
         focused: true,
@@ -48,7 +48,7 @@
       });
     } else {
       // focus the panel
-      chrome.windows.update(windowId, { focused: true }, function () {
+      extension.windows.focus(windowId, function () {
         if (chrome.runtime.lastError) {
           // panel isn't actually open...
           window.closeConversation(windowId);

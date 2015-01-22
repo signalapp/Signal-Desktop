@@ -22,18 +22,21 @@
     function loadConversation (id) {
         var conversation = new Whisper.Conversation({ id: id });
         conversation.fetch().then(function () {
-            new Whisper.ConversationView({ model: conversation}).render().$el.appendTo($('#conversation-container'));
+            new Whisper.ConversationView({
+                model: conversation
+            }).render().$el.appendTo($('#conversation-container'));
         });
     };
 
-    var bg = chrome.extension.getBackgroundPage();
+    var bg = extension.windows.getBackground();
 
-    chrome.windows.getCurrent(function (windowInfo) {
+    extension.windows.getCurrent(function (windowInfo) {
         var windowId = window.document.title = windowInfo.id;
 
         // close the panel if background.html is refreshed
         bg.addEventListener('beforeunload', function () {
-            chrome.windows.remove(windowId);
+            // TODO: reattach after reload instead of closing.
+            extension.windows.remove(windowId);
         });
 
         loadConversation(bg.Whisper.windowMap.modelIdFrom(windowId));
