@@ -23453,147 +23453,6 @@ return jQuery;
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-'use strict';
-
-;(function() {
-    /*********************
-     *** Group Storage ***
-     *********************/
-    window.axolotl = window.axolotl || {};
-    window.axolotl.storage = window.axolotl.storage || {};
-
-    window.axolotl.storage.groups = {
-        createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
-                throw new Error("Tried to recreate group");
-
-            while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
-                groupId = getString(axolotl.crypto.getRandomBytes(16));
-
-            var me = axolotl.api.getMyIdentifier();
-            var haveMe = false;
-            var finalNumbers = [];
-            for (var i in numbers) {
-                var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
-                    throw new Error("Invalid number in group");
-                if (number == me)
-                    haveMe = true;
-                if (finalNumbers.indexOf(number) < 0)
-                    finalNumbers.push(number);
-            }
-
-            if (!haveMe)
-                finalNumbers.push(me);
-
-            var groupObject = {numbers: finalNumbers, numberRegistrationIds: {}};
-            for (var i in finalNumbers)
-                groupObject.numberRegistrationIds[finalNumbers[i]] = {};
-
-            axolotl.api.storage.put("group" + groupId, groupObject);
-
-            return {id: groupId, numbers: finalNumbers};
-        },
-
-        getNumbers: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            return group.numbers;
-        },
-
-        removeNumber: function(groupId, number) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            var me = axolotl.api.getMyIdentifier();
-            if (number == me)
-                throw new Error("Cannot remove ourselves from a group, leave the group instead");
-
-            var i = group.numbers.indexOf(number);
-            if (i > -1) {
-                group.numbers.slice(i, 1);
-                delete group.numberRegistrationIds[number];
-                axolotl.api.storage.put("group" + groupId, group);
-            }
-
-            return group.numbers;
-        },
-
-        addNumbers: function(groupId, numbers) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            for (var i in numbers) {
-                var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
-                    throw new Error("Invalid number in set to add to group");
-                if (group.numbers.indexOf(number) < 0) {
-                    group.numbers.push(number);
-                    group.numberRegistrationIds[number] = {};
-                }
-            }
-
-            axolotl.api.storage.put("group" + groupId, group);
-            return group.numbers;
-        },
-
-        deleteGroup: function(groupId) {
-            axolotl.api.storage.remove("group" + groupId);
-        },
-
-        getGroup: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
-        },
-
-        needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                throw new Error("Unknown group for device registration id");
-
-            if (group.numberRegistrationIds[number] === undefined)
-                throw new Error("Unknown number in group for device registration id");
-
-            if (group.numberRegistrationIds[number][encodedNumber] == registrationId)
-                return false;
-
-            var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
-            group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            axolotl.api.storage.put("group" + groupId, group);
-            return needUpdate;
-        },
-    };
-
-    //TODO: RM
-    window.textsecure = window.textsecure || {};
-    window.textsecure.storage = window.textsecure.storage || {};
-    window.textsecure.storage.groups = window.axolotl.storage.groups;
-
-})();
-
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 ;(function() {
     window.axolotl = window.axolotl || {};
 
@@ -23605,9 +23464,6 @@ return jQuery;
 
     window.axolotl.crypto = {
         getRandomBytes: function(size) {
-            // At some point we might consider XORing in hashes of random
-            // UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
-            // ie maybe take a look at how Gibson does it at https://www.grc.com/r&d/js.htm
             var array = new Uint8Array(size);
             window.crypto.getRandomValues(array);
             return array.buffer;
@@ -23788,7 +23644,7 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             device = { sessions: {}, encodedNumber: encodedNumber };
 
@@ -23838,11 +23694,11 @@ window.axolotl.protocol = function() {
                 delete device['registrationId'];
             } catch(_) {}
 
-        textsecure.storage.devices.saveDeviceObject(device);
+        axolotl.api.storage.sessions.put(device);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined || device.sessions === undefined)
             return undefined;
         return device.sessions;
@@ -23884,7 +23740,7 @@ window.axolotl.protocol = function() {
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         var sessions = getSessions(encodedNumber);
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             return undefined;
 
@@ -24173,11 +24029,7 @@ window.axolotl.protocol = function() {
             return finish();
     }
 
-    /*************************
-    *** Public crypto API ***
-    *************************/
-    // returns decrypted plaintext
-    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+    var doDecryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
 
@@ -24226,7 +24078,11 @@ window.axolotl.protocol = function() {
                             delete session['pendingPreKey'];
                             removeOldChains(session);
                             crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return [plaintext, session];
+                            return [plaintext, function() {
+                                closeSession(session, true);
+                                removeOldChains(session);
+                                crypto_storage.saveSession(encodedNumber, session);
+                            }];
                         });
                     });
                 });
@@ -24234,11 +24090,21 @@ window.axolotl.protocol = function() {
         });
     }
 
+    /*************************
+    *** Public crypto API ***
+    *************************/
+    //TODO: SHARP EDGE HERE
+    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
+    // returns decrypted plaintext and a function that must be called if the message indicates session close
+    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
+        return doDecryptWhisperMessage(encodedNumber, messageBytes, session);
+    }
+
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
         var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return self.decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+            return doDecryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
                     sessions[1]();
                 return result;
@@ -24286,6 +24152,7 @@ window.axolotl.protocol = function() {
                             try {
                                 delete deviceObject['signedKey'];
                                 delete deviceObject['signedKeyId'];
+                                delete deviceObject['signedKeySignature'];
                                 delete deviceObject['preKey'];
                                 delete deviceObject['preKeyId'];
                             } catch(_) {}
@@ -24305,19 +24172,23 @@ window.axolotl.protocol = function() {
         preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
 
         if (session === undefined) {
-            return axolotl.crypto.createKeyPair().then(function(baseKey) {
-                preKeyMsg.preKeyId = deviceObject.preKeyId;
-                preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-                return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                    toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-                            .then(function(new_session) {
-                    session = new_session;
-                    session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
-                    return doEncryptPushMessageContent().then(function(message) {
-                        preKeyMsg.message = message;
-                        var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
-                        return {type: 3, body: result};
+            var deviceIdentityKey = toArrayBuffer(deviceObject.identityKey);
+            var deviceSignedKey = toArrayBuffer(deviceObject.signedKey);
+            return axolotl.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, toArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                return axolotl.crypto.createKeyPair().then(function(baseKey) {
+                    preKeyMsg.preKeyId = deviceObject.preKeyId;
+                    preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
+                    preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
+                    return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
+                                        deviceIdentityKey, toArrayBuffer(deviceObject.preKey), deviceSignedKey)
+                                .then(function(new_session) {
+                        session = new_session;
+                        session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
+                        return doEncryptPushMessageContent().then(function(message) {
+                            preKeyMsg.message = message;
+                            var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                            return {type: 3, body: result};
+                        });
                     });
                 });
             });

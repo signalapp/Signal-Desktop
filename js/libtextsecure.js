@@ -82,14 +82,8 @@
 ;(function() {
     window.axolotl = window.axolotl || {};
     window.axolotl.api = {
-        getMyIdentifier: function() {
-            return textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
-        },
         getMyRegistrationId: function() {
             return textsecure.storage.getUnencrypted("registrationId");
-        },
-        isIdentifierSane: function(identifier) {
-            return textsecure.utils.isNumberSane(identifier);
         },
         storage: {
             put: function(key, value) {
@@ -101,6 +95,15 @@
             remove: function(key) {
                 return textsecure.storage.removeEncrypted(key);
             },
+
+            sessions: {
+                get: function(identifier) {
+                    return textsecure.storage.devices.getDeviceObject(identifier);
+                },
+                put: function(object) {
+                    return textsecure.storage.devices.saveDeviceObject(object);
+                }
+            }
         },
         updateKeys: function(keys) {
             return textsecure.api.registerKeys(keys).catch(function(e) {
@@ -113,10 +116,20 @@
     var decodeMessageContents = function(res) {
         var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
 
-        //TODO
+        if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+            res[1]();
+
+        return finalMessage;
+    }
+
+    var decodeDeviceContents = function(res) {
+        var finalMessage = textsecure.protobuf.DeviceControl.decode(res[0]);
+
+        //TODO: Add END_SESSION flag for device control messages
         /*if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-            axolotl.protocol.closeSession(res[1], true);*/
+            res[1]();*/
 
         return finalMessage;
     }
@@ -141,14 +154,10 @@
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(function(res) {
-                    return textsecure.protobuf.DeviceControl.decode(res[0]);
-                });
+                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeDeviceContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.DEVICE_CONTROL:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(function(res) {
-                    return textsecure.protobuf.DeviceControl.decode(res[0]);
-                });
+                return axolotl.protocol.decryptWhisperMessage(from, getString(proto.message)).then(decodeDeviceContents);
             default:
                 return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
             }
@@ -23627,147 +23636,6 @@ return jQuery;
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-'use strict';
-
-;(function() {
-    /*********************
-     *** Group Storage ***
-     *********************/
-    window.axolotl = window.axolotl || {};
-    window.axolotl.storage = window.axolotl.storage || {};
-
-    window.axolotl.storage.groups = {
-        createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
-                throw new Error("Tried to recreate group");
-
-            while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
-                groupId = getString(axolotl.crypto.getRandomBytes(16));
-
-            var me = axolotl.api.getMyIdentifier();
-            var haveMe = false;
-            var finalNumbers = [];
-            for (var i in numbers) {
-                var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
-                    throw new Error("Invalid number in group");
-                if (number == me)
-                    haveMe = true;
-                if (finalNumbers.indexOf(number) < 0)
-                    finalNumbers.push(number);
-            }
-
-            if (!haveMe)
-                finalNumbers.push(me);
-
-            var groupObject = {numbers: finalNumbers, numberRegistrationIds: {}};
-            for (var i in finalNumbers)
-                groupObject.numberRegistrationIds[finalNumbers[i]] = {};
-
-            axolotl.api.storage.put("group" + groupId, groupObject);
-
-            return {id: groupId, numbers: finalNumbers};
-        },
-
-        getNumbers: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            return group.numbers;
-        },
-
-        removeNumber: function(groupId, number) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            var me = axolotl.api.getMyIdentifier();
-            if (number == me)
-                throw new Error("Cannot remove ourselves from a group, leave the group instead");
-
-            var i = group.numbers.indexOf(number);
-            if (i > -1) {
-                group.numbers.slice(i, 1);
-                delete group.numberRegistrationIds[number];
-                axolotl.api.storage.put("group" + groupId, group);
-            }
-
-            return group.numbers;
-        },
-
-        addNumbers: function(groupId, numbers) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            for (var i in numbers) {
-                var number = numbers[i];
-                if (!axolotl.api.isIdentifierSane(number))
-                    throw new Error("Invalid number in set to add to group");
-                if (group.numbers.indexOf(number) < 0) {
-                    group.numbers.push(number);
-                    group.numberRegistrationIds[number] = {};
-                }
-            }
-
-            axolotl.api.storage.put("group" + groupId, group);
-            return group.numbers;
-        },
-
-        deleteGroup: function(groupId) {
-            axolotl.api.storage.remove("group" + groupId);
-        },
-
-        getGroup: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                return undefined;
-
-            return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
-        },
-
-        needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = axolotl.api.storage.get("group" + groupId);
-            if (group === undefined)
-                throw new Error("Unknown group for device registration id");
-
-            if (group.numberRegistrationIds[number] === undefined)
-                throw new Error("Unknown number in group for device registration id");
-
-            if (group.numberRegistrationIds[number][encodedNumber] == registrationId)
-                return false;
-
-            var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
-            group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            axolotl.api.storage.put("group" + groupId, group);
-            return needUpdate;
-        },
-    };
-
-    //TODO: RM
-    window.textsecure = window.textsecure || {};
-    window.textsecure.storage = window.textsecure.storage || {};
-    window.textsecure.storage.groups = window.axolotl.storage.groups;
-
-})();
-
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 ;(function() {
     window.axolotl = window.axolotl || {};
 
@@ -23779,9 +23647,6 @@ return jQuery;
 
     window.axolotl.crypto = {
         getRandomBytes: function(size) {
-            // At some point we might consider XORing in hashes of random
-            // UI events to strengthen ourselves against RNG flaws in crypto.getRandomValues
-            // ie maybe take a look at how Gibson does it at https://www.grc.com/r&d/js.htm
             var array = new Uint8Array(size);
             window.crypto.getRandomValues(array);
             return array.buffer;
@@ -23962,7 +23827,7 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             device = { sessions: {}, encodedNumber: encodedNumber };
 
@@ -24012,11 +23877,11 @@ window.axolotl.protocol = function() {
                 delete device['registrationId'];
             } catch(_) {}
 
-        textsecure.storage.devices.saveDeviceObject(device);
+        axolotl.api.storage.sessions.put(device);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined || device.sessions === undefined)
             return undefined;
         return device.sessions;
@@ -24058,7 +23923,7 @@ window.axolotl.protocol = function() {
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         var sessions = getSessions(encodedNumber);
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             return undefined;
 
@@ -24347,11 +24212,7 @@ window.axolotl.protocol = function() {
             return finish();
     }
 
-    /*************************
-    *** Public crypto API ***
-    *************************/
-    // returns decrypted plaintext
-    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+    var doDecryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
 
@@ -24400,7 +24261,11 @@ window.axolotl.protocol = function() {
                             delete session['pendingPreKey'];
                             removeOldChains(session);
                             crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return [plaintext, session];
+                            return [plaintext, function() {
+                                closeSession(session, true);
+                                removeOldChains(session);
+                                crypto_storage.saveSession(encodedNumber, session);
+                            }];
                         });
                     });
                 });
@@ -24408,11 +24273,21 @@ window.axolotl.protocol = function() {
         });
     }
 
+    /*************************
+    *** Public crypto API ***
+    *************************/
+    //TODO: SHARP EDGE HERE
+    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
+    // returns decrypted plaintext and a function that must be called if the message indicates session close
+    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
+        return doDecryptWhisperMessage(encodedNumber, messageBytes, session);
+    }
+
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
         var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return self.decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+            return doDecryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
                     sessions[1]();
                 return result;
@@ -24460,6 +24335,7 @@ window.axolotl.protocol = function() {
                             try {
                                 delete deviceObject['signedKey'];
                                 delete deviceObject['signedKeyId'];
+                                delete deviceObject['signedKeySignature'];
                                 delete deviceObject['preKey'];
                                 delete deviceObject['preKeyId'];
                             } catch(_) {}
@@ -24479,19 +24355,23 @@ window.axolotl.protocol = function() {
         preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
 
         if (session === undefined) {
-            return axolotl.crypto.createKeyPair().then(function(baseKey) {
-                preKeyMsg.preKeyId = deviceObject.preKeyId;
-                preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-                return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                    toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-                            .then(function(new_session) {
-                    session = new_session;
-                    session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
-                    return doEncryptPushMessageContent().then(function(message) {
-                        preKeyMsg.message = message;
-                        var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
-                        return {type: 3, body: result};
+            var deviceIdentityKey = toArrayBuffer(deviceObject.identityKey);
+            var deviceSignedKey = toArrayBuffer(deviceObject.signedKey);
+            return axolotl.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, toArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                return axolotl.crypto.createKeyPair().then(function(baseKey) {
+                    preKeyMsg.preKeyId = deviceObject.preKeyId;
+                    preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
+                    preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
+                    return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
+                                        deviceIdentityKey, toArrayBuffer(deviceObject.preKey), deviceSignedKey)
+                                .then(function(new_session) {
+                        session = new_session;
+                        session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
+                        return doEncryptPushMessageContent().then(function(message) {
+                            preKeyMsg.message = message;
+                            var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                            return {type: 3, body: result};
+                        });
                     });
                 });
             });
@@ -24658,8 +24538,26 @@ window.axolotl.protocol = function() {
 
     // Various wrappers around low-level crypto operation for specific functions
 
+    var encrypt = function(key, data, iv) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
+            return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+        });
+    };
+
+    var decrypt = function(key, data, iv) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
+            return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+        });
+    };
+
+    var calculateMAC = function(key, data) {
+        return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
+            return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
+        });
+    };
+
     var verifyMAC = function(data, key, mac) {
-        return axolotl.crypto.sign(key, data).then(function(calculated_mac) {
+        return calculateMAC(key, data).then(function(calculated_mac) {
             if (!isEqual(calculated_mac, mac, true))
                 throw new Error("Bad MAC");
         });
@@ -24683,7 +24581,7 @@ window.axolotl.protocol = function() {
             var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-                return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
+                return decrypt(aes_key, ciphertext, iv);
             });
         },
 
@@ -24697,7 +24595,7 @@ window.axolotl.protocol = function() {
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-                return window.axolotl.crypto.decrypt(aes_key, ciphertext, iv);
+                return decrypt(aes_key, ciphertext, iv);
             });
         },
 
@@ -24705,18 +24603,24 @@ window.axolotl.protocol = function() {
             var aes_key = keys.slice(0, 32);
             var mac_key = keys.slice(32, 64);
 
-            return window.axolotl.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
+            return encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
                 var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
                 ivAndCiphertext.set(new Uint8Array(iv));
                 ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
 
-                return axolotl.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
+                return calculateMAC(mac_key, ivAndCiphertext.buffer).then(function(mac) {
                     var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
                     encryptedBin.set(ivAndCiphertext);
                     encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
                     return encryptedBin.buffer;
                 });
             });
+        },
+
+        getRandomBytes: function(size) {
+            var array = new Uint8Array(size);
+            window.crypto.getRandomValues(array);
+            return array.buffer;
         }
     };
 })();
@@ -24868,7 +24772,7 @@ window.axolotl.protocol = function() {
     };
 
     var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
+        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined || deviceObject.registrationId === undefined)
             throw new Error("Tried to store invalid deviceObject");
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
@@ -24900,6 +24804,141 @@ window.axolotl.protocol = function() {
         }
 
         textsecure.storage.putEncrypted("devices" + number, map);
+    };
+})();
+
+/* vim: ts=4:sw=4
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+'use strict';
+
+;(function() {
+    /*********************
+     *** Group Storage ***
+     *********************/
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
+
+    window.textsecure.storage.groups = {
+        createNewGroup: function(numbers, groupId) {
+            if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
+                throw new Error("Tried to recreate group");
+
+            while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
+                groupId = getString(axolotl.crypto.getRandomBytes(16));
+
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var haveMe = false;
+            var finalNumbers = [];
+            for (var i in numbers) {
+                var number = numbers[i];
+                if (!textsecure.utils.isNumberSane(number))
+                    throw new Error("Invalid number in group");
+                if (number == me)
+                    haveMe = true;
+                if (finalNumbers.indexOf(number) < 0)
+                    finalNumbers.push(number);
+            }
+
+            if (!haveMe)
+                finalNumbers.push(me);
+
+            var groupObject = {numbers: finalNumbers, numberRegistrationIds: {}};
+            for (var i in finalNumbers)
+                groupObject.numberRegistrationIds[finalNumbers[i]] = {};
+
+            axolotl.api.storage.put("group" + groupId, groupObject);
+
+            return {id: groupId, numbers: finalNumbers};
+        },
+
+        getNumbers: function(groupId) {
+            var group = axolotl.api.storage.get("group" + groupId);
+            if (group === undefined)
+                return undefined;
+
+            return group.numbers;
+        },
+
+        removeNumber: function(groupId, number) {
+            var group = axolotl.api.storage.get("group" + groupId);
+            if (group === undefined)
+                return undefined;
+
+            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            if (number == me)
+                throw new Error("Cannot remove ourselves from a group, leave the group instead");
+
+            var i = group.numbers.indexOf(number);
+            if (i > -1) {
+                group.numbers.slice(i, 1);
+                delete group.numberRegistrationIds[number];
+                axolotl.api.storage.put("group" + groupId, group);
+            }
+
+            return group.numbers;
+        },
+
+        addNumbers: function(groupId, numbers) {
+            var group = axolotl.api.storage.get("group" + groupId);
+            if (group === undefined)
+                return undefined;
+
+            for (var i in numbers) {
+                var number = numbers[i];
+                if (!textsecure.utils.isNumberSane(number))
+                    throw new Error("Invalid number in set to add to group");
+                if (group.numbers.indexOf(number) < 0) {
+                    group.numbers.push(number);
+                    group.numberRegistrationIds[number] = {};
+                }
+            }
+
+            axolotl.api.storage.put("group" + groupId, group);
+            return group.numbers;
+        },
+
+        deleteGroup: function(groupId) {
+            axolotl.api.storage.remove("group" + groupId);
+        },
+
+        getGroup: function(groupId) {
+            var group = axolotl.api.storage.get("group" + groupId);
+            if (group === undefined)
+                return undefined;
+
+            return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
+        },
+
+        needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
+            var group = axolotl.api.storage.get("group" + groupId);
+            if (group === undefined)
+                throw new Error("Unknown group for device registration id");
+
+            if (group.numberRegistrationIds[number] === undefined)
+                throw new Error("Unknown number in group for device registration id");
+
+            if (group.numberRegistrationIds[number][encodedNumber] == registrationId)
+                return false;
+
+            var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
+            group.numberRegistrationIds[number][encodedNumber] = registrationId;
+            axolotl.api.storage.put("group" + groupId, group);
+            return needUpdate;
+        },
     };
 })();
 
@@ -25388,14 +25427,14 @@ textsecure.processDecrypted = function(decrypted, source) {
 }
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
-    var signalingKey = axolotl.crypto.getRandomBytes(32 + 20);
+    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
     textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-    var password = btoa(getString(axolotl.crypto.getRandomBytes(16)));
+    var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
     password = password.substring(0, password.length - 2);
     textsecure.storage.putEncrypted("password", password);
 
-    var registrationId = new Uint16Array(axolotl.crypto.getRandomBytes(2))[0];
+    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
     registrationId = registrationId & 0x3fff;
     textsecure.storage.putUnencrypted("registrationId", registrationId);
 
@@ -25419,14 +25458,14 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
     return cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(identityKey) {
         stepDone(1);
 
-        var signalingKey = axolotl.crypto.getRandomBytes(32 + 20);
+        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
         textsecure.storage.putEncrypted('signaling_key', signalingKey);
 
-        var password = btoa(getString(axolotl.crypto.getRandomBytes(16)));
+        var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
         password = password.substring(0, password.length - 2);
         textsecure.storage.putEncrypted("password", password);
 
-        var registrationId = new Uint16Array(axolotl.crypto.getRandomBytes(2))[0];
+        var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
         registrationId = registrationId & 0x3fff;
         textsecure.storage.putUnencrypted("registrationId", registrationId);
 
@@ -25742,15 +25781,12 @@ window.textsecure.api = function () {
             for (var i = 0; i < res.devices.length; i++) {
                 res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
                 res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
-                promises[i] = window.axolotl.crypto.Ed25519Verify(res.identityKey, res.devices[i].signedPreKey.publicKey, res.devices[i].signedPreKey.signature);
                 res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
                 //TODO: Is this still needed?
                 //if (res.devices[i].keyId === undefined)
                 //  res.devices[i].keyId = 0;
             }
-            return Promise.all(promises).then(function() {
-                return res;
-            });
+            return res;
         });
     };
 
@@ -25905,6 +25941,7 @@ window.textsecure.messaging = function() {
                         preKeyId: response.devices[i].preKey.keyId,
                         signedKey: response.devices[i].signedPreKey.publicKey,
                         signedKeyId: response.devices[i].signedPreKey.keyId,
+                        signedKeySignature: response.devices[i].signedPreKey.signature,
                         registrationId: response.devices[i].registrationId
                     });
             }
@@ -26106,9 +26143,9 @@ window.textsecure.messaging = function() {
 
     makeAttachmentPointer = function(attachment) {
         var proto = new textsecure.protobuf.PushMessageContent.AttachmentPointer();
-        proto.key = axolotl.crypto.getRandomBytes(64);
+        proto.key = textsecure.crypto.getRandomBytes(64);
 
-        var iv = axolotl.crypto.getRandomBytes(16);
+        var iv = textsecure.crypto.getRandomBytes(16);
         return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
             return textsecure.api.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
