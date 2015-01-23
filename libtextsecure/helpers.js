@@ -268,13 +268,9 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
     });
 }
 
-window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo, stepDone) {
-    var deviceInit = textsecure.protobuf.DeviceInit.decode(encodedDeviceInit, 'binary');
-    return cryptoInfo.decryptAndHandleDeviceInit(deviceInit).then(function(identityKey) {
-        if (identityKey.server != textsecure.api.relay)
-            throw new Error("Unknown relay used by master");
-        var number = identityKey.phoneNumber;
-
+window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryptoInfo, stepDone) {
+    var envelope = textsecure.protobuf.ProvisionEnvelope.decode(encodedProvisionEnvelope, 'binary');
+    return cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(identityKey) {
         stepDone(1);
 
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
@@ -288,17 +284,16 @@ window.textsecure.registerSecondDevice = function(encodedDeviceInit, cryptoInfo,
         registrationId = registrationId & 0x3fff;
         textsecure.storage.putUnencrypted("registrationId", registrationId);
 
-        return textsecure.api.confirmCode(number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-            var numberId = number + "." + result;
+        return textsecure.api.confirmCode(identityKey.number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
+            var numberId = identityKey.number + "." + result.deviceId;
             textsecure.storage.putUnencrypted("number_id", numberId);
-            textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegion(number));
+            textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
             stepDone(2);
 
             return textsecure.protocol.generateKeys().then(function(keys) {
                 stepDone(3);
                 return textsecure.api.registerKeys(keys).then(function() {
                     stepDone(4);
-                    //TODO: Send DeviceControl.NEW_DEVICE_REGISTERED to all other devices
                 });
             });
         });

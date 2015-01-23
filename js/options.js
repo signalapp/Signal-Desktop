@@ -142,14 +142,13 @@
                     new WebSocketResource(socket, function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
-                            qrCode.makeCode('textsecure-device-init:/' +
-                                            '?channel_uuid=' + proto.uuid +
-                                            '&channel_server=' + textsecure.api.relay +
-                                            '&publicKey=' + btoa(getString(cryptoInfo.publicKey)));
+                            qrCode.makeCode('tsdevice:/' +
+                                            '?uuid=' + proto.uuid +
+                                            '&pub_key=' + btoa(getString(cryptoInfo.pubKey)));
                             $('img').removeAttr('style');
                             $('#multi-device .status').text("Use your phone to scan the QR code.")
                             request.respond(200, 'OK');
-                        } else {
+                        } else if (request.path == "/v1/message" && request.verb == "PUT") {
                             $('#init-setup').hide();
                             $('#verify1done').text('');
                             $('#verify2done').text('');
@@ -158,8 +157,7 @@
                             $('#verify5done').text('');
                             $('#verify').show().addClass('in');
 
-
-                            textsecure.registerSecondDevice(message.body, cryptoInfo, function(step) {
+                            textsecure.registerSecondDevice(request.body, cryptoInfo, function(step) {
                                 switch(step) {
                                 case 1:
                                     $('#verify1done').text('done');
@@ -171,16 +169,19 @@
                                     $('#verify3done').text('done');
                                     break;
                                 case 4:
-                                    //TODO: User needs to verify number before we continue
-                                    $('#complete-number').text(parsedNumber);
+                                    //XXX: User needs to verify number before we continue
                                     $('#verify4done').text('done');
+                                    //$('#complete-number').text(parsedNumber);
+                                    textsecure.registration.done();
                                 case 5:
+                                    //TODO: Do sync to get 5!
                                     $('#verify').hide();
                                     $('#setup-complete').show().addClass('in');
                                     textsecure.registration.done();
                                 }
                             });
-                        }
+                        } else
+                            console.log(request.path);
                     });
                 });
             });

@@ -37,7 +37,7 @@ window.textsecure.api = function () {
     URL_CALLS.devices    = "/v1/devices";
     URL_CALLS.keys       = "/v2/keys";
     URL_CALLS.push       = "/v1/websocket";
-    URL_CALLS.temp_push  = "/v1/provisioning";
+    URL_CALLS.temp_push  = "/v1/websocket/provisioning";
     URL_CALLS.messages   = "/v1/messages";
     URL_CALLS.attachment = "/v1/attachments";
 

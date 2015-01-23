@@ -4,17 +4,16 @@ message ProvisioningUuid {
  optional string uuid = 1;
 }
 
-message DeviceInit {
- required bytes masterEphemeralPubKey = 1;
- required bytes identityKeyMessage    = 2; // contains an IdentityKey
+
+message ProvisionEnvelope {
+  optional bytes publicKey = 1;
+  optional bytes body      = 2; // Encrypted ProvisionMessage
 }
 
-message IdentityKey {
- required bytes   identityKey       = 1;
- required string  phoneNumber       = 2;
- required string  server            = 3;
- required bool    masterSupportsSms = 4;
- required uint32  provisioningCode  = 5;
+message ProvisionMessage {
+  optional bytes  identityKeyPrivate = 2;
+  optional string number             = 3;
+  optional string provisioningCode   = 4;
 }
 
 message DeviceControl {

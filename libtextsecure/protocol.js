@@ -762,26 +762,26 @@ window.textsecure.protocol = function() {
         var keyPair;
 
         socketInfo.decryptAndHandleDeviceInit = function(deviceInit) {
-            var masterEphemeral = toArrayBuffer(deviceInit.masterEphemeralPubKey);
-            var message = toArrayBuffer(deviceInit.identityKeyMessage);
+            var masterEphemeral = toArrayBuffer(deviceInit.publicKey);
+            var message = toArrayBuffer(deviceInit.body);
 
             return textsecure.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
-                return HKDF(ecRes, masterEphemeral, "WhisperDeviceInit").then(function(keys) {
-                    if (new Uint8Array(message)[0] != (3 << 4) | 3)
-                        throw new Error("Bad version number on IdentityKeyMessage");
+                return HKDF(ecRes, '', "TextSecure Provisioning Message").then(function(keys) {
+                    if (new Uint8Array(message)[0] != 1)
+                        throw new Error("Bad version number on ProvisioningMessage");
 
                     var iv = message.slice(1, 16 + 1);
-                    var mac = message.slice(message.length - 32, message.length);
-                    var ivAndCiphertext = message.slice(0, message.length - 32);
-                    var ciphertext = message.slice(16 + 1, message.length - 32);
+                    var mac = message.slice(message.byteLength - 32, message.byteLength);
+                    var ivAndCiphertext = message.slice(0, message.byteLength - 32);
+                    var ciphertext = message.slice(16 + 1, message.byteLength - 32);
 
-                    return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
-                        window.textsecure.crypto.decrypt(ecRes[0], ciphertext, iv).then(function(plaintext) {
-                            var identityKeyMsg = textsecure.protobuf.IdentityKey.decode(plaintext);
+                    return verifyMAC(ivAndCiphertext, keys[1], mac).then(function() {
+                        return window.textsecure.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
+                            var identityKeyMsg = textsecure.protobuf.ProvisionMessage.decode(plaintext);
 
-                            textsecure.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
+                            return textsecure.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKeyPrivate)).then(function(identityKeyPair) {
                                 crypto_storage.putKeyPair("identityKey", identityKeyPair);
-                                identityKeyMsg.identityKey = null;
+                                identityKeyMsg.identityKeyPrivate = null;
 
                                 return identityKeyMsg;
                             });
