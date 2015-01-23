@@ -30,7 +30,7 @@ Copyright 2014 Open Whisper Systems
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
 
-### Developers Developers Developers Developers!
+## Developers Developers Developers Developers!
 Please see
 [CONTRIBUTING.md](https://github.com/WhisperSystems/TextSecure-Browser/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines.

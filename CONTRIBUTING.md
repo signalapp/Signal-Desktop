@@ -39,7 +39,7 @@ Each one will have to repeat the setup process documented above, including
 re-accepting the staging server cert under each profile. This is a tedious
 process, but once you are done you will be able to send messages back and forth
 between different profiles, allowing you to observe both endpoints of a
-conversation!
+conversation.
 
 ## Pull requests
 
