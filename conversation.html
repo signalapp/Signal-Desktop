@@ -12,6 +12,7 @@
         <link href="/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
     </head>
     <body class='signal'>
+        <div id='file-modal'></div>
         <script type='text/x-tmpl-mustache' id='conversation'>
             <div class='title-bar' id='header'>
                 {{#group}}
@@ -48,6 +49,39 @@
                 <p class="content">{{ message }}</p>
                 <div class='attachments'></div>
                 <p class="timestamp">{{ timestamp }}</p>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='new-group-update-form'>
+            <div>
+              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+            </div>
+            <div class='group-avatar'>
+              <div><input type='file' name='avatar' class='file-input'></div>
+            </div>
+            <div>Add members: <input name='members' class='members' role=tagsinput></div>
+            <button class='send'>Update</button>
+        </script>
+        <script type="text/x-tmpl-mustache" id="phone-number">
+            <div class="phone-input-form">
+                <div class="number-container">
+                    <input type="tel" class="number" placeholder="Phone Number" />
+                </div>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='file-size-modal'>
+            <div id="modal" class="modal-wrapper">
+                <div class="modal-content">
+                    <div class="modal-container">
+                        <div class="modal-banner">
+                            <span>File Too Large</span>
+                            <div class="modal-close"><a class="modal-close-button"  href="#" title="Close">X</a></div>
+                        </div>
+                        <div class="modal-inner modal-padding">
+                            <p>This file exceeds 420KB. Please attach a smaller file.</p>
+                            <button id="closeModal"><a href="#">OK</a></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </script>
 

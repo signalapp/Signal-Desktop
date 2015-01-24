@@ -25,64 +25,11 @@
         <div id='gutter' class='gutter'>
             <div id='contacts'></div>
         </div>
-        <div id='file-modal'></div>
-        <script type='text/x-tmpl-mustache' id='new-group-update-form'>
-            <div>
-              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
-            </div>
-            <div class='group-avatar'>
-              <div><input type='file' name='avatar' class='file-input'></div>
-            </div>
-            <div>Add members: <input name='members' class='members' role=tagsinput></div>
-            <button class='send'>Update</button>
-        </script>
         <script type="text/x-tmpl-mustache" id="phone-number">
             <div class="phone-input-form">
                 <div class="number-container">
                     <input type="tel" class="number" placeholder="Phone Number" />
                 </div>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='conversation'>
-            <div class='discussion-container'></div>
-            <div class='send-message-area'>
-                <div class='message-composer'>
-                    <form class='send'>
-                        <input class='send-message' rows='6' type='textarea'>
-                        <div class='attachments'>
-                          <input type='file' name='files[]' class='file-input'>
-                        </div>
-                    </form>
-                </div>
-                {{#group}}
-                    <button class='new-group-update'>Update group</button>
-                    <button class='leave-group'>Leave group</button>
-                {{/group}}
-                {{^group}}
-                    <button class='end-session'>End Session</button>
-                {{/group}}
-                <div class='extension-details'>
-                    <ul>
-                        <li>Signal for Chrome</li>
-                        <li><a href="https://github.com/whispersystems">Version 0.1</a></li>
-                        <li>by <a href="http://whispersystems.org">Open Whisper Systems</a></li>
-                        <li><a href="http://support.whispersystems.org/">Need Help?</a></li>
-                    </ul>
-                    <button class='destroy'>Delete this conversation</button>
-                </div>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='message'>
-            <div class='sender'>{{ sender }}</div>
-            <img class='avatar' src='{{ contact_avatar }}'>
-            <div class='bubble bubble_context {{ bubble_class }}'>
-              <ul class='volley'>
-                  <li class='message'>
-                    {{ message }}
-                    <div class='attachments'></div>
-                    <span class='timestamp'>{{ timestamp }}</span>
-                  </li>
-              </ul>
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='contact'>
@@ -146,26 +93,6 @@
                 </div>
             </div>
           </form>
-        </script>
-        <script type='text/x-tmpl-mustache' id='attachment-preview'>
-              <img src="{{ source }}" class="preview" />
-              <div class="close">x</div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='file-size-modal'>
-            <div id="modal" class="modal-wrapper">
-                <div class="modal-content">
-                    <div class="modal-container">
-                        <div class="modal-banner">
-                            <span>File Too Large</span>
-                            <div class="modal-close"><a class="modal-close-button"  href="#" title="Close">X</a></div>
-                        </div>
-                        <div class="modal-inner modal-padding">
-                            <p>This file exceeds 420KB. Please attach a smaller file.</p>
-                            <button id="closeModal"><a href="#">OK</a></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </script>
         <script type="text/javascript" src="js/components.js"></script>
 
