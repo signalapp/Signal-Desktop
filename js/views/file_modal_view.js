@@ -23,12 +23,8 @@ var Whisper = Whisper || {};
         initialize: function() {
             this.template = $('#file-size-modal').html();
             Mustache.parse(this.template);
-            this.render();
-        },
-
-        render: function() {
+            this.$el.hide();
             this.$el.html($(Mustache.render(this.template)));
-            return this;
         },
 
         events: {
@@ -37,11 +33,11 @@ var Whisper = Whisper || {};
         },
 
         open: function() {
-            this.$el.find('#modal').show();
+            this.$el.show();
         },
 
         close: function() {
-            this.$el.find('#modal').hide();
+            this.$el.hide();
         }
     });
 })();
