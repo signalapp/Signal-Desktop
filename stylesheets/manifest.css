@@ -1,4 +1,6 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700);
+@font-face {
+  font-family: 'Roboto';
+  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
 body, input {
   font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif; }
 
