@@ -29,7 +29,12 @@ var Whisper = Whisper || {};
 
         events: {
             'change': 'previewImages',
-            'click .close': 'deleteFiles'
+            'click .close': 'deleteFiles',
+            'click .paperclip': 'open'
+        },
+
+        open: function() {
+            this.$input.click();
         },
 
         addThumb: function(e) {

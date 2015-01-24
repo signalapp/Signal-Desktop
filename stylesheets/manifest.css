@@ -159,6 +159,7 @@ button {
       background-size: 90%;
       background-position: center 6px; }
     .bottom-bar .attachments input[type=file] {
+      display: none;
       position: absolute;
       width: 100%;
       height: 100%;
