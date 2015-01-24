@@ -22,6 +22,7 @@
     function loadConversation (id) {
         var conversation = new Whisper.Conversation({ id: id });
         conversation.fetch().then(function () {
+            window.document.title = conversation.getTitle();
             new Whisper.ConversationView({
                 model: conversation
             }).render().$el.prependTo($('body'));
@@ -31,7 +32,7 @@
     var bg = extension.windows.getBackground();
 
     extension.windows.getCurrent(function (windowInfo) {
-        var windowId = window.document.title = windowInfo.id;
+        var windowId = windowInfo.id;
 
         // close the panel if background.html is refreshed
         bg.addEventListener('beforeunload', function () {

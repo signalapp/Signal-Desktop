@@ -118,6 +118,10 @@
         _.each(models, function(message) { message.destroy(); });
         this.archive();
         return this.save();
+    },
+
+    getTitle: function() {
+        return this.get('name') || this.get('members') || this.id;
     }
   });
 
