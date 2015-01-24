@@ -204,8 +204,7 @@ button {
   .index img {
     height: 54px;
     width: 54px;
-    box-sizing: border-box;
-    border: 27px #f3f3f3 solid;
+    background: #f3f3f3;
     border-radius: 27px; }
   .index .message-list {
     display: none; }

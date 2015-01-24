@@ -291,9 +291,7 @@ button {
   img {
     height: 54px;
     width: 54px;
-    // delete next 2 lines
-    box-sizing: border-box;
-    border: (54px / 2) $grey_l solid;
+    background: $grey_l;
     border-radius: (54px / 2);
   }
 
