@@ -17,7 +17,8 @@ By default, your browser will reject this certificate as insecure. Therefore,
 in order to register or send and receive messages of any kind, you must first
 visit <https://textsecure-service-staging.whispersystems.org/> in a new tab and
 click through the warnings to allow the certificate. If at any time you notice
-a console error about an "INSECURE RESPONSE", repeat this process.
+a console error about an "INSECURE RESPONSE" or "Handshake was canceled",
+repeat this step.
 
 Once that's done, in the extension's options page, you can register for
 TextSecure:
