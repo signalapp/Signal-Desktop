@@ -18,42 +18,17 @@
 
     window.Whisper = window.Whisper || {};
 
-    var typeahead = Backbone.TypeaheadCollection.extend({
-        typeaheadAttributes: ['name'],
-        database: Whisper.Database,
-        storeName: 'conversations',
-        model: Whisper.Conversation,
-
-        comparator: function(m) {
-            return m.get('name');
-        },
-
-        _tokenize: function(s) {
-            s = $.trim(s);
-            if (s.length === 0) {
-                return null;
-            }
-
-            return s.toLowerCase().split(/[\s\-_+]+/)
-        }
-    });
-
     Whisper.InboxView = Backbone.View.extend({
         initialize: function () {
-            this.gutter = $('#gutter');
-            this.contacts = $('#contacts');
+            this.$gutter = $('#gutter');
+            this.$contacts = $('#contacts');
 
-            this.typeahead_collection = new typeahead();
-            this.typeahead_view = new Whisper.ConversationListView({
-                collection : new Whisper.ConversationCollection(),
-                className: 'typeahead'
-            });
-            this.typeahead_view.$el.hide().insertAfter(this.contacts);
-            this.typeahead_collection.fetch();
+            this.newConversationView = new Whisper.NewConversationView();
+            this.newConversationView.$el.appendTo(this.$gutter);
 
             this.conversations = new Whisper.ConversationCollection();
             this.inbox = new Whisper.ConversationListView({
-                el         : $('#contacts'),
+                el         : this.$contacts,
                 collection : this.conversations
             });
 
@@ -66,43 +41,14 @@
             }.bind(this));
         },
         events: {
-            'click #new-message': 'new_message',
-            'click #new-group': 'new_group',
-            'change input.new-message': 'filterContacts',
-            'keyup input.new-message': 'filterContacts'
+            'change input.new-message': 'compose',
+            'keyup input.new-message': 'compose'
         },
-        filterContacts: function() {
+        compose: function() {
             var query = this.$el.find('input.new-message').val();
-            if (query.length) {
-                this.typeahead_view.collection.reset(
-                    this.typeahead_collection.typeahead(query)
-                );
-                this.contacts.hide();
-                this.typeahead_view.$el.show();
-
-            } else {
-                this.contacts.show();
-                this.typeahead_view.$el.hide();
-            }
-        },
-        new_message: function (e) {
-            e.preventDefault();
-            $('.conversation').hide().trigger('close'); // detach any existing conversation views
-            this.view = new Whisper.NewConversationView({
-                collection: this.conversations
-            });
-            this.setContent(this.view.render().$el.show());
-        },
-        new_group: function (e) {
-            e.preventDefault();
-            $('.conversation').trigger('close'); // detach any existing conversation views
-            var view = new Whisper.NewGroupView({
-                collection: this.conversations
-            });
-            this.setContent(view.render().$el.show());
-        },
-        setContent: function (content) {
-            $(content).insertAfter(this.gutter);
+            this.$contacts.toggle(!query.length);
+            this.newConversationView.$el.toggle(!!query.length);
+            this.newConversationView.filterContacts(query);
         }
     });
 
