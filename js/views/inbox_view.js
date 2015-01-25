@@ -24,7 +24,7 @@
             this.$contacts = $('#contacts');
 
             this.newConversationView = new Whisper.NewConversationView();
-            this.newConversationView.$el.appendTo(this.$gutter);
+            this.newConversationView.$el.hide().appendTo(this.$gutter);
 
             this.conversations = new Whisper.ConversationCollection();
             this.inbox = new Whisper.ConversationListView({
