@@ -36,7 +36,8 @@
 
             this.typeahead_collection = new typeahead();
             this.typeahead_view = new Whisper.ConversationListView({
-                collection : new Whisper.ConversationCollection()
+                collection : new Whisper.ConversationCollection(),
+                className: 'typeahead'
             });
             this.typeahead_view.$el.hide().insertAfter(this.contacts);
             this.typeahead_collection.fetch();

@@ -27,6 +27,7 @@ var Whisper = Whisper || {};
 
     events: {
       'click': 'open',
+      'click .checkbox': 'stopPropagation'
     },
     initialize: function() {
       this.template = $('#contact').html();
@@ -40,6 +41,10 @@ var Whisper = Whisper || {};
     open: function(e) {
       this.$el.addClass('selected');
       bg.openConversation(this.model.id);
+    },
+
+    stopPropagation: function(e) {
+        e.stopPropagation();
     },
 
     render: function() {

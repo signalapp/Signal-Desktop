@@ -1,3 +1,17 @@
 .gutter {
   margin-top: 36px;
 }
+
+.contact .checkbox {
+  display: none;
+}
+
+.typeahead {
+  .last-message, .last-timestamp {
+    display: none;
+  }
+
+  .contact .checkbox {
+    display: inline-block;
+  }
+}
