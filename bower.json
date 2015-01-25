@@ -18,7 +18,8 @@
     "backbone.localstorage": "liliakai/Backbone.localStorage#master",
     "momentjs": "~2.8.3",
     "indexeddb-backbonejs-adapter": "*",
-    "intl-tel-input": "~4.0.1"
+    "intl-tel-input": "~4.0.1",
+    "backbone.typeahead": "mojotech/backbone.typeahead"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -89,6 +90,9 @@
       "build/css/intlTelInput.css",
       "build/img/flags.png",
       "build/js/intlTelInput.js"
+    ],
+    "backbone.typeahead": [
+      "backbone.typeahead.min.js"
     ]
   },
   "concat": {
@@ -104,7 +108,8 @@
       "qrcode",
       "libphonenumber-api",
       "momentjs",
-      "intl-tel-input"
+      "intl-tel-input",
+      "backbone.typeahead"
     ],
     "lib": [
       "jquery",
