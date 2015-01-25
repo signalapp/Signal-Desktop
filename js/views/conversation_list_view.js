@@ -20,7 +20,6 @@ var Whisper = Whisper || {};
 
   Whisper.ConversationListView = Whisper.ListView.extend({
     tagName: 'div',
-    id: 'contacts',
     itemView: Whisper.ConversationListItemView,
 
     events: {

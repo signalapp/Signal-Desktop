@@ -18,14 +18,31 @@
 
     window.Whisper = window.Whisper || {};
 
+    var typeahead = Backbone.TypeaheadCollection.extend({
+        typeaheadAttributes: ['name'],
+        database: Whisper.Database,
+        storeName: 'conversations',
+        model: Whisper.Conversation,
+
+        comparator: function(m) {
+            return m.get('name');
+        },
+    });
+
     Whisper.InboxView = Backbone.View.extend({
         initialize: function () {
             this.gutter = $('#gutter');
             this.contacts = $('#contacts');
 
-            this.conversations = new Whisper.ConversationCollection();
+            this.typeahead_collection = new typeahead();
+            this.typeahead_view = new Whisper.ConversationListView({
+                collection : new Whisper.ConversationCollection()
+            });
+            this.typeahead_view.$el.hide().insertAfter(this.contacts);
+            this.typeahead_collection.fetch();
 
-            new Whisper.ConversationListView({
+            this.conversations = new Whisper.ConversationCollection();
+            this.inbox = new Whisper.ConversationListView({
                 el         : $('#contacts'),
                 collection : this.conversations
             });
@@ -40,7 +57,23 @@
         },
         events: {
             'click #new-message': 'new_message',
-            'click #new-group': 'new_group'
+            'click #new-group': 'new_group',
+            'change input.new-message': 'filterContacts',
+            'keyup input.new-message': 'filterContacts'
+        },
+        filterContacts: function() {
+            var query = this.$el.find('input.new-message').val();
+            if (query.length) {
+                this.typeahead_view.collection.reset(
+                    this.typeahead_collection.typeahead(query)
+                );
+                this.contacts.hide();
+                this.typeahead_view.$el.show();
+
+            } else {
+                this.contacts.show();
+                this.typeahead_view.$el.hide();
+            }
         },
         new_message: function (e) {
             e.preventDefault();
