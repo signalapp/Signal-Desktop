@@ -32,7 +32,10 @@
                 collection : this.conversations
             });
 
-            this.conversations.fetchActive({reset: true});
+            this.$el.addClass('loading');
+            this.conversations.fetchActive({reset: true}).then(function() {
+                this.$el.removeClass('loading');
+            }.bind(this));
 
             extension.on('message', function(message) {
                 this.conversations.fetch({id: message.conversationId}).then(function() {
