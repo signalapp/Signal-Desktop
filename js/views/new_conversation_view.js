@@ -19,7 +19,7 @@ var Whisper = Whisper || {};
   'use strict';
 
   var typeahead = Backbone.TypeaheadCollection.extend({
-      typeaheadAttributes: ['name'],
+      typeaheadAttributes: ['name', 'members'],
       database: Whisper.Database,
       storeName: 'conversations',
       model: Whisper.Conversation,
