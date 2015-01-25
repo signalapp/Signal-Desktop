@@ -151,13 +151,13 @@ button {
     background: transparent; }
   .bottom-bar .attachments {
     position: relative;
+    float: left;
     height: 100%;
     width: 36px;
-    float: left; }
+    margin-right: 10px; }
     .bottom-bar .attachments .paperclip {
       width: 100%;
       height: 100%;
-      opacity: 0.5;
       background: url("/images/paperclip.png") no-repeat;
       background-size: 90%;
       background-position: center 6px; }
@@ -171,6 +171,23 @@ button {
       left: 0;
       cursor: pointer;
       z-index: 1; }
+    .bottom-bar .attachments img.preview {
+      max-width: 100%; }
+    .bottom-bar .attachments .close {
+      font-family: sans-serif;
+      color: white;
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      text-align: center;
+      cursor: default;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      padding: 0px;
+      background: #666;
+      color: #fff;
+      text-align: center; }
   .bottom-bar .send-btn {
     float: right;
     height: 100%;

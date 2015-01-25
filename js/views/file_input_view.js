@@ -85,7 +85,8 @@ var Whisper = Whisper || {};
             this.thumb.remove();
         },
 
-        deleteFiles: function() {
+        deleteFiles: function(e) {
+            if (e) { e.stopPropagation(); }
             this.clearForm();
             this.$input.wrap('<form>').parent('form').trigger('reset');
             this.$input.unwrap();
