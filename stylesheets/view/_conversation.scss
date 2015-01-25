@@ -65,6 +65,12 @@ button {
   font-size: 12px;
 }
 
+.entry.delivered .timestamp::after {
+    margin-left: 4px;
+    content: "✓";
+}
+
+
 .message-list {
   margin: 36px + 16px 0;
   padding: 0;
