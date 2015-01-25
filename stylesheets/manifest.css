@@ -12,8 +12,60 @@
 .typeahead .contact .checkbox {
   display: inline-block; }
 
-.new-contact .contact::before {
-  content: "New contact"; }
+.index {
+  color: #454545;
+  background: #eee; }
+  .index .contact {
+    position: relative;
+    padding: 12px;
+    background: white;
+    cursor: pointer;
+    transition: background 0.2s; }
+    .index .contact::after {
+      content: '';
+      position: absolute;
+      right: 16px;
+      bottom: 0;
+      height: 1px;
+      width: calc(100% - 12px - 54px - 2 * 8px - 16px);
+      background: #eee; }
+    .index .contact:hover {
+      background: #f8f8f8; }
+    .index .contact:last-child {
+      box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
+      .index .contact:last-child::after {
+        display: none; }
+  .index .contact-details {
+    vertical-align: top;
+    display: inline-block;
+    width: calc(100% - 54px - 2 * 12px - 8px);
+    margin: 4px 0 0 8px; }
+  .index .contact-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400; }
+  .index .last-message {
+    margin: 6px 0;
+    font-size: 14px;
+    font-weight: 300; }
+  .index .timestamp {
+    position: absolute;
+    top: 14px;
+    right: 12px;
+    color: #888; }
+  .index img {
+    height: 54px;
+    width: 54px;
+    background: #f3f3f3;
+    border-radius: 27px; }
+
+.settings {
+  height: 100%;
+  width: 100%;
+  background: red;
+  display: none; }
+  .settings-open .settings {
+    display: block; }
 
 @font-face {
   font-family: 'Roboto';
@@ -222,58 +274,3 @@ button {
     border: 0;
     outline: 0;
     z-index: 5; }
-
-.index {
-  color: #454545;
-  background: #eee; }
-  .index .contact {
-    position: relative;
-    padding: 12px;
-    background: white;
-    cursor: pointer;
-    transition: background 0.2s; }
-    .index .contact::after {
-      content: '';
-      position: absolute;
-      right: 16px;
-      bottom: 0;
-      height: 1px;
-      width: calc(100% - 12px - 54px - 2 * 8px - 16px);
-      background: #eee; }
-    .index .contact:hover {
-      background: #f8f8f8; }
-    .index .contact:last-child {
-      box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
-      .index .contact:last-child::after {
-        display: none; }
-  .index .contact-details {
-    vertical-align: top;
-    display: inline-block;
-    width: calc(100% - 54px - 2 * 12px - 8px);
-    margin: 4px 0 0 8px; }
-  .index .contact-name {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 400; }
-  .index .last-message {
-    margin: 6px 0;
-    font-size: 14px;
-    font-weight: 300; }
-  .index .timestamp {
-    position: absolute;
-    top: 14px;
-    right: 12px;
-    color: #888; }
-  .index img {
-    height: 54px;
-    width: 54px;
-    background: #f3f3f3;
-    border-radius: 27px; }
-
-.settings {
-  height: 100%;
-  width: 100%;
-  background: red;
-  display: none; }
-  .settings-open .settings {
-    display: block; }
