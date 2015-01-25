@@ -56,9 +56,17 @@ var Whisper = Whisper || {};
 
       this.typeahead_view.$el.appendTo(this.$el.find('.contacts'));
       this.typeahead_collection.fetch();
+
+      this.new_contact = new Whisper.ConversationListItemView({
+          model: new Whisper.Conversation({
+              active_at: null
+          })
+      }).render();
+      this.$el.find('.new-contact').append(this.new_contact.el);
     },
 
     filterContacts: function(query) {
+        this.new_contact.model.set('name', query);
         if (query.length) {
             this.typeahead_view.collection.reset(
                 this.typeahead_collection.typeahead(query)

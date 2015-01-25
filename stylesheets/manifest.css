@@ -4,10 +4,16 @@
 .contact .checkbox {
   display: none; }
 
-.typeahead .last-message, .typeahead .last-timestamp {
+.new-contact .last-message, .new-contact .last-timestamp,
+.typeahead .last-message,
+.typeahead .last-timestamp {
   display: none; }
+.new-contact .contact .checkbox,
 .typeahead .contact .checkbox {
   display: inline-block; }
+
+.new-contact .contact::before {
+  content: "New contact"; }
 
 @font-face {
   font-family: 'Roboto';
