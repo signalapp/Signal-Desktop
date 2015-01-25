@@ -27,6 +27,15 @@
         comparator: function(m) {
             return m.get('name');
         },
+
+        _tokenize: function(s) {
+            s = $.trim(s);
+            if (s.length === 0) {
+                return null;
+            }
+
+            return s.toLowerCase().split(/[\s\-_+]+/)
+        }
     });
 
     Whisper.InboxView = Backbone.View.extend({
