@@ -47,7 +47,7 @@
             }.bind(this));
         },
         events: {
-            'click .back': 'hideCompose',
+            'click .back button': 'hideCompose',
             'click .fab': 'showCompose',
             'keyup input.new-message': 'compose',
             'open .contact': 'openConversation'

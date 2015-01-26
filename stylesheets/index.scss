@@ -17,10 +17,22 @@ input.new-message {
 
 .back {
   display: none;
-  float: left;
-  width: 36px;
-  height: 36px;
-  background: $blue url('/images/back.png') no-repeat center center;
+  text-align: center;
+  button {
+    float: left;
+    width: 36px;
+    height: 36px;
+    background: $blue url('/images/back.png') no-repeat center center;
+  }
+
+  span {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-size: 18px;
+    color: white;
+    text-indent: -36px;
+  }
 }
 
 .fab {

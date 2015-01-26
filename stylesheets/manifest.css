@@ -11,10 +11,19 @@ input.new-message {
 
 .back {
   display: none;
-  float: left;
-  width: 36px;
-  height: 36px;
-  background: #2a92e7 url("/images/back.png") no-repeat center center; }
+  text-align: center; }
+  .back button {
+    float: left;
+    width: 36px;
+    height: 36px;
+    background: #2a92e7 url("/images/back.png") no-repeat center center; }
+  .back span {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    font-size: 18px;
+    color: white;
+    text-indent: -36px; }
 
 .fab {
   z-index: 1;
