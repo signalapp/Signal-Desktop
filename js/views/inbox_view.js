@@ -53,8 +53,8 @@
         showCompose: function() {
             this.$fab.hide();
             this.$contacts.hide();
-            this.newConversationView.$el.show();
             this.newConversationView.reset();
+            this.newConversationView.$el.show();
             this.$back.show();
         },
         hideCompose: function() {
