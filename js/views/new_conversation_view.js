@@ -61,17 +61,27 @@ var Whisper = Whisper || {};
           model: new Whisper.Conversation({
               active_at: null
           })
-      }).render();
+      });
+      this.new_contact.render().$el.hide();
       this.$el.find('.new-contact').append(this.new_contact.el);
     },
 
     filterContacts: function(query) {
-        this.new_contact.model.set('name', query);
+        if (this.maybeNumber(query)) {
+            this.new_contact.model.set('name', query);
+            this.new_contact.$el.show();
+        } else {
+            this.new_contact.$el.hide();
+        }
         if (query.length) {
             this.typeahead_view.collection.reset(
                 this.typeahead_collection.typeahead(query)
             );
         }
+    },
+
+    maybeNumber: function(number) {
+        return number.match(/^\+?[0-9]*$/);
     }
   });
 
