@@ -38,7 +38,6 @@
         width: 280,
         height: 420
       }, function (windowInfo) {
-        var idPairs = JSON.parse(localStorage.getItem('idPairs'));
         var newWindowId = windowInfo.id;
 
         windowMap.add({
