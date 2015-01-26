@@ -15,6 +15,14 @@ input.new-message {
   width: 100%;
 }
 
+.back {
+  display: none;
+  float: left;
+  width: 36px;
+  height: 36px;
+  background: $blue url('/images/back.png') no-repeat center center;
+}
+
 .fab {
   z-index: 1;
   position: fixed;

@@ -9,6 +9,13 @@ input.new-message {
   box-sizing: border-box;
   width: 100%; }
 
+.back {
+  display: none;
+  float: left;
+  width: 36px;
+  height: 36px;
+  background: #2a92e7 url("/images/back.png") no-repeat center center; }
+
 .fab {
   z-index: 1;
   position: fixed;
@@ -119,13 +126,11 @@ body {
   .title-bar button {
     height: 36px;
     line-height: 36px;
-    float: right;
     margin-right: 8px;
     padding: 0;
     border: 0;
     outline: 0;
-    color: white;
-    background: transparent; }
+    color: white; }
 
 button {
   cursor: pointer; }

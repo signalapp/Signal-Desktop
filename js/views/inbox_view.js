@@ -23,6 +23,7 @@
             this.$gutter = $('#gutter');
             this.$contacts = $('#contacts');
             this.$fab = this.$el.find('.fab');
+            this.$back = this.$el.find('.back');
 
             this.newConversationView = new Whisper.NewConversationView();
             this.newConversationView.$el.hide().appendTo(this.$gutter);
@@ -45,6 +46,7 @@
             }.bind(this));
         },
         events: {
+            'click .back': 'hideCompose',
             'click .fab': 'showCompose',
             'keyup input.new-message': 'compose'
         },
@@ -53,13 +55,17 @@
             this.$contacts.hide();
             this.newConversationView.$el.show();
             this.newConversationView.reset();
+            this.$back.show();
+        },
+        hideCompose: function() {
+            this.newConversationView.$el.hide();
+            this.$contacts.show();
+            this.$fab.show();
+            this.$back.hide();
         },
         compose: function(e) {
             if (e.keyCode === 27) {
-                // hide compose
-                this.newConversationView.$el.hide();
-                this.$contacts.show();
-                this.$fab.show();
+                this.hideCompose();
             }
         }
     });
