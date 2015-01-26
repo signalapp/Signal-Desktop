@@ -50,7 +50,12 @@
             'click .destroy': 'destroyMessages',
             'click .new-group-update': 'newGroupUpdate',
             'click .settings-btn': 'toggleSettings',
-            'click .go-back': 'toggleSettings'
+            'click .go-back': 'toggleSettings',
+            'click .hamburger': 'toggleMenu'
+        },
+
+        toggleMenu: function() {
+            this.$el.find('.menu-list').toggle();
         },
 
         newGroupUpdate: function() {

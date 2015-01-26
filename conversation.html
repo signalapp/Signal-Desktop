@@ -15,14 +15,19 @@
         <div id='file-modal'></div>
         <script type='text/x-tmpl-mustache' id='conversation'>
             <div class='title-bar' id='header'>
-                {{#group}}
-                    <button class='new-group-update'>Update group</button>
-                    <button class='leave-group'>Leave group</button>
-                {{/group}}
-                {{^group}}
-                    <button class='end-session'>End Session</button>
-                {{/group}}
-                <button class='destroy'>Delete this conversation</button>
+                <div class='menu'>
+                  <button class='hamburger'></button>
+                  <ul class='menu-list'>
+                      {{#group}}
+                          <li><a class='new-group-update'>Update group</a></li>
+                          <li><a class='leave-group'>Leave group</a></li>
+                      {{/group}}
+                      {{^group}}
+                          <li><a class='end-session'>End Session</a></li>
+                      {{/group}}
+                      <li><a class='destroy'>Delete messages</a></li>
+                  </ul>
+                </div>
             </div>
 
             <div class='discussion-container'></div>

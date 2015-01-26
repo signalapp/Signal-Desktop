@@ -134,6 +134,29 @@ body {
     outline: 0;
     color: white; }
 
+.menu {
+  position: relative;
+  float: left;
+  height: 36px;
+  line-height: 36px;
+  padding-left: 8px; }
+  .menu .hamburger {
+    width: 36px;
+    background: url("/images/menu.png") no-repeat center; }
+  .menu .menu-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    border: solid 1px #2a92e7; }
+    .menu .menu-list li {
+      display: block;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 5px; }
+
 button {
   cursor: pointer; }
 
