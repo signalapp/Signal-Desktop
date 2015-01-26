@@ -75,6 +75,8 @@ input.new-message {
     background: white;
     cursor: pointer;
     transition: background 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
 
     &::after {
       content: '';

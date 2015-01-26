@@ -59,7 +59,9 @@ input.new-message {
     padding: 12px;
     background: white;
     cursor: pointer;
-    transition: background 0.2s; }
+    transition: background 0.2s;
+    white-space: nowrap;
+    overflow: hidden; }
     .index .contact::after {
       content: '';
       position: absolute;
