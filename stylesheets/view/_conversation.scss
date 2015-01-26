@@ -37,7 +37,6 @@ body {
   position: relative;
   float: left;
   height: 36px;
-  line-height: 36px;
   padding-left: 8px;
 
   .hamburger {
@@ -52,12 +51,14 @@ body {
     margin: 0;
     padding: 0;
     border: solid 1px $blue;
+    background-color: white;
+    box-shadow: 0 4px 3px 0px rgba(darken($blue, 30%), 0.8);
 
     li {
       display: block;
       cursor: pointer;
       white-space: nowrap;
-      padding: 5px;
+      padding: 5px 15px 5px 10px;
     }
   }
 }
