@@ -5,6 +5,30 @@
 .contact .checkbox {
   display: none; }
 
+input.new-message {
+  box-sizing: border-box;
+  width: 100%; }
+
+.fab {
+  z-index: 1;
+  position: fixed;
+  right: 16px;
+  bottom: 22px;
+  height: 60px;
+  width: 60px;
+  border: 0;
+  border-radius: 30px;
+  outline: 0;
+  font: 300 36px Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  color: white;
+  background: #2a92e7 url("/images/pencil.png") no-repeat center center;
+  box-shadow: 0 8px 8px -8px rgba(2, 10, 16, 0.8);
+  transition: box-shadow 0.33s, transform 0.33s, background 0.33s; }
+  .fab:hover {
+    background-color: #1c8be5;
+    box-shadow: 0 8px 18px -8px rgba(2, 10, 16, 0.9);
+    transform: translate3d(0, -1px, 0); }
+
 .new-contact .last-message, .new-contact .last-timestamp,
 .typeahead .last-message,
 .typeahead .last-timestamp {
@@ -102,26 +126,6 @@ body {
     outline: 0;
     color: white;
     background: transparent; }
-
-.fab {
-  z-index: 1;
-  position: fixed;
-  right: 16px;
-  bottom: 22px;
-  height: 60px;
-  width: 60px;
-  border: 0;
-  border-radius: 30px;
-  outline: 0;
-  font: 300 36px Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  color: white;
-  background: #2a92e7;
-  box-shadow: 0 8px 8px -8px rgba(2, 10, 16, 0.8);
-  transition: box-shadow 0.33s, transform 0.33s, background 0.33s; }
-  .fab:hover {
-    background: #1c8be5;
-    box-shadow: 0 8px 18px -8px rgba(2, 10, 16, 0.9);
-    transform: translate3d(0, -1px, 0); }
 
 button {
   cursor: pointer; }

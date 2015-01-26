@@ -15,7 +15,6 @@
     </head>
     <body class='signal index'>
         <div class='title-bar' id='header'>
-            <input type='text' class='new-message' placeholder="Name or phone number" />
         </div>
         <div class='notifications'>
             <div class='notification info'>
@@ -23,6 +22,7 @@
         </div>
         <div id='gutter' class='gutter'>
             <div id='contacts'></div>
+            <span class='fab'></span>
         </div>
         <script type="text/x-tmpl-mustache" id="phone-number">
             <div class="phone-input-form">
@@ -47,8 +47,11 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='new-conversation'>
-            <div class='new-contact'></div>
-            <div class='contacts'></div>
+            <input type='text' class='new-message' placeholder="Name or phone number" />
+            <div class='results'>
+              <div class='new-contact'></div>
+              <div class='contacts'></div>
+            </div>
         </script>
         <script type="text/javascript" src="js/components.js"></script>
 

@@ -22,6 +22,7 @@
         initialize: function () {
             this.$gutter = $('#gutter');
             this.$contacts = $('#contacts');
+            this.$fab = this.$el.find('.fab');
 
             this.newConversationView = new Whisper.NewConversationView();
             this.newConversationView.$el.hide().appendTo(this.$gutter);
@@ -44,14 +45,22 @@
             }.bind(this));
         },
         events: {
-            'change input.new-message': 'compose',
+            'click .fab': 'showCompose',
             'keyup input.new-message': 'compose'
         },
-        compose: function() {
-            var query = this.$el.find('input.new-message').val();
-            this.$contacts.toggle(!query.length);
-            this.newConversationView.$el.toggle(!!query.length);
-            this.newConversationView.filterContacts(query);
+        showCompose: function() {
+            this.$fab.hide();
+            this.$contacts.hide();
+            this.newConversationView.$el.show();
+            this.newConversationView.reset();
+        },
+        compose: function(e) {
+            if (e.keyCode === 27) {
+                // hide compose
+                this.newConversationView.$el.hide();
+                this.$contacts.show();
+                this.$fab.show();
+            }
         }
     });
 

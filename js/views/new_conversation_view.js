@@ -41,42 +41,53 @@ var Whisper = Whisper || {};
   Whisper.NewConversationView = Backbone.View.extend({
     className: 'new-conversation',
     initialize: function() {
-      this.template = $('#new-conversation').html();
-      Mustache.parse(this.template);
-      this.$el.html($(Mustache.render(this.template)));
-      this.input = new Whisper.PhoneInputView({
-          el: this.$el.find('div.phone-number-input')
-      });
+        this.template = $('#new-conversation').html();
+        Mustache.parse(this.template);
+        this.$el.html($(Mustache.render(this.template)));
+        this.$input = this.$el.find('input.new-message');
 
-      this.typeahead_collection = new typeahead();
-      this.typeahead_view = new Whisper.ConversationListView({
-          collection : new Whisper.ConversationCollection(),
-          className: 'typeahead'
-      });
+        this.typeahead_collection = new typeahead();
+        this.typeahead_view = new Whisper.ConversationListView({
+            collection : new Whisper.ConversationCollection(),
+            className: 'typeahead'
+        });
 
-      this.typeahead_view.$el.appendTo(this.$el.find('.contacts'));
-      this.typeahead_collection.fetch();
+        this.typeahead_view.$el.appendTo(this.$el.find('.contacts'));
+        this.typeahead_collection.fetch();
 
-      this.new_contact = new Whisper.ConversationListItemView({
-          model: new Whisper.Conversation({
-              active_at: null
-          })
-      });
-      this.new_contact.render().$el.hide();
-      this.$el.find('.new-contact').append(this.new_contact.el);
+        this.new_contact = new Whisper.ConversationListItemView({
+            model: new Whisper.Conversation({
+                active_at: null
+            })
+        }).render();
+        this.$el.find('.new-contact').append(this.new_contact.el);
     },
 
-    filterContacts: function(query) {
-        if (this.maybeNumber(query)) {
-            this.new_contact.model.set('name', query);
-            this.new_contact.$el.show();
-        } else {
-            this.new_contact.$el.hide();
-        }
+    events: {
+        'change input.new-message': 'filterContacts',
+        'keyup input.new-message': 'filterContacts'
+    },
+
+    reset: function() {
+        this.new_contact.$el.hide();
+        this.$input.val('').focus();
+        this.typeahead_view.collection.reset(this.typeahead_collection.models);
+    },
+
+    filterContacts: function() {
+        var query = this.$input.val();
         if (query.length) {
+            if (this.maybeNumber(query)) {
+                this.new_contact.model.set('name', query);
+                this.new_contact.$el.show();
+            } else {
+                this.new_contact.$el.hide();
+            }
             this.typeahead_view.collection.reset(
                 this.typeahead_collection.typeahead(query)
             );
+        } else {
+            this.reset();
         }
     },
 
