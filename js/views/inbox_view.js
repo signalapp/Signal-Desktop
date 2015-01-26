@@ -47,9 +47,9 @@
             }.bind(this));
         },
         events: {
+            'keyup': 'keyup',
             'click .back button': 'hideCompose',
             'click .fab': 'showCompose',
-            'keyup input.new-message': 'compose',
             'open .contact': 'openConversation'
         },
         openConversation: function(e, data) {
@@ -69,7 +69,7 @@
             this.$fab.show();
             this.$back.hide();
         },
-        compose: function(e) {
+        keyup: function(e) {
             if (e.keyCode === 27) {
                 this.hideCompose();
             }
