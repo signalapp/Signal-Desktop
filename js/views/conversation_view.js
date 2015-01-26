@@ -39,7 +39,9 @@
             });
             this.$el.find('.discussion-container').append(this.view.el);
 
-            this.model.fetchMessages({reset: true});
+            if (this.model.id) {
+                this.model.fetchMessages({reset: true});
+            }
         },
 
         events: {
