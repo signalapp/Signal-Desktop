@@ -34,7 +34,6 @@ var Whisper = Whisper || {};
 
       this.listenTo(this.model, 'change', this.render); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
-      this.listenTo(this.model, 'open', this.open);
     },
 
     open: function(e) {
