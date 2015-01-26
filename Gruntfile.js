@@ -129,8 +129,14 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<%= jshint.files %>', './js/**/*.js', './stylesheets/**/!(manifest.css)'],
-      tasks: ['jshint', 'sass']
+      scripts: {
+        files: ['<%= jshint.files %>', './js/**/*.js'],
+        tasks: ['jshint']
+      },
+      sass: {
+        files: ['./stylesheets/**/!(manifest.css)'],
+        tasks: ['sass']
+      }
     },
     connect: {
       server: {
