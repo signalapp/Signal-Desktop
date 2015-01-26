@@ -60,6 +60,7 @@
             this.$contacts.hide();
             this.newConversationView.reset();
             this.newConversationView.$el.show();
+            this.newConversationView.$input.focus();
             this.$back.show();
         },
         hideCompose: function() {
