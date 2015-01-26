@@ -48,7 +48,9 @@ var Whisper = Whisper || {};
 
         this.typeahead_collection = new typeahead();
         this.typeahead_view = new Whisper.ConversationListView({
-            collection : new Whisper.ConversationCollection(),
+            collection : new (Whisper.ConversationCollection.extend({
+                comparator: 'name'
+            }))(),
             className: 'typeahead'
         });
 
