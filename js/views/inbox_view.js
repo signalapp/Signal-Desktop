@@ -17,6 +17,7 @@
     'use strict';
 
     window.Whisper = window.Whisper || {};
+    var bg = extension.windows.getBackground();
 
     Whisper.InboxView = Backbone.View.extend({
         initialize: function () {
@@ -48,7 +49,11 @@
         events: {
             'click .back': 'hideCompose',
             'click .fab': 'showCompose',
-            'keyup input.new-message': 'compose'
+            'keyup input.new-message': 'compose',
+            'open .contact': 'openConversation'
+        },
+        openConversation: function(e, data) {
+            bg.openConversation(data.modelId);
         },
         showCompose: function() {
             this.$fab.hide();

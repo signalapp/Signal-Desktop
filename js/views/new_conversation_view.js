@@ -80,7 +80,7 @@ var Whisper = Whisper || {};
         var query = this.$input.val();
         if (query.length) {
             if (this.maybeNumber(query)) {
-                this.new_contact.model.set('name', query);
+                this.new_contact.model.set('id', query);
                 this.new_contact.$el.show();
             } else {
                 this.new_contact.$el.hide();
