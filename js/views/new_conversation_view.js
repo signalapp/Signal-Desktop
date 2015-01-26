@@ -59,7 +59,8 @@ var Whisper = Whisper || {};
 
         this.new_contact = new Whisper.ConversationListItemView({
             model: new Whisper.Conversation({
-                active_at: null
+                active_at: null,
+                type: 'private'
             })
         }).render();
         this.$el.find('.new-contact').append(this.new_contact.el);

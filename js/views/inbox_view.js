@@ -50,10 +50,19 @@
             'keyup': 'keyup',
             'click .back button': 'hideCompose',
             'click .fab': 'showCompose',
-            'open .contact': 'openConversation'
+            'open #contacts': 'openConversation',
+            'open .contacts': 'openConversation',
+            'open .new-contact': 'createConversation',
         },
         openConversation: function(e, data) {
             bg.openConversation(data.modelId);
+            this.hideCompose();
+        },
+        createConversation: function(e, data) {
+            this.newConversationView.new_contact.model.save().then(function() {
+                bg.openConversation(data.modelId);
+            });
+            this.hideCompose();
         },
         showCompose: function() {
             this.$fab.hide();
