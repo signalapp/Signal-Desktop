@@ -106,7 +106,13 @@
       "momentjs",
       "intl-tel-input"
     ],
-    "lib": [
+    "libtextsecure": [
+      "jquery",
+      "long",
+      "bytebuffer",
+      "protobuf"
+    ],
+    "libaxolotl": [
       "jquery",
       "long",
       "bytebuffer",

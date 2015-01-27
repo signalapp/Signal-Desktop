@@ -20,23 +20,23 @@
     /*********************
      *** Group Storage ***
      *********************/
-    window.textsecure = window.textsecure || {};
-    window.textsecure.storage = window.textsecure.storage || {};
+    window.axolotl = window.axolotl || {};
+    window.axolotl.storage = window.axolotl.storage || {};
 
-    window.textsecure.storage.groups = {
+    window.axolotl.storage.groups = {
         createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+            if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
 
-            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
-                groupId = getString(textsecure.crypto.getRandomBytes(16));
+            while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
+                groupId = getString(axolotl.crypto.getRandomBytes(16));
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = axolotl.api.getMyIdentifier();
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
                 var number = numbers[i];
-                if (!textsecure.utils.isNumberSane(number))
+                if (!axolotl.api.isIdentifierSane(number))
                     throw new Error("Invalid number in group");
                 if (number == me)
                     haveMe = true;
@@ -51,13 +51,13 @@
             for (var i in finalNumbers)
                 groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-            textsecure.storage.putEncrypted("group" + groupId, groupObject);
+            axolotl.api.storage.put("group" + groupId, groupObject);
 
             return {id: groupId, numbers: finalNumbers};
         },
 
         getNumbers: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = axolotl.api.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -65,11 +65,11 @@
         },
 
         removeNumber: function(groupId, number) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = axolotl.api.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = axolotl.api.getMyIdentifier();
             if (number == me)
                 throw new Error("Cannot remove ourselves from a group, leave the group instead");
 
@@ -77,20 +77,20 @@
             if (i > -1) {
                 group.numbers.slice(i, 1);
                 delete group.numberRegistrationIds[number];
-                textsecure.storage.putEncrypted("group" + groupId, group);
+                axolotl.api.storage.put("group" + groupId, group);
             }
 
             return group.numbers;
         },
 
         addNumbers: function(groupId, numbers) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = axolotl.api.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
             for (var i in numbers) {
                 var number = numbers[i];
-                if (!textsecure.utils.isNumberSane(number))
+                if (!axolotl.api.isIdentifierSane(number))
                     throw new Error("Invalid number in set to add to group");
                 if (group.numbers.indexOf(number) < 0) {
                     group.numbers.push(number);
@@ -98,16 +98,16 @@
                 }
             }
 
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            axolotl.api.storage.put("group" + groupId, group);
             return group.numbers;
         },
 
         deleteGroup: function(groupId) {
-            textsecure.storage.removeEncrypted("group" + groupId);
+            axolotl.api.storage.remove("group" + groupId);
         },
 
         getGroup: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = axolotl.api.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -115,7 +115,7 @@
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = axolotl.api.storage.get("group" + groupId);
             if (group === undefined)
                 throw new Error("Unknown group for device registration id");
 
@@ -127,9 +127,14 @@
 
             var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
             group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            axolotl.api.storage.put("group" + groupId, group);
             return needUpdate;
         },
     };
+
+    //TODO: RM
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
+    window.textsecure.storage.groups = window.axolotl.storage.groups;
 
 })();
