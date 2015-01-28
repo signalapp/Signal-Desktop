@@ -51,7 +51,9 @@ var Whisper = Whisper || {};
         });
 
         this.typeahead_view.$el.appendTo(this.$el.find('.contacts'));
-        this.typeahead_collection.fetch();
+        this.typeahead_collection.fetch({
+            conditions: { type: 'private' }
+        });
 
         this.new_contact = new Whisper.ConversationListItemView({
             model: new Whisper.Conversation({
