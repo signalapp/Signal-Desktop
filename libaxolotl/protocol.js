@@ -16,9 +16,9 @@
 ;(function() {
 
 'use strict';
-window.textsecure = window.textsecure || {};
+window.axolotl = window.axolotl || {};
 
-window.textsecure.protocol = function() {
+window.axolotl.protocol = function() {
     var self = {};
 
     /******************************
@@ -43,25 +43,25 @@ window.textsecure.protocol = function() {
     var crypto_storage = {};
 
     crypto_storage.putKeyPair = function(keyName, keyPair) {
-        textsecure.storage.putEncrypted("25519Key" + keyName, keyPair);
+        axolotl.api.storage.put("25519Key" + keyName, keyPair);
     }
 
     crypto_storage.getNewStoredKeyPair = function(keyName) {
-        return textsecure.crypto.createKeyPair().then(function(keyPair) {
+        return axolotl.crypto.createKeyPair().then(function(keyPair) {
             crypto_storage.putKeyPair(keyName, keyPair);
             return keyPair;
         });
     }
 
     crypto_storage.getStoredKeyPair = function(keyName) {
-        var res = textsecure.storage.getEncrypted("25519Key" + keyName);
+        var res = axolotl.api.storage.get("25519Key" + keyName);
         if (res === undefined)
             return undefined;
         return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
     }
 
     crypto_storage.removeStoredKeyPair = function(keyName) {
-        textsecure.storage.removeEncrypted("25519Key" + keyName);
+        axolotl.api.storage.remove("25519Key" + keyName);
     }
 
     crypto_storage.getIdentityKey = function() {
@@ -69,7 +69,7 @@ window.textsecure.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             device = { sessions: {}, encodedNumber: encodedNumber };
 
@@ -119,11 +119,11 @@ window.textsecure.protocol = function() {
                 delete device['registrationId'];
             } catch(_) {}
 
-        textsecure.storage.devices.saveDeviceObject(device);
+        axolotl.api.storage.sessions.put(device);
     }
 
     var getSessions = function(encodedNumber) {
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined || device.sessions === undefined)
             return undefined;
         return device.sessions;
@@ -165,7 +165,7 @@ window.textsecure.protocol = function() {
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         var sessions = getSessions(encodedNumber);
-        var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+        var device = axolotl.api.storage.sessions.get(encodedNumber);
         if (device === undefined)
             return undefined;
 
@@ -191,11 +191,11 @@ window.textsecure.protocol = function() {
 
         info = toArrayBuffer(info); // TODO: maybe convert calls?
 
-        return textsecure.crypto.HKDF(input, salt, info);
+        return axolotl.crypto.HKDF(input, salt, info);
     }
 
     var verifyMAC = function(data, key, mac) {
-        return textsecure.crypto.sign(key, data).then(function(calculated_mac) {
+        return axolotl.crypto.sign(key, data).then(function(calculated_mac) {
             if (!isEqual(calculated_mac, mac, true))
                 throw new Error("Bad MAC");
         });
@@ -207,7 +207,7 @@ window.textsecure.protocol = function() {
     var calculateRatchet = function(session, remoteKey, sending) {
         var ratchet = session.currentRatchet;
 
-        return textsecure.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
+        return axolotl.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
             return HKDF(sharedSecret, toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
                 if (sending)
                     session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
@@ -240,9 +240,9 @@ window.textsecure.protocol = function() {
         for (var i = 0; i < 32; i++)
             sharedSecret[i] = 0xff;
 
-        return textsecure.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
+        return axolotl.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
             function finishInit() {
-                return textsecure.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
+                return axolotl.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
                     sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
                     return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
@@ -258,7 +258,7 @@ window.textsecure.protocol = function() {
                         // If we're initiating we go ahead and set our first sending ephemeral key now,
                         // otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
                         if (isInitiator) {
-                            return textsecure.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
+                            return axolotl.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
                                 session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
                                 return calculateRatchet(session, theirSignedPubKey, true).then(function() {
                                     return session;
@@ -276,17 +276,17 @@ window.textsecure.protocol = function() {
             if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
                 promise = Promise.resolve(new ArrayBuffer(0));
             else
-                promise = textsecure.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
+                promise = axolotl.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
             return promise.then(function(ecRes4) {
                 sharedSecret.set(new Uint8Array(ecRes4), 32 * 4);
 
                 if (isInitiator)
-                    return textsecure.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32);
                         sharedSecret.set(new Uint8Array(ecRes2), 32 * 2);
                     }).then(finishInit);
                 else
-                    return textsecure.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32 * 2);
                         sharedSecret.set(new Uint8Array(ecRes2), 32)
                     }).then(finishInit);
@@ -349,36 +349,12 @@ window.textsecure.protocol = function() {
         crypto_storage.saveSession(encodedNumber, session);
     }
 
-    var initSessionFromPreKeyWhisperMessage;
-    var decryptWhisperMessage;
-    var handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = textsecure.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
-        return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return decryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
-                if (sessions[1] !== undefined)
-                    sessions[1]();
-                return result;
-            });
-        });
-    }
-
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
-        // Wipe identity key!
-        textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
-        return handlePreKeyWhisperMessage(from, encodedMessage).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
-    }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
-
-    initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
+    var refreshPreKeys;
+    var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
         var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
         var signedPreKeyPair = crypto_storage.getStoredKeyPair("signedKey" + message.signedPreKeyId);
+
+        //TODO: Call refreshPreKeys when it looks like all our prekeys are used up?
 
         var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
         var open_session = crypto_storage.getOpenSession(encodedNumber);
@@ -430,9 +406,9 @@ window.textsecure.protocol = function() {
         var key = toArrayBuffer(chain.chainKey.key);
         var byteArray = new Uint8Array(1);
         byteArray[0] = 1;
-        return textsecure.crypto.sign(key, byteArray.buffer).then(function(mac) {
+        return axolotl.crypto.sign(key, byteArray.buffer).then(function(mac) {
             byteArray[0] = 2;
-            return textsecure.crypto.sign(key, byteArray.buffer).then(function(key) {
+            return axolotl.crypto.sign(key, byteArray.buffer).then(function(key) {
                 chain.messageKeys[chain.chainKey.counter + 1] = mac;
                 chain.chainKey.key = key
                 chain.chainKey.counter += 1;
@@ -456,7 +432,7 @@ window.textsecure.protocol = function() {
                     delete session[previousRatchet];
                 }
 
-                return textsecure.crypto.createKeyPair().then(function(keyPair) {
+                return axolotl.crypto.createKeyPair().then(function(keyPair) {
                     ratchet.ephemeralKeyPair = keyPair;
                     return calculateRatchet(session, remoteKey, true).then(function() {
                         ratchet.lastRemoteEphemeralKey = remoteKey;
@@ -478,15 +454,14 @@ window.textsecure.protocol = function() {
             return finish();
     }
 
-    // returns decrypted protobuf
-    decryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
+    var doDecryptWhisperMessage = function(encodedNumber, messageBytes, session, registrationId) {
         if (messageBytes[0] != String.fromCharCode((3 << 4) | 3))
             throw new Error("Bad version number on WhisperMessage");
 
         var messageProto = messageBytes.substring(1, messageBytes.length - 8);
         var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
 
-        var message = textsecure.protobuf.WhisperMessage.decode(messageProto, 'binary');
+        var message = axolotl.protobuf.WhisperMessage.decode(messageProto, 'binary');
         var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
 
         if (session === undefined) {
@@ -510,7 +485,7 @@ window.textsecure.protocol = function() {
                     macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
                     return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
-                        return window.textsecure.crypto.decrypt(keys[0], toArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
+                        return window.axolotl.crypto.decrypt(keys[0], toArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
                                     .then(function(paddedPlaintext) {
 
                             paddedPlaintext = new Uint8Array(paddedPlaintext);
@@ -526,17 +501,13 @@ window.textsecure.protocol = function() {
                             }
 
                             delete session['pendingPreKey'];
-
-                            var finalMessage = textsecure.protobuf.PushMessageContent.decode(plaintext);
-
-                            if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                                    == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                                closeSession(session, true);
-
                             removeOldChains(session);
-
                             crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return finalMessage;
+                            return [plaintext, function() {
+                                closeSession(session, true);
+                                removeOldChains(session);
+                                crypto_storage.saveSession(encodedNumber, session);
+                            }];
                         });
                     });
                 });
@@ -547,75 +518,23 @@ window.textsecure.protocol = function() {
     /*************************
     *** Public crypto API ***
     *************************/
-    // Decrypts message into a raw string
-    self.decryptWebsocketMessage = function(message) {
-        var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
-        var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
-        var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
+    //TODO: SHARP EDGE HERE
+    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
+    // returns decrypted plaintext and a function that must be called if the message indicates session close
+    self.decryptWhisperMessage = function(encodedNumber, messageBytes, session) {
+        return doDecryptWhisperMessage(encodedNumber, messageBytes, session);
+    }
 
-        var decodedMessage = message.toArrayBuffer();
-        if (new Uint8Array(decodedMessage)[0] != 1)
-            throw new Error("Got bad version number: " + decodedMessage[0]);
-
-        var iv = decodedMessage.slice(1, 1 + 16);
-        var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
-        var ivAndCiphertext = decodedMessage.slice(0, decodedMessage.byteLength - 10);
-        var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
-
-        return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.textsecure.crypto.decrypt(aes_key, ciphertext, iv);
-        });
-    };
-
-    self.decryptAttachment = function(encryptedBin, keys) {
-        var aes_key = keys.slice(0, 32);
-        var mac_key = keys.slice(32, 64);
-
-        var iv = encryptedBin.slice(0, 16);
-        var ciphertext = encryptedBin.slice(16, encryptedBin.byteLength - 32);
-        var ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
-        var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
-
-        return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
-            return window.textsecure.crypto.decrypt(aes_key, ciphertext, iv);
-        });
-    };
-
-    self.encryptAttachment = function(plaintext, keys, iv) {
-        var aes_key = keys.slice(0, 32);
-        var mac_key = keys.slice(32, 64);
-
-        return window.textsecure.crypto.encrypt(aes_key, plaintext, iv).then(function(ciphertext) {
-            var ivAndCiphertext = new Uint8Array(16 + ciphertext.byteLength);
-            ivAndCiphertext.set(new Uint8Array(iv));
-            ivAndCiphertext.set(new Uint8Array(ciphertext), 16);
-
-            return textsecure.crypto.sign(mac_key, ivAndCiphertext.buffer).then(function(mac) {
-                var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
-                encryptedBin.set(ivAndCiphertext);
-                encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
-                return encryptedBin.buffer;
+    // Inits a session (maybe) and then decrypts the message
+    self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
+        var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
+        return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
+            return doDecryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+                if (sessions[1] !== undefined)
+                    sessions[1]();
+                return result;
             });
         });
-    };
-
-    self.handleIncomingPushMessageProto = function(proto) {
-        switch(proto.type) {
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
-            return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
-            var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-            return decryptWhisperMessage(from, getString(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
-            if (proto.message.readUint8() != ((3 << 4) | 3))
-                throw new Error("Bad version byte");
-            var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-            return handlePreKeyWhisperMessage(from, getString(proto.message));
-        case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
-            return Promise.resolve(null);
-        default:
-            return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
-        }
     }
 
     // return Promise(encoded [PreKey]WhisperMessage)
@@ -623,7 +542,7 @@ window.textsecure.protocol = function() {
         var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
 
         var doEncryptPushMessageContent = function() {
-            var msg = new textsecure.protobuf.WhisperMessage();
+            var msg = new axolotl.protobuf.WhisperMessage();
             var plaintext = toArrayBuffer(pushMessageContent.encode());
 
             var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
@@ -639,7 +558,7 @@ window.textsecure.protocol = function() {
                     msg.counter = chain.chainKey.counter;
                     msg.previousCounter = session.currentRatchet.previousCounter;
 
-                    return window.textsecure.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
+                    return window.axolotl.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
                         msg.ciphertext = ciphertext;
                         var encodedMsg = toArrayBuffer(msg.encode());
 
@@ -649,7 +568,7 @@ window.textsecure.protocol = function() {
                         macInput[33*2] = (3 << 4) | 3;
                         macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
 
-                        return textsecure.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
+                        return axolotl.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
                             var result = new Uint8Array(encodedMsg.byteLength + 9);
                             result[0] = (3 << 4) | 3;
                             result.set(new Uint8Array(encodedMsg), 1);
@@ -658,6 +577,7 @@ window.textsecure.protocol = function() {
                             try {
                                 delete deviceObject['signedKey'];
                                 delete deviceObject['signedKeyId'];
+                                delete deviceObject['signedKeySignature'];
                                 delete deviceObject['preKey'];
                                 delete deviceObject['preKeyId'];
                             } catch(_) {}
@@ -672,24 +592,28 @@ window.textsecure.protocol = function() {
             });
         }
 
-        var preKeyMsg = new textsecure.protobuf.PreKeyWhisperMessage();
+        var preKeyMsg = new axolotl.protobuf.PreKeyWhisperMessage();
         preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
-        preKeyMsg.registrationId = textsecure.storage.getUnencrypted("registrationId");
+        preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
 
         if (session === undefined) {
-            return textsecure.crypto.createKeyPair().then(function(baseKey) {
-                preKeyMsg.preKeyId = deviceObject.preKeyId;
-                preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
-                return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                    toArrayBuffer(deviceObject.identityKey), toArrayBuffer(deviceObject.preKey), toArrayBuffer(deviceObject.signedKey))
-                            .then(function(new_session) {
-                    session = new_session;
-                    session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
-                    return doEncryptPushMessageContent().then(function(message) {
-                        preKeyMsg.message = message;
-                        var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
-                        return {type: 3, body: result};
+            var deviceIdentityKey = toArrayBuffer(deviceObject.identityKey);
+            var deviceSignedKey = toArrayBuffer(deviceObject.signedKey);
+            return axolotl.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, toArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                return axolotl.crypto.createKeyPair().then(function(baseKey) {
+                    preKeyMsg.preKeyId = deviceObject.preKeyId;
+                    preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
+                    preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
+                    return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
+                                        deviceIdentityKey, toArrayBuffer(deviceObject.preKey), deviceSignedKey)
+                                .then(function(new_session) {
+                        session = new_session;
+                        session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
+                        return doEncryptPushMessageContent().then(function(message) {
+                            preKeyMsg.message = message;
+                            var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                            return {type: 3, body: result};
+                        });
                     });
                 });
             });
@@ -712,11 +636,11 @@ window.textsecure.protocol = function() {
     self.generateKeys = function() {
         var identityKeyPair = crypto_storage.getIdentityKey();
         var identityKeyCalculated = function(identityKeyPair) {
-            var firstPreKeyId = textsecure.storage.getEncrypted("maxPreKeyId", 0);
-            textsecure.storage.putEncrypted("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
+            var firstPreKeyId = axolotl.api.storage.get("maxPreKeyId", 0);
+            axolotl.api.storage.put("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
-            var signedKeyId = textsecure.storage.getEncrypted("signedKeyId", 0);
-            textsecure.storage.putEncrypted("signedKeyId", signedKeyId + 1);
+            var signedKeyId = axolotl.api.storage.get("signedKeyId", 0);
+            axolotl.api.storage.put("signedKeyId", signedKeyId + 1);
 
             var keys = {};
             keys.identityKey = identityKeyPair.pubKey;
@@ -733,7 +657,7 @@ window.textsecure.protocol = function() {
                 promises[i] = generateKey(i);
 
             promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
-                return textsecure.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+                return axolotl.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
                     keys.signedPreKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
                 });
             });
@@ -742,6 +666,7 @@ window.textsecure.protocol = function() {
             crypto_storage.removeStoredKeyPair("signedKey" + (signedKeyId - 2));
 
             return Promise.all(promises).then(function() {
+                axolotl.api.storage.put("lastPreKeyUpdate", Date.now());
                 return keys;
             });
         }
@@ -751,13 +676,23 @@ window.textsecure.protocol = function() {
             return identityKeyCalculated(identityKeyPair);
     }
 
-    //TODO: Dont always update prekeys here
-    if (textsecure.storage.getEncrypted("lastSignedKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
-        new Promise(function(resolve) { resolve(self.generateKeys()); });
+    refreshPreKeys = function() {
+        self.generateKeys().then(function(keys) {
+            console.log("Pre Keys updated!");
+            return axolotl.api.updateKeys(keys);
+        }).catch(function(e) {
+            //TODO: Notify the user somehow???
+            console.error(e);
+        });
     }
 
+    window.setInterval(function() {
+        // Note that this will not ever run until generateKeys has been called at least once
+        if (axolotl.api.storage.get("lastPreKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
+            refreshPreKeys();
+    }, 60 * 1000);
 
-    self.prepareTempWebsocket = function() {
+    self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
         var keyPair;
 
@@ -765,7 +700,7 @@ window.textsecure.protocol = function() {
             var masterEphemeral = toArrayBuffer(deviceInit.masterEphemeralPubKey);
             var message = toArrayBuffer(deviceInit.identityKeyMessage);
 
-            return textsecure.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
+            return axolotl.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
                 return HKDF(ecRes, masterEphemeral, "WhisperDeviceInit").then(function(keys) {
                     if (new Uint8Array(message)[0] != (3 << 4) | 3)
                         throw new Error("Bad version number on IdentityKeyMessage");
@@ -776,10 +711,13 @@ window.textsecure.protocol = function() {
                     var ciphertext = message.slice(16 + 1, message.length - 32);
 
                     return verifyMAC(ivAndCiphertext, ecRes[1], mac).then(function() {
-                        window.textsecure.crypto.decrypt(ecRes[0], ciphertext, iv).then(function(plaintext) {
-                            var identityKeyMsg = textsecure.protobuf.IdentityKey.decode(plaintext);
+                        window.axolotl.crypto.decrypt(ecRes[0], ciphertext, iv).then(function(plaintext) {
+                            var identityKeyMsg = axolotl.protobuf.IdentityKey.decode(plaintext);
 
-                            textsecure.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
+                            axolotl.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKey)).then(function(identityKeyPair) {
+                                if (crypto_storage.getStoredKeyPair("identityKey") !== undefined)
+                                    throw new Error("Tried to overwrite identity key");
+
                                 crypto_storage.putKeyPair("identityKey", identityKeyPair);
                                 identityKeyMsg.identityKey = null;
 
@@ -791,7 +729,7 @@ window.textsecure.protocol = function() {
             });
         }
 
-        return textsecure.crypto.createKeyPair().then(function(newKeyPair) {
+        return axolotl.crypto.createKeyPair().then(function(newKeyPair) {
             keyPair = newKeyPair;
             socketInfo.pubKey = keyPair.pubKey;
             return socketInfo;

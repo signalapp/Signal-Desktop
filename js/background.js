@@ -37,7 +37,7 @@
         new WebSocketResource(socket, function(request) {
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
-            textsecure.protocol.decryptWebsocketMessage(request.body).then(function(plaintext) {
+            textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
                 var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
                 // After this point, decoding errors are not the server's
                 // fault, and we should handle them gracefully and tell the
@@ -84,7 +84,7 @@
         conversation.save().then(function() {
             message.save().then(function() {
                 return new Promise(function(resolve) {
-                    resolve(textsecure.protocol.handleIncomingPushMessageProto(pushMessage).then(
+                    resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
                         function(pushMessageContent) {
                             handlePushMessageContent(pushMessageContent, message);
                         }

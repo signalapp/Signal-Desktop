@@ -31,7 +31,7 @@ describe('Protocol', function() {
                 message: text_message.encode()
             };
 
-            return textsecure.protocol.handleIncomingPushMessageProto(server_message).
+            return textsecure.protocol_wrapper.handleIncomingPushMessageProto(server_message).
                 then(function(message) {
                     assert.equal(message.body, text_message.body);
                     assert.equal(message.attachments.length, text_message.attachments.length);
@@ -47,14 +47,14 @@ describe('Protocol', function() {
         after(function()  { localStorage.clear(); });
         it ('works', function(done) {
             localStorage.clear();
-            return textsecure.protocol.generateKeys().then(function() {
+            return axolotl.protocol.generateKeys().then(function() {
                 assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                 assert.isDefined(textsecure.storage.getEncrypted("25519KeysignedKey0"));
                 for (var i = 0; i < 100; i++) {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                 }
                 var origIdentityKey = getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey);
-                return textsecure.protocol.generateKeys().then(function() {
+                return axolotl.protocol.generateKeys().then(function() {
                     assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                     assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
@@ -65,7 +65,7 @@ describe('Protocol', function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeypreKey" + i));
                     }
 
-                    return textsecure.protocol.generateKeys().then(function() {
+                    return axolotl.protocol.generateKeys().then(function() {
                         assert.isDefined(textsecure.storage.getEncrypted("25519KeyidentityKey"));
                         assert.equal(getString(textsecure.storage.getEncrypted("25519KeyidentityKey").privKey), origIdentityKey);
 
@@ -84,30 +84,30 @@ describe('Protocol', function() {
 
     describe("Axolotl", function() {
         var runAxolotlTest = function(v) {
-            var origCreateKeyPair = textsecure.crypto.createKeyPair;
+            var origCreateKeyPair = axolotl.crypto.createKeyPair;
             var doStep;
             var stepDone;
 
             stepDone = function(res) {
                 if (!res || privKeyQueue.length != 0 || Object.keys(getKeysForNumberMap).length != 0 || Object.keys(messagesSentMap).length != 0) {
-                    textsecure.crypto.createKeyPair = origCreateKeyPair;
+                    axolotl.crypto.createKeyPair = origCreateKeyPair;
                     return false;
                 } else if (step == v.length) {
-                    textsecure.crypto.createKeyPair = origCreateKeyPair;
+                    axolotl.crypto.createKeyPair = origCreateKeyPair;
                     return true;
                 } else
                     return doStep().then(stepDone);
             }
 
             var privKeyQueue = [];
-            textsecure.crypto.createKeyPair = function(privKey) {
+            axolotl.crypto.createKeyPair = function(privKey) {
                 if (privKey !== undefined)
                     return origCreateKeyPair(privKey);
                 if (privKeyQueue.length == 0)
                     throw new Error('Out of private keys');
                 else {
                     var privKey = privKeyQueue.shift();
-                    return textsecure.crypto.createKeyPair(privKey).then(function(keyPair) {
+                    return axolotl.crypto.createKeyPair(privKey).then(function(keyPair) {
                         var a = btoa(getString(keyPair.privKey)); var b = btoa(getString(privKey));
                         if (getString(keyPair.privKey) != getString(privKey))
                             throw new Error('Failed to rederive private key!');
@@ -134,7 +134,7 @@ describe('Protocol', function() {
                         message.sourceDevice = 1;
                         try {
                             var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(message.encode());
-                            return textsecure.protocol.handleIncomingPushMessageProto(proto).then(function(res) {
+                            return textsecure.protocol_wrapper.handleIncomingPushMessageProto(proto).then(function(res) {
                                 if (data.expectTerminateSession)
                                     return res.flags == textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
                                 return res.body == data.expectedSmsText;
@@ -151,13 +151,13 @@ describe('Protocol', function() {
                     }
 
                     if (data.ourIdentityKey !== undefined)
-                        return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
+                        return axolotl.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
                             textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
-                            return textsecure.crypto.createKeyPair(data.ourSignedPreKey).then(function(keyPair) {
+                            return axolotl.crypto.createKeyPair(data.ourSignedPreKey).then(function(keyPair) {
                                 textsecure.storage.putEncrypted("25519KeysignedKey" + data.signedPreKeyId, keyPair);
 
                                 if (data.ourPreKey !== undefined)
-                                    return textsecure.crypto.createKeyPair(data.ourPreKey).then(function(keyPair) {
+                                    return axolotl.crypto.createKeyPair(data.ourPreKey).then(function(keyPair) {
                                         textsecure.storage.putEncrypted("25519KeypreKey" + data.preKeyId, keyPair);
                                         return postLocalKeySetup();
                                     });
@@ -182,11 +182,11 @@ describe('Protocol', function() {
                             //XXX: This should be all we do: isEqual(data.expectedCiphertext, msg.body, false);
                             if (msg.type == 1) {
                                 var expected = getString(data.expectedCiphertext);
-                                var decoded = textsecure.protobuf.WhisperMessage.decode(expected.substring(1, expected.length - 8), 'binary');
+                                var decoded = axolotl.protobuf.WhisperMessage.decode(expected.substring(1, expected.length - 8), 'binary');
                                 var result = getString(msg.body);
                                 return getString(decoded.encode()) == result.substring(1, result.length - 8);
                             } else {
-                                var decoded = textsecure.protobuf.PreKeyWhisperMessage.decode(getString(data.expectedCiphertext).substr(1), 'binary');
+                                var decoded = axolotl.protobuf.PreKeyWhisperMessage.decode(getString(data.expectedCiphertext).substr(1), 'binary');
                                 var result = getString(msg.body).substring(1);
                                 return getString(decoded.encode()) == result;
                             }
@@ -204,7 +204,7 @@ describe('Protocol', function() {
                         privKeyQueue.push(data.ourEphemeralKey);
 
                     if (data.ourIdentityKey !== undefined)
-                        return textsecure.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
+                        return axolotl.crypto.createKeyPair(data.ourIdentityKey).then(function(keyPair) {
                             textsecure.storage.putEncrypted("25519KeyidentityKey", keyPair);
                             return postLocalKeySetup();
                         });

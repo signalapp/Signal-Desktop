@@ -75,7 +75,7 @@
     };
 
     var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
+        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined || deviceObject.registrationId === undefined)
             throw new Error("Tried to store invalid deviceObject");
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];

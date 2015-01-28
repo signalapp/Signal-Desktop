@@ -5,12 +5,14 @@ option java_outer_classname = "PushMessageProtos";
 
 message IncomingPushMessageSignal {
   enum Type {
-    UNKNOWN       = 0;
-    CIPHERTEXT    = 1;
-    KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3;
-    PLAINTEXT     = 4;
-    RECEIPT       = 5;
+    UNKNOWN                      = 0;
+    CIPHERTEXT                   = 1;
+    KEY_EXCHANGE                 = 2;
+    PREKEY_BUNDLE                = 3;
+    PLAINTEXT                    = 4;
+    RECEIPT                      = 5;
+    PREKEY_BUNDLE_DEVICE_CONTROL = 6;
+    DEVICE_CONTROL               = 7;
   }
   optional Type   type         = 1;
   optional string source       = 2;
