@@ -24,10 +24,6 @@ var Whisper = Whisper || {};
       storeName: 'conversations',
       model: Whisper.Conversation,
 
-      comparator: function(m) {
-          return m.get('name');
-      },
-
       _tokenize: function(s) {
           s = $.trim(s);
           if (s.length === 0) {
