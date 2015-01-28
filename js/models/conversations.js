@@ -35,9 +35,20 @@
     },
 
     validate: function(attributes, options) {
-      var required = ['type', 'timestamp'];
-      var missing = _.filter(required, function(attr) { return !attributes[attr]; });
-      if (missing.length) { return "Conversation must have " + missing; }
+        var required = ['type', 'timestamp'];
+        var missing = _.filter(required, function(attr) { return !attributes[attr]; });
+        if (missing.length) { return "Conversation must have " + missing; }
+
+        if (this.get('type') === 'private') {
+            var number = libphonenumber.util.verifyNumber(id);
+
+            this.set({
+                id: number,
+                international_number: libphonenumber.format(number, libphonenumber.PhoneNumberFormat.INTERNATIONAL),
+                national_number: libphonenumber.format(number, libphonenumber.PhoneNumberFormat.NATIONAL)
+            });
+
+        }
     },
 
     sendMessage: function(body, attachments) {
