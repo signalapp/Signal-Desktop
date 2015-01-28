@@ -52,6 +52,15 @@
         </script>
         <script type='text/x-tmpl-mustache' id='new-conversation'>
             <input type='text' class='new-message' placeholder="Name or phone number" />
+            <div class='new-group-update-form'>
+              <div>
+                <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+              </div>
+              <div class='group-avatar'>
+                <div><input type='file' name='avatar' class='file-input'></div>
+              </div>
+              <button>Create group</button>
+            </div>
             <div class='results'>
               <div class='new-contact'></div>
               <div class='contacts'></div>

@@ -35,6 +35,10 @@ input.new-message {
   }
 }
 
+.new-conversation .new-group-update-form {
+  display: none;
+}
+
 .fab {
   z-index: 1;
   position: fixed;

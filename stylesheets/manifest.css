@@ -25,6 +25,9 @@ input.new-message {
     color: white;
     text-indent: -36px; }
 
+.new-conversation .new-group-update-form {
+  display: none; }
+
 .fab {
   z-index: 1;
   position: fixed;
