@@ -26,7 +26,7 @@ var Whisper = Whisper || {};
 
     events: {
       'click': 'open',
-      'click .checkbox': 'stopPropagation'
+      'click .checkbox': 'checkbox'
     },
     initialize: function() {
       this.template = $('#contact').html();
@@ -41,8 +41,9 @@ var Whisper = Whisper || {};
       this.$el.trigger('open', {modelId: this.model.id});
     },
 
-    stopPropagation: function(e) {
+    checkbox: function(e) {
         e.stopPropagation();
+        this.$el.trigger('checkbox', {modelId: this.model.id});
     },
 
     render: function() {
