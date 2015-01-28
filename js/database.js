@@ -32,6 +32,7 @@
                 var conversations = transaction.db.createObjectStore("conversations");
                 conversations.createIndex("inbox", "active_at", { unique: false });
                 conversations.createIndex("group", "members", { unique: false, multiEntry: true });
+                conversations.createIndex("type", "type", { unique: false });
                 next();
             }
         }
