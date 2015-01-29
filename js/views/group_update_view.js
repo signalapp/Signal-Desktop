@@ -28,7 +28,7 @@
                 messages.push("Title is now '" + this.model.name + "'.");
             }
             if (this.model.joined) {
-                messages.push(this.model.joined + ' joined the group');
+                messages.push(this.model.joined.join(', ') + ' joined the group');
             }
 
             this.$el.text(messages.join(' '));
