@@ -43,7 +43,10 @@ var Whisper = Whisper || {};
 
     checkbox: function(e) {
         e.stopPropagation();
-        this.$el.trigger('checkbox', {modelId: this.model.id});
+        this.$el.trigger('checkbox', {
+            modelId: this.model.id,
+            checked: e.target.checked
+        });
     },
 
     render: function() {

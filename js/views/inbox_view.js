@@ -52,6 +52,7 @@
             'click .fab': 'showCompose',
             'open #contacts': 'openConversation',
             'open .contacts': 'openConversation',
+            'open .new-conversation': 'openConversation',
             'open .new-contact': 'createConversation',
         },
         openConversation: function(e, data) {

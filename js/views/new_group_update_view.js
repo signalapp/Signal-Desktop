@@ -22,11 +22,13 @@
         tagName:   "div",
         className: "new-group-update-form",
         initialize: function(options) {
-            this.template = $('#new-group-update-form').html();
-            Mustache.parse(this.template);
-            this.$el.html(
-                Mustache.render(this.template, this.model.attributes)
-            );
+            if (this.$el.html().length === 0) {
+                this.template = $('#new-group-update-form').html();
+                Mustache.parse(this.template);
+                this.$el.html(
+                    Mustache.render(this.template, this.model.attributes)
+                );
+            }
             this.avatarInput = new Whisper.FileInputView({
                 el: this.$el.find('.group-avatar')
             });

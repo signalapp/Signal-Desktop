@@ -30,7 +30,7 @@ var Whisper = Whisper || {};
               return null;
           }
 
-          return s.toLowerCase().split(/[\s\-_+]+/)
+          return s.toLowerCase().split(/[\s\-_+]+/);
       }
   });
 
@@ -41,6 +41,7 @@ var Whisper = Whisper || {};
         Mustache.parse(this.template);
         this.$el.html($(Mustache.render(this.template)));
         this.$input = this.$el.find('input.new-message');
+        this.$group_update = this.$el.find('.new-group-update-form');
 
         this.typeahead_collection = new typeahead();
         this.typeahead_view = new Whisper.ConversationListView({
@@ -61,18 +62,62 @@ var Whisper = Whisper || {};
                 type: 'private'
             })
         }).render();
+
+        this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
+            model: new Whisper.Conversation({ type: 'group' }),
+            el: this.$group_update
+        });
+        this.group_members = new Whisper.ConversationCollection();
         this.$el.find('.new-contact').append(this.new_contact.el);
     },
 
     events: {
         'change input.new-message': 'filterContacts',
-        'keyup input.new-message': 'filterContacts'
+        'keyup input.new-message': 'filterContacts',
+        'checkbox .contact': 'updateGroup',
+        'click .create-group': 'createGroup'
+    },
+
+    updateGroup: function(e, data) {
+        this.$input.focus();
+        if (data.checked) {
+            this.group_members.add({id: data.modelId});
+        } else {
+            this.group_members.remove({id: data.modelId});
+        }
+        this.group_members
+        if (this.group_members.length) {
+            this.$group_update.show();
+        } else {
+            this.$group_update.hide();
+        }
+    },
+
+    createGroup: function() {
+        return this.newGroupUpdateView.avatarInput.getFiles().then(function(avatarFiles) {
+            var attributes = {
+                type: 'group',
+                name: this.$el.find('.new-group-update-form .name').val(),
+                avatar: avatarFiles[0],
+                members: this.group_members.pluck('id')
+            };
+            return textsecure.messaging.createGroup(
+                attributes.members, attributes.name, attributes.avatar
+            ).then(function(groupId) {
+                var id = getString(groupId);
+                var group = new Whisper.Conversation(attributes);
+                group.save({ id: id, groupId: id }).then(function() {
+                    this.$el.trigger('open', {modelId: id});
+                }.bind(this));
+            }.bind(this));
+        }.bind(this));
     },
 
     reset: function() {
         this.new_contact.$el.hide();
         this.$input.val('').focus();
         this.typeahead_view.collection.reset(this.typeahead_collection.models);
+        this.group_members.reset([]);
     },
 
     filterContacts: function() {
