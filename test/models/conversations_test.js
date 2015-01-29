@@ -85,7 +85,7 @@
     });
 
     describe('Conversation', function() {
-        var attributes = { type: 'private', id: 'foobar' };
+        var attributes = { type: 'private', id: '+18085555555' };
         before(function(done) {
             var convo = new Whisper.ConversationCollection().add(attributes);
             convo.save().then(function() {
@@ -102,7 +102,7 @@
         after(clearDatabase);
 
         it('contains its own messages', function (done) {
-            var convo = new Whisper.ConversationCollection().add({id: 'foobar'});
+            var convo = new Whisper.ConversationCollection().add({id: '+18085555555'});
             convo.fetchMessages().then(function() {
                 assert.notEqual(convo.messageCollection.length, 0);
                 done();
@@ -110,7 +110,7 @@
         });
 
         it('contains only its own messages', function (done) {
-            var convo = new Whisper.ConversationCollection().add({id: 'barfoo'});
+            var convo = new Whisper.ConversationCollection().add({id: '+18085556666'});
             convo.fetchMessages().then(function() {
                 assert.strictEqual(convo.messageCollection.length, 0);
                 done();
