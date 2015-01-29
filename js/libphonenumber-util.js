@@ -33,6 +33,14 @@
       }
     },
 
+    splitCountryCode: function(number) {
+        var parsedNumber = libphonenumber.parse(number);
+        return {
+            country_code: parsedNumber.values_[1],
+            national_number: parsedNumber.values_[2]
+        };
+    },
+
     getCountryCode: function(regionCode) {
       var cc = libphonenumber.getCountryCodeForRegion(regionCode);
       return (cc != 0) ? cc : "";

@@ -19,19 +19,15 @@ var Whisper = Whisper || {};
   'use strict';
 
   var typeahead = Backbone.TypeaheadCollection.extend({
-      typeaheadAttributes: ['name'],
+      typeaheadAttributes: [
+        'name',
+        'e164_number',
+        'national_number',
+        'international_number'
+      ],
       database: Whisper.Database,
       storeName: 'conversations',
-      model: Whisper.Conversation,
-
-      _tokenize: function(s) {
-          s = $.trim(s);
-          if (s.length === 0) {
-              return null;
-          }
-
-          return s.toLowerCase().split(/[\s\-_+]+/);
-      }
+      model: Whisper.Conversation
   });
 
   Whisper.NewConversationView = Backbone.View.extend({
