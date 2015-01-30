@@ -194,6 +194,7 @@
                 conversation.save().then(function() {
                     message.save().then(function() {
                         extension.trigger('message', message); // notify frontend listeners
+                        openConversation(conversation.id);
                     });
                 });
             });

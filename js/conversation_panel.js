@@ -26,6 +26,7 @@
             new Whisper.ConversationView({
                 model: conversation
             }).render().$el.prependTo($('body'));
+            window.conversation = conversation;
         });
     };
 

@@ -38,12 +38,11 @@
             this.$el.addClass('loading');
             this.conversations.fetchActive({reset: true}).then(function() {
                 this.$el.removeClass('loading');
+                window.conversations = this.conversations;
             }.bind(this));
 
-            extension.on('message', function(message) {
-                this.conversations.fetch({id: message.conversationId}).then(function() {
-                    this.conversations.get(message.conversationId).fetchMessages();
-                }.bind(this));
+            extension.on('message', function() {
+                this.conversations.fetchActive({reset: true});
             }.bind(this));
             window.addEventListener('resize', this.inbox.resize.bind(this.inbox));
         },
