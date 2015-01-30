@@ -26,7 +26,7 @@ button {
 }
 
 .timestamp {
-  font-size: 12px;
+  font-size: smaller;
 }
 
 .entry.delivered .timestamp::after {
@@ -138,12 +138,10 @@ button {
     max-width: 100%;
   }
   img.avatar {
-    height: 54px;
-    width: 54px;
-    // delete next 2 lines
-    box-sizing: border-box;
-    border: (54px / 2) $grey_l solid;
-    border-radius: (54px / 2);
+    height: 44px;
+    width: 44px;
+    background: $grey_l;
+    border-radius: (44px / 2);
   }
 
   .timestamp {

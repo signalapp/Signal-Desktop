@@ -46,10 +46,10 @@ input.new-message {
 .fab {
   z-index: 1;
   position: fixed;
-  right: 16px;
+  right: 25px;;
   bottom: 22px;
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   border: 0;
   border-radius: (60px / 2);
   outline: 0;
@@ -64,6 +64,10 @@ input.new-message {
     box-shadow: 0 8px 18px -8px rgba(darken($blue, 50%), 0.9);
     transform: translate3d(0, -1px, 0);
   }
+}
+
+.last-timestamp {
+  font-size: smaller;
 }
 
 .new-contact,
@@ -129,13 +133,13 @@ input.new-message {
 
   .contact-name {
     margin: 0;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 400;
   }
 
   .last-message {
     margin: 6px 0;
-    font-size: 14px;
+    font-size: small;
     font-weight: 300;
   }
 
@@ -147,10 +151,10 @@ input.new-message {
   }
 
   img {
-    height: 54px;
-    width: 54px;
+    height: 44px;
+    width: 44px;
     background: $grey_l;
-    border-radius: (54px / 2);
+    border-radius: (44px / 2);
   }
 
 }

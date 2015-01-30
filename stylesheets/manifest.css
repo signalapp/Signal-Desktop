@@ -82,10 +82,10 @@ input.new-message {
 .fab {
   z-index: 1;
   position: fixed;
-  right: 16px;
+  right: 25px;
   bottom: 22px;
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   border: 0;
   border-radius: 30px;
   outline: 0;
@@ -98,6 +98,9 @@ input.new-message {
     background-color: #1c8be5;
     box-shadow: 0 8px 18px -8px rgba(2, 10, 16, 0.9);
     transform: translate3d(0, -1px, 0); }
+
+.last-timestamp {
+  font-size: smaller; }
 
 .new-contact .last-message, .new-contact .last-timestamp,
 .typeahead .last-message,
@@ -145,11 +148,11 @@ input.new-message {
     margin: 4px 0 0 8px; }
   .index .contact-name {
     margin: 0;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 400; }
   .index .last-message {
     margin: 6px 0;
-    font-size: 14px;
+    font-size: small;
     font-weight: 300; }
   .index .timestamp {
     position: absolute;
@@ -157,10 +160,10 @@ input.new-message {
     right: 12px;
     color: #888; }
   .index img {
-    height: 54px;
-    width: 54px;
+    height: 44px;
+    width: 44px;
     background: #f3f3f3;
-    border-radius: 27px; }
+    border-radius: 22px; }
 
 .settings {
   height: 100%;
@@ -190,7 +193,7 @@ button {
   cursor: pointer; }
 
 .timestamp {
-  font-size: 12px; }
+  font-size: smaller; }
 
 .entry.delivered .timestamp::after {
   margin-left: 4px;
@@ -261,11 +264,10 @@ button {
   .message-list .attachments img {
     max-width: 100%; }
   .message-list img.avatar {
-    height: 54px;
-    width: 54px;
-    box-sizing: border-box;
-    border: 27px #f3f3f3 solid;
-    border-radius: 27px; }
+    height: 44px;
+    width: 44px;
+    background: #f3f3f3;
+    border-radius: 22px; }
   .message-list .timestamp {
     margin-top: 3px;
     float: right; }
