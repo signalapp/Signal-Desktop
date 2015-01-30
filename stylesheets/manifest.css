@@ -20,7 +20,32 @@ body {
   height: 36px;
   line-height: 24px;
   background: #f2f2f2;
-  box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8); }
+  box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8);
+  color: #2a92e7; }
+
+.menu {
+  position: relative;
+  float: right;
+  height: 36px;
+  padding-left: 8px; }
+  .menu .hamburger {
+    width: 36px;
+    background: url("/images/menu.png") no-repeat center; }
+  .menu .menu-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    border: solid 1px #2a92e7;
+    background-color: white;
+    box-shadow: 0 4px 3px 0px rgba(12, 65, 108, 0.8); }
+    .menu .menu-list li {
+      display: block;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 5px 15px 5px 10px; }
 
 .gutter {
   margin-top: 36px; }
@@ -160,30 +185,6 @@ input.new-message {
   border: 0;
   outline: 0;
   color: white; }
-
-.menu {
-  position: relative;
-  float: left;
-  height: 36px;
-  padding-left: 8px; }
-  .menu .hamburger {
-    width: 36px;
-    background: url("/images/menu.png") no-repeat center; }
-  .menu .menu-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    border: solid 1px #2a92e7;
-    background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(12, 65, 108, 0.8); }
-    .menu .menu-list li {
-      display: block;
-      cursor: pointer;
-      white-space: nowrap;
-      padding: 5px 15px 5px 10px; }
 
 button {
   cursor: pointer; }
