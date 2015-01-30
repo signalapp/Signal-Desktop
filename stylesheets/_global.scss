@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+  max-height: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: $header-height 0 0;
+  font-family: $roboto;
+  font-size: 14px;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  height: $header-height;
+  line-height: 24px;
+  background: #f2f2f2;
+  box-shadow: 0 -4px 3px 4px rgba(darken($header-color, 30%), 0.8);
+}

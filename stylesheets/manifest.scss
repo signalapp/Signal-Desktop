@@ -4,10 +4,11 @@
 
 // Global Settings, Variables, and Mixins
   @import 'variables';
+  @import 'global';
 
 // Build the main view
   @import 'index';
-  @import 'view/conversation';
+  @import 'conversation';
 
 // Not sure where something goes, or
 // implementing a known CSS hack? Add it

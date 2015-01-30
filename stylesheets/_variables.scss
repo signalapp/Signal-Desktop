@@ -5,4 +5,11 @@ $grey_l: #f3f3f3;
 $grey: #616161;
 $grey_d: #454545;
 
-$roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+}
+$roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+$header-height: 36px;
+$header-color: #f2f2f2;

@@ -1,15 +1,3 @@
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
-}
-
-body, input {
-  font-family: $roboto;
-}
-
-body {
-  margin: 0;
-}
 
 .group-update {
   font-size: smaller;
@@ -21,15 +9,6 @@ body {
 }
 
 .title-bar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-  height: 36px;
-  line-height: 24px;
-  background: #f2f2f2;
-  box-shadow: 0 -4px 3px 4px rgba(darken($blue, 30%), 0.8);
-
   button {
     height: 36px;
     line-height: 36px;
@@ -39,7 +18,6 @@ body {
     outline: 0;
     color: white;
   }
-
 }
 
 .menu {
@@ -91,7 +69,6 @@ button {
   margin: 36px + 16px 0;
   padding: 0;
   list-style: none;
-  font-size: 16px;
   font-weight: 300;
 
   li {
@@ -307,4 +284,3 @@ button {
       z-index: 5;
   }
 }
-

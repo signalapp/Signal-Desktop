@@ -1,4 +1,28 @@
 @charset "UTF-8";
+@font-face {
+  font-family: 'Roboto';
+  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
+* {
+  box-sizing: border-box;
+  max-height: 100%; }
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 36px 0 0;
+  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 14px; }
+
+#header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  height: 36px;
+  line-height: 24px;
+  background: #f2f2f2;
+  box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8); }
+
 .gutter {
   margin-top: 36px; }
 
@@ -119,15 +143,6 @@ input.new-message {
   .settings-open .settings {
     display: block; }
 
-@font-face {
-  font-family: 'Roboto';
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
-body, input {
-  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif; }
-
-body {
-  margin: 0; }
-
 .group-update {
   font-size: smaller; }
 
@@ -135,23 +150,14 @@ body {
   font-size: smaller;
   opacity: 0.8; }
 
-.title-bar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
+.title-bar button {
   height: 36px;
-  line-height: 24px;
-  background: #f2f2f2;
-  box-shadow: 0 -4px 3px 4px rgba(12, 65, 108, 0.8); }
-  .title-bar button {
-    height: 36px;
-    line-height: 36px;
-    margin-right: 8px;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    color: white; }
+  line-height: 36px;
+  margin-right: 8px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: white; }
 
 .menu {
   position: relative;
@@ -191,7 +197,6 @@ button {
   margin: 52px 0;
   padding: 0;
   list-style: none;
-  font-size: 16px;
   font-weight: 300; }
   .message-list li {
     margin: 0 8px 16px; }

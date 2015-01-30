@@ -134,7 +134,7 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       sass: {
-        files: ['./stylesheets/**/!(manifest.css)'],
+        files: ['./stylesheets/*.scss'],
         tasks: ['sass']
       }
     },
