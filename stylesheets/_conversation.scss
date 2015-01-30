@@ -66,10 +66,11 @@ button {
 
 
 .message-list {
-  margin: 36px + 16px 0;
-  padding: 0;
+  max-height: 100%;
+  margin: 0;
+  padding: 1em 0;
   list-style: none;
-  font-weight: 300;
+  overflow-y: scroll;
 
   li {
     margin: 0 8px 16px;

@@ -42,6 +42,7 @@
             if (this.model.id) {
                 this.model.fetchMessages({reset: true});
             }
+            window.addEventListener('resize', this.view.resize.bind(this.view));
         },
 
         events: {

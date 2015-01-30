@@ -45,6 +45,7 @@
                     this.conversations.get(message.conversationId).fetchMessages();
                 }.bind(this));
             }.bind(this));
+            window.addEventListener('resize', this.inbox.resize.bind(this.inbox));
         },
         events: {
             'keyup': 'keyup',

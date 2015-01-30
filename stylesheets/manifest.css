@@ -3,8 +3,7 @@
   font-family: 'Roboto';
   src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
 * {
-  box-sizing: border-box;
-  max-height: 100%; }
+  box-sizing: border-box; }
 
 body {
   height: 100%;
@@ -25,6 +24,9 @@ body {
 
 .gutter {
   margin-top: 36px; }
+
+#contacts {
+  overflow-y: scroll; }
 
 .contact .checkbox {
   display: none; }
@@ -194,10 +196,11 @@ button {
   content: "✓"; }
 
 .message-list {
-  margin: 52px 0;
-  padding: 0;
+  max-height: 100%;
+  margin: 0;
+  padding: 1em 0;
   list-style: none;
-  font-weight: 300; }
+  overflow-y: scroll; }
   .message-list li {
     margin: 0 8px 16px; }
     .message-list li::after {
