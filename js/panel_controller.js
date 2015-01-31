@@ -38,8 +38,6 @@
         width: 280,
         height: 420
       }, function (windowInfo) {
-        var newWindowId = windowInfo.id;
-
         windowMap.add({
           windowId: windowInfo.id,
           modelId: modelId
