@@ -93,42 +93,44 @@
             type : 'private'
         }, { merge : true } );
 
-        var message = messages.add({
-            source         : pushMessage.source,
-            sourceDevice   : pushMessage.sourceDevice,
-            relay          : pushMessage.relay,
-            sent_at        : timestamp,
-            received_at    : now,
-            conversationId : pushMessage.source,
-            type           : 'incoming'
-        });
+        conversation.fetch().always(function() {
+            var message = messages.add({
+                source         : pushMessage.source,
+                sourceDevice   : pushMessage.sourceDevice,
+                relay          : pushMessage.relay,
+                sent_at        : timestamp,
+                received_at    : now,
+                conversationId : pushMessage.source,
+                type           : 'incoming'
+            });
 
-        var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
-        textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
-        extension.navigator.setBadgeText(newUnreadCount);
+            var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
+            textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+            extension.navigator.setBadgeText(newUnreadCount);
 
-        conversation.save().then(function() {
-            message.save().then(function() {
-                return new Promise(function(resolve) {
-                    resolve(textsecure.protocol.handleIncomingPushMessageProto(pushMessage).then(
-                        function(pushMessageContent) {
-                            handlePushMessageContent(pushMessageContent, message);
+            conversation.save().then(function() {
+                message.save().then(function() {
+                    return new Promise(function(resolve) {
+                        resolve(textsecure.protocol.handleIncomingPushMessageProto(pushMessage).then(
+                            function(pushMessageContent) {
+                                handlePushMessageContent(pushMessageContent, message);
+                            }
+                        ));
+                    }).catch(function(e) {
+                        if (e.name === 'IncomingIdentityKeyError') {
+                            e.args.push(message.id);
+                            message.save({ errors : [e] }).then(function() {
+                                extension.trigger('message', message); // notify frontend listeners
+                            });
+                        } else if (e.message === 'Bad MAC') {
+                            message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                                extension.trigger('message', message); // notify frontend listeners
+                            });
+                        } else {
+                            console.log(e);
+                            throw e;
                         }
-                    ));
-                }).catch(function(e) {
-                    if (e.name === 'IncomingIdentityKeyError') {
-                        e.args.push(message.id);
-                        message.save({ errors : [e] }).then(function() {
-                            extension.trigger('message', message); // notify frontend listeners
-                        });
-                    } else if (e.message === 'Bad MAC') {
-                        message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                            extension.trigger('message', message); // notify frontend listeners
-                        });
-                    } else {
-                        console.log(e);
-                        throw e;
-                    }
+                    });
                 });
             });
         });
