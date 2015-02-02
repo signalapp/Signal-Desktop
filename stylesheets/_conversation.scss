@@ -137,6 +137,11 @@ button {
   .attachments img {
     max-width: 100%;
   }
+
+  .outgoing img.avatar {
+    display: none;
+  }
+
   img.avatar {
     height: 44px;
     width: 44px;

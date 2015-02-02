@@ -263,6 +263,8 @@ button {
       border-left: 8px solid #2a92e7; }
   .message-list .attachments img {
     max-width: 100%; }
+  .message-list .outgoing img.avatar {
+    display: none; }
   .message-list img.avatar {
     height: 44px;
     width: 44px;
