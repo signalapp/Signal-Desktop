@@ -118,6 +118,7 @@ module.exports = function(grunt) {
         src: [
           'components/mocha/mocha.js',
           'components/chai/chai.js',
+          'components/jquery/**/*.js',
           'libaxolotl/test/_test.js'
         ],
         dest: 'libaxolotl/test/test.js',
