@@ -103,7 +103,7 @@ var Whisper = Whisper || {};
                 var id = getString(groupId);
                 var group = new Whisper.Conversation(attributes);
                 group.save({ id: id, groupId: id }).then(function() {
-                    this.$el.trigger('open', {modelId: id});
+                    this.$group_update.trigger('open', {modelId: id});
                 }.bind(this));
             }.bind(this));
         }.bind(this));
