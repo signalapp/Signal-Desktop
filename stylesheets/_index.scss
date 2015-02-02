@@ -26,15 +26,15 @@ input.new-message {
     float: left;
     width: 36px;
     height: 36px;
-    background: $blue url('/images/back.png') no-repeat center center;
+    background: $header-color url('/images/back.png') no-repeat center center;
   }
 
   span {
     display: inline-block;
     height: 36px;
     line-height: 36px;
-    font-size: 18px;
-    color: white;
+    font-family: $roboto-light;
+    color: $blue;
     text-indent: -36px;
   }
 }

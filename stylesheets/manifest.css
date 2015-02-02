@@ -1,5 +1,8 @@
 @charset "UTF-8";
 @font-face {
+  font-family: 'Roboto-Light';
+  src: url("/fonts/Roboto-Light.ttf") format("truetype"); }
+@font-face {
   font-family: 'Roboto';
   src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
 * {
@@ -67,13 +70,13 @@ input.new-message {
     float: left;
     width: 36px;
     height: 36px;
-    background: #2a92e7 url("/images/back.png") no-repeat center center; }
+    background: #f2f2f2 url("/images/back.png") no-repeat center center; }
   .back span {
     display: inline-block;
     height: 36px;
     line-height: 36px;
-    font-size: 18px;
-    color: white;
+    font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: #2a92e7;
     text-indent: -36px; }
 
 .new-conversation .new-group-update-form {
