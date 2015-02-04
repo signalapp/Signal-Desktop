@@ -54,7 +54,8 @@ var Whisper = Whisper || {};
         Mustache.render(this.template, {
           contact_name: this.model.getTitle(),
           last_message: this.model.get('lastMessage'),
-          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D')
+          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
+          number: this.model.getNumber()
         })
       );
       if (this.model.get('avatar')) {

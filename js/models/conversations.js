@@ -135,6 +135,14 @@
 
     getTitle: function() {
         return this.get('name') || this.get('members') || this.id;
+    },
+
+    getNumber: function() {
+        if (this.get('type') === 'private') {
+            return this.id;
+        } else {
+            return '';
+        }
     }
   });
 
