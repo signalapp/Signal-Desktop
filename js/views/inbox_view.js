@@ -38,7 +38,7 @@
             this.$el.addClass('loading');
             this.conversations.fetchActive({reset: true}).then(function() {
                 this.$el.removeClass('loading');
-                window.conversations = this.conversations;
+                window.conversations = this.conversations; // debug
             }.bind(this));
 
             extension.on('message', function() {
@@ -51,18 +51,10 @@
             'click .back button': 'hideCompose',
             'click .fab': 'showCompose',
             'open #contacts': 'openConversation',
-            'open .contacts': 'openConversation',
-            'open .new-group-update-form': 'openConversation',
-            'open .new-contact': 'createConversation',
+            'open .new-conversation .contacts': 'openConversation'
         },
         openConversation: function(e, data) {
             bg.openConversation(data.modelId);
-            this.hideCompose();
-        },
-        createConversation: function(e, data) {
-            this.newConversationView.new_contact.model.save().then(function() {
-                bg.openConversation(data.modelId);
-            });
             this.hideCompose();
         },
         showCompose: function() {

@@ -10,6 +10,15 @@ body {
   font-size: 14px;
 }
 
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -49,5 +58,53 @@ body {
       white-space: nowrap;
       padding: 5px 15px 5px 10px;
     }
+  }
+}
+
+.file-input {
+  position: relative;
+  width: 36px;
+  margin-right: 10px;
+
+  .paperclip {
+    width: 100%;
+    height: 100%;
+    background: url('/images/paperclip.png') no-repeat;
+    background-size: 90%;
+    background-position: center 6px;
+  }
+
+  input[type=file] {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  img.preview {
+    max-width: 100%;
+  }
+
+  .close {
+    font-family: sans-serif;
+    color: white;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    text-align: center;
+    cursor: default;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+
+    background: #666;
+    color: #fff;
+    text-align: center;
   }
 }

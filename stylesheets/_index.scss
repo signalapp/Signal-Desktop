@@ -10,13 +10,17 @@
   // TODO: spinner
 }
 
-.contact .checkbox {
-  display: none;
+.contact {
+  .number, .checkbox {
+    display: none;
+  }
 }
 
 input.new-message {
-  box-sizing: border-box;
-  width: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: 0;
 }
 
 .back {
@@ -39,8 +43,50 @@ input.new-message {
   }
 }
 
-.new-conversation .new-group-update-form {
-  display: none;
+.new-conversation {
+  .new-group-update-form {
+    display: none;
+
+    button.create-group {
+      float: right;
+    }
+
+    .group-avatar {
+      float: left;
+      height: 36px;
+    }
+  }
+
+  .buttons {
+    display: none;
+  }
+}
+
+.new-conversation {
+  .recipients-container {
+    background-color: white;
+    padding: 2px;
+    border-bottom: 1px solid #f2f2f2;
+    line-height: 24px;
+  }
+
+  .recipient {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+    padding: 0 5px;
+    border-radius: 10px;
+    background-color: $blue;
+    color: white;
+
+    &.error {
+      background-color: #f00;
+    }
+
+    .remove {
+      margin-left: 5px;
+      padding: 0 2px;
+    }
+  }
 }
 
 .fab {
@@ -70,23 +116,32 @@ input.new-message {
   font-size: smaller;
 }
 
-.new-contact,
-.typeahead {
+.new-conversation {
   .last-message, .last-timestamp {
     display: none;
   }
 
-  .contact .checkbox {
-    display: inline-block;
+  .contact {
+    .checkbox, .number {
+      display: inline-block;
+    }
+
+    .number {
+      color: $grey;
+      font-size: small;
+    }
   }
 }
 
-.new-contact .contact-details::before {
-  content: 'Create new contact';
-  display: block;
-  font-style: italic;
-  opacity: 0.7;
-  padding-right: 8px;
+.new-contact {
+  .contact-name { display: none; }
+  .contact-details::before {
+    content: 'Create new contact';
+    display: block;
+    font-style: italic;
+    opacity: 0.7;
+    padding-right: 8px;
+  }
 }
 
 .index {

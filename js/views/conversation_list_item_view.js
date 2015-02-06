@@ -25,8 +25,7 @@ var Whisper = Whisper || {};
     className: 'contact',
 
     events: {
-      'click': 'open',
-      'click .checkbox': 'checkbox'
+      'click': 'open'
     },
     initialize: function() {
       this.template = $('#contact').html();
@@ -39,14 +38,6 @@ var Whisper = Whisper || {};
     open: function(e) {
       this.$el.addClass('selected');
       this.$el.trigger('open', {modelId: this.model.id});
-    },
-
-    checkbox: function(e) {
-        e.stopPropagation();
-        this.$el.trigger('checkbox', {
-            modelId: this.model.id,
-            checked: e.target.checked
-        });
     },
 
     render: function() {

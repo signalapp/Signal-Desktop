@@ -15,6 +15,14 @@ body {
   font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 14px; }
 
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " "; }
+
+.clearfix:after {
+  clear: both; }
+
 #header {
   position: fixed;
   top: 0;
@@ -50,18 +58,58 @@ body {
       white-space: nowrap;
       padding: 5px 15px 5px 10px; }
 
+.file-input {
+  position: relative;
+  width: 36px;
+  margin-right: 10px; }
+  .file-input .paperclip {
+    width: 100%;
+    height: 100%;
+    background: url("/images/paperclip.png") no-repeat;
+    background-size: 90%;
+    background-position: center 6px; }
+  .file-input input[type=file] {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 1; }
+  .file-input img.preview {
+    max-width: 100%; }
+  .file-input .close {
+    font-family: sans-serif;
+    color: white;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    text-align: center;
+    cursor: default;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #666;
+    color: #fff;
+    text-align: center; }
+
 .gutter {
   margin-top: 36px; }
 
 #contacts {
   overflow-y: scroll; }
 
-.contact .checkbox {
+.contact .number, .contact .checkbox {
   display: none; }
 
 input.new-message {
-  box-sizing: border-box;
-  width: 100%; }
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: 0; }
 
 .back {
   display: none;
@@ -81,6 +129,31 @@ input.new-message {
 
 .new-conversation .new-group-update-form {
   display: none; }
+  .new-conversation .new-group-update-form button.create-group {
+    float: right; }
+  .new-conversation .new-group-update-form .group-avatar {
+    float: left;
+    height: 36px; }
+.new-conversation .buttons {
+  display: none; }
+
+.new-conversation .recipients-container {
+  background-color: white;
+  padding: 2px;
+  border-bottom: 1px solid #f2f2f2;
+  line-height: 24px; }
+.new-conversation .recipient {
+  display: inline-block;
+  margin: 0 2px 2px 0;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: #2a92e7;
+  color: white; }
+  .new-conversation .recipient.error {
+    background-color: #f00; }
+  .new-conversation .recipient .remove {
+    margin-left: 5px;
+    padding: 0 2px; }
 
 .fab {
   z-index: 1;
@@ -105,14 +178,16 @@ input.new-message {
 .last-timestamp {
   font-size: smaller; }
 
-.new-contact .last-message, .new-contact .last-timestamp,
-.typeahead .last-message,
-.typeahead .last-timestamp {
+.new-conversation .last-message, .new-conversation .last-timestamp {
   display: none; }
-.new-contact .contact .checkbox,
-.typeahead .contact .checkbox {
+.new-conversation .contact .checkbox, .new-conversation .contact .number {
   display: inline-block; }
+.new-conversation .contact .number {
+  color: #616161;
+  font-size: small; }
 
+.new-contact .contact-name {
+  display: none; }
 .new-contact .contact-details::before {
   content: 'Create new contact';
   display: block;
@@ -297,44 +372,8 @@ button {
     font-size: 24px;
     background: transparent; }
   .bottom-bar .attachments {
-    position: relative;
     float: left;
-    height: 100%;
-    width: 36px;
-    margin-right: 10px; }
-    .bottom-bar .attachments .paperclip {
-      width: 100%;
-      height: 100%;
-      background: url("/images/paperclip.png") no-repeat;
-      background-size: 90%;
-      background-position: center 6px; }
-    .bottom-bar .attachments input[type=file] {
-      display: none;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      top: 0;
-      left: 0;
-      cursor: pointer;
-      z-index: 1; }
-    .bottom-bar .attachments img.preview {
-      max-width: 100%; }
-    .bottom-bar .attachments .close {
-      font-family: sans-serif;
-      color: white;
-      position: absolute;
-      top: -10px;
-      left: 20px;
-      text-align: center;
-      cursor: default;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      padding: 0px;
-      background: #666;
-      color: #fff;
-      text-align: center; }
+    height: 100%; }
   .bottom-bar .send-btn {
     float: right;
     height: 100%;

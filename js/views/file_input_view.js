@@ -25,6 +25,7 @@ var Whisper = Whisper || {};
             this.$input = this.$el.find('input[type=file]');
             this.modal = new Whisper.ModalView({el: $('#file-modal')});
             this.thumb = new Whisper.AttachmentPreviewView();
+            this.$el.addClass('file-input');
         },
 
         events: {
