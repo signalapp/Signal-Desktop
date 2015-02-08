@@ -112,6 +112,10 @@ var Whisper = Whisper || {};
     },
 
     initNewContact: function() {
+        if (this.new_contact) {
+            this.new_contact.undelegateEvents();
+            this.new_contact.$el.hide();
+        }
         // Creates a view to display a new contact
         this.new_contact = new Whisper.ConversationListItemView({
             el: this.$new_contact,
