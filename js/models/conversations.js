@@ -18,7 +18,9 @@
 
    window.Whisper = window.Whisper || {};
 
-  var Conversation = Whisper.Conversation = Backbone.Model.extend({
+   // TODO: Factor out private and group subclasses of Conversation
+
+  Whisper.Conversation = Backbone.Model.extend({
     database: Whisper.Database,
     storeName: 'conversations',
     defaults: function() {
@@ -153,7 +155,7 @@
   Whisper.ConversationCollection = Backbone.Collection.extend({
     database: Whisper.Database,
     storeName: 'conversations',
-    model: Conversation,
+    model: Whisper.Conversation,
 
     comparator: function(m) {
       return -m.get('timestamp');
