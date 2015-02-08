@@ -50,8 +50,8 @@
             'keyup': 'keyup',
             'click .back button': 'hideCompose',
             'click .fab': 'showCompose',
-            'open #contacts': 'openConversation',
-            'open .new-conversation .contacts': 'openConversation'
+            'select #contacts .contact': 'openConversation',
+            'open .new-conversation': 'openConversation'
         },
         openConversation: function(e, data) {
             bg.openConversation(data.modelId);

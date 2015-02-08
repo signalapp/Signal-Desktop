@@ -105,8 +105,8 @@ var Whisper = Whisper || {};
     events: {
         'change input.new-message': 'filterContacts',
         'keyup input.new-message': 'filterContacts',
-        'open .new-contact': 'addNewRecipient',
-        'open .contacts': 'addRecipient',
+        'select .new-contact': 'addNewRecipient',
+        'select .contacts': 'addRecipient',
         'remove .recipient': 'removeRecipient',
         'click .create': 'create'
     },
@@ -203,7 +203,7 @@ var Whisper = Whisper || {};
                 var id = getString(groupId);
                 var group = new Whisper.Conversation(attributes);
                 group.save({ id: id, groupId: id }).then(function() {
-                    this.$group_update.trigger('open', {modelId: id});
+                    this.$el.trigger('open', {modelId: id});
                 }.bind(this));
             }.bind(this));
         }.bind(this));

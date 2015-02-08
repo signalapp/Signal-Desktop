@@ -25,7 +25,7 @@ var Whisper = Whisper || {};
     className: 'contact',
 
     events: {
-      'click': 'open'
+      'click': 'select'
     },
     initialize: function() {
       this.template = $('#contact').html();
@@ -35,9 +35,9 @@ var Whisper = Whisper || {};
       this.listenTo(this.model, 'destroy', this.remove); // auto update
     },
 
-    open: function(e) {
+    select: function(e) {
       this.$el.addClass('selected');
-      this.$el.trigger('open', {modelId: this.model.id});
+      this.$el.trigger('select', {modelId: this.model.id});
     },
 
     render: function() {
