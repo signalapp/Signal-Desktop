@@ -102,7 +102,7 @@ var Whisper = Whisper || {};
             comparator: false
         });
         // View to display the selected recipients
-        new Whisper.RecipientListView({
+        this.recipients_view = new Whisper.RecipientListView({
             collection: this.recipients,
             el: this.$el.find('.recipients')
         });
@@ -158,6 +158,15 @@ var Whisper = Whisper || {};
     },
 
     create: function() {
+        var errors = this.recipients_view.$el.find('.error');
+        if (errors.length) {
+
+            // TODO: css animation or error notification
+            errors.removeClass('error');
+            setTimeout(function(){ errors.addClass('error'); }, 300);
+
+            return;
+        }
         if (this.recipients.length > 1) {
             this.createGroup();
         } else {
