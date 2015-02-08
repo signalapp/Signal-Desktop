@@ -37,6 +37,7 @@
 
             this.$el.addClass('loading');
             this.conversations.fetchActive({reset: true}).then(function() {
+                this.inbox.resize();
                 this.$el.removeClass('loading');
                 window.conversations = this.conversations; // debug
             }.bind(this));
