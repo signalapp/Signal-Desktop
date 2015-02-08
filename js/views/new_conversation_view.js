@@ -178,6 +178,7 @@ var Whisper = Whisper || {};
 
     createConversation: function() {
         var conversation = new Whisper.Conversation({
+            active_at: null,
             id: this.recipients.at(0).id,
             type: 'private'
         });
