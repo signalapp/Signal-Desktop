@@ -47,15 +47,18 @@
 
         // hack
         if (this.get('type') === 'private') {
-            this.id = libphonenumber.util.verifyNumber(this.id);
-            var number = libphonenumber.util.splitCountryCode(this.id);
+            try {
+                this.id = libphonenumber.util.verifyNumber(this.id);
+                var number = libphonenumber.util.splitCountryCode(this.id);
 
-            this.set({
-                e164_number: this.id,
-                national_number: '' + number.national_number,
-                international_number: '' + number.country_code + number.national_number
-            });
-
+                this.set({
+                    e164_number: this.id,
+                    national_number: '' + number.national_number,
+                    international_number: '' + number.country_code + number.national_number
+                });
+            } catch(ex) {
+                return ex;
+            }
         }
     },
 
