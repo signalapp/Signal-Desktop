@@ -186,11 +186,13 @@ var Whisper = Whisper || {};
             id: this.recipients.at(0).id,
             type: 'private'
         });
-        conversation.fetch().fail(function() {
+        conversation.fetch().then(function() {
+            this.$el.trigger('open', { modelId: conversation.id });
+        }.bind(this)).fail(function() {
             if (conversation.save()) {
                 this.$el.trigger('open', { modelId: conversation.id });
             }
-        });
+        }.bind(this));
     },
 
     createGroup: function() {
