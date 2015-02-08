@@ -87,7 +87,7 @@
       "build/js/intlTelInput.js"
     ],
     "backbone.typeahead": [
-      "backbone.typeahead.min.js"
+      "backbone.typeahead.js"
     ]
   },
   "concat": {
