@@ -37,7 +37,7 @@
     },
 
     validate: function(attributes, options) {
-        var required = ['type', 'timestamp'];
+        var required = ['id', 'type', 'timestamp'];
         var missing = _.filter(required, function(attr) { return !attributes[attr]; });
         if (missing.length) { return "Conversation must have " + missing; }
 
