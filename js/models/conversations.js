@@ -39,6 +39,10 @@
         var missing = _.filter(required, function(attr) { return !attributes[attr]; });
         if (missing.length) { return "Conversation must have " + missing; }
 
+        if (attributes.type !== 'private' && attributes.type !== 'group') {
+            return "Invalid conversation type: " + attributes.type;
+        }
+
         // hack
         if (this.get('type') === 'private') {
             this.id = libphonenumber.util.verifyNumber(this.id);
