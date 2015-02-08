@@ -70,6 +70,7 @@ var Whisper = Whisper || {};
         this.$group_update = this.$el.find('.new-group-update-form');
         this.$buttons = this.$el.find('.buttons');
         this.$input = this.$el.find('input.new-message');
+        this.$new_contact = this.$el.find('.new-contact');
 
         // Collection of contacts to match user input against
         this.typeahead = new ContactsTypeahead();
@@ -83,14 +84,7 @@ var Whisper = Whisper || {};
         });
         this.$el.find('.contacts').append(this.typeahead_view.el);
 
-        // View to display a new contact
-        this.new_contact = new Whisper.ConversationListItemView({
-            model: new Whisper.Conversation({
-                active_at: null,
-                type: 'private'
-            })
-        }).render();
-        this.$el.find('.new-contact').append(this.new_contact.el);
+        this.initNewContact();
 
         // Group avatar file input
         this.avatarInput = new Whisper.FileInputView({
@@ -117,13 +111,21 @@ var Whisper = Whisper || {};
         'click .create': 'create'
     },
 
+    initNewContact: function() {
+        // Creates a view to display a new contact
+        this.new_contact = new Whisper.ConversationListItemView({
+            el: this.$new_contact,
+            model: new Whisper.Conversation({
+                active_at: null,
+                type: 'private',
+                newContact: true
+            })
+        }).render();
+    },
+
     addNewRecipient: function(e, data) {
-        this.new_contact.model.newContact = true; // hack
         this.recipients.add(this.new_contact.model);
-        this.new_contact.model = new Whisper.Conversation({
-            active_at: null,
-            type: 'private'
-        });
+        this.initNewContact();
         this.resetTypeahead();
         this.updateControls();
     },
@@ -136,7 +138,7 @@ var Whisper = Whisper || {};
 
     removeRecipient: function(e, data) {
         var model = this.recipients.remove(data.modelId);
-        if (!model.newContact) { // hack
+        if (!model.get('newContact')) {
             this.typeahead.add(model);
         }
         this.filterContacts();
@@ -215,7 +217,11 @@ var Whisper = Whisper || {};
     reset: function() {
         this.$buttons.hide();
         this.$group_update.hide();
-        this.typeahead.add(this.recipients.models);
+        this.typeahead.add(
+            this.recipients.filter(function(model) {
+                return !model.get('newContact');
+            })
+        );
         this.recipients.reset([]);
         this.resetTypeahead();
     },
