@@ -196,10 +196,15 @@ var Whisper = Whisper || {};
     },
 
     createGroup: function() {
+        var name = this.$el.find('.new-group-update-form .name').val();
+        if (!name.trim().length) {
+            return;
+        }
+
         return this.avatarInput.getFiles().then(function(avatarFiles) {
             var attributes = {
                 type: 'group',
-                name: this.$el.find('.new-group-update-form .name').val(),
+                name: name,
                 avatar: avatarFiles[0],
                 members: this.recipients.pluck('id')
             };
