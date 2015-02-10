@@ -95,6 +95,7 @@
                     convo.sendMessage(message, attachments);
                 });
                 input.val("");
+                this.fileInput.deleteFiles();
             }
         },
 
