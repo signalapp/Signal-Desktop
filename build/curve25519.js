@@ -89,7 +89,7 @@
         },
         sign: function(privKey, message) {
             // Where to store the result
-            var signature_ptr = Module._malloc(32);
+            var signature_ptr = Module._malloc(64);
 
             // Get a pointer to our private key
             var privateKey_ptr = _allocate(new Uint8Array(privKey));
