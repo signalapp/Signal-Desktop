@@ -229,17 +229,7 @@
                 only: number
             }
         });
-    },
-
-    fetchActive: function(options) {
-        return this.fetch(_.extend(options, {
-            index: {
-                name: 'inbox', // 'inbox' index on active_at
-                order: 'desc'  // ORDER timestamp DESC
-            }
-            // TODO pagination/infinite scroll
-            // limit: 10, offset: page*10,
-        }));
     }
+
   });
 })();

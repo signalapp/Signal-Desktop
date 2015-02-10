@@ -55,6 +55,11 @@ var Whisper = Whisper || {};
                 this.$el.css('height', 'auto');
                 this.$el.css('overflow-y', 'auto');
             }
+        },
+
+        render: function() {
+            this.addAll();
+            return this;
         }
     });
 })();

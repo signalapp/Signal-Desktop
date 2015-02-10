@@ -29,22 +29,11 @@
             this.newConversationView = new Whisper.NewConversationView();
             this.newConversationView.$el.hide().appendTo(this.$gutter);
 
-            this.conversations = new Whisper.ConversationCollection();
             this.inbox = new Whisper.ConversationListView({
                 el         : this.$contacts,
-                collection : this.conversations
-            });
+                collection : bg.inbox
+            }).render();
 
-            this.$el.addClass('loading');
-            this.conversations.fetchActive({reset: true}).then(function() {
-                this.inbox.resize();
-                this.$el.removeClass('loading');
-                window.conversations = this.conversations; // debug
-            }.bind(this));
-
-            extension.on('message', function() {
-                this.conversations.fetchActive({reset: true});
-            }.bind(this));
             window.addEventListener('resize', this.inbox.resize.bind(this.inbox));
         },
         events: {
