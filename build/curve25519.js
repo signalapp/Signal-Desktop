@@ -56,6 +56,10 @@
             var res = new Uint8Array(32);
             _readBytes(publicKey_ptr, 32, res);
 
+            Module._free(publicKey_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(basepoint_ptr);
+
             return Promise.resolve({ pubKey: res.buffer, privKey: privKey });
         },
         sharedSecret: function(pubKey, privKey) {
@@ -76,6 +80,11 @@
 
             var res = new Uint8Array(32);
             _readBytes(sharedKey_ptr, 32, res);
+
+            Module._free(sharedKey_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(basepoint_ptr);
+
             return Promise.resolve(res.buffer);
         },
         sign: function(privKey, message) {
@@ -95,6 +104,11 @@
 
             var res = new Uint8Array(64);
             _readBytes(signature_ptr, 64, res);
+
+            Module._free(signature_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(message_ptr);
+
             return Promise.resolve(res.buffer);
         },
         verify: function(pubKey, message, sig) {
@@ -111,6 +125,10 @@
                                                 publicKey_ptr,
                                                 message_ptr,
                                                 message.byteLength);
+
+            Module._free(publicKey_ptr);
+            Module._free(signature_ptr);
+            Module._free(message_ptr);
 
             return new Promise(function(resolve, reject) {
                 if (res !== 0) {
