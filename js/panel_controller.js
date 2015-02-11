@@ -18,46 +18,85 @@
 // This script should only be included in background.html
 // Whisper.windowMap is defined in background.js
 (function () {
-  'use strict';
+    'use strict';
 
-  window.Whisper = window.Whisper || {};
+    window.Whisper = window.Whisper || {};
 
-  var windowMap = Whisper.windowMap;
+    var windowMap = new Whisper.Bimap('windowId', 'modelId');
+    var conversations = new Whisper.ConversationCollection();
 
-  window.openConversation = function openConversation (modelId) {
+    window.getConversationForWindow = function(windowId) {
+        return conversations.get(windowMap.modelIdFrom(windowId));
+    };
 
-    var windowId = windowMap.windowIdFrom(modelId);
+    function closeConversation (windowId) {
+        windowMap.remove('windowId', windowId);
+    };
 
-    // prevent multiple copies of the same conversation from being opened
-    if (!windowId) {
-      // open the panel
-      extension.windows.open({
-        url: 'conversation.html',
-        type: 'panel',
-        focused: true,
-        width: 280,
-        height: 420
-      }, function (windowInfo) {
-        windowMap.add({
-          windowId: windowInfo.id,
-          modelId: modelId
-        });
-      });
-    } else {
-      // focus the panel
-      extension.windows.focus(windowId, function () {
-        if (chrome.runtime.lastError) {
-          // panel isn't actually open...
-          window.closeConversation(windowId);
+    window.openConversation = function openConversation (modelId) {
+        var conversation = conversations.add({id: modelId});
+        conversation.fetch();
 
-          // ...and so we try again.
-          openConversation(modelId);
+        var windowId = windowMap.windowIdFrom(modelId);
+
+        // prevent multiple copies of the same conversation from being opened
+        if (!windowId) {
+            // open the panel
+            extension.windows.open({
+                url: 'conversation.html',
+                type: 'panel',
+                focused: true,
+                width: 280,
+                height: 420
+            }, function (windowInfo) {
+                windowMap.add({ windowId: windowInfo.id, modelId: modelId });
+
+                // close the panel if background.html is refreshed
+                window.addEventListener('beforeunload', function () {
+                    // TODO: reattach after reload instead of closing.
+                    extension.windows.remove(windowInfo.id);
+                });
+            });
+        } else {
+            // focus the panel
+            extension.windows.focus(windowId, function () {
+                if (chrome.runtime.lastError) {
+                    closeConversation(windowId); // panel isn't actually open...
+                    openConversation(modelId); // ...and so we try again.
+                }
+            });
         }
-      });
-    }
-  };
+    };
 
-  window.closeConversation = function closeConversation (windowId) {
-    windowMap.remove('windowId', windowId);
-  };
+    /* Inbox window controller */
+    var inboxOpened = false;
+    var inboxWindowId = 0;
+    window.openInbox = function() {
+        if (inboxOpened === false) {
+            inboxOpened = true;
+            extension.windows.open({
+                url: 'index.html',
+                type: 'panel',
+                focused: true,
+                width: 260, // 280 for chat
+                height: 440 // 420 for chat
+            }, function (windowInfo) {
+                inboxWindowId = windowInfo.id;
+            });
+        } else if (inboxOpened === true) {
+            extension.windows.focus(inboxWindowId);
+        }
+    };
+
+    // make sure windows are cleaned up on close
+    extension.windows.onClosed(function (windowId) {
+        if (windowMap.windowId[windowId]) {
+            closeConversation(windowId);
+        }
+
+        if (windowId === inboxWindowId) {
+            inboxWindowId = 0;
+            inboxOpened = false;
+        }
+    });
 })();

@@ -59,29 +59,7 @@
         var opened = false;
         var panel = 0;
 
-        extension.browserAction(function () {
-            if (opened === false) {
-                opened = true;
-                extension.windows.open({
-                    url: 'index.html',
-                    type: 'panel',
-                    focused: true,
-                    width: 260, // 280 for chat
-                    height: 440 // 420 for chat
-                }, function (window) {
-                    var isPanelEnabled = window.alwaysOnTop;
-                    panel = window.id;
-                });
-            } else if (opened === true) {
-                extension.windows.focus(panel);
-            }
-            extension.windows.onClosed(function (windowId) {
-                if (windowId === panel) {
-                    panel = 0;
-                    opened = false;
-                }
-            });
-        });
+        extension.browserAction(window.openInbox);
     };
 
     function onMessageReceived(pushMessage) {
@@ -228,14 +206,4 @@
             console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
         });
     };
-
-    var windowMap = Whisper.windowMap = new Whisper.Bimap('windowId', 'modelId');
-
-    // make sure panels are cleaned up on close
-    extension.windows.onClosed(function (windowId) {
-        if (windowMap.windowId[windowId]) {
-            closeConversation(windowId);
-        }
-    });
-
 })();

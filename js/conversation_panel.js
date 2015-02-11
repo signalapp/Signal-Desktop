@@ -19,28 +19,12 @@
 
     window.Whisper = window.Whisper || {};
 
-    function loadConversation (id) {
-        var conversation = new Whisper.Conversation({ id: id });
-        conversation.fetch().then(function () {
-            window.document.title = conversation.getTitle();
-            new Whisper.ConversationView({
-                model: conversation
-            }).render().$el.prependTo($('body'));
-            window.conversation = conversation;
-        });
-    };
-
-    var bg = extension.windows.getBackground();
-
     extension.windows.getCurrent(function (windowInfo) {
-        var windowId = windowInfo.id;
-
-        // close the panel if background.html is refreshed
-        bg.addEventListener('beforeunload', function () {
-            // TODO: reattach after reload instead of closing.
-            extension.windows.remove(windowId);
-        });
-
-        loadConversation(bg.Whisper.windowMap.modelIdFrom(windowId));
+        var bg = extension.windows.getBackground();
+        var conversation = bg.getConversationForWindow(windowInfo.id);
+        window.document.title = conversation.getTitle();
+        new Whisper.ConversationView({
+            model: conversation
+        }).render().$el.prependTo($('body'));
     });
 }());
