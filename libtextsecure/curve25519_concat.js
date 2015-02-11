@@ -918,6 +918,7 @@ function copyTempDouble(ptr) {
   Module["_malloc"] = _malloc;
   function _free() {
   }
+  Module["_free"] = _free;
   Module["_strlen"] = _strlen;
   var Browser={mainLoop:{scheduler:null,shouldPause:false,paused:false,queue:[],pause:function () {
           Browser.mainLoop.shouldPause = true;
@@ -2942,6 +2943,10 @@ run();
             var res = new Uint8Array(32);
             _readBytes(publicKey_ptr, 32, res);
 
+            Module._free(publicKey_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(basepoint_ptr);
+
             return Promise.resolve({ pubKey: res.buffer, privKey: privKey });
         },
         sharedSecret: function(pubKey, privKey) {
@@ -2962,11 +2967,16 @@ run();
 
             var res = new Uint8Array(32);
             _readBytes(sharedKey_ptr, 32, res);
+
+            Module._free(sharedKey_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(basepoint_ptr);
+
             return Promise.resolve(res.buffer);
         },
         sign: function(privKey, message) {
             // Where to store the result
-            var signature_ptr = Module._malloc(32);
+            var signature_ptr = Module._malloc(64);
 
             // Get a pointer to our private key
             var privateKey_ptr = _allocate(new Uint8Array(privKey));
@@ -2981,6 +2991,11 @@ run();
 
             var res = new Uint8Array(64);
             _readBytes(signature_ptr, 64, res);
+
+            Module._free(signature_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(message_ptr);
+
             return Promise.resolve(res.buffer);
         },
         verify: function(pubKey, message, sig) {
@@ -2997,6 +3012,10 @@ run();
                                                 publicKey_ptr,
                                                 message_ptr,
                                                 message.byteLength);
+
+            Module._free(publicKey_ptr);
+            Module._free(signature_ptr);
+            Module._free(message_ptr);
 
             return new Promise(function(resolve, reject) {
                 if (res !== 0) {

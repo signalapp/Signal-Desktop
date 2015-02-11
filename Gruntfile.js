@@ -114,7 +114,8 @@ module.exports = function(grunt) {
               'curve25519_verify',
               'crypto_sign_ed25519_ref10_ge_scalarmult_base',
               'sph_sha512_init',
-              'malloc'
+              'malloc',
+              'free'
             ]
         }
     },
