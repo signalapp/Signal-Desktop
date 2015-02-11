@@ -21,22 +21,30 @@
                         conversationId: 'foo',
                         attachments: [],
                         timestamp: new Date().getTime() };
+    var conversation_attributes= {
+        type: 'private',
+        id: '+14155555555'
+    };
 
     describe('ConversationCollection', function() {
         before(clearDatabase);
         after(clearDatabase);
 
-        it('adds without saving', function() {
+        it('adds without saving', function(done) {
+
             var convos = new Whisper.ConversationCollection();
-            var message = convos.add(attributes);
+            convos.add(conversation_attributes);
             assert.notEqual(convos.length, 0);
 
             var convos = new Whisper.ConversationCollection();
-            assert.strictEqual(convos.length, 0);
+            convos.fetch().then(function() {
+                assert.strictEqual(convos.length, 0);
+                done();
+            });
         });
 
         it('saves asynchronously', function(done) {
-            new Whisper.ConversationCollection().add(attributes).save().then(done);
+            new Whisper.ConversationCollection().add(conversation_attributes).save().then(done);
         });
 
         it('fetches persistent convos', function(done) {
@@ -44,7 +52,7 @@
             assert.strictEqual(convos.length, 0);
             convos.fetch().then(function() {
                 var m = convos.at(0).attributes;
-                _.each(attributes, function(val, key) {
+                _.each(conversation_attributes, function(val, key) {
                     assert.deepEqual(m[key], val);
                 });
                 done();
