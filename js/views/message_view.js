@@ -79,7 +79,7 @@
 
             var errors = this.model.get('errors');
             if (errors && errors.length) {
-                this.$el.find('.message').append(
+                this.$el.find('.bubble').append(
                     errors.map(function(error) {
                         return new ErrorView({model: error}).render().el;
                     })
