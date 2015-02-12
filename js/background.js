@@ -56,8 +56,6 @@
                 request.respond(500, 'Bad encrypted websocket message');
             });
         });
-        var opened = false;
-        var panel = 0;
 
         extension.browserAction(window.openInbox);
     };
