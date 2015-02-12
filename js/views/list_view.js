@@ -48,13 +48,7 @@ var Whisper = Whisper || {};
 
         resize: function() {
             var height = window.innerHeight - $('#header').height() - $('#footer').height();
-            if (this.$el.height() > height) {
-                this.$el.css('height', height + 'px');
-                this.$el.css('overflow-y', 'scroll');
-            } else {
-                this.$el.css('height', 'auto');
-                this.$el.css('overflow-y', 'auto');
-            }
+            this.$el.css('height', height + 'px');
         },
 
         render: function() {
