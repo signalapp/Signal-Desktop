@@ -28,10 +28,12 @@ var Whisper = Whisper || {};
         },
         scrollToBottom: function() {
             // TODO: Avoid scrolling if user has manually scrolled up?
+            this.resize();
             this.$el.scrollTop(this.el.scrollHeight);
         },
         addAll: function() {
             Whisper.ListView.prototype.addAll.apply(this, arguments); // super()
+            this.resize();
             this.scrollToBottom();
         }
     });
