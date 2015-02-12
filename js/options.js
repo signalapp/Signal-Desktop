@@ -144,7 +144,7 @@
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             qrCode.makeCode('tsdevice:/' +
                                             '?uuid=' + proto.uuid +
-                                            '&pub_key=' + btoa(getString(cryptoInfo.pubKey)));
+                                            '&pub_key=' + encodeURIComponent(btoa(getString(cryptoInfo.pubKey))));
                             $('img').removeAttr('style');
                             $('#multi-device .status').text("Use your phone to scan the QR code.")
                             request.respond(200, 'OK');
