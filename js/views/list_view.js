@@ -26,10 +26,9 @@ var Whisper = Whisper || {};
         tagName: 'ul',
         itemView: Backbone.View,
         initialize: function() {
-            this.listenTo(this.collection, 'change', this.render); // auto update
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'reset', this.addAll);
-            this.listenTo(this.collection, 'all', this.render);
+
         },
 
         addOne: function(model) {
