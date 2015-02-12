@@ -41,6 +41,11 @@
             this.view.render();
 
             window.addEventListener('resize', this.view.resize.bind(this.view));
+
+            setTimeout(function() {
+                this.view.resize();
+                this.view.scrollToBottom();
+            }.bind(this), 0);
         },
 
         events: {
