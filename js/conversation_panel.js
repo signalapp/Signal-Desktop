@@ -25,6 +25,6 @@
         window.document.title = conversation.getTitle();
         new Whisper.ConversationView({
             model: conversation
-        }).render().$el.prependTo($('body'));
+        }).$el.prependTo($('body'));
     });
 }());

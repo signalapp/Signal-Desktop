@@ -96,13 +96,6 @@
             $('body').toggleClass('settings-open');
             console.log('toggling');
             debugger;
-        },
-
-        render: function() {
-            this.delegateEvents();
-            this.view.delegateEvents();
-            this.view.scrollToBottom();
-            return this;
         }
     });
 })();
