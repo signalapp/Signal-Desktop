@@ -39,14 +39,6 @@
             });
             this.$el.find('.discussion-container').append(this.view.el);
 
-            if (this.model.id) {
-                this.model.fetchMessages({reset: true});
-            }
-
-            extension.on('message', function() {
-                this.model.fetchMessages();
-            }.bind(this));
-
             window.addEventListener('resize', this.view.resize.bind(this.view));
         },
 

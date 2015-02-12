@@ -36,6 +36,7 @@
     window.openConversation = function openConversation (modelId) {
         var conversation = conversations.add({id: modelId});
         conversation.fetch();
+        conversation.fetchMessages();
 
         var windowId = windowMap.windowIdFrom(modelId);
 
