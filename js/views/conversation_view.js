@@ -38,6 +38,7 @@
                 collection: this.model.messageCollection
             });
             this.$el.find('.discussion-container').append(this.view.el);
+            this.view.render();
 
             window.addEventListener('resize', this.view.resize.bind(this.view));
         },
