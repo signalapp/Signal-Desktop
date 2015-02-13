@@ -293,7 +293,7 @@ window.textsecure.messaging = function() {
         var proto = new textsecure.protobuf.PushMessageContent();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
-        return sendIndividualProto(number, proto).then(function(res) {
+        return sendIndividualProto(number, proto, Date.now()).then(function(res) {
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
             for (var i in devices)
                 axolotl.protocol.closeOpenSessionForDevice(devices[i].encodedNumber);
