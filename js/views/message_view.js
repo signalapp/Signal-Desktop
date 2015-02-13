@@ -44,6 +44,8 @@
           this.group_update_view = new Whisper.GroupUpdateView({
               model: groupUpdate
           }).render();
+      } else if (this.model.get('flags') === textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
+          this.end_session_view = new Whisper.EndSessionView();
       } else {
         this.template = $('#message').html();
       }
@@ -57,6 +59,8 @@
     render: function() {
         if (this.group_update_view) {
             this.$el.append(this.group_update_view.$el);
+        } else if (this.end_session_view) {
+            this.$el.append(this.end_session_view.$el);
         } else {
             this.$el.html(
                 Mustache.render(this.template, {

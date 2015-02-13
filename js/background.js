@@ -176,6 +176,7 @@
                     decrypted_at   : now,
                     type           : type,
                     sent_at        : timestamp,
+                    flags          : pushMessageContent.flags,
                     errors         : []
                 });
 
