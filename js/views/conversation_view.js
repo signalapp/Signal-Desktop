@@ -52,10 +52,22 @@
             'submit .send': 'sendMessage',
             'close': 'remove',
             'click .destroy': 'destroyMessages',
+            'click .end-session': 'endSession',
+            'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
             'click .settings-btn': 'toggleSettings',
             'click .go-back': 'toggleSettings',
             'click .hamburger': 'toggleMenu'
+        },
+
+        endSession: function() {
+            this.model.endSession();
+            this.$el.find('.menu-list').hide();
+        },
+
+        leaveGroup: function() {
+            this.model.leaveGroup();
+            this.$el.find('.menu-list').hide();
         },
 
         toggleMenu: function() {
@@ -80,6 +92,7 @@
                 this.remove();
                 this.model.trigger('destroy');
             }
+            this.$el.find('.menu-list').hide();
         },
 
         sendMessage: function(e) {

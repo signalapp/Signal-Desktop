@@ -106,6 +106,19 @@
         });
     },
 
+    endSession: function() {
+        if (this.get('type') === 'private') {
+            textsecure.messaging.closeSession(this.id);
+        }
+
+    },
+
+    leaveGroup: function() {
+        if (this.get('type') === 'group') {
+            textsecure.messaging.leaveGroup(this.id);
+        }
+    },
+
     receiveMessage: function(decrypted) {
         var conversation = this;
         var timestamp = decrypted.pushMessage.timestamp.toNumber();
