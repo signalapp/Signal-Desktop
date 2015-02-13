@@ -13,5 +13,6 @@
         DeviceInit                : deviceMessages.DeviceInit,
         IdentityKey               : deviceMessages.IdentityKey,
         DeviceControl             : deviceMessages.DeviceControl,
+        ProvisionMessage          : deviceMessages.ProvisionMessage,
     };
 })();
