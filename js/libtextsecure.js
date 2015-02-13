@@ -37679,7 +37679,7 @@ window.axolotl.sessions = {
     window.textsecure.crypto = {
         // Decrypts message into a raw string
         decryptWebsocketMessage: function(message) {
-            var signaling_key = axolotl.api.storage.get("signaling_key"); //TODO: in crypto_storage
+            var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
             var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
             var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
@@ -38010,11 +38010,11 @@ window.axolotl.sessions = {
 
     window.textsecure.storage.groups = {
         createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && axolotl.api.storage.get("group" + groupId) !== undefined)
+            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
 
-            while (groupId === undefined || axolotl.api.storage.get("group" + groupId) !== undefined)
-                groupId = getString(axolotl.crypto.getRandomBytes(16));
+            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+                groupId = getString(textsecure.crypto.getRandomBytes(16));
 
             var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
             var haveMe = false;
@@ -38036,13 +38036,13 @@ window.axolotl.sessions = {
             for (var i in finalNumbers)
                 groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-            axolotl.api.storage.put("group" + groupId, groupObject);
+            textsecure.storage.putEncrypted("group" + groupId, groupObject);
 
             return {id: groupId, numbers: finalNumbers};
         },
 
         getNumbers: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
+            var group = textsecure.storage.getEncrypted("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38050,7 +38050,7 @@ window.axolotl.sessions = {
         },
 
         removeNumber: function(groupId, number) {
-            var group = axolotl.api.storage.get("group" + groupId);
+            var group = textsecure.storage.getEncrypted("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38062,14 +38062,14 @@ window.axolotl.sessions = {
             if (i > -1) {
                 group.numbers.slice(i, 1);
                 delete group.numberRegistrationIds[number];
-                axolotl.api.storage.put("group" + groupId, group);
+                textsecure.storage.putEncrypted("group" + groupId, group);
             }
 
             return group.numbers;
         },
 
         addNumbers: function(groupId, numbers) {
-            var group = axolotl.api.storage.get("group" + groupId);
+            var group = textsecure.storage.getEncrypted("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38083,16 +38083,16 @@ window.axolotl.sessions = {
                 }
             }
 
-            axolotl.api.storage.put("group" + groupId, group);
+            textsecure.storage.putEncrypted("group" + groupId, group);
             return group.numbers;
         },
 
         deleteGroup: function(groupId) {
-            axolotl.api.storage.remove("group" + groupId);
+            textsecure.storage.removeEncrypted("group" + groupId);
         },
 
         getGroup: function(groupId) {
-            var group = axolotl.api.storage.get("group" + groupId);
+            var group = textsecure.storage.getEncrypted("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38100,7 +38100,7 @@ window.axolotl.sessions = {
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = axolotl.api.storage.get("group" + groupId);
+            var group = textsecure.storage.getEncrypted("group" + groupId);
             if (group === undefined)
                 throw new Error("Unknown group for device registration id");
 
@@ -38112,7 +38112,7 @@ window.axolotl.sessions = {
 
             var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
             group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            axolotl.api.storage.put("group" + groupId, group);
+            textsecure.storage.putEncrypted("group" + groupId, group);
             return needUpdate;
         },
     };

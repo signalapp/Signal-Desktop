@@ -48,7 +48,7 @@
     window.textsecure.crypto = {
         // Decrypts message into a raw string
         decryptWebsocketMessage: function(message) {
-            var signaling_key = axolotl.api.storage.get("signaling_key"); //TODO: in crypto_storage
+            var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
             var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
             var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
