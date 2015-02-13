@@ -122,14 +122,29 @@
         });
     });
 
+    function getConversationId(pushMessageContent) {
+        if (pushMessageContent.sync) {
+            return pushMessageContent.sync.destination;
+        } else if (pushMessageContent.group) {
+            return pushMessageContent.group.id;
+        }
+    }
+
     function handlePushMessageContent(pushMessageContent, message) {
         // This function can be called from the background script on an
         // incoming message or from the frontend after the user accepts an
         // identity key change.
         var source = message.get('source');
+        var timestamp = message.get('sent_at');
+        var type = 'incoming';
+        if (source === textsecure.storage.getUnencrypted("number_id").split('.')[0] && pushMessageContent.sync) {
+             type = 'outgoing';
+             timestamp = pushMessageContent.sync.timestamp
+        }
         return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
             var now = new Date().getTime();
-            var conversationId = pushMessageContent.group ? pushMessageContent.group.id : source;
+
+            var conversationId = getConversationId(pushMessageContent) || source;
             var conversation = new Whisper.Conversation({id: conversationId});
             var attributes = {};
             conversation.fetch().always(function() {
@@ -159,6 +174,8 @@
                     conversationId : conversation.id,
                     attachments    : pushMessageContent.attachments,
                     decrypted_at   : now,
+                    type           : type,
+                    sent_at        : timestamp,
                     errors         : []
                 });
 

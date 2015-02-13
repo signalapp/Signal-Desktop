@@ -254,6 +254,9 @@ input.new-message {
 .group-update {
   font-size: smaller; }
 
+.outgoing .sender {
+  display: none; }
+
 .sender {
   font-size: smaller;
   opacity: 0.8; }
