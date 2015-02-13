@@ -189,8 +189,11 @@ var Whisper = Whisper || {};
         conversation.fetch().then(function() {
             this.$el.trigger('open', { modelId: conversation.id });
         }.bind(this)).fail(function() {
-            if (conversation.save()) {
-                this.$el.trigger('open', { modelId: conversation.id });
+            var saved = conversation.save(); // false or indexedDBRequest
+            if (saved) {
+                saved.then(function() {
+                    this.$el.trigger('open', { modelId: conversation.id });
+                }.bind(this));
             }
         }.bind(this));
     },
