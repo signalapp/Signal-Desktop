@@ -45,7 +45,7 @@
               model: groupUpdate
           }).render();
       } else if (this.model.get('flags') === textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
-          this.end_session_view = new Whisper.EndSessionView();
+          this.end_session_view = new Whisper.EndSessionView().render();
       } else {
         this.template = $('#message').html();
       }
