@@ -163,7 +163,7 @@ textsecure.processDecrypted = function(decrypted, source) {
 
     if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-        return;
+        return Promise.resolve(decrypted);
     if (decrypted.flags != 0) {
         throw new Error("Unknown flags in message");
     }
