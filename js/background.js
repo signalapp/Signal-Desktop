@@ -148,20 +148,26 @@
             var conversation = new Whisper.Conversation({id: conversationId});
             var attributes = {};
             conversation.fetch().always(function() {
-                if (pushMessageContent.group &&
-                    pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
-                    attributes = {
-                        type       : 'group',
-                        groupId    : pushMessageContent.group.id,
-                        name       : pushMessageContent.group.name,
-                        avatar     : pushMessageContent.group.avatar,
-                        members    : pushMessageContent.group.members,
-                    };
-                    var group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
-                    var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
-                    if (difference.length > 0) {
-                        group_update.joined = difference;
+                if (pushMessageContent.group) {
+                    if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
+                        attributes = {
+                            type       : 'group',
+                            groupId    : pushMessageContent.group.id,
+                            name       : pushMessageContent.group.name,
+                            avatar     : pushMessageContent.group.avatar,
+                            members    : pushMessageContent.group.members,
+                        };
+                        var group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
+                        var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
+                        if (difference.length > 0) {
+                            group_update.joined = difference;
+                        }
                     }
+                    else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
+                        var group_update = { left: source };
+                        attributes = { members: _.without(conversation.get('members'), source) };
+                    }
+
                     if (_.keys(group_update).length > 0) {
                         message.set({group_update: group_update});
                     }

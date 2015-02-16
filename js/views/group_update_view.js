@@ -23,6 +23,11 @@
         className: "group-update",
         render: function() {
             //TODO l10n
+            if (this.model.left) {
+                this.$el.text(this.model.left + ' left the group');
+                return this;
+            }
+
             var messages = ['Updated the group.'];
             if (this.model.name) {
                 messages.push("Title is now '" + this.model.name + "'.");
