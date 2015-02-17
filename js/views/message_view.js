@@ -16,6 +16,8 @@
 (function () {
   'use strict';
 
+  window.Whisper = window.Whisper || {};
+
   var ErrorView = Backbone.View.extend({
       className: 'error',
       events: {
@@ -30,38 +32,14 @@
       }
   });
 
-  window.Whisper = window.Whisper || {};
 
-  Whisper.MessageView = Backbone.View.extend({
-    tagName:   "li",
-    className: "entry",
-
-    initialize: function() {
-      var groupUpdate = this.model.get('group_update');
-      this.$el.addClass(this.model.get('type'));
-
-      if (groupUpdate) {
-          this.group_update_view = new Whisper.GroupUpdateView({
-              model: groupUpdate
-          }).render();
-      } else if (this.model.get('flags') === textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
-          this.end_session_view = new Whisper.EndSessionView().render();
-      } else {
+  var ContentMessageView = Backbone.View.extend({
+      tagName: 'div',
+      initialize: function() {
         this.template = $('#message').html();
-      }
-      Mustache.parse(this.template);
-
-      this.listenTo(this.model, 'change',  this.render); // auto update
-      this.listenTo(this.model, 'destroy', this.remove); // auto update
-
-    },
-
-    render: function() {
-        if (this.group_update_view) {
-            this.$el.append(this.group_update_view.$el);
-        } else if (this.end_session_view) {
-            this.$el.append(this.end_session_view.$el);
-        } else {
+        Mustache.parse(this.template);
+      },
+      render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
@@ -89,8 +67,33 @@
                     })
                 );
             }
-        }
+      }
+  });
 
+  Whisper.MessageView = Backbone.View.extend({
+    tagName:   "li",
+    className: function() {
+        return ["entry", this.model.get('type')].join(' ');
+    },
+    initialize: function() {
+        if (this.model.isEndSession()) {
+            this.view = new Whisper.EndSessionView();
+        } else if (this.model.isGroupUpdate()) {
+            this.view = new Whisper.GroupUpdateView({
+                model: this.model.get('group_update')
+            });
+        } else {
+            this.view = new ContentMessageView({model: this.model});
+        }
+        this.$el.append(this.view.el);
+
+      this.listenTo(this.model, 'change',  this.render); // auto update
+      this.listenTo(this.model, 'destroy', this.remove); // auto update
+
+    },
+
+    render: function() {
+        this.view.render();
         return this;
     }
 

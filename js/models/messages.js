@@ -33,6 +33,13 @@
             if (missing.length) {
                 console.log("Message missing attributes: " + missing);
             }
+        },
+        isEndSession: function() {
+            var flag = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
+            return !!(this.get('flags') & flag);
+        },
+        isGroupUpdate: function() {
+            return !!(this.get('group_update'));
         }
     });
 
