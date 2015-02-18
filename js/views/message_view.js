@@ -39,12 +39,14 @@
         this.template = $('#message').html();
         Mustache.parse(this.template);
       },
+      className: function() {
+        if (this.model.get('delivered')) { return 'delivered'; }
+      },
       render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
                     timestamp: moment(this.model.get('received_at')).fromNow(),
-                    bubble_class: this.model.get('type') === 'outgoing' ? 'sent' : 'incoming',
                     sender: this.model.get('source')
                 })
             );
@@ -54,10 +56,6 @@
                     return new Whisper.AttachmentView({model: attachment}).render().el;
                 })
             );
-
-            if (this.model.get('delivered')) {
-                this.$el.addClass('delivered');
-            }
 
             var errors = this.model.get('errors');
             if (errors && errors.length) {

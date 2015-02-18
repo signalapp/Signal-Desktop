@@ -277,7 +277,7 @@ button {
 .timestamp {
   font-size: smaller; }
 
-.entry.delivered .timestamp::after {
+.entry .delivered .timestamp::after {
   margin-left: 4px;
   content: "✓"; }
 
