@@ -28,11 +28,10 @@ var Whisper = Whisper || {};
         initialize: function() {
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'reset', this.addAll);
-
         },
 
         addOne: function(model) {
-        if (this.itemView) {
+            if (this.itemView) {
                 var view = new this.itemView({model: model});
                 this.$el.append(view.render().el);
                 this.$el.trigger('add');

@@ -14,35 +14,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-  'use strict';
+    'use strict';
 
-  window.Whisper = window.Whisper || {};
+    window.Whisper = window.Whisper || {};
 
-  var ErrorView = Backbone.View.extend({
-      className: 'error',
-      events: {
-          'click' : 'replay'
-      },
-      replay: function() {
-          new window.textsecure.ReplayableError(this.model).replay();
-      },
-      render: function() {
-          this.$el.text(this.model.message);
-          return this;
-      }
-  });
+    var ErrorView = Backbone.View.extend({
+        className: 'error',
+        events: {
+            'click' : 'replay'
+        },
+        replay: function() {
+            new window.textsecure.ReplayableError(this.model).replay();
+        },
+        render: function() {
+            this.$el.text(this.model.message);
+            return this;
+        }
+    });
 
 
-  var ContentMessageView = Backbone.View.extend({
-      tagName: 'div',
-      initialize: function() {
-        this.template = $('#message').html();
-        Mustache.parse(this.template);
-      },
-      className: function() {
-        if (this.model.get('delivered')) { return 'delivered'; }
-      },
-      render: function() {
+    var ContentMessageView = Backbone.View.extend({
+        tagName: 'div',
+        initialize: function() {
+            this.template = $('#message').html();
+            Mustache.parse(this.template);
+        },
+        className: function() {
+            if (this.model.get('delivered')) { return 'delivered'; }
+        },
+        render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
@@ -53,7 +53,9 @@
 
             this.$el.find('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
-                    return new Whisper.AttachmentView({model: attachment}).render().el;
+                    return new Whisper.AttachmentView({
+                        model: attachment
+                    }).render().el;
                 })
             );
 
@@ -65,36 +67,36 @@
                     })
                 );
             }
-      }
-  });
-
-  Whisper.MessageView = Backbone.View.extend({
-    tagName:   "li",
-    className: function() {
-        return ["entry", this.model.get('type')].join(' ');
-    },
-    initialize: function() {
-        if (this.model.isEndSession()) {
-            this.view = new Whisper.EndSessionView();
-        } else if (this.model.isGroupUpdate()) {
-            this.view = new Whisper.GroupUpdateView({
-                model: this.model.get('group_update')
-            });
-        } else {
-            this.view = new ContentMessageView({model: this.model});
         }
-        this.$el.append(this.view.el);
+    });
 
-      this.listenTo(this.model, 'change',  this.render); // auto update
-      this.listenTo(this.model, 'destroy', this.remove); // auto update
+    Whisper.MessageView = Backbone.View.extend({
+        tagName:   "li",
+        className: function() {
+            return ["entry", this.model.get('type')].join(' ');
+        },
+        initialize: function() {
+            if (this.model.isEndSession()) {
+                this.view = new Whisper.EndSessionView();
+            } else if (this.model.isGroupUpdate()) {
+                this.view = new Whisper.GroupUpdateView({
+                    model: this.model.get('group_update')
+                });
+            } else {
+                this.view = new ContentMessageView({model: this.model});
+            }
+            this.$el.append(this.view.el);
 
-    },
+            this.listenTo(this.model, 'change',  this.render); // auto update
+            this.listenTo(this.model, 'destroy', this.remove); // auto update
 
-    render: function() {
-        this.view.render();
-        return this;
-    }
+        },
 
-  });
+        render: function() {
+            this.view.render();
+            return this;
+        }
+
+    });
 
 })();
