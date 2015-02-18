@@ -35,6 +35,9 @@
             }).render();
 
             window.addEventListener('resize', this.inbox.resize.bind(this.inbox));
+            window.addEventListener('beforeunload', function () {
+                this.inbox.stopListening();
+            }.bind(this));
         },
         events: {
             'keyup': 'keyup',
