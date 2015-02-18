@@ -20,6 +20,7 @@ html {
   height: 100%; }
 
 body {
+  position: relative;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -297,6 +298,9 @@ input.new-message {
 .message-detail {
   padding: 36px 0 0;
   background: #f3f3f3; }
+  .message-detail .container {
+    height: 100%;
+    overflow: auto; }
   .message-detail .message-container {
     background: white;
     padding: 1em 0; }
@@ -308,6 +312,26 @@ input.new-message {
       text-align: right;
       font-weight: bold;
       padding-right: 1em; }
+  .message-detail .avatar {
+    vertical-align: middle; }
+  .message-detail .conflict {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em;
+    font-weight: bold;
+    background: #d00; }
+    .message-detail .conflict:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background: url("/images/error.png") no-repeat center center;
+      background-size: 100%; }
+    .message-detail .conflict span {
+      vertical-align: middle;
+      padding-left: 5px; }
 
 .group-update {
   font-size: smaller; }
@@ -350,9 +374,6 @@ input.new-message {
       content: " ";
       clear: both;
       height: 0; }
-  .message-detail p,
-  .message-list p {
-    margin: 0; }
   .message-detail .bubble,
   .message-list .bubble {
     position: relative;
@@ -380,6 +401,9 @@ input.new-message {
       top: 21px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent; }
+    .message-detail .bubble p,
+    .message-list .bubble p {
+      margin: 0; }
   .message-detail .incoming .bubble,
   .message-list .incoming .bubble {
     color: #454545;
@@ -433,6 +457,32 @@ input.new-message {
     font: small;
     font-style: italic;
     opacity: 0.8; }
+  .message-detail .error,
+  .message-list .error {
+    font-style: italic; }
+  .message-detail .key-conflict,
+  .message-list .key-conflict {
+    padding: 15px 10px; }
+    .message-detail .key-conflict button,
+    .message-list .key-conflict button {
+      margin-top: 5px; }
+
+.key-conflict-dialogue {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 36px; }
+  .key-conflict-dialogue .content {
+    padding: 1em;
+    background: white;
+    color: black;
+    box-shadow: 0 0 5px 0 black; }
+  .key-conflict-dialogue .verify {
+    color: #2a92e7;
+    text-decoration: underline;
+    cursor: pointer; }
 
 .bottom-bar {
   position: fixed;

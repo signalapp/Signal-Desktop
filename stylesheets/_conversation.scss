@@ -24,6 +24,11 @@
   padding: $header-height 0 0;
   background: $grey_l;
 
+  .container {
+    height: 100%;
+    overflow: auto;
+  }
+
   .message-container {
     background: white;
     padding: 1em 0;
@@ -40,6 +45,34 @@
       text-align: right;
       font-weight: bold;
       padding-right: 1em;
+    }
+  }
+
+  .avatar {
+    vertical-align: middle;
+  }
+
+  .conflict {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em;
+    font-weight: bold;
+    background: #d00;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background: url('/images/error.png') no-repeat center center;
+      background-size: 100%;
+    }
+
+    span {
+      vertical-align: middle;
+      padding-left: 5px;
     }
   }
 }
@@ -98,10 +131,6 @@
     }
   }
 
-  p {
-    margin: 0;
-  }
-
   .bubble {
     position: relative;
     left: -2px;
@@ -129,6 +158,10 @@
       top: (54px / 2) - 6px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
+    }
+
+    p {
+      margin: 0;
     }
   }
 
@@ -201,6 +234,40 @@
     font: small;
     font-style: italic;
     opacity: 0.8;
+  }
+
+  .error {
+    font-style: italic;
+  }
+
+  .key-conflict {
+    padding: 15px 10px;
+
+    button {
+      margin-top: 5px;
+    }
+  }
+}
+
+.key-conflict-dialogue {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: $header-height;
+
+  .content {
+    padding: 1em;
+    background: white;
+    color: black;
+    box-shadow: 0 0 5px 0 black;
+  }
+
+  .verify {
+    color: $blue;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 
