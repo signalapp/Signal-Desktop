@@ -96,11 +96,13 @@
                         if (e.name === 'IncomingIdentityKeyError') {
                             e.args.push(message.id);
                             message.save({ errors : [e] }).then(function() {
-                                extension.trigger('message', message); // notify frontend listeners
+                                extension.trigger('message', message);
+                                openConversation(conversation.id);
                             });
                         } else if (e.message === 'Bad MAC') {
                             message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                                extension.trigger('message', message); // notify frontend listeners
+                                extension.trigger('message', message);
+                                openConversation(conversation.id);
                             });
                         } else {
                             console.log(e);
