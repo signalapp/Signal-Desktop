@@ -25,7 +25,7 @@
 
     window.inbox = new Whisper.ConversationCollection([], {
         comparator: function(model) {
-            return -model.active_at;
+            return -model.get('active_at');
         }
     });
 
