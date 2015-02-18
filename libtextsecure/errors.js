@@ -42,10 +42,12 @@
     ReplayableError.prototype.replay = function() {
         var args = Array.prototype.slice.call(arguments);
         args.shift();
-        args = this.args.concat(args);
+        args = this.args.concat(args, this.onsuccess, this.onfailure);
 
         registeredFunctions[this.functionCode].apply(window, args);
     };
+    ReplayableError.prototype.onsuccess = function() {};
+    ReplayableError.prototype.onfailure = function() {};
 
     function IncomingIdentityKeyError(number, message) {
         ReplayableError.call(this, {

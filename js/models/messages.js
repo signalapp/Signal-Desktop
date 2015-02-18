@@ -40,6 +40,12 @@
         },
         isGroupUpdate: function() {
             return !!(this.get('group_update'));
+        },
+        isIncoming: function() {
+            return this.get('type') === 'incoming';
+        },
+        isOutgoing: function() {
+            return this.get('type') === 'outgoing';
         }
     });
 

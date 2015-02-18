@@ -42,10 +42,12 @@
     ReplayableError.prototype.replay = function() {
         var args = Array.prototype.slice.call(arguments);
         args.shift();
-        args = this.args.concat(args);
+        args = this.args.concat(args, this.onsuccess, this.onfailure);
 
         registeredFunctions[this.functionCode].apply(window, args);
     };
+    ReplayableError.prototype.onsuccess = function() {};
+    ReplayableError.prototype.onfailure = function() {};
 
     function IncomingIdentityKeyError(number, message) {
         ReplayableError.call(this, {
@@ -186,19 +188,13 @@
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
+    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, onsuccess, onfailure) {
         // Wipe identity key!
         //TODO: Encapsuate with the rest of textsecure.storage.devices
         textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
         //TODO: Probably breaks with a devicecontrol message
-        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
+        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).
+          then(decodeMessageContents).then(onsuccess).catch(onfailure);
     }
     textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
@@ -16968,21 +16964,15 @@ window.textsecure.messaging = function() {
         }
     }
 
-    var tryMessageAgain = function(number, encodedMessage, message_id) {
-        var message = new Whisper.MessageCollection().add({id: message_id});
-        message.fetch().then(function() {
-            //TODO: Encapsuate with the rest of textsecure.storage.devices
-            textsecure.storage.removeEncrypted("devices" + number);
-            var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
-            sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
-                if (res.failure.length > 0)
-                    message.set('errors', res.failure);
-                else
-                    message.set('errors', []);
-                message.save().then(function(){
-                    extension.trigger('message', message); // notify frontend listeners
-                });
-            });
+    var tryMessageAgain = function(number, encodedMessage, timestamp, onsuccess, onfailure) {
+        //TODO: Encapsuate with the rest of textsecure.storage.devices
+        textsecure.storage.removeEncrypted("devices" + number);
+        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
+        sendMessageProto(timestamp, [number], proto, function(res) {
+            if (res.failure.length > 0)
+                onfailure(res.failure);
+            else
+                onsuccess();
         });
     };
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.SEND_MESSAGE);
