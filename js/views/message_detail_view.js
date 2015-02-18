@@ -17,7 +17,30 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    Whisper.MessageDetailView = Whisper.View.extend({
+    var ContactView = Backbone.View.extend({
+        className: 'contact-detail',
+        initialize: function(options) {
+            this.template = $('#contact-detail').html();
+            Mustache.parse(this.template);
+            this.conflict = options.conflict;
+        },
+        events: {
+            'click .conflict': 'triggerConflict'
+        },
+        triggerConflict: function() {
+            this.$el.trigger('conflict', {conflict: this.conflict});
+        },
+        render: function() {
+            this.$el.html(Mustache.render(this.template, {
+                name       : this.model.getTitle(),
+                avatar_url : this.model.getAvatarUrl(),
+                conflict   : this.conflict
+            }));
+            return this;
+        }
+    });
+
+    Whisper.MessageDetailView = Backbone.View.extend({
         className: 'message-detail',
         template: $('#message-detail').html(),
         initialize: function(options) {
@@ -26,7 +49,7 @@
         },
         events: {
             'click .back': 'goBack',
-            'verify': 'verify'
+            'conflict': 'conflictDialogue'
         },
         goBack: function() {
             this.trigger('back');
@@ -55,19 +78,33 @@
                 return this.conversation.contactCollection.models;
             }
         },
+        conflictDialogue: function(e, data) {
+            var view = new Whisper.KeyConflictDialogueView({
+                model: data.conflict,
+                conversation: this.conversation
+            });
+            view.render().$el.appendTo(this.$el);
+            this.listenTo(view, 'verify', function(data) {
+                this.verify(data.number);
+            });
+            this.listenTo(view, 'resolve', function() {
+                this.render();
+            });
+        },
         render: function() {
             this.$el.html(Mustache.render(this.template, {
-                sent_at: moment(this.model.get('sent_at')).toString(),
-                received_at: moment(this.model.get('received_at')).toString(),
-                tofrom: this.model.isIncoming() ? 'From' : 'To',
-                contacts: this.contacts().map(function(contact) {
-                    return {
-                        name       : contact.getTitle(),
-                        avatar_url : contact.getAvatarUrl()
-                    };
-                }.bind(this))
+                sent_at     : moment(this.model.get('sent_at')).toString(),
+                received_at : moment(this.model.get('received_at')).toString(),
+                tofrom      : this.model.isIncoming() ? 'From' : 'To',
             }));
             this.view.render().$el.prependTo(this.$el.find('.message-container'));
+
+            this.conversation.contactCollection.each(function(contact) {
+                var v = new ContactView({
+                    model: contact,
+                    conflict: this.model.getKeyConflict(contact.id)
+                }).render().$el.appendTo(this.$el.find('.contacts'));
+            }.bind(this));
         }
     });
 

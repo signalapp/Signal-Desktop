@@ -119,28 +119,18 @@
         <button class='back'></button>
         <span class='title-text'>Message Detail</span>
     </div>
-    <div class='message-container'></div>
-    <div class='info'>
-      <table>
-          <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
-          <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
-        <tr>
-          <td class='tofrom label'>{{ tofrom }}</td>
-          <td>
-            <div class='contacts'>
-            {{ #contacts }}
-              <div>
-                <span class='avatar'><img src='{{ avatar_url }}' /></span>
-                <span class='name'>{{ name }}</div>
-                {{ #conflict }}
-                  <button class='resolve'>Key Conflict</button>
-                {{ /conflict }}
-              </div>
-            {{ /contacts }}
-            </div>
-          </td>
-        </tr>
-      </table>
+    <div class='container'>
+      <div class='message-container'></div>
+      <div class='info'>
+        <table>
+            <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
+            <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+          <tr>
+            <td class='tofrom label'>{{ tofrom }}</td>
+            <td> <div class='contacts'></div> </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-verification'>
@@ -200,6 +190,42 @@
         <div class='contacts'></div>
       </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='incoming-key-conflict'>
+    <p>
+      Received message with unknown identity key.
+      Click to process and display.
+    </p>
+  </script>
+  <script type='text/x-tmpl-mustache' id='outgoing-key-conflict'>
+    <p>
+      This contact's identity key.has changed.
+      Click to process and display.
+    </p>
+  </script>
+  <script type='text/x-tmpl-mustache' id='generic-error'>
+    <p>{{ message }}</p>
+  </script>
+  <script type='text/x-tmpl-mustache' id='contact-detail'>
+      <div>
+        <span class='avatar'><img src='{{ avatar_url }}' /></span>
+        <span class='name'>{{ name }}</span>
+        {{ #conflict }}
+            <button class='conflict'><span>Verify</span></button>
+        {{ /conflict }}
+      </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
+    <div class='content'>
+      <p> {{ message }} </p>
+      <p>
+        You may wish to <span class='verify'>verify</span> this contact.
+      </p>
+      <p>
+        <button class='cancel'>Cancel</button>
+        <button class='resolve'>Accept new key</button>
+      </p>
+    </div>
+  </script>
   <script type="text/javascript" src="js/components.js"></script>
   <script type="text/javascript" src="js/libtextsecure.js"></script>
 
@@ -223,6 +249,8 @@
   <script type="text/javascript" src="js/views/end_session_view.js"></script>
   <script type="text/javascript" src="js/views/group_update_view.js"></script>
   <script type="text/javascript" src="js/views/attachment_view.js"></script>
+  <script type="text/javascript" src="js/views/key_conflict_dialogue_view.js"></script>
+  <script type="text/javascript" src="js/views/error_view.js"></script>
   <script type="text/javascript" src="js/views/message_view.js"></script>
   <script type="text/javascript" src="js/views/key_verification_view.js"></script>
   <script type="text/javascript" src="js/views/message_detail_view.js"></script>

@@ -103,7 +103,7 @@
             this.listenTo(view, 'back', function() {
                 view.remove();
                 this.$el.show();
-            }.bind(this));
+            });
         },
 
         closeMenu: function(e) {

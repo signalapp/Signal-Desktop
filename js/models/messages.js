@@ -51,11 +51,53 @@
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
         },
-        getKeyConflict: function() {
-            return _.find(this.get('errors'), function(e) {
-                return ( e.name === 'IncomingIdentityKeyError' ||
-                         e.name === 'OutgoingIdentityKeyError');
+        hasKeyConflicts: function() {
+            return _.any(this.get('errors'), function(e) {
+                return (e.name === 'IncomingIdentityKeyError' ||
+                        e.name === 'OutgoingIdentityKeyError');
             });
+        },
+        hasKeyConflict: function(number) {
+            return _.any(this.get('errors'), function(e) {
+                return (e.name === 'IncomingIdentityKeyError' ||
+                        e.name === 'OutgoingIdentityKeyError') &&
+                        e.number === number;
+            });
+        },
+        getKeyConflict: function(number) {
+            return _.find(this.get('errors'), function(e) {
+                return (e.name === 'IncomingIdentityKeyError' ||
+                        e.name === 'OutgoingIdentityKeyError') &&
+                        e.number === number;
+            });
+        },
+        resolveConflict: function(number) {
+            var error = this.getKeyConflict(number);
+            if (error) {
+                var promise = new textsecure.ReplayableError(error).replay();
+                if (this.isIncoming()) {
+                    promise.then(function(pushMessageContent) {
+                        extension.trigger('message:decrypted', {
+                            message_id: this.id,
+                            data: pushMessageContent
+                        });
+                        this.save('errors', []);
+                    }.bind(this)).catch(function(e) {
+                        //this.save('errors', [_.pick(e, ['name', 'message'])]);
+                        var errors = this.get('errors').concat(
+                            _.pick(e, ['name', 'message'])
+                        );
+                        this.save('errors', errors);
+                    }.bind(this));
+                } else {
+                    promise.then(function() {
+                        this.save('errors', _.reject(this.get('errors'), function(e) {
+                            return e.name === 'OutgoingIdentityKeyError' &&
+                                   e.number === number;
+                        }));
+                    }.bind(this));
+                }
+            }
         }
     });
 
@@ -100,6 +142,10 @@
             // TODO pagination/infinite scroll
             // limit: 10, offset: page*10,
             return this.fetch(options);
+        },
+
+        hasKeyConflicts: function() {
+            return this.any(function(m) { return m.hasKeyConflicts(); });
         }
     });
 })();

@@ -221,33 +221,24 @@
         return this.avatarUrl || '/images/default.png';
     },
 
-    resolveConflicts: function() {
-        if (!this.isPrivate()) {
-            throw "Can't call resolveConflicts on non-private conversation";
+    resolveConflicts: function(number) {
+        if (this.isPrivate()) {
+            number = this.id;
+        } else if (!_.find(this.get('members'), number)) {
+            throw 'Tried to resolve conflicts for a unknown group member';
         }
 
-        if (!this.messageCollection.find(function(m) { return m.getKeyConflict(); })) {
-            throw "No conflicts to resolve";
+        if (!this.messageCollection.hasKeyConflicts()) {
+            throw 'No conflicts to resolve';
         }
 
-        textsecure.storage.devices.removeIdentityKeyForNumber(this.get('id'));
+        textsecure.storage.devices.removeIdentityKeyForNumber(number);
         this.messageCollection.each(function(message) {
-            var conflict = message.getKeyConflict();
-            if (conflict) {
-               new textsecure.ReplayableError(conflict).replay().
-                then(function(pushMessageContent) {
-                    message.save('errors', []);
-                    if (message.isIncoming()) {
-                        extension.trigger('message:decrypted', {
-                            message_id: message.id,
-                            data: pushMessageContent
-                        });
-                    }
-                });
+            if (message.hasKeyConflict(number)) {
+                message.resolveConflict(number);
             }
         });
     }
-
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({
