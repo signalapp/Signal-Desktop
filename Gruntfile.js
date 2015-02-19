@@ -151,7 +151,7 @@ module.exports = function(grunt) {
         }
     },
     jshint: {
-      files: ['Gruntfile.js'],  // add 'src/**/*.js', 'test/**/*.js'
+      files: ['Gruntfile.js', 'js/background.js'],  // add 'src/**/*.js', 'test/**/*.js'
       options: { jshintrc: '.jshintrc' },
     },
     jscs: {
