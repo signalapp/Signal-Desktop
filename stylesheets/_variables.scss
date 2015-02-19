@@ -13,6 +13,16 @@ $grey_d: #454545;
   font-family: 'Roboto';
   src: url('/fonts/Roboto-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
 $roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 $roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
