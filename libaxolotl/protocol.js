@@ -386,8 +386,7 @@ window.axolotl.protocol = function() {
                 if (open_session !== undefined)
                     closeSession(open_session); // To be returned and saved later
             } else {
-                // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-                throw new textsecure.IncomingIdentityKeyError(encodedNumber, getString(message.encode()));
+                throw new Error('Unknown identity key');
             }
         }
         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
