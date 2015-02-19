@@ -58,7 +58,7 @@
         });
 
         extension.browserAction(window.openInbox);
-    };
+    }
 
     function onMessageReceived(pushMessage) {
         var now = new Date().getTime();
@@ -112,7 +112,7 @@
                 });
             });
         });
-    };
+    }
 
     extension.on('message:decrypted', function(options) {
         var message = messages.add({id: options.message_id});
@@ -141,7 +141,7 @@
         var type = 'incoming';
         if (source === textsecure.storage.getUnencrypted("number_id").split('.')[0] && pushMessageContent.sync) {
              type = 'outgoing';
-             timestamp = pushMessageContent.sync.timestamp
+             timestamp = pushMessageContent.sync.timestamp;
         }
         return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
             var now = new Date().getTime();
@@ -151,6 +151,7 @@
             var attributes = {};
             conversation.fetch().always(function() {
                 if (pushMessageContent.group) {
+                    var group_update = {};
                     if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
                         attributes = {
                             type       : 'group',
@@ -159,14 +160,14 @@
                             avatar     : pushMessageContent.group.avatar,
                             members    : pushMessageContent.group.members,
                         };
-                        var group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
+                        group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
                         var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
                         if (difference.length > 0) {
                             group_update.joined = difference;
                         }
                     }
                     else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
-                        var group_update = { left: source };
+                        group_update = { left: source };
                         attributes = { members: _.without(conversation.get('members'), source) };
                     }
 
@@ -229,5 +230,5 @@
         }).fail(function() {
             console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
         });
-    };
+    }
 })();
