@@ -29,6 +29,14 @@
         return conversations.get(windowMap.modelIdFrom(windowId));
     };
 
+    window.updateConversation = function(conversationId) {
+        var conversation = conversations.get(conversationId)
+        if (conversation) {
+            conversation.fetch();
+            conversation.fetchMessages();
+        }
+    };
+
     function closeConversation (windowId) {
         windowMap.remove('windowId', windowId);
     };

@@ -218,9 +218,10 @@
                     var deliveries     = message.get('delivered') || 0;
                     var conversationId = message.get('conversationId');
                     if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1}).then(function() {
-                            extension.trigger('message', message); // notify frontend listeners
-                        });
+                        message.save({delivered: deliveries + 1}).then(
+                            // notify frontend listeners
+                            updateConversation.bind(window,conversationId)
+                        );
                         return;
                         // TODO: consider keeping a list of numbers we've
                         // successfully delivered to?
