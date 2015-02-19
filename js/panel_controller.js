@@ -30,7 +30,7 @@
     };
 
     window.updateConversation = function(conversationId) {
-        var conversation = conversations.get(conversationId)
+        var conversation = conversations.get(conversationId);
         if (conversation) {
             conversation.fetch();
             conversation.fetchMessages();
@@ -39,7 +39,7 @@
 
     function closeConversation (windowId) {
         windowMap.remove('windowId', windowId);
-    };
+    }
 
     window.openConversation = function openConversation (modelId) {
         var conversation = conversations.add({id: modelId});

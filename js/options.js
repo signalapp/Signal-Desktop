@@ -20,11 +20,11 @@
         if (verificationCode.length == 6) {
             return verificationCode;
         }
-    };
+    }
 
     function displayError(error) {
         $('#error').hide().text(error).addClass('in').fadeIn();
-    };
+    }
 
     $(function() {
         var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
@@ -146,7 +146,7 @@
                                             '?uuid=' + proto.uuid +
                                             '&pub_key=' + encodeURIComponent(btoa(getString(cryptoInfo.pubKey))));
                             $('img').removeAttr('style');
-                            $('#multi-device .status').text("Use your phone to scan the QR code.")
+                            $('#multi-device .status').text("Use your phone to scan the QR code.");
                             request.respond(200, 'OK');
                         } else if (request.path == "/v1/message" && request.verb == "PUT") {
                             $('#init-setup').hide();
@@ -173,8 +173,7 @@
                                     $('#verify4done').text('done');
                                     //$('#complete-number').text(parsedNumber);
                                     textsecure.registration.done();
-                                case 5:
-                                    //TODO: Do sync to get 5!
+                                //case 5: //TODO: Do sync to get 5!
                                     $('#verify').hide();
                                     $('#setup-complete').show().addClass('in');
                                     textsecure.registration.done();

@@ -136,7 +136,7 @@
         }
         this.save({unreadCount: this.get('unreadCount') + 1, active: true});
 
-        return new Promise(function (resolve) { m.save().then(resolve(m)) });
+        return new Promise(function (resolve) { m.save().then(resolve(m)); });
     },
 
     fetchMessages: function(options) {

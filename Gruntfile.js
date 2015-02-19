@@ -151,7 +151,21 @@ module.exports = function(grunt) {
         }
     },
     jshint: {
-      files: ['Gruntfile.js', 'js/background.js'],  // add 'src/**/*.js', 'test/**/*.js'
+      files: [
+        'Gruntfile.js',
+        'js/background.js',
+        'js/chromium.js',
+        'js/bimap.js',
+        'js/conversation_panel.js',
+        'js/database.js',
+        'js/inbox_controller.js',
+        'js/index.js',
+        'js/libphonenumber-util.js',
+        'js/options.js',
+        'js/panel_controller.js',
+        'js/models/*.js',
+        'js/views/*.js',
+      ],
       options: { jshintrc: '.jshintrc' },
     },
     jscs: {

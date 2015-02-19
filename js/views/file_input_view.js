@@ -68,18 +68,21 @@ var Whisper = Whisper || {};
             var promises = [];
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
-                var contentType = files[i].type;
-                var p = new Promise(function(resolve, reject) {
-                  var FR = new FileReader();
-                  FR.onload = function(e) {
-                    resolve({data: e.target.result, contentType: contentType});
-                  };
-                  FR.readAsArrayBuffer(files[i]);
-                }.bind(this));
-                promises.push(p);
+                promises.push(readFile(files[i]));
             }
             this.clearForm();
             return Promise.all(promises);
+        },
+
+        readFile: function(file) {
+            var contentType = file.type;
+            return new Promise(function(resolve, reject) {
+                var FR = new FileReader();
+                FR.onload = function(e) {
+                    resolve({data: e.target.result, contentType: contentType});
+                };
+                FR.readAsArrayBuffer(file);
+            });
         },
 
         clearForm: function() {

@@ -43,7 +43,7 @@
 
     getCountryCode: function(regionCode) {
       var cc = libphonenumber.getCountryCodeForRegion(regionCode);
-      return (cc != 0) ? cc : "";
+      return (cc !== 0) ? cc : "";
     },
 
     verifyNumber: function(number, regionCode) {

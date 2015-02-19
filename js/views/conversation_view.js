@@ -110,7 +110,6 @@
         toggleSettings: function (e) {
             $('body').toggleClass('settings-open');
             console.log('toggling');
-            debugger;
         }
     });
 })();

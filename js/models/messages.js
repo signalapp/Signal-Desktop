@@ -81,4 +81,4 @@
             return this.fetch(options);
         }
     });
-})()
+})();
