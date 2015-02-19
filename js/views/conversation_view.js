@@ -52,8 +52,6 @@
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
-            'click .settings-btn': 'toggleSettings',
-            'click .go-back': 'toggleSettings',
             'click .hamburger': 'toggleMenu'
         },
 
@@ -105,11 +103,6 @@
                 input.val("");
                 this.fileInput.deleteFiles();
             }
-        },
-
-        toggleSettings: function (e) {
-            $('body').toggleClass('settings-open');
-            console.log('toggling');
         }
     });
 })();
