@@ -1,3 +1,10 @@
+.conversation {
+  padding: $header-height 0;
+}
+
+.conversation, .discussion-container, .message-list {
+  height: 100%;
+}
 
 .group-update {
   font-size: smaller;

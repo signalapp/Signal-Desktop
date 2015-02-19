@@ -16,10 +16,13 @@
 * {
   box-sizing: border-box; }
 
+html {
+  height: 100%; }
+
 body {
   height: 100%;
   width: 100%;
-  margin: 36px 0 0;
+  margin: 0;
   font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 14px; }
 
@@ -105,10 +108,13 @@ body {
     text-align: center; }
 
 .gutter {
-  margin-top: 36px; }
+  padding: 36px 0 0; }
+
+.gutter, #contacts {
+  height: 100%; }
 
 #contacts {
-  overflow-y: scroll; }
+  overflow: auto; }
 
 .contact .number, .contact .checkbox {
   display: none; }
@@ -258,6 +264,12 @@ input.new-message {
   display: none; }
   .settings-open .settings {
     display: block; }
+
+.conversation {
+  padding: 36px 0; }
+
+.conversation, .discussion-container, .message-list {
+  height: 100%; }
 
 .group-update {
   font-size: smaller; }

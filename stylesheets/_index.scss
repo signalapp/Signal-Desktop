@@ -1,9 +1,12 @@
 .gutter {
-  margin-top: 36px;
+  padding: $header-height 0 0;
 }
 
+.gutter, #contacts {
+  height: 100%;
+}
 #contacts {
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .loading .gutter {

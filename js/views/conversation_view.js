@@ -40,10 +40,7 @@
             this.$el.find('.discussion-container').append(this.view.el);
             this.view.render();
 
-            window.addEventListener('resize', this.view.resize.bind(this.view));
-
             setTimeout(function() {
-                this.view.resize();
                 this.view.scrollToBottom();
             }.bind(this), 10);
         },

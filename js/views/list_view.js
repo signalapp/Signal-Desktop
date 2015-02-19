@@ -41,12 +41,6 @@ var Whisper = Whisper || {};
         addAll: function() {
             this.$el.html('');
             this.collection.each(this.addOne, this);
-            this.resize();
-        },
-
-        resize: function() {
-            var height = window.innerHeight - $('#header').height() - $('#footer').height();
-            this.$el.css('height', height + 'px');
         },
 
         render: function() {
