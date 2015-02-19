@@ -52,7 +52,14 @@
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
-            'click .hamburger': 'toggleMenu'
+            'click .hamburger': 'toggleMenu',
+            'click' : 'closeMenu'
+        },
+
+        closeMenu: function(e) {
+            if (e && !$(e.target).hasClass('hamburger')) {
+                this.$el.find('.menu-list').hide();
+            }
         },
 
         endSession: function() {
