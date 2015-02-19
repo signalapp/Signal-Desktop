@@ -375,6 +375,10 @@ button {
   .message-list .timestamp {
     margin-top: 3px;
     float: right; }
+  .message-list .end-session {
+    font: small;
+    font-style: italic;
+    opacity: 0.8; }
 
 .bottom-bar {
   position: fixed;
@@ -418,8 +422,3 @@ button {
     border: 0;
     outline: 0;
     z-index: 5; }
-
-.end-session {
-  font: small;
-  font-style: italic;
-  opacity: 0.8; }

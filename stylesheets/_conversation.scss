@@ -164,6 +164,12 @@ button {
     margin-top: 3px;
     float: right;
   }
+
+  .end-session {
+    font: small;
+    font-style: italic;
+    opacity: 0.8;
+  }
 }
 
 .bottom-bar {
@@ -224,8 +230,3 @@ button {
   }
 }
 
-.end-session {
-  font: small;
-  font-style: italic;
-  opacity: 0.8;
-}
