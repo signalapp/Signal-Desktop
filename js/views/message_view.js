@@ -51,6 +51,8 @@
                 })
             );
 
+            if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
+
             this.$el.find('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
                     return new Whisper.AttachmentView({
