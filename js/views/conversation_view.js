@@ -45,7 +45,7 @@
             setTimeout(function() {
                 this.view.resize();
                 this.view.scrollToBottom();
-            }.bind(this), 0);
+            }.bind(this), 10);
         },
 
         events: {
