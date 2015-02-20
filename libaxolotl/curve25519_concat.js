@@ -838,7 +838,7 @@ function removeRunDependency(id) {
     if (runDependencyWatcher !== null) {
       clearInterval(runDependencyWatcher);
       runDependencyWatcher = null;
-    }
+    } 
     // If run has never been called, and we should call run (INVOKE_RUN is true, and Module.noInitialRun is not false)
     if (!calledRun && shouldRunNow) run();
   }
@@ -899,7 +899,7 @@ function copyTempDouble(ptr) {
   HEAP8[tempDoublePtr+6] = HEAP8[ptr+6];
   HEAP8[tempDoublePtr+7] = HEAP8[ptr+7];
 }
-  Module["_memcpy"] = _memcpy;
+  Module["_memcpy"] = _memcpy; 
   Module["_memmove"] = _memmove;var _llvm_memmove_p0i8_p0i8_i32=_memmove;
   var _llvm_memcpy_p0i8_p0i8_i32=_memcpy;
   Module["_memset"] = _memset;var _llvm_memset_p0i8_i32=_memset;
@@ -2061,9 +2061,9 @@ var i64Math = (function() { // Emscripten wrapper
    * The above copyright notice and this permission notice shall be
    * included in all copies or substantial portions of the Software.
    *
-   * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
-   * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
-   * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+   * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
+   * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
+   * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
    *
    * IN NO EVENT SHALL TOM WU BE LIABLE FOR ANY SPECIAL, INCIDENTAL,
    * INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, OR ANY DAMAGES WHATSOEVER
