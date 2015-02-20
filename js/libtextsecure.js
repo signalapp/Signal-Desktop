@@ -170,8 +170,7 @@
 
     var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
         // Wipe identity key!
-        //TODO: Encapsuate with the rest of textsecure.storage.devices
-        textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
+        textsecure.storage.devices.removeIdentityKeyForNumber(from.split('.')[0]);
         //TODO: Probably breaks with a devicecontrol message
         return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
             function(pushMessageContent) {
@@ -37872,6 +37871,13 @@ window.axolotl.sessions = {
                 throw new Error("Attempted to overwrite a different identity key");
         },
 
+        removeIdentityKeyForNumber: function(number) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            if (map === undefined)
+                throw new Error("Tried to remove identity for unknown number");
+            textsecure.storage.removeEncrypted("devices" + number);
+        },
+
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
@@ -39231,7 +39237,7 @@ window.textsecure.messaging = function() {
         var message = new Whisper.MessageCollection().add({id: message_id});
         message.fetch().then(function() {
             //TODO: Encapsuate with the rest of textsecure.storage.devices
-            textsecure.storage.removeEncrypted("devices" + number);
+            textsecure.storage.devices.removeIdentityKeyForNumber(number);
             var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
             sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
                 if (res.failure.length > 0)
