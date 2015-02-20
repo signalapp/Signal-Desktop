@@ -74,6 +74,13 @@
                 throw new Error("Attempted to overwrite a different identity key");
         },
 
+        removeIdentityKeyForNumber: function(number) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            if (map === undefined)
+                throw new Error("Tried to remove identity for unknown number");
+            textsecure.storage.removeEncrypted("devices" + number);
+        },
+
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);

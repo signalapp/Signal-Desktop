@@ -131,7 +131,7 @@ window.textsecure.messaging = function() {
         var message = new Whisper.MessageCollection().add({id: message_id});
         message.fetch().then(function() {
             //TODO: Encapsuate with the rest of textsecure.storage.devices
-            textsecure.storage.removeEncrypted("devices" + number);
+            textsecure.storage.devices.removeIdentityKeyForNumber(number);
             var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
             sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
                 if (res.failure.length > 0)
