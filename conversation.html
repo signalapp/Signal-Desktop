@@ -87,6 +87,33 @@
                 </div>
             </div>
         </script>
+        <script type='text/x-tmpl-mustache' id='message-detail'>
+          <div class='title-bar' id='header'>
+              <button class='back'></button>
+              <span class='title-text'>Message Detail</span>
+          </div>
+          <div class='message-container'></div>
+          <div class='info'>
+            <table>
+                <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
+                <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+              <tr>
+                <td class='tofrom label'>{{ tofrom }}</td>
+                <td>
+                  <div class='contacts'>
+                  {{ #contacts }}
+                    <img class='avatar' src='{{ avatar }}'>
+                    <span class='name'>{{ name }}</div>
+                    {{ #conflict }}
+                      <button class='resolve'>Key Conflict</button>
+                    {{ /conflict }}
+                  {{ /contacts }}
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </script>
 
         <script type="text/javascript" src="js/components.js"></script>
 
@@ -109,6 +136,7 @@
         <script type="text/javascript" src="js/views/group_update_view.js"></script>
         <script type="text/javascript" src="js/views/attachment_view.js"></script>
         <script type="text/javascript" src="js/views/message_view.js"></script>
+        <script type="text/javascript" src="js/views/message_detail_view.js"></script>
         <script type="text/javascript" src="js/views/message_list_view.js"></script>
 
         <script type="text/javascript" src="js/views/conversation_view.js"></script>

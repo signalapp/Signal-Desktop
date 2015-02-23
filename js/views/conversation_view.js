@@ -53,7 +53,19 @@
             'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
             'click .hamburger': 'toggleMenu',
-            'click' : 'closeMenu'
+            'click' : 'closeMenu',
+            'select .entry': 'messageDetail'
+        },
+
+        messageDetail: function(e, data) {
+            var view = new Whisper.MessageDetailView({ model: data.message, conversation: this.model });
+            view.$el.insertAfter(this.$el);
+            this.$el.hide();
+            view.render();
+            this.listenTo(view, 'back', function() {
+                view.remove();
+                this.$el.show();
+            }.bind(this));
         },
 
         closeMenu: function(e) {

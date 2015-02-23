@@ -91,9 +91,13 @@
 
             this.listenTo(this.model, 'change',  this.render); // auto update
             this.listenTo(this.model, 'destroy', this.remove); // auto update
-
         },
-
+        events: {
+            'click .timestamp': 'select'
+        },
+        select: function() {
+            this.$el.trigger('select', {message: this.model});
+        },
         render: function() {
             this.view.render();
             return this;

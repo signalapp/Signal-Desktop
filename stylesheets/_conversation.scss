@@ -2,8 +2,32 @@
   padding: $header-height 0;
 }
 
-.conversation, .discussion-container, .message-list {
+.conversation, .discussion-container, .message-list, .message-detail {
   height: 100%;
+}
+
+.message-detail {
+  padding: $header-height 0 0;
+  background: $grey_l;
+
+  .message-container {
+    background: white;
+    padding: 1em 0;
+
+    .sender {
+      display: none;
+    }
+  }
+
+  .info {
+    padding: 1em;
+
+    .label {
+      text-align: right;
+      font-weight: bold;
+      padding-right: 1em;
+    }
+  }
 }
 
 .group-update {
@@ -33,8 +57,20 @@
   max-height: 100%;
   margin: 0;
   padding: 1em 0;
-  list-style: none;
   overflow-y: scroll;
+
+  .timestamp {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.message-detail,
+.message-list {
+  list-style: none;
 
   li {
     margin: 0 8px 16px;
