@@ -181,6 +181,14 @@ module.exports = function(grunt) {
       sass: {
         files: ['./stylesheets/*.scss'],
         tasks: ['sass']
+      },
+      libtextsecure: {
+        files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
+        tasks: ['concat:libtextsecure']
+      },
+      libaxolotl: {
+        files: ['./libaxolotl/*.js'],
+        tasks: ['concat:libaxolotl']
       }
     },
     connect: {
