@@ -31,18 +31,13 @@ input.new-message {
   text-align: center;
   button {
     float: left;
-    width: 36px;
-    height: 36px;
+    width: $header-height;
+    height: $header-height;
     background: $header-color url('/images/back.png') no-repeat center center;
   }
 
   span {
-    display: inline-block;
-    height: 36px;
-    line-height: 36px;
-    font-family: $roboto-light;
-    color: $blue;
-    text-indent: -36px;
+    text-indent: -$header-height;
   }
 }
 

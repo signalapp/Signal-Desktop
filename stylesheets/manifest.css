@@ -45,6 +45,13 @@ body {
   box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8);
   color: #2a92e7; }
 
+.title-text {
+  display: block;
+  text-align: center;
+  height: 36px;
+  line-height: 36px;
+  font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif; }
+
 .menu {
   position: relative;
   float: right;
@@ -134,11 +141,6 @@ input.new-message {
     height: 36px;
     background: #f2f2f2 url("/images/back.png") no-repeat center center; }
   .back span {
-    display: inline-block;
-    height: 36px;
-    line-height: 36px;
-    font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif;
-    color: #2a92e7;
     text-indent: -36px; }
 
 .new-conversation .new-group-update-form {

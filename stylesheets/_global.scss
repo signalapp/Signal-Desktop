@@ -35,6 +35,14 @@ body {
   color: $blue;
 }
 
+.title-text {
+  display: block;
+  text-align: center;
+  height: $header-height;
+  line-height: $header-height;
+  font-family: $roboto-light;
+}
+
 .menu {
   position: relative;
   float: right;
