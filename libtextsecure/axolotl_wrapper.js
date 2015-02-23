@@ -119,18 +119,11 @@
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
+    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage) {
         // Wipe identity key!
         textsecure.storage.devices.removeIdentityKeyForNumber(from.split('.')[0]);
         //TODO: Probably breaks with a devicecontrol message
-        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
+        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
     textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
