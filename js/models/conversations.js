@@ -92,7 +92,7 @@
             var keyErrors = [];
             _.each(errors, function(e) {
                 if (e.error.name === 'OutgoingIdentityKeyError') {
-                    e.error.args.push(message.id);
+                    e.error.args.push(now);
                     keyErrors.push(e.error);
                 }
             });

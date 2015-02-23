@@ -109,19 +109,13 @@
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
+    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, onsuccess, onfailure) {
         // Wipe identity key!
         //TODO: Encapsuate with the rest of textsecure.storage.devices
         textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
         //TODO: Probably breaks with a devicecontrol message
-        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
+        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).
+          then(decodeMessageContents).then(onsuccess).catch(onfailure);
     }
     textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
