@@ -23,6 +23,10 @@ body {
   clear: both;
 }
 
+.hide {
+  display: none;
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -41,6 +45,27 @@ body {
   height: $header-height;
   line-height: $header-height;
   font-family: $roboto-light;
+}
+
+.title-bar button {
+  width: $header-height;
+  height: $header-height;
+  line-height: $header-height;
+  margin-right: 8px;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+button { cursor: pointer; }
+
+button.back {
+  float: left;
+  background: $header-color url('/images/back.png') no-repeat center center;
+
+  & + .title-text {
+    text-indent: -$header-height;
+  }
 }
 
 .menu {

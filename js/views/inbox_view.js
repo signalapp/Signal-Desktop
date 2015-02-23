@@ -24,7 +24,7 @@
             this.$gutter = $('#gutter');
             this.$contacts = $('#contacts');
             this.$fab = this.$el.find('.fab');
-            this.$back = this.$el.find('.back');
+            this.$back = this.$el.find('.new-conversation-title');
 
             this.newConversationView = new Whisper.NewConversationView();
             this.newConversationView.$el.hide().appendTo(this.$gutter);
@@ -40,7 +40,7 @@
         },
         events: {
             'keyup': 'keyup',
-            'click .back button': 'hideCompose',
+            'click .back': 'hideCompose',
             'click .fab': 'showCompose',
             'select #contacts .contact': 'openConversation',
             'open .new-conversation': 'openConversation'

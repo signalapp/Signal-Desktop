@@ -34,6 +34,9 @@ body {
 .clearfix:after {
   clear: both; }
 
+.hide {
+  display: none; }
+
 #header {
   position: fixed;
   top: 0;
@@ -51,6 +54,24 @@ body {
   height: 36px;
   line-height: 36px;
   font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif; }
+
+.title-bar button {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  margin-right: 8px;
+  padding: 0;
+  border: 0;
+  outline: 0; }
+
+button {
+  cursor: pointer; }
+
+button.back {
+  float: left;
+  background: #f2f2f2 url("/images/back.png") no-repeat center center; }
+  button.back + .title-text {
+    text-indent: -36px; }
 
 .menu {
   position: relative;
@@ -131,17 +152,6 @@ input.new-message {
   padding: 0;
   margin: 0;
   outline: 0; }
-
-.back {
-  display: none;
-  text-align: center; }
-  .back button {
-    float: left;
-    width: 36px;
-    height: 36px;
-    background: #f2f2f2 url("/images/back.png") no-repeat center center; }
-  .back span {
-    text-indent: -36px; }
 
 .new-conversation .new-group-update-form {
   display: none; }
@@ -283,18 +293,6 @@ input.new-message {
 .sender {
   font-size: smaller;
   opacity: 0.8; }
-
-.title-bar button {
-  height: 36px;
-  line-height: 36px;
-  margin-right: 8px;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  color: white; }
-
-button {
-  cursor: pointer; }
 
 .timestamp {
   font-size: smaller; }

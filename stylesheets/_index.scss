@@ -26,21 +26,6 @@ input.new-message {
   outline: 0;
 }
 
-.back {
-  display: none;
-  text-align: center;
-  button {
-    float: left;
-    width: $header-height;
-    height: $header-height;
-    background: $header-color url('/images/back.png') no-repeat center center;
-  }
-
-  span {
-    text-indent: -$header-height;
-  }
-}
-
 .new-conversation {
   .new-group-update-form {
     display: none;
