@@ -94,7 +94,6 @@
                         ));
                     }).catch(function(e) {
                         if (e.name === 'IncomingIdentityKeyError') {
-                            e.args.push(message.id);
                             message.save({ errors : [e] }).then(function() {
                                 extension.trigger('message', message);
                                 openConversation(conversation.id);
