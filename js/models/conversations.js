@@ -180,9 +180,38 @@
             return '';
         }
     },
+
     isPrivate: function() {
         return this.get('type') === 'private';
+    },
+
+    resolveConflicts: function() {
+        if (!this.isPrivate()) {
+            throw "Can't call resolveConflicts on non-private conversation";
+        }
+
+        if (!this.messageCollection.find(function(m) { return m.getKeyConflict(); })) {
+            throw "No conflicts to resolve";
+        }
+
+        textsecure.storage.devices.removeIdentityKeyForNumber(this.get('id'));
+        this.messageCollection.each(function(message) {
+            var conflict = message.getKeyConflict();
+            if (conflict) {
+               new textsecure.ReplayableError(conflict).replay().
+                then(function(pushMessageContent) {
+                    message.save('errors', []);
+                    if (message.isIncoming()) {
+                        extension.trigger('message:decrypted', {
+                            message_id: message.id,
+                            data: pushMessageContent
+                        });
+                    }
+                });
+            }
+        });
     }
+
   });
 
   Whisper.ConversationCollection = Backbone.Collection.extend({
