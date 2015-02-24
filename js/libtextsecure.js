@@ -37819,13 +37819,11 @@ window.axolotl.sessions = {
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage) {
-        // Wipe identity key!
-        textsecure.storage.devices.removeIdentityKeyForNumber(from.split('.')[0]);
+    var tryMessageAgain = function(from, encodedMessage) {
         //TODO: Probably breaks with a devicecontrol message
         return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+    textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
 
 /* vim: ts=4:sw=4:expandtab
@@ -39445,8 +39443,7 @@ window.textsecure.messaging = function() {
     }
 
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
-        textsecure.storage.devices.removeIdentityKeyForNumber(number);
-        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
+        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
             sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.failure.length > 0)
@@ -39513,7 +39510,7 @@ window.textsecure.messaging = function() {
                             if (error.message !== "Identity key changed")
                                 registerError(number, "Failed to reload device keys", error);
                             else {
-                                error = new textsecure.OutgoingIdentityKeyError(number, getString(message.encode()), timestamp);
+                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
                                 registerError(number, "Identity key changed", error);
                             }
                         });

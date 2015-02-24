@@ -47,6 +47,15 @@
             if (this.collection) {
                 return this.collection.conversation.contactCollection.get(this.get('source'));
             }
+        },
+        isOutgoing: function() {
+            return this.get('type') === 'outgoing';
+        },
+        getKeyConflict: function() {
+            return _.find(this.get('errors'), function(e) {
+                return ( e.name === 'IncomingIdentityKeyError' ||
+                         e.name === 'OutgoingIdentityKeyError');
+            });
         }
     });
 

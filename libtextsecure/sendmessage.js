@@ -128,8 +128,7 @@ window.textsecure.messaging = function() {
     }
 
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
-        textsecure.storage.devices.removeIdentityKeyForNumber(number);
-        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
+        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
             sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.failure.length > 0)
@@ -196,7 +195,7 @@ window.textsecure.messaging = function() {
                             if (error.message !== "Identity key changed")
                                 registerError(number, "Failed to reload device keys", error);
                             else {
-                                error = new textsecure.OutgoingIdentityKeyError(number, getString(message.encode()), timestamp);
+                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
                                 registerError(number, "Identity key changed", error);
                             }
                         });
