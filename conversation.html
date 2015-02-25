@@ -102,11 +102,13 @@
                 <td>
                   <div class='contacts'>
                   {{ #contacts }}
-                    <img class='avatar' src='{{ avatar }}'>
-                    <span class='name'>{{ name }}</div>
-                    {{ #conflict }}
-                      <button class='resolve'>Key Conflict</button>
-                    {{ /conflict }}
+                    <div>
+                      <img class='avatar' src='{{ avatar }}'>
+                      <span class='name'>{{ name }}</div>
+                      {{ #conflict }}
+                        <button class='resolve'>Key Conflict</button>
+                      {{ /conflict }}
+                    </div>
                   {{ /contacts }}
                   </div>
                 </td>

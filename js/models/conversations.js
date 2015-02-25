@@ -34,6 +34,7 @@
 
     initialize: function() {
         this.messageCollection = new Whisper.MessageCollection();
+        this.contactCollection = new Whisper.ConversationCollection();
     },
 
     validate: function(attributes, options) {
@@ -143,6 +144,20 @@
         return this.messageCollection.fetchConversation(this.id, options);
     },
 
+    fetchContacts: function(options) {
+        if (this.isPrivate()) {
+            this.contactCollection.reset([this]);
+        } else {
+            this.contactCollection.reset(
+                this.get('members').map(function(number) {
+                    var c = this.collection.add({id: number, type: 'private'});
+                    c.fetch();
+                    return c;
+                }.bind(this))
+            );
+        }
+    },
+
     archive: function() {
         this.unset('active_at');
     },
@@ -165,6 +180,9 @@
         } else {
             return '';
         }
+    },
+    isPrivate: function() {
+        return this.get('type') === 'private';
     }
   });
 

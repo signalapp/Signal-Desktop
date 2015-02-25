@@ -37,10 +37,12 @@
                 sent_at: moment(this.model.get('sent_at')).toString(),
                 received_at: moment(this.model.get('received_at')).toString(),
                 tofrom: this.model.isIncoming() ? 'From' : 'To',
-                contacts: {
-                    name     : this.conversation.getTitle(),
-                    avatar   : this.conversation.get('avatar')
-                }
+                contacts: this.conversation.contactCollection.map(function(contact) {
+                    return {
+                        name     : contact.getTitle(),
+                        avatar   : contact.get('avatar'),
+                    };
+                }.bind(this))
             }));
             this.view.render().$el.prependTo(this.$el.find('.message-container'));
         }
