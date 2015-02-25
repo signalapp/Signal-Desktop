@@ -179,7 +179,7 @@ window.textsecure.messaging = function() {
 
         doSendMessage = function(number, devicesForNumber, recurse) {
             var groupUpdate = Promise.resolve(true);
-            if (message.group && message.group.id)
+            if (message.group && message.group.id && message.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT)
                 groupUpdate = refreshGroup(number, message.group.id, devicesForNumber);
             return groupUpdate.then(function() {
                 return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
