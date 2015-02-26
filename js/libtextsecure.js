@@ -139,7 +139,8 @@
         var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
 
         if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION &&
+				finalMessage.sync !== null)
             res[1]();
 
         return finalMessage;
