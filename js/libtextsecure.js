@@ -16277,9 +16277,21 @@ textsecure.processDecrypted = function(decrypted, source) {
     if (decrypted.flags == null)
         decrypted.flags = 0;
 
+    if (decrypted.sync !== null && textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0] != source)
+        throw new Error("Got sync context on a message not from a peer device");
+
     if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
+                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
+        decrypted.body = null;
+        decrypted.attachments = [];
+        decrypted.group = null;
+        if (decrypted.sync !== null) {
+            // We didn't actually close the session - see axolotl_wrapper
+            // so just throw an error since this message makes no sense
+            throw new Error("Got a sync END_SESSION message");
+        }
         return Promise.resolve(decrypted);
+    }
     if (decrypted.flags != 0) {
         throw new Error("Unknown flags in message");
     }
