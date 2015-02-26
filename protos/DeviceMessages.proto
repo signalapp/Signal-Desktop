@@ -15,19 +15,3 @@ message ProvisionMessage {
   optional string number             = 3;
   optional string provisioningCode   = 4;
 }
-
-message DeviceControl {
-  enum Type {
-    UNKNOWN                            = 0;
-    NEW_DEVICE_REGISTERED              = 1; // Requries only newDeviceId
-    SENT_MESSAGE                       = 2; // Requires only message
-  }
-  message MessageSent {
-    required string  otherNumber = 1; // The destination account (ie phone #), not device
-    required uint64  timestamp   = 2;
-    required bytes   message     = 3; // PushMessageContent
-  }
-  required Type        type        = 1;
-  optional uint32      newDeviceId = 2;
-  optional MessageSent message     = 3;
-}
