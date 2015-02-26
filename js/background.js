@@ -138,12 +138,12 @@
         // identity key change.
         var source = message.get('source');
         var timestamp = message.get('sent_at');
-        var type = 'incoming';
-        if (source === textsecure.storage.getUnencrypted("number_id").split('.')[0] && pushMessageContent.sync) {
-             type = 'outgoing';
-             timestamp = pushMessageContent.sync.timestamp;
-        }
         return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
+            var type = 'incoming';
+            if (pushMessageContent.sync) {
+                 type = 'outgoing';
+                 timestamp = pushMessageContent.sync.timestamp;
+            }
             var now = new Date().getTime();
 
             var conversationId = getConversationId(pushMessageContent) || source;
