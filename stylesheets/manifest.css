@@ -317,10 +317,9 @@ input.new-message {
   content: "✓"; }
 
 .message-list {
-  max-height: 100%;
   margin: 0;
   padding: 1em 0;
-  overflow-y: scroll; }
+  overflow-y: auto; }
   .message-list .timestamp {
     cursor: pointer; }
     .message-list .timestamp:hover {

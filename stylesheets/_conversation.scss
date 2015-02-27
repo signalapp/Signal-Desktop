@@ -54,10 +54,9 @@
 
 
 .message-list {
-  max-height: 100%;
   margin: 0;
   padding: 1em 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   .timestamp {
     cursor: pointer;
