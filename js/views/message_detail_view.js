@@ -27,10 +27,27 @@
             this.conversation = options.conversation;
         },
         events: {
-            'click .back': 'goBack'
+            'click .back': 'goBack',
+            'verify': 'verify'
         },
         goBack: function() {
             this.trigger('back');
+        },
+        verify: function(number) {
+            var view = new Whisper.KeyVerificationView({
+                model: {
+                    their_key: textsecure.storage.devices.getIdentityKeyForNumber(number),
+                    your_key: textsecure.storage.devices.getIdentityKeyForNumber(
+                        textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]
+                    )
+                }
+            });
+            this.$el.hide();
+            view.render().$el.insertAfter(this.el);
+            this.listenTo(view, 'back', function() {
+                view.remove();
+                this.$el.show();
+            });
         },
         render: function() {
             this.$el.html(Mustache.render(this.template, {

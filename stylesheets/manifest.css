@@ -280,8 +280,19 @@ input.new-message {
 .conversation {
   padding: 36px 0; }
 
-.conversation, .discussion-container, .message-list, .message-detail {
+.conversation, .discussion-container, .message-list, .message-detail, .key-verification {
   height: 100%; }
+
+.key-verification {
+  padding: 36px 0 0; }
+  .key-verification .container {
+    height: 100%;
+    overflow: auto; }
+  .key-verification p {
+    padding: 1em; }
+  .key-verification .key {
+    font-family: monospace;
+    padding: 0 1em; }
 
 .message-detail {
   padding: 36px 0 0;

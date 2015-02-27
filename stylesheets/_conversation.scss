@@ -2,10 +2,24 @@
   padding: $header-height 0;
 }
 
-.conversation, .discussion-container, .message-list, .message-detail {
+.conversation, .discussion-container, .message-list, .message-detail, .key-verification {
   height: 100%;
 }
 
+.key-verification {
+  padding: $header-height 0 0;
+  .container {
+    height: 100%;
+    overflow: auto;
+  }
+  p {
+    padding: 1em;
+  }
+  .key {
+    font-family: monospace;
+    padding: 0 1em;
+  }
+}
 .message-detail {
   padding: $header-height 0 0;
   background: $grey_l;

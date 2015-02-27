@@ -52,9 +52,30 @@
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
+            'click .verify-identity': 'verifyIdentity',
             'click .hamburger': 'toggleMenu',
             'click' : 'closeMenu',
             'select .entry': 'messageDetail'
+        },
+
+        verifyIdentity: function() {
+            if (this.model.isPrivate()) {
+                var number = this.model.id;
+                var view = new Whisper.KeyVerificationView({
+                    model: {
+                        their_key: textsecure.storage.devices.getIdentityKeyForNumber(number),
+                        your_key: textsecure.storage.devices.getIdentityKeyForNumber(
+                            textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]
+                        )
+                    }
+                });
+                this.$el.hide();
+                view.render().$el.insertAfter(this.el);
+                this.listenTo(view, 'back', function() {
+                    view.remove();
+                    this.$el.show();
+                });
+            }
         },
 
         messageDetail: function(e, data) {
