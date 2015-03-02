@@ -68,7 +68,7 @@ var Whisper = Whisper || {};
             var promises = [];
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
-                promises.push(readFile(files[i]));
+                promises.push(this.readFile(files[i]));
             }
             this.clearForm();
             return Promise.all(promises);
