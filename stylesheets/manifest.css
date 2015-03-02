@@ -412,8 +412,10 @@ input.new-message {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2a92e7; }
-  .message-detail .attachments img,
-  .message-list .attachments img {
+  .message-detail .attachments img, .message-detail .attachments audio, .message-detail .attachments video,
+  .message-list .attachments img,
+  .message-list .attachments audio,
+  .message-list .attachments video {
     max-width: 100%; }
   .message-detail .outgoing img.avatar,
   .message-list .outgoing img.avatar {

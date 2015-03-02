@@ -177,8 +177,10 @@
   }
 
 
-  .attachments img {
-    max-width: 100%;
+  .attachments {
+    img, audio, video {
+      max-width: 100%;
+    }
   }
 
   .outgoing img.avatar {
