@@ -17,27 +17,21 @@ var Whisper = Whisper || {};
 
 (function () {
     'use strict';
-    Whisper.ModalView = Backbone.View.extend({
-        tagName: 'div',
-        className: 'file-overload-modal',
+    Whisper.ToastView = Backbone.View.extend({
+        className: 'toast',
         initialize: function() {
-            this.template = $('#file-size-modal').html();
             Mustache.parse(this.template);
             this.$el.hide();
-            this.$el.html($(Mustache.render(this.template)));
-        },
-
-        events: {
-            'click .modal-close': 'close',
-            'click #closeModal': 'close'
-        },
-
-        open: function() {
-            this.$el.show();
         },
 
         close: function() {
-            this.$el.hide();
+            this.$el.fadeOut(this.remove.bind(this));
+        },
+
+        render: function() {
+            this.$el.html(Mustache.render(this.template, this.model));
+            this.$el.appendTo($('body')).show();
+            setTimeout(this.close.bind(this), 2000);
         }
     });
 })();

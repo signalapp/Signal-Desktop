@@ -264,3 +264,14 @@
   }
 }
 
+.toast {
+  position: absolute;
+  bottom: 0;
+  margin: 0 2em 3em;
+  padding: 0.5em 1.5em;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  box-shadow: 0 0 5px 0 black;
+  border-radius: 20px;
+  font-size: small;
+}

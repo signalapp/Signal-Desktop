@@ -18,12 +18,15 @@ var Whisper = Whisper || {};
 (function () {
     'use strict';
 
+    Whisper.FileSizeToast = Whisper.ToastView.extend({
+        template: $('#file-size-modal').html()
+    });
+
     Whisper.FileInputView = Backbone.View.extend({
         tagName: 'span',
         className: 'file-input',
         initialize: function() {
             this.$input = this.$el.find('input[type=file]');
-            this.modal = new Whisper.ModalView({el: $('#file-modal')});
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
         },
@@ -48,8 +51,16 @@ var Whisper = Whisper || {};
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
                 var FR = new FileReader();
-                if ((files[i].size/1024).toFixed(4) >= 420) {
-                    this.modal.open();
+                var limitKb = 1000000;
+                switch (files[i].type.split('/')[0]) {
+                    case 'image': limitKb = 420; break;
+                    case 'audio': limitKb = 32000; break;
+                    case 'video': limitKb = 8000; break;
+                }
+                if ((files[i].size/1024).toFixed(4) >= limitKb) {
+                    new Whisper.FileSizeToast({
+                        model: {limit: limitKb}
+                    }).render();
                     this.deleteFiles();
                 }
                 else {

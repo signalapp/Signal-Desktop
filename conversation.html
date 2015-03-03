@@ -73,20 +73,8 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='file-size-modal'>
-            <div id="modal" class="modal-wrapper">
-                <div class="modal-content">
-                    <div class="modal-container">
-                        <div class="modal-banner">
-                            <span>File Too Large</span>
-                            <div class="modal-close"><a class="modal-close-button"  href="#" title="Close">X</a></div>
-                        </div>
-                        <div class="modal-inner modal-padding">
-                            <p>This file exceeds 420KB. Please attach a smaller file.</p>
-                            <button id="closeModal"><a href="#">OK</a></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            Sorry, the selected file exceeds message size
+            restrictions. ({{ limit }}kB)
         </script>
         <script type='text/x-tmpl-mustache' id='message-detail'>
           <div class='title-bar' id='header'>
@@ -146,7 +134,7 @@
 
         <script type="text/javascript" src="js/chromium.js"></script>
 
-        <script type="text/javascript" src="js/views/file_modal_view.js"></script>
+        <script type="text/javascript" src="js/views/toast_view.js"></script>
         <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
