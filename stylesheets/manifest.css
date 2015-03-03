@@ -492,3 +492,10 @@ input.new-message {
   box-shadow: 0 0 5px 0 black;
   border-radius: 20px;
   font-size: small; }
+
+.attachment-preview {
+  background: white;
+  width: 100%;
+  height: 100%; }
+  .attachment-preview img {
+    width: 100%; }

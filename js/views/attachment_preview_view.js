@@ -18,7 +18,7 @@ var Whisper = Whisper || {};
 (function () {
     'use strict';
     Whisper.AttachmentPreviewView = Backbone.View.extend({
-        className: 'imageAttachment',
+        className: 'attachment-preview',
         initialize: function() {
             this.template = $('#attachment-preview').html();
             Mustache.parse(this.template);

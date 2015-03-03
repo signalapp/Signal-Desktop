@@ -41,8 +41,8 @@ var Whisper = Whisper || {};
             this.$input.click();
         },
 
-        addThumb: function(e) {
-            this.thumb.src = e.target.result;
+        addThumb: function(src) {
+            this.thumb.src = src;
             this.$el.find('.paperclip').append(this.thumb.render().el);
         },
 
@@ -50,8 +50,9 @@ var Whisper = Whisper || {};
             this.clearForm();
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
+                var type = files[i].type.split('/')[0];
                 var limitKb = 1000000;
-                switch (files[i].type.split('/')[0]) {
+                switch (type) {
                     case 'image': limitKb = 420; break;
                     case 'audio': limitKb = 32000; break;
                     case 'video': limitKb = 8000; break;
@@ -63,9 +64,17 @@ var Whisper = Whisper || {};
                     this.deleteFiles();
                 }
                 else {
-                    var FR = new FileReader();
-                    FR.onload = this.addThumb.bind(this);
-                    FR.readAsDataURL(files[i]);
+                    switch (type) {
+                        case 'audio': this.addThumb('/images/audio.png'); break;
+                        case 'video': this.addThumb('/images/video.png'); break;
+                        case 'image':
+                            var FR = new FileReader();
+                            FR.onload = function(e) {
+                                this.addThumb(e.target.result);
+                            }.bind(this);
+                            FR.readAsDataURL(files[i]);
+                            break;
+                    }
                 }
             }
         },
