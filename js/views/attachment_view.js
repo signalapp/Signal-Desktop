@@ -50,6 +50,7 @@
   });
 
   Whisper.AttachmentView = Backbone.View.extend({
+    tagName: 'span',
     className: 'attachment',
     encodeAsDataUrl: function  () {
         return new Promise(function(resolve, reject) {
