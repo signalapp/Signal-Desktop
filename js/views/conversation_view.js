@@ -123,9 +123,6 @@
         destroyMessages: function(e) {
             if (confirm("Permanently delete this conversation?")) {
                 this.model.destroyMessages();
-                this.model.collection.remove(this.model);
-                this.remove();
-                this.model.trigger('destroy');
             }
             this.$el.find('.menu-list').hide();
         },
