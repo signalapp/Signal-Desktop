@@ -24,19 +24,7 @@
       }
   });
 
-  var AudioView = Backbone.View.extend({
-      tagName: 'audio',
-      initialize: function() {
-          this.$el.attr('controls', '');
-      },
-      render: function(dataUrl) {
-          this.$el.attr('src', dataUrl);
-          return this;
-      }
-  });
-
-  var VideoView = Backbone.View.extend({
-      tagName: 'video',
+  var MediaView = Backbone.View.extend({
       initialize: function() {
           this.$el.attr('controls', '');
       },
@@ -48,6 +36,9 @@
           return this;
       }
   });
+
+  var AudioView = MediaView.extend({ tagName: 'audio' });
+  var VideoView = MediaView.extend({ tagName: 'video' });
 
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'span',
