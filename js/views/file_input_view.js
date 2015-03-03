@@ -50,7 +50,6 @@ var Whisper = Whisper || {};
             this.clearForm();
             var files = this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
-                var FR = new FileReader();
                 var limitKb = 1000000;
                 switch (files[i].type.split('/')[0]) {
                     case 'image': limitKb = 420; break;
@@ -64,6 +63,7 @@ var Whisper = Whisper || {};
                     this.deleteFiles();
                 }
                 else {
+                    var FR = new FileReader();
                     FR.onload = this.addThumb.bind(this);
                     FR.readAsDataURL(files[i]);
                 }
