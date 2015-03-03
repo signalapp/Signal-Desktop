@@ -1,12 +1,17 @@
+[![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
 TextSecure for the Browser
 ==========================
-
-[![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
-
-:warning: *This project is still in the prototype phase. It contains many bugs
-and lacks many features.*
-
 Private text and chat for the browser.
+
+## :warning: Warning :warning:
+This is unfinished, unreleased software.
+
+**Are you a web developer interested in contributing to this project?** :+1:
+Please proceed to
+[CONTRIBUTING.md](https://github.com/WhisperSystems/TextSecure-Browser/blob/master/CONTRIBUTING.md)
+for setup instructions and contributor guidelines.
+
+**Not a developer?** :hand::construction_worker::no_entry: Please refrain from installing until our first release. Follow [the blog](https://whispersystems.org/blog) for updates.
 
 ## Interoperability
 
