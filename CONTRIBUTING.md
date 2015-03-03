@@ -1,4 +1,4 @@
-Contibutor Guidelines
+Contributor Guidelines
 =====================
 
 ## Installation and setup
@@ -34,8 +34,9 @@ browser console within the extension options page (or inspect
 information.
 
 ## Chrome profiles
-Don't have any friends to help you test the extension? Make a couple of chrome
-profiles. Each one will need its own google account and google voice number.
+
+Don't have any friends to help you test the extension? Make a couple of Chrome
+profiles. Each one will need its own Google account and Google Voice number.
 Each one will have to repeat the setup process documented above, including
 re-accepting the staging server cert under each profile. This is a tedious
 process, but once you are done you will be able to send messages back and forth
@@ -54,7 +55,7 @@ So you wanna make a pull request? Please observe the following guidelines.
  * Make sure the diff between our master and your branch contains only the
    minimal set of changes needed to implement your feature or bugfix. This will
    make it easier for the person reviewing your code to approve the changes.
-   Please do not submit a PR with commented out code or unfininshed features.
+   Please do not submit a PR with commented out code or unfinished features.
  * Don't have too many commits. If your branch contains spurious commits along
    the lines of "Oops, reverted this change" or "Just experiementing, will
    delete this later", please squash or rebase those changes out.
@@ -62,12 +63,12 @@ So you wanna make a pull request? Please observe the following guidelines.
    branch, it may make sense to break the changes up into logical atomic chunks
    to aid in the review process.
  * Provide a well written and nicely formatted commit message. See [this
-   link](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
+   link](http://chris.beams.io/posts/git-commit/)
    for some tips on formatting. As far as content, try to include in your
    summary
      1. What you changed
      2. Why this change was made (including git issue # if appropriate)
-     3. Any relevant technical details or motiviations for your implementation
+     3. Any relevant technical details or motivations for your implementation
         choices that may be helpful to someone reviewing or auditing the commit
         history in the future. When in doubt, err on the side of a longer
         commit message.
@@ -109,7 +110,7 @@ and `components/`. The latter should be limited to files we actually use.
 
 ## Tests
 Please write tests! Our testing framework is
-[mocha](http://visionmedia.github.io/mocha/) and our assertion library is
+[mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
 To run tests, open `test/index.html` in your browser. Note that
