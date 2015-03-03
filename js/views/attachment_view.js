@@ -18,6 +18,12 @@
 
   var ImageView = Backbone.View.extend({
       tagName: 'img',
+      events: {
+          'load': 'update'
+      },
+      update: function() {
+        this.$el.trigger('update');
+      },
       render: function(dataUrl) {
           this.$el.attr('src', dataUrl);
           return this;
@@ -27,6 +33,15 @@
   var MediaView = Backbone.View.extend({
       initialize: function() {
           this.$el.attr('controls', '');
+          this.$el.on('loadeddata', function() {
+              this.$el.trigger('update');
+          }.bind(this));
+      },
+      events: {
+          'loadeddata': 'update'
+      },
+      update: function() {
+        this.$el.trigger('update');
       },
       render: function(dataUrl, contentType) {
           var $el = $('<source>');
@@ -52,9 +67,9 @@
             default:
                 throw 'Unsupported attachment type';
         }
+        view.$el.appendTo(this.$el);
         var blob = new Blob([this.model.data], {type: this.model.contentType});
         view.render(window.URL.createObjectURL(blob), this.model.contentType);
-        view.$el.appendTo(this.$el);
         return this;
     }
   });
