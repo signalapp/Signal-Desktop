@@ -52,17 +52,6 @@
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'span',
     className: 'attachment',
-    encodeAsDataUrl: function  () {
-        return new Promise(function(resolve, reject) {
-            var blob = new Blob([this.model.data], { type: this.model.contentType });
-            var FR = new FileReader();
-            FR.onload = function(e) {
-                resolve(e.target.result);
-            };
-            FR.onerror = reject;
-            FR.readAsDataURL(blob);
-        }.bind(this));
-    },
     render: function() {
         var view;
         switch(this.model.contentType.split('/')[0]) {
@@ -72,11 +61,9 @@
             default:
                 throw 'Unsupported attachment type';
         }
-        this.encodeAsDataUrl().then(function(base64) {
-            view.render(base64, this.model.contentType);
-            view.$el.appendTo(this.$el);
-            this.$el.trigger('update');
-        }.bind(this));
+        var blob = new Blob([this.model.data], {type: this.model.contentType});
+        view.render(window.URL.createObjectURL(blob), this.model.contentType);
+        view.$el.appendTo(this.$el);
         return this;
     }
   });
