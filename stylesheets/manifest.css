@@ -417,6 +417,9 @@ input.new-message {
   .message-list .attachments audio,
   .message-list .attachments video {
     max-width: 100%; }
+  .message-detail .attachments video,
+  .message-list .attachments video {
+    background: black; }
   .message-detail .outgoing img.avatar,
   .message-list .outgoing img.avatar {
     display: none; }

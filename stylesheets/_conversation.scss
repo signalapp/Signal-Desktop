@@ -181,6 +181,10 @@
     img, audio, video {
       max-width: 100%;
     }
+
+    video {
+      background: black;
+    }
   }
 
   .outgoing img.avatar {
