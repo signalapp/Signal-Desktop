@@ -57,7 +57,7 @@
                 url: 'conversation.html',
                 type: 'panel',
                 focused: true,
-                width: 280,
+                width: 300,
                 height: 420
             }, function (windowInfo) {
                 windowMap.add({ windowId: windowInfo.id, modelId: modelId });

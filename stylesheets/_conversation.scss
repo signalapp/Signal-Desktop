@@ -107,7 +107,7 @@
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 54px - 2 * 12px);
+    max-width: calc(100% - 20px - 2 * 12px);
     padding: 9px 12px;
     border-radius: 4px;
     box-shadow: 0 3px 3px -4px black;
@@ -120,13 +120,13 @@
     }
 
     &::before {
-      top: (54px / 2) - 8px;
+      top: (44px / 2) - 8px;
       border-top: 8px solid transparent;
       border-bottom: 8px solid transparent;
     }
 
     &::after {
-      top: (54px / 2) - 6px;
+      top: (44px / 2) - 6px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
     }
@@ -192,10 +192,10 @@
   }
 
   img.avatar {
-    height: 44px;
-    width: 44px;
+    height: 36px;
+    width: 36px;
     background: $grey_l;
-    border-radius: (44px / 2);
+    border-radius: (36px / 2);
   }
 
   .timestamp {

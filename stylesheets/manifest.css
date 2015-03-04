@@ -359,7 +359,7 @@ input.new-message {
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 54px - 2 * 12px);
+    max-width: calc(100% - 20px - 2 * 12px);
     padding: 9px 12px;
     border-radius: 4px;
     box-shadow: 0 3px 3px -4px black; }
@@ -372,12 +372,12 @@ input.new-message {
       width: 0; }
     .message-detail .bubble::before,
     .message-list .bubble::before {
-      top: 19px;
+      top: 14px;
       border-top: 8px solid transparent;
       border-bottom: 8px solid transparent; }
     .message-detail .bubble::after,
     .message-list .bubble::after {
-      top: 21px;
+      top: 16px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent; }
   .message-detail .incoming .bubble,
@@ -425,10 +425,10 @@ input.new-message {
     display: none; }
   .message-detail img.avatar,
   .message-list img.avatar {
-    height: 44px;
-    width: 44px;
+    height: 36px;
+    width: 36px;
     background: #f3f3f3;
-    border-radius: 22px; }
+    border-radius: 18px; }
   .message-detail .timestamp,
   .message-list .timestamp {
     margin-top: 3px;
