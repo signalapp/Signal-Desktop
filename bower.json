@@ -18,7 +18,8 @@
     "momentjs": "~2.8.3",
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
-    "backbone.typeahead": "mojotech/backbone.typeahead"
+    "backbone.typeahead": "mojotech/backbone.typeahead",
+    "blueimp-load-image": "~1.13.0"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -88,6 +89,9 @@
     ],
     "backbone.typeahead": [
       "backbone.typeahead.js"
+    ],
+    "blueimp-load-image": [
+      "js/load-image.js"
     ]
   },
   "concat": {
@@ -104,7 +108,8 @@
       "libphonenumber-api",
       "momentjs",
       "intl-tel-input",
-      "backbone.typeahead"
+      "backbone.typeahead",
+      "blueimp-load-image"
     ],
     "libtextsecure": [
       "jquery",
