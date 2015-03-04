@@ -19,7 +19,8 @@
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
     "backbone.typeahead": "mojotech/backbone.typeahead",
-    "blueimp-load-image": "~1.13.0"
+    "blueimp-load-image": "~1.13.0",
+    "blueimp-canvas-to-blob": "~2.1.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -92,6 +93,9 @@
     ],
     "blueimp-load-image": [
       "js/load-image.js"
+    ],
+    "blueimp-canvas-to-blob": [
+      "js/canvas-to-blob.js"
     ]
   },
   "concat": {
@@ -109,7 +113,8 @@
       "momentjs",
       "intl-tel-input",
       "backbone.typeahead",
-      "blueimp-load-image"
+      "blueimp-load-image",
+      "blueimp-canvas-to-blob"
     ],
     "libtextsecure": [
       "jquery",
