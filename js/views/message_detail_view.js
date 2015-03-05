@@ -47,12 +47,20 @@
                 this.$el.show();
             });
         },
+        contacts: function() {
+            if (this.model.isIncoming()) {
+                var number = this.model.get('source');
+                return [this.conversation.contactCollection.get(number)];
+            } else {
+                return this.conversation.contactCollection.models;
+            }
+        },
         render: function() {
             this.$el.html(Mustache.render(this.template, {
                 sent_at: moment(this.model.get('sent_at')).toString(),
                 received_at: moment(this.model.get('received_at')).toString(),
                 tofrom: this.model.isIncoming() ? 'From' : 'To',
-                contacts: this.conversation.contactCollection.map(function(contact) {
+                contacts: this.contacts().map(function(contact) {
                     return {
                         name     : contact.getTitle(),
                         avatar   : contact.get('avatar'),
