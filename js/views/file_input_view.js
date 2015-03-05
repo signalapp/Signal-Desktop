@@ -53,36 +53,45 @@ var Whisper = Whisper || {};
             }
 
             return new Promise(function(resolve, reject) {
-                // components/blueimp-load-image
-                window.loadImage(file, resolve, {
-                    maxWidth: 1920,
-                    maxHeight: 1920,
-                    canvas: true,
-                    contain: true
-                });
-            }).then(this.autoCompress.bind(this));
-        },
+                var url = URL.createObjectURL(file);
+                var img = document.createElement('img');
+                img.onerror = reject;
+                img.onload = function () {
+                    URL.revokeObjectURL(url);
 
-        autoCompress: function(canvas, numRetries, quality) {
-            if (numRetries === undefined) { numRetries = 3; }
-            if (quality === undefined) { quality = 0.95; }
+                    var maxSize = 420 * 1024;
+                    var maxHeight = 1920;
+                    var maxWidth = 1920;
+                    if (img.width <= maxWidth && img.height <= maxHeight &&
+                        file.size <= maxSize) {
+                        resolve(file);
+                        return;
+                    }
 
-            var autoCompress = this.autoCompress.bind(this);
+                    // loadImage.scale -> components/blueimp-load-image
+                    var canvas = loadImage.scale(img, {
+                        canvas: true, maxWidth: 1920, maxHeight: 1920
+                    });
 
-            return new Promise(function(resolve, reject) {
-                canvas.toBlob(function(blob) {
-                    var kb = blob.size/1024;
-                    if (kb < 420 || numRetries === 0) {
-                        resolve(blob);
-                    } else {
-                        quality = quality * 420 / kb;
+                    var quality = 0.95;
+                    var i = 4;
+                    var blob;
+                    do {
+                        i = i - 1;
+                        // dataURLtoBlob -> components/blueimp-canvas-to-blob
+                        blob = dataURLtoBlob(
+                            canvas.toDataURL('image/jpeg', quality)
+                        );
+                        quality = quality * maxSize / blob.size;
                         if (quality < 50) {
                             quality = 50;
-                            numRetries = 1;
+                            i = 1;
                         }
-                        resolve(autoCompress(canvas, numRetries - 1, quality));
-                    }
-                }, 'image/jpeg', quality);
+                    } while (i > 0 && blob.size > maxSize);
+
+                    resolve(blob);
+                };
+                img.src = url;
             });
         },
 
