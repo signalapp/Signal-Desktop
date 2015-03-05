@@ -14,52 +14,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var Whisper = Whisper || {};
 
 (function () {
-  'use strict';
+    'use strict';
+    var Whisper = Whisper || {};
 
-  // list of conversations, showing user/group and last message sent
-  Whisper.ConversationListItemView = Whisper.View.extend({
-    tagName: 'div',
-    className: 'contact',
+    // list of conversations, showing user/group and last message sent
+    Whisper.ConversationListItemView = Whisper.View.extend({
+        tagName: 'div',
+        className: 'contact',
+        template: $('#contact').html(),
+        events: {
+            'click': 'select'
+        },
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render); // auto update
+            this.listenTo(this.model, 'destroy', this.remove); // auto update
+        },
 
-    events: {
-      'click': 'select'
-    },
-    template: $('#contact').html(),
-    initialize: function() {
-      this.listenTo(this.model, 'change', this.render); // auto update
-      this.listenTo(this.model, 'destroy', this.remove); // auto update
-    },
+        select: function(e) {
+            this.$el.addClass('selected');
+            this.$el.trigger('select', {modelId: this.model.id});
+        },
 
-    select: function(e) {
-      this.$el.addClass('selected');
-      this.$el.trigger('select', {modelId: this.model.id});
-    },
+        render: function() {
+            this.$el.html(
+                Mustache.render(this.template, {
+                contact_name: this.model.getTitle(),
+                last_message: this.model.get('lastMessage'),
+                last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
+                number: this.model.getNumber()
+                })
+            );
+            if (this.model.get('avatar')) {
+                this.$el.find('.avatar').append(
+                    new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
+                );
+            }
+            else {
+                this.$el.find('.avatar').append(
+                    $('<img>').attr('src', '/images/default.png')
+                );
+            }
 
-    render: function() {
-      this.$el.html(
-        Mustache.render(this.template, {
-          contact_name: this.model.getTitle(),
-          last_message: this.model.get('lastMessage'),
-          last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
-          number: this.model.getNumber()
-        })
-      );
-      if (this.model.get('avatar')) {
-        this.$el.find('.avatar').append(
-          new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
-        );
-      }
-      else {
-        this.$el.find('.avatar').append(
-            $('<img>').attr('src', '/images/default.png')
-        );
-      }
+            return this;
+        }
 
-      return this;
-    }
-
-  });
+    });
 })();
