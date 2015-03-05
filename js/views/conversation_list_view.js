@@ -13,23 +13,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var Whisper = Whisper || {};
-
 (function () {
-  'use strict';
+    'use strict';
+    window.Whisper = window.Whisper || {};
 
-  Whisper.ConversationListView = Whisper.ListView.extend({
-    tagName: 'div',
-    itemView: Whisper.ConversationListItemView,
-
-    events: {
-      'click .contact': 'select',
-    },
-
-    select: function(e) {
-      var target = $(e.target).closest('.contact');
-      target.siblings().removeClass('selected');
-      return false;
-    },
-  });
+    Whisper.ConversationListView = Whisper.ListView.extend({
+        tagName: 'div',
+        itemView: Whisper.ConversationListItemView,
+        events: {
+            'click .contact': 'select',
+        },
+        select: function(e) {
+            var target = $(e.target).closest('.contact');
+            target.siblings().removeClass('selected');
+            return false;
+        }
+    });
 })();

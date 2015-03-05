@@ -13,10 +13,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var Whisper = Whisper || {};
-
 (function () {
     'use strict';
+    window.Whisper = window.Whisper || {};
+
     Whisper.PhoneInputView = Whisper.View.extend({
         tagName: 'div',
         className: 'phone-input',

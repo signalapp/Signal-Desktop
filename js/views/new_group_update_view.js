@@ -15,7 +15,6 @@
  */
 (function () {
     'use strict';
-
     window.Whisper = window.Whisper || {};
 
     Whisper.NewGroupUpdateView = Whisper.View.extend({

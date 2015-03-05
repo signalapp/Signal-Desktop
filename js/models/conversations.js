@@ -15,7 +15,6 @@
  */
 (function () {
   'use strict';
-
    window.Whisper = window.Whisper || {};
 
    // TODO: Factor out private and group subclasses of Conversation
