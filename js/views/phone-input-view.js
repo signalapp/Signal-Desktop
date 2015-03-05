@@ -21,10 +21,6 @@ var Whisper = Whisper || {};
         tagName: 'div',
         className: 'phone-input',
         template: $('#phone-number').html(),
-        initialize: function() {
-            this.render();
-        },
-
         render: function() {
             this.$el.html($(Mustache.render(this.template)));
             this.$el.find('input.number').intlTelInput();
