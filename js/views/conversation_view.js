@@ -17,18 +17,18 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    Whisper.ConversationView = Backbone.View.extend({
+    Whisper.ConversationView = Whisper.View.extend({
         className: function() {
             return [ 'conversation', this.model.get('type') ].join(' ');
         },
+        template: $('#conversation').html(),
+        attributes: function() {
+            return { group: this.model.get('type') === 'group' };
+        },
         initialize: function() {
-            this.listenTo(this.model, 'destroy', this.stopListening); // auto update
-            this.template = $('#conversation').html();
-            Mustache.parse(this.template);
+            this.listenTo(this.model, 'destroy', this.stopListening);
 
-            this.$el.html(Mustache.render(this.template,
-                { group: this.model.get('type') === 'group' }
-            ));
+            this.render();
 
             this.fileInput = new Whisper.FileInputView({
                 el: this.$el.find('.attachments')

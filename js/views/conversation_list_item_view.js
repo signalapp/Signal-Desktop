@@ -20,17 +20,15 @@ var Whisper = Whisper || {};
   'use strict';
 
   // list of conversations, showing user/group and last message sent
-  Whisper.ConversationListItemView = Backbone.View.extend({
+  Whisper.ConversationListItemView = Whisper.View.extend({
     tagName: 'div',
     className: 'contact',
 
     events: {
       'click': 'select'
     },
+    template: $('#contact').html(),
     initialize: function() {
-      this.template = $('#contact').html();
-      Mustache.parse(this.template);
-
       this.listenTo(this.model, 'change', this.render); // auto update
       this.listenTo(this.model, 'destroy', this.remove); // auto update
     },

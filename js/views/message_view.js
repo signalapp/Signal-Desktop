@@ -33,12 +33,9 @@
     });
 
 
-    var ContentMessageView = Backbone.View.extend({
+    var ContentMessageView = Whisper.View.extend({
         tagName: 'div',
-        initialize: function() {
-            this.template = $('#message').html();
-            Mustache.parse(this.template);
-        },
+        template: $('#message').html(),
         className: function() {
             if (this.model.get('delivered')) { return 'delivered'; }
         },

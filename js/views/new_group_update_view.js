@@ -18,16 +18,13 @@
 
     window.Whisper = window.Whisper || {};
 
-    Whisper.NewGroupUpdateView = Backbone.View.extend({
+    Whisper.NewGroupUpdateView = Whisper.View.extend({
         tagName:   "div",
         className: "new-group-update-form",
+        template: $('#new-group-update-form').html(),
         initialize: function(options) {
             if (this.$el.html().length === 0) {
-                this.template = $('#new-group-update-form').html();
-                Mustache.parse(this.template);
-                this.$el.html(
-                    Mustache.render(this.template, this.model.attributes)
-                );
+                this.render();
             }
             this.avatarInput = new Whisper.FileInputView({
                 el: this.$el.find('.group-avatar')

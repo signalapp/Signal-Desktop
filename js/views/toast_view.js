@@ -17,10 +17,9 @@ var Whisper = Whisper || {};
 
 (function () {
     'use strict';
-    Whisper.ToastView = Backbone.View.extend({
+    Whisper.ToastView = Whisper.View.extend({
         className: 'toast',
         initialize: function() {
-            Mustache.parse(this.template);
             this.$el.hide();
         },
 

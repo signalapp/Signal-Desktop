@@ -18,11 +18,10 @@
 
     window.Whisper = window.Whisper || {};
 
-    Whisper.MessageDetailView = Backbone.View.extend({
+    Whisper.MessageDetailView = Whisper.View.extend({
         className: 'message-detail',
+        template: $('#message-detail').html(),
         initialize: function(options) {
-            this.template = $('#message-detail').html();
-            Mustache.parse(this.template);
             this.view = new Whisper.MessageView({model: this.model});
             this.conversation = options.conversation;
         },

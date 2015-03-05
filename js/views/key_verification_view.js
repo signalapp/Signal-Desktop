@@ -18,12 +18,9 @@
 
     window.Whisper = window.Whisper || {};
 
-    Whisper.KeyVerificationView = Backbone.View.extend({
+    Whisper.KeyVerificationView = Whisper.View.extend({
         className: 'key-verification',
-        initialize: function(options) {
-            this.template = $('#key-verification').html();
-            Mustache.parse(this.template);
-        },
+        template: $('#key-verification').html(),
         events: {
             'click .back': 'goBack'
         },
@@ -37,12 +34,11 @@
 
             });
         },
-        render: function() {
-            this.$el.html(Mustache.render(this.template, {
+        attributes: function() {
+            return {
                 your_key: this.splitKey(this.model.your_key),
                 their_key: this.splitKey(this.model.their_key)
-            }));
-            return this;
+            };
         }
     });
 })();

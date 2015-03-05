@@ -13,15 +13,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var Whisper = Whisper || {};
-
 (function () {
     'use strict';
-    Whisper.AttachmentPreviewView = Whisper.View.extend({
-        className: 'attachment-preview',
-        template: $('#attachment-preview').html(),
+    window.Whisper = window.Whisper || {};
+
+    Whisper.View = Backbone.View.extend({
+        constructor: function() {
+            Backbone.View.apply(this, arguments);
+            Mustache.parse(_.result(this, 'template'));
+        },
         attributes: function() {
-            return {source: this.src};
+            return _.result(this.model, 'attributes', {});
+        },
+        render: function() {
+            var attrs = _.result(this, 'attributes', {});
+            var template = _.result(this, 'template', '');
+            this.$el.html(Mustache.render(template, attrs));
+            return this;
         }
     });
 })();

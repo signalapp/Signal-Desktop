@@ -30,16 +30,14 @@ var Whisper = Whisper || {};
       model: Whisper.Conversation
   });
 
-  Whisper.ContactPillView = Backbone.View.extend({
+  Whisper.ContactPillView = Whisper.View.extend({
     tagName: 'span',
     className: 'recipient',
     events: {
       'click .remove': 'removeModel'
     },
+    template: $('#contact_pill').html(),
     initialize: function() {
-      this.template = $('#contact_pill').html();
-      Mustache.parse(this.template);
-
       var error = this.model.validate(this.model.attributes);
       if (error) {
         this.$el.addClass('error');
@@ -49,11 +47,8 @@ var Whisper = Whisper || {};
       this.$el.trigger('remove', {modelId: this.model.id});
       this.remove();
     },
-    render: function() {
-      this.$el.html(
-        Mustache.render(this.template, { name: this.model.getTitle() })
-      );
-      return this;
+    attributes: function() {
+        return { name: this.model.getTitle() };
     }
   });
 
@@ -61,12 +56,11 @@ var Whisper = Whisper || {};
     itemView: Whisper.ContactPillView
   });
 
-  Whisper.NewConversationView = Backbone.View.extend({
+  Whisper.NewConversationView = Whisper.View.extend({
     className: 'new-conversation',
+    template: $('#new-conversation').html(),
     initialize: function() {
-        this.template = $('#new-conversation').html();
-        Mustache.parse(this.template);
-        this.$el.html($(Mustache.render(this.template)));
+        this.render();
         this.$group_update = this.$el.find('.new-group-update-form');
         this.$buttons = this.$el.find('.buttons');
         this.$input = this.$el.find('input.new-message');
