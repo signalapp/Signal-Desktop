@@ -47,7 +47,7 @@ var Whisper = Whisper || {};
         },
 
         autoScale: function(file) {
-            if (file.type.split('/')[0] !== 'image' || file.size/1024 < 420) {
+            if (file.type.split('/')[0] !== 'image') {
                 // nothing to do
                 return Promise.resolve(file);
             }
