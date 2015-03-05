@@ -40,31 +40,30 @@
     ReplayableError.prototype.constructor = ReplayableError;
 
     ReplayableError.prototype.replay = function() {
-        var args = Array.prototype.slice.call(arguments);
-        args.shift();
-        args = this.args.concat(args);
-
-        registeredFunctions[this.functionCode].apply(window, args);
+        return registeredFunctions[this.functionCode].apply(window, this.args);
     };
 
     function IncomingIdentityKeyError(number, message) {
         ReplayableError.call(this, {
             functionCode : Type.INIT_SESSION,
             args         : [number, message]
+
         });
         this.name = 'IncomingIdentityKeyError';
         this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.";
+        this.number = number.split('.')[0];
     }
     IncomingIdentityKeyError.prototype = new ReplayableError();
     IncomingIdentityKeyError.prototype.constructor = IncomingIdentityKeyError;
 
-    function OutgoingIdentityKeyError(number, message) {
+    function OutgoingIdentityKeyError(number, message, timestamp) {
         ReplayableError.call(this, {
             functionCode : Type.SEND_MESSAGE,
-            args         : [number, message]
+            args         : [number, message, timestamp]
         });
         this.name = 'OutgoingIdentityKeyError';
         this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled TextSecure.";
+        this.number = number.split('.')[0];
     }
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
@@ -140,11 +139,24 @@
 
         if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION &&
-				finalMessage.sync !== null)
+                finalMessage.sync !== null)
             res[1]();
 
         return finalMessage;
-    }
+    };
+
+    var handlePreKeyWhisperMessage = function(from, message) {
+        try {
+            return axolotl.protocol.handlePreKeyWhisperMessage(from, message);
+        } catch(e) {
+            if (e.message === 'Unknown identity key') {
+                // create an error that the UI will pick up and ask the
+                // user if they want to re-negotiate
+                throw new textsecure.IncomingIdentityKeyError(from, message);
+            }
+            throw e;
+        }
+    };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
@@ -159,7 +171,7 @@
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
                 return Promise.resolve(null);
             default:
@@ -168,21 +180,11 @@
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
-        // Wipe identity key!
-        //TODO: Encapsuate with the rest of textsecure.storage.devices
-        textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
+    var tryMessageAgain = function(from, encodedMessage) {
         //TODO: Probably breaks with a devicecontrol message
-        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
+        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+    textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
 
 ;(function(){
@@ -14942,8 +14944,7 @@ window.axolotl.protocol = function() {
                 if (open_session !== undefined)
                     closeSession(open_session); // To be returned and saved later
             } else {
-                // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-                throw new textsecure.IncomingIdentityKeyError(encodedNumber, getString(message.encode()));
+                throw new Error('Unknown identity key');
             }
         }
         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
@@ -15624,6 +15625,13 @@ window.axolotl.sessions = {
                 textsecure.storage.putEncrypted("devices" + number, { devices: [], identityKey: identityKey});
             else if (getString(map.identityKey) !== getString(identityKey))
                 throw new Error("Attempted to overwrite a different identity key");
+        },
+
+        removeIdentityKeyForNumber: function(number) {
+            var map = textsecure.storage.getEncrypted("devices" + number);
+            if (map === undefined)
+                throw new Error("Tried to remove identity for unknown number");
+            textsecure.storage.removeEncrypted("devices" + number);
         },
 
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
@@ -16962,20 +16970,14 @@ window.textsecure.messaging = function() {
         }
     }
 
-    var tryMessageAgain = function(number, encodedMessage, message_id) {
-        var message = new Whisper.MessageCollection().add({id: message_id});
-        message.fetch().then(function() {
-            //TODO: Encapsuate with the rest of textsecure.storage.devices
-            textsecure.storage.removeEncrypted("devices" + number);
-            var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage, 'binary');
-            sendMessageProto(message.get('sent_at'), [number], proto, function(res) {
+    var tryMessageAgain = function(number, encodedMessage, timestamp) {
+        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage);
+        return new Promise(function(resolve, reject) {
+            sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.failure.length > 0)
-                    message.set('errors', res.failure);
+                    reject(res.failure);
                 else
-                    message.set('errors', []);
-                message.save().then(function(){
-                    extension.trigger('message', message); // notify frontend listeners
-                });
+                    resolve();
             });
         });
     };
@@ -17036,7 +17038,7 @@ window.textsecure.messaging = function() {
                             if (error.message !== "Identity key changed")
                                 registerError(number, "Failed to reload device keys", error);
                             else {
-                                error = new textsecure.OutgoingIdentityKeyError(number, getString(message.encode()));
+                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
                                 registerError(number, "Identity key changed", error);
                             }
                         });

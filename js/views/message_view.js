@@ -18,21 +18,6 @@
 
     window.Whisper = window.Whisper || {};
 
-    var ErrorView = Backbone.View.extend({
-        className: 'error',
-        events: {
-            'click' : 'replay'
-        },
-        replay: function() {
-            new window.textsecure.ReplayableError(this.model).replay();
-        },
-        render: function() {
-            this.$el.text(this.model.message);
-            return this;
-        }
-    });
-
-
     var ContentMessageView = Backbone.View.extend({
         tagName: 'div',
         initialize: function() {
@@ -63,10 +48,13 @@
 
             var errors = this.model.get('errors');
             if (errors && errors.length) {
-                this.$el.find('.bubble').append(
+                this.$el.find('.bubble').prepend(
                     errors.map(function(error) {
-                        return new ErrorView({model: error}).render().el;
-                    })
+                        return new Whisper.MessageErrorView({
+                            model: error,
+                            message: this.model
+                        }).render().el;
+                    }.bind(this))
                 );
             }
         }

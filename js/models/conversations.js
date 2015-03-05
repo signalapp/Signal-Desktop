@@ -93,7 +93,6 @@
             var keyErrors = [];
             _.each(errors, function(e) {
                 if (e.error.name === 'OutgoingIdentityKeyError') {
-                    e.error.args.push(message.id);
                     keyErrors.push(e.error);
                 }
             });
@@ -181,8 +180,28 @@
             return '';
         }
     },
+
     isPrivate: function() {
         return this.get('type') === 'private';
+    },
+
+    resolveConflicts: function(number) {
+        if (this.isPrivate()) {
+            number = this.id;
+        } else if (!_.find(this.get('members'), number)) {
+            throw 'Tried to resolve conflicts for a unknown group member';
+        }
+
+        if (!this.messageCollection.hasKeyConflicts()) {
+            throw 'No conflicts to resolve';
+        }
+
+        textsecure.storage.devices.removeIdentityKeyForNumber(number);
+        this.messageCollection.each(function(message) {
+            if (message.hasKeyConflict(number)) {
+                message.resolveConflict(number);
+            }
+        });
     }
   });
 

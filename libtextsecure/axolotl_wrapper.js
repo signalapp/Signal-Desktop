@@ -63,11 +63,24 @@
 
         if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION &&
-				finalMessage.sync !== null)
+                finalMessage.sync !== null)
             res[1]();
 
         return finalMessage;
-    }
+    };
+
+    var handlePreKeyWhisperMessage = function(from, message) {
+        try {
+            return axolotl.protocol.handlePreKeyWhisperMessage(from, message);
+        } catch(e) {
+            if (e.message === 'Unknown identity key') {
+                // create an error that the UI will pick up and ask the
+                // user if they want to re-negotiate
+                throw new textsecure.IncomingIdentityKeyError(from, message);
+            }
+            throw e;
+        }
+    };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
@@ -82,7 +95,7 @@
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotl.protocol.handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
                 return Promise.resolve(null);
             default:
@@ -91,19 +104,9 @@
         }
     };
 
-    var wipeIdentityAndTryMessageAgain = function(from, encodedMessage, message_id) {
-        // Wipe identity key!
-        //TODO: Encapsuate with the rest of textsecure.storage.devices
-        textsecure.storage.removeEncrypted("devices" + from.split('.')[0]);
+    var tryMessageAgain = function(from, encodedMessage) {
         //TODO: Probably breaks with a devicecontrol message
-        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents).then(
-            function(pushMessageContent) {
-                extension.trigger('message:decrypted', {
-                    message_id : message_id,
-                    data       : pushMessageContent
-                });
-            }
-        );
+        return axolotl.protocol.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
-    textsecure.replay.registerFunction(wipeIdentityAndTryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+    textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 })();
