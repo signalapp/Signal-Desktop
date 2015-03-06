@@ -35,8 +35,15 @@
     var ContentMessageView = Whisper.View.extend({
         tagName: 'div',
         template: $('#message').html(),
+        initialize: function() {
+            this.listenTo(this.model, 'change:body', this.render);
+            this.listenTo(this.model, 'change:delivered', this.renderDelivered);
+        },
         className: function() {
             if (this.model.get('delivered')) { return 'delivered'; }
+        },
+        renderDelivered: function() {
+            if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
         },
         render: function() {
             this.$el.html(
@@ -47,7 +54,7 @@
                 })
             );
 
-            if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
+            this.renderDelivered();
 
             this.$el.find('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
@@ -85,7 +92,6 @@
             }
             this.$el.append(this.view.el);
 
-            this.listenTo(this.model, 'change',  this.render); // auto update
             this.listenTo(this.model, 'destroy', this.remove); // auto update
         },
         events: {
