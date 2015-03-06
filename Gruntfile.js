@@ -202,9 +202,16 @@ module.exports = function(grunt) {
     'saucelabs-mocha': {
       all: {
         options: {
-          urls: ['http://127.0.0.1:9999/test/index.html', 'http://127.0.0.1:9999/libtextsecure/test/index.html', 'http://127.0.0.1:9999/libaxolotl/test/index.html'],
+          urls: [
+            'http://127.0.0.1:9999/test/index.html',
+            'http://127.0.0.1:9999/libtextsecure/test/index.html',
+            'http://127.0.0.1:9999/libaxolotl/test/index.html'
+          ],
           build: process.env.TRAVIS_JOB_ID,
-          browsers: [{ browserName: 'chrome', version: '38' }, { browserName: 'firefox', version: '34' }],
+          browsers: [
+            { browserName: 'chrome', version: '40' },
+            { browserName: 'firefox', version: '34' }
+          ],
           testname: 'TextSecure-Browser Tests'
         }
       }
