@@ -79,7 +79,10 @@
         },
 
         messageDetail: function(e, data) {
-            var view = new Whisper.MessageDetailView({ model: data.message, conversation: this.model });
+            var view = new Whisper.MessageDetailView({
+                model: data.message,
+                conversation: this.model
+            });
             view.$el.insertAfter(this.$el);
             this.$el.hide();
             view.render();
