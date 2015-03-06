@@ -22,9 +22,7 @@
         className: "new-group-update-form",
         template: $('#new-group-update-form').html(),
         initialize: function(options) {
-            if (this.$el.html().length === 0) {
-                this.render();
-            }
+            this.render();
             this.avatarInput = new Whisper.FileInputView({
                 el: this.$el.find('.group-avatar')
             });
