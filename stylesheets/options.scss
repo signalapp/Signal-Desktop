@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -13,74 +12,77 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-@font-face {
-  font-family: 'Roboto-Light';
-  src: url("/fonts/Roboto-Light.ttf") format("truetype"); }
-@font-face {
-  font-family: 'Roboto';
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
-@font-face {
-  font-family: 'Roboto';
-  src: url("/fonts/Roboto-Italic.ttf") format("truetype");
-  font-style: italic; }
-@font-face {
-  font-family: 'Roboto';
-  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
-  font-weight: bold; }
+
+@import 'variables';
+
 body {
-  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif; }
+  font-family: $roboto;
+}
 
 header {
-  background: #2a92e7;
+  background: $blue;
   color: white;
   padding-bottom: 2em;
-  margin-bottom: 2em; }
+  margin-bottom: 2em;
+}
 
 .container {
-  min-width: 650px; }
+  min-width: 650px;
+}
 
 h1 {
   font-size: 30pt;
   font-weight: normal;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+}
 
 .tagline {
-  font-style: italic; }
+  font-style: italic;
+}
 
 #textsecure-icon {
   float: left;
   margin-top: 20px;
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 #step1, #step2 {
-  color: #2a92e7;
+  color: $blue;
   font-weight: bold;
   font-size: small;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+}
 
 h3.step {
   margin-top: 0;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .cta {
   text-align: center;
-  border: 2px solid #f3f3f3;
+  border: 2px solid $grey_l;
   border-radius: 10px;
   padding: 1em 0;
-  min-height: 293px; }
+  min-height: 293px;
+}
 
 .help {
-  border-top: 2px solid #f3f3f3;
-  padding: 1.5em 0.1em; }
+  border-top: 2px solid $grey_l;
+  padding: 1.5em 0.1em;
+}
 
 .install {
   display: inline-block;
-  margin-top: 90px; }
+  margin-top: 90px;
+}
 
 #qr {
-  display: inline-block; }
-  #qr canvas {
-    display: none; }
+  display: inline-block;
+
+  canvas {
+    display: none;
+  }
+}
 
 #verifyCode,
 #code,
@@ -88,28 +90,30 @@ h3.step {
   box-sizing: border-box;
   width: 100%;
   display: block;
-  margin-bottom: 0.5em; }
+  margin-bottom: 0.5em;
+}
 
 #request-voice,
 #request-sms {
-  box-sizing: border-box; }
-
+  box-sizing: border-box;
+}
 #request-sms {
   width: 57%;
-  float: right; }
-
+  float: right;
+}
 #request-voice {
   width: 40%;
-  float: left; }
+  float: left;
+}
 
 .number-container {
   position: relative;
-  margin-bottom: 0.5em; }
-
+  margin-bottom: 0.5em;
+}
 .number-container .intl-tel-input,
 .number-container .number {
-  width: 100%; }
-
+  width: 100%;
+}
 .number-container::after {
   visibility: hidden;
   content: ' ';
@@ -123,37 +127,38 @@ h3.step {
   top: 0;
   left: 100%;
   margin: 3px 8px;
-  text-align: center; }
-
+  text-align: center;
+}
 .number-container.valid::after {
   visibility: visible;
   content: '✓';
   background-color: #0f9d58;
-  color: #ffffff; }
-
+  color: #ffffff;
+}
 .number-container.invalid::after {
   visibility: visible;
   content: '!';
   background-color: #f44336;
-  color: #ffffff; }
+  color: #ffffff;
+}
 
 #error {
   color: white;
   font-weight: bold;
   padding: 0.5em;
-  text-align: center; }
-
-#error {
-  background-color: #f44336; }
-
+  text-align: center;
+}
+#error   { background-color: #f44336; }
 #error:before {
   content: '\26a0';
-  padding-right: 0.5em; }
-
+  padding-right: 0.5em;
+}
 .narrow {
   box-sizing: border-box;
   width: 275px;
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 ul.country-list {
-  min-width: 197px !important; }
+  min-width: 197px !important;
+}

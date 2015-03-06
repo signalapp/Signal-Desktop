@@ -127,7 +127,8 @@ module.exports = function(grunt) {
     sass: {
         stylesheets: {
             files: {
-                'stylesheets/manifest.css': 'stylesheets/manifest.scss'
+                'stylesheets/manifest.css': 'stylesheets/manifest.scss',
+                'stylesheets/options.css': 'stylesheets/options.scss'
             }
         }
     },

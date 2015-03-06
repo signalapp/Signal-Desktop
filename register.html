@@ -1,0 +1,79 @@
+<!--This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Re-register TextSecure</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="stylesheets/options.css">
+  <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="components/intl-tel-input/build/css/intlTelInput.css">
+</head>
+<body>
+  <header>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-xs-2 col-md-1'>
+          <img id='textsecure-icon' src='icon.png'/>
+        </div>
+        <div class='col-xs-10 col-md-11'>
+          <h1>Create your Signal Account</h1>
+          <h4 class='tagline'>Private messaging from your web browser.</h4>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class='container'>
+    <div class='col-xs-offset-1 col-md-6'>
+      <div class='narrow'>
+        <div id="phone-number-input">
+          <div class="phone-input-form">
+              <div id="number-container" class="number-container">
+                <input type="tel" class="number" placeholder="Phone Number" />
+              </div>
+          </div>
+        </div>
+        <div class='clearfix'>
+          <button id="request-sms" class="btn btn-info">Send SMS</button>
+          <button id="request-voice" class="btn btn-info" tabindex=-1>Call</button>
+        </div>
+        <form id='form'>
+          <h2></h2>
+          <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+          <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
+          <div id='error' class='collapse'></div>
+        </form>
+        <div id=status></div>
+      </div>
+    </div>
+
+  </div>
+  <script type="text/x-tmpl-mustache" id="phone-number">
+  </script>
+  <script type="text/javascript" src="js/components.js"></script>
+
+  <script type="text/javascript" src="js/libtextsecure.js"></script>
+
+  <script type="text/javascript" src="js/database.js"></script>
+  <script type="text/javascript" src="js/libphonenumber-util.js"></script>
+  <script type="text/javascript" src="js/models/messages.js"></script>
+  <script type="text/javascript" src="js/models/conversations.js"></script>
+
+  <script type="text/javascript" src="js/chromium.js"></script>
+  <script type="text/javascript" src="js/views/whisper_view.js"></script>
+  <script type="text/javascript" src="js/views/phone-input-view.js"></script>
+  <script type="text/javascript" src="js/register.js"></script>
+</body>
+</html>
