@@ -26,12 +26,15 @@ describe('MessageView', function() {
   it('should have a nice timestamp', function() {
     var view = new Whisper.MessageView({model: message});
     message.set({'received_at': new Date().getTime() - 5000});
+    view.render();
     assert.match(view.$el.html(), /seconds ago/);
 
     message.set({'received_at': new Date().getTime() - 60000});
+    view.render();
     assert.match(view.$el.html(), /minute ago/);
 
     message.set({'received_at': new Date().getTime() - 3600000});
+    view.render();
     assert.match(view.$el.html(), /hour ago/);
   });
 
