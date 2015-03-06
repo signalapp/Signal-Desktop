@@ -370,12 +370,12 @@ input.new-message {
       width: 0; }
     .message-detail .bubble::before,
     .message-list .bubble::before {
-      top: 14px;
+      top: 9px;
       border-top: 8px solid transparent;
       border-bottom: 8px solid transparent; }
     .message-detail .bubble::after,
     .message-list .bubble::after {
-      top: 16px;
+      top: 11px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent; }
   .message-detail .incoming .bubble,
