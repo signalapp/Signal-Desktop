@@ -52,7 +52,10 @@
             <div class="bubble">
                 <p class="content">{{ message }}</p>
                 <div class='attachments'></div>
-                <p class="timestamp">{{ timestamp }}</p>
+                <div class='meta'>
+                  <span class='timestamp'>{{ timestamp }}</span>
+                  <span class='checkmark hide'>✓</span>
+                </div>
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='new-group-update-form'>

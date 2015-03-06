@@ -61,9 +61,8 @@
   font-size: smaller;
 }
 
-.entry .delivered .timestamp::after {
-    margin-left: 4px;
-    content: "✓";
+.entry .delivered .checkmark {
+    display: inline;
 }
 
 
@@ -160,7 +159,7 @@
       color: white;
       background: $blue;
 
-      .timestamp {
+      .meta {
         color: $blue_l;
       }
 
@@ -175,7 +174,6 @@
       }
     }
   }
-
 
   .attachments {
     img, audio, video {
@@ -198,7 +196,7 @@
     border-radius: (36px / 2);
   }
 
-  .timestamp {
+  .meta {
     margin-top: 3px;
     float: right;
   }
