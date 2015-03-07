@@ -33,7 +33,7 @@
 
             });
         },
-        attributes: function() {
+        render_attributes: function() {
             return {
                 your_key: this.splitKey(this.model.your_key),
                 their_key: this.splitKey(this.model.their_key)

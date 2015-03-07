@@ -1,8 +1,8 @@
 describe('Whisper.View', function() {
-  it('renders a template with attributes', function() {
+  it('renders a template with render_attributes', function() {
     var viewClass = Whisper.View.extend({
       template: '<div>{{ variable }}</div>',
-      attributes: {
+      render_attributes: {
         variable: 'value'
       }
     });
@@ -11,7 +11,7 @@ describe('Whisper.View', function() {
     view.render();
     assert.strictEqual(view.$el.html(), '<div>value</div>');
   });
-  it('renders a template with no attributes', function() {
+  it('renders a template with no render_attributes', function() {
     var viewClass = Whisper.View.extend({
       template: '<div>static text</div>'
     });
@@ -20,10 +20,10 @@ describe('Whisper.View', function() {
     view.render();
     assert.strictEqual(view.$el.html(), '<div>static text</div>');
   });
-  it('renders a template function with attributes function', function() {
+  it('renders a template function with render_attributes function', function() {
     var viewClass = Whisper.View.extend({
       template: function() { return '<div>{{ variable }}</div>'; },
-      attributes: function() {
+      render_attributes: function() {
         return { variable: 'value' };
       }
     });

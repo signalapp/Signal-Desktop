@@ -22,11 +22,11 @@
             Backbone.View.apply(this, arguments);
             Mustache.parse(_.result(this, 'template'));
         },
-        attributes: function() {
+        render_attributes: function() {
             return _.result(this.model, 'attributes', {});
         },
         render: function() {
-            var attrs = _.result(this, 'attributes', {});
+            var attrs = _.result(this, 'render_attributes', {});
             var template = _.result(this, 'template', '');
             this.$el.html(Mustache.render(template, attrs));
             return this;

@@ -20,7 +20,7 @@
     Whisper.AttachmentPreviewView = Whisper.View.extend({
         className: 'attachment-preview',
         template: $('#attachment-preview').html(),
-        attributes: function() {
+        render_attributes: function() {
             return {source: this.src};
         }
     });

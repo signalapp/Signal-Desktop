@@ -46,7 +46,7 @@
             this.$el.trigger('remove', {modelId: this.model.id});
             this.remove();
         },
-        attributes: function() {
+        render_attributes: function() {
             return { name: this.model.getTitle() };
         }
     });

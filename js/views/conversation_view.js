@@ -22,7 +22,7 @@
             return [ 'conversation', this.model.get('type') ].join(' ');
         },
         template: $('#conversation').html(),
-        attributes: function() {
+        render_attributes: function() {
             return { group: this.model.get('type') === 'group' };
         },
         initialize: function() {
