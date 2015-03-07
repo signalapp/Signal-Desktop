@@ -47,16 +47,13 @@
   <script type='text/x-tmpl-mustache' id='message'>
       <div class='sender'>{{ sender }}</div>
       <img class='avatar' src='{{ contact_avatar }}'>
-      <div class='bubble bubble_context {{ bubble_class }}'>
-        <ul class='volley'>
-            <li class='message'>
-            {{ message }}
+      <div class="bubble">
+          <p class="content">{{ message }}</p>
+          <div class='attachments'></div>
+          <div class='meta'>
             <span class='timestamp'>{{ timestamp }}</span>
-            </li>
-        </ul>
-        {{#attachments}}
-          <img src={{.}}>
-        {{/attachments}}
+            <span class='checkmark hide'>✓</span>
+          </div>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>

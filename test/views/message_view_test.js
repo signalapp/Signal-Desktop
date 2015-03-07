@@ -44,4 +44,24 @@ describe('MessageView', function() {
     message.destroy();
     assert.strictEqual(div.find(view.$el).length, 0);
   });
+
+  it('allows links', function() {
+    var url = 'http://example.com';
+    message.set('body', url);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var link = view.$el.find('.content a');
+    assert.strictEqual(link.length, 1);
+    assert.strictEqual(link.text(), url);
+    assert.strictEqual(link.attr('href'), url);
+  });
+
+  it('disallows xss', function() {
+    var xss = '<script>alert("pwnd")</script>';
+    message.set('body', xss);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    assert.include(view.$el.text(), xss); // should appear as escaped text
+    assert.strictEqual(view.$el.find('script').length, 0); // should not appear as html
+  });
 });

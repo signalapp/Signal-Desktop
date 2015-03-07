@@ -31,7 +31,6 @@
         }
     });
 
-
     var ContentMessageView = Whisper.View.extend({
         tagName: 'div',
         template: $('#message').html(),
@@ -45,6 +44,9 @@
         renderDelivered: function() {
             if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
         },
+        autoLink: function(text) {
+            return text.replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>");
+        },
         render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
@@ -53,6 +55,9 @@
                     sender: this.model.get('source')
                 })
             );
+
+            var content = this.$el.find('.content');
+            content.html(this.autoLink(content.html()));
 
             this.renderDelivered();
 
