@@ -22,7 +22,7 @@
     if (textsecure.storage.getUnencrypted("number_id") === undefined) {
         window.location = '/options.html';
     } else {
-        new Whisper.InboxView({el: $('body')});
+        new Whisper.InboxView().$el.prependTo($('body'));
         textsecure.storage.putUnencrypted("unreadCount", 0);
         extension.navigator.setBadgeText("");
     }

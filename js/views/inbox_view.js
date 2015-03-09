@@ -53,18 +53,18 @@
         }
     });
 
-    Whisper.InboxView = Backbone.View.extend({
+    Whisper.InboxView = Whisper.View.extend({
+        template: $('#inbox').html(),
         initialize: function () {
-            this.$gutter = $('#gutter');
-            this.$contacts = $('#contacts');
-            this.$fab = this.$el.find('.fab');
-            this.$back = this.$el.find('.new-conversation-title');
+            this.render();
 
             this.newConversationView = new Whisper.NewConversationView();
-            this.newConversationView.$el.hide().appendTo(this.$gutter);
+            this.newConversationView.$el.hide();
+            this.listenTo(this.newConversationView, 'open',
+                this.openConversation.bind(this, null));
 
             this.inbox = new Whisper.ConversationListView({
-                el         : this.$contacts,
+                el         : this.$el.find('#contacts'),
                 collection : bg.inbox
             }).render();
 
@@ -75,34 +75,24 @@
             }.bind(this));
         },
         events: {
-            'keyup': 'keyup',
-            'click .back': 'hideCompose',
             'click .fab': 'showCompose',
-            'select #contacts .contact': 'openConversation',
-            'open .new-conversation': 'openConversation'
+            'select .contact': 'openConversation',
         },
         openConversation: function(e, data) {
             bg.openConversation(data.modelId);
             this.hideCompose();
         },
         showCompose: function() {
-            this.$fab.hide();
-            this.$contacts.hide();
             this.newConversationView.reset();
+            this.$el.hide();
+            this.newConversationView.$el.insertAfter(this.$el);
             this.newConversationView.$el.show();
             this.newConversationView.$input.focus();
-            this.$back.show();
+            this.listenToOnce(this.newConversationView, 'back', this.hideCompose);
         },
         hideCompose: function() {
             this.newConversationView.$el.hide();
-            this.$contacts.show();
-            this.$fab.show();
-            this.$back.hide();
-        },
-        keyup: function(e) {
-            if (e.keyCode === 27) {
-                this.hideCompose();
-            }
+            this.$el.show();
         }
     });
 

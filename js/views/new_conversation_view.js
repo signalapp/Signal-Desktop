@@ -101,7 +101,19 @@
             'select .new-contact': 'addNewRecipient',
             'select .contacts': 'addRecipient',
             'remove .recipient': 'removeRecipient',
-            'click .create': 'create'
+            'click .create': 'create',
+            'click .back': 'goBack',
+            'keyup': 'keyup'
+        },
+
+        keyup: function(e) {
+            if (e.keyCode === 27) {
+                this.goBack();
+            }
+        },
+
+        goBack: function() {
+            this.trigger('back');
         },
 
         initNewContact: function() {
@@ -180,12 +192,12 @@
                 type: 'private'
             });
             conversation.fetch().then(function() {
-                this.$el.trigger('open', { modelId: conversation.id });
+                this.trigger('open', { modelId: conversation.id });
             }.bind(this)).fail(function() {
                 var saved = conversation.save(); // false or indexedDBRequest
                 if (saved) {
                     saved.then(function() {
-                        this.$el.trigger('open', { modelId: conversation.id });
+                        this.trigger('open', { modelId: conversation.id });
                     }.bind(this));
                 }
             }.bind(this));
@@ -210,7 +222,7 @@
                     var id = getString(groupId);
                     var group = new Whisper.Conversation(attributes);
                     group.save({ id: id, groupId: id }).then(function() {
-                        this.$el.trigger('open', {modelId: id});
+                        this.trigger('open', {modelId: id});
                     }.bind(this));
                 }.bind(this));
             }.bind(this));

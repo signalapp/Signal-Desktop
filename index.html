@@ -13,21 +13,15 @@
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
     </head>
     <body class='signal index'>
-        <div class='title-bar' id='header'>
-          <div class='new-conversation-title hide'>
-            <button class='back'></button>
-            <span class='title-text'>New Message</span>
+        <script type="text/x-tmpl-mustache" id="inbox">
+          <div class='title-bar' id='header'>
+            <div class='socket-status'></div>
           </div>
-          <div class='socket-status'></div>
-        </div>
-        <div class='notifications'>
-            <div class='notification info'>
-            </div>
-        </div>
-        <div id='gutter' class='gutter'>
-            <div id='contacts'></div>
-            <span class='fab'></span>
-        </div>
+          <div id='gutter' class='gutter'>
+              <div id='contacts'></div>
+              <span class='fab'></span>
+          </div>
+        </script>
         <script type="text/x-tmpl-mustache" id="phone-number">
             <div class="phone-input-form">
                 <div class="number-container">
@@ -54,23 +48,29 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='new-conversation'>
-            <div class='new-group-update-form clearfix'>
-              <div class='group-avatar'>
-                <div class='paperclip'></div>
-                <input type='file' name='avatar' class='file-input'>
+            <div class='title-bar' id='header'>
+              <button class='back'></button>
+              <span class='title-text'>New Message</span>
+            </div>
+            <div id='gutter' class='gutter'>
+              <div class='new-group-update-form clearfix'>
+                <div class='group-avatar'>
+                  <div class='paperclip'></div>
+                  <input type='file' name='avatar' class='file-input'>
+                </div>
+                <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
               </div>
-              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
-            </div>
-            <div class='recipients-container'>
-              <span class='recipients'></span>
-              <input type='text' class='new-message' placeholder="Name or phone number" />
-            </div>
-            <div class='buttons'>
-              <button class='create'>Next</button>
-            </div>
-            <div class='results'>
-              <div class='new-contact contact'></div>
-              <div class='contacts'></div>
+              <div class='recipients-container'>
+                <span class='recipients'></span>
+                <input type='text' class='new-message' placeholder="Name or phone number" />
+              </div>
+              <div class='buttons'>
+                <button class='create'>Next</button>
+              </div>
+              <div class='results'>
+                <div class='new-contact contact'></div>
+                <div class='contacts'></div>
+              </div>
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='attachment-preview'>
