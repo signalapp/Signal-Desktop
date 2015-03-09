@@ -25,14 +25,16 @@
      */
 
     window.textsecure.websocket = function (url) {
-        var socketWrapper = {
-            onmessage    : function() {},
-            ondisconnect : function() {},
-        };
-        var socket;
         var keepAliveTimer;
         var reconnectSemaphore = 0;
         var reconnectTimeout = 1000;
+        var socket;
+        var socketWrapper = {
+            onmessage : function() {},
+            onclose   : function() {},
+            onerror   : function() {},
+            getStatus : function() { return socket.readyState; }
+        };
 
         function resetKeepAliveTimer() {
             clearTimeout(keepAliveTimer);
@@ -48,10 +50,27 @@
             }, 15000);
         };
 
-        function reconnect(e) {
-            reconnectSemaphore--;
-            setTimeout(connect, reconnectTimeout);
-            socketWrapper.ondisconnect(e);
+        function onclose(e) {
+            if (e.code === 1000) { // CLOSE_NORMAL
+                reconnectSemaphore--;
+                setTimeout(connect, reconnectTimeout);
+            } else {
+                console.log('websocket closed', e.code);
+            }
+            socketWrapper.onclose(e);
+        };
+
+        function onerror(e) {
+            socketWrapper.onerror(e);
+        };
+
+        function onmessage(response) {
+            socketWrapper.onmessage(response);
+            resetKeepAliveTimer();
+        };
+
+        function send(msg) {
+            socket.send(msg);
         };
 
         function connect() {
@@ -61,19 +80,12 @@
             if (socket) { socket.close(); }
             socket = new WebSocket(url);
 
-            socket.onerror = reconnect;
-            socket.onclose = reconnect;
-            socket.onopen  = resetKeepAliveTimer;
-
-            socket.onmessage = function(response) {
-                socketWrapper.onmessage(response);
-                resetKeepAliveTimer();
-            };
-
-            socketWrapper.send = function(msg) {
-                socket.send(msg);
-            }
-        }
+            socket.onopen      = resetKeepAliveTimer;
+            socket.onerror     = onerror
+            socket.onclose     = onclose;
+            socket.onmessage   = onmessage;
+            socketWrapper.send = send;
+        };
 
         connect();
         return socketWrapper;

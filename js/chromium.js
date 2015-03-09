@@ -74,6 +74,10 @@
 
         getBackground: function() {
             return chrome.extension.getBackgroundPage();
+        },
+
+        getViews: function() {
+            return chrome.extension.getViews();
         }
     };
 

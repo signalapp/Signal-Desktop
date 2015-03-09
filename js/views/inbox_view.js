@@ -19,6 +19,40 @@
     window.Whisper = window.Whisper || {};
     var bg = extension.windows.getBackground();
 
+    var SocketView = Whisper.View.extend({
+        className: 'status',
+        initialize: function() {
+            setInterval(function() {
+                var className, message = '';
+                switch(bg.getSocketStatus && bg.getSocketStatus()) {
+                    case WebSocket.CONNECTING:
+                        className = 'connecting';
+                        break;
+                    case WebSocket.OPEN:
+                        className = 'open';
+                        break;
+                    case WebSocket.CLOSING:
+                        className = 'closing';
+                        break;
+                    case WebSocket.CLOSED:
+                        className = 'closed';
+                        message = 'Websocket closed';
+                        break;
+                }
+                if (!this.$el.hasClass(className)) {
+                    this.$el.attr('class', className);
+                    this.$el.text(message);
+                }
+            }.bind(this), 1000);
+        },
+        events: {
+            'click': 'reloadBackgroundPage'
+        },
+        reloadBackgroundPage: function() {
+            bg.location.reload();
+        }
+    });
+
     Whisper.InboxView = Backbone.View.extend({
         initialize: function () {
             this.$gutter = $('#gutter');
@@ -33,6 +67,8 @@
                 el         : this.$contacts,
                 collection : bg.inbox
             }).render();
+
+            new SocketView().render().$el.appendTo(this.$el.find('.socket-status'));
 
             window.addEventListener('beforeunload', function () {
                 this.inbox.stopListening();

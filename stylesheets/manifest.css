@@ -143,6 +143,23 @@ button.back {
 #contacts {
   overflow: auto; }
 
+.socket-status {
+  float: left;
+  padding: 6px; }
+  .socket-status * {
+    cursor: pointer;
+    padding-left: 20px;
+    border-radius: 36px;
+    min-height: 20px; }
+    .socket-status *:hover {
+      background: #2a92e7 url("/images/refresh.png") center; }
+  .socket-status .connecting .icon {
+    background-color: #2a92e7; }
+  .socket-status .closing {
+    background-color: #a2d2f4; }
+  .socket-status .closed {
+    background: url("/images/error_red.png") no-repeat left center; }
+
 .contact .number, .contact .checkbox {
   display: none; }
 

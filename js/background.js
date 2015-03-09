@@ -16,6 +16,7 @@
 
 ;(function() {
     'use strict';
+    var socket;
     var conversations = new Whisper.ConversationCollection();
     var messages      = new Whisper.MessageCollection();
 
@@ -29,11 +30,20 @@
     }
     extension.on('registration_done', init);
 
+    window.getSocketStatus = function() {
+        if (socket) {
+            return socket.getStatus();
+        } else {
+            return WebSocket.CONNECTING;
+        }
+    };
+
     function init() {
         if (!textsecure.registration.isDone()) { return; }
 
         // initialize the socket and start listening for messages
-        var socket = textsecure.api.getMessageWebsocket();
+        socket = textsecure.api.getMessageWebsocket();
+
         new WebSocketResource(socket, function(request) {
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
@@ -58,6 +68,14 @@
         });
 
         extension.browserAction(window.openInbox);
+
+        // refresh views
+        var views = extension.windows.getViews();
+        for (var i = 0; i < views.length; ++i) {
+            if (views[i] !== window) {
+                views[i].location.reload();
+            }
+        }
     }
 
     function onMessageReceived(pushMessage) {

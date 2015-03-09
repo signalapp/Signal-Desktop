@@ -13,6 +13,31 @@
   // TODO: spinner
 }
 
+.socket-status {
+  float: left;
+  padding: 6px;
+
+  * {
+    cursor: pointer;
+    padding-left: 20px;
+    border-radius: $header-height;
+    min-height: 20px;
+
+    &:hover {
+      background: $blue url('/images/refresh.png') center;
+    }
+  }
+  .connecting .icon {
+    background-color: $blue;
+  }
+  .closing {
+    background-color: $blue_l;
+  }
+  .closed {
+    background: url('/images/error_red.png') no-repeat left center;
+  }
+}
+
 .contact {
   .number, .checkbox {
     display: none;
