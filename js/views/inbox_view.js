@@ -55,6 +55,7 @@
 
     Whisper.InboxView = Whisper.View.extend({
         template: $('#inbox').html(),
+        className: 'inbox',
         initialize: function () {
             this.render();
 
@@ -64,7 +65,7 @@
                 this.openConversation.bind(this, null));
 
             this.inbox = new Whisper.ConversationListView({
-                el         : this.$el.find('#contacts'),
+                el         : this.$el.find('.conversations'),
                 collection : bg.inbox
             }).render();
 

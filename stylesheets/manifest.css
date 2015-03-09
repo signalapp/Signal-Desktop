@@ -137,10 +137,11 @@ button.back {
 .gutter {
   padding: 36px 0 0; }
 
-.gutter, #contacts {
+.new-conversation, .inbox, .gutter {
   height: 100%; }
 
-#contacts {
+.scrollable {
+  height: 100%;
   overflow: auto; }
 
 .socket-status {
