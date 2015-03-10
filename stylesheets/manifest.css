@@ -134,6 +134,12 @@ button.back {
     color: #fff;
     text-align: center; }
 
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.1em; }
+
 .gutter {
   padding: 36px 0 0; }
 
@@ -280,7 +286,7 @@ input.new-message {
     top: 14px;
     right: 12px;
     color: #888; }
-  .index img {
+  .index .avatar img {
     height: 44px;
     width: 44px;
     background: #f3f3f3;
@@ -408,8 +414,8 @@ input.new-message {
     .message-list .incoming .bubble::after {
       left: -8px;
       border-right: 8px solid #f3f3f3; }
-  .message-detail .outgoing img, .message-detail .outgoing .bubble,
-  .message-list .outgoing img,
+  .message-detail .outgoing .avatar, .message-detail .outgoing .bubble,
+  .message-list .outgoing .avatar,
   .message-list .outgoing .bubble {
     float: right; }
   .message-detail .outgoing .bubble,

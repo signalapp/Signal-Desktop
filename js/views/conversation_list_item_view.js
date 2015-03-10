@@ -44,6 +44,9 @@
                 number: this.model.getNumber()
                 })
             );
+
+            twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
+
             if (this.model.get('avatar')) {
                 this.$el.find('.avatar').append(
                     new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
