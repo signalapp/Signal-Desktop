@@ -81,8 +81,8 @@
     $('#form').submit(function(e) {
         e.preventDefault();
         log('registering');
-        var number = $('input.number').val();
-        var verificationCode = $('#code').val();
+        var number = phoneView.validateNumber();
+        var verificationCode = $('#code').val().replace(/\D+/g, "");
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
 
         var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
