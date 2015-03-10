@@ -60,6 +60,9 @@
                 sent_at: moment(this.model.get('sent_at')).toString(),
                 received_at: moment(this.model.get('received_at')).toString(),
                 tofrom: this.model.isIncoming() ? 'From' : 'To',
+                title: chrome.i18n.getMessage("messageDetail"),
+                sent: chrome.i18n.getMessage("sent"),
+                received: chrome.i18n.getMessage("received"),
                 contacts: this.contacts().map(function(contact) {
                     return {
                         name     : contact.getTitle(),

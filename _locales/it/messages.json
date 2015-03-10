@@ -1,0 +1,42 @@
+{
+    "appName": {
+      "message": "Signal per Chrome",
+      "description": "Il nome dell'app"
+    },
+    "newMessage": {
+        "message": "Nuovo Messaggio"
+    },
+    "next": {
+        "message": "Successivo"
+    },
+    "messageDetail": {
+        "message": "Dettagli Messaggio"
+    },
+    "nameOrPhone": {
+        "message": "Nome o numero di telefono"
+    },
+    "sendMessage": {
+        "message": "Invia messaggio"
+    },
+    "sent": {
+        "message": "Inviato"
+    },
+    "received": {
+        "message": "Ricevuto"
+    },
+    "resetSession": {
+        "message": "Resetta Sessione"
+    },
+    "verifyIdentity": {
+        "message": "Verifica Identità"
+    },
+    "deleteMessages": {
+        "message": "Cancella messaggi"
+    },
+    "groupName": {
+        "message": "Nome Gruppo"
+    },
+    "sessionEnded": {
+        "message": "Sessione sicura terminata"
+    }
+}

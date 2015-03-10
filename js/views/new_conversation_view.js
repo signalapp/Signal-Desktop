@@ -93,6 +93,10 @@
                 collection: this.recipients,
                 el: this.$el.find('.recipients')
             });
+
+            this.$el.find('.title-text').text(chrome.i18n.getMessage("newMessage"));
+            this.$el.find('.buttons .create').text(chrome.i18n.getMessage("next"));
+            this.$el.find('.new-message').attr('placeholder', chrome.i18n.getMessage("nameOrPhone"));
         },
 
         events: {
@@ -165,6 +169,7 @@
             } else {
                 this.$group_update.slideUp();
             }
+
             this.$input.focus();
         },
 

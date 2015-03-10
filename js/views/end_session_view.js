@@ -22,7 +22,7 @@
         tagName:   "div",
         className: "end-session",
         render: function() {
-            this.$el.text("Secure session ended");
+            this.$el.text(chrome.i18n.getMessage("sessionEnded"));
             return this;
         }
     });
