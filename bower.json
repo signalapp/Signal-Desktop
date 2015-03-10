@@ -20,7 +20,8 @@
     "intl-tel-input": "~4.0.1",
     "backbone.typeahead": "mojotech/backbone.typeahead",
     "blueimp-load-image": "~1.13.0",
-    "blueimp-canvas-to-blob": "~2.1.1"
+    "blueimp-canvas-to-blob": "~2.1.1",
+    "twemoji": "~1.2.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -96,6 +97,12 @@
     ],
     "blueimp-canvas-to-blob": [
       "js/canvas-to-blob.js"
+    ],
+    "twemoji": [
+      "twemoji.js",
+      "72x72/*",
+      "36x36/*",
+      "26x26/*"
     ]
   },
   "concat": {
@@ -114,7 +121,8 @@
       "intl-tel-input",
       "backbone.typeahead",
       "blueimp-load-image",
-      "blueimp-canvas-to-blob"
+      "blueimp-canvas-to-blob",
+      "twemoji"
     ],
     "libtextsecure": [
       "jquery",
