@@ -21,7 +21,8 @@
     "backbone.typeahead": "mojotech/backbone.typeahead",
     "blueimp-load-image": "~1.13.0",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "twemoji": "~1.2.1"
+    "twemoji": "~1.2.1",
+    "emojijs": "iamcal/js-emoji"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -103,6 +104,9 @@
       "72x72/*",
       "36x36/*",
       "26x26/*"
+    ],
+    "emojijs": [
+      "emoji.js"
     ]
   },
   "concat": {
@@ -122,7 +126,8 @@
       "backbone.typeahead",
       "blueimp-load-image",
       "blueimp-canvas-to-blob",
-      "twemoji"
+      "twemoji",
+      "emojijs"
     ],
     "libtextsecure": [
       "jquery",
