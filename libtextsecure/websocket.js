@@ -39,15 +39,17 @@
         function resetKeepAliveTimer() {
             clearTimeout(keepAliveTimer);
             keepAliveTimer = setTimeout(function() {
-                socket.send(
-                    new textsecure.protobuf.WebSocketMessage({
-                        type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
-                        request: { verb: 'GET', path: '/v1/keepalive' }
-                    }).encode().toArrayBuffer()
-                );
+                if (socket.readyState === WebSocket.OPEN) {
+                    socket.send(
+                        new textsecure.protobuf.WebSocketMessage({
+                            type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
+                            request: { verb: 'GET', path: '/v1/keepalive' }
+                        }).encode().toArrayBuffer()
+                    );
+                }
 
                 resetKeepAliveTimer();
-            }, 60000);
+            }, 55000);
         };
 
         function onclose(e) {
