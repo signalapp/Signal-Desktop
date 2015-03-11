@@ -38,14 +38,21 @@
         render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
-                contact_name: this.model.getTitle(),
-                last_message: this.model.get('lastMessage'),
-                last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
-                number: this.model.getNumber()
+                    contact_name: this.model.getTitle(),
+                    last_message: this.model.get('lastMessage'),
+                    last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
+                    number: this.model.getNumber()
                 })
             );
 
             twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
+
+            var unread = this.model.get('unreadCount');
+            if (unread > 0) {
+                this.$el.addClass('unread');
+            } else {
+                this.$el.removeClass('unread');
+            }
 
             if (this.model.get('avatar')) {
                 this.$el.find('.avatar').append(

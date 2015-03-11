@@ -42,7 +42,8 @@
     }
 
     window.openConversation = function openConversation (modelId) {
-        var conversation = conversations.add({id: modelId});
+        var conversation = window.inbox.get(modelId) || {id: modelId};
+        conversation = conversations.add(conversation);
         conversation.fetch().then(function() {
             conversation.fetchContacts();
         });

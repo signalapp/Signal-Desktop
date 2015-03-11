@@ -194,6 +194,9 @@
                     }
                 }
                 attributes.active_at = now;
+                if (type === 'incoming') {
+                    attributes.unreadCount = conversation.get('unreadCount') + 1;
+                }
                 conversation.set(attributes);
 
                 message.set({

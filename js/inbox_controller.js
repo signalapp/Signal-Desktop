@@ -29,9 +29,10 @@
         }
     });
 
+    inbox.on('change:active_at', inbox.sort);
+
     function fetch() {
         window.inbox.fetch({
-            reset: true,
             index: {
                 name: 'inbox', // 'inbox' index on active_at
                 order: 'desc'  // ORDER timestamp DESC

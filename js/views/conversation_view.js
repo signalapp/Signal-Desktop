@@ -56,8 +56,17 @@
             'click .new-group-update': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
             'click .hamburger': 'toggleMenu',
-            'click' : 'closeMenu',
+            'click' : 'onClick',
             'select .entry': 'messageDetail'
+        },
+
+        onClick: function(e) {
+            this.closeMenu(e);
+            this.markRead(e);
+        },
+
+        markRead: function(e) {
+            this.model.markRead();
         },
 
         verifyIdentity: function() {

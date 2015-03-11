@@ -300,6 +300,11 @@ input.new-message {
   .settings-open .settings {
     display: block; }
 
+.conversations .unread .contact-details .contact-name,
+.conversations .unread .contact-details .last-message,
+.conversations .unread .contact-details .last-timestamp {
+  font-weight: bold; }
+
 .conversation {
   padding: 36px 0; }
 

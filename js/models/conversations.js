@@ -139,6 +139,12 @@
         return new Promise(function (resolve) { m.save().then(resolve(m)); });
     },
 
+    markRead: function() {
+        if (this.get('unreadCount') > 0) {
+            this.save({unreadCount: 0});
+        }
+    },
+
     fetchMessages: function(options) {
         return this.messageCollection.fetchConversation(this.id, options);
     },

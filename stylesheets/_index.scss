@@ -233,3 +233,11 @@ input.new-message {
     display: block;
   }
 }
+
+.conversations .unread .contact-details {
+    .contact-name,
+    .last-message,
+    .last-timestamp {
+      font-weight: bold;
+    }
+}

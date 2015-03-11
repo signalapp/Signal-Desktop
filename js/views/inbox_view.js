@@ -69,6 +69,8 @@
                 collection : bg.inbox
             }).render();
 
+            this.inbox.listenTo(bg.inbox, 'sort', this.inbox.render);
+
             new SocketView().render().$el.appendTo(this.$el.find('.socket-status'));
 
             window.addEventListener('beforeunload', function () {
