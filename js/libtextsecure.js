@@ -15950,6 +15950,7 @@ window.axolotl.sessions = {
         };
 
         function send(msg) {
+            resetKeepAliveTimer();
             socket.send(msg);
         };
 
