@@ -30,6 +30,8 @@
 
             this.render();
 
+            emoji.init_colons();
+
             this.fileInput = new Whisper.FileInputView({
                 el: this.$el.find('.attachments')
             });
@@ -133,7 +135,7 @@
         sendMessage: function(e) {
             e.preventDefault();
             var input = this.$el.find('.send input.send-message');
-            var message = input.val();
+            var message = this.replace_colons(input.val());
             var convo = this.model;
 
             if (message.length > 0 || this.fileInput.hasFiles()) {
@@ -143,6 +145,13 @@
                 input.val("");
                 this.fileInput.deleteFiles();
             }
+        },
+        replace_colons: function(str) {
+            return str.replace(emoji.rx_colons, function(m){
+                var idx = m.substr(1, m.length-2);
+                var val = emoji.map.colons[idx];
+                return emoji.data[val][0][0];
+            });
         }
     });
 })();
