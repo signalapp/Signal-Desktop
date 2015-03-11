@@ -35,6 +35,7 @@
             onerror   : function() {},
             getStatus : function() { return socket.readyState; }
         };
+        var error;
 
         function resetKeepAliveTimer() {
             clearTimeout(keepAliveTimer);
@@ -53,16 +54,19 @@
         };
 
         function onclose(e) {
-            if (e.code === 1000) { // CLOSE_NORMAL
+            if (!error) {
                 reconnectSemaphore--;
                 setTimeout(connect, reconnectTimeout);
-            } else {
+            }
+            if (e !== 1000 ) { // CLOSE_NORMAL
                 console.log('websocket closed', e.code);
             }
             socketWrapper.onclose(e);
         };
 
         function onerror(e) {
+            error = e;
+            console.log('websocket error');
             socketWrapper.onerror(e);
         };
 
