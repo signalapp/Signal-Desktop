@@ -22,9 +22,13 @@
     extension.windows.getCurrent(function (windowInfo) {
         var bg = extension.windows.getBackground();
         var conversation = bg.getConversationForWindow(windowInfo.id);
-        window.document.title = conversation.getTitle();
-        new Whisper.ConversationView({
-            model: conversation
-        }).$el.prependTo($('body'));
+        if (conversation) {
+            window.document.title = conversation.getTitle();
+            new Whisper.ConversationView({
+                model: conversation
+            }).$el.prependTo($('body'));
+        } else {
+            $('<div>').text('Error').prependTo($('body'));
+        }
     });
 }());
