@@ -15927,7 +15927,7 @@ window.axolotl.sessions = {
                 );
 
                 resetKeepAliveTimer();
-            }, 15000);
+            }, 60000);
         };
 
         function onclose(e) {
