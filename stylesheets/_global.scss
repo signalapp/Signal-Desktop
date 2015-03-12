@@ -108,12 +108,16 @@ button.back {
 
 .file-input {
   position: relative;
-  width: 36px;
   margin-right: 10px;
+  cursor: pointer;
 
+  .thumbnail {
+    width: 36px;
+    height: 36px;
+  }
   .paperclip {
-    width: 100%;
-    height: 100%;
+    width: 36px;
+    height: 36px;
     background: url('/images/paperclip.png') no-repeat;
     background-size: 90%;
     background-position: center 6px;
@@ -131,17 +135,12 @@ button.back {
     z-index: 1;
   }
 
-  img.preview {
-    max-width: 100%;
-  }
-
   .close {
     font-family: sans-serif;
     color: white;
     position: absolute;
-    top: -10px;
-    left: 20px;
-    text-align: center;
+    top: 0;
+    right: -8px;
     cursor: default;
     border-radius: 50%;
     width: 20px;
@@ -162,18 +161,157 @@ img.emoji {
 }
 
 .new-group-update-form {
+  background: white;
+
   .group-avatar {
     float: left;
-    height: 36px;
   }
+
+  .group-default {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: $grey_l url('/images/group_default.png') no-repeat center;
+
+  }
+
+  .file-input .thumbnail,
+  img {
+    height: 54px;
+    width: 54px;
+    border-radius: (54px / 2);
+  }
+
+  .thumbnail:after {
+    content: '';
+    position: absolute;
+    height: 0;
+    width: 0;
+    bottom: 0;
+    right: 0;
+    border-bottom: 10px solid $grey;
+    border-left: 10px solid transparent;
+  }
+
+  input.name {
+    padding: 0.5em;
+    border: solid 1px #ccc;
+    border-width: 0 0 1px 0;
+    width: calc(100% - 64px);
+  }
+
 }
 
 .title-bar .check {
   float: right;
   background: $blue url('/images/check.png') no-repeat center center;
-  margin: none;
+}
+
+.contact {
+  position: relative;
+  padding: 12px;
+  background: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    bottom: 0;
+    height: 1px;
+    width: calc(100% - 12px - 54px - 2 * 8px - 16px);
+    background: #eee;
+  }
 
   &:hover {
-    background-color: $blue_l;
+    background: #f8f8f8;
   }
+
+  &:last-child {
+    box-shadow: 0 1px 3px rgba(#aaa, 0.8);
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .avatar img {
+    height: 44px;
+    width: 44px;
+    background: $grey_l;
+    border-radius: (44px / 2);
+  }
+
+  .contact-details {
+    vertical-align: top;
+    display: inline-block;
+    margin: 4px 0 0 8px;
+  }
+
+  .contact-name {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 400;
+  }
+
+}
+
+.recipients-input {
+
+  .recipients-container {
+    background-color: white;
+    padding: 2px;
+    border-bottom: 1px solid #f2f2f2;
+    line-height: 24px;
+  }
+
+  .recipient {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+    padding: 0 5px;
+    border-radius: 10px;
+    background-color: $blue;
+    color: white;
+
+    &.error {
+      background-color: #f00;
+    }
+
+    .remove {
+      margin-left: 5px;
+      padding: 0 2px;
+    }
+  }
+
+  .contact {
+    .number {
+      display: inline-block;
+    }
+
+    .last-message, .last-timestamp {
+      display: none;
+    }
+
+    .number {
+      color: $grey;
+      font-size: small;
+    }
+  }
+
+}
+
+.attachment-preview {
+  width: 100%;
+  height: 100%;
+  background: white;
+
+  img {
+    width: 100%;
+  }
+
 }

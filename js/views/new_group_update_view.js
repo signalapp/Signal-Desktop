@@ -28,21 +28,33 @@
             });
 
             if (this.model.attributes.avatar) {
-                new Whisper.AttachmentView({
+                this.current_avatar = new Whisper.AttachmentView({
                     model: this.model.attributes.avatar
-                }).render().$el.addClass('preview').prependTo(this.avatarInput.el);
+                });
+                this.avatarInput.$default.append(
+                    this.current_avatar.render().$el
+                );
             }
 
+            this.recipients_view = new Whisper.RecipientsInputView();
+            this.$el.find('.scrollable').append(this.recipients_view.el);
         },
         events: {
+            'click .back': 'goBack',
             'click .send': 'send'
+        },
+        goBack: function() {
+            this.trigger('back');
+        },
+        render_attributes: function() {
+            return { name: this.model.getTitle() };
         },
         send: function() {
             return this.avatarInput.getFiles().then(function(avatarFiles) {
                 this.model.save({
                     name: this.$el.find('.name').val(),
                     avatar: avatarFiles[0],
-                    members: _.union(this.model.get('members'), this.$el.find('.members').val().split(','))
+                    members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
                 });
                 textsecure.messaging.updateGroup(
                     this.model.id,
@@ -50,7 +62,7 @@
                     this.model.get('avatar'),
                     this.model.get('members')
                 );
-                this.remove();
+                this.goBack();
             }.bind(this));
         }
     });

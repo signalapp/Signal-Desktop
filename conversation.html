@@ -34,7 +34,7 @@
             <div class="bottom-bar" id='footer'>
                 <form class='send'>
                     <div class='attachments'>
-                        <div class='paperclip'></div>
+                        <div class='paperclip thumbnail'></div>
                         <input type='file' class='file-input'>
                     </div>
                     <input class="send-btn" type='submit' value='' />
@@ -59,14 +59,54 @@
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='new-group-update-form'>
-            <div>
-              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+            <div class='title-bar' id='header'>
+              <button class='back'></button>
+              <button class='send check'></button>
+              <span class='title-text'>Update group</span>
             </div>
-            <div class='group-avatar'>
-              <div><input type='file' name='avatar' class='file-input'></div>
+            <div class='container'>
+              <div class='scrollable'>
+                <div class='clearfix'>
+                  <div class='group-avatar'>
+                    <div class='thumbnail'>
+                      <span class='default'></span>
+                    </div>
+                    <input type='file' name='avatar' class='file-input'>
+                  </div>
+                  <div>
+                    <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>Add members: <input name='members' class='members'></div>
-            <button class='send'>Update</button>
+        </script>
+        <script type='text/x-tmpl-mustache' id='contact_pill'>
+          <span>{{ name }}</span><span class='remove'>x</span>
+        </script>
+        <script type='text/x-tmpl-mustache' id='recipients-input'>
+            <div class='recipients-container'>
+              <span class='recipients'></span>
+              <input type='text' class='search' placeholder="Add member" />
+            </div>
+            <div class='results'>
+              <div class='new-contact contact'></div>
+              <div class='contacts'></div>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='contact'>
+            <span class='avatar'></span>
+            <div class='contact-details'>
+                <h3 class='contact-name'>
+                {{ contact_name }}
+                </h3>
+                <p class='number'>{{ number }}</p>
+                <p class='last-message'>
+                {{ last_message }}
+                </p>
+                <span class='last-timestamp'>
+                {{ last_message_timestamp }}
+                </span>
+            </div>
         </script>
         <script type="text/x-tmpl-mustache" id="phone-number">
             <div class="phone-input-form">
@@ -142,6 +182,9 @@
         <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
         <script type="text/javascript" src="js/views/file_input_view.js"></script>
         <script type="text/javascript" src="js/views/list_view.js"></script>
+        <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
+        <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
+        <script type="text/javascript" src="js/views/recipients_input_view.js"></script>
         <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
         <script type="text/javascript" src="js/views/end_session_view.js"></script>
         <script type="text/javascript" src="js/views/group_update_view.js"></script>

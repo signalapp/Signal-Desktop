@@ -101,11 +101,14 @@ button.back {
 
 .file-input {
   position: relative;
-  width: 36px;
-  margin-right: 10px; }
+  margin-right: 10px;
+  cursor: pointer; }
+  .file-input .thumbnail {
+    width: 36px;
+    height: 36px; }
   .file-input .paperclip {
-    width: 100%;
-    height: 100%;
+    width: 36px;
+    height: 36px;
     background: url("/images/paperclip.png") no-repeat;
     background-size: 90%;
     background-position: center 6px; }
@@ -119,15 +122,12 @@ button.back {
     left: 0;
     cursor: pointer;
     z-index: 1; }
-  .file-input img.preview {
-    max-width: 100%; }
   .file-input .close {
     font-family: sans-serif;
     color: white;
     position: absolute;
-    top: -10px;
-    left: 20px;
-    text-align: center;
+    top: 0;
+    right: -8px;
     cursor: default;
     border-radius: 50%;
     width: 20px;
@@ -143,16 +143,108 @@ img.emoji {
   margin: 0 .05em 0 .1em;
   vertical-align: -0.1em; }
 
-.new-group-update-form .group-avatar {
-  float: left;
-  height: 36px; }
+.new-group-update-form {
+  background: white; }
+  .new-group-update-form .group-avatar {
+    float: left; }
+  .new-group-update-form .group-default {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #f3f3f3 url("/images/group_default.png") no-repeat center; }
+  .new-group-update-form .file-input .thumbnail,
+  .new-group-update-form img {
+    height: 54px;
+    width: 54px;
+    border-radius: 27px; }
+  .new-group-update-form .thumbnail:after {
+    content: '';
+    position: absolute;
+    height: 0;
+    width: 0;
+    bottom: 0;
+    right: 0;
+    border-bottom: 10px solid #616161;
+    border-left: 10px solid transparent; }
+  .new-group-update-form input.name {
+    padding: 0.5em;
+    border: solid 1px #ccc;
+    border-width: 0 0 1px 0;
+    width: calc(100% - 64px); }
 
 .title-bar .check {
   float: right;
-  background: #2a92e7 url("/images/check.png") no-repeat center center;
-  margin: none; }
-  .title-bar .check:hover {
-    background-color: #a2d2f4; }
+  background: #2a92e7 url("/images/check.png") no-repeat center center; }
+
+.contact {
+  position: relative;
+  padding: 12px;
+  background: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  overflow: hidden; }
+  .contact::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    bottom: 0;
+    height: 1px;
+    width: calc(100% - 12px - 54px - 2 * 8px - 16px);
+    background: #eee; }
+  .contact:hover {
+    background: #f8f8f8; }
+  .contact:last-child {
+    box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
+    .contact:last-child::after {
+      display: none; }
+  .contact .avatar img {
+    height: 44px;
+    width: 44px;
+    background: #f3f3f3;
+    border-radius: 22px; }
+  .contact .contact-details {
+    vertical-align: top;
+    display: inline-block;
+    margin: 4px 0 0 8px; }
+  .contact .contact-name {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 400; }
+
+.recipients-input .recipients-container {
+  background-color: white;
+  padding: 2px;
+  border-bottom: 1px solid #f2f2f2;
+  line-height: 24px; }
+.recipients-input .recipient {
+  display: inline-block;
+  margin: 0 2px 2px 0;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: #2a92e7;
+  color: white; }
+  .recipients-input .recipient.error {
+    background-color: #f00; }
+  .recipients-input .recipient .remove {
+    margin-left: 5px;
+    padding: 0 2px; }
+.recipients-input .contact .number {
+  display: inline-block; }
+.recipients-input .contact .last-message, .recipients-input .contact .last-timestamp {
+  display: none; }
+.recipients-input .contact .number {
+  color: #616161;
+  font-size: small; }
+
+.attachment-preview {
+  width: 100%;
+  height: 100%;
+  background: white; }
+  .attachment-preview img {
+    width: 100%; }
 
 .gutter {
   padding: 36px 0 0; }
@@ -190,26 +282,6 @@ input.search {
   margin: 0;
   outline: 0; }
 
-.new-conversation .new-group-update-form {
-  display: none; }
-.new-conversation .recipients-container {
-  background-color: white;
-  padding: 2px;
-  border-bottom: 1px solid #f2f2f2;
-  line-height: 24px; }
-.new-conversation .recipient {
-  display: inline-block;
-  margin: 0 2px 2px 0;
-  padding: 0 5px;
-  border-radius: 10px;
-  background-color: #2a92e7;
-  color: white; }
-  .new-conversation .recipient.error {
-    background-color: #f00; }
-  .new-conversation .recipient .remove {
-    margin-left: 5px;
-    padding: 0 2px; }
-
 .fab {
   z-index: 1;
   position: fixed;
@@ -233,56 +305,23 @@ input.search {
 .last-timestamp {
   font-size: smaller; }
 
-.new-conversation .last-message, .new-conversation .last-timestamp {
+.new-contact {
   display: none; }
-.new-conversation .contact .checkbox, .new-conversation .contact .number {
-  display: inline-block; }
-.new-conversation .contact .number {
-  color: #616161;
-  font-size: small; }
-
-.new-contact .contact-name {
-  display: none; }
-.new-contact .contact-details::before {
-  content: 'Create new contact';
-  display: block;
-  font-style: italic;
-  opacity: 0.7;
-  padding-right: 8px; }
+  .new-contact .contact-name {
+    display: none; }
+  .new-contact .contact-details::before {
+    content: 'Create new contact';
+    display: block;
+    font-style: italic;
+    opacity: 0.7;
+    padding-right: 8px; }
 
 .index {
   color: #454545;
   background: #eee; }
-  .index .contact {
-    position: relative;
-    padding: 12px;
-    background: white;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-    overflow: hidden; }
-    .index .contact::after {
-      content: '';
-      position: absolute;
-      right: 16px;
-      bottom: 0;
-      height: 1px;
-      width: calc(100% - 12px - 54px - 2 * 8px - 16px);
-      background: #eee; }
-    .index .contact:hover {
-      background: #f8f8f8; }
-    .index .contact:last-child {
-      box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
-      .index .contact:last-child::after {
-        display: none; }
-  .index .contact-details {
-    vertical-align: top;
-    display: inline-block;
-    margin: 4px 0 0 8px; }
-  .index .contact-name {
-    margin: 0;
-    font-size: 1em;
-    font-weight: 400; }
+  .index .new-group-update-form {
+    display: none;
+    padding: 0.5em; }
   .index .last-message {
     margin: 6px 0;
     font-size: small;
@@ -292,11 +331,6 @@ input.search {
     top: 14px;
     right: 12px;
     color: #888; }
-  .index .avatar img {
-    height: 44px;
-    width: 44px;
-    background: #f3f3f3;
-    border-radius: 22px; }
 
 .settings {
   height: 100%;
@@ -313,7 +347,10 @@ input.search {
 
 .conversation {
   padding: 36px 0; }
+  .conversation .file-input .close {
+    top: -10px; }
 
+.conversation + .new-group-update-form,
 .conversation, .discussion-container, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
@@ -345,6 +382,12 @@ input.search {
 
 .group-update {
   font-size: smaller; }
+
+.new-group-update-form .container {
+  height: 100%;
+  padding-top: 36px; }
+.new-group-update-form .scrollable {
+  padding: 0.5em; }
 
 .private .sender,
 .outgoing .sender {
@@ -525,10 +568,3 @@ input.search {
   box-shadow: 0 0 5px 0 black;
   border-radius: 20px;
   font-size: small; }
-
-.attachment-preview {
-  background: white;
-  width: 100%;
-  height: 100%; }
-  .attachment-preview img {
-    width: 100%; }

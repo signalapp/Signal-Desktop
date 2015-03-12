@@ -28,12 +28,13 @@
             this.$input = this.$el.find('input[type=file]');
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
+            this.$default = this.$el.find('.default');
         },
 
         events: {
             'change': 'previewImages',
             'click .close': 'deleteFiles',
-            'click .paperclip': 'open'
+            'click .thumbnail': 'open'
         },
 
         open: function() {
@@ -41,8 +42,9 @@
         },
 
         addThumb: function(src) {
+            this.$default.hide();
             this.thumb.src = src;
-            this.$el.find('.paperclip').append(this.thumb.render().el);
+            this.$el.find('.thumbnail').append(this.thumb.render().el);
         },
 
         autoScale: function(file) {
@@ -163,6 +165,7 @@
                 this.oUrl = null;
             }
             this.thumb.remove();
+            this.$default.show();
         },
 
         deleteFiles: function(e) {

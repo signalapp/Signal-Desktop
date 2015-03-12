@@ -52,37 +52,6 @@ input.search {
   outline: 0;
 }
 
-.new-conversation {
-  .new-group-update-form {
-    display: none;
-  }
-
-  .recipients-container {
-    background-color: white;
-    padding: 2px;
-    border-bottom: 1px solid #f2f2f2;
-    line-height: 24px;
-  }
-
-  .recipient {
-    display: inline-block;
-    margin: 0 2px 2px 0;
-    padding: 0 5px;
-    border-radius: 10px;
-    background-color: $blue;
-    color: white;
-
-    &.error {
-      background-color: #f00;
-    }
-
-    .remove {
-      margin-left: 5px;
-      padding: 0 2px;
-    }
-  }
-}
-
 .fab {
   z-index: 1;
   position: fixed;
@@ -111,23 +80,10 @@ input.search {
 }
 
 .new-conversation {
-  .last-message, .last-timestamp {
-    display: none;
-  }
-
-  .contact {
-    .checkbox, .number {
-      display: inline-block;
-    }
-
-    .number {
-      color: $grey;
-      font-size: small;
-    }
-  }
 }
 
 .new-contact {
+  display: none;
   .contact-name { display: none; }
   .contact-details::before {
     content: 'Create new contact';
@@ -142,48 +98,9 @@ input.search {
   color: $grey_d;
   background: #eee;
 
-  .contact {
-    position: relative;
-    padding: 12px;
-    background: white;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-    overflow: hidden;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: 16px;
-      bottom: 0;
-      height: 1px;
-      width: calc(100% - 12px - 54px - 2 * 8px - 16px);
-      background: #eee;
-    }
-
-    &:hover {
-      background: #f8f8f8;
-    }
-
-    &:last-child {
-      box-shadow: 0 1px 3px rgba(#aaa, 0.8);
-
-      &::after {
-        display: none;
-      }
-    }
-  }
-
-  .contact-details {
-    vertical-align: top;
-    display: inline-block;
-    margin: 4px 0 0 8px;
-  }
-
-  .contact-name {
-    margin: 0;
-    font-size: 1em;
-    font-weight: 400;
+  .new-group-update-form {
+    display: none;
+    padding: 0.5em;
   }
 
   .last-message {
@@ -197,13 +114,6 @@ input.search {
     top: 14px;
     right: 12px;
     color: #888;
-  }
-
-  .avatar img {
-    height: 44px;
-    width: 44px;
-    background: $grey_l;
-    border-radius: (44px / 2);
   }
 
 }

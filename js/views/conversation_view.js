@@ -97,6 +97,10 @@
             view.$el.insertAfter(this.$el);
             this.$el.hide();
             view.render();
+            this.listenBack(view);
+        },
+
+        listenBack: function(view) {
             this.listenTo(view, 'back', function() {
                 view.remove();
                 this.$el.show();
@@ -124,14 +128,12 @@
         },
 
         newGroupUpdate: function() {
-            if (!this.newGroupUpdateView) {
-                this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
-                    model: this.model
-                });
-            } else {
-                this.newGroupUpdateView.delegateEvents();
-            }
-            this.newGroupUpdateView.render().$el.insertBefore(this.view.el);
+            this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
+                model: this.model
+            });
+            this.newGroupUpdateView.$el.insertAfter(this.el);
+            this.$el.hide();
+            this.listenBack(this.newGroupUpdateView);
         },
 
         destroyMessages: function(e) {
