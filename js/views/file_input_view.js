@@ -46,7 +46,7 @@
         },
 
         autoScale: function(file) {
-            if (file.type.split('/')[0] !== 'image') {
+            if (file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
                 // nothing to do
                 return Promise.resolve(file);
             }
