@@ -159,7 +159,11 @@
             return str.replace(emoji.rx_colons, function(m){
                 var idx = m.substr(1, m.length-2);
                 var val = emoji.map.colons[idx];
-                return emoji.data[val][0][0];
+                if (val) {
+                    return emoji.data[val][0][0];
+                } else {
+                    return m;
+                }
             });
         }
     });
