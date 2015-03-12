@@ -447,11 +447,11 @@ input.new-message {
   .message-detail .attachments video,
   .message-list .attachments video {
     background: black; }
-  .message-detail .outgoing img.avatar,
-  .message-list .outgoing img.avatar {
+  .message-detail .outgoing .avatar,
+  .message-list .outgoing .avatar {
     display: none; }
-  .message-detail img.avatar,
-  .message-list img.avatar {
+  .message-detail .avatar img,
+  .message-list .avatar img {
     height: 36px;
     width: 36px;
     background: #f3f3f3;

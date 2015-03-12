@@ -42,6 +42,9 @@
         },
         isIncoming: function() {
             return this.get('type') === 'incoming';
+        },
+        getContact: function() {
+            return this.collection.conversation.contactCollection.get(this.get('source'));
         }
     });
 
@@ -50,6 +53,11 @@
         database   : Whisper.Database,
         storeName  : 'messages',
         comparator : 'received_at',
+        initialize : function(models, options) {
+            if (options) {
+                this.conversation = options.conversation;
+            }
+        },
         destroyAll : function () {
             return Promise.all(this.models.map(function(m) {
                 return new Promise(function(resolve, reject) {

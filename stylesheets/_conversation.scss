@@ -185,11 +185,11 @@
     }
   }
 
-  .outgoing img.avatar {
+  .outgoing .avatar {
     display: none;
   }
 
-  img.avatar {
+  .avatar img {
     height: 36px;
     width: 36px;
     background: $grey_l;

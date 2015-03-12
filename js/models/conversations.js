@@ -32,8 +32,10 @@
     },
 
     initialize: function() {
-        this.messageCollection = new Whisper.MessageCollection();
         this.contactCollection = new Whisper.ConversationCollection();
+        this.messageCollection = new Whisper.MessageCollection([], {
+            conversation: this
+        });
     },
 
     validate: function(attributes, options) {

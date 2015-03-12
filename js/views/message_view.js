@@ -48,13 +48,25 @@
             return text.replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>");
         },
         render: function() {
+            var contact = this.model.getContact();
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
                     timestamp: moment(this.model.get('received_at')).fromNow(),
-                    sender: this.model.get('source')
+                    sender: (contact && contact.getTitle()) || ''
                 })
             );
+
+            var avatar;
+            if (contact && contact.get('avatar')) {
+                avatar = new Whisper.AttachmentView({
+                    model: contact.get('avatar')
+                }).render().el;
+            }
+            else {
+                avatar = $('<img>').attr('src', '/images/default.png');
+            }
+            this.$el.find('.avatar').append(avatar);
 
             twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
 
