@@ -80,6 +80,10 @@
         events: {
             'click .fab': 'showCompose',
             'select .contact': 'openConversation',
+            'click .popout': 'popout'
+        },
+        popout: function() {
+            bg.popoutInbox();
         },
         openConversation: function(e, data) {
             bg.openConversation(data.modelId);

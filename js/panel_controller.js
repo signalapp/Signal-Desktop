@@ -129,6 +129,12 @@
         }
     };
 
+    window.popoutInbox = function() {
+        chrome.browserAction.setPopup({popup: ''});
+        extension.browserAction(window.openInbox);
+        window.openInbox();
+    };
+
     // make sure windows are cleaned up on close
     extension.windows.onClosed(function (windowId) {
         if (windowMap.windowId[windowId]) {

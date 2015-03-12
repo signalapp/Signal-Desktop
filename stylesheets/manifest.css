@@ -319,6 +319,9 @@ input.search {
 .index {
   color: #454545;
   background: #eee; }
+  .index.pop-in {
+    min-height: 330px;
+    min-width: 260px; }
   .index .new-group-update-form {
     display: none;
     padding: 0.5em; }
@@ -344,6 +347,14 @@ input.search {
 .conversations .unread .contact-details .last-message,
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
+
+.popout {
+  float: right;
+  background: url("/images/popout.png") no-repeat center center;
+  display: none; }
+
+.title-bar:hover .popout {
+  display: inline-block; }
 
 .conversation {
   padding: 36px 0; }

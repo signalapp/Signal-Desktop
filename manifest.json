@@ -16,7 +16,8 @@
         "default_icon": {
             "19": "icon.png"
         },
-        "default_title": "TextSecure"
+        "default_title": "TextSecure",
+        "default_popup": "index.html"
     },
 
     "background": {

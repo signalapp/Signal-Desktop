@@ -95,6 +95,11 @@ input.search {
 }
 
 .index {
+  &.pop-in {
+    min-height: 330px;
+    min-width: 260px;
+  }
+
   color: $grey_d;
   background: #eee;
 
@@ -135,4 +140,13 @@ input.search {
     .last-timestamp {
       font-weight: bold;
     }
+}
+
+.popout {
+  float: right;
+  background: url('/images/popout.png') no-repeat center center;
+  display: none;
+}
+.title-bar:hover .popout {
+  display: inline-block;
 }
