@@ -94,6 +94,12 @@
                 height: 440 // 420 for chat
             }, function (windowInfo) {
                 inboxWindowId = windowInfo.id;
+
+                // close the panel if background.html is refreshed
+                window.addEventListener('beforeunload', function () {
+                    // TODO: reattach after reload instead of closing.
+                    extension.windows.remove(windowInfo.id);
+                });
             });
         } else if (inboxOpened === true) {
             extension.windows.focus(inboxWindowId);
