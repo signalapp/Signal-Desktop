@@ -44,7 +44,9 @@
             return this.get('type') === 'incoming';
         },
         getContact: function() {
-            return this.collection.conversation.contactCollection.get(this.get('source'));
+            if (this.collection) {
+                return this.collection.conversation.contactCollection.get(this.get('source'));
+            }
         }
     });
 
