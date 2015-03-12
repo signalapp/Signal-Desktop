@@ -45,7 +45,7 @@
   }
 }
 
-input.new-message {
+input.search {
   border: none;
   padding: 0;
   margin: 0;
@@ -55,23 +55,8 @@ input.new-message {
 .new-conversation {
   .new-group-update-form {
     display: none;
-
-    button.create-group {
-      float: right;
-    }
-
-    .group-avatar {
-      float: left;
-      height: 36px;
-    }
   }
 
-  .buttons {
-    display: none;
-  }
-}
-
-.new-conversation {
   .recipients-container {
     background-color: white;
     padding: 2px;

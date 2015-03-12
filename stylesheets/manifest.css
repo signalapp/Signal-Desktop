@@ -58,7 +58,6 @@ body {
   width: 36px;
   height: 36px;
   line-height: 36px;
-  margin-right: 8px;
   padding: 0;
   border: 0;
   outline: 0; }
@@ -140,6 +139,17 @@ img.emoji {
   margin: 0 .05em 0 .1em;
   vertical-align: -0.1em; }
 
+.new-group-update-form .group-avatar {
+  float: left;
+  height: 36px; }
+
+.title-bar .check {
+  float: right;
+  background: #2a92e7 url("/images/check.png") no-repeat center center;
+  margin: none; }
+  .title-bar .check:hover {
+    background-color: #a2d2f4; }
+
 .gutter {
   padding: 36px 0 0; }
 
@@ -170,7 +180,7 @@ img.emoji {
 .contact .number, .contact .checkbox {
   display: none; }
 
-input.new-message {
+input.search {
   border: none;
   padding: 0;
   margin: 0;
@@ -178,14 +188,6 @@ input.new-message {
 
 .new-conversation .new-group-update-form {
   display: none; }
-  .new-conversation .new-group-update-form button.create-group {
-    float: right; }
-  .new-conversation .new-group-update-form .group-avatar {
-    float: left;
-    height: 36px; }
-.new-conversation .buttons {
-  display: none; }
-
 .new-conversation .recipients-container {
   background-color: white;
   padding: 2px;

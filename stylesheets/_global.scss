@@ -51,7 +51,6 @@ body {
   width: $header-height;
   height: $header-height;
   line-height: $header-height;
-  margin-right: 8px;
   padding: 0;
   border: 0;
   outline: 0;
@@ -151,4 +150,21 @@ img.emoji {
    width: 1em;
    margin: 0 .05em 0 .1em;
    vertical-align: -0.1em;
+}
+
+.new-group-update-form {
+  .group-avatar {
+    float: left;
+    height: 36px;
+  }
+}
+
+.title-bar .check {
+  float: right;
+  background: $blue url('/images/check.png') no-repeat center center;
+  margin: none;
+
+  &:hover {
+    background-color: $blue_l;
+  }
 }

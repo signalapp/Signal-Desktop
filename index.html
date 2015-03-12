@@ -50,6 +50,7 @@
         <script type='text/x-tmpl-mustache' id='new-conversation'>
             <div class='title-bar' id='header'>
               <button class='back'></button>
+              <button class='create check hide'></button>
               <span class='title-text'>New Message</span>
             </div>
             <div class='gutter'>
@@ -61,18 +62,17 @@
                   </div>
                   <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
                 </div>
-                <div class='recipients-container'>
-                  <span class='recipients'></span>
-                  <input type='text' class='new-message' placeholder="Name or phone number" />
-                </div>
-                <div class='buttons'>
-                  <button class='create'>Next</button>
-                </div>
-                <div class='results'>
-                  <div class='new-contact contact'></div>
-                  <div class='contacts'></div>
-                </div>
               </div>
+            </div>
+        </script>
+        <script type='text/x-tmpl-mustache' id='recipients-input'>
+            <div class='recipients-container'>
+              <span class='recipients'></span>
+              <input type='text' class='search' placeholder="Name or phone number" />
+            </div>
+            <div class='results'>
+              <div class='new-contact contact hide'></div>
+              <div class='contacts'></div>
             </div>
         </script>
         <script type='text/x-tmpl-mustache' id='attachment-preview'>
@@ -105,6 +105,7 @@
         <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
         <script type="text/javascript" src="js/views/conversation_view.js"></script>
+        <script type="text/javascript" src="js/views/recipients_input_view.js"></script>
         <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
         <script type="text/javascript" src="js/views/inbox_view.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
