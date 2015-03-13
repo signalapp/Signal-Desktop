@@ -5,6 +5,7 @@
     "description": "Secure texting ",
     "version": "0.0.1",
     "offline_enabled": false,
+    "default_locale": "en",
 
     "permissions": [
       "unlimitedStorage"

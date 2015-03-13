@@ -82,13 +82,13 @@
         <script type='text/x-tmpl-mustache' id='message-detail'>
           <div class='title-bar' id='header'>
               <button class='back'></button>
-              <span class='title-text'>Message Detail</span>
+              <span class='title-text'>{{ title }}</span>
           </div>
           <div class='message-container'></div>
           <div class='info'>
             <table>
-                <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
-                <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+                <tr><td class='label'>{{ sent }}</td><td> {{ sent_at }}</td></tr>
+                <tr><td class='label'>{{ received }}</td><td> {{ received_at }}</td></tr>
               <tr>
                 <td class='tofrom label'>{{ tofrom }}</td>
                 <td>
