@@ -90,9 +90,18 @@ button.back {
 
     li {
       display: block;
-      cursor: pointer;
       white-space: nowrap;
-      padding: 5px 15px 5px 10px;
+
+      a {
+        cursor: pointer;
+        display: block;
+        padding: 5px 15px 5px 10px;
+
+        &:hover {
+          background-color: $grey_l;
+        }
+      }
+
     }
   }
 }

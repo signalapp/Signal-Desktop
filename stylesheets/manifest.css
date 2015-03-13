@@ -91,9 +91,13 @@ button.back {
     box-shadow: 0 4px 3px 0px rgba(12, 65, 108, 0.8); }
     .menu .menu-list li {
       display: block;
-      cursor: pointer;
-      white-space: nowrap;
-      padding: 5px 15px 5px 10px; }
+      white-space: nowrap; }
+      .menu .menu-list li a {
+        cursor: pointer;
+        display: block;
+        padding: 5px 15px 5px 10px; }
+        .menu .menu-list li a:hover {
+          background-color: #f3f3f3; }
 
 .file-input {
   position: relative;
