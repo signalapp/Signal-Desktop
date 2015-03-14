@@ -85,6 +85,10 @@
         chrome.browserAction.onClicked.addListener(callback);
     };
 
+    extension.i18n = function(message) {
+        return chrome.i18n.getMessage(message);
+    };
+
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {
         done: function () {

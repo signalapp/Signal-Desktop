@@ -40,10 +40,10 @@
             this.$el.find('.discussion-container').append(this.view.el);
             this.view.render();
 
-            this.$el.find('.end-session').text(chrome.i18n.getMessage("resetSession"));
-            this.$el.find('.verify-identity').text(chrome.i18n.getMessage("verifyIdentity"));
-            this.$el.find('.destroy').text(chrome.i18n.getMessage("deleteMessages"));
-            this.$el.find('.send-message').attr('placeholder', chrome.i18n.getMessage("sendMessage"));
+            this.$el.find('.end-session').text(extension.i18n("resetSession"));
+            this.$el.find('.verify-identity').text(extension.i18n("verifyIdentity"));
+            this.$el.find('.destroy').text(extension.i18n("deleteMessages"));
+            this.$el.find('.send-message').attr('placeholder', extension.i18n("sendMessage"));
 
             setTimeout(function() {
                 this.view.scrollToBottom();

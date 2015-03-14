@@ -94,9 +94,9 @@
                 el: this.$el.find('.recipients')
             });
 
-            this.$el.find('.title-text').text(chrome.i18n.getMessage("newMessage"));
-            this.$el.find('.buttons .create').text(chrome.i18n.getMessage("next"));
-            this.$el.find('.new-message').attr('placeholder', chrome.i18n.getMessage("nameOrPhone"));
+            this.$el.find('.title-text').text(extension.i18n("newMessage"));
+            this.$el.find('.buttons .create').text(extension.i18n("next"));
+            this.$el.find('.new-message').attr('placeholder', extension.i18n("nameOrPhone"));
         },
 
         events: {
@@ -169,7 +169,6 @@
             } else {
                 this.$group_update.slideUp();
             }
-
             this.$input.focus();
         },
 
