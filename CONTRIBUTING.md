@@ -25,7 +25,6 @@ Once that's done, you can register for TextSecure using the instructions below:
 **NOTE:** This is only for developers and will not be presented to users.
 
 * Navigate to chrome-extension://.../register.html
-* Select "Register" under "I'm new to TextSecure".
 * Enter a real phone number (Google Voice numbers work too) and country
   combination and choose to send an SMS. You will receive a real SMS.
 * Enter the verification code you received by SMS.
