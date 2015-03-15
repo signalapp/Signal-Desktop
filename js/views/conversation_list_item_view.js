@@ -28,6 +28,9 @@
         initialize: function() {
             this.listenTo(this.model, 'change', this.render); // auto update
             this.listenTo(this.model, 'destroy', this.remove); // auto update
+            window.addEventListener('beforeunload', function () {
+                this.stopListening();
+            }.bind(this));
         },
 
         select: function(e) {
