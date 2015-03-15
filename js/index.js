@@ -16,14 +16,14 @@
  */
 (function () {
   'use strict';
+    var bg = extension.windows.getBackground();
 
     window.Whisper = window.Whisper || {};
-
-    if (textsecure.storage.getUnencrypted("number_id") === undefined) {
+    if (bg.textsecure.storage.getUnencrypted("number_id") === undefined) {
         window.location = '/options.html';
     } else {
-        new Whisper.InboxView().$el.prependTo($('body'));
-        textsecure.storage.putUnencrypted("unreadCount", 0);
+        new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));
+        bg.textsecure.storage.putUnencrypted("unreadCount", 0);
         extension.navigator.setBadgeText("");
     }
 }());

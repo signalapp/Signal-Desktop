@@ -21,14 +21,15 @@
 
     extension.windows.getCurrent(function (windowInfo) {
         var bg = extension.windows.getBackground();
+        window.$ = bg.$;
         var conversation = bg.getConversationForWindow(windowInfo.id);
         if (conversation) {
             window.document.title = conversation.getTitle();
-            new Whisper.ConversationView({
+            new bg.Whisper.ConversationView({
                 model: conversation
-            }).$el.prependTo($('body'));
+            }).$el.prependTo($('body', document));
         } else {
-            $('<div>').text('Error').prependTo($('body'));
+            $('<div>').text('Error').prependTo($('body', document));
         }
     });
 }());

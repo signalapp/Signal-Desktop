@@ -4,112 +4,14 @@
         <meta charset='utf-8'>
         <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>
-        Signal for Chrome
-        </title>
+        <title>Signal</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href='/icon.png' rel='shortcut icon'>
         <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/chromium.js"></script>
     </head>
     <body class='signal index'>
-        <script type="text/x-tmpl-mustache" id="inbox">
-          <div class='title-bar' id='header'>
-            <div class='socket-status'></div>
-          </div>
-          <div class='gutter'>
-              <div class='conversations scrollable'></div>
-              <span class='fab'></span>
-          </div>
-        </script>
-        <script type="text/x-tmpl-mustache" id="phone-number">
-            <div class="phone-input-form">
-                <div class="number-container">
-                    <input type="tel" class="number" placeholder="Phone Number" />
-                </div>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='contact_pill'>
-          <span>{{ name }}</span><span class='remove'>x</span>
-        </script>
-        <script type='text/x-tmpl-mustache' id='contact'>
-            <span class='avatar'></span>
-            <div class='contact-details'>
-                <h3 class='contact-name'>
-                {{ contact_name }}
-                </h3>
-                <p class='number'>{{ number }}</p>
-                <p class='last-message'>
-                {{ last_message }}
-                </p>
-                <span class='last-timestamp'>
-                {{ last_message_timestamp }}
-                </span>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='new-conversation'>
-            <div class='title-bar' id='header'>
-              <button class='back'></button>
-              <button class='create check hide'></button>
-              <span class='title-text'>New Message</span>
-            </div>
-            <div class='gutter'>
-              <div class='scrollable'>
-                <div class='new-group-update-form clearfix'>
-                  <div class='group-avatar'>
-                    <div class='thumbnail'>
-                      <span class='default group-default'></span>
-                    </div>
-                    <input type='file' name='avatar' class='file-input'>
-                  </div>
-                  <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
-                </div>
-              </div>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='recipients-input'>
-            <div class='recipients-container'>
-              <span class='recipients'></span>
-              <input type='text' class='search' placeholder="Name or phone number" />
-            </div>
-            <div class='results'>
-              <div class='new-contact contact hide'></div>
-              <div class='contacts'></div>
-            </div>
-        </script>
-        <script type='text/x-tmpl-mustache' id='attachment-preview'>
-              <img src="{{ source }}" class="preview" />
-              <div class="close">x</div>
-        </script>
-        <script type="text/javascript" src="js/components.js"></script>
-
-        <script type="text/javascript" src="js/libtextsecure.js"></script>
-        <script type="text/javascript" src="js/database.js"></script>
-
-        <script type="text/javascript" src="js/libphonenumber-util.js"></script>
-
-        <script type="text/javascript" src="js/models/messages.js"></script>
-        <script type="text/javascript" src="js/models/conversations.js"></script>
-
-        <script type="text/javascript" src="js/chromium.js"></script>
-
-        <script type="text/javascript" src="js/views/whisper_view.js"></script>
-        <script type="text/javascript" src="js/views/toast_view.js"></script>
-        <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
-        <script type="text/javascript" src="js/views/file_input_view.js"></script>
-        <script type="text/javascript" src="js/views/list_view.js"></script>
-        <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
-        <script type="text/javascript" src="js/views/group_update_view.js"></script>
-        <script type="text/javascript" src="js/views/attachment_view.js"></script>
-        <script type="text/javascript" src="js/views/message_view.js"></script>
-        <script type="text/javascript" src="js/views/message_list_view.js"></script>
-        <script type="text/javascript" src="js/views/phone-input-view.js"></script>
-        <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
-        <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
-        <script type="text/javascript" src="js/views/conversation_view.js"></script>
-        <script type="text/javascript" src="js/views/recipients_input_view.js"></script>
-        <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
-        <script type="text/javascript" src="js/views/inbox_view.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>
 </html>
