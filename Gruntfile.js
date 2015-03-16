@@ -171,7 +171,7 @@ module.exports = function(grunt) {
     },
     jscs: {
       all: {
-        src: ['js/**/*.js', '!js/components.js', 'test/**/*.js']
+        src: ['js/**/*.js', '!js/libtextsecure.js', '!js/components.js', 'test/**/*.js']
       }
     },
     watch: {
