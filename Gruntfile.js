@@ -233,7 +233,7 @@ module.exports = function(grunt) {
         return "'_" + name + "'";
       });
       var flags = [
-          '-O2',
+          '-O1',
           '-Qunused-arguments',
           '-o',  outfile,
           '-Inative/ed25519/nacl_includes -Inative/ed25519 -Inative/ed25519/sha512',
