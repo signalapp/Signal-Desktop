@@ -16,6 +16,7 @@
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
+    emoji.init_colons();
 
     Whisper.ConversationView = Whisper.View.extend({
         className: function() {
@@ -29,8 +30,6 @@
             this.listenTo(this.model, 'destroy', this.stopListening);
 
             this.render();
-
-            emoji.init_colons();
 
             this.fileInput = new Whisper.FileInputView({
                 el: this.$el.find('.attachments')
