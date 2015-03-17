@@ -41,9 +41,32 @@
         windowMap.remove('windowId', windowId);
     }
 
-    window.openConversation = function openConversation (modelId) {
+    function getConversation(modelId) {
         var conversation = window.inbox.get(modelId) || {id: modelId};
         conversation = conversations.add(conversation);
+        return conversation;
+    }
+
+    window.notifyConversation = function(message) {
+        if (Whisper.Notifications.isEnabled()) {
+            var conversation = getConversation(message.get('conversationId'));
+            conversation.fetch().then(function() {
+                var notification = new Notification(conversation.getTitle(), {
+                    body: message.get('body'),
+                    icon: conversation.getAvatarUrl(),
+                    tag: conversation.id
+                });
+                notification.onclick = function() {
+                    openConversation(conversation.id);
+                };
+            });
+        } else {
+            openConversation(message.get('conversationId'));
+        }
+    };
+
+    window.openConversation = function openConversation (modelId) {
+        var conversation = getConversation(modelId);
         conversation.fetch().then(function() {
             conversation.fetchContacts();
         });

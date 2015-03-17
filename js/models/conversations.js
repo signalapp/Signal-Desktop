@@ -36,6 +36,8 @@
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
         });
+
+        this.on('change:avatar', this.updateAvatarUrl);
     },
 
     validate: function(attributes, options) {
@@ -190,6 +192,28 @@
     },
     isPrivate: function() {
         return this.get('type') === 'private';
+    },
+
+    updateAvatarUrl: function() {
+        if (this.avatarUrl) {
+            URL.revokeObjectURL(this.avatarUrl);
+            this.avatarUrl = null;
+        }
+        var avatar = this.get('avatar');
+        if (avatar) {
+            this.avatarUrl = URL.createObjectURL(
+                new Blob([avatar.data], {type: avatar.contentType})
+            );
+        } else {
+            this.avatarUrl = null;
+        }
+    },
+
+    getAvatarUrl: function() {
+        if (this.avatarUrl === undefined) {
+            this.updateAvatarUrl();
+        }
+        return this.avatarUrl || '/images/default.png';
     }
   });
 

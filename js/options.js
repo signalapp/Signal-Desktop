@@ -15,6 +15,26 @@
  */
 ;(function() {
     'use strict';
+    $('.notifications .on button').click(function() {
+        Whisper.Notifications.disable();
+        initOptions();
+    });
+
+    $('.notifications .off button').click(function() {
+        Whisper.Notifications.enable(initOptions);
+        initOptions();
+    });
+
+    function initOptions() {
+        if (Whisper.Notifications.isEnabled()) {
+            $('.notifications .on').show();
+            $('.notifications .off').hide();
+        } else {
+            $('.notifications .on').hide();
+            $('.notifications .off').show();
+        }
+    }
+
     $(function() {
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(
@@ -23,6 +43,7 @@
                 )[0]
             );//TODO: no
             $('#setup-complete').show().addClass('in');
+            initOptions();
         } else {
             $('#init-setup').show().addClass('in');
             $('#status').text("Connecting...");
@@ -55,6 +76,7 @@
                                 textsecure.registration.done();
                                 $('#init-setup').hide();
                                 $('#setup-complete').show().addClass('in');
+                                initOptions();
                             }
                         });
                     } else

@@ -115,12 +115,12 @@
                             e.args.push(message.id);
                             message.save({ errors : [e] }).then(function() {
                                 extension.trigger('message', message);
-                                openConversation(conversation.id);
+                                notifyConversation(message);
                             });
                         } else if (e.message === 'Bad MAC') {
                             message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
                                 extension.trigger('message', message);
-                                openConversation(conversation.id);
+                                notifyConversation(message);
                             });
                         } else {
                             console.log(e);
@@ -220,7 +220,7 @@
                 conversation.save().then(function() {
                     message.save().then(function() {
                         extension.trigger('message', message); // notify frontend listeners
-                        openConversation(conversation.id);
+                        notifyConversation(message);
                     });
                 });
             });
