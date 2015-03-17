@@ -456,6 +456,9 @@ input.search {
       top: 11px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent; }
+    .message-detail .bubble .content a,
+    .message-list .bubble .content a {
+      word-break: break-all; }
   .message-detail .incoming .bubble,
   .message-list .incoming .bubble {
     color: #454545;
