@@ -26,7 +26,7 @@
         } else {
             $('#init-setup').show().addClass('in');
             $('#status').text("Connecting...");
-            axolotl.protocol.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
+            textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 var qrCode = new QRCode(document.getElementById('qr'));
                 var socket = textsecure.api.getTempWebsocket();
                 new WebSocketResource(socket, function(request) {

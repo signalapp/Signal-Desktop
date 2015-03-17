@@ -67,7 +67,7 @@ window.textsecure.messaging = function() {
                     return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
             }
 
-            return axolotl.protocol.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
+            return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
                 textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
                 var registrationId = deviceObjectList[i].registrationId || deviceObjectList[i].sessions.registrationId;
 
@@ -313,7 +313,7 @@ window.textsecure.messaging = function() {
         return sendIndividualProto(number, proto, Date.now()).then(function(res) {
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
             for (var i in devices)
-                axolotl.protocol.closeOpenSessionForDevice(devices[i].encodedNumber);
+                textsecure.protocol_wrapper.closeOpenSessionForDevice(devices[i].encodedNumber);
 
             return res;
         });

@@ -271,7 +271,7 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
         textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         stepDone(1);
 
-        return axolotl.protocol.generateKeys().then(function(keys) {
+        return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
             stepDone(2);
             return textsecure.api.registerKeys(keys).then(function() {
                 stepDone(3);
@@ -302,7 +302,7 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
             textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
             stepDone(2);
 
-            return axolotl.protocol.generateKeys().then(function(keys) {
+            return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
                 stepDone(3);
                 return textsecure.api.registerKeys(keys).then(function() {
                     stepDone(4);

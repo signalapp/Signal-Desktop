@@ -10,11 +10,6 @@ module.exports = function(grunt) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
 
-  var libaxolotlcomponents = [];
-  for (i in bower.concat.libaxolotl) {
-    libaxolotlcomponents.push('components/' + bower.concat.libaxolotl[i] + '/**/*.js');
-  }
-
   var libtextsecurecomponents = [];
   for (i in bower.concat.libtextsecure) {
     libtextsecurecomponents.push('components/' + bower.concat.libtextsecure[i] + '/**/*.js');
@@ -27,42 +22,9 @@ module.exports = function(grunt) {
         src: components,
         dest: 'js/components.js',
       },
-      libaxolotlcomponents: {
-        src: libaxolotlcomponents,
-        dest: 'libaxolotl/components.js',
-      },
       libtextsecurecomponents: {
         src: libtextsecurecomponents,
         dest: 'libtextsecure/components.js',
-      },
-      curve25519: {
-        src: [
-          'build/curve25519_compiled.js',
-          'build/curve25519.js',
-        ],
-        dest: 'libaxolotl/curve25519_concat.js',
-        options: {
-          banner: ';(function(){\n',
-          footer: '\n})();'
-        }
-      },
-      webcrypto: {
-        src: [
-          'components/cryptojs/src/core.js',
-          'components/cryptojs/src/sha256.js',
-          'components/cryptojs/src/hmac.js',
-          'components/cryptojs/src/enc-base64.js',
-          'components/cryptojs/src/md5.js',
-          'components/cryptojs/src/evpkdf.js',
-          'components/cryptojs/src/cipher-core.js',
-          'components/cryptojs/src/aes.js',
-          'build/webcrypto.js'
-        ],
-        dest: 'libaxolotl/webcrypto_concat.js',
-        options: {
-          banner: ';(function(){\n',
-          footer: '\n})();'
-        }
       },
       test: {
         src: [
@@ -72,25 +34,12 @@ module.exports = function(grunt) {
         ],
         dest: 'test/test.js',
       },
-      libaxolotl: {
-        src: [
-          'libaxolotl/curve25519_concat.js',
-          'libaxolotl/webcrypto_concat.js',
-          'libaxolotl/components.js',
-
-          'libaxolotl/crypto.js',
-          'libaxolotl/protocol.js',
-          'libaxolotl/protobufs.js',
-          'libaxolotl/session_storage.js',
-        ],
-        dest: 'libtextsecure/libaxolotl_concat.js',
-      },
       //TODO: Move errors back down?
       libtextsecure: {
         src: [
           'libtextsecure/errors.js',
+          'libtextsecure/libaxolotl.js',
           'libtextsecure/axolotl_wrapper.js',
-          'libtextsecure/libaxolotl_concat.js',
 
           'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
@@ -113,15 +62,6 @@ module.exports = function(grunt) {
           'libtextsecure/test/_test.js'
         ],
         dest: 'libtextsecure/test/test.js',
-      },
-      libaxolotltest: {
-        src: [
-          'components/mocha/mocha.js',
-          'components/chai/chai.js',
-          'components/jquery/**/*.js',
-          'libaxolotl/test/_test.js'
-        ],
-        dest: 'libaxolotl/test/test.js',
       }
     },
     sass: {
@@ -206,7 +146,6 @@ module.exports = function(grunt) {
           urls: [
             'http://127.0.0.1:9999/test/index.html',
             'http://127.0.0.1:9999/libtextsecure/test/index.html',
-            'http://127.0.0.1:9999/libaxolotl/test/index.html'
           ],
           build: process.env.TRAVIS_JOB_ID,
           browsers: [

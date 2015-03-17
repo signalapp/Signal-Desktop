@@ -25134,20 +25134,21 @@ run();
 /* vim: ts=4:sw=4:expandtab
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+var axolotlInternal = axolotlInternal || {};
 
-;(function() {
+axolotlInternal.curve25519 = function() {
     'use strict';
 
     // Insert some bytes into the emscripten memory and return a pointer
@@ -25165,7 +25166,7 @@ run();
     var basepoint = new Uint8Array(32);
     basepoint[0] = 9;
 
-    window.curve25519 = {
+    return {
         keyPair: function(privKey) {
             var priv = new Uint8Array(privKey);
             priv[0]  &= 248;
@@ -25272,9 +25273,8 @@ run();
             });
         }
     };
-})();
+}();
 
-})();
 ;(function(){
 /**
  * CryptoJS core components.
@@ -27823,16 +27823,16 @@ CryptoJS.lib.Cipher || (function (undefined) {
 
 /*
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -27853,8 +27853,8 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 assertIsArrayBuffer(key);
                 assertIsArrayBuffer(input);
                 return CryptoJS.HmacSHA256(
-                    CryptoJS.enc.Latin1.parse(getString(input)),
-                    CryptoJS.enc.Latin1.parse(getString(key))
+                    CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(input)),
+                    CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(key))
                 );
             };
 
@@ -27863,9 +27863,9 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 assertIsArrayBuffer(key);
                 assertIsArrayBuffer(iv);
                 return CryptoJS.AES.encrypt(
-                        CryptoJS.enc.Latin1.parse(getString(plaintext)),
-                        CryptoJS.enc.Latin1.parse(getString(key)),
-                        { iv: CryptoJS.enc.Latin1.parse(getString(iv)) }
+                        CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(plaintext)),
+                        CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(key)),
+                        { iv: CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(iv)) }
                 ).ciphertext;
             };
 
@@ -27874,9 +27874,9 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 assertIsArrayBuffer(key);
                 assertIsArrayBuffer(iv);
                 return CryptoJS.AES.decrypt(
-                        btoa(getString(ciphertext)),
-                        CryptoJS.enc.Latin1.parse(getString(key)),
-                        { iv: CryptoJS.enc.Latin1.parse(getString(iv)) }
+                        btoa(axolotlInternal.utils.convertToString(ciphertext)),
+                        CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(key)),
+                        { iv: CryptoJS.enc.Latin1.parse(axolotlInternal.utils.convertToString(iv)) }
                 );
             };
 
@@ -36481,28 +36481,35 @@ CryptoJS.lib.Cipher || (function (undefined) {
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-;(function() {
-    window.axolotl = window.axolotl || {};
+var axolotlInternal = axolotlInternal || {};
 
-    /*
-     *  axolotl.crypto
-     *    glues together various implementations into a single interface
-     *    for all low-level crypto operations,
-     */
+axolotlInternal.crypto = function() {
+    'use strict';
 
-    window.axolotl.crypto = {
+    var validatePubKeyFormat = function(pubKey) {
+        if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
+            throw new Error("Invalid public key");
+        if (pubKey.byteLength == 33) {
+            return pubKey.slice(1);
+        } else {
+            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
+            return pubKey;
+        }
+    };
+
+    return {
         getRandomBytes: function(size) {
             var array = new Uint8Array(size);
             window.crypto.getRandomValues(array);
@@ -36527,18 +36534,18 @@ CryptoJS.lib.Cipher || (function (undefined) {
         HKDF: function(input, salt, info) {
             // Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
             // TODO: We dont always need the third chunk, we might skip it
-            return window.axolotl.crypto.sign(salt, input).then(function(PRK) {
+            return axolotlInternal.crypto.sign(salt, input).then(function(PRK) {
                 var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
                 var infoArray = new Uint8Array(infoBuffer);
                 infoArray.set(new Uint8Array(info), 32);
                 infoArray[infoArray.length - 1] = 1;
-                return window.axolotl.crypto.sign(PRK, infoBuffer.slice(32)).then(function(T1) {
+                return axolotlInternal.crypto.sign(PRK, infoBuffer.slice(32)).then(function(T1) {
                     infoArray.set(new Uint8Array(T1));
                     infoArray[infoArray.length - 1] = 2;
-                    return window.axolotl.crypto.sign(PRK, infoBuffer).then(function(T2) {
+                    return axolotlInternal.crypto.sign(PRK, infoBuffer).then(function(T2) {
                         infoArray.set(new Uint8Array(T2));
                         infoArray[infoArray.length - 1] = 3;
-                        return window.axolotl.crypto.sign(PRK, infoBuffer).then(function(T3) {
+                        return axolotlInternal.crypto.sign(PRK, infoBuffer).then(function(T3) {
                             return [ T1, T2, T3 ];
                         });
                     });
@@ -36549,13 +36556,13 @@ CryptoJS.lib.Cipher || (function (undefined) {
         // Curve 25519 crypto
         createKeyPair: function(privKey) {
             if (privKey === undefined) {
-                privKey = axolotl.crypto.getRandomBytes(32);
+                privKey = axolotlInternal.crypto.getRandomBytes(32);
             }
             if (privKey.byteLength != 32) {
                 throw new Error("Invalid private key");
             }
 
-            return window.curve25519.keyPair(privKey).then(function(raw_keys) {
+            return axolotlInternal.curve25519.keyPair(privKey).then(function(raw_keys) {
                 // prepend version byte
                 var origPub = new Uint8Array(raw_keys.pubKey);
                 var pub = new Uint8Array(33);
@@ -36573,7 +36580,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
             if (pubKey === undefined || pubKey.byteLength != 32)
                 throw new Error("Invalid public key");
 
-            return window.curve25519.sharedSecret(pubKey, privKey);
+            return axolotlInternal.curve25519.sharedSecret(pubKey, privKey);
         },
         Ed25519Sign: function(privKey, message) {
             if (privKey === undefined || privKey.byteLength != 32)
@@ -36582,7 +36589,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
             if (message === undefined)
                 throw new Error("Invalid message");
 
-            return window.curve25519.sign(privKey, message);
+            return axolotlInternal.curve25519.sign(privKey, message);
         },
         Ed25519Verify: function(pubKey, msg, sig) {
             pubKey = validatePubKeyFormat(pubKey);
@@ -36596,36 +36603,134 @@ CryptoJS.lib.Cipher || (function (undefined) {
             if (sig === undefined || sig.byteLength != 64)
                 throw new Error("Invalid signature");
 
-            return window.curve25519.verify(pubKey, msg, sig);
+            return axolotlInternal.curve25519.verify(pubKey, msg, sig);
         }
     };
-
-    var validatePubKeyFormat = function(pubKey) {
-        if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
-            throw new Error("Invalid public key");
-        if (pubKey.byteLength == 33) {
-            return pubKey.slice(1);
-        } else {
-            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
-            return pubKey;
-        }
-    };
-
-})();
+}();
 
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var axolotlInternal = axolotlInternal || {};
+
+axolotlInternal.utils = function() {
+    'use strict';
+
+    var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
+    var StaticArrayBufferProto = new ArrayBuffer().__proto__;
+    var StaticUint8ArrayProto = new Uint8Array().__proto__;
+    function stringObject(thing) {
+        if (thing === Object(thing)) {
+            if (thing.__proto__ == StaticUint8ArrayProto)
+                return String.fromCharCode.apply(null, thing);
+            if (thing.__proto__ == StaticArrayBufferProto)
+                return getString(new Uint8Array(thing));
+            if (thing.__proto__ == StaticByteBufferProto)
+                return thing.toString("binary");
+        }
+        throw new Error("unsure how to stringify object of type " + typeof thing);
+    }
+
+    function isStringable(thing) {
+        return (thing === Object(thing) &&
+                   (thing.__proto__ == StaticArrayBufferProto ||
+                    thing.__proto__ == StaticUint8ArrayProto ||
+                    thing.__proto__ == StaticByteBufferProto));
+    }
+
+    function ensureStringed(thing) {
+        if (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean")
+            return thing;
+        else if (isStringable(thing))
+            return stringObject(thing);
+        else if (thing instanceof Array) {
+            var res = [];
+            for (var i = 0; i < thing.length; i++)
+                res[i] = ensureStringed(thing[i]);
+            return res;
+        } else if (thing === Object(thing)) {
+            var res = {};
+            for (var key in thing)
+                res[key] = ensureStringed(thing[key]);
+            return res;
+		} else if (thing === null)
+			return null;
+        else
+            throw new Error("unsure of how to jsonify object of type " + typeof thing);
+    }
+
+    return {
+        jsonThing: function(thing) {
+            return JSON.stringify(ensureStringed(thing)); //TODO: jquery???
+        },
+        convertToString: function(thing) {
+            if (typeof thing == "string")
+                return thing;
+            else if (isStringable(thing))
+                return stringObject(thing);
+            else
+                throw new Error("Unsure how to convert object to string from type " + typeof thing);
+        },
+        convertToArrayBuffer: function(thing) {
+            if (thing === undefined)
+                return undefined;
+            if (thing === Object(thing)) {
+                if (thing.__proto__ == StaticArrayBufferProto)
+                    return thing;
+                //TODO: Several more cases here...
+            }
+
+            if (thing instanceof Array) {
+                // Assuming Uint16Array from curve25519
+                //TODO: Move to convertToArrayBuffer
+                var res = new ArrayBuffer(thing.length * 2);
+                var uint = new Uint16Array(res);
+                for (var i = 0; i < thing.length; i++)
+                    uint[i] = thing[i];
+                return res;
+            }
+
+            var str;
+            if (isStringable(thing))
+                str = stringObject(thing);
+            else if (typeof thing == "string")
+                str = thing;
+            else
+                throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
+            var res = new ArrayBuffer(str.length);
+            var uint = new Uint8Array(res);
+            for (var i = 0; i < str.length; i++)
+                uint[i] = str.charCodeAt(i);
+            return res;
+        },
+    };
+}();
+
+/* vim: ts=4:sw=4
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 ;(function() {
@@ -36633,7 +36738,7 @@ CryptoJS.lib.Cipher || (function (undefined) {
 'use strict';
 window.axolotl = window.axolotl || {};
 
-window.axolotl.protocol = function() {
+window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
     var self = {};
 
     /******************************
@@ -36658,25 +36763,25 @@ window.axolotl.protocol = function() {
     var crypto_storage = {};
 
     crypto_storage.putKeyPair = function(keyName, keyPair) {
-        axolotl.api.storage.put("25519Key" + keyName, keyPair);
+        storage_interface.put("25519Key" + keyName, keyPair);
     }
 
     crypto_storage.getNewStoredKeyPair = function(keyName) {
-        return axolotl.crypto.createKeyPair().then(function(keyPair) {
+        return axolotlInternal.crypto.createKeyPair().then(function(keyPair) {
             crypto_storage.putKeyPair(keyName, keyPair);
             return keyPair;
         });
     }
 
     crypto_storage.getStoredKeyPair = function(keyName) {
-        var res = axolotl.api.storage.get("25519Key" + keyName);
+        var res = storage_interface.get("25519Key" + keyName);
         if (res === undefined)
             return undefined;
-        return { pubKey: toArrayBuffer(res.pubKey), privKey: toArrayBuffer(res.privKey) };
+        return { pubKey: axolotlInternal.utils.convertToArrayBuffer(res.pubKey), privKey: axolotlInternal.utils.convertToArrayBuffer(res.privKey) };
     }
 
     crypto_storage.removeStoredKeyPair = function(keyName) {
-        axolotl.api.storage.remove("25519Key" + keyName);
+        storage_interface.remove("25519Key" + keyName);
     }
 
     crypto_storage.getIdentityKey = function() {
@@ -36684,7 +36789,7 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        var record = storage_interface.sessions.get(encodedNumber);
         if (record === undefined) {
             if (registrationId === undefined)
                 throw new Error("Tried to save a session for an existing device that didn't exist");
@@ -36696,7 +36801,7 @@ window.axolotl.protocol = function() {
 
         if (record.identityKey === null)
             record.identityKey = session.indexInfo.remoteIdentityKey;
-        if (getString(record.identityKey) !== getString(session.indexInfo.remoteIdentityKey))
+        if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey))
             throw new Error("Identity key changed at session save time");
 
         var doDeleteSession = false;
@@ -36718,9 +36823,9 @@ window.axolotl.protocol = function() {
         }
 
         if (doDeleteSession)
-            delete sessions[getString(session.indexInfo.baseKey)];
+            delete sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)];
         else
-            sessions[getString(session.indexInfo.baseKey)] = session;
+            sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)] = session;
 
         var openSessionRemaining = false;
         for (var key in sessions)
@@ -36733,17 +36838,17 @@ window.axolotl.protocol = function() {
         else if (record.registrationId === null)
             throw new Error("Had open sessions on a record that had no registrationId set");
 
-        var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+        var identityKey = storage_interface.identityKeys.get(encodedNumber);
         if (identityKey === undefined)
-            axolotl.api.storage.identityKeys.put(encodedNumber, record.identityKey);
-        else if (getString(identityKey) !== getString(record.identityKey))
+            storage_interface.identityKeys.put(encodedNumber, record.identityKey);
+        else if (axolotlInternal.utils.convertToString(identityKey) !== axolotlInternal.utils.convertToString(record.identityKey))
             throw new Error("Tried to change identity key at save time");
 
-        axolotl.api.storage.sessions.put(encodedNumber, record);
+        storage_interface.sessions.put(encodedNumber, record);
     }
 
     var getSessions = function(encodedNumber) {
-        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        var record = storage_interface.sessions.get(encodedNumber);
         if (record === undefined)
             return undefined;
         return record._sessions;
@@ -36765,7 +36870,7 @@ window.axolotl.protocol = function() {
         if (sessions === undefined)
             return undefined;
 
-        var searchKey = getString(remoteEphemeralKey);
+        var searchKey = axolotlInternal.utils.convertToString(remoteEphemeralKey);
 
         var openSession = undefined;
         for (var key in sessions) {
@@ -36784,16 +36889,16 @@ window.axolotl.protocol = function() {
     }
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-        var record = axolotl.api.storage.sessions.get(encodedNumber);
+        var record = storage_interface.sessions.get(encodedNumber);
         if (record === undefined) {
-            var identityKey = axolotl.api.storage.identityKeys.get(encodedNumber);
+            var identityKey = storage_interface.identityKeys.get(encodedNumber);
             if (identityKey === undefined)
                 return undefined;
             return { indexInfo: { remoteIdentityKey: identityKey } };
         }
         var sessions = record._sessions;
 
-        var preferredSession = record._sessions[getString(baseKey)];
+        var preferredSession = record._sessions[axolotlInternal.utils.convertToString(baseKey)];
         if (preferredSession !== undefined)
             return preferredSession;
 
@@ -36813,13 +36918,13 @@ window.axolotl.protocol = function() {
         if (salt.byteLength != 32)
             throw new Error("Got salt of incorrect length");
 
-        info = toArrayBuffer(info); // TODO: maybe convert calls?
+        info = axolotlInternal.utils.convertToArrayBuffer(info); // TODO: maybe convert calls?
 
-        return axolotl.crypto.HKDF(input, salt, info);
+        return axolotlInternal.crypto.HKDF(input, salt, info);
     }
 
     var verifyMAC = function(data, key, mac) {
-        return axolotl.crypto.sign(key, data).then(function(calculated_mac) {
+        return axolotlInternal.crypto.sign(key, data).then(function(calculated_mac) {
             if (!isEqual(calculated_mac, mac, true))
                 throw new Error("Bad MAC");
         });
@@ -36831,12 +36936,12 @@ window.axolotl.protocol = function() {
     var calculateRatchet = function(session, remoteKey, sending) {
         var ratchet = session.currentRatchet;
 
-        return axolotl.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
-            return HKDF(sharedSecret, toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
+        return axolotlInternal.crypto.ECDHE(remoteKey, axolotlInternal.utils.convertToArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
+            return HKDF(sharedSecret, axolotlInternal.utils.convertToArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
                 if (sending)
-                    session[getString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+                    session[axolotlInternal.utils.convertToString(ratchet.ephemeralKeyPair.pubKey)] = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
                 else
-                    session[getString(remoteKey)]                       = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
+                    session[axolotlInternal.utils.convertToString(remoteKey)]                       = { messageKeys: {}, chainKey: { counter: -1, key: masterKey[1] } };
                 ratchet.rootKey = masterKey[0];
             });
         });
@@ -36864,9 +36969,9 @@ window.axolotl.protocol = function() {
         for (var i = 0; i < 32; i++)
             sharedSecret[i] = 0xff;
 
-        return axolotl.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
+        return axolotlInternal.crypto.ECDHE(theirSignedPubKey, ourIdentityKey.privKey).then(function(ecRes1) {
             function finishInit() {
-                return axolotl.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
+                return axolotlInternal.crypto.ECDHE(theirSignedPubKey, ourSignedKey.privKey).then(function(ecRes) {
                     sharedSecret.set(new Uint8Array(ecRes), 32 * 3);
 
                     return HKDF(sharedSecret.buffer, '', "WhisperText").then(function(masterKey) {
@@ -36882,7 +36987,7 @@ window.axolotl.protocol = function() {
                         // If we're initiating we go ahead and set our first sending ephemeral key now,
                         // otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
                         if (isInitiator) {
-                            return axolotl.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
+                            return axolotlInternal.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
                                 session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
                                 return calculateRatchet(session, theirSignedPubKey, true).then(function() {
                                     return session;
@@ -36900,17 +37005,17 @@ window.axolotl.protocol = function() {
             if (ourEphemeralKey === undefined || theirEphemeralPubKey === undefined)
                 promise = Promise.resolve(new ArrayBuffer(0));
             else
-                promise = axolotl.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
+                promise = axolotlInternal.crypto.ECDHE(theirEphemeralPubKey, ourEphemeralKey.privKey);
             return promise.then(function(ecRes4) {
                 sharedSecret.set(new Uint8Array(ecRes4), 32 * 4);
 
                 if (isInitiator)
-                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotlInternal.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32);
                         sharedSecret.set(new Uint8Array(ecRes2), 32 * 2);
                     }).then(finishInit);
                 else
-                    return axolotl.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
+                    return axolotlInternal.crypto.ECDHE(theirIdentityPubKey, ourSignedKey.privKey).then(function(ecRes2) {
                         sharedSecret.set(new Uint8Array(ecRes1), 32 * 2);
                         sharedSecret.set(new Uint8Array(ecRes2), 32)
                     }).then(finishInit);
@@ -36926,7 +37031,7 @@ window.axolotl.protocol = function() {
         var newList = [];
         for (var i = 0; i < session.oldRatchetList.length; i++) {
             var entry = session.oldRatchetList[i];
-            var ratchet = getString(entry.ephemeralKey);
+            var ratchet = axolotlInternal.utils.convertToString(entry.ephemeralKey);
             console.log("Checking old chain with added time " + (entry.added/1000));
             if ((!objectContainsKeys(session[ratchet].messageKeys) && (session[ratchet].chainKey === undefined || session[ratchet].chainKey.key === undefined))
                     || entry.added < new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS) {
@@ -36947,7 +37052,7 @@ window.axolotl.protocol = function() {
         // but we cannot send messages or step the ratchet
 
         // Delete current sending ratchet
-        delete session[getString(session.currentRatchet.ephemeralKeyPair.pubKey)];
+        delete session[axolotlInternal.utils.convertToString(session.currentRatchet.ephemeralKeyPair.pubKey)];
         // Move all receive ratchets to the oldRatchetList to mark them for deletion
         for (var i in session) {
             if (session[i].chainKey !== undefined && session[i].chainKey.key !== undefined) {
@@ -36980,7 +37085,7 @@ window.axolotl.protocol = function() {
 
         //TODO: Call refreshPreKeys when it looks like all our prekeys are used up?
 
-        var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey));
+        var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.baseKey));
         var open_session = crypto_storage.getOpenSession(encodedNumber);
         if (signedPreKeyPair === undefined) {
             // Session may or may not be the right one, but if its not, we can't do anything about it
@@ -37001,10 +37106,11 @@ window.axolotl.protocol = function() {
                 if (open_session !== undefined)
                     closeSession(open_session); // To be returned and saved later
             } else {
-                throw new Error('Unknown identity key');
+                // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
+                throw new textsecure.IncomingIdentityKeyError(encodedNumber, axolotlInternal.utils.convertToString(message.encode()));
             }
         }
-        return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
+        return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.identityKey), axolotlInternal.utils.convertToArrayBuffer(message.baseKey), undefined)
                         .then(function(new_session) {
             // Note that the session is not actually saved until the very end of decryptWhisperMessage
             // ... to ensure that the sender actually holds the private keys for all reported pubkeys
@@ -37026,12 +37132,12 @@ window.axolotl.protocol = function() {
         if (chain.chainKey.key === undefined)
             throw new Error("Got invalid request to extend chain after it was already closed");
 
-        var key = toArrayBuffer(chain.chainKey.key);
+        var key = axolotlInternal.utils.convertToArrayBuffer(chain.chainKey.key);
         var byteArray = new Uint8Array(1);
         byteArray[0] = 1;
-        return axolotl.crypto.sign(key, byteArray.buffer).then(function(mac) {
+        return axolotlInternal.crypto.sign(key, byteArray.buffer).then(function(mac) {
             byteArray[0] = 2;
-            return axolotl.crypto.sign(key, byteArray.buffer).then(function(key) {
+            return axolotlInternal.crypto.sign(key, byteArray.buffer).then(function(key) {
                 chain.messageKeys[chain.chainKey.counter + 1] = mac;
                 chain.chainKey.key = key
                 chain.chainKey.counter += 1;
@@ -37041,7 +37147,7 @@ window.axolotl.protocol = function() {
     }
 
     var maybeStepRatchet = function(session, remoteKey, previousCounter) {
-        if (session[getString(remoteKey)] !== undefined)
+        if (session[axolotlInternal.utils.convertToString(remoteKey)] !== undefined)
             return Promise.resolve();
 
         var ratchet = session.currentRatchet;
@@ -37049,13 +37155,13 @@ window.axolotl.protocol = function() {
         var finish = function() {
             return calculateRatchet(session, remoteKey, false).then(function() {
                 // Now swap the ephemeral key and calculate the new sending chain
-                var previousRatchet = getString(ratchet.ephemeralKeyPair.pubKey);
+                var previousRatchet = axolotlInternal.utils.convertToString(ratchet.ephemeralKeyPair.pubKey);
                 if (session[previousRatchet] !== undefined) {
                     ratchet.previousCounter = session[previousRatchet].chainKey.counter;
                     delete session[previousRatchet];
                 }
 
-                return axolotl.crypto.createKeyPair().then(function(keyPair) {
+                return axolotlInternal.crypto.createKeyPair().then(function(keyPair) {
                     ratchet.ephemeralKeyPair = keyPair;
                     return calculateRatchet(session, remoteKey, true).then(function() {
                         ratchet.lastRemoteEphemeralKey = remoteKey;
@@ -37064,12 +37170,12 @@ window.axolotl.protocol = function() {
             });
         }
 
-        var previousRatchet = session[getString(ratchet.lastRemoteEphemeralKey)];
+        var previousRatchet = session[axolotlInternal.utils.convertToString(ratchet.lastRemoteEphemeralKey)];
         if (previousRatchet !== undefined) {
             return fillMessageKeys(previousRatchet, previousCounter).then(function() {
                 delete previousRatchet.chainKey.key;
                 if (!objectContainsKeys(previousRatchet.messageKeys))
-                    delete session[getString(ratchet.lastRemoteEphemeralKey)];
+                    delete session[axolotlInternal.utils.convertToString(ratchet.lastRemoteEphemeralKey)];
                 else
                     session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
             }).then(finish);
@@ -37084,8 +37190,8 @@ window.axolotl.protocol = function() {
         var messageProto = messageBytes.substring(1, messageBytes.length - 8);
         var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
 
-        var message = axolotl.protobuf.WhisperMessage.decode(messageProto, 'binary');
-        var remoteEphemeralKey = toArrayBuffer(message.ephemeralKey);
+        var message = axolotlInternal.protobuf.WhisperMessage.decode(messageProto, 'binary');
+        var remoteEphemeralKey = axolotlInternal.utils.convertToArrayBuffer(message.ephemeralKey);
 
         if (session === undefined) {
             var session = crypto_storage.getSessionByRemoteEphemeralKey(encodedNumber, remoteEphemeralKey);
@@ -37094,21 +37200,21 @@ window.axolotl.protocol = function() {
         }
 
         return maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
-            var chain = session[getString(message.ephemeralKey)];
+            var chain = session[axolotlInternal.utils.convertToString(message.ephemeralKey)];
 
             return fillMessageKeys(chain, message.counter).then(function() {
-                return HKDF(toArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
+                return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
                     delete chain.messageKeys[message.counter];
 
-                    var messageProtoArray = toArrayBuffer(messageProto);
+                    var messageProtoArray = axolotlInternal.utils.convertToArrayBuffer(messageProto);
                     var macInput = new Uint8Array(messageProtoArray.byteLength + 33*2 + 1);
-                    macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)));
-                    macInput.set(new Uint8Array(toArrayBuffer(crypto_storage.getIdentityKey().pubKey)), 33);
+                    macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)));
+                    macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey)), 33);
                     macInput[33*2] = (3 << 4) | 3;
                     macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
                     return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
-                        return window.axolotl.crypto.decrypt(keys[0], toArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
+                        return axolotlInternal.crypto.decrypt(keys[0], axolotlInternal.utils.convertToArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
                                     .then(function(paddedPlaintext) {
 
                             paddedPlaintext = new Uint8Array(paddedPlaintext);
@@ -37150,9 +37256,9 @@ window.axolotl.protocol = function() {
 
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = axolotl.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
+        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
-            return doDecryptWhisperMessage(from, getString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
+            return doDecryptWhisperMessage(from, axolotlInternal.utils.convertToString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
                     sessions[1]();
                 return result;
@@ -37166,33 +37272,33 @@ window.axolotl.protocol = function() {
         var hadSession = session !== undefined;
 
         var doEncryptPushMessageContent = function() {
-            var msg = new axolotl.protobuf.WhisperMessage();
-            var plaintext = toArrayBuffer(pushMessageContent.encode());
+            var msg = new axolotlInternal.protobuf.WhisperMessage();
+            var plaintext = axolotlInternal.utils.convertToArrayBuffer(pushMessageContent.encode());
 
             var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
             paddedPlaintext.set(new Uint8Array(plaintext));
             paddedPlaintext[plaintext.byteLength] = 0x80;
 
-            msg.ephemeralKey = toArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
-            var chain = session[getString(msg.ephemeralKey)];
+            msg.ephemeralKey = axolotlInternal.utils.convertToArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
+            var chain = session[axolotlInternal.utils.convertToString(msg.ephemeralKey)];
 
             return fillMessageKeys(chain, chain.chainKey.counter + 1).then(function() {
-                return HKDF(toArrayBuffer(chain.messageKeys[chain.chainKey.counter]), '', "WhisperMessageKeys").then(function(keys) {
+                return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[chain.chainKey.counter]), '', "WhisperMessageKeys").then(function(keys) {
                     delete chain.messageKeys[chain.chainKey.counter];
                     msg.counter = chain.chainKey.counter;
                     msg.previousCounter = session.currentRatchet.previousCounter;
 
-                    return window.axolotl.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
+                    return axolotlInternal.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
                         msg.ciphertext = ciphertext;
-                        var encodedMsg = toArrayBuffer(msg.encode());
+                        var encodedMsg = axolotlInternal.utils.convertToArrayBuffer(msg.encode());
 
                         var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
-                        macInput.set(new Uint8Array(toArrayBuffer(crypto_storage.getIdentityKey().pubKey)));
-                        macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
+                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey)));
+                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
                         macInput[33*2] = (3 << 4) | 3;
                         macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
 
-                        return axolotl.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
+                        return axolotlInternal.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
                             var result = new Uint8Array(encodedMsg.byteLength + 9);
                             result[0] = (3 << 4) | 3;
                             result.set(new Uint8Array(encodedMsg), 1);
@@ -37208,26 +37314,26 @@ window.axolotl.protocol = function() {
             });
         }
 
-        var preKeyMsg = new axolotl.protobuf.PreKeyWhisperMessage();
-        preKeyMsg.identityKey = toArrayBuffer(crypto_storage.getIdentityKey().pubKey);
-        preKeyMsg.registrationId = axolotl.api.getMyRegistrationId();
+        var preKeyMsg = new axolotlInternal.protobuf.PreKeyWhisperMessage();
+        preKeyMsg.identityKey = axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey);
+        preKeyMsg.registrationId = storage_interface.getMyRegistrationId();
 
         if (session === undefined) {
-            var deviceIdentityKey = toArrayBuffer(deviceObject.identityKey);
-            var deviceSignedKey = toArrayBuffer(deviceObject.signedKey);
-            return axolotl.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, toArrayBuffer(deviceObject.signedKeySignature)).then(function() {
-                return axolotl.crypto.createKeyPair().then(function(baseKey) {
+            var deviceIdentityKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.identityKey);
+            var deviceSignedKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKey);
+            return axolotlInternal.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                return axolotlInternal.crypto.createKeyPair().then(function(baseKey) {
                     preKeyMsg.preKeyId = deviceObject.preKeyId;
                     preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                    preKeyMsg.baseKey = toArrayBuffer(baseKey.pubKey);
+                    preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(baseKey.pubKey);
                     return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                        deviceIdentityKey, toArrayBuffer(deviceObject.preKey), deviceSignedKey)
+                                        deviceIdentityKey, axolotlInternal.utils.convertToArrayBuffer(deviceObject.preKey), deviceSignedKey)
                                 .then(function(new_session) {
                         session = new_session;
                         session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
                         return doEncryptPushMessageContent().then(function(message) {
                             preKeyMsg.message = message;
-                            var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                            var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
                             return {type: 3, body: result};
                         });
                     });
@@ -37236,15 +37342,15 @@ window.axolotl.protocol = function() {
         } else
             return doEncryptPushMessageContent().then(function(message) {
                 if (session.pendingPreKey !== undefined) {
-                    preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey.baseKey);
+                    preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(session.pendingPreKey.baseKey);
                     preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
                     preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
                     preKeyMsg.message = message;
 
-                    var result = String.fromCharCode((3 << 4) | 3) + getString(preKeyMsg.encode());
+                    var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
                     return {type: 3, body: result};
                 } else
-                    return {type: 1, body: getString(message)};
+                    return {type: 1, body: axolotlInternal.utils.convertToString(message)};
             });
     }
 
@@ -37252,11 +37358,11 @@ window.axolotl.protocol = function() {
     self.generateKeys = function() {
         var identityKeyPair = crypto_storage.getIdentityKey();
         var identityKeyCalculated = function(identityKeyPair) {
-            var firstPreKeyId = axolotl.api.storage.get("maxPreKeyId", 0);
-            axolotl.api.storage.put("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
+            var firstPreKeyId = storage_interface.get("maxPreKeyId", 0);
+            storage_interface.put("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
 
-            var signedKeyId = axolotl.api.storage.get("signedKeyId", 0);
-            axolotl.api.storage.put("signedKeyId", signedKeyId + 1);
+            var signedKeyId = storage_interface.get("signedKeyId", 0);
+            storage_interface.put("signedKeyId", signedKeyId + 1);
 
             var keys = {};
             keys.identityKey = identityKeyPair.pubKey;
@@ -37273,7 +37379,7 @@ window.axolotl.protocol = function() {
                 promises[i] = generateKey(i);
 
             promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
-                return axolotl.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+                return axolotlInternal.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
                     keys.signedPreKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
                 });
             });
@@ -37282,7 +37388,7 @@ window.axolotl.protocol = function() {
             crypto_storage.removeStoredKeyPair("signedKey" + (signedKeyId - 2));
 
             return Promise.all(promises).then(function() {
-                axolotl.api.storage.put("lastPreKeyUpdate", Date.now());
+                storage_interface.put("lastPreKeyUpdate", Date.now());
                 return keys;
             });
         }
@@ -37292,31 +37398,33 @@ window.axolotl.protocol = function() {
             return identityKeyCalculated(identityKeyPair);
     }
 
+	//TODO: Replace this stuff
     refreshPreKeys = function() {
         self.generateKeys().then(function(keys) {
             console.log("Pre Keys updated!");
-            return axolotl.api.updateKeys(keys);
+            return updateKeysCallback(keys);
         }).catch(function(e) {
             //TODO: Notify the user somehow???
             console.error(e);
         });
     }
 
-    window.setInterval(function() {
-        // Note that this will not ever run until generateKeys has been called at least once
-        if (axolotl.api.storage.get("lastPreKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
-            refreshPreKeys();
-    }, 60 * 1000);
+	if (updateKeysCallback)
+		window.setInterval(function() {
+			// Note that this will not ever run until generateKeys has been called at least once
+			if (storage_interface.get("lastPreKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
+				refreshPreKeys();
+		}, 60 * 1000);
 
     self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
         var keyPair;
 
         socketInfo.decryptAndHandleDeviceInit = function(deviceInit) {
-            var masterEphemeral = toArrayBuffer(deviceInit.publicKey);
-            var message = toArrayBuffer(deviceInit.body);
+            var masterEphemeral = axolotlInternal.utils.convertToArrayBuffer(deviceInit.publicKey);
+            var message = axolotlInternal.utils.convertToArrayBuffer(deviceInit.body);
 
-            return axolotl.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
+            return axolotlInternal.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
                 return HKDF(ecRes, '', "TextSecure Provisioning Message").then(function(keys) {
                     if (new Uint8Array(message)[0] != 1)
                         throw new Error("Bad version number on ProvisioningMessage");
@@ -37327,10 +37435,10 @@ window.axolotl.protocol = function() {
                     var ciphertext = message.slice(16 + 1, message.byteLength - 32);
 
                     return verifyMAC(ivAndCiphertext, keys[1], mac).then(function() {
-                        return window.axolotl.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
-                            var identityKeyMsg = axolotl.protobuf.ProvisionMessage.decode(plaintext);
+                        return axolotlInternal.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
+                            var identityKeyMsg = axolotlInternal.protobuf.ProvisionMessage.decode(plaintext);
 
-                            return axolotl.crypto.createKeyPair(toArrayBuffer(identityKeyMsg.identityKeyPrivate)).then(function(identityKeyPair) {
+                            return axolotlInternal.crypto.createKeyPair(axolotlInternal.utils.convertToArrayBuffer(identityKeyMsg.identityKeyPrivate)).then(function(identityKeyPair) {
                                 if (crypto_storage.getStoredKeyPair("identityKey") !== undefined)
                                     throw new Error("Tried to overwrite identity key");
 
@@ -37345,7 +37453,7 @@ window.axolotl.protocol = function() {
             });
         }
 
-        return axolotl.crypto.createKeyPair().then(function(newKeyPair) {
+        return axolotlInternal.crypto.createKeyPair().then(function(newKeyPair) {
             keyPair = newKeyPair;
             socketInfo.pubKey = keyPair.pubKey;
             return socketInfo;
@@ -37353,20 +37461,103 @@ window.axolotl.protocol = function() {
     }
 
     return self;
-}();
+};
 
 })();
 
-;(function() {
+var axolotlInternal = axolotlInternal || {};
+
+axolotlInternal.protoText = function() {
+	var protoText = {};
+
+	protoText['protos/WhisperTextProtocol.proto'] = 
+		'package textsecure;\n' +
+		'option java_package = "org.whispersystems.libaxolotl.protocol";\n' +
+		'option java_outer_classname = "WhisperProtos";\n' +
+		'message WhisperMessage {\n' +
+		'  optional bytes  ephemeralKey    = 1;\n' +
+		'  optional uint32 counter         = 2;\n' +
+		'  optional uint32 previousCounter = 3;\n' +
+		'  optional bytes  ciphertext      = 4; // PushMessageContent\n' +
+		'}\n' +
+		'message PreKeyWhisperMessage {\n' +
+		'  optional uint32 registrationId = 5;\n' +
+		'  optional uint32 preKeyId       = 1;\n' +
+		'  optional uint32 signedPreKeyId = 6;\n' +
+		'  optional bytes  baseKey        = 2;\n' +
+		'  optional bytes  identityKey    = 3;\n' +
+		'  optional bytes  message        = 4; // WhisperMessage\n' +
+		'}\n' +
+		'message KeyExchangeMessage {\n' +
+		'  optional uint32 id               = 1;\n' +
+		'  optional bytes  baseKey          = 2;\n' +
+		'  optional bytes  ephemeralKey     = 3;\n' +
+		'  optional bytes  identityKey      = 4;\n' +
+		'  optional bytes  baseKeySignature = 5;\n' +
+		'}\n' +
+''	;
+
+	protoText['protos/DeviceMessages.proto'] = 
+		'package textsecure;\n' +
+		'message ProvisioningUuid {\n' +
+		' optional string uuid = 1;\n' +
+		'}\n' +
+		'message ProvisionEnvelope {\n' +
+		'  optional bytes publicKey = 1;\n' +
+		'  optional bytes body      = 2; // Encrypted ProvisionMessage\n' +
+		'}\n' +
+		'message ProvisionMessage {\n' +
+		'  optional bytes  identityKeyPrivate = 2;\n' +
+		'  optional string number             = 3;\n' +
+		'  optional string provisioningCode   = 4;\n' +
+		'}\n' +
+		'message DeviceControl {\n' +
+		'  enum Type {\n' +
+		'    UNKNOWN                            = 0;\n' +
+		'    NEW_DEVICE_REGISTERED              = 1; // Requries only newDeviceId\n' +
+		'    SENT_MESSAGE                       = 2; // Requires only message\n' +
+		'  }\n' +
+		'  message MessageSent {\n' +
+		'    required string  otherNumber = 1; // The destination account (ie phone #), not device\n' +
+		'    required uint64  timestamp   = 2;\n' +
+		'    required bytes   message     = 3; // PushMessageContent\n' +
+		'  }\n' +
+		'  required Type        type        = 1;\n' +
+		'  optional uint32      newDeviceId = 2;\n' +
+		'  optional MessageSent message     = 3;\n' +
+		'}\n' +
+''	;
+
+	return protoText;
+}();
+/* vim: ts=4:sw=4
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+var axolotlInternal = axolotlInternal || {};
+
+axolotlInternal.protobuf = function() {
+    'use strict';
+
     function loadProtoBufs(filename) {
-        return dcodeIO.ProtoBuf.loadProtoFile({root: 'protos', file: filename}).build('textsecure');
+        return dcodeIO.ProtoBuf.loadProto(axolotlInternal.protoText['protos/' + filename]).build('textsecure');
     };
 
     var protocolMessages = loadProtoBufs('WhisperTextProtocol.proto');
     var deviceMessages   = loadProtoBufs('DeviceMessages.proto');
 
-    window.axolotl = window.axolotl || {};
-    window.axolotl.protobuf = {
+    return {
         WhisperMessage            : protocolMessages.WhisperMessage,
         PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
         DeviceInit                : deviceMessages.DeviceInit,
@@ -37374,21 +37565,21 @@ window.axolotl.protocol = function() {
         DeviceControl             : deviceMessages.DeviceControl,
         ProvisionMessage          : deviceMessages.ProvisionMessage,
     };
-})();
+}();
 
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 ;(function() {
@@ -37398,7 +37589,7 @@ window.axolotl = window.axolotl || {};
 
 var RecipientRecord = function(identityKey, registrationId) {
     this._sessions = {};
-    this.identityKey = identityKey !== undefined ? getString(identityKey) : null;
+    this.identityKey = identityKey !== undefined ? axolotlInternal.utils.convertToString(identityKey) : null;
     this.registrationId = registrationId;
 
     if (this.registrationId === undefined || typeof this.registrationId !== "number")
@@ -37406,7 +37597,7 @@ var RecipientRecord = function(identityKey, registrationId) {
 };
 
 RecipientRecord.prototype.serialize = function() {
-    return textsecure.utils.jsonThing({sessions: this._sessions, registrationId: this.registrationId, identityKey: this.identityKey});
+    return axolotlInternal.utils.jsonThing({sessions: this._sessions, registrationId: this.registrationId, identityKey: this.identityKey});
 }
 
 RecipientRecord.prototype.deserialize = function(serialized) {
@@ -37427,5 +37618,7 @@ RecipientRecord.prototype.haveOpenSession = function() {
 window.axolotl.sessions = {
     RecipientRecord: RecipientRecord,
 };
+
+})();
 
 })();
