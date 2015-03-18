@@ -44,7 +44,8 @@
                     contact_name: this.model.getTitle(),
                     last_message: this.model.get('lastMessage'),
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
-                    number: this.model.getNumber()
+                    number: this.model.getNumber(),
+                    avatar_url: this.model.getAvatarUrl()
                 })
             );
 
@@ -55,17 +56,6 @@
                 this.$el.addClass('unread');
             } else {
                 this.$el.removeClass('unread');
-            }
-
-            if (this.model.get('avatar')) {
-                this.$el.find('.avatar').append(
-                    new Whisper.AttachmentView({model: this.model.get('avatar')}).render().el
-                );
-            }
-            else {
-                this.$el.find('.avatar').append(
-                    $('<img>').attr('src', '/images/default.png')
-                );
             }
 
             return this;

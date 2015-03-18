@@ -62,8 +62,8 @@
                 tofrom: this.model.isIncoming() ? 'From' : 'To',
                 contacts: this.contacts().map(function(contact) {
                     return {
-                        name     : contact.getTitle(),
-                        avatar   : contact.get('avatar'),
+                        name       : contact.getTitle(),
+                        avatar_url : contact.getAvatarUrl()
                     };
                 }.bind(this))
             }));

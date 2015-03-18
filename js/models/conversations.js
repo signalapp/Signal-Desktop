@@ -38,6 +38,7 @@
         });
 
         this.on('change:avatar', this.updateAvatarUrl);
+        this.on('destroy', this.revokeAvatarUrl);
     },
 
     validate: function(attributes, options) {
@@ -194,11 +195,15 @@
         return this.get('type') === 'private';
     },
 
-    updateAvatarUrl: function() {
+    revokeAvatarUrl: function() {
         if (this.avatarUrl) {
             URL.revokeObjectURL(this.avatarUrl);
             this.avatarUrl = null;
         }
+    },
+
+    updateAvatarUrl: function() {
+        this.revokeAvatarUrl();
         var avatar = this.get('avatar');
         if (avatar) {
             this.avatarUrl = URL.createObjectURL(

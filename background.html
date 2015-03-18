@@ -53,7 +53,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
       <div class='sender'>{{ sender }}</div>
-      <span class='avatar'></span>
+      <span class='avatar'><img src='{{ avatar_url }}' /></span>
       <div class="bubble">
           <p class="content">{{ message }}</p>
           <div class='attachments'></div>
@@ -74,7 +74,7 @@
           <div class='clearfix'>
             <div class='group-avatar'>
               <div class='thumbnail'>
-                <span class='default'></span>
+                <span class='default avatar'><img src='{{ avatar_url }}' /></span>
               </div>
               <input type='file' name='avatar' class='file-input'>
             </div>
@@ -89,7 +89,7 @@
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
-      <span class='avatar'></span>
+      <span class='avatar'><img src='{{ avatar_url }}' /></span>
       <div class='contact-details'>
           <h3 class='contact-name'>
           {{ contact_name }}
@@ -130,7 +130,7 @@
             <div class='contacts'>
             {{ #contacts }}
               <div>
-                <img class='avatar' src='{{ avatar }}'>
+                <span class='avatar'><img src='{{ avatar_url }}' /></span>
                 <span class='name'>{{ name }}</div>
                 {{ #conflict }}
                   <button class='resolve'>Key Conflict</button>

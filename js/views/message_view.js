@@ -53,20 +53,10 @@
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
                     timestamp: moment(this.model.get('received_at')).fromNow(),
-                    sender: (contact && contact.getTitle()) || ''
+                    sender: (contact && contact.getTitle()) || '',
+                    avatar_url: (contact && contact.getAvatarUrl())
                 })
             );
-
-            var avatar;
-            if (contact && contact.get('avatar')) {
-                avatar = new Whisper.AttachmentView({
-                    model: contact.get('avatar')
-                }).render().el;
-            }
-            else {
-                avatar = $('<img>').attr('src', '/images/default.png');
-            }
-            this.$el.find('.avatar').append(avatar);
 
             twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
 

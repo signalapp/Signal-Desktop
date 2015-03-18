@@ -27,15 +27,6 @@
                 el: this.$el.find('.group-avatar')
             });
 
-            if (this.model.attributes.avatar) {
-                this.current_avatar = new Whisper.AttachmentView({
-                    model: this.model.attributes.avatar
-                });
-                this.avatarInput.$default.append(
-                    this.current_avatar.render().$el
-                );
-            }
-
             this.recipients_view = new Whisper.RecipientsInputView();
             this.$el.find('.scrollable').append(this.recipients_view.el);
         },
@@ -47,7 +38,10 @@
             this.trigger('back');
         },
         render_attributes: function() {
-            return { name: this.model.getTitle() };
+            return {
+                name: this.model.getTitle(),
+                avatar_url: this.model.getAvatarUrl()
+            };
         },
         send: function() {
             return this.avatarInput.getFiles().then(function(avatarFiles) {
