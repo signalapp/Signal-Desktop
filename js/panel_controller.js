@@ -41,15 +41,15 @@
         windowMap.remove('windowId', windowId);
     }
 
-    function getConversation(modelId) {
-        var conversation = window.inbox.get(modelId) || {id: modelId};
-        conversation = conversations.add(conversation);
+    window.getConversation = function(attrs) {
+        var conversation = window.inbox.get(attrs.id) || attrs;
+        conversation = conversations.add(attrs);
         return conversation;
-    }
+    };
 
     window.notifyConversation = function(message) {
         if (Whisper.Notifications.isEnabled()) {
-            var conversation = getConversation(message.get('conversationId'));
+            var conversation = getConversation({id: message.get('conversationId')});
             conversation.fetch().then(function() {
                 var notification = new Notification(conversation.getTitle(), {
                     body: message.get('body'),
@@ -60,13 +60,14 @@
                     openConversation(conversation.id);
                 };
             });
+            conversation.fetchMessages();
         } else {
             openConversation(message.get('conversationId'));
         }
     };
 
     window.openConversation = function openConversation (modelId) {
-        var conversation = getConversation(modelId);
+        var conversation = getConversation({id: modelId});
         conversation.fetch().then(function() {
             conversation.fetchContacts();
         });

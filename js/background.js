@@ -17,8 +17,6 @@
 ;(function() {
     'use strict';
     var socket;
-    var conversations = new Whisper.ConversationCollection();
-    var messages      = new Whisper.MessageCollection();
 
     if (!localStorage.getItem('first_install_ran')) {
         localStorage.setItem('first_install_ran', 1);
@@ -80,13 +78,13 @@
         var now = new Date().getTime();
         var timestamp = pushMessage.timestamp.toNumber();
 
-        var conversation = conversations.add({
+        var conversation = getConversation({
             id   : pushMessage.source,
             type : 'private'
-        }, { merge : true } );
+        });
 
         conversation.fetch().always(function() {
-            var message = messages.add({
+            var message = conversation.messageCollection.add({
                 source         : pushMessage.source,
                 sourceDevice   : pushMessage.sourceDevice,
                 relay          : pushMessage.relay,
@@ -105,7 +103,7 @@
                     return new Promise(function(resolve) {
                         resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
                             function(pushMessageContent) {
-                                handlePushMessageContent(pushMessageContent, message);
+                                message.handlePushMessageContent(pushMessageContent);
                             }
                         ));
                     }).catch(function(e) {
@@ -123,101 +121,6 @@
                             console.log(e);
                             throw e;
                         }
-                    });
-                });
-            });
-        });
-    }
-
-    extension.on('message:decrypted', function(options) {
-        var message = messages.add({id: options.message_id});
-        message.fetch().then(function() {
-            var pushMessageContent = handlePushMessageContent(
-                new textsecure.protobuf.PushMessageContent(options.data),
-                message
-            );
-        });
-    });
-
-    function getConversationId(pushMessageContent) {
-        if (pushMessageContent.sync) {
-            return pushMessageContent.sync.destination;
-        } else if (pushMessageContent.group) {
-            return pushMessageContent.group.id;
-        }
-    }
-
-    function handlePushMessageContent(pushMessageContent, message) {
-        // This function can be called from the background script on an
-        // incoming message or from the frontend after the user accepts an
-        // identity key change.
-        var source = message.get('source');
-        var timestamp = message.get('sent_at');
-        return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
-            var type = 'incoming';
-            if (pushMessageContent.sync) {
-                 type = 'outgoing';
-                 timestamp = pushMessageContent.sync.timestamp;
-            }
-            var now = new Date().getTime();
-
-            var conversationId = getConversationId(pushMessageContent) || source;
-            var conversation = new Whisper.Conversation({id: conversationId});
-            var attributes = {};
-            conversation.fetch().always(function() {
-                if (pushMessageContent.group) {
-                    var group_update = {};
-                    if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
-                        attributes = {
-                            type       : 'group',
-                            groupId    : pushMessageContent.group.id,
-                            name       : pushMessageContent.group.name,
-                            avatar     : pushMessageContent.group.avatar,
-                            members    : pushMessageContent.group.members,
-                        };
-                        group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
-                        var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
-                        if (difference.length > 0) {
-                            group_update.joined = difference;
-                        }
-                    }
-                    else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
-                        group_update = { left: source };
-                        attributes = { members: _.without(conversation.get('members'), source) };
-                    }
-
-                    if (_.keys(group_update).length > 0) {
-                        message.set({group_update: group_update});
-                    }
-                }
-                attributes.active_at = now;
-                if (type === 'incoming') {
-                    attributes.unreadCount = conversation.get('unreadCount') + 1;
-                }
-                conversation.set(attributes);
-
-                message.set({
-                    body           : pushMessageContent.body,
-                    conversationId : conversation.id,
-                    attachments    : pushMessageContent.attachments,
-                    decrypted_at   : now,
-                    type           : type,
-                    sent_at        : timestamp,
-                    flags          : pushMessageContent.flags,
-                    errors         : []
-                });
-
-                if (message.get('sent_at') > conversation.get('timestamp')) {
-                    conversation.set({
-                        timestamp: message.get('sent_at'),
-                        lastMessage: message.get('body')
-                    });
-                }
-
-                conversation.save().then(function() {
-                    message.save().then(function() {
-                        extension.trigger('message', message); // notify frontend listeners
-                        notifyConversation(message);
                     });
                 });
             });

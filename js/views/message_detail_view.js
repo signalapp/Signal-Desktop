@@ -46,6 +46,8 @@
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});
             this.conversation = options.conversation;
+
+            this.listenTo(this.model, 'change', this.render);
         },
         events: {
             'click .back': 'goBack',

@@ -77,10 +77,7 @@
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
                     promise.then(function(pushMessageContent) {
-                        extension.trigger('message:decrypted', {
-                            message_id: this.id,
-                            data: pushMessageContent
-                        });
+                        this.handlePushMessageContent(pushMessageContent);
                         this.save('errors', []);
                     }.bind(this)).catch(function(e) {
                         //this.save('errors', [_.pick(e, ['name', 'message'])]);
@@ -98,7 +95,90 @@
                     }.bind(this));
                 }
             }
+        },
+        handlePushMessageContent: function(pushMessageContent) {
+            // This function can be called from the background script on an
+            // incoming message or from the frontend after the user accepts an
+            // identity key change.
+            var message = this;
+            var source = message.get('source');
+            var timestamp = message.get('sent_at');
+            return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
+                var type = 'incoming';
+                if (pushMessageContent.sync) {
+                    type = 'outgoing';
+                    timestamp = pushMessageContent.sync.timestamp;
+                }
+                var now = new Date().getTime();
+
+                var conversationId = source;
+                if (pushMessageContent.sync) {
+                    conversationId = pushMessageContent.sync.destination;
+                } else if (pushMessageContent.group) {
+                    conversationId = pushMessageContent.group.id;
+                }
+                var conversation = new Whisper.Conversation({id: conversationId});
+                var attributes = {};
+                conversation.fetch().always(function() {
+                    if (pushMessageContent.group) {
+                        var group_update = {};
+                        if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
+                            attributes = {
+                                type       : 'group',
+                                groupId    : pushMessageContent.group.id,
+                                name       : pushMessageContent.group.name,
+                                avatar     : pushMessageContent.group.avatar,
+                                members    : pushMessageContent.group.members,
+                            };
+                            group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
+                            var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
+                            if (difference.length > 0) {
+                                group_update.joined = difference;
+                            }
+                        }
+                        else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
+                            group_update = { left: source };
+                            attributes = { members: _.without(conversation.get('members'), source) };
+                        }
+
+                        if (_.keys(group_update).length > 0) {
+                            message.set({group_update: group_update});
+                        }
+                    }
+                    attributes.active_at = now;
+                    if (type === 'incoming') {
+                        attributes.unreadCount = conversation.get('unreadCount') + 1;
+                    }
+                    conversation.set(attributes);
+
+                    message.set({
+                        body           : pushMessageContent.body,
+                        conversationId : conversation.id,
+                        attachments    : pushMessageContent.attachments,
+                        decrypted_at   : now,
+                        type           : type,
+                        sent_at        : timestamp,
+                        flags          : pushMessageContent.flags,
+                        errors         : []
+                    });
+
+                    if (message.get('sent_at') > conversation.get('timestamp')) {
+                        conversation.set({
+                            timestamp: message.get('sent_at'),
+                            lastMessage: message.get('body')
+                        });
+                    }
+
+                    conversation.save().then(function() {
+                        message.save().then(function() {
+                            extension.trigger('message', message); // notify frontend listeners
+                            notifyConversation(message);
+                        });
+                    });
+                });
+            });
         }
+
     });
 
     Whisper.MessageCollection = Backbone.Collection.extend({

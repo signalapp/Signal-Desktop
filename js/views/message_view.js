@@ -21,7 +21,7 @@
         tagName: 'div',
         template: $('#message').html(),
         initialize: function() {
-            this.listenTo(this.model, 'change:body', this.render);
+            this.listenTo(this.model, 'change:body change:errors', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
         },
         className: function() {
