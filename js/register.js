@@ -106,7 +106,7 @@
             number, verificationCode, password, signalingKey, registrationId, true
         ).then(function() {
             log('generating keys');
-            return axolotl.protocol.generateKeys().then(function(keys) {
+            return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
                 log('uploading keys');
                 return textsecure.api.registerKeys(keys).then(function() {
                     textsecure.registration.done();
