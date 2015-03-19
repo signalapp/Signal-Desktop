@@ -50,15 +50,18 @@
     window.notifyConversation = function(message) {
         if (Whisper.Notifications.isEnabled()) {
             var conversation = getConversation({id: message.get('conversationId')});
+            var sender = getConversation({id: message.get('source')});
             conversation.fetch().then(function() {
-                var notification = new Notification(conversation.getTitle(), {
-                    body: message.get('body'),
-                    icon: conversation.getAvatarUrl(),
-                    tag: conversation.id
+                sender.fetch().then(function() {
+                    var notification = new Notification(sender.getTitle(), {
+                        body: message.getDescription(),
+                        icon: sender.getAvatarUrl(),
+                        tag: conversation.id
+                    });
+                    notification.onclick = function() {
+                        openConversation(conversation.id);
+                    };
                 });
-                notification.onclick = function() {
-                    openConversation(conversation.id);
-                };
             });
             conversation.fetchMessages();
         } else {

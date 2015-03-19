@@ -43,6 +43,16 @@
         isIncoming: function() {
             return this.get('type') === 'incoming';
         },
+        getDescription: function() {
+            if (this.isGroupUpdate()) {
+                return 'Updated the group';
+            }
+            if (this.isEndSession()) {
+                return 'Secure session ended';
+            }
+
+            return this.get('body');
+        },
         getContact: function() {
             if (this.collection) {
                 return this.collection.conversation.contactCollection.get(this.get('source'));
