@@ -133,6 +133,7 @@
 
         reset: function() {
             this.$create.hide();
+            this.$el.find('.new-group-update-form .name').val('');
             this.$group_update.hide();
             this.recipients_view.reset();
         },
