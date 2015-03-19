@@ -71,7 +71,7 @@ describe('MessageView', function() {
     view.render();
     var img = view.$el.find('.content img');
     assert.strictEqual(img.length, 1);
-    assert.strictEqual(img.attr('src'), '/components/twemoji/16x16/2764.png');
+    assert.strictEqual(img.attr('src'), '/images/twemoji/16x16/2764.png');
     assert.strictEqual(img.attr('alt'), '\u2764\uFE0F');
     assert.strictEqual(img.attr('class'), 'emoji');
   });

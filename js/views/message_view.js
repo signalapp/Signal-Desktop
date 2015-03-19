@@ -44,7 +44,7 @@
                 })
             );
 
-            twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
+            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             var content = this.$el.find('.content');
             content.html(this.autoLink(content.html()));

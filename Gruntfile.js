@@ -109,6 +109,26 @@ module.exports = function(grunt) {
       ],
       options: { jshintrc: '.jshintrc' },
     },
+    dist: {
+      src: [
+        'manifest.json',
+        'background.html',
+        'index.html',
+        'converesation.html',
+        'options.html',
+        'protos/*',
+        'js/**',
+        'stylesheets/*.css',
+        'images/**',
+        'fonts/*',
+        '!js/register.js'
+      ]
+    },
+    copy: {
+      dist: {
+        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }]
+      }
+    },
     jscs: {
       all: {
         src: ['js/**/*.js', '!js/libtextsecure.js', '!js/components.js', 'test/**/*.js']
@@ -130,7 +150,11 @@ module.exports = function(grunt) {
       libaxolotl: {
         files: ['./libaxolotl/*.js'],
         tasks: ['concat:libaxolotl']
-      }
+      },
+      dist: {
+        files: ['<%= dist.src %>'],
+        tasks: ['copy']
+      },
     },
     connect: {
       server: {
@@ -155,7 +179,7 @@ module.exports = function(grunt) {
           testname: 'TextSecure-Browser Tests'
         }
       }
-    }
+    },
   });
 
   Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {

@@ -49,7 +49,7 @@
                 })
             );
 
-            twemoji.parse(this.el, { base: '/components/twemoji/', size: 16 });
+            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             var unread = this.model.get('unreadCount');
             if (unread > 0) {
