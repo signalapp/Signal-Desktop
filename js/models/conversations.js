@@ -180,7 +180,11 @@
     },
 
     getTitle: function() {
-        return this.get('name') || this.get('members') || this.id;
+        if (this.isPrivate()) {
+            return this.get('name') || this.id;
+        } else {
+            return this.get('name') || 'Unknown group';
+        }
     },
 
     getNumber: function() {

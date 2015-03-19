@@ -122,6 +122,10 @@
                 conversation.fetch().always(function() {
                     if (pushMessageContent.group) {
                         var group_update = {};
+                        attributes = {
+                            type: 'group',
+                            groupId: pushMessageContent.group.id,
+                        };
                         if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
                             attributes = {
                                 type       : 'group',
@@ -138,7 +142,7 @@
                         }
                         else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
                             group_update = { left: source };
-                            attributes = { members: _.without(conversation.get('members'), source) };
+                            attributes.members = _.without(conversation.get('members'), source);
                         }
 
                         if (_.keys(group_update).length > 0) {
