@@ -10,11 +10,11 @@
       "unlimitedStorage"
     ],
 
-    "icons": { "128": "icon.png" },
+    "icons": { "128": "images/icon.png" },
 
     "browser_action": {
         "default_icon": {
-            "19": "icon.png"
+            "19": "images/icon.png"
         },
         "default_title": "TextSecure",
         "default_popup": "index.html"
