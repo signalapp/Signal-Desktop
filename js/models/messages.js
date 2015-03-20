@@ -50,6 +50,9 @@
             if (this.isEndSession()) {
                 return 'Secure session ended';
             }
+            if (this.isIncoming() && this.hasKeyConflicts()) {
+                return 'Received message with unknown identity key.';
+            }
 
             return this.get('body');
         },
