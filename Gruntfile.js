@@ -114,7 +114,7 @@ module.exports = function(grunt) {
         'manifest.json',
         'background.html',
         'index.html',
-        'converesation.html',
+        'conversation.html',
         'options.html',
         'protos/*',
         'js/**',
