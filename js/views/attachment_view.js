@@ -33,9 +33,6 @@
   var MediaView = Backbone.View.extend({
       initialize: function() {
           this.$el.attr('controls', '');
-          this.$el.on('loadeddata', function() {
-              this.$el.trigger('update');
-          }.bind(this));
       },
       events: {
           'loadeddata': 'update'
