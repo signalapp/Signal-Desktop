@@ -30,6 +30,19 @@
     });
 
     inbox.on('change:active_at', inbox.sort);
+    inbox.on('change:unreadCount', function(model, count) {
+        var prev = model.previous('unreadCount');
+        if (count < prev) { // decreased
+            var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount") - (prev - count);
+            if (newUnreadCount <= 0) {
+                newUnreadCount = 0;
+                extension.navigator.setBadgeText("");
+            } else {
+                extension.navigator.setBadgeText(newUnreadCount);
+            }
+            textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+        }
+    });
 
     function fetch() {
         window.inbox.fetch({

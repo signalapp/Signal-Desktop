@@ -23,7 +23,5 @@
         window.location = '/options.html';
     } else {
         new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));
-        bg.textsecure.storage.putUnencrypted("unreadCount", 0);
-        extension.navigator.setBadgeText("");
     }
 }());
