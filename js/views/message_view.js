@@ -83,6 +83,7 @@
             this.$el.append(this.view.el);
 
             this.listenTo(this.model, 'destroy', this.remove); // auto update
+            this.listenTo(this.model, 'change:flags change:group_update', this.render); // auto update
         },
         events: {
             'click .timestamp': 'select'
