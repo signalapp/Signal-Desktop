@@ -99,12 +99,20 @@
             }));
             this.view.render().$el.prependTo(this.$el.find('.message-container'));
 
-            this.conversation.contactCollection.each(function(contact) {
+            if (this.model.isOutgoing()) {
+                this.conversation.contactCollection.each(function(contact) {
+                    var v = new ContactView({
+                        model: contact,
+                        conflict: this.model.getKeyConflict(contact.id)
+                    }).render().$el.appendTo(this.$el.find('.contacts'));
+                }.bind(this));
+            } else {
+                var contact = this.conversation.contactCollection.get(this.model.get('source'));
                 var v = new ContactView({
                     model: contact,
                     conflict: this.model.getKeyConflict(contact.id)
                 }).render().$el.appendTo(this.$el.find('.contacts'));
-            }.bind(this));
+            }
         }
     });
 
