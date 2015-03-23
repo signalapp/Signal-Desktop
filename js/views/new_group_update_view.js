@@ -29,6 +29,7 @@
 
             this.recipients_view = new Whisper.RecipientsInputView();
             this.$el.find('.scrollable').append(this.recipients_view.el);
+            this.$el.find('.avatar').addClass('default');
         },
         events: {
             'click .back': 'goBack',

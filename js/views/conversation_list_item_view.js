@@ -46,7 +46,7 @@
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
                     number: this.model.getNumber(),
                     avatar_url: this.model.getAvatarUrl()
-                })
+                }, this.render_partials())
             );
 
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });

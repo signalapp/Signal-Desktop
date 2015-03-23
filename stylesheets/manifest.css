@@ -144,6 +144,15 @@ img.emoji {
   margin: 0 .05em 0 .1em;
   vertical-align: -0.1em; }
 
+.avatar {
+  display: inline-block;
+  height: 44px;
+  width: 44px;
+  background: #f3f3f3 url("/images/default.png") no-repeat center;
+  border-radius: 22px;
+  background-size: cover;
+  vertical-align: middle; }
+
 .new-group-update-form {
   background: white; }
   .new-group-update-form .group-avatar {
@@ -201,11 +210,6 @@ img.emoji {
     box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
     .contact:last-child::after {
       display: none; }
-  .contact .avatar img {
-    height: 44px;
-    width: 44px;
-    background: #f3f3f3;
-    border-radius: 22px; }
   .contact .contact-details {
     vertical-align: top;
     display: inline-block;
@@ -383,8 +387,6 @@ input.search {
       text-align: right;
       font-weight: bold;
       padding-right: 1em; }
-  .message-detail .avatar img {
-    vertical-align: middle; }
   .message-detail .conflict {
     border: none;
     border-radius: 5px;
@@ -526,12 +528,10 @@ input.search {
   .message-detail .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
-  .message-detail .avatar img,
-  .message-list .avatar img {
+  .message-detail .avatar,
+  .message-list .avatar {
     height: 36px;
-    width: 36px;
-    background: #f3f3f3;
-    border-radius: 18px; }
+    width: 36px; }
   .message-detail .meta,
   .message-list .meta {
     margin-top: 3px;

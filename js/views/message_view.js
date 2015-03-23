@@ -41,7 +41,7 @@
                     timestamp: moment(this.model.get('received_at')).fromNow(),
                     sender: (contact && contact.getTitle()) || '',
                     avatar_url: (contact && contact.getAvatarUrl())
-                })
+                }, this.render_partials())
             );
 
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });

@@ -161,6 +161,16 @@ img.emoji {
    vertical-align: -0.1em;
 }
 
+.avatar {
+  display: inline-block;
+  height: 44px;
+  width: 44px;
+  background: $grey_l url('/images/default.png') no-repeat center;
+  border-radius: 50%;
+  background-size: cover;
+  vertical-align: middle;
+}
+
 .new-group-update-form {
   background: white;
 
@@ -239,13 +249,6 @@ img.emoji {
     &::after {
       display: none;
     }
-  }
-
-  .avatar img {
-    height: 44px;
-    width: 44px;
-    background: $grey_l;
-    border-radius: (44px / 2);
   }
 
   .contact-details {

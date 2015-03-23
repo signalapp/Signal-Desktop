@@ -26,6 +26,6 @@
     "options_page": "options.html",
 
   "content_security_policy":
-    "default-src 'self'; img-src 'self' data:; connect-src https://textsecure-service-staging.whispersystems.org wss://textsecure-service-staging.whispersystems.org https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com"
+    "default-src 'self'; img-src 'self' data:; connect-src https://textsecure-service-staging.whispersystems.org wss://textsecure-service-staging.whispersystems.org https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com; style-src 'self' 'unsafe-inline'"
 
 }

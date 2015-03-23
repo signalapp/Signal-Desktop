@@ -17,11 +17,10 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var ContactView = Backbone.View.extend({
+    var ContactView = Whisper.View.extend({
         className: 'contact-detail',
+        template: $('#contact-detail').html(),
         initialize: function(options) {
-            this.template = $('#contact-detail').html();
-            Mustache.parse(this.template);
             this.conflict = options.conflict;
         },
         events: {
@@ -30,13 +29,12 @@
         triggerConflict: function() {
             this.$el.trigger('conflict', {conflict: this.conflict});
         },
-        render: function() {
-            this.$el.html(Mustache.render(this.template, {
+        render_attributes: function() {
+            return {
                 name       : this.model.getTitle(),
                 avatar_url : this.model.getAvatarUrl(),
                 conflict   : this.conflict
-            }));
-            return this;
+            };
         }
     });
 

@@ -25,11 +25,18 @@
         render_attributes: function() {
             return _.result(this.model, 'attributes', {});
         },
+        render_partials: function() {
+            return {
+                avatar: this.avatar_template
+            };
+        },
         render: function() {
             var attrs = _.result(this, 'render_attributes', {});
             var template = _.result(this, 'template', '');
-            this.$el.html(Mustache.render(template, attrs));
+            var partials = _.result(this, 'render_partials', '');
+            this.$el.html(Mustache.render(template, attrs, partials));
             return this;
-        }
+        },
+        avatar_template: $('#avatar').html()
     });
 })();

@@ -53,7 +53,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
       <div class='sender'>{{ sender }}</div>
-      <span class='avatar'><img src='{{ avatar_url }}' /></span>
+      {{> avatar }}
       <div class="bubble">
           <p class="content">{{ message }}</p>
           <div class='attachments'></div>
@@ -74,7 +74,7 @@
           <div class='clearfix'>
             <div class='group-avatar'>
               <div class='thumbnail'>
-                <span class='default avatar'><img src='{{ avatar_url }}' /></span>
+                {{> avatar }}
               </div>
               <input type='file' name='avatar' class='file-input'>
             </div>
@@ -85,11 +85,14 @@
         </div>
       </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='avatar'>
+      <span class='avatar' style='background-image: url("{{ avatar_url }}");' ></span>
+  </script>
   <script type='text/x-tmpl-mustache' id='contact_pill'>
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
-      <span class='avatar'><img src='{{ avatar_url }}' /></span>
+      {{> avatar }}
       <div class='contact-details'>
           <h3 class='contact-name'>
           {{ contact_name }}
@@ -206,7 +209,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
       <div>
-        <span class='avatar'><img src='{{ avatar_url }}' /></span>
+        {{> avatar }}
         <span class='name'>{{ name }}</span>
         {{ #conflict }}
             <button class='conflict'><span>Verify</span></button>

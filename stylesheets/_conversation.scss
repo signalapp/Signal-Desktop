@@ -53,10 +53,6 @@
     }
   }
 
-  .avatar img {
-    vertical-align: middle;
-  }
-
   .conflict {
     border: none;
     border-radius: 5px;
@@ -240,11 +236,9 @@
     display: none;
   }
 
-  .avatar img {
+  .avatar {
     height: 36px;
     width: 36px;
-    background: $grey_l;
-    border-radius: (36px / 2);
   }
 
   .meta {
