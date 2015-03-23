@@ -28,6 +28,7 @@
             new bg.Whisper.ConversationView({
                 model: conversation
             }).$el.prependTo($('body', document));
+            $('input.send-message', document).focus();
         } else {
             $('<div>').text('Error').prependTo($('body', document));
         }
