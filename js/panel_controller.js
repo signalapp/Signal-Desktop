@@ -43,7 +43,7 @@
 
     window.getConversation = function(attrs) {
         var conversation = window.inbox.get(attrs.id) || attrs;
-        conversation = conversations.add(attrs);
+        conversation = conversations.add(conversation);
         return conversation;
     };
 
