@@ -157,8 +157,9 @@
         if (this.isPrivate()) {
             this.contactCollection.reset([this]);
         } else {
+            var members = this.get('members') || [];
             this.contactCollection.reset(
-                this.get('members').map(function(number) {
+                members.map(function(number) {
                     var c = this.collection.add({id: number, type: 'private'});
                     c.fetch();
                     return c;
