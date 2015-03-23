@@ -222,6 +222,16 @@
     }
   }
 
+  .control {
+    .bubble {
+      .content {
+        font-style: italic;
+      }
+
+      &::before, &::after { display: none; }
+    }
+  }
+
   .attachments {
     img, audio, video {
       max-width: 100%;

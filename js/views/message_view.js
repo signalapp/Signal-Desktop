@@ -37,7 +37,7 @@
             var contact = this.model.getContact();
             this.$el.html(
                 Mustache.render(this.template, {
-                    message: this.model.get('body'),
+                    message: this.model.getDescription(),
                     timestamp: moment(this.model.get('received_at')).fromNow(),
                     sender: (contact && contact.getTitle()) || '',
                     avatar_url: (contact && contact.getAvatarUrl())
@@ -79,15 +79,7 @@
             return ["entry", this.model.get('type')].join(' ');
         },
         initialize: function() {
-            if (this.model.isEndSession()) {
-                this.view = new Whisper.EndSessionView();
-            } else if (this.model.isGroupUpdate()) {
-                this.view = new Whisper.GroupUpdateView({
-                    model: this.model.get('group_update')
-                });
-            } else {
-                this.view = new ContentMessageView({model: this.model});
-            }
+            this.view = new ContentMessageView({model: this.model});
             this.$el.append(this.view.el);
 
             this.listenTo(this.model, 'destroy', this.remove); // auto update
@@ -99,6 +91,11 @@
             this.$el.trigger('select', {message: this.model});
         },
         render: function() {
+            if (this.model.isEndSession() || this.model.isGroupUpdate()) {
+                this.$el.addClass('control');
+            } else {
+                this.$el.removeClass('control');
+            }
             this.view.render();
             return this;
         }

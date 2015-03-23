@@ -18,12 +18,12 @@
 
     window.Whisper = window.Whisper || {};
 
-    Whisper.EndSessionView = Backbone.View.extend({
+    Whisper.EndSessionView = Whisper.View.extend({
         tagName:   "div",
         className: "end-session",
-        render: function() {
-            this.$el.text("Secure session ended");
-            return this;
+        template: $('#message').html(),
+        render_attributes: function() {
+            return { text: 'Secure session ended' };
         }
     });
 

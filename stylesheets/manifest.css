@@ -149,7 +149,7 @@ img.emoji {
   height: 44px;
   width: 44px;
   background: #f3f3f3 url("/images/default.png") no-repeat center;
-  border-radius: 22px;
+  border-radius: 50%;
   background-size: cover;
   vertical-align: middle; }
 
@@ -517,6 +517,13 @@ input.search {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2a92e7; }
+  .message-detail .control .bubble .content,
+  .message-list .control .bubble .content {
+    font-style: italic; }
+  .message-detail .control .bubble::before, .message-detail .control .bubble::after,
+  .message-list .control .bubble::before,
+  .message-list .control .bubble::after {
+    display: none; }
   .message-detail .attachments img, .message-detail .attachments audio, .message-detail .attachments video,
   .message-list .attachments img,
   .message-list .attachments audio,

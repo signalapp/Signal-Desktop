@@ -45,10 +45,23 @@
         },
         getDescription: function() {
             if (this.isGroupUpdate()) {
-                return 'Updated the group';
+                var group_update = this.get('group_update');
+                if (group_update.left) {
+                    return group_update.left + ' left the group.';
+                }
+
+                var messages = ['Updated the group.'];
+                if (group_update.name) {
+                    messages.push("Title is now '" + group_update.name + "'.");
+                }
+                if (group_update.joined) {
+                    messages.push(group_update.joined.join(', ') + ' joined the group.');
+                }
+
+                return messages.join(' ');
             }
             if (this.isEndSession()) {
-                return 'Secure session ended';
+                return 'Secure session ended.';
             }
             if (this.isIncoming() && this.hasKeyConflicts()) {
                 return 'Received message with unknown identity key.';
