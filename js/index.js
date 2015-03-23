@@ -20,23 +20,10 @@
 
     window.Whisper = window.Whisper || {};
     if (bg.textsecure.storage.getUnencrypted("number_id") === undefined) {
-        extension.navigator.tabs.create('/options.html');
-        window.close();
+        window.location = '/options.html';
     } else {
         new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));
         bg.textsecure.storage.putUnencrypted("unreadCount", 0);
         extension.navigator.setBadgeText("");
-
-        window.addEventListener('beforeunload', function () {
-            chrome.browserAction.setPopup({popup: 'index.html'}); // pop in
-        });
-
-        extension.windows.getCurrent(function (windowInfo) {
-            if (windowInfo.type === 'normal') {
-                bg.$('body', document).addClass('pop-in');
-            } else {
-                bg.$('.popout', document).remove();
-            }
-        });
     }
 }());

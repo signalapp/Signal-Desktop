@@ -65,6 +65,8 @@
             });
         });
 
+        extension.browserAction(window.openInbox);
+
         // refresh views
         var views = extension.windows.getViews();
         for (var i = 0; i < views.length; ++i) {
