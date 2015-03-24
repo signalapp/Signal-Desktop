@@ -123,26 +123,6 @@
         }
     },
 
-    receiveMessage: function(decrypted) {
-        var conversation = this;
-        var timestamp = decrypted.pushMessage.timestamp.toNumber();
-        var m = this.messageCollection.add({
-            body           : decrypted.message.body,
-            timestamp      : timestamp,
-            conversationId : this.id,
-            attachments    : decrypted.message.attachments,
-            type           : 'incoming',
-            sender         : decrypted.pushMessage.source
-        });
-
-        if (timestamp > this.get('timestamp')) {
-          this.set('timestamp', timestamp);
-        }
-        this.save({unreadCount: this.get('unreadCount') + 1, active: true});
-
-        return new Promise(function (resolve) { m.save().then(resolve(m)); });
-    },
-
     markRead: function() {
         if (this.get('unreadCount') > 0) {
             this.save({unreadCount: 0});
@@ -255,56 +235,6 @@
       return -m.get('timestamp');
     },
 
-    createGroup: function(recipients, name, avatar) {
-      var attributes = {};
-      attributes = {
-        name      : name,
-        members   : recipients,
-        type      : 'group',
-        avatar    : avatar
-      };
-      var conversation = this.add(attributes, {merge: true});
-      return textsecure.messaging.createGroup(recipients, name, avatar).then(function(groupId) {
-        conversation.save({
-          id      : getString(groupId),
-          groupId : getString(groupId)
-        });
-        return conversation;
-      });
-    },
-
-    findOrCreateForRecipient: function(recipient) {
-      var attributes = {};
-      attributes = {
-        id        : recipient,
-        name      : recipient,
-        type      : 'private',
-      };
-      var conversation = this.add(attributes, {merge: true});
-      conversation.save();
-      return conversation;
-    },
-
-    addIncomingMessage: function(decrypted) {
-      var attributes = {};
-      if (decrypted.message.group) {
-        attributes = {
-          id         : decrypted.message.group.id,
-          groupId    : decrypted.message.group.id,
-          name       : decrypted.message.group.name || 'New group',
-          type       : 'group',
-        };
-      } else {
-        attributes = {
-          id         : decrypted.pushMessage.source,
-          name       : decrypted.pushMessage.source,
-          type       : 'private'
-        };
-      }
-      var conversation = this.add(attributes, {merge: true});
-      return conversation.receiveMessage(decrypted);
-    },
-
     destroyAll: function () {
         return Promise.all(this.models.map(function(m) {
             return new Promise(function(resolve, reject) {
@@ -321,6 +251,5 @@
             }
         });
     }
-
   });
 })();
