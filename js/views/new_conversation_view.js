@@ -127,6 +127,18 @@
                 group.save().then(function() {
                     this.trigger('open', {modelId: groupId});
                 }.bind(this));
+                var now = Date.now();
+                group.messageCollection.add({
+                    conversationId : this.id,
+                    type           : 'outgoing',
+                    sent_at        : now,
+                    received_at    : now,
+                    group_update   : {
+                        name: group.get('name'),
+                        avatar: group.get('avatar'),
+                        joined: group.get('members')
+                    }
+                }).save();
                 textsecure.messaging.updateGroup(
                     group.id,
                     group.get('name'),

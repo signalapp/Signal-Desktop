@@ -112,14 +112,30 @@
 
     endSession: function() {
         if (this.get('type') === 'private') {
+            var now = Date.now();
             textsecure.messaging.closeSession(this.id);
+            this.messageCollection.add({
+                conversationId : this.id,
+                type           : 'outgoing',
+                sent_at        : now,
+                received_at    : now,
+                flags          : textsecure.protobuf.PushMessageContent.Flags.END_SESSION
+            }).save();
         }
 
     },
 
     leaveGroup: function() {
+        var now = Date.now();
         if (this.get('type') === 'group') {
             textsecure.messaging.leaveGroup(this.id);
+            this.messageCollection.add({
+                group_update: { left: 'You' },
+                conversationId : this.id,
+                type           : 'outgoing',
+                sent_at        : now,
+                received_at    : now
+            }).save();
         }
     },
 
