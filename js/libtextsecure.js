@@ -37708,13 +37708,13 @@ window.axolotl.sessions = {
                 return textsecure.storage.get("registrationId");
             },
             put: function(key, value) {
-                return textsecure.storage.put(key, value);
+                return textsecure.storage.put("libaxolotl" + key, value);
             },
             get: function(key, defaultValue) {
-                return textsecure.storage.get(key, defaultValue);
+                return textsecure.storage.get("libaxolotl" + key, defaultValue);
             },
             remove: function(key) {
-                return textsecure.storage.remove(key);
+                return textsecure.storage.remove("libaxolotl" + key);
             },
 
             identityKeys: {
