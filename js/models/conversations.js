@@ -229,7 +229,7 @@
     resolveConflicts: function(number) {
         if (this.isPrivate()) {
             number = this.id;
-        } else if (!_.find(this.get('members'), number)) {
+        } else if (!_.include(this.get('members'), number)) {
             throw 'Tried to resolve conflicts for a unknown group member';
         }
 
