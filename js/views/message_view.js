@@ -17,18 +17,34 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var ContentMessageView = Whisper.View.extend({
-        tagName: 'div',
+    Whisper.MessageView = Whisper.View.extend({
+        tagName:   "li",
         template: $('#message').html(),
         initialize: function() {
             this.listenTo(this.model, 'change:body change:errors', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
+            this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
+            this.listenTo(this.model, 'destroy', this.remove);
+        },
+        events: {
+            'click .timestamp': 'select'
+        },
+        select: function() {
+            this.$el.trigger('select', {message: this.model});
         },
         className: function() {
-            if (this.model.get('delivered')) { return 'delivered'; }
+            return ["entry", this.model.get('type')].join(' ');
         },
         renderDelivered: function() {
             if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
+        },
+        renderControl: function() {
+            if (this.model.isEndSession() || this.model.isGroupUpdate()) {
+                this.$el.addClass('control');
+                this.$el.find('.content').text(this.model.getDescription());
+            } else {
+                this.$el.removeClass('control');
+            }
         },
         autoLink: function(text) {
             return text.replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>");
@@ -37,7 +53,7 @@
             var contact = this.model.getContact();
             this.$el.html(
                 Mustache.render(this.template, {
-                    message: this.model.getDescription(),
+                    message: this.model.get('body'),
                     timestamp: moment(this.model.get('received_at')).fromNow(),
                     sender: (contact && contact.getTitle()) || '',
                     avatar_url: (contact && contact.getAvatarUrl())
@@ -50,6 +66,7 @@
             content.html(this.autoLink(content.html()));
 
             this.renderDelivered();
+            this.renderControl();
 
             this.$el.find('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
@@ -70,37 +87,8 @@
                     }.bind(this))
                 );
             }
-        }
-    });
-
-    Whisper.MessageView = Backbone.View.extend({
-        tagName:   "li",
-        className: function() {
-            return ["entry", this.model.get('type')].join(' ');
-        },
-        initialize: function() {
-            this.view = new ContentMessageView({model: this.model});
-            this.$el.append(this.view.el);
-
-            this.listenTo(this.model, 'destroy', this.remove); // auto update
-            this.listenTo(this.model, 'change:flags change:group_update', this.render); // auto update
-        },
-        events: {
-            'click .timestamp': 'select'
-        },
-        select: function() {
-            this.$el.trigger('select', {message: this.model});
-        },
-        render: function() {
-            if (this.model.isEndSession() || this.model.isGroupUpdate()) {
-                this.$el.addClass('control');
-            } else {
-                this.$el.removeClass('control');
-            }
-            this.view.render();
             return this;
         }
-
     });
 
 })();
