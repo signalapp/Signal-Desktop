@@ -112,22 +112,27 @@
                 return;
             }
 
-            return this.avatarInput.getFiles().then(function(avatarFiles) {
+            return this.avatarInput.getFile().then(function(avatarFile) {
+                var members = this.getRecipients().pluck('id');
+                var groupId = textsecure.storage.groups.createNewGroup(members).id;
                 var attributes = {
+                    id: groupId,
+                    groupId: groupId,
                     type: 'group',
                     name: name,
-                    avatar: avatarFiles[0],
-                    members: this.getRecipients().pluck('id')
+                    avatar: avatarFile,
+                    members: members
                 };
-                return textsecure.messaging.createGroup(
-                    attributes.members, attributes.name, attributes.avatar
-                ).then(function(groupId) {
-                    var id = getString(groupId);
-                    var group = new Whisper.Conversation(attributes);
-                    group.save({ id: id, groupId: id }).then(function() {
-                        this.trigger('open', {modelId: id});
-                    }.bind(this));
+                var group = new Whisper.Conversation(attributes);
+                group.save().then(function() {
+                    this.trigger('open', {modelId: groupId});
                 }.bind(this));
+                textsecure.messaging.updateGroup(
+                    group.id,
+                    group.get('name'),
+                    group.get('avatar'),
+                    group.get('members')
+                );
             }.bind(this));
         },
 
