@@ -19,7 +19,7 @@
     var bg = extension.windows.getBackground();
 
     window.Whisper = window.Whisper || {};
-    if (bg.textsecure.storage.getUnencrypted("number_id") === undefined) {
+    if (bg.textsecure.storage.user.getNumber() === undefined) {
         window.location = '/options.html';
     } else {
         new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));

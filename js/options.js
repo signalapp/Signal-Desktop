@@ -37,11 +37,7 @@
 
     $(function() {
         if (textsecure.registration.isDone()) {
-            $('#complete-number').text(
-                textsecure.utils.unencodeNumber(
-                    textsecure.storage.getUnencrypted("number_id")
-                )[0]
-            );//TODO: no
+            $('#complete-number').text(textsecure.storage.user.getNumber());
             $('#setup-complete').show().addClass('in');
             initOptions();
         } else {

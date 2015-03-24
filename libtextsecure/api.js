@@ -95,7 +95,7 @@ window.textsecure.api = function () {
         }
 
         if (param.do_auth) {
-            param.user      = textsecure.storage.getUnencrypted("number_id");
+            param.user      = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
             param.password  = textsecure.storage.getEncrypted("password");
         }
 
@@ -321,7 +321,7 @@ window.textsecure.api = function () {
         var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
         var params = '';
         if (auth) {
-            var user = textsecure.storage.getUnencrypted("number_id");
+            var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
             var password = textsecure.storage.getEncrypted("password");
             var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }

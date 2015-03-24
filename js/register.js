@@ -36,9 +36,9 @@
     var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
     phoneView.$el.find('input.number').intlTelInput();
 
-    var number = textsecure.storage.getUnencrypted('number_id');
+    var number = textsecure.storage.user.getNumber();
     if (number) {
-        $('input.number').val(number.split('.')[0]);
+        $('input.number').val(number);
     }
 
     $('input.number').on('validation', function() {
@@ -98,7 +98,7 @@
         textsecure.storage.putUnencrypted('registrationId', registrationId);
         textsecure.storage.putEncrypted('signaling_key', signalingKey);
         textsecure.storage.putEncrypted('password', password);
-        textsecure.storage.putUnencrypted('number_id', number + '.1');
+        textsecure.storage.user.setNumberAndDeviceId(number, 1);
         textsecure.storage.putUnencrypted('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
 
         log('verifying code');

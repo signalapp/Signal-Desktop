@@ -38023,6 +38023,53 @@ window.axolotl.sessions = {
 'use strict';
 
 ;(function() {
+    /*********************************************
+    *** Utilities to store data about the user ***
+    **********************************************/
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
+
+    window.textsecure.storage.user = {
+        setNumberAndDeviceId: function(number, deviceId) {
+            textsecure.storage.putUnencrypted("number_id", number + "." + deviceId);
+        },
+
+        getNumber: function(key, defaultValue) {
+            var number_id = textsecure.storage.getUnencrypted("number_id");
+            if (number_id === undefined)
+                return undefined;
+            return textsecure.utils.unencodeNumber(number_id)[0];
+        },
+
+        getDeviceId: function(key) {
+            var number_id = textsecure.storage.getUnencrypted("number_id");
+            if (number_id === undefined)
+                return undefined;
+            return textsecure.utils.unencodeNumber(number_id)[1];
+        }
+    };
+})();
+
+
+/* vim: ts=4:sw=4
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+'use strict';
+
+;(function() {
     /**********************
     *** Device Storage ***
     **********************/
@@ -38213,7 +38260,7 @@ window.axolotl.sessions = {
             while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = textsecure.storage.user.getNumber();
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
@@ -38251,7 +38298,7 @@ window.axolotl.sessions = {
             if (group === undefined)
                 return undefined;
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = textsecure.storage.user.getNumber();
             if (number == me)
                 throw new Error("Cannot remove ourselves from a group, leave the group instead");
 
@@ -38738,7 +38785,7 @@ textsecure.processDecrypted = function(decrypted, source) {
     if (decrypted.flags == null)
         decrypted.flags = 0;
 
-    if (decrypted.sync !== null && textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0] != source)
+    if (decrypted.sync !== null && textsecure.storage.user.getNumber() != source)
         throw new Error("Got sync context on a message not from a peer device");
 
     if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
@@ -38843,8 +38890,7 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
     textsecure.storage.putUnencrypted("registrationId", registrationId);
 
     return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
-        var numberId = number + ".1";
-        textsecure.storage.putUnencrypted("number_id", numberId);
+        textsecure.storage.user.setNumberAndDeviceId(number, 1);
         textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         stepDone(1);
 
@@ -38874,8 +38920,7 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
         textsecure.storage.putUnencrypted("registrationId", registrationId);
 
         return textsecure.api.confirmCode(identityKey.number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-            var numberId = identityKey.number + "." + result.deviceId;
-            textsecure.storage.putUnencrypted("number_id", numberId);
+            textsecure.storage.user.setNumberAndDeviceId(identityKey.number, result.deviceId);
             textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
             stepDone(2);
 
@@ -39084,7 +39129,7 @@ window.textsecure.api = function () {
         }
 
         if (param.do_auth) {
-            param.user      = textsecure.storage.getUnencrypted("number_id");
+            param.user      = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
             param.password  = textsecure.storage.getEncrypted("password");
         }
 
@@ -39310,7 +39355,7 @@ window.textsecure.api = function () {
         var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
         var params = '';
         if (auth) {
-            var user = textsecure.storage.getUnencrypted("number_id");
+            var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
             var password = textsecure.storage.getEncrypted("password");
             var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }
@@ -39586,9 +39631,8 @@ window.textsecure.messaging = function() {
     }
 
     var sendSyncMessage = function(message, timestamp, destination) {
-        var numberDevice = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"));
-        var myNumber = numberDevice[0];
-        var myDevice = numberDevice[1];
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
             var sync_message = textsecure.protobuf.PushMessageContent.decode(message.encode());
             sync_message.sync = new textsecure.protobuf.PushMessageContent.SyncMessageContext();
@@ -39600,7 +39644,7 @@ window.textsecure.messaging = function() {
 
     var sendGroupProto = function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
-        var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+        var me = textsecure.storage.user.getNumber();
         numbers = numbers.filter(function(number) { return number != me; });
 
         return new Promise(function(resolve, reject) {

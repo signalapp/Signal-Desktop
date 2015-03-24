@@ -58,9 +58,7 @@
             var view = new Whisper.KeyVerificationView({
                 model: {
                     their_key: textsecure.storage.devices.getIdentityKeyForNumber(number),
-                    your_key: textsecure.storage.devices.getIdentityKeyForNumber(
-                        textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0]
-                    )
+                    your_key: textsecure.storage.devices.getIdentityKeyForNumber(textsecure.storage.user.getNumber())
                 }
             });
             this.$el.hide();

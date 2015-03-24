@@ -256,9 +256,8 @@ window.textsecure.messaging = function() {
     }
 
     var sendSyncMessage = function(message, timestamp, destination) {
-        var numberDevice = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"));
-        var myNumber = numberDevice[0];
-        var myDevice = numberDevice[1];
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
             var sync_message = textsecure.protobuf.PushMessageContent.decode(message.encode());
             sync_message.sync = new textsecure.protobuf.PushMessageContent.SyncMessageContext();
@@ -270,7 +269,7 @@ window.textsecure.messaging = function() {
 
     var sendGroupProto = function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
-        var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+        var me = textsecure.storage.user.getNumber();
         numbers = numbers.filter(function(number) { return number != me; });
 
         return new Promise(function(resolve, reject) {

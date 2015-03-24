@@ -31,7 +31,7 @@
             while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = textsecure.storage.user.getNumber();
             var haveMe = false;
             var finalNumbers = [];
             for (var i in numbers) {
@@ -69,7 +69,7 @@
             if (group === undefined)
                 return undefined;
 
-            var me = textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0];
+            var me = textsecure.storage.user.getNumber();
             if (number == me)
                 throw new Error("Cannot remove ourselves from a group, leave the group instead");
 

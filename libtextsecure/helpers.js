@@ -161,7 +161,7 @@ textsecure.processDecrypted = function(decrypted, source) {
     if (decrypted.flags == null)
         decrypted.flags = 0;
 
-    if (decrypted.sync !== null && textsecure.utils.unencodeNumber(textsecure.storage.getUnencrypted("number_id"))[0] != source)
+    if (decrypted.sync !== null && textsecure.storage.user.getNumber() != source)
         throw new Error("Got sync context on a message not from a peer device");
 
     if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
@@ -266,8 +266,7 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
     textsecure.storage.putUnencrypted("registrationId", registrationId);
 
     return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
-        var numberId = number + ".1";
-        textsecure.storage.putUnencrypted("number_id", numberId);
+        textsecure.storage.user.setNumberAndDeviceId(number, 1);
         textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         stepDone(1);
 
@@ -297,8 +296,7 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
         textsecure.storage.putUnencrypted("registrationId", registrationId);
 
         return textsecure.api.confirmCode(identityKey.number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-            var numberId = identityKey.number + "." + result.deviceId;
-            textsecure.storage.putUnencrypted("number_id", numberId);
+            textsecure.storage.user.setNumberAndDeviceId(identityKey.number, result.deviceId);
             textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
             stepDone(2);
 
