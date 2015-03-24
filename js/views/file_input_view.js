@@ -144,7 +144,7 @@
 
         getFile: function(file) {
             file = file || this.$input.prop('files')[0];
-            if (file === undefined) { throw 'No file'; }
+            if (file === undefined) { return Promise.resolve(); }
             return this.autoScale(file).then(this.readFile);
         },
 
