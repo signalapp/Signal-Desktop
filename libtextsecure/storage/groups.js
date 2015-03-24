@@ -25,10 +25,10 @@
 
     window.textsecure.storage.groups = {
         createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+            if (groupId !== undefined && textsecure.storage.get("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
 
-            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+            while (groupId === undefined || textsecure.storage.get("group" + groupId) !== undefined)
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
 
             var me = textsecure.storage.user.getNumber();
@@ -51,13 +51,13 @@
             for (var i in finalNumbers)
                 groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-            textsecure.storage.putEncrypted("group" + groupId, groupObject);
+            textsecure.storage.put("group" + groupId, groupObject);
 
             return {id: groupId, numbers: finalNumbers};
         },
 
         getNumbers: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -65,7 +65,7 @@
         },
 
         removeNumber: function(groupId, number) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -77,14 +77,14 @@
             if (i > -1) {
                 group.numbers.slice(i, 1);
                 delete group.numberRegistrationIds[number];
-                textsecure.storage.putEncrypted("group" + groupId, group);
+                textsecure.storage.put("group" + groupId, group);
             }
 
             return group.numbers;
         },
 
         addNumbers: function(groupId, numbers) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -98,16 +98,16 @@
                 }
             }
 
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            textsecure.storage.put("group" + groupId, group);
             return group.numbers;
         },
 
         deleteGroup: function(groupId) {
-            textsecure.storage.removeEncrypted("group" + groupId);
+            textsecure.storage.remove("group" + groupId);
         },
 
         getGroup: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -115,7 +115,7 @@
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 throw new Error("Unknown group for device registration id");
 
@@ -127,7 +127,7 @@
 
             var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
             group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            textsecure.storage.put("group" + groupId, group);
             return needUpdate;
         },
     };

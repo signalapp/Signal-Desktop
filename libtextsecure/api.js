@@ -96,7 +96,7 @@ window.textsecure.api = function () {
 
         if (param.do_auth) {
             param.user      = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            param.password  = textsecure.storage.getEncrypted("password");
+            param.password  = textsecure.storage.get("password");
         }
 
         return new Promise(function (resolve, reject) {
@@ -322,7 +322,7 @@ window.textsecure.api = function () {
         var params = '';
         if (auth) {
             var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            var password = textsecure.storage.getEncrypted("password");
+            var password = textsecure.storage.get("password");
             var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }
         return window.textsecure.websocket(URL+params)

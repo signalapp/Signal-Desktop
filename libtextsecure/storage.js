@@ -25,45 +25,25 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage = {
-
         /*****************************
         *** Base Storage Routines ***
         *****************************/
-        putEncrypted: function(key, value) {
-            //TODO
+        put: function(key, value) {
             if (value === undefined)
                 throw new Error("Tried to store undefined");
-            localStorage.setItem("e" + key, textsecure.utils.jsonThing(value));
+            localStorage.setItem("" + key, textsecure.utils.jsonThing(value));
         },
 
-        getEncrypted: function(key, defaultValue) {
-            //TODO
-            var value = localStorage.getItem("e" + key);
+        get: function(key, defaultValue) {
+            var value = localStorage.getItem("" + key);
             if (value === null)
                 return defaultValue;
             return JSON.parse(value);
         },
 
-        removeEncrypted: function(key) {
-            localStorage.removeItem("e" + key);
+        remove: function(key) {
+            localStorage.removeItem("" + key);
         },
-
-        putUnencrypted: function(key, value) {
-            if (value === undefined)
-                throw new Error("Tried to store undefined");
-            localStorage.setItem("u" + key, textsecure.utils.jsonThing(value));
-        },
-
-        getUnencrypted: function(key, defaultValue) {
-            var value = localStorage.getItem("u" + key);
-            if (value === null)
-                return defaultValue;
-            return JSON.parse(value);
-        },
-
-        removeUnencrypted: function(key) {
-            localStorage.removeItem("u" + key);
-        }
     };
 })();
 

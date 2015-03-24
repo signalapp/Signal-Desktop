@@ -37705,16 +37705,16 @@ window.axolotl.sessions = {
 ;(function() {
     var axolotlInstance = axolotl.protocol({
             getMyRegistrationId: function() {
-                return textsecure.storage.getUnencrypted("registrationId");
+                return textsecure.storage.get("registrationId");
             },
             put: function(key, value) {
-                return textsecure.storage.putEncrypted(key, value);
+                return textsecure.storage.put(key, value);
             },
             get: function(key, defaultValue) {
-                return textsecure.storage.getEncrypted(key, defaultValue);
+                return textsecure.storage.get(key, defaultValue);
             },
             remove: function(key) {
-                return textsecure.storage.removeEncrypted(key);
+                return textsecure.storage.remove(key);
             },
 
             identityKeys: {
@@ -37876,7 +37876,7 @@ window.axolotl.sessions = {
     window.textsecure.crypto = {
         // Decrypts message into a raw string
         decryptWebsocketMessage: function(message) {
-            var signaling_key = textsecure.storage.getEncrypted("signaling_key"); //TODO: in crypto_storage
+            var signaling_key = textsecure.storage.get("signaling_key"); //TODO: in crypto_storage
             var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
             var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
 
@@ -37961,45 +37961,25 @@ window.axolotl.sessions = {
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage = {
-
         /*****************************
         *** Base Storage Routines ***
         *****************************/
-        putEncrypted: function(key, value) {
-            //TODO
+        put: function(key, value) {
             if (value === undefined)
                 throw new Error("Tried to store undefined");
-            localStorage.setItem("e" + key, textsecure.utils.jsonThing(value));
+            localStorage.setItem("" + key, textsecure.utils.jsonThing(value));
         },
 
-        getEncrypted: function(key, defaultValue) {
-            //TODO
-            var value = localStorage.getItem("e" + key);
+        get: function(key, defaultValue) {
+            var value = localStorage.getItem("" + key);
             if (value === null)
                 return defaultValue;
             return JSON.parse(value);
         },
 
-        removeEncrypted: function(key) {
-            localStorage.removeItem("e" + key);
+        remove: function(key) {
+            localStorage.removeItem("" + key);
         },
-
-        putUnencrypted: function(key, value) {
-            if (value === undefined)
-                throw new Error("Tried to store undefined");
-            localStorage.setItem("u" + key, textsecure.utils.jsonThing(value));
-        },
-
-        getUnencrypted: function(key, defaultValue) {
-            var value = localStorage.getItem("u" + key);
-            if (value === null)
-                return defaultValue;
-            return JSON.parse(value);
-        },
-
-        removeUnencrypted: function(key) {
-            localStorage.removeItem("u" + key);
-        }
     };
 })();
 
@@ -38031,25 +38011,24 @@ window.axolotl.sessions = {
 
     window.textsecure.storage.user = {
         setNumberAndDeviceId: function(number, deviceId) {
-            textsecure.storage.putUnencrypted("number_id", number + "." + deviceId);
+            textsecure.storage.put("number_id", number + "." + deviceId);
         },
 
         getNumber: function(key, defaultValue) {
-            var number_id = textsecure.storage.getUnencrypted("number_id");
+            var number_id = textsecure.storage.get("number_id");
             if (number_id === undefined)
                 return undefined;
             return textsecure.utils.unencodeNumber(number_id)[0];
         },
 
         getDeviceId: function(key) {
-            var number_id = textsecure.storage.getUnencrypted("number_id");
+            var number_id = textsecure.storage.get("number_id");
             if (number_id === undefined)
                 return undefined;
             return textsecure.utils.unencodeNumber(number_id)[1];
         }
     };
 })();
-
 
 /* vim: ts=4:sw=4
  *
@@ -38099,7 +38078,7 @@ window.axolotl.sessions = {
         },
 
         getDeviceObjectsForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                return [];
             for (key in map.devices) {
@@ -38115,23 +38094,23 @@ window.axolotl.sessions = {
         },
 
         getIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             return map === undefined ? undefined : map.identityKey;
         },
 
         checkSaveIdentityKeyForNumber: function(number, identityKey) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
-                textsecure.storage.putEncrypted("devices" + number, { devices: [], identityKey: identityKey});
+                textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
             else if (getString(map.identityKey) !== getString(identityKey))
                 throw new Error("Attempted to overwrite a different identity key");
         },
 
         removeIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                 throw new Error("Tried to remove identity for unknown number");
-            textsecure.storage.removeEncrypted("devices" + number);
+            textsecure.storage.remove("devices" + number);
         },
 
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
@@ -38157,7 +38136,7 @@ window.axolotl.sessions = {
         },
 
         removeDeviceIdsForNumber: function(number, deviceIdsToRemove) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                 throw new Error("Tried to remove device for unknown number");
 
@@ -38179,10 +38158,10 @@ window.axolotl.sessions = {
                 throw new Error("Tried to remove unknown device");
 
             if (newDevices.length === 0)
-                textsecure.storage.removeEncrypted("devices" + number);
+                textsecure.storage.remove("devices" + number);
             else {
                 map.devices = newDevices;
-                textsecure.storage.putEncrypted("devices" + number, map);
+                textsecure.storage.put("devices" + number, map);
             }
         }
     };
@@ -38192,7 +38171,7 @@ window.axolotl.sessions = {
             throw new Error("Tried to store invalid deviceObject");
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-        var map = textsecure.storage.getEncrypted("devices" + number);
+        var map = textsecure.storage.get("devices" + number);
 
         if (deviceObject.sessions !== undefined)
             deviceObject.sessions = deviceObject.sessions.serialize()
@@ -38223,7 +38202,7 @@ window.axolotl.sessions = {
                 map.devices.push(deviceObject);
         }
 
-        textsecure.storage.putEncrypted("devices" + number, map);
+        textsecure.storage.put("devices" + number, map);
     };
 })();
 
@@ -38254,10 +38233,10 @@ window.axolotl.sessions = {
 
     window.textsecure.storage.groups = {
         createNewGroup: function(numbers, groupId) {
-            if (groupId !== undefined && textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+            if (groupId !== undefined && textsecure.storage.get("group" + groupId) !== undefined)
                 throw new Error("Tried to recreate group");
 
-            while (groupId === undefined || textsecure.storage.getEncrypted("group" + groupId) !== undefined)
+            while (groupId === undefined || textsecure.storage.get("group" + groupId) !== undefined)
                 groupId = getString(textsecure.crypto.getRandomBytes(16));
 
             var me = textsecure.storage.user.getNumber();
@@ -38280,13 +38259,13 @@ window.axolotl.sessions = {
             for (var i in finalNumbers)
                 groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-            textsecure.storage.putEncrypted("group" + groupId, groupObject);
+            textsecure.storage.put("group" + groupId, groupObject);
 
             return {id: groupId, numbers: finalNumbers};
         },
 
         getNumbers: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38294,7 +38273,7 @@ window.axolotl.sessions = {
         },
 
         removeNumber: function(groupId, number) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38306,14 +38285,14 @@ window.axolotl.sessions = {
             if (i > -1) {
                 group.numbers.slice(i, 1);
                 delete group.numberRegistrationIds[number];
-                textsecure.storage.putEncrypted("group" + groupId, group);
+                textsecure.storage.put("group" + groupId, group);
             }
 
             return group.numbers;
         },
 
         addNumbers: function(groupId, numbers) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38327,16 +38306,16 @@ window.axolotl.sessions = {
                 }
             }
 
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            textsecure.storage.put("group" + groupId, group);
             return group.numbers;
         },
 
         deleteGroup: function(groupId) {
-            textsecure.storage.removeEncrypted("group" + groupId);
+            textsecure.storage.remove("group" + groupId);
         },
 
         getGroup: function(groupId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 return undefined;
 
@@ -38344,7 +38323,7 @@ window.axolotl.sessions = {
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            var group = textsecure.storage.getEncrypted("group" + groupId);
+            var group = textsecure.storage.get("group" + groupId);
             if (group === undefined)
                 throw new Error("Unknown group for device registration id");
 
@@ -38356,7 +38335,7 @@ window.axolotl.sessions = {
 
             var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
             group.numberRegistrationIds[number][encodedNumber] = registrationId;
-            textsecure.storage.putEncrypted("group" + groupId, group);
+            textsecure.storage.put("group" + groupId, group);
             return needUpdate;
         },
     };
@@ -38879,19 +38858,19 @@ textsecure.processDecrypted = function(decrypted, source) {
 
 window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
     var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-    textsecure.storage.putEncrypted('signaling_key', signalingKey);
+    textsecure.storage.put('signaling_key', signalingKey);
 
     var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
     password = password.substring(0, password.length - 2);
-    textsecure.storage.putEncrypted("password", password);
+    textsecure.storage.put("password", password);
 
     var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
     registrationId = registrationId & 0x3fff;
-    textsecure.storage.putUnencrypted("registrationId", registrationId);
+    textsecure.storage.put("registrationId", registrationId);
 
     return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
         textsecure.storage.user.setNumberAndDeviceId(number, 1);
-        textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
+        textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         stepDone(1);
 
         return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
@@ -38909,19 +38888,19 @@ window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryp
         stepDone(1);
 
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-        textsecure.storage.putEncrypted('signaling_key', signalingKey);
+        textsecure.storage.put('signaling_key', signalingKey);
 
         var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
         password = password.substring(0, password.length - 2);
-        textsecure.storage.putEncrypted("password", password);
+        textsecure.storage.put("password", password);
 
         var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
         registrationId = registrationId & 0x3fff;
-        textsecure.storage.putUnencrypted("registrationId", registrationId);
+        textsecure.storage.put("registrationId", registrationId);
 
         return textsecure.api.confirmCode(identityKey.number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
             textsecure.storage.user.setNumberAndDeviceId(identityKey.number, result.deviceId);
-            textsecure.storage.putUnencrypted("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
+            textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
             stepDone(2);
 
             return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
@@ -39130,7 +39109,7 @@ window.textsecure.api = function () {
 
         if (param.do_auth) {
             param.user      = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            param.password  = textsecure.storage.getEncrypted("password");
+            param.password  = textsecure.storage.get("password");
         }
 
         return new Promise(function (resolve, reject) {
@@ -39356,7 +39335,7 @@ window.textsecure.api = function () {
         var params = '';
         if (auth) {
             var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            var password = textsecure.storage.getEncrypted("password");
+            var password = textsecure.storage.get("password");
             var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }
         return window.textsecure.websocket(URL+params)

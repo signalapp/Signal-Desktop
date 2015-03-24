@@ -25,18 +25,18 @@
 
     window.textsecure.storage.user = {
         setNumberAndDeviceId: function(number, deviceId) {
-            textsecure.storage.putUnencrypted("number_id", number + "." + deviceId);
+            textsecure.storage.put("number_id", number + "." + deviceId);
         },
 
         getNumber: function(key, defaultValue) {
-            var number_id = textsecure.storage.getUnencrypted("number_id");
+            var number_id = textsecure.storage.get("number_id");
             if (number_id === undefined)
                 return undefined;
             return textsecure.utils.unencodeNumber(number_id)[0];
         },
 
         getDeviceId: function(key) {
-            var number_id = textsecure.storage.getUnencrypted("number_id");
+            var number_id = textsecure.storage.get("number_id");
             if (number_id === undefined)
                 return undefined;
             return textsecure.utils.unencodeNumber(number_id)[1];

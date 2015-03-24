@@ -33,14 +33,14 @@
     inbox.on('change:unreadCount', function(model, count) {
         var prev = model.previous('unreadCount');
         if (count < prev) { // decreased
-            var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount") - (prev - count);
+            var newUnreadCount = textsecure.storage.get("unreadCount") - (prev - count);
             if (newUnreadCount <= 0) {
                 newUnreadCount = 0;
                 extension.navigator.setBadgeText("");
             } else {
                 extension.navigator.setBadgeText(newUnreadCount);
             }
-            textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+            textsecure.storage.put("unreadCount", newUnreadCount);
         }
     });
 

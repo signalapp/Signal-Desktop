@@ -46,7 +46,7 @@
         },
 
         getDeviceObjectsForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                return [];
             for (key in map.devices) {
@@ -62,23 +62,23 @@
         },
 
         getIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             return map === undefined ? undefined : map.identityKey;
         },
 
         checkSaveIdentityKeyForNumber: function(number, identityKey) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
-                textsecure.storage.putEncrypted("devices" + number, { devices: [], identityKey: identityKey});
+                textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
             else if (getString(map.identityKey) !== getString(identityKey))
                 throw new Error("Attempted to overwrite a different identity key");
         },
 
         removeIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                 throw new Error("Tried to remove identity for unknown number");
-            textsecure.storage.removeEncrypted("devices" + number);
+            textsecure.storage.remove("devices" + number);
         },
 
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
@@ -104,7 +104,7 @@
         },
 
         removeDeviceIdsForNumber: function(number, deviceIdsToRemove) {
-            var map = textsecure.storage.getEncrypted("devices" + number);
+            var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                 throw new Error("Tried to remove device for unknown number");
 
@@ -126,10 +126,10 @@
                 throw new Error("Tried to remove unknown device");
 
             if (newDevices.length === 0)
-                textsecure.storage.removeEncrypted("devices" + number);
+                textsecure.storage.remove("devices" + number);
             else {
                 map.devices = newDevices;
-                textsecure.storage.putEncrypted("devices" + number, map);
+                textsecure.storage.put("devices" + number, map);
             }
         }
     };
@@ -139,7 +139,7 @@
             throw new Error("Tried to store invalid deviceObject");
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-        var map = textsecure.storage.getEncrypted("devices" + number);
+        var map = textsecure.storage.get("devices" + number);
 
         if (deviceObject.sessions !== undefined)
             deviceObject.sessions = deviceObject.sessions.serialize()
@@ -170,6 +170,6 @@
                 map.devices.push(deviceObject);
         }
 
-        textsecure.storage.putEncrypted("devices" + number, map);
+        textsecure.storage.put("devices" + number, map);
     };
 })();

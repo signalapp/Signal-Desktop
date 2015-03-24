@@ -5,16 +5,16 @@
 ;(function() {
     var axolotlInstance = axolotl.protocol({
             getMyRegistrationId: function() {
-                return textsecure.storage.getUnencrypted("registrationId");
+                return textsecure.storage.get("registrationId");
             },
             put: function(key, value) {
-                return textsecure.storage.putEncrypted(key, value);
+                return textsecure.storage.put(key, value);
             },
             get: function(key, defaultValue) {
-                return textsecure.storage.getEncrypted(key, defaultValue);
+                return textsecure.storage.get(key, defaultValue);
             },
             remove: function(key) {
-                return textsecure.storage.removeEncrypted(key);
+                return textsecure.storage.remove(key);
             },
 
             identityKeys: {

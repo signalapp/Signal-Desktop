@@ -96,8 +96,8 @@
                 type           : 'incoming'
             });
 
-            var newUnreadCount = textsecure.storage.getUnencrypted("unreadCount", 0) + 1;
-            textsecure.storage.putUnencrypted("unreadCount", newUnreadCount);
+            var newUnreadCount = textsecure.storage.get("unreadCount", 0) + 1;
+            textsecure.storage.put("unreadCount", newUnreadCount);
             extension.navigator.setBadgeText(newUnreadCount);
 
             conversation.save().then(function() {

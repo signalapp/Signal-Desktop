@@ -95,11 +95,11 @@
         localStorage.clear();
 
         localStorage.setItem('first_install_ran', 1);
-        textsecure.storage.putUnencrypted('registrationId', registrationId);
-        textsecure.storage.putEncrypted('signaling_key', signalingKey);
-        textsecure.storage.putEncrypted('password', password);
+        textsecure.storage.put('registrationId', registrationId);
+        textsecure.storage.put('signaling_key', signalingKey);
+        textsecure.storage.put('password', password);
         textsecure.storage.user.setNumberAndDeviceId(number, 1);
-        textsecure.storage.putUnencrypted('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
+        textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
 
         log('verifying code');
         return textsecure.api.confirmCode(
