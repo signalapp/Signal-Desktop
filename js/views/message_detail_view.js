@@ -107,10 +107,11 @@
                     }).render().$el.appendTo(this.$el.find('.contacts'));
                 }.bind(this));
             } else {
-                var contact = this.conversation.contactCollection.get(this.model.get('source'));
+                var number = this.model.get('source');
+                var contact = this.conversation.contactCollection.get(number);
                 var v = new ContactView({
                     model: contact,
-                    conflict: this.model.getKeyConflict(contact.id)
+                    conflict: this.model.getKeyConflict(number)
                 }).render().$el.appendTo(this.$el.find('.contacts'));
             }
         }
