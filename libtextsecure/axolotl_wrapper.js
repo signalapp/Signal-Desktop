@@ -1,5 +1,3 @@
-//TODO: Remove almost everything here...
-
 'use strict';
 
 ;(function() {
@@ -120,7 +118,6 @@
     };
 
     var tryMessageAgain = function(from, encodedMessage) {
-        //TODO: Probably breaks with a devicecontrol message
         return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
