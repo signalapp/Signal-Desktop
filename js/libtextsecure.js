@@ -37960,7 +37960,8 @@ window.axolotl.sessions = {
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
-    window.textsecure.storage = {
+    // Overrideable storage implementation
+    window.textsecure.storage.impl = {
         /*****************************
         *** Base Storage Routines ***
         *****************************/
@@ -37980,6 +37981,18 @@ window.axolotl.sessions = {
         remove: function(key) {
             localStorage.removeItem("" + key);
         },
+    };
+
+    window.textsecure.storage.put = function(key, value) {
+        return textsecure.storage.impl.put(key, value);
+    };
+
+    window.textsecure.storage.get = function(key, defaultValue) {
+        return textsecure.storage.impl.get(key, defaultValue);
+    };
+
+    window.textsecure.storage.remove = function(key) {
+        return textsecure.storage.impl.remove(key);
     };
 })();
 
