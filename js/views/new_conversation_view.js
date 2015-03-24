@@ -128,8 +128,8 @@
                     this.trigger('open', {modelId: groupId});
                 }.bind(this));
                 var now = Date.now();
-                group.messageCollection.add({
-                    conversationId : this.id,
+                var message = group.messageCollection.add({
+                    conversationId : group.id,
                     type           : 'outgoing',
                     sent_at        : now,
                     received_at    : now,
@@ -138,13 +138,16 @@
                         avatar: group.get('avatar'),
                         joined: group.get('members')
                     }
-                }).save();
+                });
+                message.save();
                 textsecure.messaging.updateGroup(
                     group.id,
                     group.get('name'),
                     group.get('avatar'),
                     group.get('members')
-                );
+                ).catch(function(errors) {
+                    message.save({errors: errors.map(function(e){return e.error;})});
+                });
             }.bind(this));
         },
 
