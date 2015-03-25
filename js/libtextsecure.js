@@ -39043,6 +39043,41 @@ window.textsecure.api = function () {
         *   do_auth:            alternative to user/password where user/password are figured out automagically
         *   jsonData:           JSON data sent in the request body
         */
+    function ajax(url, options) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(options.type, url, true /*async*/);
+
+        if ( options.responseType ) {
+            xhr[ 'responseType' ] = options.responseType;
+        }
+        if (options.user && options.password) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(options.user) + ":" + getString(options.password)));
+        }
+        if (options.contentType) {
+            xhr.setRequestHeader( "Content-Type", options.contentType );
+        }
+
+        xhr.onload = function() {
+            var result = xhr.response;
+            if ( (!xhr.responseType || xhr.responseType === "text") &&
+                    typeof xhr.responseText === "string" ) {
+                result = xhr.responseText;
+            }
+            if (options.dataType === 'json') {
+                try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
+            }
+            if (xhr.status < 400) {
+                options.success(result, xhr.status);
+            } else {
+                options.error(result, xhr.status);
+            }
+        };
+        xhr.onerror = function() {
+            options.error(null, xhr.status);
+        };
+        xhr.send( options.data || null );
+    };
+
     var doAjax = function (param) {
         if (param.urlParameters === undefined) {
             param.urlParameters = "";
@@ -39054,24 +39089,15 @@ window.textsecure.api = function () {
         }
 
         return new Promise(function (resolve, reject) {
-            $.ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
+            ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
                 type        : param.httpType,
                 data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
                 contentType : 'application/json; charset=utf-8',
                 dataType    : 'json',
-
-                beforeSend  : function (xhr) {
-                                if (param.user       !== undefined &&
-                                    param.password !== undefined)
-                                        xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(param.user) + ":" + getString(param.password)));
-                                },
-
-                success     : function(response, textStatus, jqXHR) {
-                                    resolve(response);
-                                },
-
-                error       : function(jqXHR, textStatus, errorThrown) {
-                    var code = jqXHR.status;
+                user        : param.user,
+                password    : param.password,
+                success     : resolve,
+                error       : function(result, code) {
                     if (code === 200) {
                         // happens sometimes when we get no response
                         // (TODO: Fix server to return 204? instead)
@@ -39106,8 +39132,9 @@ window.textsecure.api = function () {
                                 "The server rejected our query, please file a bug report.");
                         }
                     } catch (e) {
-                        if (jqXHR.responseJSON)
-                            e.response = jqXHR.responseJSON;
+                        if (result) {
+                            e.response = result;
+                        }
                         reject(e);
                     }
                 }
@@ -39220,28 +39247,20 @@ window.textsecure.api = function () {
             do_auth             : true,
         }).then(function(response) {
             return new Promise(function(resolve, reject) {
-                $.ajax(response.location, {
+                ajax(response.location, {
                     type        : "GET",
-                    xhrFields: {
-                        responseType: "arraybuffer"
-                    },
-                    headers: {
-                        "Content-Type": "application/octet-stream"
-                    },
+                    responseType: "arraybuffer",
+                    contentType: "application/octet-stream",
 
-                    success     : function(response, textStatus, jqXHR) {
-                                        resolve(response);
-                                    },
-
-                    error       : function(jqXHR, textStatus, errorThrown) {
-                                        var code = jqXHR.status;
+                    success     : resolve,
+                    error       : function(result, code) {
                                         if (code > 999 || code < 100)
                                             code = -1;
 
                                         var e = new Error(code);
                                         e.name = "HTTPError";
-                                        if (jqXHR.responseJSON)
-                                            e.response = jqXHR.responseJSON;
+                                        if (result)
+                                            e.response = result;
                                         reject(e);
                                     }
                 });
@@ -39257,9 +39276,9 @@ window.textsecure.api = function () {
             do_auth  : true,
         }).then(function(response) {
             return new Promise(function(resolve, reject) {
-                $.ajax(response.location, {
+                ajax(response.location, {
                     type        : "PUT",
-                    headers     : {"Content-Type" : "application/octet-stream"},
+                    contentType : "application/octet-stream",
                     data        : encryptedBin,
                     processData : false,
                     success     : function() {
@@ -39272,15 +39291,14 @@ window.textsecure.api = function () {
                             reject(e);
                         }
                     },
-                    error   : function(jqXHR, textStatus, errorThrown) {
-                        var code = jqXHR.status;
+                    error   : function(result, code) {
                         if (code > 999 || code < 100)
                             code = -1;
 
                         var e = new Error(code);
                         e.name = "HTTPError";
-                        if (jqXHR.responseJSON)
-                            e.response = jqXHR.responseJSON;
+                        if (result)
+                            e.response = result;
                         reject(e);
                     }
                 });
@@ -39294,10 +39312,7 @@ window.textsecure.api = function () {
         if (auth) {
             var user = textsecure.storage.getUnencrypted("number_id");
             var password = textsecure.storage.getEncrypted("password");
-            var params = $.param({
-                login: '+' + user.substring(1),
-                password: password
-            });
+            var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }
         return window.textsecure.websocket(URL+params)
     }
