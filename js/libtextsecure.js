@@ -38059,6 +38059,7 @@ window.axolotl.sessions = {
                 return undefined;
             return device.sessions;
         },
+
         putSessionsForDevice: function(encodedNumber, sessions) {
             var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
             if (device === undefined) {
@@ -38071,6 +38072,13 @@ window.axolotl.sessions = {
                 throw new Error("Tried to put session for device with changed identity key");
             device.sessions = sessions;
             return textsecure.storage.devices.saveDeviceObject(device);
+        },
+
+        haveOpenSessionForDevice: function(encodedNumber) {
+            var sessions = textsecure.storage.sessions.getSessionsForNumber(encodedNumber);
+            if (sessions === undefined || !sessions.haveOpenSession())
+                return false;
+            return true;
         },
     };
 
@@ -39440,9 +39448,11 @@ window.textsecure.messaging = function() {
                     return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
             }
 
+            var registrationId = deviceObjectList[i].registrationId;
+            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
+                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
             return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
                 textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
-                var registrationId = deviceObjectList[i].registrationId || deviceObjectList[i].sessions.registrationId;
 
                 jsonData[i] = {
                     type: encryptedMsg.type,
@@ -39470,7 +39480,9 @@ window.textsecure.messaging = function() {
 
         var doUpdate = false;
         for (var i in devicesForNumber) {
-            var registrationId = devicesForNumber[i].registrationId || devicesForNumber[i].sessions.registrationId;
+            var registrationId = deviceObjectList[i].registrationId;
+            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
+                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
             if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
                 doUpdate = true;
         }
@@ -39582,7 +39594,7 @@ window.textsecure.messaging = function() {
 
             var promises = [];
             for (var j in devicesForNumber)
-                if (devicesForNumber[j].sessions === undefined || !devicesForNumber[j].sessions.haveOpenSession())
+                if (!textsecure.storage.sessions.haveOpenSessionForDevice(devicesForNumber[j].encodedNumber))
                     promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
 
             Promise.all(promises).then(function() {

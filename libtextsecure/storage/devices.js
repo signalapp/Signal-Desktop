@@ -30,6 +30,7 @@
                 return undefined;
             return device.sessions;
         },
+
         putSessionsForDevice: function(encodedNumber, sessions) {
             var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
             if (device === undefined) {
@@ -42,6 +43,13 @@
                 throw new Error("Tried to put session for device with changed identity key");
             device.sessions = sessions;
             return textsecure.storage.devices.saveDeviceObject(device);
+        },
+
+        haveOpenSessionForDevice: function(encodedNumber) {
+            var sessions = textsecure.storage.sessions.getSessionsForNumber(encodedNumber);
+            if (sessions === undefined || !sessions.haveOpenSession())
+                return false;
+            return true;
         },
     };
 
