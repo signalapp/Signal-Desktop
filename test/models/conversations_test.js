@@ -124,6 +124,44 @@
                 done();
             });
         });
+
+        it('adds conversation to message collection upon leaving group', function() {
+            var convo = new Whisper.ConversationCollection().add({type: 'group'});
+            convo.leaveGroup();
+            assert.notEqual(convo.messageCollection.length, 0);
+        });
+
+        it('has a title', function() {
+            var convos = new Whisper.ConversationCollection();
+            var convo = convos.add(attributes);
+            assert.equal(convo.getTitle(), convo.id);
+
+            convo = convos.add({type: ''});
+            assert.equal(convo.getTitle(), 'Unknown group');
+
+            convo = convos.add({name: 'name'});
+            assert.equal(convo.getTitle(), 'name');
+        });
+
+        it('returns the number', function() {
+            var convos = new Whisper.ConversationCollection();
+            var convo = convos.add(attributes);
+            assert.equal(convo.getNumber(), convo.id);
+
+            convo = convos.add({type: ''});
+            assert.equal(convo.getNumber(), '');
+        });
+
+        it('has an avatar URL', function() {
+            var convo = new Whisper.ConversationCollection().add(attributes);
+            assert.equal(convo.getAvatarUrl(), '/images/default.png');
+        });
+
+        it('revokes the avatar URL', function() {
+            var convo = new Whisper.ConversationCollection().add(attributes);
+            convo.revokeAvatarUrl();
+            assert.notOk(convo.avatarUrl);
+        });
     });
 
 })();;
