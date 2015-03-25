@@ -26,23 +26,10 @@
 
             sessions: {
                 get: function(identifier) {
-                    var device = textsecure.storage.devices.getDeviceObject(identifier, true);
-                    if (device === undefined || device.sessions === undefined)
-                        return undefined;
-                    return device.sessions;
+                    return textsecure.storage.sessions.getSessionsForNumber(identifier);
                 },
                 put: function(identifier, record) {
-                    var device = textsecure.storage.devices.getDeviceObject(identifier);
-                    if (device === undefined) {
-                        device = { encodedNumber: identifier,
-                                   //TODO: Remove this duplication
-                                   identityKey: record.identityKey
-                                 };
-                    }
-                    if (getString(device.identityKey) !== getString(record.identityKey))
-                        throw new Error("Tried to put session for device with changed identity key");
-                    device.sessions = record;
-                    return textsecure.storage.devices.saveDeviceObject(device);
+                    return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
                 }
             }
         },

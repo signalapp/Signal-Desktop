@@ -37726,23 +37726,10 @@ window.axolotl.sessions = {
 
             sessions: {
                 get: function(identifier) {
-                    var device = textsecure.storage.devices.getDeviceObject(identifier, true);
-                    if (device === undefined || device.sessions === undefined)
-                        return undefined;
-                    return device.sessions;
+                    return textsecure.storage.sessions.getSessionsForNumber(identifier);
                 },
                 put: function(identifier, record) {
-                    var device = textsecure.storage.devices.getDeviceObject(identifier);
-                    if (device === undefined) {
-                        device = { encodedNumber: identifier,
-                                   //TODO: Remove this duplication
-                                   identityKey: record.identityKey
-                                 };
-                    }
-                    if (getString(device.identityKey) !== getString(record.identityKey))
-                        throw new Error("Tried to put session for device with changed identity key");
-                    device.sessions = record;
-                    return textsecure.storage.devices.saveDeviceObject(device);
+                    return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
                 }
             }
         },
@@ -38064,6 +38051,28 @@ window.axolotl.sessions = {
     **********************/
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
+
+    window.textsecure.storage.sessions = {
+        getSessionsForNumber: function(encodedNumber) {
+            var device = textsecure.storage.devices.getDeviceObject(encodedNumber, true);
+            if (device === undefined || device.sessions === undefined)
+                return undefined;
+            return device.sessions;
+        },
+        putSessionsForDevice: function(encodedNumber, sessions) {
+            var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+            if (device === undefined) {
+                device = { encodedNumber: encodedNumber,
+                           //TODO: Remove this duplication
+                           identityKey: sessions.identityKey
+                         };
+            }
+            if (getString(device.identityKey) !== getString(sessions.identityKey))
+                throw new Error("Tried to put session for device with changed identity key");
+            device.sessions = sessions;
+            return textsecure.storage.devices.saveDeviceObject(device);
+        },
+    };
 
     window.textsecure.storage.devices = {
         saveDeviceObject: function(deviceObject) {
