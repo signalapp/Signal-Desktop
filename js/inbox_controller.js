@@ -31,9 +31,9 @@
 
     inbox.on('change:active_at', inbox.sort);
     inbox.on('change:unreadCount', function(model, count) {
-        var prev = model.previous('unreadCount');
+        var prev = model.previous('unreadCount') || 0;
         if (count < prev) { // decreased
-            var newUnreadCount = textsecure.storage.get("unreadCount") - (prev - count);
+            var newUnreadCount = textsecure.storage.get("unreadCount", 0) - (prev - count);
             if (newUnreadCount <= 0) {
                 newUnreadCount = 0;
                 extension.navigator.setBadgeText("");
