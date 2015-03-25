@@ -426,7 +426,7 @@ input.search {
 .timestamp {
   font-size: smaller; }
 
-.entry .delivered .checkmark {
+.entry.delivered .checkmark {
   display: inline; }
 
 .message-list {
