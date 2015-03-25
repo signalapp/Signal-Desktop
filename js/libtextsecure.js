@@ -38054,23 +38054,45 @@ window.axolotl.sessions = {
 
     window.textsecure.storage.sessions = {
         getSessionsForNumber: function(encodedNumber) {
-            var device = textsecure.storage.devices.getDeviceObject(encodedNumber, true);
-            if (device === undefined || device.sessions === undefined)
+            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+
+            var sessions = textsecure.storage.get("sessions" + number);
+            if (sessions === undefined)
                 return undefined;
-            return device.sessions;
+            if (sessions[deviceId] === undefined)
+                return undefined;
+
+            var record = new axolotl.sessions.RecipientRecord();
+            record.deserialize(sessions[deviceId]);
+            if (getString(textsecure.storage.devices.getIdentityKeyForNumber(number)) !== getString(record.identityKey))
+                throw new Error("Got mismatched identity key on device object load");
+            return record;
         },
 
-        putSessionsForDevice: function(encodedNumber, sessions) {
+        putSessionsForDevice: function(encodedNumber, record) {
+            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+
+            textsecure.storage.devices.checkSaveIdentityKeyForNumber(number, record.identityKey);
+
+            var sessions = textsecure.storage.get("sessions" + number);
+            if (sessions === undefined)
+                sessions = {};
+            sessions[deviceId] = record.serialize();
+            textsecure.storage.put("sessions" + number, sessions);
+
             var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
             if (device === undefined) {
                 device = { encodedNumber: encodedNumber,
                            //TODO: Remove this duplication
-                           identityKey: sessions.identityKey
+                           identityKey: record.identityKey
                          };
             }
-            if (getString(device.identityKey) !== getString(sessions.identityKey))
+            if (getString(device.identityKey) !== getString(record.identityKey)) {
+                console.error("Got device object with key inconsistent after checkSaveIdentityKeyForNumber returned!");
                 throw new Error("Tried to put session for device with changed identity key");
-            device.sessions = sessions;
+            }
             return textsecure.storage.devices.saveDeviceObject(device);
         },
 
@@ -38080,6 +38102,12 @@ window.axolotl.sessions = {
                 return false;
             return true;
         },
+
+        // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
+        _removeIdentityKeyForNumber: function(number) {
+            textsecure.storage.remove("sessions" + number);
+        },
+
     };
 
     window.textsecure.storage.devices = {
@@ -38108,15 +38136,6 @@ window.axolotl.sessions = {
             var map = textsecure.storage.get("devices" + number);
             if (map === undefined)
                return [];
-            for (key in map.devices) {
-                if (map.devices[key].sessions !== undefined) {
-                    var record = new axolotl.sessions.RecipientRecord();
-                    record.deserialize(map.devices[key].sessions);
-                    if (getString(map.identityKey) !== getString(record.identityKey))
-                        throw new Error("Got mismatched identity key on device object load");
-                    map.devices[key].sessions = record;
-                }
-            }
             return map.devices;
         },
 
@@ -38138,6 +38157,7 @@ window.axolotl.sessions = {
             if (map === undefined)
                 throw new Error("Tried to remove identity for unknown number");
             textsecure.storage.remove("devices" + number);
+            textsecure.storage.sessions._removeIdentityKeyForNumber(number);
         },
 
         getDeviceObject: function(encodedNumber, returnIdentityKey) {
@@ -38199,9 +38219,6 @@ window.axolotl.sessions = {
 
         var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
         var map = textsecure.storage.get("devices" + number);
-
-        if (deviceObject.sessions !== undefined)
-            deviceObject.sessions = deviceObject.sessions.serialize()
 
         if (map === undefined)
             map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
