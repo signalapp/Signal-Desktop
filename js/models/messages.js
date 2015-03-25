@@ -201,8 +201,10 @@
 
                     conversation.save().then(function() {
                         message.save().then(function() {
-                            extension.trigger('message', message); // notify frontend listeners
-                            notifyConversation(message);
+                            extension.trigger('message', message); // inbox fetch
+                            if (message.isIncoming()) {
+                                notifyConversation(message);
+                            }
                         });
                     });
                 });
