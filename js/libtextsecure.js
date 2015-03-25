@@ -39066,7 +39066,7 @@ window.textsecure.api = function () {
             if (options.dataType === 'json') {
                 try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
             }
-            if (xhr.status < 400) {
+            if ( 0 <= xhr.status && xhr.status < 400) {
                 options.success(result, xhr.status);
             } else {
                 options.error(result, xhr.status);
