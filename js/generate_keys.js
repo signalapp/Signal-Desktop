@@ -72,5 +72,6 @@ onmessage = function(e) {
     store = e.data;
     textsecure.protocol_wrapper.generateKeys().then(function(keys) {
         postMessage({method: 'done', keys: keys});
+        close();
     });
 }
