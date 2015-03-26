@@ -34,12 +34,7 @@
         var prev = model.previous('unreadCount') || 0;
         if (count < prev) { // decreased
             var newUnreadCount = textsecure.storage.get("unreadCount", 0) - (prev - count);
-            if (newUnreadCount <= 0) {
-                newUnreadCount = 0;
-                extension.navigator.setBadgeText("");
-            } else {
-                extension.navigator.setBadgeText(newUnreadCount);
-            }
+            setUnreadCount(newUnreadCount);
             textsecure.storage.put("unreadCount", newUnreadCount);
         }
     });
@@ -57,4 +52,13 @@
 
     extension.on('message', fetch);
     fetch();
+    setUnreadCount(textsecure.storage.get("unreadCount", 0));
+
+    function setUnreadCount(count) {
+        if (count > 0) {
+            extension.navigator.setBadgeText(count);
+        } else {
+            extension.navigator.setBadgeText("");
+        }
+    }
 })();
