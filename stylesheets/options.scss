@@ -15,8 +15,12 @@
 
 @import 'variables';
 
+html,body {
+  height: 100%;
+}
 body {
   font-family: $roboto;
+  position: relative;
 }
 
 header {
@@ -161,4 +165,62 @@ h3.step {
 
 ul.country-list {
   min-width: 197px !important;
+}
+
+.modal-container {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.1);
+  top: 0;
+  padding-top: 10em;
+  text-align: center;
+
+  .modal-main {
+    display: inline-block;
+    width: 80%;
+    max-width: 500px;
+    border: solid 2px $blue;
+    background: white;
+    margin: 10% auto;
+    box-shadow: 0 0 5px 3px rgba(darken($blue, 30%), 0.2);
+
+    h4 {
+      background-color: $blue;
+      color: white;
+      padding: 1em;
+      margin: 0;
+      text-align: left;
+    }
+
+    .confirmation-dialog, .progress-dialog {
+      padding: 1em;
+      text-align: left;
+    }
+    .confirmation-dialog {
+      .number { text-align: center; }
+      button {
+        float: right;
+        margin-left: 10px;
+      }
+    }
+    .progress-dialog {
+      display: none;
+      text-align: center;
+      padding: 1em;
+
+      .status { padding: 1em; }
+
+      .bar-container {
+        height: 1em;
+        background-color: $grey_l;
+      }
+      .bar {
+        width: 0;
+        height: 100%;
+        background-color: $blue;
+      }
+    }
+  }
 }

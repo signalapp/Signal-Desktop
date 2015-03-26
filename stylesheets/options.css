@@ -27,11 +27,15 @@
   font-family: 'Roboto';
   src: url("/fonts/Roboto-Bold.ttf") format("truetype");
   font-weight: bold; }
+html, body {
+  height: 100%; }
+
 body {
-  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif; }
+  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  position: relative; }
 
 header {
-  background: #2a92e7;
+  background: #2090ea;
   color: white;
   padding-bottom: 2em;
   margin-bottom: 2em; }
@@ -53,7 +57,7 @@ h1 {
   max-width: 100%; }
 
 #step1, #step2 {
-  color: #2a92e7;
+  color: #2090ea;
   font-weight: bold;
   font-size: small;
   text-transform: uppercase; }
@@ -157,5 +161,48 @@ h3.step {
 
 ul.country-list {
   min-width: 197px !important; }
+
+.modal-container {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  top: 0;
+  padding-top: 10em;
+  text-align: center; }
+  .modal-container .modal-main {
+    display: inline-block;
+    width: 80%;
+    max-width: 500px;
+    border: solid 2px #2090ea;
+    background: white;
+    margin: 10% auto;
+    box-shadow: 0 0 5px 3px rgba(10, 62, 103, 0.2); }
+    .modal-container .modal-main h4 {
+      background-color: #2090ea;
+      color: white;
+      padding: 1em;
+      margin: 0;
+      text-align: left; }
+    .modal-container .modal-main .confirmation-dialog, .modal-container .modal-main .progress-dialog {
+      padding: 1em;
+      text-align: left; }
+    .modal-container .modal-main .confirmation-dialog .number {
+      text-align: center; }
+    .modal-container .modal-main .confirmation-dialog button {
+      float: right;
+      margin-left: 10px; }
+    .modal-container .modal-main .progress-dialog {
+      display: none;
+      text-align: center;
+      padding: 1em; }
+      .modal-container .modal-main .progress-dialog .bar-container {
+        height: 1em;
+        background-color: #f3f3f3; }
+      .modal-container .modal-main .progress-dialog .bar {
+        width: 0;
+        height: 100%;
+        background-color: #2090ea; }
 
 /*# sourceMappingURL=options.css.map */

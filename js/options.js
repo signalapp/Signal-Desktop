@@ -35,6 +35,10 @@
         }
     }
 
+    $('.modal-container .cancel').click(function() {
+        $('.modal-container').hide();
+    });
+
     $(function() {
         if (textsecure.registration.isDone()) {
             $('#complete-number').text(textsecure.storage.user.getNumber());
@@ -55,14 +59,19 @@
                         qrCode.makeCode(url);
                         request.respond(200, 'OK');
                     } else if (request.path == "/v1/message" && request.verb == "PUT") {
-                        $('#qr').hide();
-
                         var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                         cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
-                            if (confirm(provisionMessage.number)) {
-                                $('#status').text('Registering new device...');
+                            $('.confirmation-dialog .number').text(provisionMessage.number);
+                            $('.confirmation-dialog .cancel').click(function(e) {
+                                localStorage.clear();
+                            });
+                            $('.confirmation-dialog .ok').click(function(e) {
+                                e.stopPropagation();
+                                $('.confirmation-dialog').hide();
+                                $('.progress-dialog').show();
+                                $('.progress-dialog .status').text('Registering new device...');
                                 window.textsecure.registerSecondDevice(provisionMessage).then(function() {
-                                    $('#status').text('Generating keys...');
+                                    $('.progress-dialog .status').text('Generating keys...');
                                     var counter = 0;
                                     var myWorker = new Worker('/js/generate_keys.js');
                                     myWorker.postMessage({
@@ -75,16 +84,16 @@
                                             case 'set':
                                                 textsecure.storage.put(e.data.key, e.data.value);
                                                 counter = counter + 1;
-                                                $('#status').text('Generating keys...' + counter);
+                                                $('.progress-dialog .bar').css('width', (counter * 100 / 105) + '%');
                                                 break;
                                             case 'remove':
                                                 textsecure.storage.remove(e.data.key);
                                                 break;
                                             case 'done':
-                                                $('#status').text('Uploading keys...');
+                                                $('.progress-dialog .status').text('Uploading keys...');
                                                 textsecure.api.registerKeys(e.data.keys).then(function() {
-                                                    $('#status').text('All done!');
                                                     textsecure.registration.done();
+                                                    $('.modal-container').hide();
                                                     $('#init-setup').hide();
                                                     $('#setup-complete').show().addClass('in');
                                                     initOptions();
@@ -92,7 +101,8 @@
                                         }
                                     };
                                 });
-                            }
+                            });
+                            $('.modal-container').show();
                         });
                     } else
                         console.log(request.path);
