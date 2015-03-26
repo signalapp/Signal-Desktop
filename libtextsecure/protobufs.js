@@ -1,7 +1,7 @@
 ;(function() {
 
     function loadProtoBufs(filename) {
-        return dcodeIO.ProtoBuf.loadProtoFile({root: 'protos', file: filename}).build('textsecure');
+        return dcodeIO.ProtoBuf.loadProtoFile({root: '/protos', file: filename}).build('textsecure');
     };
 
     var pushMessages     = loadProtoBufs('IncomingPushMessageSignal.proto');

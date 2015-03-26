@@ -279,33 +279,20 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
     });
 }
 
-window.textsecure.registerSecondDevice = function(encodedProvisionEnvelope, cryptoInfo, stepDone) {
-    var envelope = textsecure.protobuf.ProvisionEnvelope.decode(encodedProvisionEnvelope, 'binary');
-    return cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(identityKey) {
-        stepDone(1);
+window.textsecure.registerSecondDevice = function(provisionMessage) {
+    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+    textsecure.storage.put('signaling_key', signalingKey);
 
-        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-        textsecure.storage.put('signaling_key', signalingKey);
+    var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+    password = password.substring(0, password.length - 2);
+    textsecure.storage.put("password", password);
 
-        var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
-        password = password.substring(0, password.length - 2);
-        textsecure.storage.put("password", password);
+    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
+    registrationId = registrationId & 0x3fff;
+    textsecure.storage.put("registrationId", registrationId);
 
-        var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-        registrationId = registrationId & 0x3fff;
-        textsecure.storage.put("registrationId", registrationId);
-
-        return textsecure.api.confirmCode(identityKey.number, identityKey.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-            textsecure.storage.user.setNumberAndDeviceId(identityKey.number, result.deviceId);
-            textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(identityKey.number));
-            stepDone(2);
-
-            return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
-                stepDone(3);
-                return textsecure.api.registerKeys(keys).then(function() {
-                    stepDone(4);
-                });
-            });
-        });
+    return textsecure.api.confirmCode(provisionMessage.number, provisionMessage.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
+        textsecure.storage.user.setNumberAndDeviceId(provisionMessage.number, result.deviceId);
+        textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(provisionMessage.number));
     });
 };

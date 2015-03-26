@@ -56,23 +56,42 @@
                         request.respond(200, 'OK');
                     } else if (request.path == "/v1/message" && request.verb == "PUT") {
                         $('#qr').hide();
-                        textsecure.registerSecondDevice(request.body, cryptoInfo, function(step) {
-                            switch(step) {
-                            case 1:
+
+                        var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
+                        cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
+                            if (confirm(provisionMessage.number)) {
                                 $('#status').text('Registering new device...');
-                                break;
-                            case 2:
-                                $('#status').text('Generating keys...');
-                                break;
-                            case 3:
-                                $('#status').text('Uploading keys...');
-                                break;
-                            case 4:
-                                $('#status').text('All done!');
-                                textsecure.registration.done();
-                                $('#init-setup').hide();
-                                $('#setup-complete').show().addClass('in');
-                                initOptions();
+                                window.textsecure.registerSecondDevice(provisionMessage).then(function() {
+                                    $('#status').text('Generating keys...');
+                                    var counter = 0;
+                                    var myWorker = new Worker('/js/generate_keys.js');
+                                    myWorker.postMessage({
+                                        maxPreKeyId: textsecure.storage.get("maxPreKeyId", 0),
+                                        signedKeyId: textsecure.storage.get("signedKeyId", 0),
+                                        libaxolotl25519KeyidentityKey: textsecure.storage.get("libaxolotl25519KeyidentityKey"),
+                                    });
+                                    myWorker.onmessage = function(e) {
+                                        switch(e.data.method) {
+                                            case 'set':
+                                                textsecure.storage.put(e.data.key, e.data.value);
+                                                counter = counter + 1;
+                                                $('#status').text('Generating keys...' + counter);
+                                                break;
+                                            case 'remove':
+                                                textsecure.storage.remove(e.data.key);
+                                                break;
+                                            case 'done':
+                                                $('#status').text('Uploading keys...');
+                                                textsecure.api.registerKeys(e.data.keys).then(function() {
+                                                    $('#status').text('All done!');
+                                                    textsecure.registration.done();
+                                                    $('#init-setup').hide();
+                                                    $('#setup-complete').show().addClass('in');
+                                                    initOptions();
+                                                });
+                                        }
+                                    };
+                                });
                             }
                         });
                     } else
