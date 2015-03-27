@@ -197,6 +197,8 @@ ul.country-list {
       display: none;
       text-align: center;
       padding: 1em; }
+      .modal-container .modal-main .progress-dialog .status {
+        padding: 1em; }
       .modal-container .modal-main .progress-dialog .bar-container {
         height: 1em;
         background-color: #f3f3f3; }
