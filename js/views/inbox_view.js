@@ -65,13 +65,13 @@
                 this.openConversation.bind(this, null));
 
             this.inbox = new Whisper.ConversationListView({
-                el         : this.$el.find('.conversations'),
+                el         : this.$('.conversations'),
                 collection : bg.inbox
             }).render();
 
             this.inbox.listenTo(bg.inbox, 'sort', this.inbox.render);
 
-            new SocketView().render().$el.appendTo(this.$el.find('.socket-status'));
+            new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
             window.addEventListener('beforeunload', function () {
                 this.inbox.stopListening();

@@ -95,14 +95,14 @@
                 received_at : moment(this.model.get('received_at')).toString(),
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',
             }));
-            this.view.render().$el.prependTo(this.$el.find('.message-container'));
+            this.view.render().$el.prependTo(this.$('.message-container'));
 
             if (this.model.isOutgoing()) {
                 this.conversation.contactCollection.each(function(contact) {
                     var v = new ContactView({
                         model: contact,
                         conflict: this.model.getKeyConflict(contact.id)
-                    }).render().$el.appendTo(this.$el.find('.contacts'));
+                    }).render().$el.appendTo(this.$('.contacts'));
                 }.bind(this));
             } else {
                 var number = this.model.get('source');
@@ -110,7 +110,7 @@
                 var v = new ContactView({
                     model: contact,
                     conflict: this.model.getKeyConflict(number)
-                }).render().$el.appendTo(this.$el.find('.contacts'));
+                }).render().$el.appendTo(this.$('.contacts'));
             }
         }
     });

@@ -41,7 +41,7 @@
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
                 this.$el.addClass('control');
-                this.$el.find('.content').text(this.model.getDescription());
+                this.$('.content').text(this.model.getDescription());
             } else {
                 this.$el.removeClass('control');
             }
@@ -62,13 +62,13 @@
 
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
-            var content = this.$el.find('.content');
+            var content = this.$('.content');
             content.html(this.autoLink(content.html()));
 
             this.renderDelivered();
             this.renderControl();
 
-            this.$el.find('.attachments').append(
+            this.$('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
                     return new Whisper.AttachmentView({
                         model: attachment
@@ -78,7 +78,7 @@
 
             var errors = this.model.get('errors');
             if (errors && errors.length) {
-                this.$el.find('.bubble').prepend(
+                this.$('.bubble').prepend(
                     errors.map(function(error) {
                         return new Whisper.MessageErrorView({
                             model: error,

@@ -60,8 +60,8 @@
         template: $('#recipients-input').html(),
         initialize: function() {
             this.render();
-            this.$input = this.$el.find('input.search');
-            this.$new_contact = this.$el.find('.new-contact');
+            this.$input = this.$('input.search');
+            this.$new_contact = this.$('.new-contact');
 
             // Collection of recipients selected for the new message
             this.recipients = new Whisper.ConversationCollection([], {
@@ -71,7 +71,7 @@
             // View to display the selected recipients
             this.recipients_view = new Whisper.RecipientListView({
                 collection: this.recipients,
-                el: this.$el.find('.recipients')
+                el: this.$('.recipients')
             });
 
             // Collection of contacts to match user input against
@@ -84,7 +84,7 @@
                     comparator: function(m) { return m.getTitle(); }
                 })
             });
-            this.$el.find('.contacts').append(this.typeahead_view.el);
+            this.$('.contacts').append(this.typeahead_view.el);
 
             this.initNewContact();
         },

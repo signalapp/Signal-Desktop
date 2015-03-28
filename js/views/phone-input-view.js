@@ -23,7 +23,7 @@
         template: $('#phone-number').html(),
         render: function() {
             this.$el.html($(Mustache.render(this.template)));
-            this.$el.find('input.number').intlTelInput();
+            this.$('input.number').intlTelInput();
             return this;
         },
 
@@ -33,18 +33,18 @@
         },
 
         validateNumber: function() {
-            var input = this.$el.find('input.number');
+            var input = this.$('input.number');
             try {
-                var regionCode = this.$el.find('li.active').attr('data-country-code').toUpperCase();
+                var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();
                 var number = input.val();
 
                 var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
 
-                this.$el.find('.number-container').removeClass('invalid');
-                this.$el.find('.number-container').addClass('valid');
+                this.$('.number-container').removeClass('invalid');
+                this.$('.number-container').addClass('valid');
                 return parsedNumber;
             } catch(e) {
-                this.$el.find('.number-container').removeClass('valid');
+                this.$('.number-container').removeClass('valid');
             } finally {
                 input.trigger('validation');
             }

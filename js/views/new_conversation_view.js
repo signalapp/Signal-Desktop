@@ -22,17 +22,17 @@
         template: $('#new-conversation').html(),
         initialize: function() {
             this.render();
-            this.$group_update = this.$el.find('.new-group-update-form');
-            this.$create = this.$el.find('.create');
-            this.$input = this.$el.find('input.search');
+            this.$group_update = this.$('.new-group-update-form');
+            this.$create = this.$('.create');
+            this.$input = this.$('input.search');
 
             // Group avatar file input
             this.avatarInput = new Whisper.FileInputView({
-                el: this.$el.find('.group-avatar')
+                el: this.$('.group-avatar')
             });
 
             this.recipients_view = new Whisper.RecipientsInputView();
-            this.$el.find('.scrollable').append(this.recipients_view.el);
+            this.$('.scrollable').append(this.recipients_view.el);
             this.listenTo(this.getRecipients(), 'add', this.updateControls);
             this.listenTo(this.getRecipients(), 'remove', this.updateControls);
         },
@@ -72,7 +72,7 @@
         },
 
         create: function() {
-            var errors = this.recipients_view.$el.find('.error');
+            var errors = this.recipients_view.$('.error');
             if (errors.length) {
 
                 // TODO: css animation or error notification
@@ -107,7 +107,7 @@
         },
 
         createGroup: function() {
-            var name = this.$el.find('.new-group-update-form .name').val();
+            var name = this.$('.new-group-update-form .name').val();
             if (!name.trim().length) {
                 return;
             }
@@ -153,7 +153,7 @@
 
         reset: function() {
             this.$create.hide();
-            this.$el.find('.new-group-update-form .name').val('');
+            this.$('.new-group-update-form .name').val('');
             this.$group_update.hide();
             this.recipients_view.reset();
         },

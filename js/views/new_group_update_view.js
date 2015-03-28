@@ -24,12 +24,12 @@
         initialize: function(options) {
             this.render();
             this.avatarInput = new Whisper.FileInputView({
-                el: this.$el.find('.group-avatar')
+                el: this.$('.group-avatar')
             });
 
             this.recipients_view = new Whisper.RecipientsInputView();
-            this.$el.find('.scrollable').append(this.recipients_view.el);
-            this.$el.find('.avatar').addClass('default');
+            this.$('.scrollable').append(this.recipients_view.el);
+            this.$('.avatar').addClass('default');
         },
         events: {
             'click .back': 'goBack',
@@ -47,7 +47,7 @@
         send: function() {
             return this.avatarInput.getFiles().then(function(avatarFiles) {
                 this.model.save({
-                    name: this.$el.find('.name').val(),
+                    name: this.$('.name').val(),
                     avatar: avatarFiles[0],
                     members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
                 });

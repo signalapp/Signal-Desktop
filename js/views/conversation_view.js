@@ -32,13 +32,13 @@
             this.render();
 
             this.fileInput = new Whisper.FileInputView({
-                el: this.$el.find('.attachments')
+                el: this.$('.attachments')
             });
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection
             });
-            this.$el.find('.discussion-container').append(this.view.el);
+            this.$('.discussion-container').append(this.view.el);
             this.view.render();
 
             setTimeout(function() {
@@ -106,22 +106,22 @@
 
         closeMenu: function(e) {
             if (e && !$(e.target).hasClass('hamburger')) {
-                this.$el.find('.menu-list').hide();
+                this.$('.menu-list').hide();
             }
         },
 
         endSession: function() {
             this.model.endSession();
-            this.$el.find('.menu-list').hide();
+            this.$('.menu-list').hide();
         },
 
         leaveGroup: function() {
             this.model.leaveGroup();
-            this.$el.find('.menu-list').hide();
+            this.$('.menu-list').hide();
         },
 
         toggleMenu: function() {
-            this.$el.find('.menu-list').toggle();
+            this.$('.menu-list').toggle();
         },
 
         newGroupUpdate: function() {
@@ -137,12 +137,12 @@
             if (confirm("Permanently delete this conversation?")) {
                 this.model.destroyMessages();
             }
-            this.$el.find('.menu-list').hide();
+            this.$('.menu-list').hide();
         },
 
         sendMessage: function(e) {
             e.preventDefault();
-            var input = this.$el.find('.send input.send-message');
+            var input = this.$('.send input.send-message');
             var message = this.replace_colons(input.val());
             var convo = this.model;
 

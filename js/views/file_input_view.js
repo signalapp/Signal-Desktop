@@ -25,10 +25,10 @@
         tagName: 'span',
         className: 'file-input',
         initialize: function() {
-            this.$input = this.$el.find('input[type=file]');
+            this.$input = this.$('input[type=file]');
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
-            this.$default = this.$el.find('.default');
+            this.$default = this.$('.default');
         },
 
         events: {
@@ -44,7 +44,7 @@
         addThumb: function(src) {
             this.$default.hide();
             this.thumb.src = src;
-            this.$el.find('.thumbnail').append(this.thumb.render().el);
+            this.$('.thumbnail').append(this.thumb.render().el);
         },
 
         autoScale: function(file) {

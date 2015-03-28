@@ -22,15 +22,17 @@
     extension.windows.getCurrent(function (windowInfo) {
         var bg = extension.windows.getBackground();
         window.$ = bg.$;
+        var body = $('body', document)
         var conversation = bg.getConversationForWindow(windowInfo.id);
         if (conversation) {
             window.document.title = conversation.getTitle();
-            new bg.Whisper.ConversationView({
+            var view = new bg.Whisper.ConversationView({
                 model: conversation
-            }).$el.prependTo($('body', document));
-            $('input.send-message', document).focus();
+            });
+            view.$el.prependTo(body);
+            view.$('input.send-message').focus();
         } else {
-            $('<div>').text('Error').prependTo($('body', document));
+            $('<div>').text('Error').prependTo(body);
         }
     });
 }());
