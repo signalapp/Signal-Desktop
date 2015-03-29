@@ -22,7 +22,7 @@
     extension.windows.getCurrent(function (windowInfo) {
         var bg = extension.windows.getBackground();
         window.$ = bg.$;
-        var body = $('body', document)
+        var body = $('body', document);
         var conversation = bg.getConversationForWindow(windowInfo.id);
         if (conversation) {
             window.document.title = conversation.getTitle();
