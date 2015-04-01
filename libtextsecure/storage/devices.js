@@ -34,44 +34,28 @@
             if (sessions[deviceId] === undefined)
                 return undefined;
 
-            var record = new axolotl.sessions.RecipientRecord();
-            record.deserialize(sessions[deviceId]);
-            if (getString(textsecure.storage.devices.getIdentityKeyForNumber(number)) !== getString(record.identityKey))
-                throw new Error("Got mismatched identity key on device object load");
-            return record;
+            return sessions[deviceId];
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            textsecure.storage.devices.checkSaveIdentityKeyForNumber(number, record.identityKey);
-
             var sessions = textsecure.storage.get("sessions" + number);
             if (sessions === undefined)
                 sessions = {};
-            sessions[deviceId] = record.serialize();
+            sessions[deviceId] = record;
             textsecure.storage.put("sessions" + number, sessions);
 
             var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
             if (device === undefined) {
+                var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
                 device = { encodedNumber: encodedNumber,
                            //TODO: Remove this duplication
-                           identityKey: record.identityKey
+                           identityKey: identityKey
                          };
             }
-            if (getString(device.identityKey) !== getString(record.identityKey)) {
-                console.error("Got device object with key inconsistent after checkSaveIdentityKeyForNumber returned!");
-                throw new Error("Tried to put session for device with changed identity key");
-            }
             return textsecure.storage.devices.saveDeviceObject(device);
-        },
-
-        haveOpenSessionForDevice: function(encodedNumber) {
-            var sessions = textsecure.storage.sessions.getSessionsForNumber(encodedNumber);
-            if (sessions === undefined || !sessions.haveOpenSession())
-                return false;
-            return true;
         },
 
         // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead

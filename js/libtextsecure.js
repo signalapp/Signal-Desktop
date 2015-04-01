@@ -37771,47 +37771,12 @@ axolotlInternal.RecipientRecord = function() {
 }();
 
 })();
-'use strict';
-
 ;(function() {
-    var axolotlInstance = axolotl.protocol({
-            getMyRegistrationId: function() {
-                return textsecure.storage.get("registrationId");
-            },
-            put: function(key, value) {
-                return textsecure.storage.put("libaxolotl" + key, value);
-            },
-            get: function(key, defaultValue) {
-                return textsecure.storage.get("libaxolotl" + key, defaultValue);
-            },
-            remove: function(key) {
-                return textsecure.storage.remove("libaxolotl" + key);
-            },
-
-            identityKeys: {
-                get: function(identifier) {
-                    return textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0]);
-                },
-                put: function(identifier, identityKey) {
-                    return textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey);
-                },
-            },
-
-            sessions: {
-                get: function(identifier) {
-                    return textsecure.storage.sessions.getSessionsForNumber(identifier);
-                },
-                put: function(identifier, record) {
-                    return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
-                }
-            }
-        },
-        function(keys) {
-            return textsecure.api.registerKeys(keys).catch(function(e) {
-                //TODO: Notify the user somehow?
-                console.error(e);
-            });
-        });
+    'use strict';
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
+    textsecure.storage.axolotl = new AxolotlStore();
+    var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
     var decodeMessageContents = function(res) {
         var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
@@ -37826,7 +37791,7 @@ axolotlInternal.RecipientRecord = function() {
 
     var handlePreKeyWhisperMessage = function(from, message) {
         try {
-            return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, message);
+            return axolotlInstance.handlePreKeyWhisperMessage(from, message);
         } catch(e) {
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
@@ -37845,7 +37810,7 @@ axolotlInternal.RecipientRecord = function() {
                 return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
             case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol_wrapper.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return axolotlInstance.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
@@ -37860,27 +37825,34 @@ axolotlInternal.RecipientRecord = function() {
         closeOpenSessionForDevice: function(encodedNumber) {
             return axolotlInstance.closeOpenSessionForDevice(encodedNumber)
         },
-        decryptWhisperMessage: function(encodedNumber, messageBytes, session) {
-            return axolotlInstance.decryptWhisperMessage(encodedNumber, messageBytes, session);
-        },
-        handlePreKeyWhisperMessage: function(from, encodedMessage) {
-            return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage);
-        },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);
         },
-        generateKeys: function() {
-            return axolotlInstance.generateKeys();
+        generateKeys: function(count, progressCallback) {
+            if (textsecure.worker_path) {
+                axolotlInstance.startWorker(textsecure.worker_path);
+            }
+            return generateKeys(count, progressCallback).then(function(result) {
+                axolotlInstance.stopWorker();
+                return result;
+            });
         },
         createIdentityKeyRecvSocket: function() {
             return axolotlInstance.createIdentityKeyRecvSocket();
+        },
+        hasOpenSession: function(encodedNumber) {
+            return axolotlInstance.hasOpenSession(encodedNumber);
+        },
+        getRegistrationId: function(encodedNumber) {
+            return axolotlInstance.getRegistrationId(encodedNumber);
         }
     };
 
     var tryMessageAgain = function(from, encodedMessage) {
-        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
+        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+
 })();
 
 /* vim: ts=4:sw=4:expandtab
@@ -38136,44 +38108,28 @@ axolotlInternal.RecipientRecord = function() {
             if (sessions[deviceId] === undefined)
                 return undefined;
 
-            var record = new axolotl.sessions.RecipientRecord();
-            record.deserialize(sessions[deviceId]);
-            if (getString(textsecure.storage.devices.getIdentityKeyForNumber(number)) !== getString(record.identityKey))
-                throw new Error("Got mismatched identity key on device object load");
-            return record;
+            return sessions[deviceId];
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            textsecure.storage.devices.checkSaveIdentityKeyForNumber(number, record.identityKey);
-
             var sessions = textsecure.storage.get("sessions" + number);
             if (sessions === undefined)
                 sessions = {};
-            sessions[deviceId] = record.serialize();
+            sessions[deviceId] = record;
             textsecure.storage.put("sessions" + number, sessions);
 
             var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
             if (device === undefined) {
+                var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
                 device = { encodedNumber: encodedNumber,
                            //TODO: Remove this duplication
-                           identityKey: record.identityKey
+                           identityKey: identityKey
                          };
             }
-            if (getString(device.identityKey) !== getString(record.identityKey)) {
-                console.error("Got device object with key inconsistent after checkSaveIdentityKeyForNumber returned!");
-                throw new Error("Tried to put session for device with changed identity key");
-            }
             return textsecure.storage.devices.saveDeviceObject(device);
-        },
-
-        haveOpenSessionForDevice: function(encodedNumber) {
-            var sessions = textsecure.storage.sessions.getSessionsForNumber(encodedNumber);
-            if (sessions === undefined || !sessions.haveOpenSession())
-                return false;
-            return true;
         },
 
         // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
@@ -38820,6 +38776,8 @@ window.textsecure.utils = function() {
             for (var key in thing)
                 res[key] = ensureStringed(thing[key]);
             return res;
+        } else if (thing === null) {
+            return null;
         }
         throw new Error("unsure of how to jsonify object of type " + typeof thing);
 
@@ -38953,9 +38911,11 @@ textsecure.processDecrypted = function(decrypted, source) {
     return Promise.all(promises).then(function() {
         return decrypted;
     });
-}
+};
 
-window.textsecure.registerSingleDevice = function(number, verificationCode, stepDone) {
+function createAccount(number, verificationCode, identityKeyPair, single_device) {
+    textsecure.storage.put('identityKey', identityKeyPair);
+
     var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
     textsecure.storage.put('signaling_key', signalingKey);
 
@@ -38963,39 +38923,95 @@ window.textsecure.registerSingleDevice = function(number, verificationCode, step
     password = password.substring(0, password.length - 2);
     textsecure.storage.put("password", password);
 
-    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-    registrationId = registrationId & 0x3fff;
+    var registrationId = axolotl.util.generateRegistrationId();
     textsecure.storage.put("registrationId", registrationId);
 
-    return textsecure.api.confirmCode(number, verificationCode, password, signalingKey, registrationId, true).then(function() {
-        textsecure.storage.user.setNumberAndDeviceId(number, 1);
+    return textsecure.api.confirmCode(
+        number, verificationCode, password, signalingKey, registrationId, single_device
+    ).then(function(response) {
+        textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1);
         textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
-        stepDone(1);
 
-        return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
-            stepDone(2);
-            return textsecure.api.registerKeys(keys).then(function() {
-                stepDone(3);
-            });
-        });
+        return textsecure.protocol_wrapper.generateKeys().then(textsecure.registration.done);
     });
 }
 
-window.textsecure.registerSecondDevice = function(provisionMessage) {
-    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-    textsecure.storage.put('signaling_key', signalingKey);
+function generateKeys(count, progressCallback) {
+    if (count === undefined) {
+        throw TypeError('generateKeys: count is undefined');
+    }
+    if (typeof progressCallback !== 'function') {
+        progressCallback = undefined;
+    }
+    var store = textsecure.storage.axolotl;
+    var identityKey = store.getMyIdentityKey();
+    var result = { preKeys: [], identityKey: identityKey.pubKey };
+    var promises = [];
 
-    var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
-    password = password.substring(0, password.length - 2);
-    textsecure.storage.put("password", password);
+    var startId = textsecure.storage.get('maxPreKeyId', 1);
+    var signedKeyId = textsecure.storage.get('signedKeyId', 1);
 
-    var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-    registrationId = registrationId & 0x3fff;
-    textsecure.storage.put("registrationId", registrationId);
+    for (var keyId = startId; keyId < startId+count; ++keyId) {
+        promises.push(
+            axolotl.util.generatePreKey(keyId).then(function(res) {
+                store.putPreKey(res.keyId, res.keyPair);
+                result.preKeys.push({
+                    keyId     : res.keyId,
+                    publicKey : res.keyPair.pubKey
+                });
+                if (progressCallback) { progressCallback(); }
+            })
+        );
+    }
+    promises.push(
+        axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
+            store.putSignedPreKey(res.keyId, res.keyPair);
+            result.signedPreKey = {
+                keyId     : res.keyId,
+                publicKey : res.keyPair.pubKey,
+                signature : res.signature
+            };
+        })
+    );
 
-    return textsecure.api.confirmCode(provisionMessage.number, provisionMessage.provisioningCode, password, signalingKey, registrationId, false).then(function(result) {
-        textsecure.storage.user.setNumberAndDeviceId(provisionMessage.number, result.deviceId);
-        textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(provisionMessage.number));
+    store.removeSignedPreKey(signedKeyId - 2);
+    textsecure.storage.put('maxPreKeyId', startId + count);
+    textsecure.storage.put('signedKeyId', signedKeyId + 1);
+
+    return Promise.all(promises).then(function() {
+        return result;
+    });
+};
+
+window.textsecure.registerSecondDevice = function(setProvisioningUrl, confirmNumber, progressCallback) {
+    return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
+        return new Promise(function(resolve) {
+            new WebSocketResource(textsecure.api.getTempWebsocket(), function(request) {
+                if (request.path == "/v1/address" && request.verb == "PUT") {
+                    var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
+                    setProvisioningUrl([
+                        'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
+                        encodeURIComponent(btoa(getString(cryptoInfo.pubKey)))
+                    ].join(''));
+                    request.respond(200, 'OK');
+                } else if (request.path == "/v1/message" && request.verb == "PUT") {
+                    var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
+                    request.respond(200, 'OK');
+                    resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
+                        return confirmNumber(provisionMessage.number).then(function() {
+                            return createAccount(
+                                provisionMessage.number,
+                                provisionMessage.provisioningCode,
+                                provisionMessage.identityKeyPair,
+                                false
+                            );
+                        });
+                    }));
+                } else {
+                    console.log('Unknown websocket message', request.path);
+                }
+            });
+        });
     });
 };
 
@@ -39584,22 +39600,21 @@ window.textsecure.messaging = function() {
                     return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
             }
 
-            var registrationId = deviceObjectList[i].registrationId;
-            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
-                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
             return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-                textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
+                return textsecure.protocol_wrapper.getRegistrationId(deviceObjectList[i].encodedNumber).then(function(registrationId) {
+                    textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
 
-                jsonData[i] = {
-                    type: encryptedMsg.type,
-                    destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
-                    destinationRegistrationId: registrationId,
-                    body: encryptedMsg.body,
-                    timestamp: timestamp
-                };
+                    jsonData[i] = {
+                        type: encryptedMsg.type,
+                        destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
+                        destinationRegistrationId: registrationId,
+                        body: encryptedMsg.body,
+                        timestamp: timestamp
+                    };
 
-                if (deviceObjectList[i].relay !== undefined)
-                    jsonData[i].relay = deviceObjectList[i].relay;
+                    if (deviceObjectList[i].relay !== undefined)
+                        jsonData[i].relay = deviceObjectList[i].relay;
+                });
             });
         }
 
@@ -39615,37 +39630,37 @@ window.textsecure.messaging = function() {
         groupId = getString(groupId);
 
         var doUpdate = false;
-        for (var i in devicesForNumber) {
-            var registrationId = deviceObjectList[i].registrationId;
-            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
-                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
-            if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
-                doUpdate = true;
-        }
-        if (!doUpdate)
-            return Promise.resolve(true);
-
-        var group = textsecure.storage.groups.getGroup(groupId);
-        var numberIndex = group.numbers.indexOf(number);
-        if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
-            return Promise.reject("Tried to refresh group to non-member");
-
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
-
-        proto.group.id = toArrayBuffer(group.id);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
-        proto.group.members = group.numbers;
-        proto.group.name = group.name === undefined ? null : group.name;
-
-        if (group.avatar !== undefined) {
-            return makeAttachmentPointer(group.avatar).then(function(attachment) {
-                proto.group.avatar = attachment;
-                return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+        Promise.all(devicesForNumber.map(function(device) {
+            return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
+                if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
+                    doUpdate = true;
             });
-        } else {
-            return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
-        }
+        })).then(function() {
+            if (!doUpdate)
+                return Promise.resolve(true);
+
+            var group = textsecure.storage.groups.getGroup(groupId);
+            var numberIndex = group.numbers.indexOf(number);
+            if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
+                return Promise.reject("Tried to refresh group to non-member");
+
+            var proto = new textsecure.protobuf.PushMessageContent();
+            proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+
+            proto.group.id = toArrayBuffer(group.id);
+            proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+            proto.group.members = group.numbers;
+            proto.group.name = group.name === undefined ? null : group.name;
+
+            if (group.avatar !== undefined) {
+                return makeAttachmentPointer(group.avatar).then(function(attachment) {
+                    proto.group.avatar = attachment;
+                    return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+                });
+            } else {
+                return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+            }
+        });
     }
 
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
@@ -39730,7 +39745,7 @@ window.textsecure.messaging = function() {
 
             var promises = [];
             for (var j in devicesForNumber)
-                if (!textsecure.storage.sessions.haveOpenSessionForDevice(devicesForNumber[j].encodedNumber))
+                if (!textsecure.protocol_wrapper.hasOpenSession(devicesForNumber[j].encodedNumber))
                     promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
 
             Promise.all(promises).then(function() {

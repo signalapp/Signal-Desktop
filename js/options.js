@@ -35,78 +35,54 @@
         }
     }
 
+    function setProvisioningUrl(url) {
+        $('#status').text('');
+        new QRCode($('#qr')[0]).makeCode(url);
+    }
+
+    function confirmNumber(number) {
+        return new Promise(function(resolve, reject) {
+            $('#qr').hide();
+            $('.confirmation-dialog .number').text(number);
+            $('.confirmation-dialog .cancel').click(function(e) {
+                localStorage.clear();
+                reject();
+            });
+            $('.confirmation-dialog .ok').click(function(e) {
+                e.stopPropagation();
+                $('.confirmation-dialog').hide();
+                $('.progress-dialog').show();
+                $('.progress-dialog .status').text('Registering new device...');
+                resolve();
+            });
+            $('.modal-container').show();
+        });
+    }
+
+    var counter = 0;
+    function incrementCounter() {
+        $('.progress-dialog .bar').css('width', (++counter * 100 / 100) + '%');
+    }
+
     $('.modal-container .cancel').click(function() {
         $('.modal-container').hide();
     });
 
     $(function() {
-        if (textsecure.registration.isDone()) {
-            $('#complete-number').text(textsecure.storage.user.getNumber());
+        var bg = extension.windows.getBackground();
+        if (bg.textsecure.registration.isDone()) {
+            $('#complete-number').text(bg.textsecure.storage.user.getNumber());
             $('#setup-complete').show().addClass('in');
             initOptions();
         } else {
             $('#init-setup').show().addClass('in');
             $('#status').text("Connecting...");
-            textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
-                var qrCode = new QRCode(document.getElementById('qr'));
-                var socket = textsecure.api.getTempWebsocket();
-                new WebSocketResource(socket, function(request) {
-                    if (request.path == "/v1/address" && request.verb == "PUT") {
-                        var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
-                        var url = [ 'tsdevice:/', '?uuid=', proto.uuid, '&pub_key=',
-                            encodeURIComponent(btoa(String.fromCharCode.apply(null, new Uint8Array(cryptoInfo.pubKey)))) ].join('');
-                        $('#status').text('');
-                        qrCode.makeCode(url);
-                        request.respond(200, 'OK');
-                    } else if (request.path == "/v1/message" && request.verb == "PUT") {
-                        var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
-                        cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
-                            $('.confirmation-dialog .number').text(provisionMessage.number);
-                            $('.confirmation-dialog .cancel').click(function(e) {
-                                localStorage.clear();
-                            });
-                            $('.confirmation-dialog .ok').click(function(e) {
-                                e.stopPropagation();
-                                $('.confirmation-dialog').hide();
-                                $('.progress-dialog').show();
-                                $('.progress-dialog .status').text('Registering new device...');
-                                window.textsecure.registerSecondDevice(provisionMessage).then(function() {
-                                    $('.progress-dialog .status').text('Generating keys...');
-                                    var counter = 0;
-                                    var myWorker = new Worker('/js/key_worker.js');
-                                    myWorker.postMessage({
-                                        maxPreKeyId: textsecure.storage.get("maxPreKeyId", 0),
-                                        signedKeyId: textsecure.storage.get("signedKeyId", 0),
-                                        libaxolotl25519KeyidentityKey: textsecure.storage.get("libaxolotl25519KeyidentityKey"),
-                                    });
-                                    myWorker.onmessage = function(e) {
-                                        switch(e.data.method) {
-                                            case 'set':
-                                                textsecure.storage.put(e.data.key, e.data.value);
-                                                counter = counter + 1;
-                                                $('.progress-dialog .bar').css('width', (counter * 100 / 105) + '%');
-                                                break;
-                                            case 'remove':
-                                                textsecure.storage.remove(e.data.key);
-                                                break;
-                                            case 'done':
-                                                $('.progress-dialog .status').text('Uploading keys...');
-                                                textsecure.api.registerKeys(e.data.keys).then(function() {
-                                                    textsecure.registration.done();
-                                                    $('.modal-container').hide();
-                                                    $('#init-setup').hide();
-                                                    $('#setup-complete').show().addClass('in');
-                                                    initOptions();
-                                                });
-                                        }
-                                    };
-                                });
-                            });
-                            $('.modal-container').show();
-                        });
-                    } else
-                        console.log(request.path);
-                });
+
+            bg.textsecure.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
+                $('.modal-container').hide();
+                $('#init-setup').hide();
+                $('#setup-complete').show().addClass('in');
+                initOptions();
             });
         }
     });

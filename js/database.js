@@ -33,6 +33,10 @@
                 conversations.createIndex("inbox", "active_at", { unique: false });
                 conversations.createIndex("group", "members", { unique: false, multiEntry: true });
                 conversations.createIndex("type", "type", { unique: false });
+
+                var preKeys = transaction.db.createObjectStore("preKeys");
+                var signedPreKeys = transaction.db.createObjectStore("signedPreKeys");
+
                 next();
             }
         }

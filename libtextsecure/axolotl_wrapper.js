@@ -1,44 +1,9 @@
-'use strict';
-
 ;(function() {
-    var axolotlInstance = axolotl.protocol({
-            getMyRegistrationId: function() {
-                return textsecure.storage.get("registrationId");
-            },
-            put: function(key, value) {
-                return textsecure.storage.put("libaxolotl" + key, value);
-            },
-            get: function(key, defaultValue) {
-                return textsecure.storage.get("libaxolotl" + key, defaultValue);
-            },
-            remove: function(key) {
-                return textsecure.storage.remove("libaxolotl" + key);
-            },
-
-            identityKeys: {
-                get: function(identifier) {
-                    return textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0]);
-                },
-                put: function(identifier, identityKey) {
-                    return textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey);
-                },
-            },
-
-            sessions: {
-                get: function(identifier) {
-                    return textsecure.storage.sessions.getSessionsForNumber(identifier);
-                },
-                put: function(identifier, record) {
-                    return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
-                }
-            }
-        },
-        function(keys) {
-            return textsecure.api.registerKeys(keys).catch(function(e) {
-                //TODO: Notify the user somehow?
-                console.error(e);
-            });
-        });
+    'use strict';
+    window.textsecure = window.textsecure || {};
+    window.textsecure.storage = window.textsecure.storage || {};
+    textsecure.storage.axolotl = new AxolotlStore();
+    var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
     var decodeMessageContents = function(res) {
         var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
@@ -53,7 +18,7 @@
 
     var handlePreKeyWhisperMessage = function(from, message) {
         try {
-            return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, message);
+            return axolotlInstance.handlePreKeyWhisperMessage(from, message);
         } catch(e) {
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
@@ -72,7 +37,7 @@
                 return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
             case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
                 var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return textsecure.protocol_wrapper.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
+                return axolotlInstance.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
             case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
                 if (proto.message.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
@@ -87,25 +52,32 @@
         closeOpenSessionForDevice: function(encodedNumber) {
             return axolotlInstance.closeOpenSessionForDevice(encodedNumber)
         },
-        decryptWhisperMessage: function(encodedNumber, messageBytes, session) {
-            return axolotlInstance.decryptWhisperMessage(encodedNumber, messageBytes, session);
-        },
-        handlePreKeyWhisperMessage: function(from, encodedMessage) {
-            return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage);
-        },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);
         },
-        generateKeys: function() {
-            return axolotlInstance.generateKeys();
+        generateKeys: function(count, progressCallback) {
+            if (textsecure.worker_path) {
+                axolotlInstance.startWorker(textsecure.worker_path);
+            }
+            return generateKeys(count, progressCallback).then(function(result) {
+                axolotlInstance.stopWorker();
+                return result;
+            });
         },
         createIdentityKeyRecvSocket: function() {
             return axolotlInstance.createIdentityKeyRecvSocket();
+        },
+        hasOpenSession: function(encodedNumber) {
+            return axolotlInstance.hasOpenSession(encodedNumber);
+        },
+        getRegistrationId: function(encodedNumber) {
+            return axolotlInstance.getRegistrationId(encodedNumber);
         }
     };
 
     var tryMessageAgain = function(from, encodedMessage) {
-        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
+        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
     }
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
+
 })();

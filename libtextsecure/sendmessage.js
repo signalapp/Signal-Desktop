@@ -67,22 +67,21 @@ window.textsecure.messaging = function() {
                     return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
             }
 
-            var registrationId = deviceObjectList[i].registrationId;
-            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
-                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
             return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-                textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
+                return textsecure.protocol_wrapper.getRegistrationId(deviceObjectList[i].encodedNumber).then(function(registrationId) {
+                    textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
 
-                jsonData[i] = {
-                    type: encryptedMsg.type,
-                    destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
-                    destinationRegistrationId: registrationId,
-                    body: encryptedMsg.body,
-                    timestamp: timestamp
-                };
+                    jsonData[i] = {
+                        type: encryptedMsg.type,
+                        destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
+                        destinationRegistrationId: registrationId,
+                        body: encryptedMsg.body,
+                        timestamp: timestamp
+                    };
 
-                if (deviceObjectList[i].relay !== undefined)
-                    jsonData[i].relay = deviceObjectList[i].relay;
+                    if (deviceObjectList[i].relay !== undefined)
+                        jsonData[i].relay = deviceObjectList[i].relay;
+                });
             });
         }
 
@@ -98,37 +97,37 @@ window.textsecure.messaging = function() {
         groupId = getString(groupId);
 
         var doUpdate = false;
-        for (var i in devicesForNumber) {
-            var registrationId = deviceObjectList[i].registrationId;
-            if (registrationId === undefined) // ie this isnt a first-send-keyful deviceObject
-                registrationId = textsecure.storage.sessions.getSessionsForNumber(deviceObjectList[i].encodedNumber).registrationId;
-            if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
-                doUpdate = true;
-        }
-        if (!doUpdate)
-            return Promise.resolve(true);
-
-        var group = textsecure.storage.groups.getGroup(groupId);
-        var numberIndex = group.numbers.indexOf(number);
-        if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
-            return Promise.reject("Tried to refresh group to non-member");
-
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
-
-        proto.group.id = toArrayBuffer(group.id);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
-        proto.group.members = group.numbers;
-        proto.group.name = group.name === undefined ? null : group.name;
-
-        if (group.avatar !== undefined) {
-            return makeAttachmentPointer(group.avatar).then(function(attachment) {
-                proto.group.avatar = attachment;
-                return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+        Promise.all(devicesForNumber.map(function(device) {
+            return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
+                if (textsecure.storage.groups.needUpdateByDeviceRegistrationId(groupId, number, devicesForNumber[i].encodedNumber, registrationId))
+                    doUpdate = true;
             });
-        } else {
-            return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
-        }
+        })).then(function() {
+            if (!doUpdate)
+                return Promise.resolve(true);
+
+            var group = textsecure.storage.groups.getGroup(groupId);
+            var numberIndex = group.numbers.indexOf(number);
+            if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
+                return Promise.reject("Tried to refresh group to non-member");
+
+            var proto = new textsecure.protobuf.PushMessageContent();
+            proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+
+            proto.group.id = toArrayBuffer(group.id);
+            proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+            proto.group.members = group.numbers;
+            proto.group.name = group.name === undefined ? null : group.name;
+
+            if (group.avatar !== undefined) {
+                return makeAttachmentPointer(group.avatar).then(function(attachment) {
+                    proto.group.avatar = attachment;
+                    return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+                });
+            } else {
+                return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
+            }
+        });
     }
 
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
@@ -213,7 +212,7 @@ window.textsecure.messaging = function() {
 
             var promises = [];
             for (var j in devicesForNumber)
-                if (!textsecure.storage.sessions.haveOpenSessionForDevice(devicesForNumber[j].encodedNumber))
+                if (!textsecure.protocol_wrapper.hasOpenSession(devicesForNumber[j].encodedNumber))
                     promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
 
             Promise.all(promises).then(function() {

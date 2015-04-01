@@ -16,6 +16,7 @@
 
 ;(function() {
     'use strict';
+    var bg = extension.windows.getBackground();
 
     function log(s) {
         console.log(s);
@@ -36,7 +37,7 @@
     var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
     phoneView.$el.find('input.number').intlTelInput();
 
-    var number = textsecure.storage.user.getNumber();
+    var number = bg.textsecure.storage.user.getNumber();
     if (number) {
         $('input.number').val(number);
     }
@@ -60,7 +61,7 @@
         $('#error').hide();
         var number = phoneView.validateNumber();
         if (number) {
-            textsecure.api.requestVerificationVoice(number).catch(displayError);
+            bg.textsecure.api.requestVerificationVoice(number).catch(displayError);
             $('#step2').addClass('in').fadeIn();
         } else {
             $('#number-container').addClass('invalid');
@@ -71,7 +72,7 @@
         $('#error').hide();
         var number = phoneView.validateNumber();
         if (number) {
-            textsecure.api.requestVerificationSMS(number).catch(displayError);
+            bg.textsecure.api.requestVerificationSMS(number).catch(displayError);
             $('#step2').addClass('in').fadeIn();
         } else {
             $('#number-container').addClass('invalid');
@@ -80,40 +81,14 @@
 
     $('#form').submit(function(e) {
         e.preventDefault();
-        log('registering');
         var number = phoneView.validateNumber();
         var verificationCode = $('#code').val().replace(/\D+/g, "");
-        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
 
-        var password = btoa(String.fromCharCode.apply(null, new Uint8Array(textsecure.crypto.getRandomBytes(16))));
-        password = password.substring(0, password.length - 2);
-
-        var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
-        registrationId = registrationId & 0x3fff;
-
-        log('clearing data');
         localStorage.clear();
-
         localStorage.setItem('first_install_ran', 1);
-        textsecure.storage.put('registrationId', registrationId);
-        textsecure.storage.put('signaling_key', signalingKey);
-        textsecure.storage.put('password', password);
-        textsecure.storage.user.setNumberAndDeviceId(number, 1);
-        textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
-
-        log('verifying code');
-        return textsecure.api.confirmCode(
-            number, verificationCode, password, signalingKey, registrationId, true
-        ).then(function() {
-            log('generating keys');
-            return textsecure.protocol_wrapper.generateKeys().then(function(keys) {
-                log('uploading keys');
-                return textsecure.api.registerKeys(keys).then(function() {
-                    textsecure.registration.done();
-                    log('done');
-                    chrome.runtime.reload();
-                });
-            });
+        bg.textsecure.registerSingleDevice(number, verificationCode).then(function() {
+            extension.navigator.tabs.create("options.html");
+            window.close();
         }).catch(function(e) {
             log(e);
         });

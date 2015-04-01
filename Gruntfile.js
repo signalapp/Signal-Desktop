@@ -61,16 +61,6 @@ module.exports = function(grunt) {
         ],
         dest: 'js/libtextsecure.js',
       },
-      key_worker: {
-        options: {
-          banner: 'var window = this;\n',
-        },
-        src: [
-          'js/libtextsecure.js',
-          'libtextsecure/key_worker.js'
-        ],
-        dest: 'js/key_worker.js'
-      },
       libtextsecuretest: {
         src: [
           'components/mock-socket/dist/mock-socket.js',
@@ -148,7 +138,7 @@ module.exports = function(grunt) {
     },
     jscs: {
       all: {
-        src: ['js/**/*.js', '!js/libtextsecure.js', '!js/key_worker.js', '!js/components.js', 'test/**/*.js']
+        src: ['js/**/*.js', '!js/libtextsecure.js', '!js/components.js', 'test/**/*.js']
       }
     },
     watch: {
@@ -163,10 +153,6 @@ module.exports = function(grunt) {
       libtextsecure: {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure']
-      },
-      key_worker: {
-        files: ['<%= concat.key_worker.src %>'],
-        tasks: ['concat:key_worker']
       },
       dist: {
         files: ['<%= dist.src %>'],
