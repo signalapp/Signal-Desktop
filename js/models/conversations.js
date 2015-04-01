@@ -105,6 +105,11 @@
                     extension.trigger('message', message); // notify frontend listeners
                 });
             } else {
+                errors.map(function(e) {
+                    if (e.error && e.error.stack) {
+                        console.log(e.error && e.error.stack);
+                    }
+                });
                 throw errors;
             }
         });
