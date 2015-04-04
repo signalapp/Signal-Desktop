@@ -148,10 +148,6 @@ module.exports = function(grunt) {
         files: ['./libtextsecure/*.js', './libtextsecure/storage/*.js'],
         tasks: ['concat:libtextsecure']
       },
-      libaxolotl: {
-        files: ['./libaxolotl/*.js'],
-        tasks: ['concat:libaxolotl']
-      },
       dist: {
         files: ['<%= dist.src %>'],
         tasks: ['copy']
