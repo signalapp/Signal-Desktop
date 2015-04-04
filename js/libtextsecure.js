@@ -1,3 +1,4 @@
+;(function() {
 /* vim: ts=4:sw=4:expandtab
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39837,3 +39838,4 @@ window.textsecure.messaging = function() {
 
     return self;
 }();
+})();

@@ -36,6 +36,10 @@ module.exports = function(grunt) {
       },
       //TODO: Move errors back down?
       libtextsecure: {
+        options: {
+          banner: ";(function() {\n",
+          footer: "})();\n",
+        },
         src: [
           'libtextsecure/errors.js',
           'libtextsecure/libaxolotl.js',
