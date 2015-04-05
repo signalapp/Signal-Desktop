@@ -34,7 +34,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
         // stop the user from typing invalid numbers
         preventInvalidNumbers: false,
         // specify the path to the libphonenumber script to enable validation/formatting
-        utilsScript: "/components/libphonenumber-api/libphonenumber_api-compiled.js"
+        utilsScript: ""
     }, keys = {
         UP: 38,
         DOWN: 40,
