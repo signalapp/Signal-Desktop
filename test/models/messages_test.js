@@ -116,5 +116,60 @@
             message = messages.add({group_update: true});
             assert.ok(message.isGroupUpdate());
         });
+
+        it('checks if there are any key conflicts', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add(attributes);
+            assert.notOk(message.hasKeyConflicts());
+
+            message = messages.add({errors: [{name: 'OutgoingIdentityKeyError'}]});
+            assert.ok(message.hasKeyConflicts());
+        });
+
+        it('returns a description of key conflicts', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add({errors: [{name: 'IncomingIdentityKeyError'}]});
+
+            assert.deepEqual(message.getKeyConflict(), {name: 'IncomingIdentityKeyError'});
+        });
+
+        it('returns an accurate description', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add(attributes);
+
+            assert.equal(message.getDescription(), 'hi', 'If no group updates, key conflicts, or end session flags, return message body.');
+
+            message = messages.add({group_update: {left: 'Alice'}});
+            assert.equal(message.getDescription(), 'Alice left the group.', 'Notes one person leaving the group.');
+
+            message = messages.add({group_update: {name: 'blerg'}});
+            assert.equal(message.getDescription(), 'Updated the group. Title is now \'blerg\'.', 'Returns a single notice if only group_updates.name changes.');
+
+            message = messages.add({group_update: {joined: ['Bob']}});
+            assert.equal(message.getDescription(), 'Updated the group. Bob joined the group.', 'Returns a single notice if only group_updates.joined changes.');
+
+            message = messages.add({group_update: {joined: ['Bob', 'Alice', 'Eve']}});
+            assert.equal(message.getDescription(), 'Updated the group. Bob, Alice, Eve joined the group.', 'Notes when >1 person joins the group.');
+
+            message = messages.add({group_update: {joined: ['Bob'], name: 'blerg'}});
+            assert.equal(message.getDescription(), 'Updated the group. Title is now \'blerg\'. Bob joined the group.', 'Notes when there are multiple changes to group_updates properties.');
+
+            message = messages.add({flags: true});
+            assert.equal(message.getDescription(), 'Secure session ended.');
+
+            message = messages.add({type: 'incoming', errors: [{name: 'OutgoingIdentityKeyError'}]});
+            assert.equal(message.getDescription(), 'Received message with unknown identity key.');
+
+        });
+
+        it('checks if it is end of the session', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add(attributes);
+            assert.notOk(message.isEndSession());
+
+            message = messages.add({flags: true});
+            assert.ok(message.isEndSession());
+        });
+
     });
 })();
