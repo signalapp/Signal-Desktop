@@ -38096,16 +38096,18 @@ axolotlInternal.RecipientRecord = function() {
 
     window.textsecure.storage.sessions = {
         getSessionsForNumber: function(encodedNumber) {
-            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+            return Promise.resolve((function() {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            var sessions = textsecure.storage.get("sessions" + number);
-            if (sessions === undefined)
-                return undefined;
-            if (sessions[deviceId] === undefined)
-                return undefined;
+                var sessions = textsecure.storage.get("sessions" + number);
+                if (sessions === undefined)
+                    return undefined;
+                if (sessions[deviceId] === undefined)
+                    return undefined;
 
-            return sessions[deviceId];
+                return sessions[deviceId];
+            })());
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
@@ -39807,12 +39809,12 @@ window.textsecure.messaging = function() {
         var getDevicesAndSendToNumber = function(number) {
             var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
-            var promises = [];
-            for (var j in devicesForNumber)
-                if (!textsecure.protocol_wrapper.hasOpenSession(devicesForNumber[j].encodedNumber))
-                    promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
-
-            Promise.all(promises).then(function() {
+            return Promise.all(devicesForNumber.map(function(device) {
+                return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
+                    if (!result)
+                        return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+                });
+            })).then(function() {
                 devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
                 if (devicesForNumber.length == 0) {

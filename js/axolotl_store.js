@@ -172,9 +172,7 @@
         getSession: function(identifier) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to get session for undefined/null key");
-            return new Promise(function(resolve) {
-                resolve(textsecure.storage.sessions.getSessionsForNumber(identifier));
-            });
+            return textsecure.storage.sessions.getSessionsForNumber(identifier);
         },
         putSession: function(identifier, record) {
             if (identifier === null || identifier === undefined)

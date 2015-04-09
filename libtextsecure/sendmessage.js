@@ -210,12 +210,12 @@ window.textsecure.messaging = function() {
         var getDevicesAndSendToNumber = function(number) {
             var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
-            var promises = [];
-            for (var j in devicesForNumber)
-                if (!textsecure.protocol_wrapper.hasOpenSession(devicesForNumber[j].encodedNumber))
-                    promises[promises.length] = getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(devicesForNumber[j].encodedNumber)[1])]);
-
-            Promise.all(promises).then(function() {
+            return Promise.all(devicesForNumber.map(function(device) {
+                return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
+                    if (!result)
+                        return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+                });
+            })).then(function() {
                 devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
 
                 if (devicesForNumber.length == 0) {

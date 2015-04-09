@@ -25,16 +25,18 @@
 
     window.textsecure.storage.sessions = {
         getSessionsForNumber: function(encodedNumber) {
-            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+            return Promise.resolve((function() {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            var sessions = textsecure.storage.get("sessions" + number);
-            if (sessions === undefined)
-                return undefined;
-            if (sessions[deviceId] === undefined)
-                return undefined;
+                var sessions = textsecure.storage.get("sessions" + number);
+                if (sessions === undefined)
+                    return undefined;
+                if (sessions[deviceId] === undefined)
+                    return undefined;
 
-            return sessions[deviceId];
+                return sessions[deviceId];
+            })());
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
