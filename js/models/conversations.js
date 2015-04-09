@@ -105,9 +105,12 @@
                     extension.trigger('message', message); // notify frontend listeners
                 });
             } else {
+                if (!(errors instanceof Array)) {
+                    errors = [errors];
+                }
                 errors.map(function(e) {
                     if (e.error && e.error.stack) {
-                        console.log(e.error && e.error.stack);
+                        console.error(e.error.stack);
                     }
                 });
                 throw errors;
