@@ -177,9 +177,7 @@
         putSession: function(identifier, record) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to put session for undefined/null key");
-            return new Promise(function(resolve) {
-                resolve(textsecure.storage.sessions.putSessionsForDevice(identifier, record));
-            });
+            return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
         }
     };
 

@@ -40,24 +40,26 @@
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
-            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+            return Promise.resolve((function() {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            var sessions = textsecure.storage.get("sessions" + number);
-            if (sessions === undefined)
-                sessions = {};
-            sessions[deviceId] = record;
-            textsecure.storage.put("sessions" + number, sessions);
+                var sessions = textsecure.storage.get("sessions" + number);
+                if (sessions === undefined)
+                    sessions = {};
+                sessions[deviceId] = record;
+                textsecure.storage.put("sessions" + number, sessions);
 
-            var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
-            if (device === undefined) {
-                var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
-                device = { encodedNumber: encodedNumber,
-                           //TODO: Remove this duplication
-                           identityKey: identityKey
-                         };
-            }
-            return textsecure.storage.devices.saveDeviceObject(device);
+                var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+                if (device === undefined) {
+                    var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
+                    device = { encodedNumber: encodedNumber,
+                            //TODO: Remove this duplication
+                            identityKey: identityKey
+                            };
+                }
+                return textsecure.storage.devices.saveDeviceObject(device);
+            })());
         },
 
         // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
