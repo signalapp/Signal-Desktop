@@ -38135,7 +38135,7 @@ axolotlInternal.RecipientRecord = function() {
 
         // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
         _removeIdentityKeyForNumber: function(number) {
-            textsecure.storage.remove("sessions" + number);
+            return Promise.resolve(textsecure.storage.remove("sessions" + number));
         },
 
     };
@@ -38187,7 +38187,7 @@ axolotlInternal.RecipientRecord = function() {
             if (map === undefined)
                 throw new Error("Tried to remove identity for unknown number");
             textsecure.storage.remove("devices" + number);
-            textsecure.storage.sessions._removeIdentityKeyForNumber(number);
+            return textsecure.storage.sessions._removeIdentityKeyForNumber(number);
         },
 
         getDeviceObject: function(encodedNumber) {

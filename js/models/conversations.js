@@ -241,12 +241,13 @@
             throw 'No conflicts to resolve';
         }
 
-        textsecure.storage.devices.removeIdentityKeyForNumber(number);
-        this.messageCollection.each(function(message) {
-            if (message.hasKeyConflict(number)) {
-                message.resolveConflict(number);
-            }
-        });
+        return textsecure.storage.devices.removeIdentityKeyForNumber(number).then(function() {
+            this.messageCollection.each(function(message) {
+                if (message.hasKeyConflict(number)) {
+                    message.resolveConflict(number);
+                }
+            });
+        }.bind(this));
     }
   });
 
