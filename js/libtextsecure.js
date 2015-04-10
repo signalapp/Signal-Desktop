@@ -39239,7 +39239,7 @@ window.textsecure.api = function () {
         keys.preKeys = [];
         var j = 0;
         for (var i in genKeys.preKeys)
-            keys.preKeys[j++] = {keyId: i, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
+            keys.preKeys[j++] = {keyId: genKeys.preKeys[i].keyId, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
 
         //TODO: This is just to make the server happy (v2 clients should choke on publicKey),
         // it needs removed before release
