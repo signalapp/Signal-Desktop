@@ -38111,26 +38111,26 @@ axolotlInternal.RecipientRecord = function() {
         },
 
         putSessionsForDevice: function(encodedNumber, record) {
-            return Promise.resolve((function() {
-                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-                var sessions = textsecure.storage.get("sessions" + number);
-                if (sessions === undefined)
-                    sessions = {};
-                sessions[deviceId] = record;
-                textsecure.storage.put("sessions" + number, sessions);
+            var sessions = textsecure.storage.get("sessions" + number);
+            if (sessions === undefined)
+                sessions = {};
+            sessions[deviceId] = record;
+            textsecure.storage.put("sessions" + number, sessions);
 
-                var device = textsecure.storage.devices.getDeviceObject(encodedNumber);
+            return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
                 if (device === undefined) {
-                    var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
-                    device = { encodedNumber: encodedNumber,
-                            //TODO: Remove this duplication
-                            identityKey: identityKey
-                            };
+                    return textsecure.storage.devices.getIdentityKeyForNumber(number).then(function(identityKey) {
+                        device = { encodedNumber: encodedNumber,
+                                //TODO: Remove this duplication
+                                identityKey: identityKey
+                                };
+                        return textsecure.storage.devices.saveDeviceObject(device);
+                    });
                 }
-                return textsecure.storage.devices.saveDeviceObject(device);
-            })());
+            });
         },
 
         // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
@@ -38150,122 +38150,135 @@ axolotlInternal.RecipientRecord = function() {
         },
 
         removeTempKeysFromDevice: function(encodedNumber) {
-            var deviceObject = textsecure.storage.devices.getDeviceObject(encodedNumber);
-            try {
-                delete deviceObject['signedKey'];
-                delete deviceObject['signedKeyId'];
-                delete deviceObject['signedKeySignature'];
-                delete deviceObject['preKey'];
-                delete deviceObject['preKeyId'];
-                delete deviceObject['registrationId'];
-            } catch(_) {}
-            return internalSaveDeviceObject(deviceObject, false);
+            return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(deviceObject) {
+                try {
+                    delete deviceObject['signedKey'];
+                    delete deviceObject['signedKeyId'];
+                    delete deviceObject['signedKeySignature'];
+                    delete deviceObject['preKey'];
+                    delete deviceObject['preKeyId'];
+                    delete deviceObject['registrationId'];
+                } catch(_) {}
+                return internalSaveDeviceObject(deviceObject, false);
+            });
         },
 
         getDeviceObjectsForNumber: function(number) {
-            var map = textsecure.storage.get("devices" + number);
-            if (map === undefined)
-               return [];
-            return map.devices;
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    return [];
+                return map.devices;
+            })());
         },
 
         getIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.get("devices" + number);
-            return map === undefined ? undefined : map.identityKey;
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                return map === undefined ? undefined : map.identityKey;
+            })());
         },
 
         checkSaveIdentityKeyForNumber: function(number, identityKey) {
-            var map = textsecure.storage.get("devices" + number);
-            if (map === undefined)
-                textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
-            else if (getString(map.identityKey) !== getString(identityKey))
-                throw new Error("Attempted to overwrite a different identity key");
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
+                else if (getString(map.identityKey) !== getString(identityKey))
+                    throw new Error("Attempted to overwrite a different identity key");
+            })());
         },
 
         removeIdentityKeyForNumber: function(number) {
-            var map = textsecure.storage.get("devices" + number);
-            if (map === undefined)
-                throw new Error("Tried to remove identity for unknown number");
-            textsecure.storage.remove("devices" + number);
-            return textsecure.storage.sessions._removeIdentityKeyForNumber(number);
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    throw new Error("Tried to remove identity for unknown number");
+                textsecure.storage.remove("devices" + number);
+                return textsecure.storage.sessions._removeIdentityKeyForNumber(number);
+            })());
         },
 
         getDeviceObject: function(encodedNumber) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
+            return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
+                for (var i in devices)
+                    if (devices[i].encodedNumber == encodedNumber)
+                        return devices[i];
 
-            for (var i in devices)
-                if (devices[i].encodedNumber == encodedNumber)
-                    return devices[i];
-
-            return undefined;
+                return undefined;
+            });
         },
 
         removeDeviceIdsForNumber: function(number, deviceIdsToRemove) {
-            var map = textsecure.storage.get("devices" + number);
-            if (map === undefined)
-                throw new Error("Tried to remove device for unknown number");
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    throw new Error("Tried to remove device for unknown number");
 
-            var newDevices = [];
-            var devicesRemoved = 0;
-            for (var i in map.devices) {
-                var keep = true;
-                for (var j in deviceIdsToRemove)
-                    if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
-                        keep = false;
+                var newDevices = [];
+                var devicesRemoved = 0;
+                for (var i in map.devices) {
+                    var keep = true;
+                    for (var j in deviceIdsToRemove)
+                        if (map.devices[i].encodedNumber == number + "." + deviceIdsToRemove[j])
+                            keep = false;
 
-                if (keep)
-                    newDevices.push(map.devices[i]);
-                else
-                    devicesRemoved++;
-            }
+                    if (keep)
+                        newDevices.push(map.devices[i]);
+                    else
+                        devicesRemoved++;
+                }
 
-            if (devicesRemoved != deviceIdsToRemove.length)
-                throw new Error("Tried to remove unknown device");
+                if (devicesRemoved != deviceIdsToRemove.length)
+                    throw new Error("Tried to remove unknown device");
 
-            if (newDevices.length === 0)
-                textsecure.storage.remove("devices" + number);
-            else {
-                map.devices = newDevices;
-                textsecure.storage.put("devices" + number, map);
-            }
+                if (newDevices.length === 0)
+                    textsecure.storage.remove("devices" + number);
+                else {
+                    map.devices = newDevices;
+                    textsecure.storage.put("devices" + number, map);
+                }
+            })());
         }
     };
 
     var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-        if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
-            throw new Error("Tried to store invalid deviceObject");
+        return Promise.resolve((function() {
+            if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
+                throw new Error("Tried to store invalid deviceObject");
 
-        var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-        var map = textsecure.storage.get("devices" + number);
+            var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
+            var map = textsecure.storage.get("devices" + number);
 
-        if (map === undefined)
-            map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
-        else if (map.identityKey != getString(deviceObject.identityKey))
-            throw new Error("Identity key changed");
-        else {
-            var updated = false;
-            for (var i in map.devices) {
-                if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
-                    if (!onlyKeys)
-                        map.devices[i] = deviceObject;
-                    else {
-                        map.devices[i].preKey = deviceObject.preKey;
-                        map.devices[i].preKeyId = deviceObject.preKeyId;
-                        map.devices[i].signedKey = deviceObject.signedKey;
-                        map.devices[i].signedKeyId = deviceObject.signedKeyId;
-                        map.devices[i].signedKeySignature = deviceObject.signedKeySignature;
-                        map.devices[i].registrationId = deviceObject.registrationId;
+            if (map === undefined)
+                map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
+            else if (map.identityKey != getString(deviceObject.identityKey))
+                throw new Error("Identity key changed");
+            else {
+                var updated = false;
+                for (var i in map.devices) {
+                    if (map.devices[i].encodedNumber == deviceObject.encodedNumber) {
+                        if (!onlyKeys)
+                            map.devices[i] = deviceObject;
+                        else {
+                            map.devices[i].preKey = deviceObject.preKey;
+                            map.devices[i].preKeyId = deviceObject.preKeyId;
+                            map.devices[i].signedKey = deviceObject.signedKey;
+                            map.devices[i].signedKeyId = deviceObject.signedKeyId;
+                            map.devices[i].signedKeySignature = deviceObject.signedKeySignature;
+                            map.devices[i].registrationId = deviceObject.registrationId;
+                        }
+                        updated = true;
                     }
-                    updated = true;
                 }
+
+                if (!updated)
+                    map.devices.push(deviceObject);
             }
 
-            if (!updated)
-                map.devices.push(deviceObject);
-        }
-
-        textsecure.storage.put("devices" + number, map);
+            textsecure.storage.put("devices" + number, map);
+        })());
     };
 })();
 
@@ -39623,19 +39636,19 @@ window.textsecure.messaging = function() {
     //TODO: Dont hit disk for any of the key-fetching!
     function getKeysForNumber(number, updateDevices) {
         var handleResult = function(response) {
-            for (var i in response.devices) {
-                if (updateDevices === undefined || updateDevices.indexOf(response.devices[i].deviceId) > -1)
-                    textsecure.storage.devices.saveKeysToDeviceObject({
-                        encodedNumber: number + "." + response.devices[i].deviceId,
+            return Promise.all(response.devices.map(function(device) {
+                if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
+                    return textsecure.storage.devices.saveKeysToDeviceObject({
+                        encodedNumber: number + "." + device.deviceId,
                         identityKey: response.identityKey,
-                        preKey: response.devices[i].preKey.publicKey,
-                        preKeyId: response.devices[i].preKey.keyId,
-                        signedKey: response.devices[i].signedPreKey.publicKey,
-                        signedKeyId: response.devices[i].signedPreKey.keyId,
-                        signedKeySignature: response.devices[i].signedPreKey.signature,
-                        registrationId: response.devices[i].registrationId
+                        preKey: device.preKey.publicKey,
+                        preKeyId: device.preKey.keyId,
+                        signedKey: device.signedPreKey.publicKey,
+                        signedKeyId: device.signedPreKey.keyId,
+                        signedKeySignature: device.signedPreKey.signature,
+                        registrationId: device.registrationId
                     });
-            }
+            }));
         };
 
         var promises = [];
@@ -39670,18 +39683,18 @@ window.textsecure.messaging = function() {
 
             return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
                 return textsecure.protocol_wrapper.getRegistrationId(deviceObjectList[i].encodedNumber).then(function(registrationId) {
-                    textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
+                    return textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber).then(function() {
+                        jsonData[i] = {
+                            type: encryptedMsg.type,
+                            destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
+                            destinationRegistrationId: registrationId,
+                            body: encryptedMsg.body,
+                            timestamp: timestamp
+                        };
 
-                    jsonData[i] = {
-                        type: encryptedMsg.type,
-                        destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
-                        destinationRegistrationId: registrationId,
-                        body: encryptedMsg.body,
-                        timestamp: timestamp
-                    };
-
-                    if (deviceObjectList[i].relay !== undefined)
-                        jsonData[i].relay = deviceObjectList[i].relay;
+                        if (deviceObjectList[i].relay !== undefined)
+                            jsonData[i].relay = deviceObjectList[i].relay;
+                    });
                 });
             });
         }
@@ -39768,10 +39781,11 @@ window.textsecure.messaging = function() {
         var doSendMessage;
         var reloadDevicesAndSend = function(number, recurse) {
             return function() {
-                var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-                if (devicesForNumber.length == 0)
-                    return registerError(number, "Got empty device list when loading device keys", null);
-                doSendMessage(number, devicesForNumber, recurse);
+                return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                    if (devicesForNumber.length == 0)
+                        return registerError(number, "Got empty device list when loading device keys", null);
+                    doSendMessage(number, devicesForNumber, recurse);
+                });
             }
         }
 
@@ -39789,46 +39803,52 @@ window.textsecure.messaging = function() {
                     if (!recurse)
                         return registerError(number, "Hit retry limit attempting to reload device list", error);
 
-                    if (error.message == 409)
-                        textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
+                    var p;
+                    if (error.message == 409) {
+                        p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
+                    } else {
+                        p = Promise.resolve();
+                    }
 
-                    var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
-                    getKeysForNumber(number, resetDevices)
-                        .then(reloadDevicesAndSend(number, false))
-                        .catch(function(error) {
-                            if (error.message !== "Identity key changed")
-                                registerError(number, "Failed to reload device keys", error);
-                            else {
-                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
-                                registerError(number, "Identity key changed", error);
-                            }
-                        });
+                    p.then(function() {
+                        var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
+                        getKeysForNumber(number, resetDevices)
+                            .then(reloadDevicesAndSend(number, false))
+                            .catch(function(error) {
+                                if (error.message !== "Identity key changed")
+                                    registerError(number, "Failed to reload device keys", error);
+                                else {
+                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                                    registerError(number, "Identity key changed", error);
+                                }
+                            });
+                    });
                 } else
                     registerError(number, "Failed to create or send message", error);
             });
         }
 
         var getDevicesAndSendToNumber = function(number) {
-            var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-
-            return Promise.all(devicesForNumber.map(function(device) {
-                return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
-                    if (!result)
-                        return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+            textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                return Promise.all(devicesForNumber.map(function(device) {
+                    return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
+                        if (!result)
+                            return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+                    });
+                })).then(function() {
+                    return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                        if (devicesForNumber.length == 0) {
+                            getKeysForNumber(number)
+                                .then(reloadDevicesAndSend(number, true))
+                                .catch(function(error) {
+                                    registerError(number, "Failed to retreive new device keys for number " + number, error);
+                                });
+                        } else
+                            doSendMessage(number, devicesForNumber, true);
+                    });
                 });
-            })).then(function() {
-                devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-
-                if (devicesForNumber.length == 0) {
-                    getKeysForNumber(number)
-                        .then(reloadDevicesAndSend(number, true))
-                        .catch(function(error) {
-                            registerError(number, "Failed to retreive new device keys for number " + number, error);
-                        });
-                } else
-                    doSendMessage(number, devicesForNumber, true);
             });
-        }
+        };
 
         for (var i in numbers)
             getDevicesAndSendToNumber(numbers[i]);
@@ -39908,11 +39928,13 @@ window.textsecure.messaging = function() {
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
         return sendIndividualProto(number, proto, Date.now()).then(function(res) {
-            var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-            for (var i in devices)
-                textsecure.protocol_wrapper.closeOpenSessionForDevice(devices[i].encodedNumber);
-
-            return res;
+            return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
+                return Promise.all(devices.map(function(device) {
+                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(devices.encodedNumber);
+                })).then(function() {
+                    return res;
+                });
+            });
         });
     }
 

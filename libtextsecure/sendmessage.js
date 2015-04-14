@@ -22,19 +22,19 @@ window.textsecure.messaging = function() {
     //TODO: Dont hit disk for any of the key-fetching!
     function getKeysForNumber(number, updateDevices) {
         var handleResult = function(response) {
-            for (var i in response.devices) {
-                if (updateDevices === undefined || updateDevices.indexOf(response.devices[i].deviceId) > -1)
-                    textsecure.storage.devices.saveKeysToDeviceObject({
-                        encodedNumber: number + "." + response.devices[i].deviceId,
+            return Promise.all(response.devices.map(function(device) {
+                if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
+                    return textsecure.storage.devices.saveKeysToDeviceObject({
+                        encodedNumber: number + "." + device.deviceId,
                         identityKey: response.identityKey,
-                        preKey: response.devices[i].preKey.publicKey,
-                        preKeyId: response.devices[i].preKey.keyId,
-                        signedKey: response.devices[i].signedPreKey.publicKey,
-                        signedKeyId: response.devices[i].signedPreKey.keyId,
-                        signedKeySignature: response.devices[i].signedPreKey.signature,
-                        registrationId: response.devices[i].registrationId
+                        preKey: device.preKey.publicKey,
+                        preKeyId: device.preKey.keyId,
+                        signedKey: device.signedPreKey.publicKey,
+                        signedKeyId: device.signedPreKey.keyId,
+                        signedKeySignature: device.signedPreKey.signature,
+                        registrationId: device.registrationId
                     });
-            }
+            }));
         };
 
         var promises = [];
@@ -69,18 +69,18 @@ window.textsecure.messaging = function() {
 
             return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
                 return textsecure.protocol_wrapper.getRegistrationId(deviceObjectList[i].encodedNumber).then(function(registrationId) {
-                    textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber);
+                    return textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber).then(function() {
+                        jsonData[i] = {
+                            type: encryptedMsg.type,
+                            destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
+                            destinationRegistrationId: registrationId,
+                            body: encryptedMsg.body,
+                            timestamp: timestamp
+                        };
 
-                    jsonData[i] = {
-                        type: encryptedMsg.type,
-                        destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
-                        destinationRegistrationId: registrationId,
-                        body: encryptedMsg.body,
-                        timestamp: timestamp
-                    };
-
-                    if (deviceObjectList[i].relay !== undefined)
-                        jsonData[i].relay = deviceObjectList[i].relay;
+                        if (deviceObjectList[i].relay !== undefined)
+                            jsonData[i].relay = deviceObjectList[i].relay;
+                    });
                 });
             });
         }
@@ -167,10 +167,11 @@ window.textsecure.messaging = function() {
         var doSendMessage;
         var reloadDevicesAndSend = function(number, recurse) {
             return function() {
-                var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-                if (devicesForNumber.length == 0)
-                    return registerError(number, "Got empty device list when loading device keys", null);
-                doSendMessage(number, devicesForNumber, recurse);
+                return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                    if (devicesForNumber.length == 0)
+                        return registerError(number, "Got empty device list when loading device keys", null);
+                    doSendMessage(number, devicesForNumber, recurse);
+                });
             }
         }
 
@@ -188,46 +189,52 @@ window.textsecure.messaging = function() {
                     if (!recurse)
                         return registerError(number, "Hit retry limit attempting to reload device list", error);
 
-                    if (error.message == 409)
-                        textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
+                    var p;
+                    if (error.message == 409) {
+                        p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
+                    } else {
+                        p = Promise.resolve();
+                    }
 
-                    var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
-                    getKeysForNumber(number, resetDevices)
-                        .then(reloadDevicesAndSend(number, false))
-                        .catch(function(error) {
-                            if (error.message !== "Identity key changed")
-                                registerError(number, "Failed to reload device keys", error);
-                            else {
-                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
-                                registerError(number, "Identity key changed", error);
-                            }
-                        });
+                    p.then(function() {
+                        var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
+                        getKeysForNumber(number, resetDevices)
+                            .then(reloadDevicesAndSend(number, false))
+                            .catch(function(error) {
+                                if (error.message !== "Identity key changed")
+                                    registerError(number, "Failed to reload device keys", error);
+                                else {
+                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                                    registerError(number, "Identity key changed", error);
+                                }
+                            });
+                    });
                 } else
                     registerError(number, "Failed to create or send message", error);
             });
         }
 
         var getDevicesAndSendToNumber = function(number) {
-            var devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-
-            return Promise.all(devicesForNumber.map(function(device) {
-                return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
-                    if (!result)
-                        return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+            textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                return Promise.all(devicesForNumber.map(function(device) {
+                    return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
+                        if (!result)
+                            return getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+                    });
+                })).then(function() {
+                    return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
+                        if (devicesForNumber.length == 0) {
+                            getKeysForNumber(number)
+                                .then(reloadDevicesAndSend(number, true))
+                                .catch(function(error) {
+                                    registerError(number, "Failed to retreive new device keys for number " + number, error);
+                                });
+                        } else
+                            doSendMessage(number, devicesForNumber, true);
+                    });
                 });
-            })).then(function() {
-                devicesForNumber = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-
-                if (devicesForNumber.length == 0) {
-                    getKeysForNumber(number)
-                        .then(reloadDevicesAndSend(number, true))
-                        .catch(function(error) {
-                            registerError(number, "Failed to retreive new device keys for number " + number, error);
-                        });
-                } else
-                    doSendMessage(number, devicesForNumber, true);
             });
-        }
+        };
 
         for (var i in numbers)
             getDevicesAndSendToNumber(numbers[i]);
@@ -307,11 +314,13 @@ window.textsecure.messaging = function() {
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
         return sendIndividualProto(number, proto, Date.now()).then(function(res) {
-            var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-            for (var i in devices)
-                textsecure.protocol_wrapper.closeOpenSessionForDevice(devices[i].encodedNumber);
-
-            return res;
+            return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
+                return Promise.all(devices.map(function(device) {
+                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(devices.encodedNumber);
+                })).then(function() {
+                    return res;
+                });
+            });
         });
     }
 

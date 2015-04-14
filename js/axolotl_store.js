@@ -89,12 +89,12 @@
         getIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to get identity key for undefined/null key");
-            return Promise.resolve(convertToArrayBuffer(textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0])));
+            return convertToArrayBuffer(textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0]));
         },
         putIdentityKey: function(identifier, identityKey) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to put identity key for undefined/null key");
-            return Promise.resolve(textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey));
+            return textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey);
         },
 
         /* Returns a prekeypair object or undefined */
