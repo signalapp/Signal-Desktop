@@ -73,7 +73,7 @@
                                 window.textsecure.registerSecondDevice(provisionMessage).then(function() {
                                     $('.progress-dialog .status').text('Generating keys...');
                                     var counter = 0;
-                                    var myWorker = new Worker('/js/generate_keys.js');
+                                    var myWorker = new Worker('/js/key_worker.js');
                                     myWorker.postMessage({
                                         maxPreKeyId: textsecure.storage.get("maxPreKeyId", 0),
                                         signedKeyId: textsecure.storage.get("signedKeyId", 0),

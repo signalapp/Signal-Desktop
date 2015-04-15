@@ -27,7 +27,7 @@
 *
 *  Example usage:
 *
-    var myWorker = new Worker('/js/generate_keys.js');
+    var myWorker = new Worker('/js/key_worker.js');
     myWorker.onmessage = function(e) {
         switch(e.data.method) {
             case 'set':
