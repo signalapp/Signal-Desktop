@@ -40,8 +40,9 @@
             }
         },
         resolve: function() {
-            new Promise(function() {
+            new Promise(function(resolve) {
                 this.conversation.resolveConflicts(this.model.number);
+                resolve();
             }.bind(this));
             this.trigger('resolve');
             this.remove();
