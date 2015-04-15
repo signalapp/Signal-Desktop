@@ -54,7 +54,7 @@
                     if (request.path == "/v1/address" && request.verb == "PUT") {
                         var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                         var url = [ 'tsdevice:/', '?uuid=', proto.uuid, '&pub_key=',
-                            encodeURIComponent(btoa(getString(cryptoInfo.pubKey))) ].join('');
+                            encodeURIComponent(btoa(String.fromCharCode.apply(null, new Uint8Array(cryptoInfo.pubKey)))) ].join('');
                         $('#status').text('');
                         qrCode.makeCode(url);
                         request.respond(200, 'OK');

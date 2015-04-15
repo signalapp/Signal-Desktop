@@ -85,7 +85,7 @@
         var verificationCode = $('#code').val().replace(/\D+/g, "");
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
 
-        var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+        var password = btoa(String.fromCharCode.apply(null, new Uint8Array(textsecure.crypto.getRandomBytes(16))));
         password = password.substring(0, password.length - 2);
 
         var registrationId = new Uint16Array(textsecure.crypto.getRandomBytes(2))[0];
