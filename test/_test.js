@@ -73,9 +73,11 @@ function hexToArrayBuffer(str) {
   return ret;
 };
 
-function deleteDatabase(done) {
-  indexedDB.deleteDatabase('test').then(done);
-};
+/* Delete the database before running any tests */
+before(function(done) {
+  var idbReq = indexedDB.deleteDatabase('test');
+  idbReq.onsuccess = function() { done(); };
+});
 
 function clearDatabase(done) {
     var convos = new Whisper.ConversationCollection();
