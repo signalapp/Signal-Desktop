@@ -38162,24 +38162,13 @@ window.axolotl.sessions = {
             textsecure.storage.sessions._removeIdentityKeyForNumber(number);
         },
 
-        getDeviceObject: function(encodedNumber, returnIdentityKey) {
+        getDeviceObject: function(encodedNumber) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             var devices = textsecure.storage.devices.getDeviceObjectsForNumber(number);
-            if (devices.length == 0) {
-                if (returnIdentityKey) {
-                    var identityKey = textsecure.storage.devices.getIdentityKeyForNumber(number);
-                    if (identityKey !== undefined)
-                        return {identityKey: identityKey};
-                }
-                return undefined;
-            }
 
             for (var i in devices)
                 if (devices[i].encodedNumber == encodedNumber)
                     return devices[i];
-
-            if (returnIdentityKey)
-                return {identityKey: devices[0].identityKey};
 
             return undefined;
         },
