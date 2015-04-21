@@ -55,6 +55,19 @@
         return res;
     }
 
+    function equalArrayBuffers(ab1, ab2) {
+        if (ab1.bytelength !== ab2.bytelength) {
+            return false;
+        }
+        var result = true;
+        var ta1 = new Uint8Array(ab1);
+        var ta2 = new Uint8Array(ab2);
+        for (var i = 0; i < ab1.bytelength; ++i) {
+            if (ta1[i] !== ta2[i]) { result = false; }
+        }
+        return result;
+    }
+
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
@@ -215,31 +228,37 @@
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to get identity key for undefined/null key");
             var number = textsecure.utils.unencodeNumber(identifier)[0];
-            return Promise.resolve(convertToArrayBuffer(function() {
-                var map = textsecure.storage.get("devices" + number);
-                return map === undefined ? undefined : map.identityKey;
-            }());
+            return new Promise(function(resolve) {
+                var contact = new Contact({id: number});
+                contact.fetch().always(function() {
+                    resolve(contact.get('identityKey'));
+                });
+            });
         },
         putIdentityKey: function(identifier, identityKey) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to put identity key for undefined/null key");
             var number = textsecure.utils.unencodeNumber(identifier)[0];
-            return Promise.resolve((function() {
-                var map = textsecure.storage.get("devices" + number);
-                if (map === undefined)
-                    textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
-                else if (getString(map.identityKey) !== getString(identityKey))
-                    throw new Error("Attempted to overwrite a different identity key");
-            })());
+            return new Promise(function(resolve) {
+                var contact = new Contact({id: number});
+                contact.fetch().always(function() {
+                    var oldidentityKey = contact.get('identityKey');
+                    if (oldidentityKey && !equalArrayBuffers(oldidentityKey, identityKey))
+                        throw new Error("Attempted to overwrite a different identity key");
+                    contact.save({identityKey: identityKey}).then(resolve);
+                });
+            });
         },
         removeIdentityKey: function(number) {
-            return Promise.resolve((function() {
-                var map = textsecure.storage.get("devices" + number);
-                if (map === undefined)
+            return new Promise(function(resolve) {
+                var contact = new Contact({id: number});
+                contact.fetch().then(function() {
+                    contact.save({identityKey: undefined});
+                }).fail(function() {
                     throw new Error("Tried to remove identity for unknown number");
-                textsecure.storage.remove("devices" + number);
-                return textsecure.storage.axolotl.removeAllSessions(number);
-            })());
+                });
+                resolve(textsecure.storage.axolotl.removeAllSessions(number));
+            });
         },
 
 

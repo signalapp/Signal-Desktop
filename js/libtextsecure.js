@@ -38118,12 +38118,15 @@ axolotlInternal.RecipientRecord = function() {
         },
 
         getDeviceObjectsForNumber: function(number) {
-            return Promise.resolve((function() {
+            return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
                 var map = textsecure.storage.get("devices" + number);
                 if (map === undefined)
                     return [];
-                return map.devices;
-            })());
+                return map.devices.map(function(device) {
+                    device.identityKey = identityKey;
+                    return device;
+                });
+            });
         },
 
         getDeviceObject: function(encodedNumber) {
@@ -38171,17 +38174,18 @@ axolotlInternal.RecipientRecord = function() {
     };
 
     var internalSaveDeviceObject = function(deviceObject, onlyKeys) {
-        return Promise.resolve((function() {
-            if (deviceObject.identityKey === undefined || deviceObject.encodedNumber === undefined)
-                throw new Error("Tried to store invalid deviceObject");
+        if (deviceObject.encodedNumber === undefined)
+            throw new Error("Tried to store invalid deviceObject");
 
-            var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-            var map = textsecure.storage.get("devices" + number);
+        var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
+        var map = textsecure.storage.get("devices" + number);
+
+        return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
+            if (identityKey !== undefined && deviceObject.identityKey !== undefined && getString(identityKey) != getString(deviceObject.identityKey))
+                throw new Error("Identity key changed");
 
             if (map === undefined)
-                map = { devices: [deviceObject], identityKey: deviceObject.identityKey };
-            else if (map.identityKey != getString(deviceObject.identityKey))
-                throw new Error("Identity key changed");
+                map = { devices: [deviceObject] };
             else {
                 var updated = false;
                 for (var i in map.devices) {
@@ -38205,7 +38209,7 @@ axolotlInternal.RecipientRecord = function() {
             }
 
             textsecure.storage.put("devices" + number, map);
-        })());
+        });
     };
 })();
 
