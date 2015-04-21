@@ -169,16 +169,52 @@
             });
         },
 
-        getSession: function(identifier) {
-            if (identifier === null || identifier === undefined)
+        getSession: function(encodedNumber) {
+            if (encodedNumber === null || encodedNumber === undefined)
                 throw new Error("Tried to get session for undefined/null key");
-            return textsecure.storage.sessions.getSessionsForNumber(identifier);
+            return Promise.resolve((function() {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+
+                var sessions = textsecure.storage.get("sessions" + number);
+                if (sessions === undefined)
+                    return undefined;
+                if (sessions[deviceId] === undefined)
+                    return undefined;
+
+                return sessions[deviceId];
+            })());
         },
-        putSession: function(identifier, record) {
-            if (identifier === null || identifier === undefined)
+        putSession: function(encodedNumber, record) {
+            if (encodedNumber === null || encodedNumber === undefined)
                 throw new Error("Tried to put session for undefined/null key");
-            return textsecure.storage.sessions.putSessionsForDevice(identifier, record);
-        }
+            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+
+            var sessions = textsecure.storage.get("sessions" + number);
+            if (sessions === undefined)
+                sessions = {};
+            sessions[deviceId] = record;
+            textsecure.storage.put("sessions" + number, sessions);
+
+            return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
+                if (device === undefined) {
+                    return textsecure.storage.devices.getIdentityKeyForNumber(number).then(function(identityKey) {
+                        device = { encodedNumber: encodedNumber,
+                                //TODO: Remove this duplication
+                                identityKey: identityKey
+                                };
+                        return textsecure.storage.devices.saveDeviceObject(device);
+                    });
+                }
+            });
+        },
+        removeAllSessions: function(number) {
+            if (number === null || number === undefined)
+                throw new Error("Tried to put session for undefined/null key");
+            return Promise.resolve(textsecure.storage.remove("sessions" + number));
+        },
+
     };
 
     window.AxolotlStore = AxolotlStore;

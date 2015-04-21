@@ -23,52 +23,6 @@
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
-    window.textsecure.storage.sessions = {
-        getSessionsForNumber: function(encodedNumber) {
-            return Promise.resolve((function() {
-                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
-
-                var sessions = textsecure.storage.get("sessions" + number);
-                if (sessions === undefined)
-                    return undefined;
-                if (sessions[deviceId] === undefined)
-                    return undefined;
-
-                return sessions[deviceId];
-            })());
-        },
-
-        putSessionsForDevice: function(encodedNumber, record) {
-            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
-
-            var sessions = textsecure.storage.get("sessions" + number);
-            if (sessions === undefined)
-                sessions = {};
-            sessions[deviceId] = record;
-            textsecure.storage.put("sessions" + number, sessions);
-
-            return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
-                if (device === undefined) {
-                    return textsecure.storage.devices.getIdentityKeyForNumber(number).then(function(identityKey) {
-                        device = { encodedNumber: encodedNumber,
-                                //TODO: Remove this duplication
-                                identityKey: identityKey
-                                };
-                        return textsecure.storage.devices.saveDeviceObject(device);
-                    });
-                }
-            });
-        },
-
-        // Use textsecure.storage.devices.removeIdentityKeyForNumber (which calls this) instead
-        _removeIdentityKeyForNumber: function(number) {
-            return Promise.resolve(textsecure.storage.remove("sessions" + number));
-        },
-
-    };
-
     window.textsecure.storage.devices = {
         saveDeviceObject: function(deviceObject) {
             return internalSaveDeviceObject(deviceObject, false);
@@ -124,7 +78,7 @@
                 if (map === undefined)
                     throw new Error("Tried to remove identity for unknown number");
                 textsecure.storage.remove("devices" + number);
-                return textsecure.storage.sessions._removeIdentityKeyForNumber(number);
+                return textsecure.storage.axolotl.removeAllSessions(number);
             })());
         },
 

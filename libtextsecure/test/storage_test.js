@@ -84,9 +84,41 @@ describe("AxolotlStore", function() {
     });
     it('stores sessions', function(done) {
         var testRecord = "an opaque string";
-        store.putSession(identifier + '.1', testRecord).then(function() {
-            return store.getSession(identifier + '.1').then(function(record) {
-                assert.deepEqual(record, testRecord);
+        var devices = [1, 2, 3].map(function(deviceId) {
+            return [identifier, deviceId].join('.');
+        });
+        var promise = Promise.resolve();
+        devices.forEach(function(encodedNumber) {
+            promise = promise.then(function() {
+                return store.putSession(encodedNumber, testRecord + encodedNumber)
+            });
+        });
+        promise.then(function() {
+            return Promise.all(devices.map(store.getSession)).then(function(records) {
+                for (var i in records) {
+                    assert.strictEqual(records[i], testRecord + devices[i]);
+                };
+            });
+        }).then(done,done);
+    });
+    it('removes all sessions for a number', function(done) {
+        var testRecord = "an opaque string";
+        var devices = [1, 2, 3].map(function(deviceId) {
+            return [identifier, deviceId].join('.');
+        });
+        var promise = Promise.resolve();
+        devices.forEach(function(encodedNumber) {
+            promise = promise.then(function() {
+                return store.putSession(encodedNumber, testRecord + encodedNumber)
+            });
+        });
+        promise.then(function() {
+            return store.removeAllSessions(identifier).then(function(record) {
+                return Promise.all(devices.map(store.getSession)).then(function(records) {
+                    for (var i in records) {
+                        assert.isUndefined(records[i]);
+                    };
+                });
             });
         }).then(done,done);
     });
