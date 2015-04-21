@@ -241,7 +241,7 @@
             throw 'No conflicts to resolve';
         }
 
-        return textsecure.storage.devices.removeIdentityKeyForNumber(number).then(function() {
+        return textsecure.storage.axolotl.removeIdentityKey(number).then(function() {
             this.messageCollection.each(function(message) {
                 if (message.hasKeyConflict(number)) {
                     message.resolveConflict(number);

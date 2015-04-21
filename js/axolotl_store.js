@@ -86,17 +86,6 @@
                 return textsecure.storage.get('registrationId');
         },
 
-        getIdentityKey: function(identifier) {
-            if (identifier === null || identifier === undefined)
-                throw new Error("Tried to get identity key for undefined/null key");
-            return convertToArrayBuffer(textsecure.storage.devices.getIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0]));
-        },
-        putIdentityKey: function(identifier, identityKey) {
-            if (identifier === null || identifier === undefined)
-                throw new Error("Tried to put identity key for undefined/null key");
-            return textsecure.storage.devices.checkSaveIdentityKeyForNumber(textsecure.utils.unencodeNumber(identifier)[0], identityKey);
-        },
-
         /* Returns a prekeypair object or undefined */
         getPreKey: function(keyId) {
             var prekey = new PreKey({id: keyId});
@@ -199,7 +188,7 @@
 
             return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
                 if (device === undefined) {
-                    return textsecure.storage.devices.getIdentityKeyForNumber(number).then(function(identityKey) {
+                    return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
                         device = { encodedNumber: encodedNumber,
                                 //TODO: Remove this duplication
                                 identityKey: identityKey
@@ -214,6 +203,37 @@
                 throw new Error("Tried to put session for undefined/null key");
             return Promise.resolve(textsecure.storage.remove("sessions" + number));
         },
+        getIdentityKey: function(identifier) {
+            if (identifier === null || identifier === undefined)
+                throw new Error("Tried to get identity key for undefined/null key");
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return Promise.resolve(convertToArrayBuffer(function() {
+                var map = textsecure.storage.get("devices" + number);
+                return map === undefined ? undefined : map.identityKey;
+            }());
+        },
+        putIdentityKey: function(identifier, identityKey) {
+            if (identifier === null || identifier === undefined)
+                throw new Error("Tried to put identity key for undefined/null key");
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
+                else if (getString(map.identityKey) !== getString(identityKey))
+                    throw new Error("Attempted to overwrite a different identity key");
+            })());
+        },
+        removeIdentityKey: function(number) {
+            return Promise.resolve((function() {
+                var map = textsecure.storage.get("devices" + number);
+                if (map === undefined)
+                    throw new Error("Tried to remove identity for unknown number");
+                textsecure.storage.remove("devices" + number);
+                return textsecure.storage.axolotl.removeAllSessions(number);
+            })());
+        },
+
 
     };
 

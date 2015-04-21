@@ -38126,33 +38126,6 @@ axolotlInternal.RecipientRecord = function() {
             })());
         },
 
-        getIdentityKeyForNumber: function(number) {
-            return Promise.resolve((function() {
-                var map = textsecure.storage.get("devices" + number);
-                return map === undefined ? undefined : map.identityKey;
-            })());
-        },
-
-        checkSaveIdentityKeyForNumber: function(number, identityKey) {
-            return Promise.resolve((function() {
-                var map = textsecure.storage.get("devices" + number);
-                if (map === undefined)
-                    textsecure.storage.put("devices" + number, { devices: [], identityKey: identityKey});
-                else if (getString(map.identityKey) !== getString(identityKey))
-                    throw new Error("Attempted to overwrite a different identity key");
-            })());
-        },
-
-        removeIdentityKeyForNumber: function(number) {
-            return Promise.resolve((function() {
-                var map = textsecure.storage.get("devices" + number);
-                if (map === undefined)
-                    throw new Error("Tried to remove identity for unknown number");
-                textsecure.storage.remove("devices" + number);
-                return textsecure.storage.axolotl.removeAllSessions(number);
-            })());
-        },
-
         getDeviceObject: function(encodedNumber) {
             var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {

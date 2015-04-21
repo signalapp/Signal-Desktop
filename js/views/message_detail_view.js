@@ -57,8 +57,8 @@
         verify: function(number) {
             var view = new Whisper.KeyVerificationView({
                 model: {
-                    their_key: textsecure.storage.devices.getIdentityKeyForNumber(number),
-                    your_key: textsecure.storage.devices.getIdentityKeyForNumber(textsecure.storage.user.getNumber())
+                    their_key: textsecure.storage.axolotl.getIdentityKey(number),
+                    your_key: textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber())
                 }
             });
             this.$el.hide();
