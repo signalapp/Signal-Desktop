@@ -58,6 +58,7 @@
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
+    var Contact = Model.extend({ storeName: 'contacts' });
 
     function AxolotlStore() {}
 
@@ -161,47 +162,54 @@
         getSession: function(encodedNumber) {
             if (encodedNumber === null || encodedNumber === undefined)
                 throw new Error("Tried to get session for undefined/null key");
-            return Promise.resolve((function() {
+            return new Promise(function(resolve) {
                 var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
                 var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-                var sessions = textsecure.storage.get("sessions" + number);
-                if (sessions === undefined)
-                    return undefined;
-                if (sessions[deviceId] === undefined)
-                    return undefined;
+                var contact = new Contact({id: number});
+                contact.fetch().always(function() {
+                    var sessions = contact.get('sessions') || {};
+                    resolve(sessions[deviceId]);
+                });
 
-                return sessions[deviceId];
-            })());
+            });
         },
         putSession: function(encodedNumber, record) {
             if (encodedNumber === null || encodedNumber === undefined)
                 throw new Error("Tried to put session for undefined/null key");
-            var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-            var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+            return new Promise(function(resolve) {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
 
-            var sessions = textsecure.storage.get("sessions" + number);
-            if (sessions === undefined)
-                sessions = {};
-            sessions[deviceId] = record;
-            textsecure.storage.put("sessions" + number, sessions);
-
-            return textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
-                if (device === undefined) {
-                    return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
-                        device = { encodedNumber: encodedNumber,
-                                //TODO: Remove this duplication
-                                identityKey: identityKey
-                                };
-                        return textsecure.storage.devices.saveDeviceObject(device);
+                var contact = new Contact({id: number});
+                contact.fetch().always(function() {
+                    var sessions = contact.get('sessions') || {};
+                    sessions[deviceId] = record;
+                    contact.save({sessions: sessions}).always(function() {
+                        resolve(textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
+                            if (device === undefined) {
+                                return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
+                                    device = { encodedNumber: encodedNumber,
+                                            //TODO: Remove this duplication
+                                            identityKey: identityKey
+                                            };
+                                    return textsecure.storage.devices.saveDeviceObject(device);
+                                });
+                            }
+                        }));
                     });
-                }
+                });
             });
         },
         removeAllSessions: function(number) {
             if (number === null || number === undefined)
                 throw new Error("Tried to put session for undefined/null key");
-            return Promise.resolve(textsecure.storage.remove("sessions" + number));
+            return new Promise(function(resolve) {
+                var contact = new Contact({id: number});
+                contact.fetch().then(function() {
+                    contact.save({sessions: {}}).always(resolve);
+                });
+            });
         },
         getIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined)

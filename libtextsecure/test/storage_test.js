@@ -20,6 +20,7 @@ describe("AxolotlStore", function() {
     before(function() { localStorage.clear(); });
     var store = textsecure.storage.axolotl;
     var identifier = '+5558675309';
+    var another_identifier = '+5555590210';
     var identityKey = {
         pubKey: textsecure.crypto.getRandomBytes(33),
         privKey: textsecure.crypto.getRandomBytes(32),
