@@ -198,19 +198,7 @@
                 contact.fetch().always(function() {
                     var sessions = contact.get('sessions') || {};
                     sessions[deviceId] = record;
-                    contact.save({sessions: sessions}).always(function() {
-                        resolve(textsecure.storage.devices.getDeviceObject(encodedNumber).then(function(device) {
-                            if (device === undefined) {
-                                return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
-                                    device = { encodedNumber: encodedNumber,
-                                            //TODO: Remove this duplication
-                                            identityKey: identityKey
-                                            };
-                                    return textsecure.storage.devices.saveDeviceObject(device);
-                                });
-                            }
-                        }));
-                    });
+                    contact.save({sessions: sessions}).always(resolve);
                 });
             });
         },
