@@ -95,7 +95,7 @@ describe("AxolotlStore", function() {
             });
         });
         promise.then(function() {
-            return Promise.all(devices.map(store.getSession)).then(function(records) {
+            return Promise.all(devices.map(store.getSession.bind(store))).then(function(records) {
                 for (var i in records) {
                     assert.strictEqual(records[i], testRecord + devices[i]);
                 };
@@ -115,12 +115,34 @@ describe("AxolotlStore", function() {
         });
         promise.then(function() {
             return store.removeAllSessions(identifier).then(function(record) {
-                return Promise.all(devices.map(store.getSession)).then(function(records) {
+                return Promise.all(devices.map(store.getSession.bind(store))).then(function(records) {
                     for (var i in records) {
                         assert.isUndefined(records[i]);
                     };
                 });
             });
+        }).then(done,done);
+    });
+    it('returns deviceIds for a number', function(done) {
+        var testRecord = "an opaque string";
+        var devices = [1, 2, 3].map(function(deviceId) {
+            return [identifier, deviceId].join('.');
+        });
+        var promise = Promise.resolve();
+        devices.forEach(function(encodedNumber) {
+            promise = promise.then(function() {
+                return store.putSession(encodedNumber, testRecord + encodedNumber)
+            });
+        });
+        promise.then(function() {
+            return store.getDeviceIds(identifier).then(function(deviceIds) {
+                assert.sameMembers(deviceIds, [1, 2, 3]);
+            });
+        }).then(done,done);
+    });
+    it('returns empty array for a number with no device ids', function(done) {
+        return store.getDeviceIds('foo').then(function(deviceIds) {
+            assert.sameMembers(deviceIds,[]);
         }).then(done,done);
     });
 });

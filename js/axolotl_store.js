@@ -214,6 +214,19 @@
                 });
             });
         },
+        getDeviceIds: function(number) {
+            if (number === null || number === undefined)
+                throw new Error("Tried to put session for undefined/null key");
+            return new Promise(function(resolve) {
+                var contact = new Contact({id: number});
+                contact.fetch().always(function() {
+                    var sessions = contact.get('sessions') || {};
+                    resolve(_.keys(sessions).map(function(n) {
+                        return parseInt(n);
+                    }));
+                });
+            });
+        },
         removeAllSessions: function(number) {
             if (number === null || number === undefined)
                 throw new Error("Tried to put session for undefined/null key");

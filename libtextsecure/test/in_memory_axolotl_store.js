@@ -89,5 +89,26 @@ AxolotlStore.prototype = {
 		return new Promise(function(resolve) {
 			resolve(this.put('session' + identifier, record));
 		}.bind(this));
-	}
+	},
+  removeAllSessions: function(identifier) {
+		return new Promise(function(resolve) {
+      for (key in this.store) {
+        if (key.match(RegExp('^session' + identifier.replace('\+','\\\+') + '.+'))) {
+          delete this.store[key];
+        }
+      }
+      resolve();
+    }.bind(this));
+  },
+  getDeviceIds: function(identifier) {
+		return new Promise(function(resolve) {
+      var deviceIds = [];
+      for (key in this.store) {
+        if (key.match(RegExp('^session' + identifier.replace('\+','\\\+') + '.+'))) {
+          deviceIds.push(parseInt(key.split('.')[1]));
+        }
+      }
+      resolve(deviceIds);
+    }.bind(this));
+  }
 };
