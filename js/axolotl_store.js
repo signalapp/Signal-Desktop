@@ -227,6 +227,19 @@
                 });
             });
         },
+        removeSession: function(encodedNumber) {
+            return new Promise(function(resolve) {
+                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+
+                var contact = new Contact({id: number});
+                contact.fetch().then(function() {
+                    var sessions = contact.get('sessions') || {};
+                    delete sessions[deviceId];
+                    contact.save({sessions: sessions}).always(resolve);
+                });
+            });
+        },
         removeAllSessions: function(number) {
             if (number === null || number === undefined)
                 throw new Error("Tried to put session for undefined/null key");
