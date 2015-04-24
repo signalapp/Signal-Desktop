@@ -25246,33 +25246,36 @@ axolotlInternal.curve25519 = function() {
 
     return {
         keyPair: function(privKey) {
-            var priv = new Uint8Array(privKey);
-            priv[0]  &= 248;
-            priv[31] &= 127;
-            priv[31] |= 64
+            return new Promise(function(resolve) {
+                var priv = new Uint8Array(privKey);
+                priv[0]  &= 248;
+                priv[31] &= 127;
+                priv[31] |= 64
 
-            // Where to store the result
-            var publicKey_ptr = Module._malloc(32);
+                // Where to store the result
+                var publicKey_ptr = Module._malloc(32);
 
-            // Get a pointer to the private key
-            var privateKey_ptr = _allocate(priv);
+                // Get a pointer to the private key
+                var privateKey_ptr = _allocate(priv);
 
-            // The basepoint for generating public keys
-            var basepoint_ptr = _allocate(basepoint);
+                // The basepoint for generating public keys
+                var basepoint_ptr = _allocate(basepoint);
 
-            // The return value is just 0, the operation is done in place
-            var err = Module._curve25519_donna(publicKey_ptr,
-                                               privateKey_ptr,
-                                               basepoint_ptr);
+                // The return value is just 0, the operation is done in place
+                var err = Module._curve25519_donna(publicKey_ptr,
+                                                privateKey_ptr,
+                                                basepoint_ptr);
 
-            var res = new Uint8Array(32);
-            _readBytes(publicKey_ptr, 32, res);
+                var res = new Uint8Array(32);
+                _readBytes(publicKey_ptr, 32, res);
 
-            Module._free(publicKey_ptr);
-            Module._free(privateKey_ptr);
-            Module._free(basepoint_ptr);
+                Module._free(publicKey_ptr);
+                Module._free(privateKey_ptr);
+                Module._free(basepoint_ptr);
 
-            return Promise.resolve({ pubKey: res.buffer, privKey: privKey });
+                resolve({ pubKey: res.buffer, privKey: privKey });
+            });
+
         },
         sharedSecret: function(pubKey, privKey) {
             // Where to store the result
@@ -25352,6 +25355,61 @@ axolotlInternal.curve25519 = function() {
         }
     };
 }();
+
+var axolotlInternal = axolotlInternal || {};
+
+// I am the...workee?
+var origCurve25519 = axolotlInternal.curve25519;
+
+axolotlInternal.startWorker = function(url) {
+    axolotlInternal.stopWorker(); // there can be only one
+    axolotlInternal.curve25519 = new Curve25519Worker(url);
+};
+axolotlInternal.stopWorker = function() {
+    if (axolotlInternal.curve25519 instanceof Curve25519Worker) {
+        var worker = axolotlInternal.curve25519.worker;
+        axolotlInternal.curve25519 = origCurve25519;
+        worker.terminate();
+    }
+};
+
+function Curve25519Worker(url) {
+    this.jobs = {};
+    this.jobId = 0;
+    this.worker = new Worker(url);
+    this.worker.onmessage = function(e) {
+        var job = this.jobs[e.data.id];
+        if (e.data.error && typeof job.onerror === 'function') {
+            job.onerror(new Error(e.data.error));
+        } else if (typeof job.onsuccess === 'function') {
+            job.onsuccess(e.data.result);
+        }
+        delete this.jobs[e.data.id];
+    }.bind(this);
+}
+
+Curve25519Worker.prototype = {
+    constructor: Curve25519Worker,
+    postMessage: function(methodName, args, onsuccess, onerror) {
+        return new Promise(function(resolve, reject) {
+          this.jobs[this.jobId] = { onsuccess: resolve, onerror: reject };
+          this.worker.postMessage({ id: this.jobId, methodName: methodName, args: args });
+          this.jobId++;
+        }.bind(this));
+    },
+    keyPair: function(privKey) {
+        return this.postMessage('keyPair', [privKey]);
+    },
+    sharedSecret: function(pubKey, privKey) {
+        return this.postMessage('sharedSecret', [pubKey, privKey]);
+    },
+    sign: function(privKey, message) {
+        return this.postMessage('sign', [privKey, message]);
+    },
+    verify: function(pubKey, message, sig) {
+        return this.postMessage('verify', [pubKey, message, sig]);
+    }
+};
 
 ;(function(){
 /**
@@ -36816,7 +36874,57 @@ axolotlInternal.utils = function() {
 'use strict';
 window.axolotl = window.axolotl || {};
 
-window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
+function isNonNegativeInteger(n) {
+    return (typeof n === 'number' && (n % 1) === 0  && n >= 0);
+}
+
+window.axolotl.util = {
+    generateIdentityKeyPair: function() {
+        return axolotlInternal.crypto.createKeyPair();
+    },
+
+    generateRegistrationId: function() {
+        var registrationId = new Uint16Array(axolotlInternal.crypto.getRandomBytes(2))[0];
+        return registrationId & 0x3fff;
+    },
+
+    generateSignedPreKey: function (identityKeyPair, signedKeyId) {
+        if (!(identityKeyPair.privKey instanceof ArrayBuffer) ||
+            identityKeyPair.privKey.byteLength != 32 ||
+            !(identityKeyPair.pubKey instanceof ArrayBuffer) ||
+            identityKeyPair.pubKey.byteLength != 33) {
+            throw new TypeError('Invalid argument for identityKeyPair');
+        }
+        if (!isNonNegativeInteger(signedKeyId)) {
+            throw new TypeError(
+                'Invalid argument for signedKeyId: ' + signedKeyId
+            );
+        }
+
+        return axolotlInternal.crypto.createKeyPair().then(function(keyPair) {
+            return axolotlInternal.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+                return {
+                    keyId      : signedKeyId,
+                    keyPair    : keyPair,
+                    signature  : sig
+                };
+            });
+        });
+    },
+
+    generatePreKey: function(keyId) {
+        if (!isNonNegativeInteger(keyId)) {
+            throw new TypeError('Invalid argument for keyId: ' + keyId);
+        }
+
+        return axolotlInternal.crypto.createKeyPair().then(function(keyPair) {
+            return { keyId: keyId, keyPair: keyPair };
+        });
+    },
+
+};
+
+window.axolotl.protocol = function(storage_interface) {
     var self = {};
 
     /******************************
@@ -36840,150 +36948,139 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
     ***************************/
     var crypto_storage = {};
 
-    crypto_storage.putKeyPair = function(keyName, keyPair) {
-        storage_interface.put("25519Key" + keyName, keyPair);
-    }
-
-    crypto_storage.getNewStoredKeyPair = function(keyName) {
-        return axolotlInternal.crypto.createKeyPair().then(function(keyPair) {
-            crypto_storage.putKeyPair(keyName, keyPair);
-            return keyPair;
+    function getRecord(encodedNumber) {
+        return storage_interface.getSession(encodedNumber).then(function(serialized) {
+            if (serialized === undefined) {
+                return undefined;
+            }
+            return axolotlInternal.RecipientRecord.deserialize(serialized);
         });
     }
 
-    crypto_storage.getStoredKeyPair = function(keyName) {
-        var res = storage_interface.get("25519Key" + keyName);
-        if (res === undefined)
-            return undefined;
-        return { pubKey: axolotlInternal.utils.convertToArrayBuffer(res.pubKey), privKey: axolotlInternal.utils.convertToArrayBuffer(res.privKey) };
-    }
-
-    crypto_storage.removeStoredKeyPair = function(keyName) {
-        storage_interface.remove("25519Key" + keyName);
-    }
-
-    crypto_storage.getIdentityKey = function() {
-        return this.getStoredKeyPair("identityKey");
-    }
-
     crypto_storage.saveSession = function(encodedNumber, session, registrationId) {
-        var record = storage_interface.sessions.get(encodedNumber);
-        if (record === undefined) {
-            if (registrationId === undefined)
-                throw new Error("Tried to save a session for an existing device that didn't exist");
-            else
-                record = new axolotl.sessions.RecipientRecord(session.indexInfo.remoteIdentityKey, registrationId);
-        }
+        return getRecord(encodedNumber).then(function(record) {
+            if (record === undefined) {
+                if (registrationId === undefined)
+                    throw new Error("Tried to save a session for an existing device that didn't exist");
+                else
+                    record = new axolotlInternal.RecipientRecord(session.indexInfo.remoteIdentityKey, registrationId);
+            }
+            var sessions = record._sessions;
 
-        var sessions = record._sessions;
+            if (record.identityKey === null)
+                record.identityKey = session.indexInfo.remoteIdentityKey;
+            if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey))
+                throw new Error("Identity key changed at session save time");
 
-        if (record.identityKey === null)
-            record.identityKey = session.indexInfo.remoteIdentityKey;
-        if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey))
-            throw new Error("Identity key changed at session save time");
+            var doDeleteSession = false;
+            if (session.indexInfo.closed != -1) {
+                doDeleteSession = (session.indexInfo.closed < (Date.now() - MESSAGE_LOST_THRESHOLD_MS));
 
-        var doDeleteSession = false;
-        if (session.indexInfo.closed != -1) {
-            doDeleteSession = (session.indexInfo.closed < (new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS));
-
-            if (!doDeleteSession) {
-                var keysLeft = false;
-                for (var key in session) {
-                    if (key != "indexInfo" && key != "oldRatchetList" && key != "currentRatchet") {
-                        keysLeft = true;
-                        break;
+                if (!doDeleteSession) {
+                    var keysLeft = false;
+                    for (var key in session) {
+                        if (key != "indexInfo" && key != "oldRatchetList" && key != "currentRatchet") {
+                            keysLeft = true;
+                            break;
+                        }
                     }
-                }
-                doDeleteSession = !keysLeft;
-                console.log((doDeleteSession ? "Deleting " : "Not deleting ") + "closed session which has not yet timed out");
-            } else
-                console.log("Deleting closed session due to timeout (created at " + session.indexInfo.closed + ")");
-        }
+                    doDeleteSession = !keysLeft;
+                    console.log((doDeleteSession ? "Deleting " : "Not deleting ") + "closed session which has not yet timed out");
+                } else
+                    console.log("Deleting closed session due to timeout (created at " + session.indexInfo.closed + ")");
+            }
 
-        if (doDeleteSession)
-            delete sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)];
-        else
-            sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)] = session;
+            if (doDeleteSession)
+                delete sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)];
+            else
+                sessions[axolotlInternal.utils.convertToString(session.indexInfo.baseKey)] = session;
 
-        var openSessionRemaining = false;
-        for (var key in sessions)
-            if (sessions[key].indexInfo.closed == -1)
-                openSessionRemaining = true;
-        if (!openSessionRemaining) // Used as a flag to get new pre keys for the next session
-            record.registrationId = null;
-        else if (record.registrationId === null && registrationId !== undefined)
-            record.registrationId = registrationId;
-        else if (record.registrationId === null)
-            throw new Error("Had open sessions on a record that had no registrationId set");
+            var openSessionRemaining = false;
+            for (var key in sessions)
+                if (sessions[key].indexInfo.closed == -1)
+                    openSessionRemaining = true;
+            if (!openSessionRemaining) // Used as a flag to get new pre keys for the next session
+                record.registrationId = null;
+            else if (record.registrationId === null && registrationId !== undefined)
+                record.registrationId = registrationId;
+            else if (record.registrationId === null)
+                throw new Error("Had open sessions on a record that had no registrationId set");
 
-        var identityKey = storage_interface.identityKeys.get(encodedNumber);
-        if (identityKey === undefined)
-            storage_interface.identityKeys.put(encodedNumber, record.identityKey);
-        else if (axolotlInternal.utils.convertToString(identityKey) !== axolotlInternal.utils.convertToString(record.identityKey))
-            throw new Error("Tried to change identity key at save time");
+            return storage_interface.getIdentityKey(encodedNumber).then(function(identityKey) {
+                if (identityKey !== undefined && axolotlInternal.utils.convertToString(identityKey) !== axolotlInternal.utils.convertToString(record.identityKey))
+                    throw new Error("Tried to change identity key at save time");
 
-        storage_interface.sessions.put(encodedNumber, record);
+                return storage_interface.putIdentityKey(encodedNumber, record.identityKey).then(function() {
+                    return storage_interface.putSession(encodedNumber, record.serialize());
+                });
+            });
+        });
     }
 
     var getSessions = function(encodedNumber) {
-        var record = storage_interface.sessions.get(encodedNumber);
-        if (record === undefined)
-            return undefined;
-        return record._sessions;
-    }
+        return getRecord(encodedNumber).then(function(record) {
+            if (record === undefined)
+                return undefined;
+            return record._sessions;
+        });
+    };
 
     crypto_storage.getOpenSession = function(encodedNumber) {
-        var sessions = getSessions(encodedNumber);
-        if (sessions === undefined)
-            return undefined;
+        return getSessions(encodedNumber).then(function(sessions) {
+            if (sessions === undefined)
+                return undefined;
 
-        for (var key in sessions)
-            if (sessions[key].indexInfo.closed == -1)
-                return sessions[key];
-        return undefined;
-    }
+            for (var key in sessions)
+                if (sessions[key].indexInfo.closed == -1)
+                    return sessions[key];
+            return undefined;
+        });
+    };
 
     crypto_storage.getSessionByRemoteEphemeralKey = function(encodedNumber, remoteEphemeralKey) {
-        var sessions = getSessions(encodedNumber);
-        if (sessions === undefined)
-            return undefined;
+        return getSessions(encodedNumber).then(function(sessions) {
+            if (sessions === undefined)
+                return undefined;
 
-        var searchKey = axolotlInternal.utils.convertToString(remoteEphemeralKey);
+            var searchKey = axolotlInternal.utils.convertToString(remoteEphemeralKey);
 
-        var openSession = undefined;
-        for (var key in sessions) {
-            if (sessions[key].indexInfo.closed == -1) {
-                if (openSession !== undefined)
-                    throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
-                openSession = sessions[key];
+            var openSession = undefined;
+            for (var key in sessions) {
+                if (sessions[key].indexInfo.closed == -1) {
+                    if (openSession !== undefined)
+                        throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
+                    openSession = sessions[key];
+                }
+                if (sessions[key][searchKey] !== undefined)
+                    return sessions[key];
             }
-            if (sessions[key][searchKey] !== undefined)
-                return sessions[key];
-        }
-        if (openSession !== undefined)
-            return openSession;
+            if (openSession !== undefined)
+                return openSession;
 
-        return undefined;
+            return undefined;
+        });
     }
 
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
-        var record = storage_interface.sessions.get(encodedNumber);
-        if (record === undefined) {
-            var identityKey = storage_interface.identityKeys.get(encodedNumber);
-            if (identityKey === undefined)
-                return undefined;
-            return { indexInfo: { remoteIdentityKey: identityKey } };
-        }
-        var sessions = record._sessions;
+        return getRecord(encodedNumber).then(function(record) {
+            if (record === undefined) {
+                return storage_interface.getIdentityKey(encodedNumber).then(function(identityKey) {
+                    if (identityKey === undefined)
+                        return undefined;
+                    return { indexInfo: { remoteIdentityKey: identityKey } };
+                });
+            }
+            var sessions = record._sessions;
 
-        var preferredSession = record._sessions[axolotlInternal.utils.convertToString(baseKey)];
-        if (preferredSession !== undefined)
-            return preferredSession;
+            var preferredSession = record._sessions[axolotlInternal.utils.convertToString(baseKey)];
+            if (preferredSession !== undefined)
+                return preferredSession;
 
-        if (record.identityKey !== undefined)
-            return { indexInfo: { remoteIdentityKey: record.identityKey } };
+            if (record.identityKey !== undefined)
+                return { indexInfo: { remoteIdentityKey: record.identityKey } };
 
-        throw new Error("Datastore inconsistency: device was stored without identity key");
+            throw new Error("Datastore inconsistency: device was stored without identity key");
+        });
     }
 
     /*****************************
@@ -37026,7 +37123,7 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
     }
 
     var initSession = function(isInitiator, ourEphemeralKey, ourSignedKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, theirSignedPubKey) {
-        var ourIdentityKey = crypto_storage.getIdentityKey();
+        var ourIdentityKey = storage_interface.getMyIdentityKey();
 
         if (isInitiator) {
             if (ourSignedKey !== undefined)
@@ -37112,7 +37209,7 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
             var ratchet = axolotlInternal.utils.convertToString(entry.ephemeralKey);
             console.log("Checking old chain with added time " + (entry.added/1000));
             if ((!objectContainsKeys(session[ratchet].messageKeys) && (session[ratchet].chainKey === undefined || session[ratchet].chainKey.key === undefined))
-                    || entry.added < new Date().getTime() - MESSAGE_LOST_THRESHOLD_MS) {
+                    || entry.added < Date.now() - MESSAGE_LOST_THRESHOLD_MS) {
                 delete session[ratchet];
                 console.log("...deleted");
             } else
@@ -37135,7 +37232,7 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
         for (var i in session) {
             if (session[i].chainKey !== undefined && session[i].chainKey.key !== undefined) {
                 if (!sessionClosedByRemote)
-                    session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: i };
+                    session.oldRatchetList[session.oldRatchetList.length] = { added: Date.now(), ephemeralKey: i };
                 else
                     delete session[i].chainKey.key;
             }
@@ -37143,61 +37240,63 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
         // Delete current root key and our ephemeral key pair to disallow ratchet stepping
         delete session.currentRatchet['rootKey'];
         delete session.currentRatchet['ephemeralKeyPair'];
-        session.indexInfo.closed = new Date().getTime();
+        session.indexInfo.closed = Date.now();
         removeOldChains(session);
     }
 
     self.closeOpenSessionForDevice = function(encodedNumber) {
-        var session = crypto_storage.getOpenSession(encodedNumber);
-        if (session === undefined)
-            return;
+        return crypto_storage.getOpenSession(encodedNumber).then(function(session) {
+            if (session === undefined)
+                return;
 
-        closeSession(session);
-        crypto_storage.saveSession(encodedNumber, session);
+            closeSession(session);
+            return crypto_storage.saveSession(encodedNumber, session);
+        });
     }
 
-    var refreshPreKeys;
     var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
-        var preKeyPair = crypto_storage.getStoredKeyPair("preKey" + message.preKeyId);
-        var signedPreKeyPair = crypto_storage.getStoredKeyPair("signedKey" + message.signedPreKeyId);
+        return storage_interface.getPreKey(message.preKeyId).then(function(preKeyPair) {
+            return storage_interface.getSignedPreKey(message.signedPreKeyId).then(function(signedPreKeyPair) {
+                return crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.baseKey)).then(function(session) {
+                    return crypto_storage.getOpenSession(encodedNumber).then(function(open_session) {
+                        if (signedPreKeyPair === undefined) {
+                            // Session may or may not be the right one, but if its not, we can't do anything about it
+                            // ...fall through and let decryptWhisperMessage handle that case
+                            if (session !== undefined && session.currentRatchet !== undefined)
+                                return Promise.resolve([session, undefined]);
+                            else
+                                throw new Error("Missing Signed PreKey for PreKeyWhisperMessage");
+                        }
+                        if (session !== undefined) {
+                            // Duplicate PreKeyMessage for session:
+                            if (isEqual(session.indexInfo.baseKey, message.baseKey, false))
+                                return Promise.resolve([session, undefined]);
 
-        //TODO: Call refreshPreKeys when it looks like all our prekeys are used up?
-
-        var session = crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.baseKey));
-        var open_session = crypto_storage.getOpenSession(encodedNumber);
-        if (signedPreKeyPair === undefined) {
-            // Session may or may not be the right one, but if its not, we can't do anything about it
-            // ...fall through and let decryptWhisperMessage handle that case
-            if (session !== undefined && session.currentRatchet !== undefined)
-                return Promise.resolve([session, undefined]);
-            else
-                throw new Error("Missing Signed PreKey for PreKeyWhisperMessage");
-        }
-        if (session !== undefined) {
-            // Duplicate PreKeyMessage for session:
-            if (isEqual(session.indexInfo.baseKey, message.baseKey, false))
-                return Promise.resolve([session, undefined]);
-
-            // We already had a session/known identity key:
-            if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey, false)) {
-                // If the identity key matches the previous one, close the previous one and use the new one
-                if (open_session !== undefined)
-                    closeSession(open_session); // To be returned and saved later
-            } else {
-                // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-                throw new textsecure.IncomingIdentityKeyError(encodedNumber, axolotlInternal.utils.convertToString(message.encode()));
-            }
-        }
-        return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.identityKey), axolotlInternal.utils.convertToArrayBuffer(message.baseKey), undefined)
-                        .then(function(new_session) {
-            // Note that the session is not actually saved until the very end of decryptWhisperMessage
-            // ... to ensure that the sender actually holds the private keys for all reported pubkeys
-            return [new_session, function() {
-                if (open_session !== undefined)
-                    crypto_storage.saveSession(encodedNumber, open_session);
-                crypto_storage.removeStoredKeyPair("preKey" + message.preKeyId);
-            }];
-        });;
+                            // We already had a session/known identity key:
+                            if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey, false)) {
+                                // If the identity key matches the previous one, close the previous one and use the new one
+                                if (open_session !== undefined)
+                                    closeSession(open_session); // To be returned and saved later
+                            } else {
+                                // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
+                                throw new textsecure.IncomingIdentityKeyError(encodedNumber, axolotlInternal.utils.convertToString(message.encode()));
+                            }
+                        }
+                        return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.identityKey), axolotlInternal.utils.convertToArrayBuffer(message.baseKey), undefined)
+                                        .then(function(new_session) {
+                            // Note that the session is not actually saved until the very end of decryptWhisperMessage
+                            // ... to ensure that the sender actually holds the private keys for all reported pubkeys
+                            return [new_session, function() {
+                                return storage_interface.removePreKey(message.preKeyId).then(function() {
+                                    if (open_session !== undefined)
+                                        return crypto_storage.saveSession(encodedNumber, open_session);
+                                });
+                            }];
+                        });
+                    });
+                });
+            });
+        });
     }
 
     var fillMessageKeys = function(chain, counter) {
@@ -37255,7 +37354,7 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
                 if (!objectContainsKeys(previousRatchet.messageKeys))
                     delete session[axolotlInternal.utils.convertToString(ratchet.lastRemoteEphemeralKey)];
                 else
-                    session.oldRatchetList[session.oldRatchetList.length] = { added: new Date().getTime(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
+                    session.oldRatchetList[session.oldRatchetList.length] = { added: Date.now(), ephemeralKey: ratchet.lastRemoteEphemeralKey };
             }).then(finish);
         } else
             return finish();
@@ -37271,50 +37370,58 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
         var message = axolotlInternal.protobuf.WhisperMessage.decode(messageProto, 'binary');
         var remoteEphemeralKey = axolotlInternal.utils.convertToArrayBuffer(message.ephemeralKey);
 
+        var promise;
         if (session === undefined) {
-            var session = crypto_storage.getSessionByRemoteEphemeralKey(encodedNumber, remoteEphemeralKey);
-            if (session === undefined)
-                throw new Error("No session found to decrypt message from " + encodedNumber);
+            promise = crypto_storage.getSessionByRemoteEphemeralKey(encodedNumber, remoteEphemeralKey).then(function(session) {
+                if (session === undefined)
+                    throw new Error("No session found to decrypt message from " + encodedNumber);
+                return session;
+            });
+        } else {
+            promise = Promise.resolve(session);
         }
 
-        return maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
-            var chain = session[axolotlInternal.utils.convertToString(message.ephemeralKey)];
+        return promise.then(function(session) {
+            return maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
+                var chain = session[axolotlInternal.utils.convertToString(message.ephemeralKey)];
 
-            return fillMessageKeys(chain, message.counter).then(function() {
-                return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
-                    delete chain.messageKeys[message.counter];
+                return fillMessageKeys(chain, message.counter).then(function() {
+                    return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
+                        delete chain.messageKeys[message.counter];
 
-                    var messageProtoArray = axolotlInternal.utils.convertToArrayBuffer(messageProto);
-                    var macInput = new Uint8Array(messageProtoArray.byteLength + 33*2 + 1);
-                    macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)));
-                    macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey)), 33);
-                    macInput[33*2] = (3 << 4) | 3;
-                    macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
+                        var messageProtoArray = axolotlInternal.utils.convertToArrayBuffer(messageProto);
+                        var macInput = new Uint8Array(messageProtoArray.byteLength + 33*2 + 1);
+                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)));
+                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(storage_interface.getMyIdentityKey().pubKey)), 33);
+                        macInput[33*2] = (3 << 4) | 3;
+                        macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
-                    return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
-                        return axolotlInternal.crypto.decrypt(keys[0], axolotlInternal.utils.convertToArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
-                                    .then(function(paddedPlaintext) {
+                        return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
+                            return axolotlInternal.crypto.decrypt(keys[0], axolotlInternal.utils.convertToArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
+                                        .then(function(paddedPlaintext) {
 
-                            paddedPlaintext = new Uint8Array(paddedPlaintext);
-                            var plaintext;
-                            for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
-                                if (paddedPlaintext[i] == 0x80) {
-                                    plaintext = new Uint8Array(i);
-                                    plaintext.set(paddedPlaintext.subarray(0, i));
-                                    plaintext = plaintext.buffer;
-                                    break;
-                                } else if (paddedPlaintext[i] != 0x00)
-                                    throw new Error('Invalid padding');
-                            }
+                                paddedPlaintext = new Uint8Array(paddedPlaintext);
+                                var plaintext;
+                                for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+                                    if (paddedPlaintext[i] == 0x80) {
+                                        plaintext = new Uint8Array(i);
+                                        plaintext.set(paddedPlaintext.subarray(0, i));
+                                        plaintext = plaintext.buffer;
+                                        break;
+                                    } else if (paddedPlaintext[i] != 0x00)
+                                        throw new Error('Invalid padding');
+                                }
 
-                            delete session['pendingPreKey'];
-                            removeOldChains(session);
-                            crypto_storage.saveSession(encodedNumber, session, registrationId);
-                            return [plaintext, function() {
-                                closeSession(session, true);
+                                delete session['pendingPreKey'];
                                 removeOldChains(session);
-                                crypto_storage.saveSession(encodedNumber, session);
-                            }];
+                                return crypto_storage.saveSession(encodedNumber, session, registrationId).then(function() {
+                                    return [plaintext, function() {
+                                        closeSession(session, true);
+                                        removeOldChains(session);
+                                        return crypto_storage.saveSession(encodedNumber, session);
+                                    }];
+                                });
+                            });
                         });
                     });
                 });
@@ -37338,7 +37445,7 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
             return doDecryptWhisperMessage(from, axolotlInternal.utils.convertToString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
-                    sessions[1]();
+                    return sessions[1]().then(function() { return result; });
                 return result;
             });
         });
@@ -37346,153 +37453,94 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
 
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, pushMessageContent) {
-        var session = crypto_storage.getOpenSession(deviceObject.encodedNumber);
-        var hadSession = session !== undefined;
+        return crypto_storage.getOpenSession(deviceObject.encodedNumber).then(function(session) {
+            var hadSession = session !== undefined;
 
-        var doEncryptPushMessageContent = function() {
-            var msg = new axolotlInternal.protobuf.WhisperMessage();
-            var plaintext = axolotlInternal.utils.convertToArrayBuffer(pushMessageContent.encode());
+            var doEncryptPushMessageContent = function() {
+                var msg = new axolotlInternal.protobuf.WhisperMessage();
+                var plaintext = axolotlInternal.utils.convertToArrayBuffer(pushMessageContent.encode());
 
-            var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
-            paddedPlaintext.set(new Uint8Array(plaintext));
-            paddedPlaintext[plaintext.byteLength] = 0x80;
+                var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
+                paddedPlaintext.set(new Uint8Array(plaintext));
+                paddedPlaintext[plaintext.byteLength] = 0x80;
 
-            msg.ephemeralKey = axolotlInternal.utils.convertToArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
-            var chain = session[axolotlInternal.utils.convertToString(msg.ephemeralKey)];
+                msg.ephemeralKey = axolotlInternal.utils.convertToArrayBuffer(session.currentRatchet.ephemeralKeyPair.pubKey);
+                var chain = session[axolotlInternal.utils.convertToString(msg.ephemeralKey)];
 
-            return fillMessageKeys(chain, chain.chainKey.counter + 1).then(function() {
-                return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[chain.chainKey.counter]), '', "WhisperMessageKeys").then(function(keys) {
-                    delete chain.messageKeys[chain.chainKey.counter];
-                    msg.counter = chain.chainKey.counter;
-                    msg.previousCounter = session.currentRatchet.previousCounter;
+                return fillMessageKeys(chain, chain.chainKey.counter + 1).then(function() {
+                    return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[chain.chainKey.counter]), '', "WhisperMessageKeys").then(function(keys) {
+                        delete chain.messageKeys[chain.chainKey.counter];
+                        msg.counter = chain.chainKey.counter;
+                        msg.previousCounter = session.currentRatchet.previousCounter;
 
-                    return axolotlInternal.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
-                        msg.ciphertext = ciphertext;
-                        var encodedMsg = axolotlInternal.utils.convertToArrayBuffer(msg.encode());
+                        return axolotlInternal.crypto.encrypt(keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)).then(function(ciphertext) {
+                            msg.ciphertext = ciphertext;
+                            var encodedMsg = axolotlInternal.utils.convertToArrayBuffer(msg.encode());
 
-                        var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
-                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey)));
-                        macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
-                        macInput[33*2] = (3 << 4) | 3;
-                        macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
+                            var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
+                            macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(storage_interface.getMyIdentityKey().pubKey)));
+                            macInput.set(new Uint8Array(axolotlInternal.utils.convertToArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
+                            macInput[33*2] = (3 << 4) | 3;
+                            macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
 
-                        return axolotlInternal.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
-                            var result = new Uint8Array(encodedMsg.byteLength + 9);
-                            result[0] = (3 << 4) | 3;
-                            result.set(new Uint8Array(encodedMsg), 1);
-                            result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
+                            return axolotlInternal.crypto.sign(keys[1], macInput.buffer).then(function(mac) {
+                                var result = new Uint8Array(encodedMsg.byteLength + 9);
+                                result[0] = (3 << 4) | 3;
+                                result.set(new Uint8Array(encodedMsg), 1);
+                                result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
-                            removeOldChains(session);
+                                removeOldChains(session);
 
-                            crypto_storage.saveSession(deviceObject.encodedNumber, session, !hadSession ? deviceObject.registrationId : undefined);
-                            return result;
+                                return crypto_storage.saveSession(deviceObject.encodedNumber, session, !hadSession ? deviceObject.registrationId : undefined).then(function() {
+                                    return result;
+                                });
+                            });
                         });
                     });
                 });
-            });
-        }
+            }
 
-        var preKeyMsg = new axolotlInternal.protobuf.PreKeyWhisperMessage();
-        preKeyMsg.identityKey = axolotlInternal.utils.convertToArrayBuffer(crypto_storage.getIdentityKey().pubKey);
-        preKeyMsg.registrationId = storage_interface.getMyRegistrationId();
+            var preKeyMsg = new axolotlInternal.protobuf.PreKeyWhisperMessage();
+            preKeyMsg.identityKey = axolotlInternal.utils.convertToArrayBuffer(storage_interface.getMyIdentityKey().pubKey);
+            preKeyMsg.registrationId = storage_interface.getMyRegistrationId();
 
-        if (session === undefined) {
-            var deviceIdentityKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.identityKey);
-            var deviceSignedKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKey);
-            return axolotlInternal.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKeySignature)).then(function() {
-                return axolotlInternal.crypto.createKeyPair().then(function(baseKey) {
-                    preKeyMsg.preKeyId = deviceObject.preKeyId;
-                    preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
-                    preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(baseKey.pubKey);
-                    return initSession(true, baseKey, undefined, deviceObject.encodedNumber,
-                                        deviceIdentityKey, axolotlInternal.utils.convertToArrayBuffer(deviceObject.preKey), deviceSignedKey)
-                                .then(function(new_session) {
-                        session = new_session;
-                        session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
-                        return doEncryptPushMessageContent().then(function(message) {
-                            preKeyMsg.message = message;
-                            var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
-                            return {type: 3, body: result};
+            if (session === undefined) {
+                var deviceIdentityKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.identityKey);
+                var deviceSignedKey = axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKey);
+                return axolotlInternal.crypto.Ed25519Verify(deviceIdentityKey, deviceSignedKey, axolotlInternal.utils.convertToArrayBuffer(deviceObject.signedKeySignature)).then(function() {
+                    return axolotlInternal.crypto.createKeyPair().then(function(baseKey) {
+                        preKeyMsg.preKeyId = deviceObject.preKeyId;
+                        preKeyMsg.signedPreKeyId = deviceObject.signedKeyId;
+                        preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(baseKey.pubKey);
+                        return initSession(true, baseKey, undefined,
+                            deviceObject.encodedNumber, deviceIdentityKey,
+                            axolotlInternal.utils.convertToArrayBuffer(deviceObject.preKey),
+                            deviceSignedKey).then(function(new_session) {
+                            session = new_session;
+                            session.pendingPreKey = { preKeyId: deviceObject.preKeyId, signedKeyId: deviceObject.signedKeyId, baseKey: baseKey.pubKey };
+                            return doEncryptPushMessageContent().then(function(message) {
+                                preKeyMsg.message = message;
+                                var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
+                                return {type: 3, body: result};
+                            });
                         });
                     });
                 });
-            });
-        } else
-            return doEncryptPushMessageContent().then(function(message) {
-                if (session.pendingPreKey !== undefined) {
-                    preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(session.pendingPreKey.baseKey);
-                    preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
-                    preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
-                    preKeyMsg.message = message;
+            } else
+                return doEncryptPushMessageContent().then(function(message) {
+                    if (session.pendingPreKey !== undefined) {
+                        preKeyMsg.baseKey = axolotlInternal.utils.convertToArrayBuffer(session.pendingPreKey.baseKey);
+                        preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
+                        preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
+                        preKeyMsg.message = message;
 
-                    var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
-                    return {type: 3, body: result};
-                } else
-                    return {type: 1, body: axolotlInternal.utils.convertToString(message)};
-            });
-    }
-
-    var GENERATE_KEYS_KEYS_GENERATED = 100;
-    self.generateKeys = function() {
-        var identityKeyPair = crypto_storage.getIdentityKey();
-        var identityKeyCalculated = function(identityKeyPair) {
-            var firstPreKeyId = storage_interface.get("maxPreKeyId", 0);
-            storage_interface.put("maxPreKeyId", firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED);
-
-            var signedKeyId = storage_interface.get("signedKeyId", 0);
-            storage_interface.put("signedKeyId", signedKeyId + 1);
-
-            var keys = {};
-            keys.identityKey = identityKeyPair.pubKey;
-            keys.preKeys = [];
-
-            var generateKey = function(keyId) {
-                return crypto_storage.getNewStoredKeyPair("preKey" + keyId, false).then(function(keyPair) {
-                    keys.preKeys[keyId] = {keyId: keyId, publicKey: keyPair.pubKey};
+                        var result = String.fromCharCode((3 << 4) | 3) + axolotlInternal.utils.convertToString(preKeyMsg.encode());
+                        return {type: 3, body: result};
+                    } else
+                        return {type: 1, body: axolotlInternal.utils.convertToString(message)};
                 });
-            };
-
-            var promises = [];
-            for (var i = firstPreKeyId; i < firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED; i++)
-                promises[i] = generateKey(i);
-
-            promises[firstPreKeyId + GENERATE_KEYS_KEYS_GENERATED] = crypto_storage.getNewStoredKeyPair("signedKey" + signedKeyId).then(function(keyPair) {
-                return axolotlInternal.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
-                    keys.signedPreKey = {keyId: signedKeyId, publicKey: keyPair.pubKey, signature: sig};
-                });
-            });
-
-            //TODO: Process by date added and agressively call generateKeys when we get near maxPreKeyId in a message
-            crypto_storage.removeStoredKeyPair("signedKey" + (signedKeyId - 2));
-
-            return Promise.all(promises).then(function() {
-                storage_interface.put("lastPreKeyUpdate", Date.now());
-                return keys;
-            });
-        }
-        if (identityKeyPair === undefined)
-            return crypto_storage.getNewStoredKeyPair("identityKey").then(function(keyPair) { return identityKeyCalculated(keyPair); });
-        else
-            return identityKeyCalculated(identityKeyPair);
-    }
-
-	//TODO: Replace this stuff
-    refreshPreKeys = function() {
-        self.generateKeys().then(function(keys) {
-            console.log("Pre Keys updated!");
-            return updateKeysCallback(keys);
-        }).catch(function(e) {
-            //TODO: Notify the user somehow???
-            console.error(e);
         });
     }
-
-	if (updateKeysCallback)
-		window.setInterval(function() {
-			// Note that this will not ever run until generateKeys has been called at least once
-			if (storage_interface.get("lastPreKeyUpdate", Date.now()) < Date.now() - MESSAGE_LOST_THRESHOLD_MS)
-				refreshPreKeys();
-		}, 60 * 1000);
 
     self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
@@ -37514,16 +37562,16 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
 
                     return verifyMAC(ivAndCiphertext, keys[1], mac).then(function() {
                         return axolotlInternal.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
-                            var identityKeyMsg = axolotlInternal.protobuf.ProvisionMessage.decode(plaintext);
+                            var provisionMessage = axolotlInternal.protobuf.ProvisionMessage.decode(plaintext);
 
-                            return axolotlInternal.crypto.createKeyPair(axolotlInternal.utils.convertToArrayBuffer(identityKeyMsg.identityKeyPrivate)).then(function(identityKeyPair) {
-                                if (crypto_storage.getStoredKeyPair("identityKey") !== undefined)
-                                    throw new Error("Tried to overwrite identity key");
-
-                                crypto_storage.putKeyPair("identityKey", identityKeyPair);
-                                identityKeyMsg.identityKeyPrivate = null;
-
-                                return identityKeyMsg;
+                            return axolotlInternal.crypto.createKeyPair(
+                                provisionMessage.identityKeyPrivate.toArrayBuffer()
+                            ).then(function(identityKeyPair) {
+                                return {
+                                    identityKeyPair  : identityKeyPair,
+                                    number           : provisionMessage.number,
+                                    provisioningCode : provisionMessage.provisioningCode
+                                };
                             });
                         });
                     });
@@ -37537,6 +37585,32 @@ window.axolotl.protocol = function(storage_interface, updateKeysCallback) {
             return socketInfo;
         });
     }
+
+
+    self.getRegistrationId = function(encodedNumber) {
+        return getRecord(encodedNumber).then(function(record) {
+            if (record === undefined) {
+                return undefined;
+            }
+            return record.registrationId;
+        });
+    };
+
+    self.hasOpenSession = function(encodedNumber) {
+        return getRecord(encodedNumber).then(function(record) {
+            if (record === undefined) {
+                return false;
+            }
+            return record.haveOpenSession();
+        });
+    };
+
+    self.startWorker = function(url) {
+        axolotlInternal.startWorker(url);
+    };
+    self.stopWorker = function() {
+        axolotlInternal.stopWorker();
+    };
 
     return self;
 };
@@ -37660,44 +37734,42 @@ axolotlInternal.protobuf = function() {
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-;(function() {
 
-'use strict';
-window.axolotl = window.axolotl || {};
+var axolotlInternal = axolotlInternal || {};
 
-var RecipientRecord = function(identityKey, registrationId) {
-    this._sessions = {};
-    this.identityKey = identityKey !== undefined ? axolotlInternal.utils.convertToString(identityKey) : null;
-    this.registrationId = registrationId;
+axolotlInternal.RecipientRecord = function() {
+    'use strict';
 
-    if (this.registrationId === undefined || typeof this.registrationId !== "number")
-        this.registrationId = null;
-};
+    var RecipientRecord = function(identityKey, registrationId) {
+        this._sessions = {};
+        this.identityKey = identityKey !== undefined ? axolotlInternal.utils.convertToString(identityKey) : null;
+        this.registrationId = registrationId;
 
-RecipientRecord.prototype.serialize = function() {
-    return axolotlInternal.utils.jsonThing({sessions: this._sessions, registrationId: this.registrationId, identityKey: this.identityKey});
-}
+        if (this.registrationId === undefined || typeof this.registrationId !== "number")
+            this.registrationId = null;
+    };
 
-RecipientRecord.prototype.deserialize = function(serialized) {
-    var data = JSON.parse(serialized);
-    this._sessions = data.sessions;
-    if (this._sessions === undefined || this._sessions === null || typeof this._sessions !== "object" || Array.isArray(this._sessions))
-        throw new Error("Error deserializing RecipientRecord");
-    this.identityKey = data.identityKey;
-    this.registrationId = data.registrationId;
-    if (this.identityKey === undefined || this.registrationId === undefined)
-        throw new Error("Error deserializing RecipientRecord");
-}
+    RecipientRecord.prototype.serialize = function() {
+        return axolotlInternal.utils.jsonThing({sessions: this._sessions, registrationId: this.registrationId, identityKey: this.identityKey});
+    }
 
-RecipientRecord.prototype.haveOpenSession = function() {
-    return this.registrationId !== null;
-}
+    RecipientRecord.deserialize = function(serialized) {
+        var data = JSON.parse(serialized);
+        var record = new RecipientRecord(data.identityKey, data.registrationId);
+        record._sessions = data.sessions;
+        if (record._sessions === undefined || record._sessions === null || typeof record._sessions !== "object" || Array.isArray(record._sessions))
+            throw new Error("Error deserializing RecipientRecord");
+        if (record.identityKey === undefined || record.registrationId === undefined)
+            throw new Error("Error deserializing RecipientRecord");
+        return record;
+    }
 
-window.axolotl.sessions = {
-    RecipientRecord: RecipientRecord,
-};
+    RecipientRecord.prototype.haveOpenSession = function() {
+        return this.registrationId !== null;
+    }
 
-})();
+    return RecipientRecord;
+}();
 
 })();
 'use strict';
