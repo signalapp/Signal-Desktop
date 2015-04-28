@@ -38913,6 +38913,14 @@ textsecure.processDecrypted = function(decrypted, source) {
     });
 };
 
+window.textsecure.refreshPreKeys = function() {
+    return textsecure.api.getMyKeys().then(function(preKeyCount) {
+        if (preKeyCount < 10) {
+            generateKeys();
+        }
+    });
+};
+
 function createAccount(number, verificationCode, identityKeyPair, single_device) {
     textsecure.storage.put('identityKey', identityKeyPair);
 
@@ -39328,6 +39336,16 @@ window.textsecure.api = function () {
             httpType            : 'PUT',
             do_auth             : true,
             jsonData            : keys,
+        });
+    };
+
+    self.getMyKeys = function(number, deviceId) {
+        return doAjax({
+            call                : 'keys',
+            httpType            : 'GET',
+            do_auth             : true,
+        }).then(function(res) {
+            return parseInt(res.count);
         });
     };
 

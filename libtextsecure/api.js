@@ -216,6 +216,16 @@ window.textsecure.api = function () {
         });
     };
 
+    self.getMyKeys = function(number, deviceId) {
+        return doAjax({
+            call                : 'keys',
+            httpType            : 'GET',
+            do_auth             : true,
+        }).then(function(res) {
+            return parseInt(res.count);
+        });
+    };
+
     self.getKeysForNumber = function(number, deviceId) {
         if (deviceId === undefined)
             deviceId = "*";

@@ -248,6 +248,14 @@ textsecure.processDecrypted = function(decrypted, source) {
     });
 };
 
+window.textsecure.refreshPreKeys = function() {
+    return textsecure.api.getMyKeys().then(function(preKeyCount) {
+        if (preKeyCount < 10) {
+            generateKeys();
+        }
+    });
+};
+
 function createAccount(number, verificationCode, identityKeyPair, single_device) {
     textsecure.storage.put('identityKey', identityKeyPair);
 
