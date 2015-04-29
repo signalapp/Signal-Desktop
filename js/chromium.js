@@ -90,7 +90,6 @@
         done: function () {
             localStorage.setItem("chromiumRegistrationDone", "");
             extension.trigger('registration_done');
-            window.location = '/index.html';
         },
 
         isDone: function () {
