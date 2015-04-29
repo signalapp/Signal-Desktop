@@ -16,7 +16,7 @@
 
 ;(function() {
     'use strict';
-    var socket;
+    var messageReceiver;
 
     if (!localStorage.getItem('first_install_ran')) {
         localStorage.setItem('first_install_ran', 1);
@@ -29,10 +29,10 @@
     extension.on('registration_done', init);
 
     window.getSocketStatus = function() {
-        if (socket) {
-            return socket.getStatus();
+        if (messageReceiver) {
+            return messageReceiver.getStatus();
         } else {
-            return WebSocket.CONNECTING;
+            return -1;
         }
     };
 
@@ -40,30 +40,16 @@
         if (!textsecure.registration.isDone()) { return; }
 
         // initialize the socket and start listening for messages
-        socket = textsecure.api.getMessageWebsocket();
-
-        new WebSocketResource(socket, function(request) {
-            // TODO: handle different types of requests. for now we only expect
-            // PUT /messages <encrypted IncomingPushMessageSignal>
-            textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
-                var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
-                // After this point, decoding errors are not the server's
-                // fault, and we should handle them gracefully and tell the
-                // user they received an invalid message
-                request.respond(200, 'OK');
-
-                if (proto.type === textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT) {
-                    onDeliveryReceipt(proto);
-                } else {
-                    onMessageReceived(proto);
-                }
-
-            }).catch(function(e) {
-                console.log("Error handling incoming message:", e);
-                extension.trigger('error', e);
-                request.respond(500, 'Bad encrypted websocket message');
-            });
+        messageReceiver = new textsecure.MessageReceiver(window);
+        window.addEventListener('signal', function(ev) {
+            var proto = ev.proto;
+            if (proto.type === textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT) {
+                onDeliveryReceipt(proto);
+            } else {
+                onMessageReceived(proto);
+            }
         });
+        messageReceiver.connect();
 
         // refresh views
         var views = extension.windows.getViews();
