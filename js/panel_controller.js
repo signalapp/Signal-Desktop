@@ -110,7 +110,7 @@
     /* Inbox window controller */
     var inboxOpened = false;
     var inboxWindowId = 0;
-    window.openInbox = function() {
+    extension.browserAction(function() {
         if (inboxOpened === false) {
             inboxOpened = true;
             extension.windows.open({
@@ -131,7 +131,7 @@
         } else if (inboxOpened === true) {
             extension.windows.focus(inboxWindowId);
         }
-    };
+    });
 
     // make sure windows are cleaned up on close
     extension.windows.onClosed(function (windowId) {
