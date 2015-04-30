@@ -123,13 +123,6 @@ window.textsecure.utils = function() {
     return self;
 }();
 
-window.textsecure.throwHumanError = function(error, type, humanError) {
-    var e = new Error(error);
-    if (type !== undefined)
-        e.name = type;
-    e.humanError = humanError;
-    throw e;
-}
 
 var handleAttachment = function(attachment) {
     function getAttachment() {

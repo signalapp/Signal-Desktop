@@ -87,7 +87,15 @@ window.textsecure.api = function () {
             options.error(null, xhr.status);
         };
         xhr.send( options.data || null );
-    };
+    }
+
+    function throwHumanError (error, type, humanError) {
+        var e = new Error(error);
+        if (type !== undefined)
+            e.name = type;
+        e.humanError = humanError;
+        throw e;
+    }
 
     var doAjax = function (param) {
         if (param.urlParameters === undefined) {
