@@ -52,7 +52,7 @@
                 e.stopPropagation();
                 $('.confirmation-dialog').hide();
                 $('.progress-dialog').show();
-                $('.progress-dialog .status').text('Registering new device...');
+                $('.progress-dialog .status').text('Generating Keys');
                 resolve();
             });
             $('.modal-container').show();
@@ -78,7 +78,8 @@
             $('#init-setup').show().addClass('in');
             $('#status').text("Connecting...");
 
-            bg.textsecure.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
+            var accountManager = new bg.textsecure.AccountManager();
+            accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
                 $('.modal-container').hide();
                 $('#init-setup').hide();
                 $('#setup-complete').show().addClass('in');

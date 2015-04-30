@@ -17,6 +17,7 @@
 ;(function() {
     'use strict';
     var bg = extension.windows.getBackground();
+    var accountManager = new bg.textsecure.AccountManager();
 
     function log(s) {
         console.log(s);
@@ -61,7 +62,7 @@
         $('#error').hide();
         var number = phoneView.validateNumber();
         if (number) {
-            bg.textsecure.api.requestVerificationVoice(number).catch(displayError);
+            accountManager.requestVoiceVerification(number).catch(displayError);
             $('#step2').addClass('in').fadeIn();
         } else {
             $('#number-container').addClass('invalid');
@@ -72,7 +73,7 @@
         $('#error').hide();
         var number = phoneView.validateNumber();
         if (number) {
-            bg.textsecure.api.requestVerificationSMS(number).catch(displayError);
+            accountManager.requestSMSVerification(number).catch(displayError);
             $('#step2').addClass('in').fadeIn();
         } else {
             $('#number-container').addClass('invalid');
@@ -86,7 +87,7 @@
 
         localStorage.clear();
         localStorage.setItem('first_install_ran', 1);
-        bg.textsecure.registerSingleDevice(number, verificationCode).then(function() {
+        accountManager.registerSingleDevice(number, verificationCode).then(function() {
             extension.navigator.tabs.create("options.html");
             window.close();
         }).catch(function(e) {
