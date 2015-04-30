@@ -30,7 +30,7 @@
         constructor: MessageReceiver,
         connect: function() {
             // initialize the socket and start listening for messages
-            this.socket = textsecure.api.getMessageWebsocket();
+            this.socket = TextSecureServer.getMessageWebsocket();
             var eventTarget = this.target;
 
             new WebSocketResource(this.socket, function(request) {

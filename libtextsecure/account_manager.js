@@ -41,7 +41,7 @@
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
-                    new WebSocketResource(textsecure.api.getTempWebsocket(), function(request) {
+                    new WebSocketResource(TextSecureServer.getTempWebsocket(), function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             setProvisioningUrl([
@@ -72,7 +72,7 @@
             }).then(TextSecureServer.registerKeys).then(textsecure.registration.done);
         },
         refreshPreKeys: function() {
-            return textsecure.api.getMyKeys().then(function(preKeyCount) {
+            return TextSecureServer.getMyKeys().then(function(preKeyCount) {
                 if (preKeyCount < 10) {
                     return generateKeys(100).then(TextSecureServer.registerKeys);
                 }
@@ -92,7 +92,7 @@
         var registrationId = axolotl.util.generateRegistrationId();
         textsecure.storage.put("registrationId", registrationId);
 
-        return textsecure.api.confirmCode(
+        return TextSecureServer.confirmCode(
             number, verificationCode, password, signalingKey, registrationId, single_device
         ).then(function(response) {
             textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1);

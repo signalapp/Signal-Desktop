@@ -40,9 +40,9 @@ window.textsecure.messaging = function() {
         var promises = [];
         if (updateDevices !== undefined)
             for (var i in updateDevices)
-                promises[promises.length] = textsecure.api.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+                promises[promises.length] = TextSecureServer.getKeysForNumber(number, updateDevices[i]).then(handleResult);
         else
-            return textsecure.api.getKeysForNumber(number).then(handleResult);
+            return TextSecureServer.getKeysForNumber(number).then(handleResult);
 
         return Promise.all(promises);
     }
@@ -88,7 +88,7 @@ window.textsecure.messaging = function() {
         for (var i = 0; i < deviceObjectList.length; i++)
             promises[i] = addEncryptionFor(i);
         return Promise.all(promises).then(function() {
-            return textsecure.api.sendMessages(number, jsonData);
+            return TextSecureServer.sendMessages(number, jsonData);
         });
     }
 
@@ -239,7 +239,7 @@ window.textsecure.messaging = function() {
 
         var iv = textsecure.crypto.getRandomBytes(16);
         return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
-            return textsecure.api.putAttachment(encryptedBin).then(function(id) {
+            return TextSecureServer.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
                 proto.contentType = attachment.contentType;
                 return proto;

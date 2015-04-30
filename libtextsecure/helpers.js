@@ -128,7 +128,7 @@ window.textsecure.utils = function() {
 
 var handleAttachment = function(attachment) {
     function getAttachment() {
-        return textsecure.api.getAttachment(attachment.id.toString());
+        return TextSecureServer.getAttachment(attachment.id.toString());
     }
 
     function decryptAttachment(encrypted) {

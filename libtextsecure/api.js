@@ -14,9 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-window.textsecure = window.textsecure || {};
-
-window.textsecure.api = function () {
+TextSecureServer = function () {
     'use strict';
 
     var self = {};

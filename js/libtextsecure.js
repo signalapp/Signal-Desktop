@@ -38790,7 +38790,7 @@ window.textsecure.utils = function() {
 
 var handleAttachment = function(attachment) {
     function getAttachment() {
-        return textsecure.api.getAttachment(attachment.id.toString());
+        return TextSecureServer.getAttachment(attachment.id.toString());
     }
 
     function decryptAttachment(encrypted) {
@@ -39024,9 +39024,7 @@ textsecure.processDecrypted = function(decrypted, source) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-window.textsecure = window.textsecure || {};
-
-window.textsecure.api = function () {
+TextSecureServer = function () {
     'use strict';
 
     var self = {};
@@ -39410,7 +39408,7 @@ window.textsecure.api = function () {
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
-                    new WebSocketResource(textsecure.api.getTempWebsocket(), function(request) {
+                    new WebSocketResource(TextSecureServer.getTempWebsocket(), function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             setProvisioningUrl([
@@ -39441,7 +39439,7 @@ window.textsecure.api = function () {
             }).then(TextSecureServer.registerKeys).then(textsecure.registration.done);
         },
         refreshPreKeys: function() {
-            return textsecure.api.getMyKeys().then(function(preKeyCount) {
+            return TextSecureServer.getMyKeys().then(function(preKeyCount) {
                 if (preKeyCount < 10) {
                     return generateKeys(100).then(TextSecureServer.registerKeys);
                 }
@@ -39462,7 +39460,7 @@ window.textsecure.api = function () {
         var registrationId = axolotl.util.generateRegistrationId();
         textsecure.storage.put("registrationId", registrationId);
 
-        return textsecure.api.confirmCode(
+        return TextSecureServer.confirmCode(
             number, verificationCode, password, signalingKey, registrationId, single_device
         ).then(function(response) {
             textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1);
@@ -39560,7 +39558,7 @@ function generateKeys(count, progressCallback) {
         constructor: MessageReceiver,
         connect: function() {
             // initialize the socket and start listening for messages
-            this.socket = textsecure.api.getMessageWebsocket();
+            this.socket = TextSecureServer.getMessageWebsocket();
             var eventTarget = this.target;
 
             new WebSocketResource(this.socket, function(request) {
@@ -39639,9 +39637,9 @@ window.textsecure.messaging = function() {
         var promises = [];
         if (updateDevices !== undefined)
             for (var i in updateDevices)
-                promises[promises.length] = textsecure.api.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+                promises[promises.length] = TextSecureServer.getKeysForNumber(number, updateDevices[i]).then(handleResult);
         else
-            return textsecure.api.getKeysForNumber(number).then(handleResult);
+            return TextSecureServer.getKeysForNumber(number).then(handleResult);
 
         return Promise.all(promises);
     }
@@ -39687,7 +39685,7 @@ window.textsecure.messaging = function() {
         for (var i = 0; i < deviceObjectList.length; i++)
             promises[i] = addEncryptionFor(i);
         return Promise.all(promises).then(function() {
-            return textsecure.api.sendMessages(number, jsonData);
+            return TextSecureServer.sendMessages(number, jsonData);
         });
     }
 
@@ -39838,7 +39836,7 @@ window.textsecure.messaging = function() {
 
         var iv = textsecure.crypto.getRandomBytes(16);
         return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
-            return textsecure.api.putAttachment(encryptedBin).then(function(id) {
+            return TextSecureServer.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
                 proto.contentType = attachment.contentType;
                 return proto;

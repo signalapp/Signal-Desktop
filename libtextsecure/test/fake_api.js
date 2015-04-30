@@ -15,17 +15,17 @@
  */
 
 var getKeysForNumberMap = {};
-textsecure.api.getKeysForNumber = function(number, deviceId) {
+TextSecureServer.getKeysForNumber = function(number, deviceId) {
     var res = getKeysForNumberMap[number];
     if (res !== undefined) {
         delete getKeysForNumberMap[number];
         return Promise.resolve(res);
     } else
         throw new Error("getKeysForNumber of unknown/used number");
-}
+};
 
 var messagesSentMap = {};
-textsecure.api.sendMessages = function(destination, messageArray) {
+TextSecureServer.sendMessages = function(destination, messageArray) {
     for (i in messageArray) {
         var msg = messageArray[i];
         if ((msg.type != 1 && msg.type != 3) ||
@@ -39,4 +39,4 @@ textsecure.api.sendMessages = function(destination, messageArray) {
 
         messagesSentMap[destination + "." + messageArray[i].destinationDeviceId] = msg;
     }
-}
+};
