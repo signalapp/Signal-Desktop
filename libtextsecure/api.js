@@ -333,7 +333,7 @@ window.textsecure.api = function () {
             var password = textsecure.storage.get("password");
             var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         }
-        return window.textsecure.websocket(URL+params)
+        return TextSecureWebSocket(URL+params)
     }
 
     self.getMessageWebsocket = function() {
