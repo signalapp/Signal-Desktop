@@ -26,7 +26,8 @@
   },
   "devDependencies": {
     "mocha": "~2.0.1",
-    "chai": "~1.9.2"
+    "chai": "~1.9.2",
+    "mock-socket": "~0.3.2"
   },
   "preen": {
     "jquery": [
@@ -107,6 +108,9 @@
     ],
     "emojijs": [
       "emoji.js"
+    ],
+    "mock-socket": [
+      "dist/mock-socket.js"
     ]
   },
   "concat": {

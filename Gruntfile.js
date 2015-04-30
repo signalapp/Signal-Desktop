@@ -73,6 +73,7 @@ module.exports = function(grunt) {
       },
       libtextsecuretest: {
         src: [
+          'components/mock-socket/dist/mock-socket.js',
           'components/mocha/mocha.js',
           'components/chai/chai.js',
           'libtextsecure/test/_test.js'
