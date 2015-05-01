@@ -15,47 +15,45 @@
  */
 
 describe('TextSecureWebSocket', function() {
-    var WebSocket = window.WebSocket;
+    var RealWebSocket = window.WebSocket;
     before(function() { window.WebSocket = MockSocket; });
-    after (function() { window.WebSocket = WebSocket;  });
-    it('connects a websocket', function(done) {
+    after (function() { window.WebSocket = RealWebSocket;  });
+    it('connects and disconnects', function(done) {
         var mockServer = new MockServer('ws://localhost:8080');
         mockServer.on('connection', function(server) {
-            server.on('message', function(data) {
-                server.send('hello');
-            });
-        });
-
-        var socket = new TextSecureWebSocket('ws://localhost:8080');
-        socket.onmessage = function(response) {
-            assert.strictEqual(response.data, 'hello');
+            socket.close();
+            server.close();
             done();
-        };
-        socket.send('data');
+        });
+        var socket = new TextSecureWebSocket('ws://localhost:8080');
     });
 
     it('sends a keepalive once a minute', function(done) {
         this.timeout(60000);
-        var mockServer = new MockServer('ws://localhost:8080');
+        var mockServer = new MockServer('ws://localhost:8081');
         mockServer.on('connection', function(server) {
             server.on('message', function(data) {
                 var message = textsecure.protobuf.WebSocketMessage.decode(data);
                 assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
                 assert.strictEqual(message.request.verb, 'GET');
                 assert.strictEqual(message.request.path, '/v1/keepalive');
+                socket.close();
+                server.close();
                 done();
             });
         });
-        var socket = new TextSecureWebSocket('ws://localhost:8080');
+        var socket = new TextSecureWebSocket('ws://localhost:8081');
     });
 
     it('reconnects', function(done) {
         this.timeout(60000);
-        var mockServer = new MockServer('ws://localhost:8080');
-        var socket = new TextSecureWebSocket('ws://localhost:8080');
+        var mockServer = new MockServer('ws://localhost:8082');
+        var socket = new TextSecureWebSocket('ws://localhost:8082');
         socket.onclose = function() {
-            var mockServer = new MockServer('ws://localhost:8080');
-            mockServer.on('connection', function() {
+            var mockServer = new MockServer('ws://localhost:8082');
+            mockServer.on('connection', function(server) {
+                socket.close();
+                server.close();
                 done();
             });
         };

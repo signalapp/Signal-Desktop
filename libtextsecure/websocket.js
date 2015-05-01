@@ -28,11 +28,13 @@ TextSecureWebSocket = function (url) {
     var reconnectSemaphore = 0;
     var reconnectTimeout = 1000;
     var socket;
+    var calledClose = false;
     var socketWrapper = {
         onmessage : function() {},
         onclose   : function() {},
         onerror   : function() {},
-        getStatus : function() { return socket.readyState; }
+        getStatus : function() { return socket.readyState; },
+        close     : function() { calledClose = true; }
     };
     var error;
 
@@ -53,7 +55,7 @@ TextSecureWebSocket = function (url) {
     };
 
     function onclose(e) {
-        if (!error) {
+        if (!error && !calledClose) {
             reconnectSemaphore--;
             setTimeout(connect, reconnectTimeout);
         }
