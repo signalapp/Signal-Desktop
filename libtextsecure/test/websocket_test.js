@@ -28,21 +28,36 @@ describe('TextSecureWebSocket', function() {
         var socket = new TextSecureWebSocket('ws://localhost:8080');
     });
 
-    it('sends a keepalive once a minute', function(done) {
-        this.timeout(60000);
-        var mockServer = new MockServer('ws://localhost:8081');
+    it('sends and receives', function(done) {
+        var mockServer = new MockServer('ws://localhost:8080');
         mockServer.on('connection', function(server) {
             server.on('message', function(data) {
-                var message = textsecure.protobuf.WebSocketMessage.decode(data);
-                assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
-                assert.strictEqual(message.request.verb, 'GET');
-                assert.strictEqual(message.request.path, '/v1/keepalive');
-                socket.close();
+                server.send('ack');
                 server.close();
-                done();
             });
         });
-        var socket = new TextSecureWebSocket('ws://localhost:8081');
+        var socket = new TextSecureWebSocket('ws://localhost:8080');
+        socket.onmessage = function(response) {
+            assert.strictEqual(response.data, 'ack');
+            socket.close();
+            done();
+        };
+        socket.send('syn');
+
+    });
+
+    it('exposes the socket status', function(done) {
+        var mockServer = new MockServer('ws://localhost:8082');
+        mockServer.on('connection', function(server) {
+            assert.strictEqual(socket.getStatus(), WebSocket.OPEN);
+            server.close();
+            socket.close();
+        });
+        var socket = new TextSecureWebSocket('ws://localhost:8082');
+        socket.onclose = function() {
+            assert.strictEqual(socket.getStatus(), WebSocket.CLOSING);
+            done();
+        };
     });
 
     it('reconnects', function(done) {
@@ -58,5 +73,22 @@ describe('TextSecureWebSocket', function() {
             });
         };
         mockServer.close();
+    });
+
+    it('sends a keepalive once a minute', function(done) {
+        this.timeout(60000);
+        var mockServer = new MockServer('ws://localhost:8081');
+        mockServer.on('connection', function(server) {
+            server.on('message', function(data) {
+                var message = textsecure.protobuf.WebSocketMessage.decode(data);
+                assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
+                assert.strictEqual(message.request.verb, 'GET');
+                assert.strictEqual(message.request.path, '/v1/keepalive');
+                socket.close();
+                server.close();
+                done();
+            });
+        });
+        var socket = new TextSecureWebSocket('ws://localhost:8081');
     });
 });
