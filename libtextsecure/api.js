@@ -128,26 +128,26 @@ window.textsecure.api = function () {
                     try {
                         switch (code) {
                         case -1:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Failed to connect to the server, please check your network connection.");
                         case 413:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Rate limit exceeded, please try again later.");
                         case 403:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Invalid code, please try again.");
                         case 417:
                             // TODO: This shouldn't be a thing?, but its in the API doc?
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Number already registered.");
                         case 401:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Invalid authentication, most likely someone re-registered and invalidated our registration.");
                         case 404:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "Number is not registered with TextSecure.");
                         default:
-                            textsecure.throwHumanError(code, "HTTPError",
+                            throwHumanError(code, "HTTPError",
                                 "The server rejected our query, please file a bug report.");
                         }
                     } catch (e) {
