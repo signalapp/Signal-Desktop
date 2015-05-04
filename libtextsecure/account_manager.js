@@ -79,7 +79,6 @@
             });
         }
     };
-
     function createAccount(number, verificationCode, identityKeyPair, single_device) {
         textsecure.storage.put('identityKey', identityKeyPair);
 
@@ -119,6 +118,8 @@ function generateKeys(count, progressCallback) {
         throw new Error('Invalid signedKeyId');
     }
 
+    textsecure.protocol_wrapper.startWorker();
+
     var store = textsecure.storage.axolotl;
     var identityKey = store.getMyIdentityKey();
     var result = { preKeys: [], identityKey: identityKey.pubKey };
@@ -152,6 +153,7 @@ function generateKeys(count, progressCallback) {
     textsecure.storage.put('maxPreKeyId', startId + count);
     textsecure.storage.put('signedKeyId', signedKeyId + 1);
     return Promise.all(promises).then(function() {
+        textsecure.protocol_wrapper.stopWorker();
         return result;
     });
 }

@@ -55,14 +55,11 @@
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);
         },
-        generateKeys: function(count, progressCallback) {
-            if (textsecure.worker_path) {
-                axolotlInstance.startWorker(textsecure.worker_path);
-            }
-            return generateKeys(count, progressCallback).then(function(result) {
-                axolotlInstance.stopWorker();
-                return result;
-            });
+        startWorker: function() {
+            axolotlInstance.startWorker('/js/libaxolotl-worker.js');
+        },
+        stopWorker: function() {
+            axolotlInstance.stopWorker();
         },
         createIdentityKeyRecvSocket: function() {
             return axolotlInstance.createIdentityKeyRecvSocket();
