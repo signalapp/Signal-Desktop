@@ -205,6 +205,7 @@ ul.country-list {
       .modal-container .modal-main .progress-dialog .bar {
         width: 0;
         height: 100%;
-        background-color: #2090ea; }
+        background-color: #2090ea;
+        transition: width 0.25s; }
 
 /*# sourceMappingURL=options.css.map */
