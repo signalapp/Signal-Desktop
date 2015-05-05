@@ -123,6 +123,12 @@
         },
         removePreKey: function(keyId) {
             var prekey = new PreKey({id: keyId});
+
+            new Promise(function(resolve) {
+                var accountManager = new textsecure.AccountManager();
+                accountManager.refreshPreKeys().then(resolve);
+            });
+
             return new Promise(function(resolve) {
                 prekey.destroy().then(function() {
                     resolve();

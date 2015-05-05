@@ -74,7 +74,7 @@
         refreshPreKeys: function() {
             return textsecure.api.getMyKeys().then(function(preKeyCount) {
                 if (preKeyCount < 10) {
-                    return generateKeys(100);
+                    return generateKeys(100).then(TextSecureServer.registerKeys);
                 }
             });
         }
