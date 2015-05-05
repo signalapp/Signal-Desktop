@@ -41,7 +41,8 @@
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
-                    new WebSocketResource(TextSecureServer.getTempWebsocket(), function(request) {
+                    var socket = TextSecureServer.getTempWebsocket();
+                    new WebSocketResource(socket, function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             setProvisioningUrl([
@@ -52,6 +53,7 @@
                         } else if (request.path == "/v1/message" && request.verb == "PUT") {
                             var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                             request.respond(200, 'OK');
+                            socket.close();
                             resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
                                 return confirmNumber(provisionMessage.number).then(function() {
                                     return createAccount(

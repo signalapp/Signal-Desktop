@@ -40,6 +40,7 @@ TextSecureWebSocket = function (url) {
 
     function resetKeepAliveTimer() {
         clearTimeout(keepAliveTimer);
+        if (calledClose) { return; }
         keepAliveTimer = setTimeout(function() {
             if (socket.readyState === WebSocket.OPEN) {
                 socket.send(
