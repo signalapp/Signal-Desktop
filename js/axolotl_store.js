@@ -71,7 +71,16 @@
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
-    var Contact = Model.extend({ storeName: 'contacts' });
+    var Session = Model.extend({ storeName: 'sessions' });
+    var SessionCollection = Backbone.Collection.extend({
+        storeName: 'sessions',
+        database: Whisper.Database,
+        model: Session,
+        fetchSessionsForNumber: function(number) {
+            return this.fetch({range: [number + '.1', number + '.' + ':']});
+        }
+    });
+    var IdentityKey = Model.extend({ storeName: 'identityKeys' });
 
     function AxolotlStore() {}
 
@@ -176,13 +185,9 @@
             if (encodedNumber === null || encodedNumber === undefined)
                 throw new Error("Tried to get session for undefined/null key");
             return new Promise(function(resolve) {
-                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
-
-                var contact = new Contact({id: number});
-                contact.fetch().always(function() {
-                    var sessions = contact.get('sessions') || {};
-                    resolve(sessions[deviceId]);
+                var session = new Session({id: encodedNumber});
+                session.fetch().always(function() {
+                    resolve(session.get('record'));
                 });
 
             });
@@ -192,13 +197,15 @@
                 throw new Error("Tried to put session for undefined/null key");
             return new Promise(function(resolve) {
                 var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+                var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
 
-                var contact = new Contact({id: number});
-                contact.fetch().always(function() {
-                    var sessions = contact.get('sessions') || {};
-                    sessions[deviceId] = record;
-                    contact.save({sessions: sessions}).always(resolve);
+                var session = new Session({id: encodedNumber});
+                session.fetch().always(function() {
+                    session.save({
+                        record: record,
+                        deviceId: deviceId,
+                        number: number
+                    }).always(resolve);
                 });
             });
         },
@@ -206,25 +213,17 @@
             if (number === null || number === undefined)
                 throw new Error("Tried to put session for undefined/null key");
             return new Promise(function(resolve) {
-                var contact = new Contact({id: number});
-                contact.fetch().always(function() {
-                    var sessions = contact.get('sessions') || {};
-                    resolve(_.keys(sessions).map(function(n) {
-                        return parseInt(n);
-                    }));
+                var sessions = new SessionCollection();
+                sessions.fetchSessionsForNumber(number).always(function() {
+                    resolve(sessions.pluck('deviceId'));
                 });
             });
         },
         removeSession: function(encodedNumber) {
             return new Promise(function(resolve) {
-                var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
-
-                var contact = new Contact({id: number});
-                contact.fetch().then(function() {
-                    var sessions = contact.get('sessions') || {};
-                    delete sessions[deviceId];
-                    contact.save({sessions: sessions}).always(resolve);
+                var session = new Session({id: encodedNumber});
+                session.fetch().then(function() {
+                    session.destroy().then(resolve);
                 });
             });
         },
@@ -232,9 +231,15 @@
             if (number === null || number === undefined)
                 throw new Error("Tried to put session for undefined/null key");
             return new Promise(function(resolve) {
-                var contact = new Contact({id: number});
-                contact.fetch().then(function() {
-                    contact.save({sessions: {}}).always(resolve);
+                var sessions = new SessionCollection();
+                sessions.fetchSessionsForNumber(number).always(function() {
+                    var promises = [];
+                    while(sessions.length > 0) {
+                        promises.push(new Promise(function(res) {
+                            sessions.pop().destroy().then(res);
+                        }));
+                    }
+                    Promise.all(promises).then(resolve);
                 });
             });
         },
@@ -243,31 +248,31 @@
                 throw new Error("Tried to get identity key for undefined/null key");
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
-                var contact = new Contact({id: number});
-                contact.fetch().always(function() {
-                    resolve(contact.get('identityKey'));
+                var identityKey = new IdentityKey({id: number});
+                identityKey.fetch().always(function() {
+                    resolve(identityKey.get('publicKey'));
                 });
             });
         },
-        putIdentityKey: function(identifier, identityKey) {
+        putIdentityKey: function(identifier, publicKey) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to put identity key for undefined/null key");
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
-                var contact = new Contact({id: number});
-                contact.fetch().always(function() {
-                    var oldidentityKey = contact.get('identityKey');
-                    if (oldidentityKey && !equalArrayBuffers(oldidentityKey, identityKey))
+                var identityKey = new IdentityKey({id: number});
+                identityKey.fetch().always(function() {
+                    var oldpublicKey = identityKey.get('publicKey');
+                    if (oldpublicKey && !equalArrayBuffers(oldpublicKey, publicKey))
                         throw new Error("Attempted to overwrite a different identity key");
-                    contact.save({identityKey: identityKey}).then(resolve);
+                    identityKey.save({publicKey: publicKey}).then(resolve);
                 });
             });
         },
         removeIdentityKey: function(number) {
             return new Promise(function(resolve) {
-                var contact = new Contact({id: number});
-                contact.fetch().then(function() {
-                    contact.save({identityKey: undefined});
+                var identityKey = new IdentityKey({id: number});
+                identityKey.fetch().then(function() {
+                    identityKey.save({publicKey: undefined});
                 }).fail(function() {
                     throw new Error("Tried to remove identity for unknown number");
                 });

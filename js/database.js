@@ -34,7 +34,8 @@
                 conversations.createIndex("group", "members", { unique: false, multiEntry: true });
                 conversations.createIndex("type", "type", { unique: false });
 
-                var contacts = transaction.db.createObjectStore('contacts');
+                var sessions = transaction.db.createObjectStore('sessions');
+                var identityKeys = transaction.db.createObjectStore('identityKeys');
 
                 var preKeys = transaction.db.createObjectStore("preKeys");
                 var signedPreKeys = transaction.db.createObjectStore("signedPreKeys");
