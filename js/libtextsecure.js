@@ -39601,10 +39601,10 @@ window.textsecure.messaging = function() {
         groupId = getString(groupId);
 
         var doUpdate = false;
-        Promise.all(devicesForNumber.map(function(device) {
+        return Promise.all(devicesForNumber.map(function(device) {
             return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
                 return textsecure.storage.groups.needUpdateByDeviceRegistrationId(
-                    groupId, number, devicesForNumber[i].encodedNumber, registrationId
+                    groupId, number, device.encodedNumber, registrationId
                 ).then(function(needUpdate) {
                     if (needUpdate) doUpdate = true;
                 });
