@@ -126,7 +126,7 @@
         });
 
         it('adds conversation to message collection upon leaving group', function() {
-            var convo = new Whisper.ConversationCollection().add({type: 'group'});
+            var convo = new Whisper.ConversationCollection().add({type: 'group', id: 'a random string'});
             convo.leaveGroup();
             assert.notEqual(convo.messageCollection.length, 0);
         });

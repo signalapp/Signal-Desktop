@@ -81,6 +81,7 @@
         }
     });
     var IdentityKey = Model.extend({ storeName: 'identityKeys' });
+    var Group = Model.extend({ storeName: 'groups' });
 
     function AxolotlStore() {}
 
@@ -280,13 +281,32 @@
             });
         },
         getGroup: function(groupId) {
-            return Promise.resolve(textsecure.storage.get("group" + groupId));
+            if (groupId === null || groupId === undefined)
+                throw new Error("Tried to get group for undefined/null id");
+            return new Promise(function(resolve) {
+                var group = new Group({id: groupId});
+                group.fetch().always(function() {
+                    resolve(group.get('data'));
+                });
+            });
         },
         putGroup: function(groupId, group) {
-            return Promise.resolve(textsecure.storage.put("group" + groupId, group));
+            if (groupId === null || groupId === undefined)
+                throw new Error("Tried to put group key for undefined/null id");
+            if (group === null || group === undefined)
+                throw new Error("Tried to put undefined/null group object");
+            var group = new Group({id: groupId, data: group});
+            return new Promise(function(resolve) {
+                group.save().always(resolve);
+            });
         },
         removeGroup: function(groupId) {
-            return Promise.resolve(textsecure.storage.remove("group" + groupId));
+            if (groupId === null || groupId === undefined)
+                throw new Error("Tried to remove group key for undefined/null id");
+            return new Promise(function(resolve) {
+                var group = new Group({id: groupId});
+                group.destroy().always(resolve);
+            });
         },
 
     };
