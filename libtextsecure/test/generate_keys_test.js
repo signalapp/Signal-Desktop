@@ -18,7 +18,7 @@
 
 describe("Key generation", function() {
     var count = 10;
-    this.timeout(count*1000);
+    this.timeout(count*2000);
 
     function validateStoredKeyPair(keyPair) {
         /* Ensure the keypair matches the format used internally by libaxolotl */

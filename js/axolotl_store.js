@@ -279,7 +279,15 @@
                 resolve(textsecure.storage.axolotl.removeAllSessions(number));
             });
         },
-
+        getGroup: function(groupId) {
+            return Promise.resolve(textsecure.storage.get("group" + groupId));
+        },
+        putGroup: function(groupId, group) {
+            return Promise.resolve(textsecure.storage.put("group" + groupId, group));
+        },
+        removeGroup: function(groupId) {
+            return Promise.resolve(textsecure.storage.remove("group" + groupId));
+        },
 
     };
 

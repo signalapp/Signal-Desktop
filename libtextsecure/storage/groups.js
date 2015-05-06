@@ -23,15 +23,35 @@
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
+    // create a random group id that we haven't seen before.
+    function generateNewGroupId() {
+        var groupId = getString(textsecure.crypto.getRandomBytes(16));
+        return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            if (group === undefined) {
+                return groupId;
+            } else {
+                console.warn('group id collision'); // probably a bad sign.
+                return generateNewGroupId();
+            }
+        });
+    }
+
     window.textsecure.storage.groups = {
         createNewGroup: function(numbers, groupId) {
-            return Promise.resolve(function() {
-                if (groupId !== undefined && textsecure.storage.get("group" + groupId) !== undefined)
-                    throw new Error("Tried to recreate group");
-
-                while (groupId === undefined || textsecure.storage.get("group" + groupId) !== undefined)
-                    groupId = getString(textsecure.crypto.getRandomBytes(16));
-
+            var groupId = groupId;
+            return new Promise(function(resolve) {
+                if (groupId !== undefined) {
+                    resolve(textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+                        if (group !== undefined) {
+                            throw new Error("Tried to recreate group");
+                        }
+                    }));
+                } else {
+                    resolve(generateNewGroupId().then(function(newGroupId) {
+                        groupId = newGroupId;
+                    }));
+                }
+            }).then(function() {
                 var me = textsecure.storage.user.getNumber();
                 var haveMe = false;
                 var finalNumbers = [];
@@ -52,25 +72,23 @@
                 for (var i in finalNumbers)
                     groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-                textsecure.storage.put("group" + groupId, groupObject);
-
-                return {id: groupId, numbers: finalNumbers};
-            }());
+                return textsecure.storage.axolotl.putGroup(groupId, groupObject).then(function() {
+                    return {id: groupId, numbers: finalNumbers};
+                });
+            });
         },
 
         getNumbers: function(groupId) {
-            return Promise.resolve(function() {
-                var group = textsecure.storage.get("group" + groupId);
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
                 return group.numbers;
-            }());
+            });
         },
 
         removeNumber: function(groupId, number) {
-            return Promise.resolve(function() {
-                var group = textsecure.storage.get("group" + groupId);
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -82,16 +100,17 @@
                 if (i > -1) {
                     group.numbers.slice(i, 1);
                     delete group.numberRegistrationIds[number];
-                    textsecure.storage.put("group" + groupId, group);
+                    return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                        return group.numbers;
+                    });
                 }
 
                 return group.numbers;
-            }());
+            });
         },
 
         addNumbers: function(groupId, numbers) {
-            return Promise.resolve(function() {
-                var group = textsecure.storage.get("group" + groupId);
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -105,30 +124,27 @@
                     }
                 }
 
-                textsecure.storage.put("group" + groupId, group);
-                return group.numbers;
-            }());
+                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                    return group.numbers;
+                });
+            });
         },
 
         deleteGroup: function(groupId) {
-            return Promise.resolve(function() {
-                textsecure.storage.remove("group" + groupId);
-            }());
+            return textsecure.storage.axolotl.removeGroup(groupId);
         },
 
         getGroup: function(groupId) {
-            return Promise.resolve(function() {
-                var group = textsecure.storage.get("group" + groupId);
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
-                return { id: groupId, numbers: group.numbers }; //TODO: avatar/name tracking
-            }());
+                return { id: groupId, numbers: group.numbers };
+            });
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            return Promise.resolve(function() {
-                var group = textsecure.storage.get("group" + groupId);
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     throw new Error("Unknown group for device registration id");
 
@@ -140,9 +156,10 @@
 
                 var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
                 group.numberRegistrationIds[number][encodedNumber] = registrationId;
-                textsecure.storage.put("group" + groupId, group);
-                return needUpdate;
-            }());
+                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                    return needUpdate;
+                });
+            });
         },
     };
 })();
