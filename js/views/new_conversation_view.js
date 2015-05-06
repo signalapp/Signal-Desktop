@@ -114,40 +114,43 @@
 
             return this.avatarInput.getFile().then(function(avatarFile) {
                 var members = this.getRecipients().pluck('id');
-                var groupId = textsecure.storage.groups.createNewGroup(members).id;
-                var attributes = {
-                    id: groupId,
-                    groupId: groupId,
-                    type: 'group',
-                    name: name,
-                    avatar: avatarFile,
-                    members: members
-                };
-                var group = new Whisper.Conversation(attributes);
-                group.save().then(function() {
-                    this.trigger('open', {modelId: groupId});
+                textsecure.storage.groups.createNewGroup(members).then(function(group) {
+                    return group.id;
+                }).then(function(groupId) {
+                    var attributes = {
+                        id: groupId,
+                        groupId: groupId,
+                        type: 'group',
+                        name: name,
+                        avatar: avatarFile,
+                        members: members
+                    };
+                    var group = new Whisper.Conversation(attributes);
+                    group.save().then(function() {
+                        this.trigger('open', {modelId: groupId});
+                    }.bind(this));
+                    var now = Date.now();
+                    var message = group.messageCollection.add({
+                        conversationId : group.id,
+                        type           : 'outgoing',
+                        sent_at        : now,
+                        received_at    : now,
+                        group_update   : {
+                            name: group.get('name'),
+                            avatar: group.get('avatar'),
+                            joined: group.get('members')
+                        }
+                    });
+                    message.save();
+                    textsecure.messaging.updateGroup(
+                        group.id,
+                        group.get('name'),
+                        group.get('avatar'),
+                        group.get('members')
+                    ).catch(function(errors) {
+                        message.save({errors: errors.map(function(e){return e.error;})});
+                    });
                 }.bind(this));
-                var now = Date.now();
-                var message = group.messageCollection.add({
-                    conversationId : group.id,
-                    type           : 'outgoing',
-                    sent_at        : now,
-                    received_at    : now,
-                    group_update   : {
-                        name: group.get('name'),
-                        avatar: group.get('avatar'),
-                        joined: group.get('members')
-                    }
-                });
-                message.save();
-                textsecure.messaging.updateGroup(
-                    group.id,
-                    group.get('name'),
-                    group.get('avatar'),
-                    group.get('members')
-                ).catch(function(errors) {
-                    message.save({errors: errors.map(function(e){return e.error;})});
-                });
             }.bind(this));
         },
 
