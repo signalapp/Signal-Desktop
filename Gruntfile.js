@@ -134,7 +134,16 @@ module.exports = function(grunt) {
     },
     copy: {
       dist: {
-        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }]
+        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
+        options: {
+          process: function(content, srcpath) {
+            return content.replace(
+              /textsecure-service-staging.whispersystems.org/g,
+              'textsecure-service.whispersystems.org').replace(
+              /whispersystems-textsecure-attachments-staging.s3.amazonaws.com/g,
+              'whispersystems-textsecure-attachments.s3.amazonaws.com');
+          }
+        }
       }
     },
     jscs: {
