@@ -87,15 +87,6 @@
 
     AxolotlStore.prototype = {
         constructor: AxolotlStore,
-        get: function(key,defaultValue) {
-            return textsecure.storage.get(key, defaultValue);
-        },
-        put: function(key, value) {
-            textsecure.storage.put(key, value);
-        },
-        remove: function(key) {
-            textsecure.storage.remove(key);
-        },
         getMyIdentityKey: function() {
             var res = textsecure.storage.get('identityKey');
             if (res === undefined)

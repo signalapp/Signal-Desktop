@@ -29,12 +29,12 @@ describe("AxolotlStore", function() {
         privKey: textsecure.crypto.getRandomBytes(32),
     };
     it('retrieves my registration id', function() {
-        store.put('registrationId', 1337);
+        textsecure.storage.put('registrationId', 1337);
         var reg = store.getMyRegistrationId();
         assert.strictEqual(reg, 1337);
     });
     it('retrieves my identity key', function() {
-        store.put('identityKey', identityKey);
+        textsecure.storage.put('identityKey', identityKey);
         var key = store.getMyIdentityKey();
         assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
         assertEqualArrayBuffers(key.privKey, identityKey.privKey);
