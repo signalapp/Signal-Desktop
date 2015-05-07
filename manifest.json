@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
 
-    "name": "TextSecure",
-    "description": "Secure texting ",
+    "name": "Signal",
+    "description": "Private Messenger",
     "version": "0.0.1",
     "offline_enabled": false,
 
@@ -16,7 +16,7 @@
         "default_icon": {
             "19": "images/icon.png"
         },
-        "default_title": "TextSecure"
+        "default_title": "Signal"
     },
 
     "background": {
