@@ -51,7 +51,7 @@
 
         });
         this.name = 'IncomingIdentityKeyError';
-        this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled TextSecure.";
+        this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled.";
         this.number = number.split('.')[0];
     }
     IncomingIdentityKeyError.prototype = new ReplayableError();
@@ -63,7 +63,7 @@
             args         : [number, message, timestamp]
         });
         this.name = 'OutgoingIdentityKeyError';
-        this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled TextSecure.";
+        this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled.";
         this.number = number.split('.')[0];
     }
     OutgoingIdentityKeyError.prototype = new ReplayableError();
