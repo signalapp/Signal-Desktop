@@ -17,16 +17,10 @@
       "128": "images/icon_128.png"
     },
 
-    "browser_action": {
-        "default_icon": {
-            "19": "images/icon_19.png",
-            "38": "images/icon_38.png"
-        },
-        "default_title": "Signal"
-    },
-
-    "background": {
-        "page": "background.html"
+    "app": {
+      "background": {
+          "page": "background.html"
+      }
     },
 
     "options_page": "options.html",
