@@ -16,82 +16,83 @@
 
 ;(function() {
     'use strict';
-    var bg = extension.windows.getBackground();
-    var accountManager = new bg.textsecure.AccountManager();
+    extension.windows.getBackground(function(bg) {
+        var accountManager = new bg.textsecure.AccountManager();
 
-    function log(s) {
-        console.log(s);
-        $('#status').text(s);
-    }
-
-    function validateCode() {
-        var verificationCode = $('#code').val().replace(/\D/g, '');
-        if (verificationCode.length == 6) {
-            return verificationCode;
+        function log(s) {
+            console.log(s);
+            $('#status').text(s);
         }
-    }
 
-    function displayError(error) {
-        $('#error').hide().text(error).addClass('in').fadeIn();
-    }
-
-    var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
-    phoneView.$el.find('input.number').intlTelInput();
-
-    var number = bg.textsecure.storage.user.getNumber();
-    if (number) {
-        $('input.number').val(number);
-    }
-
-    $('input.number').on('validation', function() {
-        if ($('#number-container').hasClass('valid')) {
-            $('#request-sms, #request-voice').removeAttr('disabled');
-        } else {
-            $('#request-sms, #request-voice').prop('disabled', 'disabled');
+        function validateCode() {
+            var verificationCode = $('#code').val().replace(/\D/g, '');
+            if (verificationCode.length == 6) {
+                return verificationCode;
+            }
         }
-    });
 
-    $('#code').on('change', function() {
-        if (!validateCode())
-            $('#code').addClass('invalid');
-        else
-            $('#code').removeClass('invalid');
-    });
+        function displayError(error) {
+            $('#error').hide().text(error).addClass('in').fadeIn();
+        }
 
-    $('#request-voice').click(function() {
-        $('#error').hide();
-        var number = phoneView.validateNumber();
+        var phoneView = new Whisper.PhoneInputView({el: $('#phone-number-input')});
+        phoneView.$el.find('input.number').intlTelInput();
+
+        var number = bg.textsecure.storage.user.getNumber();
         if (number) {
-            accountManager.requestVoiceVerification(number).catch(displayError);
-            $('#step2').addClass('in').fadeIn();
-        } else {
-            $('#number-container').addClass('invalid');
+            $('input.number').val(number);
         }
-    });
 
-    $('#request-sms').click(function() {
-        $('#error').hide();
-        var number = phoneView.validateNumber();
-        if (number) {
-            accountManager.requestSMSVerification(number).catch(displayError);
-            $('#step2').addClass('in').fadeIn();
-        } else {
-            $('#number-container').addClass('invalid');
-        }
-    });
+        $('input.number').on('validation', function() {
+            if ($('#number-container').hasClass('valid')) {
+                $('#request-sms, #request-voice').removeAttr('disabled');
+            } else {
+                $('#request-sms, #request-voice').prop('disabled', 'disabled');
+            }
+        });
 
-    $('#form').submit(function(e) {
-        e.preventDefault();
-        var number = phoneView.validateNumber();
-        var verificationCode = $('#code').val().replace(/\D+/g, "");
+        $('#code').on('change', function() {
+            if (!validateCode())
+                $('#code').addClass('invalid');
+            else
+                $('#code').removeClass('invalid');
+        });
 
-        localStorage.clear();
-        localStorage.setItem('first_install_ran', 1);
-        accountManager.registerSingleDevice(number, verificationCode).then(function() {
-            extension.navigator.tabs.create("options.html");
-            window.close();
-        }).catch(function(e) {
-            log(e);
+        $('#request-voice').click(function() {
+            $('#error').hide();
+            var number = phoneView.validateNumber();
+            if (number) {
+                accountManager.requestVoiceVerification(number).catch(displayError);
+                $('#step2').addClass('in').fadeIn();
+            } else {
+                $('#number-container').addClass('invalid');
+            }
+        });
+
+        $('#request-sms').click(function() {
+            $('#error').hide();
+            var number = phoneView.validateNumber();
+            if (number) {
+                accountManager.requestSMSVerification(number).catch(displayError);
+                $('#step2').addClass('in').fadeIn();
+            } else {
+                $('#number-container').addClass('invalid');
+            }
+        });
+
+        $('#form').submit(function(e) {
+            e.preventDefault();
+            var number = phoneView.validateNumber();
+            var verificationCode = $('#code').val().replace(/\D+/g, "");
+
+            localStorage.clear();
+            localStorage.setItem('first_install_ran', 1);
+            accountManager.registerSingleDevice(number, verificationCode).then(function() {
+                extension.navigator.tabs.create("options.html");
+                window.close();
+            }).catch(function(e) {
+                log(e);
+            });
         });
     });
 

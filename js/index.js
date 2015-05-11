@@ -16,12 +16,14 @@
  */
 (function () {
   'use strict';
-    var bg = extension.windows.getBackground();
 
     window.Whisper = window.Whisper || {};
-    if (bg.textsecure.storage.user.getNumber() === undefined) {
-        window.location = '/options.html';
-    } else {
-        new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));
-    }
+
+    extension.windows.getBackground(function(bg) {
+        if (bg.textsecure.storage.user.getNumber() === undefined) {
+            window.location = '/options.html';
+        } else {
+            new bg.Whisper.InboxView().$el.prependTo(bg.$('body',document));
+        }
+    });
 }());

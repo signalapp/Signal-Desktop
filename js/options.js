@@ -69,22 +69,23 @@
     });
 
     $(function() {
-        var bg = extension.windows.getBackground();
-        if (bg.textsecure.registration.isDone()) {
-            $('#complete-number').text(bg.textsecure.storage.user.getNumber());
-            $('#setup-complete').show().addClass('in');
-            initOptions();
-        } else {
-            $('#init-setup').show().addClass('in');
-            $('#status').text("Connecting...");
-
-            var accountManager = new bg.textsecure.AccountManager();
-            accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
-                $('.modal-container').hide();
-                $('#init-setup').hide();
+        extension.windows.getBackground(function(bg) {
+            if (bg.textsecure.registration.isDone()) {
+                $('#complete-number').text(bg.textsecure.storage.user.getNumber());
                 $('#setup-complete').show().addClass('in');
                 initOptions();
-            });
-        }
+            } else {
+                $('#init-setup').show().addClass('in');
+                $('#status').text("Connecting...");
+
+                var accountManager = new bg.textsecure.AccountManager();
+                accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
+                    $('.modal-container').hide();
+                    $('#init-setup').hide();
+                    $('#setup-complete').show().addClass('in');
+                    initOptions();
+                });
+            }
+        });
     });
 })();

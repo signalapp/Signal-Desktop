@@ -72,8 +72,18 @@
             chrome.windows.remove(windowId);
         },
 
-        getBackground: function() {
-            return chrome.extension.getBackgroundPage();
+        getBackground: function(callback) {
+            if (chrome.extension) {
+                return new Promise(function(resolve) {
+                    callback(chrome.extension.getBackgroundPage());
+                    resolve();
+                });
+            } else if (chrome.runtime) {
+                return new Promise(function(resolve) {
+                    chrome.runtime.getBackgroundPage(callback);
+                    resolve();
+                });
+            }
         },
 
         getViews: function() {
@@ -96,4 +106,11 @@
             return localStorage.getItem("chromiumRegistrationDone") !== null;
         },
     };
+
+    chrome.app.runtime.onLaunched.addListener(function() {
+          chrome.app.window.create('index.html', {
+                  id: 'main',
+                  bounds: { width: 620, height: 500 }
+            });
+    });
 }());

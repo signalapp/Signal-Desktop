@@ -20,19 +20,20 @@
     window.Whisper = window.Whisper || {};
 
     extension.windows.getCurrent(function (windowInfo) {
-        var bg = extension.windows.getBackground();
-        window.$ = bg.$;
-        var body = $('body', document);
-        var conversation = bg.getConversationForWindow(windowInfo.id);
-        if (conversation) {
-            window.document.title = conversation.getTitle();
-            var view = new bg.Whisper.ConversationView({
-                model: conversation
-            });
-            view.$el.prependTo(body);
-            view.$('input.send-message').focus();
-        } else {
-            $('<div>').text('Error').prependTo(body);
-        }
+        extension.windows.getBackground(function(bg) {
+            window.$ = bg.$;
+            var body = $('body', document);
+            var conversation = bg.getConversationForWindow(windowInfo.id);
+            if (conversation) {
+                window.document.title = conversation.getTitle();
+                var view = new bg.Whisper.ConversationView({
+                    model: conversation
+                });
+                view.$el.prependTo(body);
+                view.$('input.send-message').focus();
+            } else {
+                $('<div>').text('Error').prependTo(body);
+            }
+        });
     });
 }());

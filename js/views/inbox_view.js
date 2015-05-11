@@ -17,86 +17,87 @@
     'use strict';
 
     window.Whisper = window.Whisper || {};
-    var bg = extension.windows.getBackground();
 
-    var SocketView = Whisper.View.extend({
-        className: 'status',
-        initialize: function() {
-            setInterval(function() {
-                var className, message = '';
-                switch(bg.getSocketStatus && bg.getSocketStatus()) {
-                    case WebSocket.CONNECTING:
-                        className = 'connecting';
-                        break;
-                    case WebSocket.OPEN:
-                        className = 'open';
-                        break;
-                    case WebSocket.CLOSING:
-                        className = 'closing';
-                        break;
-                    case WebSocket.CLOSED:
-                        className = 'closed';
-                        message = 'Websocket closed';
-                        break;
-                }
-                if (!this.$el.hasClass(className)) {
-                    this.$el.attr('class', className);
-                    this.$el.text(message);
-                }
-            }.bind(this), 1000);
-        },
-        events: {
-            'click': 'reloadBackgroundPage'
-        },
-        reloadBackgroundPage: function() {
-            bg.location.reload();
-        }
-    });
+    extension.windows.getBackground(function(bg) {
+        var SocketView = Whisper.View.extend({
+            className: 'status',
+            initialize: function() {
+                setInterval(function() {
+                    var className, message = '';
+                    switch(bg.getSocketStatus && bg.getSocketStatus()) {
+                        case WebSocket.CONNECTING:
+                            className = 'connecting';
+                            break;
+                        case WebSocket.OPEN:
+                            className = 'open';
+                            break;
+                        case WebSocket.CLOSING:
+                            className = 'closing';
+                            break;
+                        case WebSocket.CLOSED:
+                            className = 'closed';
+                            message = 'Websocket closed';
+                            break;
+                    }
+                    if (!this.$el.hasClass(className)) {
+                        this.$el.attr('class', className);
+                        this.$el.text(message);
+                    }
+                }.bind(this), 1000);
+            },
+            events: {
+                'click': 'reloadBackgroundPage'
+            },
+            reloadBackgroundPage: function() {
+                bg.location.reload();
+            }
+        });
 
-    Whisper.InboxView = Whisper.View.extend({
-        template: $('#inbox').html(),
-        className: 'inbox',
-        initialize: function () {
-            this.render();
+        Whisper.InboxView = Whisper.View.extend({
+            template: $('#inbox').html(),
+            className: 'inbox',
+            initialize: function () {
+                this.render();
 
-            this.newConversationView = new Whisper.NewConversationView();
-            this.newConversationView.$el.hide();
-            this.listenTo(this.newConversationView, 'open',
-                this.openConversation.bind(this, null));
+                this.newConversationView = new Whisper.NewConversationView();
+                this.newConversationView.$el.hide();
+                this.listenTo(this.newConversationView, 'open',
+                    this.openConversation.bind(this, null));
 
-            this.inbox = new Whisper.ConversationListView({
-                el         : this.$('.conversations'),
-                collection : bg.inbox
-            }).render();
+                this.inbox = new Whisper.ConversationListView({
+                    el         : this.$('.conversations'),
+                    collection : bg.inbox
+                }).render();
 
-            this.inbox.listenTo(bg.inbox, 'sort', this.inbox.render);
+                this.inbox.listenTo(bg.inbox, 'sort', this.inbox.render);
 
-            new SocketView().render().$el.appendTo(this.$('.socket-status'));
+                new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
-            window.addEventListener('beforeunload', function () {
-                this.inbox.stopListening();
-            }.bind(this));
-        },
-        events: {
-            'click .fab': 'showCompose',
-            'select .contact': 'openConversation',
-        },
-        openConversation: function(e, data) {
-            bg.openConversation(data.modelId);
-            this.hideCompose();
-        },
-        showCompose: function() {
-            this.newConversationView.reset();
-            this.$el.hide();
-            this.newConversationView.$el.insertAfter(this.$el);
-            this.newConversationView.$el.show();
-            this.newConversationView.$input.focus();
-            this.listenToOnce(this.newConversationView, 'back', this.hideCompose);
-        },
-        hideCompose: function() {
-            this.newConversationView.$el.hide();
-            this.$el.show();
-        }
+                window.addEventListener('beforeunload', function () {
+                    this.inbox.stopListening();
+                }.bind(this));
+            },
+            events: {
+                'click .fab': 'showCompose',
+                'select .contact': 'openConversation',
+            },
+            openConversation: function(e, data) {
+                bg.openConversation(data.modelId);
+                this.hideCompose();
+            },
+            showCompose: function() {
+                this.newConversationView.reset();
+                this.$el.hide();
+                this.newConversationView.$el.insertAfter(this.$el);
+                this.newConversationView.$el.show();
+                this.newConversationView.$input.focus();
+                this.listenToOnce(this.newConversationView, 'back', this.hideCompose);
+            },
+            hideCompose: function() {
+                this.newConversationView.$el.hide();
+                this.$el.show();
+            }
+        });
     });
 
 })();
