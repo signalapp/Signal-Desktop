@@ -1,23 +1,18 @@
 ;(function() {
+    'use strict';
+    window.textsecure = window.textsecure || {};
+    window.textsecure.protobuf = {};
 
     function loadProtoBufs(filename) {
-        return dcodeIO.ProtoBuf.loadProtoFile({root: '/protos', file: filename}).build('textsecure');
+        return dcodeIO.ProtoBuf.loadProtoFile({root: '/protos', file: filename}, function(error, result) {
+           var protos = result.build('textsecure');
+           for (var protoName in protos) {
+              textsecure.protobuf[protoName] = protos[protoName];
+           }
+        });
     };
 
-    var pushMessages     = loadProtoBufs('IncomingPushMessageSignal.proto');
-    var subProtocolMessages = loadProtoBufs('SubProtocol.proto');
-    var deviceMessages   = loadProtoBufs('DeviceMessages.proto');
-
-    window.textsecure = window.textsecure || {};
-    window.textsecure.protobuf = {
-        IncomingPushMessageSignal : pushMessages.IncomingPushMessageSignal,
-        PushMessageContent        : pushMessages.PushMessageContent,
-        ProvisioningUuid          : deviceMessages.ProvisioningUuid,
-        ProvisionEnvelope         : deviceMessages.ProvisionEnvelope,
-        ProvisionMessage          : deviceMessages.ProvisionMessage,
-        DeviceControl             : deviceMessages.DeviceControl,
-        WebSocketResponseMessage  : subProtocolMessages.WebSocketResponseMessage,
-        WebSocketRequestMessage   : subProtocolMessages.WebSocketRequestMessage,
-        WebSocketMessage          : subProtocolMessages.WebSocketMessage
-    };
+    loadProtoBufs('IncomingPushMessageSignal.proto');
+    loadProtoBufs('SubProtocol.proto');
+    loadProtoBufs('DeviceMessages.proto');
 })();
