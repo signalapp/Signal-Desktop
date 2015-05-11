@@ -42,6 +42,7 @@
                 var preKeys = transaction.db.createObjectStore("preKeys");
                 var signedPreKeys = transaction.db.createObjectStore("signedPreKeys");
 
+                var items = transaction.db.createObjectStore("items");
                 next();
             }
         }

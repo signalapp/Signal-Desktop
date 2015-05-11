@@ -25,7 +25,7 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     // Overrideable storage implementation
-    window.textsecure.storage.impl = {
+    window.textsecure.storage.impl = window.textsecure.storage.impl || {
         /*****************************
         *** Base Storage Routines ***
         *****************************/

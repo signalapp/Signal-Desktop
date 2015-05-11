@@ -82,23 +82,27 @@
     });
     var IdentityKey = Model.extend({ storeName: 'identityKeys' });
     var Group = Model.extend({ storeName: 'groups' });
+    var Item = Model.extend({ storeName: 'items' });
 
     function AxolotlStore() {}
 
     AxolotlStore.prototype = {
         constructor: AxolotlStore,
         getMyIdentityKey: function() {
-            var res = textsecure.storage.get('identityKey');
-            if (res === undefined)
-                return undefined;
-
-            return {
-                pubKey: convertToArrayBuffer(res.pubKey),
-                privKey: convertToArrayBuffer(res.privKey)
-            };
+            var item = new Item({id: 'identityKey'});
+            return new Promise(function(resolve) {
+                item.fetch().then(function() {
+                    resolve(item.get('value'));
+                });
+            });
         },
         getMyRegistrationId: function() {
-                return textsecure.storage.get('registrationId');
+            var item = new Item({id: 'registrationId'});
+            return new Promise(function(resolve) {
+                item.fetch().then(function() {
+                    resolve(item.get('value'));
+                });
+            });
         },
 
         /* Returns a prekeypair object or undefined */

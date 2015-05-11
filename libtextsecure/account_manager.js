@@ -123,39 +123,40 @@ function generateKeys(count, progressCallback) {
     textsecure.protocol_wrapper.startWorker();
 
     var store = textsecure.storage.axolotl;
-    var identityKey = store.getMyIdentityKey();
-    var result = { preKeys: [], identityKey: identityKey.pubKey };
-    var promises = [];
+    return store.getMyIdentityKey().then(function(identityKey) {
+        var result = { preKeys: [], identityKey: identityKey.pubKey };
+        var promises = [];
 
-    for (var keyId = startId; keyId < startId+count; ++keyId) {
+        for (var keyId = startId; keyId < startId+count; ++keyId) {
+            promises.push(
+                axolotl.util.generatePreKey(keyId).then(function(res) {
+                    store.putPreKey(res.keyId, res.keyPair);
+                    result.preKeys.push({
+                        keyId     : res.keyId,
+                        publicKey : res.keyPair.pubKey
+                    });
+                    if (progressCallback) { progressCallback(); }
+                })
+            );
+        }
+
         promises.push(
-            axolotl.util.generatePreKey(keyId).then(function(res) {
-                store.putPreKey(res.keyId, res.keyPair);
-                result.preKeys.push({
+            axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
+                store.putSignedPreKey(res.keyId, res.keyPair);
+                result.signedPreKey = {
                     keyId     : res.keyId,
-                    publicKey : res.keyPair.pubKey
-                });
-                if (progressCallback) { progressCallback(); }
+                    publicKey : res.keyPair.pubKey,
+                    signature : res.signature
+                };
             })
         );
-    }
 
-    promises.push(
-        axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
-            store.putSignedPreKey(res.keyId, res.keyPair);
-            result.signedPreKey = {
-                keyId     : res.keyId,
-                publicKey : res.keyPair.pubKey,
-                signature : res.signature
-            };
-        })
-    );
-
-    store.removeSignedPreKey(signedKeyId - 2);
-    textsecure.storage.put('maxPreKeyId', startId + count);
-    textsecure.storage.put('signedKeyId', signedKeyId + 1);
-    return Promise.all(promises).then(function() {
-        textsecure.protocol_wrapper.stopWorker();
-        return result;
+        store.removeSignedPreKey(signedKeyId - 2);
+        textsecure.storage.put('maxPreKeyId', startId + count);
+        textsecure.storage.put('signedKeyId', signedKeyId + 1);
+        return Promise.all(promises).then(function() {
+            textsecure.protocol_wrapper.stopWorker();
+            return result;
+        });
     });
 }
