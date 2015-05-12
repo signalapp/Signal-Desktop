@@ -23,12 +23,18 @@
         var self = {},
             tabs = {};
         tabs.create = function (url) {
-            chrome.tabs.create({url: url});
+            if (chrome.tabs) {
+                chrome.tabs.create({url: url});
+            } else {
+                extension.windows.open({url: url});
+            }
         };
         self.tabs = tabs;
 
         self.setBadgeText = function (text) {
-            chrome.browserAction.setBadgeText({text: String(text)});
+            if (chrome.browserAction) {
+                chrome.browserAction.setBadgeText({text: String(text)});
+            }
         };
 
         return self;
@@ -53,23 +59,53 @@
 
     extension.windows = {
         open: function(options, callback) {
-            chrome.windows.create(options, callback);
+            if (chrome.windows) {
+                chrome.windows.create(options, callback);
+            } else if (chrome.app.window) {
+                var url = options.url;
+                delete options.url;
+                chrome.app.window.create(url, options, callback);
+            }
         },
 
         focus: function(id, callback) {
-            chrome.windows.update(id, { focused: true }, callback);
+            if (chrome.windows) {
+                chrome.windows.update(id, { focused: true }, function() {
+                    callback(chrome.runtime.lastError);
+                });
+            } else if (chrome.app.window) {
+                var appWindow = chrome.app.window.get(id);
+                if (appWindow) {
+                    appWindow.focus();
+                    callback();
+                } else {
+                    callback('No window found for id ' + id);
+                }
+            }
         },
 
         onClosed: function(callback) {
-            chrome.windows.onRemoved.addListener(callback);
+            if (chrome.windows) {
+                chrome.windows.onRemoved.addListener(callback);
+            } else if (chrome.app.window) {
+                chrome.app.window.onClosed.addListener(callback);
+            }
         },
 
         getCurrent: function(callback) {
-            chrome.windows.getCurrent(callback);
+            if (chrome.windows) {
+                chrome.windows.getCurrent(callback);
+            } else if (chrome.app.window) {
+                callback(chrome.app.window.current());
+            }
         },
 
         remove: function(windowId) {
-            chrome.windows.remove(windowId);
+            if (chrome.windows) {
+                chrome.windows.remove(windowId);
+            } else if (chrome.app.window) {
+                chrome.app.window.get(windowId).close();
+            }
         },
 
         getBackground: function(callback) {
@@ -90,12 +126,24 @@
         },
 
         getViews: function() {
-            return chrome.extension.getViews();
+            if (chrome.extension) {
+                return chrome.extension.getViews();
+            } else if (chrome.app.window) {
+                return chrome.app.window.getAll().map(function(appWindow) {
+                    return appWindow.contentWindow;
+                });
+            }
         }
+
     };
 
-    extension.browserAction = function(callback) {
-        chrome.browserAction.onClicked.addListener(callback);
+    extension.onLaunched = function(callback) {
+        if (chrome.browserAction) {
+            chrome.browserAction.onClicked.addListener(callback);
+        }
+        if (chrome.app && chrome.app.runtime) {
+            chrome.app.runtime.onLaunched.addListener(callback);
+        }
     };
 
     window.textsecure = window.textsecure || {};
@@ -110,10 +158,19 @@
         },
     };
 
-    chrome.app.runtime.onLaunched.addListener(function() {
-          chrome.app.window.create('index.html', {
-                  id: 'main',
-                  bounds: { width: 620, height: 500 }
-            });
-    });
+    extension.install = function() {
+        extension.windows.open({
+            id: 'installer',
+            url: 'options.html',
+            innerBounds: { width: 800, height: 666 }
+        });
+    };
+
+    if (chrome.runtime) {
+        chrome.runtime.onInstalled.addListener(function(options) {
+            if (options.reason === 'install') {
+                extension.install();
+            }
+        });
+    }
 }());

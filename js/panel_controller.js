@@ -82,6 +82,7 @@
         if (!windowId) {
             // open the panel
             extension.windows.open({
+                id: modelId,
                 url: 'conversation.html',
                 type: 'panel',
                 focused: true,
@@ -98,8 +99,8 @@
             });
         } else {
             // focus the panel
-            extension.windows.focus(windowId, function () {
-                if (chrome.runtime.lastError) {
+            extension.windows.focus(windowId, function (error) {
+                if (error) {
                     closeConversation(windowId); // panel isn't actually open...
                     openConversation(modelId); // ...and so we try again.
                 }
@@ -110,10 +111,11 @@
     /* Inbox window controller */
     var inboxOpened = false;
     var inboxWindowId = 0;
-    extension.browserAction(function() {
+    window.openInbox = function() {
         if (inboxOpened === false) {
             inboxOpened = true;
             extension.windows.open({
+                id: 'inbox',
                 url: 'index.html',
                 type: 'panel',
                 focused: true,
@@ -129,9 +131,15 @@
                 });
             });
         } else if (inboxOpened === true) {
-            extension.windows.focus(inboxWindowId);
+            extension.windows.focus(inboxWindowId, function (error) {
+                if (error) {
+                    inboxOpened = false;
+                    openInbox();
+                }
+            });
         }
-    });
+    };
+    extension.onLaunched(openInbox);
 
     // make sure windows are cleaned up on close
     extension.windows.onClosed(function (windowId) {

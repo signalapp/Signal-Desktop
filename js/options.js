@@ -80,10 +80,10 @@
 
                 var accountManager = new bg.textsecure.AccountManager();
                 accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
-                    $('.modal-container').hide();
-                    $('#init-setup').hide();
-                    $('#setup-complete').show().addClass('in');
-                    initOptions();
+                    extension.windows.getCurrent(function(appWindow) {
+                        bg.openInbox();
+                        extension.windows.remove(appWindow.id);
+                    });
                 });
             }
         });

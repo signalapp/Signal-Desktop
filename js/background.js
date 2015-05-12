@@ -21,7 +21,7 @@
 
         if (!storage.get('first_install_ran')) {
             storage.put('first_install_ran', 1);
-            extension.navigator.tabs.create("options.html");
+            extension.install();
         }
 
         if (textsecure.registration.isDone()) {
