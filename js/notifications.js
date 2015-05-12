@@ -20,16 +20,16 @@
     Whisper.Notifications = {
       isEnabled: function(callback) {
         return Notification.permission === 'granted' &&
-              !localStorage.getItem('disable-notifications');
+              !storage.get('disable-notifications');
       },
       enable: function(callback) {
-        localStorage.removeItem('disable-notifications');
+        storage.remove('disable-notifications');
         Notification.requestPermission(function(status) {
             callback(status);
         });
       },
       disable: function() {
-        localStorage.setItem('disable-notifications', true);
+        storage.put('disable-notifications', true);
       }
     };
 

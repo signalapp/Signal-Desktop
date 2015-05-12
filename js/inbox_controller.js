@@ -33,9 +33,9 @@
     inbox.on('change:unreadCount', function(model, count) {
         var prev = model.previous('unreadCount') || 0;
         if (count < prev) { // decreased
-            var newUnreadCount = textsecure.storage.get("unreadCount", 0) - (prev - count);
+            var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
             setUnreadCount(newUnreadCount);
-            textsecure.storage.put("unreadCount", newUnreadCount);
+            storage.put("unreadCount", newUnreadCount);
         }
     });
 
@@ -52,7 +52,7 @@
 
     extension.on('message', fetch);
     fetch();
-    setUnreadCount(textsecure.storage.get("unreadCount", 0));
+    setUnreadCount(storage.get("unreadCount", 0));
 
     function setUnreadCount(count) {
         if (count > 0) {

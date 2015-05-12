@@ -83,42 +83,6 @@
     var IdentityKey = Model.extend({ storeName: 'identityKeys' });
     var Group = Model.extend({ storeName: 'groups' });
     var Item = Model.extend({ storeName: 'items' });
-    var ItemCollection = Backbone.Collection.extend({
-        model: Item,
-        storeName: 'items',
-        database: Whisper.Database,
-    });
-
-    var items = new ItemCollection();
-    window.textsecure = window.textsecure || {};
-    window.textsecure.storage = window.textsecure.storage || {};
-    window.textsecure.storage.impl = {
-        /*****************************
-        *** Base Storage Routines ***
-        *****************************/
-        put: function(key, value) {
-            if (value === undefined)
-                throw new Error("Tried to store undefined");
-            var item = items.add({id: key, value: value});
-            item.save();
-        },
-
-        get: function(key, defaultValue) {
-            var item = items.get("" + key);
-            if (!item)
-                return defaultValue;
-            return item.get('value');
-        },
-
-        remove: function(key) {
-            var item = items.get("" + key);
-            if (item) {
-                items.remove(item);
-                item.destroy();
-            }
-        }
-    };
-    items.fetch();
 
     function AxolotlStore() {}
 

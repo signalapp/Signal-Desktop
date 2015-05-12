@@ -16,119 +16,121 @@
 
 ;(function() {
     'use strict';
-    var messageReceiver;
+    storage.onready(function() {
+        var messageReceiver;
 
-    if (!localStorage.getItem('first_install_ran')) {
-        localStorage.setItem('first_install_ran', 1);
-        extension.navigator.tabs.create("options.html");
-    }
-
-    if (textsecure.registration.isDone()) {
-        init();
-    }
-    extension.on('registration_done', init);
-
-    window.getSocketStatus = function() {
-        if (messageReceiver) {
-            return messageReceiver.getStatus();
-        } else {
-            return -1;
+        if (!storage.get('first_install_ran')) {
+            storage.put('first_install_ran', 1);
+            extension.navigator.tabs.create("options.html");
         }
-    };
 
-    function init() {
-        if (!textsecure.registration.isDone()) { return; }
+        if (textsecure.registration.isDone()) {
+            init();
+        }
+        extension.on('registration_done', init);
 
-        // initialize the socket and start listening for messages
-        messageReceiver = new textsecure.MessageReceiver(window);
-        window.addEventListener('signal', function(ev) {
-            var proto = ev.proto;
-            if (proto.type === textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT) {
-                onDeliveryReceipt(proto);
+        window.getSocketStatus = function() {
+            if (messageReceiver) {
+                return messageReceiver.getStatus();
             } else {
-                onMessageReceived(proto);
+                return -1;
             }
-        });
-        messageReceiver.connect();
-    }
+        };
 
-    function onMessageReceived(pushMessage) {
-        var now = new Date().getTime();
-        var timestamp = pushMessage.timestamp.toNumber();
+        function init() {
+            if (!textsecure.registration.isDone()) { return; }
 
-        var conversation = getConversation({
-            id   : pushMessage.source,
-            type : 'private'
-        });
+            // initialize the socket and start listening for messages
+            messageReceiver = new textsecure.MessageReceiver(window);
+            window.addEventListener('signal', function(ev) {
+                var proto = ev.proto;
+                if (proto.type === textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT) {
+                    onDeliveryReceipt(proto);
+                } else {
+                    onMessageReceived(proto);
+                }
+            });
+            messageReceiver.connect();
+        }
 
-        conversation.fetch().always(function() {
-            var message = conversation.messageCollection.add({
-                source         : pushMessage.source,
-                sourceDevice   : pushMessage.sourceDevice,
-                relay          : pushMessage.relay,
-                sent_at        : timestamp,
-                received_at    : now,
-                conversationId : pushMessage.source,
-                type           : 'incoming'
+        function onMessageReceived(pushMessage) {
+            var now = new Date().getTime();
+            var timestamp = pushMessage.timestamp.toNumber();
+
+            var conversation = getConversation({
+                id   : pushMessage.source,
+                type : 'private'
             });
 
-            var newUnreadCount = textsecure.storage.get("unreadCount", 0) + 1;
-            textsecure.storage.put("unreadCount", newUnreadCount);
-            extension.navigator.setBadgeText(newUnreadCount);
+            conversation.fetch().always(function() {
+                var message = conversation.messageCollection.add({
+                    source         : pushMessage.source,
+                    sourceDevice   : pushMessage.sourceDevice,
+                    relay          : pushMessage.relay,
+                    sent_at        : timestamp,
+                    received_at    : now,
+                    conversationId : pushMessage.source,
+                    type           : 'incoming'
+                });
 
-            conversation.save().then(function() {
-                message.save().then(function() {
-                    return new Promise(function(resolve) {
-                        resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
-                            function(pushMessageContent) {
-                                message.handlePushMessageContent(pushMessageContent);
+                var newUnreadCount = storage.get("unreadCount", 0) + 1;
+                storage.put("unreadCount", newUnreadCount);
+                extension.navigator.setBadgeText(newUnreadCount);
+
+                conversation.save().then(function() {
+                    message.save().then(function() {
+                        return new Promise(function(resolve) {
+                            resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
+                                function(pushMessageContent) {
+                                    message.handlePushMessageContent(pushMessageContent);
+                                }
+                            ));
+                        }).catch(function(e) {
+                            if (e.name === 'IncomingIdentityKeyError') {
+                                message.save({ errors : [e] }).then(function() {
+                                    extension.trigger('message', message);
+                                    notifyConversation(message);
+                                });
+                            } else if (e.message === 'Bad MAC') {
+                                message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                                    extension.trigger('message', message);
+                                    notifyConversation(message);
+                                });
+                            } else {
+                                console.log(e);
+                                throw e;
                             }
-                        ));
-                    }).catch(function(e) {
-                        if (e.name === 'IncomingIdentityKeyError') {
-                            message.save({ errors : [e] }).then(function() {
-                                extension.trigger('message', message);
-                                notifyConversation(message);
-                            });
-                        } else if (e.message === 'Bad MAC') {
-                            message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                                extension.trigger('message', message);
-                                notifyConversation(message);
-                            });
-                        } else {
-                            console.log(e);
-                            throw e;
-                        }
+                        });
                     });
                 });
             });
-        });
-    }
+        }
 
-    function onDeliveryReceipt(pushMessage) {
-        var timestamp = pushMessage.timestamp.toNumber();
-        var messages  = new Whisper.MessageCollection();
-        var groups    = new Whisper.ConversationCollection();
-        console.log('delivery receipt', pushMessage.source, timestamp);
-        messages.fetchSentAt(timestamp).then(function() {
-            groups.fetchGroups(pushMessage.source).then(function() {
-                for (var i in messages.where({type: 'outgoing'})) {
-                    var message = messages.at(i);
-                    var deliveries     = message.get('delivered') || 0;
-                    var conversationId = message.get('conversationId');
-                    if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1}).then(
-                            // notify frontend listeners
-                            updateConversation.bind(window,conversationId)
-                        );
-                        return;
-                        // TODO: consider keeping a list of numbers we've
-                        // successfully delivered to?
+        function onDeliveryReceipt(pushMessage) {
+            var timestamp = pushMessage.timestamp.toNumber();
+            var messages  = new Whisper.MessageCollection();
+            var groups    = new Whisper.ConversationCollection();
+            console.log('delivery receipt', pushMessage.source, timestamp);
+            messages.fetchSentAt(timestamp).then(function() {
+                groups.fetchGroups(pushMessage.source).then(function() {
+                    for (var i in messages.where({type: 'outgoing'})) {
+                        var message = messages.at(i);
+                        var deliveries     = message.get('delivered') || 0;
+                        var conversationId = message.get('conversationId');
+                        if (conversationId === pushMessage.source || groups.get(conversationId)) {
+                            message.save({delivered: deliveries + 1}).then(
+                                // notify frontend listeners
+                                updateConversation.bind(window,conversationId)
+                            );
+                            return;
+                            // TODO: consider keeping a list of numbers we've
+                            // successfully delivered to?
+                        }
                     }
-                }
+                });
+            }).fail(function() {
+                console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
             });
-        }).fail(function() {
-            console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
-        });
-    }
+        }
+    });
 })();

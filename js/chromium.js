@@ -98,12 +98,12 @@
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {
         done: function () {
-            localStorage.setItem("chromiumRegistrationDone", "");
+            storage.put("chromiumRegistrationDone", "");
             extension.trigger('registration_done');
         },
 
         isDone: function () {
-            return localStorage.getItem("chromiumRegistrationDone") !== null;
+            return storage.get("chromiumRegistrationDone") === "";
         },
     };
 
