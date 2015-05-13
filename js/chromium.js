@@ -133,6 +133,14 @@
                     return appWindow.contentWindow;
                 });
             }
+        },
+
+        beforeUnload: function(callback) {
+            if (chrome.runtime) {
+                chrome.runtime.onSuspend.addListener(callback);
+            } else {
+                window.addEventListener('beforeunload', callback);
+            }
         }
 
     };

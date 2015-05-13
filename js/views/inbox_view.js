@@ -73,7 +73,7 @@
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
-                window.addEventListener('beforeunload', function () {
+                extension.windows.beforeUnload(function() {
                     this.inbox.stopListening();
                 }.bind(this));
             },

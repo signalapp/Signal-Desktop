@@ -92,7 +92,7 @@
                 windowMap.add({ windowId: windowInfo.id, modelId: modelId });
 
                 // close the panel if background.html is refreshed
-                window.addEventListener('beforeunload', function () {
+                extension.windows.beforeUnload(function() {
                     // TODO: reattach after reload instead of closing.
                     extension.windows.remove(windowInfo.id);
                 });
@@ -125,7 +125,7 @@
                 inboxWindowId = windowInfo.id;
 
                 // close the panel if background.html is refreshed
-                window.addEventListener('beforeunload', function () {
+                extension.windows.beforeUnload(function() {
                     // TODO: reattach after reload instead of closing.
                     extension.windows.remove(windowInfo.id);
                 });
