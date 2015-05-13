@@ -49,8 +49,8 @@
         // Decrypts message into a raw string
         decryptWebsocketMessage: function(message) {
             var signaling_key = textsecure.storage.get("signaling_key"); //TODO: in crypto_storage
-            var aes_key = toArrayBuffer(signaling_key.substring(0, 32));
-            var mac_key = toArrayBuffer(signaling_key.substring(32, 32 + 20));
+            var aes_key = signaling_key.slice(0, 32);
+            var mac_key = signaling_key.slice(32, 32 + 20);
 
             var decodedMessage = message.toArrayBuffer();
             if (new Uint8Array(decodedMessage)[0] != 1)
