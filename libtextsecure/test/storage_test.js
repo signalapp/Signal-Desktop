@@ -29,16 +29,18 @@ describe("AxolotlStore", function() {
         pubKey: textsecure.crypto.getRandomBytes(33),
         privKey: textsecure.crypto.getRandomBytes(32),
     };
-    it('retrieves my registration id', function() {
+    it('retrieves my registration id', function(done) {
         store.put('registrationId', 1337);
-        var reg = store.getMyRegistrationId();
-        assert.strictEqual(reg, 1337);
+        store.getMyRegistrationId().then(function(reg) {
+            assert.strictEqual(reg, 1337);
+        }).then(done, done);
     });
-    it('retrieves my identity key', function() {
+    it('retrieves my identity key', function(done) {
         store.put('identityKey', identityKey);
-        var key = store.getMyIdentityKey();
-        assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
-        assertEqualArrayBuffers(key.privKey, identityKey.privKey);
+        store.getMyIdentityKey().then(function(key) {
+            assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
+            assertEqualArrayBuffers(key.privKey, identityKey.privKey);
+        }).then(done,done);
     });
     it('stores identity keys', function(done) {
         store.putIdentityKey(identifier, testKey.pubKey).then(function() {

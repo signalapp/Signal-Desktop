@@ -29,7 +29,6 @@
     var ready = false;
     var items = new ItemCollection();
     items.on('reset', function() { ready = true; });
-    items.fetch({reset: true});
     window.storage = {
         /*****************************
         *** Base Storage Routines ***
@@ -62,6 +61,12 @@
             } else {
                 items.on('reset', callback);
             }
+        },
+
+        fetch: function() {
+            return new Promise(function(resolve) {
+                items.fetch({reset: true}).always(resolve);
+            });
         }
     };
     window.textsecure = window.textsecure || {};

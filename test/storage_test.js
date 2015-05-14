@@ -17,7 +17,11 @@
 'use strict';
 
 describe("AxolotlStore", function() {
-    before(function() { localStorage.clear(); });
+    before(function(done) {
+        storage.put('registrationId', 1337);
+        storage.put('identityKey', identityKey);
+        storage.fetch().then(done, done);
+    });
     var store = textsecure.storage.axolotl;
     var identifier = '+5558675309';
     var identityKey = {
@@ -28,16 +32,16 @@ describe("AxolotlStore", function() {
         pubKey: textsecure.crypto.getRandomBytes(33),
         privKey: textsecure.crypto.getRandomBytes(32),
     };
-    it('retrieves my registration id', function() {
-        textsecure.storage.put('registrationId', 1337);
-        var reg = store.getMyRegistrationId();
-        assert.strictEqual(reg, 1337);
+    it('retrieves my registration id', function(done) {
+        store.getMyRegistrationId().then(function(reg) {
+            assert.strictEqual(reg, 1337);
+        }).then(done, done);
     });
-    it('retrieves my identity key', function() {
-        textsecure.storage.put('identityKey', identityKey);
-        var key = store.getMyIdentityKey();
-        assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
-        assertEqualArrayBuffers(key.privKey, identityKey.privKey);
+    it('retrieves my identity key', function(done) {
+        store.getMyIdentityKey().then(function(key) {
+            assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
+            assertEqualArrayBuffers(key.privKey, identityKey.privKey);
+        }).then(done,done);
     });
     it('stores identity keys', function(done) {
         store.putIdentityKey(identifier, testKey.pubKey).then(function() {

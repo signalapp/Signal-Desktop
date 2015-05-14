@@ -180,7 +180,7 @@
         });
     };
 
-    if (chrome.runtime) {
+    if (chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
             if (options.reason === 'install') {
                 extension.install();

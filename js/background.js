@@ -16,6 +16,7 @@
 
 ;(function() {
     'use strict';
+    storage.fetch();
     storage.onready(function() {
         var messageReceiver;
 

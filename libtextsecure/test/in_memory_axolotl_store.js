@@ -4,10 +4,10 @@ function AxolotlStore() {
 
 AxolotlStore.prototype = {
 	getMyIdentityKey: function() {
-		return this.get('identityKey');
+		return Promise.resolve(this.get('identityKey'));
 	},
 	getMyRegistrationId: function() {
-		return this.get('registrationId');
+		return Promise.resolve(this.get('registrationId'));
 	},
 	put: function(key, value) {
 		if (key === undefined || value === undefined || key === null || value === null)
