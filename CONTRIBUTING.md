@@ -41,7 +41,7 @@ Currently only the Android client supports multi-device pairing.
 ## Standalone Registration
 **NOTE:** This is only for developers and will not be presented to users.
 
-* Open the registration page: chrome-extension://fpnlppjheenfplekcodjceiknbfnengc/register.html
+* Open the background page and run the following command in the console: `extension.install("standalone")`.
 * Enter a real phone number (Google Voice numbers work too) and country
   combination and choose to send an SMS. You will receive a real SMS.
 * Enter the verification code you received by SMS.

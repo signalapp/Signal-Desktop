@@ -166,10 +166,16 @@
         },
     };
 
-    extension.install = function() {
+    extension.install = function(mode) {
+        var id = 'installer';
+        var url = 'options.html';
+        if (mode === 'standalone') {
+            id = 'standalone-installer';
+            url = 'register.html';
+        }
         extension.windows.open({
-            id: 'installer',
-            url: 'options.html',
+            id: id,
+            url: url,
             innerBounds: { width: 800, height: 666 }
         });
     };

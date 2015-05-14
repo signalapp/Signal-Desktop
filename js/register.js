@@ -85,10 +85,9 @@
             var number = phoneView.validateNumber();
             var verificationCode = $('#code').val().replace(/\D+/g, "");
 
-            localStorage.clear();
-            localStorage.setItem('first_install_ran', 1);
+            bg.storage.put('first_install_ran', 1);
             accountManager.registerSingleDevice(number, verificationCode).then(function() {
-                extension.navigator.tabs.create("options.html");
+                bg.openInbox();
                 window.close();
             }).catch(function(e) {
                 log(e);
