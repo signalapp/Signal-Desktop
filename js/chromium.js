@@ -73,15 +73,18 @@
         },
 
         getBackground: function(callback) {
+            var getBackground;
             if (chrome.extension) {
-                return new Promise(function(resolve) {
-                    callback(chrome.extension.getBackgroundPage());
+                var bg = chrome.extension.getBackgroundPage();
+                bg.storage.onready(function() {
+                    callback(bg);
                     resolve();
                 });
             } else if (chrome.runtime) {
-                return new Promise(function(resolve) {
-                    chrome.runtime.getBackgroundPage(callback);
-                    resolve();
+                chrome.runtime.getBackgroundPage(function(bg) {
+                    bg.storage.onready(function() {
+                        callback(bg);
+                    });
                 });
             }
         },
