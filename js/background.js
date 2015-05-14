@@ -50,14 +50,6 @@
             }
         });
         messageReceiver.connect();
-
-        // refresh views
-        var views = extension.windows.getViews();
-        for (var i = 0; i < views.length; ++i) {
-            if (views[i] !== window) {
-                views[i].location.reload();
-            }
-        }
     }
 
     function onMessageReceived(pushMessage) {
