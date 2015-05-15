@@ -139,7 +139,14 @@
             });
         }
     };
-    extension.onLaunched(openInbox);
+
+    extension.onLaunched(function() {
+        if (textsecure.registration.isDone()) {
+            openInbox();
+        } else {
+            extension.install();
+        }
+    });
 
     // make sure windows are cleaned up on close
     extension.windows.onClosed(function (windowId) {

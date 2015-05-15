@@ -20,11 +20,6 @@
     storage.onready(function() {
         var messageReceiver;
 
-        if (!storage.get('first_install_ran')) {
-            storage.put('first_install_ran', 1);
-            extension.install();
-        }
-
         if (textsecure.registration.isDone()) {
             init();
         }
