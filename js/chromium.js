@@ -32,7 +32,7 @@
         self.tabs = tabs;
 
         self.setBadgeText = function (text) {
-            if (chrome.browserAction) {
+            if (chrome.browserAction && chrome.browserAction.setBadgeText) {
                 chrome.browserAction.setBadgeText({text: String(text)});
             }
         };
@@ -146,7 +146,7 @@
     };
 
     extension.onLaunched = function(callback) {
-        if (chrome.browserAction) {
+        if (chrome.browserAction && chrome.browserAction.onClicked) {
             chrome.browserAction.onClicked.addListener(callback);
         }
         if (chrome.app && chrome.app.runtime) {
@@ -176,7 +176,7 @@
         extension.windows.open({
             id: id,
             url: url,
-            innerBounds: { width: 800, height: 666 }
+            bounds: { width: 800, height: 666 }
         });
     };
 
