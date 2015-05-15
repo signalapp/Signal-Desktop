@@ -127,21 +127,30 @@ module.exports = function(grunt) {
         'protos/*',
         'js/**',
         'stylesheets/*.css',
+        '!js/register.js'
+      ],
+      res: [
         'images/**',
         'fonts/*',
-        '!js/register.js'
       ]
     },
     copy: {
-      dist: {
+      res: {
+        files: [{ expand: true, dest: 'dist/', src: ['<%= dist.res %>'] }],
+      },
+      src: {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
         options: {
           process: function(content, srcpath) {
-            return content.replace(
-              /textsecure-service-staging.whispersystems.org/g,
-              'textsecure-service.whispersystems.org').replace(
-              /whispersystems-textsecure-attachments-staging.s3.amazonaws.com/g,
-              'whispersystems-textsecure-attachments.s3.amazonaws.com');
+            if (srcpath.match('libtextsecure')) {
+              return content.replace(
+                /textsecure-service-staging.whispersystems.org/g,
+                'textsecure-service.whispersystems.org').replace(
+                /whispersystems-textsecure-attachments-staging.s3.amazonaws.com/g,
+                'whispersystems-textsecure-attachments.s3.amazonaws.com');
+            } else {
+              return content;
+            }
           }
         }
       }
@@ -165,7 +174,7 @@ module.exports = function(grunt) {
         tasks: ['concat:libtextsecure']
       },
       dist: {
-        files: ['<%= dist.src %>'],
+        files: ['<%= dist.src %>', '<%= dist.res %>'],
         tasks: ['copy']
       },
     },
