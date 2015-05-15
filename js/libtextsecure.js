@@ -28023,12 +28023,12 @@ CryptoJS.lib.Cipher || (function (undefined) {
                 return new Promise(function(resolve) {
                     var wordArray = implementation.apply(this, args);
                     // convert 32bit WordArray to array buffer
-                    var buffer = new ArrayBuffer(wordArray.sigBytes);
-                    var view =  new DataView(buffer);
-                    for(var i = 0; i*4 < buffer.byteLength; i++) {
-                      view.setInt32(i*4, wordArray.words[i]);
+                    var str = wordArray.toString(CryptoJS.enc.Latin1)
+                    var bytes = new Uint8Array(str.length);
+                    for (var i=0; i<str.length; i++) {
+                      bytes[i] = str.charCodeAt(i);
                     }
-                    resolve(buffer);
+                    resolve(bytes.buffer);
                 });
             };
 
