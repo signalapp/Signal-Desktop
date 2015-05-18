@@ -39797,7 +39797,9 @@ window.textsecure.messaging = function() {
         if (myDevice != 1) {
             var sync_message = textsecure.protobuf.PushMessageContent.decode(message.encode());
             sync_message.sync = new textsecure.protobuf.PushMessageContent.SyncMessageContext();
-            sync_message.sync.destination = destination;
+            if (destination) {
+                sync_message.sync.destination = destination;
+            }
             sync_message.sync.timestamp = timestamp;
             return sendIndividualProto(myNumber, sync_message, Date.now());
         }
@@ -39816,7 +39818,7 @@ window.textsecure.messaging = function() {
                     resolve();
             });
         }).then(function() {
-            return sendSyncMessage(proto, timestamp, getString(proto.group.id));
+            return sendSyncMessage(proto, timestamp);
         });
     }
 
