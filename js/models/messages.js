@@ -139,38 +139,6 @@
                 }
                 var conversation = new Whisper.Conversation({id: conversationId});
                 conversation.fetch().always(function() {
-                    var type = 'incoming';
-                    if (pushMessageContent.sync) {
-                        type = 'outgoing';
-                        timestamp = pushMessageContent.sync.timestamp.toNumber();
-
-                        // lazy hack - check for receipts that arrived early.
-                        if (pushMessageContent.sync.destination) {
-                            var receipt = window.receipts.findWhere({
-                                timestamp: timestamp,
-                                source: pushMessageContent.sync.destination
-                            });
-                            if (receipt) {
-                                window.receipts.remove(receipt);
-                                message.set({
-                                    delivered: (message.get('delivered') || 0) + 1
-                                });
-                            }
-                        } else if (pushMessageContent.group.id) {  // group sync
-                            var members = conversation.get('members');
-                            var receipts = window.receipts.where({ timestamp: timestamp });
-                            for (var i in receipts) {
-                                if (members.indexOf(receipts[i].get('source')) > -1) {
-                                    window.receipts.remove(receipts[i]);
-                                    message.set({
-                                        delivered: (message.get('delivered') || 0) + 1
-                                    });
-                                }
-                            }
-                        } else {
-                            throw new Error('Received sync message with no destination and no group id');
-                        }
-                    }
                     var now = new Date().getTime();
                     var attributes = {};
                     if (pushMessageContent.group) {
@@ -200,6 +168,38 @@
 
                         if (_.keys(group_update).length > 0) {
                             message.set({group_update: group_update});
+                        }
+                    }
+                    var type = 'incoming';
+                    if (pushMessageContent.sync) {
+                        type = 'outgoing';
+                        timestamp = pushMessageContent.sync.timestamp.toNumber();
+
+                        // lazy hack - check for receipts that arrived early.
+                        if (pushMessageContent.sync.destination) {
+                            var receipt = window.receipts.findWhere({
+                                timestamp: timestamp,
+                                source: pushMessageContent.sync.destination
+                            });
+                            if (receipt) {
+                                window.receipts.remove(receipt);
+                                message.set({
+                                    delivered: (message.get('delivered') || 0) + 1
+                                });
+                            }
+                        } else if (pushMessageContent.group.id) {  // group sync
+                            var members = conversation.get('members') || [];
+                            var receipts = window.receipts.where({ timestamp: timestamp });
+                            for (var i in receipts) {
+                                if (members.indexOf(receipts[i].get('source')) > -1) {
+                                    window.receipts.remove(receipts[i]);
+                                    message.set({
+                                        delivered: (message.get('delivered') || 0) + 1
+                                    });
+                                }
+                            }
+                        } else {
+                            throw new Error('Received sync message with no destination and no group id');
                         }
                     }
                     attributes.active_at = now;
