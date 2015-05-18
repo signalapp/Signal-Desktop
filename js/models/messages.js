@@ -133,7 +133,7 @@
                 var type = 'incoming';
                 if (pushMessageContent.sync) {
                     type = 'outgoing';
-                    timestamp = pushMessageContent.sync.timestamp;
+                    timestamp = pushMessageContent.sync.timestamp.toNumber();
                 }
                 var now = new Date().getTime();
 
