@@ -133,7 +133,8 @@
                 var conversationId = source;
                 if (pushMessageContent.sync) {
                     conversationId = pushMessageContent.sync.destination;
-                } else if (pushMessageContent.group) {
+                }
+                if (pushMessageContent.group) {
                     conversationId = pushMessageContent.group.id;
                 }
                 var conversation = new Whisper.Conversation({id: conversationId});
