@@ -102,6 +102,9 @@
             });
         }
 
+        // lazy hack
+        window.receipts = new Backbone.Collection();
+
         function onDeliveryReceipt(pushMessage) {
             var timestamp = pushMessage.timestamp.toNumber();
             var messages  = new Whisper.MessageCollection();
@@ -123,6 +126,11 @@
                             // successfully delivered to?
                         }
                     }
+                    // if we get here, we didn't find a matching message.
+                    // keep the receipt in memory in case it shows up later
+                    // as a sync message.
+                    receipts.add({ timestamp: timestamp, source: pushMessage.source });
+                    return;
                 });
             }).fail(function() {
                 console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
