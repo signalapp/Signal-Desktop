@@ -231,6 +231,8 @@
                             extension.trigger('message', message); // inbox fetch
                             if (message.isIncoming()) {
                                 notifyConversation(message);
+                            } else {
+                                updateConversation(conversation.id);
                             }
                         });
                     });
