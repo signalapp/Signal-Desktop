@@ -53,51 +53,42 @@
             var now = new Date().getTime();
             var timestamp = pushMessage.timestamp.toNumber();
 
-            var conversation = getConversation({
-                id   : pushMessage.source,
-                type : 'private'
+            var message = new Whisper.Message({
+                source         : pushMessage.source,
+                sourceDevice   : pushMessage.sourceDevice,
+                relay          : pushMessage.relay,
+                sent_at        : timestamp,
+                received_at    : now,
+                conversationId : pushMessage.source,
+                type           : 'incoming'
             });
 
-            conversation.fetch().always(function() {
-                var message = conversation.messageCollection.add({
-                    source         : pushMessage.source,
-                    sourceDevice   : pushMessage.sourceDevice,
-                    relay          : pushMessage.relay,
-                    sent_at        : timestamp,
-                    received_at    : now,
-                    conversationId : pushMessage.source,
-                    type           : 'incoming'
-                });
+            var newUnreadCount = storage.get("unreadCount", 0) + 1;
+            storage.put("unreadCount", newUnreadCount);
+            extension.navigator.setBadgeText(newUnreadCount);
 
-                var newUnreadCount = storage.get("unreadCount", 0) + 1;
-                storage.put("unreadCount", newUnreadCount);
-                extension.navigator.setBadgeText(newUnreadCount);
-
-                conversation.save().then(function() {
-                    message.save().then(function() {
-                        return new Promise(function(resolve) {
-                            resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
-                                function(pushMessageContent) {
-                                    message.handlePushMessageContent(pushMessageContent);
-                                }
-                            ));
-                        }).catch(function(e) {
-                            if (e.name === 'IncomingIdentityKeyError') {
-                                message.save({ errors : [e] }).then(function() {
-                                    extension.trigger('updateInbox');
-                                    notifyConversation(message);
-                                });
-                            } else if (e.message === 'Bad MAC') {
-                                message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                                    extension.trigger('updateInbox');
-                                    notifyConversation(message);
-                                });
-                            } else {
-                                console.log(e);
-                                throw e;
-                            }
+            message.save().then(function() {
+                return new Promise(function(resolve) {
+                    resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
+                        function(pushMessageContent) {
+                            message.handlePushMessageContent(pushMessageContent);
+                        }
+                    ));
+                }).catch(function(e) {
+                    if (e.name === 'IncomingIdentityKeyError') {
+                        message.save({ errors : [e] }).then(function() {
+                            extension.trigger('updateInbox');
+                            notifyConversation(message);
                         });
-                    });
+                    } else if (e.message === 'Bad MAC') {
+                        message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                            extension.trigger('updateInbox');
+                            notifyConversation(message);
+                        });
+                    } else {
+                        console.log(e);
+                        throw e;
+                    }
                 });
             });
         }

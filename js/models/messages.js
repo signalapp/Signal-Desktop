@@ -17,7 +17,7 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var Message  = Backbone.Model.extend({
+    var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
         storeName : 'messages',
         defaults  : function() {
