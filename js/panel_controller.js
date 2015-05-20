@@ -65,7 +65,10 @@
             });
             conversation.fetchMessages();
         } else {
-            openConversation(message.get('conversationId'));
+            var conversationId = message.get('conversationId');
+            openConversation(conversationId);
+            var windowId = windowMap.windowIdFrom(conversationId);
+            extension.windows.drawAttention(windowId);
         }
     };
 

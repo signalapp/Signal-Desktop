@@ -141,6 +141,12 @@
             } else {
                 window.addEventListener('beforeunload', callback);
             }
+        },
+
+        drawAttention: function(window_id) {
+            if (chrome.app.window) {
+                chrome.app.window.get(window_id).drawAttention();
+            }
         }
 
     };
