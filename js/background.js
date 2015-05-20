@@ -84,12 +84,12 @@
                         }).catch(function(e) {
                             if (e.name === 'IncomingIdentityKeyError') {
                                 message.save({ errors : [e] }).then(function() {
-                                    extension.trigger('message', message);
+                                    extension.trigger('updateInbox');
                                     notifyConversation(message);
                                 });
                             } else if (e.message === 'Bad MAC') {
                                 message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                                    extension.trigger('message', message);
+                                    extension.trigger('updateInbox');
                                     notifyConversation(message);
                                 });
                             } else {

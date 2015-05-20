@@ -84,6 +84,8 @@
             active_at   : now,
             timestamp   : now,
             lastMessage : body
+        }).then(function() {
+            extension.trigger('updateInbox'); // inbox fetch
         });
 
         var sendFunc;
@@ -102,7 +104,7 @@
             });
             if (keyErrors.length) {
                 message.save({ errors : keyErrors }).then(function() {
-                    extension.trigger('message', message); // notify frontend listeners
+                    extension.trigger('updateInbox'); // notify frontend listeners
                 });
             } else {
                 if (!(errors instanceof Array)) {

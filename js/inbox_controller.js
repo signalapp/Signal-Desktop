@@ -50,7 +50,7 @@
         });
     }
 
-    extension.on('message', fetch);
+    extension.on('updateInbox', fetch);
     fetch();
     setUnreadCount(storage.get("unreadCount", 0));
 
