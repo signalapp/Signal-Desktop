@@ -87,7 +87,7 @@
                 type: 'panel',
                 focused: true,
                 width: 300,
-                height: 420
+                height: 440
             }, function (windowInfo) {
                 windowMap.add({ windowId: windowInfo.id, modelId: modelId });
 
