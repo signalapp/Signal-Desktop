@@ -140,7 +140,7 @@
                 var conversation = new Whisper.Conversation({id: conversationId});
                 conversation.fetch().always(function() {
                     var now = new Date().getTime();
-                    var attributes = {};
+                    var attributes = { type: 'private' };
                     if (pushMessageContent.group) {
                         var group_update = {};
                         attributes = {
