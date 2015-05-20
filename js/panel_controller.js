@@ -141,11 +141,13 @@
     };
 
     extension.onLaunched(function() {
-        if (textsecure.registration.isDone()) {
-            openInbox();
-        } else {
-            extension.install();
-        }
+        storage.onready(function() {
+            if (textsecure.registration.isDone()) {
+                openInbox();
+            } else {
+                extension.install();
+            }
+        });
     });
 
     // make sure windows are cleaned up on close
