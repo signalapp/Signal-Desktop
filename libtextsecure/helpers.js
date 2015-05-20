@@ -156,8 +156,10 @@ textsecure.processDecrypted = function(decrypted, source) {
     if (decrypted.flags == null)
         decrypted.flags = 0;
 
-    if (decrypted.sync !== null && textsecure.storage.user.getNumber() != source)
-        throw new Error("Got sync context on a message not from a peer device");
+    if (decrypted.sync !== null && textsecure.storage.user.getNumber() != source) {
+        // Ignore erroneous or malicious sync context from different number
+        decrypted.sync = null;
+    }
 
     if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
                 == textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
