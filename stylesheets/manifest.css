@@ -46,7 +46,8 @@ body {
   line-height: 24px;
   background: #f2f2f2;
   box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8);
-  color: #2090ea; }
+  color: #2090ea;
+  -webkit-app-region: drag; }
 
 .title-text {
   display: block;
@@ -251,6 +252,11 @@ img.emoji {
   .attachment-preview img {
     width: 100%; }
 
+.window-controls {
+  text-align: right; }
+  .window-controls button {
+    -webkit-app-region: no-drag; }
+
 .gutter {
   padding: 36px 0 0; }
 
@@ -263,7 +269,8 @@ img.emoji {
 
 .socket-status {
   float: left;
-  padding: 6px; }
+  padding: 6px;
+  -webkit-app-region: no-drag; }
   .socket-status * {
     cursor: pointer;
     padding-left: 20px;

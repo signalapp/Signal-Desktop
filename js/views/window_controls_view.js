@@ -1,5 +1,4 @@
-/*global $, Whisper, Backbone, textsecure, extension*/
-/* vim: ts=4:sw=4:expandtab:
+/* vim: ts=4:sw=4:expandtab
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,17 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-  'use strict';
-
+    'use strict';
     window.Whisper = window.Whisper || {};
 
-    extension.windows.getBackground(function(bg) {
-        if (bg.textsecure.storage.user.getNumber() === undefined) {
-            window.location = '/options.html';
-        } else {
-            extension.windows.getCurrent(function(appWindow) {
-                new bg.Whisper.InboxView({appWindow: appWindow}).$el.prependTo(bg.$('body',document));
-            });
+    Whisper.WindowControlsView = Whisper.View.extend({
+        className: 'window-controls',
+        template: $('#window-controls').html(),
+        initialize: function(options) {
+            this.appWindow = options.appWindow;
+            this.render();
+        },
+        events: {
+            'click .close': 'hide',
+            'click .minimize': 'minimize'
+        },
+        hide: function() {
+          this.appWindow.hide();
+        },
+        minimize: function() {
+          this.appWindow.minimize();
         }
     });
-}());
+})();

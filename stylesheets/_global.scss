@@ -38,6 +38,7 @@ body {
   background: #f2f2f2;
   box-shadow: 0 -4px 3px 4px rgba(darken($header-color, 30%), 0.8);
   color: $blue;
+  -webkit-app-region: drag;
 }
 
 .title-text {

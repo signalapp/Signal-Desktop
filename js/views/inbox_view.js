@@ -56,7 +56,7 @@
         Whisper.InboxView = Whisper.View.extend({
             template: $('#inbox').html(),
             className: 'inbox',
-            initialize: function () {
+            initialize: function (options) {
                 this.render();
 
                 this.newConversationView = new Whisper.NewConversationView();
@@ -76,6 +76,10 @@
                 extension.windows.beforeUnload(function() {
                     this.inbox.stopListening();
                 }.bind(this));
+
+                new Whisper.WindowControlsView({
+                    appWindow: options.appWindow
+                }).$el.appendTo(this.$('#header'));
             },
             events: {
                 'click .fab': 'showCompose',

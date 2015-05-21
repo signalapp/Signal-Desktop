@@ -121,6 +121,7 @@
                 id: 'inbox',
                 url: 'index.html',
                 type: 'panel',
+                frame: 'none',
                 focused: true,
                 width: 260, // 280 for chat
                 height: 440 // 420 for chat
