@@ -26,7 +26,7 @@
         render_attributes: function() {
             return { group: this.model.get('type') === 'group' };
         },
-        initialize: function() {
+        initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
 
             this.render();
@@ -40,6 +40,10 @@
             });
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
+
+            new Whisper.WindowControlsView({
+                appWindow: options.appWindow
+            }).$el.appendTo(this.$('#header'));
 
             setTimeout(function() {
                 this.view.scrollToBottom();

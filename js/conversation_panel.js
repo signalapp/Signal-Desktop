@@ -27,7 +27,8 @@
             if (conversation) {
                 window.document.title = conversation.getTitle();
                 var view = new bg.Whisper.ConversationView({
-                    model: conversation
+                    model: conversation,
+                    appWindow: windowInfo
                 });
                 view.$el.prependTo(body);
                 view.$('input.send-message').focus();

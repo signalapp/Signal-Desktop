@@ -88,6 +88,7 @@
                 id: modelId,
                 url: 'conversation.html',
                 type: 'panel',
+                frame: 'none',
                 focused: true,
                 width: 300,
                 height: 440

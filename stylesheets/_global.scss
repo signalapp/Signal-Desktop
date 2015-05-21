@@ -39,6 +39,10 @@ body {
   box-shadow: 0 -4px 3px 4px rgba(darken($header-color, 30%), 0.8);
   color: $blue;
   -webkit-app-region: drag;
+
+  button {
+    -webkit-app-region: no-drag;
+  }
 }
 
 .title-text {
@@ -71,7 +75,7 @@ button.back {
 
 .menu {
   position: relative;
-  float: right;
+  float: left;
   height: 36px;
   padding-left: 8px;
 

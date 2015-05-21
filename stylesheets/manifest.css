@@ -48,6 +48,8 @@ body {
   box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8);
   color: #2090ea;
   -webkit-app-region: drag; }
+  #header button {
+    -webkit-app-region: no-drag; }
 
 .title-text {
   display: block;
@@ -75,7 +77,7 @@ button.back {
 
 .menu {
   position: relative;
-  float: right;
+  float: left;
   height: 36px;
   padding-left: 8px; }
   .menu .hamburger {
@@ -254,8 +256,6 @@ img.emoji {
 
 .window-controls {
   text-align: right; }
-  .window-controls button {
-    -webkit-app-region: no-drag; }
 
 .gutter {
   padding: 36px 0 0; }
