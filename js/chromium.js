@@ -76,6 +76,7 @@
             } else if (chrome.app.window) {
                 var appWindow = chrome.app.window.get(id);
                 if (appWindow) {
+                    appWindow.show();
                     appWindow.focus();
                     callback();
                 } else {
