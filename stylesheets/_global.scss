@@ -4,6 +4,7 @@
 
 html {
   height: 100%;
+  border: solid 1px #ccc;
 }
 
 body {
@@ -35,13 +36,19 @@ body {
   z-index: 1;
   height: $header-height;
   line-height: 24px;
-  background: #f2f2f2;
+  color: #f2f2f2;
   box-shadow: 0 -4px 3px 4px rgba(darken($header-color, 30%), 0.8);
-  color: $blue;
+  background-color: $header-color;
   -webkit-app-region: drag;
 
   button {
     -webkit-app-region: no-drag;
+    color: inherit;
+    background-color: $blue;
+
+    &:hover {
+      background-color: rgba(darken($blue, 10%), 0.8);
+    }
   }
 }
 
@@ -77,7 +84,7 @@ button.back {
   position: relative;
   float: left;
   height: 36px;
-  padding-left: 8px;
+  padding-right: 8px;
 
   .hamburger {
     width: 36px;
@@ -86,6 +93,8 @@ button.back {
   .menu-list {
     display: none;
     position: absolute;
+    color: $grey_d;
+
     top: 100%;
     right: 0;
     margin: 0;
@@ -222,7 +231,7 @@ img.emoji {
 
 .title-bar .check {
   float: right;
-  background: $blue url('/images/check.png') no-repeat center center;
+  background: url('/images/check.png') no-repeat center center;
 }
 
 .contact {

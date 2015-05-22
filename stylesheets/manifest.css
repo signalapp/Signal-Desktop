@@ -16,7 +16,8 @@
   box-sizing: border-box; }
 
 html {
-  height: 100%; }
+  height: 100%;
+  border: solid 1px #ccc; }
 
 body {
   position: relative;
@@ -44,12 +45,16 @@ body {
   z-index: 1;
   height: 36px;
   line-height: 24px;
-  background: #f2f2f2;
-  box-shadow: 0 -4px 3px 4px rgba(165, 165, 165, 0.8);
-  color: #2090ea;
+  color: #f2f2f2;
+  box-shadow: 0 -4px 3px 4px rgba(10, 62, 103, 0.8);
+  background-color: #2090ea;
   -webkit-app-region: drag; }
   #header button {
-    -webkit-app-region: no-drag; }
+    -webkit-app-region: no-drag;
+    color: inherit;
+    background-color: #2090ea; }
+    #header button:hover {
+      background-color: rgba(19, 117, 196, 0.8); }
 
 .title-text {
   display: block;
@@ -71,7 +76,7 @@ button {
 
 button.back {
   float: left;
-  background: #f2f2f2 url("/images/back.png") no-repeat center center; }
+  background: #2090ea url("/images/back.png") no-repeat center center; }
   button.back + .title-text {
     text-indent: -36px; }
 
@@ -79,15 +84,16 @@ button.back {
   position: relative;
   float: left;
   height: 36px;
-  padding-left: 8px; }
+  padding-right: 8px; }
   .menu .hamburger {
     width: 36px;
     background: url("/images/menu.png") no-repeat center; }
   .menu .menu-list {
     display: none;
     position: absolute;
+    color: #454545;
     top: 100%;
-    right: 0;
+    left: 0;
     margin: 0;
     padding: 0;
     border: solid 1px #2090ea;
@@ -189,7 +195,7 @@ img.emoji {
 
 .title-bar .check {
   float: right;
-  background: #2090ea url("/images/check.png") no-repeat center center; }
+  background: url("/images/check.png") no-repeat center center; }
 
 .contact {
   position: relative;
@@ -584,9 +590,9 @@ input.search {
 
 .bottom-bar {
   position: fixed;
-  bottom: 0;
+  bottom: 1;
   height: 36px;
-  width: 100%;
+  width: calc(100% - 2px);
   border-top: 1px solid #f3f3f3;
   background: white; }
   .bottom-bar button, .bottom-bar input {

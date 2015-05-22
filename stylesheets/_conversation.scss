@@ -299,9 +299,9 @@
 
 .bottom-bar {
   position: fixed;
-  bottom: 0;
+  bottom: 1; // offset 1 for window frame.
   height: 36px;
-  width: 100%;
+  width: calc(100% - 2px);
   border-top: 1px solid $grey_l;
   background: white;
 
