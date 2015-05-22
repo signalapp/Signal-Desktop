@@ -25,11 +25,15 @@
             this.render();
         },
         events: {
-            'click .close': 'hide',
+            'click .close': 'close',
             'click .minimize': 'minimize'
         },
-        hide: function() {
-          this.appWindow.hide();
+        close: function() {
+            if (this.appWindow.id === 'inbox') {
+                this.appWindow.hide();
+            } else {
+                this.appWindow.close();
+            }
         },
         minimize: function() {
           this.appWindow.minimize();
