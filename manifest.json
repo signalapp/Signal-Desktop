@@ -8,7 +8,8 @@
 
     "permissions": [
       "unlimitedStorage",
-      "notifications"
+      "notifications",
+      "fileSystem"
     ],
 
     "icons": {

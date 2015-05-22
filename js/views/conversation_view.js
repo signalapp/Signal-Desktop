@@ -31,8 +31,14 @@
 
             this.render();
 
+            this.appWindow = options.appWindow;
+            new Whisper.WindowControlsView({
+                appWindow: this.appWindow
+            }).$el.appendTo(this.$('#header'));
+
             this.fileInput = new Whisper.FileInputView({
-                el: this.$('.attachments')
+                el: this.$('.attachments'),
+                window: this.appWindow.contentWindow
             });
 
             this.view = new Whisper.MessageListView({
@@ -40,10 +46,6 @@
             });
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
-
-            new Whisper.WindowControlsView({
-                appWindow: options.appWindow
-            }).$el.appendTo(this.$('#header'));
 
             setTimeout(function() {
                 this.view.scrollToBottom();

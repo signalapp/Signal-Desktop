@@ -24,11 +24,12 @@
     Whisper.FileInputView = Backbone.View.extend({
         tagName: 'span',
         className: 'file-input',
-        initialize: function() {
+        initialize: function(options) {
             this.$input = this.$('input[type=file]');
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
             this.$default = this.$('.default');
+            this.window = options.window;
         },
 
         events: {
@@ -38,7 +39,17 @@
         },
 
         open: function() {
-            this.$input.click();
+            // hack
+            if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
+                this.window.chrome.fileSystem.chooseEntry({type: 'openFile'}, function(entry) {
+                    entry.file(function(file) {
+                        this.file = file;
+                        this.previewImages();
+                    }.bind(this));
+                }.bind(this));
+            } else {
+                this.$input.click();
+            }
         },
 
         addThumb: function(src) {
@@ -98,7 +109,7 @@
 
         previewImages: function() {
             this.clearForm();
-            var file = this.$input.prop('files')[0];
+            var file = this.file || this.$input.prop('files')[0];
             if (!file) { return; }
 
             var type = file.type.split('/')[0];
@@ -128,13 +139,13 @@
         },
 
         hasFiles: function() {
-            var files = this.$input.prop('files');
+            var files = [this.file] || this.$input.prop('files');
             return files && files.length && files.length > 0;
         },
 
         getFiles: function() {
             var promises = [];
-            var files = this.$input.prop('files');
+            var files = [this.file] || this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
                 promises.push(this.getFile(files[i]));
             }
@@ -143,7 +154,7 @@
         },
 
         getFile: function(file) {
-            file = file || this.$input.prop('files')[0];
+            file = file || this.file || this.$input.prop('files')[0];
             if (file === undefined) { return Promise.resolve(); }
             return this.autoScale(file).then(this.readFile);
         },
