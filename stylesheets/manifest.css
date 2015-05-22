@@ -56,6 +56,9 @@ body {
     #header button:hover {
       background-color: rgba(19, 117, 196, 0.8); }
 
+.window-controls {
+  float: right; }
+
 .title-text {
   display: block;
   text-align: center;
@@ -260,9 +263,6 @@ img.emoji {
   .attachment-preview img {
     width: 100%; }
 
-.window-controls {
-  text-align: right; }
-
 .gutter {
   padding: 36px 0 0; }
 
@@ -367,6 +367,8 @@ input.search {
   padding: 36px 0; }
   .conversation .file-input .close {
     top: -10px; }
+  .conversation .conversation-title {
+    line-height: 36px; }
 
 .conversation + .new-group-update-form,
 .conversation, .discussion-container, .message-list, .message-detail, .key-verification {

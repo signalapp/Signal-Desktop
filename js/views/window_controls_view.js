@@ -18,6 +18,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.WindowControlsView = Whisper.View.extend({
+        tagName: 'span',
         className: 'window-controls',
         template: $('#window-controls').html(),
         initialize: function(options) {

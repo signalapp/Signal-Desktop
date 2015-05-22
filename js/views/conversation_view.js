@@ -24,7 +24,10 @@
         },
         template: $('#conversation').html(),
         render_attributes: function() {
-            return { group: this.model.get('type') === 'group' };
+            return {
+                group: this.model.get('type') === 'group',
+                title: this.model.getTitle()
+            };
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
@@ -34,7 +37,7 @@
             this.appWindow = options.appWindow;
             new Whisper.WindowControlsView({
                 appWindow: this.appWindow
-            }).$el.appendTo(this.$('#header'));
+            }).$el.insertAfter(this.$('.menu'));
 
             this.fileInput = new Whisper.FileInputView({
                 el: this.$('.attachments'),

@@ -4,6 +4,10 @@
   .file-input .close {
     top: -10px;
   }
+
+  .conversation-title {
+    line-height: $header-height;
+  }
 }
 
 .conversation + .new-group-update-form,
