@@ -139,13 +139,13 @@
         },
 
         hasFiles: function() {
-            var files = [this.file] || this.$input.prop('files');
+            var files = this.file ? [this.file] : this.$input.prop('files');
             return files && files.length && files.length > 0;
         },
 
         getFiles: function() {
             var promises = [];
-            var files = [this.file] || this.$input.prop('files');
+            var files = this.file ? [this.file] : this.$input.prop('files');
             for (var i = 0; i < files.length; i++) {
                 promises.push(this.getFile(files[i]));
             }
