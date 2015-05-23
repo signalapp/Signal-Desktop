@@ -16,6 +16,13 @@
 
 ;(function() {
     'use strict';
+    if (chrome && chrome.alarms) {
+        chrome.alarms.onAlarm.addListener(function() {
+            // nothing to do.
+        });
+        chrome.alarms.create('awake', {periodInMinutes: 1});
+    }
+
     storage.fetch();
     storage.onready(function() {
         var messageReceiver;

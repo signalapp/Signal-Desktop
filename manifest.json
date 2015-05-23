@@ -9,7 +9,8 @@
     "permissions": [
       "unlimitedStorage",
       "notifications",
-      "fileSystem"
+      "fileSystem",
+      "alarms"
     ],
 
     "icons": {
