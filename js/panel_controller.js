@@ -114,7 +114,7 @@
 
     /* Inbox window controller */
     var inboxOpened = false;
-    var inboxWindowId = 0;
+    var inboxWindowId = 'inbox';
     window.openInbox = function() {
         if (inboxOpened === false) {
             inboxOpened = true;
