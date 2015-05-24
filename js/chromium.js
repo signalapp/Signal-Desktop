@@ -146,7 +146,9 @@
 
         drawAttention: function(window_id) {
             if (chrome.app.window) {
-                chrome.app.window.get(window_id).drawAttention();
+                var w = chrome.app.window.get(window_id);
+                w.clearAttention();
+                w.drawAttention();
             }
         }
 

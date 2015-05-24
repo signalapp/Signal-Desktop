@@ -48,7 +48,13 @@
     };
 
     window.notifyConversation = function(message) {
-        if (Whisper.Notifications.isEnabled()) {
+        var conversationId = message.get('conversationId');
+        var windowId = windowMap.windowIdFrom(conversationId);
+        if (windowId) {
+            // already open
+            updateConversation(conversationId);
+            extension.windows.drawAttention(windowId);
+        } else if (Whisper.Notifications.isEnabled()) {
             var conversation = getConversation({id: message.get('conversationId')});
             var sender = getConversation({id: message.get('source')});
             conversation.fetch().then(function() {
@@ -65,7 +71,6 @@
             });
             conversation.fetchMessages();
         } else {
-            var conversationId = message.get('conversationId');
             openConversation(conversationId);
             var windowId = windowMap.windowIdFrom(conversationId);
             extension.windows.drawAttention(windowId);
