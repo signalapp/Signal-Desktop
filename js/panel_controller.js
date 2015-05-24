@@ -72,7 +72,6 @@
             conversation.fetchMessages();
         } else {
             openConversation(conversationId);
-            var windowId = windowMap.windowIdFrom(conversationId);
             extension.windows.drawAttention(windowId);
         }
     };
