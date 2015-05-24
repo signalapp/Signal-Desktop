@@ -184,6 +184,7 @@
             this.clearForm();
             this.$input.wrap('<form>').parent('form').trigger('reset');
             this.$input.unwrap();
+            this.file = null;
         }
     });
 })();
