@@ -29,7 +29,7 @@
 
         render: function() {
             this.$el.html(Mustache.render(this.template, this.model));
-            this.$el.appendTo($('body')).show();
+            this.$el.show();
             setTimeout(this.close.bind(this), 2000);
         }
     });

@@ -42,6 +42,9 @@
             // hack
             if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
                 this.window.chrome.fileSystem.chooseEntry({type: 'openFile'}, function(entry) {
+                    if (!entry) {
+                        return;
+                    }
                     entry.file(function(file) {
                         this.file = file;
                         this.previewImages();
@@ -97,7 +100,6 @@
                         quality = quality * maxSize / blob.size;
                         if (quality < 50) {
                             quality = 50;
-                            i = 1;
                         }
                     } while (i > 0 && blob.size > maxSize);
 
@@ -130,9 +132,11 @@
                     case 'video': limitKb = 8000; break;
                 }
                 if ((blob.size/1024).toFixed(4) >= limitKb) {
-                    new Whisper.FileSizeToast({
+                    var toast = new Whisper.FileSizeToast({
                         model: {limit: limitKb}
-                    }).render();
+                    });
+                    toast.$el.insertAfter(this.$el);
+                    toast.render();
                     this.deleteFiles();
                 }
             }.bind(this));
