@@ -277,6 +277,20 @@
                 only: number
             }
         });
+    },
+
+    fetchActive: function() {
+        // Ensures all active conversations are included in this collection,
+        // and updates their attributes, but removes nothing.
+        return this.fetch({
+            index: {
+                name: 'inbox', // 'inbox' index on active_at
+                order: 'desc'  // ORDER timestamp DESC
+                // TODO pagination/infinite scroll
+                // limit: 10, offset: page*10,
+            },
+            remove: false
+        });
     }
   });
 })();

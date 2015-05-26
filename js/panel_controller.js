@@ -25,6 +25,42 @@
     var windowMap = new Whisper.Bimap('windowId', 'modelId');
     var conversations = new Whisper.ConversationCollection();
 
+    window.inbox = new Whisper.ConversationCollection([], {
+        comparator: function(model) {
+            return -model.get('active_at');
+        }
+    });
+
+    inbox.on('change:active_at', inbox.sort);
+    inbox.on('change:unreadCount', function(model, count) {
+        var prev = model.previous('unreadCount') || 0;
+        if (count < prev) { // decreased
+            var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
+            setUnreadCount(newUnreadCount);
+            storage.put("unreadCount", newUnreadCount);
+        }
+    });
+
+    function updateInbox() {
+        conversations.fetchActive().then(function() {
+            inbox.reset(conversations.filter(function(model) {
+                return model.get('active_at');
+            }));
+        });
+    }
+
+    extension.on('updateInbox', updateInbox);
+    updateInbox();
+    setUnreadCount(storage.get("unreadCount", 0));
+
+    function setUnreadCount(count) {
+        if (count > 0) {
+            extension.navigator.setBadgeText(count);
+        } else {
+            extension.navigator.setBadgeText("");
+        }
+    }
+
     window.getConversationForWindow = function(windowId) {
         return conversations.get(windowMap.modelIdFrom(windowId));
     };
