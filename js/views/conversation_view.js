@@ -143,9 +143,9 @@
         },
 
         destroyMessages: function(e) {
-            if (confirm("Permanently delete this conversation?")) {
+            this.confirm("Permanently delete this conversation?").then(function() {
                 this.model.destroyMessages();
-            }
+            }.bind(this));
             this.$('.menu-list').hide();
         },
 

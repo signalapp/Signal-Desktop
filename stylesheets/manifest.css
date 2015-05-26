@@ -647,4 +647,16 @@ input.search {
   border-radius: 20px;
   font-size: small; }
 
+.confirmation-dialog {
+  position: absolute;
+  top: 36px;
+  padding: 1em;
+  background: white;
+  border: solid 2px #2090ea; }
+  .confirmation-dialog .message {
+    text-align: center; }
+  .confirmation-dialog button {
+    float: right;
+    margin-left: 10px; }
+
 /*# sourceMappingURL=manifest.css.map */

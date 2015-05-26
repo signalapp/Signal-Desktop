@@ -37,6 +37,16 @@
             this.$el.html(Mustache.render(template, attrs, partials));
             return this;
         },
-        avatar_template: $('#avatar').html()
+        avatar_template: $('#avatar').html(),
+        confirm: function(message) {
+            return new Promise(function(resolve, reject) {
+                var dialog = new Whisper.ConfirmationDialogView({
+                    message: message,
+                    resolve: resolve,
+                    reject: reject
+                });
+                this.$el.append(dialog.el);
+            }.bind(this));
+        }
     });
 })();

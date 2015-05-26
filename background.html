@@ -48,6 +48,13 @@
           </form>
       </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
+    <div class='message'>{{ message }}</div>
+    <div class='buttons'>
+      <button class='cancel'>Cancel</button>
+      <button class='ok'>OK</button>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
         <img src="{{ source }}" class="preview" />
         <div class="close">x</div>
@@ -266,6 +273,7 @@
   <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
   <script type="text/javascript" src="js/views/window_controls_view.js"></script>
   <script type="text/javascript" src="js/views/inbox_view.js"></script>
+  <script type="text/javascript" src="js/views/confirmation_dialog_view.js"></script>
 
   <script type="text/javascript" src="js/bimap.js"></script>
   <script type="text/javascript" src="js/panel_controller.js"></script>

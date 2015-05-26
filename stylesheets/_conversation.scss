@@ -374,4 +374,17 @@
   border-radius: 20px;
   font-size: small;
 }
+.confirmation-dialog {
+    position: absolute;
+    top: $header-height;
+    padding: 1em;
+    background: white;
+    border: solid 2px $blue;
 
+    .message { text-align: center; }
+
+    button {
+      float: right;
+      margin-left: 10px;
+    }
+}
