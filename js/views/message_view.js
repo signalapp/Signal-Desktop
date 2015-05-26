@@ -23,6 +23,7 @@
         initialize: function() {
             this.listenTo(this.model, 'change:body change:errors', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
+            this.listenTo(this.model, 'change', this.renderPending);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
             this.listenTo(this.model, 'destroy', this.remove);
         },
@@ -34,6 +35,11 @@
         },
         className: function() {
             return ["entry", this.model.get('type')].join(' ');
+        },
+        renderPending: function() {
+            if (this.model.isOutgoing()) {
+                this.$el.toggleClass('pending', !!this.model.get('pending'));
+            }
         },
         renderDelivered: function() {
             if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
@@ -66,6 +72,7 @@
             content.html(this.autoLink(content.html()));
 
             this.renderDelivered();
+            this.renderPending();
             this.renderControl();
 
             this.$('.attachments').append(

@@ -75,7 +75,8 @@
             type           : 'outgoing',
             attachments    : attachments,
             sent_at        : now,
-            received_at    : now
+            received_at    : now,
+            pending        : true
         });
         message.save();
 
@@ -95,7 +96,10 @@
         else {
             sendFunc = textsecure.messaging.sendMessageToGroup;
         }
-        sendFunc(this.get('id'), body, attachments, now).catch(function(errors) {
+        sendFunc(this.get('id'), body, attachments, now).then(function() {
+            message.unset('pending');
+            message.save();
+        }.bind(this)).catch(function(errors) {
             var keyErrors = [];
             _.each(errors, function(e) {
                 if (e.error.name === 'OutgoingIdentityKeyError') {
