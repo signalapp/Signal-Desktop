@@ -187,7 +187,9 @@
         this.messageCollection.reset([]);
         _.each(models, function(message) { message.destroy(); });
         this.archive();
-        return this.save();
+        return this.save().then(function() {
+            extension.trigger('updateInbox');
+        });
     },
 
     getTitle: function() {
