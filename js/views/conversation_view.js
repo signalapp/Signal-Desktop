@@ -79,19 +79,21 @@
 
         verifyIdentity: function() {
             if (this.model.isPrivate()) {
-                var number = this.model.id;
-                var view = new Whisper.KeyVerificationView({
-                    model: {
-                        their_key: textsecure.storage.axolotl.getIdentityKey(number),
-                        your_key: textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber())
-                    }
-                });
-                this.$el.hide();
-                view.render().$el.insertAfter(this.el);
-                this.listenTo(view, 'back', function() {
-                    view.remove();
-                    this.$el.show();
-                });
+                var their_number = this.model.id;
+                var our_number = textsecure.storage.user.getNumber();
+                textsecure.storage.axolotl.getIdentityKey(their_number).then(function(their_key) {
+                    textsecure.storage.axolotl.getIdentityKey(our_number).then(function(our_key) {
+                        var view = new Whisper.KeyVerificationView({
+                            model: { their_key: their_key, your_key: our_key }
+                        });
+                        this.$el.hide();
+                        view.render().$el.insertAfter(this.el);
+                        this.listenTo(view, 'back', function() {
+                            view.remove();
+                            this.$el.show();
+                        }.bind(this));
+                    }.bind(this));
+                }.bind(this));
             }
         },
 
