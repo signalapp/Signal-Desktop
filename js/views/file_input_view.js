@@ -75,8 +75,8 @@
                     URL.revokeObjectURL(url);
 
                     var maxSize = 420 * 1024;
-                    var maxHeight = 1920;
-                    var maxWidth = 1920;
+                    var maxHeight = 1280;
+                    var maxWidth = 1280;
                     if (img.width <= maxWidth && img.height <= maxHeight &&
                         file.size <= maxSize) {
                         resolve(file);
