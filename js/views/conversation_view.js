@@ -45,7 +45,8 @@
             });
 
             this.view = new Whisper.MessageListView({
-                collection: this.model.messageCollection
+                collection: this.model.messageCollection,
+                window: this.appWindow.contentWindow
             });
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
