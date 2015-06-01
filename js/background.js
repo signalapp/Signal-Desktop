@@ -45,28 +45,65 @@
 
             // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(window);
-            window.addEventListener('signal', function(ev) {
-                var proto = ev.proto;
-                if (proto.type === textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT) {
-                    onDeliveryReceipt(proto);
-                } else {
-                    onMessageReceived(proto);
-                }
-            });
+            window.addEventListener('contact', onContactReceived);
+            window.addEventListener('receipt', onDeliveryReceipt);
+            window.addEventListener('message', onMessageReceived);
+            window.addEventListener('group', onGroupReceived);
+            window.addEventListener('sent', onSentMessage);
+            window.addEventListener('error', onError);
             messageReceiver.connect();
         }
 
-        function onMessageReceived(pushMessage) {
+        function onContactReceived(contactInfo) {
+            new Whisper.Conversation({
+                name: contactInfo.name,
+                id: contactInfo.number,
+                avatar: contactInfo.avatar,
+                type: 'private',
+                active_at: null
+            }).save();
+        }
+
+        function onGroupReceived(group) {
+            new Whisper.Conversation({
+                members: group.members,
+                name: group.name,
+                id: group.id,
+                avatar: group.avatar,
+                type: 'group',
+                active_at: null
+            }).save();
+        }
+
+        function onMessageReceived(ev) {
+            var data = ev.data;
+            var message = initIncomingMessage(data.source, data.timestamp);
+            message.handlePushMessageContent(data.message);
+        }
+
+        function onSentMessage(ev) {
             var now = new Date().getTime();
-            var timestamp = pushMessage.timestamp.toNumber();
+            var data = ev.data;
 
             var message = new Whisper.Message({
-                source         : pushMessage.source,
-                sourceDevice   : pushMessage.sourceDevice,
-                relay          : pushMessage.relay,
+                source         : textsecure.storage.user.getNumber(),
+                sent_at        : data.timestamp,
+                received_at    : now,
+                conversationId : data.destination,
+                type           : 'outgoing'
+            });
+
+            message.handlePushMessageContent(data.message);
+        }
+
+        function initIncomingMessage(source, timestamp) {
+            var now = new Date().getTime();
+
+            var message = new Whisper.Message({
+                source         : source,
                 sent_at        : timestamp,
                 received_at    : now,
-                conversationId : pushMessage.source,
+                conversationId : source,
                 type           : 'incoming'
             });
 
@@ -74,36 +111,38 @@
             storage.put("unreadCount", newUnreadCount);
             extension.navigator.setBadgeText(newUnreadCount);
 
-            message.save().then(function() {
-                return new Promise(function(resolve) {
-                    resolve(textsecure.protocol_wrapper.handleIncomingPushMessageProto(pushMessage).then(
-                        function(pushMessageContent) {
-                            message.handlePushMessageContent(pushMessageContent);
-                        }
-                    ));
-                }).catch(function(e) {
-                    if (e.name === 'IncomingIdentityKeyError') {
-                        message.save({ errors : [e] }).then(function() {
-                            extension.trigger('updateInbox');
-                            notifyConversation(message);
-                        });
-                    } else if (e.message === 'Bad MAC') {
-                        message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                            extension.trigger('updateInbox');
-                            notifyConversation(message);
-                        });
-                    } else {
-                        console.log(e);
-                        throw e;
-                    }
+            return message;
+        }
+
+        function onError(ev) {
+            var e = ev.error;
+            if (!ev.proto) {
+                console.log(e);
+                throw e;
+            }
+            var envelope = ev.proto;
+            var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
+            if (e.name === 'IncomingIdentityKeyError') {
+                message.save({ errors : [e] }).then(function() {
+                    extension.trigger('updateInbox');
+                    notifyConversation(message);
                 });
-            });
+            } else if (e.message !== 'Bad MAC') {
+                message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                    extension.trigger('updateInbox');
+                    notifyConversation(message);
+                });
+            } else {
+                console.log(e);
+                throw e;
+            }
         }
 
         // lazy hack
         window.receipts = new Backbone.Collection();
 
-        function onDeliveryReceipt(pushMessage) {
+        function onDeliveryReceipt(ev) {
+            var pushMessage = ev.proto;
             var timestamp = pushMessage.timestamp.toNumber();
             var messages  = new Whisper.MessageCollection();
             var groups    = new Whisper.ConversationCollection();

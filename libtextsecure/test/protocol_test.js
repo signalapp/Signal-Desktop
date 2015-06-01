@@ -22,7 +22,7 @@ describe('Protocol', function() {
         it('works', function(done) {
             localStorage.clear();
 
-            var text_message = new textsecure.protobuf.PushMessageContent();
+            var text_message = new textsecure.protobuf.DataMessage();
             text_message.body = "Hi Mom";
             var server_message = {
                 type: 4, // unencrypted
@@ -31,8 +31,12 @@ describe('Protocol', function() {
                 message: text_message.encode()
             };
 
-            return textsecure.protocol_wrapper.handleIncomingPushMessageProto(server_message).
-                then(function(message) {
+            return textsecure.protocol_wrapper.handleEncryptedMessage(
+                server_message.source,
+                server_message.source_device,
+                server_message.type,
+                server_message.message
+            ).then(function(message) {
                     assert.equal(message.body, text_message.body);
                     assert.equal(message.attachments.length, text_message.attachments.length);
                     assert.equal(text_message.attachments.length, 0);

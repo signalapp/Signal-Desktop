@@ -59,6 +59,7 @@ module.exports = function(grunt) {
           'libtextsecure/account_manager.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/sendmessage.js',
+          'libtextsecure/contacts_parser.js',
         ],
         dest: 'js/libtextsecure.js',
       },

@@ -34,7 +34,7 @@
             }
         },
         isEndSession: function() {
-            var flag = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
+            var flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
             return !!(this.get('flags') & flag);
         },
         isGroupUpdate: function() {
@@ -128,113 +128,103 @@
             // identity key change.
             var message = this;
             var source = message.get('source');
+            var type = source === textsecure.storage.user.getNumber() ? 'outgoing' : 'incoming';
             var timestamp = message.get('sent_at');
-            return textsecure.processDecrypted(pushMessageContent, source).then(function(pushMessageContent) {
-                var conversationId = source;
-                if (pushMessageContent.sync) {
-                    conversationId = pushMessageContent.sync.destination;
-                }
+            var conversationId = message.get('conversationId');
+            if (pushMessageContent.group) {
+                conversationId = pushMessageContent.group.id;
+            }
+            var conversation = new Whisper.Conversation({id: conversationId});
+            conversation.fetch().always(function() {
+                var now = new Date().getTime();
+                var attributes = { type: 'private' };
                 if (pushMessageContent.group) {
-                    conversationId = pushMessageContent.group.id;
-                }
-                var conversation = new Whisper.Conversation({id: conversationId});
-                conversation.fetch().always(function() {
-                    var now = new Date().getTime();
-                    var attributes = { type: 'private' };
-                    if (pushMessageContent.group) {
-                        var group_update = {};
+                    var group_update = {};
+                    attributes = {
+                        type: 'group',
+                        groupId: pushMessageContent.group.id,
+                    };
+                    if (pushMessageContent.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
                         attributes = {
-                            type: 'group',
-                            groupId: pushMessageContent.group.id,
+                            type       : 'group',
+                            groupId    : pushMessageContent.group.id,
+                            name       : pushMessageContent.group.name,
+                            avatar     : pushMessageContent.group.avatar,
+                            members    : pushMessageContent.group.members,
                         };
-                        if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
-                            attributes = {
-                                type       : 'group',
-                                groupId    : pushMessageContent.group.id,
-                                name       : pushMessageContent.group.name,
-                                avatar     : pushMessageContent.group.avatar,
-                                members    : pushMessageContent.group.members,
-                            };
-                            group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
-                            var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
-                            if (difference.length > 0) {
-                                group_update.joined = difference;
-                            }
-                        }
-                        else if (pushMessageContent.group.type === textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT) {
-                            group_update = { left: source };
-                            attributes.members = _.without(conversation.get('members'), source);
-                        }
-
-                        if (_.keys(group_update).length > 0) {
-                            message.set({group_update: group_update});
+                        group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
+                        var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
+                        if (difference.length > 0) {
+                            group_update.joined = difference;
                         }
                     }
-                    var type = 'incoming';
-                    if (pushMessageContent.sync) {
-                        type = 'outgoing';
-                        timestamp = pushMessageContent.sync.timestamp.toNumber();
+                    else if (pushMessageContent.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
+                        group_update = { left: source };
+                        attributes.members = _.without(conversation.get('members'), source);
+                    }
 
-                        // lazy hack - check for receipts that arrived early.
-                        if (pushMessageContent.sync.destination) {
-                            var receipt = window.receipts.findWhere({
-                                timestamp: timestamp,
-                                source: pushMessageContent.sync.destination
-                            });
-                            if (receipt) {
-                                window.receipts.remove(receipt);
+                    if (_.keys(group_update).length > 0) {
+                        message.set({group_update: group_update});
+                    }
+                }
+                if (type === 'outgoing') {
+                    // lazy hack - check for receipts that arrived early.
+                    if (pushMessageContent.group && pushMessageContent.group.id) {  // group sync
+                        var members = conversation.get('members') || [];
+                        var receipts = window.receipts.where({ timestamp: timestamp });
+                        for (var i in receipts) {
+                            if (members.indexOf(receipts[i].get('source')) > -1) {
+                                window.receipts.remove(receipts[i]);
                                 message.set({
                                     delivered: (message.get('delivered') || 0) + 1
                                 });
                             }
-                        } else if (pushMessageContent.group.id) {  // group sync
-                            var members = conversation.get('members') || [];
-                            var receipts = window.receipts.where({ timestamp: timestamp });
-                            for (var i in receipts) {
-                                if (members.indexOf(receipts[i].get('source')) > -1) {
-                                    window.receipts.remove(receipts[i]);
-                                    message.set({
-                                        delivered: (message.get('delivered') || 0) + 1
-                                    });
-                                }
-                            }
-                        } else {
-                            throw new Error('Received sync message with no destination and no group id');
+                        }
+                    } else {
+                        var receipt = window.receipts.findWhere({
+                            timestamp: timestamp,
+                            source: conversationId
+                        });
+                        if (receipt) {
+                            window.receipts.remove(receipt);
+                            message.set({
+                                delivered: (message.get('delivered') || 0) + 1
+                            });
                         }
                     }
-                    attributes.active_at = now;
-                    if (type === 'incoming') {
-                        attributes.unreadCount = conversation.get('unreadCount') + 1;
-                    }
-                    conversation.set(attributes);
+                }
+                attributes.active_at = now;
+                if (type === 'incoming') {
+                    attributes.unreadCount = conversation.get('unreadCount') + 1;
+                }
+                conversation.set(attributes);
 
-                    message.set({
-                        body           : pushMessageContent.body,
-                        conversationId : conversation.id,
-                        attachments    : pushMessageContent.attachments,
-                        decrypted_at   : now,
-                        type           : type,
-                        sent_at        : timestamp,
-                        flags          : pushMessageContent.flags,
-                        errors         : []
+                message.set({
+                    body           : pushMessageContent.body,
+                    conversationId : conversation.id,
+                    attachments    : pushMessageContent.attachments,
+                    decrypted_at   : now,
+                    type           : type,
+                    sent_at        : timestamp,
+                    flags          : pushMessageContent.flags,
+                    errors         : []
+                });
+
+                if (message.get('sent_at') > conversation.get('timestamp')) {
+                    conversation.set({
+                        timestamp: message.get('sent_at'),
+                        lastMessage: message.get('body')
                     });
+                }
 
-                    if (message.get('sent_at') > conversation.get('timestamp')) {
-                        conversation.set({
-                            timestamp: message.get('sent_at'),
-                            lastMessage: message.get('body')
-                        });
-                    }
-
-                    conversation.save().then(function() {
-                        message.save().then(function() {
-                            extension.trigger('updateInbox'); // inbox fetch
-                            if (message.isIncoming()) {
-                                notifyConversation(message);
-                            } else {
-                                updateConversation(conversation.id);
-                            }
-                        });
+                conversation.save().then(function() {
+                    message.save().then(function() {
+                        extension.trigger('updateInbox'); // inbox fetch
+                        if (message.isIncoming()) {
+                            notifyConversation(message);
+                        } else {
+                            updateConversation(conversation.id);
+                        }
                     });
                 });
             });

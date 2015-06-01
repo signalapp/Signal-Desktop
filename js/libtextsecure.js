@@ -37784,17 +37784,6 @@ axolotlInternal.RecipientRecord = function() {
     textsecure.storage.axolotl = new AxolotlStore();
     var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
-    var decodeMessageContents = function(res) {
-        var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
-
-        if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION &&
-                finalMessage.sync !== null)
-            res[1]();
-
-        return finalMessage;
-    };
-
     var handlePreKeyWhisperMessage = function(from, message) {
         try {
             return axolotlInstance.handlePreKeyWhisperMessage(from, message);
@@ -37810,22 +37799,18 @@ axolotlInternal.RecipientRecord = function() {
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        handleIncomingPushMessageProto: function(proto) {
-            switch(proto.type) {
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
-                return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
-                var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotlInstance.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
-                if (proto.message.readUint8() != ((3 << 4) | 3))
+        decrypt: function(source, sourceDevice, type, blob) {
+            if (sourceDevice === null) { sourceDevice = 0; }
+            var fromAddress = [source, sourceDevice].join('.');
+            switch(type) {
+            case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
+                return axolotlInstance.decryptWhisperMessage(fromAddress, getString(blob));
+            case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
+                if (blob.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
-                var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
-                return Promise.resolve(null);
+                return handlePreKeyWhisperMessage(fromAddress, getString(blob));
             default:
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
+                return new Promise.reject(new Error("Unknown message type"));
             }
         },
         closeOpenSessionForDevice: function(encodedNumber) {
@@ -37852,8 +37837,18 @@ axolotlInternal.RecipientRecord = function() {
     };
 
     var tryMessageAgain = function(from, encodedMessage) {
-        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
-    }
+        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(function(res) {
+            var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
+
+            if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
+                    == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
+                    finalMessage.sync !== null)
+                res[1]();
+
+            return processDecrypted(finalMessage);
+        });
+    };
+
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 
 })();
@@ -38710,8 +38705,7 @@ window.textsecure.utils = function() {
     return self;
 }();
 
-
-var handleAttachment = function(attachment) {
+function handleAttachment(attachment) {
     function getAttachment() {
         return TextSecureServer.getAttachment(attachment.id.toString());
     }
@@ -38728,11 +38722,11 @@ var handleAttachment = function(attachment) {
     }
 
     return getAttachment().
-      then(decryptAttachment).
-      then(updateAttachment);
-};
+    then(decryptAttachment).
+    then(updateAttachment);
+}
 
-textsecure.processDecrypted = function(decrypted, source) {
+function processDecrypted(decrypted, source) {
 
     // Now that its decrypted, validate the message and clean it up for consumer processing
     // Note that messages may (generally) only perform one action and we ignore remaining fields
@@ -38741,21 +38735,11 @@ textsecure.processDecrypted = function(decrypted, source) {
     if (decrypted.flags == null)
         decrypted.flags = 0;
 
-    if (decrypted.sync !== null && textsecure.storage.user.getNumber() != source) {
-        // Ignore erroneous or malicious sync context from different number
-        decrypted.sync = null;
-    }
-
-    if ((decrypted.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION) {
+    if ((decrypted.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
+                == textsecure.protobuf.DataMessage.Flags.END_SESSION) {
         decrypted.body = null;
         decrypted.attachments = [];
         decrypted.group = null;
-        if (decrypted.sync !== null) {
-            // We didn't actually close the session - see axolotl_wrapper
-            // so just throw an error since this message makes no sense
-            throw new Error("Got a sync END_SESSION message");
-        }
         return Promise.resolve(decrypted);
     }
     if (decrypted.flags != 0) {
@@ -38768,7 +38752,7 @@ textsecure.processDecrypted = function(decrypted, source) {
         decrypted.group.id = getString(decrypted.group.id);
         promises.push(textsecure.storage.groups.getNumbers(decrypted.group.id).then(function(existingGroup) {
             if (existingGroup === undefined) {
-                if (decrypted.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE) {
+                if (decrypted.group.type != textsecure.protobuf.GroupContext.Type.UPDATE) {
                     throw new Error("Got message for unknown group");
                 }
                 if (decrypted.group.avatar !== null) {
@@ -38784,7 +38768,7 @@ textsecure.processDecrypted = function(decrypted, source) {
                 }
 
                 switch(decrypted.group.type) {
-                case textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE:
+                case textsecure.protobuf.GroupContext.Type.UPDATE:
                     if (decrypted.group.avatar !== null)
                         promises.push(handleAttachment(decrypted.group.avatar));
 
@@ -38811,11 +38795,11 @@ textsecure.processDecrypted = function(decrypted, source) {
                     });
 
                     break;
-                case textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT:
+                case textsecure.protobuf.GroupContext.Type.QUIT:
                     decrypted.body = null;
                     decrypted.attachments = [];
                     return textsecure.storage.groups.removeNumber(decrypted.group.id, source);
-                case textsecure.protobuf.PushMessageContent.GroupContext.Type.DELIVER:
+                case textsecure.protobuf.GroupContext.Type.DELIVER:
                     decrypted.group.name = null;
                     decrypted.group.members = [];
                     decrypted.group.avatar = null;
@@ -38834,7 +38818,7 @@ textsecure.processDecrypted = function(decrypted, source) {
     return Promise.all(promises).then(function() {
         return decrypted;
     });
-};
+}
 
 /* vim: ts=4:sw=4:expandtab
  *
@@ -39487,28 +39471,36 @@ function generateKeys(count, progressCallback) {
         connect: function() {
             // initialize the socket and start listening for messages
             this.socket = TextSecureServer.getMessageWebsocket();
-            var eventTarget = this.target;
 
-            new WebSocketResource(this.socket, function(request) {
-                // TODO: handle different types of requests. for now we only expect
-                // PUT /messages <encrypted IncomingPushMessageSignal>
-                textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
-                    var proto = textsecure.protobuf.IncomingPushMessageSignal.decode(plaintext);
-                    // After this point, decoding errors are not the server's
-                    // fault, and we should handle them gracefully and tell the
-                    // user they received an invalid message
-                    request.respond(200, 'OK');
+            new WebSocketResource(this.socket, this.handleRequest.bind(this));
+        },
+        handleRequest: function(request) {
+            // TODO: handle different types of requests. for now we only expect
+            // PUT /messages <encrypted IncomingPushMessageSignal>
+            textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
+                var envelope = textsecure.protobuf.Envelope.decode(plaintext);
+                // After this point, decoding errors are not the server's
+                // fault, and we should handle them gracefully and tell the
+                // user they received an invalid message
+                request.respond(200, 'OK');
 
-                    var ev = new Event('signal');
-                    ev.proto = proto;
-                    eventTarget.dispatchEvent(ev);
+                if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
+                    this.onDeliveryReceipt(envelope);
+                } else if (envelope.content) {
+                    this.handleContentMessage(envelope);
+                } else if (envelope.legacyMessage) {
+                    this.handleLegacyMessage(envelope);
+                } else {
+                    throw new Error('Received message with no content and no legacyMessage');
+                }
 
-                }).catch(function(e) {
-                    console.log("Error handling incoming message:", e);
-                    extension.trigger('error', e);
-                    request.respond(500, 'Bad encrypted websocket message');
-                });
-            });
+            }.bind(this)).catch(function(e) {
+                request.respond(500, 'Bad encrypted websocket message');
+                console.log("Error handling incoming message:", e);
+                var ev = new Event('error');
+                ev.error = e;
+                this.target.dispatchEvent(ev);
+            }.bind(this));
         },
         getStatus: function() {
             if (this.socket) {
@@ -39516,10 +39508,119 @@ function generateKeys(count, progressCallback) {
             } else {
                 return -1;
             }
+        },
+        onDeliveryReceipt: function (envelope) {
+            var ev = new Event('receipt');
+            ev.proto = envelope;
+            this.target.dispatchEvent(ev);
+        },
+        decrypt: function(envelope, ciphertext) {
+            return textsecure.protocol_wrapper.decrypt(
+                envelope.source,
+                envelope.sourceDevice,
+                envelope.type,
+                ciphertext
+            ).catch(function(error) {
+                var ev = new Event('error');
+                ev.error = error;
+                ev.proto = envelope;
+                this.target.dispatchEvent(ev);
+            }.bind(this));
+        },
+        handleSentMessage: function(destination, timestamp, message) {
+            var source = textsecure.storage.user.getNumber();
+            return processDecrypted(message, source).then(function(message) {
+                var ev = new Event('sent');
+                ev.data = {
+                    destination : destination,
+                    timestamp   : timestamp.toNumber(),
+                    message     : message
+                };
+                this.target.dispatchEvent(ev);
+            }.bind(this));
+        },
+        handleDataMessage: function(envelope, message, close_session) {
+            if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
+                == textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
+                close_session();
+            }
+            return processDecrypted(message, envelope.source).then(function(message) {
+                var ev = new Event('message');
+                ev.data = {
+                    source    : envelope.source,
+                    timestamp : envelope.timestamp.toNumber(),
+                    message   : message
+                };
+                this.target.dispatchEvent(ev);
+            }.bind(this));
+        },
+        handleLegacyMessage: function (envelope) {
+            return this.decrypt(envelope, envelope.legacyMessage).then(function(result) {
+                var plaintext = result[0]; // array buffer
+                var close_session = result[1]; // function
+                var message = textsecure.protobuf.DataMessage.decode(plaintext);
+                return this.handleDataMessage(envelope, message, close_session);
+            }.bind(this));
+        },
+        handleContentMessage: function (envelope) {
+            return this.decrypt(envelope, envelope.content).then(function(result) {
+                var plaintext = result[0]; // array buffer
+                var close_session = result[1]; // function
+                var content = textsecure.protobuf.Content.decode(plaintext);
+                if (content.syncMessage) {
+                    return this.handleSyncMessage(envelope, content.syncMessage);
+                } else if (content.dataMessage) {
+                    return this.handleDataMessage(envelope, content.dataMessage, close_session);
+                } else {
+                    throw new Error('Got Content message with no dataMessage and no syncMessage');
+                }
+            }.bind(this));
+        },
+        handleSyncMessage: function(envelope, syncMessage) {
+            if (envelope.source !== textsecure.storage.user.getNumber()) {
+                throw new Error('Received sync message from another number');
+            }
+            if (envelope.sourceDevice == textsecure.storage.user.getDeviceId()) {
+                throw new Error('Received sync message from our own device');
+            }
+            if (syncMessage.sent) {
+                var sentMessage = syncMessage.sent;
+                return this.handleSentMessage(
+                        sentMessage.destination,
+                        sentMessage.timestamp,
+                        sentMessage.message
+                );
+            } else if (syncMessage.contacts) {
+                this.handleContacts(syncMessage.contacts);
+            } else if (syncMessage.group) {
+                this.handleGroup(syncMessage.group);
+            } else {
+                throw new Error('Got SyncMessage with no sent, contacts, or group');
+            }
+        },
+        handleContacts: function(contacts) {
+            var eventTarget = this.target;
+            var attachmentPointer = contacts.blob;
+            return handleAttachment(attachmentPointer).then(function() {
+                var contactBuffer = new ContactBuffer(attachmentPointer.data);
+                var contactInfo = contactBuffer.readContact();
+                while (contactInfo !== undefined) {
+                    var ev = new Event('contact');
+                    ev.contactInfo = contactInfo;
+                    eventTarget.dispatchEvent(ev);
+                    contactInfo = contactBuffer.readContact();
+                }
+            });
+        },
+        handleGroup: function(envelope) {
+            var ev = new Event('group');
+            ev.group = envelope.group;
+            this.target.dispatchEvent(ev);
         }
     };
 
     textsecure.MessageReceiver = MessageReceiver;
+
 
 }());
 
@@ -39638,11 +39739,11 @@ window.textsecure.messaging = function() {
                 if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
                     return Promise.reject("Tried to refresh group to non-member");
 
-                var proto = new textsecure.protobuf.PushMessageContent();
-                proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+                var proto = new textsecure.protobuf.DataMessage();
+                proto.group = new textsecure.protobuf.GroupContext();
 
                 proto.group.id = toArrayBuffer(group.id);
-                proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+                proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
                 proto.group.members = group.numbers;
                 proto.group.name = group.name === undefined ? null : group.name;
 
@@ -39659,7 +39760,7 @@ window.textsecure.messaging = function() {
     }
 
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
-        var proto = textsecure.protobuf.PushMessageContent.decode(encodedMessage);
+        var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
             sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.failure.length > 0)
@@ -39705,7 +39806,7 @@ window.textsecure.messaging = function() {
 
         doSendMessage = function(number, devicesForNumber, recurse) {
             var groupUpdate = Promise.resolve(true);
-            if (message.group && message.group.id && message.group.type != textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT)
+            if (message.group && message.group.id && message.group.type != textsecure.protobuf.GroupContext.Type.QUIT)
                 groupUpdate = refreshGroup(number, message.group.id, devicesForNumber);
             return groupUpdate.then(function() {
                 return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
@@ -39771,7 +39872,7 @@ window.textsecure.messaging = function() {
     }
 
     makeAttachmentPointer = function(attachment) {
-        var proto = new textsecure.protobuf.PushMessageContent.AttachmentPointer();
+        var proto = new textsecure.protobuf.AttachmentPointer();
         proto.key = textsecure.crypto.getRandomBytes(64);
 
         var iv = textsecure.crypto.getRandomBytes(16);
@@ -39799,13 +39900,18 @@ window.textsecure.messaging = function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
-            var sync_message = textsecure.protobuf.PushMessageContent.decode(message.encode());
-            sync_message.sync = new textsecure.protobuf.PushMessageContent.SyncMessageContext();
+            var sentMessage = new textsecure.protobuf.SyncMessage.Sent();
+            sentMessage.timestamp = timestamp;
+            sentMessage.message = message;
             if (destination) {
-                sync_message.sync.destination = destination;
+                sentMessage.destination = destination;
             }
-            sync_message.sync.timestamp = timestamp;
-            return sendIndividualProto(myNumber, sync_message, Date.now());
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.sent = sentMessage;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     }
 
@@ -39827,7 +39933,7 @@ window.textsecure.messaging = function() {
     }
 
     self.sendMessageToNumber = function(number, messageText, attachments, timestamp) {
-        var proto = new textsecure.protobuf.PushMessageContent();
+        var proto = new textsecure.protobuf.DataMessage();
         proto.body = messageText;
 
         var promises = [];
@@ -39842,9 +39948,9 @@ window.textsecure.messaging = function() {
     }
 
     self.closeSession = function(number) {
-        var proto = new textsecure.protobuf.PushMessageContent();
+        var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
-        proto.flags = textsecure.protobuf.PushMessageContent.Flags.END_SESSION;
+        proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
         return sendIndividualProto(number, proto, Date.now()).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
@@ -39857,11 +39963,11 @@ window.textsecure.messaging = function() {
     }
 
     self.sendMessageToGroup = function(groupId, messageText, attachments, timestamp) {
-        var proto = new textsecure.protobuf.PushMessageContent();
+        var proto = new textsecure.protobuf.DataMessage();
         proto.body = messageText;
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        proto.group = new textsecure.protobuf.GroupContext();
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.DELIVER;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.DELIVER;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
@@ -39878,14 +39984,14 @@ window.textsecure.messaging = function() {
     }
 
     self.createGroup = function(numbers, name, avatar) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
 
         return textsecure.storage.groups.createNewGroup(numbers).then(function(group) {
             proto.group.id = toArrayBuffer(group.id);
             var numbers = group.numbers;
 
-            proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+            proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
             proto.group.members = numbers;
             proto.group.name = name;
 
@@ -39905,11 +40011,11 @@ window.textsecure.messaging = function() {
     }
 
     self.updateGroup = function(groupId, name, avatar, numbers) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
 
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
         proto.group.name = name;
 
         return textsecure.storage.groups.addNumbers(groupId, numbers).then(function(numbers) {
@@ -39934,10 +40040,10 @@ window.textsecure.messaging = function() {
     }
 
     self.addNumberToGroup = function(groupId, number) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
 
         return textsecure.storage.groups.addNumbers(groupId, [number]).then(function(numbers) {
             if (numbers === undefined)
@@ -39949,10 +40055,10 @@ window.textsecure.messaging = function() {
     }
 
     self.setGroupName = function(groupId, name) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
         proto.group.name = name;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
@@ -39965,10 +40071,10 @@ window.textsecure.messaging = function() {
     }
 
     self.setGroupAvatar = function(groupId, avatar) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.UPDATE;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
@@ -39983,10 +40089,10 @@ window.textsecure.messaging = function() {
     }
 
     self.leaveGroup = function(groupId) {
-        var proto = new textsecure.protobuf.PushMessageContent();
-        proto.group = new textsecure.protobuf.PushMessageContent.GroupContext();
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.group = new textsecure.protobuf.GroupContext();
         proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.PushMessageContent.GroupContext.Type.QUIT;
+        proto.group.type = textsecure.protobuf.GroupContext.Type.QUIT;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
@@ -39999,4 +40105,30 @@ window.textsecure.messaging = function() {
 
     return self;
 }();
+
+/*
+ * vim: ts=4:sw=4:expandtab
+ */
+function ContactBuffer(arrayBuffer) {
+    this.buffer = new dCodeIO.ByteBuffer(arrayBuffer);
+}
+ContactBuffer.prototype = {
+    constructor: ContactBuffer,
+    readContact: function() {
+        try {
+            var len = this.buffer.readVarint32();
+            this.buffer.skip(len);
+            var contactInfo = textsecure.protobuf.ContactDetails.decode(
+                this.buffer.slice(this.buffer.offset, len)
+            );
+            var attachmentLen = contactInfo.avatar.length;
+            contactInfo.avatar.data = this.buffer.slice(this.buffer.offset, attachmentLen).toArrayBuffer(true /* copy? */);
+            this.buffer.skip(attachmentLen);
+
+            return contactInfo;
+        } catch(e) {
+            console.log(e);
+        }
+    }
+};
 })();

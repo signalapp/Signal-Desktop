@@ -5,17 +5,6 @@
     textsecure.storage.axolotl = new AxolotlStore();
     var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
-    var decodeMessageContents = function(res) {
-        var finalMessage = textsecure.protobuf.PushMessageContent.decode(res[0]);
-
-        if ((finalMessage.flags & textsecure.protobuf.PushMessageContent.Flags.END_SESSION)
-                == textsecure.protobuf.PushMessageContent.Flags.END_SESSION &&
-                finalMessage.sync !== null)
-            res[1]();
-
-        return finalMessage;
-    };
-
     var handlePreKeyWhisperMessage = function(from, message) {
         try {
             return axolotlInstance.handlePreKeyWhisperMessage(from, message);
@@ -31,22 +20,18 @@
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        handleIncomingPushMessageProto: function(proto) {
-            switch(proto.type) {
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.PLAINTEXT:
-                return Promise.resolve(textsecure.protobuf.PushMessageContent.decode(proto.message));
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.CIPHERTEXT:
-                var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return axolotlInstance.decryptWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.PREKEY_BUNDLE:
-                if (proto.message.readUint8() != ((3 << 4) | 3))
+        decrypt: function(source, sourceDevice, type, blob) {
+            if (sourceDevice === null) { sourceDevice = 0; }
+            var fromAddress = [source, sourceDevice].join('.');
+            switch(type) {
+            case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
+                return axolotlInstance.decryptWhisperMessage(fromAddress, getString(blob));
+            case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
+                if (blob.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
-                var from = proto.source + "." + (proto.sourceDevice == null ? 0 : proto.sourceDevice);
-                return handlePreKeyWhisperMessage(from, getString(proto.message)).then(decodeMessageContents);
-            case textsecure.protobuf.IncomingPushMessageSignal.Type.RECEIPT:
-                return Promise.resolve(null);
+                return handlePreKeyWhisperMessage(fromAddress, getString(blob));
             default:
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown message type")); });
+                return new Promise.reject(new Error("Unknown message type"));
             }
         },
         closeOpenSessionForDevice: function(encodedNumber) {
@@ -73,8 +58,18 @@
     };
 
     var tryMessageAgain = function(from, encodedMessage) {
-        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(decodeMessageContents);
-    }
+        return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(function(res) {
+            var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
+
+            if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
+                    == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
+                    finalMessage.sync !== null)
+                res[1]();
+
+            return processDecrypted(finalMessage);
+        });
+    };
+
     textsecure.replay.registerFunction(tryMessageAgain, textsecure.replay.Type.INIT_SESSION);
 
 })();

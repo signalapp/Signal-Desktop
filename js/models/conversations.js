@@ -136,7 +136,7 @@
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now,
-                flags          : textsecure.protobuf.PushMessageContent.Flags.END_SESSION
+                flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             }).save();
         }
 
