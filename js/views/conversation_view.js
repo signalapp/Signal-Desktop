@@ -65,8 +65,13 @@
             'click .new-group-update': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
             'click .hamburger': 'toggleMenu',
+            'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'select .entry': 'messageDetail'
+        },
+
+        openInbox: function() {
+            openInbox();
         },
 
         onClick: function(e) {

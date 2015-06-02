@@ -21,6 +21,7 @@
           <div class='menu'>
             <button class='hamburger'></button>
             <ul class='menu-list'>
+                <li><a class='openInbox'>Open Inbox</a></li>
                 {{#group}}
                     <li><a class='new-group-update'>Update group</a></li>
                     <li><a class='leave-group'>Leave group</a></li>
@@ -32,7 +33,7 @@
                 <li><a class='destroy'>Delete messages</a></li>
             </ul>
           </div>
-        <span class='conversation-title'>{{ title }}</span>
+          <span class='conversation-title'>{{ title }}</span>
       </div>
 
       <div class='discussion-container'></div>
