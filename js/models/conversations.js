@@ -42,7 +42,7 @@
     },
 
     validate: function(attributes, options) {
-        var required = ['id', 'type', 'timestamp'];
+        var required = ['id', 'type'];
         var missing = _.filter(required, function(attr) { return !attributes[attr]; });
         if (missing.length) { return "Conversation must have " + missing; }
 
