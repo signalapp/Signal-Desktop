@@ -31,6 +31,7 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
+            this.listenTo(this.model, 'change:name', this.updateTitle);
 
             this.render();
 
@@ -181,6 +182,10 @@
                     return m;
                 }
             });
+        },
+
+        updateTitle: function() {
+            this.$('.conversation-title').text(this.model.getTitle());
         }
     });
 })();
