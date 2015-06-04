@@ -20,15 +20,17 @@
     Whisper.NewConversationView = Whisper.View.extend({
         className: 'new-conversation',
         template: $('#new-conversation').html(),
-        initialize: function() {
+        initialize: function(options) {
             this.render();
             this.$group_update = this.$('.new-group-update-form');
             this.$create = this.$('.create');
             this.$input = this.$('input.search');
 
             // Group avatar file input
+            this.appWindow = options.appWindow;
             this.avatarInput = new Whisper.FileInputView({
-                el: this.$('.group-avatar')
+                el: this.$('.group-avatar'),
+                window: this.appWindow.contentWindow
             });
 
             this.recipients_view = new Whisper.RecipientsInputView();

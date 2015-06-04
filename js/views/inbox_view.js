@@ -59,7 +59,9 @@
             initialize: function (options) {
                 this.render();
 
-                this.newConversationView = new Whisper.NewConversationView();
+                this.newConversationView = new Whisper.NewConversationView({
+                    appWindow: options.appWindow
+                });
                 this.newConversationView.$el.hide();
                 this.listenTo(this.newConversationView, 'open',
                     this.openConversation.bind(this, null));

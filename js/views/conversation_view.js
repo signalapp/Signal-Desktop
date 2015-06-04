@@ -144,7 +144,8 @@
 
         newGroupUpdate: function() {
             this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
-                model: this.model
+                model: this.model,
+                window: this.appWindow.contentWindow
             });
             this.newGroupUpdateView.$el.insertAfter(this.el);
             this.$el.hide();

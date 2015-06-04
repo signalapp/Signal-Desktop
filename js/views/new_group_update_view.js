@@ -24,7 +24,8 @@
         initialize: function(options) {
             this.render();
             this.avatarInput = new Whisper.FileInputView({
-                el: this.$('.group-avatar')
+                el: this.$('.group-avatar'),
+                window: options.window
             });
 
             this.recipients_view = new Whisper.RecipientsInputView();
