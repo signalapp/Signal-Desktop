@@ -85,7 +85,7 @@
 
                     // loadImage.scale -> components/blueimp-load-image
                     var canvas = loadImage.scale(img, {
-                        canvas: true, maxWidth: 1920, maxHeight: 1920
+                        canvas: true, maxWidth: maxWidth, maxHeight: maxHeight
                     });
 
                     var quality = 0.95;
@@ -161,6 +161,41 @@
             file = file || this.file || this.$input.prop('files')[0];
             if (file === undefined) { return Promise.resolve(); }
             return this.autoScale(file).then(this.readFile);
+        },
+
+        getThumbnail: function() {
+            // Scale and crop an image to 256px square
+            var size = 256;
+            var file = this.file || this.$input.prop('files')[0];
+            if (file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
+                // nothing to do
+                return Promise.resolve();
+            }
+
+            return new Promise(function(resolve, reject) {
+                var url = URL.createObjectURL(file);
+                var img = document.createElement('img');
+                img.onerror = reject;
+                img.onload = function () {
+                    URL.revokeObjectURL(url);
+                    // loadImage.scale -> components/blueimp-load-image
+                    // scale, then crop.
+                    var canvas = loadImage.scale(img, {
+                        canvas: true, maxWidth: size, maxHeight: size,
+                        cover: true, minWidth: size, minHeight: size
+                    });
+                    canvas = loadImage.scale(canvas, {
+                        canvas: true, maxWidth: size, maxHeight: size,
+                        crop: true, minWidth: size, minHeight: size
+                    });
+
+                    // dataURLtoBlob -> components/blueimp-canvas-to-blob
+                    var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
+
+                    resolve(blob);
+                };
+                img.src = url;
+            }).then(this.readFile);
         },
 
         readFile: function(file) {

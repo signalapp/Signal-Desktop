@@ -46,10 +46,10 @@
             };
         },
         send: function() {
-            return this.avatarInput.getFiles().then(function(avatarFiles) {
+            return this.avatarInput.getThumbnail().then(function(avatarFile) {
                 this.model.save({
                     name: this.$('.name').val(),
-                    avatar: avatarFiles[0],
+                    avatar: avatarFile,
                     members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
                 });
                 textsecure.messaging.updateGroup(

@@ -114,7 +114,7 @@
                 return;
             }
 
-            return this.avatarInput.getFile().then(function(avatarFile) {
+            return this.avatarInput.getThumbnail().then(function(avatarFile) {
                 var members = this.getRecipients().pluck('id');
                 textsecure.storage.groups.createNewGroup(members).then(function(group) {
                     return group.id;
