@@ -39846,7 +39846,7 @@ window.textsecure.messaging = function() {
         return sendIndividualProto(number, proto, Date.now()).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
-                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(devices.encodedNumber);
+                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
                 })).then(function() {
                     return res;
                 });
