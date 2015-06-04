@@ -54,7 +54,7 @@
                     // Add pending devices from tempKeys
                     for (var encodedNumber in tempKeys) {
                         var deviceNumber = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                        var deviceId = textsecure.utils.unencodeNumber(encodedNumber)[1];
+                        var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
                         if (deviceNumber === number && deviceIds.indexOf(deviceId) < 0) {
                             deviceIds.push(deviceId);
                         }
