@@ -39721,7 +39721,9 @@ window.textsecure.messaging = function() {
                     if (error.message == 409) {
                         p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
                     } else {
-                        p = Promise.resolve();
+                        p = Promise.all(error.response.staleDevices.map(function(deviceId) {
+                            return textsecure.protocol_wrapper.closeOpenSessionForDevice(number + '.' + deviceId);
+                        }));
                     }
 
                     p.then(function() {
