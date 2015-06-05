@@ -229,6 +229,7 @@
         } else {
             this.avatarUrl = null;
         }
+        this.trigger('change');
     },
 
     getAvatarUrl: function() {

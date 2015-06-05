@@ -47,11 +47,15 @@
         },
         send: function() {
             return this.avatarInput.getThumbnail().then(function(avatarFile) {
-                this.model.save({
+                this.model.set({
                     name: this.$('.name').val(),
-                    avatar: avatarFile,
                     members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
                 });
+                if (avatarFile) {
+                    this.model.set({avatar: avatarFile});
+                    this.model.trigger('change:avatar');
+                }
+                this.model.save();
                 textsecure.messaging.updateGroup(
                     this.model.id,
                     this.model.get('name'),
