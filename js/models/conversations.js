@@ -102,7 +102,7 @@
         }.bind(this)).catch(function(errors) {
             var keyErrors = [];
             _.each(errors, function(e) {
-                if (e.error.name === 'OutgoingIdentityKeyError') {
+                if (_.has(e.error, 'name') && e.error.name === 'OutgoingIdentityKeyError') {
                     keyErrors.push(e.error);
                 }
             });
