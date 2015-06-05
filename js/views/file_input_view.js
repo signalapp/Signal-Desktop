@@ -28,7 +28,6 @@
             this.$input = this.$('input[type=file]');
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
-            this.$default = this.$('.default');
             this.window = options.window;
         },
 
@@ -56,7 +55,7 @@
         },
 
         addThumb: function(src) {
-            this.$default.hide();
+            this.$('.default').hide();
             this.thumb.src = src;
             this.$('.thumbnail').append(this.thumb.render().el);
         },
@@ -215,7 +214,7 @@
                 this.oUrl = null;
             }
             this.thumb.remove();
-            this.$default.show();
+            this.$('.default').show();
         },
 
         deleteFiles: function(e) {
