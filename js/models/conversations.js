@@ -100,6 +100,9 @@
             message.unset('pending');
             message.save();
         }.bind(this)).catch(function(errors) {
+            if (errors instanceof Error) {
+                errors = [errors];
+            }
             var keyErrors = [];
             _.each(errors, function(e) {
                 if (e.error.name === 'OutgoingIdentityKeyError') {
