@@ -31,8 +31,8 @@ body {
 
 #header {
   position: fixed;
-  top: 0;
-  width: 100%;
+  top: 1px;
+  width: calc(100% - 2px);
   z-index: 1;
   height: $header-height;
   line-height: 24px;
