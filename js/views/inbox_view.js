@@ -22,7 +22,10 @@
         var SocketView = Whisper.View.extend({
             className: 'status',
             initialize: function() {
-                setInterval(function() {
+                setInterval(this.updateStatus.bind(this), 1000);
+            },
+            updateStatus: function() {
+                extension.windows.getBackground(function(bg) {
                     var className, message = '';
                     switch(bg.getSocketStatus && bg.getSocketStatus()) {
                         case WebSocket.CONNECTING:
@@ -43,13 +46,15 @@
                         this.$el.attr('class', className);
                         this.$el.text(message);
                     }
-                }.bind(this), 1000);
+                }.bind(this));
             },
             events: {
                 'click': 'reloadBackgroundPage'
             },
             reloadBackgroundPage: function() {
-                bg.location.reload();
+                extension.windows.getBackground(function(bg) {
+                    bg.location.reload();
+                });
             }
         });
 
