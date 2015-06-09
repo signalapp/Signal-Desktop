@@ -222,7 +222,7 @@
         }
     },
 
-    updateAvatarUrl: function() {
+    updateAvatarUrl: function(silent) {
         this.revokeAvatarUrl();
         var avatar = this.get('avatar');
         if (avatar) {
@@ -232,12 +232,14 @@
         } else {
             this.avatarUrl = null;
         }
-        this.trigger('change');
+        if (!silent) {
+            this.trigger('change');
+        }
     },
 
     getAvatarUrl: function() {
         if (this.avatarUrl === undefined) {
-            this.updateAvatarUrl();
+            this.updateAvatarUrl(true);
         }
         return this.avatarUrl || '/images/default.png';
     },
