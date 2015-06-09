@@ -176,7 +176,7 @@ img.emoji {
     height: 100%;
     border-radius: 50%;
     background: #f3f3f3 url("/images/group_default.png") no-repeat center; }
-  .new-group-update-form .file-input .thumbnail,
+  .new-group-update-form .file-input .thumbnail, .new-group-update-form .thumbnail .avatar,
   .new-group-update-form img {
     height: 54px;
     width: 54px;
@@ -195,6 +195,19 @@ img.emoji {
     border: solid 1px #ccc;
     border-width: 0 0 1px 0;
     width: calc(100% - 64px); }
+  .new-group-update-form .results {
+    width: calc(100% - 20px);
+    margin: 0 0 0 20px; }
+    .new-group-update-form .results .contact {
+      z-index: 10; }
+  .new-group-update-form .members .contact {
+    box-shadow: none;
+    border-bottom: 1px solid #eee; }
+    .new-group-update-form .members .contact .last-message, .new-group-update-form .members .contact .last-timestamp {
+      display: none; }
+    .new-group-update-form .members .contact:hover {
+      background: white;
+      cursor: auto; }
 
 .title-bar .check {
   float: right;
@@ -207,21 +220,12 @@ img.emoji {
   cursor: pointer;
   transition: background 0.2s;
   white-space: nowrap;
-  overflow: hidden; }
-  .contact::after {
-    content: '';
-    position: absolute;
-    right: 16px;
-    bottom: 0;
-    height: 1px;
-    width: calc(100% - 12px - 54px - 2 * 8px - 16px);
-    background: #eee; }
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
   .contact:hover {
     background: #f8f8f8; }
-  .contact:last-child {
-    box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
-    .contact:last-child::after {
-      display: none; }
+  .contact:last-child::after {
+    display: none; }
   .contact .contact-details {
     vertical-align: top;
     display: inline-block;

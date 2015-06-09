@@ -206,7 +206,7 @@ img.emoji {
 
   }
 
-  .file-input .thumbnail,
+  .file-input .thumbnail, .thumbnail .avatar,
   img {
     height: 54px;
     width: 54px;
@@ -231,6 +231,25 @@ img.emoji {
     width: calc(100% - 64px);
   }
 
+  .results {
+    width: calc(100% - 20px);
+    margin: 0 0 0 20px;
+    .contact {
+      z-index: 10;
+    }
+  }
+
+  .members .contact {
+    box-shadow: none;
+    border-bottom: 1px solid #eee;
+    .last-message, .last-timestamp {
+      display: none;
+    }
+    &:hover {
+      background: white;
+      cursor: auto;
+    }
+  }
 }
 
 .title-bar .check {
@@ -246,27 +265,14 @@ img.emoji {
   transition: background 0.2s;
   white-space: nowrap;
   overflow: hidden;
-
-  &::after {
-    content: '';
-    position: absolute;
-    right: 16px;
-    bottom: 0;
-    height: 1px;
-    width: calc(100% - 12px - 54px - 2 * 8px - 16px);
-    background: #eee;
-  }
+  box-shadow: 0 1px 3px rgba(#aaa, 0.8);
 
   &:hover {
     background: #f8f8f8;
   }
 
-  &:last-child {
-    box-shadow: 0 1px 3px rgba(#aaa, 0.8);
-
-    &::after {
-      display: none;
-    }
+  &:last-child::after {
+    display: none;
   }
 
   .contact-details {

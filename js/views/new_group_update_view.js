@@ -32,11 +32,27 @@
                 placeholder: "Add member"
             });
             this.$('.scrollable').append(this.recipients_view.el);
+
             this.$('.avatar').addClass('default');
+
+            this.member_list_view = new Whisper.ConversationListView({
+                collection: this.model.contactCollection,
+                className: 'members'
+            });
+            this.member_list_view.render();
+            this.$('.scrollable').append(this.member_list_view.el);
         },
         events: {
             'click .back': 'goBack',
-            'click .send': 'send'
+            'click .send': 'send',
+            'keyup input.search': 'toggleResults'
+        },
+        toggleResults: function() {
+            if (this.recipients_view.$input.val().length >= 2) {
+                this.$('.results').show();
+            } else {
+                this.$('.results').hide();
+            }
         },
         goBack: function() {
             this.trigger('back');
