@@ -58,7 +58,10 @@
     Whisper.RecipientsInputView = Whisper.View.extend({
         className: 'recipients-input',
         template: $('#recipients-input').html(),
-        initialize: function() {
+        initialize: function(options) {
+            if (options) {
+                this.placeholder = options.placeholder;
+            }
             this.render();
             this.$input = this.$('input.search');
             this.$new_contact = this.$('.new-contact');
@@ -87,6 +90,10 @@
             this.$('.contacts').append(this.typeahead_view.el);
 
             this.initNewContact();
+        },
+
+        render_attributes: function() {
+            return { placeholder: this.placeholder || "Name or phone number" };
         },
 
         events: {

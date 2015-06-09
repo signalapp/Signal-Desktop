@@ -28,7 +28,9 @@
                 window: options.window
             });
 
-            this.recipients_view = new Whisper.RecipientsInputView();
+            this.recipients_view = new Whisper.RecipientsInputView({
+                placeholder: "Add member"
+            });
             this.$('.scrollable').append(this.recipients_view.el);
             this.$('.avatar').addClass('default');
         },
