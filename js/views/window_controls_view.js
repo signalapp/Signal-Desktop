@@ -30,11 +30,7 @@
             'click .minimize': 'minimize'
         },
         close: function() {
-            if (this.appWindow.id === 'inbox') {
-                this.appWindow.hide();
-            } else {
-                this.appWindow.close();
-            }
+            this.appWindow.close();
         },
         minimize: function() {
           this.appWindow.minimize();
