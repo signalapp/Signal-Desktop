@@ -248,10 +248,15 @@ TextSecureServer = function () {
         });
     };
 
-    self.sendMessages = function(destination, messageArray) {
+    self.sendMessages = function(destination, messageArray, legacy) {
         //TODO: Do this conversion somewhere else?
-        for (var i = 0; i < messageArray.length; i++)
-            messageArray[i].body = btoa(messageArray[i].body);
+        for (var i = 0; i < messageArray.length; i++) {
+            messageArray[i].content = btoa(messageArray[i].content);
+            if (legacy) {
+                messageArray[i].body = messageArray[i].content;
+                delete messageArray[i].content;
+            }
+        }
         var jsonData = { messages: messageArray };
         if (messageArray[0].relay !== undefined)
             jsonData.relay = messageArray[0].relay;

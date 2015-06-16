@@ -74,7 +74,7 @@ window.textsecure.messaging = function() {
                             type: encryptedMsg.type,
                             destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
                             destinationRegistrationId: registrationId,
-                            body: encryptedMsg.body,
+                            content: encryptedMsg.body,
                             timestamp: timestamp
                         };
 
@@ -88,7 +88,8 @@ window.textsecure.messaging = function() {
         for (var i = 0; i < deviceObjectList.length; i++)
             promises[i] = addEncryptionFor(i);
         return Promise.all(promises).then(function() {
-            return TextSecureServer.sendMessages(number, jsonData);
+            var legacy = (message instanceof textsecure.protobuf.DataMessage);
+            return TextSecureServer.sendMessages(number, jsonData, legacy);
         });
     }
 
