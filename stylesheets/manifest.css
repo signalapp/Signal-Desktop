@@ -116,15 +116,12 @@ button.back {
   position: relative;
   margin-right: 10px;
   cursor: pointer; }
-  .file-input .thumbnail {
-    width: 36px;
-    height: 36px; }
   .file-input .paperclip {
     width: 36px;
-    height: 36px;
-    background: url("/images/paperclip.png") no-repeat;
+    height: 100%;
+    background: url("/images/paperclip.png") no-repeat center center;
     background-size: 90%;
-    background-position: center 6px; }
+    margin-top: 4px; }
   .file-input input[type=file] {
     display: none;
     position: absolute;
@@ -427,15 +424,17 @@ input.search {
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 
-.conversation {
-  padding: 36px 0; }
-  .conversation .file-input .close {
-    top: -10px; }
-  .conversation .conversation-title {
-    line-height: 36px; }
+.conversation .file-input .close {
+  top: -10px; }
+.conversation .conversation-title {
+  line-height: 36px; }
+.conversation #header {
+  position: inherit; }
+.conversation .discussion-container {
+  height: calc(100% - 2 * 36px); }
 
 .conversation + .new-group-update-form,
-.conversation, .discussion-container, .message-list, .message-detail, .key-verification {
+.conversation, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
 .key-verification {
@@ -666,7 +665,7 @@ input.search {
   width: calc(100% - 2px);
   border-top: 1px solid #f3f3f3;
   background: white; }
-  .bottom-bar button, .bottom-bar input {
+  .bottom-bar button, .bottom-bar input, .bottom-bar textarea {
     color: #454545; }
   .bottom-bar button {
     position: absolute;
@@ -693,11 +692,14 @@ input.search {
     cursor: pointer; }
     .bottom-bar .send-btn::before {
       content: '+'; }
-  .bottom-bar form, .bottom-bar input {
+  .bottom-bar form, .bottom-bar input, .bottom-bar textarea {
     height: 100%; }
-  .bottom-bar input[type=textarea] {
+  .bottom-bar .send-message {
     display: block;
-    height: 100%;
+    width: calc(100% - 2 * 36px - 20px);
+    min-height: 35px;
+    max-height: 100px;
+    padding: 10px;
     border: 0;
     outline: 0;
     z-index: 5; }

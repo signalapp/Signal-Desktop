@@ -22,7 +22,8 @@
     "blueimp-load-image": "~1.13.0",
     "blueimp-canvas-to-blob": "~2.1.1",
     "twemoji": "~1.2.1",
-    "emojijs": "iamcal/js-emoji"
+    "emojijs": "iamcal/js-emoji",
+    "autosize": "~3.0.6"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -111,6 +112,9 @@
     ],
     "mock-socket": [
       "dist/mock-socket.js"
+    ],
+    "autosize": [
+      "dist/autosize.js"
     ]
   },
   "concat": {
@@ -131,7 +135,8 @@
       "blueimp-load-image",
       "blueimp-canvas-to-blob",
       "twemoji",
-      "emojijs"
+      "emojijs",
+      "autosize"
     ],
     "libtextsecure": [
       "jquery",

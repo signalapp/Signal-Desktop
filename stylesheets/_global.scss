@@ -130,16 +130,12 @@ button.back {
   margin-right: 10px;
   cursor: pointer;
 
-  .thumbnail {
-    width: 36px;
-    height: 36px;
-  }
   .paperclip {
     width: 36px;
-    height: 36px;
-    background: url('/images/paperclip.png') no-repeat;
+    height: 100%;
+    background: url('/images/paperclip.png') no-repeat center center;
     background-size: 90%;
-    background-position: center 6px;
+    margin-top: 4px;
   }
 
   input[type=file] {

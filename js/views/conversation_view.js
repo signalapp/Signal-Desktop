@@ -59,6 +59,8 @@
 
         events: {
             'submit .send': 'sendMessage',
+            'input .send-message': 'updateMessageFieldSize',
+            'keydown .send-message': 'updateMessageFieldSize',
             'close': 'remove',
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
@@ -161,7 +163,7 @@
 
         sendMessage: function(e) {
             e.preventDefault();
-            var input = this.$('.send input.send-message');
+            var input = this.$('.send .send-message');
             var message = this.replace_colons(input.val());
             var convo = this.model;
 
@@ -170,9 +172,11 @@
                     convo.sendMessage(message, attachments);
                 });
                 input.val("");
+                window.autosize(input);
                 this.fileInput.deleteFiles();
             }
         },
+
         replace_colons: function(str) {
             return str.replace(emoji.rx_colons, function(m){
                 var idx = m.substr(1, m.length-2);
@@ -187,6 +191,27 @@
 
         updateTitle: function() {
             this.$('.conversation-title').text(this.model.getTitle());
+        },
+
+        updateMessageFieldSize: function (event) {
+            var keyCode = event.which || event.keyCode;
+
+            if (keyCode === 13) {
+                // enter pressed - submit the form now
+                return this.$('.bottom-bar form').submit();
+            }
+
+            var $messageField = this.$('.send-message'),
+                $discussionContainer = this.$('.discussion-container'),
+                $discussionContainerPrevHeight = $discussionContainer.outerHeight(),
+                $bottomBar = this.$('.bottom-bar'),
+                $bottomBarPrevHeight = $bottomBar.outerHeight();
+
+            window.autosize($messageField);
+            $bottomBar.outerHeight($messageField.outerHeight() + 1);
+
+            var $bottomBarNewHeight = $bottomBar.outerHeight();
+            $discussionContainer.outerHeight($discussionContainerPrevHeight - ($bottomBarNewHeight - $bottomBarPrevHeight));
         }
     });
 })();

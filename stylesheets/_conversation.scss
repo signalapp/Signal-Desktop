@@ -1,6 +1,4 @@
 .conversation {
-  padding: $header-height 0;
-
   .file-input .close {
     top: -10px;
   }
@@ -8,10 +6,18 @@
   .conversation-title {
     line-height: $header-height;
   }
+
+  #header {
+    position: inherit;
+  }
+
+  .discussion-container {
+    height: calc(100% - 2 * #{$header-height});
+  }
 }
 
 .conversation + .new-group-update-form,
-.conversation, .discussion-container, .message-list, .message-detail, .key-verification {
+.conversation, .message-list, .message-detail, .key-verification {
   height: 100%;
 }
 
@@ -29,6 +35,7 @@
     padding: 0 1em;
   }
 }
+
 .message-detail {
   padding: $header-height 0 0;
   background: $grey_l;
@@ -100,6 +107,7 @@
 .outgoing .sender {
   display: none;
 }
+
 .sender {
   font-size: smaller;
   opacity: 0.8;
@@ -110,9 +118,8 @@
 }
 
 .entry.delivered .checkmark {
-    display: inline;
+  display: inline;
 }
-
 
 .message-list {
   margin: 0;
@@ -237,7 +244,9 @@
         font-style: italic;
       }
 
-      &::before, &::after { display: none; }
+      &::before, &::after {
+        display: none;
+      }
     }
   }
 
@@ -308,6 +317,8 @@
 }
 
 .bottom-bar {
+  $button-width: 36px;
+
   position: fixed;
   bottom: 1; // offset 1 for window frame.
   height: 36px;
@@ -315,7 +326,7 @@
   border-top: 1px solid $grey_l;
   background: white;
 
-  button, input {
+  button, input, textarea {
     color: $grey_d;
   }
 
@@ -323,7 +334,7 @@
     position: absolute;
     top: 0;
     height: 100%;
-    width: 36px;
+    width: $button-width;
     padding: 0;
     border: 0;
     outline: 0;
@@ -352,16 +363,19 @@
     }
   }
 
-  form, input {
+  form, input, textarea {
     height: 100%;
   }
 
-  input[type=textarea] {
-      display: block;
-      height: 100%;
-      border: 0;
-      outline: 0;
-      z-index: 5;
+  .send-message {
+    display: block;
+    width: calc(100% - 2 * #{$button-width} - 20px);
+    min-height: $header-height - 1px;
+    max-height: 100px;
+    padding: 10px;
+    border: 0;
+    outline: 0;
+    z-index: 5;
   }
 }
 
@@ -376,17 +390,20 @@
   border-radius: 20px;
   font-size: small;
 }
+
 .confirmation-dialog {
-    position: absolute;
-    top: $header-height;
-    padding: 1em;
-    background: white;
-    border: solid 2px $blue;
+  position: absolute;
+  top: $header-height;
+  padding: 1em;
+  background: white;
+  border: solid 2px $blue;
 
-    .message { text-align: center; }
+  .message {
+    text-align: center;
+  }
 
-    button {
-      float: right;
-      margin-left: 10px;
-    }
+  button {
+    float: right;
+    margin-left: 10px;
+  }
 }
