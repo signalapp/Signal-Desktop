@@ -102,8 +102,8 @@
             if (error) {
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
-                    promise.then(function(pushMessageContent) {
-                        this.handlePushMessageContent(pushMessageContent);
+                    promise.then(function(dataMessage) {
+                        this.handleDataMessage(dataMessage);
                         this.save('errors', []);
                     }.bind(this)).catch(function(e) {
                         //this.save('errors', [_.pick(e, ['name', 'message'])]);
@@ -122,7 +122,7 @@
                 }
             }
         },
-        handlePushMessageContent: function(pushMessageContent) {
+        handleDataMessage: function(dataMessage) {
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an
             // identity key change.
@@ -131,34 +131,34 @@
             var type = source === textsecure.storage.user.getNumber() ? 'outgoing' : 'incoming';
             var timestamp = message.get('sent_at');
             var conversationId = message.get('conversationId');
-            if (pushMessageContent.group) {
-                conversationId = pushMessageContent.group.id;
+            if (dataMessage.group) {
+                conversationId = dataMessage.group.id;
             }
             var conversation = new Whisper.Conversation({id: conversationId});
             conversation.fetch().always(function() {
                 var now = new Date().getTime();
                 var attributes = { type: 'private' };
-                if (pushMessageContent.group) {
+                if (dataMessage.group) {
                     var group_update = {};
                     attributes = {
                         type: 'group',
-                        groupId: pushMessageContent.group.id,
+                        groupId: dataMessage.group.id,
                     };
-                    if (pushMessageContent.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
+                    if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
                         attributes = {
                             type       : 'group',
-                            groupId    : pushMessageContent.group.id,
-                            name       : pushMessageContent.group.name,
-                            avatar     : pushMessageContent.group.avatar,
-                            members    : pushMessageContent.group.members,
+                            groupId    : dataMessage.group.id,
+                            name       : dataMessage.group.name,
+                            avatar     : dataMessage.group.avatar,
+                            members    : dataMessage.group.members,
                         };
-                        group_update = conversation.changedAttributes(_.pick(pushMessageContent.group, 'name', 'avatar'));
-                        var difference = _.difference(pushMessageContent.group.members, conversation.get('members'));
+                        group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar'));
+                        var difference = _.difference(dataMessage.group.members, conversation.get('members'));
                         if (difference.length > 0) {
                             group_update.joined = difference;
                         }
                     }
-                    else if (pushMessageContent.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
+                    else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
                         group_update = { left: source };
                         attributes.members = _.without(conversation.get('members'), source);
                     }
@@ -169,7 +169,7 @@
                 }
                 if (type === 'outgoing') {
                     // lazy hack - check for receipts that arrived early.
-                    if (pushMessageContent.group && pushMessageContent.group.id) {  // group sync
+                    if (dataMessage.group && dataMessage.group.id) {  // group sync
                         var members = conversation.get('members') || [];
                         var receipts = window.receipts.where({ timestamp: timestamp });
                         for (var i in receipts) {
@@ -200,13 +200,13 @@
                 conversation.set(attributes);
 
                 message.set({
-                    body           : pushMessageContent.body,
+                    body           : dataMessage.body,
                     conversationId : conversation.id,
-                    attachments    : pushMessageContent.attachments,
+                    attachments    : dataMessage.attachments,
                     decrypted_at   : now,
                     type           : type,
                     sent_at        : timestamp,
-                    flags          : pushMessageContent.flags,
+                    flags          : dataMessage.flags,
                     errors         : []
                 });
 

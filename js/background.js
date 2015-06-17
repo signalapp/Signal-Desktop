@@ -78,7 +78,7 @@
         function onMessageReceived(ev) {
             var data = ev.data;
             var message = initIncomingMessage(data.source, data.timestamp);
-            message.handlePushMessageContent(data.message);
+            message.handleDataMessage(data.message);
         }
 
         function onSentMessage(ev) {
@@ -93,7 +93,7 @@
                 type           : 'outgoing'
             });
 
-            message.handlePushMessageContent(data.message);
+            message.handleDataMessage(data.message);
         }
 
         function initIncomingMessage(source, timestamp) {
