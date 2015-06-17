@@ -145,7 +145,7 @@
 
         addRecipient: function(e, data) {
             this.recipients.add(this.typeahead.remove(data.modelId));
-            this.filterContacts();
+            this.resetTypeahead();
         },
 
         removeRecipient: function(e, data) {
