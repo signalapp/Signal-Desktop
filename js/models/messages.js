@@ -128,7 +128,7 @@
             // identity key change.
             var message = this;
             var source = message.get('source');
-            var type = source === textsecure.storage.user.getNumber() ? 'outgoing' : 'incoming';
+            var type = message.get('type');
             var timestamp = message.get('sent_at');
             var conversationId = message.get('conversationId');
             if (dataMessage.group) {
@@ -204,8 +204,6 @@
                     conversationId : conversation.id,
                     attachments    : dataMessage.attachments,
                     decrypted_at   : now,
-                    type           : type,
-                    sent_at        : timestamp,
                     flags          : dataMessage.flags,
                     errors         : []
                 });
