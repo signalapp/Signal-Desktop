@@ -53,7 +53,8 @@
             messageReceiver = new textsecure.MessageReceiver(window);
         }
 
-        function onContactReceived(contactInfo) {
+        function onContactReceived(ev) {
+            var contactInfo = ev.contactInfo;
             new Whisper.Conversation({
                 name: contactInfo.name,
                 id: contactInfo.number,
@@ -63,7 +64,8 @@
             }).save();
         }
 
-        function onGroupReceived(group) {
+        function onGroupReceived(ev) {
+            var group = ev.group;
             new Whisper.Conversation({
                 members: group.members,
                 name: group.name,

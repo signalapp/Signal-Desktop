@@ -39,16 +39,18 @@ describe("ContactsBuffer", function() {
       buffer.append(avatarBuffer.clone());
     }
 
+    buffer.limit = buffer.offset;
     buffer.offset = 0;
-    buffer.limit = buffer.buffer.byteLength;
     return buffer.toArrayBuffer();
   }
 
   it("parses an array buffer of contacts", function() {
     var arrayBuffer = getTestBuffer();
     var contactBuffer = new ContactBuffer(arrayBuffer);
-    for (var i=0; i < 3; ++i) {
-      var contact = contactBuffer.readContact();
+    var contact = contactBuffer.readContact();
+    var count = 0;
+    while (contact !== undefined) {
+      count++;
       assert.strictEqual(contact.name, "Zero Cool");
       assert.strictEqual(contact.number, "+10000000000");
       assert.strictEqual(contact.avatar.contentType, "image/jpg");
@@ -56,6 +58,8 @@ describe("ContactsBuffer", function() {
       for (var j=0; j < 255; ++j) {
         assert.strictEqual(avatarBytes[j],j);
       }
+      contact = contactBuffer.readContact();
     }
+    assert.strictEqual(count, 3);
   });
 });

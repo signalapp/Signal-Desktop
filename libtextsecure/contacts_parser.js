@@ -11,13 +11,18 @@ ContactBuffer.prototype = {
     constructor: ContactBuffer,
     readContact: function() {
         try {
-            var len = this.buffer.readVarint32();
+            if (this.buffer.limit === this.buffer.offset) {
+                return undefined; // eof
+            }
+            var len = this.buffer.readVarint64().toNumber();
             var contactInfoBuffer = this.buffer.slice(this.buffer.offset, this.buffer.offset+len);
             var contactInfo = textsecure.protobuf.ContactDetails.decode(contactInfoBuffer);
             this.buffer.skip(len);
-            var attachmentLen = contactInfo.avatar.length.toNumber();
-            contactInfo.avatar.data = this.buffer.slice(this.buffer.offset, this.buffer.offset + attachmentLen).toArrayBuffer(true);
-            this.buffer.skip(attachmentLen);
+            if (contactInfo.avatar) {
+                var attachmentLen = contactInfo.avatar.length.toNumber();
+                contactInfo.avatar.data = this.buffer.slice(this.buffer.offset, this.buffer.offset + attachmentLen).toArrayBuffer(true);
+                this.buffer.skip(attachmentLen);
+            }
 
             return contactInfo;
         } catch(e) {
