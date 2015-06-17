@@ -172,7 +172,8 @@
                     convo.sendMessage(message, attachments);
                 });
                 input.val("");
-                window.autosize(input);
+                window.autosize.update(input);
+                this.updateMessageFieldSize(e);
                 this.fileInput.deleteFiles();
             }
         },
@@ -198,6 +199,7 @@
 
             if (keyCode === 13) {
                 // enter pressed - submit the form now
+                event.preventDefault();
                 return this.$('.bottom-bar form').submit();
             }
 
@@ -209,7 +211,6 @@
 
             window.autosize($messageField);
             $bottomBar.outerHeight($messageField.outerHeight() + 1);
-
             var $bottomBarNewHeight = $bottomBar.outerHeight();
             $discussionContainer.outerHeight($discussionContainerPrevHeight - ($bottomBarNewHeight - $bottomBarPrevHeight));
         }

@@ -702,7 +702,8 @@ input.search {
     padding: 10px;
     border: 0;
     outline: 0;
-    z-index: 5; }
+    z-index: 5;
+    resize: none; }
 
 .toast {
   position: absolute;
