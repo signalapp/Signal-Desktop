@@ -43,15 +43,14 @@
         function init() {
             if (!textsecure.registration.isDone()) { return; }
 
-            // initialize the socket and start listening for messages
-            messageReceiver = new textsecure.MessageReceiver(window);
-            window.addEventListener('contact', onContactReceived);
-            window.addEventListener('receipt', onDeliveryReceipt);
             window.addEventListener('message', onMessageReceived);
+            window.addEventListener('receipt', onDeliveryReceipt);
+            window.addEventListener('contact', onContactReceived);
             window.addEventListener('group', onGroupReceived);
             window.addEventListener('sent', onSentMessage);
             window.addEventListener('error', onError);
-            messageReceiver.connect();
+            // initialize the socket and start listening for messages
+            messageReceiver = new textsecure.MessageReceiver(window);
         }
 
         function onContactReceived(contactInfo) {

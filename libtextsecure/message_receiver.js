@@ -24,6 +24,7 @@
         } else {
             throw new TypeError('MessageReceiver expected an EventTarget');
         }
+        this.connect();
     }
 
     MessageReceiver.prototype = {
@@ -179,7 +180,15 @@
         }
     };
 
-    textsecure.MessageReceiver = MessageReceiver;
+    textsecure.MessageReceiver = function (eventTarget) {
+        var messageReceiver = new MessageReceiver(eventTarget);
+        this.getStatus = function() {
+            return messageReceiver.getStatus();
+        }
+    }
 
+    textsecure.MessageReceiver.prototype = {
+        constructor: textsecure.MessageReceiver
+    };
 
 }());
