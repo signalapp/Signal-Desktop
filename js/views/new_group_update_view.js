@@ -31,6 +31,13 @@
             this.recipients_view = new Whisper.RecipientsInputView({
                 placeholder: "Add member"
             });
+            this.listenTo(this.recipients_view.typeahead, 'sync', function() {
+                this.model.contactCollection.models.forEach(function(model) {
+                    if (this.recipients_view.typeahead.get(model)) {
+                        this.recipients_view.typeahead.remove(model);
+                    }
+                }.bind(this));
+            });
             this.$('.scrollable').append(this.recipients_view.el);
 
             this.$('.avatar').addClass('default');
