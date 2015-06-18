@@ -229,7 +229,11 @@ img.emoji {
   .contact .contact-details {
     vertical-align: top;
     display: inline-block;
-    margin: 4px 0 0 8px; }
+    margin: 4px 0 0 8px;
+    width: calc(100% - 44px - 8px); }
+    .contact .contact-details p {
+      overflow-x: hidden;
+      text-overflow: ellipsis; }
   .contact .contact-name {
     margin: 0;
     font-size: 1em;
@@ -480,7 +484,8 @@ input.search {
     max-width: calc(100% - 20px - 2 * 12px);
     padding: 9px 12px;
     border-radius: 4px;
-    box-shadow: 0 3px 3px -4px black; }
+    box-shadow: 0 3px 3px -4px black;
+    word-wrap: break-word; }
     .message-detail .bubble::before, .message-detail .bubble::after,
     .message-list .bubble::before,
     .message-list .bubble::after {
