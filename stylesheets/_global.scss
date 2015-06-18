@@ -179,10 +179,12 @@ img.emoji {
    vertical-align: -0.1em;
 }
 
+$avatar-size: 44px;
+
 .avatar {
   display: inline-block;
-  height: 44px;
-  width: 44px;
+  height: $avatar-size;
+  width: $avatar-size;
   background: $grey_l url('/images/default.png') no-repeat center;
   border-radius: 50%;
   background-size: cover;
@@ -276,9 +278,17 @@ img.emoji {
   }
 
   .contact-details {
+    $left-margin: 8px;
+
     vertical-align: top;
     display: inline-block;
-    margin: 4px 0 0 8px;
+    margin: 4px 0 0 $left-margin;
+    width: calc(100% - #{$avatar-size} - #{$left-margin});
+
+    p {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .contact-name {

@@ -154,6 +154,7 @@
     padding: 9px 12px;
     border-radius: 4px;
     box-shadow: 0 3px 3px -4px black;
+    word-wrap: break-word;
 
     &::before, &::after {
       content: '';
