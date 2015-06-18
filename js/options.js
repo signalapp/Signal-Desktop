@@ -51,10 +51,14 @@
                 });
                 $('.confirmation-dialog .ok').click(function(e) {
                     e.stopPropagation();
+                    var name = $('#device-name').val();
+                    if (name.trim().length === 0) {
+                        return;
+                    }
                     $('.confirmation-dialog').hide();
                     $('.progress-dialog').show();
                     $('.progress-dialog .status').text('Generating Keys');
-                    resolve();
+                    resolve(name);
                 });
                 $('.modal-container').show();
             });

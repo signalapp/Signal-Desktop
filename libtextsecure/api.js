@@ -48,7 +48,7 @@ TextSecureServer = function () {
         *   error_callback:     function(http status code = -1 or != 200) called on failure
         *   urlParameters:      crap appended to the url (probably including a leading /)
         *   user:               user name to be sent in a basic auth header
-        *   password:           password to be sent in a basic auth headerA
+        *   password:           password to be sent in a basic auth header
         *   do_auth:            alternative to user/password where user/password are figured out automagically
         *   jsonData:           JSON data sent in the request body
         */
@@ -174,20 +174,26 @@ TextSecureServer = function () {
     };
 
     self.confirmCode = function(number, code, password,
-                                signaling_key, registrationId, single_device) {
-            var call = single_device ? 'accounts' : 'devices';
-            var urlPrefix = single_device ? '/code/' : '/';
+                                signaling_key, registrationId, deviceName) {
+            var call = deviceName ? 'devices' : 'accounts';
+            var urlPrefix = deviceName ? '/' : '/code/';
 
+            var jsonData = {
+                signalingKey    : btoa(getString(signaling_key)),
+                supportsSms     : false,
+                fetchesMessages : true,
+                registrationId  : registrationId,
+            };
+            if (deviceName) {
+                jsonData.name = deviceName;
+            }
             return doAjax({
                 call                : call,
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
                 user                : number,
                 password            : password,
-                jsonData            : { signalingKey        : btoa(getString(signaling_key)),
-                                            supportsSms     : false,
-                                            fetchesMessages : true,
-                                            registrationId  : registrationId}
+                jsonData            : jsonData
             });
     };
 

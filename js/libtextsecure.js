@@ -38050,8 +38050,11 @@ axolotlInternal.RecipientRecord = function() {
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage.user = {
-        setNumberAndDeviceId: function(number, deviceId) {
+        setNumberAndDeviceId: function(number, deviceId, deviceName) {
             textsecure.storage.put("number_id", number + "." + deviceId);
+            if (deviceName) {
+                textsecure.storage.put("device_name", deviceName);
+            }
         },
 
         getNumber: function(key, defaultValue) {
@@ -38066,6 +38069,10 @@ axolotlInternal.RecipientRecord = function() {
             if (number_id === undefined)
                 return undefined;
             return textsecure.utils.unencodeNumber(number_id)[1];
+        },
+
+        getDeviceName: function(key) {
+            return textsecure.storage.get("device_name");
         }
     };
 })();
@@ -38968,7 +38975,7 @@ TextSecureServer = function () {
         *   error_callback:     function(http status code = -1 or != 200) called on failure
         *   urlParameters:      crap appended to the url (probably including a leading /)
         *   user:               user name to be sent in a basic auth header
-        *   password:           password to be sent in a basic auth headerA
+        *   password:           password to be sent in a basic auth header
         *   do_auth:            alternative to user/password where user/password are figured out automagically
         *   jsonData:           JSON data sent in the request body
         */
@@ -39094,20 +39101,26 @@ TextSecureServer = function () {
     };
 
     self.confirmCode = function(number, code, password,
-                                signaling_key, registrationId, single_device) {
-            var call = single_device ? 'accounts' : 'devices';
-            var urlPrefix = single_device ? '/code/' : '/';
+                                signaling_key, registrationId, deviceName) {
+            var call = deviceName ? 'devices' : 'accounts';
+            var urlPrefix = deviceName ? '/' : '/code/';
 
+            var jsonData = {
+                signalingKey    : btoa(getString(signaling_key)),
+                supportsSms     : false,
+                fetchesMessages : true,
+                registrationId  : registrationId,
+            };
+            if (deviceName) {
+                jsonData.name = deviceName;
+            }
             return doAjax({
                 call                : call,
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
                 user                : number,
                 password            : password,
-                jsonData            : { signalingKey        : btoa(getString(signaling_key)),
-                                            supportsSms     : false,
-                                            fetchesMessages : true,
-                                            registrationId  : registrationId}
+                jsonData            : jsonData
             });
     };
 
@@ -39337,12 +39350,15 @@ TextSecureServer = function () {
                             request.respond(200, 'OK');
                             socket.close();
                             resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
-                                return confirmNumber(provisionMessage.number).then(function() {
+                                return confirmNumber(provisionMessage.number).then(function(deviceName) {
+                                    if (typeof deviceName !== 'string' || deviceName.length == 0) {
+                                        throw new Error('Invalid device name');
+                                    }
                                     return createAccount(
                                         provisionMessage.number,
                                         provisionMessage.provisioningCode,
                                         provisionMessage.identityKeyPair,
-                                        false
+                                        deviceName
                                     );
                                 });
                             }));
@@ -39363,7 +39379,7 @@ TextSecureServer = function () {
             });
         }
     };
-    function createAccount(number, verificationCode, identityKeyPair, single_device) {
+    function createAccount(number, verificationCode, identityKeyPair, deviceName) {
         textsecure.storage.put('identityKey', identityKeyPair);
 
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
@@ -39377,9 +39393,9 @@ TextSecureServer = function () {
         textsecure.storage.put("registrationId", registrationId);
 
         return TextSecureServer.confirmCode(
-            number, verificationCode, password, signalingKey, registrationId, single_device
+            number, verificationCode, password, signalingKey, registrationId, deviceName
         ).then(function(response) {
-            textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1);
+            textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
             textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         });
     }

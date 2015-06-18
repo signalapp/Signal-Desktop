@@ -55,12 +55,15 @@
                             request.respond(200, 'OK');
                             socket.close();
                             resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
-                                return confirmNumber(provisionMessage.number).then(function() {
+                                return confirmNumber(provisionMessage.number).then(function(deviceName) {
+                                    if (typeof deviceName !== 'string' || deviceName.length == 0) {
+                                        throw new Error('Invalid device name');
+                                    }
                                     return createAccount(
                                         provisionMessage.number,
                                         provisionMessage.provisioningCode,
                                         provisionMessage.identityKeyPair,
-                                        false
+                                        deviceName
                                     );
                                 });
                             }));
@@ -81,7 +84,7 @@
             });
         }
     };
-    function createAccount(number, verificationCode, identityKeyPair, single_device) {
+    function createAccount(number, verificationCode, identityKeyPair, deviceName) {
         textsecure.storage.put('identityKey', identityKeyPair);
 
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
@@ -95,9 +98,9 @@
         textsecure.storage.put("registrationId", registrationId);
 
         return TextSecureServer.confirmCode(
-            number, verificationCode, password, signalingKey, registrationId, single_device
+            number, verificationCode, password, signalingKey, registrationId, deviceName
         ).then(function(response) {
-            textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1);
+            textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
             textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
         });
     }
