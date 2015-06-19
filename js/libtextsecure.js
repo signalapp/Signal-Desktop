@@ -39330,7 +39330,8 @@ TextSecureServer = function () {
                 return createAccount(number, verificationCode, identityKeyPair, true).
                     then(function() { return generateKeys(100); }).
                     then(TextSecureServer.registerKeys).
-                    then(textsecure.registration.done);
+                    then(textsecure.registration.done).
+                    then(textsecure.messaging.sendRequestContactSyncMessage);
             });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
@@ -39369,7 +39370,9 @@ TextSecureServer = function () {
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
-            }).then(TextSecureServer.registerKeys).then(textsecure.registration.done);
+            }).then(TextSecureServer.registerKeys).
+               then(textsecure.registration.done).
+               then(textsecure.messaging.sendRequestContactSyncMessage);
         },
         refreshPreKeys: function() {
             return TextSecureServer.getMyKeys().then(function(preKeyCount) {
@@ -39945,6 +39948,21 @@ window.textsecure.messaging = function() {
             return sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     }
+
+    self.sendRequestContactSyncMessage = function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    };
 
     var sendGroupProto = function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();

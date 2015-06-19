@@ -35,7 +35,8 @@
                 return createAccount(number, verificationCode, identityKeyPair, true).
                     then(function() { return generateKeys(100); }).
                     then(TextSecureServer.registerKeys).
-                    then(textsecure.registration.done);
+                    then(textsecure.registration.done).
+                    then(textsecure.messaging.sendRequestContactSyncMessage);
             });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
@@ -74,7 +75,9 @@
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
-            }).then(TextSecureServer.registerKeys).then(textsecure.registration.done);
+            }).then(TextSecureServer.registerKeys).
+               then(textsecure.registration.done).
+               then(textsecure.messaging.sendRequestContactSyncMessage);
         },
         refreshPreKeys: function() {
             return TextSecureServer.getMyKeys().then(function(preKeyCount) {

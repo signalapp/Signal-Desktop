@@ -290,6 +290,21 @@ window.textsecure.messaging = function() {
         }
     }
 
+    self.sendRequestContactSyncMessage = function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    };
+
     var sendGroupProto = function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
         var me = textsecure.storage.user.getNumber();
