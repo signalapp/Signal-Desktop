@@ -83,7 +83,8 @@
                 window.close();
             }).catch(function(e) {
                 if (e.name === 'HTTPError' && e.message == 411) {
-                    return; // TODO: too many devices
+                    $('.progress-dialog').hide();
+                    $('.error-dialog').show();
                 }
                 else {
                     throw e;

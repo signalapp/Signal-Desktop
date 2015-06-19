@@ -6414,5 +6414,7 @@ ul.country-list {
         height: 100%;
         background-color: #2090ea;
         transition: width 0.25s; }
+    .modal-container .modal-main .error-dialog {
+      display: none; }
 
 /*# sourceMappingURL=options.css.map */

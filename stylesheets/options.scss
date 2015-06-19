@@ -224,5 +224,8 @@ ul.country-list {
         transition: width 0.25s;
       }
     }
+    .error-dialog {
+      display: none;
+    }
   }
 }
