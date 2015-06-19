@@ -52,6 +52,8 @@
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
 
+            this.appWindow.contentWindow.addEventListener('resize', this.forceUpdateMessageFieldSize.bind(this));
+
             setTimeout(function() {
                 this.view.scrollToBottom();
             }.bind(this), 10);
@@ -172,8 +174,7 @@
                     convo.sendMessage(message, attachments);
                 });
                 input.val("");
-                window.autosize.update(input);
-                this.updateMessageFieldSize(e);
+                this.forceUpdateMessageFieldSize(e);
                 this.fileInput.deleteFiles();
             }
         },
@@ -213,6 +214,11 @@
             $bottomBar.outerHeight($messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
             $discussionContainer.outerHeight($discussionContainerPrevHeight - ($bottomBarNewHeight - $bottomBarPrevHeight));
+        },
+
+        forceUpdateMessageFieldSize: function (event) {
+            window.autosize.update(this.$('.send-message'));
+            this.updateMessageFieldSize(event);
         }
     });
 })();

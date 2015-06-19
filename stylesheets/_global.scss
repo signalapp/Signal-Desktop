@@ -98,6 +98,7 @@ button.back {
     display: none;
     position: absolute;
     color: $grey_d;
+    z-index: 1;
 
     top: 100%;
     left: 0;
