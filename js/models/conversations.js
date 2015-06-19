@@ -237,11 +237,22 @@
         }
     },
 
-    getAvatarUrl: function() {
+    getAvatar: function() {
         if (this.avatarUrl === undefined) {
             this.updateAvatarUrl(true);
         }
-        return this.avatarUrl || '/images/default.png';
+        if (this.avatarUrl) {
+            return { url: this.avatarUrl };
+        } else if (this.isPrivate()) {
+            var title = this.getTitle() || '';
+            var initials = title.trim()[0];
+            return {
+                color: Math.abs(this.hashCode()) % 17,
+                content: initials
+            };
+        } else {
+            return { url: '/images/default.png' };
+        }
     },
 
     resolveConflicts: function(number) {
@@ -262,6 +273,22 @@
                 }
             });
         }.bind(this));
+    },
+    hashCode: function() {
+        if (this.hash === undefined) {
+            var string = this.getTitle() || '';
+            if (string.length === 0) {
+                return 0;
+            }
+            var hash = 0;
+            for (var i = 0; i < string.length; i++) {
+                hash = ((hash<<5)-hash) + string.charCodeAt(i);
+                hash = hash & hash; // Convert to 32bit integer
+            }
+
+            this.hash = hash;
+        }
+        return this.hash;
     }
   });
 

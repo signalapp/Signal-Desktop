@@ -45,7 +45,7 @@
                     last_message: this.model.get('lastMessage'),
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
                     number: this.model.getNumber(),
-                    avatar_url: this.model.getAvatarUrl()
+                    avatar: this.model.getAvatar()
                 }, this.render_partials())
             );
 

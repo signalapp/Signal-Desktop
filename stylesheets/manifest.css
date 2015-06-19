@@ -163,7 +163,12 @@ img.emoji {
   background: #f3f3f3 url("/images/default.png") no-repeat center;
   border-radius: 50%;
   background-size: cover;
-  vertical-align: middle; }
+  vertical-align: middle;
+  text-align: center;
+  line-height: 44px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  color: white; }
 
 .new-group-update-form {
   background: white; }
@@ -270,6 +275,57 @@ img.emoji {
   background: white; }
   .attachment-preview img {
     width: 100%; }
+
+.avatar.color0 {
+  background-color: #e57373; }
+
+.avatar.color1 {
+  background-color: #f06292; }
+
+.avatar.color2 {
+  background-color: #ba68c8; }
+
+.avatar.color3 {
+  background-color: #9575cd; }
+
+.avatar.color4 {
+  background-color: #7986cb; }
+
+.avatar.color5 {
+  background-color: #64b5f6; }
+
+.avatar.color6 {
+  background-color: #4fc3f7; }
+
+.avatar.color7 {
+  background-color: #4dd0e1; }
+
+.avatar.color8 {
+  background-color: #4db6ac; }
+
+.avatar.color9 {
+  background-color: #81c784; }
+
+.avatar.color10 {
+  background-color: #aed581; }
+
+.avatar.color11 {
+  background-color: #ff8a65; }
+
+.avatar.color12 {
+  background-color: #d4e157; }
+
+.avatar.color13 {
+  background-color: #ffd54f; }
+
+.avatar.color14 {
+  background-color: #ffb74d; }
+
+.avatar.color15 {
+  background-color: #a1887f; }
+
+.avatar.color16 {
+  background-color: #90a4ae; }
 
 .gutter {
   padding: 36px 0 0; }

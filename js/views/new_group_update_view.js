@@ -67,7 +67,7 @@
         render_attributes: function() {
             return {
                 name: this.model.getTitle(),
-                avatar_url: this.model.getAvatarUrl()
+                avatar: {url: this.model.getAvatar()}
             };
         },
         send: function() {

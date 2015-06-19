@@ -95,7 +95,9 @@
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
-      <span class='avatar' style='background-image: url("{{ avatar_url }}");' ></span>
+      <span class='avatar color{{avatar.color}}' style='background-image: url("{{ avatar.url }}");'>
+        {{ avatar.content }}
+      </span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_pill'>
     <span>{{ name }}</span><span class='remove'>x</span>

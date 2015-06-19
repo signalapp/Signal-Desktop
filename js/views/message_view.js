@@ -62,7 +62,7 @@
                     message: this.model.get('body'),
                     timestamp: moment(this.model.get('sent_at')).fromNow(),
                     sender: (contact && contact.getTitle()) || '',
-                    avatar_url: (contact && contact.getAvatarUrl())
+                    avatar: (contact && contact.getAvatar())
                 }, this.render_partials())
             );
 
