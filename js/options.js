@@ -74,20 +74,21 @@
         });
 
         $(function() {
-            if (bg.textsecure.registration.isDone()) {
-                $('#complete-number').text(bg.textsecure.storage.user.getNumber());
-                $('#setup-complete').show().addClass('in');
-                initOptions();
-            } else {
-                $('#init-setup').show().addClass('in');
-                $('#status').text("Connecting...");
+            $('#init-setup').show().addClass('in');
+            $('#status').text("Connecting...");
 
-                var accountManager = new bg.textsecure.AccountManager();
-                accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
-                    bg.openInbox();
-                    window.close();
-                });
-            }
+            var accountManager = new bg.textsecure.AccountManager();
+            accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
+                bg.openInbox();
+                window.close();
+            }).catch(function(e) {
+                if (e.name === 'HTTPError' && e.message == 411) {
+                    return; // TODO: too many devices
+                }
+                else {
+                    throw e;
+                }
+            });
         });
     });
 })();

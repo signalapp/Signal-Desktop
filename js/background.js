@@ -117,6 +117,12 @@
 
         function onError(ev) {
             var e = ev.error;
+
+            if (e.name === 'HTTPError' && (e.message == 401 || e.message == 403)) {
+                extension.install();
+                return;
+            }
+
             if (!ev.proto) {
                 console.log(e);
                 throw e;

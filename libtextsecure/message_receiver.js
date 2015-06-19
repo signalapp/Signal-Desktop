@@ -30,8 +30,21 @@
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
         connect: function() {
+            var eventTarget = this.target;
             // initialize the socket and start listening for messages
             this.socket = TextSecureServer.getMessageWebsocket();
+            this.socket.onclose = function(e) {
+                if (e.code === 1006) {
+                    // possible 403. Make an request to confirm
+                    TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
+                        if (e.name === 'HTTPError' && (e.message == 401 || e.message == 403)) {
+                            var ev = new Event('error');
+                            ev.error = e;
+                            eventTarget.dispatchEvent(ev);
+                        }
+                    });
+                }
+            }
 
             new WebSocketResource(this.socket, this.handleRequest.bind(this));
         },

@@ -173,6 +173,14 @@ TextSecureServer = function () {
         return requestVerificationCode(number, 'voice');
     };
 
+    self.getDevices = function(number) {
+        return doAjax({
+            call     : 'devices',
+            httpType : 'GET',
+            do_auth  : true
+        });
+    };
+
     self.confirmCode = function(number, code, password,
                                 signaling_key, registrationId, deviceName) {
             var call = deviceName ? 'devices' : 'accounts';
