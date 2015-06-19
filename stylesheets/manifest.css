@@ -621,7 +621,8 @@ input.search {
   .message-detail .avatar,
   .message-list .avatar {
     height: 36px;
-    width: 36px; }
+    width: 36px;
+    line-height: 36px; }
   .message-detail .meta,
   .message-list .meta {
     margin-top: 3px;
