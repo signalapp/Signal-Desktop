@@ -84,7 +84,7 @@
             // View to display the matched contacts from typeahead
             this.typeahead_view = new Whisper.ConversationListView({
                 collection : new Whisper.ConversationCollection([], {
-                    comparator: function(m) { return m.getTitle(); }
+                    comparator: function(m) { return m.getTitle().toLowerCase(); }
                 })
             });
             this.$('.contacts').append(this.typeahead_view.el);
