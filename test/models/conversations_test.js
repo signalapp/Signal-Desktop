@@ -152,9 +152,11 @@
             assert.equal(convo.getNumber(), '');
         });
 
-        it('has an avatar URL', function() {
+        it('has an avatar', function() {
             var convo = new Whisper.ConversationCollection().add(attributes);
-            assert.equal(convo.getAvatarUrl(), '/images/default.png');
+            var avatar = convo.getAvatar();
+            assert.property(avatar, 'content');
+            assert.property(avatar, 'color');
         });
 
         it('revokes the avatar URL', function() {
