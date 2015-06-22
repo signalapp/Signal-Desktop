@@ -1,32 +1,52 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function ContactBuffer(arrayBuffer) {
+
+function ProtoParser(arrayBuffer, protobuf) {
+    this.protobuf = protobuf;
     this.buffer = new dcodeIO.ByteBuffer();
     this.buffer.append(arrayBuffer);
     this.buffer.offset = 0;
     this.buffer.limit = arrayBuffer.byteLength;
 }
-ContactBuffer.prototype = {
-    constructor: ContactBuffer,
-    readContact: function() {
+ProtoParser.prototype = {
+    constructor: ProtoParser,
+    next: function() {
         try {
             if (this.buffer.limit === this.buffer.offset) {
                 return undefined; // eof
             }
-            var len = this.buffer.readVarint64().toNumber();
-            var contactInfoBuffer = this.buffer.slice(this.buffer.offset, this.buffer.offset+len);
-            var contactInfo = textsecure.protobuf.ContactDetails.decode(contactInfoBuffer);
+            var len = this.buffer.readVarint32();
+            var nextBuffer = this.buffer.slice(
+                this.buffer.offset, this.buffer.offset+len
+            ).toArrayBuffer();
+            // TODO: de-dupe ByteBuffer.js includes in libaxo/libts
+            // then remove this toArrayBuffer call.
+
+            var proto = this.protobuf.decode(nextBuffer);
             this.buffer.skip(len);
-            if (contactInfo.avatar) {
-                var attachmentLen = contactInfo.avatar.length.toNumber();
-                contactInfo.avatar.data = this.buffer.slice(this.buffer.offset, this.buffer.offset + attachmentLen).toArrayBuffer(true);
+
+            if (proto.avatar) {
+                var attachmentLen = proto.avatar.length;
+                proto.avatar.data = this.buffer.slice(
+                    this.buffer.offset, this.buffer.offset + attachmentLen
+                ).toArrayBuffer();
                 this.buffer.skip(attachmentLen);
             }
 
-            return contactInfo;
+            return proto;
         } catch(e) {
             console.log(e);
         }
     }
 };
+var GroupBuffer = function(arrayBuffer) {
+    ProtoParser.call(this, arrayBuffer, textsecure.protobuf.GroupDetails);
+};
+GroupBuffer.prototype = Object.create(ProtoParser.prototype);
+GroupBuffer.prototype.constructor = GroupBuffer;
+var ContactBuffer = function(arrayBuffer) {
+    ProtoParser.call(this, arrayBuffer, textsecure.protobuf.ContactDetails);
+};
+ContactBuffer.prototype = Object.create(ProtoParser.prototype);
+ContactBuffer.prototype.constructor = ContactBuffer;

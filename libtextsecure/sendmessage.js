@@ -290,6 +290,20 @@ window.textsecure.messaging = function() {
         }
     }
 
+    self.sendRequestGroupSyncMessage = function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    };
     self.sendRequestContactSyncMessage = function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -414,7 +428,7 @@ window.textsecure.messaging = function() {
             }
             proto.group.members = numbers;
 
-            if (avatar !== undefined) {
+            if (avatar !== undefined && avatar !== null) {
                 return makeAttachmentPointer(avatar).then(function(attachment) {
                     proto.group.avatar = attachment;
                     return sendGroupProto(numbers, proto).then(function() {

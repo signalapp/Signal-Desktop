@@ -166,10 +166,10 @@
                 );
             } else if (syncMessage.contacts) {
                 this.handleContacts(syncMessage.contacts);
-            } else if (syncMessage.group) {
-                this.handleGroup(syncMessage.group);
+            } else if (syncMessage.groups) {
+                this.handleGroups(syncMessage.groups);
             } else {
-                throw new Error('Got SyncMessage with no sent, contacts, or group');
+                throw new Error('Got SyncMessage with no sent, contacts, or groups');
             }
         },
         handleContacts: function(contacts) {
@@ -177,19 +177,41 @@
             var attachmentPointer = contacts.blob;
             return handleAttachment(attachmentPointer).then(function() {
                 var contactBuffer = new ContactBuffer(attachmentPointer.data);
-                var contactInfo = contactBuffer.readContact();
-                while (contactInfo !== undefined) {
+                var contactDetails = contactBuffer.next();
+                while (contactDetails !== undefined) {
                     var ev = new Event('contact');
-                    ev.contactInfo = contactInfo;
+                    ev.contactDetails = contactDetails;
                     eventTarget.dispatchEvent(ev);
-                    contactInfo = contactBuffer.readContact();
+                    contactDetails = contactBuffer.next();
                 }
             });
         },
-        handleGroup: function(envelope) {
-            var ev = new Event('group');
-            ev.group = envelope.group;
-            this.target.dispatchEvent(ev);
+        handleGroups: function(groups) {
+            var eventTarget = this.target;
+            var attachmentPointer = groups.blob;
+            return handleAttachment(attachmentPointer).then(function() {
+                var groupBuffer = new GroupBuffer(attachmentPointer.data);
+                var groupDetails = groupBuffer.next();
+                while (groupDetails !== undefined) {
+                    (function(groupDetails) {
+                        groupDetails.id = getString(groupDetails.id);
+                        textsecure.storage.groups.getGroup(groupDetails.id).
+                        then(function(existingGroup) {
+                            if (existingGroup === undefined) {
+                                return textsecure.storage.groups.createNewGroup(
+                                    groupDetails.members, groupDetails.id
+                                );
+                            } else {
+                            }
+                        }).then(function() {
+                            var ev = new Event('group');
+                            ev.groupDetails = groupDetails;
+                            eventTarget.dispatchEvent(ev);
+                        });
+                    })(groupDetails);
+                    groupDetails = groupBuffer.next();
+                }
+            });
         }
     };
 

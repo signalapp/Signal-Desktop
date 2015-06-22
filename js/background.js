@@ -49,28 +49,29 @@
             window.addEventListener('group', onGroupReceived);
             window.addEventListener('sent', onSentMessage);
             window.addEventListener('error', onError);
+
             // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(window);
         }
 
         function onContactReceived(ev) {
-            var contactInfo = ev.contactInfo;
+            var contactDetails = ev.contactDetails;
             new Whisper.Conversation({
-                name: contactInfo.name,
-                id: contactInfo.number,
-                avatar: contactInfo.avatar,
+                name: contactDetails.name,
+                id: contactDetails.number,
+                avatar: contactDetails.avatar,
                 type: 'private',
                 active_at: null
             }).save();
         }
 
         function onGroupReceived(ev) {
-            var group = ev.group;
+            var groupDetails = ev.groupDetails;
             new Whisper.Conversation({
-                members: group.members,
-                name: group.name,
-                id: group.id,
-                avatar: group.avatar,
+                id: groupDetails.id,
+                name: groupDetails.name,
+                members: groupDetails.members,
+                avatar: groupDetails.avatar,
                 type: 'group',
                 active_at: null
             }).save();

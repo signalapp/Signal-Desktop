@@ -166,7 +166,7 @@
             // Scale and crop an image to 256px square
             var size = 256;
             var file = this.file || this.$input.prop('files')[0];
-            if (file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
+            if (file === undefined || file.type.split('/')[0] !== 'image' || file.type === 'image/gif') {
                 // nothing to do
                 return Promise.resolve();
             }

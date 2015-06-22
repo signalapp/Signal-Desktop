@@ -36,7 +36,8 @@
                     then(function() { return generateKeys(100); }).
                     then(TextSecureServer.registerKeys).
                     then(textsecure.registration.done).
-                    then(textsecure.messaging.sendRequestContactSyncMessage);
+                    then(textsecure.messaging.sendRequestContactSyncMessage).
+                    then(textsecure.messaging.sendRequestGroupSyncMessage);
             });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {

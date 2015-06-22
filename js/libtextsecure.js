@@ -39339,7 +39339,8 @@ TextSecureServer = function () {
                     then(function() { return generateKeys(100); }).
                     then(TextSecureServer.registerKeys).
                     then(textsecure.registration.done).
-                    then(textsecure.messaging.sendRequestContactSyncMessage);
+                    then(textsecure.messaging.sendRequestContactSyncMessage).
+                    then(textsecure.messaging.sendRequestGroupSyncMessage);
             });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
@@ -39638,10 +39639,10 @@ function generateKeys(count, progressCallback) {
                 );
             } else if (syncMessage.contacts) {
                 this.handleContacts(syncMessage.contacts);
-            } else if (syncMessage.group) {
-                this.handleGroup(syncMessage.group);
+            } else if (syncMessage.groups) {
+                this.handleGroups(syncMessage.groups);
             } else {
-                throw new Error('Got SyncMessage with no sent, contacts, or group');
+                throw new Error('Got SyncMessage with no sent, contacts, or groups');
             }
         },
         handleContacts: function(contacts) {
@@ -39649,19 +39650,41 @@ function generateKeys(count, progressCallback) {
             var attachmentPointer = contacts.blob;
             return handleAttachment(attachmentPointer).then(function() {
                 var contactBuffer = new ContactBuffer(attachmentPointer.data);
-                var contactInfo = contactBuffer.readContact();
-                while (contactInfo !== undefined) {
+                var contactDetails = contactBuffer.next();
+                while (contactDetails !== undefined) {
                     var ev = new Event('contact');
-                    ev.contactInfo = contactInfo;
+                    ev.contactDetails = contactDetails;
                     eventTarget.dispatchEvent(ev);
-                    contactInfo = contactBuffer.readContact();
+                    contactDetails = contactBuffer.next();
                 }
             });
         },
-        handleGroup: function(envelope) {
-            var ev = new Event('group');
-            ev.group = envelope.group;
-            this.target.dispatchEvent(ev);
+        handleGroups: function(groups) {
+            var eventTarget = this.target;
+            var attachmentPointer = groups.blob;
+            return handleAttachment(attachmentPointer).then(function() {
+                var groupBuffer = new GroupBuffer(attachmentPointer.data);
+                var groupDetails = groupBuffer.next();
+                while (groupDetails !== undefined) {
+                    (function(groupDetails) {
+                        groupDetails.id = getString(groupDetails.id);
+                        textsecure.storage.groups.getGroup(groupDetails.id).
+                        then(function(existingGroup) {
+                            if (existingGroup === undefined) {
+                                return textsecure.storage.groups.createNewGroup(
+                                    groupDetails.members, groupDetails.id
+                                );
+                            } else {
+                            }
+                        }).then(function() {
+                            var ev = new Event('group');
+                            ev.groupDetails = groupDetails;
+                            eventTarget.dispatchEvent(ev);
+                        });
+                    })(groupDetails);
+                    groupDetails = groupBuffer.next();
+                }
+            });
         }
     };
 
@@ -39970,6 +39993,20 @@ window.textsecure.messaging = function() {
         }
     }
 
+    self.sendRequestGroupSyncMessage = function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    };
     self.sendRequestContactSyncMessage = function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -40094,7 +40131,7 @@ window.textsecure.messaging = function() {
             }
             proto.group.members = numbers;
 
-            if (avatar !== undefined) {
+            if (avatar !== undefined && avatar !== null) {
                 return makeAttachmentPointer(avatar).then(function(attachment) {
                     proto.group.avatar = attachment;
                     return sendGroupProto(numbers, proto).then(function() {
@@ -40179,33 +40216,53 @@ window.textsecure.messaging = function() {
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function ContactBuffer(arrayBuffer) {
+
+function ProtoParser(arrayBuffer, protobuf) {
+    this.protobuf = protobuf;
     this.buffer = new dcodeIO.ByteBuffer();
     this.buffer.append(arrayBuffer);
     this.buffer.offset = 0;
     this.buffer.limit = arrayBuffer.byteLength;
 }
-ContactBuffer.prototype = {
-    constructor: ContactBuffer,
-    readContact: function() {
+ProtoParser.prototype = {
+    constructor: ProtoParser,
+    next: function() {
         try {
             if (this.buffer.limit === this.buffer.offset) {
                 return undefined; // eof
             }
-            var len = this.buffer.readVarint64().toNumber();
-            var contactInfoBuffer = this.buffer.slice(this.buffer.offset, this.buffer.offset+len);
-            var contactInfo = textsecure.protobuf.ContactDetails.decode(contactInfoBuffer);
+            var len = this.buffer.readVarint32();
+            var nextBuffer = this.buffer.slice(
+                this.buffer.offset, this.buffer.offset+len
+            ).toArrayBuffer();
+            // TODO: de-dupe ByteBuffer.js includes in libaxo/libts
+            // then remove this toArrayBuffer call.
+
+            var proto = this.protobuf.decode(nextBuffer);
             this.buffer.skip(len);
-            if (contactInfo.avatar) {
-                var attachmentLen = contactInfo.avatar.length.toNumber();
-                contactInfo.avatar.data = this.buffer.slice(this.buffer.offset, this.buffer.offset + attachmentLen).toArrayBuffer(true);
+
+            if (proto.avatar) {
+                var attachmentLen = proto.avatar.length;
+                proto.avatar.data = this.buffer.slice(
+                    this.buffer.offset, this.buffer.offset + attachmentLen
+                ).toArrayBuffer();
                 this.buffer.skip(attachmentLen);
             }
 
-            return contactInfo;
+            return proto;
         } catch(e) {
             console.log(e);
         }
     }
 };
+var GroupBuffer = function(arrayBuffer) {
+    ProtoParser.call(this, arrayBuffer, textsecure.protobuf.GroupDetails);
+};
+GroupBuffer.prototype = Object.create(ProtoParser.prototype);
+GroupBuffer.prototype.constructor = GroupBuffer;
+var ContactBuffer = function(arrayBuffer) {
+    ProtoParser.call(this, arrayBuffer, textsecure.protobuf.ContactDetails);
+};
+ContactBuffer.prototype = Object.create(ProtoParser.prototype);
+ContactBuffer.prototype.constructor = ContactBuffer;
 })();
