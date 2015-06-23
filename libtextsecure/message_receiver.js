@@ -202,6 +202,9 @@
                                     groupDetails.members, groupDetails.id
                                 );
                             } else {
+                                return textsecure.storage.groups.updateNumbers(
+                                    groupDetails.id, groupDetails.members
+                                );
                             }
                         }).then(function() {
                             var ev = new Event('group');

@@ -143,6 +143,30 @@
             });
         },
 
+        updateNumbers: function(groupId, numbers) {
+            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+                if (group === undefined)
+                    throw new Error("Tried to update numbers for unknown group");
+
+                if (numbers.filter(function(number) { return !textsecure.utils.isNumberSane(number); }).length > 0)
+                    throw new Error("Invalid number in new group members");
+
+                if (group.numbers.filter(function(number) { return numbers.indexOf(number) < 0 }).length > 0)
+                    throw new Error("Attempted to remove numbers from group with an UPDATE");
+
+                var added = numbers.filter(function(number) { return group.numbers.indexOf(number) < 0; });
+
+                return textsecure.storage.groups.addNumbers(groupId, added).then(function(newGroup) {
+                    if (newGroup.length != numbers.length ||
+                        newGroup.filter(function(number) { return numbers.indexOf(number) < 0; }).length != 0) {
+                        throw new Error("Error calculating group member difference");
+                    }
+
+                    return added;
+                });
+            });
+        },
+
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
             return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
                 if (group === undefined)

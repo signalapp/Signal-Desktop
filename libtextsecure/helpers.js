@@ -192,21 +192,14 @@ function processDecrypted(decrypted, source) {
                     if (decrypted.group.avatar !== null)
                         promises.push(handleAttachment(decrypted.group.avatar));
 
-                    if (decrypted.group.members.filter(function(number) { return !textsecure.utils.isNumberSane(number); }).length != 0)
-                        throw new Error("Invalid number in new group members");
+                    return textsecure.storage.groups.updateNumbers(
+                        decrypted.group.id, decrypted.group.members
+                    ).then(function(added) {
+                        decrypted.group.added = added;
 
-                    if (existingGroup.filter(function(number) { decrypted.group.members.indexOf(number) < 0 }).length != 0)
-                        throw new Error("Attempted to remove numbers from group with an UPDATE");
-                    decrypted.group.added = decrypted.group.members.filter(function(number) { return existingGroup.indexOf(number) < 0; });
-
-                    return textsecure.storage.groups.addNumbers(decrypted.group.id, decrypted.group.added).then(function(newGroup) {
-                        if (newGroup.length != decrypted.group.members.length ||
-                            newGroup.filter(function(number) { return decrypted.group.members.indexOf(number) < 0; }).length != 0) {
-                            throw new Error("Error calculating group member difference");
-                        }
-
-                        //TODO: Also follow this path if avatar + name haven't changed (ie we should start storing those)
-                        if (decrypted.group.avatar === null && decrypted.group.added.length == 0 && decrypted.group.name === null) {
+                        if (decrypted.group.avatar === null &&
+                            decrypted.group.added.length == 0 &&
+                            decrypted.group.name === null) {
                             return;
                         }
 
