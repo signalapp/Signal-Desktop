@@ -39409,23 +39409,28 @@ TextSecureServer = function () {
         }
     };
     function createAccount(number, verificationCode, identityKeyPair, deviceName) {
-        textsecure.storage.put('identityKey', identityKeyPair);
-
         var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-        textsecure.storage.put('signaling_key', signalingKey);
-
         var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
         password = password.substring(0, password.length - 2);
-        textsecure.storage.put("password", password);
-
         var registrationId = axolotl.util.generateRegistrationId();
-        textsecure.storage.put("registrationId", registrationId);
 
         return TextSecureServer.confirmCode(
             number, verificationCode, password, signalingKey, registrationId, deviceName
         ).then(function(response) {
+            textsecure.storage.remove('identityKey');
+            textsecure.storage.remove('signaling_key');
+            textsecure.storage.remove('password');
+            textsecure.storage.remove('registrationId');
+            textsecure.storage.remove('number_id');
+            textsecure.storage.remove('regionCode');
+
+            textsecure.storage.put('identityKey', identityKeyPair);
+            textsecure.storage.put('signaling_key', signalingKey);
+            textsecure.storage.put('password', password);
+            textsecure.storage.put('registrationId', registrationId);
+
             textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
-            textsecure.storage.put("regionCode", libphonenumber.util.getRegionCodeForNumber(number));
+            textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
         });
     }
 
