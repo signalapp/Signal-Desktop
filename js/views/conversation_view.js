@@ -52,7 +52,16 @@
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
 
-            this.appWindow.contentWindow.addEventListener('resize', this.forceUpdateMessageFieldSize.bind(this));
+            this.$messageField = this.$('.send-message');
+
+            var onResize = this.forceUpdateMessageFieldSize.bind(this);
+            this.appWindow.contentWindow.addEventListener('resize', onResize);
+
+            this.appWindow.onClosed.addListener(function () {
+                this.appWindow.contentWindow.removeEventListener('resize', onResize);
+                window.autosize.destroy(this.$messageField);
+                this.remove();
+            }.bind(this));
 
             setTimeout(function() {
                 this.view.scrollToBottom();
@@ -63,7 +72,6 @@
             'submit .send': 'sendMessage',
             'input .send-message': 'updateMessageFieldSize',
             'keydown .send-message': 'updateMessageFieldSize',
-            'close': 'remove',
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
@@ -165,7 +173,7 @@
 
         sendMessage: function(e) {
             e.preventDefault();
-            var input = this.$('.send .send-message');
+            var input = this.$messageField;
             var message = this.replace_colons(input.val());
             var convo = this.model;
 
@@ -204,20 +212,19 @@
                 return this.$('.bottom-bar form').submit();
             }
 
-            var $messageField = this.$('.send-message'),
-                $discussionContainer = this.$('.discussion-container'),
+            var $discussionContainer = this.$('.discussion-container'),
                 $discussionContainerPrevHeight = $discussionContainer.outerHeight(),
                 $bottomBar = this.$('.bottom-bar'),
                 $bottomBarPrevHeight = $bottomBar.outerHeight();
 
-            window.autosize($messageField);
-            $bottomBar.outerHeight($messageField.outerHeight() + 1);
+            window.autosize(this.$messageField);
+            $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
             $discussionContainer.outerHeight($discussionContainerPrevHeight - ($bottomBarNewHeight - $bottomBarPrevHeight));
         },
 
         forceUpdateMessageFieldSize: function (event) {
-            window.autosize.update(this.$('.send-message'));
+            window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);
         }
     });
