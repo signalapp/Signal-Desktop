@@ -213,14 +213,12 @@
             }
 
             var $discussionContainer = this.$('.discussion-container'),
-                $discussionContainerPrevHeight = $discussionContainer.outerHeight(),
-                $bottomBar = this.$('.bottom-bar'),
-                $bottomBarPrevHeight = $bottomBar.outerHeight();
+                $bottomBar = this.$('.bottom-bar');
 
             window.autosize(this.$messageField);
             $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
-            $discussionContainer.outerHeight($discussionContainerPrevHeight - ($bottomBarNewHeight - $bottomBarPrevHeight));
+            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('#header').outerHeight());
         },
 
         forceUpdateMessageFieldSize: function (event) {

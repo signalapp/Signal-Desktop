@@ -661,7 +661,7 @@ input.search {
 
 .bottom-bar {
   position: fixed;
-  bottom: 1;
+  bottom: 1px;
   height: 36px;
   width: calc(100% - 2px);
   border-top: 1px solid #f3f3f3;
