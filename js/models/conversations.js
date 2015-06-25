@@ -244,7 +244,10 @@
         if (this.avatarUrl) {
             return { url: this.avatarUrl };
         } else if (this.isPrivate()) {
-            var title = this.getTitle() || '';
+            var title = this.get('name');
+            if (!title) {
+                return { content: '#', color: 'gray' };
+            }
             var initials = title.trim()[0];
             return {
                 color: Math.abs(this.hashCode()) % 17,

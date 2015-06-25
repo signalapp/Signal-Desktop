@@ -274,6 +274,9 @@ img.emoji {
   .attachment-preview img {
     width: 100%; }
 
+.avatar.colorgray {
+  background-color: #999999; }
+
 .avatar.color0 {
   background-color: #e57373; }
 
