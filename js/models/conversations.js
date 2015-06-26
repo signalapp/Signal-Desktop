@@ -254,7 +254,7 @@
                 content: initials
             };
         } else {
-            return { url: '/images/default.png' };
+            return { url: '/images/group_default.png', color: 'gray' };
         }
     },
 
