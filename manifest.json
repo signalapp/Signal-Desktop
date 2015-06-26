@@ -2,6 +2,7 @@
     "manifest_version": 2,
 
     "name": "Signal",
+    "short_name": "Signal",
     "description": "Private Messenger",
     "version": "0.0.1",
     "offline_enabled": false,
