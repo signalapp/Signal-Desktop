@@ -562,9 +562,12 @@ input.search {
       top: 11px;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent; }
-    .message-detail .bubble .content a,
-    .message-list .bubble .content a {
-      word-break: break-all; }
+    .message-detail .bubble .content,
+    .message-list .bubble .content {
+      -webkit-user-select: text; }
+      .message-detail .bubble .content a,
+      .message-list .bubble .content a {
+        word-break: break-all; }
     .message-detail .bubble p,
     .message-list .bubble p {
       margin: 0; }

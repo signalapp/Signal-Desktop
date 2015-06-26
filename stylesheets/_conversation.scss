@@ -182,9 +182,13 @@
       border-bottom: 6px solid transparent;
     }
 
-    .content a {
-      word-break: break-all
+    .content {
+      -webkit-user-select: text;
+      a {
+        word-break: break-all
+      }
     }
+
     p {
       margin: 0;
     }
