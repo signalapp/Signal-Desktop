@@ -38781,13 +38781,17 @@ function processDecrypted(decrypted, source) {
 
     if (decrypted.group !== null) {
         decrypted.group.id = getString(decrypted.group.id);
+
+        if (decrypted.group.type == textsecure.protobuf.GroupContext.Type.UPDATE) {
+            if (decrypted.group.avatar !== null) {
+                promises.push(handleAttachment(decrypted.group.avatar));
+            }
+        }
+
         promises.push(textsecure.storage.groups.getNumbers(decrypted.group.id).then(function(existingGroup) {
             if (existingGroup === undefined) {
                 if (decrypted.group.type != textsecure.protobuf.GroupContext.Type.UPDATE) {
                     throw new Error("Got message for unknown group");
-                }
-                if (decrypted.group.avatar !== null) {
-                    promises.push(handleAttachment(decrypted.group.avatar));
                 }
                 return textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
             } else {
@@ -38800,9 +38804,6 @@ function processDecrypted(decrypted, source) {
 
                 switch(decrypted.group.type) {
                 case textsecure.protobuf.GroupContext.Type.UPDATE:
-                    if (decrypted.group.avatar !== null)
-                        promises.push(handleAttachment(decrypted.group.avatar));
-
                     return textsecure.storage.groups.updateNumbers(
                         decrypted.group.id, decrypted.group.members
                     ).then(function(added) {
