@@ -57,8 +57,12 @@
             var onResize = this.forceUpdateMessageFieldSize.bind(this);
             this.appWindow.contentWindow.addEventListener('resize', onResize);
 
+            var onfocus = this.markRead.bind(this);
+            this.appWindow.contentWindow.addEventListener('focus', onfocus);
+
             this.appWindow.onClosed.addListener(function () {
                 this.appWindow.contentWindow.removeEventListener('resize', onResize);
+                this.appWindow.contentWindow.removeEventListener('focus', onfocus);
                 window.autosize.destroy(this.$messageField);
                 this.remove();
             }.bind(this));
