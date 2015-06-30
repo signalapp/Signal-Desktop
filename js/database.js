@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
+;(function () {
     'use strict';
     window.Whisper             = window.Whisper             || {};
     window.Whisper.Database    = window.Whisper.Database    || {};
