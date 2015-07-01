@@ -133,12 +133,17 @@
                 width: 300,
                 height: 440
             }, function (windowInfo) {
-                windowMap.add({ windowId: windowInfo.id, modelId: modelId });
+                windowId = windowInfo.id;
+                windowMap.add({ windowId: windowId, modelId: modelId });
+
+                windowInfo.onClosed.addListener(function () {
+                    onWindowClosed(windowId);
+                });
 
                 // close the panel if background.html is refreshed
                 extension.windows.beforeUnload(function() {
                     // TODO: reattach after reload instead of closing.
-                    extension.windows.remove(windowInfo.id);
+                    extension.windows.remove(windowId);
                 });
             });
         } else {
@@ -169,10 +174,14 @@
             }, function (windowInfo) {
                 inboxWindowId = windowInfo.id;
 
+                windowInfo.onClosed.addListener(function () {
+                    onWindowClosed(inboxWindowId);
+                });
+
                 // close the panel if background.html is refreshed
                 extension.windows.beforeUnload(function() {
                     // TODO: reattach after reload instead of closing.
-                    extension.windows.remove(windowInfo.id);
+                    extension.windows.remove(inboxWindowId);
                 });
             });
         } else if (inboxOpened === true) {
@@ -196,7 +205,7 @@
     });
 
     // make sure windows are cleaned up on close
-    extension.windows.onClosed(function (windowId) {
+    var onWindowClosed = function (windowId) {
         if (windowMap.windowId[windowId]) {
             closeConversation(windowId);
         }
@@ -205,5 +214,5 @@
             inboxWindowId = 0;
             inboxOpened = false;
         }
-    });
+    };
 })();

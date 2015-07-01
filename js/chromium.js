@@ -85,14 +85,6 @@
             }
         },
 
-        onClosed: function(callback) {
-            if (chrome.windows) {
-                chrome.windows.onRemoved.addListener(callback);
-            } else if (chrome.app.window) {
-                chrome.app.window.onClosed.addListener(callback);
-            }
-        },
-
         getCurrent: function(callback) {
             if (chrome.windows) {
                 chrome.windows.getCurrent(callback);
