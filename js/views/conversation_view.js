@@ -178,7 +178,7 @@
         sendMessage: function(e) {
             e.preventDefault();
             var input = this.$messageField;
-            var message = this.replace_colons(input.val());
+            var message = this.replace_colons(input.val()).trim();
             var convo = this.model;
 
             if (message.length > 0 || this.fileInput.hasFiles()) {
