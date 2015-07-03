@@ -210,7 +210,7 @@
         updateMessageFieldSize: function (event) {
             var keyCode = event.which || event.keyCode;
 
-            if (keyCode === 13 && !event.altKey && !event.shiftKey) {
+            if (keyCode === 13 && !event.altKey && !event.shiftKey && !event.ctrlKey) {
                 // enter pressed - submit the form now
                 event.preventDefault();
                 return this.$('.bottom-bar form').submit();
