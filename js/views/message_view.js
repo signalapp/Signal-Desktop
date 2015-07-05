@@ -52,19 +52,11 @@
                 this.$el.removeClass('control');
             }
         },
-        autoLink: function(text) {
-            return text.replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>");
-        },
-        sanitizeMessage: function (message) {
-            var element = document.createElement('span');
-            element.innerText = message;
-            return element.innerHTML.trim().replace(/\n/g, '<br>');
-        },
         render: function() {
             var contact = this.model.getContact();
             this.$el.html(
                 Mustache.render(this.template, {
-                    message: this.sanitizeMessage(this.model.get('body')),
+                    message: this.model.get('body'),
                     timestamp: moment(this.model.get('sent_at')).fromNow(),
                     sender: (contact && contact.getTitle()) || '',
                     avatar: (contact && contact.getAvatar())
@@ -74,7 +66,8 @@
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             var content = this.$('.content');
-            content.html(this.autoLink(content.html()));
+            var escaped = content.html();
+            content.html(escaped.replace(/\n/g, '<br>').replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>"));
 
             this.renderDelivered();
             this.renderPending();
