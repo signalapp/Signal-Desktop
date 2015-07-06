@@ -26,7 +26,10 @@
         ],
         database: Whisper.Database,
         storeName: 'conversations',
-        model: Whisper.Conversation
+        model: Whisper.Conversation,
+        fetchContacts: function() {
+            this.fetch({ conditions: { type: 'private' } });
+        }
     });
 
     Whisper.ContactPillView = Whisper.View.extend({
@@ -79,7 +82,7 @@
 
             // Collection of contacts to match user input against
             this.typeahead = new ContactsTypeahead();
-            this.typeahead.fetch({ conditions: { type: 'private' } });
+            this.typeahead.fetchContacts();
 
             // View to display the matched contacts from typeahead
             this.typeahead_view = new Whisper.ConversationListView({
@@ -164,6 +167,7 @@
             );
             this.recipients.reset([]);
             this.resetTypeahead();
+            this.typeahead.fetchContacts();
         },
 
         resetTypeahead: function() {
