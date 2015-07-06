@@ -97,7 +97,7 @@
                 sender.fetch().then(function() {
                     var notification = new Notification(sender.getTitle(), {
                         body: message.getDescription(),
-                        icon: sender.getAvatarUrl(),
+                        icon: sender.getAvatar().url,
                         tag: conversation.id
                     });
                     notification.onclick = function() {
