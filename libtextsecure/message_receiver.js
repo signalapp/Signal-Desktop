@@ -99,6 +99,7 @@
                 ev.error = error;
                 ev.proto = envelope;
                 this.target.dispatchEvent(ev);
+                throw error; // reject this promise
             }.bind(this));
         },
         handleSentMessage: function(destination, timestamp, message) {
