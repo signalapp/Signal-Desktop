@@ -215,8 +215,12 @@ window.textsecure.messaging = function() {
                                 }
                             });
                     });
-                } else
+                } else if (error.message !== "Identity key changed at session save time") {
                     registerError(number, "Failed to create or send message", error);
+                } else {
+                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                    registerError(number, "Identity key changed", error);
+                }
             });
         }
 
