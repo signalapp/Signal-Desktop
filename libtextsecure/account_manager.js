@@ -32,7 +32,7 @@
         },
         registerSingleDevice: function(number, verificationCode) {
             return axolotl.util.generateIdentityKeyPair().then(function(identityKeyPair) {
-                return createAccount(number, verificationCode, identityKeyPair, true).
+                return createAccount(number, verificationCode, identityKeyPair).
                     then(function() { return generateKeys(100); }).
                     then(TextSecureServer.registerKeys).
                     then(textsecure.registration.done).
