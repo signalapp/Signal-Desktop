@@ -162,8 +162,8 @@
         }
     },
 
-    fetchMessages: function(options) {
-        return this.messageCollection.fetchConversation(this.id, options);
+    fetchMessages: function() {
+        return this.messageCollection.fetchConversation(this.id);
     },
 
     fetchContacts: function(options) {

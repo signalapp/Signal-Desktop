@@ -258,8 +258,8 @@
             });
         },
 
-        fetchConversation: function(conversationId, options) {
-            options = options || {};
+        fetchConversation: function(conversationId) {
+            var options = {};
             options.index = {
                 // 'conversation' index on [conversationId, received_at]
                 name  : 'conversation',
