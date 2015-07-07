@@ -97,8 +97,7 @@
             sendFunc = textsecure.messaging.sendMessageToGroup;
         }
         sendFunc(this.get('id'), body, attachments, now).then(function() {
-            message.unset('pending');
-            message.save();
+            message.save({'pending': false});
         }.bind(this)).catch(function(errors) {
             if (errors instanceof Error) {
                 errors = [errors];
