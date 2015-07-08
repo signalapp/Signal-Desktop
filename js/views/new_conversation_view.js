@@ -24,7 +24,6 @@
             this.render();
             this.$group_update = this.$('.new-group-update-form');
             this.$create = this.$('.create');
-            this.$input = this.$('input.search');
 
             // Group avatar file input
             this.appWindow = options.appWindow;
@@ -35,6 +34,8 @@
 
             this.recipients_view = new Whisper.RecipientsInputView();
             this.$('.scrollable').append(this.recipients_view.el);
+            this.$input = this.$('input.search');
+
             this.listenTo(this.getRecipients(), 'add', this.updateControls);
             this.listenTo(this.getRecipients(), 'remove', this.updateControls);
         },
