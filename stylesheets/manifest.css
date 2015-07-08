@@ -431,7 +431,11 @@ input.search {
 .conversation .file-input .close {
   top: -10px; }
 .conversation .conversation-title {
-  line-height: 36px; }
+  display: block;
+  line-height: 36px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 .conversation #header {
   position: inherit; }
 .conversation .discussion-container {

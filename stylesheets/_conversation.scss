@@ -4,7 +4,11 @@
   }
 
   .conversation-title {
+    display: block;
     line-height: $header-height;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   #header {
