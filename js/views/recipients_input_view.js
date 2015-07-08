@@ -100,8 +100,7 @@
         },
 
         events: {
-            'change input.search': 'filterContacts',
-            'keyup input.search': 'filterContacts',
+            'input input.search': 'filterContacts',
             'select .new-contact': 'addNewRecipient',
             'select .contacts': 'addRecipient',
             'remove .recipient': 'removeRecipient',
