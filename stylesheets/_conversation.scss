@@ -194,8 +194,11 @@
     }
   }
 
-  .outgoing.pending .bubble {
+  .outgoing .bubble {
     opacity: 0.7;
+  }
+  .outgoing.sent .bubble {
+    opacity: 1.0;
   }
 
   .incoming {

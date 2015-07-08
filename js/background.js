@@ -92,7 +92,8 @@
                 sent_at        : data.timestamp,
                 received_at    : now,
                 conversationId : data.destination,
-                type           : 'outgoing'
+                type           : 'outgoing',
+                sent           : true
             });
 
             message.handleDataMessage(data.message);

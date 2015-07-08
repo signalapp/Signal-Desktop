@@ -23,7 +23,7 @@
         initialize: function() {
             this.listenTo(this.model, 'change:body change:errors', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
-            this.listenTo(this.model, 'change', this.renderPending);
+            this.listenTo(this.model, 'change', this.renderSent);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
             this.listenTo(this.model, 'destroy', this.remove);
         },
@@ -36,9 +36,9 @@
         className: function() {
             return ["entry", this.model.get('type')].join(' ');
         },
-        renderPending: function() {
+        renderSent: function() {
             if (this.model.isOutgoing()) {
-                this.$el.toggleClass('pending', !!this.model.get('pending'));
+                this.$el.toggleClass('sent', !!this.model.get('sent'));
             }
         },
         renderDelivered: function() {
@@ -69,8 +69,8 @@
             var escaped = content.html();
             content.html(escaped.replace(/\n/g, '<br>').replace(/(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi, "$1<a href='$2' target='_blank'>$2</a>"));
 
+            this.renderSent();
             this.renderDelivered();
-            this.renderPending();
             this.renderControl();
 
             this.$('.attachments').append(

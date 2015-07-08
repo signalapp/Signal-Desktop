@@ -571,9 +571,12 @@ input.search {
     .message-detail .bubble p,
     .message-list .bubble p {
       margin: 0; }
-  .message-detail .outgoing.pending .bubble,
-  .message-list .outgoing.pending .bubble {
+  .message-detail .outgoing .bubble,
+  .message-list .outgoing .bubble {
     opacity: 0.7; }
+  .message-detail .outgoing.sent .bubble,
+  .message-list .outgoing.sent .bubble {
+    opacity: 1.0; }
   .message-detail .incoming .bubble,
   .message-list .incoming .bubble {
     color: #454545;
