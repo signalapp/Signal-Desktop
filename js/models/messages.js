@@ -259,7 +259,7 @@
         },
 
         fetchConversation: function(conversationId) {
-            var options = {};
+            var options = {remove: false};
             options.index = {
                 // 'conversation' index on [conversationId, received_at]
                 name  : 'conversation',
