@@ -152,6 +152,8 @@
                         group.get('members')
                     ).catch(function(errors) {
                         message.save({errors: errors.map(function(e){return e.error;})});
+                    }).then(function() {
+                        message.save({sent: true});
                     });
                 }.bind(this));
             }.bind(this));
