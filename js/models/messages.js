@@ -114,10 +114,11 @@
                     }.bind(this));
                 } else {
                     promise.then(function() {
-                        this.save('errors', _.reject(this.get('errors'), function(e) {
+                        var errors = _.reject(this.get('errors'), function(e) {
                             return e.name === 'OutgoingIdentityKeyError' &&
                                    e.number === number;
-                        }));
+                        });
+                        this.save({sent: true, errors: errors});
                     }.bind(this));
                 }
             }
