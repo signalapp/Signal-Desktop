@@ -263,9 +263,17 @@
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().always(function() {
                     var oldpublicKey = identityKey.get('publicKey');
-                    if (oldpublicKey && !equalArrayBuffers(oldpublicKey, publicKey))
-                        throw new Error("Attempted to overwrite a different identity key");
-                    identityKey.save({publicKey: publicKey}).then(resolve);
+                    if (!oldpublicKey) {
+                        // Lookup failed, or the current key was removed, so save this one.
+                        identityKey.save({publicKey: publicKey}).then(resolve);
+                    } else {
+                        // Key exists, if it matches do nothing, else throw
+                        if (equalArrayBuffers(oldpublicKey, publicKey)) {
+                            resolve();
+                        } else {
+                            throw new Error("Attempted to overwrite a different identity key");
+                        }
+                    }
                 });
             });
         },
