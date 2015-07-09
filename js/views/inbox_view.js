@@ -52,9 +52,7 @@
                 'click': 'reloadBackgroundPage'
             },
             reloadBackgroundPage: function() {
-                extension.windows.getBackground(function(bg) {
-                    bg.location.reload();
-                });
+                chrome.runtime.reload();
             }
         });
 
