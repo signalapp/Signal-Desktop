@@ -38998,6 +38998,7 @@ TextSecureServer = function () {
         *   jsonData:           JSON data sent in the request body
         */
     function ajax(url, options) {
+        var error = new Error(); // just in case, save stack here.
         var xhr = new XMLHttpRequest();
         xhr.open(options.type, url, true /*async*/);
 
@@ -39023,21 +39024,27 @@ TextSecureServer = function () {
             if ( 0 <= xhr.status && xhr.status < 400) {
                 options.success(result, xhr.status);
             } else {
-                options.error(result, xhr.status);
+                options.error(HTTPError(xhr.status, result, error.stack));
             }
         };
         xhr.onerror = function() {
-            options.error(null, xhr.status);
+            options.error(HTTPError(xhr.status, null, error.stack));
         };
         xhr.send( options.data || null );
     }
 
-    function throwHumanError (error, type, humanError) {
-        var e = new Error(error);
-        if (type !== undefined)
-            e.name = type;
-        e.humanError = humanError;
-        throw e;
+    function HTTPError(code, response, stack) {
+        if (code > 999 || code < 100) {
+            code = -1;
+        }
+        var e = new Error(message);
+        e.name     = 'HTTPError';
+        e.code     = code;
+        e.stack = stack;
+        if (response) {
+            e.response = response;
+        }
+        return e;
     }
 
     var doAjax = function (param) {
@@ -39059,46 +39066,41 @@ TextSecureServer = function () {
                 user        : param.user,
                 password    : param.password,
                 success     : resolve,
-                error       : function(result, code) {
+                error       : function(e) {
+                    var code = e.code;
                     if (code === 200) {
                         // happens sometimes when we get no response
                         // (TODO: Fix server to return 204? instead)
                         resolve(null);
                         return;
                     }
-                    if (code > 999 || code < 100)
-                        code = -1;
-                    try {
-                        switch (code) {
-                        case -1:
-                            throwHumanError(code, "HTTPError",
-                                "Failed to connect to the server, please check your network connection.");
-                        case 413:
-                            throwHumanError(code, "HTTPError",
-                                "Rate limit exceeded, please try again later.");
-                        case 403:
-                            throwHumanError(code, "HTTPError",
-                                "Invalid code, please try again.");
-                        case 417:
-                            // TODO: This shouldn't be a thing?, but its in the API doc?
-                            throwHumanError(code, "HTTPError",
-                                "Number already registered.");
-                        case 401:
-                            throwHumanError(code, "HTTPError",
-                                "Invalid authentication, most likely someone re-registered and invalidated our registration.");
-                        case 404:
-                            throwHumanError(code, "HTTPError",
-                                "Number is not registered with TextSecure.");
-                        default:
-                            throwHumanError(code, "HTTPError",
-                                "The server rejected our query, please file a bug report.");
-                        }
-                    } catch (e) {
-                        if (result) {
-                            e.response = result;
-                        }
-                        reject(e);
+                    var message;
+                    switch (code) {
+                    case -1:
+                        message = "Failed to connect to the server, please check your network connection.";
+                        break;
+                    case 413:
+                        message = "Rate limit exceeded, please try again later.";
+                        break;
+                    case 403:
+                        message = "Invalid code, please try again.";
+                        break;
+                    case 417:
+                        // TODO: This shouldn't be a thing?, but its in the API doc?
+                        message = "Number already registered.";
+                        break;
+                    case 401:
+                    case 403:
+                        message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
+                        break;
+                    case 404:
+                        message = "Number is not registered with TextSecure.";
+                        break;
+                    default:
+                        message = "The server rejected our query, please file a bug report.";
                     }
+                    e.message = message
+                    reject(e);
                 }
             });
         });
@@ -39244,16 +39246,10 @@ TextSecureServer = function () {
                     contentType: "application/octet-stream",
 
                     success     : resolve,
-                    error       : function(result, code) {
-                                        if (code > 999 || code < 100)
-                                            code = -1;
-
-                                        var e = new Error(code);
-                                        e.name = "HTTPError";
-                                        if (result)
-                                            e.response = result;
-                                        reject(e);
-                                    }
+                    error       : function(e) {
+                        e.message = 'Failed to download attachment';
+                        reject(e);
+                    }
                 });
             });
         });
@@ -39282,14 +39278,8 @@ TextSecureServer = function () {
                             reject(e);
                         }
                     },
-                    error   : function(result, code) {
-                        if (code > 999 || code < 100)
-                            code = -1;
-
-                        var e = new Error(code);
-                        e.name = "HTTPError";
-                        if (result)
-                            e.response = result;
+                    error       : function(e) {
+                        e.message = 'Failed to upload attachment';
                         reject(e);
                     }
                 });
@@ -39533,7 +39523,7 @@ function generateKeys(count, progressCallback) {
                 if (e.code === 1006) {
                     // possible 403. Make an request to confirm
                     TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
-                        if (e.name === 'HTTPError' && (e.message == 401 || e.message == 403)) {
+                        if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
                             var ev = new Event('error');
                             ev.error = e;
                             eventTarget.dispatchEvent(ev);
@@ -39919,12 +39909,12 @@ window.textsecure.messaging = function() {
                     numberCompleted();
                 });
             }).catch(function(error) {
-                if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
+                if (error instanceof Error && error.name == "HTTPError" && (error.code == 410 || error.code == 409)) {
                     if (!recurse)
                         return registerError(number, "Hit retry limit attempting to reload device list", error);
 
                     var p;
-                    if (error.message == 409) {
+                    if (error.code == 409) {
                         p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
                     } else {
                         p = Promise.all(error.response.staleDevices.map(function(deviceId) {
@@ -39933,7 +39923,7 @@ window.textsecure.messaging = function() {
                     }
 
                     p.then(function() {
-                        var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
+                        var resetDevices = ((error.code == 410) ? error.response.staleDevices : error.response.missingDevices);
                         getKeysForNumber(number, resetDevices)
                             .then(reloadDevicesAndSend(number, false))
                             .catch(function(error) {

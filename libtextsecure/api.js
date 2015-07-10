@@ -53,6 +53,7 @@ TextSecureServer = function () {
         *   jsonData:           JSON data sent in the request body
         */
     function ajax(url, options) {
+        var error = new Error(); // just in case, save stack here.
         var xhr = new XMLHttpRequest();
         xhr.open(options.type, url, true /*async*/);
 
@@ -78,21 +79,27 @@ TextSecureServer = function () {
             if ( 0 <= xhr.status && xhr.status < 400) {
                 options.success(result, xhr.status);
             } else {
-                options.error(result, xhr.status);
+                options.error(HTTPError(xhr.status, result, error.stack));
             }
         };
         xhr.onerror = function() {
-            options.error(null, xhr.status);
+            options.error(HTTPError(xhr.status, null, error.stack));
         };
         xhr.send( options.data || null );
     }
 
-    function throwHumanError (error, type, humanError) {
-        var e = new Error(error);
-        if (type !== undefined)
-            e.name = type;
-        e.humanError = humanError;
-        throw e;
+    function HTTPError(code, response, stack) {
+        if (code > 999 || code < 100) {
+            code = -1;
+        }
+        var e = new Error(message);
+        e.name     = 'HTTPError';
+        e.code     = code;
+        e.stack = stack;
+        if (response) {
+            e.response = response;
+        }
+        return e;
     }
 
     var doAjax = function (param) {
@@ -114,46 +121,41 @@ TextSecureServer = function () {
                 user        : param.user,
                 password    : param.password,
                 success     : resolve,
-                error       : function(result, code) {
+                error       : function(e) {
+                    var code = e.code;
                     if (code === 200) {
                         // happens sometimes when we get no response
                         // (TODO: Fix server to return 204? instead)
                         resolve(null);
                         return;
                     }
-                    if (code > 999 || code < 100)
-                        code = -1;
-                    try {
-                        switch (code) {
-                        case -1:
-                            throwHumanError(code, "HTTPError",
-                                "Failed to connect to the server, please check your network connection.");
-                        case 413:
-                            throwHumanError(code, "HTTPError",
-                                "Rate limit exceeded, please try again later.");
-                        case 403:
-                            throwHumanError(code, "HTTPError",
-                                "Invalid code, please try again.");
-                        case 417:
-                            // TODO: This shouldn't be a thing?, but its in the API doc?
-                            throwHumanError(code, "HTTPError",
-                                "Number already registered.");
-                        case 401:
-                            throwHumanError(code, "HTTPError",
-                                "Invalid authentication, most likely someone re-registered and invalidated our registration.");
-                        case 404:
-                            throwHumanError(code, "HTTPError",
-                                "Number is not registered with TextSecure.");
-                        default:
-                            throwHumanError(code, "HTTPError",
-                                "The server rejected our query, please file a bug report.");
-                        }
-                    } catch (e) {
-                        if (result) {
-                            e.response = result;
-                        }
-                        reject(e);
+                    var message;
+                    switch (code) {
+                    case -1:
+                        message = "Failed to connect to the server, please check your network connection.";
+                        break;
+                    case 413:
+                        message = "Rate limit exceeded, please try again later.";
+                        break;
+                    case 403:
+                        message = "Invalid code, please try again.";
+                        break;
+                    case 417:
+                        // TODO: This shouldn't be a thing?, but its in the API doc?
+                        message = "Number already registered.";
+                        break;
+                    case 401:
+                    case 403:
+                        message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
+                        break;
+                    case 404:
+                        message = "Number is not registered with TextSecure.";
+                        break;
+                    default:
+                        message = "The server rejected our query, please file a bug report.";
                     }
+                    e.message = message
+                    reject(e);
                 }
             });
         });
@@ -299,16 +301,10 @@ TextSecureServer = function () {
                     contentType: "application/octet-stream",
 
                     success     : resolve,
-                    error       : function(result, code) {
-                                        if (code > 999 || code < 100)
-                                            code = -1;
-
-                                        var e = new Error(code);
-                                        e.name = "HTTPError";
-                                        if (result)
-                                            e.response = result;
-                                        reject(e);
-                                    }
+                    error       : function(e) {
+                        e.message = 'Failed to download attachment';
+                        reject(e);
+                    }
                 });
             });
         });
@@ -337,14 +333,8 @@ TextSecureServer = function () {
                             reject(e);
                         }
                     },
-                    error   : function(result, code) {
-                        if (code > 999 || code < 100)
-                            code = -1;
-
-                        var e = new Error(code);
-                        e.name = "HTTPError";
-                        if (result)
-                            e.response = result;
+                    error       : function(e) {
+                        e.message = 'Failed to upload attachment';
                         reject(e);
                     }
                 });

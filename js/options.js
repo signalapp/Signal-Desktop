@@ -82,7 +82,7 @@
                 bg.openInbox();
                 window.close();
             }).catch(function(e) {
-                if (e.name === 'HTTPError' && e.message == 411) {
+                if (e.name === 'HTTPError' && e.code == 411) {
                     $('.progress-dialog').hide();
                     $('.error-dialog').show();
                 }

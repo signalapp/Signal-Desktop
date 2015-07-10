@@ -120,7 +120,7 @@
         function onError(ev) {
             var e = ev.error;
 
-            if (e.name === 'HTTPError' && (e.message == 401 || e.message == 403)) {
+            if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
                 extension.install();
                 return;
             }
@@ -129,6 +129,7 @@
                 console.log(e);
                 throw e;
             }
+
             var envelope = ev.proto;
             var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
             if (e.name === 'IncomingIdentityKeyError') {

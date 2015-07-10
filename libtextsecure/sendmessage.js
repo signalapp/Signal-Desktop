@@ -189,12 +189,12 @@ window.textsecure.messaging = function() {
                     numberCompleted();
                 });
             }).catch(function(error) {
-                if (error instanceof Error && error.name == "HTTPError" && (error.message == 410 || error.message == 409)) {
+                if (error instanceof Error && error.name == "HTTPError" && (error.code == 410 || error.code == 409)) {
                     if (!recurse)
                         return registerError(number, "Hit retry limit attempting to reload device list", error);
 
                     var p;
-                    if (error.message == 409) {
+                    if (error.code == 409) {
                         p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
                     } else {
                         p = Promise.all(error.response.staleDevices.map(function(deviceId) {
@@ -203,7 +203,7 @@ window.textsecure.messaging = function() {
                     }
 
                     p.then(function() {
-                        var resetDevices = ((error.message == 410) ? error.response.staleDevices : error.response.missingDevices);
+                        var resetDevices = ((error.code == 410) ? error.response.staleDevices : error.response.missingDevices);
                         getKeysForNumber(number, resetDevices)
                             .then(reloadDevicesAndSend(number, false))
                             .catch(function(error) {
