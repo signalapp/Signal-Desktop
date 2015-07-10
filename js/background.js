@@ -43,12 +43,12 @@
         function init() {
             if (!textsecure.registration.isDone()) { return; }
 
-            window.addEventListener('message', onMessageReceived);
-            window.addEventListener('receipt', onDeliveryReceipt);
-            window.addEventListener('contact', onContactReceived);
-            window.addEventListener('group', onGroupReceived);
-            window.addEventListener('sent', onSentMessage);
-            window.addEventListener('error', onError);
+            window.addEventListener('textsecure:message', onMessageReceived);
+            window.addEventListener('textsecure:receipt', onDeliveryReceipt);
+            window.addEventListener('textsecure:contact', onContactReceived);
+            window.addEventListener('textsecure:group', onGroupReceived);
+            window.addEventListener('textsecure:sent', onSentMessage);
+            window.addEventListener('textsecure:error', onError);
 
             // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(window);

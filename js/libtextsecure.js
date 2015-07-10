@@ -39500,7 +39500,7 @@ function generateKeys(count, progressCallback) {
                 if (e.code === 1006) {
                     // possible 403. Make an request to confirm
                     TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
-                        var ev = new Event('error');
+                        var ev = new Event('textsecure:error');
                         ev.error = e;
                         eventTarget.dispatchEvent(ev);
                     });
@@ -39532,7 +39532,7 @@ function generateKeys(count, progressCallback) {
             }.bind(this)).catch(function(e) {
                 request.respond(500, 'Bad encrypted websocket message');
                 console.log("Error handling incoming message:", e);
-                var ev = new Event('error');
+                var ev = new Event('textsecure:error');
                 ev.error = e;
                 this.target.dispatchEvent(ev);
             }.bind(this));
@@ -39545,7 +39545,7 @@ function generateKeys(count, progressCallback) {
             }
         },
         onDeliveryReceipt: function (envelope) {
-            var ev = new Event('receipt');
+            var ev = new Event('textsecure:receipt');
             ev.proto = envelope;
             this.target.dispatchEvent(ev);
         },
@@ -39556,7 +39556,7 @@ function generateKeys(count, progressCallback) {
                 envelope.type,
                 ciphertext
             ).catch(function(error) {
-                var ev = new Event('error');
+                var ev = new Event('textsecure:error');
                 ev.error = error;
                 ev.proto = envelope;
                 this.target.dispatchEvent(ev);
@@ -39566,7 +39566,7 @@ function generateKeys(count, progressCallback) {
         handleSentMessage: function(destination, timestamp, message) {
             var source = textsecure.storage.user.getNumber();
             return processDecrypted(message, source).then(function(message) {
-                var ev = new Event('sent');
+                var ev = new Event('textsecure:sent');
                 ev.data = {
                     destination : destination,
                     timestamp   : timestamp.toNumber(),
@@ -39581,7 +39581,7 @@ function generateKeys(count, progressCallback) {
                 close_session();
             }
             return processDecrypted(message, envelope.source).then(function(message) {
-                var ev = new Event('message');
+                var ev = new Event('textsecure:message');
                 ev.data = {
                     source    : envelope.source,
                     timestamp : envelope.timestamp.toNumber(),
@@ -39641,7 +39641,7 @@ function generateKeys(count, progressCallback) {
                 var contactBuffer = new ContactBuffer(attachmentPointer.data);
                 var contactDetails = contactBuffer.next();
                 while (contactDetails !== undefined) {
-                    var ev = new Event('contact');
+                    var ev = new Event('textsecure:contact');
                     ev.contactDetails = contactDetails;
                     eventTarget.dispatchEvent(ev);
                     contactDetails = contactBuffer.next();
@@ -39669,7 +39669,7 @@ function generateKeys(count, progressCallback) {
                                 );
                             }
                         }).then(function() {
-                            var ev = new Event('group');
+                            var ev = new Event('textsecure:group');
                             ev.groupDetails = groupDetails;
                             eventTarget.dispatchEvent(ev);
                         });
