@@ -125,27 +125,26 @@
                 return;
             }
 
-            if (!ev.proto) {
-                console.log(e);
-                throw e;
+            if (ev.proto) {
+                var envelope = ev.proto;
+                var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
+                if (e.name === 'IncomingIdentityKeyError') {
+                    message.save({ errors : [e] }).then(function() {
+                        extension.trigger('updateInbox');
+                        notifyConversation(message);
+                    });
+                    return;
+                } else if (e.message !== 'Bad MAC') {
+                    message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
+                        extension.trigger('updateInbox');
+                        notifyConversation(message);
+                    });
+                    return;
+                }
             }
 
-            var envelope = ev.proto;
-            var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
-            if (e.name === 'IncomingIdentityKeyError') {
-                message.save({ errors : [e] }).then(function() {
-                    extension.trigger('updateInbox');
-                    notifyConversation(message);
-                });
-            } else if (e.message !== 'Bad MAC') {
-                message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                    extension.trigger('updateInbox');
-                    notifyConversation(message);
-                });
-            } else {
-                console.log(e);
-                throw e;
-            }
+            console.error(e);
+            throw e;
         }
 
         // lazy hack

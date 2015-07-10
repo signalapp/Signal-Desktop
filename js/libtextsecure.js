@@ -39500,11 +39500,9 @@ function generateKeys(count, progressCallback) {
                 if (e.code === 1006) {
                     // possible 403. Make an request to confirm
                     TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
-                        if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
-                            var ev = new Event('error');
-                            ev.error = e;
-                            eventTarget.dispatchEvent(ev);
-                        }
+                        var ev = new Event('error');
+                        ev.error = e;
+                        eventTarget.dispatchEvent(ev);
                     });
                 }
             }
