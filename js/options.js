@@ -85,6 +85,9 @@
                 if (e.name === 'HTTPError' && e.code == 411) {
                     $('.progress-dialog').hide();
                     $('.error-dialog').show();
+                    $('.error-dialog .ok').click(function(e) {
+                        chrome.runtime.reload();
+                    });
                 }
                 else {
                     throw e;

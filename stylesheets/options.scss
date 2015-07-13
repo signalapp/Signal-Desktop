@@ -195,12 +195,12 @@ ul.country-list {
       text-align: left;
     }
 
-    .confirmation-dialog, .progress-dialog {
+    .confirmation-dialog, .progress-dialog, .error-dialog {
       padding: 1em;
       text-align: left;
     }
-    .confirmation-dialog {
-      .number { text-align: center; }
+    .confirmation-dialog .number { text-align: center; }
+    .confirmation-dialog, .error-dialog {
       button {
         float: right;
         margin-left: 10px;

@@ -6392,12 +6392,12 @@ ul.country-list {
       padding: 1em;
       margin: 0;
       text-align: left; }
-    .modal-container .modal-main .confirmation-dialog, .modal-container .modal-main .progress-dialog {
+    .modal-container .modal-main .confirmation-dialog, .modal-container .modal-main .progress-dialog, .modal-container .modal-main .error-dialog {
       padding: 1em;
       text-align: left; }
     .modal-container .modal-main .confirmation-dialog .number {
       text-align: center; }
-    .modal-container .modal-main .confirmation-dialog button {
+    .modal-container .modal-main .confirmation-dialog button, .modal-container .modal-main .error-dialog button {
       float: right;
       margin-left: 10px; }
     .modal-container .modal-main .progress-dialog {
