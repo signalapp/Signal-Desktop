@@ -40074,7 +40074,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
 
             var promises = [];
             for (var i in attachments)
@@ -40123,7 +40123,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.addNumbers(groupId, numbers).then(function(numbers) {
             if (numbers === undefined) {
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
             }
             proto.group.members = numbers;
 
@@ -40150,7 +40150,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.addNumbers(groupId, [number]).then(function(numbers) {
             if (numbers === undefined)
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
             proto.group.members = numbers;
 
             return sendGroupProto(numbers, proto);
@@ -40166,7 +40166,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
             proto.group.members = numbers;
 
             return sendGroupProto(numbers, proto);
@@ -40181,7 +40181,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
             proto.group.members = numbers;
 
             return makeAttachmentPointer(avatar).then(function(attachment) {
@@ -40199,7 +40199,7 @@ window.textsecure.messaging = function() {
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
-                return new Promise(function(resolve, reject) { reject(new Error("Unknown Group")); });
+                return Promise.reject(new Error("Unknown Group"));
             return textsecure.storage.groups.deleteGroup(groupId).then(function() {
                 return sendGroupProto(numbers, proto);
             });
