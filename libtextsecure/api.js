@@ -53,39 +53,41 @@ TextSecureServer = function () {
         *   jsonData:           JSON data sent in the request body
         */
     function ajax(url, options) {
-        var error = new Error(); // just in case, save stack here.
-        var xhr = new XMLHttpRequest();
-        xhr.open(options.type, url, true /*async*/);
+        return new Promise(function (resolve, reject) {
+            var error = new Error(); // just in case, save stack here.
+            var xhr = new XMLHttpRequest();
+            xhr.open(options.type, url, true /*async*/);
 
-        if ( options.responseType ) {
-            xhr[ 'responseType' ] = options.responseType;
-        }
-        if (options.user && options.password) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(options.user) + ":" + getString(options.password)));
-        }
-        if (options.contentType) {
-            xhr.setRequestHeader( "Content-Type", options.contentType );
-        }
+            if ( options.responseType ) {
+                xhr[ 'responseType' ] = options.responseType;
+            }
+            if (options.user && options.password) {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(options.user) + ":" + getString(options.password)));
+            }
+            if (options.contentType) {
+                xhr.setRequestHeader( "Content-Type", options.contentType );
+            }
 
-        xhr.onload = function() {
-            var result = xhr.response;
-            if ( (!xhr.responseType || xhr.responseType === "text") &&
-                    typeof xhr.responseText === "string" ) {
-                result = xhr.responseText;
-            }
-            if (options.dataType === 'json') {
-                try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
-            }
-            if ( 0 <= xhr.status && xhr.status < 400) {
-                options.success(result, xhr.status);
-            } else {
-                options.error(HTTPError(xhr.status, result, error.stack));
-            }
-        };
-        xhr.onerror = function() {
-            options.error(HTTPError(xhr.status, null, error.stack));
-        };
-        xhr.send( options.data || null );
+            xhr.onload = function() {
+                var result = xhr.response;
+                if ( (!xhr.responseType || xhr.responseType === "text") &&
+                        typeof xhr.responseText === "string" ) {
+                    result = xhr.responseText;
+                }
+                if (options.dataType === 'json') {
+                    try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
+                }
+                if ( 0 <= xhr.status && xhr.status < 400) {
+                    resolve(result, xhr.status);
+                } else {
+                    reject(HTTPError(xhr.status, result, error.stack));
+                }
+            };
+            xhr.onerror = function() {
+                reject(HTTPError(xhr.status, null, error.stack));
+            };
+            xhr.send( options.data || null );
+        });
     }
 
     function HTTPError(code, response, stack) {
@@ -95,7 +97,7 @@ TextSecureServer = function () {
         var e = new Error(message);
         e.name     = 'HTTPError';
         e.code     = code;
-        e.stack = stack;
+        e.stack    = stack;
         if (response) {
             e.response = response;
         }
@@ -112,52 +114,47 @@ TextSecureServer = function () {
             param.password  = textsecure.storage.get("password");
         }
 
-        return new Promise(function (resolve, reject) {
-            ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
+        return ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
                 type        : param.httpType,
                 data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
                 contentType : 'application/json; charset=utf-8',
                 dataType    : 'json',
                 user        : param.user,
-                password    : param.password,
-                success     : resolve,
-                error       : function(e) {
-                    var code = e.code;
-                    if (code === 200) {
-                        // happens sometimes when we get no response
-                        // (TODO: Fix server to return 204? instead)
-                        resolve(null);
-                        return;
-                    }
-                    var message;
-                    switch (code) {
-                    case -1:
-                        message = "Failed to connect to the server, please check your network connection.";
-                        break;
-                    case 413:
-                        message = "Rate limit exceeded, please try again later.";
-                        break;
-                    case 403:
-                        message = "Invalid code, please try again.";
-                        break;
-                    case 417:
-                        // TODO: This shouldn't be a thing?, but its in the API doc?
-                        message = "Number already registered.";
-                        break;
-                    case 401:
-                    case 403:
-                        message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
-                        break;
-                    case 404:
-                        message = "Number is not registered with TextSecure.";
-                        break;
-                    default:
-                        message = "The server rejected our query, please file a bug report.";
-                    }
-                    e.message = message
-                    reject(e);
-                }
-            });
+                password    : param.password
+        }).catch(function(e) {
+            var code = e.code;
+            if (code === 200) {
+                // happens sometimes when we get no response
+                // (TODO: Fix server to return 204? instead)
+                return null;
+            }
+            var message;
+            switch (code) {
+            case -1:
+                message = "Failed to connect to the server, please check your network connection.";
+                break;
+            case 413:
+                message = "Rate limit exceeded, please try again later.";
+                break;
+            case 403:
+                message = "Invalid code, please try again.";
+                break;
+            case 417:
+                // TODO: This shouldn't be a thing?, but its in the API doc?
+                message = "Number already registered.";
+                break;
+            case 401:
+            case 403:
+                message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
+                break;
+            case 404:
+                message = "Number is not registered with TextSecure.";
+                break;
+            default:
+                message = "The server rejected our query, please file a bug report.";
+            }
+            e.message = message
+            throw e;
         });
     };
 
@@ -294,18 +291,10 @@ TextSecureServer = function () {
             urlParameters       : '/' + id,
             do_auth             : true,
         }).then(function(response) {
-            return new Promise(function(resolve, reject) {
-                ajax(response.location, {
-                    type        : "GET",
-                    responseType: "arraybuffer",
-                    contentType: "application/octet-stream",
-
-                    success     : resolve,
-                    error       : function(e) {
-                        e.message = 'Failed to download attachment';
-                        reject(e);
-                    }
-                });
+            return ajax(response.location, {
+                type        : "GET",
+                responseType: "arraybuffer",
+                contentType : "application/octet-stream"
             });
         });
     };
@@ -317,27 +306,15 @@ TextSecureServer = function () {
             httpType : 'GET',
             do_auth  : true,
         }).then(function(response) {
-            return new Promise(function(resolve, reject) {
-                ajax(response.location, {
-                    type        : "PUT",
-                    contentType : "application/octet-stream",
-                    data        : encryptedBin,
-                    processData : false,
-                    success     : function() {
-                        try {
-                            // Parse the id as a string from the location url
-                            // (workaround for ids too large for Javascript numbers)
-                            var id = response.location.match(id_regex)[1];
-                            resolve(id);
-                        } catch(e) {
-                            reject(e);
-                        }
-                    },
-                    error       : function(e) {
-                        e.message = 'Failed to upload attachment';
-                        reject(e);
-                    }
-                });
+            return ajax(response.location, {
+                type        : "PUT",
+                contentType : "application/octet-stream",
+                data        : encryptedBin,
+                processData : false,
+            }).then(function() {
+                // Parse the id as a string from the location url
+                // (workaround for ids too large for Javascript numbers)
+                return response.location.match(id_regex)[1];
             });
         });
     };
