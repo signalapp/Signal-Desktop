@@ -72,21 +72,41 @@
         },
         send: function() {
             return this.avatarInput.getThumbnail().then(function(avatarFile) {
-                this.model.set({
+                var attrs = {
                     name: this.$('.name').val(),
                     members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
-                });
+                };
                 if (avatarFile) {
-                    this.model.set({avatar: avatarFile});
+                    attrs.avatar = avatarFile;
+                }
+                this.model.set(attrs);
+                var group_update = this.model.changed;
+                this.model.save();
+
+                if (group_update.avatar) {
                     this.model.trigger('change:avatar');
                 }
-                this.model.save();
+
+                var now = Date.now();
+                var message = this.model.messageCollection.add({
+                    conversationId : this.model.id,
+                    type           : 'outgoing',
+                    sent_at        : now,
+                    received_at    : now,
+                    group_update   : group_update
+                });
+                message.save();
                 textsecure.messaging.updateGroup(
                     this.model.id,
                     this.model.get('name'),
                     this.model.get('avatar'),
                     this.model.get('members')
-                );
+                ).catch(function(errors) {
+                    message.save({errors: errors.map(function(e){return e.error;})});
+                }).then(function() {
+                    message.save({sent: true});
+                });
+
                 this.goBack();
             }.bind(this));
         }
