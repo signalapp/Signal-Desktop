@@ -216,25 +216,21 @@
                 return this.$('.bottom-bar form').submit();
             }
 
-            var $discussionContainer = this.$('.discussion-container'),
-                $bottomBar = this.$('.bottom-bar'),
-                $messageList = this.$('.message-list');
-
-            var scrollPosition = $messageList.scrollTop() + $messageList.outerHeight(),
-                scrollHeight = $messageList[0].scrollHeight,
-                shouldStickToBottom = scrollPosition === scrollHeight;
-
+            this.view.measureScrollPosition();
             window.autosize(this.$messageField);
+
+            var $discussionContainer = this.$('.discussion-container'),
+                $bottomBar = this.$('.bottom-bar');
+
             $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
             $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('#header').outerHeight());
 
-            if (shouldStickToBottom) {
-                $messageList.scrollTop(scrollHeight);
-            }
+            this.view.scrollToBottomIfNeeded();
         },
 
         forceUpdateMessageFieldSize: function (event) {
+            this.view.scrollToBottomIfNeeded();
             window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);
         }
