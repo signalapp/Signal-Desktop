@@ -27,7 +27,6 @@
       return {
         unreadCount : 0,
         timestamp   : timestamp,
-        active_at   : timestamp
       };
     },
 
@@ -180,7 +179,7 @@
     },
 
     archive: function() {
-        this.unset('active_at');
+        this.set({active_at: null});
     },
 
     destroyMessages: function() {

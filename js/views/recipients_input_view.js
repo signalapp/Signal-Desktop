@@ -132,7 +132,6 @@
             this.new_contact = new Whisper.ConversationListItemView({
                 el: this.$new_contact,
                 model: new Whisper.Conversation({
-                    active_at: null,
                     type: 'private',
                     newContact: true
                 })

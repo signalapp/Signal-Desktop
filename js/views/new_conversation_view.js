@@ -93,7 +93,6 @@
 
         createConversation: function() {
             var conversation = new Whisper.Conversation({
-                active_at: null,
                 id: this.getRecipients().at(0).id,
                 type: 'private'
             });

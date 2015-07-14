@@ -69,8 +69,7 @@
                 name: contactDetails.name,
                 id: contactDetails.number,
                 avatar: contactDetails.avatar,
-                type: 'private',
-                active_at: null
+                type: 'private'
             }).save();
         }
 
@@ -82,7 +81,6 @@
                 members: groupDetails.members,
                 avatar: groupDetails.avatar,
                 type: 'group',
-                active_at: null
             }).save();
         }
 
