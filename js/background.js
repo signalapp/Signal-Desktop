@@ -22,6 +22,11 @@
         });
         chrome.alarms.create('awake', {periodInMinutes: 1});
     }
+    var open = false;
+    chrome.app.window.getAll().forEach(function(appWindow) {
+        open = true;
+        appWindow.close();
+    });
 
     storage.fetch();
     storage.onready(function() {
@@ -52,6 +57,10 @@
 
             // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(window);
+
+            if (open) {
+                openInbox();
+            }
         }
 
         function onContactReceived(ev) {
