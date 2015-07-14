@@ -17,6 +17,10 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    var scrollPosition,
+        scrollHeight,
+        shouldStickToBottom;
+
     Whisper.MessageListView = Whisper.ListView.extend({
         tagName: 'ul',
         className: 'message-list',
@@ -25,9 +29,20 @@
             'add': 'scrollToBottom',
             'update *': 'scrollToBottom'
         },
+        measureScrollPosition: function() {
+            scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
+            scrollHeight = this.el.scrollHeight;
+            shouldStickToBottom = scrollPosition === scrollHeight;
+        },
+        scrollToBottomIfNeeded: function() {
+            if (shouldStickToBottom) {
+                this.$el.scrollTop(scrollHeight);
+            }
+        },
         scrollToBottom: function() {
             // TODO: Avoid scrolling if user has manually scrolled up?
             this.$el.scrollTop(this.el.scrollHeight);
+            this.measureScrollPosition();
         },
         addAll: function() {
             Whisper.ListView.prototype.addAll.apply(this, arguments); // super()
