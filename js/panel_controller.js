@@ -41,15 +41,14 @@
         }
     });
 
-    function updateInbox() {
+    window.updateInbox = function() {
         conversations.fetchActive().then(function() {
             inbox.reset(conversations.filter(function(model) {
                 return model.get('active_at');
             }));
         });
-    }
+    };
 
-    extension.on('updateInbox', updateInbox);
     updateInbox();
     setUnreadCount(storage.get("unreadCount", 0));
 

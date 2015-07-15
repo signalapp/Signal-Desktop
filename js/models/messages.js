@@ -218,7 +218,7 @@
 
                 conversation.save().then(function() {
                     message.save().then(function() {
-                        extension.trigger('updateInbox'); // inbox fetch
+                        updateInbox();
                         if (message.isIncoming()) {
                             notifyConversation(message);
                         } else {
