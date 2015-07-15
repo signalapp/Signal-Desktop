@@ -56,13 +56,16 @@
     }
 
     function equalArrayBuffers(ab1, ab2) {
-        if (ab1.bytelength !== ab2.bytelength) {
+        if (!(ab1 instanceof ArrayBuffer && ab2 instanceof ArrayBuffer)) {
+            return false;
+        }
+        if (ab1.byteLength !== ab2.byteLength) {
             return false;
         }
         var result = true;
         var ta1 = new Uint8Array(ab1);
         var ta2 = new Uint8Array(ab2);
-        for (var i = 0; i < ab1.bytelength; ++i) {
+        for (var i = 0; i < ab1.byteLength; ++i) {
             if (ta1[i] !== ta2[i]) { result = false; }
         }
         return result;
