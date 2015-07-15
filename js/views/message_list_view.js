@@ -27,7 +27,8 @@
         itemView: Whisper.MessageView,
         events: {
             'add': 'scrollToBottom',
-            'update *': 'scrollToBottom'
+            'update *': 'scrollToBottom',
+            'scroll': 'measureScrollPosition'
         },
         measureScrollPosition: function() {
             scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
