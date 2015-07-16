@@ -51,6 +51,10 @@
             window.crypto.getRandomValues(bits);
             this.id = dcodeIO.Long.fromBits(bits[0], bits[1], true);
         }
+
+        if (this.body === undefined) {
+            this.body = null;
+        }
     };
 
     var IncomingWebSocketRequest = function(options) {

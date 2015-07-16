@@ -75,20 +75,4 @@ describe('TextSecureWebSocket', function() {
         mockServer.close();
     });
 
-    it('sends a keepalive once a minute', function(done) {
-        this.timeout(60000);
-        var mockServer = new MockServer('ws://localhost:8081');
-        mockServer.on('connection', function(server) {
-            server.on('message', function(data) {
-                var message = textsecure.protobuf.WebSocketMessage.decode(data);
-                assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
-                assert.strictEqual(message.request.verb, 'GET');
-                assert.strictEqual(message.request.path, '/v1/keepalive');
-                socket.close();
-                server.close();
-                done();
-            });
-        });
-        var socket = new TextSecureWebSocket('ws://localhost:8081');
-    });
 });

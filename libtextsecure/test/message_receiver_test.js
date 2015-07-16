@@ -45,6 +45,21 @@ describe('MessageReceiver', function() {
             assert.strictEqual(signal.message.body, 'hello');
         });
         var messageReceiver = new textsecure.MessageReceiver(window);
-        messageReceiver.connect();
+    });
+
+    it('sends a keepalive once a minute', function(done) {
+        this.timeout(60000);
+        var mockServer = new MockServer('ws://localhost:8081');
+        mockServer.on('connection', function(server) {
+            server.on('message', function(data) {
+                var message = textsecure.protobuf.WebSocketMessage.decode(data);
+                assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
+                assert.strictEqual(message.request.verb, 'GET');
+                assert.strictEqual(message.request.path, '/v1/keepalive');
+                server.close();
+                done();
+            });
+        });
+        var messageReceiver = new textsecure.MessageReceiver(window);
     });
 });

@@ -38398,7 +38398,6 @@ axolotlInternal.RecipientRecord = function() {
 
 TextSecureWebSocket = function (url) {
     'use strict';
-    var keepAliveTimer;
     var reconnectSemaphore = 0;
     var reconnectTimeout = 1000;
     var socket;
@@ -38408,26 +38407,9 @@ TextSecureWebSocket = function (url) {
         onclose   : function() {},
         onerror   : function() {},
         getStatus : function() { return socket.readyState; },
-        close     : function() { calledClose = true; }
+        close     : function() { calledClose = true; socket.close(); }
     };
     var error;
-
-    function resetKeepAliveTimer() {
-        clearTimeout(keepAliveTimer);
-        if (calledClose) { return; }
-        keepAliveTimer = setTimeout(function() {
-            if (socket.readyState === WebSocket.OPEN) {
-                socket.send(
-                    new textsecure.protobuf.WebSocketMessage({
-                        type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
-                        request: { verb: 'GET', path: '/v1/keepalive' }
-                    }).encode().toArrayBuffer()
-                );
-            }
-
-            resetKeepAliveTimer();
-        }, 55000);
-    };
 
     function onclose(e) {
         if (!error && !calledClose) {
@@ -38448,22 +38430,18 @@ TextSecureWebSocket = function (url) {
 
     function onmessage(response) {
         socketWrapper.onmessage(response);
-        resetKeepAliveTimer();
     };
 
     function send(msg) {
-        resetKeepAliveTimer();
         socket.send(msg);
     };
 
     function connect() {
-        clearTimeout(keepAliveTimer);
         if (++reconnectSemaphore <= 0) { return; }
 
         if (socket) { socket.close(); }
         socket = new WebSocket(url);
 
-        socket.onopen      = resetKeepAliveTimer;
         socket.onerror     = onerror
         socket.onclose     = onclose;
         socket.onmessage   = onmessage;
@@ -38526,6 +38504,10 @@ TextSecureWebSocket = function (url) {
             var bits = new Uint32Array(2);
             window.crypto.getRandomValues(bits);
             this.id = dcodeIO.Long.fromBits(bits[0], bits[1], true);
+        }
+
+        if (this.body === undefined) {
+            this.body = null;
         }
     };
 
@@ -39507,9 +39489,26 @@ function generateKeys(count, progressCallback) {
                 }
             }
 
-            new WebSocketResource(this.socket, this.handleRequest.bind(this));
+            this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
+            this.resetKeepAliveTimer();
+
+        },
+        resetKeepAliveTimer: function() {
+            clearTimeout(this.keepAliveTimer);
+            clearTimeout(this.disconnectTimer);
+            this.keepAliveTimer = setTimeout(function() {
+                if (this.getStatus() === WebSocket.OPEN) {
+                    this.wsr.sendRequest({
+                        verb: 'GET',
+                        path: '/v1/keepalive',
+                        success: this.resetKeepAliveTimer.bind(this)
+                    });
+                }
+                this.disconnectTimer = setTimeout(this.socket.close, 30000);
+            }.bind(this), 55000);
         },
         handleRequest: function(request) {
+            this.resetKeepAliveTimer();
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
             textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {

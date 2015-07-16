@@ -24,7 +24,6 @@
 
 TextSecureWebSocket = function (url) {
     'use strict';
-    var keepAliveTimer;
     var reconnectSemaphore = 0;
     var reconnectTimeout = 1000;
     var socket;
@@ -34,26 +33,9 @@ TextSecureWebSocket = function (url) {
         onclose   : function() {},
         onerror   : function() {},
         getStatus : function() { return socket.readyState; },
-        close     : function() { calledClose = true; }
+        close     : function() { calledClose = true; socket.close(); }
     };
     var error;
-
-    function resetKeepAliveTimer() {
-        clearTimeout(keepAliveTimer);
-        if (calledClose) { return; }
-        keepAliveTimer = setTimeout(function() {
-            if (socket.readyState === WebSocket.OPEN) {
-                socket.send(
-                    new textsecure.protobuf.WebSocketMessage({
-                        type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
-                        request: { verb: 'GET', path: '/v1/keepalive' }
-                    }).encode().toArrayBuffer()
-                );
-            }
-
-            resetKeepAliveTimer();
-        }, 55000);
-    };
 
     function onclose(e) {
         if (!error && !calledClose) {
@@ -74,22 +56,18 @@ TextSecureWebSocket = function (url) {
 
     function onmessage(response) {
         socketWrapper.onmessage(response);
-        resetKeepAliveTimer();
     };
 
     function send(msg) {
-        resetKeepAliveTimer();
         socket.send(msg);
     };
 
     function connect() {
-        clearTimeout(keepAliveTimer);
         if (++reconnectSemaphore <= 0) { return; }
 
         if (socket) { socket.close(); }
         socket = new WebSocket(url);
 
-        socket.onopen      = resetKeepAliveTimer;
         socket.onerror     = onerror
         socket.onclose     = onclose;
         socket.onmessage   = onmessage;
