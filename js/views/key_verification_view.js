@@ -27,11 +27,14 @@
             this.trigger('back');
         },
         splitKey: function(key) {
-            // key is a binary string
-            return _.map(key, function(chr, i) {
-                return ('0' + key.charCodeAt(i).toString(16)).slice(-2);
+            // key is an array buffer
+            var bytes = new Uint8Array(key);
+            var octets = [];
+            for (var i = 0; i < bytes.byteLength; ++i) {
+                octets.push(('0' + bytes[i].toString(16)).slice(-2));
+            }
 
-            });
+            return octets;
         },
         render_attributes: function() {
             return {
