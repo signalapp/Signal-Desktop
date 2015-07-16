@@ -33,7 +33,6 @@
 
         if (thing instanceof Array) {
             // Assuming Uint16Array from curve25519
-            //TODO: Move to convertToArrayBuffer
             var res = new ArrayBuffer(thing.length * 2);
             var uint = new Uint16Array(res);
             for (var i = 0; i < thing.length; i++)
@@ -256,6 +255,9 @@
         putIdentityKey: function(identifier, publicKey) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to put identity key for undefined/null key");
+            if (!(publicKey instanceof ArrayBuffer)) {
+                publicKey = convertToArrayBuffer(publicKey);
+            }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
                 var identityKey = new IdentityKey({id: number});
