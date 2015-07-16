@@ -127,14 +127,17 @@
     endSession: function() {
         if (this.get('type') === 'private') {
             var now = Date.now();
-            textsecure.messaging.closeSession(this.id);
-            this.messageCollection.add({
+            var message = this.messageCollection.add({
                 conversationId : this.id,
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now,
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
-            }).save();
+            });
+            message.save();
+            textsecure.messaging.closeSession(this.id).then(function() {
+                message.save({sent: true});
+            });
         }
 
     },
