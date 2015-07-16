@@ -45,22 +45,22 @@
             }
         };
 
+        window.addEventListener('textsecure:message', onMessageReceived);
+        window.addEventListener('textsecure:receipt', onDeliveryReceipt);
+        window.addEventListener('textsecure:contact', onContactReceived);
+        window.addEventListener('textsecure:group', onGroupReceived);
+        window.addEventListener('textsecure:sent', onSentMessage);
+        window.addEventListener('textsecure:error', onError);
+
+        if (open) {
+            openInbox();
+        }
+
         function init() {
             if (!textsecure.registration.isDone()) { return; }
 
-            window.addEventListener('textsecure:message', onMessageReceived);
-            window.addEventListener('textsecure:receipt', onDeliveryReceipt);
-            window.addEventListener('textsecure:contact', onContactReceived);
-            window.addEventListener('textsecure:group', onGroupReceived);
-            window.addEventListener('textsecure:sent', onSentMessage);
-            window.addEventListener('textsecure:error', onError);
-
             // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(window);
-
-            if (open) {
-                openInbox();
-            }
         }
 
         function onContactReceived(ev) {
@@ -129,6 +129,11 @@
 
             if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
                 extension.install();
+                return;
+            }
+
+            if (e.name === 'HTTPError' && e.code == -1) {
+                setTimeout(init, 60000);
                 return;
             }
 
