@@ -37365,7 +37365,7 @@ window.axolotl.protocol = function(storage_interface) {
 
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
+        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage);
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
             return doDecryptWhisperMessage(from, axolotlInternal.utils.convertToString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)

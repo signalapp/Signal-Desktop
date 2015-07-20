@@ -37442,7 +37442,7 @@ window.axolotl.protocol = function(storage_interface) {
 
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, 'binary');
+        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage);
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
             return doDecryptWhisperMessage(from, axolotlInternal.utils.convertToString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
@@ -37784,19 +37784,6 @@ axolotlInternal.RecipientRecord = function() {
     textsecure.storage.axolotl = new AxolotlStore();
     var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
-    var handlePreKeyWhisperMessage = function(from, message) {
-        try {
-            return axolotlInstance.handlePreKeyWhisperMessage(from, message);
-        } catch(e) {
-            if (e.message === 'Unknown identity key') {
-                // create an error that the UI will pick up and ask the
-                // user if they want to re-negotiate
-                throw new textsecure.IncomingIdentityKeyError(from, message);
-            }
-            throw e;
-        }
-    };
-
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
         decrypt: function(source, sourceDevice, type, blob) {
@@ -37808,7 +37795,15 @@ axolotlInternal.RecipientRecord = function() {
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 if (blob.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
-                return handlePreKeyWhisperMessage(fromAddress, getString(blob));
+                var blob = blob.toArrayBuffer();
+                return axolotlInstance.handlePreKeyWhisperMessage(fromAddress, blob).catch(function(e) {
+                    if (e.message === 'Unknown identity key') {
+                        // create an error that the UI will pick up and ask the
+                        // user if they want to re-negotiate
+                        throw new textsecure.IncomingIdentityKeyError(fromAddress, blob);
+                    }
+                    throw e;
+                });
             default:
                 return new Promise.reject(new Error("Unknown message type"));
             }

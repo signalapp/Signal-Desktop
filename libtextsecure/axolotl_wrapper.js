@@ -5,19 +5,6 @@
     textsecure.storage.axolotl = new AxolotlStore();
     var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
-    var handlePreKeyWhisperMessage = function(from, message) {
-        try {
-            return axolotlInstance.handlePreKeyWhisperMessage(from, message);
-        } catch(e) {
-            if (e.message === 'Unknown identity key') {
-                // create an error that the UI will pick up and ask the
-                // user if they want to re-negotiate
-                throw new textsecure.IncomingIdentityKeyError(from, message);
-            }
-            throw e;
-        }
-    };
-
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
         decrypt: function(source, sourceDevice, type, blob) {
@@ -29,7 +16,15 @@
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 if (blob.readUint8() != ((3 << 4) | 3))
                     throw new Error("Bad version byte");
-                return handlePreKeyWhisperMessage(fromAddress, getString(blob));
+                var blob = blob.toArrayBuffer();
+                return axolotlInstance.handlePreKeyWhisperMessage(fromAddress, blob).catch(function(e) {
+                    if (e.message === 'Unknown identity key') {
+                        // create an error that the UI will pick up and ask the
+                        // user if they want to re-negotiate
+                        throw new textsecure.IncomingIdentityKeyError(fromAddress, blob);
+                    }
+                    throw e;
+                });
             default:
                 return new Promise.reject(new Error("Unknown message type"));
             }
