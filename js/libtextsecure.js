@@ -39852,7 +39852,7 @@ window.textsecure.messaging = function() {
             numbersCompleted++;
             if (numbersCompleted >= numbers.length)
                 callback({success: successfulNumbers, failure: errors});
-        }
+        };
 
         var registerError = function(number, message, error) {
             if (error) {
@@ -39862,9 +39862,8 @@ window.textsecure.messaging = function() {
                 error = new Error(message);
             errors[errors.length] = { number: number, reason: message, error: error };
             numberCompleted();
-        }
+        };
 
-        var doSendMessage;
         var reloadDevicesAndSend = function(number, recurse) {
             return function() {
                 return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
@@ -39873,9 +39872,9 @@ window.textsecure.messaging = function() {
                     doSendMessage(number, devicesForNumber, recurse);
                 });
             }
-        }
+        };
 
-        doSendMessage = function(number, devicesForNumber, recurse) {
+        var doSendMessage = function(number, devicesForNumber, recurse) {
             var groupUpdate = Promise.resolve(true);
             if (message.group && message.group.id && message.group.type != textsecure.protobuf.GroupContext.Type.QUIT)
                 groupUpdate = refreshGroup(number, message.group.id, devicesForNumber);
@@ -39918,7 +39917,7 @@ window.textsecure.messaging = function() {
                     registerError(number, "Identity key changed", error);
                 }
             });
-        }
+        };
 
         var getDevicesAndSendToNumber = function(number) {
             textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
