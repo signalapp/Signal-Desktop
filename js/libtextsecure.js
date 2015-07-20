@@ -44,7 +44,7 @@
         return registeredFunctions[this.functionCode].apply(window, this.args);
     };
 
-    function IncomingIdentityKeyError(number, message) {
+    function IncomingIdentityKeyError(number, message, key) {
         ReplayableError.call(this, {
             functionCode : Type.INIT_SESSION,
             args         : [number, message]
@@ -52,6 +52,7 @@
         });
         this.name = 'IncomingIdentityKeyError';
         this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled.";
+        this.identityKey = key;
         this.number = number.split('.')[0];
     }
     IncomingIdentityKeyError.prototype = new ReplayableError();
@@ -37278,7 +37279,9 @@ window.axolotl.protocol = function(storage_interface) {
                                     closeSession(open_session); // To be returned and saved later
                             } else {
                                 // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
-                                throw new Error('Unknown identity key');
+                                var e = new Error('Unknown identity key');
+                                e.identityKey = message.identityKey.toArrayBuffer();
+                                throw e;
                             }
                         }
                         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, axolotlInternal.utils.convertToArrayBuffer(message.identityKey), axolotlInternal.utils.convertToArrayBuffer(message.baseKey), undefined)
@@ -37441,8 +37444,8 @@ window.axolotl.protocol = function(storage_interface) {
     }
 
     // Inits a session (maybe) and then decrypts the message
-    self.handlePreKeyWhisperMessage = function(from, encodedMessage) {
-        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage);
+    self.handlePreKeyWhisperMessage = function(from, encodedMessage, encoding) {
+        var preKeyProto = axolotlInternal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, encoding);
         return initSessionFromPreKeyWhisperMessage(from, preKeyProto).then(function(sessions) {
             return doDecryptWhisperMessage(from, axolotlInternal.utils.convertToString(preKeyProto.message), sessions[0], preKeyProto.registrationId).then(function(result) {
                 if (sessions[1] !== undefined)
@@ -37800,7 +37803,7 @@ axolotlInternal.RecipientRecord = function() {
                     if (e.message === 'Unknown identity key') {
                         // create an error that the UI will pick up and ask the
                         // user if they want to re-negotiate
-                        throw new textsecure.IncomingIdentityKeyError(fromAddress, blob);
+                        throw new textsecure.IncomingIdentityKeyError(fromAddress, blob, e.identityKey);
                     }
                     throw e;
                 });

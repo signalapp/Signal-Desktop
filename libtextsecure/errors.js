@@ -43,7 +43,7 @@
         return registeredFunctions[this.functionCode].apply(window, this.args);
     };
 
-    function IncomingIdentityKeyError(number, message) {
+    function IncomingIdentityKeyError(number, message, key) {
         ReplayableError.call(this, {
             functionCode : Type.INIT_SESSION,
             args         : [number, message]
@@ -51,6 +51,7 @@
         });
         this.name = 'IncomingIdentityKeyError';
         this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled.";
+        this.identityKey = key;
         this.number = number.split('.')[0];
     }
     IncomingIdentityKeyError.prototype = new ReplayableError();
