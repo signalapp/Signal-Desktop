@@ -32,7 +32,7 @@
             'click': 'clickOut'
         },
         triggerVerify: function() {
-            this.trigger('verify', {number: this.model.number});
+            this.trigger('verify', {identityKey: this.model.identityKey});
         },
         clickOut: function(e) {
             if (!$(e.target).closest('.content').length) {
