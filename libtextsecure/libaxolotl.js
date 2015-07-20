@@ -36891,8 +36891,11 @@ window.axolotl.protocol = function(storage_interface) {
 
             if (record.identityKey === null)
                 record.identityKey = session.indexInfo.remoteIdentityKey;
-            if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey))
-                throw new Error("Identity key changed at session save time");
+            if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey)) {
+                var e = new Error("Identity key changed at session save time");
+                e.identityKey = session.indexInfo.remoteIdentityKey.toArrayBuffer();
+                throw e;
+            }
 
             var doDeleteSession = false;
             if (session.indexInfo.closed != -1) {

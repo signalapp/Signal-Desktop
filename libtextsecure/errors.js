@@ -57,7 +57,7 @@
     IncomingIdentityKeyError.prototype = new ReplayableError();
     IncomingIdentityKeyError.prototype.constructor = IncomingIdentityKeyError;
 
-    function OutgoingIdentityKeyError(number, message, timestamp) {
+    function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
         ReplayableError.call(this, {
             functionCode : Type.SEND_MESSAGE,
             args         : [number, message, timestamp]
@@ -65,6 +65,7 @@
         this.name = 'OutgoingIdentityKeyError';
         this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled.";
         this.number = number.split('.')[0];
+        this.identityKey = identityKey;
     }
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;

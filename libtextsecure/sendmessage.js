@@ -207,10 +207,10 @@ window.textsecure.messaging = function() {
                         getKeysForNumber(number, resetDevices)
                             .then(reloadDevicesAndSend(number, false))
                             .catch(function(error) {
-                                if (error.message !== "Identity key changed")
+                                if (error.message !== "Identity key changed at session save time")
                                     registerError(number, "Failed to reload device keys", error);
                                 else {
-                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
                                     registerError(number, "Identity key changed", error);
                                 }
                             });
@@ -218,7 +218,7 @@ window.textsecure.messaging = function() {
                 } else if (error.message !== "Identity key changed at session save time") {
                     registerError(number, "Failed to create or send message", error);
                 } else {
-                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
                     registerError(number, "Identity key changed", error);
                 }
             });

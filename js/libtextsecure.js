@@ -58,7 +58,7 @@
     IncomingIdentityKeyError.prototype = new ReplayableError();
     IncomingIdentityKeyError.prototype.constructor = IncomingIdentityKeyError;
 
-    function OutgoingIdentityKeyError(number, message, timestamp) {
+    function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
         ReplayableError.call(this, {
             functionCode : Type.SEND_MESSAGE,
             args         : [number, message, timestamp]
@@ -66,6 +66,7 @@
         this.name = 'OutgoingIdentityKeyError';
         this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled.";
         this.number = number.split('.')[0];
+        this.identityKey = identityKey;
     }
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
@@ -36969,8 +36970,11 @@ window.axolotl.protocol = function(storage_interface) {
 
             if (record.identityKey === null)
                 record.identityKey = session.indexInfo.remoteIdentityKey;
-            if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey))
-                throw new Error("Identity key changed at session save time");
+            if (axolotlInternal.utils.convertToString(record.identityKey) !== axolotlInternal.utils.convertToString(session.indexInfo.remoteIdentityKey)) {
+                var e = new Error("Identity key changed at session save time");
+                e.identityKey = session.indexInfo.remoteIdentityKey.toArrayBuffer();
+                throw e;
+            }
 
             var doDeleteSession = false;
             if (session.indexInfo.closed != -1) {
@@ -39899,10 +39903,10 @@ window.textsecure.messaging = function() {
                         getKeysForNumber(number, resetDevices)
                             .then(reloadDevicesAndSend(number, false))
                             .catch(function(error) {
-                                if (error.message !== "Identity key changed")
+                                if (error.message !== "Identity key changed at session save time")
                                     registerError(number, "Failed to reload device keys", error);
                                 else {
-                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
                                     registerError(number, "Identity key changed", error);
                                 }
                             });
@@ -39910,7 +39914,7 @@ window.textsecure.messaging = function() {
                 } else if (error.message !== "Identity key changed at session save time") {
                     registerError(number, "Failed to create or send message", error);
                 } else {
-                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp);
+                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
                     registerError(number, "Identity key changed", error);
                 }
             });
