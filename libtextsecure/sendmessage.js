@@ -65,7 +65,20 @@ window.textsecure.messaging = function() {
         });
     }
 
-    var makeAttachmentPointer;
+    function makeAttachmentPointer(attachment) {
+        var proto = new textsecure.protobuf.AttachmentPointer();
+        proto.key = textsecure.crypto.getRandomBytes(64);
+
+        var iv = textsecure.crypto.getRandomBytes(16);
+        return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
+            return TextSecureServer.putAttachment(encryptedBin).then(function(id) {
+                proto.id = id;
+                proto.contentType = attachment.contentType;
+                return proto;
+            });
+        });
+    }
+
     var refreshGroup = function(number, groupId, devicesForNumber) {
         groupId = getString(groupId);
 
@@ -245,20 +258,6 @@ window.textsecure.messaging = function() {
 
         for (var i in numbers)
             getDevicesAndSendToNumber(numbers[i]);
-    }
-
-    makeAttachmentPointer = function(attachment) {
-        var proto = new textsecure.protobuf.AttachmentPointer();
-        proto.key = textsecure.crypto.getRandomBytes(64);
-
-        var iv = textsecure.crypto.getRandomBytes(16);
-        return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
-            return TextSecureServer.putAttachment(encryptedBin).then(function(id) {
-                proto.id = id;
-                proto.contentType = attachment.contentType;
-                return proto;
-            });
-        });
     }
 
     var sendIndividualProto = function(number, proto, timestamp) {
