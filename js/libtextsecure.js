@@ -39723,34 +39723,6 @@ window.textsecure.messaging = function() {
 
     var self = {};
 
-    //TODO: Dont hit disk for any of the key-fetching!
-    function getKeysForNumber(number, updateDevices) {
-        var handleResult = function(response) {
-            return Promise.all(response.devices.map(function(device) {
-                if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
-                    return textsecure.storage.devices.saveKeysToDeviceObject({
-                        encodedNumber: number + "." + device.deviceId,
-                        identityKey: response.identityKey,
-                        preKey: device.preKey.publicKey,
-                        preKeyId: device.preKey.keyId,
-                        signedKey: device.signedPreKey.publicKey,
-                        signedKeyId: device.signedPreKey.keyId,
-                        signedKeySignature: device.signedPreKey.signature,
-                        registrationId: device.registrationId
-                    });
-            }));
-        };
-
-        var promises = [];
-        if (updateDevices !== undefined)
-            for (var i in updateDevices)
-                promises[promises.length] = TextSecureServer.getKeysForNumber(number, updateDevices[i]).then(handleResult);
-        else
-            return TextSecureServer.getKeysForNumber(number).then(handleResult);
-
-        return Promise.all(promises);
-    }
-
     // success_callback(server success/failure map), error_callback(error_msg)
     // message == PushMessageContentProto (NOT STRING)
     function sendMessageToDevices(timestamp, number, deviceObjectList, message, success_callback, error_callback) {
@@ -39882,6 +39854,40 @@ window.textsecure.messaging = function() {
             }
         };
 
+        function getKeysForNumber(number, updateDevices) {
+            var handleResult = function(response) {
+                return Promise.all(response.devices.map(function(device) {
+                    if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
+                        return textsecure.storage.devices.saveKeysToDeviceObject({
+                            encodedNumber: number + "." + device.deviceId,
+                            identityKey: response.identityKey,
+                            preKey: device.preKey.publicKey,
+                            preKeyId: device.preKey.keyId,
+                            signedKey: device.signedPreKey.publicKey,
+                            signedKeyId: device.signedPreKey.keyId,
+                            signedKeySignature: device.signedPreKey.signature,
+                            registrationId: device.registrationId
+                        }).catch(function(error) {
+                            if (error.message === "Identity key changed") {
+                                error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, error.identityKey);
+                                registerError(number, "Identity key changed", error);
+                            }
+                            throw error;
+                        });
+                }));
+            };
+
+            if (updateDevices === undefined) {
+                return TextSecureServer.getKeysForNumber(number).then(handleResult);
+            } else {
+                var promises = [];
+                for (var i in updateDevices)
+                    promises[promises.length] = TextSecureServer.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+
+                return Promise.all(promises);
+            }
+        }
+
         var doSendMessage = function(number, devicesForNumber, recurse) {
             var groupUpdate = Promise.resolve(true);
             if (message.group && message.group.id && message.group.type != textsecure.protobuf.GroupContext.Type.QUIT)
@@ -39910,19 +39916,11 @@ window.textsecure.messaging = function() {
                         getKeysForNumber(number, resetDevices)
                             .then(reloadDevicesAndSend(number, false))
                             .catch(function(error) {
-                                if (error.message !== "Identity key changed at session save time")
-                                    registerError(number, "Failed to reload device keys", error);
-                                else {
-                                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
-                                    registerError(number, "Identity key changed", error);
-                                }
+                                registerError(number, "Failed to reload device keys", error);
                             });
                     });
-                } else if (error.message !== "Identity key changed at session save time") {
-                    registerError(number, "Failed to create or send message", error);
                 } else {
-                    error = new textsecure.OutgoingIdentityKeyError(number, message.toArrayBuffer(), timestamp, e.identityKey);
-                    registerError(number, "Identity key changed", error);
+                    registerError(number, "Failed to create or send message", error);
                 }
             });
         };
