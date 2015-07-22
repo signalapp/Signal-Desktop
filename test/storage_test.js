@@ -50,6 +50,17 @@ describe("AxolotlStore", function() {
             });
         }).then(done,done);
     });
+    it('rejects on key change', function(done) {
+        var newIdentity = textsecure.crypto.getRandomBytes(33);
+        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.putIdentityKey(identifier, newIdentity).then(function() {
+                done(new Error('Allowed to overwrite identity key'));
+            }).catch(function(e) {
+                assert(e instanceof Error);
+                done();
+            });
+        });
+    });
     it('stores prekeys', function(done) {
         store.putPreKey(1, testKey).then(function() {
             return store.getPreKey(1).then(function(key) {

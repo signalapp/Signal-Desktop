@@ -259,7 +259,7 @@
                 publicKey = convertToArrayBuffer(publicKey);
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
-            return new Promise(function(resolve) {
+            return new Promise(function(resolve, reject) {
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().always(function() {
                     var oldpublicKey = identityKey.get('publicKey');
@@ -271,7 +271,7 @@
                         if (equalArrayBuffers(oldpublicKey, publicKey)) {
                             resolve();
                         } else {
-                            throw new Error("Attempted to overwrite a different identity key");
+                            reject(new Error("Attempted to overwrite a different identity key"));
                         }
                     }
                 });
