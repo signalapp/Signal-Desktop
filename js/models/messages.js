@@ -209,7 +209,8 @@
                     errors         : []
                 });
 
-                if (message.get('sent_at') > conversation.get('timestamp')) {
+                var conversation_timestamp = conversation.get('timestamp');
+                if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                     conversation.set({
                         timestamp: message.get('sent_at'),
                         lastMessage: message.get('body')
