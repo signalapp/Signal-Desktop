@@ -124,7 +124,7 @@ module.exports = function(grunt) {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.src %>'] }],
         options: {
           process: function(content, srcpath) {
-            if (srcpath.match('libtextsecure')) {
+            if (srcpath.match('libtextsecure') || srcpath.match('background.js')) {
               return content.replace(
                 /textsecure-service-staging.whispersystems.org/g,
                 'textsecure-service-ca.whispersystems.org:4433').replace(

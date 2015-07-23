@@ -319,23 +319,17 @@ TextSecureServer = function () {
         });
     };
 
-    var getWebsocket = function(url, auth, reconnectTimeout) {
-        var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
-        var params = '';
-        if (auth) {
-            var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            var password = textsecure.storage.get("password");
-            var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
-        }
-        return TextSecureWebSocket(URL+params)
-    }
-
-    self.getMessageWebsocket = function() {
-        return getWebsocket(URL_CALLS['push'], true, 1000);
+    self.getMessageWebsocket = function(url) {
+        var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
+        var password = textsecure.storage.get("password");
+        var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
+        var url = url + URL_CALLS['push'] + '/?' + params;
+        return TextSecureWebSocket(url)
     }
 
     self.getTempWebsocket = function() {
-        return getWebsocket(URL_CALLS['temp_push'], false, 1000);
+        var url = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['temp_push'] + '/?';
+        return TextSecureWebSocket(url);
     }
 
     return self;

@@ -60,7 +60,7 @@
             if (!textsecure.registration.isDone()) { return; }
 
             // initialize the socket and start listening for messages
-            messageReceiver = new textsecure.MessageReceiver(window);
+            messageReceiver = new textsecure.MessageReceiver('wss://textsecure-service-staging.whispersystems.org', window);
         }
 
         function onContactReceived(ev) {

@@ -39256,23 +39256,17 @@ TextSecureServer = function () {
         });
     };
 
-    var getWebsocket = function(url, auth, reconnectTimeout) {
-        var URL = URL_BASE.replace(/^http/g, 'ws') + url + '/?';
-        var params = '';
-        if (auth) {
-            var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            var password = textsecure.storage.get("password");
-            var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
-        }
-        return TextSecureWebSocket(URL+params)
-    }
-
-    self.getMessageWebsocket = function() {
-        return getWebsocket(URL_CALLS['push'], true, 1000);
+    self.getMessageWebsocket = function(url) {
+        var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
+        var password = textsecure.storage.get("password");
+        var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
+        var url = url + URL_CALLS['push'] + '/?' + params;
+        return TextSecureWebSocket(url)
     }
 
     self.getTempWebsocket = function() {
-        return getWebsocket(URL_CALLS['temp_push'], false, 1000);
+        var url = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['temp_push'] + '/?';
+        return TextSecureWebSocket(url);
     }
 
     return self;
@@ -39473,21 +39467,21 @@ function generateKeys(count, progressCallback) {
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    function MessageReceiver(eventTarget) {
+    function MessageReceiver(url, eventTarget) {
         if (eventTarget instanceof EventTarget) {
             this.target = eventTarget;
         } else {
             throw new TypeError('MessageReceiver expected an EventTarget');
         }
-        this.connect();
+        this.connect(url);
     }
 
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
-        connect: function() {
+        connect: function(url) {
             var eventTarget = this.target;
             // initialize the socket and start listening for messages
-            this.socket = TextSecureServer.getMessageWebsocket();
+            this.socket = TextSecureServer.getMessageWebsocket(url);
             this.socket.onclose = function(e) {
                 if (e.code === 1006) {
                     // possible 403. Make an request to confirm
@@ -39689,8 +39683,8 @@ function generateKeys(count, progressCallback) {
         }
     };
 
-    textsecure.MessageReceiver = function (eventTarget) {
-        var messageReceiver = new MessageReceiver(eventTarget);
+    textsecure.MessageReceiver = function (url, eventTarget) {
+        var messageReceiver = new MessageReceiver(url, eventTarget);
         this.getStatus = function() {
             return messageReceiver.getStatus();
         }

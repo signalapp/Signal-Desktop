@@ -18,21 +18,21 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    function MessageReceiver(eventTarget) {
+    function MessageReceiver(url, eventTarget) {
         if (eventTarget instanceof EventTarget) {
             this.target = eventTarget;
         } else {
             throw new TypeError('MessageReceiver expected an EventTarget');
         }
-        this.connect();
+        this.connect(url);
     }
 
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
-        connect: function() {
+        connect: function(url) {
             var eventTarget = this.target;
             // initialize the socket and start listening for messages
-            this.socket = TextSecureServer.getMessageWebsocket();
+            this.socket = TextSecureServer.getMessageWebsocket(url);
             this.socket.onclose = function(e) {
                 if (e.code === 1006) {
                     // possible 403. Make an request to confirm
@@ -234,8 +234,8 @@
         }
     };
 
-    textsecure.MessageReceiver = function (eventTarget) {
-        var messageReceiver = new MessageReceiver(eventTarget);
+    textsecure.MessageReceiver = function (url, eventTarget) {
+        var messageReceiver = new MessageReceiver(url, eventTarget);
         this.getStatus = function() {
             return messageReceiver.getStatus();
         }
