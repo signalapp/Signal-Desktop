@@ -329,7 +329,7 @@ TextSecureServer = function () {
 
     self.getTempWebsocket = function() {
         var url = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['temp_push'] + '/?';
-        return TextSecureWebSocket(url);
+        return TextSecureWebSocket(url, {reconnectTimeout: false});
     }
 
     return self;

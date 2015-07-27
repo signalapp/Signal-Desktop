@@ -38406,10 +38406,11 @@ axolotlInternal.RecipientRecord = function() {
  *
  */
 
-TextSecureWebSocket = function (url) {
+TextSecureWebSocket = function (url, opts) {
     'use strict';
+    opts = opts || {};
+    var reconnectTimeout = opts.reconnectTimeout || 1000;
     var reconnectSemaphore = 0;
-    var reconnectTimeout = 1000;
     var socket;
     var calledClose = false;
     var socketWrapper = {
@@ -38422,7 +38423,7 @@ TextSecureWebSocket = function (url) {
     var error;
 
     function onclose(e) {
-        if (!error && !calledClose) {
+        if (!error && !calledClose && reconnectTimeout) {
             reconnectSemaphore--;
             setTimeout(connect, reconnectTimeout);
         }
@@ -39266,7 +39267,7 @@ TextSecureServer = function () {
 
     self.getTempWebsocket = function() {
         var url = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['temp_push'] + '/?';
-        return TextSecureWebSocket(url);
+        return TextSecureWebSocket(url, {reconnectTimeout: false});
     }
 
     return self;
