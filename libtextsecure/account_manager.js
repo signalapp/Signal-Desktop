@@ -55,7 +55,7 @@
                         } else if (request.path == "/v1/message" && request.verb == "PUT") {
                             var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                             request.respond(200, 'OK');
-                            socket.close();
+                            wsr.close();
                             resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
                                 return confirmNumber(provisionMessage.number).then(function(deviceName) {
                                     if (typeof deviceName !== 'string' || deviceName.length == 0) {

@@ -38401,8 +38401,8 @@ axolotlInternal.RecipientRecord = function() {
 /*
  * var socket = TextSecureWebSocket(url);
  *
- * Returns an adamantium-reinforced super socket, capable of sending
- * app-level keep alives and automatically reconnecting.
+ * Returns an adamantium-reinforced super socket, capable of
+ * automatically reconnecting.
  *
  */
 
@@ -38421,7 +38421,10 @@ TextSecureWebSocket = function (url, opts) {
         onclose   : function() {},
         onerror   : function() {},
         getStatus : function() { return socket.readyState; },
-        close     : function() { calledClose = true; socket.close(); }
+        close     : function(code, reason) {
+            calledClose = true;
+            socket.close(code, reason);
+        }
     };
     var error;
 
@@ -38565,8 +38568,9 @@ TextSecureWebSocket = function (url, opts) {
             return new OutgoingWebSocketRequest(options, socket);
         };
 
-        this.close = function() {
-            socket.close(3000);
+        this.close = function(code, reason) {
+            if (!code) { code = 3000; }
+            socket.close(code, reason);
         };
 
         socket.onmessage = function(socketMessage) {
@@ -38640,7 +38644,9 @@ KeepAlive.prototype = {
         clearTimeout(this.keepAliveTimer);
         clearTimeout(this.disconnectTimer);
         this.keepAliveTimer = setTimeout(function() {
-            this.disconnectTimer = setTimeout(this.wsr.close, 5000);
+            this.disconnectTimer = setTimeout(function() {
+                this.wsr.close(3001, 'No response to keepalive request');
+            }.bind(this), 5000);
             this.wsr.sendRequest({
                 verb: 'GET',
                 path: '/v1/keepalive',
@@ -39378,7 +39384,7 @@ TextSecureServer = function () {
                         } else if (request.path == "/v1/message" && request.verb == "PUT") {
                             var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                             request.respond(200, 'OK');
-                            socket.close();
+                            wsr.close();
                             resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
                                 return confirmNumber(provisionMessage.number).then(function(deviceName) {
                                     if (typeof deviceName !== 'string' || deviceName.length == 0) {

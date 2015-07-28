@@ -17,8 +17,8 @@
 /*
  * var socket = TextSecureWebSocket(url);
  *
- * Returns an adamantium-reinforced super socket, capable of sending
- * app-level keep alives and automatically reconnecting.
+ * Returns an adamantium-reinforced super socket, capable of
+ * automatically reconnecting.
  *
  */
 
@@ -37,7 +37,10 @@ TextSecureWebSocket = function (url, opts) {
         onclose   : function() {},
         onerror   : function() {},
         getStatus : function() { return socket.readyState; },
-        close     : function() { calledClose = true; socket.close(); }
+        close     : function(code, reason) {
+            calledClose = true;
+            socket.close(code, reason);
+        }
     };
     var error;
 

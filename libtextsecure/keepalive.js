@@ -29,7 +29,9 @@ KeepAlive.prototype = {
         clearTimeout(this.keepAliveTimer);
         clearTimeout(this.disconnectTimer);
         this.keepAliveTimer = setTimeout(function() {
-            this.disconnectTimer = setTimeout(this.wsr.close, 5000);
+            this.disconnectTimer = setTimeout(function() {
+                this.wsr.close(3001, 'No response to keepalive request');
+            }.bind(this), 5000);
             this.wsr.sendRequest({
                 verb: 'GET',
                 path: '/v1/keepalive',

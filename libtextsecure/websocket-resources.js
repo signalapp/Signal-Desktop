@@ -97,8 +97,9 @@
             return new OutgoingWebSocketRequest(options, socket);
         };
 
-        this.close = function() {
-            socket.close(3000);
+        this.close = function(code, reason) {
+            if (!code) { code = 3000; }
+            socket.close(code, reason);
         };
 
         socket.onmessage = function(socketMessage) {
