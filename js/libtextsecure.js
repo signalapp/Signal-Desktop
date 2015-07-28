@@ -38563,7 +38563,14 @@ TextSecureWebSocket = function (url, opts) {
         );
     };
 
-    window.WebSocketResource = function(socket, handleRequest, keepalive) {
+    window.WebSocketResource = function(socket, opts) {
+        opts = opts || {};
+        var handleRequest = opts.handleRequest;
+        if (typeof handleRequest !== 'function') {
+            handleRequest = function(request) {
+                request.respond(404);
+            };
+        }
         this.sendRequest = function(options) {
             return new OutgoingWebSocketRequest(options, socket);
         };
