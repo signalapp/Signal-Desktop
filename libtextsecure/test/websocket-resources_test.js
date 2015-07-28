@@ -162,6 +162,28 @@
                     keepalive: { disconnect: true }
                 });
             });
+
+            it('allows resetting the keepalive timer', function(done) {
+                this.timeout(65000);
+                var mockServer = new MockServer('ws://localhost:8081');
+                var socket = new WebSocket('ws://localhost:8081');
+                var startTime = Date.now();
+                mockServer.on('connection', function(server) {
+                    server.on('message', function(data) {
+                        var message = textsecure.protobuf.WebSocketMessage.decode(data);
+                        assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
+                        assert.strictEqual(message.request.verb, 'GET');
+                        assert.strictEqual(message.request.path, '/');
+                        assert(Date.now() > startTime + 60000, 'keepalive time should be longer than a minute');
+                        server.close();
+                        done();
+                    });
+                });
+                var resource = new WebSocketResource(socket, { keepalive: true });
+                setTimeout(function() {
+                    resource.resetKeepAliveTimer()
+                }, 5000);
+            });
         });
     });
 }());
