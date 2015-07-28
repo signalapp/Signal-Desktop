@@ -39388,7 +39388,7 @@ TextSecureServer = function () {
                 return new Promise(function(resolve) {
                     var socket = TextSecureServer.getTempWebsocket();
                     var wsr = new WebSocketResource(socket, {
-                        keepalive: { path: '/v1/keepalive' },
+                        keepalive: { path: '/v1/keepalive/provisioning' },
                         handleRequest: function(request) {
                             if (request.path == "/v1/address" && request.verb == "PUT") {
                                 var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
