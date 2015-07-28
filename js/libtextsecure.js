@@ -38618,6 +38618,48 @@ TextSecureWebSocket = function (url, opts) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+function KeepAlive(websocketResource, socket) {
+    if (websocketResource instanceof WebSocketResource) {
+        this.wsr = websocketResource;
+        this.socket = socket;
+        this.reset();
+    } else {
+        throw new TypeError('KeepAlive expected a WebSocketResource');
+    }
+}
+
+KeepAlive.prototype = {
+    constructor: KeepAlive,
+    reset: function() {
+        clearTimeout(this.keepAliveTimer);
+        clearTimeout(this.disconnectTimer);
+        this.keepAliveTimer = setTimeout(function() {
+            this.disconnectTimer = setTimeout(this.socket.close, 10000);
+            this.wsr.sendRequest({
+                verb: 'GET',
+                path: '/v1/keepalive',
+                success: this.reset.bind(this)
+            });
+        }.bind(this), 55000);
+    },
+};
+
+/* vim: ts=4:sw=4:expandtab
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 window.textsecure = window.textsecure || {};
 
 /*********************************
@@ -39319,7 +39361,7 @@ TextSecureServer = function () {
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
                     var socket = TextSecureServer.getTempWebsocket();
-                    new WebSocketResource(socket, function(request) {
+                    var wsr = new WebSocketResource(socket, function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             setProvisioningUrl([
@@ -39348,6 +39390,7 @@ TextSecureServer = function () {
                             console.log('Unknown websocket message', request.path);
                         }
                     });
+                    new KeepAlive(wsr, socket);
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
@@ -39495,25 +39538,11 @@ function generateKeys(count, progressCallback) {
             }
 
             this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
-            this.resetKeepAliveTimer();
+            this.keepalive = new KeepAlive(this.wsr, this.socket);
 
         },
-        resetKeepAliveTimer: function() {
-            clearTimeout(this.keepAliveTimer);
-            clearTimeout(this.disconnectTimer);
-            this.keepAliveTimer = setTimeout(function() {
-                if (this.getStatus() === WebSocket.OPEN) {
-                    this.wsr.sendRequest({
-                        verb: 'GET',
-                        path: '/v1/keepalive',
-                        success: this.resetKeepAliveTimer.bind(this)
-                    });
-                }
-                this.disconnectTimer = setTimeout(this.socket.close, 30000);
-            }.bind(this), 55000);
-        },
         handleRequest: function(request) {
-            this.resetKeepAliveTimer();
+            this.keepalive.reset();
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
             textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {

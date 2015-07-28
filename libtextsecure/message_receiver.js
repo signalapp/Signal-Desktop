@@ -45,25 +45,11 @@
             }
 
             this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
-            this.resetKeepAliveTimer();
+            this.keepalive = new KeepAlive(this.wsr, this.socket);
 
         },
-        resetKeepAliveTimer: function() {
-            clearTimeout(this.keepAliveTimer);
-            clearTimeout(this.disconnectTimer);
-            this.keepAliveTimer = setTimeout(function() {
-                if (this.getStatus() === WebSocket.OPEN) {
-                    this.wsr.sendRequest({
-                        verb: 'GET',
-                        path: '/v1/keepalive',
-                        success: this.resetKeepAliveTimer.bind(this)
-                    });
-                }
-                this.disconnectTimer = setTimeout(this.socket.close, 30000);
-            }.bind(this), 55000);
-        },
         handleRequest: function(request) {
-            this.resetKeepAliveTimer();
+            this.keepalive.reset();
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
             textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {

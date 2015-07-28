@@ -44,7 +44,7 @@
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
                     var socket = TextSecureServer.getTempWebsocket();
-                    new WebSocketResource(socket, function(request) {
+                    var wsr = new WebSocketResource(socket, function(request) {
                         if (request.path == "/v1/address" && request.verb == "PUT") {
                             var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                             setProvisioningUrl([
@@ -73,6 +73,7 @@
                             console.log('Unknown websocket message', request.path);
                         }
                     });
+                    new KeepAlive(wsr, socket);
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
