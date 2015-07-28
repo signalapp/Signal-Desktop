@@ -44,36 +44,37 @@
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
                     var socket = TextSecureServer.getTempWebsocket();
-                    var wsr = new WebSocketResource(socket, function(request) {
-                        if (request.path == "/v1/address" && request.verb == "PUT") {
-                            var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
-                            setProvisioningUrl([
-                                'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
-                                encodeURIComponent(btoa(getString(cryptoInfo.pubKey)))
-                            ].join(''));
-                            request.respond(200, 'OK');
-                        } else if (request.path == "/v1/message" && request.verb == "PUT") {
-                            var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
-                            request.respond(200, 'OK');
-                            wsr.close();
-                            resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
-                                return confirmNumber(provisionMessage.number).then(function(deviceName) {
-                                    if (typeof deviceName !== 'string' || deviceName.length == 0) {
-                                        throw new Error('Invalid device name');
-                                    }
-                                    return createAccount(
-                                        provisionMessage.number,
-                                        provisionMessage.provisioningCode,
-                                        provisionMessage.identityKeyPair,
-                                        deviceName
-                                    );
-                                });
-                            }));
-                        } else {
-                            console.log('Unknown websocket message', request.path);
+                    var wsr = new WebSocketResource(socket, {
+                        keepalive: { path: '/v1/keepalive' },
+                        handleRequest: function(request) {
+                            if (request.path == "/v1/address" && request.verb == "PUT") {
+                                var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
+                                setProvisioningUrl([
+                                    'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
+                                    encodeURIComponent(btoa(getString(cryptoInfo.pubKey)))
+                                ].join(''));
+                                request.respond(200, 'OK');
+                            } else if (request.path == "/v1/message" && request.verb == "PUT") {
+                                var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
+                                request.respond(200, 'OK');
+                                wsr.close();
+                                resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
+                                    return confirmNumber(provisionMessage.number).then(function(deviceName) {
+                                        if (typeof deviceName !== 'string' || deviceName.length == 0) {
+                                            throw new Error('Invalid device name');
+                                        }
+                                        return createAccount(
+                                            provisionMessage.number,
+                                            provisionMessage.provisioningCode,
+                                            provisionMessage.identityKeyPair,
+                                            deviceName
+                                        );
+                                    });
+                                }));
+                            } else {
+                                console.log('Unknown websocket message', request.path);
+                            }
                         }
-                    }, {
-                        keepalive: { path: '/v1/keepalive' }
                     });
                 });
             }).then(function() {

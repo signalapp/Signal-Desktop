@@ -44,7 +44,8 @@
                 }
             };
 
-            this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this), {
+            this.wsr = new WebSocketResource(this.socket, {
+                handleRequest: this.handleRequest.bind(this),
                 keepalive: { path: '/v1/keepalive', disconnect: true }
             });
 
