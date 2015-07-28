@@ -180,7 +180,8 @@ module.exports = function(grunt) {
             { browserName: 'chrome', version: '40' },
             { browserName: 'firefox', version: '34' }
           ],
-          testname: 'TextSecure-Browser Tests'
+          testname: 'TextSecure-Browser Tests',
+          maxDuration: 300
         }
       }
     },
