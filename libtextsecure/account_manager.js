@@ -73,7 +73,7 @@
                             console.log('Unknown websocket message', request.path);
                         }
                     });
-                    new KeepAlive(wsr);
+                    new KeepAlive(wsr, { disconnect: false });
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);

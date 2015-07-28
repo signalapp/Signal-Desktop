@@ -38629,8 +38629,13 @@ TextSecureWebSocket = function (url, opts) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function KeepAlive(websocketResource) {
+function KeepAlive(websocketResource, opts) {
     if (websocketResource instanceof WebSocketResource) {
+        opts = opts || {};
+        this.disconnect = opts.disconnect;
+        if (this.disconnect === undefined) {
+            this.disconnect = true;
+        }
         this.wsr = websocketResource;
         this.reset();
     } else {
@@ -38644,14 +38649,19 @@ KeepAlive.prototype = {
         clearTimeout(this.keepAliveTimer);
         clearTimeout(this.disconnectTimer);
         this.keepAliveTimer = setTimeout(function() {
-            this.disconnectTimer = setTimeout(function() {
-                this.wsr.close(3001, 'No response to keepalive request');
-            }.bind(this), 5000);
             this.wsr.sendRequest({
                 verb: 'GET',
                 path: '/v1/keepalive',
                 success: this.reset.bind(this)
             });
+            if (this.disconnect) {
+                // automatically disconnect if server doesn't ack
+                this.disconnectTimer = setTimeout(function() {
+                    this.wsr.close(3001, 'No response to keepalive request');
+                }.bind(this), 1000);
+            } else {
+                this.reset();
+            }
         }.bind(this), 55000);
     },
 };
@@ -39402,7 +39412,7 @@ TextSecureServer = function () {
                             console.log('Unknown websocket message', request.path);
                         }
                     });
-                    new KeepAlive(wsr);
+                    new KeepAlive(wsr, { disconnect: false });
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
