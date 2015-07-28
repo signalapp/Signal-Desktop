@@ -84,22 +84,4 @@ describe('MessageReceiver', function() {
             var messageReceiver = new textsecure.MessageReceiver('ws://localhost:8080', window);
         });
     });
-
-    describe('keepalives', function() {
-        it('sends a keepalive once a minute', function(done) {
-            this.timeout(60000);
-            var mockServer = new MockServer('ws://localhost:8081/v1/websocket/?login='+ encodeURIComponent(number) +'.1&password=password');
-            mockServer.on('connection', function(server) {
-                server.on('message', function(data) {
-                    var message = textsecure.protobuf.WebSocketMessage.decode(data);
-                    assert.strictEqual(message.type, textsecure.protobuf.WebSocketMessage.Type.REQUEST);
-                    assert.strictEqual(message.request.verb, 'GET');
-                    assert.strictEqual(message.request.path, '/v1/keepalive');
-                    server.close();
-                    done();
-                });
-            });
-            var messageReceiver = new textsecure.MessageReceiver('ws://localhost:8081', window);
-        });
-    });
 });
