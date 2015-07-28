@@ -92,7 +92,7 @@
         );
     };
 
-    window.WebSocketResource = function(socket, handleRequest) {
+    window.WebSocketResource = function(socket, handleRequest, keepalive) {
         this.sendRequest = function(options) {
             return new OutgoingWebSocketRequest(options, socket);
         };
@@ -138,6 +138,56 @@
             };
             reader.readAsArrayBuffer(blob);
         };
+
+        if (opts.keepalive) {
+            var keepalive = new KeepAlive(this, {
+                path       : opts.keepalive.path,
+                disconnect : opts.keepalive.disconnect
+            });
+
+            this.resetKeepAliveTimer = keepalive.reset.bind(keepalive);
+        }
+    };
+
+    function KeepAlive(websocketResource, opts) {
+        if (websocketResource instanceof WebSocketResource) {
+            opts = opts || {};
+            this.path = opts.path;
+            if (this.path === undefined) {
+                this.path = '/';
+            }
+            this.disconnect = opts.disconnect;
+            if (this.disconnect === undefined) {
+                this.disconnect = false;
+            }
+            this.wsr = websocketResource;
+            this.reset();
+        } else {
+            throw new TypeError('KeepAlive expected a WebSocketResource');
+        }
+    }
+
+    KeepAlive.prototype = {
+        constructor: KeepAlive,
+        reset: function() {
+            clearTimeout(this.keepAliveTimer);
+            clearTimeout(this.disconnectTimer);
+            this.keepAliveTimer = setTimeout(function() {
+                this.wsr.sendRequest({
+                    verb: 'GET',
+                    path: this.path,
+                    success: this.reset.bind(this)
+                });
+                if (this.disconnect) {
+                    // automatically disconnect if server doesn't ack
+                    this.disconnectTimer = setTimeout(function() {
+                        this.wsr.close(3001, 'No response to keepalive request');
+                    }.bind(this), 1000);
+                } else {
+                    this.reset();
+                }
+            }.bind(this), 55000);
+        },
     };
 
 }());

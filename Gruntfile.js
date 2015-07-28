@@ -53,7 +53,6 @@ module.exports = function(grunt) {
           'libtextsecure/protobufs.js',
           'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
-          'libtextsecure/keepalive.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
           'libtextsecure/api.js',

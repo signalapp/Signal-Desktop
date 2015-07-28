@@ -42,14 +42,15 @@
                         eventTarget.dispatchEvent(ev);
                     });
                 }
-            }
+            };
 
-            this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
-            this.keepalive = new KeepAlive(this.wsr);
+            this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this), {
+                keepalive: { path: '/v1/keepalive', disconnect: true }
+            });
 
         },
         handleRequest: function(request) {
-            this.keepalive.reset();
+            this.wsr.resetKeepAliveTimer();
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
             textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
