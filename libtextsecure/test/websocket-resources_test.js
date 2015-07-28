@@ -133,7 +133,7 @@
                 });
             });
 
-            it('uses / as a default path', function() {
+            it('uses / as a default path', function(done) {
                 var mockServer = new MockServer('ws://localhost:8081');
                 mockServer.on('connection', function(server) {
                     server.on('message', function(data) {
