@@ -181,7 +181,7 @@ module.exports = function(grunt) {
             { browserName: 'firefox', version: '34' }
           ],
           testname: 'TextSecure-Browser Tests',
-          maxDuration: 300
+          'max-duration': 300
         }
       }
     },
