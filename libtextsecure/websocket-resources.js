@@ -97,6 +97,10 @@
             return new OutgoingWebSocketRequest(options, socket);
         };
 
+        this.close = function() {
+            socket.close(3000);
+        };
+
         socket.onmessage = function(socketMessage) {
             var blob = socketMessage.data;
             var reader = new FileReader();

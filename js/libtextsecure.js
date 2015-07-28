@@ -38565,6 +38565,10 @@ TextSecureWebSocket = function (url, opts) {
             return new OutgoingWebSocketRequest(options, socket);
         };
 
+        this.close = function() {
+            socket.close(3000);
+        };
+
         socket.onmessage = function(socketMessage) {
             var blob = socketMessage.data;
             var reader = new FileReader();
@@ -38621,10 +38625,9 @@ TextSecureWebSocket = function (url, opts) {
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function KeepAlive(websocketResource, socket) {
+function KeepAlive(websocketResource) {
     if (websocketResource instanceof WebSocketResource) {
         this.wsr = websocketResource;
-        this.socket = socket;
         this.reset();
     } else {
         throw new TypeError('KeepAlive expected a WebSocketResource');
@@ -38637,7 +38640,7 @@ KeepAlive.prototype = {
         clearTimeout(this.keepAliveTimer);
         clearTimeout(this.disconnectTimer);
         this.keepAliveTimer = setTimeout(function() {
-            this.disconnectTimer = setTimeout(this.socket.close, 10000);
+            this.disconnectTimer = setTimeout(this.wsr.close, 5000);
             this.wsr.sendRequest({
                 verb: 'GET',
                 path: '/v1/keepalive',
@@ -39393,7 +39396,7 @@ TextSecureServer = function () {
                             console.log('Unknown websocket message', request.path);
                         }
                     });
-                    new KeepAlive(wsr, socket);
+                    new KeepAlive(wsr);
                 });
             }).then(function() {
                 return generateKeys(100, progressCallback);
@@ -39541,7 +39544,7 @@ function generateKeys(count, progressCallback) {
             }
 
             this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
-            this.keepalive = new KeepAlive(this.wsr, this.socket);
+            this.keepalive = new KeepAlive(this.wsr);
 
         },
         handleRequest: function(request) {

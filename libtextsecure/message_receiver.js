@@ -45,7 +45,7 @@
             }
 
             this.wsr = new WebSocketResource(this.socket, this.handleRequest.bind(this));
-            this.keepalive = new KeepAlive(this.wsr, this.socket);
+            this.keepalive = new KeepAlive(this.wsr);
 
         },
         handleRequest: function(request) {

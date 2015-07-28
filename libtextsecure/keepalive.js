@@ -14,10 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function KeepAlive(websocketResource, socket) {
+function KeepAlive(websocketResource) {
     if (websocketResource instanceof WebSocketResource) {
         this.wsr = websocketResource;
-        this.socket = socket;
         this.reset();
     } else {
         throw new TypeError('KeepAlive expected a WebSocketResource');
@@ -30,7 +29,7 @@ KeepAlive.prototype = {
         clearTimeout(this.keepAliveTimer);
         clearTimeout(this.disconnectTimer);
         this.keepAliveTimer = setTimeout(function() {
-            this.disconnectTimer = setTimeout(this.socket.close, 10000);
+            this.disconnectTimer = setTimeout(this.wsr.close, 5000);
             this.wsr.sendRequest({
                 verb: 'GET',
                 path: '/v1/keepalive',
