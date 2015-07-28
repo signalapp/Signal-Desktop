@@ -25,7 +25,10 @@
 TextSecureWebSocket = function (url, opts) {
     'use strict';
     opts = opts || {};
-    var reconnectTimeout = opts.reconnectTimeout || 1000;
+    var reconnectTimeout = 1000;
+    if (opts && opts.reconnectTimeout !== undefined) {
+        reconnectTimeout = opts.reconnectTimeout;
+    }
     var reconnectSemaphore = 0;
     var socket;
     var calledClose = false;
