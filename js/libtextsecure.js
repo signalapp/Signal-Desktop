@@ -39031,7 +39031,7 @@ TextSecureServer = function () {
         if (code > 999 || code < 100) {
             code = -1;
         }
-        var e = new Error(message);
+        var e = new Error();
         e.name     = 'HTTPError';
         e.code     = code;
         e.stack    = stack;
