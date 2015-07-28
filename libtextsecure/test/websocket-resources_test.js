@@ -129,7 +129,7 @@
                     });
                 });
                 var resource = new WebSocketResource(new WebSocket('ws://localhost:8081'), {
-                    keepalive: { path: '/v1/keepalive' }
+                    keepalive: { path: '/v1/keepalive', disconnect: true }
                 });
             });
 
@@ -146,7 +146,7 @@
                     });
                 });
                 var resource = new WebSocketResource(new WebSocket('ws://localhost:8081'), {
-                    keepalive: true
+                    keepalive: { disconnect: true }
                 });
 
             });
