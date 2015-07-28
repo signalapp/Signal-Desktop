@@ -38568,7 +38568,7 @@ TextSecureWebSocket = function (url, opts) {
         var handleRequest = opts.handleRequest;
         if (typeof handleRequest !== 'function') {
             handleRequest = function(request) {
-                request.respond(404);
+                request.respond(404, 'Not found');
             };
         }
         this.sendRequest = function(options) {
