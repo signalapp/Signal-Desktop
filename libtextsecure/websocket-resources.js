@@ -165,7 +165,7 @@
             }
             this.disconnect = opts.disconnect;
             if (this.disconnect === undefined) {
-                this.disconnect = false;
+                this.disconnect = true;
             }
             this.wsr = websocketResource;
             this.reset();

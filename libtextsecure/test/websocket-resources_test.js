@@ -128,8 +128,8 @@
                         done();
                     });
                 });
-                var resource = new WebSocketResource(new WebSocket('ws://localhost:8081'), {
-                    keepalive: { path: '/v1/keepalive', disconnect: true }
+                new WebSocketResource(new WebSocket('ws://localhost:8081'), {
+                    keepalive: { path: '/v1/keepalive' }
                 });
             });
 
@@ -145,8 +145,8 @@
                         done();
                     });
                 });
-                var resource = new WebSocketResource(new WebSocket('ws://localhost:8081'), {
-                    keepalive: { disconnect: true }
+                new WebSocketResource(new WebSocket('ws://localhost:8081'), {
+                    keepalive: true
                 });
 
             });
@@ -158,9 +158,7 @@
                 mockServer.on('connection', function(server) {
                     server.on('close', done);
                 });
-                var resource = new WebSocketResource(socket, {
-                    keepalive: { disconnect: true }
-                });
+                new WebSocketResource(socket, { keepalive: true });
             });
 
             it('allows resetting the keepalive timer', function(done) {
