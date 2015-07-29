@@ -130,7 +130,9 @@
                 frame: 'none',
                 focused: true,
                 width: 300,
-                height: 440
+                height: 440,
+                minWidth: 230,
+                minHeight: 73
             }, function (windowInfo) {
                 windowId = windowInfo.id;
                 windowMap.add({ windowId: windowId, modelId: modelId });
@@ -168,8 +170,10 @@
                 type: 'panel',
                 frame: 'none',
                 focused: true,
-                width: 260, // 280 for chat
-                height: 440 // 420 for chat
+                width: 260,
+                height: 440,
+                minWidth: 230,
+                minHeight: 150
             }, function (windowInfo) {
                 inboxWindowId = windowInfo.id;
 
