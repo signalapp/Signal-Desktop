@@ -178,7 +178,7 @@ module.exports = function(grunt) {
           build: process.env.TRAVIS_JOB_ID,
           browsers: [
             { browserName: 'chrome', version: '40' },
-            { browserName: 'firefox', version: '34' }
+            { platform: 'linux', browserName: 'firefox', version: '34' }
           ],
           testname: 'TextSecure-Browser Tests',
           'max-duration': 300,
