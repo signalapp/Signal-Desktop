@@ -81,7 +81,8 @@
                 return generateKeys(100, progressCallback);
             }).then(TextSecureServer.registerKeys).
                then(textsecure.registration.done).
-               then(textsecure.messaging.sendRequestContactSyncMessage);
+               then(textsecure.messaging.sendRequestContactSyncMessage).
+               then(textsecure.messaging.sendRequestGroupSyncMessage);
         },
         refreshPreKeys: function() {
             return TextSecureServer.getMyKeys().then(function(preKeyCount) {
