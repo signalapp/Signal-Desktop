@@ -37804,12 +37804,7 @@ axolotlInternal.RecipientRecord = function() {
                     throw new Error("Bad version byte");
                 var blob = blob.toArrayBuffer();
                 return axolotlInstance.handlePreKeyWhisperMessage(fromAddress, blob).catch(function(e) {
-                    if (e.message === 'Unknown identity key') {
-                        // create an error that the UI will pick up and ask the
-                        // user if they want to re-negotiate
-                        throw new textsecure.IncomingIdentityKeyError(fromAddress, blob, e.identityKey);
-                    }
-                    throw e;
+                    handleIdentityKeyError(fromAddress, blob, e);
                 });
             default:
                 return new Promise.reject(new Error("Unknown message type"));
@@ -37838,6 +37833,15 @@ axolotlInternal.RecipientRecord = function() {
         }
     };
 
+    function handleIdentityKeyError(from, blob, e) {
+        if (e.message === 'Unknown identity key') {
+            // create an error that the UI will pick up and ask the
+            // user if they want to re-negotiate
+            throw new textsecure.IncomingIdentityKeyError(from, blob, e.identityKey);
+        }
+        throw e;
+    }
+
     var tryMessageAgain = function(from, encodedMessage) {
         return axolotlInstance.handlePreKeyWhisperMessage(from, encodedMessage).then(function(res) {
             var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
@@ -37848,6 +37852,8 @@ axolotlInternal.RecipientRecord = function() {
                 res[1]();
 
             return processDecrypted(finalMessage);
+        }).catch(function(e) {
+            handleIdentityKeyError(from, encodedMessage, e);
         });
     };
 
