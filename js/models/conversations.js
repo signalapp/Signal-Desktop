@@ -250,7 +250,7 @@
             }
             var initials = title.trim()[0];
             return {
-                color: Math.abs(this.hashCode()) % 17,
+                color: Math.abs(this.hashCode()) % 18,
                 content: initials
             };
         } else {
