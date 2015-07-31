@@ -258,7 +258,9 @@
         }
     },
 
-    resolveConflicts: function(number) {
+    resolveConflicts: function(conflict) {
+        var number = conflict.number;
+        var identityKey = conflict.identityKey;
         if (this.isPrivate()) {
             number = this.id;
         } else if (!_.include(this.get('members'), number)) {
@@ -270,11 +272,13 @@
         }
 
         return textsecure.storage.axolotl.removeIdentityKey(number).then(function() {
-            this.messageCollection.each(function(message) {
-                if (message.hasKeyConflict(number)) {
-                    message.resolveConflict(number);
-                }
-            });
+            return textsecure.storage.axolotl.putIdentityKey(number, identityKey).then(function() {
+                this.messageCollection.each(function(message) {
+                    if (message.hasKeyConflict(number)) {
+                        message.resolveConflict(number);
+                    }
+                });
+            }.bind(this));
         }.bind(this));
     },
     hashCode: function() {

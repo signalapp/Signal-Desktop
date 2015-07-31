@@ -41,7 +41,7 @@
         },
         resolve: function() {
             new Promise(function(resolve) {
-                this.conversation.resolveConflicts(this.model.number).then(resolve);
+                this.conversation.resolveConflicts(this.model).then(resolve);
             }.bind(this));
             this.trigger('resolve');
             this.remove();
