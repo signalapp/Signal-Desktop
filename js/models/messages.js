@@ -121,6 +121,7 @@
                         this.save({sent: true, errors: errors});
                     }.bind(this));
                 }
+                return promise;
             }
         },
         handleDataMessage: function(dataMessage) {

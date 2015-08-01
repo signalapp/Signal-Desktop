@@ -273,11 +273,15 @@
 
         return textsecure.storage.axolotl.removeIdentityKey(number).then(function() {
             return textsecure.storage.axolotl.putIdentityKey(number, identityKey).then(function() {
+                var promise = Promise.resolve();
                 this.messageCollection.each(function(message) {
                     if (message.hasKeyConflict(number)) {
-                        message.resolveConflict(number);
+                        promise = promise.then(function() {
+                            return message.resolveConflict(number);
+                        });
                     }
                 });
+                return promise;
             }.bind(this));
         }.bind(this));
     },
