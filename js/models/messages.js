@@ -154,7 +154,7 @@
                             avatar     : dataMessage.group.avatar,
                             members    : dataMessage.group.members,
                         };
-                        group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar'));
+                        group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
                         var difference = _.difference(dataMessage.group.members, conversation.get('members'));
                         if (difference.length > 0) {
                             group_update.joined = difference;
