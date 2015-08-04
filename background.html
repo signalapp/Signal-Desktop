@@ -23,6 +23,7 @@
             <ul class='menu-list'>
                 <li><a class='openInbox'>Open Inbox</a></li>
                 {{#group}}
+                    <li><a class='view-members'>Members</a></li>
                     <li><a class='new-group-update'>Update group</a></li>
                     <li><a class='leave-group'>Leave group</a></li>
                 {{/group}}
@@ -145,6 +146,15 @@
           </tr>
         </table>
       </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='group-member-list'>
+    <div class='title-bar' id='header'>
+        <button class='back'></button>
+        <span class='title-text'>Members</span>
+    </div>
+    <div class='container'>
+      <div class='scrollable'></div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-verification'>
@@ -272,6 +282,7 @@
   <script type="text/javascript" src="js/views/key_verification_view.js"></script>
   <script type="text/javascript" src="js/views/message_detail_view.js"></script>
   <script type="text/javascript" src="js/views/message_list_view.js"></script>
+  <script type="text/javascript" src="js/views/group_member_list_view.js"></script>
   <script type="text/javascript" src="js/views/conversation_view.js"></script>
   <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
   <script type="text/javascript" src="js/views/window_controls_view.js"></script>

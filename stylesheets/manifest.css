@@ -203,14 +203,19 @@ img.emoji {
     margin: 0 0 0 20px; }
     .new-group-update-form .results .contact {
       z-index: 10; }
-  .new-group-update-form .members .contact {
-    box-shadow: none;
-    border-bottom: 1px solid #eee; }
-    .new-group-update-form .members .contact .last-message, .new-group-update-form .members .contact .last-timestamp {
-      display: none; }
-    .new-group-update-form .members .contact:hover {
-      background: white;
-      cursor: auto; }
+
+.group-member-list .members .contact,
+.new-group-update-form .members .contact {
+  box-shadow: none;
+  border-bottom: 1px solid #eee; }
+  .group-member-list .members .contact .last-message, .group-member-list .members .contact .last-timestamp,
+  .new-group-update-form .members .contact .last-message,
+  .new-group-update-form .members .contact .last-timestamp {
+    display: none; }
+  .group-member-list .members .contact:hover,
+  .new-group-update-form .members .contact:hover {
+    background: white;
+    cursor: auto; }
 
 .title-bar .check {
   float: right;
@@ -488,6 +493,13 @@ input.search {
 
 .group-update {
   font-size: smaller; }
+
+.group-member-list {
+  height: 100%; }
+  .group-member-list #header {
+    position: inherit; }
+  .group-member-list .container {
+    height: calc(100% - 36px); }
 
 .new-group-update-form .container {
   height: 100%;

@@ -81,10 +81,21 @@
             'click .leave-group': 'leaveGroup',
             'click .new-group-update': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
+            'click .view-members': 'viewMembers',
             'click .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'select .entry': 'messageDetail'
+        },
+
+        viewMembers: function() {
+            var view = new Whisper.GroupMemberList({ model: this.model });
+            this.$el.hide();
+            view.$el.insertAfter(this.el);
+            this.listenTo(view, 'back', function() {
+                view.remove();
+                this.$el.show();
+            }.bind(this));
         },
 
         openInbox: function() {

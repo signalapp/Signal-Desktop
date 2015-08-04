@@ -97,6 +97,17 @@
   font-size: smaller;
 }
 
+.group-member-list {
+  height: 100%;
+
+  #header {
+    position: inherit;
+  }
+
+  .container {
+    height: calc(100% - #{$header-height});
+  }
+ }
 .new-group-update-form {
   .container {
     height: 100%;

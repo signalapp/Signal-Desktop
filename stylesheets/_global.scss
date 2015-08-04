@@ -242,7 +242,10 @@ $avatar-size: 44px;
       z-index: 10;
     }
   }
+}
 
+.group-member-list,
+.new-group-update-form {
   .members .contact {
     box-shadow: none;
     border-bottom: 1px solid #eee;
