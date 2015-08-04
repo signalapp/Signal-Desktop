@@ -17,14 +17,15 @@ Registrations on the staging server are completely partitioned from the
 productions server that the mobile apps use. A production app from the Play
 store or iTunes is hard-coded to connect to the production server. If you wish
 to pair your phone and computer, or test sending between the browser and
-mobile, you must build a mobile client that targets the staging server.
+mobile, **you must build a mobile client that targets the staging server**.
 
 **Important!** The staging server uses a [self-signed ssl
 certificate](https://github.com/WhisperSystems/TextSecure-Browser/issues/110).
 By default, your browser will reject this certificate as insecure. Therefore,
 in order to register or send and receive messages of any kind, you must first
 visit <https://textsecure-service-staging.whispersystems.org/> in a new tab and
-click through the warnings to allow the certificate. If at any time you notice
+click through the warnings to allow the certificate. If done successfully,
+you should get a 404 from the server. If at any time in the future you notice
 a console error about an "INSECURE RESPONSE" or "Handshake was canceled",
 repeat this step.
 
@@ -132,11 +133,6 @@ Please write tests! Our testing framework is
 [mocha](http://mochajs.org/) and our assertion library is
 [chai](http://chaijs.com/api/assert/).
 
-To run tests, open `test/index.html` in your browser. Note that
-
- * Some tests depend on the native client module. These will fail unless you
-   load the test page from the `chrome-extension://` namespace (as opposed to
-   the `file://` namespace or via a local webserver.
- * Some tests may read, write or clear localStorage. It is recommended that you
-   create a Chrome user profile just for running tests to avoid clobbering any
-   existing account and message data.
+To run tests, use `grunt dev` or `grunt connect watch` to spin up a local
+webserver, then point your browser to localhost:9999/test/index.html and
+localhost:9999/libtextsecure/test/index.html
