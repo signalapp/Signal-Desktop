@@ -28,7 +28,7 @@
         storeName: 'conversations',
         model: Whisper.Conversation,
         fetchContacts: function() {
-            this.fetch({ conditions: { type: 'private' } });
+            return this.fetch({ reset: true, conditions: { type: 'private' } });
         }
     });
 
@@ -91,6 +91,7 @@
                 })
             });
             this.$('.contacts').append(this.typeahead_view.el);
+            this.listenTo(this.typeahead, 'reset', this.filterContacts);
 
             this.initNewContact();
         },
