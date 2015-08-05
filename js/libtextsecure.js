@@ -40007,7 +40007,7 @@ window.textsecure.messaging = function() {
                 })).then(function() {
                     return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
                         if (devicesForNumber.length == 0) {
-                            getKeysForNumber(number)
+                            getKeysForNumber(number, [1])
                                 .then(reloadDevicesAndSend(number, true))
                                 .catch(function(error) {
                                     registerError(number, "Failed to retreive new device keys for number " + number, error);
