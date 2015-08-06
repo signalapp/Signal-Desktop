@@ -188,6 +188,7 @@
                     eventTarget.dispatchEvent(ev);
                     contactDetails = contactBuffer.next();
                 }
+                eventTarget.dispatchEvent(new Event('textsecure:contactsync'));
             });
         },
         handleGroups: function(groups) {

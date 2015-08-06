@@ -79,8 +79,17 @@
 
             var accountManager = new bg.textsecure.AccountManager();
             accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
-                bg.openInbox();
-                window.close();
+                var launch = function() {
+                    bg.openInbox();
+                    bg.removeEventListener('textsecure:contactsync', launch);
+                    clearTimeout(timeout);
+                    window.close();
+                };
+                var timeout = setTimeout(launch, 60000);
+                bg.addEventListener('textsecure:contactsync', launch);
+                $('.progress-dialog .status').text('Syncing groups and contacts');
+                $('.progress-dialog .bar').addClass('progress-bar-striped active');
+
             }).catch(function(e) {
                 if (e.name === 'HTTPError' && e.code == 411) {
                     $('.progress-dialog').hide();
