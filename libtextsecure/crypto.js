@@ -35,8 +35,7 @@
     window.textsecure = window.textsecure || {};
     window.textsecure.crypto = {
         // Decrypts message into a raw string
-        decryptWebsocketMessage: function(message) {
-            var signaling_key = textsecure.storage.get("signaling_key"); //TODO: in crypto_storage
+        decryptWebsocketMessage: function(message, signaling_key) {
             var aes_key = signaling_key.slice(0, 32);
             var mac_key = signaling_key.slice(32, 32 + 20);
 
