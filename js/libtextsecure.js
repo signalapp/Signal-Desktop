@@ -38900,7 +38900,6 @@ TextSecureServer = function () {
      ************************************************/
     // Staging server
     var URL_BASE    = "https://textsecure-service-staging.whispersystems.org";
-    self.relay      = "textsecure-service-staging.whispersystems.org";
     var ATTACHMENT_HOST = "whispersystems-textsecure-attachments-staging.s3.amazonaws.com";
 
     // This is the real server
@@ -39151,8 +39150,6 @@ TextSecureServer = function () {
             }
         }
         var jsonData = { messages: messageArray };
-        if (messageArray[0].relay !== undefined)
-            jsonData.relay = messageArray[0].relay;
         jsonData.timestamp = messageArray[0].timestamp;
 
         return doAjax({
