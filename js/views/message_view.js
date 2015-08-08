@@ -27,7 +27,7 @@
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
             this.listenTo(this.model, 'destroy', this.remove);
             var that = this;
-            setInterval(function() { that.render.call(that) } , 60 * 1000);
+            setInterval(function() { that.render.call(that); } , 60 * 1000);
         },
         events: {
             'click .timestamp': 'select'
