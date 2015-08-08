@@ -6,10 +6,17 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    function MessageReceiver(url, eventTarget) {
-        this.url = url;
+    function MessageReceiver(url, username, password, signalingKey, eventTarget) {
         if (eventTarget instanceof EventTarget) {
             this.target = eventTarget;
+            this.url = url;
+            this.signalingKey = signalingKey;
+            this.username = username;
+            this.password = password;
+
+            var unencoded = textsecure.utils.unencodeNumber(username);
+            this.number = unencoded[0];
+            this.deviceId = unencoded[1];
         } else {
             throw new TypeError('MessageReceiver expected an EventTarget');
         }
@@ -19,31 +26,44 @@
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
         connect: function() {
-            var eventTarget = this.target;
             // initialize the socket and start listening for messages
-            this.socket = TextSecureServer.getMessageWebsocket(this.url);
-            this.socket.onclose = function(e) {
-                // possible 403. Make a request to confirm
-                TextSecureServer.getDevices(textsecure.storage.user.getNumber()).
-                    then(this.connect.bind(this)).
-                    catch(function(e) {
-                        var ev = new Event('textsecure:error');
-                        ev.error = e;
-                        eventTarget.dispatchEvent(ev);
-                    });
-            }.bind(this);
+            if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+                socket.close();
+            }
+            this.socket = new WebSocket(
+                this.url.replace('https://', 'wss://').replace('http://', 'ws://')
+                    + '/v1/websocket/?login=' + encodeURIComponent(this.username)
+                    + '&password=' + encodeURIComponent(this.password)
+            );
 
+            this.socket.onclose = this.onclose.bind(this);
+            this.socket.onerror = this.onerror.bind(this);
             this.wsr = new WebSocketResource(this.socket, {
                 handleRequest: this.handleRequest.bind(this),
                 keepalive: { path: '/v1/keepalive', disconnect: true }
             });
-
+        },
+        onerror: function(error) {
+            console.log('websocket error', error);
+            this.socketError = error;
+        },
+        onclose: function(ev) {
+            var eventTarget = this.target;
+            console.log('websocket closed', ev.code);
+            // possible 403 or network issue. Make an request to confirm
+            TextSecureServer(this.url).getDevices(this.number).
+                then(this.connect.bind(this)). // No HTTP error? Reconnect
+                catch(function(e) {
+                    var ev = new Event('textsecure:error');
+                    ev.error = e;
+                    eventTarget.dispatchEvent(ev);
+                });
         },
         handleRequest: function(request) {
             this.wsr.resetKeepAliveTimer();
             // TODO: handle different types of requests. for now we only expect
             // PUT /messages <encrypted IncomingPushMessageSignal>
-            textsecure.crypto.decryptWebsocketMessage(request.body).then(function(plaintext) {
+            textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
                 var envelope = textsecure.protobuf.Envelope.decode(plaintext);
                 // After this point, decoding errors are not the server's
                 // fault, and we should handle them gracefully and tell the
@@ -70,7 +90,7 @@
         },
         getStatus: function() {
             if (this.socket) {
-                return this.socket.getStatus();
+                return this.socket.readyState;
             } else {
                 return -1;
             }
@@ -95,8 +115,7 @@
             }.bind(this));
         },
         handleSentMessage: function(destination, timestamp, message) {
-            var source = textsecure.storage.user.getNumber();
-            return processDecrypted(message, source).then(function(message) {
+            return processDecrypted(message, this.number).then(function(message) {
                 var ev = new Event('textsecure:sent');
                 ev.data = {
                     destination : destination,
@@ -144,10 +163,10 @@
             }.bind(this));
         },
         handleSyncMessage: function(envelope, syncMessage) {
-            if (envelope.source !== textsecure.storage.user.getNumber()) {
+            if (envelope.source !== this.number) {
                 throw new Error('Received sync message from another number');
             }
-            if (envelope.sourceDevice == textsecure.storage.user.getDeviceId()) {
+            if (envelope.sourceDevice == this.deviceId) {
                 throw new Error('Received sync message from our own device');
             }
             if (syncMessage.sent) {
@@ -212,8 +231,8 @@
         }
     };
 
-    textsecure.MessageReceiver = function (url, eventTarget) {
-        var messageReceiver = new MessageReceiver(url, eventTarget);
+    textsecure.MessageReceiver = function(url, username, password, signalingKey, eventTarget) {
+        var messageReceiver = new MessageReceiver(url, username, password, signalingKey, eventTarget);
         this.getStatus = function() {
             return messageReceiver.getStatus();
         }

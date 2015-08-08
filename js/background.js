@@ -65,7 +65,13 @@
             if (!textsecure.registration.isDone()) { return; }
 
             // initialize the socket and start listening for messages
-            messageReceiver = new textsecure.MessageReceiver('wss://textsecure-service-staging.whispersystems.org', window);
+            messageReceiver = new textsecure.MessageReceiver(
+                'https://textsecure-service-staging.whispersystems.org',
+                textsecure.storage.get('number_id'),
+                textsecure.storage.get('password'),
+                textsecure.storage.get('signaling_key'),
+                window
+            );
         }
 
         function onContactReceived(ev) {
