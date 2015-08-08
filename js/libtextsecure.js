@@ -38900,7 +38900,6 @@ TextSecureServer = function () {
      ************************************************/
     // Staging server
     var URL_BASE    = "https://textsecure-service-staging.whispersystems.org";
-    var ATTACHMENT_HOST = "whispersystems-textsecure-attachments-staging.s3.amazonaws.com";
 
     // This is the real server
     //var URL_BASE  = "https://textsecure-service.whispersystems.org";
@@ -39176,7 +39175,7 @@ TextSecureServer = function () {
         });
     };
 
-    var id_regex = RegExp( "^https:\/\/" + ATTACHMENT_HOST + "\/(\\d+)\?");
+    var id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
     self.putAttachment = function(encryptedBin) {
         return doAjax({
             call     : 'attachment',
