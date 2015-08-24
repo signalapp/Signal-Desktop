@@ -174,11 +174,13 @@
             id = 'standalone-installer';
             url = 'register.html';
         }
-        extension.windows.open({
-            id: id,
-            url: url,
-            bounds: { width: 800, height: 666 }
-        });
+        if (!chrome.app.window.get(id)) {
+            extension.windows.open({
+                id: id,
+                url: url,
+                bounds: { width: 800, height: 666 }
+            });
+        }
     };
 
     if (chrome.runtime.onInstalled) {

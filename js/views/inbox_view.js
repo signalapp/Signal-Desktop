@@ -39,7 +39,7 @@
                             break;
                         case WebSocket.CLOSED:
                             className = 'closed';
-                            message = 'Websocket closed';
+                            message = 'Disconnected';
                             break;
                     }
                     if (!this.$el.hasClass(className)) {
