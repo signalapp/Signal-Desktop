@@ -17,10 +17,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var scrollPosition,
-        scrollHeight,
-        shouldStickToBottom;
-
     Whisper.MessageListView = Whisper.ListView.extend({
         tagName: 'ul',
         className: 'message-list',
@@ -28,16 +24,24 @@
         events: {
             'add': 'scrollToBottom',
             'update *': 'scrollToBottom',
-            'scroll': 'measureScrollPosition'
+            'scroll': 'measureScrollPosition',
+            'reset-scroll': 'resetScrollPosition'
         },
         measureScrollPosition: function() {
-            scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
-            scrollHeight = this.el.scrollHeight;
-            shouldStickToBottom = scrollPosition === scrollHeight;
+            this.scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
+            this.scrollHeight = this.el.scrollHeight;
+            this.shouldStickToBottom = this.scrollPosition === this.scrollHeight;
+        },
+        resetScrollPosition: function() {
+            var scrollPosition = this.scrollPosition;
+            if (this.scrollHeight !== this.el.scrollHeight) {
+               scrollPosition = this.el.scrollHeight * this.scrollPosition / this.scrollHeight;
+            }
+            this.$el.scrollTop(scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
-            if (shouldStickToBottom) {
-                this.$el.scrollTop(scrollHeight);
+            if (this.shouldStickToBottom) {
+                this.$el.scrollTop(this.scrollHeight);
             }
         },
         scrollToBottom: function() {

@@ -22,6 +22,9 @@
         className: function() {
             return [ 'conversation', this.model.get('type') ].join(' ');
         },
+        id: function() {
+            return 'conversation-' + this.model.cid;
+        },
         template: $('#conversation').html(),
         render_attributes: function() {
             return {
@@ -36,10 +39,6 @@
             this.render();
 
             this.appWindow = options.appWindow;
-            new Whisper.WindowControlsView({
-                appWindow: this.appWindow
-            }).$el.insertAfter(this.$('.menu'));
-
             this.fileInput = new Whisper.FileInputView({
                 el: this.$('.attachments'),
                 window: this.appWindow.contentWindow
@@ -85,7 +84,8 @@
             'click .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
-            'select .entry': 'messageDetail'
+            'select .entry': 'messageDetail',
+            'force-resize': 'forceUpdateMessageFieldSize'
         },
 
         viewMembers: function() {
@@ -235,12 +235,15 @@
 
             $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
-            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('#header').outerHeight());
+            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('.conversation-header').outerHeight());
 
             this.view.scrollToBottomIfNeeded();
         },
 
         forceUpdateMessageFieldSize: function (event) {
+            if (this.$el.css('display') === 'none') {
+                return;
+            }
             this.view.scrollToBottomIfNeeded();
             window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);

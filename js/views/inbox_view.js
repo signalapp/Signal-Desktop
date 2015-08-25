@@ -56,11 +56,32 @@
             }
         });
 
+        Whisper.ConversationStack = Whisper.View.extend({
+            className: 'conversation-stack',
+            open: function(conversation) {
+                var $el = this.$('#conversation-' + conversation.cid);
+                if ($el === null || $el.length === 0) {
+                    var view = new Whisper.ConversationView({
+                        model: conversation,
+                        appWindow: this.model.appWindow
+                    });
+                    $el = view.$el;
+                }
+                $el.prependTo(this.el);
+                $el.find('.message-list').trigger('reset-scroll');
+                $el.trigger('force-resize');
+            }
+        });
+
         Whisper.InboxView = Whisper.View.extend({
-            template: $('#inbox').html(),
+            template: $('#two-column').html(),
             className: 'inbox',
             initialize: function (options) {
                 this.render();
+                this.conversation_stack = new Whisper.ConversationStack({
+                    el: this.$('.conversation-stack'),
+                    model: { appWindow: options.appWindow }
+                });
 
                 this.newConversationView = new Whisper.NewConversationView({
                     appWindow: options.appWindow
@@ -91,7 +112,8 @@
                 'select .contact': 'openConversation',
             },
             openConversation: function(e, data) {
-                bg.openConversation(data.modelId);
+                var conversation = bg.openConversation(data.modelId);
+                this.conversation_stack.open(conversation);
                 this.hideCompose();
             },
             showCompose: function() {

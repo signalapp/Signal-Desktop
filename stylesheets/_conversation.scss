@@ -341,10 +341,7 @@
 .bottom-bar {
   $button-width: 36px;
 
-  position: fixed;
-  bottom: 1px; // offset 1 for window frame.
   height: 36px;
-  width: calc(100% - 2px);
   border-top: 1px solid $grey_l;
   background: white;
 

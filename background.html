@@ -16,12 +16,29 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <script type='text/x-tmpl-mustache' id='two-column'>
+    <div class='title-bar' id='header'>
+      <div class='menu'>
+        <button class='hamburger'></button>
+        <ul class='menu-list'>
+            <li><a class='new-group'>Create Group</a></li>
+            <li><a class='settings'>Settings</a></li>
+        </ul>
+      </div>
+      <span class='conversation-title'>Signal</span>
+      <div class='socket-status'></div>
+    </div>
+    <div class='gutter'>
+        <div class='conversations scrollable'></div>
+        <span class='fab'></span>
+    </div>
+    <div class='conversation-stack'></div>
+  </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
-      <div class='title-bar' id='header'>
-          <div class='menu'>
+      <div class='conversation-header'>
+          <div class='conversation-menu menu'>
             <button class='hamburger'></button>
             <ul class='menu-list'>
-                <li><a class='openInbox'>Open Inbox</a></li>
                 {{#group}}
                     <li><a class='view-members'>Members</a></li>
                     <li><a class='new-group-update'>Update group</a></li>

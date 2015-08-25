@@ -91,7 +91,8 @@ button.back {
   padding-right: 8px;
 
   .hamburger {
-    width: 36px;
+    width: $header-height;
+    height: $header-height;
     background: url('/images/menu.png') no-repeat center;
   }
   .menu-list {

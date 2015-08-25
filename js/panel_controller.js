@@ -117,45 +117,7 @@
             conversation.fetchContacts();
         });
         conversation.fetchMessages();
-
-        var windowId = windowMap.windowIdFrom(modelId);
-
-        // prevent multiple copies of the same conversation from being opened
-        if (!windowId) {
-            // open the panel
-            extension.windows.open({
-                id: modelId,
-                url: 'conversation.html',
-                type: 'panel',
-                frame: 'none',
-                focused: true,
-                width: 300,
-                height: 440,
-                minWidth: 230,
-                minHeight: 73
-            }, function (windowInfo) {
-                windowId = windowInfo.id;
-                windowMap.add({ windowId: windowId, modelId: modelId });
-
-                windowInfo.onClosed.addListener(function () {
-                    onWindowClosed(windowId);
-                });
-
-                // close the panel if background.html is refreshed
-                extension.windows.beforeUnload(function() {
-                    // TODO: reattach after reload instead of closing.
-                    extension.windows.remove(windowId);
-                });
-            });
-        } else {
-            // focus the panel
-            extension.windows.focus(windowId, function (error) {
-                if (error) {
-                    closeConversation(windowId); // panel isn't actually open...
-                    openConversation(modelId); // ...and so we try again.
-                }
-            });
-        }
+        return conversation;
     };
 
     /* Inbox window controller */
@@ -170,7 +132,7 @@
                 type: 'panel',
                 frame: 'none',
                 focused: true,
-                width: 260,
+                width: 580,
                 height: 440,
                 minWidth: 230,
                 minHeight: 150

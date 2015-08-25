@@ -90,6 +90,7 @@ button.back {
   padding-right: 8px; }
   .menu .hamburger {
     width: 36px;
+    height: 36px;
     background: url("/images/menu.png") no-repeat center; }
   .menu .menu-list {
     display: none;
@@ -330,12 +331,17 @@ img.emoji {
 .gutter {
   padding: 36px 0 0; }
 
+.conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
 
 .scrollable {
   height: 100%;
   overflow: auto; }
+
+.gutter {
+  float: left;
+  max-width: 300px; }
 
 .socket-status {
   float: left;
@@ -355,6 +361,25 @@ img.emoji {
   .socket-status .closed {
     background: url("/images/error_red.png") no-repeat left center; }
 
+.conversation-stack {
+  padding-left: 300px;
+  padding-top: 36px; }
+  .conversation-stack .conversation {
+    display: none; }
+  .conversation-stack .conversation:first-child {
+    display: block; }
+
+.conversation-header {
+  background: #f3f3f3; }
+
+.menu.conversation-menu {
+  float: right;
+  padding-left: 8px;
+  padding-right: 0; }
+  .menu.conversation-menu .menu-list {
+    right: 0;
+    left: initial; }
+
 .contact .number, .contact .checkbox {
   display: none; }
 
@@ -367,7 +392,7 @@ input.search {
 .fab {
   z-index: 1;
   position: fixed;
-  right: 25px;
+  left: 215px;
   bottom: 22px;
   height: 50px;
   width: 50px;
@@ -401,14 +426,14 @@ input.search {
 .index {
   color: #454545;
   background: #eee; }
-  .index .new-group-update-form {
+  .index .gutter .new-group-update-form {
     display: none;
     padding: 0.5em; }
   .index .last-message {
     margin: 6px 0;
     font-size: small;
     font-weight: 300; }
-  .index .timestamp {
+  .index .gutter .timestamp {
     position: absolute;
     top: 14px;
     right: 12px;
@@ -679,10 +704,7 @@ input.search {
     cursor: pointer; }
 
 .bottom-bar {
-  position: fixed;
-  bottom: 1px;
   height: 36px;
-  width: calc(100% - 2px);
   border-top: 1px solid #f3f3f3;
   background: white; }
   .bottom-bar button, .bottom-bar input, .bottom-bar textarea {

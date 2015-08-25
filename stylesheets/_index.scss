@@ -2,6 +2,7 @@
   padding: $header-height 0 0;
 }
 
+.conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%;
 }
@@ -12,6 +13,11 @@
 
 .loading .gutter {
   // TODO: spinner
+}
+
+.gutter {
+  float: left;
+  max-width: 300px;
 }
 
 .socket-status {
@@ -40,6 +46,31 @@
   }
 }
 
+.conversation-stack {
+  padding-left: 300px;
+  padding-top: $header-height;
+  .conversation {
+    display: none;
+  }
+  .conversation:first-child {
+    display: block;
+  }
+}
+
+.conversation-header {
+  background: $grey_l;
+}
+.menu.conversation-menu {
+  float: right;
+  padding-left: 8px;
+  padding-right: 0;
+
+  .menu-list {
+    right: 0;
+    left: initial;
+  }
+}
+
 .contact {
   .number, .checkbox {
     display: none;
@@ -56,7 +87,7 @@ input.search {
 .fab {
   z-index: 1;
   position: fixed;
-  right: 25px;;
+  left: 215px;;
   bottom: 22px;
   height: 50px;
   width: 50px;
@@ -99,7 +130,7 @@ input.search {
   color: $grey_d;
   background: #eee;
 
-  .new-group-update-form {
+  .gutter .new-group-update-form {
     display: none;
     padding: 0.5em;
   }
@@ -110,7 +141,7 @@ input.search {
     font-weight: 300;
   }
 
-  .timestamp {
+  .gutter .timestamp {
     position: absolute;
     top: 14px;
     right: 12px;
