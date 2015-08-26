@@ -70,6 +70,7 @@
                 $el.prependTo(this.el);
                 $el.find('.message-list').trigger('reset-scroll');
                 $el.trigger('force-resize');
+                conversation.markRead();
             }
         });
 
