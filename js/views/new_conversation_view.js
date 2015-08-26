@@ -159,6 +159,7 @@
         },
 
         reset: function() {
+            this.delegateEvents();
             this.$create.hide();
             this.$('.new-group-update-form .name').val('');
             this.$group_update.hide();

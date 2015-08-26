@@ -64,6 +64,7 @@ body {
   line-height: 36px;
   font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif; }
 
+.conversation-header button,
 .title-bar button {
   width: 36px;
   height: 36px;
@@ -216,7 +217,7 @@ img.emoji {
     background: white;
     cursor: auto; }
 
-.title-bar .check {
+.conversation-header .check {
   float: right;
   background: url("/images/check.png") no-repeat center center; }
 
@@ -244,7 +245,9 @@ img.emoji {
   .contact .contact-name {
     margin: 0;
     font-size: 1em;
-    font-weight: 400; }
+    font-weight: 400;
+    text-overflow: ellipsis;
+    overflow-x: hidden; }
 
 .recipients-input .recipients-container {
   background-color: white;
@@ -449,16 +452,16 @@ input.search {
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 
-.conversation .file-input .close {
-  top: -10px; }
-.conversation .conversation-title {
+.conversation-title {
   display: block;
   line-height: 36px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; }
-.conversation #header {
-  position: inherit; }
+  text-overflow: ellipsis;
+  padding-left: 10px; }
+
+.conversation .file-input .close {
+  top: -10px; }
 .conversation .discussion-container {
   height: calc(100% - 2 * 36px); }
 
@@ -466,19 +469,16 @@ input.search {
 .conversation, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
-.key-verification {
-  padding: 36px 0 0; }
-  .key-verification .container {
-    height: 100%;
-    overflow: auto; }
-  .key-verification p {
-    padding: 1em; }
-  .key-verification .key {
-    font-family: monospace;
-    padding: 0 1em; }
+.key-verification .container {
+  height: 100%;
+  overflow: auto; }
+.key-verification p {
+  padding: 1em; }
+.key-verification .key {
+  font-family: monospace;
+  padding: 0 1em; }
 
 .message-detail {
-  padding: 36px 0 0;
   background: #f3f3f3; }
   .message-detail .container {
     height: 100%;
@@ -516,16 +516,13 @@ input.search {
 .group-update {
   font-size: smaller; }
 
-.group-member-list {
+.group-member-list,
+.new-group-update-form {
   height: 100%; }
-  .group-member-list #header {
-    position: inherit; }
-  .group-member-list .container {
+  .group-member-list .container,
+  .new-group-update-form .container {
     height: calc(100% - 36px); }
 
-.new-group-update-form .container {
-  height: 100%;
-  padding-top: 36px; }
 .new-group-update-form .scrollable {
   padding: 0.5em; }
 

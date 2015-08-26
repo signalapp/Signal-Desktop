@@ -87,7 +87,6 @@
                 this.newConversationView = new Whisper.NewConversationView({
                     appWindow: options.appWindow
                 });
-                this.newConversationView.$el.hide();
                 this.listenTo(this.newConversationView, 'open',
                     this.openConversation.bind(this, null));
 
@@ -119,15 +118,12 @@
             },
             showCompose: function() {
                 this.newConversationView.reset();
-                this.$el.hide();
-                this.newConversationView.$el.insertAfter(this.$el);
-                this.newConversationView.$el.show();
+                this.newConversationView.$el.prependTo(this.conversation_stack.el);
                 this.newConversationView.$input.focus();
                 this.listenToOnce(this.newConversationView, 'back', this.hideCompose);
             },
             hideCompose: function() {
-                this.newConversationView.$el.hide();
-                this.$el.show();
+                this.newConversationView.$el.remove();
             }
         });
     });

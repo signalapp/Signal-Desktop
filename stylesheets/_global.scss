@@ -62,6 +62,7 @@ body {
   font-family: $roboto-light;
 }
 
+.conversation-header button,
 .title-bar button {
   width: $header-height;
   height: $header-height;
@@ -258,7 +259,7 @@ $avatar-size: 44px;
   }
 }
 
-.title-bar .check {
+.conversation-header .check {
   float: right;
   background: url('/images/check.png') no-repeat center center;
 }
@@ -299,6 +300,8 @@ $avatar-size: 44px;
     margin: 0;
     font-size: 1em;
     font-weight: 400;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
   }
 
 }

@@ -1,18 +1,15 @@
+.conversation-title {
+  display: block;
+  line-height: $header-height;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+}
+
 .conversation {
   .file-input .close {
     top: -10px;
-  }
-
-  .conversation-title {
-    display: block;
-    line-height: $header-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  #header {
-    position: inherit;
   }
 
   .discussion-container {
@@ -26,7 +23,6 @@
 }
 
 .key-verification {
-  padding: $header-height 0 0;
   .container {
     height: 100%;
     overflow: auto;
@@ -41,7 +37,6 @@
 }
 
 .message-detail {
-  padding: $header-height 0 0;
   background: $grey_l;
 
   .container {
@@ -97,25 +92,16 @@
   font-size: smaller;
 }
 
-.group-member-list {
+.group-member-list,
+.new-group-update-form {
   height: 100%;
-
-  #header {
-    position: inherit;
-  }
 
   .container {
     height: calc(100% - #{$header-height});
   }
  }
-.new-group-update-form {
-  .container {
-    height: 100%;
-    padding-top: $header-height;
-  }
-  .scrollable {
-    padding: 0.5em;
-  }
+.new-group-update-form .scrollable {
+  padding: 0.5em;
 }
 
 .private .sender,
