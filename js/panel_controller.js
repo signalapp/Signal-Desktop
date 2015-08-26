@@ -22,6 +22,8 @@
 
     window.Whisper = window.Whisper || {};
 
+    textsecure.protocol_wrapper.startWorker();
+
     var windowMap = new Whisper.Bimap('windowId', 'modelId');
     var conversations = new Whisper.ConversationCollection();
 
