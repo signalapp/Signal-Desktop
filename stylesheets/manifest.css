@@ -60,8 +60,6 @@ body {
   float: right; }
 
 .title-text {
-  display: block;
-  text-align: center;
   height: 36px;
   line-height: 36px;
   font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif; }
