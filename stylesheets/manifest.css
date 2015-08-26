@@ -342,14 +342,13 @@ img.emoji {
   max-width: 300px; }
 
 .socket-status {
-  float: left;
   padding: 6px;
   -webkit-app-region: no-drag; }
   .socket-status * {
+    display: inline;
     cursor: pointer;
     padding-left: 20px;
-    border-radius: 36px;
-    min-height: 20px; }
+    border-radius: 36px; }
     .socket-status *:hover {
       background: #2090ea url("/images/refresh.png") center; }
   .socket-status .connecting .icon {

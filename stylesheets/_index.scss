@@ -21,15 +21,14 @@
 }
 
 .socket-status {
-  float: left;
   padding: 6px;
   -webkit-app-region: no-drag;
 
   * {
+    display: inline;
     cursor: pointer;
     padding-left: 20px;
     border-radius: $header-height;
-    min-height: 20px;
 
     &:hover {
       background: $blue url('/images/refresh.png') center;
