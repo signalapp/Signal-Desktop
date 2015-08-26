@@ -86,11 +86,10 @@
 
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
-        var windowId = windowMap.windowIdFrom(conversationId);
-        if (windowId) {
+        if (inboxOpened) {
             // already open
             updateConversation(conversationId);
-            extension.windows.drawAttention(windowId);
+            extension.windows.drawAttention(inboxWindowId);
         } else if (Whisper.Notifications.isEnabled()) {
             var conversation = getConversation({id: message.get('conversationId')});
             var sender = getConversation({id: message.get('source')});
@@ -109,6 +108,7 @@
             conversation.fetchMessages();
         } else {
             openConversation(conversationId);
+            openInbox();
             extension.windows.drawAttention(windowId);
         }
     };
