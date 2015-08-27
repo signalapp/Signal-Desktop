@@ -84,7 +84,6 @@
     window.updateInbox = function() { // TODO: remove
         ConversationController.updateInbox();
     };
-    conversations.on('change:active_at', ConversationController.updateInbox);
 
     ConversationController.updateInbox();
     setUnreadCount(storage.get("unreadCount", 0));
@@ -104,8 +103,7 @@
     window.updateConversation = function(conversationId) {
         var conversation = conversations.get(conversationId);
         if (conversation) {
-            conversation.fetch();
-            conversation.fetchMessages();
+            conversation.reload();
         }
     };
 
@@ -115,12 +113,11 @@
 
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
+        var conversation = conversations.add({id: conversationId});
         if (inboxOpened) {
-            // already open
-            updateConversation(conversationId);
+            conversation.reload();
             extension.windows.drawAttention(inboxWindowId);
         } else if (Whisper.Notifications.isEnabled()) {
-            var conversation = conversations.add({id: conversationId});
             var sender = conversations.add({id: message.get('source')});
             conversation.fetch().then(function() {
                 sender.fetch().then(function() {
@@ -130,15 +127,14 @@
                         tag: conversation.id
                     });
                     notification.onclick = function() {
-                        openConversation(conversation.id);
+                        openInbox();
                     };
                 });
             });
             conversation.fetchMessages();
         } else {
-            openConversation(conversationId);
             openInbox();
-            extension.windows.drawAttention(windowId);
+            ConversationController.updateInbox();
         }
     };
 

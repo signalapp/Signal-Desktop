@@ -218,15 +218,9 @@
                     });
                 }
 
-                conversation.messageCollection.add(message);
                 conversation.save().then(function() {
                     message.save().then(function() {
-                        updateInbox();
-                        if (message.isIncoming()) {
-                            notifyConversation(message);
-                        } else {
-                            updateConversation(conversation.id);
-                        }
+                        notifyConversation(message);
                     });
                 });
             });

@@ -66,7 +66,9 @@
                         appWindow: this.model.appWindow
                     });
                     $el = view.$el;
-                    $el.find('.message-list').addClass('loading');
+                    if (conversation.messageCollection.length === 0) {
+                        $el.find('.message-list').addClass('loading');
+                    }
                 }
                 $el.prependTo(this.el);
                 $el.find('.message-list').trigger('reset-scroll');
