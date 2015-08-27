@@ -32,6 +32,9 @@
             this.scrollToBottom();
         },
         measureScrollPosition: function() {
+            if (this.el.scrollHeight === 0) { // hidden
+                return;
+            }
             this.scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
             this.scrollHeight = this.el.scrollHeight;
             this.shouldStickToBottom = this.scrollPosition === this.scrollHeight;
