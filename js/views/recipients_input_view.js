@@ -159,6 +159,9 @@
         },
 
         reset: function() {
+            this.delegateEvents();
+            this.typeahead_view.delegateEvents();
+            this.recipients_view.delegateEvents();
             this.typeahead.add(
                 this.recipients.filter(function(model) {
                     return !model.get('newContact');

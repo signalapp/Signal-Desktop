@@ -125,7 +125,8 @@
                         type: 'group',
                         name: name,
                         avatar: avatarFile,
-                        members: members
+                        members: members,
+                        active_at: Date.now()
                     };
                     var group = new Whisper.Conversation(attributes);
                     group.save().then(function() {
@@ -160,6 +161,7 @@
 
         reset: function() {
             this.delegateEvents();
+            this.avatarInput.delegateEvents();
             this.$create.hide();
             this.$('.new-group-update-form .name').val('');
             this.$group_update.hide();

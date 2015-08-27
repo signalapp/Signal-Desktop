@@ -23,10 +23,6 @@
 }
 
 .key-verification {
-  .container {
-    height: 100%;
-    overflow: auto;
-  }
   p {
     padding: 1em;
   }
@@ -38,11 +34,6 @@
 
 .message-detail {
   background: $grey_l;
-
-  .container {
-    height: 100%;
-    overflow: auto;
-  }
 
   .message-container {
     background: white;
@@ -93,7 +84,7 @@
 }
 
 .group-member-list,
-.new-group-update-form {
+.conversation + .new-group-update-form {
   height: 100%;
 
   .container {

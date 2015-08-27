@@ -6,7 +6,8 @@
 .new-conversation, .inbox, .gutter {
   height: 100%;
 }
-.scrollable {
+
+.container, .scrollable {
   height: 100%;
   overflow: auto;
 }

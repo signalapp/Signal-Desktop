@@ -336,7 +336,7 @@ img.emoji {
 .new-conversation, .inbox, .gutter {
   height: 100%; }
 
-.scrollable {
+.container, .scrollable {
   height: 100%;
   overflow: auto; }
 
@@ -469,9 +469,6 @@ input.search {
 .conversation, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
-.key-verification .container {
-  height: 100%;
-  overflow: auto; }
 .key-verification p {
   padding: 1em; }
 .key-verification .key {
@@ -480,9 +477,6 @@ input.search {
 
 .message-detail {
   background: #f3f3f3; }
-  .message-detail .container {
-    height: 100%;
-    overflow: auto; }
   .message-detail .message-container {
     background: white;
     padding: 1em 0; }
@@ -517,10 +511,10 @@ input.search {
   font-size: smaller; }
 
 .group-member-list,
-.new-group-update-form {
+.conversation + .new-group-update-form {
   height: 100%; }
   .group-member-list .container,
-  .new-group-update-form .container {
+  .conversation + .new-group-update-form .container {
     height: calc(100% - 36px); }
 
 .new-group-update-form .scrollable {
