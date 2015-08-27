@@ -113,7 +113,8 @@
                 'select .gutter .contact': 'openConversation'
             },
             openConversation: function(e, data) {
-                var conversation = bg.openConversation(data.modelId);
+                var conversation = data.conversation;
+                conversation.reload();
                 this.conversation_stack.open(conversation);
                 this.hideCompose();
             },

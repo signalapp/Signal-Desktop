@@ -91,9 +91,9 @@
                 })
             });
             this.$('.contacts').append(this.typeahead_view.el);
+            this.initNewContact();
             this.listenTo(this.typeahead, 'reset', this.filterContacts);
 
-            this.initNewContact();
         },
 
         render_attributes: function() {
@@ -132,7 +132,7 @@
             // Creates a view to display a new contact
             this.new_contact_view = new Whisper.ConversationListItemView({
                 el: this.$new_contact,
-                model: new Whisper.Conversation({
+                model: ConversationController.create({
                     type: 'private',
                     newContact: true
                 })
@@ -146,7 +146,7 @@
         },
 
         addRecipient: function(e, data) {
-            this.recipients.add(this.typeahead.remove(data.modelId));
+            this.recipients.add(this.typeahead.remove(data.conversation.id));
             this.resetTypeahead();
         },
 

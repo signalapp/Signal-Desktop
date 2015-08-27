@@ -43,15 +43,50 @@
         }
     });
 
-    window.updateInbox = function() {
-        conversations.fetchActive().then(function() {
-            inbox.reset(conversations.filter(function(model) {
-                return model.get('active_at');
-            }));
-        });
+    window.ConversationController = {
+        create: function(attrs) {
+            var conversation = conversations.add(attrs);
+            if (conversation.get('active_at')) {
+                inbox.add(conversation);
+            }
+            return conversation;
+        },
+        findOrCreatePrivateById: function(id) {
+            var conversation = conversations.add({ id: id, type: 'private' });
+            return new Promise(function(resolve, reject) {
+                conversation.fetch().then(function() {
+                    resolve(conversation);
+                }).fail(function() {
+                    var saved = conversation.save(); // false or indexedDBRequest
+                    if (saved) {
+                        saved.then(function() {
+                            resolve(conversation);
+                        }).fail(reject);
+                    }
+                    reject();
+                });
+            });
+        },
+        findById: function(id) {
+            var conversation = conversations.add({id: id});
+            conversation.fetch();
+            return conversation;
+        },
+        updateInbox: function() {
+            conversations.fetchActive().then(function() {
+                inbox.reset(conversations.filter(function(model) {
+                    return model.get('active_at');
+                }));
+            });
+        }
     };
 
-    updateInbox();
+    window.updateInbox = function() { // TODO: remove
+        ConversationController.updateInbox();
+    };
+    conversations.on('change:active_at', ConversationController.updateInbox);
+
+    ConversationController.updateInbox();
     setUnreadCount(storage.get("unreadCount", 0));
 
     function setUnreadCount(count) {
@@ -78,12 +113,6 @@
         windowMap.remove('windowId', windowId);
     }
 
-    window.getConversation = function(attrs) {
-        var conversation = window.inbox.get(attrs.id) || attrs;
-        conversation = conversations.add(conversation);
-        return conversation;
-    };
-
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
         if (inboxOpened) {
@@ -91,8 +120,8 @@
             updateConversation(conversationId);
             extension.windows.drawAttention(inboxWindowId);
         } else if (Whisper.Notifications.isEnabled()) {
-            var conversation = getConversation({id: message.get('conversationId')});
-            var sender = getConversation({id: message.get('source')});
+            var conversation = conversations.add({id: conversationId});
+            var sender = conversations.add({id: message.get('source')});
             conversation.fetch().then(function() {
                 sender.fetch().then(function() {
                     var notification = new Notification(sender.getTitle(), {
@@ -114,11 +143,8 @@
     };
 
     window.openConversation = function openConversation (modelId) {
-        var conversation = getConversation({id: modelId});
-        conversation.fetch().then(function() {
-            conversation.fetchContacts();
-        });
-        conversation.fetchMessages();
+        var conversation = conversations.add({id: modelId});
+        conversation.reload();
         return conversation;
     };
 

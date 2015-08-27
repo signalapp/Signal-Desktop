@@ -87,25 +87,12 @@
             if (this.getRecipients().length > 1) {
                 this.createGroup();
             } else {
-                this.createConversation();
+                var id = this.getRecipients().at(0).id;
+                ConversationController.findOrCreatePrivateById(id).then(function(conversation) {
+                    conversation.save('active_at', Date.now());
+                    this.trigger('open', { conversation: conversation });
+                }.bind(this));
             }
-        },
-
-        createConversation: function() {
-            var conversation = new Whisper.Conversation({
-                id: this.getRecipients().at(0).id,
-                type: 'private'
-            });
-            conversation.fetch().then(function() {
-                this.trigger('open', { modelId: conversation.id });
-            }.bind(this)).fail(function() {
-                var saved = conversation.save(); // false or indexedDBRequest
-                if (saved) {
-                    saved.then(function() {
-                        this.trigger('open', { modelId: conversation.id });
-                    }.bind(this));
-                }
-            }.bind(this));
         },
 
         createGroup: function() {
@@ -128,9 +115,9 @@
                         members: members,
                         active_at: Date.now()
                     };
-                    var group = new Whisper.Conversation(attributes);
+                    var group = ConversationController.create(attributes);
                     group.save().then(function() {
-                        this.trigger('open', {modelId: groupId});
+                        this.trigger('open', { conversation: group });
                     }.bind(this));
                     var now = Date.now();
                     var message = group.messageCollection.add({

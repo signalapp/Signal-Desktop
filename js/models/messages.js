@@ -136,7 +136,7 @@
             if (dataMessage.group) {
                 conversationId = dataMessage.group.id;
             }
-            var conversation = new Whisper.Conversation({id: conversationId});
+            var conversation = ConversationController.create({id: conversationId});
             conversation.fetch().always(function() {
                 var now = new Date().getTime();
                 var attributes = { type: 'private' };
@@ -218,6 +218,7 @@
                     });
                 }
 
+                conversation.messageCollection.add(message);
                 conversation.save().then(function() {
                     message.save().then(function() {
                         updateInbox();

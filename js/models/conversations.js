@@ -163,6 +163,7 @@
     },
 
     fetchMessages: function() {
+        if(!this.id) { return false; }
         return this.messageCollection.fetchConversation(this.id);
     },
 
@@ -179,6 +180,11 @@
                 }.bind(this))
             );
         }
+    },
+
+    reload: function() {
+        this.fetch().then(this.fetchContacts.bind(this));
+        this.fetchMessages();
     },
 
     archive: function() {

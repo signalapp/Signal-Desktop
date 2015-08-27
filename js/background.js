@@ -65,7 +65,7 @@
 
         function onContactReceived(ev) {
             var contactDetails = ev.contactDetails;
-            new Whisper.Conversation({
+            ConversationController.create({
                 name: contactDetails.name,
                 id: contactDetails.number,
                 avatar: contactDetails.avatar,
@@ -75,7 +75,7 @@
 
         function onGroupReceived(ev) {
             var groupDetails = ev.groupDetails;
-            new Whisper.Conversation({
+            ConversationController.create({
                 id: groupDetails.id,
                 name: groupDetails.name,
                 members: groupDetails.members,

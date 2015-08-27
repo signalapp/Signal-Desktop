@@ -35,7 +35,7 @@
 
         select: function(e) {
             this.$el.addClass('selected');
-            this.$el.trigger('select', {modelId: this.model.id});
+            this.$el.trigger('select', {conversation: this.model});
         },
 
         render: function() {
