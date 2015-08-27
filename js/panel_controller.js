@@ -67,11 +67,6 @@
                 });
             });
         },
-        findById: function(id) {
-            var conversation = conversations.add({id: id});
-            conversation.fetch();
-            return conversation;
-        },
         updateInbox: function() {
             conversations.fetchActive().then(function() {
                 inbox.reset(conversations.filter(function(model) {
