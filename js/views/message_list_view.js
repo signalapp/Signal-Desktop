@@ -19,7 +19,7 @@
 
     Whisper.MessageListView = Whisper.ListView.extend({
         tagName: 'ul',
-        className: 'message-list loading',
+        className: 'message-list',
         itemView: Whisper.MessageView,
         events: {
             'add': 'onAdd',
