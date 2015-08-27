@@ -111,10 +111,10 @@
             var query = this.$input.val();
             if (query.length) {
                 if (this.maybeNumber(query)) {
-                    this.new_contact.model.set('id', query);
-                    this.new_contact.render().$el.show();
+                    this.new_contact_view.model.set('id', query);
+                    this.new_contact_view.render().$el.show();
                 } else {
-                    this.new_contact.$el.hide();
+                    this.new_contact_view.$el.hide();
                 }
                 this.typeahead_view.collection.reset(
                     this.typeahead.typeahead(query)
@@ -125,12 +125,12 @@
         },
 
         initNewContact: function() {
-            if (this.new_contact) {
-                this.new_contact.undelegateEvents();
-                this.new_contact.$el.hide();
+            if (this.new_contact_view) {
+                this.new_contact_view.undelegateEvents();
+                this.new_contact_view.$el.hide();
             }
             // Creates a view to display a new contact
-            this.new_contact = new Whisper.ConversationListItemView({
+            this.new_contact_view = new Whisper.ConversationListItemView({
                 el: this.$new_contact,
                 model: new Whisper.Conversation({
                     type: 'private',
@@ -140,7 +140,7 @@
         },
 
         addNewRecipient: function(e, data) {
-            this.recipients.add(this.new_contact.model);
+            this.recipients.add(this.new_contact_view.model);
             this.initNewContact();
             this.resetTypeahead();
         },
@@ -162,6 +162,7 @@
             this.delegateEvents();
             this.typeahead_view.delegateEvents();
             this.recipients_view.delegateEvents();
+            this.new_contact_view.delegateEvents();
             this.typeahead.add(
                 this.recipients.filter(function(model) {
                     return !model.get('newContact');
@@ -173,7 +174,7 @@
         },
 
         resetTypeahead: function() {
-            this.new_contact.$el.hide();
+            this.new_contact_view.$el.hide();
             this.$input.val('').focus();
             this.typeahead_view.collection.reset(this.typeahead.models);
         },
