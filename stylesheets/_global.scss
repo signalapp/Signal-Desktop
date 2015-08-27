@@ -378,3 +378,22 @@ $avatar-size: 44px;
 .avatar.color13 { background-color: #FF5722 } // deep orange
 .avatar.color14 { background-color: #FFB300 } // amber
 .avatar.color15 { background-color: #607D8B } // blue grey
+
+.loading {
+  position: relative;
+  &::after {
+    display: block;
+    margin: $header-height auto;
+    content: " ";
+    height: $header-height;
+    width: $header-height;
+    border-radius: 2 * $header-height;
+    border: solid 3px;
+    border-color: $blue_l $blue_l $grey_l $grey_l;
+    animation: rotate 1s linear infinite;
+  }
+
+  @keyframes rotate {
+    to { transform: rotate(360deg); }
+  }
+}

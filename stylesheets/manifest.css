@@ -329,6 +329,21 @@ img.emoji {
 .avatar.color15 {
   background-color: #607D8B; }
 
+.loading {
+  position: relative; }
+  .loading::after {
+    display: block;
+    margin: 36px auto;
+    content: " ";
+    height: 36px;
+    width: 36px;
+    border-radius: 72px;
+    border: solid 3px;
+    border-color: #a2d2f4 #a2d2f4 #f3f3f3 #f3f3f3;
+    animation: rotate 1s linear infinite; }
+@keyframes rotate {
+  to {
+    transform: rotate(360deg); } }
 .gutter {
   padding: 36px 0 0; }
 

@@ -19,13 +19,17 @@
 
     Whisper.MessageListView = Whisper.ListView.extend({
         tagName: 'ul',
-        className: 'message-list',
+        className: 'message-list loading',
         itemView: Whisper.MessageView,
         events: {
-            'add': 'scrollToBottom',
+            'add': 'onAdd',
             'update *': 'scrollToBottom',
             'scroll': 'measureScrollPosition',
             'reset-scroll': 'resetScrollPosition'
+        },
+        onAdd: function() {
+            this.$el.removeClass('loading');
+            this.scrollToBottom();
         },
         measureScrollPosition: function() {
             this.scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
