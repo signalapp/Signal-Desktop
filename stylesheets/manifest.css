@@ -357,7 +357,9 @@ img.emoji {
 
 .gutter {
   float: left;
-  max-width: 300px; }
+  width: 300px; }
+  .gutter .conversations {
+    width: 100%; }
 
 .socket-status {
   padding: 6px;

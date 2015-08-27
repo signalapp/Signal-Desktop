@@ -18,7 +18,10 @@
 
 .gutter {
   float: left;
-  max-width: 300px;
+  width: 300px;
+  .conversations {
+    width: 100%;
+  }
 }
 
 .socket-status {
