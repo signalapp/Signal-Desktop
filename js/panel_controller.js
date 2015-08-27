@@ -16,7 +16,6 @@
  */
 
 // This script should only be included in background.html
-// Whisper.windowMap is defined in background.js
 (function () {
     'use strict';
 
@@ -24,7 +23,6 @@
 
     textsecure.protocol_wrapper.startWorker();
 
-    var windowMap = new Whisper.Bimap('windowId', 'modelId');
     var conversations = new Whisper.ConversationCollection();
 
     window.inbox = new Whisper.ConversationCollection([], {
@@ -44,6 +42,9 @@
     });
 
     window.ConversationController = {
+        get: function(id) {
+            return conversations.get(id);
+        },
         create: function(attrs) {
             var conversation = conversations.add(attrs);
             if (conversation.get('active_at')) {
@@ -91,21 +92,6 @@
         }
     }
 
-    window.getConversationForWindow = function(windowId) {
-        return conversations.get(windowMap.modelIdFrom(windowId));
-    };
-
-    window.updateConversation = function(conversationId) {
-        var conversation = conversations.get(conversationId);
-        if (conversation) {
-            conversation.reload();
-        }
-    };
-
-    function closeConversation (windowId) {
-        windowMap.remove('windowId', windowId);
-    }
-
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
         var conversation = conversations.add({id: conversationId});
@@ -122,21 +108,22 @@
                         tag: conversation.id
                     });
                     notification.onclick = function() {
-                        openInbox();
+                        openConversation(conversation);
                     };
                 });
             });
             conversation.fetchMessages();
         } else {
-            openInbox();
+            conversation.reload();
+            openConversation(conversation);
             ConversationController.updateInbox();
         }
     };
 
-    window.openConversation = function openConversation (modelId) {
-        var conversation = conversations.add({id: modelId});
-        conversation.reload();
-        return conversation;
+    function openConversation(conversation) {
+        openInbox();
+        var appWindow = chrome.app.window.get(inboxWindowId);
+        appWindow.contentWindow.trigger('open', {conversation: conversation});
     };
 
     /* Inbox window controller */
@@ -159,7 +146,8 @@
                 inboxWindowId = windowInfo.id;
 
                 windowInfo.onClosed.addListener(function () {
-                    onWindowClosed(inboxWindowId);
+                    inboxWindowId = 0;
+                    inboxOpened = false;
                 });
 
                 // close the panel if background.html is refreshed
@@ -187,16 +175,4 @@
             }
         });
     });
-
-    // make sure windows are cleaned up on close
-    var onWindowClosed = function (windowId) {
-        if (windowMap.windowId[windowId]) {
-            closeConversation(windowId);
-        }
-
-        if (windowId === inboxWindowId) {
-            inboxWindowId = 0;
-            inboxOpened = false;
-        }
-    };
 })();

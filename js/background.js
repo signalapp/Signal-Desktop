@@ -175,10 +175,13 @@
                         var deliveries     = message.get('delivered') || 0;
                         var conversationId = message.get('conversationId');
                         if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                            message.save({delivered: deliveries + 1}).then(
+                            message.save({delivered: deliveries + 1}).then(function() {
                                 // notify frontend listeners
-                                updateConversation.bind(window,conversationId)
-                            );
+                                var conversation = ConversationController.get(conversationId);
+                                if (conversation) {
+                                    conversation.reload();
+                                }
+                            });
                             return;
                             // TODO: consider keeping a list of numbers we've
                             // successfully delivered to?
