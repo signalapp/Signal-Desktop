@@ -110,7 +110,7 @@
             },
             events: {
                 'click .fab': 'showCompose',
-                'select .contact': 'openConversation',
+                'select .gutter .contact': 'openConversation'
             },
             openConversation: function(e, data) {
                 var conversation = bg.openConversation(data.modelId);
