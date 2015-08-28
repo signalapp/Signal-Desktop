@@ -74,6 +74,8 @@
             init(true);
         });
 
+        window.TEXT_SECURE_SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
+
         if (open) {
             openInbox();
         }

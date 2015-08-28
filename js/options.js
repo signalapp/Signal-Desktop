@@ -65,7 +65,7 @@
             $('#init-setup').show().addClass('in');
             $('#status').text("Connecting...");
 
-            var accountManager = new bg.textsecure.AccountManager();
+            var accountManager = new bg.textsecure.AccountManager(bg.TEXT_SECURE_SERVER_URL);
             accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
                 var launch = function() {
                     bg.openInbox();

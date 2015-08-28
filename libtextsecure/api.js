@@ -2,42 +2,10 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-TextSecureServer = function () {
+var TextSecureServer = (function() {
     'use strict';
 
-    var self = {};
-
-    /************************************************
-     *** Utilities to communicate with the server ***
-     ************************************************/
-    // Staging server
-    var URL_BASE    = "https://textsecure-service-staging.whispersystems.org";
-
-    // This is the real server
-    //var URL_BASE  = "https://textsecure-service.whispersystems.org";
-
-    var URL_CALLS = {};
-    URL_CALLS.accounts   = "/v1/accounts";
-    URL_CALLS.devices    = "/v1/devices";
-    URL_CALLS.keys       = "/v2/keys";
-    URL_CALLS.push       = "/v1/websocket";
-    URL_CALLS.temp_push  = "/v1/websocket/provisioning";
-    URL_CALLS.messages   = "/v1/messages";
-    URL_CALLS.attachment = "/v1/attachments";
-
-    /**
-        * REQUIRED PARAMS:
-        *   call:               URL_CALLS entry
-        *   httpType:           POST/GET/PUT/etc
-        * OPTIONAL PARAMS:
-        *   success_callback:   function(response object) called on success
-        *   error_callback:     function(http status code = -1 or != 200) called on failure
-        *   urlParameters:      crap appended to the url (probably including a leading /)
-        *   user:               user name to be sent in a basic auth header
-        *   password:           password to be sent in a basic auth header
-        *   do_auth:            alternative to user/password where user/password are figured out automagically
-        *   jsonData:           JSON data sent in the request body
-        */
+    // Promise-based async xhr routine
     function ajax(url, options) {
         return new Promise(function (resolve, reject) {
             console.log(options.type, url);
@@ -94,84 +62,86 @@ TextSecureServer = function () {
         return e;
     }
 
-    var doAjax = function (param) {
-        if (param.urlParameters === undefined) {
-            param.urlParameters = "";
-        }
+    var URL_CALLS = {
+        accounts   : "/v1/accounts",
+        devices    : "/v1/devices",
+        keys       : "/v2/keys",
+        messages   : "/v1/messages",
+        attachment : "/v1/attachments"
+    };
 
-        if (param.do_auth) {
-            param.user      = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-            param.password  = textsecure.storage.get("password");
-        }
+    var attachment_id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
 
-        return ajax(URL_BASE + URL_CALLS[param.call] + param.urlParameters, {
-                type        : param.httpType,
-                data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
-                contentType : 'application/json; charset=utf-8',
-                dataType    : 'json',
-                user        : param.user,
-                password    : param.password
-        }).catch(function(e) {
-            var code = e.code;
-            if (code === 200) {
-                // happens sometimes when we get no response
-                // (TODO: Fix server to return 204? instead)
-                return null;
+    function TextSecureServer(url, username, password) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
+
+    TextSecureServer.prototype = {
+        constructor: TextSecureServer,
+        ajax: function(param) {
+            if (!param.urlParameters) {
+                param.urlParameters = '';
             }
-            var message;
-            switch (code) {
-            case -1:
-                message = "Failed to connect to the server, please check your network connection.";
-                break;
-            case 413:
-                message = "Rate limit exceeded, please try again later.";
-                break;
-            case 403:
-                message = "Invalid code, please try again.";
-                break;
-            case 417:
-                // TODO: This shouldn't be a thing?, but its in the API doc?
-                message = "Number already registered.";
-                break;
-            case 401:
-            case 403:
-                message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
-                break;
-            case 404:
-                message = "Number is not registered with TextSecure.";
-                break;
-            default:
-                message = "The server rejected our query, please file a bug report.";
-            }
-            e.message = message
-            throw e;
-        });
-    };
-
-    function requestVerificationCode(number, transport) {
-        return doAjax({
-            call                : 'accounts',
-            httpType            : 'GET',
-            urlParameters       : '/' + transport + '/code/' + number,
-        });
-    };
-    self.requestVerificationSMS = function(number) {
-        return requestVerificationCode(number, 'sms');
-    };
-    self.requestVerificationVoice = function(number) {
-        return requestVerificationCode(number, 'voice');
-    };
-
-    self.getDevices = function(number) {
-        return doAjax({
-            call     : 'devices',
-            httpType : 'GET',
-            do_auth  : true
-        });
-    };
-
-    self.confirmCode = function(number, code, password,
-                                signaling_key, registrationId, deviceName) {
+            return ajax(this.url + URL_CALLS[param.call] + param.urlParameters, {
+                    type        : param.httpType,
+                    data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
+                    contentType : 'application/json; charset=utf-8',
+                    dataType    : 'json',
+                    user        : this.username,
+                    password    : this.password
+            }).catch(function(e) {
+                var code = e.code;
+                if (code === 200) {
+                    // happens sometimes when we get no response
+                    // (TODO: Fix server to return 204? instead)
+                    return null;
+                }
+                var message;
+                switch (code) {
+                case -1:
+                    message = "Failed to connect to the server, please check your network connection.";
+                    break;
+                case 413:
+                    message = "Rate limit exceeded, please try again later.";
+                    break;
+                case 403:
+                    message = "Invalid code, please try again.";
+                    break;
+                case 417:
+                    // TODO: This shouldn't be a thing?, but its in the API doc?
+                    message = "Number already registered.";
+                    break;
+                case 401:
+                case 403:
+                    message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
+                    break;
+                case 404:
+                    message = "Number is not registered with TextSecure.";
+                    break;
+                default:
+                    message = "The server rejected our query, please file a bug report.";
+                }
+                e.message = message
+                throw e;
+            });
+        },
+        requestVerificationSMS: function(number) {
+            return this.ajax({
+                call                : 'accounts',
+                httpType            : 'GET',
+                urlParameters       : '/sms/code/' + number,
+            });
+        },
+        requestVerificationVoice: function(number) {
+            return this.ajax({
+                call                : 'accounts',
+                httpType            : 'GET',
+                urlParameters       : '/voice/code/' + number,
+            });
+        },
+        confirmCode: function(number, code, password, signaling_key, registrationId, deviceName) {
             var call = deviceName ? 'devices' : 'accounts';
             var urlPrefix = deviceName ? '/' : '/code/';
 
@@ -184,141 +154,137 @@ TextSecureServer = function () {
             if (deviceName) {
                 jsonData.name = deviceName;
             }
-            return doAjax({
+            this.username = number;
+            this.password = password;
+            return this.ajax({
                 call                : call,
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
-                user                : number,
-                password            : password,
                 jsonData            : jsonData
             });
-    };
+        },
+        getDevices: function(number) {
+            return this.ajax({
+                call     : 'devices',
+                httpType : 'GET',
+            });
+        },
+        registerKeys: function(genKeys) {
+            var keys = {};
+            keys.identityKey = btoa(getString(genKeys.identityKey));
+            keys.signedPreKey = {keyId: genKeys.signedPreKey.keyId, publicKey: btoa(getString(genKeys.signedPreKey.publicKey)),
+                                signature: btoa(getString(genKeys.signedPreKey.signature))};
 
-    self.registerKeys = function(genKeys) {
-        var keys = {};
-        keys.identityKey = btoa(getString(genKeys.identityKey));
-        keys.signedPreKey = {keyId: genKeys.signedPreKey.keyId, publicKey: btoa(getString(genKeys.signedPreKey.publicKey)),
-                            signature: btoa(getString(genKeys.signedPreKey.signature))};
+            keys.preKeys = [];
+            var j = 0;
+            for (var i in genKeys.preKeys)
+                keys.preKeys[j++] = {keyId: genKeys.preKeys[i].keyId, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
 
-        keys.preKeys = [];
-        var j = 0;
-        for (var i in genKeys.preKeys)
-            keys.preKeys[j++] = {keyId: genKeys.preKeys[i].keyId, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
+            //TODO: This is just to make the server happy (v2 clients should choke on publicKey),
+            // it needs removed before release
+            keys.lastResortKey = {keyId: 0x7fffFFFF, publicKey: btoa("42")};
 
-        //TODO: This is just to make the server happy (v2 clients should choke on publicKey),
-        // it needs removed before release
-        keys.lastResortKey = {keyId: 0x7fffFFFF, publicKey: btoa("42")};
+            return this.ajax({
+                call                : 'keys',
+                httpType            : 'PUT',
+                jsonData            : keys,
+            });
+        },
+        getMyKeys: function(number, deviceId) {
+            return this.ajax({
+                call                : 'keys',
+                httpType            : 'GET',
+            }).then(function(res) {
+                return parseInt(res.count);
+            });
+        },
+        getKeysForNumber: function(number, deviceId) {
+            if (deviceId === undefined)
+                deviceId = "*";
 
-        return doAjax({
-            call                : 'keys',
-            httpType            : 'PUT',
-            do_auth             : true,
-            jsonData            : keys,
-        });
-    };
-
-    self.getMyKeys = function(number, deviceId) {
-        return doAjax({
-            call                : 'keys',
-            httpType            : 'GET',
-            do_auth             : true,
-        }).then(function(res) {
-            return parseInt(res.count);
-        });
-    };
-
-    self.getKeysForNumber = function(number, deviceId) {
-        if (deviceId === undefined)
-            deviceId = "*";
-
-        return doAjax({
-            call                : 'keys',
-            httpType            : 'GET',
-            do_auth             : true,
-            urlParameters       : "/" + number + "/" + deviceId,
-        }).then(function(res) {
-            var promises = [];
-            res.identityKey = StringView.base64ToBytes(res.identityKey);
-            for (var i = 0; i < res.devices.length; i++) {
-                res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
-                res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
-                res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
-                //TODO: Is this still needed?
-                //if (res.devices[i].keyId === undefined)
-                //  res.devices[i].keyId = 0;
+            return this.ajax({
+                call                : 'keys',
+                httpType            : 'GET',
+                urlParameters       : "/" + number + "/" + deviceId,
+            }).then(function(res) {
+                var promises = [];
+                res.identityKey = StringView.base64ToBytes(res.identityKey);
+                for (var i = 0; i < res.devices.length; i++) {
+                    res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
+                    res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
+                    res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
+                    //TODO: Is this still needed?
+                    //if (res.devices[i].keyId === undefined)
+                    //  res.devices[i].keyId = 0;
+                }
+                return res;
+            });
+        },
+        sendMessages: function(destination, messageArray, legacy) {
+            //TODO: Do this conversion somewhere else?
+            for (var i = 0; i < messageArray.length; i++) {
+                messageArray[i].content = btoa(messageArray[i].content);
+                if (legacy) {
+                    messageArray[i].body = messageArray[i].content;
+                    delete messageArray[i].content;
+                }
             }
-            return res;
-        });
-    };
+            var jsonData = { messages: messageArray };
+            jsonData.timestamp = messageArray[0].timestamp;
 
-    self.sendMessages = function(destination, messageArray, legacy) {
-        //TODO: Do this conversion somewhere else?
-        for (var i = 0; i < messageArray.length; i++) {
-            messageArray[i].content = btoa(messageArray[i].content);
-            if (legacy) {
-                messageArray[i].body = messageArray[i].content;
-                delete messageArray[i].content;
-            }
+            return this.ajax({
+                call                : 'messages',
+                httpType            : 'PUT',
+                urlParameters       : '/' + destination,
+                jsonData            : jsonData,
+            });
+        },
+        getAttachment: function(id) {
+            return this.ajax({
+                call                : 'attachment',
+                httpType            : 'GET',
+                urlParameters       : '/' + id,
+            }).then(function(response) {
+                return ajax(response.location, {
+                    type        : "GET",
+                    responseType: "arraybuffer",
+                    contentType : "application/octet-stream"
+                });
+            });
+        },
+        putAttachment: function(encryptedBin) {
+            return this.ajax({
+                call     : 'attachment',
+                httpType : 'GET',
+            }).then(function(response) {
+                return ajax(response.location, {
+                    type        : "PUT",
+                    contentType : "application/octet-stream",
+                    data        : encryptedBin,
+                    processData : false,
+                }).then(function() {
+                    // Parse the id as a string from the location url
+                    // (workaround for ids too large for Javascript numbers)
+                    return response.location.match(attachment_id_regex)[1];
+                });
+            });
+        },
+        getMessageSocket: function() {
+            return new WebSocket(
+                this.url.replace('https://', 'wss://')
+                    .replace('http://', 'ws://')
+                    + '/v1/websocket/?login=' + encodeURIComponent(this.username)
+                    + '&password=' + encodeURIComponent(this.password)
+            );
+        },
+        getProvisioningSocket: function () {
+            return new WebSocket(
+                this.url.replace('https://', 'wss://')
+                    .replace('http://', 'ws://')
+                    + '/v1/websocket/provisioning/'
+            );
         }
-        var jsonData = { messages: messageArray };
-        jsonData.timestamp = messageArray[0].timestamp;
-
-        return doAjax({
-            call                : 'messages',
-            httpType            : 'PUT',
-            urlParameters       : '/' + destination,
-            do_auth             : true,
-            jsonData            : jsonData,
-        });
     };
 
-    self.getAttachment = function(id) {
-        return doAjax({
-            call                : 'attachment',
-            httpType            : 'GET',
-            urlParameters       : '/' + id,
-            do_auth             : true,
-        }).then(function(response) {
-            return ajax(response.location, {
-                type        : "GET",
-                responseType: "arraybuffer",
-                contentType : "application/octet-stream"
-            });
-        });
-    };
-
-    var id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
-    self.putAttachment = function(encryptedBin) {
-        return doAjax({
-            call     : 'attachment',
-            httpType : 'GET',
-            do_auth  : true,
-        }).then(function(response) {
-            return ajax(response.location, {
-                type        : "PUT",
-                contentType : "application/octet-stream",
-                data        : encryptedBin,
-                processData : false,
-            }).then(function() {
-                // Parse the id as a string from the location url
-                // (workaround for ids too large for Javascript numbers)
-                return response.location.match(id_regex)[1];
-            });
-        });
-    };
-
-    self.getMessageWebsocket = function(url) {
-        var user = textsecure.storage.user.getNumber() + "." + textsecure.storage.user.getDeviceId();
-        var password = textsecure.storage.get("password");
-        var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
-        var url = url + URL_CALLS['push'] + '/?' + params;
-        return TextSecureWebSocket(url, {reconnectTimeout: false});
-    }
-
-    self.getTempWebsocket = function() {
-        var url = URL_BASE.replace(/^http/g, 'ws') + URL_CALLS['temp_push'] + '/?';
-        return TextSecureWebSocket(url, {reconnectTimeout: false});
-    }
-
-    return self;
-}();
+    return TextSecureServer;
+})();

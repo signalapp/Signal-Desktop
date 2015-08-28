@@ -11,6 +11,7 @@
         this.signalingKey = signalingKey;
         this.username = username;
         this.password = password;
+        this.server = new TextSecureServer(url, username, password);
 
         var unencoded = textsecure.utils.unencodeNumber(username);
         this.number = unencoded[0];
@@ -21,17 +22,12 @@
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
         connect: function() {
-            // initialize the socket and start listening for messages
             if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
                 this.socket.close();
             }
             console.log('opening websocket');
-            this.socket = new WebSocket(
-                this.url.replace('https://', 'wss://').replace('http://', 'ws://')
-                    + '/v1/websocket/?login=' + encodeURIComponent(this.username)
-                    + '&password=' + encodeURIComponent(this.password)
-            );
-
+            // initialize the socket and start listening for messages
+            this.socket = this.server.getMessageSocket();
             this.socket.onclose = this.onclose.bind(this);
             this.socket.onerror = this.onerror.bind(this);
             this.socket.onopen = this.onopen.bind(this);
@@ -54,7 +50,7 @@
             var eventTarget = this;
             console.log('websocket closed', ev.code);
             // possible 403 or network issue. Make an request to confirm
-            TextSecureServer.getDevices(this.number).
+            this.server.getDevices(this.number).
                 then(this.connect.bind(this)). // No HTTP error? Reconnect
                 catch(function(e) {
                     var ev = new Event('error');
