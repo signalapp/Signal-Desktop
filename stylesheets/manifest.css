@@ -224,14 +224,15 @@ img.emoji {
 .contact {
   position: relative;
   padding: 12px;
-  background: white;
   cursor: pointer;
-  transition: background 0.2s;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(170, 170, 170, 0.8); }
+  box-shadow: 0 0px 1px rgba(170, 170, 170, 0.8); }
   .contact:hover {
     background: #f8f8f8; }
+  .contact.selected {
+    background: #2090ea;
+    color: #ffffff; }
   .contact:last-child::after {
     display: none; }
   .contact .contact-details {
@@ -345,6 +346,7 @@ img.emoji {
   to {
     transform: rotate(360deg); } }
 .gutter {
+  background: #f3f3f3;
   padding: 36px 0 0; }
 
 .conversation-stack,
@@ -379,6 +381,7 @@ img.emoji {
     background: url("/images/error_red.png") no-repeat left center; }
 
 .conversation-stack {
+  background: url("/images/icon_tile.png");
   padding-left: 300px;
   padding-top: 36px; }
   .conversation-stack .conversation {
@@ -428,6 +431,9 @@ input.search {
 
 .last-timestamp {
   font-size: smaller; }
+
+.new-contact, .contacts {
+  background: #f3f3f3; }
 
 .new-contact {
   display: none; }
@@ -554,7 +560,8 @@ input.search {
 .message-list {
   margin: 0;
   padding: 1em 0;
-  overflow-y: auto; }
+  overflow-y: auto;
+  background-color: #ffffff; }
   .message-list .timestamp {
     cursor: pointer; }
     .message-list .timestamp:hover {

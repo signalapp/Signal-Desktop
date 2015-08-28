@@ -1,4 +1,5 @@
 .gutter {
+  background: $grey_l;
   padding: $header-height 0 0;
 }
 
@@ -50,6 +51,7 @@
 }
 
 .conversation-stack {
+  background: url('/images/icon_tile.png');
   padding-left: 300px;
   padding-top: $header-height;
   .conversation {
@@ -114,6 +116,9 @@ input.search {
   font-size: smaller;
 }
 
+.new-contact, .contacts {
+  background: $grey_l;
+}
 .new-contact {
   display: none;
   .contact-name { display: none; }

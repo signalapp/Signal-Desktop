@@ -267,15 +267,18 @@ $avatar-size: 44px;
 .contact {
   position: relative;
   padding: 12px;
-  background: white;
   cursor: pointer;
-  transition: background 0.2s;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(#aaa, 0.8);
+  box-shadow: 0 0px 1px rgba(#aaa, 0.8);
 
   &:hover {
     background: #f8f8f8;
+  }
+
+  &.selected {
+    background: $blue;
+    color: #ffffff;
   }
 
   &:last-child::after {
