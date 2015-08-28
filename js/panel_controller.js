@@ -94,7 +94,7 @@
 
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
-        var conversation = conversations.add({id: conversationId});
+        var conversation = ConversationController.create({id: conversationId});
         if (inboxOpened) {
             conversation.reload();
             extension.windows.drawAttention(inboxWindowId);
