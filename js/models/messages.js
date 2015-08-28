@@ -217,6 +217,11 @@
                         lastMessage: message.get('body')
                     });
                 }
+                else if (!conversation.get('lastMessage')) {
+                    conversation.set({
+                        lastMessage: message.get('body')
+                    });
+                }
 
                 conversation.save().then(function() {
                     message.save().then(function() {
