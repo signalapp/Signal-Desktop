@@ -102,6 +102,7 @@
 
         messageReceiver.addEventListener('contactsync', onContactSyncComplete);
 
+        window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD);
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             textsecure.messaging.sendRequestContactSyncMessage().then(function() {
                 textsecure.messaging.sendRequestGroupSyncMessage();
