@@ -124,7 +124,7 @@
         openInbox();
         var appWindow = chrome.app.window.get(inboxWindowId);
         appWindow.contentWindow.trigger('open', {conversation: conversation});
-    };
+    }
 
     /* Inbox window controller */
     var inboxOpened = false;

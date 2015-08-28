@@ -162,6 +162,13 @@
         // lazy hack
         window.receipts = new Backbone.Collection();
 
+        function updateConversation(conversationId) {
+            var conversation = ConversationController.get(conversationId);
+            if (conversation) {
+                conversation.reload();
+            }
+        }
+
         function onDeliveryReceipt(ev) {
             var pushMessage = ev.proto;
             var timestamp = pushMessage.timestamp.toNumber();
@@ -175,13 +182,10 @@
                         var deliveries     = message.get('delivered') || 0;
                         var conversationId = message.get('conversationId');
                         if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                            message.save({delivered: deliveries + 1}).then(function() {
+                            message.save({delivered: deliveries + 1}).then(
                                 // notify frontend listeners
-                                var conversation = ConversationController.get(conversationId);
-                                if (conversation) {
-                                    conversation.reload();
-                                }
-                            });
+                                updateConversation.bind(null, conversationId)
+                            );
                             return;
                             // TODO: consider keeping a list of numbers we've
                             // successfully delivered to?
