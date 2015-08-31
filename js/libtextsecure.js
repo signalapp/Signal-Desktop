@@ -39148,6 +39148,9 @@ var TextSecureServer = (function() {
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var socket = this.server.getProvisioningSocket();
+            socket.onclose = function(e) {
+                console.log('websocket closed', e.code);
+            };
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100, progressCallback);
             var registerKeys = this.server.registerKeys.bind(this.server);
