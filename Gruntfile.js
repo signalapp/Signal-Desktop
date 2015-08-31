@@ -194,8 +194,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('dev', ['connect', 'watch', 'sass']);
+  grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
-  grunt.registerTask('default', ['preen', 'concat', 'sass', 'copy']);
+  grunt.registerTask('default', ['concat', 'sass', 'copy']);
 
 };
