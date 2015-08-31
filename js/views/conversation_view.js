@@ -85,7 +85,7 @@
             'click .new-group-update': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
             'click .view-members': 'viewMembers',
-            'click .hamburger': 'toggleMenu',
+            'click .drop-down': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'select .entry': 'messageDetail',
@@ -154,7 +154,7 @@
         },
 
         closeMenu: function(e) {
-            if (e && !$(e.target).hasClass('hamburger')) {
+            if (e && !$(e.target).hasClass('drop-down')) {
                 this.$('.menu-list').hide();
             }
         },

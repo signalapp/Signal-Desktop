@@ -399,6 +399,8 @@ img.emoji {
   .menu.conversation-menu .menu-list {
     right: 0;
     left: initial; }
+  .menu.conversation-menu button.drop-down {
+    background: url("/images/arrow_drop_down.png") no-repeat center; }
 
 .contact .number, .contact .checkbox {
   display: none; }
