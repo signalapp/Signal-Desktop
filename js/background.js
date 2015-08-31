@@ -37,7 +37,9 @@
         if (textsecure.registration.isDone()) {
             init();
         }
-        extension.on('registration_done', init);
+        extension.on('registration_done', function() {
+            init(true);
+        });
 
         setUnreadCount(storage.get("unreadCount", 0));
 
@@ -52,7 +54,8 @@
         if (open) {
             openInbox();
         }
-        function init() {
+
+        function init(firstRun) {
             window.removeEventListener('online', init);
             if (!textsecure.registration.isDone()) { return; }
 
@@ -63,6 +66,7 @@
             var PASSWORD = storage.get('password');
             var mySignalingKey = storage.get('signaling_key');
 
+            // initialize the socket and start listening for messages
             messageReceiver = new textsecure.MessageReceiver(URL, USERNAME, PASSWORD, mySignalingKey);
             messageReceiver.addEventListener('message', onMessageReceived);
             messageReceiver.addEventListener('receipt', onDeliveryReceipt);
@@ -72,6 +76,11 @@
             messageReceiver.addEventListener('error', onError);
 
             messageReceiver.addEventListener('contactsync', onContactSyncComplete);
+
+            if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
+                textsecure.messaging.sendRequestContactSyncMessage();
+                textsecure.messaging.sendRequestGroupSyncMessage();
+            }
         }
 
         function onContactSyncComplete() {

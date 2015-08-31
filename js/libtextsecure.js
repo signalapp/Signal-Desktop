@@ -39279,9 +39279,7 @@ TextSecureServer = function () {
             }).then(function() {
                 return generateKeys(100, progressCallback);
             }).then(TextSecureServer.registerKeys).
-               then(textsecure.registration.done).
-               then(textsecure.messaging.sendRequestContactSyncMessage).
-               then(textsecure.messaging.sendRequestGroupSyncMessage);
+               then(textsecure.registration.done);
         },
         refreshPreKeys: function() {
             return TextSecureServer.getMyKeys().then(function(preKeyCount) {
