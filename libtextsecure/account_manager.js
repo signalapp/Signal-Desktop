@@ -31,15 +31,16 @@
             }.bind(this));
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
-            var socket = this.server.getProvisioningSocket();
-            socket.onclose = function(e) {
-                console.log('websocket closed', e.code);
-            };
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100, progressCallback);
             var registerKeys = this.server.registerKeys.bind(this.server);
+            var getSocket = this.server.getProvisioningSocket.bind(this.server);
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
                 return new Promise(function(resolve) {
+                    var socket = getSocket();
+                    socket.onclose = function(e) {
+                        console.log('websocket closed', e.code);
+                    };
                     var wsr = new WebSocketResource(socket, {
                         keepalive: { path: '/v1/keepalive/provisioning' },
                         handleRequest: function(request) {
