@@ -38501,6 +38501,7 @@ axolotlInternal.RecipientRecord = function() {
                 if (this.disconnect) {
                     // automatically disconnect if server doesn't ack
                     this.disconnectTimer = setTimeout(function() {
+                        clearTimeout(this.keepAliveTimer);
                         this.wsr.close(3001, 'No response to keepalive request');
                     }.bind(this), 1000);
                 } else {
