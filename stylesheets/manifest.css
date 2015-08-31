@@ -78,7 +78,7 @@ button {
 
 button.back {
   float: left;
-  background: #2090ea url("/images/back.png") no-repeat center center; }
+  background: url("/images/back.png") no-repeat center center; }
   button.back + .title-text {
     text-indent: -36px; }
 
@@ -212,10 +212,6 @@ img.emoji {
   .new-group-update-form .members .contact .last-message,
   .new-group-update-form .members .contact .last-timestamp {
     display: none; }
-  .group-member-list .members .contact:hover,
-  .new-group-update-form .members .contact:hover {
-    background: white;
-    cursor: auto; }
 
 .conversation-header .check {
   float: right;
@@ -227,7 +223,8 @@ img.emoji {
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 0px 1px rgba(170, 170, 170, 0.8); }
+  box-shadow: 0 0px 1px rgba(170, 170, 170, 0.8);
+  background: #f3f3f3; }
   .contact:hover {
     background: #f8f8f8; }
   .contact.selected {
@@ -281,6 +278,12 @@ img.emoji {
   background: white; }
   .attachment-preview img {
     width: 100%; }
+
+.new-conversation .recipients-input .recipients::before {
+  content: 'To: '; }
+
+.new-group-update-form .recipients-input .recipients::before {
+  content: 'Add: '; }
 
 .avatar.colorgray {
   background-color: #999999; }
@@ -359,7 +362,8 @@ img.emoji {
 
 .gutter {
   float: left;
-  width: 300px; }
+  width: 300px;
+  border-right: solid 1px #ddd; }
   .gutter .conversations {
     width: 100%; }
 

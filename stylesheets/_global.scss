@@ -76,7 +76,7 @@ button { cursor: pointer; }
 
 button.back {
   float: left;
-  background: $header-color url('/images/back.png') no-repeat center center;
+  background: url('/images/back.png') no-repeat center center;
 
   & + .title-text {
     text-indent: -$header-height;
@@ -252,10 +252,6 @@ $avatar-size: 44px;
     .last-message, .last-timestamp {
       display: none;
     }
-    &:hover {
-      background: white;
-      cursor: auto;
-    }
   }
 }
 
@@ -271,6 +267,7 @@ $avatar-size: 44px;
   white-space: nowrap;
   overflow: hidden;
   box-shadow: 0 0px 1px rgba(#aaa, 0.8);
+  background: $grey_l;
 
   &:hover {
     background: #f8f8f8;
@@ -363,6 +360,13 @@ $avatar-size: 44px;
   }
 
 }
+.new-conversation .recipients-input .recipients::before {
+  content: 'To: ';
+}
+.new-group-update-form .recipients-input .recipients::before {
+  content: 'Add: ';
+}
+
 
 // avatar colors
 .avatar.colorgray { background-color: #999999 }

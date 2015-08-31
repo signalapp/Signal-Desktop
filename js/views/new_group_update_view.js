@@ -28,9 +28,7 @@
                 window: options.window
             });
 
-            this.recipients_view = new Whisper.RecipientsInputView({
-                placeholder: "Add member"
-            });
+            this.recipients_view = new Whisper.RecipientsInputView();
             this.listenTo(this.recipients_view.typeahead, 'sync', function() {
                 this.model.contactCollection.models.forEach(function(model) {
                     if (this.recipients_view.typeahead.get(model)) {

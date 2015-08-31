@@ -97,7 +97,7 @@
         },
 
         render_attributes: function() {
-            return { placeholder: this.placeholder || "Name or phone number" };
+            return { placeholder: this.placeholder || "name or phone number" };
         },
 
         events: {
