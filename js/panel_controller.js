@@ -21,8 +21,6 @@
 
     window.Whisper = window.Whisper || {};
 
-    textsecure.protocol_wrapper.startWorker();
-
     var conversations = new Whisper.ConversationCollection();
 
     window.inbox = new Whisper.ConversationCollection([], {

@@ -28,6 +28,8 @@
         appWindow.close();
     });
 
+    textsecure.protocol_wrapper.startWorker();
+
     storage.fetch();
     storage.onready(function() {
         var messageReceiver;
