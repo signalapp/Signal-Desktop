@@ -3,17 +3,17 @@
  * vim: ts=4:sw=4:expandtab
  */
 (function () {
-  'use strict';
+    'use strict';
 
-    window.Whisper = window.Whisper || {};
+    var view;
 
-    extension.windows.getBackground(function(bg) {
-        if (bg.textsecure.storage.user.getNumber() === undefined) {
-            window.location = '/options.html';
-        } else {
+    function render() {
+        extension.windows.getBackground(function(bg) {
             extension.windows.getCurrent(function(appWindow) {
-                var view = new bg.Whisper.InboxView({appWindow: appWindow});
-                view.$el.prependTo(bg.$('body',document));
+                if (view) { view.remove(); }
+                var $body = bg.$('body',document).empty();
+                view = new bg.Whisper.InboxView({appWindow: appWindow});
+                view.$el.prependTo($body);
                 window.openConversation = function(conversation) {
                     if (conversation) {
                         view.openConversation(null, conversation);
@@ -21,6 +21,9 @@
                 };
                 openConversation(bg.getOpenConversation());
             });
-        }
-    });
+        });
+    }
+
+    window.addEventListener('onreload', render);
+    render();
 }());
