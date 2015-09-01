@@ -123,8 +123,7 @@
             var prekey = new PreKey({id: keyId});
 
             new Promise(function(resolve) {
-                var accountManager = new textsecure.AccountManager(TEXT_SECURE_SERVER_URL);
-                accountManager.refreshPreKeys().then(resolve);
+                getAccountManager().refreshPreKeys().then(resolve);
             });
 
             return new Promise(function(resolve) {

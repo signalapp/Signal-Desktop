@@ -62,6 +62,12 @@
             return -1;
         }
     };
+    window.getAccountManager = function() {
+        var USERNAME = storage.get('number_id');
+        var PASSWORD = storage.get('password');
+        return new textsecure.AccountManager(SERVER_URL, USERNAME, PASSWORD);
+    };
+
     storage.fetch();
     storage.onready(function() {
         setUnreadCount(storage.get("unreadCount", 0));
@@ -73,8 +79,6 @@
         extension.on('registration_done', function() {
             init(true);
         });
-
-        window.TEXT_SECURE_SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
 
         if (open) {
             openInbox();
