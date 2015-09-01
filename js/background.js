@@ -49,29 +49,33 @@
             }
         };
 
-        window.addEventListener('textsecure:message', onMessageReceived);
-        window.addEventListener('textsecure:receipt', onDeliveryReceipt);
-        window.addEventListener('textsecure:contact', onContactReceived);
-        window.addEventListener('textsecure:group', onGroupReceived);
-        window.addEventListener('textsecure:sent', onSentMessage);
-        window.addEventListener('textsecure:error', onError);
-
         if (open) {
             openInbox();
         }
-
         function init() {
             window.removeEventListener('online', init);
             if (!textsecure.registration.isDone()) { return; }
 
-            // initialize the socket and start listening for messages
-            messageReceiver = new textsecure.MessageReceiver(
-                'https://textsecure-service-staging.whispersystems.org',
-                textsecure.storage.get('number_id'),
-                textsecure.storage.get('password'),
-                textsecure.storage.get('signaling_key'),
-                window
-            );
+            if (messageReceiver) { messageReceiver.close(); }
+
+            var URL = 'https://textsecure-service-staging.whispersystems.org';
+            var USERNAME = storage.get('number_id');
+            var PASSWORD = storage.get('password');
+            var mySignalingKey = storage.get('signaling_key');
+
+            messageReceiver = new textsecure.MessageReceiver(URL, USERNAME, PASSWORD, mySignalingKey);
+            messageReceiver.addEventListener('message', onMessageReceived);
+            messageReceiver.addEventListener('receipt', onDeliveryReceipt);
+            messageReceiver.addEventListener('contact', onContactReceived);
+            messageReceiver.addEventListener('group', onGroupReceived);
+            messageReceiver.addEventListener('sent', onSentMessage);
+            messageReceiver.addEventListener('error', onError);
+
+            messageReceiver.addEventListener('contactsync', onContactSyncComplete);
+        }
+
+        function onContactSyncComplete() {
+            window.dispatchEvent(new Event('textsecure:contactsync'));
         }
 
         function onContactReceived(ev) {

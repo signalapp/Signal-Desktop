@@ -6,20 +6,15 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    function MessageReceiver(url, username, password, signalingKey, eventTarget) {
-        if (eventTarget instanceof EventTarget) {
-            this.target = eventTarget;
-            this.url = url;
-            this.signalingKey = signalingKey;
-            this.username = username;
-            this.password = password;
+    function MessageReceiver(url, username, password, signalingKey) {
+        this.url = url;
+        this.signalingKey = signalingKey;
+        this.username = username;
+        this.password = password;
 
-            var unencoded = textsecure.utils.unencodeNumber(username);
-            this.number = unencoded[0];
-            this.deviceId = unencoded[1];
-        } else {
-            throw new TypeError('MessageReceiver expected an EventTarget');
-        }
+        var unencoded = textsecure.utils.unencodeNumber(username);
+        this.number = unencoded[0];
+        this.deviceId = unencoded[1];
         this.connect();
     }
 
@@ -28,7 +23,7 @@
         connect: function() {
             // initialize the socket and start listening for messages
             if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-                socket.close();
+                this.socket.close();
             }
             this.socket = new WebSocket(
                 this.url.replace('https://', 'wss://').replace('http://', 'ws://')
@@ -43,15 +38,19 @@
                 keepalive: { path: '/v1/keepalive', disconnect: true }
             });
         },
+        close: function() {
+            this.socket.close();
+            delete this.listeners;
+        },
         onerror: function(error) {
             console.log('websocket error', error);
             this.socketError = error;
         },
         onclose: function(ev) {
-            var eventTarget = this.target;
+            var eventTarget = this;
             console.log('websocket closed', ev.code);
             // possible 403 or network issue. Make an request to confirm
-            TextSecureServer(this.url).getDevices(this.number).
+            TextSecureServer.getDevices(this.number).
                 then(this.connect.bind(this)). // No HTTP error? Reconnect
                 catch(function(e) {
                     var ev = new Event('textsecure:error');
@@ -83,9 +82,9 @@
             }.bind(this)).catch(function(e) {
                 request.respond(500, 'Bad encrypted websocket message');
                 console.log("Error handling incoming message:", e);
-                var ev = new Event('textsecure:error');
+                var ev = new Event('error');
                 ev.error = e;
-                this.target.dispatchEvent(ev);
+                this.dispatchEvent(ev);
             }.bind(this));
         },
         getStatus: function() {
@@ -96,9 +95,9 @@
             }
         },
         onDeliveryReceipt: function (envelope) {
-            var ev = new Event('textsecure:receipt');
+            var ev = new Event('receipt');
             ev.proto = envelope;
-            this.target.dispatchEvent(ev);
+            this.dispatchEvent(ev);
         },
         decrypt: function(envelope, ciphertext) {
             return textsecure.protocol_wrapper.decrypt(
@@ -107,22 +106,22 @@
                 envelope.type,
                 ciphertext
             ).catch(function(error) {
-                var ev = new Event('textsecure:error');
+                var ev = new Event('error');
                 ev.error = error;
                 ev.proto = envelope;
-                this.target.dispatchEvent(ev);
+                this.dispatchEvent(ev);
                 throw error; // reject this promise
             }.bind(this));
         },
         handleSentMessage: function(destination, timestamp, message) {
             return processDecrypted(message, this.number).then(function(message) {
-                var ev = new Event('textsecure:sent');
+                var ev = new Event('sent');
                 ev.data = {
                     destination : destination,
                     timestamp   : timestamp.toNumber(),
                     message     : message
                 };
-                this.target.dispatchEvent(ev);
+                this.dispatchEvent(ev);
             }.bind(this));
         },
         handleDataMessage: function(envelope, message, close_session) {
@@ -131,13 +130,13 @@
                 close_session();
             }
             return processDecrypted(message, envelope.source).then(function(message) {
-                var ev = new Event('textsecure:message');
+                var ev = new Event('message');
                 ev.data = {
                     source    : envelope.source,
                     timestamp : envelope.timestamp.toNumber(),
                     message   : message
                 };
-                this.target.dispatchEvent(ev);
+                this.dispatchEvent(ev);
             }.bind(this));
         },
         handleLegacyMessage: function (envelope) {
@@ -185,22 +184,22 @@
             }
         },
         handleContacts: function(contacts) {
-            var eventTarget = this.target;
+            var eventTarget = this;
             var attachmentPointer = contacts.blob;
             return handleAttachment(attachmentPointer).then(function() {
                 var contactBuffer = new ContactBuffer(attachmentPointer.data);
                 var contactDetails = contactBuffer.next();
                 while (contactDetails !== undefined) {
-                    var ev = new Event('textsecure:contact');
+                    var ev = new Event('contact');
                     ev.contactDetails = contactDetails;
                     eventTarget.dispatchEvent(ev);
                     contactDetails = contactBuffer.next();
                 }
-                eventTarget.dispatchEvent(new Event('textsecure:contactsync'));
+                eventTarget.dispatchEvent(new Event('contactsync'));
             });
         },
         handleGroups: function(groups) {
-            var eventTarget = this.target;
+            var eventTarget = this;
             var attachmentPointer = groups.blob;
             return handleAttachment(attachmentPointer).then(function() {
                 var groupBuffer = new GroupBuffer(attachmentPointer.data);
@@ -220,7 +219,7 @@
                                 );
                             }
                         }).then(function() {
-                            var ev = new Event('textsecure:group');
+                            var ev = new Event('group');
                             ev.groupDetails = groupDetails;
                             eventTarget.dispatchEvent(ev);
                         });
@@ -228,14 +227,70 @@
                     groupDetails = groupBuffer.next();
                 }
             });
+        },
+
+        /* Implements EventTarget */
+        dispatchEvent: function(ev) {
+            if (!(ev instanceof Event)) {
+                throw new Error('Expects an event');
+            }
+            if (this.listeners === null || typeof this.listeners !== 'object') {
+                this.listeners = {};
+            }
+            var listeners = this.listeners[ev.type];
+            if (typeof listeners === 'object') {
+                for (var i=0; i < listeners.length; ++i) {
+                    if (typeof listeners[i] === 'function') {
+                        listeners[i].call(null, ev);
+                    }
+                }
+            }
+        },
+        addEventListener: function(eventName, callback) {
+            if (typeof eventName !== 'string') {
+                throw new Error('First argument expects a string');
+            }
+            if (typeof callback !== 'function') {
+                throw new Error('Second argument expects a function');
+            }
+            if (this.listeners === null || typeof this.listeners !== 'object') {
+                this.listeners = {};
+            }
+            var listeners = this.listeners[eventName];
+            if (typeof listeners !== 'object') {
+                listeners = [];
+            }
+            listeners.push(callback);
+            this.listeners[eventName] = listeners;
+        },
+        removeEventListener: function(eventName, callback) {
+            if (typeof eventName !== 'string') {
+                throw new Error('First argument expects a string');
+            }
+            if (typeof callback !== 'function') {
+                throw new Error('Second argument expects a function');
+            }
+            if (this.listeners === null || typeof this.listeners !== 'object') {
+                this.listeners = {};
+            }
+            var listeners = this.listeners[eventName];
+            for (var i=0; i < listeners.length; ++ i) {
+                if (listeners[i] === callback) {
+                    listeners.splice(i, 1);
+                    return;
+                }
+            }
+            this.listeners[eventName] = listeners;
         }
+
     };
 
-    textsecure.MessageReceiver = function(url, username, password, signalingKey, eventTarget) {
-        var messageReceiver = new MessageReceiver(url, username, password, signalingKey, eventTarget);
-        this.getStatus = function() {
-            return messageReceiver.getStatus();
-        }
+    textsecure.MessageReceiver = function(url, username, password, signalingKey) {
+        var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
+
+        this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
+        this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
+        this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
     }
 
     textsecure.MessageReceiver.prototype = {
