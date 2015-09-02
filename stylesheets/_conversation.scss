@@ -238,12 +238,16 @@
       }
 
       .content {
-        &::selection {
+        a {
+          color: $grey_l;
+        }
+
+        &::selection, a::selection {
           color: $grey_d;
           background: white;
         }
 
-        &::-moz-selection {
+        &::-moz-selection, a::-moz-selection {
           color: $grey_d;
           background: white;
         }

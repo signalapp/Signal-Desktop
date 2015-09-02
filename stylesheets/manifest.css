@@ -662,12 +662,17 @@ input.search {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2090ea; }
-    .message-detail .outgoing .bubble .content::selection,
-    .message-list .outgoing .bubble .content::selection {
+    .message-detail .outgoing .bubble .content a,
+    .message-list .outgoing .bubble .content a {
+      color: #f3f3f3; }
+    .message-detail .outgoing .bubble .content::selection, .message-detail .outgoing .bubble .content a::selection,
+    .message-list .outgoing .bubble .content::selection,
+    .message-list .outgoing .bubble .content a::selection {
       color: #454545;
       background: white; }
-    .message-detail .outgoing .bubble .content::-moz-selection,
-    .message-list .outgoing .bubble .content::-moz-selection {
+    .message-detail .outgoing .bubble .content::-moz-selection, .message-detail .outgoing .bubble .content a::-moz-selection,
+    .message-list .outgoing .bubble .content::-moz-selection,
+    .message-list .outgoing .bubble .content a::-moz-selection {
       color: #454545;
       background: white; }
   .message-detail .control .bubble .content,
