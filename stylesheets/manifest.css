@@ -662,6 +662,14 @@ input.search {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2090ea; }
+    .message-detail .outgoing .bubble .content::selection,
+    .message-list .outgoing .bubble .content::selection {
+      color: #454545;
+      background: white; }
+    .message-detail .outgoing .bubble .content::-moz-selection,
+    .message-list .outgoing .bubble .content::-moz-selection {
+      color: #454545;
+      background: white; }
   .message-detail .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }

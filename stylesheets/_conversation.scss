@@ -236,6 +236,18 @@
         right: -8px;
         border-left: 8px solid $blue;
       }
+
+      .content {
+        &::selection {
+          color: $grey_d;
+          background: white;
+        }
+
+        &::-moz-selection {
+          color: $grey_d;
+          background: white;
+        }
+      }
     }
   }
 
