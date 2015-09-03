@@ -65,6 +65,7 @@
 
 .conversation-header {
   background: $grey_l;
+  border-bottom: solid 1px darken($grey_l, 10%);
 }
 .menu.conversation-menu {
   float: right;
