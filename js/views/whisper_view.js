@@ -26,9 +26,7 @@
             return _.result(this.model, 'attributes', {});
         },
         render_partials: function() {
-            return {
-                avatar: this.avatar_template
-            };
+            return Whisper.View.Templates;
         },
         render: function() {
             var attrs = _.result(this, 'render_attributes', {});
@@ -37,7 +35,6 @@
             this.$el.html(Mustache.render(template, attrs, partials));
             return this;
         },
-        avatar_template: $('#avatar').html(),
         confirm: function(message) {
             return new Promise(function(resolve, reject) {
                 var dialog = new Whisper.ConfirmationDialogView({
@@ -48,5 +45,16 @@
                 this.$el.append(dialog.el);
             }.bind(this));
         }
+    },{
+        // Class attributes
+        Templates: (function() {
+            var templates = {};
+            $('script[type="text/x-tmpl-mustache"]').each(function(i, el) {
+                var $el = $(el);
+                var id = $el.attr('id').replace('-','_');
+                templates[id] = $el.html();
+            });
+            return templates;
+        }())
     });
 })();
