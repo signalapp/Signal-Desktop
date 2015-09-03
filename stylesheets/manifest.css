@@ -217,16 +217,18 @@ img.emoji {
   float: right;
   background: url("/images/check.png") no-repeat center center; }
 
+.conversation-list-item {
+  cursor: pointer; }
+  .conversation-list-item:hover {
+    background: #f8f8f8; }
+
 .contact {
   position: relative;
   padding: 12px;
-  cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   box-shadow: 0 0px 1px rgba(170, 170, 170, 0.8);
   background: #f3f3f3; }
-  .contact:hover {
-    background: #f8f8f8; }
   .contact.selected {
     background: #2090ea;
     color: #ffffff; }
@@ -240,7 +242,7 @@ img.emoji {
     .contact .contact-details p {
       overflow-x: hidden;
       text-overflow: ellipsis; }
-  .contact .contact-name {
+  .contact .name {
     margin: 0;
     font-size: 1em;
     font-weight: 400;
@@ -444,7 +446,7 @@ input.search {
 
 .new-contact {
   display: none; }
-  .new-contact .contact-name {
+  .new-contact .name {
     display: none; }
   .new-contact .contact-details::before {
     content: 'Create new contact';
@@ -477,7 +479,7 @@ input.search {
   .settings-open .settings {
     display: block; }
 
-.conversations .unread .contact-details .contact-name,
+.conversations .unread .contact-details .name,
 .conversations .unread .contact-details .last-message,
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }

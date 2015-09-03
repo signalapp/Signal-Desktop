@@ -127,7 +127,7 @@ input.search {
 }
 .new-contact {
   display: none;
-  .contact-name { display: none; }
+  .name { display: none; }
   .contact-details::before {
     content: 'Create new contact';
     display: block;
@@ -173,7 +173,7 @@ input.search {
 }
 
 .conversations .unread .contact-details {
-    .contact-name,
+    .name,
     .last-message,
     .last-timestamp {
       font-weight: bold;

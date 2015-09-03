@@ -40,7 +40,7 @@
 
             this.$('.avatar').addClass('default');
 
-            this.member_list_view = new Whisper.ConversationListView({
+            this.member_list_view = new Whisper.ContactListView({
                 collection: this.model.contactCollection,
                 className: 'members'
             });

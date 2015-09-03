@@ -20,8 +20,8 @@
     // list of conversations, showing user/group and last message sent
     Whisper.ConversationListItemView = Whisper.View.extend({
         tagName: 'div',
-        className: 'contact',
-        template: $('#contact').html(),
+        className: 'conversation-list-item contact',
+        template: Whisper.View.Templates.conversation_preview,
         events: {
             'click': 'select'
         },
@@ -41,7 +41,7 @@
         render: function() {
             this.$el.html(
                 Mustache.render(this.template, {
-                    contact_name: this.model.getTitle(),
+                    title: this.model.getTitle(),
                     last_message: this.model.get('lastMessage'),
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
                     number: this.model.getNumber(),

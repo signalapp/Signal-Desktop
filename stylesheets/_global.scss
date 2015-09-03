@@ -259,19 +259,19 @@ $avatar-size: 44px;
   float: right;
   background: url('/images/check.png') no-repeat center center;
 }
-
+.conversation-list-item {
+  cursor: pointer;
+  &:hover {
+    background: #f8f8f8;
+  }
+}
 .contact {
   position: relative;
   padding: 12px;
-  cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   box-shadow: 0 0px 1px rgba(#aaa, 0.8);
   background: $grey_l;
-
-  &:hover {
-    background: #f8f8f8;
-  }
 
   &.selected {
     background: $blue;
@@ -296,7 +296,7 @@ $avatar-size: 44px;
     }
   }
 
-  .contact-name {
+  .name {
     margin: 0;
     font-size: 1em;
     font-weight: 400;

@@ -113,26 +113,28 @@
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
-<span class='avatar {{#avatar.color }} color{{avatar.color}} {{/avatar.color}}' style='background-image: url("{{ avatar.url }}");'>
+    <span class='avatar {{#avatar.color }} color{{avatar.color}} {{/avatar.color}}'
+          style='background-image: url("{{ avatar.url }}");'>
         {{ avatar.content }}
-      </span>
+    </span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_pill'>
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
+  <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
+      <h3 class='name'> {{ title }} </h3>
+      <div class='number'>{{ number }}</div>
+  </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}
+      <div class='contact-details'> {{> contact_name_and_number }} </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='conversation_preview'>
+      {{> avatar }}
       <div class='contact-details'>
-          <h3 class='contact-name'>
-          {{ contact_name }}
-          </h3>
-          <div class='number'>{{ number }}</div>
-          <p class='last-message'>
-          {{ last_message }}
-          </p>
-          <span class='last-timestamp'>
-          {{ last_message_timestamp }}
-          </span>
+          {{> contact_name_and_number }}
+          <p class='last-message'> {{ last_message }} </p>
+          <span class='last-timestamp'> {{ last_message_timestamp }} </span>
       </div>
   </script>
   <script type="text/x-tmpl-mustache" id="phone-number">
@@ -292,6 +294,7 @@
   <script type="text/javascript" src="js/views/list_view.js"></script>
   <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
   <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
+  <script type="text/javascript" src="js/views/contact_list_view.js"></script>
   <script type="text/javascript" src="js/views/recipients_input_view.js"></script>
   <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
   <script type="text/javascript" src="js/views/attachment_view.js"></script>
