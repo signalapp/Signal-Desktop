@@ -96,10 +96,7 @@
             var view = new Whisper.GroupMemberList({ model: this.model });
             this.$el.hide();
             view.$el.insertAfter(this.el);
-            this.listenTo(view, 'back', function() {
-                view.remove();
-                this.$el.show();
-            }.bind(this));
+            this.listenBack(view);
         },
 
         openInbox: function() {
@@ -126,10 +123,7 @@
                         });
                         this.$el.hide();
                         view.render().$el.insertAfter(this.el);
-                        this.listenTo(view, 'back', function() {
-                            view.remove();
-                            this.$el.show();
-                        }.bind(this));
+                        this.listenBack(view);
                     }.bind(this));
                 }.bind(this));
             }
@@ -147,10 +141,11 @@
         },
 
         listenBack: function(view) {
-            this.listenTo(view, 'back', function() {
+            this.listenToOnce(view, 'back', function(e) {
                 view.remove();
                 this.$el.show();
-            });
+                this.$el.trigger('force-resize');
+            }.bind(this));
         },
 
         closeMenu: function(e) {
