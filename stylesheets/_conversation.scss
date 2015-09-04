@@ -1,3 +1,6 @@
+.conversation {
+  background-color: #ffffff;
+}
 .conversation-title {
   display: block;
   line-height: $header-height;
@@ -17,7 +20,8 @@
   }
 }
 
-.conversation + .new-group-update-form,
+.group-member-list,
+.new-group-update,
 .conversation, .message-list, .message-detail, .key-verification {
   height: 100%;
 }
@@ -83,16 +87,14 @@
   font-size: smaller;
 }
 
-.group-member-list,
-.conversation + .new-group-update-form {
-  height: 100%;
-
+.group-member-list {
   .container {
     height: calc(100% - #{$header-height});
   }
  }
-.new-group-update-form .scrollable {
-  padding: 0.5em;
+
+.new-group-update {
+  .container { height: calc(100% - #{$header-height} - 85px); }
 }
 
 .private .sender,
@@ -117,7 +119,6 @@
   margin: 0;
   padding: 1em 0;
   overflow-y: auto;
-  background-color: #ffffff;
 
   .timestamp {
     cursor: pointer;

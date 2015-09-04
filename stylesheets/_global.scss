@@ -193,11 +193,12 @@ $avatar-size: 44px;
   color: white;
 }
 
-.new-group-update-form {
+.group-info-input {
   background: white;
 
   .group-avatar {
-    float: left;
+    display: inline-block;
+    padding: 2px 0px 0px 2px;
   }
 
   .group-default {
@@ -232,24 +233,20 @@ $avatar-size: 44px;
     padding: 0.5em;
     border: solid 1px #ccc;
     border-width: 0 0 1px 0;
-    width: calc(100% - 64px);
-  }
-
-  .results {
-    width: calc(100% - 20px);
-    margin: 0 0 0 20px;
-    .contact {
-      z-index: 10;
-    }
+    width: calc(100% - 84px);
   }
 }
 
 .group-member-list,
-.new-group-update-form {
+.new-group-update {
   .members .contact {
     box-shadow: none;
     border-bottom: 1px solid #eee;
     .last-message, .last-timestamp {
+      display: none;
+    }
+
+    .number {
       display: none;
     }
   }
@@ -263,6 +260,10 @@ $avatar-size: 44px;
   cursor: pointer;
   &:hover {
     background: #f8f8f8;
+  }
+
+  .number {
+    display: none;
   }
 }
 .contact {
@@ -304,9 +305,14 @@ $avatar-size: 44px;
     overflow-x: hidden;
   }
 
+  .number {
+    color: $grey;
+    font-size: small;
+  }
 }
 
 .recipients-input {
+  position: relative;
 
   .recipients-container {
     background-color: white;
@@ -333,21 +339,20 @@ $avatar-size: 44px;
     }
   }
 
-  .contact {
-    .number {
-      display: inline-block;
-    }
+  .results {
+    position: absolute;
+    z-index: 10;
+    margin: 0 0 0 20px;
+    width: calc(100% - 30px);
+    max-width: 300px;
+    max-height: 55px * 3;
+    overflow-y: auto;
+    box-shadow: 0px 0px 1px rgba(#aaa, 0.8);
 
-    .last-message, .last-timestamp {
-      display: none;
-    }
-
-    .number {
-      color: $grey;
-      font-size: small;
+    .contact {
+      cursor: pointer;
     }
   }
-
 }
 
 .attachment-preview {
@@ -363,7 +368,7 @@ $avatar-size: 44px;
 .new-conversation .recipients-input .recipients::before {
   content: 'To: ';
 }
-.new-group-update-form .recipients-input .recipients::before {
+.new-group-update .recipients-input .recipients::before {
   content: 'Add: ';
 }
 

@@ -22,7 +22,7 @@
         template: $('#new-conversation').html(),
         initialize: function(options) {
             this.render();
-            this.$group_update = this.$('.new-group-update-form');
+            this.$group_update = this.$('.group-info-input');
             this.$create = this.$('.create');
 
             // Group avatar file input
@@ -33,11 +33,17 @@
             });
 
             this.recipients_view = new Whisper.RecipientsInputView();
-            this.$('.scrollable').append(this.recipients_view.el);
+            this.recipients_view.$el.insertAfter(this.$('.group-info-input'));
             this.$input = this.$('input.search');
 
             this.listenTo(this.getRecipients(), 'add', this.updateControls);
             this.listenTo(this.getRecipients(), 'remove', this.updateControls);
+        },
+
+        render_attributes: function() {
+            return {
+                avatar: { url: '/images/group_default.png', color: 'gray' }
+            };
         },
 
         events: {
@@ -96,7 +102,7 @@
         },
 
         createGroup: function() {
-            var name = this.$('.new-group-update-form .name').val();
+            var name = this.$('.group-info-input .name').val();
             if (!name.trim().length) {
                 return;
             }
@@ -150,7 +156,7 @@
             this.delegateEvents();
             this.avatarInput.delegateEvents();
             this.$create.hide();
-            this.$('.new-group-update-form .name').val('');
+            this.$('.group-info-input .name').val('');
             this.$group_update.hide();
             this.recipients_view.reset();
         },

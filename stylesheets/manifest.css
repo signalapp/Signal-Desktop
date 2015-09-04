@@ -168,23 +168,24 @@ img.emoji {
   text-overflow: ellipsis;
   color: white; }
 
-.new-group-update-form {
+.group-info-input {
   background: white; }
-  .new-group-update-form .group-avatar {
-    float: left; }
-  .new-group-update-form .group-default {
+  .group-info-input .group-avatar {
+    display: inline-block;
+    padding: 2px 0px 0px 2px; }
+  .group-info-input .group-default {
     position: relative;
     display: inline-block;
     width: 100%;
     height: 100%;
     border-radius: 50%;
     background: #f3f3f3 url("/images/group_default.png") no-repeat center; }
-  .new-group-update-form .file-input .thumbnail, .new-group-update-form .thumbnail .avatar,
-  .new-group-update-form img {
+  .group-info-input .file-input .thumbnail, .group-info-input .thumbnail .avatar,
+  .group-info-input img {
     height: 54px;
     width: 54px;
     border-radius: 27px; }
-  .new-group-update-form .thumbnail:after {
+  .group-info-input .thumbnail:after {
     content: '';
     position: absolute;
     height: 0;
@@ -193,24 +194,22 @@ img.emoji {
     right: 0;
     border-bottom: 10px solid #616161;
     border-left: 10px solid transparent; }
-  .new-group-update-form input.name {
+  .group-info-input input.name {
     padding: 0.5em;
     border: solid 1px #ccc;
     border-width: 0 0 1px 0;
-    width: calc(100% - 64px); }
-  .new-group-update-form .results {
-    width: calc(100% - 20px);
-    margin: 0 0 0 20px; }
-    .new-group-update-form .results .contact {
-      z-index: 10; }
+    width: calc(100% - 84px); }
 
 .group-member-list .members .contact,
-.new-group-update-form .members .contact {
+.new-group-update .members .contact {
   box-shadow: none;
   border-bottom: 1px solid #eee; }
   .group-member-list .members .contact .last-message, .group-member-list .members .contact .last-timestamp,
-  .new-group-update-form .members .contact .last-message,
-  .new-group-update-form .members .contact .last-timestamp {
+  .new-group-update .members .contact .last-message,
+  .new-group-update .members .contact .last-timestamp {
+    display: none; }
+  .group-member-list .members .contact .number,
+  .new-group-update .members .contact .number {
     display: none; }
 
 .conversation-header .check {
@@ -221,6 +220,8 @@ img.emoji {
   cursor: pointer; }
   .conversation-list-item:hover {
     background: #f8f8f8; }
+  .conversation-list-item .number {
+    display: none; }
 
 .contact {
   position: relative;
@@ -248,31 +249,40 @@ img.emoji {
     font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden; }
+  .contact .number {
+    color: #616161;
+    font-size: small; }
 
-.recipients-input .recipients-container {
-  background-color: white;
-  padding: 2px;
-  border-bottom: 1px solid #f2f2f2;
-  line-height: 24px; }
-.recipients-input .recipient {
-  display: inline-block;
-  margin: 0 2px 2px 0;
-  padding: 0 5px;
-  border-radius: 10px;
-  background-color: #2090ea;
-  color: white; }
-  .recipients-input .recipient.error {
-    background-color: #f00; }
-  .recipients-input .recipient .remove {
-    margin-left: 5px;
-    padding: 0 2px; }
-.recipients-input .contact .number {
-  display: inline-block; }
-.recipients-input .contact .last-message, .recipients-input .contact .last-timestamp {
-  display: none; }
-.recipients-input .contact .number {
-  color: #616161;
-  font-size: small; }
+.recipients-input {
+  position: relative; }
+  .recipients-input .recipients-container {
+    background-color: white;
+    padding: 2px;
+    border-bottom: 1px solid #f2f2f2;
+    line-height: 24px; }
+  .recipients-input .recipient {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+    padding: 0 5px;
+    border-radius: 10px;
+    background-color: #2090ea;
+    color: white; }
+    .recipients-input .recipient.error {
+      background-color: #f00; }
+    .recipients-input .recipient .remove {
+      margin-left: 5px;
+      padding: 0 2px; }
+  .recipients-input .results {
+    position: absolute;
+    z-index: 10;
+    margin: 0 0 0 20px;
+    width: calc(100% - 30px);
+    max-width: 300px;
+    max-height: 165px;
+    overflow-y: auto;
+    box-shadow: 0px 0px 1px rgba(170, 170, 170, 0.8); }
+    .recipients-input .results .contact {
+      cursor: pointer; }
 
 .attachment-preview {
   width: 100%;
@@ -284,7 +294,7 @@ img.emoji {
 .new-conversation .recipients-input .recipients::before {
   content: 'To: '; }
 
-.new-group-update-form .recipients-input .recipients::before {
+.new-group-update .recipients-input .recipients::before {
   content: 'Add: '; }
 
 .avatar.colorgray {
@@ -409,9 +419,6 @@ img.emoji {
   .menu.conversation-menu button.drop-down {
     background: url("/images/arrow_drop_down.png") no-repeat center; }
 
-.contact .number, .contact .checkbox {
-  display: none; }
-
 input.search {
   border: none;
   padding: 0;
@@ -441,11 +448,9 @@ input.search {
 .last-timestamp {
   font-size: smaller; }
 
-.new-contact, .contacts {
-  background: #f3f3f3; }
-
 .new-contact {
-  display: none; }
+  display: none;
+  background: #f3f3f3; }
   .new-contact .name {
     display: none; }
   .new-contact .contact-details::before {
@@ -484,6 +489,9 @@ input.search {
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 
+.conversation {
+  background-color: #ffffff; }
+
 .conversation-title {
   display: block;
   line-height: 36px;
@@ -497,7 +505,8 @@ input.search {
 .conversation .discussion-container {
   height: calc(100% - 2 * 36px); }
 
-.conversation + .new-group-update-form,
+.group-member-list,
+.new-group-update,
 .conversation, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
@@ -542,15 +551,11 @@ input.search {
 .group-update {
   font-size: smaller; }
 
-.group-member-list,
-.conversation + .new-group-update-form {
-  height: 100%; }
-  .group-member-list .container,
-  .conversation + .new-group-update-form .container {
-    height: calc(100% - 36px); }
+.group-member-list .container {
+  height: calc(100% - 36px); }
 
-.new-group-update-form .scrollable {
-  padding: 0.5em; }
+.new-group-update .container {
+  height: calc(100% - 36px - 85px); }
 
 .private .sender,
 .outgoing .sender {
@@ -569,8 +574,7 @@ input.search {
 .message-list {
   margin: 0;
   padding: 1em 0;
-  overflow-y: auto;
-  background-color: #ffffff; }
+  overflow-y: auto; }
   .message-list .timestamp {
     cursor: pointer; }
     .message-list .timestamp:hover {

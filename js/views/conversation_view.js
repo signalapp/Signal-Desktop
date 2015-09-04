@@ -82,7 +82,7 @@
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
-            'click .new-group-update': 'newGroupUpdate',
+            'click .update-group': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
             'click .view-members': 'viewMembers',
             'click .drop-down': 'toggleMenu',

@@ -19,7 +19,7 @@
 
     Whisper.NewGroupUpdateView = Whisper.View.extend({
         tagName:   "div",
-        className: "new-group-update-form",
+        className: 'new-group-update',
         templateName: 'new-group-update',
         initialize: function(options) {
             this.render();
@@ -36,7 +36,7 @@
                     }
                 }.bind(this));
             });
-            this.$('.scrollable').append(this.recipients_view.el);
+            this.recipients_view.$el.insertBefore(this.$('.container'));
 
             this.$('.avatar').addClass('default');
 
@@ -50,14 +50,14 @@
         events: {
             'click .back': 'goBack',
             'click .send': 'send',
-            'keyup input.search': 'toggleResults'
+            'focusin input.search': 'showResults',
+            'focusout input.search': 'hideResults',
         },
-        toggleResults: function() {
-            if (this.recipients_view.$input.val().length >= 2) {
-                this.$('.results').show();
-            } else {
-                this.$('.results').hide();
-            }
+        hideResults: function() {
+            this.$('.results').hide();
+        },
+        showResults: function() {
+            this.$('.results').show();
         },
         goBack: function() {
             this.trigger('back');
@@ -65,7 +65,7 @@
         render_attributes: function() {
             return {
                 name: this.model.getTitle(),
-                avatar: {url: this.model.getAvatar()}
+                avatar: this.model.getAvatar()
             };
         },
         send: function() {

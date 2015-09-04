@@ -41,7 +41,7 @@
             <ul class='menu-list'>
                 {{#group}}
                     <li><a class='view-members'>Members</a></li>
-                    <li><a class='new-group-update'>Update group</a></li>
+                    <li><a class='update-group'>Update group</a></li>
                     <li><a class='leave-group'>Leave group</a></li>
                 {{/group}}
                 {{^group}}
@@ -90,26 +90,15 @@
           </div>
       </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='new-group-update-form'>
+  <script type='text/x-tmpl-mustache' id='new-group-update'>
       <div class='conversation-header'>
         <button class='back'></button>
         <button class='send check'></button>
         <span class='conversation-title'>Update group</span>
       </div>
+      {{> group_info_input }}
       <div class='container'>
-        <div class='scrollable'>
-          <div class='clearfix'>
-            <div class='group-avatar'>
-              <div class='thumbnail'>
-                {{> avatar }}
-              </div>
-              <input type='file' name='avatar' class='file-input'>
-            </div>
-            <div>
-              <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
-            </div>
-          </div>
-        </div>
+        <div class='scrollable'></div>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
@@ -202,23 +191,24 @@
         <span class='fab'></span>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='group_info_input'>
+      <div class='group-info-input'>
+        <div class='group-avatar'>
+          <div class='thumbnail'> {{> avatar }} </div>
+          <input type='file' name='avatar' class='file-input'>
+        </div>
+        <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+      </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='new-conversation'>
       <div class='conversation-header'>
         <button class='back'></button>
         <button class='create check hide'></button>
         <span class='conversation-title'>New Message</span>
       </div>
+      {{> group_info_input }}
       <div class='container'>
         <div class='scrollable'>
-          <div class='new-group-update-form clearfix'>
-            <div class='group-avatar'>
-              <div class='thumbnail'>
-                <span class='default group-default'></span>
-              </div>
-              <input type='file' name='avatar' class='file-input'>
-            </div>
-            <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
-          </div>
         </div>
       </div>
   </script>

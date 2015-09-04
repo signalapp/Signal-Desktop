@@ -82,12 +82,6 @@
   }
 }
 
-.contact {
-  .number, .checkbox {
-    display: none;
-  }
-}
-
 input.search {
   border: none;
   padding: 0;
@@ -122,11 +116,9 @@ input.search {
   font-size: smaller;
 }
 
-.new-contact, .contacts {
-  background: $grey_l;
-}
 .new-contact {
   display: none;
+  background: $grey_l;
   .name { display: none; }
   .contact-details::before {
     content: 'Create new contact';

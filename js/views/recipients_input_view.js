@@ -58,6 +58,15 @@
         itemView: Whisper.ContactPillView
     });
 
+    Whisper.SuggestionView = Whisper.ConversationListItemView.extend({
+        className: 'contact-details contact',
+        templateName: 'contact_name_and_number',
+    });
+
+    Whisper.SuggestionListView = Whisper.ConversationListView.extend({
+        itemView: Whisper.SuggestionView
+    });
+
     Whisper.RecipientsInputView = Whisper.View.extend({
         className: 'recipients-input',
         templateName: 'recipients-input',
@@ -85,7 +94,7 @@
             this.typeahead.fetchContacts();
 
             // View to display the matched contacts from typeahead
-            this.typeahead_view = new Whisper.ConversationListView({
+            this.typeahead_view = new Whisper.SuggestionListView({
                 collection : new Whisper.ConversationCollection([], {
                     comparator: function(m) { return m.getTitle().toLowerCase(); }
                 })
@@ -176,7 +185,7 @@
         resetTypeahead: function() {
             this.new_contact_view.$el.hide();
             this.$input.val('').focus();
-            this.typeahead_view.collection.reset(this.typeahead.models);
+            this.typeahead_view.collection.reset([]);
         },
 
 
