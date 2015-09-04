@@ -38,7 +38,7 @@
         events: {
             'click .remove': 'removeModel'
         },
-        template: $('#contact_pill').html(),
+        templateName: 'contact_pill',
         initialize: function() {
             var error = this.model.validate(this.model.attributes);
             if (error) {
@@ -60,7 +60,7 @@
 
     Whisper.RecipientsInputView = Whisper.View.extend({
         className: 'recipients-input',
-        template: $('#recipients-input').html(),
+        templateName: 'recipients-input',
         initialize: function(options) {
             if (options) {
                 this.placeholder = options.placeholder;

@@ -20,7 +20,7 @@
     Whisper.NewGroupUpdateView = Whisper.View.extend({
         tagName:   "div",
         className: "new-group-update-form",
-        template: $('#new-group-update-form').html(),
+        templateName: 'new-group-update',
         initialize: function(options) {
             this.render();
             this.avatarInput = new Whisper.FileInputView({

@@ -28,6 +28,12 @@
         render_partials: function() {
             return Whisper.View.Templates;
         },
+        template: function() {
+            if (this.templateName) {
+                return Whisper.View.Templates[this.templateName];
+            }
+            return '';
+        },
         render: function() {
             var attrs = _.result(this, 'render_attributes', {});
             var template = _.result(this, 'template', '');
@@ -51,7 +57,7 @@
             var templates = {};
             $('script[type="text/x-tmpl-mustache"]').each(function(i, el) {
                 var $el = $(el);
-                var id = $el.attr('id').replace('-','_');
+                var id = $el.attr('id');
                 templates[id] = $el.html();
             });
             return templates;

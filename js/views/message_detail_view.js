@@ -19,7 +19,7 @@
 
     var ContactView = Whisper.View.extend({
         className: 'contact-detail',
-        template: $('#contact-detail').html(),
+        templateName: 'contact-detail',
         initialize: function(options) {
             this.conflict = options.conflict;
         },
