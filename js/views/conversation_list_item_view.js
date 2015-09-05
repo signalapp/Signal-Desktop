@@ -21,7 +21,7 @@
     Whisper.ConversationListItemView = Whisper.View.extend({
         tagName: 'div',
         className: 'conversation-list-item contact',
-        template: Whisper.View.Templates.conversation_preview,
+        templateName: 'conversation-preview',
         events: {
             'click': 'select'
         },
@@ -40,7 +40,7 @@
 
         render: function() {
             this.$el.html(
-                Mustache.render(this.template, {
+                Mustache.render(_.result(this,'template', ''), {
                     title: this.model.getTitle(),
                     last_message: this.model.get('lastMessage'),
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
