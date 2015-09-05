@@ -118,12 +118,6 @@
         }
     };
 
-    function openConversation(conversation) {
-        openInbox();
-        var appWindow = chrome.app.window.get(inboxWindowId);
-        appWindow.contentWindow.trigger('open', {conversation: conversation});
-    }
-
     /* Inbox window controller */
     var inboxOpened = false;
     var inboxWindowId = 'inbox';
@@ -162,6 +156,22 @@
                 }
             });
         }
+    };
+
+    var open;
+    function openConversation(conversation) {
+        if (inboxOpened === true) {
+            var appWindow = chrome.app.window.get(inboxWindowId);
+            appWindow.contentWindow.openConversation(conversation);
+        } else {
+            open = conversation;
+            openInbox();
+        }
+    }
+    window.getOpenConversation = function() {
+        var o = open;
+        open = null;
+        return o;
     };
 
     extension.onLaunched(function() {

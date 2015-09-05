@@ -24,7 +24,14 @@
             window.location = '/options.html';
         } else {
             extension.windows.getCurrent(function(appWindow) {
-                new bg.Whisper.InboxView({appWindow: appWindow}).$el.prependTo(bg.$('body',document));
+                var view = new bg.Whisper.InboxView({appWindow: appWindow});
+                view.$el.prependTo(bg.$('body',document));
+                window.openConversation = function(conversation) {
+                    if (conversation) {
+                        view.openConversation(null, {conversation: conversation});
+                    }
+                };
+                openConversation(bg.getOpenConversation());
             });
         }
     });
