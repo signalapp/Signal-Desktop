@@ -12,12 +12,13 @@ Contributor Guidelines
 
 ## Developer Setup
 
-Note that for development, you should always be using the staging server
+For development, you should always be using the staging server
 Registrations on the staging server are completely partitioned from the
 productions server that the mobile apps use. A production app from the Play
 store or iTunes is hard-coded to connect to the production server. If you wish
 to pair your phone and computer, or test sending between the browser and
-mobile, **you must build a mobile client that targets the staging server**.
+mobile, **you must build a mobile client that targets the staging server**
+(see below, under Pairing).
 
 **Important!** The staging server uses a [self-signed ssl
 certificate](https://github.com/WhisperSystems/TextSecure-Browser/issues/110).
@@ -33,11 +34,16 @@ repeat this step.
 
 Currently only the Android client supports multi-device pairing.
 
-0. Upon installing the extension you will be presented with a qr code.
-1. Build a staging-flavored Android client and install it on your phone.
-2. Scan the qr code with an barcode/qr scanning app and open the resulting url ("tsdevice://...").
+0. Build TextSecure for Android from source, and change its `PUSH_URL` to point
+   at `textsecure-service-staging.whispersystems.org`. This task is 1% search and
+   replace, 99% [setting up your build environment](https://github.com/WhisperSystems/TextSecure/blob/master/BUILDING.md).
+1. Upon installing the extension you will be presented with a qr code.
+2. Scan the qr code with an barcode/qr scanning app and open the resulting url
+   ("tsdevice://...").
 3. The phone will ask you to confirm adding the device. Click ok.
-3. The browser will then ask you to confirm your phone number. Click ok and wait for setup to complete. Key generation can take up to a minute.
+3. The browser will then ask you to confirm your phone number and enter a
+   device name. Click ok and wait for setup to complete. Key generation can
+   take up to a minute.
 
 ## Standalone Registration
 **NOTE:** This is only for developers and will not be presented to users.
