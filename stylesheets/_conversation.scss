@@ -179,6 +179,8 @@
 
     .content {
       -webkit-user-select: text;
+      white-space: pre-wrap;
+
       a {
         word-break: break-all
       }
