@@ -624,7 +624,8 @@ input.search {
       border-bottom: 6px solid transparent; }
     .message-detail .bubble .content,
     .message-list .bubble .content {
-      -webkit-user-select: text; }
+      -webkit-user-select: text;
+      white-space: pre-wrap; }
       .message-detail .bubble .content a,
       .message-list .bubble .content a {
         word-break: break-all; }
