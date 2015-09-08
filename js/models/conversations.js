@@ -151,7 +151,7 @@
     },
 
     fetchMessages: function() {
-        if(!this.id) { return false; }
+        if (!this.id) { return false; }
         return this.messageCollection.fetchConversation(this.id);
     },
 
