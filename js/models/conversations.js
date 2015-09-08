@@ -72,7 +72,7 @@
             timestamp   : now,
             lastMessage : body
         }).then(function() {
-            updateInbox();
+            ConversationController.updateInbox();
         });
 
         var sendFunc;
@@ -96,7 +96,7 @@
             });
             if (keyErrors.length) {
                 message.save({ errors : keyErrors }).then(function() {
-                    updateInbox();
+                    ConversationController.updateInbox();
                 });
             } else {
                 if (!(errors instanceof Array)) {
@@ -188,7 +188,7 @@
         _.each(models, function(message) { message.destroy(); });
         this.archive();
         return this.save().then(function() {
-            updateInbox();
+            ConversationController.updateInbox();
         });
     },
 

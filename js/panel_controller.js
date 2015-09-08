@@ -63,10 +63,6 @@
         }
     };
 
-    window.updateInbox = function() { // TODO: remove
-        ConversationController.updateInbox();
-    };
-
     ConversationController.updateInbox();
     setUnreadCount(storage.get("unreadCount", 0));
 

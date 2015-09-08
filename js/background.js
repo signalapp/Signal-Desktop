@@ -132,13 +132,13 @@
                 var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
                 if (e.name === 'IncomingIdentityKeyError') {
                     message.save({ errors : [e] }).then(function() {
-                        updateInbox();
+                        ConversationController.updateInbox();
                         notifyConversation(message);
                     });
                     return;
                 } else if (e.message !== 'Bad MAC') {
                     message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                        updateInbox();
+                        ConversationController.updateInbox();
                         notifyConversation(message);
                     });
                     return;
