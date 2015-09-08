@@ -19,7 +19,7 @@
     },
 
     initialize: function() {
-        this.contactCollection = new Whisper.ConversationCollection();
+        this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
         });
@@ -162,7 +162,10 @@
             var members = this.get('members') || [];
             this.contactCollection.reset(
                 members.map(function(number) {
-                    var c = this.collection.add({id: number, type: 'private'});
+                    var c = ConversationController.create({
+                        id   : number,
+                        type : 'private'
+                    });
                     c.fetch();
                     return c;
                 }.bind(this))
