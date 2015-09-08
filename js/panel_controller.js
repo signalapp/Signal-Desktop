@@ -11,7 +11,7 @@
 
     var conversations = new Whisper.ConversationCollection();
 
-    window.inbox = new Whisper.ConversationCollection([], {
+    window.inbox = new Backbone.Collection([], {
         comparator: function(model) {
             return -model.get('active_at');
         }
