@@ -7,28 +7,31 @@
     window.textsecure = window.textsecure || {};
 
     function MessageReceiver(url, eventTarget) {
+        this.url = url;
         if (eventTarget instanceof EventTarget) {
             this.target = eventTarget;
         } else {
             throw new TypeError('MessageReceiver expected an EventTarget');
         }
-        this.connect(url);
+        this.connect();
     }
 
     MessageReceiver.prototype = {
         constructor: MessageReceiver,
-        connect: function(url) {
+        connect: function() {
             var eventTarget = this.target;
             // initialize the socket and start listening for messages
-            this.socket = TextSecureServer.getMessageWebsocket(url);
+            this.socket = TextSecureServer.getMessageWebsocket(this.url);
             this.socket.onclose = function(e) {
                 // possible 403. Make a request to confirm
-                TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
-                    var ev = new Event('textsecure:error');
-                    ev.error = e;
-                    eventTarget.dispatchEvent(ev);
-                }).then(this.connect.bind(this)); // No HTTP error? Reconnect.
-            };
+                TextSecureServer.getDevices(textsecure.storage.user.getNumber()).
+                    then(this.connect.bind(this)).
+                    catch(function(e) {
+                        var ev = new Event('textsecure:error');
+                        ev.error = e;
+                        eventTarget.dispatchEvent(ev);
+                    });
+            }.bind(this);
 
             this.wsr = new WebSocketResource(this.socket, {
                 handleRequest: this.handleRequest.bind(this),
