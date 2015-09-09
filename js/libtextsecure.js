@@ -39398,14 +39398,12 @@ function generateKeys(count, progressCallback) {
             // initialize the socket and start listening for messages
             this.socket = TextSecureServer.getMessageWebsocket(url);
             this.socket.onclose = function(e) {
-                if (e.code === 1006) {
-                    // possible 403. Make an request to confirm
-                    TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
-                        var ev = new Event('textsecure:error');
-                        ev.error = e;
-                        eventTarget.dispatchEvent(ev);
-                    });
-                }
+                // possible 403. Make a request to confirm
+                TextSecureServer.getDevices(textsecure.storage.user.getNumber()).catch(function(e) {
+                    var ev = new Event('textsecure:error');
+                    ev.error = e;
+                    eventTarget.dispatchEvent(ev);
+                }).then(this.connect.bind(this)); // No HTTP error? Reconnect.
             };
 
             this.wsr = new WebSocketResource(this.socket, {
