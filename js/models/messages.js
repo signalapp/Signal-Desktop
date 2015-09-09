@@ -213,7 +213,9 @@
 
                 conversation.save().then(function() {
                     message.save().then(function() {
-                        notifyConversation(message);
+                        if (message.isIncoming()) {
+                            notifyConversation(message);
+                        }
                     });
                 });
             });
