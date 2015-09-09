@@ -51,7 +51,6 @@ module.exports = function(grunt) {
           'libtextsecure/storage/devices.js',
           'libtextsecure/storage/groups.js',
           'libtextsecure/protobufs.js',
-          'libtextsecure/websocket.js',
           'libtextsecure/websocket-resources.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
