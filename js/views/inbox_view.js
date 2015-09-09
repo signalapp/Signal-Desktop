@@ -54,6 +54,7 @@
                         appWindow: this.model.appWindow
                     });
                     $el = view.$el;
+                    conversation.fetchContacts();
                     if (conversation.messageCollection.length === 0) {
                         $el.find('.message-list').addClass('loading');
                     }
@@ -61,6 +62,9 @@
                 $el.prependTo(this.el);
                 $el.find('.message-list').trigger('reset-scroll');
                 $el.trigger('force-resize');
+                conversation.fetchMessages().then(function() {
+                    $el.find('.message-list').removeClass('loading');
+                });
                 conversation.markRead();
             }
         });
@@ -81,17 +85,18 @@
                 this.listenTo(this.newConversationView, 'open',
                     this.openConversation.bind(this, null));
 
-                this.inbox = new Whisper.ConversationListView({
+                var inboxCollection = bg.getInboxCollection();
+                this.inboxView = new Whisper.ConversationListView({
                     el         : this.$('.conversations'),
-                    collection : bg.inbox
+                    collection : inboxCollection
                 }).render();
 
-                this.inbox.listenTo(bg.inbox, 'sort', this.inbox.render);
+                this.inboxView.listenTo(inboxCollection, 'sort', this.inboxView.render);
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
                 extension.windows.beforeUnload(function() {
-                    this.inbox.stopListening();
+                    this.inboxView.stopListening();
                 }.bind(this));
 
                 new Whisper.WindowControlsView({
@@ -104,7 +109,6 @@
             },
             openConversation: function(e, data) {
                 var conversation = data.conversation;
-                conversation.reload();
                 this.conversation_stack.open(conversation);
                 this.hideCompose();
             },
