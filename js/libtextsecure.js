@@ -39201,7 +39201,7 @@ TextSecureServer = function () {
         var password = textsecure.storage.get("password");
         var params = 'login=%2B' + encodeURIComponent(user.substring(1)) + '&password=' + encodeURIComponent(password);
         var url = url + URL_CALLS['push'] + '/?' + params;
-        return TextSecureWebSocket(url)
+        return TextSecureWebSocket(url, {reconnectTimeout: false});
     }
 
     self.getTempWebsocket = function() {
