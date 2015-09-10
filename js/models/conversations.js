@@ -38,7 +38,7 @@
         }
 
         // hack
-        if (this.get('type') === 'private') {
+        if (this.isPrivate()) {
             try {
                 this.id = libphonenumber.util.verifyNumber(this.id);
                 var number = libphonenumber.util.splitCountryCode(this.id);
@@ -113,7 +113,7 @@
     },
 
     endSession: function() {
-        if (this.get('type') === 'private') {
+        if (this.isPrivate()) {
             var now = Date.now();
             var message = this.messageCollection.add({
                 conversationId : this.id,
@@ -201,7 +201,7 @@
     },
 
     getNumber: function() {
-        if (this.get('type') === 'private') {
+        if (this.isPrivate()) {
             return this.id;
         } else {
             return '';
