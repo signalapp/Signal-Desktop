@@ -7,6 +7,24 @@
 
    // TODO: Factor out private and group subclasses of Conversation
 
+   var COLORS = [
+        "#EF5350", // red
+        "#EC407A", // pink
+        "#AB47BC", // purple
+        "#7E57C2", // deep purple
+        "#5C6BC0", // indigo
+        "#2196F3", // blue
+        "#03A9F4", // light blue
+        "#00BCD4", // cyan
+        "#009688", // teal
+        "#4CAF50", // green
+        "#7CB342", // light green
+        "#FF9800", // orange
+        "#FF5722", // deep orange
+        "#FFB300", // amber
+        "#607D8B", // blue grey
+    ];
+
   Whisper.Conversation = Backbone.Model.extend({
     database: Whisper.Database,
     storeName: 'conversations',
@@ -219,6 +237,17 @@
         }
     },
 
+    getNotificationIcon: function() {
+        return new Promise(function(resolve) {
+            var avatar = this.getAvatar();
+            if (avatar.url) {
+                resolve(avatar.url);
+            } else {
+                resolve(new Whisper.IdenticonSVGView(avatar).getDataUrl());
+            }
+        }.bind(this));
+    },
+
     updateAvatarUrl: function(silent) {
         this.revokeAvatarUrl();
         var avatar = this.get('avatar');
@@ -243,11 +272,11 @@
         } else if (this.isPrivate()) {
             var title = this.get('name');
             if (!title) {
-                return { content: '#', color: 'gray' };
+                return { content: '#', color: '#999999' };
             }
             var initials = title.trim()[0];
             return {
-                color: 1 + (Math.abs(this.hashCode()) % 15),
+                color: COLORS[Math.abs(this.hashCode()) % 15],
                 content: initials
             };
         } else {

@@ -93,14 +93,16 @@
             var sender = ConversationController.create({id: message.get('source')});
             conversation.fetch().then(function() {
                 sender.fetch().then(function() {
-                    var notification = new Notification(sender.getTitle(), {
-                        body: message.getDescription(),
-                        icon: sender.getAvatar().url,
-                        tag: conversation.id
+                    sender.getNotificationIcon().then(function(icon) {
+                        var notification = new Notification(sender.getTitle(), {
+                            body: message.getDescription(),
+                            icon: icon,
+                            tag: conversation.id
+                        });
+                        notification.onclick = function() {
+                            openConversation(conversation);
+                        };
                     });
-                    notification.onclick = function() {
-                        openConversation(conversation);
-                    };
                 });
             });
         } else {

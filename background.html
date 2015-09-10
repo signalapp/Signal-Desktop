@@ -87,9 +87,17 @@
         <div class='scrollable'></div>
       </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='identicon-svg'>
+      <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+         <circle cx="22" cy="22" r="22" fill="{{ color }}" />
+          <text text-anchor="middle" fill="white" font-size="14px" x="22" y="22" baseline-shift="-4px">
+              {{ content }}
+          </text>
+      </svg>
+  </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
-    <span class='avatar {{#avatar.color }} color{{avatar.color}} {{/avatar.color}}'
-          style='background-image: url("{{ avatar.url }}");'>
+    <span class='avatar'
+          style='background-image: url("{{ avatar.url }}"); background-color: {{ avatar.color }}'>
         {{ avatar.content }}
     </span>
   </script>
@@ -286,6 +294,7 @@
   <script type="text/javascript" src="js/views/window_controls_view.js"></script>
   <script type="text/javascript" src="js/views/inbox_view.js"></script>
   <script type="text/javascript" src="js/views/confirmation_dialog_view.js"></script>
+  <script type="text/javascript" src="js/views/identicon_svg_view.js"></script>
 
   <script type="text/javascript" src="js/background.js"></script>
 </head>
