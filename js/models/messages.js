@@ -8,6 +8,10 @@
     var Message  = window.Whisper.Message = Backbone.Model.extend({
         database  : Whisper.Database,
         storeName : 'messages',
+        initialize: function() {
+            this.on('change:attachments', this.updateImageUrl);
+            this.on('destroy', this.revokeImageUrl);
+        },
         defaults  : function() {
             return {
                 timestamp: new Date().getTime(),
@@ -56,6 +60,30 @@
             }
 
             return this.get('body');
+        },
+        updateImageUrl: function() {
+            this.revokeImageUrl();
+            var attachment = message.get('attachments')[0];
+            if (attachment) {
+                var blob = new Blob([attachment.data], {
+                    type: attachment.contentType
+                });
+                this.imageUrl = URL.createObjectURL(blob);
+            } else {
+                this.imageUrl = null;
+            }
+        },
+        revokeImageUrl: function() {
+            if (this.imageUrl) {
+                URL.revokeObjectURL(this.imageUrl);
+                this.imageUrl = null;
+            }
+        },
+        getImageUrl: function() {
+            if (this.imageUrl === undefined) {
+                this.updateImageUrl();
+            }
+            return this.imageUrl;
         },
         getContact: function() {
             if (this.collection) {
