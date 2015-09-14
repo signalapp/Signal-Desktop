@@ -61,9 +61,20 @@
 
             return this.get('body');
         },
+        getNotificationText: function() {
+            var description = this.getDescription();
+            if (description) {
+                return description;
+            }
+            if (this.get('attachments').length > 0) {
+                return 'Media message';
+            }
+
+            return '';
+        },
         updateImageUrl: function() {
             this.revokeImageUrl();
-            var attachment = message.get('attachments')[0];
+            var attachment = this.get('attachments')[0];
             if (attachment) {
                 var blob = new Blob([attachment.data], {
                     type: attachment.contentType

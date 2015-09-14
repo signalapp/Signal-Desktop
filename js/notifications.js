@@ -5,20 +5,73 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    Whisper.Notifications = {
-      isEnabled: function(callback) {
-        return Notification.permission === 'granted' &&
-              !storage.get('disable-notifications');
-      },
-      enable: function(callback) {
-        storage.remove('disable-notifications');
-        Notification.requestPermission(function(status) {
-            callback(status);
-        });
-      },
-      disable: function() {
-        storage.put('disable-notifications', true);
-      }
-    };
-
+    Whisper.Notifications = new (Backbone.Collection.extend({
+        initialize: function() {
+            this.on('add', this.update);
+        },
+        isEnabled: function(callback) {
+            return Notification.permission === 'granted' &&
+                !storage.get('disable-notifications');
+        },
+        enable: function(callback) {
+            storage.remove('disable-notifications');
+            Notification.requestPermission(function(status) {
+                callback(status);
+            });
+        },
+        disable: function() {
+            storage.put('disable-notifications', true);
+        },
+        onclick: function() {
+            var last = this.last();
+            if (!last) {
+                openInbox();
+                return;
+            }
+            var conversation = ConversationController.create({
+                id: last.get('conversationId')
+            });
+            openConversation(conversation);
+            this.clear();
+        },
+        update: function(options) {
+            if (this.length > 1) {
+                var iconUrl = 'images/icon_128.png';
+                var conversationIds = _.uniq(this.map(function(m) {
+                    return m.get('conversationId');
+                }));
+                if (conversationIds.length === 1) {
+                    iconUrl = this.at(0).get('iconUrl');
+                }
+                extension.notify({
+                    type    : 'list',
+                    iconUrl : iconUrl,
+                    title   : '' + this.length + ' new messages',
+                    message : 'Most recent from ' + this.last().get('title'),
+                    items   : this.map(function(m) {
+                        return {
+                            title   : m.get('title'),
+                            message : m.get('message')
+                        };
+                    }),
+                    buttons : [{
+                        title   : 'Mark all as read',
+                        iconUrl : 'images/check.png'
+                    }]
+                });
+            } else {
+                var m = this.at(0);
+                extension.notify({
+                    type     : 'basic',
+                    title    : m.get('title'),
+                    message  : m.get('message'),
+                    iconUrl  : m.get('iconUrl'),
+                    imageUrl : m.get('imageUrl')
+                });
+            }
+        },
+        clear: function() {
+            this.reset([]);
+        }
+    }))();
 })();

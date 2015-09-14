@@ -93,15 +93,14 @@
             var sender = ConversationController.create({id: message.get('source')});
             conversation.fetch().then(function() {
                 sender.fetch().then(function() {
-                    sender.getNotificationIcon().then(function(icon) {
-                        var notification = new Notification(sender.getTitle(), {
-                            body: message.getDescription(),
-                            icon: icon,
-                            tag: conversation.id
+                    sender.getNotificationIcon().then(function(iconUrl) {
+                        Whisper.Notifications.add({
+                            title    : sender.getTitle(),
+                            message  : message.getNotificationText(),
+                            iconUrl  : iconUrl,
+                            imageUrl : message.getImageUrl(),
+                            conversationId: conversation.id
                         });
-                        notification.onclick = function() {
-                            openConversation(conversation);
-                        };
                     });
                 });
             });
@@ -152,7 +151,7 @@
     };
 
     var open;
-    function openConversation(conversation) {
+    window.openConversation = function(conversation) {
         if (inboxOpened === true) {
             var appWindow = chrome.app.window.get(inboxWindowId);
             appWindow.contentWindow.openConversation(conversation);
@@ -160,7 +159,7 @@
             open = conversation;
             openInbox();
         }
-    }
+    };
     window.getOpenConversation = function() {
         var o = open;
         open = null;

@@ -170,6 +170,49 @@
         }
     };
 
+    if (chrome) {
+        chrome.notifications.onClicked.addListener(function() {
+            chrome.notifications.clear('signal');
+            Whisper.Notifications.onclick();
+        });
+        chrome.notifications.onButtonClicked.addListener(function() {
+            chrome.notifications.clear('signal');
+            Whisper.Notifications.clear();
+            getInboxCollection().each(function(model) {
+                if (model.get('unreadCount') > 0) {
+                    model.markRead();
+                }
+            });
+        });
+        chrome.notifications.onClosed.addListener(function(id, byUser) {
+            if (byUser) {
+                Whisper.Notifications.clear();
+            }
+        });
+    }
+    extension.notify = function(options) {
+        if (chrome) {
+            chrome.notifications.clear('signal');
+            chrome.notifications.create('signal', {
+                type    : options.type,
+                title   : options.title,
+                message : options.message || '', // required
+                iconUrl : options.iconUrl,
+                items   : options.items,
+                buttons : options.buttons
+            });
+        } else {
+            var notification = new Notification(options.title, {
+                body : options.message,
+                icon : options.iconUrl,
+                tag  : 'signal'
+            });
+            notification.onclick = function() {
+                Whisper.Notifications.onclick();
+            };
+        }
+    };
+
     if (chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
             if (options.reason === 'install') {
