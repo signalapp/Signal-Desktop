@@ -92,7 +92,7 @@
                     collection : inboxCollection
                 }).render();
 
-                this.inboxView.listenTo(inboxCollection, 'sort', this.inboxView.render);
+                this.inboxView.listenTo(inboxCollection, 'change:active_at', this.inboxView.moveToTop);
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 

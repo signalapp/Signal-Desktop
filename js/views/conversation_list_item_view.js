@@ -8,7 +8,9 @@
     // list of conversations, showing user/group and last message sent
     Whisper.ConversationListItemView = Whisper.View.extend({
         tagName: 'div',
-        className: 'conversation-list-item contact',
+        className: function() {
+            return 'conversation-list-item contact ' + this.model.cid;
+        },
         templateName: 'conversation-preview',
         events: {
             'click': 'select'
