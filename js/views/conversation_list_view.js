@@ -8,14 +8,6 @@
     Whisper.ConversationListView = Whisper.ListView.extend({
         tagName: 'div',
         itemView: Whisper.ConversationListItemView,
-        events: {
-            'click .contact': 'select',
-        },
-        select: function(e) {
-            var target = $(e.target).closest('.contact');
-            target.siblings().removeClass('selected');
-            return false;
-        },
         moveToTop: function(conversation) {
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
