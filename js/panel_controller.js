@@ -87,7 +87,7 @@
             conversation.fetch();
         }
         if (inboxOpened) {
-            conversation.fetchMessages();
+            conversation.trigger('newmessages');
             extension.windows.drawAttention(inboxWindowId);
         } else if (Whisper.Notifications.isEnabled()) {
             var sender = ConversationController.create({id: message.get('source')});

@@ -155,7 +155,7 @@
         function updateConversation(conversationId) {
             var conversation = ConversationController.get(conversationId);
             if (conversation) {
-                conversation.fetchMessages();
+                conversation.trigger('newmessages');
             }
         }
 

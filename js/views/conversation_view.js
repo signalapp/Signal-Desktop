@@ -23,6 +23,7 @@
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:name', this.updateTitle);
+            this.listenTo(this.model, 'newmessages', this.fetchMessages);
 
             this.render();
 
@@ -78,6 +79,9 @@
             'click' : 'onClick',
             'select .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize'
+        },
+        fetchMessages: function() {
+            this.model.fetchMessages();
         },
 
         viewMembers: function() {
