@@ -174,21 +174,28 @@
     },
 
     fetchContacts: function(options) {
-        if (this.isPrivate()) {
-            this.contactCollection.reset([this]);
-        } else {
-            var members = this.get('members') || [];
-            this.contactCollection.reset(
-                members.map(function(number) {
-                    var c = ConversationController.create({
-                        id   : number,
-                        type : 'private'
-                    });
-                    c.fetch();
-                    return c;
-                }.bind(this))
-            );
-        }
+        return new Promise(function(resolve) {
+            if (this.isPrivate()) {
+                this.contactCollection.reset([this]);
+                resolve();
+            } else {
+                var promises = [];
+                var members = this.get('members') || [];
+                this.contactCollection.reset(
+                    members.map(function(number) {
+                        var c = ConversationController.create({
+                            id   : number,
+                            type : 'private'
+                        });
+                        promises.push(new Promise(function(resolve) {
+                            c.fetch().always(resolve);
+                        }));
+                        return c;
+                    }.bind(this))
+                );
+                resolve(Promise.all(promises));
+            }
+        }.bind(this));
     },
 
     reload: function() {
