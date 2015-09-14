@@ -194,12 +194,13 @@
         if (chrome) {
             chrome.notifications.clear('signal');
             chrome.notifications.create('signal', {
-                type    : options.type,
-                title   : options.title,
-                message : options.message || '', // required
-                iconUrl : options.iconUrl,
-                items   : options.items,
-                buttons : options.buttons
+                type     : options.type,
+                title    : options.title,
+                message  : options.message || '', // required
+                iconUrl  : options.iconUrl,
+                imageUrl : options.imageUrl,
+                items    : options.items,
+                buttons  : options.buttons
             });
         } else {
             var notification = new Notification(options.title, {

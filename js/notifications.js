@@ -61,8 +61,12 @@
                 });
             } else {
                 var m = this.at(0);
+                var type = 'basic';
+                if (m.get('imageUrl')) {
+                    type = 'image';
+                }
                 extension.notify({
-                    type     : 'basic',
+                    type     : type,
                     title    : m.get('title'),
                     message  : m.get('message'),
                     iconUrl  : m.get('iconUrl'),
