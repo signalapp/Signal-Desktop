@@ -24,7 +24,7 @@
                 var img = document.createElement('img');
                 img.onload = function () {
                     var canvas = loadImage.scale(img, {
-                        canvas: true, maxWidth: 44, maxHeight: 44
+                        canvas: true, maxWidth: 100, maxHeight: 100
                     });
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0);
