@@ -198,11 +198,6 @@
         }.bind(this));
     },
 
-    reload: function() {
-        this.fetch().then(this.fetchContacts.bind(this));
-        this.fetchMessages();
-    },
-
     archive: function() {
         this.set({active_at: null});
     },
