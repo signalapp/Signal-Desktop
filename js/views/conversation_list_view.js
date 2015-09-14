@@ -8,10 +8,14 @@
     Whisper.ConversationListView = Whisper.ListView.extend({
         tagName: 'div',
         itemView: Whisper.ConversationListItemView,
-        moveToTop: function(conversation) {
+        onChangeActiveAt: function(conversation) {
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
-                $el.prependTo(this.el);
+                if (conversation.get('active_at')) {
+                    $el.prependTo(this.el);
+                } else {
+                    $el.remove();
+                }
             }
         }
     });

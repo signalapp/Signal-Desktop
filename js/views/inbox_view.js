@@ -87,17 +87,17 @@
                     this.openConversation.bind(this, null));
 
                 var inboxCollection = bg.getInboxCollection();
-                this.inboxView = new Whisper.ConversationListView({
+                this.inboxListView = new Whisper.ConversationListView({
                     el         : this.$('.conversations'),
                     collection : inboxCollection
                 }).render();
 
-                this.inboxView.listenTo(inboxCollection, 'change:active_at', this.inboxView.moveToTop);
+                this.inboxListView.listenTo(inboxCollection, 'change:active_at', this.inboxListView.onChangeActiveAt);
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
                 extension.windows.beforeUnload(function() {
-                    this.inboxView.stopListening();
+                    this.inboxListView.stopListening();
                 }.bind(this));
 
                 new Whisper.WindowControlsView({
