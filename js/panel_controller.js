@@ -130,7 +130,6 @@
                 inboxWindowId = windowInfo.id;
 
                 windowInfo.onClosed.addListener(function () {
-                    inboxWindowId = 0;
                     inboxOpened = false;
                 });
 
