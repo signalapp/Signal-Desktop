@@ -119,7 +119,7 @@ input.search {
 .new-contact {
   display: none;
   background: $grey_l;
-  .name { display: none; }
+  .name, .last-timestamp, .avatar { display: none; }
   .contact-details::before {
     content: 'Create new contact';
     display: block;
