@@ -130,19 +130,21 @@
             if (ev.proto) {
                 var envelope = ev.proto;
                 var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
+                var attributes = {};
                 if (e.name === 'IncomingIdentityKeyError') {
-                    message.save({ errors : [e] }).then(function() {
-                        ConversationController.updateInbox();
-                        notifyConversation(message);
-                    });
-                    return;
+                    attributes = { errors : [e] };
                 } else if (e.message !== 'Bad MAC') {
-                    message.save({ errors : [ _.pick(e, ['name', 'message'])]}).then(function() {
-                        ConversationController.updateInbox();
+                    attributes = { errors : [ _.pick(e, ['name', 'message'])]};
+                }
+                message.save(attributes).then(function() {
+                    ConversationController.findOrCreatePrivateById(message.get('conversationId')).then(function(conversation) {
+                        conversation.save({
+                            active_at: Date.now(),
+                            unreadCount: conversation.get('unreadCount') + 1
+                        });
                         notifyConversation(message);
                     });
-                    return;
-                }
+                });
             }
 
             console.error(e);
