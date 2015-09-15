@@ -23,6 +23,8 @@
         addActive: function(model) {
             if (model.get('active_at')) {
                 this.add(model);
+            } else {
+                this.remove(model);
             }
         },
         updateUnreadCount: function(model, count) {
