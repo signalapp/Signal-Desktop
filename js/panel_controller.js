@@ -60,8 +60,9 @@
                         saved.then(function() {
                             resolve(conversation);
                         }).fail(reject);
+                    } else {
+                        reject();
                     }
-                    reject();
                 });
             });
         },
