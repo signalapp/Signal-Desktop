@@ -510,11 +510,13 @@ input.search {
 .conversation, .message-list, .message-detail, .key-verification {
   height: 100%; }
 
-.key-verification p {
-  padding: 1em; }
-.key-verification .key {
-  font-family: monospace;
-  padding: 0 1em; }
+.key-verification {
+  background: white; }
+  .key-verification p {
+    padding: 1em; }
+  .key-verification .key {
+    font-family: monospace;
+    padding: 0 1em; }
 
 .message-detail {
   background: #f3f3f3; }
