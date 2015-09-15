@@ -97,6 +97,7 @@
 
             return this.avatarInput.getThumbnail().then(function(avatarFile) {
                 var members = this.getRecipients().pluck('id');
+                members.push(textsecure.storage.user.getNumber());
                 textsecure.storage.groups.createNewGroup(members).then(function(group) {
                     return group.id;
                 }).then(function(groupId) {
