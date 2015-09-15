@@ -28,11 +28,9 @@
             }
         },
         resolve: function() {
-            new Promise(function(resolve) {
-                this.conversation.resolveConflicts(this.model).then(resolve);
-            }.bind(this));
             this.trigger('resolve');
             this.remove();
+            this.conversation.resolveConflicts(this.model);
         },
         render: function() {
             this.$el.html(Mustache.render(this.template, this.model));

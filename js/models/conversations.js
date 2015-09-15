@@ -301,15 +301,15 @@
 
         return textsecure.storage.axolotl.removeIdentityKey(number).then(function() {
             return textsecure.storage.axolotl.putIdentityKey(number, identityKey).then(function() {
-                var promise = Promise.resolve();
+                var promises = [];
                 this.messageCollection.each(function(message) {
                     if (message.hasKeyConflict(number)) {
-                        promise = promise.then(function() {
-                            return message.resolveConflict(number);
-                        });
+                        promises.push(new Promise(function(resolve) {
+                            resolve(message.resolveConflict(number));
+                        }));
                     }
                 });
-                return promise;
+                return promises;
             }.bind(this));
         }.bind(this));
     },
