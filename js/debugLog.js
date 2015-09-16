@@ -8,12 +8,13 @@
     var debugLog = [];
     if (window.console) {
         console._log = console.log;
-        console.log = function(thing){
-            console._log(thing);
+        console.log = function(){
+            console._log.apply(this, arguments);
             if (debugLog.length > MAX_MESSAGES) {
                 debugLog.shift();
             }
-            var str = ('' + thing).replace(PHONE_REGEX, "+[REDACTED]$1");
+            var args = Array.prototype.slice.call(arguments);
+            var str = args.join(' ').replace(PHONE_REGEX, "+[REDACTED]$1");
             debugLog.push(str);
         };
         console.get = function() {
