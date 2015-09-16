@@ -116,6 +116,7 @@
 
         function onError(ev) {
             var e = ev.error;
+            console.log(e);
 
             if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
                 extension.install();
@@ -147,7 +148,6 @@
                 });
             }
 
-            console.error(e);
             throw e;
         }
 
