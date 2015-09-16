@@ -58,7 +58,10 @@
         },
         send: function() {
             return this.avatarInput.getThumbnail().then(function(avatarFile) {
+                var now = Date.now();
                 var attrs = {
+                    timestamp: now,
+                    active_at: now,
                     name: this.$('.name').val(),
                     members: _.union(this.model.get('members'), this.recipients_view.recipients.pluck('id'))
                 };
@@ -73,7 +76,6 @@
                     this.model.trigger('change:avatar');
                 }
 
-                var now = Date.now();
                 var message = this.model.messageCollection.add({
                     conversationId : this.model.id,
                     type           : 'outgoing',
