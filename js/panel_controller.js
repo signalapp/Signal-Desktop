@@ -89,10 +89,16 @@
             conversation = conversations.create({id: conversationId});
             conversation.fetch();
         }
+
         if (inboxOpened) {
             conversation.trigger('newmessages');
             extension.windows.drawAttention(inboxWindowId);
-        } else if (Whisper.Notifications.isEnabled()) {
+            if (!appWindow.isMinimized()) {
+                return;
+            }
+        }
+
+        if (Whisper.Notifications.isEnabled()) {
             var sender = ConversationController.create({id: message.get('source')});
             conversation.fetch().then(function() {
                 sender.fetch().then(function() {
@@ -116,6 +122,7 @@
     /* Inbox window controller */
     var inboxOpened = false;
     var inboxWindowId = 'inbox';
+    var appWindow = null;
     window.openInbox = function() {
         if (inboxOpened === false) {
             inboxOpened = true;
@@ -131,9 +138,11 @@
                 minHeight: 150
             }, function (windowInfo) {
                 inboxWindowId = windowInfo.id;
+                appWindow = windowInfo;
 
                 windowInfo.onClosed.addListener(function () {
                     inboxOpened = false;
+                    appWindow = null;
                 });
 
                 // close the panel if background.html is refreshed
