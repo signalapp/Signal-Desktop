@@ -24,6 +24,7 @@
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessages', this.fetchMessages);
+            this.listenTo(this.model, 'change:unreadCount', this.onUnread);
 
             this.render();
 
@@ -102,6 +103,12 @@
 
         markRead: function(e) {
             this.model.markRead();
+        },
+
+        onUnread: function(model, previous) {
+            if (!this.isHidden()) {
+                this.markRead();
+            }
         },
 
         verifyIdentity: function() {
@@ -233,12 +240,16 @@
         },
 
         forceUpdateMessageFieldSize: function (event) {
-            if (this.$el.css('display') === 'none') {
+            if (this.isHidden()) {
                 return;
             }
             this.view.scrollToBottomIfNeeded();
             window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);
+        },
+
+        isHidden: function() {
+            return (this.$el.css('display') === 'none');
         }
     });
 })();
