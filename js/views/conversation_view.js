@@ -27,6 +27,7 @@
             this.listenTo(this.model, 'change:unreadCount', this.onUnread);
 
             this.render();
+            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             this.appWindow = options.appWindow;
             this.fileInput = new Whisper.FileInputView({
