@@ -43,7 +43,7 @@
         },
 
         addThumb: function(src) {
-            this.$('.default').hide();
+            this.$('.avatar').hide();
             this.thumb.src = src;
             this.$('.thumbnail').append(this.thumb.render().el);
         },
@@ -202,7 +202,7 @@
                 this.oUrl = null;
             }
             this.thumb.remove();
-            this.$('.default').show();
+            this.$('.avatar').show();
         },
 
         deleteFiles: function(e) {
