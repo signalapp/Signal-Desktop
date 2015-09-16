@@ -47,6 +47,7 @@
         }
 
         function init() {
+            window.removeEventListener('online', init);
             if (!textsecure.registration.isDone()) { return; }
 
             // initialize the socket and start listening for messages
@@ -124,7 +125,12 @@
             }
 
             if (e.name === 'HTTPError' && e.code == -1) {
-                setTimeout(init, 60000);
+                // Failed to connect to server
+                if (navigator.onLine) {
+                    setTimeout(init, 60000);
+                } else {
+                    window.addEventListener('online', init);
+                }
                 return;
             }
 
