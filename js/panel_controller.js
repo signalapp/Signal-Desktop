@@ -168,8 +168,8 @@
             appWindow.contentWindow.openConversation(conversation);
         } else {
             open = conversation;
-            openInbox();
         }
+        openInbox();
     };
     window.getOpenConversation = function() {
         var o = open;
