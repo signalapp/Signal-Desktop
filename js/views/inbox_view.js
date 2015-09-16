@@ -71,7 +71,7 @@
         });
 
         Whisper.InboxView = Whisper.View.extend({
-            template: $('#two-column').html(),
+            templateName: 'two-column',
             className: 'inbox',
             initialize: function (options) {
                 this.render();
@@ -105,6 +105,9 @@
                 }).$el.appendTo(this.$('#header'));
             },
             events: {
+                'click': 'closeMenu',
+                'click .hamburger': 'toggleMenu',
+                'click .show-debug-log': 'showDebugLog',
                 'click .fab': 'showCompose',
                 'select .gutter .contact': 'openConversation'
             },
@@ -121,6 +124,18 @@
             },
             hideCompose: function() {
                 this.newConversationView.$el.remove();
+            },
+            toggleMenu: function() {
+                this.$('.global-menu .menu-list').toggle();
+            },
+            showDebugLog: function() {
+                this.$('.debug-log').remove();
+                new Whisper.DebugLogView().$el.appendTo(this.el);
+            },
+            closeMenu: function(e) {
+                if (e && !$(e.target).hasClass('hamburger')) {
+                    this.$('.global-menu .menu-list').hide();
+                }
             }
         });
     });

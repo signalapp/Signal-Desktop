@@ -4,11 +4,10 @@
   <meta charset='utf-8'>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='title-bar' id='header'>
-      <div class='menu'>
+      <div class='global-menu menu'>
         <button class='hamburger'></button>
         <ul class='menu-list'>
-            <li><a class='new-group'>Create Group</a></li>
-            <li><a class='settings'>Settings</a></li>
+            <li><a class='show-debug-log'>Submit debug log</a></li>
         </ul>
       </div>
       <span class='title-text'>Signal</span>
@@ -256,6 +255,18 @@
     <button class='minimize'>&minus;</button>
     <button class='close'>&times;</button>
   </script>
+  <script type='text/x-tmpl-mustache' id='debug-log'>
+    <h1> Submit Debug Log </h1>
+    <form>
+      <textarea rows="5"></textarea>
+      <input class="submit" type='submit' value='Create Public Gist' />
+      <button class='close'>Cancel</button>
+    </form>
+    <div class='result'>
+      <a target='_blank'></a>
+      <div><button class='close'>Got it!</button></div>
+    </div>
+  </script>
   <script type="text/javascript" src="js/debugLog.js"></script>
   <script type="text/javascript" src="js/components.js"></script>
   <script type="text/javascript" src="js/database.js"></script>
@@ -273,6 +284,7 @@
   <script type="text/javascript" src="js/panel_controller.js"></script>
 
   <script type="text/javascript" src="js/views/whisper_view.js"></script>
+  <script type="text/javascript" src="js/views/debug_log_view.js"></script>
   <script type="text/javascript" src="js/views/toast_view.js"></script>
   <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
   <script type="text/javascript" src="js/views/file_input_view.js"></script>
