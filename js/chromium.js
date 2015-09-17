@@ -179,9 +179,7 @@
             chrome.notifications.clear('signal');
             Whisper.Notifications.clear();
             getInboxCollection().each(function(model) {
-                if (model.get('unreadCount') > 0) {
-                    model.markRead();
-                }
+                model.markRead();
             });
         });
         chrome.notifications.onClosed.addListener(function(id, byUser) {
