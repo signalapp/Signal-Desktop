@@ -37,6 +37,9 @@
         }
     }))();
 
+    // Load the initial set of models for the inbox.
+    conversations.fetchActive();
+
     window.getInboxCollection = function() {
         return inboxCollection;
     };
@@ -68,9 +71,6 @@
                     }
                 });
             });
-        },
-        updateInbox: function() {
-            conversations.fetchActive();
         }
     };
 })();

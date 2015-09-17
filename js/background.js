@@ -18,8 +18,6 @@
 
     textsecure.protocol_wrapper.startWorker();
 
-    ConversationController.updateInbox();
-
     extension.onLaunched(function() {
         storage.onready(function() {
             if (textsecure.registration.isDone()) {
