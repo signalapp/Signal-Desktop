@@ -9,6 +9,7 @@ describe('MessageView', function() {
     conversationId: convo.id,
     body: 'hello world',
     type: 'outgoing',
+    source: '+14158675309',
     received_at: new Date().getTime()
   });
 

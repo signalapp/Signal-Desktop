@@ -170,7 +170,7 @@
         }
     };
 
-    if (chrome) {
+    if (chrome.notifications) {
         chrome.notifications.onClicked.addListener(function() {
             chrome.notifications.clear('signal');
             Whisper.Notifications.onclick();
