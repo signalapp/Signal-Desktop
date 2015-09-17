@@ -89,8 +89,6 @@
             active_at   : now,
             timestamp   : now,
             lastMessage : body
-        }).then(function() {
-            ConversationController.updateInbox();
         });
 
         var sendFunc;
@@ -113,9 +111,7 @@
                 }
             });
             if (keyErrors.length) {
-                message.save({ errors : keyErrors }).then(function() {
-                    ConversationController.updateInbox();
-                });
+                message.save({ errors : keyErrors });
             } else {
                 if (!(errors instanceof Array)) {
                     errors = [errors];
@@ -198,18 +194,11 @@
         }.bind(this));
     },
 
-    archive: function() {
-        this.set({active_at: null});
-    },
-
     destroyMessages: function() {
         var models = this.messageCollection.models;
         this.messageCollection.reset([]);
         _.each(models, function(message) { message.destroy(); });
-        this.archive();
-        return this.save().then(function() {
-            ConversationController.updateInbox();
-        });
+        this.save({active_at: null}); // archive
     },
 
     getTitle: function() {

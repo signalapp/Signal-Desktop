@@ -50,7 +50,6 @@
             });
         } else {
             openConversation(conversation);
-            ConversationController.updateInbox();
         }
     };
 
