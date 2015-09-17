@@ -97,9 +97,16 @@
             return this.imageUrl;
         },
         getContact: function() {
-            if (this.collection) {
-                return this.collection.conversation.contactCollection.get(this.get('source'));
+            var conversationId = this.get('source');
+            if (!this.isIncoming()) {
+                conversationId = textsecure.storage.user.getNumber();
             }
+            var c = ConversationController.get(conversationId);
+            if (!c) {
+                c = ConversationController.create(conversationId);
+                c.fetch();
+            }
+            return c;
         },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
