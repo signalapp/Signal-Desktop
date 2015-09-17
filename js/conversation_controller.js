@@ -46,6 +46,9 @@
             return conversations.get(id);
         },
         create: function(attrs) {
+            if (typeof attrs !== 'object') {
+                throw new Error('ConversationController.create requires an object, got', attrs);
+            }
             var conversation = conversations.add(attrs);
             return conversation;
         },

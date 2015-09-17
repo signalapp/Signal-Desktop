@@ -103,7 +103,7 @@
             }
             var c = ConversationController.get(conversationId);
             if (!c) {
-                c = ConversationController.create(conversationId);
+                c = ConversationController.create({id: conversationId});
                 c.fetch();
             }
             return c;
