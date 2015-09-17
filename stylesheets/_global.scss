@@ -201,16 +201,6 @@ $avatar-size: 44px;
     padding: 2px 0px 0px 2px;
   }
 
-  .group-default {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: $grey_l url('/images/group_default.png') no-repeat center;
-
-  }
-
   .file-input .thumbnail, .thumbnail .avatar,
   img {
     height: 54px;

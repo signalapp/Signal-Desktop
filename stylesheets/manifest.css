@@ -173,13 +173,6 @@ img.emoji {
   .group-info-input .group-avatar {
     display: inline-block;
     padding: 2px 0px 0px 2px; }
-  .group-info-input .group-default {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: #f3f3f3 url("/images/group_default.png") no-repeat center; }
   .group-info-input .file-input .thumbnail, .group-info-input .thumbnail .avatar,
   .group-info-input img {
     height: 54px;
