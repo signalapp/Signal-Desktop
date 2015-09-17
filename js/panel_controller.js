@@ -86,7 +86,7 @@
         var conversationId = message.get('conversationId');
         var conversation = ConversationController.get(conversationId);
         if (!conversation) {
-            conversation = conversations.create({id: conversationId});
+            conversation = ConversationController.create({id: conversationId});
             conversation.fetch();
         }
 
