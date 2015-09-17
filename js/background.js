@@ -18,6 +18,18 @@
 
     textsecure.protocol_wrapper.startWorker();
 
+    ConversationController.updateInbox();
+
+    extension.onLaunched(function() {
+        storage.onready(function() {
+            if (textsecure.registration.isDone()) {
+                openInbox();
+            } else {
+                extension.install();
+            }
+        });
+    });
+
     storage.fetch();
     storage.onready(function() {
         var messageReceiver;
@@ -26,6 +38,8 @@
             init();
         }
         extension.on('registration_done', init);
+
+        setUnreadCount(storage.get("unreadCount", 0));
 
         window.getSocketStatus = function() {
             if (messageReceiver) {

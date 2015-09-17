@@ -9,78 +9,13 @@
 
     window.Whisper = window.Whisper || {};
 
-    var conversations = new Whisper.ConversationCollection();
-    var inboxCollection = new (Backbone.Collection.extend({
-        initialize: function() {
-            this.on('change:active_at', this.sort);
-            this.on('change:unreadCount', this.updateUnreadCount);
-
-            this.listenTo(conversations, 'add change:active_at', this.addActive);
-        },
-        comparator: function(model) {
-            return -model.get('active_at');
-        },
-        addActive: function(model) {
-            if (model.get('active_at')) {
-                this.add(model);
-            } else {
-                this.remove(model);
-            }
-        },
-        updateUnreadCount: function(model, count) {
-            var prev = model.previous('unreadCount') || 0;
-            if (count < prev) { // decreased
-                var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
-                setUnreadCount(newUnreadCount);
-                storage.put("unreadCount", newUnreadCount);
-            }
-        }
-    }))();
-
-    window.getInboxCollection = function() {
-        return inboxCollection;
-    };
-
-    window.ConversationController = {
-        get: function(id) {
-            return conversations.get(id);
-        },
-        create: function(attrs) {
-            var conversation = conversations.add(attrs);
-            return conversation;
-        },
-        findOrCreatePrivateById: function(id) {
-            var conversation = conversations.add({ id: id, type: 'private' });
-            return new Promise(function(resolve, reject) {
-                conversation.fetch().then(function() {
-                    resolve(conversation);
-                }).fail(function() {
-                    var saved = conversation.save(); // false or indexedDBRequest
-                    if (saved) {
-                        saved.then(function() {
-                            resolve(conversation);
-                        }).fail(reject);
-                    } else {
-                        reject();
-                    }
-                });
-            });
-        },
-        updateInbox: function() {
-            conversations.fetchActive();
-        }
-    };
-
-    ConversationController.updateInbox();
-    setUnreadCount(storage.get("unreadCount", 0));
-
-    function setUnreadCount(count) {
+    window.setUnreadCount = function(count) {
         if (count > 0) {
             extension.navigator.setBadgeText(count);
         } else {
             extension.navigator.setBadgeText("");
         }
-    }
+    };
 
     window.notifyConversation = function(message) {
         var conversationId = message.get('conversationId');
@@ -176,14 +111,4 @@
         open = null;
         return o;
     };
-
-    extension.onLaunched(function() {
-        storage.onready(function() {
-            if (textsecure.registration.isDone()) {
-                openInbox();
-            } else {
-                extension.install();
-            }
-        });
-    });
 })();
