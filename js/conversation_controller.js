@@ -52,7 +52,7 @@
             if (typeof attrs !== 'object') {
                 throw new Error('ConversationController.create requires an object, got', attrs);
             }
-            var conversation = conversations.add(attrs);
+            var conversation = conversations.add(attrs, {merge: true});
             return conversation;
         },
         findOrCreatePrivateById: function(id) {
