@@ -68,8 +68,8 @@
                 focused: true,
                 width: 580,
                 height: 440,
-                minWidth: 230,
-                minHeight: 150
+                minWidth: 600,
+                minHeight: 360
             }, function (windowInfo) {
                 inboxWindowId = windowInfo.id;
                 appWindow = windowInfo;
