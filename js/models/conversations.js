@@ -147,14 +147,17 @@
     leaveGroup: function() {
         var now = Date.now();
         if (this.get('type') === 'group') {
-            textsecure.messaging.leaveGroup(this.id);
-            this.messageCollection.add({
+            var message = this.messageCollection.add({
                 group_update: { left: 'You' },
                 conversationId : this.id,
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now
-            }).save();
+            });
+            message.save();
+            textsecure.messaging.leaveGroup(this.id).then(function() {
+                message.save({sent: true});
+            });
         }
     },
 
