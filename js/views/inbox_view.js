@@ -108,7 +108,7 @@
                 'click': 'closeMenu',
                 'click .hamburger': 'toggleMenu',
                 'click .show-debug-log': 'showDebugLog',
-                'click .fab': 'showCompose',
+                'click .show-new-conversation': 'showCompose',
                 'select .gutter .contact': 'openConversation'
             },
             openConversation: function(e, data) {
