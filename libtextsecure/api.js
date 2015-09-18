@@ -65,15 +65,15 @@ TextSecureServer = function () {
                     try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
                 }
                 if ( 0 <= xhr.status && xhr.status < 400) {
-                    console.log('Success', xhr.status);
+                    console.log('Success', xhr.status, url);
                     resolve(result, xhr.status);
                 } else {
-                    console.log('Error', xhr.status);
+                    console.log('Error', xhr.status, url);
                     reject(HTTPError(xhr.status, result, error.stack));
                 }
             };
             xhr.onerror = function() {
-                console.log('Error', xhr.status);
+                console.log('Error', xhr.status, url);
                 reject(HTTPError(xhr.status, null, error.stack));
             };
             xhr.send( options.data || null );
