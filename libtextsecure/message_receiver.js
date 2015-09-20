@@ -25,6 +25,7 @@
             if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
                 this.socket.close();
             }
+            console.log('opening websocket');
             this.socket = new WebSocket(
                 this.url.replace('https://', 'wss://').replace('http://', 'ws://')
                     + '/v1/websocket/?login=' + encodeURIComponent(this.username)
@@ -33,6 +34,7 @@
 
             this.socket.onclose = this.onclose.bind(this);
             this.socket.onerror = this.onerror.bind(this);
+            this.socket.onconnect = this.onconnect.bind(this);
             this.wsr = new WebSocketResource(this.socket, {
                 handleRequest: this.handleRequest.bind(this),
                 keepalive: { path: '/v1/keepalive', disconnect: true }
@@ -41,6 +43,9 @@
         close: function() {
             this.socket.close();
             delete this.listeners;
+        },
+        onconnect: function() {
+            console.log('websocket connected');
         },
         onerror: function(error) {
             console.log('websocket error', error);
