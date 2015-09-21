@@ -101,6 +101,7 @@
         sendFunc(this.get('id'), body, attachments, now).then(function() {
             message.save({'sent': true});
         }.bind(this)).catch(function(errors) {
+            console.log(errors);
             if (errors instanceof Error) {
                 errors = [errors];
             }
