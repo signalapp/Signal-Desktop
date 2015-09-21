@@ -39409,7 +39409,7 @@ function generateKeys(count, progressCallback) {
 
             this.socket.onclose = this.onclose.bind(this);
             this.socket.onerror = this.onerror.bind(this);
-            this.socket.onconnect = this.onconnect.bind(this);
+            this.socket.onopen = this.onopen.bind(this);
             this.wsr = new WebSocketResource(this.socket, {
                 handleRequest: this.handleRequest.bind(this),
                 keepalive: { path: '/v1/keepalive', disconnect: true }
@@ -39419,8 +39419,8 @@ function generateKeys(count, progressCallback) {
             this.socket.close();
             delete this.listeners;
         },
-        onconnect: function() {
-            console.log('websocket connected');
+        onopen: function() {
+            console.log('websocket open');
         },
         onerror: function(error) {
             console.log('websocket error', error);
