@@ -84,7 +84,7 @@
                 var id = this.getRecipients().at(0).id;
                 ConversationController.findOrCreatePrivateById(id).then(function(conversation) {
                     conversation.save('active_at', Date.now());
-                    this.trigger('open', { conversation: conversation });
+                    this.trigger('open', conversation);
                 }.bind(this));
             }
         },
@@ -112,7 +112,7 @@
                     };
                     var group = ConversationController.create(attributes);
                     group.save().then(function() {
-                        this.trigger('open', { conversation: group });
+                        this.trigger('open', group);
                     }.bind(this));
                     var now = Date.now();
                     var message = group.messageCollection.add({

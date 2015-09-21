@@ -25,7 +25,7 @@
 
         select: function(e) {
             this.$el.addClass('selected').siblings('.selected').removeClass('selected');
-            this.$el.trigger('select', {conversation: this.model});
+            this.$el.trigger('select', this.model);
         },
 
         render: function() {

@@ -111,8 +111,7 @@
                 'click .show-new-conversation': 'showCompose',
                 'select .gutter .contact': 'openConversation'
             },
-            openConversation: function(e, data) {
-                var conversation = data.conversation;
+            openConversation: function(e, conversation) {
                 this.conversation_stack.open(conversation);
                 this.hideCompose();
             },

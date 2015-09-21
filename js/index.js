@@ -16,7 +16,7 @@
                 view.$el.prependTo(bg.$('body',document));
                 window.openConversation = function(conversation) {
                     if (conversation) {
-                        view.openConversation(null, {conversation: conversation});
+                        view.openConversation(null, conversation);
                     }
                 };
                 openConversation(bg.getOpenConversation());

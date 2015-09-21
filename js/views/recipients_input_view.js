@@ -136,14 +136,14 @@
             }).render();
         },
 
-        addNewRecipient: function(e, data) {
+        addNewRecipient: function() {
             this.recipients.add(this.new_contact_view.model);
             this.initNewContact();
             this.resetTypeahead();
         },
 
-        addRecipient: function(e, data) {
-            this.recipients.add(this.typeahead.remove(data.conversation.id));
+        addRecipient: function(e, conversation) {
+            this.recipients.add(this.typeahead.remove(conversation.id));
             this.resetTypeahead();
         },
 
