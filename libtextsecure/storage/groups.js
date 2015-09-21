@@ -86,7 +86,7 @@
 
                 var i = group.numbers.indexOf(number);
                 if (i > -1) {
-                    group.numbers.slice(i, 1);
+                    group.numbers.splice(i, 1);
                     delete group.numberRegistrationIds[number];
                     return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
                         return group.numbers;
