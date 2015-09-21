@@ -153,6 +153,7 @@
                 if (navigator.onLine) {
                     setTimeout(init, 60000);
                 } else {
+                    console.log('offline');
                     window.addEventListener('online', init);
                 }
                 return;
