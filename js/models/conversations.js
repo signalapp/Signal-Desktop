@@ -101,12 +101,12 @@
         sendFunc(this.get('id'), body, attachments, now).then(function() {
             message.save({'sent': true});
         }.bind(this)).catch(function(errors) {
-            console.log(errors);
             if (errors instanceof Error) {
                 errors = [errors];
             }
             var keyErrors = [];
             _.each(errors, function(e) {
+                console.log(e);
                 if (e.error.name === 'OutgoingIdentityKeyError') {
                     keyErrors.push(e.error);
                 }
