@@ -45,6 +45,9 @@ window.textsecure.MessageSender = function(url, username, password) {
         }
 
         function makeAttachmentPointer(attachment) {
+            if (typeof attachment !== 'object' || attachment == null) {
+                return Promise.resolve(undefined);
+            }
             var proto = new textsecure.protobuf.AttachmentPointer();
             proto.key = textsecure.crypto.getRandomBytes(64);
 
@@ -128,9 +131,9 @@ window.textsecure.MessageSender = function(url, username, password) {
                 if (updateDevices === undefined) {
                     return TextSecureServer.getKeysForNumber(number).then(handleResult);
                 } else {
-                    var promises = [];
-                    for (var i in updateDevices)
-                        promises[promises.length] = TextSecureServer.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+                    var promises = updateDevices.map(function(device) {
+                        return TextSecureServer.getKeysForNumber(number, device).then(handleResult);
+                    });
 
                     return Promise.all(promises);
                 }
@@ -271,10 +274,7 @@ window.textsecure.MessageSender = function(url, username, password) {
             var proto = new textsecure.protobuf.DataMessage();
             proto.body = messageText;
 
-            var promises = [];
-            for (var i in attachments)
-                promises.push(makeAttachmentPointer(attachments[i]));
-            return Promise.all(promises).then(function(attachmentsArray) {
+            return Promise.all(attachments.map(makeAttachmentPointer)).then(function(attachmentsArray) {
                 proto.attachments = attachmentsArray;
                 return sendIndividualProto(number, proto, timestamp).then(function() {
                     return sendSyncMessage(proto, timestamp, number);
@@ -308,10 +308,7 @@ window.textsecure.MessageSender = function(url, username, password) {
                 if (numbers === undefined)
                     return Promise.reject(new Error("Unknown Group"));
 
-                var promises = [];
-                for (var i in attachments)
-                    promises.push(makeAttachmentPointer(attachments[i]));
-                return Promise.all(promises).then(function(attachmentsArray) {
+                return Promise.all(attachments.map(makeAttachmentPointer)).then(function(attachmentsArray) {
                     proto.attachments = attachmentsArray;
                     return sendGroupProto(numbers, proto, timestamp);
                 });
@@ -330,18 +327,12 @@ window.textsecure.MessageSender = function(url, username, password) {
                 proto.group.members = numbers;
                 proto.group.name = name;
 
-                if (avatar !== undefined) {
-                    return makeAttachmentPointer(avatar).then(function(attachment) {
-                        proto.group.avatar = attachment;
-                        return sendGroupProto(numbers, proto).then(function() {
-                            return proto.group.id;
-                        });
-                    });
-                } else {
+                return makeAttachmentPointer(avatar).then(function(attachment) {
+                    proto.group.avatar = attachment;
                     return sendGroupProto(numbers, proto).then(function() {
                         return proto.group.id;
                     });
-                }
+                });
             });
         }
 
@@ -359,18 +350,12 @@ window.textsecure.MessageSender = function(url, username, password) {
                 }
                 proto.group.members = numbers;
 
-                if (avatar !== undefined && avatar !== null) {
-                    return makeAttachmentPointer(avatar).then(function(attachment) {
-                        proto.group.avatar = attachment;
-                        return sendGroupProto(numbers, proto).then(function() {
-                            return proto.group.id;
-                        });
-                    });
-                } else {
+                return makeAttachmentPointer(avatar).then(function(attachment) {
+                    proto.group.avatar = attachment;
                     return sendGroupProto(numbers, proto).then(function() {
                         return proto.group.id;
                     });
-                }
+                });
             });
         }
 
