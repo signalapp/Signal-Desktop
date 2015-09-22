@@ -232,17 +232,6 @@
         }
     },
 
-    getNotificationIcon: function() {
-        return new Promise(function(resolve) {
-            var avatar = this.getAvatar();
-            if (avatar.url) {
-                resolve(avatar.url);
-            } else {
-                resolve(new Whisper.IdenticonSVGView(avatar).getDataUrl());
-            }
-        }.bind(this));
-    },
-
     updateAvatarUrl: function(silent) {
         this.revokeAvatarUrl();
         var avatar = this.get('avatar');
@@ -277,6 +266,17 @@
         } else {
             return { url: '/images/group_default.png', color: 'gray' };
         }
+    },
+
+    getNotificationIcon: function() {
+        return new Promise(function(resolve) {
+            var avatar = this.getAvatar();
+            if (avatar.url) {
+                resolve(avatar.url);
+            } else {
+                resolve(new Whisper.IdenticonSVGView(avatar).getDataUrl());
+            }
+        }.bind(this));
     },
 
     resolveConflicts: function(conflict) {
