@@ -146,6 +146,34 @@
 
     },
 
+    updateGroup: function(group_update) {
+        if (this.isPrivate()) {
+            throw new Error("Called update group on private conversation");
+        }
+        if (group_update === undefined) {
+            group_update = this.pick(['name', 'avatar', 'members']);
+        }
+        var now = Date.now();
+        var message = this.messageCollection.add({
+            conversationId : this.id,
+            type           : 'outgoing',
+            sent_at        : now,
+            received_at    : now,
+            group_update   : group_update
+        });
+        message.save();
+        textsecure.messaging.updateGroup(
+            this.id,
+            this.get('name'),
+            this.get('avatar'),
+            this.get('members')
+        ).catch(function(errors) {
+            message.save({errors: errors.map(function(e){return e.error;})});
+        }).then(function() {
+            message.save({sent: true});
+        });
+    },
+
     leaveGroup: function() {
         var now = Date.now();
         if (this.get('type') === 'group') {
