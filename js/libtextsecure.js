@@ -9,6 +9,7 @@
     var Type = {
         SEND_MESSAGE: 1,
         INIT_SESSION: 2,
+        NETWORK_REQUEST: 3,
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -58,6 +59,20 @@
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
 
+    function NetworkError(number, jsonData, legacy, code) {
+        ReplayableError.call(this, {
+            functionCode : Type.NETWORK_REQUEST,
+            args         : [number, jsonData, legacy]
+        });
+        this.name = 'NetworkError';
+        this.message = 'Network request failed'
+        this.code = code;
+        this.number = number;
+    }
+    NetworkError.prototype = new ReplayableError();
+    NetworkError.prototype.constructor = NetworkError;
+
+    window.textsecure.NetworkError = NetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
     window.textsecure.ReplayableError = ReplayableError;
@@ -39618,8 +39633,17 @@ MessageSender.prototype = {
             });
         })).then(function(jsonData) {
             var legacy = (message instanceof textsecure.protobuf.DataMessage);
-            return this.server.sendMessages(number, jsonData, legacy);
+            return this.sendRequest(number, jsonData, legacy);
         }.bind(this));
+    },
+
+    sendRequest: function(number, jsonData, legacy) {
+        return this.server.sendMessages(number, jsonData, legacy).catch(function(e) {
+            if (e.name === 'HTTPError' && e.code === -1) {
+                throw new NetworkError(number, jsonData, legacy);
+            }
+            throw e;
+        });
     },
 
     makeAttachmentPointer: function(attachment) {
@@ -40005,6 +40029,7 @@ window.textsecure = window.textsecure || {};
 textsecure.MessageSender = function(url, username, password) {
     var sender = new MessageSender(url, username, password);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.SEND_MESSAGE);
+    textsecure.replay.registerFunction(sender.sendRequest.bind(sender), textsecure.replay.Type.NETWORK_REQUEST);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);

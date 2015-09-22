@@ -165,6 +165,14 @@
             });
         },
 
+        resend: function(number) {
+            var error = this.getSendError(number);
+            if (error) {
+                var promise = new textsecure.ReplayableError(error).replay();
+                this.send(promise);
+            }
+        },
+
         resolveConflict: function(number) {
             var error = this.getKeyConflict(number);
             if (error) {

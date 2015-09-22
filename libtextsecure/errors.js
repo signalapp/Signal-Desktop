@@ -8,6 +8,7 @@
     var Type = {
         SEND_MESSAGE: 1,
         INIT_SESSION: 2,
+        NETWORK_REQUEST: 3,
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -57,6 +58,20 @@
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
 
+    function NetworkError(number, jsonData, legacy, code) {
+        ReplayableError.call(this, {
+            functionCode : Type.NETWORK_REQUEST,
+            args         : [number, jsonData, legacy]
+        });
+        this.name = 'NetworkError';
+        this.message = 'Network request failed'
+        this.code = code;
+        this.number = number;
+    }
+    NetworkError.prototype = new ReplayableError();
+    NetworkError.prototype.constructor = NetworkError;
+
+    window.textsecure.NetworkError = NetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
     window.textsecure.ReplayableError = ReplayableError;
