@@ -39688,46 +39688,46 @@ window.textsecure.messaging = function() {
 
     var self = {};
 
-    // message == PushMessageContentProto (NOT STRING)
+    // message == DataMessage or ContentMessage proto
     function sendMessageToDevices(timestamp, number, deviceObjectList, message) {
-        var jsonData = [];
         var relay = undefined;
-        var promises = [];
-
-        var addEncryptionFor = function(i) {
-            if (deviceObjectList[i].relay !== undefined) {
+        return Promise.all(deviceObjectList.map(function(device) {
+            if (device.relay !== undefined) {
                 if (relay === undefined)
-                    relay = deviceObjectList[i].relay;
-                else if (relay != deviceObjectList[i].relay)
-                    return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
+                    relay = device.relay;
+                else if (relay != device.relay)
+                    return new Promise(function() {
+                        throw new Error("Mismatched relays for number " + number);
+                    });
             } else {
                 if (relay === undefined)
                     relay = "";
                 else if (relay != "")
-                    return new Promise(function() { throw new Error("Mismatched relays for number " + number); });
+                    return new Promise(function() {
+                        throw new Error("Mismatched relays for number " + number);
+                    });
             }
 
-            return textsecure.protocol_wrapper.encryptMessageFor(deviceObjectList[i], message).then(function(encryptedMsg) {
-                return textsecure.protocol_wrapper.getRegistrationId(deviceObjectList[i].encodedNumber).then(function(registrationId) {
-                    return textsecure.storage.devices.removeTempKeysFromDevice(deviceObjectList[i].encodedNumber).then(function() {
-                        jsonData[i] = {
+            return textsecure.protocol_wrapper.encryptMessageFor(device, message).then(function(encryptedMsg) {
+                return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
+                    return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
+                        var json = {
                             type: encryptedMsg.type,
-                            destinationDeviceId: textsecure.utils.unencodeNumber(deviceObjectList[i].encodedNumber)[1],
+                            destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
                             destinationRegistrationId: registrationId,
                             content: encryptedMsg.body,
                             timestamp: timestamp
                         };
 
-                        if (deviceObjectList[i].relay !== undefined)
-                            jsonData[i].relay = deviceObjectList[i].relay;
+                        if (device.relay !== undefined) {
+                            json.relay = device.relay;
+                        }
+
+                        return json;
                     });
                 });
             });
-        }
-
-        for (var i = 0; i < deviceObjectList.length; i++)
-            promises[i] = addEncryptionFor(i);
-        return Promise.all(promises).then(function() {
+        })).then(function(jsonData) {
             var legacy = (message instanceof textsecure.protobuf.DataMessage);
             return TextSecureServer.sendMessages(number, jsonData, legacy);
         });
