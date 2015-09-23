@@ -107,6 +107,7 @@
             var keyErrors = [];
             _.each(errors, function(e) {
                 console.log(e);
+                console.log(e.stack);
                 if (e.error.name === 'OutgoingIdentityKeyError') {
                     keyErrors.push(e.error);
                 }

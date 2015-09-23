@@ -142,6 +142,7 @@
         function onError(ev) {
             var e = ev.error;
             console.log(e);
+            console.log(e.stack);
 
             if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
                 extension.install();
