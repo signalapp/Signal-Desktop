@@ -39671,6 +39671,7 @@ function generateKeys(count, progressCallback) {
         this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
         this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
         this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
+        this.close               = messageReceiver.close.bind(messageReceiver);
     }
 
     textsecure.MessageReceiver.prototype = {
