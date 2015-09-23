@@ -39433,7 +39433,7 @@ function generateKeys(count, progressCallback) {
             TextSecureServer.getDevices(this.number).
                 then(this.connect.bind(this)). // No HTTP error? Reconnect
                 catch(function(e) {
-                    var ev = new Event('textsecure:error');
+                    var ev = new Event('error');
                     ev.error = e;
                     eventTarget.dispatchEvent(ev);
                 });
