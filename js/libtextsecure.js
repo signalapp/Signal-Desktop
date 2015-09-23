@@ -39891,7 +39891,7 @@ window.textsecure.messaging = function() {
             });
         };
 
-        var getDevicesAndSendToNumber = function(number) {
+        numbers.forEach(function(number) {
             textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
                 return Promise.all(devicesForNumber.map(function(device) {
                     return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
@@ -39911,10 +39911,7 @@ window.textsecure.messaging = function() {
                     });
                 });
             });
-        };
-
-        for (var i in numbers)
-            getDevicesAndSendToNumber(numbers[i]);
+        });
     }
 
     var sendIndividualProto = function(number, proto, timestamp) {
