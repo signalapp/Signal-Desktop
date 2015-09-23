@@ -7,9 +7,8 @@ window.textsecure.messaging = function() {
 
     var self = {};
 
-    // success_callback(server success/failure map), error_callback(error_msg)
     // message == PushMessageContentProto (NOT STRING)
-    function sendMessageToDevices(timestamp, number, deviceObjectList, message, success_callback, error_callback) {
+    function sendMessageToDevices(timestamp, number, deviceObjectList, message) {
         var jsonData = [];
         var relay = undefined;
         var promises = [];
