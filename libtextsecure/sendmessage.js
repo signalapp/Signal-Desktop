@@ -120,11 +120,9 @@ window.textsecure.messaging = function() {
         };
 
         var registerError = function(number, message, error) {
-            if (error) {
-                if (error.humanError)
-                    message = error.humanError;
-            } else
+            if (!error) {
                 error = new Error(message);
+            }
             errors[errors.length] = { number: number, reason: message, error: error };
             numberCompleted();
         };
