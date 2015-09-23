@@ -39423,8 +39423,7 @@ function generateKeys(count, progressCallback) {
             console.log('websocket open');
         },
         onerror: function(error) {
-            console.log('websocket error', error);
-            this.socketError = error;
+            console.log('websocket error');
         },
         onclose: function(ev) {
             var eventTarget = this;
