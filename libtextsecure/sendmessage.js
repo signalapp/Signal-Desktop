@@ -55,46 +55,6 @@ window.textsecure.messaging = function() {
         });
     }
 
-    var refreshGroup = function(number, groupId, devicesForNumber) {
-        groupId = getString(groupId);
-
-        var doUpdate = false;
-        return Promise.all(devicesForNumber.map(function(device) {
-            return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
-                return textsecure.storage.groups.needUpdateByDeviceRegistrationId(
-                    groupId, number, device.encodedNumber, registrationId
-                ).then(function(needUpdate) {
-                    if (needUpdate) doUpdate = true;
-                });
-            });
-        })).then(function() {
-            if (!doUpdate) return;
-
-            return textsecure.storage.groups.getGroup(groupId).then(function(group) {
-                var numberIndex = group.numbers.indexOf(number);
-                if (numberIndex < 0) // This is potentially a multi-message rare racing-AJAX race
-                    return Promise.reject("Tried to refresh group to non-member");
-
-                var proto = new textsecure.protobuf.DataMessage();
-                proto.group = new textsecure.protobuf.GroupContext();
-
-                proto.group.id = toArrayBuffer(group.id);
-                proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-                proto.group.members = group.numbers;
-                proto.group.name = group.name === undefined ? null : group.name;
-
-                if (group.avatar !== undefined) {
-                    return makeAttachmentPointer(group.avatar).then(function(attachment) {
-                        proto.group.avatar = attachment;
-                        return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
-                    });
-                } else {
-                    return sendMessageToDevices(Date.now(), number, devicesForNumber, proto);
-                }
-            });
-        });
-    }
-
     var tryMessageAgain = function(number, encodedMessage, timestamp) {
         var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
         return new Promise(function(resolve, reject) {
@@ -172,14 +132,9 @@ window.textsecure.messaging = function() {
         }
 
         var doSendMessage = function(number, devicesForNumber, recurse) {
-            var groupUpdate = Promise.resolve(true);
-            if (message.group && message.group.id && message.group.type != textsecure.protobuf.GroupContext.Type.QUIT)
-                groupUpdate = refreshGroup(number, message.group.id, devicesForNumber);
-            return groupUpdate.then(function() {
-                return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
-                    successfulNumbers[successfulNumbers.length] = number;
-                    numberCompleted();
-                });
+            return sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
+                successfulNumbers[successfulNumbers.length] = number;
+                numberCompleted();
             }).catch(function(error) {
                 if (error instanceof Error && error.name == "HTTPError" && (error.code == 410 || error.code == 409)) {
                     if (!recurse)
