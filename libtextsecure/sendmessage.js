@@ -9,24 +9,13 @@ window.textsecure.messaging = function() {
 
     // message == DataMessage or ContentMessage proto
     function sendMessageToDevices(timestamp, number, deviceObjectList, message) {
-        var relay = undefined;
-        return Promise.all(deviceObjectList.map(function(device) {
-            if (device.relay !== undefined) {
-                if (relay === undefined)
-                    relay = device.relay;
-                else if (relay != device.relay)
-                    return new Promise(function() {
-                        throw new Error("Mismatched relays for number " + number);
-                    });
-            } else {
-                if (relay === undefined)
-                    relay = "";
-                else if (relay != "")
-                    return new Promise(function() {
-                        throw new Error("Mismatched relays for number " + number);
-                    });
+        var relay = deviceObjectList[0].relay;
+        for (var i=1; i < deviceObjectList.length; ++i) {
+            if (deviceObjectList[i].relay !== relay) {
+                throw new Error("Mismatched relays for number " + number);
             }
-
+        }
+        return Promise.all(deviceObjectList.map(function(device) {
             return textsecure.protocol_wrapper.encryptMessageFor(device, message).then(function(encryptedMsg) {
                 return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
                     return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
