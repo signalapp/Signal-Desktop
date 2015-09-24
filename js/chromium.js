@@ -170,24 +170,6 @@
         }
     };
 
-    if (chrome.notifications) {
-        chrome.notifications.onClicked.addListener(function() {
-            chrome.notifications.clear('signal');
-            Whisper.Notifications.onclick();
-        });
-        chrome.notifications.onButtonClicked.addListener(function() {
-            chrome.notifications.clear('signal');
-            Whisper.Notifications.clear();
-            getInboxCollection().each(function(model) {
-                model.markRead();
-            });
-        });
-        chrome.notifications.onClosed.addListener(function(id, byUser) {
-            if (byUser) {
-                Whisper.Notifications.clear();
-            }
-        });
-    }
     extension.notify = function(options) {
         if (chrome) {
             chrome.notifications.clear('signal');
