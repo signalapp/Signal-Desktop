@@ -38790,6 +38790,9 @@ var TextSecureServer = (function() {
     var attachment_id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
 
     function TextSecureServer(url, username, password) {
+        if (typeof url !== 'string') {
+            throw new Error('Invalid server url');
+        }
         this.url = url;
         this.username = username;
         this.password = password;
