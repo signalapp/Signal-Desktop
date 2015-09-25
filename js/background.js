@@ -29,14 +29,18 @@
         });
         chrome.alarms.create('awake', {periodInMinutes: 1});
     }
+
+    // Close and reopen existing windows
     var open = false;
     chrome.app.window.getAll().forEach(function(appWindow) {
         open = true;
         appWindow.close();
     });
 
+    // start a background worker for ecc
     textsecure.protocol_wrapper.startWorker();
 
+    // load the initial set of conversations into memory
     ConversationController.updateInbox();
 
     extension.onLaunched(function() {
