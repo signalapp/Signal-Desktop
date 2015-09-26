@@ -101,7 +101,7 @@ MessageSender.prototype = {
             }
         };
 
-        function getKeysForNumber(number, updateDevices) {
+        var getKeysForNumber = function(number, updateDevices) {
             var handleResult = function(response) {
                 return Promise.all(response.devices.map(function(device) {
                     if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
@@ -133,7 +133,7 @@ MessageSender.prototype = {
 
                 return Promise.all(promises);
             }
-        }
+        }.bind(this);
 
         var doSendMessage = function(number, devicesForNumber, recurse) {
             return this.sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {

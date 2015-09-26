@@ -94,12 +94,19 @@ MessageReceiver.prototype = {
         this.dispatchEvent(ev);
     },
     decrypt: function(envelope, ciphertext) {
-        return textsecure.protocol_wrapper.decrypt(
-            envelope.source,
-            envelope.sourceDevice,
-            envelope.type,
-            ciphertext
-        ).catch(function(error) {
+        var fromAddress = [envelope.source , (envelope.sourceDevice || 0)].join('.');
+        var promise;
+        switch(envelope.type) {
+            case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
+                promise = textsecure.protocol_wrapper.decryptWhisperMessage(fromAddress, ciphertext);
+                break;
+            case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
+                promise = textsecure.protocol_wrapper.handlePreKeyWhisperMessage(fromAddress, ciphertext);
+                break;
+            default:
+                promise = Promise.reject(new Error("Unknown message type"));
+        }
+        return promise.catch(function(error) {
             var ev = new Event('error');
             ev.error = error;
             ev.proto = envelope;
@@ -237,6 +244,18 @@ MessageReceiver.prototype = {
         return this.server.getAttachment(attachment.id.toString()).
         then(decryptAttachment).
         then(updateAttachment);
+    },
+    tryMessageAgain: function(from, encodedMessage) {
+        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(function(res) {
+            var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
+
+            if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
+                    == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
+                    finalMessage.sync !== null)
+                res[1]();
+
+            return this.processDecrypted(finalMessage);
+        }.bind(this));
     },
     processDecrypted: function(decrypted, source) {
         // Now that its decrypted, validate the message and clean it up for consumer processing
@@ -390,6 +409,8 @@ textsecure.MessageReceiver = function(url, username, password, signalingKey) {
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
     this.close               = messageReceiver.close.bind(messageReceiver);
     messageReceiver.connect();
+
+    textsecure.replay.registerFunction(messageReceiver.tryMessageAgain.bind(messageReceiver), textsecure.replay.Type.INIT_SESSION);
 };
 
 textsecure.MessageReceiver.prototype = {
