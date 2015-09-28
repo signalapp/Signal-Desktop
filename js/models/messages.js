@@ -131,6 +131,39 @@
                         e.number === number;
             });
         },
+
+        send: function(promise) {
+            return promise.then(function() {
+                this.save({sent: true});
+            }.bind(this)).catch(function(errors) {
+                this.save({sent: true});
+                if (errors instanceof Error) {
+                    errors = [errors];
+                }
+                var keyErrors = [];
+                _.each(errors, function(e) {
+                    console.log(e);
+                    console.log(e.stack);
+                    if (e.error.name === 'OutgoingIdentityKeyError') {
+                        keyErrors.push(e.error);
+                    }
+                });
+                if (keyErrors.length) {
+                    message.save({ errors : keyErrors });
+                } else {
+                    if (!(errors instanceof Array)) {
+                        errors = [errors];
+                    }
+                    errors.map(function(e) {
+                        if (e.error && e.error.stack) {
+                            console.error(e.error.stack);
+                        }
+                    });
+                    throw errors;
+                }
+            }.bind(this));
+        },
+
         resolveConflict: function(number) {
             var error = this.getKeyConflict(number);
             if (error) {

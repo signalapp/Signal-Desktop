@@ -98,50 +98,20 @@
         else {
             sendFunc = textsecure.messaging.sendMessageToGroup;
         }
-        sendFunc(this.get('id'), body, attachments, now).then(function() {
-            message.save({'sent': true});
-        }.bind(this)).catch(function(errors) {
-            if (errors instanceof Error) {
-                errors = [errors];
-            }
-            var keyErrors = [];
-            _.each(errors, function(e) {
-                console.log(e);
-                console.log(e.stack);
-                if (e.error.name === 'OutgoingIdentityKeyError') {
-                    keyErrors.push(e.error);
-                }
-            });
-            if (keyErrors.length) {
-                message.save({ errors : keyErrors });
-            } else {
-                if (!(errors instanceof Array)) {
-                    errors = [errors];
-                }
-                errors.map(function(e) {
-                    if (e.error && e.error.stack) {
-                        console.error(e.error.stack);
-                    }
-                });
-                throw errors;
-            }
-        });
+        message.send(sendFunc(this.get('id'), body, attachments, now));
     },
 
     endSession: function() {
         if (this.isPrivate()) {
             var now = Date.now();
-            var message = this.messageCollection.add({
+            var message = this.messageCollection.create({
                 conversationId : this.id,
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now,
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
-            message.save();
-            textsecure.messaging.closeSession(this.id).then(function() {
-                message.save({sent: true});
-            });
+            message.send(textsecure.messaging.closeSession(this.id));
         }
 
     },
@@ -154,40 +124,32 @@
             group_update = this.pick(['name', 'avatar', 'members']);
         }
         var now = Date.now();
-        var message = this.messageCollection.add({
+        var message = this.messageCollection.create({
             conversationId : this.id,
             type           : 'outgoing',
             sent_at        : now,
             received_at    : now,
             group_update   : group_update
         });
-        message.save();
-        textsecure.messaging.updateGroup(
+        message.send(textsecure.messaging.updateGroup(
             this.id,
             this.get('name'),
             this.get('avatar'),
             this.get('members')
-        ).catch(function(errors) {
-            message.save({errors: errors.map(function(e){return e.error;})});
-        }).then(function() {
-            message.save({sent: true});
-        });
+        ));
     },
 
     leaveGroup: function() {
         var now = Date.now();
         if (this.get('type') === 'group') {
-            var message = this.messageCollection.add({
+            var message = this.messageCollection.create({
                 group_update: { left: 'You' },
                 conversationId : this.id,
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now
             });
-            message.save();
-            textsecure.messaging.leaveGroup(this.id).then(function() {
-                message.save({sent: true});
-            });
+            message.send(textsecure.messaging.leaveGroup(this.id));
         }
     },
 
