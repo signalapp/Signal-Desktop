@@ -39831,7 +39831,7 @@ window.textsecure.messaging = function() {
                     p.then(function() {
                         var resetDevices = ((error.code == 410) ? error.response.staleDevices : error.response.missingDevices);
                         getKeysForNumber(number, resetDevices)
-                            .then(reloadDevicesAndSend(number, false))
+                            .then(reloadDevicesAndSend(number, (error.code == 409)))
                             .catch(function(error) {
                                 registerError(number, "Failed to reload device keys", error);
                             });
