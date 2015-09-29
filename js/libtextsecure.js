@@ -39758,11 +39758,13 @@ window.textsecure.messaging = function() {
                 callback({success: successfulNumbers, failure: errors});
         };
 
-        var registerError = function(number, message, error) {
+        var registerError = function(number, reason, error) {
             if (!error) {
-                error = new Error(message);
+                error = new Error(reason);
             }
-            errors[errors.length] = { number: number, reason: message, error: error };
+            error.number = number;
+            error.reason = reason;
+            errors[errors.length] = error;
             numberCompleted();
         };
 

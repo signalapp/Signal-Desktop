@@ -137,30 +137,23 @@
                 this.save({sent: true});
             }.bind(this)).catch(function(errors) {
                 this.save({sent: true});
-                if (errors instanceof Error) {
+                if (!(errors instanceof Array)) {
                     errors = [errors];
                 }
-                var keyErrors = [];
-                _.each(errors, function(e) {
+                errors.forEach(function(e) {
                     console.log(e);
-                    console.log(e.stack);
-                    if (e.error.name === 'OutgoingIdentityKeyError') {
-                        keyErrors.push(e.error);
-                    }
+                    console.log(e.reason, e.stack);
                 });
-                if (keyErrors.length) {
-                    message.save({ errors : keyErrors });
-                } else {
-                    if (!(errors instanceof Array)) {
-                        errors = [errors];
-                    }
-                    errors.map(function(e) {
-                        if (e.error && e.error.stack) {
-                            console.error(e.error.stack);
+                message.save({
+                    errors : errors.filter(function(e) {
+                        switch(e.name) {
+                            case 'OutgoingIdentityKeyError':
+                            case 'HTTPError':
+                                return true;
                         }
-                    });
-                    throw errors;
-                }
+                        return false;
+                    })
+                });
             }.bind(this));
         },
 
