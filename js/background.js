@@ -188,6 +188,7 @@
                 setTimeout(init, 60000);
             } else {
                 console.log('offline');
+                messageReceiver.close();
                 window.addEventListener('online', init);
             }
             return;
