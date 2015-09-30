@@ -10,6 +10,7 @@
         templateName: 'contact-detail',
         initialize: function(options) {
             this.conflict = options.conflict;
+            this.errors = options.errors;
         },
         events: {
             'click .conflict': 'triggerConflict'
@@ -21,7 +22,8 @@
             return {
                 name     : this.model.getTitle(),
                 avatar   : this.model.getAvatar(),
-                conflict : this.conflict
+                conflict : this.conflict,
+                errors   : this.errors
             };
         }
     });
@@ -32,6 +34,7 @@
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});
             this.conversation = options.conversation;
+            this.errors = _.groupBy(this.model.get('errors'), 'number');
 
             this.listenTo(this.model, 'change', this.render);
         },
@@ -79,7 +82,8 @@
         renderContact: function(contact) {
             var v = new ContactView({
                 model: contact,
-                conflict: this.model.getKeyConflict(contact.id)
+                conflict: this.model.getKeyConflict(contact.id),
+                errors: this.errors[contact.id]
             }).render().$el.appendTo(this.$('.contacts'));
         },
         render: function() {
@@ -87,6 +91,7 @@
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : moment(this.model.get('received_at')).toString(),
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',
+                errors      : this.errors['undefined']
             }));
             this.view.render().$el.prependTo(this.$('.message-container'));
 

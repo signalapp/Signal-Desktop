@@ -142,12 +142,18 @@
       <div class='message-container'></div>
       <div class='info'>
         <table>
-            <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
-            <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+          <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
+          <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
           <tr>
             <td class='tofrom label'>{{ tofrom }}</td>
             <td> <div class='contacts'></div> </td>
           </tr>
+          {{ #errors }}
+            <tr>
+              <td class='label'>Error</td>
+              <td> <span class='error-message'>{{message}}</span> </td>
+            </tr>
+          {{ /errors }}
         </table>
       </div>
     </div>
@@ -240,6 +246,11 @@
         {{ #conflict }}
             <button class='conflict'><span>Verify</span></button>
         {{ /conflict }}
+        {{ #errors }}
+            <div>
+              <span class='error-message'>{{message}}</span>
+            </div>
+        {{ /errors }}
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>

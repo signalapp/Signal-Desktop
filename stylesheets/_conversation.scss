@@ -57,6 +57,7 @@
       text-align: right;
       font-weight: bold;
       padding-right: 1em;
+      vertical-align: top;
     }
   }
 
@@ -200,10 +201,22 @@
     opacity: 1.0;
   }
 
+  .error .bubble {
+    background: url('/images/error_red.png') no-repeat;
+  }
+  .incoming.error .bubble {
+    padding-right: 40px;
+    background-position: calc(100% - 12px) 9px;
+  }
+  .outgoing.error .bubble {
+    padding-left: 40px;
+    background-position: 12px 9px;
+  }
+
   .incoming {
     .bubble {
       color: $grey_d;
-      background: $grey_l;
+      background-color: $grey_l;
 
       &::before {
         left: -10px;
@@ -226,7 +239,7 @@
     .bubble {
       clear: left;
       color: white;
-      background: $blue;
+      background-color: $blue;
 
       .meta {
         color: $blue_l;
@@ -303,7 +316,7 @@
     opacity: 0.8;
   }
 
-  .error {
+  .bubble .error-message {
     font-style: italic;
   }
 

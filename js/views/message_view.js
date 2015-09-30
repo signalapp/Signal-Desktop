@@ -32,6 +32,10 @@
         renderDelivered: function() {
             if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
         },
+        renderErrors: function() {
+            var errors = this.model.get('errors');
+            if (_.size(errors) > 0) { this.$el.addClass('error'); }
+        },
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
                 this.$el.addClass('control');
@@ -59,6 +63,7 @@
 
             this.renderSent();
             this.renderDelivered();
+            this.renderErrors();
             this.renderControl();
 
             this.$('.attachments').append(
@@ -69,17 +74,6 @@
                 })
             );
 
-            var errors = this.model.get('errors');
-            if (errors && errors.length) {
-                this.$('.bubble').prepend(
-                    errors.map(function(error) {
-                        return new Whisper.MessageErrorView({
-                            model: error,
-                            message: this.model
-                        }).render().el;
-                    }.bind(this))
-                );
-            }
             return this;
         }
     });

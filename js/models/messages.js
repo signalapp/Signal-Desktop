@@ -58,6 +58,9 @@
             if (this.isIncoming() && this.hasKeyConflicts()) {
                 return 'Received message with unknown identity key.';
             }
+            if (this.isIncoming() && this.hasErrors()) {
+                return 'Error decrypting incoming message.';
+            }
 
             return this.get('body');
         },
@@ -110,6 +113,9 @@
         },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
+        },
+        hasErrors: function() {
+            return _.size(this.get('errors')) > 0;
         },
         hasKeyConflicts: function() {
             return _.any(this.get('errors'), function(e) {
