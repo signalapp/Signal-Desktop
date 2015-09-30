@@ -144,14 +144,12 @@
                     console.log(e);
                     console.log(e.reason, e.stack);
                 });
-                message.save({
-                    errors : errors.filter(function(e) {
-                        switch(e.name) {
-                            case 'OutgoingIdentityKeyError':
-                            case 'HTTPError':
-                                return true;
+                this.save({
+                    errors : errors.map(function(e) {
+                        if (e.constructor === Error) {
+                            return _.pick(e, 'name', 'message', 'number', 'reason');
                         }
-                        return false;
+                        return e;
                     })
                 });
             }.bind(this));
