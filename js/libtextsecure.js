@@ -38481,11 +38481,6 @@ TextSecureWebSocket = function (url, opts) {
             return new OutgoingWebSocketRequest(options, socket);
         };
 
-        this.close = function(code, reason) {
-            if (!code) { code = 3000; }
-            socket.close(code, reason);
-        };
-
         socket.onmessage = function(socketMessage) {
             var blob = socketMessage.data;
             var reader = new FileReader();
@@ -38523,14 +38518,24 @@ TextSecureWebSocket = function (url, opts) {
             reader.readAsArrayBuffer(blob);
         };
 
+        var keepalive;
         if (opts.keepalive) {
-            var keepalive = new KeepAlive(this, {
+            keepalive = new KeepAlive(this, {
                 path       : opts.keepalive.path,
                 disconnect : opts.keepalive.disconnect
             });
 
             this.resetKeepAliveTimer = keepalive.reset.bind(keepalive);
         }
+
+        this.close = function(code, reason) {
+            if (!code) { code = 3000; }
+            socket.close(code, reason);
+            if (keepalive) {
+                keepalive.close();
+            }
+        };
+
     };
 
     function KeepAlive(websocketResource, opts) {
@@ -38553,6 +38558,10 @@ TextSecureWebSocket = function (url, opts) {
 
     KeepAlive.prototype = {
         constructor: KeepAlive,
+        close: function() {
+            clearTimeout(this.keepAliveTimer);
+            clearTimeout(this.disconnectTimer);
+        },
         reset: function() {
             clearTimeout(this.keepAliveTimer);
             clearTimeout(this.disconnectTimer);
@@ -39414,7 +39423,7 @@ function generateKeys(count, progressCallback) {
             });
         },
         close: function() {
-            this.socket.close();
+            this.wsr.close();
             delete this.listeners;
         },
         onopen: function() {

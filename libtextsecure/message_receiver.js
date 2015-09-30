@@ -41,7 +41,7 @@
             });
         },
         close: function() {
-            this.socket.close();
+            this.wsr.close();
             delete this.listeners;
         },
         onopen: function() {
