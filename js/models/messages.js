@@ -59,7 +59,7 @@
                 return 'Received message with unknown identity key.';
             }
             if (this.isIncoming() && this.hasErrors()) {
-                return 'Error decrypting incoming message.';
+                return 'Error handling incoming message.';
             }
 
             return this.get('body');

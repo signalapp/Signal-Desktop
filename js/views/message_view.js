@@ -34,7 +34,12 @@
         },
         renderErrors: function() {
             var errors = this.model.get('errors');
-            if (_.size(errors) > 0) { this.$el.addClass('error'); }
+            if (_.size(errors) > 0) {
+                this.$el.addClass('error');
+                if (this.model.isIncoming()) {
+                    this.$('.content').text(this.model.getDescription()).addClass('error-message');
+                }
+            }
         },
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
@@ -63,8 +68,8 @@
 
             this.renderSent();
             this.renderDelivered();
-            this.renderErrors();
             this.renderControl();
+            this.renderErrors();
 
             this.$('.attachments').append(
                 this.model.get('attachments').map(function(attachment) {
