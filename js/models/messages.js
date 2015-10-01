@@ -153,7 +153,7 @@
                 this.save({
                     errors : errors.map(function(e) {
                         if (e.constructor === Error) {
-                            return _.pick(e, 'name', 'message', 'number', 'reason');
+                            return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
                         }
                         return e;
                     })
