@@ -142,7 +142,6 @@
             return promise.then(function() {
                 this.save({sent: true});
             }.bind(this)).catch(function(errors) {
-                this.save({sent: true});
                 if (!(errors instanceof Array)) {
                     errors = [errors];
                 }
@@ -151,6 +150,7 @@
                     console.log(e.reason, e.stack);
                 });
                 this.save({
+                    sent: true,
                     errors : errors.map(function(e) {
                         if (e.constructor === Error) {
                             return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
