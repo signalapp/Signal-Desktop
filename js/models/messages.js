@@ -291,6 +291,8 @@
                     message.save().then(function() {
                         if (message.isIncoming()) {
                             notifyConversation(message);
+                        } else {
+                            conversation.trigger('newmessages');
                         }
                     });
                 });
