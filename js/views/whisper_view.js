@@ -1,5 +1,23 @@
 /*
  * vim: ts=4:sw=4:expandtab
+ *
+ * Whisper.View
+ *
+ * This is the base for most of our views. The Backbone view is extended
+ * with some conveniences:
+ *
+ * 1. Pre-parses all our mustache templates for performance.
+ * https://github.com/janl/mustache.js#pre-parsing-and-caching-templates
+ *
+ * 2. Defines a default definition for render() which allows sub-classes
+ * to simply specify a templateName and renderAttributes which are plugged
+ * into Mustache.render
+ *
+ * 3. Makes all the templates available for rendering as partials.
+ * https://github.com/janl/mustache.js#partials
+ *
+ * 4. Provides some common functionality, e.g. confirmation dialog
+ *
  */
 (function () {
     'use strict';
