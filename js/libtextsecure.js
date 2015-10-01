@@ -39665,14 +39665,7 @@ MessageSender.prototype = {
 
     tryMessageAgain: function(number, encodedMessage, timestamp) {
         var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
-        return new Promise(function(resolve, reject) {
-            this.sendMessageProto(timestamp, [number], proto, function(res) {
-                if (res.failure.length > 0)
-                    reject(res.failure);
-                else
-                    resolve();
-            });
-        }.bind(this));
+        return this.sendIndividualProto(number, proto, timestamp);
     },
 
     sendMessageProto: function(timestamp, numbers, message, callback) {
