@@ -101,8 +101,9 @@
         messageReceiver.addEventListener('contactsync', onContactSyncComplete);
 
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
-            textsecure.messaging.sendRequestContactSyncMessage();
-            textsecure.messaging.sendRequestGroupSyncMessage();
+            textsecure.messaging.sendRequestContactSyncMessage().then(function() {
+                textsecure.messaging.sendRequestGroupSyncMessage();
+            });
         }
     }
 
