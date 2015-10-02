@@ -13,6 +13,7 @@
         type: 'private',
         id: '+14155555555'
     };
+    textsecure.messaging = new textsecure.MessageSender('');
 
     describe('ConversationCollection', function() {
         before(clearDatabase);
