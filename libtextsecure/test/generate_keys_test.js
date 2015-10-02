@@ -59,7 +59,8 @@ describe("Key generation", function() {
          * }
          */
         before(function(done) {
-            generateKeys(count).then(function(res) {
+            var accountManager = new textsecure.AccountManager('');
+            accountManager.generateKeys(count).then(function(res) {
                 result = res;
             }).then(done,done);
         });
@@ -94,7 +95,8 @@ describe("Key generation", function() {
     describe('the second time', function() {
         var result;
         before(function(done) {
-            generateKeys(count).then(function(res) {
+            var accountManager = new textsecure.AccountManager('');
+            accountManager.generateKeys(count).then(function(res) {
                 result = res;
             }).then(done,done);
         });
@@ -129,7 +131,8 @@ describe("Key generation", function() {
     describe('the third time', function() {
         var result;
         before(function(done) {
-            generateKeys(count).then(function(res) {
+            var accountManager = new textsecure.AccountManager('');
+            accountManager.generateKeys(count).then(function(res) {
                 result = res;
             }).then(done,done);
         });
