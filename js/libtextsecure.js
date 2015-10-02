@@ -38249,7 +38249,7 @@ axolotlInternal.RecipientRecord = function() {
                 if (group === undefined)
                     throw new Error("Tried to update numbers for unknown group");
 
-                if (numbers.filter(function(number) { return !textsecure.utils.isNumberSane(number); }).length > 0)
+                if (numbers.filter(textsecure.utils.isNumberSane).length < numbers.length)
                     throw new Error("Invalid number in new group members");
 
                 if (group.numbers.filter(function(number) { return numbers.indexOf(number) < 0 }).length > 0)
