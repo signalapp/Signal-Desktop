@@ -38258,7 +38258,7 @@ axolotlInternal.RecipientRecord = function() {
                 var added = numbers.filter(function(number) { return group.numbers.indexOf(number) < 0; });
 
                 return textsecure.storage.groups.addNumbers(groupId, added).then(function(newGroup) {
-                    if (newGroup.length != numbers.length ||
+                    if (numbers.filter(function(number) { return newGroup.indexOf(number) < 0; }).length != 0 ||
                         newGroup.filter(function(number) { return numbers.indexOf(number) < 0; }).length != 0) {
                         throw new Error("Error calculating group member difference");
                     }
