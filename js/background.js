@@ -198,13 +198,7 @@
         if (ev.proto) {
             var envelope = ev.proto;
             var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
-            var attributes = {};
-            if (e.name === 'IncomingIdentityKeyError') {
-                attributes = { errors : [e] };
-            } else if (e.message !== 'Bad MAC') {
-                attributes = { errors : [ _.pick(e, ['name', 'message'])]};
-            }
-            message.save(attributes).then(function() {
+            message.saveErrors(e).then(function() {
                 ConversationController.findOrCreatePrivateById(message.get('conversationId')).then(function(conversation) {
                     conversation.save({
                         active_at: Date.now(),

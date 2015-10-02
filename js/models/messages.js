@@ -142,23 +142,27 @@
             return promise.then(function() {
                 this.save({sent: true});
             }.bind(this)).catch(function(errors) {
-                if (!(errors instanceof Array)) {
-                    errors = [errors];
-                }
-                errors.forEach(function(e) {
-                    console.log(e);
-                    console.log(e.reason, e.stack);
-                });
-                this.save({
-                    sent: true,
-                    errors : errors.map(function(e) {
-                        if (e.constructor === Error) {
-                            return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
-                        }
-                        return e;
-                    })
-                });
+                this.set({sent: true});
+                this.saveErrors(errors);
             }.bind(this));
+        },
+
+        saveErrors: function(errors) {
+            if (!(errors instanceof Array)) {
+                errors = [errors];
+            }
+            errors.forEach(function(e) {
+                console.log(e);
+                console.log(e.reason, e.stack);
+            });
+            return this.save({
+                errors : errors.map(function(e) {
+                    if (e.constructor === Error) {
+                        return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
+                    }
+                    return e;
+                })
+            });
         },
 
         resolveConflict: function(number) {
@@ -166,25 +170,15 @@
             if (error) {
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
-                    promise.then(function(dataMessage) {
+                    promise = promise.then(function(dataMessage) {
                         this.handleDataMessage(dataMessage);
-                        this.save('errors', []);
-                    }.bind(this)).catch(function(e) {
-                        //this.save('errors', [_.pick(e, ['name', 'message'])]);
-                        var errors = this.get('errors').concat(
-                            _.pick(e, ['name', 'message'])
-                        );
-                        this.save('errors', errors);
-                    }.bind(this));
-                } else {
-                    promise.then(function() {
-                        var errors = _.reject(this.get('errors'), function(e) {
-                            return e.name === 'OutgoingIdentityKeyError' &&
-                                   e.number === number;
-                        });
-                        this.save({sent: true, errors: errors});
                     }.bind(this));
                 }
+                promise.then(function() {
+                    this.save('errors', []);
+                }.bind(this)).catch(function(e) {
+                    this.saveErrors(e);
+                }.bind(this));
                 return promise;
             }
         },
