@@ -214,6 +214,7 @@
                     notifyConversation(message);
                 });
             });
+            return;
         }
 
         throw e;
