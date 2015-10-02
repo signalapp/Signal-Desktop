@@ -129,8 +129,8 @@
             }.bind(this));
         },
         handleDataMessage: function(envelope, message, close_session) {
-            if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
-                == textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
+            if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
+                    textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
                 close_session();
             }
             return processDecrypted(message, envelope.source).then(function(message) {
@@ -296,7 +296,7 @@
         this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
         this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
         this.close               = messageReceiver.close.bind(messageReceiver);
-    }
+    };
 
     textsecure.MessageReceiver.prototype = {
         constructor: textsecure.MessageReceiver
