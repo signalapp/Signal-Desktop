@@ -4,7 +4,7 @@
 ;(function() {
     'use strict';
     extension.windows.getBackground(function(bg) {
-        var accountManager = new bg.textsecure.AccountManager();
+        var accountManager = new bg.getAccountManager();
 
         function log(s) {
             console.log(s);
