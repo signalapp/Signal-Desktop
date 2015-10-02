@@ -39423,7 +39423,8 @@ MessageReceiver.prototype = {
         then(updateAttachment);
     },
     tryMessageAgain: function(from, encodedMessage) {
-        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, encodedMessage).then(function(res) {
+        var bytes = dcodeIO.ByteBuffer.wrap(encodedMessage);
+        return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, bytes).then(function(res) {
             var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
 
             if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
