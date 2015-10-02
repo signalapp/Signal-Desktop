@@ -39,6 +39,8 @@
                 if (this.model.isIncoming()) {
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }
+            } else {
+                this.$el.removeClass('error');
             }
         },
         renderControl: function() {
