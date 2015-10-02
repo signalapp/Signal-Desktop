@@ -39467,8 +39467,10 @@ MessageReceiver.prototype = {
 
             promises.push(textsecure.storage.groups.getNumbers(decrypted.group.id).then(function(existingGroup) {
                 if (existingGroup === undefined) {
+                    var members = decrypted.group.members;
                     if (decrypted.group.type != textsecure.protobuf.GroupContext.Type.UPDATE) {
-                        throw new Error("Got message for unknown group");
+                        members = [source];
+                        console.log("Got message for unknown group");
                     }
                     return textsecure.storage.groups.createNewGroup(decrypted.group.members, decrypted.group.id);
                 } else {
