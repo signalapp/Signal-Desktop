@@ -441,6 +441,6 @@ textsecure.MessageSender = function(url, username, password) {
     this.leaveGroup                    = sender.leaveGroup                   .bind(sender);
 };
 
-textsecure.MessageReceiver.prototype = {
-    constructor: textsecure.MessageReceiver
+textsecure.MessageSender.prototype = {
+    constructor: textsecure.MessageSender
 };
