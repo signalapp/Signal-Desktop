@@ -155,14 +155,22 @@
                 console.log(e);
                 console.log(e.reason, e.stack);
             });
-            return this.save({
-                errors : errors.map(function(e) {
-                    if (e.constructor === Error) {
-                        return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
-                    }
-                    return e;
-                })
+            errors = errors.map(function(e) {
+                if (e.constructor === Error) {
+                    return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
+                }
+                return e;
             });
+            return this.save({errors : this.get('errors').concat(errors)});
+        },
+
+        removeConflictFor: function(number) {
+            var errors = _.reject(this.get('errors'), function(e) {
+                return e.number === number &&
+                    (e.name === 'IncomingIdentityKeyError' ||
+                     e.name === 'OutgoingIdentityKeyError');
+            });
+            this.set({errors: errors});
         },
 
         resend: function(number) {
@@ -176,17 +184,21 @@
         resolveConflict: function(number) {
             var error = this.getKeyConflict(number);
             if (error) {
+                this.removeConflictFor(number);
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
                     promise = promise.then(function(dataMessage) {
                         this.handleDataMessage(dataMessage);
                     }.bind(this));
+                } else {
+                    promise = promise.then(function() {
+                        this.save();
+                    }.bind(this));
                 }
-                promise.then(function() {
-                    this.save('errors', []);
-                }.bind(this)).catch(function(e) {
+                promise.catch(function(e) {
                     this.saveErrors(e);
                 }.bind(this));
+
                 return promise;
             }
         },
