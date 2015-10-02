@@ -161,7 +161,9 @@
                 }
                 return e;
             });
-            return this.save({errors : this.get('errors').concat(errors)});
+            errors = errors.concat(this.get('errors') || []);
+
+            return this.save({errors : errors});
         },
 
         removeConflictFor: function(number) {
