@@ -88,8 +88,6 @@
 
         viewMembers: function() {
             var view = new Whisper.GroupMemberList({ model: this.model });
-            this.$el.hide();
-            view.$el.insertAfter(this.el);
             this.listenBack(view);
         },
 
@@ -120,9 +118,7 @@
                     textsecure.storage.axolotl.getIdentityKey(our_number).then(function(our_key) {
                         var view = new Whisper.KeyVerificationView({
                             model: { their_key: their_key, your_key: our_key }
-                        });
-                        this.$el.hide();
-                        view.render().$el.insertAfter(this.el);
+                        }).render();
                         this.listenBack(view);
                     }.bind(this));
                 }.bind(this));
@@ -134,16 +130,16 @@
                 model: data.message,
                 conversation: this.model
             });
-            view.$el.insertAfter(this.$el);
-            this.$el.hide();
-            view.render();
             this.listenBack(view);
+            view.render();
         },
 
         listenBack: function(view) {
+            this.$('.panel').hide();
+            view.$el.prependTo(this.el);
             this.listenToOnce(view, 'back', function(e) {
                 view.remove();
-                this.$el.show();
+                this.$('.panel').show();
                 this.$el.trigger('force-resize');
             }.bind(this));
         },
@@ -173,8 +169,6 @@
                 model: this.model,
                 window: this.appWindow.contentWindow
             });
-            this.newGroupUpdateView.$el.insertAfter(this.el);
-            this.$el.hide();
             this.listenBack(this.newGroupUpdateView);
         },
 
@@ -250,7 +244,7 @@
         },
 
         isHidden: function() {
-            return (this.$el.css('display') === 'none');
+            return (this.$el.css('display') === 'none') || this.$('.panel').css('display') === 'none';
         }
     });
 })();
