@@ -110,7 +110,8 @@
 
                 textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
                 textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
-            });
+                this.server.username = textsecure.storage.get('number_id');
+            }.bind(this));
         },
         generateKeys: function (count, progressCallback) {
             if (typeof progressCallback !== 'function') {
