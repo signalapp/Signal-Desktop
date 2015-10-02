@@ -10,7 +10,10 @@
         templateName: 'contact-detail',
         initialize: function(options) {
             this.conflict = options.conflict;
-            this.errors = options.errors;
+            this.errors = _.reject(options.errors, function(e) {
+                return (e.name === 'IncomingIdentityKeyError' ||
+                        e.name === 'OutgoingIdentityKeyError');
+            });
         },
         events: {
             'click .conflict': 'triggerConflict'
