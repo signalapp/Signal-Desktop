@@ -39476,7 +39476,7 @@ MessageReceiver.prototype = {
 
                     if (fromIndex < 0) {
                         //TODO: This could be indication of a race...
-                        throw new Error("Sender was not a member of the group they were sending from");
+                        console.log("Sender was not a member of the group they were sending from");
                     }
 
                     switch(decrypted.group.type) {
