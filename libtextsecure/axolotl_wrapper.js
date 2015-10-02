@@ -40,7 +40,7 @@
             if (blob.readUint8() != ((3 << 4) | 3)) {
                 throw new Error("Bad version byte");
             }
-            return axolotlInstance.handlePreKeyWhisperMessage(from, blob.toArrayBuffer()).catch(function(e) {
+            return axolotlInstance.handlePreKeyWhisperMessage(from, blob).catch(function(e) {
                 if (e.message === 'Unknown identity key') {
                     blob.reset(); // restore the version byte.
 
