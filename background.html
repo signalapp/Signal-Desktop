@@ -248,6 +248,10 @@
         {{ #conflict }}
             <button class='conflict'><span>Verify</span></button>
         {{ /conflict }}
+        {{ #retry }}
+          <button class='retry'><span>Retry</span></button>
+          <span class='error-message'>{{message}}</span>
+        {{ /retry }}
         {{ #errors }}
             <div>
               <span class='error-message'>{{message}}</span>

@@ -10,22 +10,33 @@
         templateName: 'contact-detail',
         initialize: function(options) {
             this.conflict = options.conflict;
+            this.retry = _.find(options.errors, function(e) {
+                return (e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
+            });
             this.errors = _.reject(options.errors, function(e) {
                 return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError');
+                        e.name === 'OutgoingIdentityKeyError' ||
+                        e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
             });
         },
         events: {
-            'click .conflict': 'triggerConflict'
+            'click .conflict': 'triggerConflict',
+            'click .retry': 'triggerRetry'
         },
         triggerConflict: function() {
             this.$el.trigger('conflict', {conflict: this.conflict});
+        },
+        triggerRetry: function() {
+            this.$el.trigger('retry', {error: this.retry});
         },
         render_attributes: function() {
             return {
                 name     : this.model.getTitle(),
                 avatar   : this.model.getAvatar(),
                 conflict : this.conflict,
+                retry    : this.retry,
                 errors   : this.errors
             };
         }
@@ -43,7 +54,8 @@
         },
         events: {
             'click .back': 'goBack',
-            'conflict': 'conflictDialogue'
+            'conflict': 'conflictDialogue',
+            'retry': 'retryMessage',
         },
         goBack: function() {
             this.trigger('back');
@@ -81,6 +93,9 @@
             this.listenTo(view, 'resolve', function() {
                 this.render();
             });
+        },
+        retryMessage: function(e, data) {
+            this.model.resend(data.error.number);
         },
         renderContact: function(contact) {
             var v = new ContactView({

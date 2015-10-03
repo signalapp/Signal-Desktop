@@ -61,13 +61,18 @@
     }
   }
 
-  .conflict {
+  .contact-detail button {
     border: none;
     border-radius: 5px;
     color: white;
     padding: 0.5em;
     font-weight: bold;
-    background: #d00;
+    background: $blue;
+
+    span {
+      vertical-align: middle;
+      padding-left: 5px;
+    }
 
     &:before {
       content: '';
@@ -75,13 +80,15 @@
       vertical-align: middle;
       width: 18px;
       height: 18px;
-      background: url('/images/error.png') no-repeat center center;
+      background: url('/images/refresh.png') no-repeat center center;
       background-size: 100%;
     }
+  }
+  .conflict {
+    background: #d00;
 
-    span {
-      vertical-align: middle;
-      padding-left: 5px;
+    &:before {
+      background: url('/images/error.png') no-repeat center center;
     }
   }
 }

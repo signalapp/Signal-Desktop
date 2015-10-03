@@ -6,9 +6,9 @@
 
     var registeredFunctions = {};
     var Type = {
-        SEND_MESSAGE: 1,
+        ENCRYPT_MESSAGE: 1,
         INIT_SESSION: 2,
-        NETWORK_REQUEST: 3,
+        TRANSMIT_MESSAGE: 3,
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -47,7 +47,7 @@
 
     function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
         ReplayableError.call(this, {
-            functionCode : Type.SEND_MESSAGE,
+            functionCode : Type.ENCRYPT_MESSAGE,
             args         : [number, message, timestamp]
         });
         this.name = 'OutgoingIdentityKeyError';
@@ -58,22 +58,39 @@
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
 
-    function NetworkError(number, jsonData, legacy, code) {
+    function OutgoingMessageError(number, message, timestamp, httpError) {
         ReplayableError.call(this, {
-            functionCode : Type.NETWORK_REQUEST,
+            functionCode : Type.ENCRYPT_MESSAGE,
+            args         : [number, message, timestamp]
+        });
+        this.name = 'OutgoingMessageError';
+        if (httpError) {
+            this.code = httpError.code;
+            this.message = httpError.message;
+            this.stack = httpError.stack;
+        }
+    }
+    OutgoingMessageError.prototype = new ReplayableError();
+    OutgoingMessageError.prototype.constructor = OutgoingMessageError;
+
+    function SendMessageNetworkError(number, jsonData, legacy, httpError) {
+        ReplayableError.call(this, {
+            functionCode : Type.TRANSMIT_MESSAGE,
             args         : [number, jsonData, legacy]
         });
-        this.name = 'NetworkError';
-        this.message = 'Network request failed'
-        this.code = code;
+        this.name = 'SendMessageNetworkError';
         this.number = number;
+        this.code = httpError.code;
+        this.message = httpError.message;
+        this.stack = httpError.stack;
     }
-    NetworkError.prototype = new ReplayableError();
-    NetworkError.prototype.constructor = NetworkError;
+    SendMessageNetworkError.prototype = new ReplayableError();
+    SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
 
-    window.textsecure.NetworkError = NetworkError;
+    window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
     window.textsecure.ReplayableError = ReplayableError;
+    window.textsecure.OutgoingMessageError = OutgoingMessageError;
 
 })();

@@ -175,8 +175,18 @@
             this.set({errors: errors});
         },
 
+        removeOutgoingErrors: function(number) {
+            var errors = _.partition(this.get('errors'), function(e) {
+                return e.number === number &&
+                    (e.name === 'OutgoingMessageError' ||
+                     e.name === 'SendMessageNetworkError');
+            });
+            this.set({errors: errors[1]});
+            return errors[0][0];
+        },
+
         resend: function(number) {
-            var error = this.getSendError(number);
+            var error = this.removeOutgoingErrors(number);
             if (error) {
                 var promise = new textsecure.ReplayableError(error).replay();
                 this.send(promise);

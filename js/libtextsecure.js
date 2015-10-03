@@ -7,9 +7,9 @@
 
     var registeredFunctions = {};
     var Type = {
-        SEND_MESSAGE: 1,
+        ENCRYPT_MESSAGE: 1,
         INIT_SESSION: 2,
-        NETWORK_REQUEST: 3,
+        TRANSMIT_MESSAGE: 3,
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -48,7 +48,7 @@
 
     function OutgoingIdentityKeyError(number, message, timestamp, identityKey) {
         ReplayableError.call(this, {
-            functionCode : Type.SEND_MESSAGE,
+            functionCode : Type.ENCRYPT_MESSAGE,
             args         : [number, message, timestamp]
         });
         this.name = 'OutgoingIdentityKeyError';
@@ -59,23 +59,40 @@
     OutgoingIdentityKeyError.prototype = new ReplayableError();
     OutgoingIdentityKeyError.prototype.constructor = OutgoingIdentityKeyError;
 
-    function NetworkError(number, jsonData, legacy, code) {
+    function OutgoingMessageError(number, message, timestamp, httpError) {
         ReplayableError.call(this, {
-            functionCode : Type.NETWORK_REQUEST,
+            functionCode : Type.ENCRYPT_MESSAGE,
+            args         : [number, message, timestamp]
+        });
+        this.name = 'OutgoingMessageError';
+        if (httpError) {
+            this.code = httpError.code;
+            this.message = httpError.message;
+            this.stack = httpError.stack;
+        }
+    }
+    OutgoingMessageError.prototype = new ReplayableError();
+    OutgoingMessageError.prototype.constructor = OutgoingMessageError;
+
+    function SendMessageNetworkError(number, jsonData, legacy, httpError) {
+        ReplayableError.call(this, {
+            functionCode : Type.TRANSMIT_MESSAGE,
             args         : [number, jsonData, legacy]
         });
-        this.name = 'NetworkError';
-        this.message = 'Network request failed'
-        this.code = code;
+        this.name = 'SendMessageNetworkError';
         this.number = number;
+        this.code = httpError.code;
+        this.message = httpError.message;
+        this.stack = httpError.stack;
     }
-    NetworkError.prototype = new ReplayableError();
-    NetworkError.prototype.constructor = NetworkError;
+    SendMessageNetworkError.prototype = new ReplayableError();
+    SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
 
-    window.textsecure.NetworkError = NetworkError;
+    window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
     window.textsecure.ReplayableError = ReplayableError;
+    window.textsecure.OutgoingMessageError = OutgoingMessageError;
 
 })();
 
@@ -39637,14 +39654,14 @@ MessageSender.prototype = {
             });
         })).then(function(jsonData) {
             var legacy = (message instanceof textsecure.protobuf.DataMessage);
-            return this.sendRequest(number, jsonData, legacy);
+            return this.sendMessageRequest(number, jsonData, legacy);
         }.bind(this));
     },
 
-    sendRequest: function(number, jsonData, legacy) {
+    sendMessageRequest: function(number, jsonData, legacy) {
         return this.server.sendMessages(number, jsonData, legacy).catch(function(e) {
-            if (e.name === 'HTTPError' && e.code === -1) {
-                throw new NetworkError(number, jsonData, legacy);
+            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+                throw new textsecure.SendMessageNetworkError(number, jsonData, legacy, e);
             }
             throw e;
         });
@@ -39684,9 +39701,10 @@ MessageSender.prototype = {
         };
 
         var registerError = function(number, reason, error) {
-            if (!error) {
-                error = new Error(reason);
+            if (!error || error.name === 'HTTPError') {
+                error = new textsecure.OutgoingMessageError(number, message.toArrayBuffer(), timestamp, error);
             }
+
             error.number = number;
             error.reason = reason;
             errors[errors.length] = error;
@@ -40025,8 +40043,8 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageSender = function(url, username, password) {
     var sender = new MessageSender(url, username, password);
-    textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.SEND_MESSAGE);
-    textsecure.replay.registerFunction(sender.sendRequest.bind(sender), textsecure.replay.Type.NETWORK_REQUEST);
+    textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
+    textsecure.replay.registerFunction(sender.sendMessageRequest.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);

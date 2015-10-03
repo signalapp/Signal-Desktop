@@ -37,14 +37,14 @@ MessageSender.prototype = {
             });
         })).then(function(jsonData) {
             var legacy = (message instanceof textsecure.protobuf.DataMessage);
-            return this.sendRequest(number, jsonData, legacy);
+            return this.sendMessageRequest(number, jsonData, legacy);
         }.bind(this));
     },
 
-    sendRequest: function(number, jsonData, legacy) {
+    sendMessageRequest: function(number, jsonData, legacy) {
         return this.server.sendMessages(number, jsonData, legacy).catch(function(e) {
-            if (e.name === 'HTTPError' && e.code === -1) {
-                throw new NetworkError(number, jsonData, legacy);
+            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+                throw new textsecure.SendMessageNetworkError(number, jsonData, legacy, e);
             }
             throw e;
         });
@@ -84,9 +84,10 @@ MessageSender.prototype = {
         };
 
         var registerError = function(number, reason, error) {
-            if (!error) {
-                error = new Error(reason);
+            if (!error || error.name === 'HTTPError') {
+                error = new textsecure.OutgoingMessageError(number, message.toArrayBuffer(), timestamp, error);
             }
+
             error.number = number;
             error.reason = reason;
             errors[errors.length] = error;
@@ -425,8 +426,8 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageSender = function(url, username, password) {
     var sender = new MessageSender(url, username, password);
-    textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.SEND_MESSAGE);
-    textsecure.replay.registerFunction(sender.sendRequest.bind(sender), textsecure.replay.Type.NETWORK_REQUEST);
+    textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
+    textsecure.replay.registerFunction(sender.sendMessageRequest.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);
