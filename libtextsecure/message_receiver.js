@@ -111,7 +111,7 @@ MessageReceiver.prototype = {
             ev.error = error;
             ev.proto = envelope;
             this.dispatchEvent(ev);
-            throw error; // reject this promise
+            return Promise.reject(error);
         }.bind(this));
     },
     handleSentMessage: function(destination, timestamp, message) {
