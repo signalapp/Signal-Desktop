@@ -48,7 +48,6 @@
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});
             this.conversation = options.conversation;
-            this.errors = _.groupBy(this.model.get('errors'), 'number');
 
             this.listenTo(this.model, 'change', this.render);
         },
@@ -105,6 +104,7 @@
             }).render().$el.appendTo(this.$('.contacts'));
         },
         render: function() {
+            this.errors = _.groupBy(this.model.get('errors'), 'number');
             this.$el.html(Mustache.render(this.template, {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : moment(this.model.get('received_at')).toString(),
