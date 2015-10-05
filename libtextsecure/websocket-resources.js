@@ -129,22 +129,19 @@
             reader.readAsArrayBuffer(blob);
         };
 
-        var keepalive;
         if (opts.keepalive) {
-            keepalive = new KeepAlive(this, {
+            var keepalive = new KeepAlive(this, {
                 path       : opts.keepalive.path,
                 disconnect : opts.keepalive.disconnect
             });
-
             this.resetKeepAliveTimer = keepalive.reset.bind(keepalive);
+            socket.addEventListener('connect', this.resetKeepAliveTimer);
+            socket.addEventListener('close', keepalive.stop.bind(keepalive));
         }
 
         this.close = function(code, reason) {
             if (!code) { code = 3000; }
             socket.close(code, reason);
-            if (keepalive) {
-                keepalive.close();
-            }
         };
 
     };
@@ -161,7 +158,6 @@
                 this.disconnect = true;
             }
             this.wsr = websocketResource;
-            this.reset();
         } else {
             throw new TypeError('KeepAlive expected a WebSocketResource');
         }
@@ -169,7 +165,7 @@
 
     KeepAlive.prototype = {
         constructor: KeepAlive,
-        close: function() {
+        stop: function() {
             clearTimeout(this.keepAliveTimer);
             clearTimeout(this.disconnectTimer);
         },
