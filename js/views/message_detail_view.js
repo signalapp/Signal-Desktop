@@ -114,7 +114,9 @@
             this.view.render().$el.prependTo(this.$('.message-container'));
 
             if (this.model.isOutgoing()) {
-                this.conversation.contactCollection.each(this.renderContact.bind(this));
+                this.conversation.contactCollection.reject(function(c) {
+                    return c.id === textsecure.storage.user.getNumber();
+                }).each(this.renderContact.bind(this));
             } else {
                 this.renderContact(
                     this.conversation.contactCollection.get(this.model.get('source'))
