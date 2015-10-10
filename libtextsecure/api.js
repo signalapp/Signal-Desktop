@@ -175,13 +175,20 @@ var TextSecureServer = (function() {
         registerKeys: function(genKeys) {
             var keys = {};
             keys.identityKey = btoa(getString(genKeys.identityKey));
-            keys.signedPreKey = {keyId: genKeys.signedPreKey.keyId, publicKey: btoa(getString(genKeys.signedPreKey.publicKey)),
-                                signature: btoa(getString(genKeys.signedPreKey.signature))};
+            keys.signedPreKey = {
+                keyId: genKeys.signedPreKey.keyId,
+                publicKey: btoa(getString(genKeys.signedPreKey.publicKey)),
+                signature: btoa(getString(genKeys.signedPreKey.signature))
+            };
 
             keys.preKeys = [];
             var j = 0;
-            for (var i in genKeys.preKeys)
-                keys.preKeys[j++] = {keyId: genKeys.preKeys[i].keyId, publicKey: btoa(getString(genKeys.preKeys[i].publicKey))};
+            for (var i in genKeys.preKeys) {
+                keys.preKeys[j++] = {
+                    keyId: genKeys.preKeys[i].keyId,
+                    publicKey: btoa(getString(genKeys.preKeys[i].publicKey))
+                };
+            }
 
             //TODO: This is just to make the server happy (v2 clients should choke on publicKey),
             // it needs removed before release
