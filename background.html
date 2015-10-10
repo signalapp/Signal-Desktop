@@ -143,20 +143,25 @@
     <div class='container'>
       <div class='message-container'></div>
       <div class='info'>
+        {{ #hasRetry }}
+          <h3 class='hasRetry clearfix'>
+            <button class='retry'>Resend</button>
+            <span>Failed to send to some recipients.</span>
+          </h3>
+        {{ /hasRetry }}
         <table>
           <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
           <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
-          <tr>
-            <td class='tofrom label'>{{ tofrom }}</td>
-            <td> <div class='contacts'></div> </td>
-          </tr>
           {{ #errors }}
             <tr>
               <td class='label'>Error</td>
               <td> <span class='error-message'>{{message}}</span> </td>
             </tr>
           {{ /errors }}
+            <tr> <td class='tofrom label'>{{tofrom}}</td> </tr>
         </table>
+        <div class='contacts'>
+        </div>
       </div>
     </div>
   </script>
@@ -243,20 +248,17 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
       <div>
+        {{ #errors }}
+            <span class='error-icon'>
+              <span class='error-message'>{{message}}</span>
+            </span>
+        {{ /errors }}
         {{> avatar }}
-        <span class='name'>{{ name }}</span>
+        <span class='name'>{{ name }}
         {{ #conflict }}
             <button class='conflict'><span>Verify</span></button>
         {{ /conflict }}
-        {{ #retry }}
-          <button class='retry'><span>Retry</span></button>
-          <span class='error-message'>{{message}}</span>
-        {{ /retry }}
-        {{ #errors }}
-            <div>
-              <span class='error-message'>{{message}}</span>
-            </div>
-        {{ /errors }}
+        </span>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>

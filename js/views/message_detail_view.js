@@ -10,33 +10,22 @@
         templateName: 'contact-detail',
         initialize: function(options) {
             this.conflict = options.conflict;
-            this.retry = _.find(options.errors, function(e) {
-                return (e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
-            });
             this.errors = _.reject(options.errors, function(e) {
                 return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError' ||
-                        e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
+                        e.name === 'OutgoingIdentityKeyError');
             });
         },
         events: {
-            'click .conflict': 'triggerConflict',
-            'click .retry': 'triggerRetry'
+            'click .conflict': 'triggerConflict'
         },
         triggerConflict: function() {
             this.$el.trigger('conflict', {conflict: this.conflict});
-        },
-        triggerRetry: function() {
-            this.$el.trigger('retry', {error: this.retry});
         },
         render_attributes: function() {
             return {
                 name     : this.model.getTitle(),
                 avatar   : this.model.getAvatar(),
                 conflict : this.conflict,
-                retry    : this.retry,
                 errors   : this.errors
             };
         }
@@ -54,7 +43,7 @@
         events: {
             'click .back': 'goBack',
             'conflict': 'conflictDialogue',
-            'retry': 'retryMessage',
+            'click .retry': 'retryMessage',
         },
         goBack: function() {
             this.trigger('back');
@@ -93,30 +82,43 @@
                 this.render();
             });
         },
-        retryMessage: function(e, data) {
-            this.model.resend(data.error.number);
+        retryMessage: function() {
+            var retrys = _.filter(this.model.get('errors'), function(e) {
+                return (e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
+            });
+            _.map(retrys, 'number').forEach(function(number) {
+                this.model.resend(number);
+            }.bind(this));
         },
         renderContact: function(contact) {
+            var conflict = this.model.getKeyConflict(contact.id);
             var v = new ContactView({
                 model: contact,
-                conflict: this.model.getKeyConflict(contact.id),
+                conflict: conflict,
                 errors: this.errors[contact.id]
-            }).render().$el.appendTo(this.$('.contacts'));
+            }).render();
+            this.$('.contacts').append(v.el);
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
+            var hasRetry = _.find(this.model.get('errors'), function(e) {
+                return (e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
+            });
             this.$el.html(Mustache.render(this.template, {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : moment(this.model.get('received_at')).toString(),
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',
-                errors      : this.errors['undefined']
+                errors      : this.errors['undefined'],
+                hasRetry    : hasRetry
             }));
             this.view.render().$el.prependTo(this.$('.message-container'));
 
             if (this.model.isOutgoing()) {
                 this.conversation.contactCollection.reject(function(c) {
                     return c.id === textsecure.storage.user.getNumber();
-                }).each(this.renderContact.bind(this));
+                }).forEach(this.renderContact.bind(this));
             } else {
                 this.renderContact(
                     this.conversation.contactCollection.get(this.model.get('source'))
