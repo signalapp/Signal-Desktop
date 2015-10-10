@@ -73,10 +73,10 @@
     OutgoingMessageError.prototype = new ReplayableError();
     OutgoingMessageError.prototype.constructor = OutgoingMessageError;
 
-    function SendMessageNetworkError(number, jsonData, legacy, httpError) {
+    function SendMessageNetworkError(number, jsonData, httpError) {
         ReplayableError.call(this, {
             functionCode : Type.TRANSMIT_MESSAGE,
-            args         : [number, jsonData, legacy]
+            args         : [number, jsonData]
         });
         this.name = 'SendMessageNetworkError';
         this.number = number;

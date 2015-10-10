@@ -7,8 +7,9 @@ function MessageSender(url, username, password) {
 
 MessageSender.prototype = {
     constructor: MessageSender,
-        // message == DataMessage or ContentMessage proto
-    sendMessageToDevices: function(timestamp, number, deviceObjectList, message) {
+    // message == DataMessage or ContentMessage proto
+    encryptToDevices: function(timestamp, number, deviceObjectList, message) {
+        var legacy = (message instanceof textsecure.protobuf.DataMessage);
         var relay = deviceObjectList[0].relay;
         for (var i=1; i < deviceObjectList.length; ++i) {
             if (deviceObjectList[i].relay !== relay) {
@@ -23,7 +24,6 @@ MessageSender.prototype = {
                             type: encryptedMsg.type,
                             destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
                             destinationRegistrationId: registrationId,
-                            content: encryptedMsg.body,
                             timestamp: timestamp
                         };
 
@@ -31,20 +31,26 @@ MessageSender.prototype = {
                             json.relay = device.relay;
                         }
 
+                        var content = btoa(encryptedMsg.body);
+                        if (legacy) {
+                            json.body = content;
+                        } else {
+                            json.content = content;
+                        }
+
                         return json;
                     });
                 });
             });
-        })).then(function(jsonData) {
-            var legacy = (message instanceof textsecure.protobuf.DataMessage);
-            return this.sendMessageRequest(number, jsonData, legacy);
-        }.bind(this));
+        }));
     },
 
-    sendMessageRequest: function(number, jsonData, legacy) {
-        return this.server.sendMessages(number, jsonData, legacy).catch(function(e) {
+    transmitMessage: function(number, jsonData) {
+        return this.server.sendMessages(number, jsonData).catch(function(e) {
             if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
-                throw new textsecure.SendMessageNetworkError(number, jsonData, legacy, e);
+                // 409 and 410 should bubble and be handled by doSendMessage
+                // all other network errors can be retried later.
+                throw new textsecure.SendMessageNetworkError(number, jsonData, e);
             }
             throw e;
         });
@@ -139,10 +145,12 @@ MessageSender.prototype = {
         }.bind(this);
 
         var doSendMessage = function(number, devicesForNumber, recurse) {
-            return this.sendMessageToDevices(timestamp, number, devicesForNumber, message).then(function(result) {
-                successfulNumbers[successfulNumbers.length] = number;
-                numberCompleted();
-            }).catch(function(error) {
+            return this.encryptToDevices(timestamp, number, devicesForNumber, message).then(function(jsonData) {
+                return this.transmitMessage(number, jsonData).then(function() {
+                    successfulNumbers[successfulNumbers.length] = number;
+                    numberCompleted();
+                }.bind(this));
+            }.bind(this)).catch(function(error) {
                 if (error instanceof Error && error.name == "HTTPError" && (error.code == 410 || error.code == 409)) {
                     if (!recurse)
                         return registerError(number, "Hit retry limit attempting to reload device list", error);
@@ -427,7 +435,7 @@ window.textsecure = window.textsecure || {};
 textsecure.MessageSender = function(url, username, password) {
     var sender = new MessageSender(url, username, password);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
-    textsecure.replay.registerFunction(sender.sendMessageRequest.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
+    textsecure.replay.registerFunction(sender.transmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);

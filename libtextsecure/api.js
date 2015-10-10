@@ -230,15 +230,7 @@ var TextSecureServer = (function() {
                 return res;
             });
         },
-        sendMessages: function(destination, messageArray, legacy) {
-            //TODO: Do this conversion somewhere else?
-            for (var i = 0; i < messageArray.length; i++) {
-                messageArray[i].content = btoa(messageArray[i].content);
-                if (legacy) {
-                    messageArray[i].body = messageArray[i].content;
-                    delete messageArray[i].content;
-                }
-            }
+        sendMessages: function(destination, messageArray) {
             var jsonData = { messages: messageArray };
             jsonData.timestamp = messageArray[0].timestamp;
 
