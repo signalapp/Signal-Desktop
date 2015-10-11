@@ -9,7 +9,6 @@ var TextSecureServer = (function() {
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
             console.log(options.type, url);
-            var error = new Error(); // just in case, save stack here.
             var xhr = new XMLHttpRequest();
             xhr.open(options.type, url, true /*async*/);
 
@@ -37,18 +36,19 @@ var TextSecureServer = (function() {
                     resolve(result, xhr.status);
                 } else {
                     console.log(options.type, url, xhr.status, 'Error');
-                    reject(HTTPError(xhr.status, result, error.stack));
+                    reject(HTTPError(xhr.status, result, options.stack));
                 }
             };
             xhr.onerror = function() {
                 console.log(options.type, url, xhr.status, 'Error');
-                reject(HTTPError(xhr.status, null, error.stack));
+                reject(HTTPError(xhr.status, null, options.stack));
             };
             xhr.send( options.data || null );
         });
     }
 
     function ajax(url, options) {
+        options.stack = new Error().stack; // just in case, save stack here.
         var count = 3;
 
         function retry(e) {
