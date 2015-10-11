@@ -6,7 +6,7 @@ var TextSecureServer = (function() {
     'use strict';
 
     // Promise-based async xhr routine
-    function ajax(url, options) {
+    function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
             console.log(options.type, url);
             var error = new Error(); // just in case, save stack here.
@@ -46,6 +46,25 @@ var TextSecureServer = (function() {
             };
             xhr.send( options.data || null );
         });
+    }
+
+    function ajax(url, options) {
+        var count = 3;
+
+        function retry(e) {
+            if (e.name === 'HTTPError' && e.code === -1 && count > 0) {
+                count = count - 1;
+                return new Promise(function(resolve) {
+                    setTimeout(function() {
+                        resolve(promise_ajax(url, options).catch(retry));
+                    }, 1000 );
+                });
+            } else {
+                throw e;
+            }
+        }
+
+        return promise_ajax(url, options).catch(retry);
     }
 
     function HTTPError(code, response, stack) {
