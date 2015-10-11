@@ -100,7 +100,7 @@
             });
         });
 
-        describe('with a keepalive config', function() {
+        describe.skip('with a keepalive config', function() {
             before(function() { window.WebSocket = MockSocket; });
             after (function() { window.WebSocket = WebSocket;  });
             this.timeout(60000);
