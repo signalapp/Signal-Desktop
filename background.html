@@ -15,10 +15,13 @@
     </div>
     <div class='gutter'>
         <div class='tool-bar clearfix'>
+          <input type='text' class='search' placeholder='Search'>
           <button class='show-new-conversation'></button>
         </div>
-        <div class='conversations scrollable'></div>
-        <span class='fab'></span>
+        <div class='conversations scrollable inbox'></div>
+        <div class='conversations scrollable search-results hide'>
+          <div class='new-contact contact hide'></div>
+        </div>
     </div>
     <div class='conversation-stack'></div>
   </script>
@@ -327,6 +330,7 @@
   <script type="text/javascript" src="js/views/group_member_list_view.js"></script>
   <script type="text/javascript" src="js/views/conversation_view.js"></script>
   <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
+  <script type="text/javascript" src="js/views/conversation_search_view.js"></script>
   <script type="text/javascript" src="js/views/window_controls_view.js"></script>
   <script type="text/javascript" src="js/views/inbox_view.js"></script>
   <script type="text/javascript" src="js/views/confirmation_dialog_view.js"></script>

@@ -34,6 +34,21 @@
                 var items = transaction.db.createObjectStore("items");
                 next();
             }
+        },
+        {
+            version: "2.0",
+            migrate: function(transaction, next) {
+                var conversations = transaction.objectStore("conversations");
+                conversations.createIndex("search", "tokens", { unique: false, multiEntry: true });
+
+                var all = new Whisper.ConversationCollection();
+                all.fetch().then(function() {
+                    all.each(function(model) {
+                        model.updateTokens();
+                        model.save();
+                    });
+                });
+            }
         }
     ];
 }());

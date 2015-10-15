@@ -106,6 +106,26 @@ input.search {
       background-color: darken($grey_l, 3%);
     }
   }
+
+  input.search {
+    height: $header-height - 10px;
+    width: calc(100% - #{$header-height + 10px});
+    background: $grey_l;
+    margin: 5px;
+    padding: 5px;
+
+    &:before {
+      content: 'Search';
+    }
+
+    &.active, &:active, &:focus {
+      background: white;
+
+      &:before {
+        content: '';
+      }
+    }
+  }
 }
 
 .last-timestamp {

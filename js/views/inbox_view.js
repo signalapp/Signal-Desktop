@@ -67,6 +67,7 @@
                     });
                 });
                 conversation.markRead();
+                conversation.trigger('opened');
             }
         });
 
@@ -88,11 +89,30 @@
 
                 var inboxCollection = bg.getInboxCollection();
                 this.inboxListView = new Whisper.ConversationListView({
-                    el         : this.$('.conversations'),
+                    el         : this.$('.inbox'),
                     collection : inboxCollection
                 }).render();
 
-                this.inboxListView.listenTo(inboxCollection, 'add change:active_at', this.inboxListView.onChangeActiveAt);
+                this.inboxListView.listenTo(inboxCollection,
+                        'add change:active_at',
+                        this.inboxListView.onChangeActiveAt);
+
+                this.searchView = new Whisper.ConversationSearchView({
+                    el    : this.$('.search-results'),
+                    input : this.$('input.search')
+                });
+
+                this.searchView.$el.hide().insertAfter(this.inboxListView.el);
+
+                this.listenTo(this.searchView, 'hide', function() {
+                    this.searchView.$el.hide();
+                    this.inboxListView.$el.show();
+                });
+                this.listenTo(this.searchView, 'show', function() {
+                    this.searchView.$el.show();
+                    this.inboxListView.$el.hide();
+                });
+
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
@@ -109,9 +129,20 @@
                 'click .hamburger': 'toggleMenu',
                 'click .show-debug-log': 'showDebugLog',
                 'click .show-new-conversation': 'showCompose',
-                'select .gutter .contact': 'openConversation'
+                'select .gutter .contact': 'openConversation',
+                'input input.search': 'filterContacts'
+            },
+            filterContacts: function(e) {
+                this.searchView.filterContacts(e);
+                var input = this.$('input.search');
+                if (input.val().length > 0) {
+                    input.addClass('active');
+                } else {
+                    input.removeClass('active');
+                }
             },
             openConversation: function(e, conversation) {
+                conversation = ConversationController.create(conversation);
                 this.conversation_stack.open(conversation);
                 this.hideCompose();
             },

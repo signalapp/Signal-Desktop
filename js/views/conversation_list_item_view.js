@@ -18,13 +18,18 @@
         initialize: function() {
             this.listenTo(this.model, 'change', this.render); // auto update
             this.listenTo(this.model, 'destroy', this.remove); // auto update
+            this.listenTo(this.model, 'opened', this.markSelected); // auto update
             extension.windows.beforeUnload(function() {
                 this.stopListening();
             }.bind(this));
         },
 
-        select: function(e) {
+        markSelected: function() {
             this.$el.addClass('selected').siblings('.selected').removeClass('selected');
+        },
+
+        select: function(e) {
+            this.markSelected();
             this.$el.trigger('select', this.model);
         },
 

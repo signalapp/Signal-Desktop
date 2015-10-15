@@ -42,6 +42,7 @@
             conversation: this
         });
 
+        this.on('change:id change:name', this.updateTokens);
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
     },
@@ -54,22 +55,33 @@
         if (attributes.type !== 'private' && attributes.type !== 'group') {
             return "Invalid conversation type: " + attributes.type;
         }
+    },
 
-        // hack
+    updateTokens: function() {
+        var tokens = [];
+        var name = this.get('name');
+        if (typeof name === 'string') {
+            tokens = name.trim().toLowerCase().split(/[\s\-_\(\)\+]+/);
+        }
+
         if (this.isPrivate()) {
             try {
                 this.id = libphonenumber.util.verifyNumber(this.id);
                 var number = libphonenumber.util.splitCountryCode(this.id);
+                var international_number = '' + number.country_code + number.national_number;
+                var national_number = '' + number.national_number;
 
                 this.set({
                     e164_number: this.id,
-                    national_number: '' + number.national_number,
-                    international_number: '' + number.country_code + number.national_number
+                    national_number: national_number,
+                    international_number: international_number
                 });
+                tokens = tokens.concat(national_number, international_number);
             } catch(ex) {
                 return ex;
             }
         }
+        this.set({tokens: tokens});
     },
 
     sendMessage: function(body, attachments) {
@@ -330,6 +342,25 @@
                 m.destroy().then(resolve).fail(reject);
             });
         }));
+    },
+
+    search: function(query) {
+        query = query.trim().toLowerCase();
+        if (query.length > 0) {
+            var lastCharCode = query.charCodeAt(query.length - 1);
+            var nextChar = String.fromCharCode(lastCharCode + 1);
+            var upper = query.slice(0, -1) + nextChar;
+            console.log('searching', query, ' -> ', upper);
+            return new Promise(function(resolve) {
+                this.fetch({
+                    index: {
+                        name: 'search', // 'search' index on tokens array
+                        lower: query,
+                        upper: upper
+                    }
+                }).always(resolve);
+            }.bind(this));
+        }
     },
 
     fetchGroups: function(number) {
