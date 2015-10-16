@@ -55,6 +55,10 @@
         if (attributes.type !== 'private' && attributes.type !== 'group') {
             return "Invalid conversation type: " + attributes.type;
         }
+
+        if (!attributes.tokens) {
+            this.updateTokens();
+        }
     },
 
     updateTokens: function() {
