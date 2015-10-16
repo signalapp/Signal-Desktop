@@ -350,7 +350,6 @@
             var lastCharCode = query.charCodeAt(query.length - 1);
             var nextChar = String.fromCharCode(lastCharCode + 1);
             var upper = query.slice(0, -1) + nextChar;
-            console.log('searching', query, ' -> ', upper);
             return new Promise(function(resolve) {
                 this.fetch({
                     index: {
