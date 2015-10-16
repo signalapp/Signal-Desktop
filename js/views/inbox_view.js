@@ -119,10 +119,6 @@
                 extension.windows.beforeUnload(function() {
                     this.inboxListView.stopListening();
                 }.bind(this));
-
-                new Whisper.WindowControlsView({
-                    appWindow: options.appWindow
-                }).$el.appendTo(this.$('#header'));
             },
             events: {
                 'click': 'closeMenu',

@@ -63,8 +63,6 @@
             extension.windows.open({
                 id: 'inbox',
                 url: 'index.html',
-                type: 'panel',
-                frame: 'none',
                 focused: true,
                 width: 580,
                 height: 440,

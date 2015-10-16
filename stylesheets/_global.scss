@@ -85,7 +85,7 @@ button.back {
 
 .menu {
   position: relative;
-  float: left;
+  float: right;
   height: 36px;
   padding-right: 8px;
 
@@ -101,7 +101,7 @@ button.back {
     z-index: 1;
 
     top: 100%;
-    left: 0;
+    right: 0;
     margin: 0;
     padding: 0;
     border: solid 1px $blue;
