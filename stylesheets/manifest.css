@@ -225,13 +225,11 @@ img.emoji {
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 0px 1px rgba(170, 170, 170, 0.8);
-  background: #f3f3f3;
+  background: rgba(255, 255, 255, 0.6);
   margin: 10px;
   border-radius: 10px; }
   .contact.selected {
-    background: #2090ea;
-    color: #ffffff; }
+    background: #f3f3f3; }
   .contact:first-child {
     margin-top: 0; }
   .contact:last-child::after {

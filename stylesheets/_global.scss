@@ -271,14 +271,12 @@ $avatar-size: 44px;
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
-  box-shadow: 0 0px 1px rgba(#aaa, 0.8);
-  background: $grey_l;
+  background: rgba(255,255,255,0.6);
   margin: 10px;
   border-radius: 10px;
 
   &.selected {
-    background: $blue;
-    color: #ffffff;
+    background: $grey_l;
   }
 
   &:first-child {
