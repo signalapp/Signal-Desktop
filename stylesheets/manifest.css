@@ -553,84 +553,82 @@ input.search {
     font-family: monospace;
     padding: 0 1em; }
 
-.message-detail {
-  background: #f3f3f3; }
-  .message-detail .message-container {
-    background: white;
-    padding: 1em 0; }
-    .message-detail .message-container .sender {
-      display: none; }
-  .message-detail .info {
-    padding: 1em; }
-    .message-detail .info .label {
-      font-weight: bold;
-      padding-right: 1em;
-      vertical-align: top; }
-    .message-detail .info button {
-      border: none;
-      border-radius: 5px;
-      color: white;
-      padding: 0.5em;
-      font-weight: bold;
-      background: #2090ea; }
-      .message-detail .info button span {
-        vertical-align: middle; }
-      .message-detail .info button:before {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        width: 18px;
-        height: 18px;
-        background: url("/images/refresh.png") no-repeat center center;
-        background-size: 100%; }
-  .message-detail .contact-detail {
-    margin-bottom: 5px;
-    padding: 0 36px; }
-  .message-detail h3 {
-    font-size: 1em;
-    padding: 5px; }
-    .message-detail h3 button {
-      float: right; }
-  .message-detail .error-icon {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url("/images/error_red.png") no-repeat center center;
-    vertical-align: middle;
-    position: relative;
-    margin: 9px;
+.message-detail .message-container {
+  background: white;
+  padding: 1em 0; }
+  .message-detail .message-container .sender {
+    display: none; }
+.message-detail .info {
+  padding: 1em; }
+  .message-detail .info .label {
+    font-weight: bold;
+    padding-right: 1em;
+    vertical-align: top; }
+  .message-detail .info button {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em;
+    font-weight: bold;
+    background: #2090ea; }
+    .message-detail .info button span {
+      vertical-align: middle; }
+    .message-detail .info button:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background: url("/images/refresh.png") no-repeat center center;
+      background-size: 100%; }
+.message-detail .contact-detail {
+  margin-bottom: 5px;
+  padding: 0 36px; }
+.message-detail h3 {
+  font-size: 1em;
+  padding: 5px; }
+  .message-detail h3 button {
     float: right; }
-    .message-detail .error-icon .error-message {
-      display: none;
+.message-detail .error-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url("/images/error_red.png") no-repeat center center;
+  vertical-align: middle;
+  position: relative;
+  margin: 9px;
+  float: right; }
+  .message-detail .error-icon .error-message {
+    display: none;
+    position: absolute;
+    background: black;
+    color: white;
+    border-radius: 10px;
+    padding: 0.5em;
+    font-weight: normal;
+    bottom: calc(100% + 16px);
+    left: 50%;
+    margin-left: -130px;
+    width: 180px;
+    z-index: 10; }
+    .message-detail .error-icon .error-message:before {
+      left: -10px;
+      display: block;
+      content: '';
       position: absolute;
-      background: black;
-      color: white;
-      border-radius: 10px;
-      padding: 0.5em;
-      font-weight: normal;
-      bottom: calc(100% + 16px);
-      left: 50%;
-      margin-left: -130px;
-      width: 180px;
-      z-index: 10; }
-      .message-detail .error-icon .error-message:before {
-        left: -10px;
-        display: block;
-        content: '';
-        position: absolute;
-        bottom: -23px;
-        left: calc(50% - 6px + 40px);
-        border: 6px solid transparent;
-        border-top: 18px solid #000000; }
-    .message-detail .error-icon:hover .error-message {
-      display: block; }
-  .message-detail button.conflict {
-    float: right;
-    background: #d00; }
-    .message-detail button.conflict span {
-      padding-left: 5px; }
-    .message-detail button.conflict:before {
-      background: url("/images/error.png") no-repeat center center; }
+      bottom: -23px;
+      left: calc(50% - 6px + 40px);
+      border: 6px solid transparent;
+      border-top: 18px solid #000000; }
+  .message-detail .error-icon:hover .error-message {
+    display: block; }
+.message-detail button.conflict {
+  float: right;
+  background: #d00; }
+  .message-detail button.conflict span {
+    padding-left: 5px; }
+  .message-detail button.conflict:before {
+    background: url("/images/error.png") no-repeat center center; }
 
 .group-update {
   font-size: smaller; }
