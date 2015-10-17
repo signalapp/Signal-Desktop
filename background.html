@@ -11,12 +11,12 @@
         </ul>
       </div>
       <span class='socket-status'></span>
+      <div class='tool-bar clearfix'>
+        <!-- <button class='show-new-conversation'></button> -->
+        <input type='text' class='search' placeholder='Search'>
+      </div>
     </div>
     <div class='gutter'>
-        <div class='tool-bar clearfix'>
-          <input type='text' class='search' placeholder='Search'>
-          <!-- <button class='show-new-conversation'></button> -->
-        </div>
         <div class='conversations scrollable inbox'></div>
         <div class='conversations scrollable search-results hide'>
           <div class='new-contact contact hide'></div>
@@ -71,9 +71,9 @@
         <div class="close">x</div>
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
-      <div class='sender'>{{ sender }}</div>
       {{> avatar }}
       <div class="bubble">
+          <div class='sender'>{{ sender }}</div>
           <div class='attachments'></div>
           <p class="content">{{ message }}</p>
           <div class='meta'>

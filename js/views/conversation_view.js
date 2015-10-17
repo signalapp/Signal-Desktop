@@ -229,7 +229,9 @@
 
             $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
-            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('.conversation-header').outerHeight());
+
+            //TODO: revisit this logic for new layout.
+            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('.conversation-header').outerHeight() - 20);
 
             this.view.scrollToBottomIfNeeded();
         },

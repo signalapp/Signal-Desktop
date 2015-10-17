@@ -1,5 +1,4 @@
 .gutter {
-  background: $grey_l;
   padding: $header-height 0 0;
 }
 
@@ -19,15 +18,16 @@
 
 .gutter {
   float: left;
+  margin: 10px 0;
   width: 300px;
-  border-right: solid 1px #ddd;
   .conversations {
-    height: calc(100% - #{$header-height});
+    height: calc(100% - 20px);
     width: 100%;
   }
 }
 
 .socket-status {
+  float: right;
   padding: 6px;
   -webkit-app-region: no-drag;
 
@@ -53,7 +53,6 @@
 }
 
 .conversation-stack {
-  background: url('/images/icon_tile.png');
   padding-left: 300px;
   padding-top: $header-height;
   .conversation {
@@ -64,21 +63,11 @@
   }
 }
 
-.tool-bar,
 .conversation-header {
-  background: $grey_l;
   border-bottom: solid 1px darken($grey_l, 10%);
+  margin-bottom: 4px;
 }
 .menu.conversation-menu {
-  float: right;
-  padding-left: 8px;
-  padding-right: 0;
-
-  .menu-list {
-    right: 0;
-    left: initial;
-  }
-
   button.drop-down {
     background: url('/images/arrow_drop_down.png') no-repeat center;
   }
@@ -109,20 +98,20 @@ input.search {
 
   input.search {
     height: $header-height - 10px;
-    width: calc(100% - #{$header-height + 10px});
-    background: $grey_l;
-    margin: 5px;
+    width: 280px;
+    background: rgba(255,255,255,0.2);
+    margin: 10px;
     padding: 5px;
 
-    &:before {
-      content: 'Search';
+    &::-webkit-input-placeholder {
+      color: white;
     }
 
     &.active, &:active, &:focus {
       background: white;
 
-      &:before {
-        content: '';
+      &::-webkit-input-placeholder {
+        color: #ccc;
       }
     }
   }
@@ -147,7 +136,7 @@ input.search {
 
 .index {
   color: $grey_d;
-  background: #eee;
+  background: linear-gradient(rgba(46,172,224,1.0) 50%, rgba(160,228,208,1.0) 100%);
 
   .gutter .new-group-update-form {
     display: none;

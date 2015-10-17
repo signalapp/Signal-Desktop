@@ -1,5 +1,12 @@
 .conversation {
   background-color: #ffffff;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+
+  .panel {
+    height: 100%;
+  }
 }
 .conversation-title {
   display: block;
@@ -11,18 +18,20 @@
 }
 
 .conversation {
+  height: calc(100% - 20px);
+  border-radius: 10px;
   .file-input .close {
     top: -10px;
   }
 
   .discussion-container {
-    height: calc(100% - 2 * #{$header-height});
+    height: calc(100% - 2 * #{$header-height} - 60px);
   }
 }
 
 .group-member-list,
 .new-group-update,
-.conversation, .message-list, .message-detail, .key-verification {
+.message-list, .message-detail, .key-verification {
   height: 100%;
 }
 
@@ -172,10 +181,13 @@
 .sender {
   font-size: smaller;
   opacity: 0.8;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .timestamp {
   font-size: smaller;
+  margin-right: 3px;
 }
 
 .entry.delivered .checkmark {
@@ -193,6 +205,10 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
   }
 
 }
@@ -219,30 +235,12 @@
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 20px - 2 * 12px);
+    max-width: calc(100% - 20px - 2 * 22px);
     padding: 9px 12px;
-    border-radius: 4px;
+    border-radius: 10px;
     box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
-
-    &::before, &::after {
-      content: '';
-      position: absolute;
-      height: 0;
-      width: 0;
-    }
-
-    &::before {
-      top: (34px / 2) - 8px;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-    }
-
-    &::after {
-      top: (34px / 2) - 6px;
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-    }
+    margin-left: 8px;
 
     .content {
       -webkit-user-select: text;
@@ -290,6 +288,10 @@
       &::after {
         left: -8px;
         border-right: 8px solid $grey_l;
+      }
+
+      .timestamp {
+        color: #999;
       }
     }
   }
@@ -417,7 +419,7 @@
 
 .bottom-bar {
   $button-width: 36px;
-
+  margin-top: 4px;
   height: 36px;
   border-top: 1px solid $grey_l;
   background: white;

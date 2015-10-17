@@ -37,14 +37,11 @@ body {
   height: $header-height;
   line-height: 24px;
   color: #f2f2f2;
-  box-shadow: 0 -4px 3px 4px rgba(darken($header-color, 30%), 0.8);
-  background-color: $header-color;
   -webkit-app-region: drag;
 
   button {
     -webkit-app-region: no-drag;
     color: inherit;
-    background-color: $blue;
 
     &:hover {
       background-color: rgba(darken($blue, 10%), 0.8);
@@ -83,11 +80,24 @@ button.back {
   }
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(255,255,255,0.6);
+}
+
 .menu {
   position: relative;
   float: right;
   height: 36px;
-  padding-right: 8px;
+  padding-left: 8px;
+
 
   .hamburger {
     width: $header-height;
@@ -263,10 +273,16 @@ $avatar-size: 44px;
   overflow: hidden;
   box-shadow: 0 0px 1px rgba(#aaa, 0.8);
   background: $grey_l;
+  margin: 10px;
+  border-radius: 10px;
 
   &.selected {
     background: $blue;
     color: #ffffff;
+  }
+
+  &:first-child {
+    margin-top: 0;
   }
 
   &:last-child::after {
