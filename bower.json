@@ -139,7 +139,6 @@
       "autosize"
     ],
     "libtextsecure": [
-      "jquery",
       "long",
       "bytebuffer",
       "protobuf"
