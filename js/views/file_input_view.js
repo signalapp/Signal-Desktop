@@ -113,14 +113,27 @@
 
             this.autoScale(file).then(function(blob) {
                 var limitKb = 1000000;
-                switch (type) {
-                    case 'image': limitKb = 420; break;
-                    case 'audio': limitKb = 32000; break;
-                    case 'video': limitKb = 8000; break;
+                var blobType = file.type === 'image/gif' ? 'gif' : type;
+                switch (blobType) {
+                    case 'image':
+                        limitKb = 420; break;
+                    case 'gif':
+                        limitKb = 5000; break;
+                    case 'audio':
+                        limitKb = 100000; break;
+                    case 'video':
+                        limitKb = 100000; break;
                 }
                 if ((blob.size/1024).toFixed(4) >= limitKb) {
+                    var units = ['kB','MB','GB'];
+                    var u = -1;
+                    var limit = limitKb * 1000;
+                    do {
+                      limit /= 1000;
+                      ++u;
+                    } while (limit >= 1000 && u < units.length - 1);
                     var toast = new Whisper.FileSizeToast({
-                        model: {limit: limitKb}
+                        model: {limit: limit, units: units[u]}
                     });
                     toast.$el.insertAfter(this.$el);
                     toast.render();
