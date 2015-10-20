@@ -7,10 +7,14 @@
   var ImageView = Backbone.View.extend({
       tagName: 'img',
       events: {
-          'load': 'update'
+          'load': 'update',
+          'click': 'open'
       },
       update: function() {
         this.$el.trigger('update');
+      },
+      open: function () {
+        window.open(this.$el.attr('src'), '_blank');
       },
       render: function(dataUrl) {
           this.$el.attr('src', dataUrl);
