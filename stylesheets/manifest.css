@@ -362,13 +362,27 @@ img.emoji {
 .debug-log {
   position: absolute;
   width: 100%;
-  height: calc(100% - 1 * 36px);
-  top: 36px;
+  height: 100%;
+  top: 0;
   left: 0;
   padding: 1em;
   background: #f3f3f3;
   z-index: 1;
   overflow-y: auto; }
+  .debug-log a.x {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #666;
+    color: #fff;
+    text-align: center;
+    font-size: 19px; }
   .debug-log textarea {
     width: 100%;
     resize: vertical; }

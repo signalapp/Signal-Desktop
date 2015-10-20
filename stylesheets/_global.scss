@@ -417,13 +417,31 @@ $avatar-size: 44px;
 .debug-log {
   position: absolute;
   width: 100%;
-  height: calc(100% - 1 * #{$header-height});
-  top: $header-height;
+  height: 100%;
+  top: 0;
   left: 0;
   padding: 1em;
   background: $grey_l;
   z-index: 1;
   overflow-y: auto;
+
+  a.x {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+
+    font-family: sans-serif;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+
+    background: #666;
+    color: #fff;
+    text-align: center;
+    font-size: 19px;
+  }
 
   textarea {
     width: 100%;
