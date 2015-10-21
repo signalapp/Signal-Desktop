@@ -5,19 +5,19 @@
   'use strict';
 
   var ImageView = Backbone.View.extend({
-      tagName: 'a',
+      tagName: 'img',
       events: {
-          'load': 'update'
+          'load': 'update',
+          'click': 'open'
       },
       update: function() {
         this.$el.trigger('update');
       },
+      open: function () {
+        window.open(this.$el.attr('src'), '_blank');
+      },
       render: function(dataUrl) {
-          this.$el.attr('href', dataUrl);
-          this.$el.attr('target', '_blank');
-          jQuery('<img/>', {
-            src: dataUrl
-          }).appendTo(this.$el);
+          this.$el.attr('src', dataUrl);
           return this;
       }
   });
