@@ -797,6 +797,9 @@ input.search {
   .message-detail .attachments video,
   .message-list .attachments video {
     background: black; }
+  .message-detail .attachments img,
+  .message-list .attachments img {
+    cursor: pointer; }
   .message-detail .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
