@@ -39745,8 +39745,16 @@ OutgoingMessage.prototype = {
         return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
             return Promise.all(devicesForNumber.map(function(device) {
                 return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
-                    if (!result)
-                        return this.getKeysForNumber(number, [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]);
+                    if (!result) {
+                        return this.getKeysForNumber(number,
+                            [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]
+                        ).catch(function(error) {
+                            if (error.name !== 'OutgoingIdentityKeyError') {
+                                this.registerError(number, "Failed to retreive new device keys for " + device.encodedNumber, error);
+                            }
+                            return Promise.reject();
+                        }.bind(this));
+                    }
                 }.bind(this));
             }.bind(this))).then(function() {
                 return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
