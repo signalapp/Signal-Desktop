@@ -243,7 +243,7 @@
                     var deliveries     = message.get('delivered') || 0;
                     var conversationId = message.get('conversationId');
                     if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1}).then(
+                        message.save({delivered: deliveries + 1, sent: true}).then(
                             // notify frontend listeners
                             updateConversation.bind(null, conversationId)
                         );
