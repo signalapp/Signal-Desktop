@@ -6,6 +6,9 @@
 
   var ImageView = Backbone.View.extend({
       tagName: 'img',
+      initialize: function(dataUrl) {
+          this.dataUrl = dataUrl;
+      },
       events: {
           'load': 'update',
           'click': 'open'
@@ -14,16 +17,18 @@
         this.$el.trigger('update');
       },
       open: function () {
-        window.open(this.$el.attr('src'), '_blank');
+        window.open(this.dataUrl, '_blank');
       },
-      render: function(dataUrl) {
-          this.$el.attr('src', dataUrl);
+      render: function() {
+          this.$el.attr('src', this.dataUrl);
           return this;
       }
   });
 
   var MediaView = Backbone.View.extend({
-      initialize: function() {
+      initialize: function(dataUrl, contentType) {
+          this.dataUrl = dataUrl;
+          this.contentType = contentType;
           this.$el.attr('controls', '');
       },
       events: {
@@ -32,10 +37,10 @@
       update: function() {
         this.$el.trigger('update');
       },
-      render: function(dataUrl, contentType) {
+      render: function() {
           var $el = $('<source>');
-          $el.attr('src', dataUrl);
-          $el.attr('type', contentType);
+          $el.attr('src', this.dataUrl);
+          $el.attr('type', this.contentType);
           this.$el.append($el);
           return this;
       }
@@ -48,17 +53,18 @@
     tagName: 'span',
     className: 'attachment',
     render: function() {
-        var view;
+        var View;
         switch(this.model.contentType.split('/')[0]) {
-            case 'image': view = new ImageView(); break;
-            case 'audio': view = new AudioView(); break;
-            case 'video': view = new VideoView(); break;
+            case 'image': View = ImageView; break;
+            case 'audio': View = AudioView; break;
+            case 'video': View = VideoView; break;
             default:
                 throw 'Unsupported attachment type';
         }
-        view.$el.appendTo(this.$el);
         var blob = new Blob([this.model.data], {type: this.model.contentType});
-        view.render(window.URL.createObjectURL(blob), this.model.contentType);
+        var view = new View(window.URL.createObjectURL(blob), this.model.contentType);
+        view.$el.appendTo(this.$el);
+        view.render();
         return this;
     }
   });
