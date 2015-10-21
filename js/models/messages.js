@@ -156,7 +156,7 @@
                 console.log(e.reason, e.stack);
             });
             errors = errors.map(function(e) {
-                if (e.constructor === Error) {
+                if (e.constructor === Error || e.constructor === TypeError) {
                     return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
                 }
                 return e;
