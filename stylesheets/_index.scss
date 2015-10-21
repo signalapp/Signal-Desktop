@@ -123,6 +123,7 @@ input.search {
 
 .new-contact {
   display: none;
+  cursor: pointer;
   background: $grey_l;
   .name, .last-timestamp, .avatar { display: none; }
   .contact-details::before {

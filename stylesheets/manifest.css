@@ -491,6 +491,7 @@ input.search {
 
 .new-contact {
   display: none;
+  cursor: pointer;
   background: #f3f3f3; }
   .new-contact .name, .new-contact .last-timestamp, .new-contact .avatar {
     display: none; }
