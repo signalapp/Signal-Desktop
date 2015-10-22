@@ -10,7 +10,7 @@
         var SocketView = Whisper.View.extend({
             className: 'status',
             initialize: function() {
-                setInterval(this.updateStatus.bind(this), 1000);
+                setInterval(this.updateStatus.bind(this), 5000);
             },
             updateStatus: function() {
                 extension.windows.getBackground(function(bg) {
