@@ -451,7 +451,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #dadada;
+  border-bottom: solid 1px #d9d9d9;
   margin-bottom: 4px; }
 
 .menu.conversation-menu button.drop-down {
@@ -489,7 +489,8 @@ input.search {
 
 .last-timestamp {
   font-size: smaller;
-  float: right; }
+  float: right;
+  margin-right: 10px; }
 
 .new-contact {
   display: none;
@@ -513,7 +514,8 @@ input.search {
   .index .last-message {
     margin: 6px 0;
     font-size: small;
-    font-weight: 300; }
+    font-weight: 300;
+    color: #616161; }
   .index .gutter .timestamp {
     position: absolute;
     top: 14px;
@@ -529,6 +531,7 @@ input.search {
     display: block; }
 
 .conversations .unread .contact-details .name,
+.conversations .unread .contact-details .last-message,
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 

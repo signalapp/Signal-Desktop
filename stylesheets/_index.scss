@@ -120,6 +120,7 @@ input.search {
 .last-timestamp {
   font-size: smaller;
   float: right;
+  margin-right: 10px;
 }
 
 .new-contact {
@@ -149,6 +150,7 @@ input.search {
     margin: 6px 0;
     font-size: small;
     font-weight: 300;
+    color: $grey;
   }
 
   .gutter .timestamp {
@@ -173,6 +175,7 @@ input.search {
 
 .conversations .unread .contact-details {
     .name,
+    .last-message,
     .last-timestamp {
       font-weight: bold;
     }
