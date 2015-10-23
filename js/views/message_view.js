@@ -16,7 +16,7 @@
             this.listenTo(this.model, 'destroy', this.remove);
         },
         events: {
-            'click .timestamp': 'select'
+            'click time': 'select'
         },
         select: function() {
             this.$el.trigger('select', {message: this.model});
@@ -56,11 +56,20 @@
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
-                    timestamp: moment(this.model.get('sent_at')).fromNow(),
+                    timestamp: moment(this.model.get('sent_at')).format('LLL'),
+                    iso_timestamp: moment(this.model.get('sent_at')).toISOString(),
                     sender: (contact && contact.getTitle()) || '',
                     avatar: (contact && contact.getAvatar())
                 }, this.render_partials())
             );
+
+            // only do the hassle of refreshing for messages less than 24 hours
+            // otherwise it is more user friendly, to display the full datetime
+
+            jQuery.timeago.settings.checkVisibility = false;
+            if (-24 < moment(this.model.get('sent_at')).diff(new Date(), 'hours')) {
+                this.$('time').timeago();
+            }
 
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
