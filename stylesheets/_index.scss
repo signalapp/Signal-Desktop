@@ -119,6 +119,7 @@ input.search {
 
 .last-timestamp {
   font-size: smaller;
+  float: right;
 }
 
 .new-contact {
@@ -172,7 +173,6 @@ input.search {
 
 .conversations .unread .contact-details {
     .name,
-    .last-message,
     .last-timestamp {
       font-weight: bold;
     }

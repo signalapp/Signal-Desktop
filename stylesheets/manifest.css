@@ -247,7 +247,8 @@ img.emoji {
     font-size: 1em;
     font-weight: 400;
     text-overflow: ellipsis;
-    overflow-x: hidden; }
+    overflow-x: hidden;
+    display: inline-block; }
   .contact .number {
     color: #616161;
     font-size: small; }
@@ -450,7 +451,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px; }
 
 .menu.conversation-menu button.drop-down {
@@ -487,7 +488,8 @@ input.search {
       color: #ccc; }
 
 .last-timestamp {
-  font-size: smaller; }
+  font-size: smaller;
+  float: right; }
 
 .new-contact {
   display: none;
@@ -527,7 +529,6 @@ input.search {
     display: block; }
 
 .conversations .unread .contact-details .name,
-.conversations .unread .contact-details .last-message,
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 
