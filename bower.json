@@ -23,7 +23,8 @@
     "blueimp-canvas-to-blob": "~2.1.1",
     "twemoji": "~1.2.1",
     "emojijs": "iamcal/js-emoji",
-    "autosize": "~3.0.6"
+    "autosize": "~3.0.6",
+    "jquery-timeago": "git://github.com/amenk/jquery-timeago#patch-1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -115,6 +116,9 @@
     ],
     "autosize": [
       "dist/autosize.js"
+    ],
+    "jquery-timeago": [
+      "jquery.timeago.js"
     ]
   },
   "concat": {
@@ -136,7 +140,8 @@
       "blueimp-canvas-to-blob",
       "twemoji",
       "emojijs",
-      "autosize"
+      "autosize",
+      "jquery-timeago"
     ],
     "libtextsecure": [
       "long",
