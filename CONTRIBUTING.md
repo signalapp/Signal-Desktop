@@ -54,10 +54,7 @@ Currently only the Android client supports multi-device pairing.
 * Enter the verification code you received by SMS.
 * Wait for key generation to complete.
 
-You should now be able to use the extension. If you need to re-register, open a
-browser console within the extension options page (or inspect
-`background.html`) and execute `localStorage.clear()` to delete your account
-information.
+You should now be able to use the extension.
 
 ## Chrome profiles
 

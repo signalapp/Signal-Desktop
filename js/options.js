@@ -34,7 +34,6 @@
                 $('#qr').hide();
                 $('.confirmation-dialog .number').text(number);
                 $('.confirmation-dialog .cancel').click(function(e) {
-                    localStorage.clear();
                     reject();
                 });
                 $('.confirmation-dialog .ok').click(function(e) {

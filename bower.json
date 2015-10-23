@@ -14,7 +14,6 @@
     "qrcode": "git://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
     "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
-    "backbone.localstorage": "liliakai/Backbone.localStorage#master",
     "momentjs": "~2.8.3",
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
@@ -77,9 +76,6 @@
     ],
     "libphonenumber-api": [
       "libphonenumber_api-compiled.js"
-    ],
-    "backbone.localstorage": [
-      "backbone.localStorage.js"
     ],
     "momentjs": [
       "moment.js"
