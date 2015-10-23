@@ -421,6 +421,7 @@ img.emoji {
   margin: 10px 0;
   width: 300px; }
   .gutter .conversations {
+    overflow-y: scroll;
     height: calc(100% - 20px);
     width: 100%; }
 
@@ -476,7 +477,7 @@ input.search {
     background-color: #ebebeb; }
 .tool-bar input.search {
   height: 26px;
-  width: 280px;
+  width: 270px;
   background: rgba(255, 255, 255, 0.2);
   margin: 10px;
   padding: 5px; }
