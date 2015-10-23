@@ -302,12 +302,12 @@ $avatar-size: 44px;
   }
 
   .name {
+    display: block;
     margin: 0;
     font-size: 1em;
     font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden;
-    display: inline-block;
   }
 
   .number {

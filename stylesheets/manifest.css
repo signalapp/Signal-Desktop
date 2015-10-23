@@ -243,12 +243,12 @@ img.emoji {
       overflow-x: hidden;
       text-overflow: ellipsis; }
   .contact .name {
+    display: block;
     margin: 0;
     font-size: 1em;
     font-weight: 400;
     text-overflow: ellipsis;
-    overflow-x: hidden;
-    display: inline-block; }
+    overflow-x: hidden; }
   .contact .number {
     color: #616161;
     font-size: small; }
@@ -491,7 +491,7 @@ input.search {
 .last-timestamp {
   font-size: smaller;
   float: right;
-  margin-right: 10px; }
+  margin: 0 10px; }
 
 .new-contact {
   display: none;
