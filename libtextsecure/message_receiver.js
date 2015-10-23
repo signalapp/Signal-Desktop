@@ -53,7 +53,6 @@ MessageReceiver.prototype = {
             });
     },
     handleRequest: function(request) {
-        this.wsr.resetKeepAliveTimer();
         // TODO: handle different types of requests. for now we only expect
         // PUT /messages <encrypted IncomingPushMessageSignal>
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {

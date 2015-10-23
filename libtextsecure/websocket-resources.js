@@ -134,8 +134,9 @@
                 path       : opts.keepalive.path,
                 disconnect : opts.keepalive.disconnect
             });
-            this.resetKeepAliveTimer = keepalive.reset.bind(keepalive);
-            socket.addEventListener('connect', this.resetKeepAliveTimer);
+            var resetKeepAliveTimer = keepalive.reset.bind(keepalive);
+            socket.addEventListener('connect', resetKeepAliveTimer);
+            socket.addEventListener('message', resetKeepAliveTimer);
             socket.addEventListener('close', keepalive.stop.bind(keepalive));
         }
 

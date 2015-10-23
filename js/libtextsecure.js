@@ -38461,8 +38461,9 @@ axolotlInternal.RecipientRecord = function() {
                 path       : opts.keepalive.path,
                 disconnect : opts.keepalive.disconnect
             });
-            this.resetKeepAliveTimer = keepalive.reset.bind(keepalive);
-            socket.addEventListener('connect', this.resetKeepAliveTimer);
+            var resetKeepAliveTimer = keepalive.reset.bind(keepalive);
+            socket.addEventListener('connect', resetKeepAliveTimer);
+            socket.addEventListener('message', resetKeepAliveTimer);
             socket.addEventListener('close', keepalive.stop.bind(keepalive));
         }
 
@@ -39261,7 +39262,6 @@ MessageReceiver.prototype = {
             });
     },
     handleRequest: function(request) {
-        this.wsr.resetKeepAliveTimer();
         // TODO: handle different types of requests. for now we only expect
         // PUT /messages <encrypted IncomingPushMessageSignal>
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
