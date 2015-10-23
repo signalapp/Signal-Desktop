@@ -62,6 +62,8 @@
                 }, this.render_partials())
             );
 
+            this.renderControl();
+
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             var content = this.$('.content');
@@ -70,7 +72,6 @@
 
             this.renderSent();
             this.renderDelivered();
-            this.renderControl();
             this.renderErrors();
 
             this.$('.attachments').append(
