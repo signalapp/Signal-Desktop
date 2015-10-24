@@ -61,34 +61,40 @@
         });
 
         $(function() {
-            $('#init-setup').show().addClass('in');
-            $('#status').text("Connecting...");
-
             var accountManager = new bg.getAccountManager();
-            accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
-                var launch = function() {
-                    bg.openInbox();
-                    bg.removeEventListener('textsecure:contactsync', launch);
-                    clearTimeout(timeout);
-                    window.close();
-                };
-                var timeout = setTimeout(launch, 60000);
-                bg.addEventListener('textsecure:contactsync', launch);
-                $('.progress-dialog .status').text('Syncing groups and contacts');
-                $('.progress-dialog .bar').addClass('progress-bar-striped active');
 
-            }).catch(function(e) {
-                if (e.name === 'HTTPError' && e.code == 411) {
-                    $('.progress-dialog').hide();
-                    $('.error-dialog').show();
-                    $('.error-dialog .ok').click(function(e) {
-                        chrome.runtime.reload();
-                    });
-                }
-                else {
-                    throw e;
-                }
-            });
+            var init = function() {
+                $('#init-setup').show().addClass('in');
+                $('#qr').html('');
+                $('#status').text("Connecting...");
+
+                accountManager.registerSecondDevice(setProvisioningUrl, confirmNumber, incrementCounter).then(function() {
+                    var launch = function() {
+                        bg.openInbox();
+                        bg.removeEventListener('textsecure:contactsync', launch);
+                        clearTimeout(timeout);
+                        window.close();
+                    };
+                    var timeout = setTimeout(launch, 60000);
+                    bg.addEventListener('textsecure:contactsync', launch);
+                    $('.progress-dialog .status').text('Syncing groups and contacts');
+                    $('.progress-dialog .bar').addClass('progress-bar-striped active');
+                }).catch(function(e) {
+                    if (e.message === 'websocket closed') {
+                        init();
+                    } else if (e.name === 'HTTPError' && e.code == 411) {
+                        $('.progress-dialog').hide();
+                        $('.error-dialog').show();
+                        $('.error-dialog .ok').click(function(e) {
+                            chrome.runtime.reload();
+                        });
+                    }
+                    else {
+                        throw e;
+                    }
+                });
+            };
+            init();
         });
     });
 })();

@@ -39073,10 +39073,11 @@ var TextSecureServer = (function() {
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
             return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
-                return new Promise(function(resolve) {
+                return new Promise(function(resolve, reject) {
                     var socket = getSocket();
                     socket.onclose = function(e) {
                         console.log('websocket closed', e.code);
+                        reject(new Error('websocket closed'));
                     };
                     var wsr = new WebSocketResource(socket, {
                         keepalive: { path: '/v1/keepalive/provisioning' },
