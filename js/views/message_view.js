@@ -16,7 +16,8 @@
             this.listenTo(this.model, 'destroy', this.remove);
         },
         events: {
-            'click .timestamp': 'select'
+            'click .timestamp': 'select',
+            'click .error': 'select'
         },
         select: function() {
             this.$el.trigger('select', {message: this.model});
@@ -35,7 +36,7 @@
         renderErrors: function() {
             var errors = this.model.get('errors');
             if (_.size(errors) > 0) {
-                this.$el.addClass('error');
+                this.$('.bubble').addClass('error');
                 if (this.model.isIncoming()) {
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }

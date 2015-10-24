@@ -729,15 +729,16 @@ input.search {
   .message-detail .outgoing.sent .bubble,
   .message-list .outgoing.sent .bubble {
     opacity: 1.0; }
-  .message-detail .error .bubble,
-  .message-list .error .bubble {
+  .message-detail .error.bubble,
+  .message-list .error.bubble {
+    cursor: pointer;
     background: url("/images/error_red.png") no-repeat; }
-  .message-detail .incoming.error .bubble,
-  .message-list .incoming.error .bubble {
+  .message-detail .incoming .error.bubble,
+  .message-list .incoming .error.bubble {
     padding-right: 40px;
     background-position: calc(100% - 12px) 9px; }
-  .message-detail .outgoing.error .bubble,
-  .message-list .outgoing.error .bubble {
+  .message-detail .outgoing .error.bubble,
+  .message-list .outgoing .error.bubble {
     padding-left: 40px;
     background-position: 12px 9px; }
   .message-detail .incoming .bubble,

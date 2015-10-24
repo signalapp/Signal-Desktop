@@ -262,14 +262,15 @@
     opacity: 1.0;
   }
 
-  .error .bubble {
+  .error.bubble {
+    cursor: pointer;
     background: url('/images/error_red.png') no-repeat;
   }
-  .incoming.error .bubble {
+  .incoming .error.bubble {
     padding-right: 40px;
     background-position: calc(100% - 12px) 9px;
   }
-  .outgoing.error .bubble {
+  .outgoing .error.bubble {
     padding-left: 40px;
     background-position: 12px 9px;
   }
