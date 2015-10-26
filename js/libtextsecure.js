@@ -39236,9 +39236,10 @@ MessageReceiver.prototype = {
         this.socket.onerror = this.onerror.bind(this);
         this.socket.onopen = this.onopen.bind(this);
         this.wsr = new WebSocketResource(this.socket, {
-            handleRequest: this.handleRequest.bind(this),
+            handleRequest: this.queueRequest.bind(this),
             keepalive: { path: '/v1/keepalive', disconnect: true }
         });
+        this.pending = Promise.resolve();
     },
     close: function() {
         this.wsr.close();
@@ -39262,10 +39263,14 @@ MessageReceiver.prototype = {
                 eventTarget.dispatchEvent(ev);
             });
     },
+    queueRequest: function(request) {
+        var handleRequest = this.handleRequest.bind(this, request);
+        this.pending = this.pending.then(handleRequest, handleRequest);
+    },
     handleRequest: function(request) {
         // TODO: handle different types of requests. for now we only expect
         // PUT /messages <encrypted IncomingPushMessageSignal>
-        textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
+        return textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
             // fault, and we should handle them gracefully and tell the
@@ -39273,11 +39278,11 @@ MessageReceiver.prototype = {
             request.respond(200, 'OK');
 
             if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
-                this.onDeliveryReceipt(envelope);
+                return this.onDeliveryReceipt(envelope);
             } else if (envelope.content) {
-                this.handleContentMessage(envelope);
+                return this.handleContentMessage(envelope);
             } else if (envelope.legacyMessage) {
-                this.handleLegacyMessage(envelope);
+                return this.handleLegacyMessage(envelope);
             } else {
                 throw new Error('Received message with no content and no legacyMessage');
             }
