@@ -37048,10 +37048,24 @@ window.axolotl.protocol = function(storage_interface) {
         });
     };
 
+    function detectDuplicateOpenSessions(sessions, encodedNumber) {
+        var openSession = undefined;
+        for (var key in sessions) {
+            if (sessions[key].indexInfo.closed == -1) {
+                if (openSession !== undefined)
+                    throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
+                openSession = sessions[key];
+            }
+        }
+    }
+
+
     crypto_storage.getOpenSession = function(encodedNumber) {
         return getSessions(encodedNumber).then(function(sessions) {
             if (sessions === undefined)
                 return undefined;
+
+            detectDuplicateOpenSessions(sessions, encodedNumber);
 
             for (var key in sessions)
                 if (sessions[key].indexInfo.closed == -1)
@@ -37065,13 +37079,13 @@ window.axolotl.protocol = function(storage_interface) {
             if (sessions === undefined)
                 return undefined;
 
+            detectDuplicateOpenSessions(sessions, encodedNumber);
+
             var searchKey = axolotlInternal.utils.convertToString(remoteEphemeralKey);
 
             var openSession = undefined;
             for (var key in sessions) {
                 if (sessions[key].indexInfo.closed == -1) {
-                    if (openSession !== undefined)
-                        throw new Error("Datastore inconsistensy: multiple open sessions for " + encodedNumber);
                     openSession = sessions[key];
                 }
                 if (sessions[key][searchKey] !== undefined)
@@ -37325,8 +37339,10 @@ window.axolotl.protocol = function(storage_interface) {
     }
 
     var fillMessageKeys = function(chain, counter) {
-        if (chain.chainKey.counter + 1000 < counter) //TODO: maybe 1000 is too low/high in some cases?
+        if (Object.keys(chain.messageKeys).length >= 1000) {
+            console.log("Too many message keys for chain");
             return Promise.resolve(); // Stalker, much?
+        }
 
         if (chain.chainKey.counter >= counter)
             return Promise.resolve(); // Already calculated
@@ -37411,7 +37427,11 @@ window.axolotl.protocol = function(storage_interface) {
                 var chain = session[axolotlInternal.utils.convertToString(message.ephemeralKey)];
 
                 return fillMessageKeys(chain, message.counter).then(function() {
-                    return HKDF(axolotlInternal.utils.convertToArrayBuffer(chain.messageKeys[message.counter]), '', "WhisperMessageKeys").then(function(keys) {
+                    var messageKey = chain.messageKeys[message.counter];
+                    if (messageKey === undefined) {
+                        throw new Error("Message key not found. The counter was repeated or the key was not filled.");
+                    }
+                    return HKDF(axolotlInternal.utils.convertToArrayBuffer(messageKey), '', "WhisperMessageKeys").then(function(keys) {
                         return storage_interface.getMyIdentityKey().then(function(ourIdentityKey) {
                             delete chain.messageKeys[message.counter];
 
