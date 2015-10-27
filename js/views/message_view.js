@@ -19,8 +19,9 @@
             'click .timestamp': 'select',
             'click .error': 'select'
         },
-        select: function() {
+        select: function(e) {
             this.$el.trigger('select', {message: this.model});
+            e.stopPropagation();
         },
         className: function() {
             return ["entry", this.model.get('type')].join(' ');
