@@ -37897,12 +37897,20 @@ axolotlInternal.RecipientRecord = function() {
     window.textsecure.crypto = {
         // Decrypts message into a raw string
         decryptWebsocketMessage: function(message, signaling_key) {
+            var decodedMessage = message.toArrayBuffer();
+
+            if (signaling_key.byteLength != 52) {
+                throw new Error("Got invalid length signaling_key");
+            }
+            if (decodedMessage.byteLength < 1 + 16 + 10) {
+                throw new Error("Got invalid length message");
+            }
+            if (new Uint8Array(decodedMessage)[0] != 1) {
+                throw new Error("Got bad version number: " + decodedMessage[0]);
+            }
+
             var aes_key = signaling_key.slice(0, 32);
             var mac_key = signaling_key.slice(32, 32 + 20);
-
-            var decodedMessage = message.toArrayBuffer();
-            if (new Uint8Array(decodedMessage)[0] != 1)
-                throw new Error("Got bad version number: " + decodedMessage[0]);
 
             var iv = decodedMessage.slice(1, 1 + 16);
             var ciphertext = decodedMessage.slice(1 + 16, decodedMessage.byteLength - 10);
@@ -37915,6 +37923,13 @@ axolotlInternal.RecipientRecord = function() {
         },
 
         decryptAttachment: function(encryptedBin, keys) {
+            if (keys.byteLength != 64) {
+                throw new Error("Got invalid length attachment keys");
+            }
+            if (encryptedBin.byteLength < 16 + 32) {
+                throw new Error("Got invalid length attachment");
+            }
+
             var aes_key = keys.slice(0, 32);
             var mac_key = keys.slice(32, 64);
 
@@ -37929,6 +37944,12 @@ axolotlInternal.RecipientRecord = function() {
         },
 
         encryptAttachment: function(plaintext, keys, iv) {
+            if (keys.byteLength != 64) {
+                throw new Error("Got invalid length attachment keys");
+            }
+            if (iv.byteLength != 16) {
+                throw new Error("Got invalid length attachment iv");
+            }
             var aes_key = keys.slice(0, 32);
             var mac_key = keys.slice(32, 64);
 
