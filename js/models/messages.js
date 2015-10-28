@@ -139,9 +139,12 @@
         },
 
         send: function(promise) {
+            this.trigger('pending');
             return promise.then(function() {
+                this.trigger('done');
                 this.save({sent: true});
             }.bind(this)).catch(function(errors) {
+                this.trigger('done');
                 this.set({sent: true});
                 this.saveErrors(errors);
             }.bind(this));

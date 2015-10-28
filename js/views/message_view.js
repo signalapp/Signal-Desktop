@@ -14,6 +14,8 @@
             this.listenTo(this.model, 'change', this.renderSent);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
             this.listenTo(this.model, 'destroy', this.remove);
+            this.listenTo(this.model, 'pending', this.renderPending);
+            this.listenTo(this.model, 'done', this.renderDone);
         },
         events: {
             'click .timestamp': 'select',
@@ -25,6 +27,12 @@
         },
         className: function() {
             return ["entry", this.model.get('type')].join(' ');
+        },
+        renderPending: function() {
+            this.$el.addClass('pending');
+        },
+        renderDone: function() {
+            this.$el.removeClass('pending');
         },
         renderSent: function() {
             if (this.model.isOutgoing()) {

@@ -189,6 +189,15 @@
   margin-right: 3px;
 }
 
+.sinewave {
+  background: url('/images/sinewave.png') repeat-x;
+  animation: backgroundScroll 0.5s linear infinite;
+}
+
+@keyframes backgroundScroll {
+  from {background-position: 0 0;}
+  to {background-position: -18px 0;}
+}
 .entry.sent .checkmark {
   display: inline-block;
   width: 18px;
@@ -203,6 +212,14 @@
     width: 18px;
     height: 1em;
   }
+}
+.entry.pending {
+  .sinewave {
+    display: inline-block;
+    width: 18px;
+    height: 1em;
+  }
+  .double-checkmark, .checkmark { display: none; }
 }
 
 .message-list {
