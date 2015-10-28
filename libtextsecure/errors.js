@@ -37,10 +37,10 @@
             args         : [number, message]
 
         });
-        this.name = 'IncomingIdentityKeyError';
-        this.message = "The identity of the sender has changed. This may be malicious, or the sender may have simply reinstalled.";
-        this.identityKey = key;
         this.number = number.split('.')[0];
+        this.name = 'IncomingIdentityKeyError';
+        this.message = "The identity of " + this.number + " has changed.";
+        this.identityKey = key;
     }
     IncomingIdentityKeyError.prototype = new ReplayableError();
     IncomingIdentityKeyError.prototype.constructor = IncomingIdentityKeyError;
@@ -50,9 +50,9 @@
             functionCode : Type.ENCRYPT_MESSAGE,
             args         : [number, message, timestamp]
         });
-        this.name = 'OutgoingIdentityKeyError';
-        this.message = "The identity of the destination has changed. This may be malicious, or the destination may have simply reinstalled.";
         this.number = number.split('.')[0];
+        this.name = 'OutgoingIdentityKeyError';
+        this.message = "The identity of " + this.number + " has changed.";
         this.identityKey = identityKey;
     }
     OutgoingIdentityKeyError.prototype = new ReplayableError();
