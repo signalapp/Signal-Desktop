@@ -37496,6 +37496,17 @@ window.axolotl.protocol = function(storage_interface) {
                 return result;
             });
         });
+    };
+
+    function getPaddedMessageLength(messageLength) {
+        var messageLengthWithTerminator = messageLength + 1;
+        var messagePartCount            = messageLengthWithTerminator / 160;
+
+        if (messageLengthWithTerminator % 160 != 0) {
+            messagePartCount++;
+        }
+
+        return messagePartCount * 160;
     }
 
     // return Promise(encoded [PreKey]WhisperMessage)
@@ -37509,7 +37520,7 @@ window.axolotl.protocol = function(storage_interface) {
                         var msg = new axolotlInternal.protobuf.WhisperMessage();
                         var plaintext = axolotlInternal.utils.convertToArrayBuffer(pushMessageContent.encode());
 
-                        var paddedPlaintext = new Uint8Array(Math.ceil((plaintext.byteLength + 1) / 160.0) * 160 - 1);
+                        var paddedPlaintext = new Uint8Array(getPaddedMessageLength(plaintext.byteLength));
                         paddedPlaintext.set(new Uint8Array(plaintext));
                         paddedPlaintext[plaintext.byteLength] = 0x80;
 
