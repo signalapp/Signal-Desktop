@@ -189,8 +189,20 @@
   margin-right: 3px;
 }
 
-.entry.delivered .checkmark {
-  display: inline;
+.entry.sent .checkmark {
+  display: inline-block;
+  width: 18px;
+  height: 1em;
+  background: url('/images/check-white.png');
+}
+.entry.delivered {
+  .checkmark { display: none; }
+  .double-checkmark {
+    display: inline-block;
+    background: url('/images/double-check-white.png');
+    width: 18px;
+    height: 1em;
+  }
 }
 
 .message-list {
@@ -255,11 +267,7 @@
     }
   }
 
-  .outgoing .bubble {
-    opacity: 0.7;
-  }
   .outgoing.sent .bubble {
-    opacity: 1.0;
   }
 
   .error.bubble {

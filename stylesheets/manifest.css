@@ -673,8 +673,19 @@ input.search {
   font-size: smaller;
   margin-right: 3px; }
 
+.entry.sent .checkmark {
+  display: inline-block;
+  width: 18px;
+  height: 1em;
+  background: url("/images/check-white.png"); }
+
 .entry.delivered .checkmark {
-  display: inline; }
+  display: none; }
+.entry.delivered .double-checkmark {
+  display: inline-block;
+  background: url("/images/double-check-white.png");
+  width: 18px;
+  height: 1em; }
 
 .message-list {
   margin: 0;
@@ -723,12 +734,6 @@ input.search {
     .message-detail .bubble p,
     .message-list .bubble p {
       margin: 0; }
-  .message-detail .outgoing .bubble,
-  .message-list .outgoing .bubble {
-    opacity: 0.7; }
-  .message-detail .outgoing.sent .bubble,
-  .message-list .outgoing.sent .bubble {
-    opacity: 1.0; }
   .message-detail .error.bubble,
   .message-list .error.bubble {
     cursor: pointer;
