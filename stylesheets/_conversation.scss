@@ -189,37 +189,26 @@
   margin-right: 3px;
 }
 
-.sinewave {
-  background: url('/images/sinewave.png') repeat-x;
-  animation: backgroundScroll 0.5s linear infinite;
-}
-
 @keyframes backgroundScroll {
   from {background-position: 0 0;}
   to {background-position: -18px 0;}
 }
-.entry.sent .checkmark {
-  display: inline-block;
-  width: 18px;
-  height: 1em;
-  background: url('/images/check-white.png');
-}
-.entry.delivered {
-  .checkmark { display: none; }
-  .double-checkmark {
+.outgoing.entry {
+  .status {
     display: inline-block;
+    width: 18px;
+    height: 1em;
+  }
+  &.sent .status {
+    background: url('/images/check-white.png');
+  }
+  &.delivered .status {
     background: url('/images/double-check-white.png');
-    width: 18px;
-    height: 1em;
   }
-}
-.entry.pending {
-  .sinewave {
-    display: inline-block;
-    width: 18px;
-    height: 1em;
+  &.pending .status {
+    background: url('/images/sinewave.png') repeat-x;
+    animation: backgroundScroll 0.5s linear infinite;
   }
-  .double-checkmark, .checkmark { display: none; }
 }
 
 .message-list {
