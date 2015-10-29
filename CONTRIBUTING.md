@@ -34,7 +34,7 @@ repeat this step.
 
 Currently only the Android client supports multi-device pairing.
 
-0. Build TextSecure for Android from source, and change its `PUSH_URL` to point
+0. Build TextSecure for Android from source, and change its `TEXTSECURE_URL` to point
    at `textsecure-service-staging.whispersystems.org`. This task is 1% search and
    replace, 99% [setting up your build environment](https://github.com/WhisperSystems/TextSecure/blob/master/BUILDING.md).
 1. Upon installing the extension you will be presented with a qr code.
