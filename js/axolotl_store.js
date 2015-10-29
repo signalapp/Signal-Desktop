@@ -168,7 +168,7 @@
 
         getSession: function(encodedNumber) {
             if (encodedNumber === null || encodedNumber === undefined)
-                throw new Error("Tried to get session for undefined/null key");
+                throw new Error("Tried to get session for undefined/null number");
             return new Promise(function(resolve) {
                 var session = new Session({id: encodedNumber});
                 session.fetch().always(function() {
@@ -179,7 +179,7 @@
         },
         putSession: function(encodedNumber, record) {
             if (encodedNumber === null || encodedNumber === undefined)
-                throw new Error("Tried to put session for undefined/null key");
+                throw new Error("Tried to put session for undefined/null number");
             return new Promise(function(resolve) {
                 var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
                 var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
@@ -196,7 +196,7 @@
         },
         getDeviceIds: function(number) {
             if (number === null || number === undefined)
-                throw new Error("Tried to put session for undefined/null key");
+                throw new Error("Tried to get device ids for undefined/null number");
             return new Promise(function(resolve) {
                 var sessions = new SessionCollection();
                 sessions.fetchSessionsForNumber(number).always(function() {
@@ -214,7 +214,7 @@
         },
         removeAllSessions: function(number) {
             if (number === null || number === undefined)
-                throw new Error("Tried to put session for undefined/null key");
+                throw new Error("Tried to remove sessions for undefined/null number");
             return new Promise(function(resolve) {
                 var sessions = new SessionCollection();
                 sessions.fetchSessionsForNumber(number).always(function() {
