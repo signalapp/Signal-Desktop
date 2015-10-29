@@ -50,7 +50,7 @@
       <div class="bottom-bar" id='footer'>
           <form class='send'>
               <div class='attachments'>
-                  <div class='paperclip thumbnail'></div>
+                  <div class='paperclip choose-file thumbnail'></div>
                   <input type='file' class='file-input'>
               </div>
               <input class="send-btn" type='submit' value='' />
@@ -205,7 +205,7 @@
   <script type='text/x-tmpl-mustache' id='group_info_input'>
       <div class='group-info-input'>
         <div class='group-avatar'>
-          <div class='thumbnail'> {{> avatar }} </div>
+          <div class='choose-file thumbnail'> {{> avatar }} </div>
           <input type='file' name='avatar' class='file-input'>
         </div>
         <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">

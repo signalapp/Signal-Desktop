@@ -22,7 +22,7 @@
         events: {
             'change': 'previewImages',
             'click .close': 'deleteFiles',
-            'click .thumbnail': 'open'
+            'click .choose-file': 'open'
         },
 
         open: function() {
