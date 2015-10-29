@@ -45,7 +45,7 @@
         addThumb: function(src) {
             this.$('.avatar').hide();
             this.thumb.src = src;
-            this.$('.thumbnail').append(this.thumb.render().el);
+            this.$('.attachment-previews').append(this.thumb.render().el);
         },
 
         autoScale: function(file) {
