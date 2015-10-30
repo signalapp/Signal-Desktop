@@ -80,7 +80,11 @@
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'select .entry': 'messageDetail',
-            'force-resize': 'forceUpdateMessageFieldSize'
+            'force-resize': 'forceUpdateMessageFieldSize',
+            'click .choose-file': 'focusMessageField'
+        },
+        focusMessageField: function() {
+            this.$messageField.focus();
         },
         fetchMessages: function() {
             this.model.fetchMessages();
