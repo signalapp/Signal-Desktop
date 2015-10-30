@@ -31,7 +31,7 @@
 
             this.appWindow = options.appWindow;
             this.fileInput = new Whisper.FileInputView({
-                el: this.$('.attachments'),
+                el: this.$('form.send'),
                 window: this.appWindow.contentWindow
             });
 
@@ -225,13 +225,20 @@
             window.autosize(this.$messageField);
 
             var $discussionContainer = this.$('.discussion-container'),
+                $conversationHeader = this.$('.conversation-header'),
+                $attachmentPreviews = this.$('.attachment-previews'),
                 $bottomBar = this.$('.bottom-bar');
 
-            $bottomBar.outerHeight(this.$messageField.outerHeight() + 1);
+            $bottomBar.outerHeight(
+                    this.$messageField.outerHeight() +
+                    $attachmentPreviews.outerHeight() + 1);
             var $bottomBarNewHeight = $bottomBar.outerHeight();
 
             //TODO: revisit this logic for new layout.
-            $discussionContainer.outerHeight(this.$el.outerHeight() - $bottomBarNewHeight - this.$('.conversation-header').outerHeight() - 20);
+            $discussionContainer.outerHeight(
+                    this.$el.outerHeight() -
+                    $bottomBarNewHeight -
+                    $conversationHeader.outerHeight() - 20);
 
             this.view.scrollToBottomIfNeeded();
         },

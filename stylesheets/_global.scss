@@ -139,7 +139,9 @@ button.back {
 .file-input {
   position: relative;
   margin-right: 10px;
-  cursor: pointer;
+  .choose-file {
+    cursor: pointer;
+  }
 
   .paperclip {
     width: 36px;
@@ -165,9 +167,9 @@ button.back {
     font-family: sans-serif;
     color: white;
     position: absolute;
-    top: 0;
-    right: -8px;
-    cursor: default;
+    top: 5px;
+    right: 2px;
+    cursor: pointer;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -361,12 +363,10 @@ $avatar-size: 44px;
 }
 
 .attachment-preview {
-  width: 100%;
-  height: 100%;
-  background: white;
-
+  display: inline-block;
+  position: relative;
   img {
-    width: 100%;
+    max-width: 100%;
   }
 
 }

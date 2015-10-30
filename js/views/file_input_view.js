@@ -46,6 +46,9 @@
             this.$('.avatar').hide();
             this.thumb.src = src;
             this.$('.attachment-previews').append(this.thumb.render().el);
+            this.thumb.$('img')[0].onload = function() {
+                this.$el.trigger('force-resize');
+            }.bind(this);
         },
 
         autoScale: function(file) {
@@ -216,6 +219,7 @@
             }
             this.thumb.remove();
             this.$('.avatar').show();
+            this.$el.trigger('force-resize');
         },
 
         deleteFiles: function(e) {
