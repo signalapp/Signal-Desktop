@@ -27,9 +27,11 @@
 
         if (inboxOpened) {
             conversation.trigger('newmessages');
-            extension.windows.drawAttention(inboxWindowId);
-            if (!appWindow.isMinimized()) {
+            if (inboxFocused) {
                 return;
+            }
+            if (inboxOpened) {
+                extension.windows.drawAttention(inboxWindowId);
             }
         }
 
@@ -54,6 +56,7 @@
     };
 
     /* Inbox window controller */
+    var inboxFocused = false;
     var inboxOpened = false;
     var inboxWindowId = 'inbox';
     var appWindow = null;
@@ -75,6 +78,13 @@
                 windowInfo.onClosed.addListener(function () {
                     inboxOpened = false;
                     appWindow = null;
+                });
+
+                appWindow.contentWindow.addEventListener('blur', function() {
+                    inboxFocused = false;
+                });
+                appWindow.contentWindow.addEventListener('focus', function() {
+                    inboxFocused = true;
                 });
 
                 // close the panel if background.html is refreshed
