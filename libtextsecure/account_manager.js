@@ -97,21 +97,24 @@
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
             ).then(function(response) {
-                textsecure.storage.remove('identityKey');
-                textsecure.storage.remove('signaling_key');
-                textsecure.storage.remove('password');
-                textsecure.storage.remove('registrationId');
-                textsecure.storage.remove('number_id');
-                textsecure.storage.remove('regionCode');
+                return textsecure.storage.axolotl.clearSessionStore().then(function() {
+                    textsecure.storage.remove('identityKey');
+                    textsecure.storage.remove('signaling_key');
+                    textsecure.storage.remove('password');
+                    textsecure.storage.remove('registrationId');
+                    textsecure.storage.remove('number_id');
+                    textsecure.storage.remove('device_name');
+                    textsecure.storage.remove('regionCode');
 
-                textsecure.storage.put('identityKey', identityKeyPair);
-                textsecure.storage.put('signaling_key', signalingKey);
-                textsecure.storage.put('password', password);
-                textsecure.storage.put('registrationId', registrationId);
+                    textsecure.storage.put('identityKey', identityKeyPair);
+                    textsecure.storage.put('signaling_key', signalingKey);
+                    textsecure.storage.put('password', password);
+                    textsecure.storage.put('registrationId', registrationId);
 
-                textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
-                textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
-                this.server.username = textsecure.storage.get('number_id');
+                    textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
+                    textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
+                    this.server.username = textsecure.storage.get('number_id');
+                }.bind(this));
             }.bind(this));
         },
         generateKeys: function (count, progressCallback) {

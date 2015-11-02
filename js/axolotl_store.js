@@ -228,6 +228,13 @@
                 });
             });
         },
+        clearSessionStore: function() {
+            return new Promise(function(resolve) {
+                var sessions = new SessionCollection();
+                sessions.sync('delete', sessions, {}).always(resolve);
+            });
+
+        },
         getIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined)
                 throw new Error("Tried to get identity key for undefined/null key");

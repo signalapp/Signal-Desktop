@@ -114,6 +114,17 @@ describe("AxolotlStore", function() {
             });
         }).then(done,done);
     });
+    it ('clears the session store', function(done) {
+        var testRecord = "an opaque string";
+        store.putSession(identifier + '.1', testRecord).then(function() {
+            return store.clearSessionStore().then(function() {
+                return store.getSession(identifier + '.1').then(function(record) {
+                    assert.isUndefined(record);
+                });
+            });
+        }).then(done,done);
+
+    });
     it('returns deviceIds for a number', function(done) {
         var testRecord = "an opaque string";
         var devices = [1, 2, 3].map(function(deviceId) {
