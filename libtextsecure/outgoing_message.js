@@ -68,11 +68,14 @@ OutgoingMessage.prototype = {
         if (updateDevices === undefined) {
             return this.server.getKeysForNumber(number).then(handleResult);
         } else {
-            var promises = updateDevices.map(function(device) {
-                return this.server.getKeysForNumber(number, device).then(handleResult);
-            }.bind(this));
+            var promise = Promise.resolve();
+            for (var i in updateDevices) {
+                promise = promise.then(function() {
+                    return this.server.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+                }.bind(this));
+            }
 
-            return Promise.all(promises);
+            return promise;
         }
     },
 
