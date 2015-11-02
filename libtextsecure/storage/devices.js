@@ -40,6 +40,15 @@
             delete tempKeys[encodedNumber];
             return Promise.resolve();
         },
+        needKeysForDevice: function(encodedNumber) {
+            if (tempKeys[encodedNumber] !== undefined) {
+                return Promise.resolve(false);
+            } else {
+                return textsecure.protocol_wrapper.hasOpenSession(encodedNumber).then(function(result) {
+                    return !result;
+                });
+            }
+        },
 
         getDeviceObjectsForNumber: function(number) {
             return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {

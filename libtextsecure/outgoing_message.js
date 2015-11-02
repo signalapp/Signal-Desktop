@@ -116,8 +116,8 @@ OutgoingMessage.prototype = {
     sendToNumber: function(number) {
         return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
             return Promise.all(devicesForNumber.map(function(device) {
-                return textsecure.protocol_wrapper.hasOpenSession(device.encodedNumber).then(function(result) {
-                    if (!result) {
+                return textsecure.storage.devices.needKeysForDevice(device.encodedNumber).then(function(result) {
+                    if (result) {
                         return this.getKeysForNumber(number,
                             [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]
                         ).catch(function(error) {
