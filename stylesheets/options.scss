@@ -1,19 +1,118 @@
 @import 'variables';
-@import 'bootstrap';
+@import 'intlTelInput';
+.iti-flag {
+  // override intlTelInput's flags image location
+  background: url("/images/flags.png");
+}
+
+* {
+  box-sizing: border-box;
+}
 
 html,body {
   height: 100%;
 }
 body {
+  margin: 0;
   font-family: $roboto;
   position: relative;
+  background: #2090ea;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  overflow: auto;
 }
 
-header {
-  background: $blue;
-  color: white;
-  padding-bottom: 2em;
-  margin-bottom: 2em;
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#install {
+  display: none;
+}
+.main {
+  padding: 70px 0 10em;
+}
+.step {
+  display: none;
+}
+
+#signal-computer,
+#signal-phone {
+  max-width: 50%;
+  max-height: 250px;
+}
+
+p {
+  max-width: 30em;
+  margin: 1em auto;
+  line-height: 1.5em;
+}
+
+a {
+  cursor: pointer;
+  &, &:visited, &:hover {
+    text-decoration: none;
+  }
+}
+
+.button {
+  display: inline-block;
+  text-transform: uppercase;
+  border: none;
+  font-weight: bold;
+  min-width: 300px;
+  padding: 0.5em;
+  margin: 0.5em 0;
+  background: white;
+  color: $blue;
+}
+
+.nav {
+  width: 100%;
+  position: fixed;
+  bottom: 50px;
+  margin-top: 2em;
+  padding: 0 20px;
+
+  .button {
+    margin-bottom: 3em;
+  }
+
+  .dot {
+    display: inline-block;
+    cursor: pointer;
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: white;
+    border: solid 5px $blue;
+
+    &.selected {
+      background: $blue_l;
+    }
+  }
+}
+
+.link {
+  &, &:visited, &:hover {
+    color: white;
+    font-weight: bold;
+    border-bottom: dashed 1px white;
+    text-decoration: none;
+  }
 }
 
 .container {
@@ -26,34 +125,13 @@ h1 {
   padding-bottom: 10px;
 }
 
-.tagline {
-  font-style: italic;
-}
-
-#textsecure-icon {
-  float: left;
+#signal-icon {
   margin-top: 20px;
-  max-width: 100%;
-}
-
-#step1, #step2 {
-  color: $blue;
-  font-weight: bold;
-  font-size: small;
-  text-transform: uppercase;
 }
 
 h3.step {
   margin-top: 0;
   font-weight: bold;
-}
-
-.cta {
-  text-align: center;
-  border: 2px solid $grey_l;
-  border-radius: 10px;
-  padding: 1em 0;
-  min-height: 293px;
 }
 
 .help {
@@ -68,9 +146,35 @@ h3.step {
 
 #qr {
   display: inline-block;
+  min-height: 266px;
+  img {
+    border: 5px solid white;
+  }
 
   canvas {
     display: none;
+  }
+}
+
+#device-name {
+  border: none;
+  border-bottom: 1px solid white;
+  background: transparent;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  &::selection, a::selection {
+    color: $grey_d;
+    background: white;
+  }
+
+  &::-moz-selection, a::-moz-selection {
+    color: $grey_d;
+    background: white;
+  }
+
+  &:focus {
+    outline: white auto 5px;
   }
 }
 
@@ -81,6 +185,7 @@ h3.step {
   width: 100%;
   display: block;
   margin-bottom: 0.5em;
+  text-align: center;
 }
 
 #request-voice,
@@ -144,6 +249,7 @@ h3.step {
   padding-right: 0.5em;
 }
 .narrow {
+  margin: auto;
   box-sizing: border-box;
   width: 275px;
   max-width: 100%;
@@ -151,6 +257,69 @@ h3.step {
 
 ul.country-list {
   min-width: 197px !important;
+}
+
+.confirmation-dialog, .progress-dialog, .error-dialog {
+  padding: 1em;
+  text-align: left;
+}
+.number { text-align: center; }
+.confirmation-dialog, .error-dialog {
+  button {
+    float: right;
+    margin-left: 10px;
+  }
+}
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+          background-size: 40px 40px;
+}
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .75) 75%, transparent 75%, transparent);
+}
+.progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+       -o-animation: progress-bar-stripes 2s linear infinite;
+          animation: progress-bar-stripes 2s linear infinite;
+}
+.progress-dialog {
+  text-align: center;
+  padding: 1em;
+  max-width: 600px;
+  margin: auto;
+
+  .status { padding: 1em; }
+
+  .bar-container {
+    height: 1em;
+    background-color: $grey_l;
+    border: solid 1px white;
+  }
+  .bar {
+    width: 0;
+    height: 100%;
+    background-color: $blue_l;
+    transition: width 0.25s;
+
+    &.active {
+    }
+  }
+}
+.error-dialog {
+  display: none;
 }
 
 .modal-container {
@@ -180,37 +349,5 @@ ul.country-list {
       text-align: left;
     }
 
-    .confirmation-dialog, .progress-dialog, .error-dialog {
-      padding: 1em;
-      text-align: left;
-    }
-    .confirmation-dialog .number { text-align: center; }
-    .confirmation-dialog, .error-dialog {
-      button {
-        float: right;
-        margin-left: 10px;
-      }
-    }
-    .progress-dialog {
-      display: none;
-      text-align: center;
-      padding: 1em;
-
-      .status { padding: 1em; }
-
-      .bar-container {
-        height: 1em;
-        background-color: $grey_l;
-      }
-      .bar {
-        width: 0;
-        height: 100%;
-        background-color: $blue;
-        transition: width 0.25s;
-      }
-    }
-    .error-dialog {
-      display: none;
-    }
   }
 }
