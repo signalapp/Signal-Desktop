@@ -307,12 +307,12 @@
                 if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                     conversation.set({
                         timestamp: message.get('sent_at'),
-                        lastMessage: message.get('body')
+                        lastMessage: message.getDescription()
                     });
                 }
                 else if (!conversation.get('lastMessage')) {
                     conversation.set({
-                        lastMessage: message.get('body')
+                        lastMessage: message.getDescription()
                     });
                 }
 
