@@ -181,7 +181,9 @@
             this.confirm("Permanently delete this conversation?").then(function() {
                 this.model.destroyMessages();
                 this.remove();
-            }.bind(this));
+            }.bind(this)).catch(function() {
+                // clicked cancel, nothing to do.
+            });
             this.$('.menu-list').hide();
         },
 
