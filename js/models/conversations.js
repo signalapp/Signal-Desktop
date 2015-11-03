@@ -104,7 +104,7 @@
             unreadCount : 0,
             active_at   : now,
             timestamp   : now,
-            lastMessage : body
+            lastMessage : message.getNotificationText()
         });
 
         var sendFunc;
