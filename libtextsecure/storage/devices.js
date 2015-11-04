@@ -40,16 +40,25 @@
             delete tempKeys[encodedNumber];
             return Promise.resolve();
         },
-        needKeysForDevice: function(encodedNumber) {
-            if (tempKeys[encodedNumber] !== undefined) {
-                return Promise.resolve(false);
-            } else {
-                return textsecure.protocol_wrapper.hasOpenSession(encodedNumber).then(function(result) {
-                    return !result;
-                });
-            }
-        },
 
+        getStaleDeviceIdsForNumber: function(number) {
+            return textsecure.storage.axolotl.getDeviceIds(number).then(function(deviceIds) {
+                if (deviceIds.length === 0) {
+                    return [1];
+                }
+                var updateDevices = [];
+                return Promise.all(deviceIds.map(function(deviceId) {
+                    var encodedNumber = number + '.' + deviceId;
+                    return textsecure.protocol_wrapper.hasOpenSession(encodedNumber).then(function(hasSession) {
+                        if (!hasSession && !tempKeys[encodedNumber]) {
+                            updateDevices.push(deviceId);
+                        }
+                    });
+                })).then(function() {
+                    return updateDevices;
+                });
+            });
+        },
         getDeviceObjectsForNumber: function(number) {
             return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
                 if (identityKey === undefined) {

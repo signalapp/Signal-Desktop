@@ -69,11 +69,11 @@ OutgoingMessage.prototype = {
             return this.server.getKeysForNumber(number).then(handleResult);
         } else {
             var promise = Promise.resolve();
-            for (var i in updateDevices) {
+            updateDevices.forEach(function(device) {
                 promise = promise.then(function() {
-                    return this.server.getKeysForNumber(number, updateDevices[i]).then(handleResult);
+                    return this.server.getKeysForNumber(number, device).then(handleResult);
                 }.bind(this));
-            }
+            }.bind(this));
 
             return promise;
         }
@@ -114,33 +114,12 @@ OutgoingMessage.prototype = {
     },
 
     sendToNumber: function(number) {
-        return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
-            return Promise.all(devicesForNumber.map(function(device) {
-                return textsecure.storage.devices.needKeysForDevice(device.encodedNumber).then(function(result) {
-                    if (result) {
-                        return this.getKeysForNumber(number,
-                            [parseInt(textsecure.utils.unencodeNumber(device.encodedNumber)[1])]
-                        ).catch(function(error) {
-                            if (error.name !== 'OutgoingIdentityKeyError') {
-                                this.registerError(number, "Failed to retreive new device keys for " + device.encodedNumber, error);
-                            }
-                            return Promise.reject();
-                        }.bind(this));
-                    }
+        return textsecure.storage.devices.getStaleDeviceIdsForNumber(number).then(function(updateDevices) {
+            return this.getKeysForNumber(number, updateDevices)
+                .then(this.reloadDevicesAndSend(number, true))
+                .catch(function(error) {
+                    this.registerError(number, "Failed to retreive new device keys for number " + number, error);
                 }.bind(this));
-            }.bind(this))).then(function() {
-                return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
-                    if (devicesForNumber.length == 0) {
-                        return this.getKeysForNumber(number, [1])
-                            .then(this.reloadDevicesAndSend(number, true))
-                            .catch(function(error) {
-                                this.registerError(number, "Failed to retreive new device keys for number " + number, error);
-                            }.bind(this));
-                    } else {
-                        return this.doSendMessage(number, devicesForNumber, true);
-                    }
-                }.bind(this));
-            }.bind(this));
         }.bind(this));
     },
 
