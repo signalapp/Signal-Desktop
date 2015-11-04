@@ -209,8 +209,8 @@ var TextSecureServer = (function() {
                 };
             }
 
-            //TODO: This is just to make the server happy (v2 clients should choke on publicKey),
-            // it needs removed before release
+            // This is just to make the server happy
+            // (v2 clients should choke on publicKey)
             keys.lastResortKey = {keyId: 0x7fffFFFF, publicKey: btoa("42")};
 
             return this.ajax({
@@ -242,9 +242,6 @@ var TextSecureServer = (function() {
                     res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
                     res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
                     res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
-                    //TODO: Is this still needed?
-                    //if (res.devices[i].keyId === undefined)
-                    //  res.devices[i].keyId = 0;
                 }
                 return res;
             });
