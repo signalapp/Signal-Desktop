@@ -32,7 +32,7 @@ MessageReceiver.prototype = {
         this.pending = Promise.resolve();
     },
     close: function() {
-        this.wsr.close();
+        this.socket.close(3000, 'called close');
         delete this.listeners;
     },
     onopen: function() {
@@ -42,8 +42,11 @@ MessageReceiver.prototype = {
         console.log('websocket error');
     },
     onclose: function(ev) {
+        console.log('websocket closed', ev.code, ev.reason || '');
+        if (ev.code === 3000) {
+            return;
+        }
         var eventTarget = this;
-        console.log('websocket closed', ev.code);
         // possible 403 or network issue. Make an request to confirm
         this.server.getDevices(this.number).
             then(this.connect.bind(this)). // No HTTP error? Reconnect
