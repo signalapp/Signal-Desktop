@@ -571,6 +571,8 @@ input.search {
     font-family: monospace;
     padding: 0 1em; }
 
+.message-detail .container {
+  height: calc(100% - (36px + 4px)); }
 .message-detail .message-container {
   background: white;
   padding: 1em 0; }

@@ -45,6 +45,9 @@
 }
 
 .message-detail {
+  .container {
+    height: calc(100% - (#{$header-height} + 4px));
+  }
 
   .message-container {
     background: white;
