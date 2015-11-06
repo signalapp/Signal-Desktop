@@ -17,6 +17,7 @@
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'pending', this.renderPending);
             this.listenTo(this.model, 'done', this.renderDone);
+            this.timeStampView = new Whisper.MessageTimestampView();
         },
         events: {
             'click .timestamp': 'select',
@@ -67,11 +68,13 @@
             this.$el.html(
                 Mustache.render(this.template, {
                     message: this.model.get('body'),
-                    timestamp: moment(this.model.get('sent_at')).fromNow(),
+                    timestamp: this.model.get('sent_at'),
                     sender: (contact && contact.getTitle()) || '',
                     avatar: (contact && contact.getAvatar())
                 }, this.render_partials())
             );
+            this.timeStampView.setElement(this.$('.timestamp'));
+            this.timeStampView.update();
 
             this.renderControl();
 
