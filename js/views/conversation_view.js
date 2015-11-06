@@ -80,7 +80,7 @@
             'click .drop-down': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
-            'select .entry': 'messageDetail',
+            'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
             'click .choose-file': 'focusMessageField'
         },

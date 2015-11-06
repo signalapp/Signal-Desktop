@@ -9,7 +9,8 @@
         tagName:   "li",
         template: $('#message').html(),
         initialize: function() {
-            this.listenTo(this.model, 'change:body change:errors', this.render);
+            this.listenTo(this.model, 'change:errors', this.renderErrors);
+            this.listenTo(this.model, 'change:body', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
             this.listenTo(this.model, 'change', this.renderSent);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
@@ -50,7 +51,7 @@
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }
             } else {
-                this.$el.removeClass('error');
+                this.$('.bubble').removeClass('error');
             }
         },
         renderControl: function() {

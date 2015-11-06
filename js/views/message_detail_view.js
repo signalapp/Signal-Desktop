@@ -36,6 +36,7 @@
         template: $('#message-detail').html(),
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});
+            this.view.render();
             this.conversation = options.conversation;
 
             this.listenTo(this.model, 'change', this.render);
@@ -113,7 +114,7 @@
                 errors      : this.errors['undefined'],
                 hasRetry    : hasRetry
             }));
-            this.view.render().$el.prependTo(this.$('.message-container'));
+            this.view.$el.prependTo(this.$('.message-container'));
 
             if (this.model.isOutgoing()) {
                 this.conversation.contactCollection.reject(function(c) {
