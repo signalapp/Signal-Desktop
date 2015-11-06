@@ -106,7 +106,7 @@
             }
             var c = ConversationController.get(conversationId);
             if (!c) {
-                c = ConversationController.create({id: conversationId});
+                c = ConversationController.create({id: conversationId, type: 'private'});
                 c.fetch();
             }
             return c;
