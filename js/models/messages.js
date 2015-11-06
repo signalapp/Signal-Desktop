@@ -199,7 +199,6 @@
         resolveConflict: function(number) {
             var error = this.getKeyConflict(number);
             if (error) {
-                this.removeConflictFor(number);
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
                     promise = promise.then(function(dataMessage) {
@@ -207,6 +206,7 @@
                     }.bind(this));
                 } else {
                     promise = promise.then(function() {
+                        this.removeConflictFor(number);
                         this.save();
                     }.bind(this));
                 }
