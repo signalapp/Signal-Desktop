@@ -202,6 +202,7 @@
                 var promise = new textsecure.ReplayableError(error).replay();
                 if (this.isIncoming()) {
                     promise = promise.then(function(dataMessage) {
+                        this.removeConflictFor(number);
                         this.handleDataMessage(dataMessage);
                     }.bind(this));
                 } else {

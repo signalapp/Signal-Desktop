@@ -9,7 +9,7 @@
         tagName:   "li",
         template: $('#message').html(),
         initialize: function() {
-            this.listenTo(this.model, 'change:errors', this.renderErrors);
+            this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
             this.listenTo(this.model, 'change:body', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
             this.listenTo(this.model, 'change', this.renderSent);
@@ -43,6 +43,13 @@
         },
         renderDelivered: function() {
             if (this.model.get('delivered')) { this.$el.addClass('delivered'); }
+        },
+        onErrorsChanged: function() {
+            if (this.model.isIncoming()) {
+                this.render();
+            } else {
+                this.renderErrors();
+            }
         },
         renderErrors: function() {
             var errors = this.model.get('errors');
