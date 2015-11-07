@@ -17,6 +17,7 @@
         }
     };
 
+
     window.isFocused = function() {
         return inboxFocused;
     };
@@ -47,10 +48,10 @@
                 minWidth: 600,
                 minHeight: 360
             }, function (windowInfo) {
-                inboxWindowId = windowInfo.id;
                 appWindow = windowInfo;
+                inboxWindowId = appWindow.id;
 
-                windowInfo.onClosed.addListener(function () {
+                appWindow.onClosed.addListener(function () {
                     inboxOpened = false;
                     appWindow = null;
                 });
@@ -81,7 +82,6 @@
     var open;
     window.openConversation = function(conversation) {
         if (inboxOpened === true) {
-            var appWindow = chrome.app.window.get(inboxWindowId);
             appWindow.contentWindow.openConversation(conversation);
         } else {
             open = conversation;
