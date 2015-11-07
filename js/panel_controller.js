@@ -17,41 +17,16 @@
         }
     };
 
-    window.notifyConversation = function(message) {
-        var conversationId = message.get('conversationId');
-        var conversation = ConversationController.get(conversationId);
-        if (!conversation) {
-            conversation = ConversationController.create({id: conversationId});
-            conversation.fetch();
-        }
+    window.isFocused = function() {
+        return inboxFocused;
+    };
+    window.isOpen = function() {
+        return inboxOpened;
+    };
 
-        if (inboxOpened) {
-            conversation.trigger('newmessages');
-            if (inboxFocused) {
-                return;
-            }
-            if (inboxOpened) {
-                extension.windows.drawAttention(inboxWindowId);
-            }
-        }
-
-        if (Whisper.Notifications.isEnabled()) {
-            var sender = ConversationController.create({id: message.get('source')});
-            conversation.fetch().then(function() {
-                sender.fetch().then(function() {
-                    sender.getNotificationIcon().then(function(iconUrl) {
-                        Whisper.Notifications.add({
-                            title    : sender.getTitle(),
-                            message  : message.getNotificationText(),
-                            iconUrl  : iconUrl,
-                            imageUrl : message.getImageUrl(),
-                            conversationId: conversation.id
-                        });
-                    });
-                });
-            });
-        } else {
-            openConversation(conversation);
+    window.drawAttention = function() {
+        if (inboxOpened && !inboxFocused) {
+            extension.windows.drawAttention(inboxWindowId);
         }
     };
 

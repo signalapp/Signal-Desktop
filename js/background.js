@@ -211,7 +211,8 @@
                         active_at: Date.now(),
                         unreadCount: conversation.get('unreadCount') + 1
                     });
-                    notifyConversation(message);
+                    conversation.trigger('newmessage', message);
+                    conversation.notify(message);
                 });
             });
             return;
@@ -223,13 +224,6 @@
     // lazy hack
     window.receipts = new Backbone.Collection();
 
-    function updateConversation(conversationId) {
-        var conversation = ConversationController.get(conversationId);
-        if (conversation) {
-            conversation.trigger('newmessages');
-        }
-    }
-
     function onDeliveryReceipt(ev) {
         var pushMessage = ev.proto;
         var timestamp = pushMessage.timestamp.toNumber();
@@ -238,20 +232,24 @@
         console.log('delivery receipt', pushMessage.source, timestamp);
         messages.fetchSentAt(timestamp).then(function() {
             groups.fetchGroups(pushMessage.source).then(function() {
-                for (var i in messages.where({type: 'outgoing'})) {
-                    var message = messages.at(i);
+                var found = false;
+                messages.where({type: 'outgoing'}).forEach(function(message) {
                     var deliveries     = message.get('delivered') || 0;
                     var conversationId = message.get('conversationId');
                     if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1, sent: true}).then(
+                        message.save({delivered: deliveries + 1}).then(function() {
                             // notify frontend listeners
-                            updateConversation.bind(null, conversationId)
-                        );
-                        return;
+                            var conversation = ConversationController.get(conversationId);
+                            if (conversation) {
+                                conversation.trigger('newmessage', message);
+                            }
+                        });
+                        found = true;
                         // TODO: consider keeping a list of numbers we've
                         // successfully delivered to?
                     }
-                }
+                });
+                if (found) { return; }
                 // if we get here, we didn't find a matching message.
                 // keep the receipt in memory in case it shows up later
                 // as a sync message.

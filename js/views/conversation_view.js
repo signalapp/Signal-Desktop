@@ -23,7 +23,7 @@
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:name', this.updateTitle);
-            this.listenTo(this.model, 'newmessages', this.fetchMessages);
+            this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'change:unreadCount', this.onUnread);
             this.listenTo(this.model, 'opened', this.focusMessageField);
 
@@ -87,8 +87,9 @@
         focusMessageField: function() {
             this.$messageField.focus();
         },
-        fetchMessages: function() {
-            this.model.fetchMessages();
+
+        addMessage: function(message) {
+            this.model.messageCollection.add(message, {merge: true});
         },
 
         viewMembers: function() {

@@ -314,6 +314,31 @@
             }.bind(this));
         }.bind(this));
     },
+    notify: function(message) {
+        if (!message.isIncoming()) {
+            this.markRead();
+            return;
+        }
+        if (window.isOpen() && window.isFocused()) {
+            return;
+        }
+        window.drawAttention();
+        var sender = ConversationController.create({
+            id: message.get('source'), type: 'private'
+        });
+        var conversationId = this.id;
+        sender.fetch().then(function() {
+            sender.getNotificationIcon().then(function(iconUrl) {
+                Whisper.Notifications.add({
+                    title          : sender.getTitle(),
+                    message        : message.getNotificationText(),
+                    iconUrl        : iconUrl,
+                    imageUrl       : message.getImageUrl(),
+                    conversationId : conversationId
+                });
+            });
+        });
+    },
     hashCode: function() {
         if (this.hash === undefined) {
             var string = this.getTitle() || '';

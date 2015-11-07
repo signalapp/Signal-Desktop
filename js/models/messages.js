@@ -319,11 +319,8 @@
 
                 conversation.save().then(function() {
                     message.save().then(function() {
-                        if (message.isIncoming()) {
-                            notifyConversation(message);
-                        } else {
-                            conversation.trigger('newmessages');
-                        }
+                        conversation.trigger('newmessage', message);
+                        conversation.notify(message);
                     });
                 });
             });
