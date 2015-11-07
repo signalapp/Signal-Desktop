@@ -12,16 +12,17 @@ Contributor Guidelines
 
 ## Developer Setup
 
-For development, you should always be using the staging server
+For development, you should always be using the staging server.
 Registrations on the staging server are completely partitioned from the
-productions server that the mobile apps use. A production app from the Play
+production server that the mobile apps use. A production app from the Play
 store or iTunes is hard-coded to connect to the production server. If you wish
 to pair your phone and computer, or test sending between the browser and
 mobile, **you must build a mobile client that targets the staging server**
-(see below, under Pairing).
+(see below, under
+[Linking](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md#linking)).
 
 **Important!** The staging server uses a [self-signed ssl
-certificate](https://github.com/WhisperSystems/TextSecure-Browser/issues/110).
+certificate](https://github.com/WhisperSystems/Signal-Browser/issues/110).
 By default, your browser will reject this certificate as insecure. Therefore,
 in order to register or send and receive messages of any kind, you must first
 visit <https://textsecure-service-staging.whispersystems.org/> in a new tab and
@@ -30,13 +31,13 @@ you should get a 404 from the server. If at any time in the future you notice
 a console error about an "INSECURE RESPONSE" or "Handshake was canceled",
 repeat this step.
 
-## Pairing
+## Linking
 
-Currently only the Android client supports multi-device pairing.
+Currently only the Android client supports multi-device linking.
 
-0. Build TextSecure for Android from source, and change its `TEXTSECURE_URL` to point
+0. Build Signal for Android from source, and change its `TEXTSECURE_URL` to point
    at `textsecure-service-staging.whispersystems.org`. This task is 1% search and
-   replace, 99% [setting up your build environment](https://github.com/WhisperSystems/TextSecure/blob/master/BUILDING.md).
+   replace, 99% [setting up your build environment](https://github.com/WhisperSystems/Signal-Android/blob/master/BUILDING.md).
 1. Upon installing the extension you will be presented with a qr code.
 2. Scan the qr code with an barcode/qr scanning app and open the resulting url
    ("tsdevice://...").

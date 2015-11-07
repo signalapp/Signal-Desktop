@@ -1,23 +1,25 @@
-[![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
-TextSecure for the Browser
-==========================
-Private text and chat for the browser.
-
 ## :warning: Warning :warning:
 This is unfinished, unreleased software.
 
 **Are you a web developer interested in contributing to this project?** :+1:
 Please proceed to
-[CONTRIBUTING.md](https://github.com/WhisperSystems/TextSecure-Browser/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines.
 
-**Not a developer?** :hand::construction_worker::no_entry: Please refrain from installing until our first release. Follow [the blog](https://whispersystems.org/blog) for updates.
+**Not a developer?** :hand::construction_worker::no_entry:
+Please refrain from installing until our first release.
+[Follow us on twitter](https://twitter.com/whisperSystems) or
+[check the blog](https://whispersystems.org/blog) for updates.
 
-## Interoperability
+[![Build Status](https://travis-ci.org/WhisperSystems/Signal-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Browser)
+Signal for the Browser
+==========================
+Signal-Browser is a chrome packaged app that links with the
+[Signal-iOS](https://github.com/WhisperSystems/Signal-iOS) or
+[Signal-Android](https://github.com/WhisperSystems/Signal-Android)
+client already installed on your phone.
 
-TextSecure for the Browser works with [Signal for
-iOS](https://github.com/WhisperSystems/Signal-iOS) and
-[TextSecure](https://github.com/WhisperSystems/TextSecure) on Android.
+Coming soon to the Chrome Web Store.
 
 ## Cryptography Notice
 
@@ -37,5 +39,5 @@ Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Developers Developers Developers Developers!
 Please see
-[CONTRIBUTING.md](https://github.com/WhisperSystems/TextSecure-Browser/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines.
