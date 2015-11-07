@@ -6,8 +6,11 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.MessageTimestampView = Whisper.View.extend({
+        initialize: function() {
+            extension.windows.onClosed(this.clearTimeout.bind(this));
+        },
         update: function() {
-            clearTimeout(this.timeout);
+            this.clearTimeout();
             var millis_now = Date.now();
             var millis = this.$el.data('timestamp');
             if (millis >= millis_now) {
@@ -48,6 +51,9 @@
                 if (delay < 0) { delay = 0; }
                 this.timeout = setTimeout(this.update.bind(this), delay);
             }
+        },
+        clearTimeout: function() {
+            clearTimeout(this.timeout);
         }
     });
 })();
