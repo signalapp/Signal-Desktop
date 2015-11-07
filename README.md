@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/WhisperSystems/TextSecure-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/TextSecure-Browser)
-TextSecure for the Browser
+Signal for the Browser
 ==========================
 Private text and chat for the browser.
 
@@ -15,9 +15,9 @@ for setup instructions and contributor guidelines.
 
 ## Interoperability
 
-TextSecure for the Browser works with [Signal for
+Signal for the Browser works with [Signal for
 iOS](https://github.com/WhisperSystems/Signal-iOS) and
-[TextSecure](https://github.com/WhisperSystems/TextSecure) on Android.
+[Signal for Android](https://github.com/WhisperSystems/Signal-Android).
 
 ## Cryptography Notice
 
