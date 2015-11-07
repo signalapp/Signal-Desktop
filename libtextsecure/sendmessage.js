@@ -148,6 +148,9 @@ MessageSender.prototype = {
         timestamp = timestamp || Date.now();
         var me = textsecure.storage.user.getNumber();
         numbers = numbers.filter(function(number) { return number != me; });
+        if (numbers.length === 0) {
+            return Promise.reject(new Error('No other members in the group'));
+        }
 
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
