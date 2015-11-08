@@ -26,8 +26,12 @@
                 new QRCode(this.$('#qr')[0]).makeCode(url);
         },
         confirmNumber: function(number) {
+            var parsed = libphonenumber.parse(number);
+            if (!libphonenumber.isValidNumber(parsed)) {
+                throw new Error('Invalid number');
+            }
             this.$('#step4 .number').text(libphonenumber.format(
-                libphonenumber.parse(number),
+                parsed,
                 libphonenumber.PhoneNumberFormat.INTERNATIONAL
             ));
             this.selectStep(4);
