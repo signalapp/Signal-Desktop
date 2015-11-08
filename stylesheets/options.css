@@ -942,6 +942,7 @@ h3.step {
 #device-name {
   border: none;
   border-bottom: 1px solid white;
+  padding: 8px;
   background: transparent;
   color: white;
   font-weight: bold;
@@ -955,7 +956,7 @@ h3.step {
   #device-name:focus {
     outline: none; }
   #device-name:hover, #device-name:focus {
-    background: rgba(255, 255, 255, 0.3); }
+    background: rgba(255, 255, 255, 0.1); }
 
 #verifyCode,
 #code,
