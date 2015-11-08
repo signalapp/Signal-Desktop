@@ -543,6 +543,8 @@ input.search {
   border-radius: 10px; }
   .conversation .panel {
     height: 100%; }
+  .conversation ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); }
 
 .conversation-title {
   display: block;
@@ -698,8 +700,6 @@ input.search {
     cursor: pointer; }
     .message-list .timestamp:hover {
       text-decoration: underline; }
-  .message-list::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); }
 
 .message-detail,
 .message-list {

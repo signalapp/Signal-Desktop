@@ -7,6 +7,10 @@
   .panel {
     height: 100%;
   }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+  }
 }
 .conversation-title {
   display: block;
@@ -224,15 +228,12 @@
     }
   }
 
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-  }
-
 }
 
 .message-detail,
 .message-list {
   list-style: none;
+
 
   li {
     margin: 0 8px 16px;
