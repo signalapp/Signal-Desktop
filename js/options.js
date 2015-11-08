@@ -6,9 +6,20 @@
     extension.windows.getBackground(function(bg) {
         bg.storage.onready(function() {
             $(function() {
+                var deviceName = bg.textsecure.storage.user.getDeviceName();
+                if (!deviceName) {
+                    deviceName = 'Chrome';
+                    if (navigator.userAgent.match('Mac OS')) {
+                        deviceName += ' on Mac';
+                    } else if (navigator.userAgent.match('Linux')) {
+                        deviceName += ' on Linux';
+                    } else if (navigator.userAgent.match('Windows')) {
+                        deviceName += ' on Windows';
+                    }
+                }
                 var view = new Whisper.InstallView({
                     el: $('#install'),
-                    deviceName: bg.textsecure.storage.user.getDeviceName()
+                    deviceName: deviceName
                 });
                 if (bg.textsecure.registration.isDone()) {
                     view.selectStep(3);
