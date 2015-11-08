@@ -209,7 +209,7 @@
         var models = this.messageCollection.models;
         this.messageCollection.reset([]);
         _.each(models, function(message) { message.destroy(); });
-        this.save({active_at: null}); // archive
+        this.save({active_at: null, lastMessage: ''}); // archive
     },
 
     getTitle: function() {
