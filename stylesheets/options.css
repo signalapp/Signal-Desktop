@@ -858,7 +858,9 @@ input, button, select, textarea {
 p {
   max-width: 30em;
   margin: 1em auto;
-  line-height: 1.5em; }
+  line-height: 1.5em;
+  font-size: 1.2em;
+  font-weight: bold; }
 
 a {
   cursor: pointer; }
@@ -896,10 +898,14 @@ a {
     .nav .dot.selected {
       background: #a2d2f4; }
 
+.link:hover, .link:focus {
+  background: rgba(255, 255, 255, 0.3);
+  outline: none; }
 .link, .link:visited, .link:hover {
+  padding: 0 3px;
   color: white;
   font-weight: bold;
-  border-bottom: dashed 1px white;
+  border-bottom: dashed 2px white;
   text-decoration: none; }
 
 .container {
@@ -947,7 +953,9 @@ h3.step {
     color: #454545;
     background: white; }
   #device-name:focus {
-    outline: white auto 5px; }
+    outline: none; }
+  #device-name:hover, #device-name:focus {
+    background: rgba(255, 255, 255, 0.3); }
 
 #verifyCode,
 #code,

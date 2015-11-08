@@ -58,6 +58,8 @@ p {
   max-width: 30em;
   margin: 1em auto;
   line-height: 1.5em;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 a {
@@ -107,10 +109,15 @@ a {
 }
 
 .link {
+  &:hover, &:focus {
+    background: rgba(255,255,255,0.3);
+    outline: none;
+  }
   &, &:visited, &:hover {
+    padding: 0 3px;
     color: white;
     font-weight: bold;
-    border-bottom: dashed 1px white;
+    border-bottom: dashed 2px white;
     text-decoration: none;
   }
 }
@@ -174,8 +181,13 @@ h3.step {
   }
 
   &:focus {
-    outline: white auto 5px;
+    outline: none;
   }
+
+  &:hover, &:focus {
+    background: rgba(255,255,255,0.3);
+  }
+
 }
 
 #verifyCode,
