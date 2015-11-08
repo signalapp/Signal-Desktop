@@ -10,7 +10,7 @@ describe('MessageView', function() {
     body: 'hello world',
     type: 'outgoing',
     source: '+14158675309',
-    received_at: new Date().getTime()
+    received_at: Date.now()
   });
 
   it('should display the message text', function() {
@@ -26,15 +26,15 @@ describe('MessageView', function() {
 
   it('should have a nice timestamp', function() {
     var view = new Whisper.MessageView({model: message});
-    message.set({'sent_at': new Date().getTime() - 5000});
+    message.set({'sent_at': Date.now() - 5000});
     view.render();
     assert.match(view.$el.html(), /seconds ago/);
 
-    message.set({'sent_at': new Date().getTime() - 60000});
+    message.set({'sent_at': Date.now() - 60000});
     view.render();
     assert.match(view.$el.html(), /minute ago/);
 
-    message.set({'sent_at': new Date().getTime() - 3600000});
+    message.set({'sent_at': Date.now() - 3600000});
     view.render();
     assert.match(view.$el.html(), /hour ago/);
   });

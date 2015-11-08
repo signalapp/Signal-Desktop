@@ -31,14 +31,14 @@
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
-      <div class='sender'>{{ sender }}</div>
-      <img class='avatar' src='{{ contact_avatar }}'>
+      {{> avatar }}
       <div class="bubble">
-          <p class="content">{{ message }}</p>
+          <div class='sender'>{{ sender }}</div>
           <div class='attachments'></div>
+          <p class="content">{{ message }}</p>
           <div class='meta'>
-            <span class='timestamp'>{{ timestamp }}</span>
-            <span class='checkmark hide'>✓</span>
+            <span class='timestamp' data-timestamp={{ timestamp }}></span>
+            <span class='status hide'></span>
           </div>
       </div>
   </script>
@@ -118,6 +118,7 @@
   <script type="text/javascript" src="../js/views/list_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/group_update_view.js"></script>
   <script type="text/javascript" src="../js/views/attachment_view.js"></script>
+  <script type="text/javascript" src="../js/views/timestamp_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/message_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/message_list_view.js" data-cover></script>
   <script type="text/javascript" src="../js/views/conversation_list_item_view.js" data-cover></script>

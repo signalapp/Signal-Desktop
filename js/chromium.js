@@ -124,7 +124,11 @@
         },
         onClosed: function(callback) {
             // assumes only one front end window
-            return chrome.app.window.getAll()[0].onClosed.addListener(callback);
+            if (window.chrome && chrome.app && chrome.app.window) {
+                return chrome.app.window.getAll()[0].onClosed.addListener(callback);
+            } else {
+                window.addEventListener('beforeunload', callback);
+            }
         },
 
         drawAttention: function(window_id) {
