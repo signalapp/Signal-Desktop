@@ -38,6 +38,12 @@ describe('MessageView', function() {
     view.render();
     assert.match(view.$el.html(), /hour ago/);
   });
+  it('should not imply messages are from the future', function() {
+    var view = new Whisper.MessageView({model: message});
+    message.set({'sent_at': Date.now() + 60000});
+    view.render();
+    assert.match(view.$el.html(), /seconds ago/);
+  });
 
   it('should go away when the model is destroyed', function() {
     var view = new Whisper.MessageView({model: message});
