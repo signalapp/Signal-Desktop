@@ -116,7 +116,7 @@
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
-                extension.windows.beforeUnload(function() {
+                extension.windows.onClosed(function() {
                     this.inboxListView.stopListening();
                 }.bind(this));
             },

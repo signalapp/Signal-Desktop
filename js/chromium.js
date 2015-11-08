@@ -115,7 +115,7 @@
             }
         },
 
-        beforeUnload: function(callback) {
+        onSuspend: function(callback) {
             if (chrome.runtime) {
                 chrome.runtime.onSuspend.addListener(callback);
             } else {

@@ -63,8 +63,8 @@
                     inboxFocused = true;
                 });
 
-                // close the panel if background.html is refreshed
-                extension.windows.beforeUnload(function() {
+                // close the inbox if background.html is refreshed
+                extension.windows.onSuspend(function() {
                     // TODO: reattach after reload instead of closing.
                     extension.windows.remove(inboxWindowId);
                 });

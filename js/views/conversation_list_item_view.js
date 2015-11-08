@@ -19,9 +19,7 @@
             this.listenTo(this.model, 'change', this.render); // auto update
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
-            extension.windows.beforeUnload(function() {
-                this.stopListening();
-            }.bind(this));
+            extension.windows.onClosed(this.stopListening.bind(this));
         },
 
         markSelected: function() {
