@@ -675,11 +675,6 @@ input.search {
   font-size: smaller;
   margin-right: 3px; }
 
-@keyframes backgroundScroll {
-  from {
-    background-position: 0 0; }
-  to {
-    background-position: -18px 0; } }
 .outgoing.entry .status {
   display: inline-block;
   width: 18px;
