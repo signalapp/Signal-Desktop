@@ -267,6 +267,22 @@ $avatar-size: 44px;
   .number {
     display: none;
   }
+
+  .unread-count {
+    float: right;
+    margin: 3px 10px 0 20px;
+    display: inline-block;
+    width: $unread-badge-size;
+    height: $unread-badge-size;
+    line-height: $unread-badge-size;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    background-color: $blue;
+    color: white;
+    border: solid 1px rgba(255,255,255,0.6);
+  }
 }
 .contact {
   position: relative;

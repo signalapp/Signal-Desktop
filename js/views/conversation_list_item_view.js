@@ -38,7 +38,8 @@
                     last_message: this.model.get('lastMessage'),
                     last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
                     number: this.model.getNumber(),
-                    avatar: this.model.getAvatar()
+                    avatar: this.model.getAvatar(),
+                    unreadCount: this.model.get('unreadCount')
                 }, this.render_partials())
             );
 
