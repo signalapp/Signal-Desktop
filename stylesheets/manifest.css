@@ -454,6 +454,12 @@ img.emoji {
 .conversation-header {
   border-bottom: solid 1px #d9d9d9;
   margin-bottom: 4px; }
+  .conversation-header .avatar {
+    float: left;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: x-large; }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
@@ -539,7 +545,7 @@ input.search {
 .conversation {
   background-color: #ffffff;
   margin: 10px;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px; }
   .conversation .panel {
     height: 100%; }
@@ -661,6 +667,7 @@ input.search {
 .new-group-update .container {
   height: calc(100% - 36px - 85px); }
 
+.private .entry .avatar,
 .private .sender,
 .outgoing .sender {
   display: none; }

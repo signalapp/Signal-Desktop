@@ -1,7 +1,7 @@
 .conversation {
   background-color: #ffffff;
   margin: 10px;
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px;
 
   .panel {
@@ -176,6 +176,7 @@
   .container { height: calc(100% - #{$header-height} - 85px); }
 }
 
+.private .entry .avatar,
 .private .sender,
 .outgoing .sender {
   display: none;

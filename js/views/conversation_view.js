@@ -17,7 +17,8 @@
         render_attributes: function() {
             return {
                 group: this.model.get('type') === 'group',
-                title: this.model.getTitle()
+                title: this.model.getTitle(),
+                avatar: this.model.getAvatar()
             };
         },
         initialize: function(options) {
@@ -246,7 +247,7 @@
             $discussionContainer.outerHeight(
                     this.$el.outerHeight() -
                     $bottomBarNewHeight -
-                    $conversationHeader.outerHeight() - 20);
+                    $conversationHeader.outerHeight() - 40);
 
             this.view.scrollToBottomIfNeeded();
         },

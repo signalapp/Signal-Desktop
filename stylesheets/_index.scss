@@ -67,6 +67,13 @@
 .conversation-header {
   border-bottom: solid 1px darken($grey_l, 10%);
   margin-bottom: 4px;
+  .avatar {
+    float: left;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: x-large;
+  }
 }
 .menu.conversation-menu {
   button.drop-down {
