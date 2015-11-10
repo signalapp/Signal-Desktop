@@ -9,14 +9,6 @@
 
     window.Whisper = window.Whisper || {};
 
-    window.setUnreadCount = function(count) {
-        if (count > 0) {
-            extension.navigator.setBadgeText(count);
-        } else {
-            extension.navigator.setBadgeText("");
-        }
-    };
-
 
     window.isFocused = function() {
         return inboxFocused;
@@ -76,6 +68,22 @@
                     openInbox();
                 }
             });
+        }
+    };
+
+    window.setUnreadCount = function(count) {
+        if (count > 0) {
+            extension.navigator.setBadgeText(count);
+            if (inboxOpened === true) {
+                var appWindow = chrome.app.window.get(inboxWindowId);
+                appWindow.contentWindow.document.title = "Signal (" + count + ")";
+            }
+        } else {
+            extension.navigator.setBadgeText("");
+            if (inboxOpened === true) {
+                var appWindow = chrome.app.window.get(inboxWindowId);
+                appWindow.contentWindow.document.title = "Signal";
+            }
         }
     };
 
