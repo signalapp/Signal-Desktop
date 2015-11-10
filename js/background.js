@@ -172,8 +172,6 @@
             type           : 'incoming'
         });
 
-        extension.navigator.setBadgeText(newUnreadCount);
-
         return message;
     }
 

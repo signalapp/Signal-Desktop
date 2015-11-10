@@ -26,7 +26,6 @@
             this.listenTo(this.model, 'change:avatar', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
-            this.listenTo(this.model, 'change:unreadCount', this.onUnread);
             this.listenTo(this.model, 'opened', this.onOpened);
 
             this.render();
@@ -128,12 +127,6 @@
 
         markRead: function(e) {
             this.model.markRead();
-        },
-
-        onUnread: function(model, previous) {
-            if (!this.isHidden()) {
-                this.markRead();
-            }
         },
 
         verifyIdentity: function() {
