@@ -42,7 +42,11 @@
             }, function (windowInfo) {
                 appWindow = windowInfo;
                 inboxWindowId = appWindow.id;
-
+                
+                appWindow.contentWindow.addEventListener('load', function() {
+                    setUnreadCount(storage.get("unreadCount", 0));
+                });
+                
                 appWindow.onClosed.addListener(function () {
                     inboxOpened = false;
                     appWindow = null;
@@ -75,13 +79,11 @@
         if (count > 0) {
             extension.navigator.setBadgeText(count);
             if (inboxOpened === true) {
-                var appWindow = chrome.app.window.get(inboxWindowId);
                 appWindow.contentWindow.document.title = "Signal (" + count + ")";
             }
         } else {
             extension.navigator.setBadgeText("");
             if (inboxOpened === true) {
-                var appWindow = chrome.app.window.get(inboxWindowId);
                 appWindow.contentWindow.document.title = "Signal";
             }
         }
