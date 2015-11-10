@@ -45,7 +45,7 @@ body {
     color: inherit;
 
     &:hover {
-      background-color: rgba(darken($blue, 10%), 0.8);
+      background-color: rgba(0,0,0, 0.2);
     }
   }
 }
@@ -97,7 +97,7 @@ button.back {
   position: relative;
   float: right;
   height: 36px;
-  padding-left: 8px;
+  padding-right: 8px;
 
 
   .hamburger {

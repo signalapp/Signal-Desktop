@@ -52,7 +52,7 @@ body {
     -webkit-app-region: no-drag;
     color: inherit; }
     #header button:hover {
-      background-color: rgba(19, 117, 196, 0.8); }
+      background-color: rgba(0, 0, 0, 0.2); }
 
 .window-controls {
   float: right; }
@@ -91,7 +91,7 @@ button.back {
   position: relative;
   float: right;
   height: 36px;
-  padding-left: 8px; }
+  padding-right: 8px; }
   .menu .hamburger {
     width: 36px;
     height: 36px;
@@ -454,7 +454,7 @@ img.emoji {
     padding-left: 20px;
     border-radius: 36px; }
     .socket-status *:hover {
-      background: #2090ea url("/images/refresh.png") center; }
+      background: url("/images/refresh.png") center; }
   .socket-status .connecting .icon {
     background-color: #2090ea; }
   .socket-status .closing {
@@ -539,7 +539,7 @@ input.search {
 .index {
   max-width: 1300px;
   color: #454545;
-  background: linear-gradient(#2eace0 50%, #a0e4d0 100%); }
+  background: #2eace0; }
   .index .gutter .new-group-update-form {
     display: none;
     padding: 0.5em; }

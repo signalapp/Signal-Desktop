@@ -39,7 +39,7 @@
     border-radius: $header-height;
 
     &:hover {
-      background: $blue url('/images/refresh.png') center;
+      background: url('/images/refresh.png') center;
     }
   }
   .connecting .icon {
@@ -155,7 +155,7 @@ input.search {
 .index {
   max-width: 1300px;
   color: $grey_d;
-  background: linear-gradient(rgba(46,172,224,1.0) 50%, rgba(160,228,208,1.0) 100%);
+  background: #2eace0;
 
   .gutter .new-group-update-form {
     display: none;
