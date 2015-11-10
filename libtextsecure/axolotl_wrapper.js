@@ -37,8 +37,10 @@
         },
         handlePreKeyWhisperMessage: function(from, blob) {
             blob.mark();
-            if (blob.readUint8() != ((3 << 4) | 3)) {
-                throw new Error("Bad version byte");
+            var version = blob.readUint8();
+            if ((version & 0xF) > 3 || (version >> 4) < 3) {
+                // min version > 3 or max version < 3
+                throw new Error("Incompatible version byte");
             }
             return axolotlInstance.handlePreKeyWhisperMessage(from, blob).catch(function(e) {
                 if (e.message === 'Unknown identity key') {
