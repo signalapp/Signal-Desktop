@@ -27,7 +27,7 @@
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'change:unreadCount', this.onUnread);
-            this.listenTo(this.model, 'opened', this.focusMessageField);
+            this.listenTo(this.model, 'opened', this.onOpened);
 
             this.render();
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
@@ -85,6 +85,14 @@
             'click .choose-file': 'focusMessageField',
             'loadMore .message-list': 'fetchMessages'
         },
+
+        onOpened: function() {
+            this.view.resetScrollPosition();
+            this.$el.trigger('force-resize');
+            this.focusMessageField();
+            this.model.markRead();
+        },
+
         focusMessageField: function() {
             this.$messageField.focus();
         },
