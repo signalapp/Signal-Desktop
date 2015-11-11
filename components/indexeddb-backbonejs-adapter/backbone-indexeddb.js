@@ -476,8 +476,16 @@
                         // Cursor is not over yet.
                         if (options.limit && processed >= options.limit) {
                             // Yet, we have processed enough elements. So, let's just skip.
-                            if (bounds && options.conditions[index.keyPath]) {
-                                cursor.continue(options.conditions[index.keyPath][1] + 1); /* We need to 'terminate' the cursor cleany, by moving to the end */
+                            if (bounds) {
+                                if (options.conditions && options.conditions[index.keyPath]) {
+                                    cursor.continue(options.conditions[index.keyPath][1] + 1); /* We need to 'terminate' the cursor cleany, by moving to the end */
+                                } else if (options.index && (options.index.upper || options.index.lower)) {
+                                    if (typeof options.index.order === 'string' && options.index.order.toLowerCase() === 'desc') {
+                                        cursor.continue(options.index.lower);
+                                    } else {
+                                        cursor.continue(options.index.upper);
+                                    }
+                                }
                             } else {
                                 cursor.continue(); /* We need to 'terminate' the cursor cleany, by moving to the end */
                             }
