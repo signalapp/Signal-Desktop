@@ -54,18 +54,10 @@
                         appWindow: this.model.appWindow
                     });
                     $el = view.$el;
-                    if (conversation.messageCollection.length === 0) {
-                        $el.find('.message-list').addClass('loading');
-                    }
                 }
                 $el.prependTo(this.el);
                 $el.find('.message-list').trigger('reset-scroll');
                 $el.trigger('force-resize');
-                conversation.fetchContacts().then(function() {
-                    conversation.fetchMessages().then(function() {
-                        $el.find('.message-list').removeClass('loading');
-                    });
-                });
                 conversation.markRead();
                 conversation.trigger('opened');
             }

@@ -357,18 +357,27 @@
         },
 
         fetchConversation: function(conversationId) {
-            var options = {remove: false};
-            options.index = {
-                // 'conversation' index on [conversationId, received_at]
-                name  : 'conversation',
-                lower : [conversationId],
-                upper : [conversationId, Number.MAX_VALUE]
-                // SELECT messages WHERE conversationId = this.id ORDER
-                // received_at DESC
-            };
-            // TODO pagination/infinite scroll
-            // limit: 10, offset: page*10,
-            return this.fetch(options);
+            return new Promise(function(resolve) {
+                var upper;
+                if (this.length === 0) {
+                    // fetch the most recent messages first
+                    upper = Number.MAX_VALUE;
+                } else  {
+                    // not our first rodeo, fetch older messages.
+                    upper = this.at(0).get('received_at');
+                }
+                var options = {remove: false, limit: 100};
+                options.index = {
+                    // 'conversation' index on [conversationId, received_at]
+                    name  : 'conversation',
+                    lower : [conversationId],
+                    upper : [conversationId, upper],
+                    order : 'desc'
+                    // SELECT messages WHERE conversationId = this.id ORDER
+                    // received_at DESC
+                };
+                this.fetch(options).then(resolve);
+            }.bind(this));
         },
 
         hasKeyConflicts: function() {

@@ -64,9 +64,7 @@
                 this.remove();
             }.bind(this));
 
-            setTimeout(function() {
-                this.view.scrollToBottom();
-            }.bind(this), 10);
+            this.fetchMessages();
         },
 
         events: {
@@ -84,10 +82,21 @@
             'click' : 'onClick',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'click .choose-file': 'focusMessageField'
+            'click .choose-file': 'focusMessageField',
+            'loadMore .message-list': 'fetchMessages'
         },
         focusMessageField: function() {
             this.$messageField.focus();
+        },
+
+        fetchMessages: function() {
+            this.$('.message-list').addClass('loading');
+            return this.model.fetchContacts().then(function() {
+                return this.model.fetchMessages().then(function() {
+                    this.$('.message-list').removeClass('loading');
+                }.bind(this));
+            }.bind(this));
+            // TODO catch?
         },
 
         addMessage: function(message) {

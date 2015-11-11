@@ -10,14 +10,15 @@
         className: 'message-list',
         itemView: Whisper.MessageView,
         events: {
-            'add': 'onAdd',
-            'update *': 'scrollToBottom',
-            'scroll': 'measureScrollPosition',
+            'update *': 'scrollToBottomIfNeeded',
+            'scroll': 'onScroll',
             'reset-scroll': 'resetScrollPosition'
         },
-        onAdd: function() {
-            this.$el.removeClass('loading');
-            this.scrollToBottom();
+        onScroll: function() {
+            this.measureScrollPosition();
+            if (this.$el.scrollTop() === 0) {
+                this.$el.trigger('loadMore');
+            }
         },
         measureScrollPosition: function() {
             if (this.el.scrollHeight === 0) { // hidden
@@ -47,6 +48,22 @@
         addAll: function() {
             Whisper.ListView.prototype.addAll.apply(this, arguments); // super()
             this.scrollToBottom();
-        }
+        },
+        addOne: function(model) {
+            if (this.itemView) {
+                var view = new this.itemView({model: model}).render();
+                if (this.collection.indexOf(model) === this.collection.length - 1) {
+                    // add to the bottom.
+                    this.$el.append(view.el);
+                    this.scrollToBottom();
+                } else {
+                    // add to the top.
+                    var offset = this.el.scrollHeight - this.$el.scrollTop();
+                    this.$el.prepend(view.el);
+                    this.$el.scrollTop(this.el.scrollHeight - offset);
+                }
+            }
+            this.$el.removeClass('loading');
+        },
     });
 })();

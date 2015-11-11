@@ -219,6 +219,14 @@
 }
 
 .message-list {
+  position: relative;
+  &::before {
+    display: block;
+    margin: $header-height auto;
+    content: " ";
+    height: $header-height;
+    width: $header-height;
+  }
   margin: 0;
   padding: 1em 0;
   overflow-y: auto;

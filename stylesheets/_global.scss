@@ -396,7 +396,7 @@ $avatar-size: 44px;
 
 .loading {
   position: relative;
-  &::after {
+  &::before {
     display: block;
     margin: $header-height auto;
     content: " ";

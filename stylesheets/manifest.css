@@ -315,7 +315,7 @@ img.emoji {
 
 .loading {
   position: relative; }
-  .loading::after {
+  .loading::before {
     display: block;
     margin: 36px auto;
     content: " ";
@@ -666,9 +666,16 @@ input.search {
   opacity: 1; }
 
 .message-list {
+  position: relative;
   margin: 0;
   padding: 1em 0;
   overflow-y: auto; }
+  .message-list::before {
+    display: block;
+    margin: 36px auto;
+    content: " ";
+    height: 36px;
+    width: 36px; }
   .message-list .timestamp {
     cursor: pointer; }
     .message-list .timestamp:hover {
