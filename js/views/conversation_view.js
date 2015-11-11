@@ -62,6 +62,7 @@
                 this.appWindow.contentWindow.removeEventListener('focus', onFocus);
                 window.autosize.destroy(this.$messageField);
                 this.remove();
+                this.model.messageCollection.reset([]);
             }.bind(this));
 
             this.fetchMessages();
