@@ -23,6 +23,7 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
+            this.listenTo(this.model, 'change:avatar', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'change:unreadCount', this.onUnread);
@@ -219,6 +220,14 @@
 
         updateTitle: function() {
             this.$('.conversation-title').text(this.model.getTitle());
+        },
+
+        updateAvatar: function() {
+            var avatarView = new (Whisper.View.extend({
+                templateName: 'avatar',
+                render_attributes: { avatar: this.model.getAvatar() }
+            }))();
+            this.$('.conversation-header .avatar').replaceWith(avatarView.render().$('.avatar'));
         },
 
         updateMessageFieldSize: function (event) {
