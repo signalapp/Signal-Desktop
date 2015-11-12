@@ -239,6 +239,7 @@
 
 
   li {
+    max-width: 800px;
     margin: 0 8px 16px;
 
     &::after {
@@ -256,12 +257,16 @@
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    max-width: calc(100% - 20px - 2 * 22px);
     padding: 9px 12px;
     border-radius: 10px;
     box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
+    max-width: 30em;
+
+    @media(max-width:950px) {
+      max-width: calc(100% - 45px); // avatar size + padding
+    }
 
     .content {
       -webkit-user-select: text;
@@ -294,6 +299,9 @@
   }
 
   .incoming {
+    .avatar, .bubble {
+      float: left;
+    }
     .bubble {
       color: $grey_d;
       background-color: $grey_l;
