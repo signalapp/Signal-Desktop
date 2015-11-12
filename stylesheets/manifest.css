@@ -225,7 +225,8 @@ img.emoji {
     float: right;
     margin: 3px 10px 0 20px;
     display: inline-block;
-    width: 21px;
+    padding: 0 3px;
+    min-width: 21px;
     height: 21px;
     line-height: 21px;
     font-size: 12px;
