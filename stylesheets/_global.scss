@@ -398,13 +398,13 @@ $avatar-size: 44px;
   position: relative;
   &::before {
     display: block;
-    margin: $header-height auto;
+    margin: 0px auto;
     content: " ";
-    height: $header-height;
-    width: $header-height;
-    border-radius: 2 * $header-height;
+    height: $loading-height;
+    width: $loading-height;
+    border-radius: 2 * $loading-height;
     border: solid 3px;
-    border-color: $blue_l $blue_l $grey_l $grey_l;
+    border-color: $blue_l $blue_l $grey_l $grey_l !important;
     animation: rotate 1s linear infinite;
   }
 

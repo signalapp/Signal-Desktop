@@ -317,13 +317,13 @@ img.emoji {
   position: relative; }
   .loading::before {
     display: block;
-    margin: 36px auto;
+    margin: 0px auto;
     content: " ";
-    height: 36px;
-    width: 36px;
-    border-radius: 72px;
+    height: 16px;
+    width: 16px;
+    border-radius: 32px;
     border: solid 3px;
-    border-color: #a2d2f4 #a2d2f4 #f3f3f3 #f3f3f3;
+    border-color: #a2d2f4 #a2d2f4 #f3f3f3 #f3f3f3 !important;
     animation: rotate 1s linear infinite; }
 @keyframes rotate {
   to {
@@ -668,14 +668,15 @@ input.search {
 .message-list {
   position: relative;
   margin: 0;
-  padding: 1em 0;
+  padding: 2em 0 0;
   overflow-y: auto; }
-  .message-list::before {
+  .message-list:before {
     display: block;
-    margin: 36px auto;
+    margin: -25px auto 10px;
     content: " ";
-    height: 36px;
-    width: 36px; }
+    height: 16px;
+    width: 16px;
+    border: solid 3px transparent; }
   .message-list .timestamp {
     cursor: pointer; }
     .message-list .timestamp:hover {
@@ -800,10 +801,12 @@ input.search {
   .message-list .attachments img,
   .message-list .attachments audio,
   .message-list .attachments video {
-    max-width: 100%; }
+    max-width: 100%;
+    max-height: 300px; }
   .message-detail .attachments video,
   .message-list .attachments video {
-    background: black; }
+    background: black;
+    min-height: 300px; }
   .message-detail .attachments img,
   .message-list .attachments img {
     cursor: pointer; }

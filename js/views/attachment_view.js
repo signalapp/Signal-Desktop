@@ -14,7 +14,7 @@
           'click': 'open'
       },
       update: function() {
-        this.$el.trigger('update');
+        this.trigger('update');
       },
       open: function () {
         window.open(this.dataUrl, '_blank');
@@ -32,10 +32,10 @@
           this.$el.attr('controls', '');
       },
       events: {
-          'loadeddata': 'update'
+          'canplay': 'canplay'
       },
-      update: function() {
-        this.$el.trigger('update');
+      canplay: function() {
+          this.trigger('update');
       },
       render: function() {
           var $el = $('<source>');
@@ -65,6 +65,7 @@
         var view = new View(window.URL.createObjectURL(blob), this.model.contentType);
         view.$el.appendTo(this.$el);
         view.render();
+        view.on('update', this.trigger.bind(this, 'update'));
         return this;
     }
   });

@@ -220,16 +220,18 @@
 
 .message-list {
   position: relative;
-  &::before {
-    display: block;
-    margin: $header-height auto;
-    content: " ";
-    height: $header-height;
-    width: $header-height;
-  }
   margin: 0;
-  padding: 1em 0;
+  padding: 2em 0 0;
   overflow-y: auto;
+
+  &:before {
+    display: block;
+    margin: -25px auto 10px;
+    content: " ";
+    height: $loading-height;
+    width: $loading-height;
+    border: solid 3px transparent;
+  }
 
   .timestamp {
     cursor: pointer;
@@ -392,10 +394,12 @@
   .attachments {
     img, audio, video {
       max-width: 100%;
+      max-height: 300px;
     }
 
     video {
       background: black;
+      min-height: 300px;
     }
 
     img {

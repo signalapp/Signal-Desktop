@@ -94,16 +94,19 @@
             this.renderSent();
             this.renderDelivered();
             this.renderErrors();
-
-            this.$('.attachments').append(
-                this.model.get('attachments').map(function(attachment) {
-                    return new Whisper.AttachmentView({
-                        model: attachment
-                    }).render().el;
-                })
-            );
+            this.loadAttachments();
 
             return this;
+        },
+        loadAttachments: function() {
+            this.model.get('attachments').forEach(function(attachment) {
+                var view = new Whisper.AttachmentView({ model: attachment }).render();
+                this.listenTo(view, 'update', function() {
+                    this.trigger('beforeChangeHeight');
+                    this.$('.attachments').append(view.el);
+                    this.trigger('afterChangeHeight');
+                });
+            }.bind(this));
         }
     });
 

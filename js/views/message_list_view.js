@@ -10,7 +10,6 @@
         className: 'message-list',
         itemView: Whisper.MessageView,
         events: {
-            'update *': 'scrollToBottomIfNeeded',
             'scroll': 'onScroll',
             'reset-scroll': 'resetScrollPosition'
         },
@@ -27,6 +26,11 @@
             this.scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
             this.scrollHeight = this.el.scrollHeight;
             this.shouldStickToBottom = this.scrollPosition === this.scrollHeight;
+            if (this.shouldStickToBottom) {
+                this.bottomOffset = 0;
+            } else {
+                this.bottomOffset = this.scrollHeight - this.$el.scrollTop();
+            }
         },
         resetScrollPosition: function() {
             var scrollPosition = this.scrollPosition;
@@ -36,34 +40,25 @@
             this.$el.scrollTop(scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
-            if (this.shouldStickToBottom) {
-                this.$el.scrollTop(this.scrollHeight);
-            }
-        },
-        scrollToBottom: function() {
-            // TODO: Avoid scrolling if user has manually scrolled up?
-            this.$el.scrollTop(this.el.scrollHeight);
-            this.measureScrollPosition();
-        },
-        addAll: function() {
-            Whisper.ListView.prototype.addAll.apply(this, arguments); // super()
-            this.scrollToBottom();
+            this.$el.scrollTop(this.el.scrollHeight - this.bottomOffset);
         },
         addOne: function(model) {
             if (this.itemView) {
                 var view = new this.itemView({model: model}).render();
+                this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
+                this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
                 if (this.collection.indexOf(model) === this.collection.length - 1) {
                     // add to the bottom.
                     this.$el.append(view.el);
-                    this.scrollToBottom();
+                    this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
+                    this.measureScrollPosition();
                 } else {
                     // add to the top.
-                    var offset = this.el.scrollHeight - this.$el.scrollTop();
+                    this.measureScrollPosition();
                     this.$el.prepend(view.el);
-                    this.$el.scrollTop(this.el.scrollHeight - offset);
+                    this.scrollToBottomIfNeeded();
                 }
             }
-            this.$el.removeClass('loading');
         },
     });
 })();
