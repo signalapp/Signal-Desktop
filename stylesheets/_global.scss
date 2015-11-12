@@ -296,6 +296,9 @@ $avatar-size: 44px;
 
   &.selected {
     background: $grey_l;
+    padding-left: 22px;
+    margin-left: 0;
+    border-radius: 0 10px 10px 0;
   }
 
   &:first-child {

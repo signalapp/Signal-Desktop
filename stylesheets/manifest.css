@@ -245,7 +245,10 @@ img.emoji {
   margin: 10px;
   border-radius: 10px; }
   .contact.selected {
-    background: #f3f3f3; }
+    background: #f3f3f3;
+    padding-left: 22px;
+    margin-left: 0;
+    border-radius: 0 10px 10px 0; }
   .contact:first-child {
     margin-top: 0; }
   .contact:last-child::after {
@@ -534,7 +537,6 @@ input.search {
 
 .index {
   max-width: 1300px;
-  margin: auto;
   color: #454545;
   background: linear-gradient(#2eace0 50%, #a0e4d0 100%); }
   .index .gutter .new-group-update-form {
