@@ -38937,7 +38937,7 @@ var TextSecureServer = (function() {
                     message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
                     break;
                 case 404:
-                    message = "Number is not registered with TextSecure.";
+                    message = "Number is not registered.";
                     break;
                 default:
                     message = "The server rejected our query, please file a bug report.";
