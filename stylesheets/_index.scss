@@ -12,10 +12,6 @@
   overflow: auto;
 }
 
-.loading .gutter {
-  // TODO: spinner
-}
-
 .gutter {
   float: left;
   margin: 10px 0;
@@ -176,17 +172,6 @@ input.search {
     color: #888;
   }
 
-}
-
-.settings {
-  height: 100%;
-  width: 100%;
-  background: red;
-  display: none;
-
-  .settings-open & {
-    display: block;
-  }
 }
 
 .conversations .unread .contact-details {

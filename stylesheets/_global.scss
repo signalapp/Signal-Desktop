@@ -50,10 +50,6 @@ body {
   }
 }
 
-.window-controls {
-  float: right;
-}
-
 .title-text {
   height: $header-height;
   line-height: $header-height;
@@ -397,25 +393,6 @@ $avatar-size: 44px;
 .new-group-update .recipients-input .recipients::before {
   content: 'Add: ';
 }
-
-
-// avatar colors
-.avatar.colorgray { background-color: #999999 }
-.avatar.color1  { background-color: #EF5350 } // red
-.avatar.color2  { background-color: #EC407A } // pink
-.avatar.color3  { background-color: #AB47BC } // purple
-.avatar.color4  { background-color: #7E57C2 } // deep purple
-.avatar.color5  { background-color: #5C6BC0 } // indigo
-.avatar.color6  { background-color: #2196F3 } // blue
-.avatar.color7  { background-color: #03A9F4 } // light blue
-.avatar.color8  { background-color: #00BCD4 } // cyan
-.avatar.color9  { background-color: #009688 } // teal
-.avatar.color10  { background-color: #4CAF50 } // green
-.avatar.color11 { background-color: #7CB342 } // light green
-.avatar.color12 { background-color: #FF9800 } // orange
-.avatar.color13 { background-color: #FF5722 } // deep orange
-.avatar.color14 { background-color: #FFB300 } // amber
-.avatar.color15 { background-color: #607D8B } // blue grey
 
 .loading {
   position: relative;

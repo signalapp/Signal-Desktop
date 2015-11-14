@@ -54,9 +54,6 @@ body {
     #header button:hover {
       background-color: rgba(0, 0, 0, 0.2); }
 
-.window-controls {
-  float: right; }
-
 .title-text {
   height: 36px;
   line-height: 36px;
@@ -316,54 +313,6 @@ img.emoji {
 .new-group-update .recipients-input .recipients::before {
   content: 'Add: '; }
 
-.avatar.colorgray {
-  background-color: #999999; }
-
-.avatar.color1 {
-  background-color: #EF5350; }
-
-.avatar.color2 {
-  background-color: #EC407A; }
-
-.avatar.color3 {
-  background-color: #AB47BC; }
-
-.avatar.color4 {
-  background-color: #7E57C2; }
-
-.avatar.color5 {
-  background-color: #5C6BC0; }
-
-.avatar.color6 {
-  background-color: #2196F3; }
-
-.avatar.color7 {
-  background-color: #03A9F4; }
-
-.avatar.color8 {
-  background-color: #00BCD4; }
-
-.avatar.color9 {
-  background-color: #009688; }
-
-.avatar.color10 {
-  background-color: #4CAF50; }
-
-.avatar.color11 {
-  background-color: #7CB342; }
-
-.avatar.color12 {
-  background-color: #FF9800; }
-
-.avatar.color13 {
-  background-color: #FF5722; }
-
-.avatar.color14 {
-  background-color: #FFB300; }
-
-.avatar.color15 {
-  background-color: #607D8B; }
-
 .loading {
   position: relative; }
   .loading::after {
@@ -553,14 +502,6 @@ input.search {
     top: 14px;
     right: 12px;
     color: #888; }
-
-.settings {
-  height: 100%;
-  width: 100%;
-  background: red;
-  display: none; }
-  .settings-open .settings {
-    display: block; }
 
 .conversations .unread .contact-details .name,
 .conversations .unread .contact-details .last-message,
