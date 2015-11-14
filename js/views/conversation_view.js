@@ -109,6 +109,10 @@
 
         addMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
+
+            if (!this.isHidden() && window.isFocused()) {
+                this.markRead();
+            }
         },
 
         viewMembers: function() {
