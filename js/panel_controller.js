@@ -9,14 +9,6 @@
 
     window.Whisper = window.Whisper || {};
 
-    window.setUnreadCount = function(count) {
-        if (count > 0) {
-            extension.navigator.setBadgeText(count);
-        } else {
-            extension.navigator.setBadgeText("");
-        }
-    };
-
 
     window.isFocused = function() {
         return inboxFocused;
@@ -50,7 +42,11 @@
             }, function (windowInfo) {
                 appWindow = windowInfo;
                 inboxWindowId = appWindow.id;
-
+                
+                appWindow.contentWindow.addEventListener('load', function() {
+                    setUnreadCount(storage.get("unreadCount", 0));
+                });
+                
                 appWindow.onClosed.addListener(function () {
                     inboxOpened = false;
                     appWindow = null;
@@ -76,6 +72,20 @@
                     openInbox();
                 }
             });
+        }
+    };
+
+    window.setUnreadCount = function(count) {
+        if (count > 0) {
+            extension.navigator.setBadgeText(count);
+            if (inboxOpened === true) {
+                appWindow.contentWindow.document.title = "Signal (" + count + ")";
+            }
+        } else {
+            extension.navigator.setBadgeText("");
+            if (inboxOpened === true) {
+                appWindow.contentWindow.document.title = "Signal";
+            }
         }
     };
 

@@ -29,11 +29,11 @@
         },
         updateUnreadCount: function(model, count) {
             var prev = model.previous('unreadCount') || 0;
-            if (count < prev) { // decreased
-                var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
-                setUnreadCount(newUnreadCount);
-                storage.put("unreadCount", newUnreadCount);
-            }
+            var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
+            storage.remove("unreadCount");
+            storage.put("unreadCount", newUnreadCount);
+            
+            setUnreadCount(newUnreadCount);
         }
     }))();
 

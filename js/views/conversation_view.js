@@ -26,7 +26,6 @@
             this.listenTo(this.model, 'change:avatar', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
-            this.listenTo(this.model, 'change:unreadCount', this.onUnread);
             this.listenTo(this.model, 'opened', this.focusMessageField);
 
             this.render();
@@ -92,6 +91,10 @@
 
         addMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
+            
+            if (!this.isHidden() && window.isFocused()) {
+                this.markRead();
+            }
         },
 
         viewMembers: function() {
@@ -110,12 +113,6 @@
 
         markRead: function(e) {
             this.model.markRead();
-        },
-
-        onUnread: function(model, previous) {
-            if (!this.isHidden()) {
-                this.markRead();
-            }
         },
 
         verifyIdentity: function() {

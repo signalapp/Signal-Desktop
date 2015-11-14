@@ -172,10 +172,6 @@
             type           : 'incoming'
         });
 
-        var newUnreadCount = storage.get("unreadCount", 0) + 1;
-        storage.put("unreadCount", newUnreadCount);
-        extension.navigator.setBadgeText(newUnreadCount);
-
         return message;
     }
 
