@@ -11,6 +11,7 @@ MessageSender.prototype = {
     // message == DataMessage or ContentMessage proto
     encryptToDevices: function(timestamp, number, deviceObjectList, message) {
         var legacy = (message instanceof textsecure.protobuf.DataMessage);
+        var plaintext = message.toArrayBuffer();
         var relay = deviceObjectList[0].relay;
         for (var i=1; i < deviceObjectList.length; ++i) {
             if (deviceObjectList[i].relay !== relay) {
@@ -18,7 +19,7 @@ MessageSender.prototype = {
             }
         }
         return Promise.all(deviceObjectList.map(function(device) {
-            return textsecure.protocol_wrapper.encryptMessageFor(device, message).then(function(encryptedMsg) {
+            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
                 return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
                     return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
                         var json = {

@@ -37412,7 +37412,10 @@ window.axolotl.protocol = function(storage_interface) {
     }
 
     // return Promise(encoded [PreKey]WhisperMessage)
-    self.encryptMessageFor = function(deviceObject, pushMessageContent) {
+    self.encryptMessageFor = function(deviceObject, plaintext) {
+        if (!(plaintext instanceof ArrayBuffer)) {
+            throw new Error("Expected plaintext to be an ArrayBuffer");
+        }
         return storage_interface.getMyIdentityKey().then(function(ourIdentityKey) {
             return storage_interface.getMyRegistrationId().then(function(myRegistrationId) {
                 return crypto_storage.getOpenSession(deviceObject.encodedNumber).then(function(session) {
@@ -37420,7 +37423,6 @@ window.axolotl.protocol = function(storage_interface) {
 
                     var doEncryptPushMessageContent = function() {
                         var msg = new axolotlInternal.protobuf.WhisperMessage();
-                        var plaintext = axolotlInternal.utils.convertToArrayBuffer(pushMessageContent.encode());
 
                         var paddedPlaintext = new Uint8Array(getPaddedMessageLength(plaintext.byteLength));
                         paddedPlaintext.set(new Uint8Array(plaintext));
