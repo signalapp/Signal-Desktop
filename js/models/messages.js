@@ -159,7 +159,9 @@
                 console.log(e.reason, e.stack);
             });
             errors = errors.map(function(e) {
-                if (e.constructor === Error || e.constructor === TypeError) {
+                if (e.constructor === Error ||
+                    e.constructor === TypeError ||
+                    e.constructor === ReferenceError) {
                     return _.pick(e, 'name', 'message', 'code', 'number', 'reason');
                 }
                 return e;
