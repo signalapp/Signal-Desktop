@@ -35530,13 +35530,18 @@ axolotlInternal.RecipientRecord = function() {
                             deviceIds.push(deviceId);
                         }
                     }
-                    return deviceIds.map(function(deviceId) {
+                    return Promise.all(deviceIds.map(function(deviceId) {
                         var encodedNumber = number + '.' + deviceId;
                         var deviceObject = tempKeys[encodedNumber] || {};
                         deviceObject.encodedNumber = encodedNumber;
                         deviceObject.identityKey = identityKey;
-                        return deviceObject;
-                    });
+                        return textsecure.protocol_wrapper.getRegistrationId(encodedNumber).then(function(registrationId) {
+                            if (deviceObject.registrationId === undefined) {
+                                deviceObject.registrationId = registrationId;
+                            }
+                            return deviceObject;
+                        });
+                    }));
                 });
             });
         },
