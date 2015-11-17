@@ -1,13 +1,13 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function OutgoingMessage(timestamp, numbers, message, callback, messageSender) {
+function OutgoingMessage(server, timestamp, numbers, message, callback) {
+    this.server = server;
     this.timestamp = timestamp;
     this.numbers = numbers;
-    this.message = message;
-    this.sender = messageSender;
-    this.server = messageSender.server;
+    this.message = message; // DataMessage or ContentMessage proto
     this.callback = callback;
+    this.legacy = (message instanceof textsecure.protobuf.DataMessage);
 
     this.numbersCompleted = 0;
     this.errors = [];
@@ -35,8 +35,15 @@ OutgoingMessage.prototype = {
     reloadDevicesAndSend: function(number, recurse) {
         return function() {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
-                if (devicesForNumber.length == 0)
+                if (devicesForNumber.length == 0) {
                     return this.registerError(number, "Got empty device list when loading device keys", null);
+                }
+                var relay = devicesForNumber[0].relay;
+                for (var i=1; i < devicesForNumber.length; ++i) {
+                    if (devicesForNumber[i].relay !== relay) {
+                        throw new Error("Mismatched relays for number " + number);
+                    }
+                }
                 return this.doSendMessage(number, devicesForNumber, recurse);
             }.bind(this));
         }.bind(this);
@@ -79,9 +86,20 @@ OutgoingMessage.prototype = {
         }
     },
 
+    transmitMessage: function(number, jsonData, timestamp) {
+        return this.server.sendMessages(number, jsonData, timestamp).catch(function(e) {
+            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+                // 409 and 410 should bubble and be handled by doSendMessage
+                // all other network errors can be retried later.
+                throw new textsecure.SendMessageNetworkError(number, jsonData, e);
+            }
+            throw e;
+        });
+    },
+
     doSendMessage: function(number, devicesForNumber, recurse) {
-        return this.sender.encryptToDevices(this.timestamp, number, devicesForNumber, this.message).then(function(jsonData) {
-            return this.sender.transmitMessage(number, jsonData).then(function() {
+        return this.encryptToDevices(devicesForNumber).then(function(jsonData) {
+            return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
                 this.numberCompleted();
             }.bind(this));
@@ -113,6 +131,39 @@ OutgoingMessage.prototype = {
         }.bind(this));
     },
 
+    encryptToDevices: function(deviceObjectList) {
+        var plaintext = this.message.toArrayBuffer();
+        return Promise.all(deviceObjectList.map(function(device) {
+            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
+                var json = this.toJSON(device, encryptedMsg);
+                return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
+                    return json;
+                });
+            }.bind(this));
+        }.bind(this)));
+    },
+
+    toJSON: function(device, encryptedMsg) {
+        var json = {
+            type: encryptedMsg.type,
+            destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
+            destinationRegistrationId: device.registrationId
+        };
+
+        if (device.relay !== undefined) {
+            json.relay = device.relay;
+        }
+
+        var content = btoa(encryptedMsg.body);
+        if (this.legacy) {
+            json.body = content;
+        } else {
+            json.content = content;
+        }
+
+        return json;
+    },
+
     sendToNumber: function(number) {
         return textsecure.storage.devices.getStaleDeviceIdsForNumber(number).then(function(updateDevices) {
             return this.getKeysForNumber(number, updateDevices)
@@ -120,22 +171,6 @@ OutgoingMessage.prototype = {
                 .catch(function(error) {
                     this.registerError(number, "Failed to retreive new device keys for number " + number, error);
                 }.bind(this));
-        }.bind(this));
-    },
-
-    send: function() {
-        this.numbers.forEach(function(number) {
-            var sendPrevious = this.sender.pendingMessages[number] || Promise.resolve();
-            var sendCurrent = this.sender.pendingMessages[number] = sendPrevious.then(function() {
-                return this.sendToNumber(number);
-            }.bind(this)).catch(function() {
-                return this.sendToNumber(number);
-            }.bind(this));
-            sendCurrent.then(function() {
-                if (this.sender.pendingMessages[number] === sendCurrent) {
-                    delete this.sender.pendingMessages[number];
-                }
-            }.bind(this));
         }.bind(this));
     }
 };

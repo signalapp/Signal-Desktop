@@ -255,9 +255,8 @@ var TextSecureServer = (function() {
                 return res;
             });
         },
-        sendMessages: function(destination, messageArray) {
-            var jsonData = { messages: messageArray };
-            jsonData.timestamp = messageArray[0].timestamp;
+        sendMessages: function(destination, messageArray, timestamp) {
+            var jsonData = { messages: messageArray, timestamp: timestamp};
 
             return this.ajax({
                 call                : 'messages',

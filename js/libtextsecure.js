@@ -36412,9 +36412,8 @@ var TextSecureServer = (function() {
                 return res;
             });
         },
-        sendMessages: function(destination, messageArray) {
-            var jsonData = { messages: messageArray };
-            jsonData.timestamp = messageArray[0].timestamp;
+        sendMessages: function(destination, messageArray, timestamp) {
+            var jsonData = { messages: messageArray, timestamp: timestamp};
 
             return this.ajax({
                 call                : 'messages',
@@ -37093,13 +37092,13 @@ textsecure.MessageReceiver.prototype = {
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function OutgoingMessage(timestamp, numbers, message, callback, messageSender) {
+function OutgoingMessage(server, timestamp, numbers, message, callback) {
+    this.server = server;
     this.timestamp = timestamp;
     this.numbers = numbers;
-    this.message = message;
-    this.sender = messageSender;
-    this.server = messageSender.server;
+    this.message = message; // DataMessage or ContentMessage proto
     this.callback = callback;
+    this.legacy = (message instanceof textsecure.protobuf.DataMessage);
 
     this.numbersCompleted = 0;
     this.errors = [];
@@ -37127,8 +37126,15 @@ OutgoingMessage.prototype = {
     reloadDevicesAndSend: function(number, recurse) {
         return function() {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
-                if (devicesForNumber.length == 0)
+                if (devicesForNumber.length == 0) {
                     return this.registerError(number, "Got empty device list when loading device keys", null);
+                }
+                var relay = devicesForNumber[0].relay;
+                for (var i=1; i < devicesForNumber.length; ++i) {
+                    if (devicesForNumber[i].relay !== relay) {
+                        throw new Error("Mismatched relays for number " + number);
+                    }
+                }
                 return this.doSendMessage(number, devicesForNumber, recurse);
             }.bind(this));
         }.bind(this);
@@ -37171,9 +37177,20 @@ OutgoingMessage.prototype = {
         }
     },
 
+    transmitMessage: function(number, jsonData, timestamp) {
+        return this.server.sendMessages(number, jsonData, timestamp).catch(function(e) {
+            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+                // 409 and 410 should bubble and be handled by doSendMessage
+                // all other network errors can be retried later.
+                throw new textsecure.SendMessageNetworkError(number, jsonData, e);
+            }
+            throw e;
+        });
+    },
+
     doSendMessage: function(number, devicesForNumber, recurse) {
-        return this.sender.encryptToDevices(this.timestamp, number, devicesForNumber, this.message).then(function(jsonData) {
-            return this.sender.transmitMessage(number, jsonData).then(function() {
+        return this.encryptToDevices(devicesForNumber).then(function(jsonData) {
+            return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
                 this.numberCompleted();
             }.bind(this));
@@ -37205,6 +37222,39 @@ OutgoingMessage.prototype = {
         }.bind(this));
     },
 
+    encryptToDevices: function(deviceObjectList) {
+        var plaintext = this.message.toArrayBuffer();
+        return Promise.all(deviceObjectList.map(function(device) {
+            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
+                var json = this.toJSON(device, encryptedMsg);
+                return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
+                    return json;
+                });
+            }.bind(this));
+        }.bind(this)));
+    },
+
+    toJSON: function(device, encryptedMsg) {
+        var json = {
+            type: encryptedMsg.type,
+            destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
+            destinationRegistrationId: device.registrationId
+        };
+
+        if (device.relay !== undefined) {
+            json.relay = device.relay;
+        }
+
+        var content = btoa(encryptedMsg.body);
+        if (this.legacy) {
+            json.body = content;
+        } else {
+            json.content = content;
+        }
+
+        return json;
+    },
+
     sendToNumber: function(number) {
         return textsecure.storage.devices.getStaleDeviceIdsForNumber(number).then(function(updateDevices) {
             return this.getKeysForNumber(number, updateDevices)
@@ -37212,22 +37262,6 @@ OutgoingMessage.prototype = {
                 .catch(function(error) {
                     this.registerError(number, "Failed to retreive new device keys for number " + number, error);
                 }.bind(this));
-        }.bind(this));
-    },
-
-    send: function() {
-        this.numbers.forEach(function(number) {
-            var sendPrevious = this.sender.pendingMessages[number] || Promise.resolve();
-            var sendCurrent = this.sender.pendingMessages[number] = sendPrevious.then(function() {
-                return this.sendToNumber(number);
-            }.bind(this)).catch(function() {
-                return this.sendToNumber(number);
-            }.bind(this));
-            sendCurrent.then(function() {
-                if (this.sender.pendingMessages[number] === sendCurrent) {
-                    delete this.sender.pendingMessages[number];
-                }
-            }.bind(this));
         }.bind(this));
     }
 };
@@ -37242,56 +37276,6 @@ function MessageSender(url, username, password, attachment_server_url) {
 
 MessageSender.prototype = {
     constructor: MessageSender,
-    // message == DataMessage or ContentMessage proto
-    encryptToDevices: function(timestamp, number, deviceObjectList, message) {
-        var legacy = (message instanceof textsecure.protobuf.DataMessage);
-        var plaintext = message.toArrayBuffer();
-        var relay = deviceObjectList[0].relay;
-        for (var i=1; i < deviceObjectList.length; ++i) {
-            if (deviceObjectList[i].relay !== relay) {
-                throw new Error("Mismatched relays for number " + number);
-            }
-        }
-        return Promise.all(deviceObjectList.map(function(device) {
-            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
-                return textsecure.protocol_wrapper.getRegistrationId(device.encodedNumber).then(function(registrationId) {
-                    return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
-                        var json = {
-                            type: encryptedMsg.type,
-                            destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
-                            destinationRegistrationId: registrationId,
-                            timestamp: timestamp
-                        };
-
-                        if (device.relay !== undefined) {
-                            json.relay = device.relay;
-                        }
-
-                        var content = btoa(encryptedMsg.body);
-                        if (legacy) {
-                            json.body = content;
-                        } else {
-                            json.content = content;
-                        }
-
-                        return json;
-                    });
-                });
-            });
-        }));
-    },
-
-    transmitMessage: function(number, jsonData) {
-        return this.server.sendMessages(number, jsonData).catch(function(e) {
-            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
-                // 409 and 410 should bubble and be handled by doSendMessage
-                // all other network errors can be retried later.
-                throw new textsecure.SendMessageNetworkError(number, jsonData, e);
-            }
-            throw e;
-        });
-    },
-
     makeAttachmentPointer: function(attachment) {
         if (typeof attachment !== 'object' || attachment == null) {
             return Promise.resolve(undefined);
@@ -37309,14 +37293,34 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
+    retransmitMessage: function(number, jsonData, timestamp) {
+        var outgoing = new OutgoingMessage(this.server);
+        return outgoing.transmitMessage(number, jsonData, timestamp);
+    },
+
     tryMessageAgain: function(number, encodedMessage, timestamp) {
         var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
         return this.sendIndividualProto(number, proto, timestamp);
     },
 
+    queueJobForNumber: function(number, runJob) {
+        var runPrevious = this.pendingMessages[number] || Promise.resolve();
+        var runCurrent = this.pendingMessages[number] = runPrevious.then(runJob, runJob);
+        runCurrent.then(function() {
+            if (this.pendingMessages[number] === runCurrent) {
+                delete this.pendingMessages[number];
+            }
+        }.bind(this));
+    },
+
     sendMessageProto: function(timestamp, numbers, message, callback) {
-        var outgoing = new OutgoingMessage(timestamp, numbers, message, callback, this);
-        outgoing.send();
+        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
+
+        numbers.forEach(function(number) {
+            this.queueJobForNumber(number, function() {
+                return outgoing.sendToNumber(number);
+            });
+        }.bind(this));
     },
 
     sendIndividualProto: function(number, proto, timestamp) {
@@ -37556,7 +37560,7 @@ window.textsecure = window.textsecure || {};
 textsecure.MessageSender = function(url, username, password, attachment_server_url) {
     var sender = new MessageSender(url, username, password, attachment_server_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
-    textsecure.replay.registerFunction(sender.transmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
+    textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);
