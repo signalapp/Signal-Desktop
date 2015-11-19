@@ -30,6 +30,7 @@
         updateUnreadCount: function(model, count) {
             var prev = model.previous('unreadCount') || 0;
             var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
+            if (newUnreadCount < 0) { newUnreadCount = 0; }
             storage.remove("unreadCount");
             storage.put("unreadCount", newUnreadCount);
 
