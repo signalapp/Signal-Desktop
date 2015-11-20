@@ -87,7 +87,6 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'js/background.js',
         'js/chromium.js',
-        'js/bimap.js',
         'js/conversation_panel.js',
         'js/database.js',
         'js/inbox_controller.js',
