@@ -98,6 +98,9 @@
             sent_at        : now,
             received_at    : now
         });
+        if (this.isPrivate()) {
+            message.set({destination: this.id});
+        }
         message.save();
 
         this.save({

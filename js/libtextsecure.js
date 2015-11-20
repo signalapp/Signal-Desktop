@@ -37334,13 +37334,14 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendSyncMessage: function(message, timestamp, destination) {
+    sendSyncMessage: function(encodedDataMessage, timestamp, destination) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
+            var dataMessage = textsecure.protobuf.DataMessage.decode(encodedDataMessage);
             var sentMessage = new textsecure.protobuf.SyncMessage.Sent();
             sentMessage.timestamp = timestamp;
-            sentMessage.message = message;
+            sentMessage.message = dataMessage;
             if (destination) {
                 sentMessage.destination = destination;
             }
@@ -37348,7 +37349,6 @@ MessageSender.prototype = {
             syncMessage.sent = sentMessage;
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
-
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     },
@@ -37393,12 +37393,13 @@ MessageSender.prototype = {
 
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
+                res.dataMessage = proto.toArrayBuffer();
                 if (res.errors.length > 0)
                     reject(res);
                 else
                     resolve(res);
-            });
-        }.bind(this)).then(this.sendSyncMessage.bind(this, proto, timestamp));
+            }.bind(this));
+        }.bind(this));
     },
 
     sendMessageToNumber: function(number, messageText, attachments, timestamp) {
@@ -37407,8 +37408,12 @@ MessageSender.prototype = {
 
         return Promise.all(attachments.map(this.makeAttachmentPointer.bind(this))).then(function(attachmentsArray) {
             proto.attachments = attachmentsArray;
-            return this.sendIndividualProto(number, proto, timestamp).then(function() {
-                return this.sendSyncMessage(proto, timestamp, number);
+            return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
+                res.dataMessage = proto.toArrayBuffer();
+                return res;
+            }.bind(this)).catch(function(res) {
+                res.dataMessage = proto.toArrayBuffer();
+                throw res;
             }.bind(this));
         }.bind(this));
     },
@@ -37573,6 +37578,7 @@ textsecure.MessageSender = function(url, username, password, attachment_server_u
     this.setGroupName                  = sender.setGroupName                 .bind(sender);
     this.setGroupAvatar                = sender.setGroupAvatar               .bind(sender);
     this.leaveGroup                    = sender.leaveGroup                   .bind(sender);
+    this.sendSyncMessage               = sender.sendSyncMessage              .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

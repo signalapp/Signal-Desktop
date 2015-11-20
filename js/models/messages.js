@@ -140,13 +140,36 @@
 
         send: function(promise) {
             this.trigger('pending');
-            return promise.then(function() {
+            return promise.then(function(result) {
                 this.trigger('done');
+                if (result.dataMessage) {
+                    this.set({dataMessage: result.dataMessage});
+                }
                 this.save({sent: true});
-            }.bind(this)).catch(function(errors) {
+                this.sendSyncMessage();
+            }.bind(this)).catch(function(result) {
                 this.trigger('done');
+                if (result.dataMessage) {
+                    this.set({dataMessage: result.dataMessage});
+                }
                 this.set({sent: true});
                 this.saveErrors(result.errors);
+                if (result.successfulNumbers.length > 0) {
+                    this.sendSyncMessage();
+                }
+            }.bind(this));
+        },
+
+        sendSyncMessage: function() {
+            var dataMessage = this.get('dataMessage');
+            if (this.get('synced') || !dataMessage) {
+                return;
+            }
+
+            textsecure.messaging.sendSyncMessage(
+                dataMessage, this.get('sent_at'), this.get('destination')
+            ).then(function() {
+                this.save({synced: true, dataMessage: null});
             }.bind(this));
         },
 
