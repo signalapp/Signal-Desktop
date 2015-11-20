@@ -653,17 +653,13 @@ input.search {
   width: 18px;
   height: 1em; }
 .outgoing.entry.sent .status {
-  background: url("/images/check-white.png");
-  opacity: 0.5; }
+  background: url("/images/check-white.png"); }
 .outgoing.entry.delivered .status {
-  background: url("/images/double-check-white.png");
-  opacity: 0.5; }
+  background: url("/images/double-check-white.png"); }
 .outgoing.entry.pending .status {
   background: none; }
   .outgoing.entry.pending .status:before {
     content: '...'; }
-.outgoing.entry .meta:hover .status {
-  opacity: 1; }
 
 .message-list {
   position: relative;
@@ -723,6 +719,12 @@ input.search {
     .message-detail .bubble p,
     .message-list .bubble p {
       margin: 0; }
+    .message-detail .bubble .meta,
+    .message-list .bubble .meta {
+      opacity: 0.5; }
+      .message-detail .bubble .meta:hover,
+      .message-list .bubble .meta:hover {
+        opacity: 1.0; }
   .message-detail .error.bubble,
   .message-list .error.bubble {
     cursor: pointer;
@@ -751,9 +753,6 @@ input.search {
     .message-list .incoming .bubble::after {
       left: -8px;
       border-right: 8px solid #f3f3f3; }
-    .message-detail .incoming .bubble .timestamp,
-    .message-list .incoming .bubble .timestamp {
-      color: #999; }
   .message-detail .outgoing .avatar, .message-detail .outgoing .bubble,
   .message-list .outgoing .avatar,
   .message-list .outgoing .bubble {
@@ -765,10 +764,7 @@ input.search {
     background-color: #2090ea; }
     .message-detail .outgoing .bubble .meta,
     .message-list .outgoing .bubble .meta {
-      color: #a2d2f4; }
-      .message-detail .outgoing .bubble .meta:hover,
-      .message-list .outgoing .bubble .meta:hover {
-        color: white; }
+      color: white; }
     .message-detail .outgoing .bubble::before,
     .message-list .outgoing .bubble::before {
       right: -10px;

@@ -202,19 +202,13 @@
   }
   &.sent .status {
     background: url('/images/check-white.png');
-    opacity: 0.5;
   }
   &.delivered .status {
     background: url('/images/double-check-white.png');
-    opacity: 0.5;
   }
   &.pending .status {
     background: none;
     &:before { content: '...'; }
-  }
-
-  .meta:hover .status {
-    opacity: 1;
   }
 }
 
@@ -290,6 +284,13 @@
     p {
       margin: 0;
     }
+    .meta {
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1.0;
+      }
+    }
   }
 
   .outgoing.sent .bubble {
@@ -325,10 +326,6 @@
         left: -8px;
         border-right: 8px solid $grey_l;
       }
-
-      .timestamp {
-        color: #999;
-      }
     }
   }
 
@@ -344,11 +341,7 @@
       background-color: $blue;
 
       .meta {
-        color: $blue_l;
-
-        &:hover {
-          color: white;
-        }
+        color: white;
       }
 
       &::before {
