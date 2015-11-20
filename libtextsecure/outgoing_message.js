@@ -19,7 +19,7 @@ OutgoingMessage.prototype = {
     numberCompleted: function() {
         this.numbersCompleted++;
         if (this.numbersCompleted >= this.numbers.length) {
-            this.callback({success: this.successfulNumbers, failure: this.errors});
+            this.callback({successfulNumbers: this.successfulNumbers, errors: this.errors});
         }
     },
     registerError: function(number, reason, error) {

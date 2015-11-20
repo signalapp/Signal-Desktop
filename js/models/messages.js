@@ -146,7 +146,7 @@
             }.bind(this)).catch(function(errors) {
                 this.trigger('done');
                 this.set({sent: true});
-                this.saveErrors(errors);
+                this.saveErrors(result.errors);
             }.bind(this));
         },
 

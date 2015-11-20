@@ -58,10 +58,10 @@ MessageSender.prototype = {
     sendIndividualProto: function(number, proto, timestamp) {
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, [number], proto, function(res) {
-                if (res.failure.length > 0)
-                    reject(res.failure);
+                if (res.errors.length > 0)
+                    reject(res);
                 else
-                    resolve();
+                    resolve(res);
             });
         }.bind(this));
     },
@@ -125,10 +125,10 @@ MessageSender.prototype = {
 
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
-                if (res.failure.length > 0)
-                    reject(res.failure);
+                if (res.errors.length > 0)
+                    reject(res);
                 else
-                    resolve();
+                    resolve(res);
             });
         }.bind(this)).then(this.sendSyncMessage.bind(this, proto, timestamp));
     },
