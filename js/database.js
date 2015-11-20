@@ -49,6 +49,25 @@
                     });
                 });
             }
+        },
+        {
+            version: "3.0",
+            migrate: function(transaction, next) {
+                var conversations = transaction.objectStore("items");
+
+                var all = new Whisper.ConversationCollection();
+                all.fetch().then(function() {
+                    var unreadCount = all.reduce(function(total, model) {
+                        var count = model.get('unreadCount');
+                        if (count === undefined) {
+                            count = 0;
+                        }
+                        return total + count;
+                    }, 0);
+                    storage.remove('unreadCount');
+                    storage.put('unreadCount', unreadCount);
+                });
+            }
         }
     ];
 }());
