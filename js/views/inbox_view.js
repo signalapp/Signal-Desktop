@@ -102,6 +102,11 @@
                     this.inboxListView.$el.hide();
                 });
 
+                this.hintView = new Whisper.HintView();
+                if (inboxCollection.length === 0) {
+                    this.hintView.render();
+                    this.hintView.$el.prependTo(this.$('.conversation-stack'));
+                }
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
@@ -126,7 +131,11 @@
                     input.removeClass('active');
                 }
             },
+            hideHints: function() {
+                this.hintView.remove();
+            },
             openConversation: function(e, conversation) {
+                this.hideHints();
                 conversation = ConversationController.create(conversation);
                 this.conversation_stack.open(conversation);
                 this.hideCompose();

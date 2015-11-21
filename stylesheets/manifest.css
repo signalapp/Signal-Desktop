@@ -508,6 +508,34 @@ input.search {
 .conversations .unread .contact-details .last-timestamp {
   font-weight: bold; }
 
+.hint {
+  margin: 10px;
+  padding: 1em;
+  border-radius: 10px;
+  color: white;
+  border: 2px dashed white; }
+  .hint h3 {
+    margin-top: 5px; }
+  .hint.firstRun {
+    position: absolute;
+    top: 0;
+    left: 302px;
+    width: 225px; }
+    .hint.firstRun:before, .hint.firstRun:after {
+      content: ' ';
+      display: block;
+      position: absolute;
+      top: 8px;
+      left: -35px;
+      width: 0;
+      height: 0;
+      border: solid 10px white;
+      border-color: transparent white transparent transparent;
+      transform: scaleX(2.5) scaleY(0.75); }
+    .hint.firstRun:after {
+      border-color: transparent #2eace0 transparent transparent;
+      left: -30px; }
+
 .conversation {
   background-color: #ffffff;
   margin: 10px;
