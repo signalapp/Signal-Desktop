@@ -30,7 +30,7 @@
         },
 
         filterContacts: function(e) {
-            var query = this.$input.val();
+            var query = this.$input.val().trim();
             if (query.length) {
                 if (this.maybeNumber(query)) {
                     this.new_contact_view.model.set('id', query);
