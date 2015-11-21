@@ -21,7 +21,7 @@
             this.$el.append(this.typeahead_view.el);
             this.initNewContact();
             //this.listenTo(this.collection, 'reset', this.filterContacts);
-
+            this.pending = Promise.resolve();
         },
 
         events: {
@@ -38,8 +38,10 @@
                 } else {
                     this.new_contact_view.$el.hide();
                 }
-                this.typeahead.search(query).then(function() {
-                    this.typeahead_view.collection.reset(this.typeahead.models);
+                this.pending = this.pending.then(function() {
+                    return this.typeahead.search(query).then(function() {
+                        this.typeahead_view.collection.reset(this.typeahead.models);
+                    }.bind(this));
                 }.bind(this));
                 this.trigger('show');
             } else {
