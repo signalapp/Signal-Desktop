@@ -12,7 +12,6 @@
     "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
     "qrcode": "git://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
-    "cryptojs": "svn+http://crypto-js.googlecode.com/svn/#~3.1.2",
     "libphonenumber-api": "git://github.com/codedust/libphonenumber-api",
     "momentjs": "~2.8.3",
     "indexeddb-backbonejs-adapter": "*",
@@ -63,16 +62,6 @@
     ],
     "bootstrap": [
       "dist/css/bootstrap.css"
-    ],
-    "cryptojs": [
-      "src/core.js",
-      "src/sha256.js",
-      "src/hmac.js",
-      "src/enc-base64.js",
-      "src/md5.js",
-      "src/evpkdf.js",
-      "src/cipher-core.js",
-      "src/aes.js"
     ],
     "libphonenumber-api": [
       "libphonenumber_api-compiled.js"
