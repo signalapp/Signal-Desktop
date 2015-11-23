@@ -91,7 +91,7 @@
                     input : this.$('input.search')
                 });
 
-                this.searchView.$el.hide().insertAfter(this.inboxListView.el);
+                this.searchView.$el.hide();
 
                 this.listenTo(this.searchView, 'hide', function() {
                     this.searchView.$el.hide();
