@@ -6,6 +6,7 @@
     "description": "Private Messenger",
     "version": "0.0.1",
     "offline_enabled": false,
+    "minimum_chrome_version": "37",
 
     "permissions": [
       "unlimitedStorage",
