@@ -36241,15 +36241,24 @@ var TextSecureServer = (function() {
         attachment : "/v1/attachments"
     };
 
-    var attachment_id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
-
-    function TextSecureServer(url, username, password) {
+    function TextSecureServer(url, username, password, attachment_server_url) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
         this.url = url;
         this.username = username;
         this.password = password;
+
+        this.attachment_id_regex = RegExp("^https:\/\/.*\/(\\d+)\?");
+        if (attachment_server_url) {
+            // strip trailing /
+            attachment_server_url = attachment_server_url.replace(/\/$/,'');
+            // and escape
+            attachment_server_url = attachment_server_url.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            this.attachment_id_regex = RegExp( "^" + attachment_server_url + "\/(\\d+)\?");
+        }
+
+
     }
 
     TextSecureServer.prototype = {
@@ -36415,29 +36424,37 @@ var TextSecureServer = (function() {
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
             }).then(function(response) {
+                var match = response.location.match(this.attachment_id_regex);
+                if (!match) {
+                    throw new Error('Received invalid attachment url');
+                }
                 return ajax(response.location, {
                     type        : "GET",
                     responseType: "arraybuffer",
                     contentType : "application/octet-stream"
                 });
-            });
+            }.bind(this));
         },
         putAttachment: function(encryptedBin) {
             return this.ajax({
                 call     : 'attachment',
                 httpType : 'GET',
             }).then(function(response) {
+                // Extract the id as a string from the location url
+                // (workaround for ids too large for Javascript numbers)
+                var match = response.location.match(this.attachment_id_regex);
+                if (!match) {
+                    throw new Error('Received invalid attachment url');
+                }
                 return ajax(response.location, {
                     type        : "PUT",
                     contentType : "application/octet-stream",
                     data        : encryptedBin,
                     processData : false,
                 }).then(function() {
-                    // Parse the id as a string from the location url
-                    // (workaround for ids too large for Javascript numbers)
-                    return response.location.match(attachment_id_regex)[1];
-                });
-            });
+                    return match[1];
+                }.bind(this));
+            }.bind(this));
         },
         getMessageSocket: function() {
             return new WebSocket(
@@ -36639,12 +36656,12 @@ var TextSecureServer = (function() {
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, username, password, signalingKey) {
+function MessageReceiver(url, username, password, signalingKey, attachment_server_url) {
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
     this.password = password;
-    this.server = new TextSecureServer(url, username, password);
+    this.server = new TextSecureServer(url, username, password, attachment_server_url);
 
     var unencoded = textsecure.utils.unencodeNumber(username);
     this.number = unencoded[0];
@@ -37048,8 +37065,8 @@ MessageReceiver.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, username, password, signalingKey) {
-    var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
+textsecure.MessageReceiver = function(url, username, password, signalingKey, attachment_server_url) {
+    var messageReceiver = new MessageReceiver(url, username, password, signalingKey, attachment_server_url);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
@@ -37209,8 +37226,8 @@ OutgoingMessage.prototype = {
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function MessageSender(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+function MessageSender(url, username, password, attachment_server_url) {
+    this.server = new TextSecureServer(url, username, password, attachment_server_url);
     this.pendingMessages = {};
 }
 
@@ -37527,8 +37544,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, username, password) {
-    var sender = new MessageSender(url, username, password);
+textsecure.MessageSender = function(url, username, password, attachment_server_url) {
+    var sender = new MessageSender(url, username, password, attachment_server_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.transmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 

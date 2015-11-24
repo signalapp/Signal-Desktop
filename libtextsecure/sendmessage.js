@@ -1,8 +1,8 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function MessageSender(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+function MessageSender(url, username, password, attachment_server_url) {
+    this.server = new TextSecureServer(url, username, password, attachment_server_url);
     this.pendingMessages = {};
 }
 
@@ -319,8 +319,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, username, password) {
-    var sender = new MessageSender(url, username, password);
+textsecure.MessageSender = function(url, username, password, attachment_server_url) {
+    var sender = new MessageSender(url, username, password, attachment_server_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.transmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
 

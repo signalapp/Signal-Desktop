@@ -89,15 +89,24 @@ var TextSecureServer = (function() {
         attachment : "/v1/attachments"
     };
 
-    var attachment_id_regex = RegExp( "^https:\/\/.*\/(\\d+)\?");
-
-    function TextSecureServer(url, username, password) {
+    function TextSecureServer(url, username, password, attachment_server_url) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
         this.url = url;
         this.username = username;
         this.password = password;
+
+        this.attachment_id_regex = RegExp("^https:\/\/.*\/(\\d+)\?");
+        if (attachment_server_url) {
+            // strip trailing /
+            attachment_server_url = attachment_server_url.replace(/\/$/,'');
+            // and escape
+            attachment_server_url = attachment_server_url.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            this.attachment_id_regex = RegExp( "^" + attachment_server_url + "\/(\\d+)\?");
+        }
+
+
     }
 
     TextSecureServer.prototype = {
@@ -263,29 +272,37 @@ var TextSecureServer = (function() {
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
             }).then(function(response) {
+                var match = response.location.match(this.attachment_id_regex);
+                if (!match) {
+                    throw new Error('Received invalid attachment url');
+                }
                 return ajax(response.location, {
                     type        : "GET",
                     responseType: "arraybuffer",
                     contentType : "application/octet-stream"
                 });
-            });
+            }.bind(this));
         },
         putAttachment: function(encryptedBin) {
             return this.ajax({
                 call     : 'attachment',
                 httpType : 'GET',
             }).then(function(response) {
+                // Extract the id as a string from the location url
+                // (workaround for ids too large for Javascript numbers)
+                var match = response.location.match(this.attachment_id_regex);
+                if (!match) {
+                    throw new Error('Received invalid attachment url');
+                }
                 return ajax(response.location, {
                     type        : "PUT",
                     contentType : "application/octet-stream",
                     data        : encryptedBin,
                     processData : false,
                 }).then(function() {
-                    // Parse the id as a string from the location url
-                    // (workaround for ids too large for Javascript numbers)
-                    return response.location.match(attachment_id_regex)[1];
-                });
-            });
+                    return match[1];
+                }.bind(this));
+            }.bind(this));
         },
         getMessageSocket: function() {
             return new WebSocket(

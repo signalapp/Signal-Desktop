@@ -54,6 +54,7 @@
     });
 
     var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
+    var ATTACHMENT_SERVER_URL = 'https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com';
     var messageReceiver;
     window.getSocketStatus = function() {
         if (messageReceiver) {
@@ -96,7 +97,7 @@
         var mySignalingKey = storage.get('signaling_key');
 
         // initialize the socket and start listening for messages
-        messageReceiver = new textsecure.MessageReceiver(SERVER_URL, USERNAME, PASSWORD, mySignalingKey);
+        messageReceiver = new textsecure.MessageReceiver(SERVER_URL, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL);
         messageReceiver.addEventListener('message', onMessageReceived);
         messageReceiver.addEventListener('receipt', onDeliveryReceipt);
         messageReceiver.addEventListener('contact', onContactReceived);
@@ -106,7 +107,7 @@
 
         messageReceiver.addEventListener('contactsync', onContactSyncComplete);
 
-        window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD);
+        window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL);
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             textsecure.messaging.sendRequestContactSyncMessage().then(function() {
                 textsecure.messaging.sendRequestGroupSyncMessage();

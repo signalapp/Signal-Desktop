@@ -2,12 +2,12 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, username, password, signalingKey) {
+function MessageReceiver(url, username, password, signalingKey, attachment_server_url) {
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
     this.password = password;
-    this.server = new TextSecureServer(url, username, password);
+    this.server = new TextSecureServer(url, username, password, attachment_server_url);
 
     var unencoded = textsecure.utils.unencodeNumber(username);
     this.number = unencoded[0];
@@ -411,8 +411,8 @@ MessageReceiver.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, username, password, signalingKey) {
-    var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
+textsecure.MessageReceiver = function(url, username, password, signalingKey, attachment_server_url) {
+    var messageReceiver = new MessageReceiver(url, username, password, signalingKey, attachment_server_url);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
