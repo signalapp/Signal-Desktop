@@ -34083,6 +34083,18 @@ axolotlInternal.utils = function() {
     }
 
     return {
+        isEqual: function(a, b) {
+            // TODO: Special-case arraybuffers, etc
+            if (a === undefined || b === undefined)
+                return false;
+            a = getString(a);
+            b = getString(b);
+            var maxLength = Math.max(a.length, b.length);
+            if (maxLength < 5)
+                throw new Error("a/b compare too short");
+            return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
+        },
+
         jsonThing: function(thing) {
             return JSON.stringify(ensureStringed(thing)); //TODO: jquery???
         },
@@ -34390,9 +34402,9 @@ window.axolotl.protocol = function(storage_interface) {
         return axolotlInternal.crypto.HKDF(input, salt, info);
     }
 
-    var verifyMAC = function(data, key, mac) {
+    var verifyMAC = function(data, key, mac, length) {
         return axolotlInternal.crypto.sign(key, data).then(function(calculated_mac) {
-            if (calculated_mac.byteLength < mac.byteLength) {
+            if (mac.byteLength != length  || calculated_mac.byteLength < length) {
                 throw new Error("Bad MAC length");
             }
             var a = new Uint8Array(calculated_mac);
@@ -34571,11 +34583,11 @@ window.axolotl.protocol = function(storage_interface) {
                         }
                         if (session !== undefined) {
                             // Duplicate PreKeyMessage for session:
-                            if (isEqual(session.indexInfo.baseKey, message.baseKey, false))
+                            if (axolotlInternal.utils.isEqual(session.indexInfo.baseKey, message.baseKey))
                                 return Promise.resolve([session, undefined]);
 
                             // We already had a session/known identity key:
-                            if (isEqual(session.indexInfo.remoteIdentityKey, message.identityKey, false)) {
+                            if (axolotlInternal.utils.isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
                                 // If the identity key matches the previous one, close the previous one and use the new one
                                 if (open_session !== undefined)
                                     closeSession(open_session); // To be returned and saved later
@@ -34709,7 +34721,7 @@ window.axolotl.protocol = function(storage_interface) {
                             macInput[33*2] = (3 << 4) | 3;
                             macInput.set(new Uint8Array(messageProtoArray), 33*2 + 1);
 
-                            return verifyMAC(macInput.buffer, keys[1], mac).then(function() {
+                            return verifyMAC(macInput.buffer, keys[1], mac, 8).then(function() {
                                 return axolotlInternal.crypto.decrypt(keys[0], axolotlInternal.utils.convertToArrayBuffer(message.ciphertext), keys[2].slice(0, 16))
                                             .then(function(paddedPlaintext) {
 
@@ -34891,7 +34903,7 @@ window.axolotl.protocol = function(storage_interface) {
                     var ivAndCiphertext = message.slice(0, message.byteLength - 32);
                     var ciphertext = message.slice(16 + 1, message.byteLength - 32);
 
-                    return verifyMAC(ivAndCiphertext, keys[1], mac).then(function() {
+                    return verifyMAC(ivAndCiphertext, keys[1], mac, 32).then(function() {
                         return axolotlInternal.crypto.decrypt(keys[0], ciphertext, iv).then(function(plaintext) {
                             var provisionMessage = axolotlInternal.protobuf.ProvisionMessage.decode(plaintext);
 
