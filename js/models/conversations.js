@@ -175,6 +175,12 @@
     markRead: function() {
         if (this.get('unreadCount') > 0) {
             this.save({unreadCount: 0});
+            var conversationId = this.id;
+            Whisper.Notifications.remove(
+                Whisper.Notifications.models.filter(
+                    function(model){
+                        return model.attributes.conversationId===conversationId;
+                    }));
         }
     },
 
