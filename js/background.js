@@ -7,11 +7,11 @@
     // register some chrome listeners
     if (chrome.notifications) {
         chrome.notifications.onClicked.addListener(function() {
-            chrome.notifications.clear('signal');
+            extension.notification.clear();
             Whisper.Notifications.onclick();
         });
         chrome.notifications.onButtonClicked.addListener(function() {
-            chrome.notifications.clear('signal');
+            extension.notification.clear();
             Whisper.Notifications.clear();
             getInboxCollection().each(function(model) {
                 model.markRead();

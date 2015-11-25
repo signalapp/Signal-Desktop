@@ -180,27 +180,36 @@
         }
     };
 
-    extension.notify = function(options) {
-        if (chrome) {
+    extension.notification = {
+        clear: function() {
             chrome.notifications.clear('signal');
-            chrome.notifications.create('signal', {
-                type     : options.type,
-                title    : options.title,
-                message  : options.message || '', // required
-                iconUrl  : options.iconUrl,
-                imageUrl : options.imageUrl,
-                items    : options.items,
-                buttons  : options.buttons
-            });
-        } else {
-            var notification = new Notification(options.title, {
-                body : options.message,
-                icon : options.iconUrl,
-                tag  : 'signal'
-            });
-            notification.onclick = function() {
-                Whisper.Notifications.onclick();
-            };
+        },
+        update: function(options) {
+            if (chrome) {
+                var chromeOpts = {
+                    type     : options.type,
+                    title    : options.title,
+                    message  : options.message || '', // required
+                    iconUrl  : options.iconUrl,
+                    imageUrl : options.imageUrl,
+                    items    : options.items,
+                    buttons  : options.buttons
+                };
+                chrome.notifications.update('signal', chromeOpts, function(wasUpdated) {
+                    if (!wasUpdated) {
+                        chrome.notifications.create('signal', chromeOpts);
+                    }
+                });
+            } else {
+                var notification = new Notification(options.title, {
+                    body : options.message,
+                    icon : options.iconUrl,
+                    tag  : 'signal'
+                });
+                notification.onclick = function() {
+                    Whisper.Notifications.onclick();
+                };
+            }
         }
     };
 

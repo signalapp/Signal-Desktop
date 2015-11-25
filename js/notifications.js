@@ -7,7 +7,8 @@
 
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
-            this.on('add', this.update);
+            this.on('add', this.onAdd);
+            this.on('remove', this.onRemove);
         },
         isEnabled: function(callback) {
             return Notification.permission === 'granted' &&
@@ -34,7 +35,11 @@
             openConversation(conversation);
             this.clear();
         },
-        update: function(options) {
+        update: function() {
+            if (this.length === 0) {
+                extension.notification.clear();
+                return;
+            }
             if (this.length > 1) {
                 var iconUrl = 'images/icon_128.png';
                 var conversationIds = _.uniq(this.map(function(m) {
@@ -43,7 +48,7 @@
                 if (conversationIds.length === 1) {
                     iconUrl = this.at(0).get('iconUrl');
                 }
-                extension.notify({
+                extension.notification.update({
                     type    : 'list',
                     iconUrl : iconUrl,
                     title   : '' + this.length + ' new messages',
@@ -65,7 +70,7 @@
                 if (m.get('imageUrl')) {
                     type = 'image';
                 }
-                extension.notify({
+                extension.notification.update({
                     type     : type,
                     title    : m.get('title'),
                     message  : m.get('message'),
@@ -73,6 +78,13 @@
                     imageUrl : m.get('imageUrl')
                 });
             }
+        },
+        onAdd: function() {
+            extension.notification.clear();
+            this.update();
+        },
+        onRemove: function() {
+            this.update();
         },
         clear: function() {
             this.reset([]);
