@@ -21,6 +21,23 @@ client already installed on your phone.
 
 Coming soon to the Chrome Web Store.
 
+## Contributing Bug reports
+We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
+
+https://github.com/WhisperSystems/Signal-Browser/issues
+
+## Contributing Ideas
+Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the mailing list!
+
+whispersystems@lists.riseup.net
+
+https://lists.riseup.net/www/info/whispersystems
+
+## Contributing Funds
+[![Donate](https://cloud.githubusercontent.com/assets/3121306/11278543/d46e03d0-8eeb-11e5-9691-0da1bf643192.png)](https://www.coinbase.com/checkouts/51dac699e660a4d773216b5ad94d6a0b)
+
+You can add funds to [BitHub](https://whispersystems.org/blog/bithub/) to directly help further development efforts.
+
 ## Cryptography Notice
 
 This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
