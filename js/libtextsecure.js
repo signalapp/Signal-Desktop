@@ -34490,10 +34490,20 @@ window.axolotl.protocol = function(storage_interface) {
 
     var verifyMAC = function(data, key, mac) {
         return axolotlInternal.crypto.sign(key, data).then(function(calculated_mac) {
-            if (!isEqual(calculated_mac, mac, true))
+            if (calculated_mac.byteLength < mac.byteLength) {
+                throw new Error("Bad MAC length");
+            }
+            var a = new Uint8Array(calculated_mac);
+            var b = new Uint8Array(mac);
+            var result = 0;
+            for (var i=0; i < mac.byteLength; ++i) {
+                result = result | (a[i] ^ b[i]);
+            }
+            if (result !== 0) {
                 throw new Error("Bad MAC");
+            }
         });
-    }
+    };
 
     /******************************
     *** Ratchet implementation ***
@@ -34759,7 +34769,9 @@ window.axolotl.protocol = function(storage_interface) {
             throw new Error("Bad version number on WhisperMessage");
 
         var messageProto = messageBytes.substring(1, messageBytes.length - 8);
-        var mac = messageBytes.substring(messageBytes.length - 8, messageBytes.length);
+        var mac = axolotlInternal.utils.convertToArrayBuffer(
+            messageBytes.substring(messageBytes.length - 8, messageBytes.length)
+        );
 
         var message = axolotlInternal.protobuf.WhisperMessage.decode(messageProto, 'binary');
         var remoteEphemeralKey = axolotlInternal.utils.convertToArrayBuffer(message.ephemeralKey);
@@ -35274,12 +35286,24 @@ axolotlInternal.RecipientRecord = function() {
         });
     };
 
-    var verifyMAC = function(data, key, mac) {
+    var verifyMAC = function(data, key, mac, length) {
         return calculateMAC(key, data).then(function(calculated_mac) {
-            if (!isEqual(calculated_mac, mac, true))
+            if (mac.byteLength != length  || calculated_mac.byteLength < length) {
+                throw new Error("Bad MAC length");
+            }
+            var a = new Uint8Array(calculated_mac);
+            var b = new Uint8Array(mac);
+
+            var result = 0;
+            for (var i=0; i < mac.byteLength; ++i) {
+                result = result | (a[i] ^ b[i]);
+            }
+
+            if (result !== 0) {
                 throw new Error("Bad MAC");
+            }
         });
-    }
+    };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.crypto = {
@@ -35305,7 +35329,7 @@ axolotlInternal.RecipientRecord = function() {
             var ivAndCiphertext = decodedMessage.slice(0, decodedMessage.byteLength - 10);
             var mac = decodedMessage.slice(decodedMessage.byteLength - 10, decodedMessage.byteLength);
 
-            return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
+            return verifyMAC(ivAndCiphertext, mac_key, mac, 10).then(function() {
                 return decrypt(aes_key, ciphertext, iv);
             });
         },
@@ -35326,7 +35350,7 @@ axolotlInternal.RecipientRecord = function() {
             var ivAndCiphertext = encryptedBin.slice(0, encryptedBin.byteLength - 32);
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
-            return verifyMAC(ivAndCiphertext, mac_key, mac).then(function() {
+            return verifyMAC(ivAndCiphertext, mac_key, mac, 32).then(function() {
                 return decrypt(aes_key, ciphertext, iv);
             });
         },
