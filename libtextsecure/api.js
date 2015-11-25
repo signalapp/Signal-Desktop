@@ -245,7 +245,6 @@ var TextSecureServer = (function() {
                 httpType            : 'GET',
                 urlParameters       : "/" + number + "/" + deviceId,
             }).then(function(res) {
-                var promises = [];
                 res.identityKey = StringView.base64ToBytes(res.identityKey);
                 for (var i = 0; i < res.devices.length; i++) {
                     res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
