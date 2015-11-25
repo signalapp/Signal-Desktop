@@ -33,18 +33,6 @@ function getStringable(thing) {
                 thing.__proto__ == StaticByteBufferProto)));
 }
 
-function isEqual(a, b, mayBeShort) {
-    // TODO: Special-case arraybuffers, etc
-    if (a === undefined || b === undefined)
-        return false;
-    a = getString(a);
-    b = getString(b);
-    var maxLength = mayBeShort ? Math.min(a.length, b.length) : Math.max(a.length, b.length);
-    if (maxLength < 5)
-        throw new Error("a/b compare too short");
-    return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
-}
-
 function toArrayBuffer(thing) {
     //TODO: Optimize this for specific cases
     if (thing === undefined)

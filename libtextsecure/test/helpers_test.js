@@ -32,27 +32,4 @@ describe("Helpers", function() {
                        Error, /Tried to convert a non-stringable thing/);
       });
   });
-
-  describe("isEqual", function(){
-      it('returns false when a or b is undefined', function(){
-          assert.isFalse(isEqual("defined value", undefined, false));
-          assert.isFalse(isEqual(undefined, "defined value", false));
-      });
-      it('returns true when a and b are equal', function(){
-          var a = "same value";
-          var b = "same value";
-          assert.isTrue(isEqual(a, b, false));
-      });
-      it('returns false when a and b are not equal', function(){
-          var a = "same value";
-          var b = "diferent value";
-          assert.isFalse(isEqual(a, b, false));
-      });
-      it('throws an error when a/b compare is too short', function(){
-          var a = "1234";
-          var b = "1234";
-          assert.throw(function() { isEqual(a, b, true) },
-                       Error, /a\/b compare too short/);
-      });
-  });
 });
