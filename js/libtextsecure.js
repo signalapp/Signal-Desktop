@@ -36162,6 +36162,25 @@ window.textsecure.utils = function() {
 var TextSecureServer = (function() {
     'use strict';
 
+    function validateResponse(response, schema) {
+        try {
+            for (var i in schema) {
+                switch (schema[i]) {
+                    case 'object':
+                    case 'string':
+                    case 'number':
+                        if (typeof response[i] !== schema[i]) {
+                            return false;
+                        }
+                        break;
+                }
+            }
+        } catch(ex) {
+            return false;
+        }
+        return true;
+    }
+
     // Promise-based async xhr routine
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
@@ -36187,6 +36206,11 @@ var TextSecureServer = (function() {
                 }
                 if (options.dataType === 'json') {
                     try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
+                    if (options.validateResponse) {
+                        if (!validateResponse(result, options.validateResponse)) {
+                            reject(new Error('Invalid response'));
+                        }
+                    }
                 }
                 if ( 0 <= xhr.status && xhr.status < 400) {
                     console.log(options.type, url, xhr.status, 'Success');
@@ -36278,7 +36302,8 @@ var TextSecureServer = (function() {
                     contentType : 'application/json; charset=utf-8',
                     dataType    : 'json',
                     user        : this.username,
-                    password    : this.password
+                    password    : this.password,
+                    validateResponse: param.validateResponse
             }).catch(function(e) {
                 var code = e.code;
                 if (code === 200) {
@@ -36330,25 +36355,32 @@ var TextSecureServer = (function() {
             });
         },
         confirmCode: function(number, code, password, signaling_key, registrationId, deviceName) {
-            var call = deviceName ? 'devices' : 'accounts';
-            var urlPrefix = deviceName ? '/' : '/code/';
-
             var jsonData = {
                 signalingKey    : btoa(getString(signaling_key)),
                 supportsSms     : false,
                 fetchesMessages : true,
                 registrationId  : registrationId,
             };
+
+            var call, urlPrefix, schema;
             if (deviceName) {
                 jsonData.name = deviceName;
+                call = 'devices';
+                urlPrefix = '/';
+                schema = { deviceId: 'number' };
+            } else {
+                call = 'accounts';
+                urlPrefix = '/code/';
             }
+
             this.username = number;
             this.password = password;
             return this.ajax({
                 call                : call,
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
-                jsonData            : jsonData
+                jsonData            : jsonData,
+                validateResponse    : schema
             });
         },
         getDevices: function(number) {
@@ -36389,8 +36421,9 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'keys',
                 httpType            : 'GET',
+                validateResponse    : {count: 'number'}
             }).then(function(res) {
-                return parseInt(res.count);
+                return res.count;
             });
         },
         getKeysForNumber: function(number, deviceId) {
@@ -36401,9 +36434,18 @@ var TextSecureServer = (function() {
                 call                : 'keys',
                 httpType            : 'GET',
                 urlParameters       : "/" + number + "/" + deviceId,
+                validateResponse    : {identityKey: 'string', devices: 'object'}
             }).then(function(res) {
+                if (res.devices.constructor !== Array) {
+                    throw new Error("Invalid response");
+                }
                 res.identityKey = StringView.base64ToBytes(res.identityKey);
                 for (var i = 0; i < res.devices.length; i++) {
+                    if ( !validateResponse(res.devices[i], {signedPreKey: 'object', preKey: 'object'}) ||
+                         !validateResponse(res.devices[i].signedPreKey, {publicKey: 'string', signature: 'string'}) ||
+                         !validateResponse(res.devices[i].preKey, {publicKey: 'string'})) {
+                        throw new Error("Invalid response");
+                    }
                     res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
                     res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
                     res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
@@ -36426,6 +36468,7 @@ var TextSecureServer = (function() {
                 call                : 'attachment',
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
+                validateResponse    : {location: 'string'}
             }).then(function(response) {
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
