@@ -36584,6 +36584,10 @@ var TextSecureServer = (function() {
                     textsecure.storage.remove('device_name');
                     textsecure.storage.remove('regionCode');
 
+                    // remove our own identity key, which may have changed
+                    // if we're relinking after a reinstall on the master device
+                    textsecure.storage.axolotl.removeIdentityKey(number);
+
                     textsecure.storage.put('identityKey', identityKeyPair);
                     textsecure.storage.put('signaling_key', signalingKey);
                     textsecure.storage.put('password', password);
