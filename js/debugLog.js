@@ -26,7 +26,6 @@
             }
             return new Promise(function(resolve) {
                 $.post('https://api.github.com/gists', textsecure.utils.jsonThing({
-                    "public": true,
                     "files": { "debugLog.txt": { "content": log } }
                 })).then(function(response) {
                     console._log('Posted debug log to ', response.html_url);
