@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.HintView = Whisper.View.extend({
-        className: 'firstRun hint',
+        className: 'conversation placeholder',
         templateName: 'hint',
     });
 })();

@@ -217,3 +217,11 @@ input.search {
     }
   }
 }
+
+.conversation.placeholder {
+  p {
+    color: $grey;
+    text-align: center;
+    margin-top: 120px;
+  }
+}

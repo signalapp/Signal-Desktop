@@ -536,6 +536,11 @@ input.search {
       border-color: transparent #2eace0 transparent transparent;
       left: -30px; }
 
+.conversation.placeholder p {
+  color: #616161;
+  text-align: center;
+  margin-top: 120px; }
+
 .conversation {
   background-color: #ffffff;
   margin: 10px;
