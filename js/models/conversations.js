@@ -395,6 +395,17 @@
         }
     },
 
+    fetchAlphabetical: function() {
+        return new Promise(function(resolve) {
+            this.fetch({
+                index: {
+                    name: 'search', // 'search' index on tokens array
+                },
+                limit: 100
+            }).always(resolve);
+        }.bind(this));
+    },
+
     fetchGroups: function(number) {
         return this.fetch({
             index: {

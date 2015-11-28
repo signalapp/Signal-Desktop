@@ -84,8 +84,15 @@
         resetTypeahead: function() {
             this.new_contact_view.$el.hide();
             this.$input.val('').focus();
-            this.typeahead_view.collection.reset([]);
-            this.trigger('hide');
+            if (this.showAllContacts) {
+                this.typeahead.fetchAlphabetical().then(function() {
+                    this.typeahead_view.collection.reset(this.typeahead.models);
+                }.bind(this));
+                this.trigger('show');
+            } else {
+                this.typeahead_view.collection.reset([]);
+                this.trigger('hide');
+            }
         },
 
         maybeNumber: function(number) {

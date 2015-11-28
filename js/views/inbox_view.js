@@ -106,6 +106,12 @@
                 if (inboxCollection.length === 0) {
                     this.hintView.render();
                     this.hintView.$el.prependTo(this.$('.conversation-stack'));
+                    this.searchView.showAllContacts = true;
+                    this.searchView.reset();
+                    this.listenToOnce(inboxCollection, 'add', function() {
+                        this.searchView.showAllContacts = false;
+                        this.searchView.reset();
+                    }.bind(this));
                 }
 
                 new SocketView().render().$el.appendTo(this.$('.socket-status'));
