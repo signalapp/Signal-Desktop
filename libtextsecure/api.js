@@ -51,7 +51,8 @@ var TextSecureServer = (function() {
                     try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
                     if (options.validateResponse) {
                         if (!validateResponse(result, options.validateResponse)) {
-                            reject(new Error('Invalid response'));
+                            console.log(options.type, url, xhr.status, 'Error');
+                            reject(HTTPError(xhr.status, result, options.stack));
                         }
                     }
                 }
