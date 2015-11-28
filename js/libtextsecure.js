@@ -37404,20 +37404,22 @@ MessageSender.prototype = {
     sendSyncMessage: function(encodedDataMessage, timestamp, destination) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
-        if (myDevice != 1) {
-            var dataMessage = textsecure.protobuf.DataMessage.decode(encodedDataMessage);
-            var sentMessage = new textsecure.protobuf.SyncMessage.Sent();
-            sentMessage.timestamp = timestamp;
-            sentMessage.message = dataMessage;
-            if (destination) {
-                sentMessage.destination = destination;
-            }
-            var syncMessage = new textsecure.protobuf.SyncMessage();
-            syncMessage.sent = sentMessage;
-            var contentMessage = new textsecure.protobuf.Content();
-            contentMessage.syncMessage = syncMessage;
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        if (myDevice == 1) {
+            return Promise.resolve();
         }
+
+        var dataMessage = textsecure.protobuf.DataMessage.decode(encodedDataMessage);
+        var sentMessage = new textsecure.protobuf.SyncMessage.Sent();
+        sentMessage.timestamp = timestamp;
+        sentMessage.message = dataMessage;
+        if (destination) {
+            sentMessage.destination = destination;
+        }
+        var syncMessage = new textsecure.protobuf.SyncMessage();
+        syncMessage.sent = sentMessage;
+        var contentMessage = new textsecure.protobuf.Content();
+        contentMessage.syncMessage = syncMessage;
+        return this.sendIndividualProto(myNumber, contentMessage, Date.now());
     },
 
     sendRequestGroupSyncMessage: function() {
