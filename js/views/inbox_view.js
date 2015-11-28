@@ -105,9 +105,10 @@
                 if (inboxCollection.length === 0) {
                     this.searchView.showAllContacts = true;
                     this.searchView.reset();
-                    this.listenToOnce(inboxCollection, 'add', function() {
+                    this.listenToOnce(inboxCollection, 'add', function(model) {
                         this.searchView.showAllContacts = false;
                         this.searchView.reset();
+                        model.trigger('opened');
                     }.bind(this));
                 }
 
