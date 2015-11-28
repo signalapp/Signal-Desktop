@@ -4,7 +4,7 @@
     "name": "Signal",
     "short_name": "Signal",
     "description": "Private Messenger",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "offline_enabled": false,
     "minimum_chrome_version": "37",
 
