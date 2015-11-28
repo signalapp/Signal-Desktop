@@ -536,12 +536,10 @@ input.search {
       border-color: transparent #2eace0 transparent transparent;
       left: -30px; }
 
-.placeholder p {
-  color: #616161; }
-
-.conversation.placeholder p {
+.conversation.placeholder {
   text-align: center;
-  margin-top: 120px; }
+  padding-top: 100px;
+  color: #aaa; }
 
 .contact.placeholder {
   position: absolute;

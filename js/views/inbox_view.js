@@ -102,13 +102,7 @@
                     this.inboxListView.$el.hide();
                 });
 
-                this.hintView = new Whisper.HintView({
-                    className: 'conversation placeholder',
-                    content: "Select a contact or group to start chatting."
-                });
                 if (inboxCollection.length === 0) {
-                    this.hintView.render();
-                    this.hintView.$el.prependTo(this.$('.conversation-stack'));
                     this.searchView.showAllContacts = true;
                     this.searchView.reset();
                     this.listenToOnce(inboxCollection, 'add', function() {
@@ -141,7 +135,6 @@
                 }
             },
             hideHints: function() {
-                this.hintView.remove();
                 this.searchView.hideHints();
             },
             openConversation: function(e, conversation) {

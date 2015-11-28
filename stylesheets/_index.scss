@@ -218,14 +218,10 @@ input.search {
   }
 }
 
-.placeholder p {
-    color: $grey;
-}
 .conversation.placeholder {
-  p {
-    text-align: center;
-    margin-top: 120px;
-  }
+  text-align: center;
+  padding-top: 100px;
+  color: #aaa;
 }
 .contact.placeholder {
   position: absolute;
