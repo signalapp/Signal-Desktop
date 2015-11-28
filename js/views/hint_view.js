@@ -6,7 +6,12 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.HintView = Whisper.View.extend({
-        className: 'conversation placeholder',
         templateName: 'hint',
+        initialize: function(options) {
+            this.content = options.content;
+        },
+        render_attributes: function() {
+            return { content: this.content };
+        }
     });
 })();

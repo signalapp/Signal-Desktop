@@ -218,10 +218,39 @@ input.search {
   }
 }
 
+.placeholder p {
+    color: $grey;
+}
 .conversation.placeholder {
   p {
-    color: $grey;
     text-align: center;
     margin-top: 120px;
+  }
+}
+.contact.placeholder {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: transparent;
+  border-radius: 10px;
+  color: white;
+  border: 2px dashed white;
+  overflow: visible;
+  p { color: white; }
+  &:before, &:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: -35px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border: solid 10px white;
+    border-color: transparent transparent white transparent;
+    transform: scaleY(2.5) scaleX(0.75);
+  }
+  &:after {
+    border-color: transparent transparent #2eace0 transparent;
+    top: -30px;
   }
 }

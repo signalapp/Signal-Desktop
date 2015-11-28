@@ -35,6 +35,7 @@
                 if (this.maybeNumber(query)) {
                     this.new_contact_view.model.set('id', query);
                     this.new_contact_view.render().$el.show();
+                    this.hideHints();
                 } else {
                     this.new_contact_view.$el.hide();
                 }
@@ -82,16 +83,39 @@
         },
 
         resetTypeahead: function() {
+            this.hideHints();
             this.new_contact_view.$el.hide();
             this.$input.val('').focus();
             if (this.showAllContacts) {
                 this.typeahead.fetchAlphabetical().then(function() {
-                    this.typeahead_view.collection.reset(this.typeahead.models);
+                    if (this.typeahead.length > 0) {
+                        this.typeahead_view.collection.reset(this.typeahead.models);
+                    } else {
+                        this.showHints();
+                    }
                 }.bind(this));
                 this.trigger('show');
             } else {
                 this.typeahead_view.collection.reset([]);
                 this.trigger('hide');
+            }
+        },
+
+        showHints: function() {
+            if (!this.hintView) {
+                this.hintView = new Whisper.HintView({
+                    className: 'contact placeholder',
+                    content: "Enter a phone number to add a contact."
+                }).render();
+                this.hintView.$el.insertAfter(this.$input);
+            }
+            this.hintView.$el.show();
+        },
+
+        hideHints: function() {
+            if (this.hintView) {
+                this.hintView.remove();
+                this.hintView = null;
             }
         },
 
