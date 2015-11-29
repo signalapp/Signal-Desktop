@@ -91,7 +91,7 @@ OutgoingMessage.prototype = {
             if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
                 // 409 and 410 should bubble and be handled by doSendMessage
                 // all other network errors can be retried later.
-                throw new textsecure.SendMessageNetworkError(number, jsonData, e);
+                throw new textsecure.SendMessageNetworkError(number, jsonData, e, timestamp);
             }
             throw e;
         });
