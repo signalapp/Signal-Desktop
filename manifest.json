@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "Signal",
+    "name": "Signal Private Messenger",
     "short_name": "Signal",
-    "description": "Private Messenger",
+    "description": "Privacy is possible. Signal makes it easy.",
     "version": "0.1.0",
     "offline_enabled": false,
     "minimum_chrome_version": "37",
