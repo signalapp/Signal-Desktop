@@ -268,7 +268,7 @@
     margin-left: 8px;
     max-width: 30em;
 
-    @media(max-width:950px) {
+    @media(max-width:900px) {
       max-width: calc(100% - 45px); // avatar size + padding
     }
 

@@ -428,7 +428,7 @@ img.emoji {
     width: 36px;
     height: 36px;
     line-height: 36px; }
-  @media (min-width: 950px) {
+  @media (min-width: 900px) {
     .conversation-header .avatar {
       width: 70px;
       height: 70px;
@@ -764,7 +764,7 @@ input.search {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em; }
-    @media (max-width: 950px) {
+    @media (max-width: 900px) {
       .message-detail .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px); } }
