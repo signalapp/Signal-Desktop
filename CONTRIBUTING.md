@@ -4,11 +4,13 @@ Contributor Guidelines
 ## Installation
 
 * Clone the repo
+* Run `npm install` and `bower install` to install the necessary dependencies.
+* Run `grunt dev`. This will compile the app into the `dist` directory.
 * Open Chrome
 * Go to chrome://extensions/
 * Enable developer mode (checkbox on the top right)
 * Click "Load unpacked extension..."
-* Point to the repo directory
+* Point to the repo's `dist` directory
 
 ## Developer Setup
 
