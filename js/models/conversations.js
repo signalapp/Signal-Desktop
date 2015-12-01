@@ -57,7 +57,20 @@
         }
 
         if (!attributes.tokens) {
-            this.updateTokens();
+            return this.updateTokens();
+        }
+    },
+
+    validateNumber: function() {
+        try {
+            this.id = libphonenumber.util.verifyNumber(this.id);
+        } catch (ex) {
+            if (ex === "Invalid country calling code") {
+                var regionCode = storage.get('regionCode');
+                this.id = libphonenumber.util.verifyNumber(this.id, regionCode);
+            } else {
+                throw ex;
+            }
         }
     },
 
@@ -70,12 +83,13 @@
 
         if (this.isPrivate()) {
             try {
-                this.id = libphonenumber.util.verifyNumber(this.id);
+                this.validateNumber();
                 var number = libphonenumber.util.splitCountryCode(this.id);
                 var international_number = '' + number.country_code + number.national_number;
                 var national_number = '' + number.national_number;
 
                 this.set({
+                    id: this.id,
                     e164_number: this.id,
                     national_number: national_number,
                     international_number: international_number

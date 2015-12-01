@@ -66,9 +66,17 @@
         },
 
         createConversation: function() {
-            this.$el.trigger('open', this.new_contact_view.model);
-            this.initNewContact();
-            this.resetTypeahead();
+            var conversation = this.new_contact_view.model;
+            var error = conversation.validate(conversation.attributes);
+            if (!error) {
+                ConversationController.findOrCreatePrivateById(
+                    this.new_contact_view.model.id
+                ).then(function(conversation) {
+                    this.$el.trigger('open', conversation);
+                    this.initNewContact();
+                    this.resetTypeahead();
+                }.bind(this));
+            }
         },
 
         open: function(e, conversation) {
