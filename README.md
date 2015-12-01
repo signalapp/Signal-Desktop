@@ -3,7 +3,7 @@ This is unfinished, unreleased software.
 
 **Are you a web developer interested in contributing to this project?** :+1:
 Please proceed to
-[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines.
 
 **Not a developer?** :hand::construction_worker::no_entry:
@@ -11,10 +11,10 @@ Please refrain from installing until our first release.
 [Follow us on twitter](https://twitter.com/whisperSystems) or
 [check the blog](https://whispersystems.org/blog) for updates.
 
-[![Build Status](https://travis-ci.org/WhisperSystems/Signal-Browser.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Browser)
-Signal for the Browser
+[![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop)
+Signal Desktop
 ==========================
-Signal-Browser is a chrome packaged app that links with the
+Signal-Desktop is a chrome packaged app that links with the
 [Signal-iOS](https://github.com/WhisperSystems/Signal-iOS) or
 [Signal-Android](https://github.com/WhisperSystems/Signal-Android)
 client already installed on your phone.
@@ -24,7 +24,7 @@ Coming soon to the Chrome Web Store.
 ## Contributing Bug reports
 We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
-https://github.com/WhisperSystems/Signal-Browser/issues
+https://github.com/WhisperSystems/Signal-Desktop/issues
 
 ## Contributing Ideas
 Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the mailing list!
@@ -56,5 +56,5 @@ Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
 
 ## Developers Developers Developers Developers!
 Please see
-[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines.
