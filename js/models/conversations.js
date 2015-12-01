@@ -94,7 +94,7 @@
                     national_number: national_number,
                     international_number: international_number
                 });
-                tokens = tokens.concat(national_number, international_number);
+                tokens = tokens.concat(this.id, national_number, international_number);
             } catch(ex) {
                 return ex;
             }
