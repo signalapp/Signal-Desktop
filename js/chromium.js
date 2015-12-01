@@ -180,9 +180,14 @@
         }
     };
 
+    var notification_pending = Promise.resolve();
     extension.notification = {
         clear: function() {
-            chrome.notifications.clear('signal');
+            notification_pending = notification_pending.then(function() {
+                return new Promise(function(resolve) {
+                    chrome.notifications.clear('signal',  resolve);
+                });
+            });
         },
         update: function(options) {
             if (chrome) {
@@ -195,10 +200,16 @@
                     items    : options.items,
                     buttons  : options.buttons
                 };
-                chrome.notifications.update('signal', chromeOpts, function(wasUpdated) {
-                    if (!wasUpdated) {
-                        chrome.notifications.create('signal', chromeOpts);
-                    }
+                notification_pending = notification_pending.then(function() {
+                    return new Promise(function(resolve) {
+                        chrome.notifications.update('signal', chromeOpts, function(wasUpdated) {
+                            if (!wasUpdated) {
+                                chrome.notifications.create('signal', chromeOpts, resolve);
+                            } else {
+                                resolve();
+                            }
+                        });
+                    });
                 });
             } else {
                 var notification = new Notification(options.title, {
