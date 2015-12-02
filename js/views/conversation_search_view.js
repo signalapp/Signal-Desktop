@@ -26,7 +26,6 @@
 
         events: {
             'select .new-contact': 'createConversation',
-            'select .contacts': 'open'
         },
 
         filterContacts: function(e) {
@@ -72,15 +71,11 @@
                 ConversationController.findOrCreatePrivateById(
                     this.new_contact_view.model.id
                 ).then(function(conversation) {
-                    this.$el.trigger('open', conversation);
+                    this.trigger('open', conversation);
                     this.initNewContact();
                     this.resetTypeahead();
                 }.bind(this));
             }
-        },
-
-        open: function(e, conversation) {
-            this.$el.trigger('open', conversation);
         },
 
         reset: function() {

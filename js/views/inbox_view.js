@@ -98,6 +98,8 @@
                 this.searchView.$el.show();
                 this.inboxListView.$el.hide();
             });
+            this.listenTo(this.searchView, 'open',
+                this.openConversation.bind(this, null));
 
             if (inboxCollection.length === 0) {
                 this.searchView.showAllContacts = true;
@@ -120,7 +122,7 @@
             'click .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
             'click .show-new-conversation': 'showCompose',
-            'select .gutter .contact': 'openConversation',
+            'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts'
         },
         filterContacts: function(e) {
