@@ -1,16 +1,3 @@
-## :warning: Warning :warning:
-This is unfinished, unreleased software.
-
-**Are you a web developer interested in contributing to this project?** :+1:
-Please proceed to
-[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
-for setup instructions and contributor guidelines.
-
-**Not a developer?** :hand::construction_worker::no_entry:
-Please refrain from installing until our first release.
-[Follow us on twitter](https://twitter.com/whisperSystems) or
-[check the blog](https://whispersystems.org/blog) for updates.
-
 [![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop)
 Signal Desktop
 ==========================
