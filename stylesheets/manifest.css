@@ -117,7 +117,9 @@ button.back {
 
 .file-input {
   position: relative;
-  margin-right: 10px; }
+  margin-right: 10px;
+  box-sizing: content-box;
+  border: 1px transparent solid; }
   .file-input .choose-file {
     cursor: pointer; }
   .file-input .paperclip {
@@ -150,6 +152,9 @@ button.back {
     background: #666;
     color: #fff;
     text-align: center; }
+
+.dropoff {
+  border: 1px #2090ea dashed; }
 
 img.emoji {
   height: 1em;
