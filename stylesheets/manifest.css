@@ -425,7 +425,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #dadada;
+  border-bottom: solid 1px #d9d9d9;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {
