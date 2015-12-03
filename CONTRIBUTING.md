@@ -19,7 +19,7 @@ store or iTunes is hard-coded to connect to the production server. If you wish
 to pair your phone and computer, or test sending between the browser and
 mobile, **you must build a mobile client that targets the staging server**
 (see below, under
-[Linking](https://github.com/WhisperSystems/Signal-Browser/blob/master/CONTRIBUTING.md#linking)).
+[Linking](#linking)).
 
 **Important!** The staging server uses a [self-signed ssl
 certificate](https://github.com/WhisperSystems/Signal-Browser/issues/110).
