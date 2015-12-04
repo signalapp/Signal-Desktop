@@ -51,7 +51,12 @@
             </ul>
           </div>
           {{> avatar }}
-          <span class='conversation-title'>{{ title }}</span>
+          <span class='conversation-title'>
+            {{ title }}
+            {{ #number }}
+              <span class='conversation-number'>{{ number }}</span>
+            {{ /number }}
+          </span>
       </div>
 
       <div class='discussion-container'></div>

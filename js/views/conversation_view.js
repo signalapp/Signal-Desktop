@@ -18,6 +18,7 @@
             return {
                 group: this.model.get('type') === 'group',
                 title: this.model.getTitle(),
+                number: this.model.getNumber(),
                 avatar: this.model.getAvatar()
             };
         },

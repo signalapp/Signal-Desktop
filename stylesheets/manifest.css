@@ -583,7 +583,14 @@ input.search {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 10px; }
+  padding-left: 10px;
+  -webkit-user-select: text; }
+
+.conversation-number {
+  padding-left: 5px;
+  line-height: 1em;
+  font-size: small;
+  color: #999; }
 
 .conversation {
   height: calc(100% - 20px);
