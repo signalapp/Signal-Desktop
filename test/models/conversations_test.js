@@ -123,7 +123,7 @@
         it('has a title', function() {
             var convos = new Whisper.ConversationCollection();
             var convo = convos.add(attributes);
-            assert.equal(convo.getTitle(), convo.id);
+            assert.equal(convo.getTitle(), '+1 808-555-5555');
 
             convo = convos.add({type: ''});
             assert.equal(convo.getTitle(), 'Unknown group');
@@ -135,7 +135,7 @@
         it('returns the number', function() {
             var convos = new Whisper.ConversationCollection();
             var convo = convos.add(attributes);
-            assert.equal(convo.getNumber(), convo.id);
+            assert.equal(convo.getNumber(), '+1 808-555-5555');
 
             convo = convos.add({type: ''});
             assert.equal(convo.getNumber(), '');

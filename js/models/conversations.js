@@ -223,17 +223,27 @@
 
     getTitle: function() {
         if (this.isPrivate()) {
-            return this.get('name') || this.id;
+            return this.get('name') || this.getNumber();
         } else {
             return this.get('name') || 'Unknown group';
         }
     },
 
     getNumber: function() {
-        if (this.isPrivate()) {
-            return this.id;
-        } else {
+        if (!this.isPrivate()) {
             return '';
+        }
+        var number = this.id;
+        try {
+            var parsedNumber = libphonenumber.parse(number);
+            var regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
+            if (regionCode === storage.get('regionCode')) {
+                return libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.NATIONAL);
+            } else {
+                return libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.INTERNATIONAL);
+            }
+        } catch (e) {
+            return number;
         }
     },
 
