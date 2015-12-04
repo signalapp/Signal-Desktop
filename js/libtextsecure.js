@@ -36789,29 +36789,31 @@ MessageReceiver.prototype = {
             });
     },
     queueRequest: function(request) {
-        var handleRequest = this.handleRequest.bind(this, request);
-        this.pending = this.pending.then(handleRequest, handleRequest);
-    },
-    handleRequest: function(request) {
-        // TODO: handle different types of requests. for now we only expect
+        // We do the message decryption here, instead of in the ordered pending queue,
+        // to avoid exposing the time it took us to process messages through the time-to-ack.
+
+        // TODO: handle different types of requests. for now we blindly assume
         // PUT /messages <encrypted IncomingPushMessageSignal>
-        return textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
-            var envelope = textsecure.protobuf.Envelope.decode(plaintext);
+        textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             // After this point, decoding errors are not the server's
             // fault, and we should handle them gracefully and tell the
             // user they received an invalid message
             request.respond(200, 'OK');
 
-            if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
-                return this.onDeliveryReceipt(envelope);
-            } else if (envelope.content) {
-                return this.handleContentMessage(envelope);
-            } else if (envelope.legacyMessage) {
-                return this.handleLegacyMessage(envelope);
-            } else {
-                throw new Error('Received envelope with no content and no legacyMessage');
-            }
+            var handleRequest = function() {
+                var envelope = textsecure.protobuf.Envelope.decode(plaintext);
 
+                if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
+                    return this.onDeliveryReceipt(envelope);
+                } else if (envelope.content) {
+                    return this.handleContentMessage(envelope);
+                } else if (envelope.legacyMessage) {
+                    return this.handleLegacyMessage(envelope);
+                } else {
+                    throw new Error('Received message with no content and no legacyMessage');
+                }
+            }.bind(this);
+            this.pending = this.pending.then(handleRequest, handleRequest);
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
             console.log("Error handling incoming message:", e);
