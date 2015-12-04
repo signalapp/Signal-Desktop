@@ -280,7 +280,11 @@
                         }
                     }
                     else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
-                        group_update = { left: source };
+                        if (source == textsecure.storage.user.getNumber()) {
+                            group_update = { left: "You" };
+                        } else {
+                            group_update = { left: source };
+                        }
                         attributes.members = _.without(conversation.get('members'), source);
                     }
 

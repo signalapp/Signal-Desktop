@@ -331,7 +331,11 @@ MessageReceiver.prototype = {
                     case textsecure.protobuf.GroupContext.Type.QUIT:
                         decrypted.body = null;
                         decrypted.attachments = [];
-                        return textsecure.storage.groups.removeNumber(decrypted.group.id, source);
+                        if (source === this.number) {
+                            return textsecure.storage.groups.deleteGroup(decrypted.group.id);
+                        } else {
+                            return textsecure.storage.groups.removeNumber(decrypted.group.id, source);
+                        }
                     case textsecure.protobuf.GroupContext.Type.DELIVER:
                         decrypted.group.name = null;
                         decrypted.group.members = [];
@@ -342,7 +346,7 @@ MessageReceiver.prototype = {
                         throw new Error("Unknown group message type");
                     }
                 }
-            }));
+            }.bind(this)));
         }
 
         for (var i in decrypted.attachments) {
