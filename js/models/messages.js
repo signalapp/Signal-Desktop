@@ -153,10 +153,16 @@
                     this.set({dataMessage: result.dataMessage});
                 }
                 this.set({sent: true});
-                this.saveErrors(result.errors);
-                if (result.successfulNumbers.length > 0) {
-                    this.sendSyncMessage();
+
+                if (result instanceof Error) {
+                    this.saveErrors(result);
+                } else {
+                    this.saveErrors(result.errors);
+                    if (result.successfulNumbers.length > 0) {
+                        this.sendSyncMessage();
+                    }
                 }
+
             }.bind(this));
         },
 
