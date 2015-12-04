@@ -57,6 +57,7 @@
                 });
                 appWindow.contentWindow.addEventListener('focus', function() {
                     inboxFocused = true;
+                    extension.windows.clearAttention(inboxWindowId);
                 });
 
                 // close the inbox if background.html is refreshed
