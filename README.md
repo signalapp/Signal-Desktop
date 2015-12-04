@@ -6,7 +6,7 @@ Signal-Desktop is a chrome packaged app that links with the
 [Signal-Android](https://github.com/WhisperSystems/Signal-Android)
 client already installed on your phone.
 
-Coming soon to the Chrome Web Store.
+Coming soon to the Chrome Web Store. Want to get early access? [Sign up here](https://whispersystems.org/blog/signal-desktop/)
 
 ## Contributing Bug reports
 We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
