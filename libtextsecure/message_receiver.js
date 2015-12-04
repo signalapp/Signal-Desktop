@@ -26,7 +26,7 @@ MessageReceiver.prototype = {
         this.socket.onerror = this.onerror.bind(this);
         this.socket.onopen = this.onopen.bind(this);
         this.wsr = new WebSocketResource(this.socket, {
-            handleRequest: this.queueRequest.bind(this),
+            handleRequest: this.handleRequest.bind(this),
             keepalive: { path: '/v1/keepalive', disconnect: true }
         });
         this.pending = Promise.resolve();
@@ -56,32 +56,19 @@ MessageReceiver.prototype = {
                 eventTarget.dispatchEvent(ev);
             });
     },
-    queueRequest: function(request) {
+    handleRequest: function(request) {
         // We do the message decryption here, instead of in the ordered pending queue,
         // to avoid exposing the time it took us to process messages through the time-to-ack.
 
         // TODO: handle different types of requests. for now we blindly assume
-        // PUT /messages <encrypted IncomingPushMessageSignal>
+        // PUT /messages <encrypted Envelope>
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             // After this point, decoding errors are not the server's
             // fault, and we should handle them gracefully and tell the
             // user they received an invalid message
             request.respond(200, 'OK');
+            this.queueEnvelope(plaintext);
 
-            var handleRequest = function() {
-                var envelope = textsecure.protobuf.Envelope.decode(plaintext);
-
-                if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
-                    return this.onDeliveryReceipt(envelope);
-                } else if (envelope.content) {
-                    return this.handleContentMessage(envelope);
-                } else if (envelope.legacyMessage) {
-                    return this.handleLegacyMessage(envelope);
-                } else {
-                    throw new Error('Received message with no content and no legacyMessage');
-                }
-            }.bind(this);
-            this.pending = this.pending.then(handleRequest, handleRequest);
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
             console.log("Error handling incoming message:", e);
@@ -89,6 +76,23 @@ MessageReceiver.prototype = {
             ev.error = e;
             this.dispatchEvent(ev);
         }.bind(this));
+    },
+    queueEnvelope: function(envelope) {
+        var handleEnvelope = this.handleEnvelope.bind(this, envelope);
+        this.pending = this.pending.then(handleEnvelope, handleEnvelope);
+    },
+    handleEnvelope: function(encodedEnvelope) {
+        var envelope = textsecure.protobuf.Envelope.decode(encodedEnvelope);
+
+        if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
+            return this.onDeliveryReceipt(envelope);
+        } else if (envelope.content) {
+            return this.handleContentMessage(envelope);
+        } else if (envelope.legacyMessage) {
+            return this.handleLegacyMessage(envelope);
+        } else {
+            throw new Error('Received message with no content and no legacyMessage');
+        }
     },
     getStatus: function() {
         if (this.socket) {
