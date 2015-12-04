@@ -40,6 +40,8 @@ var TextSecureServer = (function() {
             if (options.contentType) {
                 xhr.setRequestHeader( "Content-Type", options.contentType );
             }
+            xhr.setRequestHeader( 'X-Signal-Agent', 'OWD' );
+
 
             xhr.onload = function() {
                 var result = xhr.response;
@@ -353,13 +355,14 @@ var TextSecureServer = (function() {
                     .replace('http://', 'ws://')
                     + '/v1/websocket/?login=' + encodeURIComponent(this.username)
                     + '&password=' + encodeURIComponent(this.password)
+                    + '&agent=OWD'
             );
         },
         getProvisioningSocket: function () {
             return new WebSocket(
                 this.url.replace('https://', 'wss://')
                     .replace('http://', 'ws://')
-                    + '/v1/websocket/provisioning/'
+                    + '/v1/websocket/provisioning/?agent=OWD'
             );
         }
     };
