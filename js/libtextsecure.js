@@ -34806,7 +34806,9 @@ window.axolotl.protocol = function(storage_interface) {
                 return fillMessageKeys(chain, message.counter).then(function() {
                     var messageKey = chain.messageKeys[message.counter];
                     if (messageKey === undefined) {
-                        throw new Error("Message key not found. The counter was repeated or the key was not filled.");
+                        var e = new Error("Message key not found. The counter was repeated or the key was not filled.");
+                        e.name = 'MessageCounterError';
+                        throw e;
                     }
                     return HKDF(axolotlInternal.utils.convertToArrayBuffer(messageKey), '', "WhisperMessageKeys").then(function(keys) {
                         return storage_interface.getMyIdentityKey().then(function(ourIdentityKey) {

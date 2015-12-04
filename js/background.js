@@ -200,6 +200,11 @@
         }
 
         if (ev.proto) {
+            if (e.name === 'MessageCounterError') {
+                // Ignore this message. It is likely a duplicate delivery
+                // because the server lost our ack the first time.
+                return;
+            }
             var envelope = ev.proto;
             var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
             message.saveErrors(e).then(function() {
