@@ -410,6 +410,7 @@
     search: function(query) {
         query = query.trim().toLowerCase();
         if (query.length > 0) {
+            query = query.replace(/[-.\(\)]*/g,'');
             var lastCharCode = query.charCodeAt(query.length - 1);
             var nextChar = String.fromCharCode(lastCharCode + 1);
             var upper = query.slice(0, -1) + nextChar;
