@@ -153,6 +153,43 @@
             convo.revokeAvatarUrl();
             assert.notOk(convo.avatarUrl);
         });
+
+        describe('phone number parsing', function() {
+            after(function() { storage.remove('regionCode'); });
+            function checkAttributes(number) {
+                var convo = new Whisper.ConversationCollection().add({type: 'private'});
+                convo.set('id', number);
+                convo.validate(convo.attributes);
+                assert.strictEqual(convo.get('id'), '+14155555555', number);
+            }
+            it('processes the phone number when validating', function() {
+                [ '+14155555555', ].forEach(checkAttributes);
+            });
+            it('defaults to the local regionCode', function() {
+                storage.put('regionCode', 'US');
+                [ '14155555555', '4155555555' ].forEach(checkAttributes);
+            });
+            it('works with common phone number formats', function() {
+                storage.put('regionCode', 'US');
+                [
+                    '415 555 5555',
+                    '415-555-5555',
+                    '(415) 555 5555',
+                    '(415) 555-5555',
+                    '1 415 555 5555',
+                    '1 415-555-5555',
+                    '1 (415) 555 5555',
+                    '1 (415) 555-5555',
+                    '+1 415 555 5555',
+                    '+1 415-555-5555',
+                    '+1 (415) 555 5555',
+                    '+1 (415) 555-5555',
+
+                ].forEach(checkAttributes);
+            });
+        });
+    });
+
     });
 
 })();;

@@ -22,20 +22,18 @@
 
         validateNumber: function() {
             var input = this.$('input.number');
-            try {
-                var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();
-                var number = input.val();
+            var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();
+            var number = input.val();
 
-                var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
-
+            var parsedNumber = libphonenumber.util.parseNumber(number, regionCode);
+            if (parsedNumber.isValidNumber) {
                 this.$('.number-container').removeClass('invalid');
                 this.$('.number-container').addClass('valid');
-                return parsedNumber;
-            } catch(e) {
+                return parsedNumber.e164;
+            } else {
                 this.$('.number-container').removeClass('valid');
-            } finally {
-                input.trigger('validation');
             }
+            input.trigger('validation');
         }
     });
 })();

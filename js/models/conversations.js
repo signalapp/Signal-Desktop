@@ -42,7 +42,6 @@
             conversation: this
         });
 
-        this.on('change:id change:name', this.updateTokens);
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
     },
@@ -56,20 +55,20 @@
             return "Invalid conversation type: " + attributes.type;
         }
 
-        if (!attributes.tokens) {
-            return this.updateTokens();
-        }
+        var error = this.validateNumber();
+        if (error) { return error; }
+
+        this.updateTokens();
     },
 
     validateNumber: function() {
-        try {
-            this.id = libphonenumber.util.verifyNumber(this.id);
-        } catch (ex) {
-            if (ex === "Invalid country calling code") {
-                var regionCode = storage.get('regionCode');
-                this.id = libphonenumber.util.verifyNumber(this.id, regionCode);
+        if (this.isPrivate()) {
+            var regionCode = storage.get('regionCode');
+            var number = libphonenumber.util.parseNumber(this.id, regionCode);
+            if (number.isValidNumber) {
+                this.set({ id: number.e164 });
             } else {
-                throw ex;
+                return number.error || "Invalid phone number";
             }
         }
     },
@@ -78,26 +77,17 @@
         var tokens = [];
         var name = this.get('name');
         if (typeof name === 'string') {
-            tokens = name.trim().toLowerCase().split(/[\s\-_\(\)\+]+/);
+            tokens.push(name.toLowerCase());
+            tokens = tokens.concat(name.trim().toLowerCase().split(/[\s\-_\(\)\+]+/));
         }
-
         if (this.isPrivate()) {
-            try {
-                this.validateNumber();
-                var number = libphonenumber.util.splitCountryCode(this.id);
-                var international_number = '' + number.country_code + number.national_number;
-                var national_number = '' + number.national_number;
-
-                this.set({
-                    id: this.id,
-                    e164_number: this.id,
-                    national_number: national_number,
-                    international_number: international_number
-                });
-                tokens = tokens.concat(this.id, national_number, international_number);
-            } catch(ex) {
-                return ex;
-            }
+            var regionCode = storage.get('regionCode');
+            var number = libphonenumber.util.parseNumber(this.id, regionCode);
+            tokens.push(
+                this.id,
+                number.nationalNumber,
+                number.countryCode + number.nationalNumber
+            );
         }
         this.set({tokens: tokens});
     },
