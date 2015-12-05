@@ -36354,7 +36354,6 @@ var TextSecureServer = (function() {
                     message = "Number already registered.";
                     break;
                 case 401:
-                case 403:
                     message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
                     break;
                 case 404:
