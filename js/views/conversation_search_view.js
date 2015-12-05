@@ -123,7 +123,7 @@
         },
 
         maybeNumber: function(number) {
-            return number.match(/^\+?[0-9]*$/);
+            return number.replace(/[\s-.\(\)]*/g,'').match(/^\+?[0-9]*$/);
         }
     });
 
