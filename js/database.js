@@ -68,6 +68,18 @@
                     storage.put('unreadCount', unreadCount);
                 });
             }
+        },
+        {
+            version: "4.0",
+            migrate: function(transaction, next) {
+                var all = new Whisper.ConversationCollection();
+                all.fetch().then(function() {
+                    all.each(function(c) {
+                        c.updateTokens();
+                        c.save();
+                    });
+                });
+            }
         }
     ];
 }());
