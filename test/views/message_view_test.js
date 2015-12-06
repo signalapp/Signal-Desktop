@@ -2,6 +2,7 @@ describe('MessageView', function() {
   var conversations = new Whisper.ConversationCollection();
   before(function(done) {
     conversations.fetch().then(done);
+    storage.put('number_id', '+18088888888.1');
   });
 
   var convo = conversations.add({id: 'foo'});
