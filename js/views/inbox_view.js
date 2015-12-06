@@ -135,11 +135,8 @@
                     input.removeClass('active');
                 }
             },
-            hideHints: function() {
-                this.searchView.hideHints();
-            },
             openConversation: function(e, conversation) {
-                this.hideHints();
+                this.searchView.hideHints();
                 conversation = ConversationController.create(conversation);
                 this.conversation_stack.open(conversation);
                 this.hideCompose();
