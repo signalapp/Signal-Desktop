@@ -67,12 +67,6 @@
                 model: { appWindow: options.appWindow }
             });
 
-            this.newConversationView = new Whisper.NewConversationView({
-                appWindow: options.appWindow
-            });
-            this.listenTo(this.newConversationView, 'open',
-                this.openConversation.bind(this, null));
-
             var inboxCollection = getInboxCollection();
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
@@ -121,7 +115,6 @@
             'click': 'closeMenu',
             'click .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
-            'click .show-new-conversation': 'showCompose',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts'
         },
@@ -138,16 +131,6 @@
             this.searchView.hideHints();
             conversation = ConversationController.create(conversation);
             this.conversation_stack.open(conversation);
-            this.hideCompose();
-        },
-        showCompose: function() {
-            this.newConversationView.reset();
-            this.newConversationView.$el.prependTo(this.conversation_stack.el);
-            this.newConversationView.$input.focus();
-            this.listenToOnce(this.newConversationView, 'back', this.hideCompose);
-        },
-        hideCompose: function() {
-            this.newConversationView.$el.remove();
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();
