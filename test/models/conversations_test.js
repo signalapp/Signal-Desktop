@@ -190,6 +190,43 @@
         });
     });
 
+    describe('Conversation search', function() {
+        var convo = new Whisper.ConversationCollection().add({
+            id: '+14155555555', type: 'private', name: 'John Doe'
+        });
+        before(function(done) { convo.save().then(done); });
+        function testSearch(queries, done) {
+            return Promise.all(queries.map(function(query) {
+                var collection = new Whisper.ConversationCollection();
+                return collection.search(query).then(function() {
+                    assert.isDefined(collection.get(convo.id), 'no result for "' + query + '"');
+                }).catch(done);
+            })).then(function() {
+                done();
+            });
+        }
+        it('matches by partial phone number', function(done) {
+            testSearch([
+                '1',
+                '4',
+                '+1',
+                '415',
+                '4155',
+                '4155555555',
+                '14155555555',
+                '+14155555555',
+            ], done);
+        });
+        it('matches by name', function(done) {
+            testSearch([ 'John', 'Doe', 'john', 'doe', 'John Doe', 'john doe' ], done);
+        });
+        it('does not match +', function(done) {
+            var collection = new Whisper.ConversationCollection();
+            return collection.search('+').then(function() {
+                assert.isUndefined(collection.get(convo.id), 'got result for "+"');
+                done();
+            }).catch(done);
+        });
     });
 
 })();;
