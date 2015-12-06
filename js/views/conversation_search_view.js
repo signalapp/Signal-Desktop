@@ -5,6 +5,31 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    Whisper.NewContactView = Whisper.View.extend({
+        templateName: 'new-contact',
+        className: 'conversation-list-item contact',
+        events: {
+            'click': 'validate'
+        },
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render); // auto update
+        },
+        render_attributes: function() {
+            return {
+                    number: 'Click to create new contact',
+                    title: this.model.getNumber(),
+                    avatar: this.model.getAvatar(),
+            };
+        },
+        validate: function() {
+            if (this.model.isValid()) {
+                this.$el.addClass('valid');
+            } else {
+                this.$el.removeClass('valid');
+            }
+        },
+    });
+
     Whisper.ConversationSearchView = Whisper.View.extend({
         className: 'conversation-search',
         initialize: function(options) {
@@ -25,7 +50,7 @@
         },
 
         events: {
-            'select .new-contact': 'createConversation',
+            'click .new-contact': 'createConversation',
         },
 
         filterContacts: function(e) {
@@ -34,7 +59,9 @@
                 if (this.maybeNumber(query)) {
                     this.new_contact_view.model.set('id', query);
                     this.new_contact_view.render().$el.show();
+                    this.new_contact_view.validate();
                     this.hideHints();
+
                 } else {
                     this.new_contact_view.$el.hide();
                 }
@@ -55,7 +82,7 @@
                 this.new_contact_view.$el.hide();
             }
             // Creates a view to display a new contact
-            this.new_contact_view = new Whisper.ConversationListItemView({
+            this.new_contact_view = new Whisper.NewContactView({
                 el: this.$new_contact,
                 model: ConversationController.create({
                     type: 'private',
@@ -66,8 +93,7 @@
 
         createConversation: function() {
             var conversation = this.new_contact_view.model;
-            var error = conversation.validate(conversation.attributes);
-            if (!error) {
+            if (this.new_contact_view.model.isValid()) {
                 ConversationController.findOrCreatePrivateById(
                     this.new_contact_view.model.id
                 ).then(function(conversation) {
@@ -75,6 +101,9 @@
                     this.initNewContact();
                     this.resetTypeahead();
                 }.bind(this));
+            } else {
+                this.new_contact_view.$('.number').text("Invalid number");
+                this.$input.focus();
             }
         },
 

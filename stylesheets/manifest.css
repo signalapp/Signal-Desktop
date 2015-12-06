@@ -487,15 +487,14 @@ input.search {
 .new-contact {
   display: none;
   cursor: pointer;
+  opacity: 0.7;
   background: #f3f3f3; }
-  .new-contact .name, .new-contact .last-timestamp, .new-contact .avatar {
-    display: none; }
-  .new-contact .contact-details::before {
-    content: 'Create new contact';
+  .new-contact .contact-details .number {
     display: block;
     font-style: italic;
-    opacity: 0.7;
     padding-right: 8px; }
+  .new-contact.valid {
+    opacity: 1; }
 
 .index {
   max-width: 1300px;
