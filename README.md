@@ -1,17 +1,26 @@
 [![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop)
 Signal Desktop
 ==========================
-Signal-Desktop is a chrome packaged app that links with the
+Coming soon to the Chrome Web Store. Want to get early access? [Sign up here](https://whispersystems.org/blog/signal-desktop/)
+
+Signal Desktop is a chrome packaged app that links with the
 [Signal-iOS](https://github.com/WhisperSystems/Signal-iOS) or
 [Signal-Android](https://github.com/WhisperSystems/Signal-Android)
 client already installed on your phone.
 
-Coming soon to the Chrome Web Store. Want to get early access? [Sign up here](https://whispersystems.org/blog/signal-desktop/)
+## Got a question?
+The best place to ask questions is [http://support.whispersystems.org](http://support.whispersystems.org).
 
-## Contributing Bug reports
-We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
+## Found a Bug?
+Please search the existing issues for your bug and create a new one if the issue is not yet tracked!
 
 https://github.com/WhisperSystems/Signal-Desktop/issues
+
+## Contributing Code
+Please see
+[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
+for setup instructions and contributor guidelines. And don't forget to sign the
+[CLA](https://whispersystems.org/cla/).
 
 ## Contributing Ideas
 Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the mailing list!
@@ -39,9 +48,3 @@ The form and manner of this distribution makes it eligible for export under the 
 Copyright 2014 Open Whisper Systems
 
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
-
-
-## Developers Developers Developers Developers!
-Please see
-[CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
-for setup instructions and contributor guidelines.
