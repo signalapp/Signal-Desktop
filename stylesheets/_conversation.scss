@@ -533,7 +533,7 @@
 
   .send-message {
     display: block;
-    width: calc(100% - 2 * #{$button-width} - 20px);
+    width: calc(100% - #{$button-width});
     min-height: $header-height - 1px;
     max-height: 100px;
     padding: 10px;
