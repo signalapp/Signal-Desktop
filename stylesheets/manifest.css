@@ -958,7 +958,7 @@ input.search {
   .bottom-bar .send-btn {
     float: right;
     height: 36px;
-    width: $button-width;
+    width: 36px;
     border: none;
     outline: none;
     background: url("/images/send.png") no-repeat;
