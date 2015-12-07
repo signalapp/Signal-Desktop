@@ -96,6 +96,9 @@ input.search {
     background: url('/images/x.png') no-repeat center;
     background-size: cover;
   }
+  &::-webkit-search-cancel-button:hover {
+    cursor: pointer;
+  }
 }
 
 .tool-bar {
