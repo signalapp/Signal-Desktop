@@ -972,7 +972,7 @@ input.search {
     height: 100%; }
   .bottom-bar .send-message {
     display: block;
-    width: calc(100% - 2 * 36px - 20px);
+    width: calc(100% - 36px);
     min-height: 35px;
     max-height: 100px;
     padding: 10px;
