@@ -420,7 +420,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {
@@ -448,6 +448,8 @@ input.search {
     height: 16px;
     background: url("/images/x.png") no-repeat center;
     background-size: cover; }
+  input.search::-webkit-search-cancel-button:hover {
+    cursor: pointer; }
 
 .tool-bar button.show-new-conversation {
   float: right;
@@ -970,7 +972,7 @@ input.search {
     height: 100%; }
   .bottom-bar .send-message {
     display: block;
-    width: calc(100% - 2 * 36px - 20px);
+    width: calc(100% - 36px);
     min-height: 35px;
     max-height: 100px;
     padding: 10px;
