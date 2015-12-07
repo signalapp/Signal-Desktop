@@ -977,7 +977,8 @@ input.search {
     border: 0;
     outline: 0;
     z-index: 5;
-    resize: none; }
+    resize: none;
+    font-size: 1em; }
 
 .toast {
   position: absolute;
