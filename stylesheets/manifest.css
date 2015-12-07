@@ -448,6 +448,8 @@ input.search {
     height: 16px;
     background: url("/images/x.png") no-repeat center;
     background-size: cover; }
+  input.search::-webkit-search-cancel-button:hover {
+    cursor: pointer; }
 
 .tool-bar button.show-new-conversation {
   float: right;
