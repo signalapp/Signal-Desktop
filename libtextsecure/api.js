@@ -315,7 +315,8 @@ var TextSecureServer = (function() {
             }).then(function(response) {
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
-                    throw new Error('Received invalid attachment url: ' + response.location);
+                    console.log('Invalid attachment url for incoming message', response.location);
+                    throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {
                     type        : "GET",
@@ -333,7 +334,8 @@ var TextSecureServer = (function() {
                 // (workaround for ids too large for Javascript numbers)
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
-                    throw new Error('Received invalid attachment url: ' + response.location);
+                    console.log('Invalid attachment url for outgoing message', response.location);
+                    throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {
                     type        : "PUT",
