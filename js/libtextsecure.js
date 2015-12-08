@@ -36498,7 +36498,7 @@ var TextSecureServer = (function() {
             }).then(function(response) {
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
-                    throw new Error('Received invalid attachment url');
+                    throw new Error('Received invalid attachment url: ' + response.location);
                 }
                 return ajax(response.location, {
                     type        : "GET",
