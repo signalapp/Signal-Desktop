@@ -8,7 +8,7 @@
     Whisper.PhoneInputView = Whisper.View.extend({
         tagName: 'div',
         className: 'phone-input',
-        template: $('#phone-number').html(),
+        templateName: 'phone-number',
         render: function() {
             this.$el.html($(Mustache.render(this.template)));
             this.$('input.number').intlTelInput();

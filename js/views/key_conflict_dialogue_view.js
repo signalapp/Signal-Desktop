@@ -6,11 +6,10 @@
 
     window.Whisper = window.Whisper || {};
 
-    Whisper.KeyConflictDialogueView = Backbone.View.extend({
+    Whisper.KeyConflictDialogueView = Whisper.View.extend({
         className: 'key-conflict-dialogue',
+        templateName: 'key-conflict-dialogue',
         initialize: function(options) {
-            this.template = $('#key-conflict-dialogue').html();
-            Mustache.parse(this.template);
             this.conversation = options.conversation;
         },
         events: {
@@ -32,9 +31,8 @@
             this.remove();
             this.conversation.resolveConflicts(this.model);
         },
-        render: function() {
-            this.$el.html(Mustache.render(this.template, this.model));
-            return this;
+        render_attributes: function() {
+            return this.model;
         }
     });
 })();

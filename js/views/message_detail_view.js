@@ -31,9 +31,9 @@
         }
     });
 
-    Whisper.MessageDetailView = Backbone.View.extend({
+    Whisper.MessageDetailView = Whisper.View.extend({
         className: 'message-detail',
-        template: $('#message-detail').html(),
+        templateName: 'message-detail',
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});
             this.view.render();
@@ -107,7 +107,7 @@
                 return (e.name === 'OutgoingMessageError' ||
                         e.name === 'SendMessageNetworkError');
             });
-            this.$el.html(Mustache.render(this.template, {
+            this.$el.html(Mustache.render(_.result(this, 'template', ''), {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : moment(this.model.get('received_at')).toString(),
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',

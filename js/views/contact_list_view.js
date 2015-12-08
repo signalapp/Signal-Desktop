@@ -10,7 +10,7 @@
         itemView: Whisper.View.extend({
             tagName: 'div',
             className: 'contact',
-            template: Whisper.View.Templates.contact,
+            templateName: 'contact',
             render_attributes: function() {
                 return {
                     title: this.model.getTitle(),

@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.FileSizeToast = Whisper.ToastView.extend({
-        template: $('#file-size-modal').html()
+        templateName: 'file-size-modal'
     });
 
     Whisper.FileInputView = Backbone.View.extend({

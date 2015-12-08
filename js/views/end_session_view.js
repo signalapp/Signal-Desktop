@@ -9,7 +9,7 @@
     Whisper.EndSessionView = Whisper.View.extend({
         tagName:   "div",
         className: "end-session",
-        template: $('#message').html(),
+        templateName: 'message',
         render_attributes: function() {
             return { text: 'Secure session ended' };
         }
