@@ -84,7 +84,6 @@
             var regionCode = storage.get('regionCode');
             var number = libphonenumber.util.parseNumber(this.id, regionCode);
             tokens.push(
-                this.id,
                 number.nationalNumber,
                 number.countryCode + number.nationalNumber
             );
@@ -400,7 +399,7 @@
     search: function(query) {
         query = query.trim().toLowerCase();
         if (query.length > 0) {
-            query = query.replace(/[-.\(\)]*/g,'');
+            query = query.replace(/[-.\(\)]*/g,'').replace(/^\+(\d*)$/, '$1');
             var lastCharCode = query.charCodeAt(query.length - 1);
             var nextChar = String.fromCharCode(lastCharCode + 1);
             var upper = query.slice(0, -1) + nextChar;
