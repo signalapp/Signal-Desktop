@@ -29,11 +29,12 @@
             if (parsedNumber.isValidNumber) {
                 this.$('.number-container').removeClass('invalid');
                 this.$('.number-container').addClass('valid');
-                return parsedNumber.e164;
             } else {
                 this.$('.number-container').removeClass('valid');
             }
             input.trigger('validation');
+
+            return parsedNumber.e164;
         }
     });
 })();
