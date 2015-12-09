@@ -232,6 +232,12 @@
         var messages  = new Whisper.MessageCollection();
         var groups    = new Whisper.ConversationCollection();
         console.log('delivery receipt', pushMessage.source, timestamp);
+
+        if (pushMessage.source === textsecure.storage.user.getNumber()) {
+            // disregard delivery receipts from myself
+            return;
+        }
+
         messages.fetchSentAt(timestamp).then(function() {
             groups.fetchGroups(pushMessage.source).then(function() {
                 var found = false;
