@@ -234,6 +234,8 @@
         },
 
         openDropped: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != "Files") return;
+
             e.stopPropagation();
             e.preventDefault();
             this.file = e.originalEvent.dataTransfer.files[0];
@@ -242,12 +244,16 @@
         },
 
         showArea: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != "Files") return;
+
             e.stopPropagation();
             e.preventDefault();
             this.$el.addClass("dropoff");
         },
 
         hideArea: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != "Files") return;
+
             e.stopPropagation();
             e.preventDefault();
             this.$el.removeClass("dropoff");
