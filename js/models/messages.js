@@ -352,8 +352,8 @@
                     });
                 }
 
-                conversation.save().then(function() {
-                    message.save().then(function() {
+                message.save().then(function() {
+                    conversation.save().then(function() {
                         conversation.trigger('newmessage', message);
                         conversation.notify(message);
                     });
