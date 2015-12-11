@@ -622,6 +622,9 @@ input.search {
     font-family: monospace;
     padding: 0 1em;
     -webkit-user-select: text; }
+  .key-verification .container {
+    height : calc(100% - (36px + 5px + 1px + 4px));
+  }
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
