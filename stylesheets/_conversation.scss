@@ -55,7 +55,7 @@
     -webkit-user-select: text;
   }
   .container {
-    height : calc(100% - (36px + 5px + 1px + 4px));
+    height: calc(100% - (#{$header-height} + 5px + 1px + 4px));
   }
 }
 
