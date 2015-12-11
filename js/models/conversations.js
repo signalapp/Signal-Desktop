@@ -133,7 +133,7 @@
                 received_at    : now,
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
-            message.send(textsecure.messaging.closeSession(this.id));
+            message.send(textsecure.messaging.closeSession(this.id, now));
         }
 
     },

@@ -152,11 +152,11 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    closeSession: function(number) {
+    closeSession: function(number, timestamp) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-        return this.sendIndividualProto(number, proto, Date.now()).then(function(res) {
+        return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
                     return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
