@@ -7,7 +7,7 @@
 
     Whisper.KeyVerificationView = Whisper.View.extend({
         className: 'key-verification',
-        template: $('#key-verification').html(),
+        templateName: 'key-verification',
         events: {
             'click .back': 'goBack'
         },

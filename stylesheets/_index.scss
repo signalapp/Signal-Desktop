@@ -89,6 +89,16 @@ input.search {
   padding: 0;
   margin: 0;
   outline: 0;
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: url('/images/x.png') no-repeat center;
+    background-size: cover;
+  }
+  &::-webkit-search-cancel-button:hover {
+    cursor: pointer;
+  }
 }
 
 .tool-bar {
@@ -137,14 +147,16 @@ input.search {
 .new-contact {
   display: none;
   cursor: pointer;
+  opacity: 0.7;
   background: $grey_l;
-  .name, .last-timestamp, .avatar { display: none; }
-  .contact-details::before {
-    content: 'Create new contact';
+  .contact-details .number {
     display: block;
     font-style: italic;
-    opacity: 0.7;
     padding-right: 8px;
+  }
+
+  &.valid {
+    opacity: 1.0
   }
 }
 

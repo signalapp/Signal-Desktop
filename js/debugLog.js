@@ -33,5 +33,9 @@
                 }).fail(resolve);
             });
         };
+
+        window.onerror = function(message, script, line, col, error) {
+            console.log(error);
+        };
     }
 })();

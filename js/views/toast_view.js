@@ -16,7 +16,7 @@
         },
 
         render: function() {
-            this.$el.html(Mustache.render(this.template, this.model));
+            this.$el.html(Mustache.render(_.result(this, 'template', ''), this.model));
             this.$el.show();
             setTimeout(this.close.bind(this), 2000);
         }

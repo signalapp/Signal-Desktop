@@ -34,20 +34,19 @@
       return (cc !== 0) ? cc : "";
     },
 
-    verifyNumber: function(number, regionCode) {
-      var parsedNumber = libphonenumber.parse(number, regionCode);
+    parseNumber: function(number, defaultRegionCode) {
+      try {
+        var parsedNumber = libphonenumber.parse(number, defaultRegionCode);
 
-      if(!regionCode || regionCode == 'ZZ') {
-        regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
-      }
-
-      var isValidNumber = libphonenumber.isValidNumber(parsedNumber);
-      var isValidNumberForRegion = libphonenumber.isValidNumberForRegion(parsedNumber, regionCode);
-
-      if (isValidNumber && isValidNumberForRegion) {
-        return libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.E164);
-      } else {
-        throw new Error("The number seems not to be valid.");
+        return {
+            isValidNumber: libphonenumber.isValidNumber(parsedNumber),
+            regionCode: libphonenumber.getRegionCodeForNumber(parsedNumber),
+            countryCode: '' + parsedNumber.getCountryCode(),
+            nationalNumber: '' + parsedNumber.getNationalNumber(),
+            e164: libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.E164)
+        };
+      } catch (ex) {
+        return { error: ex, isValidNumber: false };
       }
     },
 

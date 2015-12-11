@@ -34879,7 +34879,7 @@ window.axolotl.protocol = function(storage_interface) {
 
     function getPaddedMessageLength(messageLength) {
         var messageLengthWithTerminator = messageLength + 1;
-        var messagePartCount            = Math.trunc(messageLengthWithTerminator / 160);
+        var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
 
         if (messageLengthWithTerminator % 160 != 0) {
             messagePartCount++;
@@ -36354,7 +36354,6 @@ var TextSecureServer = (function() {
                     message = "Number already registered.";
                     break;
                 case 401:
-                case 403:
                     message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
                     break;
                 case 404:
@@ -36499,6 +36498,7 @@ var TextSecureServer = (function() {
             }).then(function(response) {
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
+                    console.log('Invalid attachment url for incoming message', response.location);
                     throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {
@@ -36517,6 +36517,7 @@ var TextSecureServer = (function() {
                 // (workaround for ids too large for Javascript numbers)
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
+                    console.log('Invalid attachment url for outgoing message', response.location);
                     throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {
@@ -37493,11 +37494,11 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    closeSession: function(number) {
+    closeSession: function(number, timestamp) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-        return this.sendIndividualProto(number, proto, Date.now()).then(function(res) {
+        return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
                     return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);

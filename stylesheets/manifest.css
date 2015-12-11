@@ -117,15 +117,16 @@ button.back {
 
 .file-input {
   position: relative;
-  margin-right: 10px; }
+  margin-right: 10px;
+  box-sizing: content-box;
+  border: 1px transparent solid; }
   .file-input .choose-file {
     cursor: pointer; }
   .file-input .paperclip {
     width: 36px;
     height: 100%;
     background: url("/images/paperclip.png") no-repeat center center;
-    background-size: 90%;
-    margin-top: 4px; }
+    background-size: 70%; }
   .file-input input[type=file] {
     display: none;
     position: absolute;
@@ -150,6 +151,9 @@ button.back {
     background: #666;
     color: #fff;
     text-align: center; }
+
+.dropoff {
+  border: 1px #2090ea dashed; }
 
 img.emoji {
   height: 1em;
@@ -442,6 +446,14 @@ input.search {
   padding: 0;
   margin: 0;
   outline: 0; }
+  input.search::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: url("/images/x.png") no-repeat center;
+    background-size: cover; }
+  input.search::-webkit-search-cancel-button:hover {
+    cursor: pointer; }
 
 .tool-bar button.show-new-conversation {
   float: right;
@@ -475,15 +487,14 @@ input.search {
 .new-contact {
   display: none;
   cursor: pointer;
+  opacity: 0.7;
   background: #f3f3f3; }
-  .new-contact .name, .new-contact .last-timestamp, .new-contact .avatar {
-    display: none; }
-  .new-contact .contact-details::before {
-    content: 'Create new contact';
+  .new-contact .contact-details .number {
     display: block;
     font-style: italic;
-    opacity: 0.7;
     padding-right: 8px; }
+  .new-contact.valid {
+    opacity: 1; }
 
 .index {
   max-width: 1300px;
@@ -609,7 +620,8 @@ input.search {
     padding: 1em; }
   .key-verification .key {
     font-family: monospace;
-    padding: 0 1em; }
+    padding: 0 1em;
+    -webkit-user-select: text; }
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
@@ -964,14 +976,15 @@ input.search {
     height: 100%; }
   .bottom-bar .send-message {
     display: block;
-    width: calc(100% - 2 * 36px - 20px);
+    width: calc(100% - 36px);
     min-height: 35px;
     max-height: 100px;
     padding: 10px;
     border: 0;
     outline: 0;
     z-index: 5;
-    resize: none; }
+    resize: none;
+    font-size: 1em; }
 
 .toast {
   position: absolute;

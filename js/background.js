@@ -232,8 +232,14 @@
         var messages  = new Whisper.MessageCollection();
         var groups    = new Whisper.ConversationCollection();
         console.log('delivery receipt', pushMessage.source, timestamp);
-        messages.fetchSentAt(timestamp).then(function() {
-            groups.fetchGroups(pushMessage.source).then(function() {
+
+        if (pushMessage.source === textsecure.storage.user.getNumber()) {
+            // disregard delivery receipts from myself
+            return;
+        }
+
+        groups.fetchGroups(pushMessage.source).then(function() {
+            messages.fetchSentAt(timestamp).then(function() {
                 var found = false;
                 messages.where({type: 'outgoing'}).forEach(function(message) {
                     var deliveries     = message.get('delivered') || 0;
@@ -258,8 +264,6 @@
                 receipts.add({ timestamp: timestamp, source: pushMessage.source });
                 return;
             });
-        }).fail(function() {
-            console.log('got delivery receipt for unknown message', pushMessage.source, timestamp);
         });
     }
 })();

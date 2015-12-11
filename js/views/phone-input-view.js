@@ -8,7 +8,7 @@
     Whisper.PhoneInputView = Whisper.View.extend({
         tagName: 'div',
         className: 'phone-input',
-        template: $('#phone-number').html(),
+        templateName: 'phone-number',
         render: function() {
             this.$el.html($(Mustache.render(this.template)));
             this.$('input.number').intlTelInput();
@@ -22,20 +22,19 @@
 
         validateNumber: function() {
             var input = this.$('input.number');
-            try {
-                var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();
-                var number = input.val();
+            var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();
+            var number = input.val();
 
-                var parsedNumber = libphonenumber.util.verifyNumber(number, regionCode);
-
+            var parsedNumber = libphonenumber.util.parseNumber(number, regionCode);
+            if (parsedNumber.isValidNumber) {
                 this.$('.number-container').removeClass('invalid');
                 this.$('.number-container').addClass('valid');
-                return parsedNumber;
-            } catch(e) {
+            } else {
                 this.$('.number-container').removeClass('valid');
-            } finally {
-                input.trigger('validation');
             }
+            input.trigger('validation');
+
+            return parsedNumber.e164;
         }
     });
 })();

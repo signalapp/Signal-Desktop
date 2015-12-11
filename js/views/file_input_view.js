@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.FileSizeToast = Whisper.ToastView.extend({
-        template: $('#file-size-modal').html()
+        templateName: 'file-size-modal'
     });
 
     Whisper.FileInputView = Backbone.View.extend({
@@ -22,7 +22,10 @@
         events: {
             'change': 'previewImages',
             'click .close': 'deleteFiles',
-            'click .choose-file': 'open'
+            'click .choose-file': 'open',
+            'drop': 'openDropped',
+            'dragover': 'showArea',
+            'dragleave': 'hideArea'
         },
 
         open: function() {
@@ -228,6 +231,32 @@
             this.$input.wrap('<form>').parent('form').trigger('reset');
             this.$input.unwrap();
             this.file = null;
+        },
+
+        openDropped: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+
+            e.stopPropagation();
+            e.preventDefault();
+            this.file = e.originalEvent.dataTransfer.files[0];
+            this.previewImages();
+            this.$el.removeClass('dropoff');
+        },
+
+        showArea: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+
+            e.stopPropagation();
+            e.preventDefault();
+            this.$el.addClass('dropoff');
+        },
+
+        hideArea: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+
+            e.stopPropagation();
+            e.preventDefault();
+            this.$el.removeClass('dropoff');
         }
     });
 })();

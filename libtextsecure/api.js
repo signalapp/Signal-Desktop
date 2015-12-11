@@ -171,7 +171,6 @@ var TextSecureServer = (function() {
                     message = "Number already registered.";
                     break;
                 case 401:
-                case 403:
                     message = "Invalid authentication, most likely someone re-registered and invalidated our registration.";
                     break;
                 case 404:
@@ -316,6 +315,7 @@ var TextSecureServer = (function() {
             }).then(function(response) {
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
+                    console.log('Invalid attachment url for incoming message', response.location);
                     throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {
@@ -334,6 +334,7 @@ var TextSecureServer = (function() {
                 // (workaround for ids too large for Javascript numbers)
                 var match = response.location.match(this.attachment_id_regex);
                 if (!match) {
+                    console.log('Invalid attachment url for outgoing message', response.location);
                     throw new Error('Received invalid attachment url');
                 }
                 return ajax(response.location, {

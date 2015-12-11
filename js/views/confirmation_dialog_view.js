@@ -7,7 +7,7 @@
 
     Whisper.ConfirmationDialogView = Whisper.View.extend({
         className: 'confirmation-dialog',
-        template: $('#confirmation-dialog').html(),
+        templateName: 'confirmation-dialog',
         initialize: function(options) {
             this.message = options.message;
             this.resolve = options.resolve;

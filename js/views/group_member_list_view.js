@@ -7,7 +7,7 @@
 
     Whisper.GroupMemberList = Whisper.View.extend({
         className: 'group-member-list',
-        template: $('#group-member-list').html(),
+        templateName: 'group-member-list',
         initialize: function() {
             this.render();
             this.member_list_view = new Whisper.ContactListView({

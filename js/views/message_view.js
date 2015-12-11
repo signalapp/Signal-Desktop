@@ -7,7 +7,7 @@
 
     Whisper.MessageView = Whisper.View.extend({
         tagName:   "li",
-        template: $('#message').html(),
+        templateName: 'message',
         initialize: function() {
             this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
             this.listenTo(this.model, 'change:body', this.render);
@@ -73,7 +73,7 @@
         render: function() {
             var contact = this.model.getContact();
             this.$el.html(
-                Mustache.render(this.template, {
+                Mustache.render(_.result(this, 'template', ''), {
                     message: this.model.get('body'),
                     timestamp: this.model.get('sent_at'),
                     sender: (contact && contact.getTitle()) || '',

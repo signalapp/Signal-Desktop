@@ -42,7 +42,6 @@
             conversation: this
         });
 
-        this.on('change:id change:name', this.updateTokens);
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
     },
@@ -56,8 +55,21 @@
             return "Invalid conversation type: " + attributes.type;
         }
 
-        if (!attributes.tokens) {
-            this.updateTokens();
+        var error = this.validateNumber();
+        if (error) { return error; }
+
+        this.updateTokens();
+    },
+
+    validateNumber: function() {
+        if (this.isPrivate()) {
+            var regionCode = storage.get('regionCode');
+            var number = libphonenumber.util.parseNumber(this.id, regionCode);
+            if (number.isValidNumber) {
+                this.set({ id: number.e164 });
+            } else {
+                return number.error || "Invalid phone number";
+            }
         }
     },
 
@@ -65,25 +77,16 @@
         var tokens = [];
         var name = this.get('name');
         if (typeof name === 'string') {
-            tokens = name.trim().toLowerCase().split(/[\s\-_\(\)\+]+/);
+            tokens.push(name.toLowerCase());
+            tokens = tokens.concat(name.trim().toLowerCase().split(/[\s\-_\(\)\+]+/));
         }
-
         if (this.isPrivate()) {
-            try {
-                this.id = libphonenumber.util.verifyNumber(this.id);
-                var number = libphonenumber.util.splitCountryCode(this.id);
-                var international_number = '' + number.country_code + number.national_number;
-                var national_number = '' + number.national_number;
-
-                this.set({
-                    e164_number: this.id,
-                    national_number: national_number,
-                    international_number: international_number
-                });
-                tokens = tokens.concat(national_number, international_number);
-            } catch(ex) {
-                return ex;
-            }
+            var regionCode = storage.get('regionCode');
+            var number = libphonenumber.util.parseNumber(this.id, regionCode);
+            tokens.push(
+                number.nationalNumber,
+                number.countryCode + number.nationalNumber
+            );
         }
         this.set({tokens: tokens});
     },
@@ -130,7 +133,7 @@
                 received_at    : now,
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
-            message.send(textsecure.messaging.closeSession(this.id));
+            message.send(textsecure.messaging.closeSession(this.id, now));
         }
 
     },
@@ -223,17 +226,27 @@
 
     getTitle: function() {
         if (this.isPrivate()) {
-            return this.get('name') || this.id;
+            return this.get('name') || this.getNumber();
         } else {
             return this.get('name') || 'Unknown group';
         }
     },
 
     getNumber: function() {
-        if (this.isPrivate()) {
-            return this.id;
-        } else {
+        if (!this.isPrivate()) {
             return '';
+        }
+        var number = this.id;
+        try {
+            var parsedNumber = libphonenumber.parse(number);
+            var regionCode = libphonenumber.getRegionCodeForNumber(parsedNumber);
+            if (regionCode === storage.get('regionCode')) {
+                return libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.NATIONAL);
+            } else {
+                return libphonenumber.format(parsedNumber, libphonenumber.PhoneNumberFormat.INTERNATIONAL);
+            }
+        } catch (e) {
+            return number;
         }
     },
 
@@ -386,6 +399,7 @@
     search: function(query) {
         query = query.trim().toLowerCase();
         if (query.length > 0) {
+            query = query.replace(/[-.\(\)]*/g,'').replace(/^\+(\d*)$/, '$1');
             var lastCharCode = query.charCodeAt(query.length - 1);
             var nextChar = String.fromCharCode(lastCharCode + 1);
             var upper = query.slice(0, -1) + nextChar;

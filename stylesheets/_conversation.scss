@@ -52,6 +52,7 @@
   .key {
     font-family: monospace;
     padding: 0 1em;
+    -webkit-user-select: text;
   }
 }
 
@@ -533,7 +534,7 @@
 
   .send-message {
     display: block;
-    width: calc(100% - 2 * #{$button-width} - 20px);
+    width: calc(100% - #{$button-width});
     min-height: $header-height - 1px;
     max-height: 100px;
     padding: 10px;
@@ -541,6 +542,7 @@
     outline: 0;
     z-index: 5;
     resize: none;
+    font-size: 1em;
   }
 }
 

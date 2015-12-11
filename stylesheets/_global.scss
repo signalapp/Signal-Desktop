@@ -136,6 +136,8 @@ button.back {
 .file-input {
   position: relative;
   margin-right: 10px;
+  box-sizing: content-box;
+  border: 1px transparent solid;
   .choose-file {
     cursor: pointer;
   }
@@ -144,8 +146,7 @@ button.back {
     width: 36px;
     height: 100%;
     background: url('/images/paperclip.png') no-repeat center center;
-    background-size: 90%;
-    margin-top: 4px;
+    background-size: 70%;
   }
 
   input[type=file] {
@@ -176,6 +177,10 @@ button.back {
     color: #fff;
     text-align: center;
   }
+}
+
+.dropoff {
+  border: 1px #2090ea dashed;
 }
 
 img.emoji {

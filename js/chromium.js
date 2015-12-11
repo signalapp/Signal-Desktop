@@ -137,6 +137,13 @@
                 w.clearAttention();
                 w.drawAttention();
             }
+        },
+
+        clearAttention: function(window_id) {
+            if (chrome.app.window) {
+                var w = chrome.app.window.get(window_id);
+                w.clearAttention();
+            }
         }
 
     };
