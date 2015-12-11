@@ -620,7 +620,9 @@ input.search {
     padding: 1em; }
   .key-verification .key {
     font-family: monospace;
-    padding: 0 1em; }
+    padding: 0 1em;
+    -webkit-user-select: auto;
+    cursor: text; }
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
