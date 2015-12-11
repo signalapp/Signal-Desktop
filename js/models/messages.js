@@ -152,13 +152,13 @@
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
-                this.set({sent: true});
 
                 if (result instanceof Error) {
                     this.saveErrors(result);
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
+                        this.set({sent: true});
                         this.sendSyncMessage();
                     }
                 }
