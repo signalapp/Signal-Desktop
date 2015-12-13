@@ -125,8 +125,7 @@ button.back {
   .file-input .paperclip {
     width: 36px;
     height: 100%;
-    background: url("/images/paperclip.png") no-repeat center center;
-    background-size: 70%; }
+    background: url("/images/paperclip.png") no-repeat center center; }
   .file-input input[type=file] {
     display: none;
     position: absolute;
