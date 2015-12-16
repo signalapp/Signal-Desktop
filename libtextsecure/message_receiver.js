@@ -70,6 +70,8 @@ MessageReceiver.prototype = {
             // user they received an invalid message
             request.respond(200, 'OK');
 
+            console.log('envelope', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp);
+
             if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
                 return this.onDeliveryReceipt(envelope);
             } else if (envelope.content) {
@@ -77,7 +79,7 @@ MessageReceiver.prototype = {
             } else if (envelope.legacyMessage) {
                 return this.handleLegacyMessage(envelope);
             } else {
-                throw new Error('Received message with no content and no legacyMessage');
+                throw new Error('Received envelope with no content and no legacyMessage');
             }
 
         }.bind(this)).catch(function(e) {
@@ -187,8 +189,10 @@ MessageReceiver.prototype = {
             this.handleContacts(syncMessage.contacts);
         } else if (syncMessage.groups) {
             this.handleGroups(syncMessage.groups);
+        } else if (syncMessage.request) {
+            console.log('Got SyncMessage Request');
         } else {
-            throw new Error('Got SyncMessage with no sent, contacts, or groups');
+            throw new Error('Got empty SyncMessage');
         }
     },
     handleContacts: function(contacts) {
