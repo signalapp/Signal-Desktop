@@ -23,12 +23,6 @@
             }
         });
     }
-    if (chrome && chrome.alarms) {
-        chrome.alarms.onAlarm.addListener(function() {
-            // nothing to do.
-        });
-        chrome.alarms.create('awake', {periodInMinutes: 1});
-    }
 
     // Close and reopen existing windows
     var open = false;
@@ -74,10 +68,12 @@
         setUnreadCount(storage.get("unreadCount", 0));
 
         if (textsecure.registration.isDone()) {
+            extension.keepAwake();
             init();
         }
 
         extension.on('registration_done', function() {
+            extension.keepAwake();
             init(true);
         });
 

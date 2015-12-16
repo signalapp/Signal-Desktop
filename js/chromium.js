@@ -231,6 +231,15 @@
         }
     };
 
+    extension.keepAwake = function() {
+        if (chrome && chrome.alarms) {
+            chrome.alarms.onAlarm.addListener(function() {
+                // nothing to do.
+            });
+            chrome.alarms.create('awake', {periodInMinutes: 1});
+        }
+    };
+
     if (chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
             if (options.reason === 'install') {
