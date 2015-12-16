@@ -38,6 +38,7 @@
     ConversationController.updateInbox();
 
     extension.onLaunched(function() {
+        console.log('extension launched');
         storage.onready(function() {
             if (textsecure.registration.isDone()) {
                 openInbox();
@@ -112,6 +113,7 @@
     }
 
     function onContactSyncComplete() {
+        console.log('Contact sync complete');
         window.dispatchEvent(new Event('textsecure:contactsync'));
     }
 
@@ -227,7 +229,7 @@
         var timestamp = pushMessage.timestamp.toNumber();
         var messages  = new Whisper.MessageCollection();
         var groups    = new Whisper.ConversationCollection();
-        console.log('delivery receipt', pushMessage.source, timestamp);
+        console.log('delivery receipt from', pushMessage.source + '.' + pushMessage.sourceDevice, timestamp);
 
         if (pushMessage.source === textsecure.storage.user.getNumber()) {
             // disregard delivery receipts from myself

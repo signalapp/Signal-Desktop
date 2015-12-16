@@ -36802,8 +36802,6 @@ MessageReceiver.prototype = {
             // user they received an invalid message
             request.respond(200, 'OK');
 
-            console.log('envelope', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp);
-
             if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
                 return this.onDeliveryReceipt(envelope);
             } else if (envelope.content) {
@@ -36867,6 +36865,7 @@ MessageReceiver.prototype = {
         }.bind(this));
     },
     handleDataMessage: function(envelope, message, close_session) {
+        console.log('data message from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
         if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
                 textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
             close_session();
@@ -36912,6 +36911,7 @@ MessageReceiver.prototype = {
         }
         if (syncMessage.sent) {
             var sentMessage = syncMessage.sent;
+            console.log('sent message to', sentMessage.destination, envelope.timestamp.toNumber(), 'from', envelope.source + '.' + envelope.sourceDevice);
             return this.handleSentMessage(
                     sentMessage.destination,
                     sentMessage.timestamp,
@@ -36928,6 +36928,7 @@ MessageReceiver.prototype = {
         }
     },
     handleContacts: function(contacts) {
+        console.log('contact sync');
         var eventTarget = this;
         var attachmentPointer = contacts.blob;
         return this.handleAttachment(attachmentPointer).then(function() {
@@ -36943,6 +36944,7 @@ MessageReceiver.prototype = {
         });
     },
     handleGroups: function(groups) {
+        console.log('group sync');
         var eventTarget = this;
         var attachmentPointer = groups.blob;
         return this.handleAttachment(attachmentPointer).then(function() {
