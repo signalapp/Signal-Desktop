@@ -143,7 +143,7 @@
   <script type='text/x-tmpl-mustache' id='conversation-preview'>
       {{> avatar }}
       <div class='contact-details'>
-          <span class='last-timestamp'> {{ last_message_timestamp }} </span>
+          <span class='last-timestamp' data-timestamp={{ last_message_timestamp }}> </span>
           {{> contact_name_and_number }}
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>

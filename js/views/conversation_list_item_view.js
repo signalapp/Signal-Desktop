@@ -20,6 +20,7 @@
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
             extension.windows.onClosed(this.stopListening.bind(this));
+            this.timeStampView = new Whisper.BriefTimestampView();
         },
 
         markSelected: function() {
@@ -36,12 +37,14 @@
                 Mustache.render(_.result(this,'template', ''), {
                     title: this.model.getTitle(),
                     last_message: this.model.get('lastMessage'),
-                    last_message_timestamp: moment(this.model.get('timestamp')).format('MMM D'),
+                    last_message_timestamp: this.model.get('timestamp'),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
                     unreadCount: this.model.get('unreadCount')
                 }, this.render_partials())
             );
+            this.timeStampView.setElement(this.$('.last-timestamp'));
+            this.timeStampView.update();
 
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
