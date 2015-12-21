@@ -4,6 +4,10 @@
 (function () {
   'use strict';
 
+  Whisper.FileTypeToast = Whisper.ToastView.extend({
+    template: $('#attachment-type-modal').html()
+  });
+
   var ImageView = Backbone.View.extend({
       tagName: 'img',
       initialize: function(dataUrl) {
@@ -20,8 +24,8 @@
         window.open(this.dataUrl, '_blank');
       },
       render: function() {
-          this.$el.attr('src', this.dataUrl);
-          return this;
+        this.$el.attr('src', this.dataUrl);
+        return this;
       }
   });
 
@@ -54,19 +58,33 @@
     className: 'attachment',
     render: function() {
         var View;
+        var isUnsupportedType = false;
         switch(this.model.contentType.split('/')[0]) {
             case 'image': View = ImageView; break;
             case 'audio': View = AudioView; break;
             case 'video': View = VideoView; break;
             default:
-                throw 'Unsupported attachment type';
+              isUnsupportedType = true;
         }
-        var blob = new Blob([this.model.data], {type: this.model.contentType});
-        var view = new View(window.URL.createObjectURL(blob), this.model.contentType);
-        view.$el.appendTo(this.$el);
-        view.render();
-        view.on('update', this.trigger.bind(this, 'update'));
-        return this;
+        
+        if (isUnsupportedType) {
+            var toast = new Whisper.FileTypeToast({
+                model: {type: this.model.contentType.split('/')[0]}
+            });
+            toast.$el.insertAfter(this.$el);
+            toast.render();
+            return toast;
+        } else {
+          var blob = new Blob([this.model.data], {type: this.model.contentType});
+          var view = new View(window.URL.createObjectURL(blob), this.model.contentType);
+          view.$el.appendTo(this.$el);
+          view.render();
+          view.on('update', this.trigger.bind(this, 'update'));
+          return this;
+        }
+    },
+    deleteView: function(e) {
+      if (e) { e.stopPropagation(); }
     }
   });
 
