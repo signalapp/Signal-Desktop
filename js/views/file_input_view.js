@@ -8,6 +8,9 @@
     Whisper.FileSizeToast = Whisper.ToastView.extend({
         templateName: 'file-size-modal'
     });
+    Whisper.UnsupportedFileTypeToast = Whisper.ToastView.extend({
+        template: "Unsupported file type"
+    });
 
     Whisper.FileInputView = Backbone.View.extend({
         tagName: 'span',
@@ -114,6 +117,12 @@
                 case 'image':
                     this.oUrl = URL.createObjectURL(file);
                     this.addThumb(this.oUrl);
+                    break;
+                default:
+                    var toast = new Whisper.UnsupportedFileTypeToast();
+                    toast.$el.insertAfter(this.$el);
+                    toast.render();
+                    this.deleteFiles();
                     break;
             }
 
