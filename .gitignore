@@ -2,3 +2,4 @@ node_modules
 .sass-cache
 build/curve25519_compiled.js
 stylesheets/*.css.map
+dist
