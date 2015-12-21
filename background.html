@@ -176,7 +176,9 @@
         {{ /hasRetry }}
         <table>
           <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
-          <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+          {{ #received_at }}
+            <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+          {{ /received_at }}
           {{ #errors }}
             <tr>
               <td class='label'>Error</td>

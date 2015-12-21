@@ -109,7 +109,7 @@
             });
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
-                received_at : moment(this.model.get('received_at')).toString(),
+                received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',
                 errors      : this.errors['undefined'],
                 hasRetry    : hasRetry
