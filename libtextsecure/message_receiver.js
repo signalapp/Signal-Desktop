@@ -179,7 +179,7 @@ MessageReceiver.prototype = {
         }
         if (syncMessage.sent) {
             var sentMessage = syncMessage.sent;
-            console.log('sent message to', sentMessage.destination, envelope.timestamp.toNumber(), 'from', envelope.source + '.' + envelope.sourceDevice);
+            console.log('sent message to', sentMessage.destination, sentMessage.timestamp.toNumber(), 'from', envelope.source + '.' + envelope.sourceDevice);
             return this.handleSentMessage(
                     sentMessage.destination,
                     sentMessage.timestamp,
