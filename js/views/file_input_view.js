@@ -123,7 +123,7 @@
                     toast.$el.insertAfter(this.$el);
                     toast.render();
                     this.deleteFiles();
-                    break;
+                    return;
             }
 
             this.autoScale(file).then(function(blob) {
