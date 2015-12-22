@@ -365,11 +365,12 @@
         border-left: 8px solid $blue;
       }
 
-      .content {
+      .attachments, .content {
         a {
           color: $grey_l;
         }
-
+      }
+      .content {
         &::selection, a::selection {
           color: $grey_d;
           background: white;
@@ -396,6 +397,13 @@
   }
 
   .attachments {
+    a {
+      font-style: italic;
+      display: block;
+      padding: 1em;
+      background-color: #ccc;
+    }
+
     img, audio, video {
       max-width: 100%;
       max-height: 300px;
@@ -409,6 +417,7 @@
     img {
       cursor: pointer;
     }
+
   }
 
   .outgoing .avatar {

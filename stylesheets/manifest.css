@@ -852,7 +852,8 @@ input.search {
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2090ea; }
-    .message-detail .outgoing .bubble .content a,
+    .message-detail .outgoing .bubble .attachments a, .message-detail .outgoing .bubble .content a,
+    .message-list .outgoing .bubble .attachments a,
     .message-list .outgoing .bubble .content a {
       color: #f3f3f3; }
     .message-detail .outgoing .bubble .content::selection, .message-detail .outgoing .bubble .content a::selection,
@@ -872,6 +873,12 @@ input.search {
   .message-list .control .bubble::before,
   .message-list .control .bubble::after {
     display: none; }
+  .message-detail .attachments a,
+  .message-list .attachments a {
+    font-style: italic;
+    display: block;
+    padding: 1em;
+    background-color: #ccc; }
   .message-detail .attachments img, .message-detail .attachments audio, .message-detail .attachments video,
   .message-list .attachments img,
   .message-list .attachments audio,
