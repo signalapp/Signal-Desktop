@@ -12,7 +12,8 @@
       "unlimitedStorage",
       "notifications",
       "fileSystem",
-      "alarms"
+      "alarms",
+      "fullscreen"
     ],
 
     "icons": {
