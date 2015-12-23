@@ -12,7 +12,7 @@
     background: rgba(0,0,0,0.15);
   }
 }
-.conversation-title {
+.conversation-heading {
   display: block;
   line-height: $header-height;
   white-space: nowrap;
@@ -21,6 +21,17 @@
   padding-left: 10px;
   -webkit-user-select: text;
 }
+
+.conversation-title.clickable {
+  cursor: pointer;
+}
+
+.conversation-title-input,
+.conversation-title-save {
+  padding: 0.25em;
+  display: none; /* initially hidden */
+}
+
 .conversation-number {
   padding-left: 5px;
   line-height: 1em;

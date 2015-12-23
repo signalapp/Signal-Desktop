@@ -423,7 +423,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {
@@ -587,7 +587,7 @@ input.search {
   .conversation ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15); }
 
-.conversation-title {
+.conversation-heading {
   display: block;
   line-height: 36px;
   white-space: nowrap;
@@ -595,6 +595,15 @@ input.search {
   text-overflow: ellipsis;
   padding-left: 10px;
   -webkit-user-select: text; }
+
+.conversation-title.clickable {
+  cursor: pointer; }
+
+.conversation-title-input,
+.conversation-title-save {
+  padding: 0.25em;
+  display: none;
+  /* initially hidden */ }
 
 .conversation-number {
   padding-left: 5px;
