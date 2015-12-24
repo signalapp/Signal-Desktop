@@ -204,6 +204,7 @@ $avatar-size: 44px;
   overflow-x: hidden;
   text-overflow: ellipsis;
   color: white;
+  box-shadow: 1px 1px 1px 0px rgb(80, 80, 80);
 }
 
 .group-info-input {
@@ -294,6 +295,7 @@ $avatar-size: 44px;
   background: rgba(255,255,255,0.6);
   margin: 10px;
   border-radius: 10px;
+  box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.35);
 
   &.selected {
     background: $grey_l;
