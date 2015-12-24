@@ -27,6 +27,9 @@ body {
   font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 14px; }
 
+form, input, textarea {
+  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif; }
+
 .clearfix:before,
 .clearfix:after {
   display: table;
