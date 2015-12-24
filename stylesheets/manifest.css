@@ -172,7 +172,8 @@ img.emoji {
   line-height: 44px;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  color: white; }
+  color: white;
+  box-shadow: 1px 1px 1px 0px #505050; }
 
 .group-info-input {
   background: white; }
@@ -244,7 +245,8 @@ img.emoji {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.6);
   margin: 10px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.35); }
   .contact.selected {
     background: #f3f3f3;
     padding-left: 22px;
@@ -581,7 +583,8 @@ input.search {
   background-color: #ffffff;
   margin: 10px;
   padding: 20px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.75); }
   .conversation .panel {
     height: 100%; }
   .conversation ::-webkit-scrollbar-thumb {
