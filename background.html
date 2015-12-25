@@ -39,15 +39,15 @@
             <button class='drop-down'></button>
             <ul class='menu-list'>
                 {{#group}}
-                    <li><a class='view-members'>Members</a></li>
+                    <li><a class='view-members'>{{ view-members }}</a></li>
                     <!-- <li><a class='update-group'>Update group</a></li> -->
                     <!-- <li><a class='leave-group'>Leave group</a></li> -->
                 {{/group}}
                 {{^group}}
-                    <li><a class='end-session'>Reset Session</a></li>
-                    <li><a class='verify-identity'>Verify Identity</a></li>
+                    <li><a class='end-session'>{{ end-session }}</a></li>
+                    <li><a class='verify-identity'>{{ verify-identity }}</a></li>
                 {{/group}}
-                <li><a class='destroy'>Delete messages</a></li>
+                <li><a class='destroy'>{{ destroy }}</a></li>
             </ul>
           </div>
           {{> avatar }}
@@ -68,7 +68,7 @@
                   <div class='paperclip thumbnail'></div>
                   <input type='file' class='file-input'>
               </div>
-              <textarea class='send-message' placeholder="Send a message" rows="1"></textarea>
+              <textarea class='send-message' placeholder="{{ send-message }}" rows="1"></textarea>
           </form>
       </div>
     </div>

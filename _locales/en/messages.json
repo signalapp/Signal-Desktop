@@ -1,2 +1,18 @@
 {
+    "sendMessage": {
+        "message": "Send a message",
+        "description": "Placeholder text in the message entry field"
+    },
+    "members": {
+      "message": "Members"
+    },
+    "resetSession": {
+        "message": "Reset Session"
+    },
+    "verifyIdentity": {
+        "message": "Verify Identity"
+    },
+    "deleteMessages": {
+        "message": "Delete messages"
+    }
 }

@@ -19,7 +19,12 @@
                 group: this.model.get('type') === 'group',
                 title: this.model.getTitle(),
                 number: this.model.getNumber(),
-                avatar: this.model.getAvatar()
+                avatar: this.model.getAvatar(),
+                'view-members'    : i18n('members'),
+                'end-session'     : i18n('resetSession'),
+                'verify-identity' : i18n('verifyIdentity'),
+                'destroy'         : i18n('deleteMessages'),
+                'send-message'    : i18n('sendMessage')
             };
         },
         initialize: function(options) {
@@ -30,6 +35,7 @@
             this.listenTo(this.model, 'opened', this.onOpened);
 
             this.render();
+
             twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
 
             this.appWindow = options.appWindow;

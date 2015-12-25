@@ -1,2 +1,14 @@
 {
+    "sendMessage": {
+        "message": "Invia messaggio"
+    },
+    "resetSession": {
+        "message": "Resetta Sessione"
+    },
+    "verifyIdentity": {
+        "message": "Verifica Identità"
+    },
+    "deleteMessages": {
+        "message": "Cancella messaggi"
+    }
 }
