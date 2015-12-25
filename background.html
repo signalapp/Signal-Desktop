@@ -166,25 +166,31 @@
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Message Detail</span>
+        <span class='conversation-title'>{{ title }}</span>
     </div>
     <div class='container'>
       <div class='message-container'></div>
       <div class='info'>
         {{ #hasRetry }}
           <h3 class='hasRetry clearfix'>
-            <button class='retry'>Resend</button>
-            <span>Failed to send to some recipients.</span>
+            <button class='retry'>{{ resend }}</button>
+            <span>{{ failedToSend }}</span>
           </h3>
         {{ /hasRetry }}
         <table>
-          <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
+          <tr>
+            <td class='label'>{{ sent }}</td>
+            <td> {{ sent_at }}</td>
+          </tr>
           {{ #received_at }}
-            <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
+            <tr>
+              <td class='label'>{{ received }}</td>
+              <td> {{ received_at }}</td>
+            </tr>
           {{ /received_at }}
           {{ #errors }}
             <tr>
-              <td class='label'>Error</td>
+              <td class='label'>{{ error-label }}</td>
               <td> <span class='error-message'>{{message}}</span> </td>
             </tr>
           {{ /errors }}

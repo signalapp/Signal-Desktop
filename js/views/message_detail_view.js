@@ -112,6 +112,12 @@
                 received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
                 tofrom      : this.model.isIncoming() ? 'From' : 'To',
                 errors      : this.errors['undefined'],
+                title       : i18n('messageDetail'),
+                sent        : i18n('sent'),
+                received    : i18n('received'),
+                resend      : i18n('resend'),
+                failedToSend: i18n('failedToSend'),
+                'error-label': i18n('error'),
                 hasRetry    : hasRetry
             }));
             this.view.$el.prependTo(this.$('.message-container'));

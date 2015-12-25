@@ -1,4 +1,24 @@
 {
+    "failedToSend": {
+      "message": "Failed to send to some recipients."
+    },
+    "error": {
+      "message": "Error"
+    },
+    "resend": {
+      "message": "Resend"
+    },
+    "messageDetail": {
+        "message": "Message Detail"
+    },
+    "sent": {
+        "message": "Sent",
+        "description": "Label for the time a message was sent"
+    },
+    "received": {
+        "message": "Received",
+        "description": "Label for the time a message was received"
+    },
     "sendMessage": {
         "message": "Send a message",
         "description": "Placeholder text in the message entry field"

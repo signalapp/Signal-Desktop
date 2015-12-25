@@ -1,4 +1,13 @@
 {
+    "messageDetail": {
+        "message": "Dettagli Messaggio"
+    },
+    "sent": {
+        "message": "Inviato"
+    },
+    "received": {
+        "message": "Ricevuto"
+    },
     "sendMessage": {
         "message": "Invia messaggio"
     },
