@@ -7,11 +7,11 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.EndSessionView = Whisper.View.extend({
-        tagName:   "div",
-        className: "end-session",
+        tagName:   'div',
+        className: 'end-session',
         templateName: 'message',
         render_attributes: function() {
-            return { text: 'Secure session ended' };
+            return { text: i18n('sessionEnded') };
         }
     });
 

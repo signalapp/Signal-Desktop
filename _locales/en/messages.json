@@ -14,5 +14,8 @@
     },
     "deleteMessages": {
         "message": "Delete messages"
+    },
+    "sessionEnded": {
+        "message": "Secure session ended"
     }
 }

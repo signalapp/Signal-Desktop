@@ -10,5 +10,8 @@
     },
     "deleteMessages": {
         "message": "Cancella messaggi"
+    },
+    "sessionEnded": {
+        "message": "Sessione sicura terminata"
     }
 }
