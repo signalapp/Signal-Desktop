@@ -6,7 +6,7 @@
 
     window.Whisper = window.Whisper || {};
 
-    var SocketView = Whisper.View.extend({
+    Whisper.SocketView = Whisper.View.extend({
         className: 'status',
         initialize: function() {
             setInterval(this.updateStatus.bind(this), 5000);
@@ -105,7 +105,7 @@
                 }.bind(this));
             }
 
-            new SocketView().render().$el.appendTo(this.$('.socket-status'));
+            new Whisper.SocketView().render().$el.appendTo(this.$('.socket-status'));
 
             extension.windows.onClosed(function() {
                 this.inboxListView.stopListening();
@@ -113,7 +113,7 @@
         },
         events: {
             'click': 'closeMenu',
-            'click .hamburger': 'toggleMenu',
+            'click .global-menu .drop-down': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts'
@@ -140,7 +140,7 @@
             new Whisper.DebugLogView().$el.appendTo(this.el);
         },
         closeMenu: function(e) {
-            if (e && !$(e.target).hasClass('hamburger')) {
+            if (e && !$(e.target).hasClass('drop-down')) {
                 this.$('.global-menu .menu-list').hide();
             }
         }

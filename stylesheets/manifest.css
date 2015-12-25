@@ -42,7 +42,6 @@ body {
   max-width: 1300px;
   position: fixed;
   top: 1px;
-  width: calc(100% - 2px);
   z-index: 1;
   height: 36px;
   line-height: 24px;
@@ -102,9 +101,9 @@ button.back {
     right: 0;
     margin: 0;
     padding: 0;
-    border: solid 1px #2090ea;
+    border: solid 1px #c7c7c7;
     background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(10, 62, 103, 0.8); }
+    box-shadow: 1px 1px 1px 0px #6f6f6f; }
     .menu .menu-list li {
       display: block;
       white-space: nowrap; }
@@ -113,7 +112,7 @@ button.back {
         display: block;
         padding: 5px 15px 5px 10px; }
         .menu .menu-list li a:hover {
-          background-color: #f3f3f3; }
+          background-color: #e8f6fc; }
 
 .file-input {
   position: relative;
@@ -245,13 +244,11 @@ img.emoji {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.6);
   margin: 10px;
-  border-radius: 10px;
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.35); }
   .contact.selected {
-    background: #f3f3f3;
+    background: white;
     padding-left: 22px;
-    margin-left: 0;
-    border-radius: 0 10px 10px 0; }
+    margin-left: 0; }
   .contact:first-child {
     margin-top: 0; }
   .contact:last-child::after {
@@ -385,6 +382,9 @@ img.emoji {
 .new-conversation, .inbox, .gutter {
   height: 100%; }
 
+.inbox {
+  background: #2eace0; }
+
 .container, .scrollable {
   height: 100%;
   overflow: auto; }
@@ -417,8 +417,7 @@ img.emoji {
     background: url("/images/error_red.png") no-repeat left center; }
 
 .conversation-stack {
-  padding-left: 300px;
-  padding-top: 36px; }
+  padding-left: 300px; }
   .conversation-stack .conversation {
     display: none; }
   .conversation-stack .conversation:first-child {
@@ -439,8 +438,17 @@ img.emoji {
       height: 70px;
       line-height: 70px; } }
 
-.menu.conversation-menu button.drop-down {
+.menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
+
+.search-icon {
+  background: url("/images/search.svg") center;
+  width: 12px;
+  height: 13px;
+  margin-top: 16px;
+  display: inline-block;
+  float: left;
+  margin-left: 15px; }
 
 input.search {
   border: none;
@@ -469,7 +477,7 @@ input.search {
     background-color: #ebebeb; }
 .tool-bar input.search {
   height: 26px;
-  width: 270px;
+  width: 243px;
   background: rgba(255, 255, 255, 0.2);
   margin: 10px;
   padding: 5px; }
@@ -500,7 +508,7 @@ input.search {
 .index {
   max-width: 1300px;
   color: #454545;
-  background: #2eace0; }
+  background: white; }
   .index .gutter .new-group-update-form {
     display: none;
     padding: 0.5em; }
@@ -548,7 +556,7 @@ input.search {
       border-color: transparent #2eace0 transparent transparent;
       left: -30px; }
 
-.conversation.placeholder {
+.conversation .placeholder {
   text-align: center;
   padding-top: 100px;
   color: #aaa; }
@@ -581,10 +589,9 @@ input.search {
 
 .conversation {
   background-color: #ffffff;
-  margin: 10px;
+  margin: -1px 0px 0px 0px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.75); }
+  box-shadow: inset 1px 0px 1px 0px rgba(0, 0, 0, 0.75); }
   .conversation .panel {
     height: 100%; }
   .conversation ::-webkit-scrollbar-thumb {
@@ -606,8 +613,7 @@ input.search {
   color: #999; }
 
 .conversation {
-  height: calc(100% - 20px);
-  border-radius: 10px; }
+  height: calc(100% + 2px); }
   .conversation .discussion-container {
     height: calc(100% - 2 * 36px - 60px); }
 

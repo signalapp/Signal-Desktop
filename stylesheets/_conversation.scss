@@ -1,9 +1,8 @@
 .conversation {
   background-color: #ffffff;
-  margin: 10px;
+  margin: -1px 0px 0px 0px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 1px 0px 1px 0px rgba(0,0,0,0.75);
 
   .panel {
     height: 100%;
@@ -30,8 +29,7 @@
 }
 
 .conversation {
-  height: calc(100% - 20px);
-  border-radius: 10px;
+  height: calc(100% + 2px);
 
   .discussion-container {
     height: calc(100% - 2 * #{$header-height} - 60px);

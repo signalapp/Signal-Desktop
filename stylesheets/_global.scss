@@ -33,7 +33,6 @@ body {
   max-width: 1300px;
   position: fixed;
   top: 1px;
-  width: calc(100% - 2px);
   z-index: 1;
   height: $header-height;
   line-height: 24px;
@@ -111,9 +110,9 @@ button.back {
     right: 0;
     margin: 0;
     padding: 0;
-    border: solid 1px $blue;
+    border: solid 1px #c7c7c7;
     background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(darken($blue, 30%), 0.8);
+    box-shadow: 1px 1px 1px 0px rgba(111, 111, 111, 1);
 
     li {
       display: block;
@@ -125,7 +124,7 @@ button.back {
         padding: 5px 15px 5px 10px;
 
         &:hover {
-          background-color: $grey_l;
+          background-color: rgb(232, 246, 252);
         }
       }
 
@@ -294,14 +293,12 @@ $avatar-size: 44px;
   overflow: hidden;
   background: rgba(255,255,255,0.6);
   margin: 10px;
-  border-radius: 10px;
   box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.35);
 
   &.selected {
-    background: $grey_l;
+    background: white;
     padding-left: 22px;
     margin-left: 0;
-    border-radius: 0 10px 10px 0;
   }
 
   &:first-child {
