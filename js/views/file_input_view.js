@@ -6,7 +6,14 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.FileSizeToast = Whisper.ToastView.extend({
-        templateName: 'file-size-modal'
+        templateName: 'file-size-modal',
+        render_attributes: function() {
+            return {
+                'file-size-warning': i18n('fileSizeWarning'),
+                limit: this.model.limit,
+                units: this.model.units
+            };
+        }
     });
     Whisper.UnsupportedFileTypeToast = Whisper.ToastView.extend({
         template: "Unsupported file type"

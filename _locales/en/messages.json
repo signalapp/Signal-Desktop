@@ -1,4 +1,7 @@
 {
+    "fileSizeWarning": {
+      "message": "Sorry, the selected file exceeds message size restrictions."
+    },
     "disconnected": {
       "message": "Disconnected"
     },
