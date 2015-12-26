@@ -26,7 +26,8 @@
                 name     : this.model.getTitle(),
                 avatar   : this.model.getAvatar(),
                 conflict : this.conflict,
-                errors   : this.errors
+                errors   : this.errors,
+                verify   : i18n('verify')
             };
         }
     });

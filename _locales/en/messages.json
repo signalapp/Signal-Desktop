@@ -1,4 +1,7 @@
 {
+    "verify": {
+      "message": "Verify"
+    },
     "outgoingKeyConflict": {
       "message": "This contact's identity key has changed. Click to process and display."
     },
