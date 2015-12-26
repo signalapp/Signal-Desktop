@@ -8,7 +8,7 @@
       tagName: 'a',
       initialize: function(dataUrl) {
           this.dataUrl = dataUrl;
-          this.$el.text("Unsupported attachment type. Click to save.");
+          this.$el.text(i18n('unsupportedAttachment'));
       },
       events: {
           'click': 'open'

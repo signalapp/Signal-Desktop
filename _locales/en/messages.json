@@ -1,6 +1,11 @@
 {
+    "unsupportedAttachment": {
+      "message": "Unsupported attachment type. Click to save.",
+      "description": "Displayed for incoming unsupported attachment"
+    },
     "unsupportedFileType": {
-      "message": "Unsupported file type"
+      "message": "Unsupported file type",
+      "description": "Displayed for outgoing unsupported attachment"
     },
     "fileSizeWarning": {
       "message": "Sorry, the selected file exceeds message size restrictions."
