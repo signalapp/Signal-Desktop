@@ -32,7 +32,12 @@
             this.conversation.resolveConflicts(this.model);
         },
         render_attributes: function() {
-            return this.model;
+            return {
+                message: this.model.message,
+                cancel: i18n('cancel'),
+                resolve: i18n('acceptNewKey'),
+                verifyContact: i18n('verifyContact')
+            };
         }
     });
 })();

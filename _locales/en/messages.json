@@ -1,4 +1,10 @@
 {
+    "verifyContact": {
+      "message": "You may wish to <span class='verify'>verify</span> this contact."
+    },
+    "acceptNewKey": {
+      "message": "Accept new key"
+    },
     "verify": {
       "message": "Verify"
     },
