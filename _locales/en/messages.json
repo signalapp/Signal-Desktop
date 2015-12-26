@@ -1,4 +1,17 @@
 {
+    "submitDebugLog": {
+      "message": "Submit debug log"
+    },
+    "searchForPeopleOrGroups": {
+      "message": "Search for people or groups",
+      "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+      "message": "Welcome to Signal"
+    },
+    "selectAContact": {
+      "message": "Select a contact or group to start chatting."
+    },
     "ok": {
       "message": "OK"
     },

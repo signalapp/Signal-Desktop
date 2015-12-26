@@ -111,6 +111,12 @@
                 this.inboxListView.stopListening();
             }.bind(this));
         },
+        render_attributes: {
+            welcomeToSignal: i18n('welcomeToSignal'),
+            selectAContact: i18n('selectAContact'),
+            searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
+            submitDebugLog: i18n('submitDebugLog')
+        },
         events: {
             'click': 'closeMenu',
             'click .hamburger': 'toggleMenu',

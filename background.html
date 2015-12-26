@@ -7,13 +7,13 @@
       <div class='global-menu menu'>
         <button class='hamburger'></button>
         <ul class='menu-list'>
-            <li><a class='show-debug-log'>Submit debug log</a></li>
+            <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
         </ul>
       </div>
       <span class='socket-status'></span>
       <div class='tool-bar clearfix'>
         <!-- <button class='show-new-conversation'></button> -->
-        <input type='search' class='search' placeholder='Search for people or groups'>
+        <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
       </div>
     </div>
     <div class='gutter'>
@@ -24,8 +24,8 @@
     </div>
     <div class='conversation-stack'>
       <div class='conversation placeholder'>
-        <h3>Welcome to Signal</h3>
-        <p> Select a contact or group to start chatting.</p>
+        <h3>{{ welcomeToSignal }}</h3>
+        <p>{{ selectAContact }}</p>
       </div>
     </div>
   </script>
