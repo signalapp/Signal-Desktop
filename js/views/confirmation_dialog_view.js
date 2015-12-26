@@ -19,7 +19,11 @@
           'click .cancel': 'cancel',
         },
         render_attributes: function() {
-            return { message: this.message };
+            return {
+                message: this.message,
+                cancel: i18n('cancel'),
+                ok: i18n('ok')
+            };
         },
         ok: function() {
           this.remove();

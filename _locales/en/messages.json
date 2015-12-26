@@ -1,4 +1,10 @@
 {
+    "ok": {
+      "message": "OK"
+    },
+    "cancel": {
+      "message": "Cancel"
+    },
     "failedToSend": {
       "message": "Failed to send to some recipients."
     },
