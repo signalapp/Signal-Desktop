@@ -6,31 +6,31 @@
 
     window.Whisper = window.Whisper || {};
 
-    var ErrorView = Backbone.View.extend({
+    var ErrorView = Whisper.View.extend({
         className: 'error',
-        initialize: function() {
-            this.template = $('#generic-error').html();
-            Mustache.parse(this.template);
-        },
-        render: function() {
-            this.$el.html(Mustache.render(this.template, this.model));
-            return this;
+        templateName: 'generic-error',
+        render_attributes: function() {
+            return this.model;
         }
     });
 
     var KeyConflictView = ErrorView.extend({
         className: 'key-conflict',
+        templateName: 'key-conflict',
         initialize: function(options) {
             this.message = options.message;
-            if (this.message.isIncoming()) {
-                this.template = $('#incoming-key-conflict').html();
-            } else if (this.message.isOutgoing()) {
-                this.template = $('#outgoing-key-conflict').html();
-            }
-            Mustache.parse(this.template);
         },
         events: {
             'click': 'select'
+        },
+        render_attributes: function() {
+            var errorMessage;
+            if (this.message.isIncoming()) {
+                errorMessage = 'incomingKeyConflict';
+            } else {
+                errorMessage = 'outgoingKeyConflict';
+            }
+            return { message: i18n(errorMessage) };
         },
         select: function() {
             this.$el.trigger('select', {message: this.message});

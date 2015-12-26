@@ -1,4 +1,10 @@
 {
+    "outgoingKeyConflict": {
+      "message": "This contact's identity key has changed. Click to process and display."
+    },
+    "incomingKeyConflict": {
+      "message": "Received message with unknown identity key. Click to process and display."
+    },
     "unsupportedAttachment": {
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
