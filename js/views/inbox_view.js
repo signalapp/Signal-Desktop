@@ -25,7 +25,7 @@
                     break;
                 case WebSocket.CLOSED:
                     className = 'closed';
-                    message = 'Disconnected';
+                    message = i18n('disconnected');
                     break;
             }
             if (!this.$el.hasClass(className)) {

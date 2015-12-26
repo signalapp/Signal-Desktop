@@ -1,4 +1,7 @@
 {
+    "disconnected": {
+      "message": "Disconnected"
+    },
     "submitDebugLog": {
       "message": "Submit debug log"
     },
