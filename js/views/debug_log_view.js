@@ -16,6 +16,13 @@
             'submit': 'submit',
             'click .close': 'close'
         },
+        render_attributes: {
+            title: i18n('submitDebugLog'),
+            cancel: i18n('cancel'),
+            submit: i18n('submit'),
+            close: i18n('gotIt'),
+            debugLogExplanation: i18n('debugLogExplanation')
+        },
         close: function(e) {
             e.preventDefault();
             this.remove();

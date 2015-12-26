@@ -303,15 +303,16 @@
   </script>
   <script type='text/x-tmpl-mustache' id='debug-log'>
     <a class='x close'>&times;</a>
-    <h1> Submit Debug Log </h1>
+    <h1>{{ title }}</h1>
+    <p> {{ debugLogExplanation }}</p>
     <form>
       <textarea rows='5'></textarea>
-      <input class='submit' type='submit' value='Create Public Gist' />
-      <button class='close'>Cancel</button>
+      <input class='submit' type='submit' value='{{ submit }}' />
+      <button class='close'>{{ cancel }}</button>
     </form>
     <div class='result'>
       <a target='_blank'></a>
-      <div><button class='close'>Got it!</button></div>
+      <div><button class='close'>{{ close }}</button></div>
     </div>
   </script>
   <script type='text/javascript' src='js/debugLog.js'></script>

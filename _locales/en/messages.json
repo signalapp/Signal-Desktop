@@ -1,4 +1,13 @@
 {
+    "debugLogExplanation": {
+      "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
+    },
+    "gotIt": {
+      "message": "Got it!"
+    },
+    "submit": {
+      "message": "Submit"
+    },
     "verifyContact": {
       "message": "You may wish to <span class='verify'>verify</span> this contact."
     },
