@@ -17,6 +17,9 @@
             this.member_list_view.render();
             this.$('.scrollable').append(this.member_list_view.el);
         },
+        render_attributes: {
+            members: i18n('members')
+        },
         events: {
             'click .back': 'goBack',
         },
