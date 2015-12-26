@@ -29,7 +29,7 @@
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0);
                     URL.revokeObjectURL(svgurl);
-                    resolve(canvas.toDataURL("image/png"));
+                    resolve(canvas.toDataURL('image/png'));
                 };
 
                 img.src = svgurl;

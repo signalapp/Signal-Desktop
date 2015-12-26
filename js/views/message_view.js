@@ -8,7 +8,7 @@
     var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
 
     Whisper.MessageView = Whisper.View.extend({
-        tagName:   "li",
+        tagName:   'li',
         templateName: 'message',
         initialize: function() {
             this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
@@ -30,7 +30,7 @@
             e.stopPropagation();
         },
         className: function() {
-            return ["entry", this.model.get('type')].join(' ');
+            return ['entry', this.model.get('type')].join(' ');
         },
         renderPending: function() {
             this.$el.addClass('pending');

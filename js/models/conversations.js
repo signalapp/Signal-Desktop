@@ -8,21 +8,21 @@
    // TODO: Factor out private and group subclasses of Conversation
 
    var COLORS = [
-        "#EF5350", // red
-        "#EC407A", // pink
-        "#AB47BC", // purple
-        "#7E57C2", // deep purple
-        "#5C6BC0", // indigo
-        "#2196F3", // blue
-        "#03A9F4", // light blue
-        "#00BCD4", // cyan
-        "#009688", // teal
-        "#4CAF50", // green
-        "#7CB342", // light green
-        "#FF9800", // orange
-        "#FF5722", // deep orange
-        "#FFB300", // amber
-        "#607D8B", // blue grey
+        '#EF5350', // red
+        '#EC407A', // pink
+        '#AB47BC', // purple
+        '#7E57C2', // deep purple
+        '#5C6BC0', // indigo
+        '#2196F3', // blue
+        '#03A9F4', // light blue
+        '#00BCD4', // cyan
+        '#009688', // teal
+        '#4CAF50', // green
+        '#7CB342', // light green
+        '#FF9800', // orange
+        '#FF5722', // deep orange
+        '#FFB300', // amber
+        '#607D8B', // blue grey
     ];
 
   Whisper.Conversation = Backbone.Model.extend({
