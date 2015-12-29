@@ -18,7 +18,7 @@
             debugLog.push(str);
         };
         console.get = function() {
-            return debugLog.join('\n');
+            return window.navigator.userAgent + '\n' + debugLog.join('\n');
         };
         console.post = function(log) {
             if (log === undefined) {
