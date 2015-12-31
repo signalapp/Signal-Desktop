@@ -421,13 +421,15 @@
                 });
             } else if (options.index) {
                 index = store.index(options.index.name);
+                var excludeLower = !!options.index.excludeLower;
+                var excludeUpper = !!options.index.excludeUpper;
                 if (index) {
                     if (options.index.lower && options.index.upper) {
-                        bounds = IDBKeyRange.bound(options.index.lower, options.index.upper);
+                        bounds = IDBKeyRange.bound(options.index.lower, options.index.upper, excludeLower, excludeUpper);
                     } else if (options.index.lower) {
-                        bounds = IDBKeyRange.lowerBound(options.index.lower);
+                        bounds = IDBKeyRange.lowerBound(options.index.lower, excludeLower);
                     } else if (options.index.upper) {
-                        bounds = IDBKeyRange.upperBound(options.index.upper);
+                        bounds = IDBKeyRange.upperBound(options.index.upper, excludeUpper);
                     } else if (options.index.only) {
                         bounds = IDBKeyRange.only(options.index.only);
                     }
