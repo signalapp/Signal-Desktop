@@ -408,7 +408,8 @@
                     index: {
                         name: 'search', // 'search' index on tokens array
                         lower: query,
-                        upper: upper
+                        upper: upper,
+                        excludeUpper: true
                     }
                 }).always(resolve);
             }.bind(this));
