@@ -4,15 +4,9 @@
   <meta charset='utf-8'>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='title-bar' id='header'>
-      <div class='global-menu menu'>
-        <button class='hamburger'></button>
-        <ul class='menu-list'>
-            <li><a class='show-debug-log'>Submit debug log</a></li>
-        </ul>
-      </div>
-      <span class='socket-status'></span>
       <div class='tool-bar clearfix'>
         <!-- <button class='show-new-conversation'></button> -->
+        <div class='search-icon'></div>
         <input type='search' class='search' placeholder='Search for people or groups'>
       </div>
     </div>
@@ -23,9 +17,23 @@
         </div>
     </div>
     <div class='conversation-stack'>
-      <div class='conversation placeholder'>
-        <h3>Welcome to Signal</h3>
-        <p> Select a contact or group to start chatting.</p>
+      <div class='conversation'>
+        <div class='conversation-header'>
+          <div class='global-menu menu'>
+            <button class='drop-down'></button>
+            <ul class='menu-list'>
+              <li><a class='show-debug-log'>Submit debug log</a></li>
+            </ul>
+          </div>
+          <span class='socket-status'></span>
+          <span class='conversation-title'>
+            Welcome
+          </span>
+        </div>
+        <div class='placeholder'>
+          <h3>Welcome to Signal</h3>
+          <p> Select a contact or group to start chatting.</p>
+        </div>
       </div>
     </div>
   </script>
@@ -48,8 +56,10 @@
                     <li><a class='verify-identity'>Verify Identity</a></li>
                 {{/group}}
                 <li><a class='destroy'>Delete messages</a></li>
+                <li><a class='show-debug-log'>Submit debug log</a></li>
             </ul>
           </div>
+          <span class='socket-status'></span>
           {{> avatar }}
           <span class='conversation-title'>
             {{ title }}
