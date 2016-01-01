@@ -113,6 +113,14 @@
         }
     }
 
+    window.runListenerOnce = function(type, listener) {
+        var runAndRemove = function() {
+            window.removeEventListener(type, runAndRemove);
+            listener();
+        };
+        window.addEventListener(type, runAndRemove)
+    }
+
     function onContactSyncComplete() {
         console.log('Contact sync complete');
         window.dispatchEvent(new Event('textsecure:contactsync'));

@@ -36,32 +36,26 @@
                         view.incrementCounter.bind(view)
                     ).then(function() {
 
-                        // helper function to make time-outing promises that
-                        // wait for event and then "clean" after themselves
-                        function timeoutListenerPromise(event) {
+                        function listenerPromise(type) {
                             return new Promise(function(resolve) {
-                                var timeout;
-                                var listener = function() {
-                                    clearTimeout(timeout);
-                                    resolve();
-                                }
-                                timeout = setTimeout(function() {
-                                    bg.removeEventListener(event, listener);
-                                    resolve();
-                                }, 60000);
-                                bg.addEventListener(event, listener);
+                                bg.runListenerOnce(type, resolve);
                             });
                         }
 
-                        var contactSyncPromise = timeoutListenerPromise('textsecure:contactsync');
-                        var groupSyncPromise = timeoutListenerPromise('textsecure:groupsync');
+                        var timeoutPromise = new Promise(function(resolve) {
+                            setTimeout(resolve, 60000);
+                        });
+ 
+                        var contactSyncPromise = listenerPromise('textsecure:contactsync');
+                        var groupSyncPromise = listenerPromise('textsecure:groupsync');
 
                         var launch = function() {
                             bg.openInbox();
                             window.close();
                         };
 
-                        Promise.all([contactSyncPromise, groupSyncPromise]).then(function() {
+                        Promise.race([timeoutPromise, Promise.all([contactSyncPromise, groupSyncPromise])])
+                        .then(function() {
                             launch();
                         });
 
