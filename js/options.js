@@ -35,14 +35,36 @@
                         view.confirmNumber.bind(view),
                         view.incrementCounter.bind(view)
                     ).then(function() {
+
+                        // helper function to make time-outing promises that
+                        // wait for event and then "clean" after themselves
+                        function timeoutListenerPromise(event) {
+                            return new Promise(function(resolve) {
+                                var timeout;
+                                var listener = function() {
+                                    clearTimeout(timeout);
+                                    resolve();
+                                }
+                                timeout = setTimeout(function() {
+                                    bg.removeEventListener(event, listener);
+                                    resolve();
+                                }, 60000);
+                                bg.addEventListener(event, listener);
+                            });
+                        }
+
+                        var contactSyncPromise = timeoutListenerPromise('textsecure:contactsync');
+                        var groupSyncPromise = timeoutListenerPromise('textsecure:groupsync');
+
                         var launch = function() {
                             bg.openInbox();
-                            bg.removeEventListener('textsecure:contactsync', launch);
-                            clearTimeout(timeout);
                             window.close();
                         };
-                        var timeout = setTimeout(launch, 60000);
-                        bg.addEventListener('textsecure:contactsync', launch);
+
+                        Promise.all([contactSyncPromise, groupSyncPromise]).then(function() {
+                            launch();
+                        });
+
                         view.showSync();
                     }).catch(function(e) {
                         if (e.message === 'websocket closed') {
