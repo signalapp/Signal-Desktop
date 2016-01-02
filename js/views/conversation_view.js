@@ -25,6 +25,7 @@
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:avatar', this.updateAvatar);
+            this.listenTo(this.model, 'change:name', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
@@ -84,7 +85,10 @@
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
             'click .choose-file': 'focusMessageField',
-            'loadMore .message-list': 'fetchMessages'
+            'loadMore .message-list': 'fetchMessages',
+            'click .conversation-title': 'showTitleChangeForm',
+            'submit .conversation-title-input': 'hideTitleChangeForm',
+            'click .conversation-title-save': 'hideTitleChangeForm',
         },
 
         onOpened: function() {
@@ -234,8 +238,26 @@
             });
         },
 
+        showTitleChangeForm: function() {
+          this.$('.conversation-title').hide();
+          this.$('.conversation-title-input').show();
+          this.$('.conversation-title-save').show();
+        },
+
+        hideTitleChangeForm: function() {
+          this.updateName();
+          this.$('.conversation-title-input').hide();
+          this.$('.conversation-title-save').hide();
+          this.$('.conversation-title').show();
+        },
+
+        updateName: function() {
+          this.model.setName(this.$('.conversation-title-input').val());
+        },
+
         updateTitle: function() {
-            this.$('.conversation-title').text(this.model.getTitle());
+          this.$('.conversation-title').text(this.model.getTitle());
+          this.$('.conversation-title-input').val(this.model.getTitle());
         },
 
         updateAvatar: function() {

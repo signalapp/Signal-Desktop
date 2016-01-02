@@ -250,6 +250,12 @@
         }
     },
 
+    setName: function(name) {
+      if (name !== undefined) {
+        this.save({name: name});
+      }
+    },
+
     isPrivate: function() {
         return this.get('type') === 'private';
     },
@@ -283,11 +289,11 @@
         if (this.avatarUrl) {
             return { url: this.avatarUrl };
         } else if (this.isPrivate()) {
+            var initials = '#';
             var title = this.get('name');
-            if (!title) {
-                return { content: '#', color: '#999999' };
+            if (title) {
+              initials = title.trim()[0];
             }
-            var initials = title.trim()[0];
             return {
                 color: COLORS[Math.abs(this.hashCode()) % 15],
                 content: initials
@@ -363,7 +369,7 @@
     },
     hashCode: function() {
         if (this.hash === undefined) {
-            var string = this.getTitle() || '';
+            var string = this.get('id') || '';
             if (string.length === 0) {
                 return 0;
             }

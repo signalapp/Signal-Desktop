@@ -51,8 +51,10 @@
             </ul>
           </div>
           {{> avatar }}
-          <span class='conversation-title'>
-            {{ title }}
+          <span class='conversation-heading'>
+            <span class='conversation-title clickable'>{{ title }}</span>
+            <input class='conversation-title-input' type='text' value="{{ title }}">
+            <input class='conversation-title-save' type='button' value="OK">
             {{ #number }}
               <span class='conversation-number'>{{ number }}</span>
             {{ /number }}
@@ -100,7 +102,9 @@
       <div class='conversation-header'>
         <button class='back'></button>
         <button class='send check'></button>
-        <span class='conversation-title'>Update group</span>
+        <span class='conversation-heading'>
+          <span class='conversation-title'>Update group</span>
+        </span>
       </div>
       {{> group_info_input }}
       <div class='container'>
@@ -166,7 +170,9 @@
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Message Detail</span>
+        <span class='conversation-heading'>
+          <span class='conversation-title'>Message Detail</span>
+        </span>
     </div>
     <div class='container'>
       <div class='message-container'></div>
@@ -198,7 +204,9 @@
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Members</span>
+        <span class='conversation-heading'>
+          <span class='conversation-title'>Members</span>
+        </span>
     </div>
     <div class='container'>
       <div class='scrollable'></div>
@@ -207,7 +215,9 @@
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Verify Identity</span>
+        <span class='conversation-heading'>
+          <span class='conversation-title'>Verify Identity</span>
+        </span>
     </div>
     <div class='container'>
       <p> Their identity (they read): </p>
@@ -245,7 +255,9 @@
       <div class='conversation-header'>
         <button class='back'></button>
         <button class='create check hide'></button>
-        <span class='conversation-title'>New Message</span>
+        <span class='conversation-heading'>
+          <span class='conversation-title'>New Message</span>
+        </span>
       </div>
       {{> group_info_input }}
       <div class='container'>
