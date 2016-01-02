@@ -1,0 +1,98 @@
+{
+    "debugLogExplanation": {
+      "message": "Dieses Diagnoseprotokoll wird öffentlich im Internet für die Entwickler veröffentlicht. Sie können es noch überprüfen und bearbeiten, bevor Sie es übermitteln."
+    },
+    "gotIt": {
+      "message": "Verstanden!"
+    },
+    "submit": {
+      "message": "Übermitteln"
+    },
+    "verifyContact": {
+      "message": "Sie sollten diesen Kontakt ggf. <span class='verify'>überprüfen</span>."
+    },
+    "acceptNewKey": {
+      "message": "Neuen Schlüssel annehmen"
+    },
+    "verify": {
+      "message": "Überprüfen"
+    },
+    "outgoingKeyConflict": {
+      "message": "Der Schlüssel dieses Kontakts hat sich geändert. Zum Anzeigen klicken."
+    },
+    "incomingKeyConflict": {
+      "message": "Nachricht mit unbekanntem Schlüssel empfangen. Zum Anzeigen klicken."
+    },
+    "unsupportedAttachment": {
+      "message": "Nicht unterstützer Anhang. Zum Speichern klicken.",
+      "description": "Wird bei eingegangenen, nicht unterstützten Anhängen angezeigt"
+    },
+    "unsupportedFileType": {
+      "message": "Nicht unterstützte Datei.",
+      "description": "Wird bei ausgehenden, nicht unterstützten Anhängen angezeigt"
+    },
+    "fileSizeWarning": {
+      "message": "Der ausgewählte Anhang überschreitet die maximale Nachrichtengröße."
+    },
+    "disconnected": {
+      "message": "Nicht verbunden"
+    },
+    "submitDebugLog": {
+      "message": "Diagnoseprotokoll übermitteln"
+    },
+    "searchForPeopleOrGroups": {
+      "message": "Nach Personen oder Gruppen suchen",
+      "description": "Placeholder text in the search input"
+    },
+    "welcomeToSignal": {
+      "message": "Willkommen bei Signal"
+    },
+    "selectAContact": {
+      "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um mit dem Chatten zu Beginnen."
+    },
+    "ok": {
+      "message": "OK"
+    },
+    "cancel": {
+      "message": "Abbrechen"
+    },
+    "failedToSend": {
+      "message": "Versand an bestimmte Empfänger fehlgeschlagen."
+    },
+    "error": {
+      "message": "Fehler"
+    },
+    "resend": {
+      "message": "Erneut senden"
+    },
+    "messageDetail": {
+        "message": "Nachrichtendetails"
+    },
+    "sent": {
+        "message": "Gesendet",
+        "description": "Label für den Zeitpunkt des Versands einer Nachricht"
+    },
+    "received": {
+        "message": "Empfangen",
+        "description": "Label für den Zeitpunkt des Empfangs einer Nachricht"
+    },
+    "sendMessage": {
+        "message": "Neue Nachricht",
+        "description": "Placeholder text in the message entry field"
+    },
+    "members": {
+      "message": "Mitglieder"
+    },
+    "resetSession": {
+        "message": "Verschlüsselung neu starten"
+    },
+    "verifyIdentity": {
+        "message": "Kontakt überprüfen"
+    },
+    "deleteMessages": {
+        "message": "Nachrichten löschen"
+    },
+    "sessionEnded": {
+        "message": "Verschlüsselung neu gestartet"
+    }
+}
