@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Nicht unterstütztes Anhangsformat. Klicke zum speichern",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Klicke hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Alles klar!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Nicht unterstützter Dateityp",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Sitzung zurücksetzen",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Willkommen bei Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Mitglieder",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Nachricht löschen",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Wähle einen Kontakt oder eine Gruppe aus, um mit dem Chatten zu beginnen.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Vielleicht sollte dieser Kontakt <span class='verify'>verfiziert</span> werden.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Gesendet",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Identität verifizieren",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Dieser log wird für online veröffentlicht, damit Mitwirkende ihn einsehen können. Eventuell sollte er noch einmal untersucht und bearbeitet werden, bevor er veröffentlicht wird. ",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Suche nach Leuten oder Gruppen",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Nicht verbunden",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Neuen Schlüssel akzeptieren",
+        "description": ""
+    },
+    "received": {
+        "message": "Erhalten",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Eine Nachricht senden",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Klicke hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Entschuldige. Die ausgewählte Datei überschreitet die maximal erlaubte Größe.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Abbrechen",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Sichere Sitzung beendet",
+        "description": ""
+    },
+    "submit": {
+        "message": "Senden",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Nachrichten-Details",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifizieren",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Nachricht konnte nicht an alle Empfänger gesendet werden.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Debug log senden",
+        "description": ""
+    },
+    "error": {
+        "message": "Fehler",
+        "description": ""
+    },
+    "resend": {
+        "message": "Erneut senden",
+        "description": ""
+    }
+}

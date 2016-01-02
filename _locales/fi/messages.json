@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Vastaanotettiin viesti tuntemattomalla identiteettiavaimella. Aloita käsittely napsauttamalla.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Selvä!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Tiedostotyyppiä ei tueta",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Alusta istunto",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Tervetuloa Signaliin",
+        "description": ""
+    },
+    "members": {
+        "message": "Jäsenet",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Poista viestit",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Saatat haluta <span class='verify'>varmentaa</span> tämän yhteystiedon.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Lähetetty",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Varmenna identiteetti",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Loki lähetetään Internetiin ja se tulee kehittäjien ja muiden nähtäville julkisesti. Voit tarkastella ja muokata sitä ennen lähettämistä.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Etsi yhteystietoja tai ryhmiä",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Ei yhteyttä",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Hyväksy uusi avain",
+        "description": ""
+    },
+    "received": {
+        "message": "Vastaanotettu",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Lähetä viesti",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Tämän yhteystiedon identiteettiavain on vaihtunut. Aloita käsittely napsauttamalla.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Valitettavasti kyseinen tiedosto ylittää viesteille asetetun kokorajoituksen.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Peruuta",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Suojattu istunto lopetettu",
+        "description": ""
+    },
+    "submit": {
+        "message": "Lähetä",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Viestin tiedot",
+        "description": ""
+    },
+    "verify": {
+        "message": "Varmenna",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Lähetys epäonnistui joillekin vastaanottajille",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Lähetä virheenkorjausloki",
+        "description": ""
+    },
+    "error": {
+        "message": "Virhe",
+        "description": ""
+    },
+    "resend": {
+        "message": "Lähetä uudelleen",
+        "description": ""
+    }
+}
