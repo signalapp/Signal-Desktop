@@ -16,6 +16,12 @@ Please search the existing issues for your bug and create a new one if the issue
 
 https://github.com/WhisperSystems/Signal-Desktop/issues
 
+## Contributing Translations
+Interested in helping to translate Signal? Contribute here:
+
+https://www.transifex.com/projects/p/signal-desktop
+
+
 ## Contributing Code
 Please see
 [CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
