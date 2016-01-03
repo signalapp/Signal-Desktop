@@ -1,10 +1,10 @@
 {
     "unsupportedAttachment": {
-        "message": "Nicht unterstütztes Anhangsformat. Klicke zum speichern",
+        "message": "Nicht unterstütztes Anhangsformat. Klicken Sie zum Speichern",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Klicke hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Klicken Sie hier, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "gotIt": {
@@ -16,7 +16,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "resetSession": {
-        "message": "Sitzung zurücksetzen",
+        "message": "Verschlüsselung neu starten",
         "description": ""
     },
     "welcomeToSignal": {
@@ -28,15 +28,15 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "Nachricht löschen",
+        "message": "Nachrichten löschen",
         "description": ""
     },
     "selectAContact": {
-        "message": "Wähle einen Kontakt oder eine Gruppe aus, um mit dem Chatten zu beginnen.",
+        "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um mit dem Chatten zu beginnen.",
         "description": ""
     },
     "verifyContact": {
-        "message": "Vielleicht sollte dieser Kontakt <span class='verify'>verfiziert</span> werden.",
+        "message": "Sie sollten diesen Kontakt ggf. <span class='verify'>überprüfen</span>.",
         "description": ""
     },
     "sent": {
@@ -48,11 +48,11 @@
         "description": ""
     },
     "debugLogExplanation": {
-        "message": "Dieser log wird für online veröffentlicht, damit Mitwirkende ihn einsehen können. Eventuell sollte er noch einmal untersucht und bearbeitet werden, bevor er veröffentlicht wird. ",
+        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Eventuell sollte es noch einmal untersucht und bearbeitet werden, bevor es veröffentlicht wird. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Suche nach Leuten oder Gruppen",
+        "message": "Suche nach Personen oder Gruppen",
         "description": "Placeholder text in the search input"
     },
     "disconnected": {
@@ -72,11 +72,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Klicke hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Klicken Sie hier, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Entschuldige. Die ausgewählte Datei überschreitet die maximal erlaubte Größe.",
+        "message": "Entschuldigen Sie, die ausgewählte Datei überschreitet die maximal erlaubte Größe.",
         "description": ""
     },
     "cancel": {
@@ -84,7 +84,7 @@
         "description": ""
     },
     "sessionEnded": {
-        "message": "Sichere Sitzung beendet",
+        "message": "Verschlüsselung neu gestartet",
         "description": ""
     },
     "submit": {
@@ -108,7 +108,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Debug log senden",
+        "message": "Diagnoseprotokoll senden",
         "description": ""
     },
     "error": {

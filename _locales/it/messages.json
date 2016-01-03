@@ -1,26 +1,122 @@
 {
-    "messageDetail": {
-        "message": "Dettagli Messaggio"
+    "unsupportedAttachment": {
+        "message": "Unsupported attachment type. Click to save.",
+        "description": "Displayed for incoming unsupported attachment"
     },
-    "sent": {
-        "message": "Inviato"
+    "incomingKeyConflict": {
+        "message": "Received message with unknown identity key. Click to process and display.",
+        "description": ""
     },
-    "received": {
-        "message": "Ricevuto"
+    "gotIt": {
+        "message": "Got it!",
+        "description": ""
     },
-    "sendMessage": {
-        "message": "Invia messaggio"
+    "unsupportedFileType": {
+        "message": "Unsupported file type",
+        "description": "Displayed for outgoing unsupported attachment"
     },
     "resetSession": {
-        "message": "Resetta Sessione"
+        "message": "Resetta Sessione",
+        "description": ""
     },
-    "verifyIdentity": {
-        "message": "Verifica Identità"
+    "welcomeToSignal": {
+        "message": "Welcome to Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Members",
+        "description": ""
     },
     "deleteMessages": {
-        "message": "Cancella messaggi"
+        "message": "Cancella messaggi",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Select a contact or group to start chatting.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "You may wish to <span class='verify'>verify</span> this contact.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Inviato",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifica Identità",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Search for people or groups",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Disconnected",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Accept new key",
+        "description": ""
+    },
+    "received": {
+        "message": "Ricevuto",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Invia messaggio",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "This contact's identity key has changed. Click to process and display.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Cancel",
+        "description": ""
     },
     "sessionEnded": {
-        "message": "Sessione sicura terminata"
+        "message": "Sessione sicura terminata",
+        "description": ""
+    },
+    "submit": {
+        "message": "Submit",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Dettagli Messaggio",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verify",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Failed to send to some recipients.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Submit debug log",
+        "description": ""
+    },
+    "error": {
+        "message": "Error",
+        "description": ""
+    },
+    "resend": {
+        "message": "Resend",
+        "description": ""
     }
 }
