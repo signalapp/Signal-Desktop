@@ -14,6 +14,7 @@
             var conversation = bg.getConversationForWindow(windowInfo.id);
             if (conversation) {
                 window.document.title = conversation.getTitle();
+                console.log("new conversationview");
                 var view = new bg.Whisper.ConversationView({
                     model: conversation,
                     appWindow: windowInfo

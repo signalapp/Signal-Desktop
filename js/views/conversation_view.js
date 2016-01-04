@@ -28,6 +28,8 @@
             };
         },
         initialize: function(options) {
+            console.log("init", options);
+
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:avatar', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
@@ -63,13 +65,18 @@
             }.bind(this);
             this.appWindow.contentWindow.addEventListener('focus', onFocus);
 
-            this.appWindow.onClosed.addListener(function () {
-                this.appWindow.contentWindow.removeEventListener('resize', onResize);
-                this.appWindow.contentWindow.removeEventListener('focus', onFocus);
-                window.autosize.destroy(this.$messageField);
-                this.remove();
-                this.model.messageCollection.reset([]);
-            }.bind(this));
+            if (typeof chrome != 'undefined') {
+                this.appWindow.onClosed.addListener(function () {
+                    this.appWindow.contentWindow.removeEventListener('resize', onResize);
+                    this.appWindow.contentWindow.removeEventListener('focus', onFocus);
+                    window.autosize.destroy(this.$messageField);
+                    this.remove();
+                    this.model.messageCollection.reset([]);
+                }.bind(this));
+            } else {
+                // TODO: fallback
+                console.log("TODO: fallback");
+            }
 
             this.fetchMessages();
         },
@@ -145,9 +152,9 @@
                 var their_number = this.model.id;
                 var our_number = textsecure.storage.user.getNumber();
                 textsecure.storage.axolotl.getIdentityKey(their_number).then(function(their_key) {
-                    textsecure.storage.axolotl.getIdentityKey(our_number).then(function(our_key) {
+                    textsecure.storage.axolotl.getMyIdentityKey().then(function(our_key) {
                         var view = new Whisper.KeyVerificationView({
-                            model: { their_key: their_key, your_key: our_key }
+                            model: { their_key: their_key, your_key: our_key.pubKey }
                         }).render();
                         this.listenBack(view);
                     }.bind(this));
