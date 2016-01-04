@@ -81,17 +81,22 @@ var windowscope = this;
             // TODO: fallback
             console.log("TODO: windows.open", options, callback);
 
-            callback({
-              id: url,
-              contentWindow: window,
-              onClosed: {
-                addListener: function(callback){
-                  console.log("TODO: store callback (appWindow.onClosed.addListener)");
-                }
-              },
+            if (options !== undefined && options.url !== undefined &&
+                options.url != location.pathname) {
+                location.href = options.url;
+            }
 
-            });
-
+            if (callback !== undefined) {
+              callback({
+                id: url,
+                contentWindow: window,
+                onClosed: {
+                  addListener: function(callback){
+                    console.log("TODO: store callback (appWindow.onClosed.addListener)");
+                  }
+                },
+              });
+            }
           }
         },
 
@@ -132,7 +137,8 @@ var windowscope = this;
               storage: window.storage,
               getAccountManager: window.getAccountManager,
               openInbox: window.openInbox,
-              contentWindow: window
+              contentWindow: window,
+              console: console
             });
           }
         },
@@ -167,16 +173,7 @@ var windowscope = this;
                   });
               }
             } else {
-              // fallback
-              console.log(window);
-              callback(window);
-              //callback(windowscope);
-              /*callback({
-                textsecure: textsecure,
-                storage: window.storage,
-                getAccountManager: window.getAccountManager,
-                openInbox: window.openInbox
-              });*/
+              extension.windows.getCurrent(callback);
             }
         },
 
@@ -187,6 +184,22 @@ var windowscope = this;
                 return chrome.app.window.getAll().map(function(appWindow) {
                     return appWindow.contentWindow;
                 });
+            }
+        },
+
+        getLocation: function(id) {
+            if (typeof chrome != 'undefined') {
+              return {
+                'index': 'index.html',
+                'installer': 'options.html',
+                'register': 'register.html'
+              }[id];
+            } else {
+              return {
+                'index': '/background_mozilla.html',
+                'installer': '/options_mozilla.html',
+                'register': '/register_mozilla.html'
+              }[id];
             }
         },
 
@@ -290,29 +303,31 @@ var windowscope = this;
 
     extension.install = function(mode) {
         var id = 'installer';
-        var url = 'options.html';
+        var url = extension.windows.getLocation('installer');
         if (mode === 'standalone') {
             id = 'standalone-installer';
-            url = 'register.html';
+            url = extension.windows.getLocation('register');
         }
         if (typeof chrome != 'undefined') {
-          if (!chrome.app.window.get(id)) {
-              extension.windows.open({
-                  id: id,
-                  url: url,
-                  bounds: { width: 800, height: 666, },
-                  minWidth: 800,
-                  minHeight: 666
-              });
-          }
+            if (!chrome.app.window.get(id)) {
+                extension.windows.open({
+                    id: id,
+                    url: url,
+                    bounds: { width: 800, height: 666, },
+                    minWidth: 800,
+                    minHeight: 666
+                });
+            }
         } else {
-          extension.windows.open({
-              id: id,
-              url: url,
-              bounds: { width: 800, height: 666, },
-              minWidth: 800,
-              minHeight: 666
-          });
+            if (location.pathname ==
+                extension.windows.getLocation('register')) {
+                console.log("Refusing to redirect from register to options.");
+                return;
+            }
+            extension.windows.open({
+                id: id,
+                url: url
+            });
         }
     };
 

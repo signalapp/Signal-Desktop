@@ -18,7 +18,6 @@
                   view.openConversation(null, conversation);
               }
           };
-          console.log(getOpenConversation());
           openConversation(getOpenConversation());
         });
     }

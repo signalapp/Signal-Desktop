@@ -22,5 +22,5 @@
       "128": "images/icon_128.png"
     },
 
-    "launch_path": "/background_mozilla.html"
+    "launch_path": "/index_mozilla.html"
 }

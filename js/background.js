@@ -46,7 +46,6 @@
     ConversationController.updateInbox();
 
     extension.onLaunched(function() {
-        console.log('extension launched');
         storage.onready(function() {
             if (textsecure.registration.isDone()) {
                 openInbox();
@@ -74,8 +73,6 @@
 
     storage.fetch();
     storage.onready(function() {
-        console.log("textsecure.registration.isDone()", textsecure.registration.isDone());
-
         setUnreadCount(storage.get("unreadCount", 0));
 
         if (textsecure.registration.isDone()) {
