@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset='utf-8'>
   <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
   <link rel="stylesheet" href="stylesheets/options.css">
   <link rel="stylesheet" href="components/intl-tel-input/build/css/intlTelInput.css">
   <link href="/stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/options.css" rel="stylesheet" type="text/css" />
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='title-bar' id='header'>
       <div class='global-menu menu'>
         <button class='hamburger'></button>
         <ul class='menu-list'>
-            <li><a class='show-debug-log'>Submit debug log</a></li>
+            <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
         </ul>
       </div>
-      <span class='title-text'>Signal</span>
       <span class='socket-status'></span>
+      <div class='tool-bar clearfix'>
+        <!-- <button class='show-new-conversation'></button> -->
+        <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
+      </div>
     </div>
     <div class='gutter'>
-        <div class='tool-bar clearfix'>
-          <button class='show-new-conversation'></button>
+        <div class='conversations scrollable inbox'></div>
+        <div class='conversations scrollable search-results hide'>
+          <div class='new-contact contact hide'></div>
         </div>
-        <div class='conversations scrollable'></div>
-        <span class='fab'></span>
     </div>
-    <div class='conversation-stack'></div>
+    <div class='conversation-stack'>
+      <div class='conversation placeholder'>
+        <h3>{{ welcomeToSignal }}</h3>
+        <p>{{ selectAContact }}</p>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='hint'>
+    <p> {{ content }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='panel'>
@@ -33,30 +44,36 @@
             <button class='drop-down'></button>
             <ul class='menu-list'>
                 {{#group}}
-                    <li><a class='view-members'>Members</a></li>
-                    <li><a class='update-group'>Update group</a></li>
-                    <li><a class='leave-group'>Leave group</a></li>
+                    <li><a class='view-members'>{{ view-members }}</a></li>
+                    <!-- <li><a class='update-group'>Update group</a></li> -->
+                    <!-- <li><a class='leave-group'>Leave group</a></li> -->
                 {{/group}}
                 {{^group}}
-                    <li><a class='end-session'>Reset Session</a></li>
-                    <li><a class='verify-identity'>Verify Identity</a></li>
+                    <li><a class='end-session'>{{ end-session }}</a></li>
+                    <li><a class='verify-identity'>{{ verify-identity }}</a></li>
                 {{/group}}
-                <li><a class='destroy'>Delete messages</a></li>
+                <li><a class='destroy'>{{ destroy }}</a></li>
             </ul>
           </div>
-          <span class='conversation-title'>{{ title }}</span>
+          {{> avatar }}
+          <span class='conversation-title'>
+            {{ title }}
+            {{ #number }}
+              <span class='conversation-number'>{{ number }}</span>
+            {{ /number }}
+          </span>
       </div>
 
       <div class='discussion-container'></div>
 
-      <div class="bottom-bar" id='footer'>
+      <div class='bottom-bar' id='footer'>
           <form class='send'>
-              <div class='attachments'>
+              <div class='attachment-previews'></div>
+              <div class='choose-file'>
                   <div class='paperclip thumbnail'></div>
                   <input type='file' class='file-input'>
               </div>
-              <input class="send-btn" type='submit' value='' />
-              <textarea class='send-message' placeholder="Send a message" rows="1"></textarea>
+              <textarea class='send-message' placeholder='{{ send-message }}' rows='1'></textarea>
           </form>
       </div>
     </div>
@@ -64,23 +81,23 @@
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
     <div class='message'>{{ message }}</div>
     <div class='buttons'>
-      <button class='cancel'>Cancel</button>
-      <button class='ok'>OK</button>
+      <button class='cancel'>{{ cancel }}</button>
+      <button class='ok'>{{ ok }}</button>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
-        <img src="{{ source }}" class="preview" />
-        <div class="close">x</div>
+        <img src='{{ source }}' class='preview' />
+        <div class='close'>x</div>
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
-      <div class='sender'>{{ sender }}</div>
       {{> avatar }}
-      <div class="bubble">
+      <div class='bubble'>
+          <div class='sender'>{{ sender }}</div>
           <div class='attachments'></div>
-          <p class="content">{{ message }}</p>
+          <p class='content'>{{ message }}</p>
           <div class='meta'>
-            <span class='timestamp'>{{ timestamp }}</span>
-            <span class='checkmark hide'>✓</span>
+            <span class='timestamp' data-timestamp={{ timestamp }}></span>
+            <span class='status hide'></span>
           </div>
       </div>
   </script>
@@ -96,9 +113,9 @@
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='identicon-svg'>
-      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-         <circle cx="50" cy="50" r="40" fill="{{ color }}" />
-          <text text-anchor="middle" fill="white" font-size="24px" x="50" y="50" baseline-shift="-8px">
+      <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
+         <circle cx='50' cy='50' r='40' fill='{{ color }}' />
+          <text text-anchor='middle' fill='white' font-size='24px' x='50' y='50' baseline-shift='-8px'>
               {{ content }}
           </text>
       </svg>
@@ -120,54 +137,79 @@
       {{> avatar }}
       <div class='contact-details'> {{> contact_name_and_number }} </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='conversation-preview'>
+  <script type='text/x-tmpl-mustache' id='new-contact'>
       {{> avatar }}
       <div class='contact-details'>
           {{> contact_name_and_number }}
-          <p class='last-message'> {{ last_message }} </p>
-          <span class='last-timestamp'> {{ last_message_timestamp }} </span>
       </div>
   </script>
-  <script type="text/x-tmpl-mustache" id="phone-number">
-      <div class="phone-input-form">
-          <div class="number-container">
-              <input type="tel" class="number" placeholder="Phone Number" />
+  <script type='text/x-tmpl-mustache' id='conversation-preview'>
+      {{> avatar }}
+      <div class='contact-details'>
+          <span class='last-timestamp'> {{ last_message_timestamp }} </span>
+          {{> contact_name_and_number }}
+          {{ #unreadCount }}
+            <span class='unread-count'>{{ unreadCount }}</span>
+          {{ /unreadCount }}
+          <p class='last-message'> {{ last_message }} </p>
+      </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='phone-number'>
+      <div class='phone-input-form'>
+          <div class='number-container'>
+              <input type='tel' class='number' placeholder="Phone Number" />
           </div>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='file-size-modal'>
-      Sorry, the selected file exceeds message size
-      restrictions. ({{ limit }}kB)
+      {{ file-size-warning }}
+      ({{ limit }}{{ units }})
+  </script>
+  <script type='text/x-tmpl-mustache' id='attachment-type-modal'>
+      Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Message Detail</span>
+        <span class='conversation-title'>{{ title }}</span>
     </div>
     <div class='container'>
       <div class='message-container'></div>
       <div class='info'>
+        {{ #hasRetry }}
+          <h3 class='hasRetry clearfix'>
+            <button class='retry'>{{ resend }}</button>
+            <span>{{ failedToSend }}</span>
+          </h3>
+        {{ /hasRetry }}
         <table>
-          <tr><td class='label'>Sent</td><td> {{ sent_at }}</td></tr>
-          <tr><td class='label'>Received</td><td> {{ received_at }}</td></tr>
           <tr>
-            <td class='tofrom label'>{{ tofrom }}</td>
-            <td> <div class='contacts'></div> </td>
+            <td class='label'>{{ sent }}</td>
+            <td> {{ sent_at }}</td>
           </tr>
+          {{ #received_at }}
+            <tr>
+              <td class='label'>{{ received }}</td>
+              <td> {{ received_at }}</td>
+            </tr>
+          {{ /received_at }}
           {{ #errors }}
             <tr>
-              <td class='label'>Error</td>
+              <td class='label'>{{ error-label }}</td>
               <td> <span class='error-message'>{{message}}</span> </td>
             </tr>
           {{ /errors }}
+            <tr> <td class='tofrom label'>{{tofrom}}</td> </tr>
         </table>
+        <div class='contacts'>
+        </div>
       </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Members</span>
+        <span class='conversation-title'>{{ members }}</span>
     </div>
     <div class='container'>
       <div class='scrollable'></div>
@@ -176,7 +218,7 @@
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='conversation-header'>
         <button class='back'></button>
-        <span class='conversation-title'>Verify Identity</span>
+        <span class='conversation-title'>{{ verifyIdentity }}</span>
     </div>
     <div class='container'>
       <p> Their identity (they read): </p>
@@ -190,7 +232,7 @@
     </div>
   </script>
   <!-- index -->
-  <script type="text/x-tmpl-mustache" id="inbox">
+  <script type='text/x-tmpl-mustache' id='inbox'>
     <div class='title-bar' id='header'>
       <div class='socket-status'></div>
     </div>
@@ -202,10 +244,12 @@
   <script type='text/x-tmpl-mustache' id='group_info_input'>
       <div class='group-info-input'>
         <div class='group-avatar'>
-          <div class='thumbnail'> {{> avatar }} </div>
+          <div class='choose-file attachment-previews thumbnail'>
+            {{> avatar }}
+            </div>
           <input type='file' name='avatar' class='file-input'>
         </div>
-        <input type='text' name='name' class='name' placeholder='Group Name' value="{{ name }}">
+        <input type='text' name='name' class='name' placeholder='Group Name' value='{{ name }}'>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='new-conversation'>
@@ -223,51 +267,38 @@
   <script type='text/x-tmpl-mustache' id='recipients-input'>
       <div class='recipients-container'>
         <span class='recipients'></span>
-        <input type='text' class='search' placeholder="{{ placeholder }}" />
+        <input type='text' class='search' placeholder='{{ placeholder }}' />
       </div>
       <div class='results'>
         <div class='new-contact contact hide'></div>
         <div class='contacts'></div>
       </div>
   </script>
-  <script type='text/x-tmpl-mustache' id='incoming-key-conflict'>
-    <p>
-      Received message with unknown identity key.
-      Click to process and display.
-    </p>
-  </script>
-  <script type='text/x-tmpl-mustache' id='outgoing-key-conflict'>
-    <p>
-      This contact&apos;s identity key has changed.
-      Click to process and display.
-    </p>
-  </script>
   <script type='text/x-tmpl-mustache' id='generic-error'>
     <p>{{ message }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
       <div>
-        {{> avatar }}
-        <span class='name'>{{ name }}</span>
-        {{ #conflict }}
-            <button class='conflict'><span>Verify</span></button>
-        {{ /conflict }}
         {{ #errors }}
-            <div>
+            <span class='error-icon'>
               <span class='error-message'>{{message}}</span>
-            </div>
+            </span>
         {{ /errors }}
+        {{> avatar }}
+        <span class='name'>{{ name }}
+        {{ #conflict }}
+            <button class='conflict'><span>{{ verify }}</span></button>
+        {{ /conflict }}
+        </span>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
     <div class='content'>
       <p> {{ message }} </p>
+      <p> {{ verifyContact }} </p>
       <p>
-        You may wish to <span class='verify'>verify</span> this contact.
-      </p>
-      <p>
-        <button class='cancel'>Cancel</button>
-        <button class='resolve'>Accept new key</button>
+        <button class='cancel'>{{ cancel }}</button>
+        <button class='resolve'>{{ resolve }}</button>
       </p>
     </div>
   </script>
@@ -276,63 +307,66 @@
     <button class='close'>&times;</button>
   </script>
   <script type='text/x-tmpl-mustache' id='debug-log'>
-    <h1> Submit Debug Log </h1>
+    <a class='x close'>&times;</a>
+    <h1>{{ title }}</h1>
+    <p> {{ debugLogExplanation }}</p>
     <form>
-      <textarea rows="5"></textarea>
-      <input class="submit" type='submit' value='Create Public Gist' />
-      <button class='close'>Cancel</button>
+      <textarea rows='5'></textarea>
+      <input class='submit' type='submit' value='{{ submit }}' />
+      <button class='close'>{{ cancel }}</button>
     </form>
     <div class='result'>
       <a target='_blank'></a>
-      <div><button class='close'>Got it!</button></div>
+      <div><button class='close'>{{ close }}</button></div>
     </div>
   </script>
-  <script type="text/javascript" src="js/debugLog.js"></script>
-  <script type="text/javascript" src="js/components.js"></script>
-  <script type="text/javascript" src="js/database.js"></script>
-  <script type="text/javascript" src="js/storage.js"></script>
-  <script type="text/javascript" src="js/axolotl_store.js"></script>
-  <script type="text/javascript" src="js/libtextsecure.js"></script>
+  <script type='text/javascript' src='js/debugLog.js'></script>
+  <script type='text/javascript' src='js/components.js'></script>
+  <script type='text/javascript' src='js/database.js'></script>
+  <script type='text/javascript' src='js/storage.js'></script>
+  <script type='text/javascript' src='js/axolotl_store.js'></script>
+  <script type='text/javascript' src='js/libtextsecure.js'></script>
 
-  <script type="text/javascript" src="js/notifications.js"></script>
-  <script type="text/javascript" src="js/libphonenumber-util.js"></script>
-  <script type="text/javascript" src="js/models/messages.js"></script>
-  <script type="text/javascript" src="js/models/conversations.js"></script>
+  <script type='text/javascript' src='js/notifications.js'></script>
+  <script type='text/javascript' src='js/libphonenumber-util.js'></script>
+  <script type='text/javascript' src='js/models/messages.js'></script>
+  <script type='text/javascript' src='js/models/conversations.js'></script>
 
-  <script type="text/javascript" src="js/chromium.js"></script>
-  <script type="text/javascript" src="js/bimap.js"></script>
-  <script type="text/javascript" src="js/conversation_controller.js"></script>
-  <script type="text/javascript" src="js/panel_controller.js"></script>
+  <script type='text/javascript' src='js/chromium.js'></script>
+  <script type='text/javascript' src='js/conversation_controller.js'></script>
+  <script type='text/javascript' src='js/panel_controller.js'></script>
 
-  <script type="text/javascript" src="js/views/whisper_view.js"></script>
-  <script type="text/javascript" src="js/views/debug_log_view.js"></script>
-  <script type="text/javascript" src="js/views/toast_view.js"></script>
-  <script type="text/javascript" src="js/views/attachment_preview_view.js"></script>
-  <script type="text/javascript" src="js/views/file_input_view.js"></script>
-  <script type="text/javascript" src="js/views/list_view.js"></script>
-  <script type="text/javascript" src="js/views/conversation_list_item_view.js"></script>
-  <script type="text/javascript" src="js/views/conversation_list_view.js"></script>
-  <script type="text/javascript" src="js/views/contact_list_view.js"></script>
-  <script type="text/javascript" src="js/views/recipients_input_view.js"></script>
-  <script type="text/javascript" src="js/views/new_group_update_view.js"></script>
-  <script type="text/javascript" src="js/views/attachment_view.js"></script>
-  <script type="text/javascript" src="js/views/key_conflict_dialogue_view.js"></script>
-  <script type="text/javascript" src="js/views/error_view.js"></script>
-  <script type="text/javascript" src="js/views/message_view.js"></script>
-  <script type="text/javascript" src="js/views/key_verification_view.js"></script>
-  <script type="text/javascript" src="js/views/message_detail_view.js"></script>
-  <script type="text/javascript" src="js/views/message_list_view.js"></script>
-  <script type="text/javascript" src="js/views/group_member_list_view.js"></script>
-  <script type="text/javascript" src="js/views/conversation_view.js"></script>
-  <script type="text/javascript" src="js/views/new_conversation_view.js"></script>
-  <script type="text/javascript" src="js/views/window_controls_view.js"></script>
-  <script type="text/javascript" src="js/views/inbox_view.js"></script>
-  <script type="text/javascript" src="js/views/confirmation_dialog_view.js"></script>
-  <script type="text/javascript" src="js/views/identicon_svg_view.js"></script>
+  <script type='text/javascript' src='js/views/whisper_view.js'></script>
+  <script type='text/javascript' src='js/views/debug_log_view.js'></script>
+  <script type='text/javascript' src='js/views/toast_view.js'></script>
+  <script type='text/javascript' src='js/views/attachment_preview_view.js'></script>
+  <script type='text/javascript' src='js/views/file_input_view.js'></script>
+  <script type='text/javascript' src='js/views/list_view.js'></script>
+  <script type='text/javascript' src='js/views/conversation_list_item_view.js'></script>
+  <script type='text/javascript' src='js/views/conversation_list_view.js'></script>
+  <script type='text/javascript' src='js/views/contact_list_view.js'></script>
+  <script type='text/javascript' src='js/views/recipients_input_view.js'></script>
+  <script type='text/javascript' src='js/views/new_group_update_view.js'></script>
+  <script type='text/javascript' src='js/views/attachment_view.js'></script>
+  <script type='text/javascript' src='js/views/key_conflict_dialogue_view.js'></script>
+  <script type='text/javascript' src='js/views/error_view.js'></script>
+  <script type='text/javascript' src='js/views/timestamp_view.js'></script>
+  <script type='text/javascript' src='js/views/message_view.js'></script>
+  <script type='text/javascript' src='js/views/key_verification_view.js'></script>
+  <script type='text/javascript' src='js/views/message_detail_view.js'></script>
+  <script type='text/javascript' src='js/views/message_list_view.js'></script>
+  <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
+  <script type='text/javascript' src='js/views/conversation_view.js'></script>
+  <script type='text/javascript' src='js/views/new_conversation_view.js'></script>
+  <script type='text/javascript' src='js/views/conversation_search_view.js'></script>
+  <script type='text/javascript' src='js/views/window_controls_view.js'></script>
+  <script type='text/javascript' src='js/views/hint_view.js'></script>
+  <script type='text/javascript' src='js/views/inbox_view.js'></script>
+  <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
+  <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
 
-  <script type="text/javascript" src="js/background.js"></script>
-  <script type="text/javascript" src="js/mozilla_index.js"></script>
-</head>
+  <script type='text/javascript' src='js/background.js'></script>
+  <script type="text/javascript" src="js/mozilla_index.js"></script></head>
 <body>
 </body>
 </html>

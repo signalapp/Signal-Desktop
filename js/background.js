@@ -24,7 +24,7 @@
         });
     } else {
       // TODO: fallback
-      console.log("TODO: fallback");
+      console.log("TODO: fallback (chrome.notifications addListener)");
     }
 
     // Close and reopen existing windows
@@ -36,7 +36,7 @@
       });
     } else {
       // TODO: fallback?
-      console.log("TODO: fallback?");
+      console.log("TODO: fallback? (close and reopen existing windows)");
     }
 
     // start a background worker for ecc
@@ -56,8 +56,8 @@
         });
     });
 
-    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
-    var ATTACHMENT_SERVER_URL = 'https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com';
+    var SERVER_URL = 'https://textsecure-service-ca.whispersystems.org:4433';
+    var ATTACHMENT_SERVER_URL = 'https://whispersystems-textsecure-attachments.s3.amazonaws.com';
     var messageReceiver;
     window.getSocketStatus = function() {
         if (messageReceiver) {
@@ -74,6 +74,8 @@
 
     storage.fetch();
     storage.onready(function() {
+        console.log("textsecure.registration.isDone()", textsecure.registration.isDone());
+
         setUnreadCount(storage.get("unreadCount", 0));
 
         if (textsecure.registration.isDone()) {

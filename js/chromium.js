@@ -25,8 +25,7 @@ var windowscope = this;
             if (typeof chrome != 'undefined' && chrome.browserAction && chrome.browserAction.setBadgeText) {
                 chrome.browserAction.setBadgeText({text: String(text)});
             } else {
-              // TODO: fallback?
-              console.log("TODO: fallback?", text);
+              document.title = text;
             }
         };
 
@@ -79,13 +78,25 @@ var windowscope = this;
                 chrome.app.window.create(url, options, callback);
             }
           } else {
-            console.log("TODO: windows.open", options, callback);
             // TODO: fallback
-            //$("body").append('<script type="text/javascript" src="js/index.js"></script>');
+            console.log("TODO: windows.open", options, callback);
+
+            callback({
+              id: url,
+              contentWindow: window,
+              onClosed: {
+                addListener: function(callback){
+                  console.log("TODO: store callback (appWindow.onClosed.addListener)");
+                }
+              },
+
+            });
+
           }
         },
 
         focus: function(id, callback) {
+          if (typeof chrome != 'undefined') {
             if (chrome.windows) {
                 chrome.windows.update(id, { focused: true }, function() {
                     callback(chrome.runtime.lastError);
@@ -100,6 +111,10 @@ var windowscope = this;
                     callback('No window found for id ' + id);
                 }
             }
+          } else {
+            // TODO: fallback
+            console.log("TODO: fallback (windows.focus)");
+          }
         },
 
         getCurrent: function(callback) {
@@ -123,10 +138,15 @@ var windowscope = this;
         },
 
         remove: function(windowId) {
-            if (chrome.windows) {
-                chrome.windows.remove(windowId);
-            } else if (chrome.app.window) {
-                chrome.app.window.get(windowId).close();
+            if (typeof chrome != 'undefined') {
+                if (chrome.windows) {
+                    chrome.windows.remove(windowId);
+                } else if (chrome.app.window) {
+                    chrome.app.window.get(windowId).close();
+                }
+            } else {
+              // TODO: fallback
+              console.log("TODO: fallback (windows.remove)");
             }
         },
 
@@ -195,9 +215,13 @@ var windowscope = this;
         },
 
         clearAttention: function(window_id) {
-            if (chrome.app.window) {
+            if (typeof chrome != 'undefined' && chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 w.clearAttention();
+            } else {
+                // TODO: fallback
+                // is there something like this in Firefox?
+                console.log("TODO: fallback (clearAttention)");
             }
         }
 
@@ -211,12 +235,29 @@ var windowscope = this;
         if (chrome.app && chrome.app.runtime) {
             chrome.app.runtime.onLaunched.addListener(callback);
         }
+      } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            callback();
+        }, false);
       }
     };
 
     // Translate
     window.i18n = function(message) {
-        return chrome.i18n.getMessage(message);
+        if (typeof chrome != 'undefined') {
+          return chrome.i18n.getMessage(message);
+        } else {
+          var i18nString = "missing translation";
+          $.ajax({
+            url: "_locales/en/messages.json",
+            success: function(data) {
+              i18nString = data[message].message;
+            },
+            async: false,
+            dataType: "json"
+          });
+          return i18nString;
+        }
     };
 
     window.textsecure = window.textsecure || {};
@@ -238,14 +279,24 @@ var windowscope = this;
             id = 'standalone-installer';
             url = 'register.html';
         }
-        if (!chrome.app.window.get(id)) {
-            extension.windows.open({
-                id: id,
-                url: url,
-                bounds: { width: 800, height: 666, },
-                minWidth: 800,
-                minHeight: 666
-            });
+        if (typeof chrome != 'undefined') {
+          if (!chrome.app.window.get(id)) {
+              extension.windows.open({
+                  id: id,
+                  url: url,
+                  bounds: { width: 800, height: 666, },
+                  minWidth: 800,
+                  minHeight: 666
+              });
+          }
+        } else {
+          extension.windows.open({
+              id: id,
+              url: url,
+              bounds: { width: 800, height: 666, },
+              minWidth: 800,
+              minHeight: 666
+          });
         }
     };
 
@@ -294,11 +345,14 @@ var windowscope = this;
     };
 
     extension.keepAwake = function() {
-        if (chrome && chrome.alarms) {
+        if (typeof chrome != 'undefined' && chrome && chrome.alarms) {
             chrome.alarms.onAlarm.addListener(function() {
                 // nothing to do.
             });
             chrome.alarms.create('awake', {periodInMinutes: 1});
+        } else {
+          // TODO: fallback
+          console.log("TODO: fallback (keepAwake)");
         }
     };
 
@@ -312,6 +366,6 @@ var windowscope = this;
       }
     } else {
       // TODO: fallback
-      console.log("TODO: fallback");
+      console.log("TODO: fallback (install)");
     }
 }());
