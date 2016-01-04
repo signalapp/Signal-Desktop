@@ -249,20 +249,30 @@ var windowscope = this;
     };
 
     // Translate
+    window.i18nData = null;
     window.i18n = function(message) {
         if (typeof chrome != 'undefined') {
           return chrome.i18n.getMessage(message);
         } else {
-          var i18nString = "missing translation";
-          $.ajax({
-            url: "_locales/en/messages.json",
-            success: function(data) {
-              i18nString = data[message].message;
-            },
-            async: false,
-            dataType: "json"
-          });
-          return i18nString;
+          if (window.i18nData === null) {
+            for (var lang of navigator.languages.concat("en")) {
+              $.ajax({
+                url: "_locales/" + lang + "/messages.json",
+                success: function(data) {
+                  window.i18nData = data;
+                },
+                async: false,
+                dataType: "json"
+              });
+              if (window.i18nData !== null) {
+                break;
+              }
+            }
+          }
+          if (window.i18nData[message] === undefined) {
+            return "missing translation";
+          }
+          return window.i18nData[message].message
         }
     };
 
