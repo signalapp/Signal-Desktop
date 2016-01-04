@@ -207,10 +207,15 @@ var windowscope = this;
         },
 
         drawAttention: function(window_id) {
-            if (chrome.app.window) {
+            if (typeof chrome != 'undefined' && chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 w.clearAttention();
                 w.drawAttention();
+            } else {
+                // TODO: implement something better
+                if (document.title[0] != "!") {
+                    document.title = "! " + document.title
+                }
             }
         },
 
@@ -219,9 +224,10 @@ var windowscope = this;
                 var w = chrome.app.window.get(window_id);
                 w.clearAttention();
             } else {
-                // TODO: fallback
-                // is there something like this in Firefox?
-                console.log("TODO: fallback (clearAttention)");
+                // TODO: implement something better
+                if (document.title[0] == "!") {
+                    document.title = document.title.substr(2);
+                }
             }
         }
 
@@ -310,7 +316,7 @@ var windowscope = this;
             });
         },
         update: function(options) {
-            if (chrome) {
+            if (typeof chrome != 'undefined') {
                 var chromeOpts = {
                     type     : options.type,
                     title    : options.title,
@@ -331,18 +337,35 @@ var windowscope = this;
                         });
                     });
                 });
-            } else {
-                var notification = new Notification(options.title, {
-                    body : options.message,
-                    icon : options.iconUrl,
-                    tag  : 'signal'
-                });
-                notification.onclick = function() {
-                    Whisper.Notifications.onclick();
-                };
+            } else if("Notification" in window) {
+                var notify = function() {
+                    var notification = new Notification(options.title, {
+                        body : options.message,
+                        icon : options.iconUrl,
+                        tag  : 'signal'
+                    });
+                    notification.onclick = function() {
+                        Whisper.Notifications.onclick();
+                    };
+                }
+
+                if (Notification.permission === "granted") {
+                    notify();
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted") {
+                            notify();
+                        }
+                    });
+                }
             }
         }
     };
+
+    // ask for permission to show Notifications
+    if("Notification" in window && Notification.permission !== 'denied') {
+        Notification.requestPermission();
+    }
 
     extension.keepAwake = function() {
         if (typeof chrome != 'undefined' && chrome && chrome.alarms) {
