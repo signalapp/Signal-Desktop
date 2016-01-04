@@ -20,6 +20,7 @@ html {
   border: solid 1px #ccc; }
 
 body {
+  background: #2090ea;
   position: relative;
   height: 100%;
   width: 100%;
@@ -376,6 +377,9 @@ img.emoji {
     text-align: center;
     -webkit-user-select: text; }
 
+.inbox {
+  overflow: hidden; }
+
 .gutter {
   padding: 36px 0 0; }
 
@@ -423,7 +427,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {
