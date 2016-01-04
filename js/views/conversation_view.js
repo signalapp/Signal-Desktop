@@ -152,9 +152,9 @@
                 var their_number = this.model.id;
                 var our_number = textsecure.storage.user.getNumber();
                 textsecure.storage.axolotl.getIdentityKey(their_number).then(function(their_key) {
-                    textsecure.storage.axolotl.getIdentityKey(our_number).then(function(our_key) {
+                    textsecure.storage.axolotl.getMyIdentityKey().then(function(our_key) {
                         var view = new Whisper.KeyVerificationView({
-                            model: { their_key: their_key, your_key: our_key }
+                            model: { their_key: their_key, your_key: our_key.pubKey }
                         }).render();
                         this.listenBack(view);
                     }.bind(this));
