@@ -4,6 +4,7 @@
 ;(function() {
     'use strict';
     extension.windows.getBackground(function(bg) {
+        console.log(bg);
         var accountManager = new bg.getAccountManager();
 
         function log(s) {
@@ -60,6 +61,7 @@
             $('#error').hide();
             var number = phoneView.validateNumber();
             if (number) {
+                console.log("here", number,accountManager)
                 accountManager.requestSMSVerification(number).catch(displayError);
                 $('#step2').addClass('in').fadeIn();
             } else {

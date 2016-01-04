@@ -1,8 +1,11 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
+var windowscope = this;
+
 (function () {
     'use strict';
+
     // Browser specific functions for Chrom*
     window.extension = window.extension || {};
 
@@ -19,16 +22,28 @@
         self.tabs = tabs;
 
         self.setBadgeText = function (text) {
-            if (chrome.browserAction && chrome.browserAction.setBadgeText) {
+            if (typeof chrome != 'undefined' && chrome.browserAction && chrome.browserAction.setBadgeText) {
                 chrome.browserAction.setBadgeText({text: String(text)});
+            } else {
+              // TODO: fallback?
+              console.log("TODO: fallback?", text);
             }
         };
 
         return self;
     }());
 
+    window.extension.messageListeners = [];
+
     window.extension.trigger = function (name, object) {
+      if (typeof chrome != 'undefined') {
         chrome.runtime.sendMessage(null, { name: name, data: object });
+      } else {
+        // fallback
+        for (var listener of window.extension.messageListeners) {
+          listener({ name: name, data: object });
+        }
+      }
     };
 
     window.extension.on = function (name, callback) {
@@ -37,15 +52,25 @@
         // might be worth making a map of 'name' -> [callbacks, ...]
         // so we can fire a single listener that calls only the necessary
         // calllbacks for that message name
-        chrome.runtime.onMessage.addListener(function(e) {
+        if (typeof chrome != 'undefined') {
+          chrome.runtime.onMessage.addListener(function(e) {
             if (e.name === name) {
                 callback(e.data);
             }
-        });
+          });
+        } else {
+          // fallback
+          window.extension.messageListeners.push(function(e) {
+            if (e.name === name) {
+                callback(e.data);
+            }
+          });
+        }
     };
 
     extension.windows = {
         open: function(options, callback) {
+          if (typeof chrome != 'undefined') {
             if (chrome.windows) {
                 chrome.windows.create(options, callback);
             } else if (chrome.app.window) {
@@ -53,6 +78,11 @@
                 delete options.url;
                 chrome.app.window.create(url, options, callback);
             }
+          } else {
+            console.log("TODO: windows.open", options, callback);
+            // TODO: fallback
+            //$("body").append('<script type="text/javascript" src="js/index.js"></script>');
+          }
         },
 
         focus: function(id, callback) {
@@ -73,11 +103,23 @@
         },
 
         getCurrent: function(callback) {
+          if (typeof chrome != 'undefined') {
             if (chrome.windows) {
                 chrome.windows.getCurrent(callback);
             } else if (chrome.app.window) {
                 callback(chrome.app.window.current());
             }
+          } else  {
+            // TODO: is the following object complete?
+
+            callback({
+              textsecure: textsecure,
+              storage: window.storage,
+              getAccountManager: window.getAccountManager,
+              openInbox: window.openInbox,
+              contentWindow: window
+            });
+          }
         },
 
         remove: function(windowId) {
@@ -90,18 +132,31 @@
 
         getBackground: function(callback) {
             var getBackground;
-            if (chrome.extension) {
+            if (typeof chrome != 'undefined') {
+              if (chrome.extension) {
                 var bg = chrome.extension.getBackgroundPage();
                 bg.storage.onready(function() {
                     callback(bg);
                     resolve();
                 });
-            } else if (chrome.runtime) {
-                chrome.runtime.getBackgroundPage(function(bg) {
-                    bg.storage.onready(function() {
-                        callback(bg);
-                    });
-                });
+              } else if (chrome.runtime) {
+                  chrome.runtime.getBackgroundPage(function(bg) {
+                      bg.storage.onready(function() {
+                          callback(bg);
+                      });
+                  });
+              }
+            } else {
+              // fallback
+              console.log(window);
+              callback(window);
+              //callback(windowscope);
+              /*callback({
+                textsecure: textsecure,
+                storage: window.storage,
+                getAccountManager: window.getAccountManager,
+                openInbox: window.openInbox
+              });*/
             }
         },
 
@@ -116,7 +171,7 @@
         },
 
         onSuspend: function(callback) {
-            if (chrome.runtime) {
+            if (typeof chrome != 'undefined' && chrome.runtime) {
                 chrome.runtime.onSuspend.addListener(callback);
             } else {
                 window.addEventListener('beforeunload', callback);
@@ -149,12 +204,14 @@
     };
 
     extension.onLaunched = function(callback) {
+      if (typeof chrome != 'undefined') {
         if (chrome.browserAction && chrome.browserAction.onClicked) {
             chrome.browserAction.onClicked.addListener(callback);
         }
         if (chrome.app && chrome.app.runtime) {
             chrome.app.runtime.onLaunched.addListener(callback);
         }
+      }
     };
 
     // Translate
@@ -245,11 +302,16 @@
         }
     };
 
-    if (chrome.runtime.onInstalled) {
-        chrome.runtime.onInstalled.addListener(function(options) {
-            if (options.reason === 'install') {
-                extension.install();
-            }
-        });
+    if (typeof chrome != 'undefined') {
+      if (chrome.runtime.onInstalled) {
+          chrome.runtime.onInstalled.addListener(function(options) {
+              if (options.reason === 'install') {
+                  extension.install();
+              }
+          });
+      }
+    } else {
+      // TODO: fallback
+      console.log("TODO: fallback");
     }
 }());

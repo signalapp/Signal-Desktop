@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+
+    "name": "Signal",
+    "short_name": "Signal",
+    "description": "Private Messenger",
+    "version": "0.0.1",
+    "offline_enabled": false,
+
+    "type": "privileged",
+
+    "permissions": {
+      "systemXHR": {
+        "description": "Required to load remote content"
+      }
+    },
+
+    "icons": {
+      "16": "images/icon_16.png",
+      "32": "images/icon_32.png",
+      "48": "images/icon_48.png",
+      "128": "images/icon_128.png"
+    },
+
+    "launch_path": "/background_mozilla.html"
+}
