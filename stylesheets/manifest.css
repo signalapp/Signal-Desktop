@@ -995,7 +995,8 @@ input.search {
     outline: 0;
     z-index: 5;
     resize: none;
-    font-size: 1em; }
+    font-size: 1em;
+    background: inherit; }
 
 .toast {
   position: absolute;
