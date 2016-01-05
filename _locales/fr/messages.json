@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Pièce jointe non supportée. Cliquer pour l'enregistrer.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Un message avec une clé de chiffrement inconnue a été reçu. Cliquer pour l'accepter et l'afficher.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Bien reçu!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Type de fichier non supporté",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Réinitialiser la session",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Bienvenue sur Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Membres",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Supprimer les messages",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Selectionner un contact ou groupe pour commencer à chatter.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Vous pouvez <span class='verify'>vérifier</span> ce contact",
+        "description": ""
+    },
+    "sent": {
+        "message": "Envoyé",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Vérifier l'identité",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Ce journal d'événements sera visible en ligne publiquement pour que les contributeurs puisse les voir. Vous pouvez l'analyser et l'éditer avant de l'envoyer.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Rechercher des personnes ou groupes",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Déconnecté",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Accepter la nouvelle clé",
+        "description": ""
+    },
+    "received": {
+        "message": "Reçu",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Envoyer un message",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "La clé de chiffrement de ce contact a changé. Cliquer pour l'accepter et l'afficher.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Désolé, le fichier sélectionné dépasse la taille maximale.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Annuler",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Session sécurisée terminée",
+        "description": ""
+    },
+    "submit": {
+        "message": "Envoyer",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Détails du message",
+        "description": ""
+    },
+    "verify": {
+        "message": "Vérifier",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Échec de l’envoi à certains destinataires.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Soumettre un rapport de débogage",
+        "description": ""
+    },
+    "error": {
+        "message": "Erreur",
+        "description": ""
+    },
+    "resend": {
+        "message": "Renvoyer",
+        "description": ""
+    }
+}
