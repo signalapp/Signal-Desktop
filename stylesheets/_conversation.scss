@@ -267,6 +267,67 @@
     }
   }
 
+
+  .color-0 .bubble {
+    background-color: $material_red;
+  }
+
+  .color-1 .bubble {
+    background-color: $material_pink;
+  }
+
+  .color-2 .bubble {
+    background-color: $material_purple;
+  }
+
+  .color-3 .bubble {
+    background-color: $material_deep_purple;
+  }
+
+  .color-4 .bubble {
+    background-color: $material_indigo;
+  }
+
+  .color-5 .bubble {
+    background-color: $material_blue;
+  }
+
+  .color-6 .bubble {
+    background-color: $material_light_blue;
+  }
+
+  .color-7 .bubble {
+    background-color: $material_cyan;
+  }
+
+  .color-8 .bubble {
+    background-color: $material_teal;
+  }
+
+  .color-9 .bubble {
+    background-color: $material_green;
+  }
+
+  .color-10 .bubble {
+    background-color: $material_light_green;
+  }
+
+  .color-11 .bubble {
+    background-color: $material_orange;
+  }
+
+  .color-12 .bubble {
+    background-color: $material_deep_orange;
+  }
+
+  .color-13 .bubble {
+    background-color: $material_amber;
+  }
+
+  .color-14 .bubble {
+    background-color: $material_blue_grey;
+  }
+
   .bubble {
     position: relative;
     left: -2px;
@@ -325,8 +386,11 @@
       float: left;
     }
     .bubble {
-      color: $grey_d;
-      background-color: $grey_l;
+      color: white;
+
+      a {
+        color: white;
+      }
 
       &::before {
         left: -10px;
@@ -348,11 +412,11 @@
 
     .bubble {
       clear: left;
-      color: white;
-      background-color: $blue;
+      color: $grey_d;
+      background-color: $grey_l;
 
       .meta {
-        color: white;
+        color: $grey;
       }
 
       &::before {
@@ -367,13 +431,13 @@
 
       .attachments, .content {
         a {
-          color: $grey_l;
+          color: $grey_d;
         }
       }
       .content {
         &::selection, a::selection {
-          color: $grey_d;
-          background: white;
+          color: white;
+          background: $grey_d;
         }
 
         &::-moz-selection, a::-moz-selection {

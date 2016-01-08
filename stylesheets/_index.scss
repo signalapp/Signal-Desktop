@@ -7,6 +7,70 @@
   height: 100%;
 }
 
+.inbox {
+  background: $blue;
+
+  &.color-0 {
+    background-color: $material_red;
+  }
+
+  &.color-1 {
+    background-color: $material_pink;
+  }
+
+  &.color-2 {
+    background-color: $material_purple;
+  }
+
+  &.color-3 {
+    background-color: $material_deep_purple;
+  }
+
+  &.color-4 {
+    background-color: $material_indigo;
+  }
+
+  &.color-5 {
+    background-color: $material_blue;
+  }
+
+  &.color-6 {
+    background-color: $material_light_blue;
+  }
+
+  &.color-7 {
+    background-color: $material_cyan;
+  }
+
+  &.color-8 {
+    background-color: $material_teal;
+  }
+
+  &.color-9 {
+    background-color: $material_green;
+  }
+
+  &.color-10 {
+    background-color: $material_light_green;
+  }
+
+  &.color-11 {
+    background-color: $material_orange;
+  }
+
+  &.color-12 {
+    background-color: $material_deep_orange;
+  }
+
+  &.color-13 {
+    background-color: $material_amber;
+  }
+
+  &.color-14 {
+    background-color: $material_blue_grey;
+  }
+}
+
 .container, .scrollable {
   height: 100%;
   overflow: auto;

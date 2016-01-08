@@ -383,6 +383,39 @@ img.emoji {
 .new-conversation, .inbox, .gutter {
   height: 100%; }
 
+.inbox {
+  background: #2090ea; }
+  .inbox.color-0 {
+    background-color: #EF5350; }
+  .inbox.color-1 {
+    background-color: #EC407A; }
+  .inbox.color-2 {
+    background-color: #AB47BC; }
+  .inbox.color-3 {
+    background-color: #7E57C2; }
+  .inbox.color-4 {
+    background-color: #5C6BC0; }
+  .inbox.color-5 {
+    background-color: #2196F3; }
+  .inbox.color-6 {
+    background-color: #03A9F4; }
+  .inbox.color-7 {
+    background-color: #00BCD4; }
+  .inbox.color-8 {
+    background-color: #009688; }
+  .inbox.color-9 {
+    background-color: #4CAF50; }
+  .inbox.color-10 {
+    background-color: #7CB342; }
+  .inbox.color-11 {
+    background-color: #FF9800; }
+  .inbox.color-12 {
+    background-color: #FF5722; }
+  .inbox.color-13 {
+    background-color: #FFB300; }
+  .inbox.color-14 {
+    background-color: #607D8B; }
+
 .container, .scrollable {
   height: 100%;
   overflow: auto; }
@@ -423,7 +456,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {
@@ -772,6 +805,51 @@ input.search {
       content: " ";
       clear: both;
       height: 0; }
+  .message-detail .color-0 .bubble,
+  .message-list .color-0 .bubble {
+    background-color: #EF5350; }
+  .message-detail .color-1 .bubble,
+  .message-list .color-1 .bubble {
+    background-color: #EC407A; }
+  .message-detail .color-2 .bubble,
+  .message-list .color-2 .bubble {
+    background-color: #AB47BC; }
+  .message-detail .color-3 .bubble,
+  .message-list .color-3 .bubble {
+    background-color: #7E57C2; }
+  .message-detail .color-4 .bubble,
+  .message-list .color-4 .bubble {
+    background-color: #5C6BC0; }
+  .message-detail .color-5 .bubble,
+  .message-list .color-5 .bubble {
+    background-color: #2196F3; }
+  .message-detail .color-6 .bubble,
+  .message-list .color-6 .bubble {
+    background-color: #03A9F4; }
+  .message-detail .color-7 .bubble,
+  .message-list .color-7 .bubble {
+    background-color: #00BCD4; }
+  .message-detail .color-8 .bubble,
+  .message-list .color-8 .bubble {
+    background-color: #009688; }
+  .message-detail .color-9 .bubble,
+  .message-list .color-9 .bubble {
+    background-color: #4CAF50; }
+  .message-detail .color-10 .bubble,
+  .message-list .color-10 .bubble {
+    background-color: #7CB342; }
+  .message-detail .color-11 .bubble,
+  .message-list .color-11 .bubble {
+    background-color: #FF9800; }
+  .message-detail .color-12 .bubble,
+  .message-list .color-12 .bubble {
+    background-color: #FF5722; }
+  .message-detail .color-13 .bubble,
+  .message-list .color-13 .bubble {
+    background-color: #FFB300; }
+  .message-detail .color-14 .bubble,
+  .message-list .color-14 .bubble {
+    background-color: #607D8B; }
   .message-detail .bubble,
   .message-list .bubble {
     position: relative;
@@ -822,8 +900,10 @@ input.search {
     float: left; }
   .message-detail .incoming .bubble,
   .message-list .incoming .bubble {
-    color: #454545;
-    background-color: #f3f3f3; }
+    color: white; }
+    .message-detail .incoming .bubble a,
+    .message-list .incoming .bubble a {
+      color: white; }
     .message-detail .incoming .bubble::before,
     .message-list .incoming .bubble::before {
       left: -10px;
@@ -839,11 +919,11 @@ input.search {
   .message-detail .outgoing .bubble,
   .message-list .outgoing .bubble {
     clear: left;
-    color: white;
-    background-color: #2090ea; }
+    color: #454545;
+    background-color: #f3f3f3; }
     .message-detail .outgoing .bubble .meta,
     .message-list .outgoing .bubble .meta {
-      color: white; }
+      color: #616161; }
     .message-detail .outgoing .bubble::before,
     .message-list .outgoing .bubble::before {
       right: -10px;
@@ -855,12 +935,12 @@ input.search {
     .message-detail .outgoing .bubble .attachments a, .message-detail .outgoing .bubble .content a,
     .message-list .outgoing .bubble .attachments a,
     .message-list .outgoing .bubble .content a {
-      color: #f3f3f3; }
+      color: #454545; }
     .message-detail .outgoing .bubble .content::selection, .message-detail .outgoing .bubble .content a::selection,
     .message-list .outgoing .bubble .content::selection,
     .message-list .outgoing .bubble .content a::selection {
-      color: #454545;
-      background: white; }
+      color: white;
+      background: #454545; }
     .message-detail .outgoing .bubble .content::-moz-selection, .message-detail .outgoing .bubble .content a::-moz-selection,
     .message-list .outgoing .bubble .content::-moz-selection,
     .message-list .outgoing .bubble .content a::-moz-selection {
@@ -1016,5 +1096,9 @@ input.search {
   .confirmation-dialog button {
     float: right;
     margin-left: 10px; }
+
+.outgoing.entry .status {
+  -webkit-filter: brightness(0.25);
+  filter: brightness(0.25); }
 
 /*# sourceMappingURL=manifest.css.map */

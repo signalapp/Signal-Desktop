@@ -1,9 +1,50 @@
-// colors
+// Colors from android
+@import 'material-colors';
+
+$signal_primary: #2090ea;
+$signal_primary_dark: #1c7ac5;
+$white: #ffffff;
+$black: #000000;
+$gray5: #eeeeee;
+$gray10: #dddddd;
+$gray12: #e0e0e0;
+$gray13: #ababab;
+$gray20: #cccccc;
+$gray27: #bbbbbb;
+$gray50: #808080;
+$gray65: #595959;
+$gray70: #4d4d4d;
+$gray78: #383838;
+$gray95: #111111;
+
+// default colors
 $blue_l: #a2d2f4;
-$blue: #2090ea;
+$blue: $signal_primary;
+$blue_d: $signal_primary_dark;
 $grey_l: #f3f3f3;
 $grey: #616161;
 $grey_d: #454545;
+
+// material colors
+$material_red: $red_400;
+$material_deep_purple: $deep_purple_400;
+$material_light_blue: $light_blue_500;
+$material_green: $green_500;
+$material_yellow: $yellow_400;
+$material_deep_orange: $deep_orange_500;
+$material_blue_grey: $blue_grey_500;
+$material_pink: $pink_400;
+$material_indigo: $indigo_400;
+$material_cyan: $cyan_500;
+$material_light_green: $light_green_600;
+$material_amber: $amber_600;
+$material_brown: $brown_400;
+$material_purple: $purple_400;
+$material_blue: $blue_500;
+$material_teal: $teal_500;
+$material_lime: $lime_400;
+$material_orange: $orange_500;
+$material_grey: $grey_400;
 
 @font-face {
   font-family: 'Roboto-Light';

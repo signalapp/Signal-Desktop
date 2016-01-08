@@ -69,7 +69,7 @@
 
             var inboxCollection = getInboxCollection();
             this.inboxListView = new Whisper.ConversationListView({
-                el         : this.$('.inbox'),
+                el         : this.$('.list'),
                 collection : inboxCollection
             }).render();
 
@@ -137,6 +137,12 @@
             this.searchView.hideHints();
             conversation = ConversationController.create(conversation);
             this.conversation_stack.open(conversation);
+            this.$el.removeClass(function(index, classNames) {
+                return classNames.split(' ').filter(function (className) {
+                    return (className.match(/^color-\d/) !== null);
+                }).join(' ');
+            });
+            if (conversation.get('type') === 'private') this.$el.addClass('color-' + (Math.abs(conversation.hashCode()) % 15) );
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();
