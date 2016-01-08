@@ -118,7 +118,7 @@
                 received    : i18n('received'),
                 resend      : i18n('resend'),
                 failedToSend: i18n('failedToSend'),
-                'error-label': i18n('error'),
+                errorLabel  : i18n('error'),
                 hasRetry    : hasRetry
             }));
             this.view.$el.prependTo(this.$('.message-container'));
