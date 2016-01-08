@@ -68,6 +68,14 @@
     "messageDetail": {
         "message": "Message Detail"
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
+    },
     "sent": {
         "message": "Sent",
         "description": "Label for the time a message was sent"

@@ -95,6 +95,14 @@
         "message": "Nachrichten-Details",
         "description": ""
     },
+    "from": {
+        "message": "Von",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "An",
+        "description": "Label for the receiver of a message"
+    },
     "verify": {
         "message": "Verifizieren",
         "description": ""

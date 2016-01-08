@@ -111,7 +111,7 @@
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
-                tofrom      : this.model.isIncoming() ? 'From' : 'To',
+                tofrom      : this.model.isIncoming() ? i18n('from') : i18n('to'),
                 errors      : this.errors['undefined'],
                 title       : i18n('messageDetail'),
                 sent        : i18n('sent'),
