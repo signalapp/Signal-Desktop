@@ -139,7 +139,7 @@
             this.conversation_stack.open(conversation);
             this.$el.removeClass(function(index, classNames) {
                 return classNames.split(' ').filter(function (className) {
-                    return (className.match(/^color-\d/) !== null);
+                    return (className.search(/^color-\d{1,2}$/) > -1);
                 }).join(' ');
             });
             if (conversation.get('type') === 'private') this.$el.addClass('color-' + (Math.abs(conversation.hashCode()) % 15) );
