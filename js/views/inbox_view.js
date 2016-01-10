@@ -37,7 +37,11 @@
             'click': 'reloadBackgroundPage'
         },
         reloadBackgroundPage: function() {
-            chrome.runtime.reload();
+            if (typeof chrome != 'undefined') {
+              chrome.runtime.reload();
+            } else {
+              location.reload();
+            }
         }
     });
 

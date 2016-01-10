@@ -63,13 +63,18 @@
             }.bind(this);
             this.appWindow.contentWindow.addEventListener('focus', onFocus);
 
-            this.appWindow.onClosed.addListener(function () {
-                this.appWindow.contentWindow.removeEventListener('resize', onResize);
-                this.appWindow.contentWindow.removeEventListener('focus', onFocus);
-                window.autosize.destroy(this.$messageField);
-                this.remove();
-                this.model.messageCollection.reset([]);
-            }.bind(this));
+            if (typeof chrome != 'undefined') {
+                this.appWindow.onClosed.addListener(function () {
+                    this.appWindow.contentWindow.removeEventListener('resize', onResize);
+                    this.appWindow.contentWindow.removeEventListener('focus', onFocus);
+                    window.autosize.destroy(this.$messageField);
+                    this.remove();
+                    this.model.messageCollection.reset([]);
+                }.bind(this));
+            } else {
+                // TODO: fallback
+                console.log("TODO: fallback");
+            }
 
             this.fetchMessages();
         },

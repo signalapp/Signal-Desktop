@@ -40,7 +40,7 @@
 
         open: function() {
             // hack
-            if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
+            if (typeof chrome != 'undefined' && this.window.chrome.fileSystem) {
                 this.window.chrome.fileSystem.chooseEntry({type: 'openFile'}, function(entry) {
                     if (!entry) {
                         return;
