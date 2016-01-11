@@ -63,11 +63,12 @@ MessageReceiver.prototype = {
         // TODO: handle different types of requests. for now we blindly assume
         // PUT /messages <encrypted Envelope>
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
+            var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
             // fault, and we should handle them gracefully and tell the
             // user they received an invalid message
             request.respond(200, 'OK');
-            this.queueEnvelope(plaintext);
+            this.queueEnvelope(envelope);
 
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
@@ -81,9 +82,7 @@ MessageReceiver.prototype = {
         var handleEnvelope = this.handleEnvelope.bind(this, envelope);
         this.pending = this.pending.then(handleEnvelope, handleEnvelope);
     },
-    handleEnvelope: function(encodedEnvelope) {
-        var envelope = textsecure.protobuf.Envelope.decode(encodedEnvelope);
-
+    handleEnvelope: function(envelope) {
         if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
             return this.onDeliveryReceipt(envelope);
         } else if (envelope.content) {
