@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Desteklenmeyen ek türü. Kaydetmek için tıkla.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Bilinmiyen kimlik anahtarı ile mesaj alındı. İşlem yapmak ve görüntülemek için tıkla.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Anladım!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Desteklenmeyen dosya türü",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Oturumu Yeniden Başlat",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Signal'e Hoşgeldin",
+        "description": ""
+    },
+    "members": {
+        "message": "Üyeler",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Mesajları sil",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Sohbete başlamak için bir kişi veya topluluk seç.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Bu kişiyi <span class='verify'>doğrulamak</span> isteyebilirsiniz.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Gönderildi",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Kimlik Doğrulama",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Bu kayıt, gönüllü katkıcıların görmesi için alenen gönderilecek. Göndermeden önce kaydı inceleyebilir ve düzenleyebilirsin.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Kişi veya topluluk ara",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Bağlantı yok",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Yeni anahtarı kabul et",
+        "description": ""
+    },
+    "received": {
+        "message": "Alındı",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Mesaj gönder",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Bu kişinin kimlik anahtarı değişti. İşlem yapmak ve görüntülemek için tıkla.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Üzgünüz. Seçilen dosya, mesaj büyüklüğü kısıtlamalarını aşıyor.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "İptal",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Güvenli oturum sona erdi",
+        "description": ""
+    },
+    "submit": {
+        "message": "Gönder",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Mesaj Detayı",
+        "description": ""
+    },
+    "verify": {
+        "message": "Doğrula",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Bazı alıcılara gönderilemedi.",
+        "description": ""
+    },
+    "ok": {
+        "message": "TAMAM",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Hata kayıtlarını gönder",
+        "description": ""
+    },
+    "error": {
+        "message": "Hata",
+        "description": ""
+    },
+    "resend": {
+        "message": "Yeniden gönder",
+        "description": ""
+    }
+}

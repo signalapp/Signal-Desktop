@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Okänd filtyp på bilaga. Klicka för att spara.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Meddelande mottaget med okänd identitetsnyckel. Klicka för att visa och verifiera.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Uppfattat!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Filtypen stöds ej",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Återställ session",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Välkommen till Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Medlemmar",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Radera meddelanden",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Välj en kontakt eller grupp för att börja prata.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Du kan <span class='verify'>verifiera</span> den här kontakten om du vill.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Skickat",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifiera identitet",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och editera den innan du skickar in den.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Sök efter folk eller grupper",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Frånkopplad",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Acceptera ny nyckel",
+        "description": ""
+    },
+    "received": {
+        "message": "Mottagit",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Skicka ett meddelande",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Identitetsnyckeln för den här kontakten har ändrats. Klicka för att visa och verifiera.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Avbryt",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Säker session avslutad",
+        "description": ""
+    },
+    "submit": {
+        "message": "Skicka",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Meddelandedetaljer",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifiera",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Gick inte att skicka till vissa mottagare.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Skicka felsökningslogg",
+        "description": ""
+    },
+    "error": {
+        "message": "Fel",
+        "description": ""
+    },
+    "resend": {
+        "message": "Skicka igen",
+        "description": ""
+    }
+}

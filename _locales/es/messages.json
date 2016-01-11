@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Tipo de archivo adjunto no admitido. Haga clic para guardarlo.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Mensaje recibido con una clave identificadora desconocida. Haga clic para procesar y mostrarlo.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "¡Entendido!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Tipo de archivo no admitido",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Reiniciar la Sesión",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Bienvenido a Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Miembros",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Eliminar mensajes",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Seleccione un contacto o grupo para empezar a chatear.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Puede que dese <span class='verify'>verificar</span> este contacto.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Enviado",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verificar Identidad",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Este registro se publicará en línea públicamente para contribuyentes para ver. Puede examinar y editarlo antes de enviarlo.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Buscar contactos o grupos",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Desconectado",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Aceptar la nueva clave",
+        "description": ""
+    },
+    "received": {
+        "message": "Recibido",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Enviar mensaje",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "La clave identificadora de este contacto ha cambiado. Haga clic para procesar y mostrarla.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Cancelar",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Sesión segura terminado",
+        "description": ""
+    },
+    "submit": {
+        "message": "Enviar",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Detalles del Mensaje",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verificar",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "No se puede enviar a algunos destinatarios.",
+        "description": ""
+    },
+    "ok": {
+        "message": "Aceptar",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Enviar registro de depuración",
+        "description": ""
+    },
+    "error": {
+        "message": "Error",
+        "description": ""
+    },
+    "resend": {
+        "message": "Reenviar",
+        "description": ""
+    }
+}
