@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "קובץ לא נתמך. לחץ כדי לשמור.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "התקבלה הודעה עם מפתח זהות לא ידוע. לחץ כדי לעבד ולהציג.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "הבנתי!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "סוג הקובץ אינו נתמך",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "אפס התקשרות",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "ברוכים הבאים לסיגנל",
+        "description": ""
+    },
+    "members": {
+        "message": "חברים",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "מחק הודעות",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "בחר איש קשר או קבוצה כדי להתחיל שיחה.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "יתכן ותרצה לוודא את איש הקשר הזה.",
+        "description": ""
+    },
+    "sent": {
+        "message": "נשלח",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "וודא זהות",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "קובץ לוג זה יפורסם באופן פומבי כדי שהקהילה תוכל לבדוק אותו. תוכל לערוך אותו לפני השליחה.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "חפש אנשים או קבוצות",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "מנותק",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "קבל מפתח חדש",
+        "description": ""
+    },
+    "received": {
+        "message": "התקבל",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "שלח הודעה",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "מפתח הזהות של איש הקשר הזה השתנה. לחץ כדי לעבד ולהציג.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "הקובץ עובר את מגבלת הגודל המקסימלי.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "ביטול",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "ההתקשרות המאובטחת הסתיימה",
+        "description": ""
+    },
+    "submit": {
+        "message": "שלח",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "פרטי הודעה",
+        "description": ""
+    },
+    "verify": {
+        "message": "וודא",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "השליחה נכשלה עבור חלק מהנמענים.",
+        "description": ""
+    },
+    "ok": {
+        "message": "אישור",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "שלח לוג תיקון שגיאות",
+        "description": ""
+    },
+    "error": {
+        "message": "שגיאה",
+        "description": ""
+    },
+    "resend": {
+        "message": "שלח מחדש",
+        "description": ""
+    }
+}

@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Неподдржан тип на прилог. Кликнете за зачувување.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Примена е порака со непознат клуч за идентитет. Кликнете за процесирање и приказ.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Ок!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Неподдржан тип на датотека",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Ресетирај сесија",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Добредојдовте во Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Членови",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Избриши пораки",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Избери контакт или група за разговор",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Може да сакате<span class='verify'>да го проверите</span> овој контакт.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Испратено",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Провери идентитет",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Овој лог ќе биде објавен јавно онлајн за сите придонесувачи. Можете да го прегледате и уредите пред да го испратите.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Барај луѓе и групи",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Неповрзан",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Прифати нов клуч",
+        "description": ""
+    },
+    "received": {
+        "message": "Примено",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Испрати порака",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Клучот за идентитет на овој контакт е променет. Кликнете за процесирање и приказ.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Извинете, избраната датотека ги надминува рестрикциите за големина.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Откажи",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Безбедната сесија заврши",
+        "description": ""
+    },
+    "submit": {
+        "message": "Испрати",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Детали за пораката",
+        "description": ""
+    },
+    "verify": {
+        "message": "Провери",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Неуспешно праќање до некои приматели.",
+        "description": ""
+    },
+    "ok": {
+        "message": "Во ред",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Испрати лог за дебагирање",
+        "description": ""
+    },
+    "error": {
+        "message": "Грешка",
+        "description": ""
+    },
+    "resend": {
+        "message": "Испрати пак",
+        "description": ""
+    }
+}

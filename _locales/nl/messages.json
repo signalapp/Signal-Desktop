@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Niet ondersteund bestandstype. Klik om op te slaan.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Bericht ontvangen met een onbekende identiteitssleutel. Klik om deze te tonen en verwerken.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Begrepen!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Niet ondersteund bestandstype",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Sessie resetten",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Welkom bij Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Deelnemers",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Berichten verwijderen",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Selecteer een contact of groep om te starten met chatten.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Je wilt wellicht dit contact <span class='verify'>verifiëren</span>.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Verzonden",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Identiteit verifiëren",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Deze log zal publiekelijk online beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Zoeken naar personen of groepen",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Niet meer verbonden",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Nieuwe sleutel accepteren",
+        "description": ""
+    },
+    "received": {
+        "message": "Ontvangen",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Een bericht versturen",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "De identiteitssleutel van dit contact is gewijzigd. Klik om deze te tonen en te verwerken.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Excuses, het geselecteerde bestand overschrijdt de maximale grootte.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Annuleren",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Beveiligde sessie beëindigd",
+        "description": ""
+    },
+    "submit": {
+        "message": "Verzenden",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Bericht details",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifiëren",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Verzenden naar bepaalde ontvangers mislukt.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Debug log indienen",
+        "description": ""
+    },
+    "error": {
+        "message": "Fout",
+        "description": ""
+    },
+    "resend": {
+        "message": "Opnieuw verzenden",
+        "description": ""
+    }
+}

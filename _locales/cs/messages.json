@@ -1,0 +1,122 @@
+{
+    "unsupportedAttachment": {
+        "message": "Nepodporovaný typ přílohy. Klikni pro uložení.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Přijmi zprávu s neznámým identifikačním klíčem Klikni pro zpracování a zobrazení.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Obdrženo",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Nepodporovaný typ souboru",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Reset připojení",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Vítejte v Signalu",
+        "description": ""
+    },
+    "members": {
+        "message": "Členové",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Smazat zprávu",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Odeslat",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Ověření identity",
+        "description": ""
+    },
+    "debugLogExplanation": {
+        "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Hledat lidi nebo skupiny",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Odpojen",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Akceptovat nový klíč",
+        "description": ""
+    },
+    "received": {
+        "message": "Příjmout",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Poslat zprávu ",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Omlouváme se, vybraný soubor převýšil limit velikosti zprávy.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Zrušit",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Zabezpečené připojení ukončeno",
+        "description": ""
+    },
+    "submit": {
+        "message": "Zadat",
+        "description": ""
+    },
+    "messageDetail": {
+        "message": "Detail zprávy",
+        "description": ""
+    },
+    "verify": {
+        "message": "Ověřit",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Neúspěšné odeslání některým příjemcům",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Zadat debug log",
+        "description": ""
+    },
+    "error": {
+        "message": "Chyba",
+        "description": ""
+    },
+    "resend": {
+        "message": "Znovu odeslat",
+        "description": ""
+    }
+}
