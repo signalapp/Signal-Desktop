@@ -123,8 +123,10 @@
         },
 
         viewMembers: function() {
-            var view = new Whisper.GroupMemberList({ model: this.model });
-            this.listenBack(view);
+            return this.model.fetchContacts().then(function() {
+                var view = new Whisper.GroupMemberList({ model: this.model });
+                this.listenBack(view);
+            }.bind(this));
         },
 
         openInbox: function() {
