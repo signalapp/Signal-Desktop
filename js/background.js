@@ -40,9 +40,10 @@
     extension.onLaunched(function() {
         console.log('extension launched');
         storage.onready(function() {
-            if (textsecure.registration.isDone()) {
+            if (textsecure.registration.everDone()) {
                 openInbox();
-            } else {
+            }
+            if (!textsecure.registration.isDone()) {
                 extension.install();
             }
         });
@@ -180,6 +181,7 @@
         console.log(e.stack);
 
         if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
+            textsecure.registration.remove();
             extension.install();
             return;
         }

@@ -21,7 +21,7 @@
                     el: $('#install'),
                     deviceName: deviceName
                 });
-                if (bg.textsecure.registration.isDone()) {
+                if (bg.textsecure.registration.everDone()) {
                     view.selectStep(3);
                 }
                 view.$el.show();
