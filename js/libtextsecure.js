@@ -37058,6 +37058,8 @@ MessageReceiver.prototype.extend({
                             var ev = new Event('group');
                             ev.groupDetails = groupDetails;
                             eventTarget.dispatchEvent(ev);
+                        }).catch(function(e) {
+                            console.log('error processing group', groupDetails.id, e);
                         });
                 })(groupDetails);
                 groupDetails = groupBuffer.next();
