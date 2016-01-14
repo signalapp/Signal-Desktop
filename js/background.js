@@ -103,19 +103,18 @@
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('error', onError);
 
-        messageReceiver.addEventListener('contactsync', onContactSyncComplete);
-
         window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL);
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
-            textsecure.messaging.sendRequestContactSyncMessage().then(function() {
-                textsecure.messaging.sendRequestGroupSyncMessage();
+            var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
+            syncRequest.addEventListener('success', function() {
+                console.log('sync successful');
+                window.dispatchEvent(new Event('textsecure:contactsync'));
+            });
+            syncRequest.addEventListener('timeout', function() {
+                console.log('sync timed out');
+                window.dispatchEvent(new Event('textsecure:contactsync'));
             });
         }
-    }
-
-    function onContactSyncComplete() {
-        console.log('Contact sync complete');
-        window.dispatchEvent(new Event('textsecure:contactsync'));
     }
 
     function onContactReceived(ev) {

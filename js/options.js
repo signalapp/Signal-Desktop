@@ -38,10 +38,8 @@
                         var launch = function() {
                             bg.openInbox();
                             bg.removeEventListener('textsecure:contactsync', launch);
-                            clearTimeout(timeout);
                             window.close();
                         };
-                        var timeout = setTimeout(launch, 60000);
                         bg.addEventListener('textsecure:contactsync', launch);
                         view.showSync();
                     }).catch(function(e) {
