@@ -223,28 +223,33 @@ MessageReceiver.prototype = {
         return this.handleAttachment(attachmentPointer).then(function() {
             var groupBuffer = new GroupBuffer(attachmentPointer.data);
             var groupDetails = groupBuffer.next();
+            var promises = [];
             while (groupDetails !== undefined) {
-                (function(groupDetails) {
+                var promise = (function(groupDetails) {
                     groupDetails.id = getString(groupDetails.id);
-                    textsecure.storage.groups.getGroup(groupDetails.id).
-                    then(function(existingGroup) {
-                        if (existingGroup === undefined) {
-                            return textsecure.storage.groups.createNewGroup(
-                                groupDetails.members, groupDetails.id
-                            );
-                        } else {
-                            return textsecure.storage.groups.updateNumbers(
-                                groupDetails.id, groupDetails.members
-                            );
-                        }
-                    }).then(function() {
-                        var ev = new Event('group');
-                        ev.groupDetails = groupDetails;
-                        eventTarget.dispatchEvent(ev);
-                    });
+                    return textsecure.storage.groups.getGroup(groupDetails.id).
+                        then(function(existingGroup) {
+                            if (existingGroup === undefined) {
+                                return textsecure.storage.groups.createNewGroup(
+                                    groupDetails.members, groupDetails.id
+                                );
+                            } else {
+                                return textsecure.storage.groups.updateNumbers(
+                                    groupDetails.id, groupDetails.members
+                                );
+                            }
+                        }).then(function() {
+                            var ev = new Event('group');
+                            ev.groupDetails = groupDetails;
+                            eventTarget.dispatchEvent(ev);
+                        });
                 })(groupDetails);
                 groupDetails = groupBuffer.next();
+                promises.push(promise);
             }
+            Promise.all(promises).then(function() {
+                eventTarget.dispatchEvent(new Event('groupsync'));
+            });
         });
     },
     handleAttachment: function(attachment) {

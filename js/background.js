@@ -104,6 +104,7 @@
         messageReceiver.addEventListener('error', onError);
 
         messageReceiver.addEventListener('contactsync', onContactSyncComplete);
+        messageReceiver.addEventListener('groupsync', onGroupSyncComplete);
 
         window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL);
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
@@ -113,9 +114,22 @@
         }
     }
 
+    window.runListenerOnce = function(type, listener) {
+        var runAndRemove = function() {
+            window.removeEventListener(type, runAndRemove);
+            listener();
+        };
+        window.addEventListener(type, runAndRemove)
+    }
+
     function onContactSyncComplete() {
         console.log('Contact sync complete');
         window.dispatchEvent(new Event('textsecure:contactsync'));
+    }
+
+    function onGroupSyncComplete() {
+        console.log('Group sync complete');
+        window.dispatchEvent(new Event('textsecure:groupsync'));
     }
 
     function onContactReceived(ev) {

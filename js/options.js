@@ -35,14 +35,30 @@
                         view.confirmNumber.bind(view),
                         view.incrementCounter.bind(view)
                     ).then(function() {
+
+                        function listenerPromise(type) {
+                            return new Promise(function(resolve) {
+                                bg.runListenerOnce(type, resolve);
+                            });
+                        }
+
+                        var timeoutPromise = new Promise(function(resolve) {
+                            setTimeout(resolve, 60000);
+                        });
+ 
+                        var contactSyncPromise = listenerPromise('textsecure:contactsync');
+                        var groupSyncPromise = listenerPromise('textsecure:groupsync');
+
                         var launch = function() {
                             bg.openInbox();
-                            bg.removeEventListener('textsecure:contactsync', launch);
-                            clearTimeout(timeout);
                             window.close();
                         };
-                        var timeout = setTimeout(launch, 60000);
-                        bg.addEventListener('textsecure:contactsync', launch);
+
+                        Promise.race([timeoutPromise, Promise.all([contactSyncPromise, groupSyncPromise])])
+                        .then(function() {
+                            launch();
+                        });
+
                         view.showSync();
                     }).catch(function(e) {
                         if (e.message === 'websocket closed') {
