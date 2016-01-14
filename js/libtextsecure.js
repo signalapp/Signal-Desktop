@@ -36242,10 +36242,12 @@ window.textsecure.utils = function() {
                 this.listeners = {};
             }
             var listeners = this.listeners[eventName];
-            for (var i=0; i < listeners.length; ++ i) {
-                if (listeners[i] === callback) {
-                    listeners.splice(i, 1);
-                    return;
+            if (typeof listeners === 'object') {
+                for (var i=0; i < listeners.length; ++ i) {
+                    if (listeners[i] === callback) {
+                        listeners.splice(i, 1);
+                        return;
+                    }
                 }
             }
             this.listeners[eventName] = listeners;
