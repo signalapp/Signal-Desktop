@@ -13,7 +13,9 @@ function MessageReceiver(url, username, password, signalingKey, attachment_serve
     this.number = unencoded[0];
     this.deviceId = unencoded[1];
 }
-MessageReceiver.prototype = {
+
+MessageReceiver.prototype = new textsecure.EventTarget();
+MessageReceiver.prototype.extend({
     constructor: MessageReceiver,
     connect: function() {
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -371,63 +373,8 @@ MessageReceiver.prototype = {
         return Promise.all(promises).then(function() {
             return decrypted;
         });
-    },
-
-    /* Implements EventTarget */
-    dispatchEvent: function(ev) {
-        if (!(ev instanceof Event)) {
-            throw new Error('Expects an event');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[ev.type];
-        if (typeof listeners === 'object') {
-            for (var i=0; i < listeners.length; ++i) {
-                if (typeof listeners[i] === 'function') {
-                    listeners[i].call(null, ev);
-                }
-            }
-        }
-    },
-    addEventListener: function(eventName, callback) {
-        if (typeof eventName !== 'string') {
-            throw new Error('First argument expects a string');
-        }
-        if (typeof callback !== 'function') {
-            throw new Error('Second argument expects a function');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[eventName];
-        if (typeof listeners !== 'object') {
-            listeners = [];
-        }
-        listeners.push(callback);
-        this.listeners[eventName] = listeners;
-    },
-    removeEventListener: function(eventName, callback) {
-        if (typeof eventName !== 'string') {
-            throw new Error('First argument expects a string');
-        }
-        if (typeof callback !== 'function') {
-            throw new Error('Second argument expects a function');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[eventName];
-        for (var i=0; i < listeners.length; ++ i) {
-            if (listeners[i] === callback) {
-                listeners.splice(i, 1);
-                return;
-            }
-        }
-        this.listeners[eventName] = listeners;
     }
-
-};
+});
 
 window.textsecure = window.textsecure || {};
 
