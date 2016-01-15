@@ -47,6 +47,10 @@
         "message": "Varmenna identiteetti",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Loki lähetetään Internetiin ja se tulee kehittäjien ja muiden nähtäville julkisesti. Voit tarkastella ja muokata sitä ennen lähettämistä.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Lähetä",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Viestin tiedot",

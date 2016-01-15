@@ -47,6 +47,10 @@
         "message": "Ověření identity",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Zadat",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Detail zprávy",

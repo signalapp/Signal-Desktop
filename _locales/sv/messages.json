@@ -47,6 +47,10 @@
         "message": "Verifiera identitet",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och editera den innan du skickar in den.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Skicka",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Meddelandedetaljer",

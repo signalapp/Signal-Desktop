@@ -47,6 +47,10 @@
         "message": "Kimlik Doğrulama",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Bu kayıt, gönüllü katkıcıların görmesi için alenen gönderilecek. Göndermeden önce kaydı inceleyebilir ve düzenleyebilirsin.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Gönder",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Mesaj Detayı",

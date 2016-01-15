@@ -47,6 +47,10 @@
         "message": "Провери идентитет",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Овој лог ќе биде објавен јавно онлајн за сите придонесувачи. Можете да го прегледате и уредите пред да го испратите.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Испрати",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Детали за пораката",

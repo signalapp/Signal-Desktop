@@ -47,6 +47,10 @@
         "message": "Verificar Identidad",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Este registro se publicará en línea públicamente para contribuyentes para ver. Puede examinar y editarlo antes de enviarlo.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Enviar",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Detalles del Mensaje",

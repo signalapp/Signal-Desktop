@@ -47,6 +47,10 @@
         "message": "Vérifier l'identité",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Ce journal d'événements sera visible en ligne publiquement pour que les contributeurs puisse les voir. Vous pouvez l'analyser et l'éditer avant de l'envoyer.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Envoyer",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Détails du message",

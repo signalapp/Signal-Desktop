@@ -47,6 +47,10 @@
         "message": "וודא זהות",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "קובץ לוג זה יפורסם באופן פומבי כדי שהקהילה תוכל לבדוק אותו. תוכל לערוך אותו לפני השליחה.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "שלח",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "פרטי הודעה",

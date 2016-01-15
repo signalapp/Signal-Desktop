@@ -1,10 +1,10 @@
 {
     "unsupportedAttachment": {
-        "message": "Nicht unterstütztes Anhangsformat. Klicken Sie zum Speichern",
+        "message": "Nicht unterstütztes Anhangsformat. Zum Speichern anklicken.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Klicken Sie hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "gotIt": {
@@ -16,7 +16,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "resetSession": {
-        "message": "Verschlüsselung neu starten",
+        "message": "Sitzung neu starten",
         "description": ""
     },
     "welcomeToSignal": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um mit dem Chatten zu beginnen.",
+        "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
         "description": ""
     },
     "verifyContact": {
@@ -44,15 +44,19 @@
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Identität verifizieren",
+        "message": "Identität überprüfen",
         "description": ""
+    },
+    "from": {
+        "message": "Von",
+        "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
         "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Eventuell sollte es noch einmal untersucht und bearbeitet werden, bevor es veröffentlicht wird. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Suche nach Personen oder Gruppen",
+        "message": "Nach Personen oder Gruppen suchen",
         "description": "Placeholder text in the search input"
     },
     "disconnected": {
@@ -72,7 +76,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Klicken Sie hier, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -84,27 +88,23 @@
         "description": ""
     },
     "sessionEnded": {
-        "message": "Verschlüsselung neu gestartet",
+        "message": "Sichere Sitzung beendet",
         "description": ""
     },
     "submit": {
         "message": "Senden",
         "description": ""
     },
-    "messageDetail": {
-        "message": "Nachrichten-Details",
-        "description": ""
-    },
-    "from": {
-        "message": "Von",
-        "description": "Label for the sender of a message"
-    },
     "to": {
         "message": "An",
         "description": "Label for the receiver of a message"
     },
+    "messageDetail": {
+        "message": "Nachrichtendetails",
+        "description": ""
+    },
     "verify": {
-        "message": "Verifizieren",
+        "message": "Überprüfen",
         "description": ""
     },
     "failedToSend": {

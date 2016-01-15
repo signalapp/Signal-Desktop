@@ -1,18 +1,18 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Tipo di allegato non supportato. Clicca per salvare.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Ricevuto un messaggio con una chiave d'identità sconosciuta. Clicca per procedere e visualizzare",
         "description": ""
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Fatto!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Tipo di File non supportato",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "resetSession": {
@@ -20,11 +20,11 @@
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Benvenuti a Signal",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "Membri",
         "description": ""
     },
     "deleteMessages": {
@@ -32,11 +32,11 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Seleziona un contatto o un gruppo per iniziare una chat",
         "description": ""
     },
     "verifyContact": {
-        "message": "You may wish to <span class='verify'>verify</span> this contact.",
+        "message": "Forse sarebbe il caso di <span class='verify'>verificare</span> questo contatto",
         "description": ""
     },
     "sent": {
@@ -47,20 +47,24 @@
         "message": "Verifica Identità",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Questo file di log sarà esposto al publico per essere controllato dai contributori. Esaminalo bene e modificalo prima d'inviarlo. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Cerca persone o gruppi",
         "description": "Placeholder text in the search input"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Sconnesso",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "Accetta la nuova chiave",
         "description": ""
     },
     "received": {
@@ -72,15 +76,15 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "La chiave d'identità di questo contatto ha cambiato. Clicca per procedere e visualizzare",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio",
         "description": ""
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Cancella",
         "description": ""
     },
     "sessionEnded": {
@@ -88,19 +92,23 @@
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Invia",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Dettagli Messaggio",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Verifca",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients.",
+        "message": "Il messaggio non ha raggiunto alcuni destinatari.",
         "description": ""
     },
     "ok": {
@@ -108,15 +116,15 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "invia il file log di debug",
         "description": ""
     },
     "error": {
-        "message": "Error",
+        "message": "Errore",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "Rinvia",
         "description": ""
     }
 }

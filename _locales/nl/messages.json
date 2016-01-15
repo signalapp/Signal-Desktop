@@ -47,6 +47,10 @@
         "message": "Identiteit verifiëren",
         "description": ""
     },
+    "from": {
+        "message": "Van",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Deze log zal publiekelijk online beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Verzenden",
         "description": ""
+    },
+    "to": {
+        "message": "Naar",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Bericht details",

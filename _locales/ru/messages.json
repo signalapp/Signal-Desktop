@@ -47,6 +47,10 @@
         "message": "Идентификация Личности",
         "description": ""
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
     "debugLogExplanation": {
         "message": "Этот лог будет открыт публично для чтения для помощников. Вы можете проверить и изменить его перед отправкой.",
         "description": ""
@@ -90,6 +94,10 @@
     "submit": {
         "message": "Отправить",
         "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
     },
     "messageDetail": {
         "message": "Детали Сообщения",
