@@ -37718,7 +37718,7 @@ textsecure.MessageSender.prototype = {
     window.textsecure = window.textsecure || {};
 
     function SyncRequest(sender, receiver) {
-        if (!(sender instanceof MessageSender) || !(receiver instanceof MessageReceiver)) {
+        if (!(sender instanceof textsecure.MessageSender) || !(receiver instanceof textsecure.MessageReceiver)) {
             throw new Error('Tried to construct a SyncRequest without MessageSender and MessageReceiver');
         }
         this.receiver = receiver;
