@@ -1,0 +1,130 @@
+{
+    "unsupportedAttachment": {
+        "message": "Tipo de anexo não suportado. Clique para guardar.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Recebida mensagem com uma chave desconhecida. Clica aqui para processar e mostrar.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Ok, entendi!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Tipo de ficheiro não suportado",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Reiniciar sessão",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Bem-vindo ao Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Membros",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Apagar mensagens",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Seleccione um contacto ou grupo para começar a falar",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "Pode querer <span class='verify'>verificar</span> este contacto.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Enviada",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verificar identidade",
+        "description": ""
+    },
+    "from": {
+        "message": "De",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Este log vai ser publicado online para os contribuidores verem. Pode examiná-lo e editá-lo antes de o submeter. ",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Procurar por pessoas ou grupos",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Desligar",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Aceitar nova chave",
+        "description": ""
+    },
+    "received": {
+        "message": "Recebida",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Enviar mensagem",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "A chave deste contacto foi alterada. Clica aqui para processa-la e mostra-la.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Lamentamos, o ficheiro seleccionado excede o tamanho máximo da mensagem.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Cancelar",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Sessão segura terminou",
+        "description": ""
+    },
+    "submit": {
+        "message": "Enviar",
+        "description": ""
+    },
+    "to": {
+        "message": "Para",
+        "description": "Label for the receiver of a message"
+    },
+    "messageDetail": {
+        "message": "Detalhes da mensagem",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verificar",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Falhou o envio para alguns destinatários.",
+        "description": ""
+    },
+    "ok": {
+        "message": "Ok",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Enviar log de depuração",
+        "description": ""
+    },
+    "error": {
+        "message": "Erro",
+        "description": ""
+    },
+    "resend": {
+        "message": "Reenviar",
+        "description": ""
+    }
+}

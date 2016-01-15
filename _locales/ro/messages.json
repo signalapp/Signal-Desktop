@@ -1,0 +1,130 @@
+{
+    "unsupportedAttachment": {
+        "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "A fost primit un mesaj cu o cheie de identitate necunoscută. Click pentru a procesare şi a afişare.",
+        "description": ""
+    },
+    "gotIt": {
+        "message": "Am înţeles!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Tipul fişierului nu este suportat",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "resetSession": {
+        "message": "Resetează sesiune",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Bun venit la Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Membrii",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Şterge mesajele",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Alege un contact sau un grup pentru a discuta.",
+        "description": ""
+    },
+    "verifyContact": {
+        "message": "S-ar putea să dorești să  <span class='verify'>verifici </span>acest contact.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Trimis",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifică identitatea",
+        "description": ""
+    },
+    "from": {
+        "message": "De la",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Acest log v-a fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi sa-l editezi înainte să fie publicat. ",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Caută persoane sau grupuri",
+        "description": "Placeholder text in the search input"
+    },
+    "disconnected": {
+        "message": "Deconectat",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Acceptă noua cheie",
+        "description": ""
+    },
+    "received": {
+        "message": "Primit",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Trimite mesaj",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Cheia de identitate pentru acest contact s-a modificat. Click pentru procesare şi afişare.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
+        "description": ""
+    },
+    "cancel": {
+        "message": "Anulare",
+        "description": ""
+    },
+    "sessionEnded": {
+        "message": "Sesiunea securizată s-a încheiat",
+        "description": ""
+    },
+    "submit": {
+        "message": "Trimite",
+        "description": ""
+    },
+    "to": {
+        "message": "Către",
+        "description": "Label for the receiver of a message"
+    },
+    "messageDetail": {
+        "message": "Detalii mesaj",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifică",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Mesajul nu a putut fi trimis la unii destinatari.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Trimite log-ul de depanare",
+        "description": ""
+    },
+    "error": {
+        "message": "Eroare",
+        "description": ""
+    },
+    "resend": {
+        "message": "Re-trimite",
+        "description": ""
+    }
+}
