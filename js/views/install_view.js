@@ -19,7 +19,7 @@
             };
         },
         clearQR: function() {
-            this.$('#qr').text("Connecting...");
+            this.$('#qr').text(i18n("installConnecting"));
         },
         setProvisioningUrl: function(url) {
                 this.$('#qr').html('');
@@ -47,7 +47,7 @@
                         this.$('#device-name').focus();
                         return;
                     }
-                    this.$('.progress-dialog .status').text('Generating Keys');
+                    this.$('.progress-dialog .status').text(i18n('installGeneratingKeys'));
                     this.selectStep(5);
                     resolve(name);
                 }.bind(this));
@@ -61,7 +61,7 @@
             this.$('#step' + step).show();
         },
         showSync: function() {
-            this.$('.progress-dialog .status').text('Syncing groups and contacts');
+            this.$('.progress-dialog .status').text(i18n('installSyncingGroupsAndContacts'));
             this.$('.progress-dialog .bar').addClass('progress-bar-striped active');
         },
         showTooManyDevices: function() {

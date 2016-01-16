@@ -58,4 +58,31 @@
             });
         });
     });
+
+    // Apply i18n
+    $(document).ready(function(){
+        // Basic Substitution
+        $('[data-i18n]').each(function(){
+            var $this = $(this);
+            $this.text(i18n($this.data('i18n')));
+        });
+
+        // Text with link to Play Store
+        var $installSignalLinkContent = $('<span>' + i18n('installSignalLink') + '</span>');
+        $installSignalLinkContent.find('a').attr({
+            class: 'link',
+            href: 'https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms',
+            target: '_blank'
+        });
+        $('#installSignalLink').append($installSignalLinkContent);
+
+        // Text with link to Twitter
+        var $installFollowUsContent = $('<span>' + i18n('installFollowUs') + '</span>');
+        $installFollowUsContent.find('a').attr({
+            class: 'link',
+            href: 'https://twitter.com/whispersystems',
+            target: '_blank'
+        });
+        $('#installFollowUs').append($installFollowUsContent);
+    });
 })();

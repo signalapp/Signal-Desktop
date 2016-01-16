@@ -102,5 +102,55 @@
     },
     "sessionEnded": {
         "message": "Secure session ended"
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "installGetStartedButton": {
+        "message": "Get started"
+    },
+    "installSignalLink": {
+        "message": "First, install <a>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before pairing"
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "installFollowUs": {
+        "message": "<a>Follow us</a> for updates about multi-device support for iOS."
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above."
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys"
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts"
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices registered already. Try removing some."
     }
 }
