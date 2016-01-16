@@ -173,7 +173,7 @@
             return storage.get("chromiumRegistrationDone") === "";
         },
         everDone: function() {
-            return storage.get("chromiumRegistrationDoneEver") === "";
+            return storage.get("chromiumRegistrationDoneEver") === "" || storage.get("chromiumRegistrationDone") === "";
         },
         remove: function() {
             storage.remove("chromiumRegistrationDone");
