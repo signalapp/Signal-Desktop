@@ -115,15 +115,27 @@
         "message": "Get started"
     },
     "installSignalLink": {
-        "message": "First, install <a>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on Android before pairing"
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before pairing",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installIHaveSignalButton": {
         "message": "I have Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "installFollowUs": {
-        "message": "<a>Follow us</a> for updates about multi-device support for iOS."
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installAndroidInstructions": {
         "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above."
