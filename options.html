@@ -8,72 +8,73 @@
 </head>
 <body>
   <div id='install' class='main'>
-    <div id='step1' class='step'>
-      <img id='signal-icon' src='/images/icon_250.png'/>
-      <div class='nav'>
-        <h1 data-i18n='installWelcome'></h1>
-        <p data-i18n='installTagline'></p>
-        <div> <a class='button step2' data-i18n='installGetStartedButton'></a> </div>
-        <span class='dot step1 selected'></span>
-        <span class='dot step2'></span>
-        <span class='dot step3'></span>
+    <script type='text/x-tmpl-mustache' id='install_flow_template'>
+      <div id='step1' class='step'>
+        <img id='signal-icon' src='/images/icon_250.png'/>
+        <div class='nav'>
+          <h1>{{ installWelcome }}</h1>
+          <p>{{ installTagline }}</p>
+          <div> <a class='button step2'>{{ installGetStartedButton }}</a> </div>
+          <span class='dot step1 selected'></span>
+          <span class='dot step2'></span>
+          <span class='dot step3'></span>
+        </div>
       </div>
-    </div>
 
-    <div id='step2' class='step'>
-      <img id='signal-phone' src='/images/signal-phone.png'>
-      <div class='nav'>
-        <p id="installSignalLink"></p>
-        <div> <a class='button step3' data-i18n='installIHaveSignalButton'></a> </div>
-        <p id="installFollowUs"></p>
-        <span class='dot step1'></span>
-        <span class='dot step2 selected'></span>
-        <span class='dot step3'></span>
+      <div id='step2' class='step'>
+        <img id='signal-phone' src='/images/signal-phone.png'>
+        <div class='nav'>
+          <p>{{{ installSignalLink }}}</p>
+          <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
+          <p>{{{ installFollowUs }}}</p>
+          <span class='dot step1'></span>
+          <span class='dot step2 selected'></span>
+          <span class='dot step3'></span>
+        </div>
       </div>
-    </div>
 
-    <div id='step3' class='step'>
-      <div id="qr"></div>
-      <p data-i18n='installAndroidInstructions'></p>
-      <div class='nav'>
-        <span class='dot step1'></span>
-        <span class='dot step2'></span>
-        <span class='dot step3 selected'></span>
+      <div id='step3' class='step'>
+        <div id="qr"></div>
+        <p>{{ installAndroidInstructions }}</p>
+        <div class='nav'>
+          <span class='dot step1'></span>
+          <span class='dot step2'></span>
+          <span class='dot step3 selected'></span>
+        </div>
       </div>
-    </div>
 
-    <div id='step4' class='step'>
-        <p data-i18n='installLinkingWithNumber'></p>
-        <h2 class='number'></h2>
-        <img id='signal-computer' src='/images/signal-laptop.png'>
-        <p data-i18n='installComputerName'></p>
-        <div>
-          <input type='text' id='device-name' spellcheck='false'></input>
+      <div id='step4' class='step'>
+          <p>{{ installLinkingWithNumber }}</p>
+          <h2 class='number'></h2>
+          <img id='signal-computer' src='/images/signal-laptop.png'>
+          <p>{{ installComputerName }}</p>
+          <div>
+            <input type='text' id='device-name' spellcheck='false'></input>
+          </div>
+          <div class='nav'>
+            <div> <a class='button' id='sync'>{{ installFinalButton }}</a> </div>
+          </div>
+      </div>
+
+      <div id='step5' class='step'>
+        <img id='signal-icon' src='/images/icon_250.png'/>
+        <div class='progress-dialog'>
+          <p class='status'></p>
+          <div class='bar-container'><div class='bar progress-bar'></div></div>
         </div>
         <div class='nav'>
-          <div> <a class='button' id='sync' data-i18n='installFinalButton'></a> </div>
-        </div>
-    </div>
-
-    <div id='step5' class='step'>
-      <img id='signal-icon' src='/images/icon_250.png'/>
-      <div class='progress-dialog'>
-        <p class='status'></p>
-        <div class='bar-container'><div class='bar progress-bar'></div></div>
-      </div>
-      <div class='nav'>
-      </div>
-    </div>
-
-    <div id='stepTooManyDevices' class='step'>
-      <div class='error-dialog clearfix'>
-        <div class='panel' data-i18n='installTooManyDevices'></div>
-        <div class='nav'>
-          <button class='ok step3' data-i18n='ok'></button>
         </div>
       </div>
-    </div>
 
+      <div id='stepTooManyDevices' class='step'>
+        <div class='error-dialog clearfix'>
+          <div class='panel'>{{ installTooManyDevices }}</div>
+          <div class='nav'>
+            <button class='ok step3'>{{ ok }}</button>
+          </div>
+        </div>
+      </div>
+    </script>
   </div>
 
   <script type="text/javascript" src="js/components.js"></script>

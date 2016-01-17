@@ -56,6 +56,10 @@
                 });
                 this.$el.append(dialog.el);
             }.bind(this));
+        },
+        i18n_with_link: function(message, href){
+            var attrs = 'class="link" href="' + encodeURI(href) + '" target="_blank"';
+            return i18n(message, attrs);
         }
     },{
         // Class attributes
