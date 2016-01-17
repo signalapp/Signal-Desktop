@@ -5,7 +5,7 @@
 ;(function() {
     'use strict';
     // register some chrome listeners
-    if (chrome.notifications) {
+    if (typeof chrome != 'undefined' && chrome.notifications) {
         chrome.notifications.onClicked.addListener(function() {
             extension.notification.clear();
             Whisper.Notifications.onclick();
@@ -22,14 +22,22 @@
                 Whisper.Notifications.clear();
             }
         });
+    } else {
+      // TODO: fallback
+      console.log("TODO: fallback (chrome.notifications addListener)");
     }
 
     // Close and reopen existing windows
-    var open = false;
-    chrome.app.window.getAll().forEach(function(appWindow) {
-        open = true;
-        appWindow.close();
-    });
+    if (typeof chrome != 'undefined') {
+      var open = false;
+      chrome.app.window.getAll().forEach(function(appWindow) {
+          open = true;
+          appWindow.close();
+      });
+    } else {
+      // TODO: fallback needed?
+      console.log("TODO: fallback needed? (close and reopen existing windows)");
+    }
 
     // start a background worker for ecc
     textsecure.protocol_wrapper.startWorker();

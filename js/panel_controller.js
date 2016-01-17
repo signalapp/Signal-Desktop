@@ -33,7 +33,7 @@
             inboxOpened = true;
             extension.windows.open({
                 id: 'inbox',
-                url: 'index.html',
+                url: extension.windows.getLocation('index'),
                 focused: true,
                 width: 580,
                 height: 440,
