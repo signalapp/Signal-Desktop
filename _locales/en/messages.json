@@ -97,6 +97,13 @@
     "verifyIdentity": {
         "message": "Verify Identity"
     },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):"
+    },
     "deleteMessages": {
         "message": "Delete messages"
     },

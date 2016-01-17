@@ -216,11 +216,11 @@
         <span class='conversation-title'>{{ verifyIdentity }}</span>
     </div>
     <div class='container'>
-      <p> Their identity (they read): </p>
+      <p> {{theirIdentity}} </p>
       <div class='key'>
         {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
       </div>
-      <p> Your identity (you read): </p>
+      <p> {{yourIdentity}} </p>
       <div class='key'>
         {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
       </div>
