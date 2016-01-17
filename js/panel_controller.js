@@ -19,6 +19,7 @@
 
     window.drawAttention = function() {
         if (inboxOpened && !inboxFocused) {
+            console.log('draw attention');
             extension.windows.drawAttention(inboxWindowId);
         }
     };
