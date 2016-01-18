@@ -54,6 +54,10 @@
     padding: 0 1em;
     -webkit-user-select: text;
   }
+  .key.placeholder {
+    font-family: inherit;
+    font-weight: bold;
+  }
   .container {
     height: calc(100% - (#{$header-height} + 5px + 1px + 4px));
   }

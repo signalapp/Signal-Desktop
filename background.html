@@ -217,8 +217,12 @@
     </div>
     <div class='container'>
       <p> {{theirIdentity}} </p>
+      <div class='key placeholder'>
+        {{ #their_key_unknown }} <span>{{ their_key_unknown }}</span>{{ /their_key_unknown }}
+      </div>
       <div class='key'>
         {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
+
       </div>
       <p> {{yourIdentity}} </p>
       <div class='key'>
