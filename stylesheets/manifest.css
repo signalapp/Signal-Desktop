@@ -16,8 +16,7 @@
   box-sizing: border-box; }
 
 html {
-  height: 100%;
-  border: solid 1px #ccc; }
+  height: 100%; }
 
 body {
   position: relative;
