@@ -123,7 +123,7 @@
     },
     "installSignalLink": {
         "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on Android before pairing",
+        "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
           "a_params": {
             "content": "$1",
@@ -170,6 +170,6 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices registered already. Try removing some."
+        "message": "Sorry, you have too many devices linked already. Try removing some."
     }
 }
