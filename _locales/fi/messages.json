@@ -7,6 +7,10 @@
         "message": "Vastaanotettiin viesti tuntemattomalla identiteettiavaimella. Aloita käsittely napsauttamalla.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "Tämän tietokoneen nimeksi tulee",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
         "message": "Selvä!",
         "description": ""
@@ -14,6 +18,10 @@
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Luodaan avaimia",
+        "description": ""
     },
     "resetSession": {
         "message": "Alusta istunto",
@@ -35,6 +43,10 @@
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
         "description": ""
     },
+    "installConnecting": {
+        "message": "Yhdistetään...",
+        "description": "Displayed when waiting for the QR Code"
+    },
     "verifyContact": {
         "message": "Saatat haluta <span class='verify'>varmentaa</span> tämän yhteystiedon.",
         "description": ""
@@ -48,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Lähettäjä",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -58,6 +70,26 @@
     "searchForPeopleOrGroups": {
         "message": "Etsi yhteystietoja tai ryhmiä",
         "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "Jos haluat saada uutisia ja tietoa usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "Oma identiteettisi (sinä luet):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Synkronoidaan ryhmiä ja yhteystietoja",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Yksityisyys on mahdollista. Signal tekee siitä helppoa.",
+        "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
         "message": "Ei yhteyttä",
@@ -83,12 +115,44 @@
         "message": "Valitettavasti kyseinen tiedosto ylittää viesteille asetetun kokorajoituksen.",
         "description": ""
     },
+    "installAndroidInstructions": {
+        "message": "Avaa Signal puhelimessasi ja mene Asetukset > Laitteet. Napsauta siellä oikeassa alakulmassa olevaa nappia lisätäksesi uuden laitteen ja skannaa yllä näkyvä QR-koodi.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Tervetuloa Signal Desktopiin",
+        "description": "Welcome title on the install page"
+    },
     "cancel": {
         "message": "Peruuta",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "Minulla on Signal Androidille",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
-        "message": "Suojattu istunto lopetettu",
+        "message": "Suojattu istunto alustettu.",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Aloita",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Asenna <a $a_params$>Signal</a> ensin Android puhelimeesi.<br /> Yhdistämme laitteesi toisiinsa ja synkronoimme viestisi.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Yhdistetään",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Vastapuolen identiteetti (hän lukee):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "Et ole vaihtanut tämän yhteystiedon kanssa vielä yhtään viestiä. Hänen identiteettnsä tulee näkyviin ensimmäisen viestin jälkeen.",
         "description": ""
     },
     "submit": {
@@ -96,8 +160,12 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Vastaanottajat",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Hyvältä näyttää",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Viestin tiedot",

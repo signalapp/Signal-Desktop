@@ -7,6 +7,10 @@
         "message": "Bericht ontvangen met een onbekende identiteitssleutel. Klik om deze te tonen en verwerken.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "De naam van deze computer zal zijn",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
         "message": "Begrepen!",
         "description": ""
@@ -14,6 +18,10 @@
     "unsupportedFileType": {
         "message": "Niet ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Sleutels aan het genereren",
+        "description": ""
     },
     "resetSession": {
         "message": "Sessie resetten",
@@ -34,6 +42,10 @@
     "selectAContact": {
         "message": "Selecteer een contact of groep om te starten met chatten.",
         "description": ""
+    },
+    "installConnecting": {
+        "message": "Aan het verbinden...",
+        "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Je wilt wellicht dit contact <span class='verify'>verifiëren</span>.",
@@ -59,6 +71,26 @@
         "message": "Zoeken naar personen of groepen",
         "description": "Placeholder text in the search input"
     },
+    "installFollowUs": {
+        "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "Jouw identiteit (jij leest):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Groepen en contacten aan het synchroniseren",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
     "disconnected": {
         "message": "Niet meer verbonden",
         "description": ""
@@ -83,12 +115,44 @@
         "message": "Excuses, het geselecteerde bestand overschrijdt de maximale grootte.",
         "description": ""
     },
+    "installAndroidInstructions": {
+        "message": "Open Signal op je telefoon en navigeer naar Instellingen > Apparaten. Klik op de knop om een nieuw apparaat toe te voegen. Scan dan de code hierboven.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcom bij Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
     "cancel": {
         "message": "Annuleren",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "Ik heb Signal voor Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
         "message": "Beveiligde sessie beëindigd",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Aan de slag",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Installeer eerst <a $a_params$>Signal</a> op je Android telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Aan het koppelen met",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identiteit partner (partner leest):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -98,6 +162,10 @@
     "to": {
         "message": "Naar",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Prima",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Bericht details",

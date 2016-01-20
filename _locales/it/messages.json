@@ -4,16 +4,24 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Ricevuto un messaggio con una chiave d'identità sconosciuta. Clicca per procedere e visualizzare",
+        "message": "Ricevuto un messaggio con una chiave d'identità sconosciuta. Clicca per procedere e visualizzare.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "Questo dispositivo sarà conosciuto con il seguente nome",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
-        "message": "Fatto!",
+        "message": "Capito!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Tipo di File non supportato",
+        "message": "Tipo di file non supportato",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generazione chiavi in corso",
+        "description": ""
     },
     "resetSession": {
         "message": "Resetta Sessione",
@@ -32,11 +40,15 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Seleziona un contatto o un gruppo per iniziare una chat",
+        "message": "Seleziona un contatto o un gruppo per iniziare una chat.",
         "description": ""
     },
+    "installConnecting": {
+        "message": "Connessione in corso...",
+        "description": "Displayed when waiting for the QR Code"
+    },
     "verifyContact": {
-        "message": "Forse sarebbe il caso di <span class='verify'>verificare</span> questo contatto",
+        "message": "Forse desideri <span class='verify'>verificare</span> questo contatto.",
         "description": ""
     },
     "sent": {
@@ -48,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Da",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -58,6 +70,26 @@
     "searchForPeopleOrGroups": {
         "message": "Cerca persone o gruppi",
         "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Seguici</a> per aggiornamenti sulle funzionalità multi dispositivo per iOS.",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "La tua identità (leggi tu)",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Sincronizzazione gruppi e contatti in corso",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "La privacy è possibile. Signal la rende facile.",
+        "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
         "message": "Sconnesso",
@@ -76,19 +108,51 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "La chiave d'identità di questo contatto ha cambiato. Clicca per procedere e visualizzare",
+        "message": "La chiave d'identità di questo contatto è cambiata. Clicca per procedere e visualizzare.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio",
+        "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio.",
         "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Apri Signal sul tuo smartphone e vai a Impostazioni > Dispositivi. Fai tap sul pulsante per aggiungere un nuovo dispositivo e quindi scansiona il codice qui sopra.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Benvenuto in Signal per desktop",
+        "description": "Welcome title on the install page"
     },
     "cancel": {
         "message": "Cancella",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "Ho Signal per Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
         "message": "Sessione sicura terminata",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Cominciamo",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Prima di tutto installa <a $a_params$>Signal</a> sul tuo smartphone Android.<br /> I tuoi dispositivi saranno collegati e i tuoi messaggi sincronizzati.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Collegamento con",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identità del conttato (legge il tuo contatto)",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -96,8 +160,12 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "A",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Sembra tutto apposto",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Dettagli Messaggio",
@@ -116,7 +184,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "invia il file log di debug",
+        "message": "Invia il file log di debug",
         "description": ""
     },
     "error": {

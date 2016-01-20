@@ -7,6 +7,10 @@
         "message": "Mensaje recibido con una clave identificadora desconocida. Haga clic para procesar y mostrarlo.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "El nombre de este dispositivo será",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
         "message": "¡Entendido!",
         "description": ""
@@ -14,6 +18,10 @@
     "unsupportedFileType": {
         "message": "Tipo de archivo no admitido",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generando claves",
+        "description": ""
     },
     "resetSession": {
         "message": "Reiniciar la Sesión",
@@ -35,6 +43,10 @@
         "message": "Seleccione un contacto o grupo para empezar a chatear.",
         "description": ""
     },
+    "installConnecting": {
+        "message": "Conectando...",
+        "description": "Displayed when waiting for the QR Code"
+    },
     "verifyContact": {
         "message": "Puede que dese <span class='verify'>verificar</span> este contacto.",
         "description": ""
@@ -48,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Desde",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -58,6 +70,26 @@
     "searchForPeopleOrGroups": {
         "message": "Buscar contactos o grupos",
         "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$> Síguenos </a> para obtener noticias sobre soporte multi-dispositivo para iOS.\n",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "Su identidad (usted lee)",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Lo sentimos, ya tiene demasiados dispositivos vinculados. Pruebe a eliminar algunos.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Sincronizando grupos y contactos",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "La privacidad es posible. Signal hace fácil.",
+        "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
         "message": "Desconectado",
@@ -83,12 +115,44 @@
         "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
         "description": ""
     },
+    "installAndroidInstructions": {
+        "message": "Abra Signal en su teléfono movíl, y seleccione Parámetros > Dispositivos. Pulse el botón para añadir un nuevo dispositivo, pues escanee el código QR.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Bienvenido a Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
     "cancel": {
         "message": "Cancelar",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "Tengo Signal para Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
         "message": "Sesión segura terminado",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Comience",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "En primer lugar, instale <a $a_params$> Signal </a> en su teléfono Android. <br /> Entonces podemos vincular sus dispositivos y guardamos sus mensajes en sincronía.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Vinculando con",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identidad de ellos (ellos leen)",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "Todavía no ha intercambiado los mensajes con este contacto. Su identidad estará disponible después del primer mensaje.",
         "description": ""
     },
     "submit": {
@@ -96,8 +160,12 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Para",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Todo está bien",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Detalles del Mensaje",

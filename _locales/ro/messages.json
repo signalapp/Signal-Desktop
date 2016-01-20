@@ -7,6 +7,10 @@
         "message": "A fost primit un mesaj cu o cheie de identitate necunoscută. Click pentru a procesare şi a afişare.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "Numele acestui calculator va fi",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
         "message": "Am înţeles!",
         "description": ""
@@ -14,6 +18,10 @@
     "unsupportedFileType": {
         "message": "Tipul fişierului nu este suportat",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Se generează cheile",
+        "description": ""
     },
     "resetSession": {
         "message": "Resetează sesiune",
@@ -34,6 +42,10 @@
     "selectAContact": {
         "message": "Alege un contact sau un grup pentru a discuta.",
         "description": ""
+    },
+    "installConnecting": {
+        "message": "Se conectează...",
+        "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "S-ar putea să dorești să  <span class='verify'>verifici </span>acest contact.",
@@ -59,6 +71,26 @@
         "message": "Caută persoane sau grupuri",
         "description": "Placeholder text in the search input"
     },
+    "installFollowUs": {
+        "message": "<a $a_params$>Urmează-ne</a> pentru actualizări despre suportul multi-dispozitiv iOS.",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "Identitatea ta (tu citeşti):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Ne pare rău, ai prea multe dispozitive conectate deja. Încearcă să elimini câteva.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Sincronizare grupuri şi contacte",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Confidențialitatea este posibilă. Signal face asta ușor.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
     "disconnected": {
         "message": "Deconectat",
         "description": ""
@@ -83,12 +115,44 @@
         "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
         "description": ""
     },
+    "installAndroidInstructions": {
+        "message": "Deschide Signal pe telefonul tău și navighează la Setări > Dispozitive. Apasă butonul pentru a adăuga un nou dispozitiv, apoi scanează codul de deasupra.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Bun venit la Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
     "cancel": {
         "message": "Anulare",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "Am Signal pentru Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
         "message": "Sesiunea securizată s-a încheiat",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Începe",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Mai întâi, instalează <a $a_params$>Signal</a> pe telefonul tău Android.<br /> O să conectăm dispozitivele tale și o să sincronizăm mesajele tale.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Se conectează cu",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identitatea lor (ei citesc):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Identitatea lor va fi disponibilă după primul mesaj.",
         "description": ""
     },
     "submit": {
@@ -98,6 +162,10 @@
     "to": {
         "message": "Către",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Totul e ok",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Detalii mesaj",

@@ -7,6 +7,10 @@
         "message": "Meddelande mottaget med okänd identitetsnyckel. Klicka för att visa och verifiera.",
         "description": ""
     },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
     "gotIt": {
         "message": "Uppfattat!",
         "description": ""
@@ -14,6 +18,10 @@
     "unsupportedFileType": {
         "message": "Filtypen stöds ej",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys",
+        "description": ""
     },
     "resetSession": {
         "message": "Återställ session",
@@ -34,6 +42,10 @@
     "selectAContact": {
         "message": "Välj en kontakt eller grupp för att börja prata.",
         "description": ""
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Du kan <span class='verify'>verifiera</span> den här kontakten om du vill.",
@@ -59,6 +71,26 @@
         "message": "Sök efter folk eller grupper",
         "description": "Placeholder text in the search input"
     },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "description": ""
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
     "disconnected": {
         "message": "Frånkopplad",
         "description": ""
@@ -83,12 +115,44 @@
         "message": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek.",
         "description": ""
     },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
     "cancel": {
         "message": "Avbryt",
         "description": ""
     },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
     "sessionEnded": {
         "message": "Säker session avslutad",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Get started",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking"
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -98,6 +162,10 @@
     "to": {
         "message": "To",
         "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
         "message": "Meddelandedetaljer",
