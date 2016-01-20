@@ -616,12 +616,12 @@ input.search {
   background: white; }
   .key-verification p {
     padding: 1em; }
-  .key-verification .key {
-    font-family: monospace;
+  .key-verification .key, .key-verification .placeholder {
     padding: 0 1em;
     -webkit-user-select: text; }
-  .key-verification .key.placeholder {
-    font-family: inherit;
+  .key-verification .key {
+    font-family: monospace; }
+  .key-verification .placeholder {
     font-weight: bold; }
   .key-verification .container {
     height: calc(100% - (36px + 5px + 1px + 4px)); }

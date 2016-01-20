@@ -49,13 +49,14 @@
   p {
     padding: 1em;
   }
-  .key {
-    font-family: monospace;
+  .key, .placeholder {
     padding: 0 1em;
     -webkit-user-select: text;
   }
-  .key.placeholder {
-    font-family: inherit;
+  .key {
+    font-family: monospace;
+  }
+  .placeholder {
     font-weight: bold;
   }
   .container {
