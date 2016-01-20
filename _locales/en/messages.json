@@ -105,7 +105,7 @@
         "message": "Your identity (you read):"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't talked with this contact yet. Their identity will be received with their first message."
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
     },
     "deleteMessages": {
         "message": "Delete messages"
