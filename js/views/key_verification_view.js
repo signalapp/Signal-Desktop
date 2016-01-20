@@ -25,13 +25,18 @@
             return octets;
         },
         render_attributes: function() {
-            return {
+            var attributes = {
                 verifyIdentity: i18n('verifyIdentity'),
                 yourIdentity: i18n('yourIdentity'),
                 theirIdentity: i18n('theirIdentity'),
                 your_key: this.splitKey(this.model.your_key),
-                their_key: this.splitKey(this.model.their_key)
             };
+            if(this.model.their_key) {
+                attributes.their_key = this.splitKey(this.model.their_key);
+            } else {
+                attributes.their_key_unknown = i18n('theirIdentityUnknown');
+            }
+            return attributes;
         }
     });
 })();
