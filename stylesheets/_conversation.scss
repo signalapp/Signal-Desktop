@@ -1,17 +1,3 @@
-.conversation {
-  background-color: #ffffff;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px;
-
-  .panel {
-    height: 100%;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-  }
-}
 .conversation-title {
   display: block;
   line-height: $header-height;
@@ -29,11 +15,23 @@
 }
 
 .conversation {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
   height: calc(100% - 20px);
   border-radius: 10px;
 
-  .discussion-container {
-    height: calc(100% - 2 * #{$header-height} - 60px);
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+  }
+
+  .panel {
+    height: 100%;
+
+    .discussion-container {
+      height: calc(100% - 2 * #{$header-height} - 60px);
+    }
   }
 }
 
