@@ -28,16 +28,30 @@
 
   .panel {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 
     .discussion-container {
-      height: calc(100% - 2 * #{$header-height} - 60px);
+      flex-grow: 1;
+      position: relative;
+
+      .message-list {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+
+        @media(min-width: $big-avatar-min-width) {
+          padding-left: 70px;
+        }
+      }
     }
   }
 }
 
 .group-member-list,
 .new-group-update,
-.message-list, .message-detail, .key-verification {
+.message-detail, .key-verification {
   height: 100%;
 }
 
@@ -282,7 +296,7 @@
     margin-left: 8px;
     max-width: 30em;
 
-    @media(max-width:900px) {
+    @media(max-width: $big-avatar-min-width - 1px) {
       max-width: calc(100% - 45px); // avatar size + padding
     }
 
