@@ -73,7 +73,13 @@
     },
     "installFollowUs": {
         "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "yourIdentity": {
         "message": "Jouw identiteit (jij leest):",
@@ -141,7 +147,13 @@
     },
     "installSignalLink": {
         "message": "Installeer eerst <a $a_params$>Signal</a> op je Android telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Aan het koppelen met",

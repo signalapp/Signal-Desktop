@@ -73,7 +73,13 @@
     },
     "installFollowUs": {
         "message": "<a $a_params$> Síguenos </a> para obtener noticias sobre soporte multi-dispositivo para iOS.\n",
-        "description": ""
+        "description": "",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "yourIdentity": {
         "message": "Su identidad (usted lee)",
@@ -141,7 +147,13 @@
     },
     "installSignalLink": {
         "message": "En primer lugar, instale <a $a_params$> Signal </a> en su teléfono Android. <br /> Entonces podemos vincular sus dispositivos y guardamos sus mensajes en sincronía.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Vinculando con",

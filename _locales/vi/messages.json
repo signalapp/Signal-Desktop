@@ -1,10 +1,10 @@
 {
     "unsupportedAttachment": {
-        "message": "Nepodporovaný typ přílohy. Klikni pro uložení.",
+        "message": "Unsupported attachment type. Click to save.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Přijmi zprávu s neznámým identifikačním klíčem Klikni pro zpracování a zobrazení.",
+        "message": "Received message with unknown identity key. Click to process and display.",
         "description": ""
     },
     "installComputerName": {
@@ -12,11 +12,11 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Obdrženo",
+        "message": "Got it!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Nepodporovaný typ souboru",
+        "message": "Unsupported file type",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -24,23 +24,23 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset připojení",
+        "message": "Reset Session",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Vítejte v Signalu",
+        "message": "Welcome to Signal",
         "description": ""
     },
     "members": {
-        "message": "Členové",
+        "message": "Members",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Smazat zprávu",
+        "message": "Delete messages",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
+        "message": "Select a contact or group to start chatting.",
         "description": ""
     },
     "installConnecting": {
@@ -48,15 +48,15 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
+        "message": "You may wish to <span class='verify'>verify</span> this contact.",
         "description": ""
     },
     "sent": {
-        "message": "Odeslat",
+        "message": "Sent",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Ověření identity",
+        "message": "Verify Identity",
         "description": ""
     },
     "from": {
@@ -64,11 +64,11 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Hledat lidi nebo skupiny",
+        "message": "Search for people or groups",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
@@ -98,27 +98,27 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Odpojen",
+        "message": "Disconnected",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Akceptovat nový klíč",
+        "message": "Accept new key",
         "description": ""
     },
     "received": {
-        "message": "Příjmout",
+        "message": "Received",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Poslat zprávu ",
+        "message": "Send a message",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
+        "message": "This contact's identity key has changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Omlouváme se, vybraný soubor převýšil limit velikosti zprávy.",
+        "message": "Sorry, the selected file exceeds message size restrictions.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -130,7 +130,7 @@
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Zrušit",
+        "message": "Cancel",
         "description": ""
     },
     "installIHaveSignalButton": {
@@ -138,7 +138,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Zabezpečené připojení ukončeno",
+        "message": "Secure session ended",
         "description": ""
     },
     "installGetStartedButton": {
@@ -168,7 +168,7 @@
         "description": ""
     },
     "submit": {
-        "message": "Zadat",
+        "message": "Submit",
         "description": ""
     },
     "to": {
@@ -180,15 +180,15 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Detail zprávy",
+        "message": "Message Detail",
         "description": ""
     },
     "verify": {
-        "message": "Ověřit",
+        "message": "Verify",
         "description": ""
     },
     "failedToSend": {
-        "message": "Neúspěšné odeslání některým příjemcům",
+        "message": "Failed to send to some recipients.",
         "description": ""
     },
     "ok": {
@@ -196,15 +196,15 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Zadat debug log",
+        "message": "Submit debug log",
         "description": ""
     },
     "error": {
-        "message": "Chyba",
+        "message": "Error",
         "description": ""
     },
     "resend": {
-        "message": "Znovu odeslat",
+        "message": "Resend",
         "description": ""
     }
 }

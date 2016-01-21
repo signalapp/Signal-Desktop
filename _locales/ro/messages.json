@@ -73,7 +73,13 @@
     },
     "installFollowUs": {
         "message": "<a $a_params$>Urmează-ne</a> pentru actualizări despre suportul multi-dispozitiv iOS.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "yourIdentity": {
         "message": "Identitatea ta (tu citeşti):",
@@ -141,7 +147,13 @@
     },
     "installSignalLink": {
         "message": "Mai întâi, instalează <a $a_params$>Signal</a> pe telefonul tău Android.<br /> O să conectăm dispozitivele tale și o să sincronizăm mesajele tale.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Se conectează cu",

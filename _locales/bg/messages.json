@@ -1,78 +1,78 @@
 {
     "unsupportedAttachment": {
-        "message": "Nepodporovaný typ přílohy. Klikni pro uložení.",
+        "message": "Неподдържан прикачен тип. Натиснете за да го запишете.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Přijmi zprávu s neznámým identifikačním klíčem Klikni pro zpracování a zobrazení.",
+        "message": "Получено съобщение с непознат ключ за самоличност. Натиснете за да бъде обработено и показано.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Името на този компютър ще бъде ",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Obdrženo",
+        "message": "Разбрах!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Nepodporovaný typ souboru",
+        "message": "Неподдържан файлов тип",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Генериране на ключове",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset připojení",
+        "message": "Рестартиране на сесия",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Vítejte v Signalu",
+        "message": "Добре дошли в Сигнал",
         "description": ""
     },
     "members": {
-        "message": "Členové",
+        "message": "Членове",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Smazat zprávu",
+        "message": "Изтриване на съобщения",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
+        "message": "Изберете контакт или група за да започнете разговор.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Свързване...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
+        "message": "Може да желаете да <span class='verify'>удостоверите</span> този контакт.",
         "description": ""
     },
     "sent": {
-        "message": "Odeslat",
+        "message": "Изпратено",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Ověření identity",
+        "message": "Удостовери самоличност",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "От",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
+        "message": "Съобщенията ще бъдат публикувани онлайн за да бъдат прегледани от сътрудниците. Може да ги разгледате и редактирате преди да ги изпратите.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Hledat lidi nebo skupiny",
+        "message": "Търси за хора или групи",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Следвайте ни</a> за обновления относно поддръжката на различни устройства за iOS.",
         "description": "",
         "placeholders": {
           "a_params": {
@@ -82,7 +82,7 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Вашата самоличност(вие трябва да прочетете):",
         "description": ""
     },
     "installTooManyDevices": {
@@ -90,63 +90,63 @@
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Синхронизиране на групи и контакти",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Поверителността е възможна. Сигнал го прави лесно.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Odpojen",
+        "message": "Изключен",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Akceptovat nový klíč",
+        "message": "Приемане на нов ключ",
         "description": ""
     },
     "received": {
-        "message": "Příjmout",
+        "message": "Получено",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Poslat zprávu ",
+        "message": "Изпрати съобщение",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
+        "message": "Ключът за самоличност на този контакт е бил променен. Натиснете за да бъде обработен и показан.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Omlouváme se, vybraný soubor převýšil limit velikosti zprávy.",
+        "message": "Съжаляваме, избраният файл надвишава ограниченията за съобщения.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Отворете Сигнал на вашия телефон, след което отидете в Настройки - Устройства. Натиснете бутона за да добавите ново устройство, след което сканирайте кода отгоре.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Добре дошли в Сигнал за настолен компютър",
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Zrušit",
+        "message": "Отказ",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Имам Сигнал за Андройд.",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Zabezpečené připojení ukončeno",
+        "message": "Защитената сесия беше прекратена",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Да започваме",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Първо, инсталирайте <a $a_params$>Сигнал</a> на вашият Андройд телефон.<br /> Ние ще свържем вашите устройства и ще ви синхронизираме съобщенията.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
           "a_params": {
@@ -156,11 +156,11 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Свързване с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Тяхна самоличност(те трябва да прочетат):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
@@ -168,43 +168,43 @@
         "description": ""
     },
     "submit": {
-        "message": "Zadat",
+        "message": "Изпрати",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "До",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Изглежда добре",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Detail zprávy",
+        "message": "Детайли за съобщението",
         "description": ""
     },
     "verify": {
-        "message": "Ověřit",
+        "message": "Удостовери",
         "description": ""
     },
     "failedToSend": {
-        "message": "Neúspěšné odeslání některým příjemcům",
+        "message": "Изпращането до някои от получателите бе неуспешно.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "Добре",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Zadat debug log",
+        "message": "Изпрати информация за отстраняване на грешки",
         "description": ""
     },
     "error": {
-        "message": "Chyba",
+        "message": "Грешка",
         "description": ""
     },
     "resend": {
-        "message": "Znovu odeslat",
+        "message": "Изпрати отново",
         "description": ""
     }
 }

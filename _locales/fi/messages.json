@@ -73,7 +73,13 @@
     },
     "installFollowUs": {
         "message": "Jos haluat saada uutisia ja tietoa usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "yourIdentity": {
         "message": "Oma identiteettisi (sinä luet):",
@@ -141,7 +147,13 @@
     },
     "installSignalLink": {
         "message": "Asenna <a $a_params$>Signal</a> ensin Android puhelimeesi.<br /> Yhdistämme laitteesi toisiinsa ja synkronoimme viestisi.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Yhdistetään",

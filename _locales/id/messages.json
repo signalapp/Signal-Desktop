@@ -1,10 +1,10 @@
 {
     "unsupportedAttachment": {
-        "message": "Nepodporovaný typ přílohy. Klikni pro uložení.",
+        "message": "Jenis lampiran tidak didukung. Klik untuk menyimpan.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Přijmi zprávu s neznámým identifikačním klíčem Klikni pro zpracování a zobrazení.",
+        "message": "Received message with unknown identity key. Click to process and display.",
         "description": ""
     },
     "installComputerName": {
@@ -12,11 +12,11 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Obdrženo",
+        "message": "Got it!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Nepodporovaný typ souboru",
+        "message": "Jenis berkas tidak didukung",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -24,51 +24,51 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset připojení",
+        "message": "Mengatur ulang sesi",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Vítejte v Signalu",
+        "message": "Selamat datang di Signal",
         "description": ""
     },
     "members": {
-        "message": "Členové",
+        "message": "Anggota",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Smazat zprávu",
+        "message": "Menghapus pesan",
         "description": ""
     },
     "selectAContact": {
-        "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
+        "message": "Pilih kontak atau grup untuk mulai mengobrol",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Menyambungkan...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
+        "message": "Kamu ingin untuk <span class='verify'>verifikasi</span> kontak ini.",
         "description": ""
     },
     "sent": {
-        "message": "Odeslat",
+        "message": "Terkirim",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Ověření identity",
+        "message": "Verifikasi Identitas",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Dari",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Hledat lidi nebo skupiny",
+        "message": "Cari orang atau kelompok",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
@@ -90,7 +90,7 @@
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Sinkronasi grup dan kontak",
         "description": ""
     },
     "installTagline": {
@@ -98,27 +98,27 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Odpojen",
+        "message": "Luring",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Akceptovat nový klíč",
+        "message": "Menerima kunci baru",
         "description": ""
     },
     "received": {
-        "message": "Příjmout",
+        "message": "Menerima",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Poslat zprávu ",
+        "message": "Mengirim pesan",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
+        "message": "This contact's identity key has changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Omlouváme se, vybraný soubor převýšil limit velikosti zprávy.",
+        "message": "Sorry, the selected file exceeds message size restrictions.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -126,11 +126,11 @@
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Selamat datang di Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Zrušit",
+        "message": "Batal",
         "description": ""
     },
     "installIHaveSignalButton": {
@@ -138,7 +138,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Zabezpečené připojení ukončeno",
+        "message": "Sesi aman berakhir",
         "description": ""
     },
     "installGetStartedButton": {
@@ -156,7 +156,7 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Tautkan dengan",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
@@ -168,27 +168,27 @@
         "description": ""
     },
     "submit": {
-        "message": "Zadat",
+        "message": "Submit",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Kepada",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Terlihat baik",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Detail zprávy",
+        "message": "Detail Pesan",
         "description": ""
     },
     "verify": {
-        "message": "Ověřit",
+        "message": "Verifikasi",
         "description": ""
     },
     "failedToSend": {
-        "message": "Neúspěšné odeslání některým příjemcům",
+        "message": "Failed to send to some recipients.",
         "description": ""
     },
     "ok": {
@@ -196,15 +196,15 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Zadat debug log",
+        "message": "Submit debug log",
         "description": ""
     },
     "error": {
-        "message": "Chyba",
+        "message": "Galat",
         "description": ""
     },
     "resend": {
-        "message": "Znovu odeslat",
+        "message": "Kirim ulang",
         "description": ""
     }
 }

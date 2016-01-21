@@ -73,7 +73,13 @@
     },
     "installFollowUs": {
         "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "yourIdentity": {
         "message": "Your identity (you read):",
@@ -141,7 +147,13 @@
     },
     "installSignalLink": {
         "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Linking with",
