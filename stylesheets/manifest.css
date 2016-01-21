@@ -434,7 +434,10 @@ img.emoji {
     .conversation-header .avatar {
       width: 70px;
       height: 70px;
-      line-height: 70px; } }
+      line-height: 70px;
+      margin-bottom: -60px;
+      position: relative;
+      z-index: 10; } }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
@@ -601,13 +604,24 @@ input.search {
   .conversation ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15); }
   .conversation .panel {
-    height: 100%; }
+    height: 100%;
+    display: flex;
+    flex-direction: column; }
     .conversation .panel .discussion-container {
-      height: calc(100% - 2 * 36px - 60px); }
+      flex-grow: 1;
+      position: relative; }
+      .conversation .panel .discussion-container .message-list {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%; }
+        @media (min-width: 900px) {
+          .conversation .panel .discussion-container .message-list {
+            padding-left: 70px; } }
 
 .group-member-list,
 .new-group-update,
-.message-list, .message-detail, .key-verification {
+.message-detail, .key-verification {
   height: 100%; }
 
 .key-verification {
@@ -784,7 +798,7 @@ input.search {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em; }
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
       .message-detail .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px); } }

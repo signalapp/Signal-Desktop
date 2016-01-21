@@ -266,21 +266,12 @@
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);
 
-            var $discussionContainer = this.$('.discussion-container'),
-                $conversationHeader = this.$('.conversation-header'),
-                $attachmentPreviews = this.$('.attachment-previews'),
+            var $attachmentPreviews = this.$('.attachment-previews'),
                 $bottomBar = this.$('.bottom-bar');
 
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
                     $attachmentPreviews.outerHeight() + 1);
-            var $bottomBarNewHeight = $bottomBar.outerHeight();
-
-            //TODO: revisit this logic for new layout.
-            $discussionContainer.outerHeight(
-                    this.$el.outerHeight() -
-                    $bottomBarNewHeight -
-                    $conversationHeader.outerHeight() - 40);
 
             this.view.scrollToBottomIfNeeded();
         },
