@@ -576,16 +576,6 @@ input.search {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
 
-.conversation {
-  background-color: #ffffff;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px; }
-  .conversation .panel {
-    height: 100%; }
-  .conversation ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); }
-
 .conversation-title {
   display: block;
   line-height: 36px;
@@ -602,10 +592,18 @@ input.search {
   color: #999; }
 
 .conversation {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
   height: calc(100% - 20px);
   border-radius: 10px; }
-  .conversation .discussion-container {
-    height: calc(100% - 2 * 36px - 60px); }
+  .conversation ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); }
+  .conversation .panel {
+    height: 100%; }
+    .conversation .panel .discussion-container {
+      height: calc(100% - 2 * 36px - 60px); }
 
 .group-member-list,
 .new-group-update,
