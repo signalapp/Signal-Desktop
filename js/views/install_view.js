@@ -50,7 +50,7 @@
         confirmNumber: function(number) {
             var parsed = libphonenumber.parse(number);
             if (!libphonenumber.isValidNumber(parsed)) {
-                throw new Error('Invalid number');
+                throw new Error('Invalid number ' + number);
             }
             this.$('#step4 .number').text(libphonenumber.format(
                 parsed,
