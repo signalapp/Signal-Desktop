@@ -40,9 +40,29 @@
         top: 0;
         height: 100%;
         width: 100%;
+        margin: 0;
+        padding: 2em 8px 0;
+        overflow-y: auto;
 
         @media(min-width: $big-avatar-min-width) {
           padding-left: 70px;
+        }
+
+        &:before {
+          display: block;
+          margin: -25px auto 10px;
+          content: " ";
+          height: $loading-height;
+          width: $loading-height;
+          border: solid 3px transparent;
+        }
+
+        .timestamp {
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }
@@ -238,31 +258,6 @@
     background: none;
     &:before { content: '...'; }
   }
-}
-
-.message-list {
-  position: relative;
-  margin: 0;
-  padding: 2em 0 0;
-  overflow-y: auto;
-
-  &:before {
-    display: block;
-    margin: -25px auto 10px;
-    content: " ";
-    height: $loading-height;
-    width: $loading-height;
-    border: solid 3px transparent;
-  }
-
-  .timestamp {
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
 }
 
 .message-detail,

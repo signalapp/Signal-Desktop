@@ -614,10 +614,24 @@ input.search {
         position: absolute;
         top: 0;
         height: 100%;
-        width: 100%; }
+        width: 100%;
+        margin: 0;
+        padding: 2em 8px 0;
+        overflow-y: auto; }
         @media (min-width: 900px) {
           .conversation .panel .discussion-container .message-list {
             padding-left: 70px; } }
+        .conversation .panel .discussion-container .message-list:before {
+          display: block;
+          margin: -25px auto 10px;
+          content: " ";
+          height: 16px;
+          width: 16px;
+          border: solid 3px transparent; }
+        .conversation .panel .discussion-container .message-list .timestamp {
+          cursor: pointer; }
+          .conversation .panel .discussion-container .message-list .timestamp:hover {
+            text-decoration: underline; }
 
 .group-member-list,
 .new-group-update,
@@ -753,23 +767,6 @@ input.search {
   background: none; }
   .outgoing.entry.pending .status:before {
     content: '...'; }
-
-.message-list {
-  position: relative;
-  margin: 0;
-  padding: 2em 0 0;
-  overflow-y: auto; }
-  .message-list:before {
-    display: block;
-    margin: -25px auto 10px;
-    content: " ";
-    height: 16px;
-    width: 16px;
-    border: solid 3px transparent; }
-  .message-list .timestamp {
-    cursor: pointer; }
-    .message-list .timestamp:hover {
-      text-decoration: underline; }
 
 .message-detail,
 .message-list {
