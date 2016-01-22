@@ -111,7 +111,7 @@
         "message": "Delete messages"
     },
     "sessionEnded": {
-        "message": "Secure session ended"
+        "message": "Secure session reset"
     },
     "installWelcome": {
         "message": "Welcome to Signal Desktop",
