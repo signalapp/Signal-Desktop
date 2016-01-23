@@ -202,13 +202,15 @@ module.exports = function(grunt) {
   grunt.registerTask('locale-patch', function(){
     var en = grunt.file.readJSON('_locales/en/messages.json');
     grunt.file.recurse('_locales', function(abspath, rootdir, subdir, filename){
-      if(subdir === 'en' || filename !== 'messages.json')
+      if (subdir === 'en' || filename !== 'messages.json'){
         return;
+      }
       var messages = grunt.file.readJSON(abspath);
 
-      for(var key in messages){
-        if(en[key]['placeholders'] !== undefined && messages[key]['placeholders'] === undefined)
+      for (var key in messages){
+        if (en[key]['placeholders'] !== undefined && messages[key]['placeholders'] === undefined){
           messages[key]['placeholders'] = en[key]['placeholders']
+        }
       }
 
       grunt.file.write(abspath, JSON.stringify(messages, null, 4) + '\n');
