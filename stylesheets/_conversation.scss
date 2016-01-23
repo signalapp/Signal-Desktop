@@ -578,17 +578,47 @@
 
 .confirmation-dialog {
   position: absolute;
-  top: $header-height;
-  padding: 1em;
-  background: white;
-  border: solid 2px $blue;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
 
-  .message {
-    text-align: center;
-  }
+  .modal {
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 1em;
+    background: white;
+    border-radius: 10px;
+    overflow: auto;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
 
-  button {
-    float: right;
-    margin-left: 10px;
+    .message {
+      text-align: center;
+    }
+
+    .buttons {
+      margin-top: 10px;
+
+      button {
+        float: right;
+        margin-left: 10px;
+        background-color: $grey_l;
+        border-radius: 5px;
+        outline: none;
+        padding: 5px 8px;
+        border: 1px solid darken($grey_l, 10%);
+
+        &:focus {
+          border-color: darken($grey_l, 40%);
+        }
+
+        &:hover {
+          background-color: darken($grey_l, 10%);
+          border-color: darken($grey_l, 20%);
+        }
+      }
+    }
   }
 }
