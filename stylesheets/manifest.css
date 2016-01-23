@@ -94,25 +94,28 @@ button.back {
     background: url("/images/menu.png") no-repeat center; }
   .menu .menu-list {
     display: none;
-    position: absolute;
-    color: #454545;
-    z-index: 1;
     top: 100%;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    border: solid 1px #2090ea;
-    background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(10, 62, 103, 0.8); }
-    .menu .menu-list li {
+    right: 0; }
+
+.menu-list {
+  outline: none;
+  position: absolute;
+  color: #454545;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: solid 1px #2090ea;
+  background-color: white;
+  box-shadow: 0 4px 3px 0px rgba(10, 62, 103, 0.8); }
+  .menu-list li {
+    display: block;
+    white-space: nowrap; }
+    .menu-list li a {
+      cursor: pointer;
       display: block;
-      white-space: nowrap; }
-      .menu .menu-list li a {
-        cursor: pointer;
-        display: block;
-        padding: 5px 15px 5px 10px; }
-        .menu .menu-list li a:hover {
-          background-color: #f3f3f3; }
+      padding: 5px 15px 5px 10px; }
+      .menu-list li a:hover {
+        background-color: #f3f3f3; }
 
 .file-input {
   position: relative;
@@ -422,7 +425,7 @@ img.emoji {
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px #dadada;
   margin-bottom: 4px;
   padding-bottom: 5px; }
   .conversation-header .avatar {

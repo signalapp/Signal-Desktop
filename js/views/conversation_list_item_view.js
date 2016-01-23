@@ -13,7 +13,8 @@
         },
         templateName: 'conversation-preview',
         events: {
-            'click': 'select'
+            'click': 'select',
+            'contextmenu': 'contextMenu'
         },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render); // auto update
@@ -29,6 +30,16 @@
         select: function(e) {
             this.markSelected();
             this.$el.trigger('select', this.model);
+        },
+
+        contextMenu: function(e) {
+            e.preventDefault();
+            this.open_context_menu(e, [{
+                label: 'Delete Conversation',
+                action: function (){
+                  console.log('Delete Conversation');
+                }.bind(this)
+            }]);
         },
 
         render: function() {
