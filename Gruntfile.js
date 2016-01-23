@@ -189,6 +189,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    exec: {
+      'tx-pull': {
+        cmd: 'tx pull'
+      }
+    }
   });
 
   Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {
@@ -217,6 +222,7 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['concat', 'sass', 'locale-patch', 'copy']);
