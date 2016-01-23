@@ -35,9 +35,13 @@
         contextMenu: function(e) {
             e.preventDefault();
             this.open_context_menu(e, [{
-                label: 'Delete Conversation',
+                label: i18n('deleteConversation'),
                 action: function (){
-                  console.log('Delete Conversation');
+                    this.confirm(i18n('deleteConversationDetailed')).then(function() {
+                        this.model.destroyMessages();
+                    }.bind(this)).catch(function() {
+                        // clicked cancel, nothing to do.
+                    });
                 }.bind(this)
             }]);
         },

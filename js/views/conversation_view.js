@@ -23,7 +23,7 @@
                 'view-members'    : i18n('members'),
                 'end-session'     : i18n('resetSession'),
                 'verify-identity' : i18n('verifyIdentity'),
-                'destroy'         : i18n('deleteMessages'),
+                'destroy'         : i18n('deleteConversation'),
                 'send-message'    : i18n('sendMessage')
             };
         },
@@ -205,9 +205,8 @@
         },
 
         destroyMessages: function(e) {
-            this.confirm("Permanently delete this conversation?").then(function() {
+            this.confirm(i18n('deleteConversationDetailed')).then(function() {
                 this.model.destroyMessages();
-                this.remove();
             }.bind(this)).catch(function() {
                 // clicked cancel, nothing to do.
             });
