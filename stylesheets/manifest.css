@@ -1035,11 +1035,11 @@ input.search {
         border-radius: 5px;
         outline: none;
         padding: 5px 8px;
-        border: 1px solid #dadada; }
+        border: 1px solid #d9d9d9; }
         .confirmation-dialog .modal .buttons button:focus {
           border-color: #8d8d8d; }
         .confirmation-dialog .modal .buttons button:hover {
-          background-color: #dadada;
+          background-color: #d9d9d9;
           border-color: silver; }
 
 /*# sourceMappingURL=manifest.css.map */

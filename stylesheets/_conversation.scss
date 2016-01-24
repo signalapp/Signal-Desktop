@@ -608,15 +608,15 @@
         border-radius: 5px;
         outline: none;
         padding: 5px 8px;
-        border: 1px solid darken($grey_l, 10%);
+        border: 1px solid $grey_l2;
 
         &:focus {
-          border-color: darken($grey_l, 40%);
+          border-color: $grey_l4;
         }
 
         &:hover {
-          background-color: darken($grey_l, 10%);
-          border-color: darken($grey_l, 20%);
+          background-color: $grey_l2;
+          border-color: $grey_l3;
         }
       }
     }
