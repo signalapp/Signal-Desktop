@@ -1,17 +1,3 @@
-.conversation {
-  background-color: #ffffff;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px;
-
-  .panel {
-    height: 100%;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-  }
-}
 .conversation-title {
   display: block;
   line-height: $header-height;
@@ -29,17 +15,63 @@
 }
 
 .conversation {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
   height: calc(100% - 20px);
   border-radius: 10px;
 
-  .discussion-container {
-    height: calc(100% - 2 * #{$header-height} - 60px);
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.15);
+  }
+
+  .panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .discussion-container {
+      flex-grow: 1;
+      position: relative;
+
+      .message-list {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 2em 8px 0;
+        overflow-y: auto;
+
+        @media(min-width: $big-avatar-min-width) {
+          padding-left: 70px;
+        }
+
+        &:before {
+          display: block;
+          margin: -25px auto 10px;
+          content: " ";
+          height: $loading-height;
+          width: $loading-height;
+          border: solid 3px transparent;
+        }
+
+        .timestamp {
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
   }
 }
 
 .group-member-list,
 .new-group-update,
-.message-list, .message-detail, .key-verification {
+.message-detail, .key-verification {
   height: 100%;
 }
 
@@ -228,31 +260,6 @@
   }
 }
 
-.message-list {
-  position: relative;
-  margin: 0;
-  padding: 2em 0 0;
-  overflow-y: auto;
-
-  &:before {
-    display: block;
-    margin: -25px auto 10px;
-    content: " ";
-    height: $loading-height;
-    width: $loading-height;
-    border: solid 3px transparent;
-  }
-
-  .timestamp {
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-}
-
 .message-detail,
 .message-list {
   list-style: none;
@@ -284,7 +291,7 @@
     margin-left: 8px;
     max-width: 30em;
 
-    @media(max-width:900px) {
+    @media(max-width: $big-avatar-min-width - 1px) {
       max-width: calc(100% - 45px); // avatar size + padding
     }
 

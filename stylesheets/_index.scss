@@ -70,11 +70,14 @@
     height: 36px;
     line-height: 36px;
   }
-  @media(min-width:900px) {
+  @media(min-width: $big-avatar-min-width) {
     .avatar {
       width: 70px;
       height: 70px;
       line-height: 70px;
+      margin-bottom: -60px;
+      position: relative;
+      z-index: 10;
     }
   }
 }

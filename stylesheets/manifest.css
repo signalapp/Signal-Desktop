@@ -434,7 +434,10 @@ img.emoji {
     .conversation-header .avatar {
       width: 70px;
       height: 70px;
-      line-height: 70px; } }
+      line-height: 70px;
+      margin-bottom: -60px;
+      position: relative;
+      z-index: 10; } }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
@@ -576,16 +579,6 @@ input.search {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
 
-.conversation {
-  background-color: #ffffff;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px; }
-  .conversation .panel {
-    height: 100%; }
-  .conversation ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); }
-
 .conversation-title {
   display: block;
   line-height: 36px;
@@ -602,14 +595,47 @@ input.search {
   color: #999; }
 
 .conversation {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
   height: calc(100% - 20px);
   border-radius: 10px; }
-  .conversation .discussion-container {
-    height: calc(100% - 2 * 36px - 60px); }
+  .conversation ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); }
+  .conversation .panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column; }
+    .conversation .panel .discussion-container {
+      flex-grow: 1;
+      position: relative; }
+      .conversation .panel .discussion-container .message-list {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 2em 8px 0;
+        overflow-y: auto; }
+        @media (min-width: 900px) {
+          .conversation .panel .discussion-container .message-list {
+            padding-left: 70px; } }
+        .conversation .panel .discussion-container .message-list:before {
+          display: block;
+          margin: -25px auto 10px;
+          content: " ";
+          height: 16px;
+          width: 16px;
+          border: solid 3px transparent; }
+        .conversation .panel .discussion-container .message-list .timestamp {
+          cursor: pointer; }
+          .conversation .panel .discussion-container .message-list .timestamp:hover {
+            text-decoration: underline; }
 
 .group-member-list,
 .new-group-update,
-.message-list, .message-detail, .key-verification {
+.message-detail, .key-verification {
   height: 100%; }
 
 .key-verification {
@@ -742,23 +768,6 @@ input.search {
   .outgoing.entry.pending .status:before {
     content: '...'; }
 
-.message-list {
-  position: relative;
-  margin: 0;
-  padding: 2em 0 0;
-  overflow-y: auto; }
-  .message-list:before {
-    display: block;
-    margin: -25px auto 10px;
-    content: " ";
-    height: 16px;
-    width: 16px;
-    border: solid 3px transparent; }
-  .message-list .timestamp {
-    cursor: pointer; }
-    .message-list .timestamp:hover {
-      text-decoration: underline; }
-
 .message-detail,
 .message-list {
   list-style: none; }
@@ -786,7 +795,7 @@ input.search {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em; }
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
       .message-detail .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px); } }
