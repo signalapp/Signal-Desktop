@@ -225,6 +225,6 @@ module.exports = function(grunt) {
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
-  grunt.registerTask('default', ['concat', 'sass', 'locale-patch', 'copy']);
+  grunt.registerTask('default', ['concat', 'sass', 'copy']);
 
 };
