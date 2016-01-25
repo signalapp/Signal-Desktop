@@ -213,8 +213,8 @@ module.exports = function(grunt) {
       var messages = grunt.file.readJSON(abspath);
 
       for (var key in messages){
-        if (en[key]['placeholders'] !== undefined && messages[key]['placeholders'] === undefined){
-          messages[key]['placeholders'] = en[key]['placeholders']
+        if (en[key].placeholders !== undefined && messages[key].placeholders === undefined){
+          messages[key].placeholders = en[key].placeholders;
         }
       }
 
