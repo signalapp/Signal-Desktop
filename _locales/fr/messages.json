@@ -8,7 +8,7 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Le nom de cet ordinateur sera",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Generation des clés",
         "description": ""
     },
     "resetSession": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Connection en cours...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -60,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "De",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -72,29 +72,29 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Suivez nous</a> pour être informés du support multi-appareils pour iOS.",
         "description": "",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Votre identité (vous lisez)",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Nombre maximal d'appareils atteint. Supprimez-en d'abord.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Syncronistation des goupes et contacts",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "la confidentialité est possible. Signal le rend facile",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -122,11 +122,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Ouvrez signal sur votre téléphone et naviguez sur Réglage > Appareil. Appuyer sur le bouton ajouter nouveau appareil, puis scanner le code au-dessus.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Bienvenue sur Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "cancel": {
@@ -134,37 +134,37 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "J'ai Signal pour Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Session sécurisée terminée",
+        "message": "Session sécurisée réinitialisée",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Pour commencer",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Commencez par installer <a $a_params$>Signal</a> sur votre téléphone Android. Nous lierons et synchroniserons vos appareils ensuite.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Liaison en cours",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Leur identité (ils lisent)",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Vous n'avez pas encore discuté avec ce contact. Son idendité sera connue après le premier message envoyé.",
         "description": ""
     },
     "submit": {
@@ -172,11 +172,11 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "à",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Ça à l'air de marcher",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {

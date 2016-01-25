@@ -1,210 +1,210 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "مرفق غير مدعوم.اضغط للحفظ",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "رساله مستلمه بمفتاح هويه غير معروف. اضغط للاكمال و الاظهار ",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "سيكون اسم الحاسوب : ",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "واضح",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "نوع ملف غير مدعوم",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "توليد مفاتيح",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "تجديد الجلسه",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "مرحبا الى سيجنال",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "أعضاء",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "حذف الرساله",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "اختر مستخدم او مجموعه لبدء محادثه",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "يتصل ",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to <span class='verify'>verify</span> this contact.",
+        "message": "هل ترغب  <span class='verify'> فى التأكد من </span> هذا المستخدم",
         "description": ""
     },
     "sent": {
-        "message": "Sent",
+        "message": "مرسله",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "تأكيد الهويه",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "من ",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "هذه التفريغات سيتم نشرها للعامه ليتمكن المشاركين من رؤيتها. ربما ترغب فى التعديل او  التحقق منها قبل الارسال ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "بحث عن مجموعات او جهات اتصال.",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$> تابعنا </a> للتحديثات لعدة اجهزه تدعم نظام ios",
         "description": "",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "هويتك ( تقرأ )",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "نأسف, لديك أجهزه كثيره مرتبطه بالفعل. حاول ازالة بعضها",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "مزامنة المجموعات و المستحدمين",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "الخصوصيه ممكنه . سيجنال جعلها سهله",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "متوقف",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "قبول مفتاح جديد",
         "description": ""
     },
     "received": {
-        "message": "Received",
+        "message": "مستلمه",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "ارسال رساله",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "تم تغيير مفتاح هوية المستخدم. اضغط للاستمرار و الاظهار ",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "نأسف. الملف المختار يتجاوز حدود حجم الرساله",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "افتح سيجنال على هاتفك و توجه الى الاعدادات ثم الاجهزه .اختر الزر لاضافة جهاز جديد",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "سيجنال للحاسوب. مرحبا بك ",
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "الغاء",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "لدى نسخة سيجنال للاندرويد",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session ended",
+        "message": "تجديد جلسه مؤمنه",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "لنبدأ",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "اولا جهز <a $a_params$> سيجنال </a> على هاتف الاندرويد . <br />  و سنقوم بربط و مزامنة جهازك",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "ارتباط ب :",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "هويتهم ( يقرأون )",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "لم تقم بالتراسل مع هذا المستخدم باية رسائل بعد. ستكون هويتهم متاحه يعد اول رساله",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "ارسال",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "الى",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "يبدو جيدا",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "تفاصيل الرساله",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "تأكيد",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients.",
+        "message": "فشل ارسال لبعض المستخدمين",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "حسنا",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "ارسال ملف الاحداث",
         "description": ""
     },
     "error": {
-        "message": "Error",
+        "message": "خطأ",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "اعادة ارسال ",
         "description": ""
     }
 }

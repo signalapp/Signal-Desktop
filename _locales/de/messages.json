@@ -75,10 +75,10 @@
         "message": "<a $a_params$>Folgen Sie uns</a> für Informationen über die Unterstützung mehrerer Geräte für iOS.",
         "description": "",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "yourIdentity": {
@@ -149,10 +149,10 @@
         "message": "Installieren Sie zuerst <a $a_params$>Signal</a> auf Ihrem Android Gerät.<br /> Ihre Geräte werden dann verbunden und Ihre Nachrichten synchronisiert.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "installLinkingWithNumber": {

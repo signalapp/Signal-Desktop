@@ -75,10 +75,10 @@
         "message": "<a $a_params$>Следвайте ни</a> за обновления относно поддръжката на различни устройства за iOS.",
         "description": "",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "yourIdentity": {
@@ -149,10 +149,10 @@
         "message": "Първо, инсталирайте <a $a_params$>Сигнал</a> на вашият Андройд телефон.<br /> Ние ще свържем вашите устройства и ще ви синхронизираме съобщенията.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-          "a_params": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          }
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
         }
     },
     "installLinkingWithNumber": {
