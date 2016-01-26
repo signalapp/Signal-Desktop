@@ -26,9 +26,9 @@
         onResize: function(e) {
             this.resizing = true;
             clearTimeout(this.resizeTimer);
-            resizeTimer = setTimeout(function() {
-                resizing = false;
-            }, 500);
+            this.resizeTimer = setTimeout((function() {
+                this.resizing = false;
+            }).bind(this), 500);
             this.$el.scrollTop(this.scrollPercent * this.$el.height());
         },
 
