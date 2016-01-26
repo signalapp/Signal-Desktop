@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "Jos haluat saada uutisia ja tietoa usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
+        "message": "Jos haluat saada uutisia ja tietoja usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -122,7 +122,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Avaa Signal puhelimessasi ja mene Asetukset > Laitteet. Napsauta siellä oikeassa alakulmassa olevaa nappia lisätäksesi uuden laitteen ja skannaa yllä näkyvä QR-koodi.",
+        "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
         "description": ""
     },
     "installWelcome": {
@@ -138,7 +138,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Suojattu istunto alustettu.",
+        "message": "Suojattu istunto alustettu",
         "description": ""
     },
     "installGetStartedButton": {
@@ -156,7 +156,7 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Yhdistetään",
+        "message": "Olet yhdistämässä puhelimesi Signalia, joka on rekisteröity numerollasi",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {

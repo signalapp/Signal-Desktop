@@ -86,7 +86,7 @@
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Spiacente, ha troppi dispositivi collegati. Prova a rimuoverne qualcuno",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -138,7 +138,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Sessione sicura terminata",
+        "message": "Resetta la sessione sicura",
         "description": ""
     },
     "installGetStartedButton": {
@@ -164,7 +164,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Non hai ancora scambiato nessun messaggio con questo contatto. La sua identità sarà disponibile subito dopo il primo invio. ",
         "description": ""
     },
     "submit": {

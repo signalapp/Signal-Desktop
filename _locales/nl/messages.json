@@ -86,7 +86,7 @@
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -164,7 +164,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Na het eerste bericht komt de identiteit beschikbaar.",
         "description": ""
     },
     "submit": {
