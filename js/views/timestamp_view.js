@@ -34,10 +34,17 @@
             } else { // more than a week ago
                 // Day of week + time
                 delay = 7 * 24 * 60 * 60 * 1000 - millis_since;
+
+                if (delay < -(60 * 1000)) {
+                  // more than one week and one minute ago
+                  // don't do any further updates as the displayed timestamp
+                  // won't change any more
+                  return;
+                }
             }
 
             if (delay) {
-                if (delay < 0) { delay = 0; }
+                if (delay < 0) { delay = 1000; }
                 this.timeout = setTimeout(this.update.bind(this), delay);
             }
         },
