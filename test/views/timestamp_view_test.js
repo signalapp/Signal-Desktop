@@ -72,11 +72,11 @@ describe('TimestampView', function() {
 
     it('updates at reasonable intervals', function() {
         var view = new Whisper.TimestampView();
-        assert(view.computeDelay(1000) < 60 * 1000); // < minute
+        assert.isBelow(view.computeDelay(1000), 60 * 1000); // < minute
         assert.strictEqual(view.computeDelay(1000 * 60 * 5), 60 * 1000); // minute
         assert.strictEqual(view.computeDelay(1000 * 60 * 60 * 5), 60 * 60 * 1000); // hour
 
-        assert(view.computeDelay(6 * 24 * 60 * 60 * 1000) < 7 * 24 * 60 * 60 * 1000); // < week
+        assert.isBelow(view.computeDelay(6 * 24 * 60 * 60 * 1000), 7 * 24 * 60 * 60 * 1000); // < week
 
         // return falsey value for long ago dates that don't update
         assert.notOk(view.computeDelay(1000 * 60 * 60 * 24 * 8));
