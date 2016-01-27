@@ -69,4 +69,18 @@ describe('TimestampView', function() {
         checkStartsWith(ext_view, new Date(2012, 4, 5, 17, 30, 0), 'May 5, 2012');
     });
 
+
+    it('updates at reasonable intervals', function() {
+        var view = new Whisper.TimestampView();
+        assert(view.computeDelay(1000) < 60 * 1000); // < minute
+        assert.strictEqual(view.computeDelay(1000 * 60 * 5), 60 * 1000); // minute
+        assert.strictEqual(view.computeDelay(1000 * 60 * 60 * 5), 60 * 60 * 1000); // hour
+
+        assert(view.computeDelay(6 * 24 * 60 * 60 * 1000) < 7 * 24 * 60 * 60 * 1000); // < week
+
+        // return falsey value for long ago dates that don't update
+        assert.notOk(view.computeDelay(1000 * 60 * 60 * 24 * 8));
+
+    });
+
 });

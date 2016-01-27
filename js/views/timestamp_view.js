@@ -20,8 +20,18 @@
             var result = this.getRelativeTimeSpanString(millis);
             this.$el.text(result);
 
-            var delay;
             var millis_since = millis_now - millis;
+            var delay = this.computeDelay(millis_since);
+            if (delay) {
+                if (delay < 0) { delay = 1000; }
+                this.timeout = setTimeout(this.update.bind(this), delay);
+            }
+        },
+        clearTimeout: function() {
+            clearTimeout(this.timeout);
+        },
+        computeDelay: function(millis_since) {
+            var delay;
             if (millis_since <= moment.relativeTimeThreshold('s') * 1000) {
                 // a few seconds ago
                 delay = 45 * 1000 - millis_since;
@@ -42,14 +52,7 @@
                   return;
                 }
             }
-
-            if (delay) {
-                if (delay < 0) { delay = 1000; }
-                this.timeout = setTimeout(this.update.bind(this), delay);
-            }
-        },
-        clearTimeout: function() {
-            clearTimeout(this.timeout);
+            return delay;
         }
     });
 
