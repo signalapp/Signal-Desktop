@@ -1024,7 +1024,8 @@ input.search {
   height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 0 20px; }
+  padding: 0 20px;
+  z-index: 10; }
   .confirmation-dialog .modal {
     max-width: 350px;
     margin: 100px auto;
