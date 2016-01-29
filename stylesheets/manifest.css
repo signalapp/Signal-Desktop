@@ -436,8 +436,7 @@ img.emoji {
       height: 70px;
       line-height: 70px;
       margin-bottom: -60px;
-      position: relative;
-      z-index: 10; } }
+      position: relative; } }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
