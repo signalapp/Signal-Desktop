@@ -1,6 +1,3 @@
-var child_process = require('child_process');
-var util = require('util');
-
 module.exports = function(grunt) {
   'use strict';
 
