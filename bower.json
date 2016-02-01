@@ -9,7 +9,6 @@
     "underscore": "~1.7.0",
     "backbone": "~1.1.2",
     "protobuf": "~3.8.0",
-    "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
     "libphonenumber-api": "https://github.com/liliakai/libphonenumber-api.git",
@@ -59,9 +58,6 @@
     ],
     "chai": [
       "chai.js"
-    ],
-    "bootstrap": [
-      "dist/css/bootstrap.css"
     ],
     "libphonenumber-api": [
       "libphonenumber_api-compiled.js"
