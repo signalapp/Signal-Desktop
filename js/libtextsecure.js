@@ -36902,6 +36902,7 @@ MessageReceiver.prototype.extend({
         this.pending = this.pending.then(handleEnvelope, handleEnvelope);
     },
     handleEnvelope: function(envelope) {
+        console.log('envelope from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
         if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
             return this.onDeliveryReceipt(envelope);
         } else if (envelope.content) {
@@ -36957,9 +36958,12 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleDataMessage: function(envelope, message, close_session) {
-        console.log('data message from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
+        var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
+        console.log('data message from', encodedNumber, envelope.timestamp.toNumber());
         if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
                 textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
+            console.log('got end session');
+            console.log('closing session for device', encodedNumber);
             close_session();
         }
         return this.processDecrypted(message, envelope.source).then(function(message) {
@@ -37096,8 +37100,11 @@ MessageReceiver.prototype.extend({
 
             if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
                     == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
-                    finalMessage.sync !== null)
+                    finalMessage.sync !== null) {
+                console.log('got end session');
                 res[1]();
+                console.log('session closed for device', from);
+            }
 
             return this.processDecrypted(finalMessage);
         }.bind(this));
@@ -37545,12 +37552,14 @@ MessageSender.prototype = {
     },
 
     closeSession: function(number, timestamp) {
+        console.log('sending end session');
         var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
         return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
+                    console.log('closing session for', device.encodedNumber);
                     return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
                 })).then(function() {
                     return res;

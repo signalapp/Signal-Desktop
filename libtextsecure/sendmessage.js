@@ -153,12 +153,14 @@ MessageSender.prototype = {
     },
 
     closeSession: function(number, timestamp) {
+        console.log('sending end session');
         var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
         return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
+                    console.log('closing session for', device.encodedNumber);
                     return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
                 })).then(function() {
                     return res;
