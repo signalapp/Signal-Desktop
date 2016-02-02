@@ -80,6 +80,26 @@
                     });
                 });
             }
+        },
+        {
+            version: "5.0",
+            migrate: function(transaction, next) {
+                if (storage.get("chromiumRegistrationDone") === "") {
+                    storage.put("chromiumRegistrationDoneEver", "");
+                }
+            }
+        },
+        {
+            version: "6.0",
+            migrate: function(transaction, next) {
+                storage.onready(function() {
+                    if (storage.get("chromiumRegistrationDone") === "") {
+                        storage.put("chromiumRegistrationDoneEver", "");
+                        next();
+                    }
+                });
+                storage.fetch();
+            }
         }
     ];
 }());

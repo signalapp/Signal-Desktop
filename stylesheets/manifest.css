@@ -16,8 +16,7 @@
   box-sizing: border-box; }
 
 html {
-  height: 100%;
-  border: solid 1px #ccc; }
+  height: 100%; }
 
 body {
   position: relative;
@@ -468,7 +467,9 @@ img.emoji {
     .conversation-header .avatar {
       width: 70px;
       height: 70px;
-      line-height: 70px; } }
+      line-height: 70px;
+      margin-bottom: -60px;
+      position: relative; } }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
@@ -610,16 +611,6 @@ input.search {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
 
-.conversation {
-  background-color: #ffffff;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px; }
-  .conversation .panel {
-    height: 100%; }
-  .conversation ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); }
-
 .conversation-title {
   display: block;
   line-height: 36px;
@@ -636,24 +627,60 @@ input.search {
   color: #999; }
 
 .conversation {
+  background-color: #ffffff;
+  margin: 10px;
+  padding: 20px 20px 10px;
+  border-radius: 10px;
   height: calc(100% - 20px);
   border-radius: 10px; }
-  .conversation .discussion-container {
-    height: calc(100% - 2 * 36px - 60px); }
+  .conversation ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15); }
+  .conversation .panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column; }
+    .conversation .panel .discussion-container {
+      flex-grow: 1;
+      position: relative; }
+      .conversation .panel .discussion-container .message-list {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 2em 8px 0;
+        overflow-y: auto; }
+        @media (min-width: 900px) {
+          .conversation .panel .discussion-container .message-list {
+            padding-left: 70px; } }
+        .conversation .panel .discussion-container .message-list:before {
+          display: block;
+          margin: -25px auto 10px;
+          content: " ";
+          height: 16px;
+          width: 16px;
+          border: solid 3px transparent; }
+        .conversation .panel .discussion-container .message-list .timestamp {
+          cursor: pointer; }
+          .conversation .panel .discussion-container .message-list .timestamp:hover {
+            text-decoration: underline; }
 
 .group-member-list,
 .new-group-update,
-.message-list, .message-detail, .key-verification {
+.message-detail, .key-verification {
   height: 100%; }
 
 .key-verification {
   background: white; }
   .key-verification p {
     padding: 1em; }
-  .key-verification .key {
-    font-family: monospace;
+  .key-verification .key, .key-verification .placeholder {
     padding: 0 1em;
     -webkit-user-select: text; }
+  .key-verification .key {
+    font-family: monospace; }
+  .key-verification .placeholder {
+    font-weight: bold; }
   .key-verification .container {
     height: calc(100% - (36px + 5px + 1px + 4px)); }
 
@@ -773,23 +800,6 @@ input.search {
   .outgoing.entry.pending .status:before {
     content: '...'; }
 
-.message-list {
-  position: relative;
-  margin: 0;
-  padding: 2em 0 0;
-  overflow-y: auto; }
-  .message-list:before {
-    display: block;
-    margin: -25px auto 10px;
-    content: " ";
-    height: 16px;
-    width: 16px;
-    border: solid 3px transparent; }
-  .message-list .timestamp {
-    cursor: pointer; }
-    .message-list .timestamp:hover {
-      text-decoration: underline; }
-
 .message-detail,
 .message-list {
   list-style: none; }
@@ -862,7 +872,7 @@ input.search {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em; }
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
       .message-detail .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px); } }
@@ -1072,7 +1082,8 @@ input.search {
     outline: 0;
     z-index: 5;
     resize: none;
-    font-size: 1em; }
+    font-size: 1em;
+    font-family: inherit; }
 
 .toast {
   position: absolute;
@@ -1087,15 +1098,38 @@ input.search {
 
 .confirmation-dialog {
   position: absolute;
-  top: 36px;
-  padding: 1em;
-  background: white;
-  border: solid 2px #2090ea; }
-  .confirmation-dialog .message {
-    text-align: center; }
-  .confirmation-dialog button {
-    float: right;
-    margin-left: 10px; }
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 10; }
+  .confirmation-dialog .modal {
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 1em;
+    background: white;
+    border-radius: 10px;
+    overflow: auto;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
+    .confirmation-dialog .modal .message {
+      text-align: center; }
+    .confirmation-dialog .modal .buttons {
+      margin-top: 10px; }
+      .confirmation-dialog .modal .buttons button {
+        float: right;
+        margin-left: 10px;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        outline: none;
+        padding: 5px 8px;
+        border: 1px solid #d9d9d9; }
+        .confirmation-dialog .modal .buttons button:focus {
+          border-color: #8d8d8d; }
+        .confirmation-dialog .modal .buttons button:hover {
+          background-color: #d9d9d9;
+          border-color: silver; }
 
 .outgoing.entry .status {
   -webkit-filter: brightness(0.25);

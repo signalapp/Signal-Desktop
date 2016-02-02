@@ -106,9 +106,12 @@
                     textsecure.storage.remove('device_name');
                     textsecure.storage.remove('regionCode');
 
-                    // remove our own identity key, which may have changed
+                    // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    textsecure.storage.axolotl.removeIdentityKey(number);
+                    var putIdentity = textsecure.storage.axolotl.putIdentityKey.bind(
+                        null, number, identityKeyPair.pubKey
+                    );
+                    textsecure.storage.axolotl.removeIdentityKey(number).then(putIdentity, putIdentity);
 
                     textsecure.storage.put('identityKey', identityKeyPair);
                     textsecure.storage.put('signaling_key', signalingKey);

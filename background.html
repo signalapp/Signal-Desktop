@@ -10,7 +10,7 @@
             <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
         </ul>
       </div>
-      <span class='socket-status'></span>
+      <span class='socket-status' title='Restart Signal'></span>
       <div class='tool-bar clearfix'>
         <!-- <button class='show-new-conversation'></button> -->
         <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
@@ -74,10 +74,12 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='confirmation-dialog'>
-    <div class='message'>{{ message }}</div>
-    <div class='buttons'>
-      <button class='cancel'>{{ cancel }}</button>
-      <button class='ok'>{{ ok }}</button>
+    <div class="modal">
+      <div class='message'>{{ message }}</div>
+      <div class='buttons'>
+        <button class='cancel'>{{ cancel }}</button>
+        <button class='ok'>{{ ok }}</button>
+      </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
@@ -141,7 +143,7 @@
   <script type='text/x-tmpl-mustache' id='conversation-preview'>
       {{> avatar }}
       <div class='contact-details'>
-          <span class='last-timestamp'> {{ last_message_timestamp }} </span>
+          <span class='last-timestamp' data-timestamp={{ last_message_timestamp }}> </span>
           {{> contact_name_and_number }}
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
@@ -190,7 +192,7 @@
           {{ /received_at }}
           {{ #errors }}
             <tr>
-              <td class='label'>{{ error-label }}</td>
+              <td class='label'>{{ errorLabel }}</td>
               <td> <span class='error-message'>{{message}}</span> </td>
             </tr>
           {{ /errors }}
@@ -216,26 +218,20 @@
         <span class='conversation-title'>{{ verifyIdentity }}</span>
     </div>
     <div class='container'>
-      <p> Their identity (they read): </p>
+      <p> {{theirIdentity}} </p>
+      {{ ^their_key }}
+        <div class='placeholder'>{{ their_key_unknown }}</div>
+      {{ /their_key }}
       <div class='key'>
         {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
       </div>
-      <p> Your identity (you read): </p>
+      <p> {{yourIdentity}} </p>
       <div class='key'>
         {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
       </div>
     </div>
   </script>
   <!-- index -->
-  <script type='text/x-tmpl-mustache' id='inbox'>
-    <div class='title-bar' id='header'>
-      <div class='socket-status'></div>
-    </div>
-    <div class='gutter'>
-        <div class='conversations scrollable'></div>
-        <span class='fab'></span>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='group_info_input'>
       <div class='group-info-input'>
         <div class='group-avatar'>
@@ -290,7 +286,7 @@
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
     <div class='content'>
       <p> {{ message }} </p>
-      <p> {{ verifyContact }} </p>
+      <p> {{{ verifyContact }}} </p>
       <p>
         <button class='cancel'>{{ cancel }}</button>
         <button class='resolve'>{{ resolve }}</button>

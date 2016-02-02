@@ -158,19 +158,25 @@
     };
 
     // Translate
-    window.i18n = function(message) {
-        return chrome.i18n.getMessage(message);
+    window.i18n = function(message, substitutions) {
+        return chrome.i18n.getMessage(message, substitutions);
     };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {
         done: function () {
+            storage.put("chromiumRegistrationDoneEver", "");
             storage.put("chromiumRegistrationDone", "");
             extension.trigger('registration_done');
         },
-
         isDone: function () {
             return storage.get("chromiumRegistrationDone") === "";
+        },
+        everDone: function() {
+            return storage.get("chromiumRegistrationDoneEver") === "" || storage.get("chromiumRegistrationDone") === "";
+        },
+        remove: function() {
+            storage.remove("chromiumRegistrationDone");
         },
     };
 

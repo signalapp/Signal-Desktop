@@ -218,10 +218,19 @@
     },
 
     destroyMessages: function() {
-        var models = this.messageCollection.models;
-        this.messageCollection.reset([]);
-        _.each(models, function(message) { message.destroy(); });
-        this.save({active_at: null, lastMessage: ''}); // archive
+        this.messageCollection.fetch({
+            index: {
+                // 'conversation' index on [conversationId, received_at]
+                name  : 'conversation',
+                lower : [this.id],
+                upper : [this.id, Number.MAX_VALUE],
+            }
+        }).then(function() {
+            var models = this.messageCollection.models;
+            this.messageCollection.reset([]);
+            _.each(models, function(message) { message.destroy(); });
+            this.save({active_at: null, lastMessage: ''}); // archive
+        }.bind(this));
     },
 
     getTitle: function() {

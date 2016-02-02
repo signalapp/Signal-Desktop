@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "مرفق غير مدعوم.اضغط للحفظ",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "رساله مستلمه بمفتاح هويه غير معروف. اضغط للاكمال و الاظهار ",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "سيكون اسم الحاسوب : ",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "واضح",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "نوع ملف غير مدعوم",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "توليد مفاتيح",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "تجديد الجلسه",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "مرحبا الى سيجنال",
+        "description": ""
+    },
+    "members": {
+        "message": "أعضاء",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "حذف الرساله",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "اختر مستخدم او مجموعه لبدء محادثه",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "يتصل ",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "هل ترغب  <span class='verify'> فى التأكد من </span> هذا المستخدم",
+        "description": ""
+    },
+    "sent": {
+        "message": "مرسله",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "تأكيد الهويه",
+        "description": ""
+    },
+    "from": {
+        "message": "من ",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "هذه التفريغات سيتم نشرها للعامه ليتمكن المشاركين من رؤيتها. ربما ترغب فى التعديل او  التحقق منها قبل الارسال ",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "بحث عن مجموعات او جهات اتصال.",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$> تابعنا </a> للتحديثات لعدة اجهزه تدعم نظام ios",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "هويتك ( تقرأ )",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "نأسف, لديك أجهزه كثيره مرتبطه بالفعل. حاول ازالة بعضها",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "مزامنة المجموعات و المستحدمين",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "الخصوصيه ممكنه . سيجنال جعلها سهله",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "متوقف",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "قبول مفتاح جديد",
+        "description": ""
+    },
+    "received": {
+        "message": "مستلمه",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "ارسال رساله",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "تم تغيير مفتاح هوية المستخدم. اضغط للاستمرار و الاظهار ",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "نأسف. الملف المختار يتجاوز حدود حجم الرساله",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "افتح سيجنال على هاتفك و توجه الى الاعدادات ثم الاجهزه .اختر الزر لاضافة جهاز جديد",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "سيجنال للحاسوب. مرحبا بك ",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "الغاء",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "لدى نسخة سيجنال للاندرويد",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "تجديد جلسه مؤمنه",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "لنبدأ",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "اولا جهز <a $a_params$> سيجنال </a> على هاتف الاندرويد . <br />  و سنقوم بربط و مزامنة جهازك",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "ارتباط ب :",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "هويتهم ( يقرأون )",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "لم تقم بالتراسل مع هذا المستخدم باية رسائل بعد. ستكون هويتهم متاحه يعد اول رساله",
+        "description": ""
+    },
+    "submit": {
+        "message": "ارسال",
+        "description": ""
+    },
+    "to": {
+        "message": "الى",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "يبدو جيدا",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "تفاصيل الرساله",
+        "description": ""
+    },
+    "verify": {
+        "message": "تأكيد",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "فشل ارسال لبعض المستخدمين",
+        "description": ""
+    },
+    "ok": {
+        "message": "حسنا",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "ارسال ملف الاحداث",
+        "description": ""
+    },
+    "error": {
+        "message": "خطأ",
+        "description": ""
+    },
+    "resend": {
+        "message": "اعادة ارسال ",
+        "description": ""
+    }
+}

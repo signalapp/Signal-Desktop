@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Desteklenmeyen ek türü. Kaydetmek için tıkla.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Bilinmiyen kimlik anahtarı ile mesaj alındı. İşlem yapmak ve görüntülemek için tıkla.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Anladım!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Desteklenmeyen dosya türü",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Oturumu Yeniden Başlat",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Signal'e Hoşgeldin",
+        "description": ""
+    },
+    "members": {
+        "message": "Üyeler",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Mesajları sil",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Sohbete başlamak için bir kişi veya topluluk seç.",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "Bu kişiyi <span class='verify'>doğrulamak</span> isteyebilirsiniz.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Gönderildi",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Kimlik Doğrulama",
+        "description": ""
+    },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Bu kayıt, gönüllü katkıcıların görmesi için alenen gönderilecek. Göndermeden önce kaydı inceleyebilir ve düzenleyebilirsin.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Kişi veya topluluk ara",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Bağlantı yok",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Yeni anahtarı kabul et",
+        "description": ""
+    },
+    "received": {
+        "message": "Alındı",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Mesaj gönder",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Bu kişinin kimlik anahtarı değişti. İşlem yapmak ve görüntülemek için tıkla.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Üzgünüz. Seçilen dosya, mesaj büyüklüğü kısıtlamalarını aşıyor.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "İptal",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Güvenli oturum sona erdi",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Get started",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Gönder",
+        "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Mesaj Detayı",
+        "description": ""
+    },
+    "verify": {
+        "message": "Doğrula",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Bazı alıcılara gönderilemedi.",
+        "description": ""
+    },
+    "ok": {
+        "message": "TAMAM",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Hata kayıtlarını gönder",
+        "description": ""
+    },
+    "error": {
+        "message": "Hata",
+        "description": ""
+    },
+    "resend": {
+        "message": "Yeniden gönder",
+        "description": ""
+    }
+}

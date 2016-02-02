@@ -19,7 +19,7 @@
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'pending', this.renderPending);
             this.listenTo(this.model, 'done', this.renderDone);
-            this.timeStampView = new Whisper.MessageTimestampView();
+            this.timeStampView = new Whisper.ExtendedTimestampView();
         },
         events: {
             'click .timestamp': 'select',

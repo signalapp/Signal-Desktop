@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Niet ondersteund bestandstype. Klik om op te slaan.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Bericht ontvangen met een onbekende identiteitssleutel. Klik om deze te tonen en verwerken.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "De naam van deze computer zal zijn",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Begrepen!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Niet ondersteund bestandstype",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Sleutels aan het genereren",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Sessie resetten",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Welkom bij Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Deelnemers",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Berichten verwijderen",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Selecteer een contact of groep om te starten met chatten.",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Aan het verbinden...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "Je wilt wellicht dit contact <span class='verify'>verifiëren</span>.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Verzonden",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Identiteit verifiëren",
+        "description": ""
+    },
+    "from": {
+        "message": "Van",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Deze log zal publiekelijk online beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Zoeken naar personen of groepen",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Jouw identiteit (jij leest):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Groepen en contacten aan het synchroniseren",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Niet meer verbonden",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Nieuwe sleutel accepteren",
+        "description": ""
+    },
+    "received": {
+        "message": "Ontvangen",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Een bericht versturen",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "De identiteitssleutel van dit contact is gewijzigd. Klik om deze te tonen en te verwerken.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Excuses, het geselecteerde bestand overschrijdt de maximale grootte.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal op je telefoon en navigeer naar Instellingen > Apparaten. Klik op de knop om een nieuw apparaat toe te voegen. Scan dan de code hierboven.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcom bij Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "Annuleren",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "Ik heb Signal voor Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Beveiligde sessie beëindigd",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Aan de slag",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Installeer eerst <a $a_params$>Signal</a> op je Android telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Aan het koppelen met",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identiteit partner (partner leest):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Na het eerste bericht komt de identiteit beschikbaar.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Verzenden",
+        "description": ""
+    },
+    "to": {
+        "message": "Naar",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Prima",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Bericht details",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifiëren",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Verzenden naar bepaalde ontvangers mislukt.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Debug log indienen",
+        "description": ""
+    },
+    "error": {
+        "message": "Fout",
+        "description": ""
+    },
+    "resend": {
+        "message": "Opnieuw verzenden",
+        "description": ""
+    }
+}

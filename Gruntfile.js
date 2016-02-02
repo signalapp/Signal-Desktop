@@ -54,11 +54,13 @@ module.exports = function(grunt) {
           'libtextsecure/websocket-resources.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
+          'libtextsecure/event_target.js',
           'libtextsecure/api.js',
           'libtextsecure/account_manager.js',
           'libtextsecure/message_receiver.js',
           'libtextsecure/outgoing_message.js',
           'libtextsecure/sendmessage.js',
+          'libtextsecure/sync_request.js',
           'libtextsecure/contacts_parser.js',
         ],
         dest: 'js/libtextsecure.js',
@@ -187,6 +189,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    exec: {
+      'tx-pull': {
+        cmd: 'tx pull'
+      }
+    }
   });
 
   Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {
@@ -195,6 +202,27 @@ module.exports = function(grunt) {
     }
   });
 
+  // Transifex does not understand placeholders, so this task patches all non-en
+  // locales with missing placeholders
+  grunt.registerTask('locale-patch', function(){
+    var en = grunt.file.readJSON('_locales/en/messages.json');
+    grunt.file.recurse('_locales', function(abspath, rootdir, subdir, filename){
+      if (subdir === 'en' || filename !== 'messages.json'){
+        return;
+      }
+      var messages = grunt.file.readJSON(abspath);
+
+      for (var key in messages){
+        if (en[key].placeholders !== undefined && messages[key].placeholders === undefined){
+          messages[key].placeholders = en[key].placeholders;
+        }
+      }
+
+      grunt.file.write(abspath, JSON.stringify(messages, null, 4) + '\n');
+    });
+  });
+
+  grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('default', ['concat', 'sass', 'copy']);

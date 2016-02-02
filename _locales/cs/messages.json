@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Nepodporovaný typ přílohy. Klikni pro uložení.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Přijmi zprávu s neznámým identifikačním klíčem Klikni pro zpracování a zobrazení.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Obdrženo",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Nepodporovaný typ souboru",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Reset připojení",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Vítejte v Signalu",
+        "description": ""
+    },
+    "members": {
+        "message": "Členové",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Smazat zprávu",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Odeslat",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Ověření identity",
+        "description": ""
+    },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Tento log bude zveřejněn online přispěvatelům k nahlédnutí. Můžete jej prohlédnout a upravit před odesláním.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Hledat lidi nebo skupiny",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Odpojen",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Akceptovat nový klíč",
+        "description": ""
+    },
+    "received": {
+        "message": "Příjmout",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Poslat zprávu ",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Omlouváme se, vybraný soubor převýšil limit velikosti zprávy.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "Zrušit",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Zabezpečené připojení ukončeno",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Get started",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Zadat",
+        "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Detail zprávy",
+        "description": ""
+    },
+    "verify": {
+        "message": "Ověřit",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Neúspěšné odeslání některým příjemcům",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Zadat debug log",
+        "description": ""
+    },
+    "error": {
+        "message": "Chyba",
+        "description": ""
+    },
+    "resend": {
+        "message": "Znovu odeslat",
+        "description": ""
+    }
+}

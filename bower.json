@@ -12,7 +12,7 @@
     "bootstrap": "~3.3.0",
     "mustache": "~0.8.2",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
-    "libphonenumber-api": "https://github.com/codedust/libphonenumber-api.git#cde5193f1350571b105084dfa9cd5320e6615e1f",
+    "libphonenumber-api": "https://github.com/liliakai/libphonenumber-api.git",
     "momentjs": "~2.8.3",
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",

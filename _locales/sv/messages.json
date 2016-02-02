@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Okänd filtyp på bilaga. Klicka för att spara.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Meddelande mottaget med okänd identitetsnyckel. Klicka för att visa och verifiera.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Uppfattat!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Filtypen stöds ej",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Återställ session",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Välkommen till Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Medlemmar",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Radera meddelanden",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Välj en kontakt eller grupp för att börja prata.",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "Du kan <span class='verify'>verifiera</span> den här kontakten om du vill.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Skickat",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifiera identitet",
+        "description": ""
+    },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och editera den innan du skickar in den.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Sök efter folk eller grupper",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Frånkopplad",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Acceptera ny nyckel",
+        "description": ""
+    },
+    "received": {
+        "message": "Mottagit",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Skicka ett meddelande",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Identitetsnyckeln för den här kontakten har ändrats. Klicka för att visa och verifiera.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Tyvärr, filen du har valt överstiger maximalt tillåten filstorlek.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "Avbryt",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Säker session avslutad",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Get started",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Skicka",
+        "description": ""
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Meddelandedetaljer",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifiera",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Gick inte att skicka till vissa mottagare.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Skicka felsökningslogg",
+        "description": ""
+    },
+    "error": {
+        "message": "Fel",
+        "description": ""
+    },
+    "resend": {
+        "message": "Skicka igen",
+        "description": ""
+    }
+}

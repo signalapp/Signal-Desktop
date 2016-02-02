@@ -13,7 +13,9 @@ function MessageReceiver(url, username, password, signalingKey, attachment_serve
     this.number = unencoded[0];
     this.deviceId = unencoded[1];
 }
-MessageReceiver.prototype = {
+
+MessageReceiver.prototype = new textsecure.EventTarget();
+MessageReceiver.prototype.extend({
     constructor: MessageReceiver,
     connect: function() {
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -26,7 +28,7 @@ MessageReceiver.prototype = {
         this.socket.onerror = this.onerror.bind(this);
         this.socket.onopen = this.onopen.bind(this);
         this.wsr = new WebSocketResource(this.socket, {
-            handleRequest: this.queueRequest.bind(this),
+            handleRequest: this.handleRequest.bind(this),
             keepalive: { path: '/v1/keepalive', disconnect: true }
         });
         this.pending = Promise.resolve();
@@ -56,29 +58,19 @@ MessageReceiver.prototype = {
                 eventTarget.dispatchEvent(ev);
             });
     },
-    queueRequest: function(request) {
-        var handleRequest = this.handleRequest.bind(this, request);
-        this.pending = this.pending.then(handleRequest, handleRequest);
-    },
     handleRequest: function(request) {
-        // TODO: handle different types of requests. for now we only expect
-        // PUT /messages <encrypted IncomingPushMessageSignal>
-        return textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
+        // We do the message decryption here, instead of in the ordered pending queue,
+        // to avoid exposing the time it took us to process messages through the time-to-ack.
+
+        // TODO: handle different types of requests. for now we blindly assume
+        // PUT /messages <encrypted Envelope>
+        textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
             // fault, and we should handle them gracefully and tell the
             // user they received an invalid message
             request.respond(200, 'OK');
-
-            if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
-                return this.onDeliveryReceipt(envelope);
-            } else if (envelope.content) {
-                return this.handleContentMessage(envelope);
-            } else if (envelope.legacyMessage) {
-                return this.handleLegacyMessage(envelope);
-            } else {
-                throw new Error('Received envelope with no content and no legacyMessage');
-            }
+            this.queueEnvelope(envelope);
 
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
@@ -87,6 +79,21 @@ MessageReceiver.prototype = {
             ev.error = e;
             this.dispatchEvent(ev);
         }.bind(this));
+    },
+    queueEnvelope: function(envelope) {
+        var handleEnvelope = this.handleEnvelope.bind(this, envelope);
+        this.pending = this.pending.then(handleEnvelope, handleEnvelope);
+    },
+    handleEnvelope: function(envelope) {
+        if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
+            return this.onDeliveryReceipt(envelope);
+        } else if (envelope.content) {
+            return this.handleContentMessage(envelope);
+        } else if (envelope.legacyMessage) {
+            return this.handleLegacyMessage(envelope);
+        } else {
+            throw new Error('Received message with no content and no legacyMessage');
+        }
     },
     getStatus: function() {
         if (this.socket) {
@@ -218,28 +225,35 @@ MessageReceiver.prototype = {
         return this.handleAttachment(attachmentPointer).then(function() {
             var groupBuffer = new GroupBuffer(attachmentPointer.data);
             var groupDetails = groupBuffer.next();
+            var promises = [];
             while (groupDetails !== undefined) {
-                (function(groupDetails) {
+                var promise = (function(groupDetails) {
                     groupDetails.id = getString(groupDetails.id);
-                    textsecure.storage.groups.getGroup(groupDetails.id).
-                    then(function(existingGroup) {
-                        if (existingGroup === undefined) {
-                            return textsecure.storage.groups.createNewGroup(
-                                groupDetails.members, groupDetails.id
-                            );
-                        } else {
-                            return textsecure.storage.groups.updateNumbers(
-                                groupDetails.id, groupDetails.members
-                            );
-                        }
-                    }).then(function() {
-                        var ev = new Event('group');
-                        ev.groupDetails = groupDetails;
-                        eventTarget.dispatchEvent(ev);
-                    });
+                    return textsecure.storage.groups.getGroup(groupDetails.id).
+                        then(function(existingGroup) {
+                            if (existingGroup === undefined) {
+                                return textsecure.storage.groups.createNewGroup(
+                                    groupDetails.members, groupDetails.id
+                                );
+                            } else {
+                                return textsecure.storage.groups.updateNumbers(
+                                    groupDetails.id, groupDetails.members
+                                );
+                            }
+                        }).then(function() {
+                            var ev = new Event('group');
+                            ev.groupDetails = groupDetails;
+                            eventTarget.dispatchEvent(ev);
+                        }).catch(function(e) {
+                            console.log('error processing group', groupDetails.id, e);
+                        });
                 })(groupDetails);
                 groupDetails = groupBuffer.next();
+                promises.push(promise);
             }
+            Promise.all(promises).then(function() {
+                eventTarget.dispatchEvent(new Event('groupsync'));
+            });
         });
     },
     handleAttachment: function(attachment) {
@@ -361,63 +375,8 @@ MessageReceiver.prototype = {
         return Promise.all(promises).then(function() {
             return decrypted;
         });
-    },
-
-    /* Implements EventTarget */
-    dispatchEvent: function(ev) {
-        if (!(ev instanceof Event)) {
-            throw new Error('Expects an event');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[ev.type];
-        if (typeof listeners === 'object') {
-            for (var i=0; i < listeners.length; ++i) {
-                if (typeof listeners[i] === 'function') {
-                    listeners[i].call(null, ev);
-                }
-            }
-        }
-    },
-    addEventListener: function(eventName, callback) {
-        if (typeof eventName !== 'string') {
-            throw new Error('First argument expects a string');
-        }
-        if (typeof callback !== 'function') {
-            throw new Error('Second argument expects a function');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[eventName];
-        if (typeof listeners !== 'object') {
-            listeners = [];
-        }
-        listeners.push(callback);
-        this.listeners[eventName] = listeners;
-    },
-    removeEventListener: function(eventName, callback) {
-        if (typeof eventName !== 'string') {
-            throw new Error('First argument expects a string');
-        }
-        if (typeof callback !== 'function') {
-            throw new Error('Second argument expects a function');
-        }
-        if (this.listeners === null || typeof this.listeners !== 'object') {
-            this.listeners = {};
-        }
-        var listeners = this.listeners[eventName];
-        for (var i=0; i < listeners.length; ++ i) {
-            if (listeners[i] === callback) {
-                listeners.splice(i, 1);
-                return;
-            }
-        }
-        this.listeners[eventName] = listeners;
     }
-
-};
+});
 
 window.textsecure = window.textsecure || {};
 

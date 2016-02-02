@@ -6,8 +6,30 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.InstallView = Whisper.View.extend({
+        templateName: 'install_flow_template',
+        render_attributes: function() {
+            var installSignalHref = 'https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms';
+            var twitterHref = 'https://twitter.com/whispersystems';
+            return {
+                installWelcome: i18n('installWelcome'),
+                installTagline: i18n('installTagline'),
+                installGetStartedButton: i18n('installGetStartedButton'),
+                installSignalLink: this.i18n_with_link('installSignalLink', installSignalHref),
+                installIHaveSignalButton: i18n('installIHaveSignalButton'),
+                installFollowUs: this.i18n_with_link('installFollowUs', twitterHref),
+                installAndroidInstructions: i18n('installAndroidInstructions'),
+                installLinkingWithNumber: i18n('installLinkingWithNumber'),
+                installComputerName: i18n('installComputerName'),
+                installFinalButton: i18n('installFinalButton'),
+                installTooManyDevices: i18n('installTooManyDevices'),
+                ok: i18n('ok'),
+            };
+        },
         initialize: function(options) {
             this.counter = 0;
+
+            this.render();
+
             this.$('#device-name').val(options.deviceName);
             this.$('#step1').show();
         },
@@ -19,7 +41,7 @@
             };
         },
         clearQR: function() {
-            this.$('#qr').text("Connecting...");
+            this.$('#qr').text(i18n("installConnecting"));
         },
         setProvisioningUrl: function(url) {
                 this.$('#qr').html('');
@@ -28,7 +50,7 @@
         confirmNumber: function(number) {
             var parsed = libphonenumber.parse(number);
             if (!libphonenumber.isValidNumber(parsed)) {
-                throw new Error('Invalid number');
+                throw new Error('Invalid number ' + number);
             }
             this.$('#step4 .number').text(libphonenumber.format(
                 parsed,
@@ -47,7 +69,7 @@
                         this.$('#device-name').focus();
                         return;
                     }
-                    this.$('.progress-dialog .status').text('Generating Keys');
+                    this.$('.progress-dialog .status').text(i18n('installGeneratingKeys'));
                     this.selectStep(5);
                     resolve(name);
                 }.bind(this));
@@ -61,7 +83,7 @@
             this.$('#step' + step).show();
         },
         showSync: function() {
-            this.$('.progress-dialog .status').text('Syncing groups and contacts');
+            this.$('.progress-dialog .status').text(i18n('installSyncingGroupsAndContacts'));
             this.$('.progress-dialog .bar').addClass('progress-bar-striped active');
         },
         showTooManyDevices: function() {

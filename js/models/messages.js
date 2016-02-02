@@ -266,7 +266,7 @@
                 var now = new Date().getTime();
                 var attributes = { type: 'private' };
                 if (dataMessage.group) {
-                    var group_update = {};
+                    var group_update = null;
                     attributes = {
                         type: 'group',
                         groupId: dataMessage.group.id,
@@ -294,7 +294,7 @@
                         attributes.members = _.without(conversation.get('members'), source);
                     }
 
-                    if (_.keys(group_update).length > 0) {
+                    if (group_update !== null) {
                         message.set({group_update: group_update});
                     }
                 }

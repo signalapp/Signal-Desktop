@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Jenis lampiran tidak didukung. Klik untuk menyimpan.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "Received message with unknown identity key. Click to process and display.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Got it!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Jenis berkas tidak didukung",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Mengatur ulang sesi",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Selamat datang di Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Anggota",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Menghapus pesan",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Pilih kontak atau grup untuk mulai mengobrol",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Menyambungkan...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "Kamu ingin untuk <span class='verify'>verifikasi</span> kontak ini.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Terkirim",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifikasi Identitas",
+        "description": ""
+    },
+    "from": {
+        "message": "Dari",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Cari orang atau kelompok",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Sinkronasi grup dan kontak",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Luring",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Menerima kunci baru",
+        "description": ""
+    },
+    "received": {
+        "message": "Menerima",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Mengirim pesan",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "This contact's identity key has changed. Click to process and display.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Selamat datang di Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "Batal",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Sesi aman berakhir",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Get started",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Tautkan dengan",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Submit",
+        "description": ""
+    },
+    "to": {
+        "message": "Kepada",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Terlihat baik",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Detail Pesan",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifikasi",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Failed to send to some recipients.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Submit debug log",
+        "description": ""
+    },
+    "error": {
+        "message": "Galat",
+        "description": ""
+    },
+    "resend": {
+        "message": "Kirim ulang",
+        "description": ""
+    }
+}

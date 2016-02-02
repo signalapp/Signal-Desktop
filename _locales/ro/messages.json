@@ -1,0 +1,210 @@
+{
+    "unsupportedAttachment": {
+        "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "incomingKeyConflict": {
+        "message": "A fost primit un mesaj cu o cheie de identitate necunoscută. Click pentru a procesare şi a afişare.",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "Numele acestui calculator va fi",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "Am înţeles!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "Tipul fişierului nu este suportat",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "Se generează cheile",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "Resetează sesiune",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "Bun venit la Signal",
+        "description": ""
+    },
+    "members": {
+        "message": "Membrii",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "Şterge mesajele",
+        "description": ""
+    },
+    "selectAContact": {
+        "message": "Alege un contact sau un grup pentru a discuta.",
+        "description": ""
+    },
+    "installConnecting": {
+        "message": "Se conectează...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "S-ar putea să dorești să  <span class='verify'>verifici </span>acest contact.",
+        "description": ""
+    },
+    "sent": {
+        "message": "Trimis",
+        "description": "Label for the time a message was sent"
+    },
+    "verifyIdentity": {
+        "message": "Verifică identitatea",
+        "description": ""
+    },
+    "from": {
+        "message": "De la",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "Acest log v-a fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi sa-l editezi înainte să fie publicat. ",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "Caută persoane sau grupuri",
+        "description": "Placeholder text in the search input"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Urmează-ne</a> pentru actualizări despre suportul multi-dispozitiv iOS.",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "Identitatea ta (tu citeşti):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "Ne pare rău, ai prea multe dispozitive conectate deja. Încearcă să elimini câteva.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Sincronizare grupuri şi contacte",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "Confidențialitatea este posibilă. Signal face asta ușor.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "Deconectat",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "Acceptă noua cheie",
+        "description": ""
+    },
+    "received": {
+        "message": "Primit",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "Trimite mesaj",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "Cheia de identitate pentru acest contact s-a modificat. Click pentru procesare şi afişare.",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "Deschide Signal pe telefonul tău și navighează la Setări > Dispozitive. Apasă butonul pentru a adăuga un nou dispozitiv, apoi scanează codul de deasupra.",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "Bun venit la Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "cancel": {
+        "message": "Anulare",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "Am Signal pentru Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "Sesiunea securizată s-a încheiat",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "Începe",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "Mai întâi, instalează <a $a_params$>Signal</a> pe telefonul tău Android.<br /> O să conectăm dispozitivele tale și o să sincronizăm mesajele tale.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "Se conectează cu",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "Identitatea lor (ei citesc):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "theirIdentityUnknown": {
+        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Identitatea lor va fi disponibilă după primul mesaj.",
+        "description": ""
+    },
+    "submit": {
+        "message": "Trimite",
+        "description": ""
+    },
+    "to": {
+        "message": "Către",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "Totul e ok",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "Detalii mesaj",
+        "description": ""
+    },
+    "verify": {
+        "message": "Verifică",
+        "description": ""
+    },
+    "failedToSend": {
+        "message": "Mesajul nu a putut fi trimis la unii destinatari.",
+        "description": ""
+    },
+    "ok": {
+        "message": "OK",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "Trimite log-ul de depanare",
+        "description": ""
+    },
+    "error": {
+        "message": "Eroare",
+        "description": ""
+    },
+    "resend": {
+        "message": "Re-trimite",
+        "description": ""
+    }
+}

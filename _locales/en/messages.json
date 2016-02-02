@@ -68,6 +68,14 @@
     "messageDetail": {
         "message": "Message Detail"
     },
+    "from": {
+        "message": "From",
+        "description": "Label for the sender of a message"
+    },
+    "to": {
+        "message": "To",
+        "description": "Label for the receiver of a message"
+    },
     "sent": {
         "message": "Sent",
         "description": "Label for the time a message was sent"
@@ -89,10 +97,82 @@
     "verifyIdentity": {
         "message": "Verify Identity"
     },
+    "theirIdentity": {
+        "message": "Their identity (they read):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "yourIdentity": {
+        "message": "Your identity (you read):"
+    },
+    "theirIdentityUnknown": {
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
+    },
     "deleteMessages": {
         "message": "Delete messages"
     },
     "sessionEnded": {
-        "message": "Secure session ended"
+        "message": "Secure session reset"
+    },
+    "installWelcome": {
+        "message": "Welcome to Signal Desktop",
+        "description": "Welcome title on the install page"
+    },
+    "installTagline": {
+        "message": "Privacy is possible. Signal makes it easy.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "installGetStartedButton": {
+        "message": "Get started"
+    },
+    "installSignalLink": {
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
+    },
+    "installIHaveSignalButton": {
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "installFollowUs": {
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "placeholders": {
+          "a_params": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
+    },
+    "installAndroidInstructions": {
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above."
+    },
+    "installConnecting": {
+        "message": "Connecting...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "installGeneratingKeys": {
+        "message": "Generating Keys"
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "Syncing groups and contacts"
+    },
+    "installComputerName": {
+        "message": "This computer's name will be",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "installLinkingWithNumber": {
+        "message": "Linking with",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "installFinalButton": {
+        "message": "Looking good",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "installTooManyDevices": {
+        "message": "Sorry, you have too many devices linked already. Try removing some."
     }
 }

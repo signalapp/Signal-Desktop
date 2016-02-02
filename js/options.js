@@ -21,7 +21,7 @@
                     el: $('#install'),
                     deviceName: deviceName
                 });
-                if (bg.textsecure.registration.isDone()) {
+                if (bg.textsecure.registration.everDone()) {
                     view.selectStep(3);
                 }
                 view.$el.show();
@@ -38,10 +38,8 @@
                         var launch = function() {
                             bg.openInbox();
                             bg.removeEventListener('textsecure:contactsync', launch);
-                            clearTimeout(timeout);
                             window.close();
                         };
-                        var timeout = setTimeout(launch, 60000);
                         bg.addEventListener('textsecure:contactsync', launch);
                         view.showSync();
                     }).catch(function(e) {
