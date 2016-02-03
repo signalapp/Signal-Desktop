@@ -143,20 +143,21 @@ MessageReceiver.prototype.extend({
     handleDataMessage: function(envelope, message, close_session) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
         console.log('data message from', encodedNumber, envelope.timestamp.toNumber());
+        var p = Promise.resolve();
         if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
                 textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
-            console.log('got end session');
-            console.log('closing session for device', encodedNumber);
-            close_session();
+            p = this.handleEndSession(envelope.source);
         }
-        return this.processDecrypted(message, envelope.source).then(function(message) {
-            var ev = new Event('message');
-            ev.data = {
-                source    : envelope.source,
-                timestamp : envelope.timestamp.toNumber(),
-                message   : message
-            };
-            this.dispatchEvent(ev);
+        return p.then(function() {
+            return this.processDecrypted(message, envelope.source).then(function(message) {
+                var ev = new Event('message');
+                ev.data = {
+                    source    : envelope.source,
+                    timestamp : envelope.timestamp.toNumber(),
+                    message   : message
+                };
+                this.dispatchEvent(ev);
+            }.bind(this));
         }.bind(this));
     },
     handleLegacyMessage: function (envelope) {
@@ -281,16 +282,27 @@ MessageReceiver.prototype.extend({
         return textsecure.protocol_wrapper.handlePreKeyWhisperMessage(from, bytes).then(function(res) {
             var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
 
+            var p = Promise.resolve();
             if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
                     == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
                     finalMessage.sync !== null) {
-                console.log('got end session');
-                res[1]();
-                console.log('session closed for device', from);
+                    var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                    p = this.handleEndSession(number);
             }
 
-            return this.processDecrypted(finalMessage);
+            return p.then(function() {
+                return this.processDecrypted(finalMessage);
+            });
         }.bind(this));
+    },
+    handleEndSession: function(number) {
+        console.log('got end session');
+        return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
+            return Promise.all(devices.map(function(device) {
+                console.log('closing session for', device.encodedNumber);
+                return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
+            }));
+        });
     },
     processDecrypted: function(decrypted, source) {
         // Now that its decrypted, validate the message and clean it up for consumer processing
