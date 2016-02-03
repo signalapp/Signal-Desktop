@@ -38,6 +38,7 @@
         {
             version: "2.0",
             migrate: function(transaction, next) {
+                console.log('migration 2.0');
                 var conversations = transaction.objectStore("conversations");
                 conversations.createIndex("search", "tokens", { unique: false, multiEntry: true });
 
@@ -48,11 +49,13 @@
                         model.save();
                     });
                 });
+                next();
             }
         },
         {
             version: "3.0",
             migrate: function(transaction, next) {
+                console.log('migration 3.0');
                 var conversations = transaction.objectStore("items");
 
                 var all = new Whisper.ConversationCollection();
@@ -67,11 +70,13 @@
                     storage.remove('unreadCount');
                     storage.put('unreadCount', unreadCount);
                 });
+                next();
             }
         },
         {
             version: "4.0",
             migrate: function(transaction, next) {
+                console.log('migration 4.0');
                 var all = new Whisper.ConversationCollection();
                 all.fetch().then(function() {
                     all.each(function(c) {
@@ -79,19 +84,23 @@
                         c.save();
                     });
                 });
+                next();
             }
         },
         {
             version: "5.0",
             migrate: function(transaction, next) {
+                console.log('migration 5.0');
                 if (storage.get("chromiumRegistrationDone") === "") {
                     storage.put("chromiumRegistrationDoneEver", "");
                 }
+                next();
             }
         },
         {
             version: "6.0",
             migrate: function(transaction, next) {
+                console.log('migration 6.0');
                 storage.onready(function() {
                     if (storage.get("chromiumRegistrationDone") === "") {
                         storage.put("chromiumRegistrationDoneEver", "");
@@ -99,12 +108,15 @@
                     }
                 });
                 storage.fetch();
+                next();
             }
         },
         {
             version: "7.0",
             migrate: function(transaction, next) {
+                console.log('migration 7.0');
                 transaction.db.createObjectStore("debug");
+                next();
             }
         }
     ];
