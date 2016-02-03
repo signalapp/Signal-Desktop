@@ -4,6 +4,7 @@
 
 ;(function() {
     'use strict';
+    console.log('background page reloaded');
     // register some chrome listeners
     if (chrome.notifications) {
         chrome.notifications.onClicked.addListener(function() {

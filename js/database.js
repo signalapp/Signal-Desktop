@@ -100,6 +100,12 @@
                 });
                 storage.fetch();
             }
+        },
+        {
+            version: "7.0",
+            migrate: function(transaction, next) {
+                transaction.db.createObjectStore("debug");
+            }
         }
     ];
 }());
