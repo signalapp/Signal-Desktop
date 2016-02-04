@@ -39263,17 +39263,19 @@ MessageSender.prototype = {
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
         return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
-            return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
-                return Promise.all(deviceIds.map(function(deviceId) {
-                    var address = new libsignal.SignalProtocolAddress(number, deviceId);
-                    console.log('closing session for', address.toString());
-                    var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                    return sessionCipher.closeOpenSessionForDevice();
-                })).then(function() {
-                    return res;
+            return this.sendSyncMessage(proto.toArrayBuffer(), timestamp, number).then(function() {
+                return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
+                    return Promise.all(deviceIds.map(function(deviceId) {
+                        var address = new libsignal.SignalProtocolAddress(number, deviceId);
+                        console.log('closing session for', address.toString());
+                        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                        return sessionCipher.closeOpenSessionForDevice();
+                    })).then(function() {
+                        return res;
+                    });
                 });
             });
-        });
+        }.bind(this));
     },
 
     sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer) {
