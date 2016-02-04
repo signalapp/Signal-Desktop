@@ -36947,15 +36947,22 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleSentMessage: function(destination, timestamp, message) {
-        return this.processDecrypted(message, this.number).then(function(message) {
-            var ev = new Event('sent');
-            ev.data = {
-                destination : destination,
-                timestamp   : timestamp.toNumber(),
-                message     : message
-            };
-            this.dispatchEvent(ev);
-        }.bind(this));
+        var p = Promise.resolve();
+        if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
+                textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
+            p = this.handleEndSession(destination);
+        }
+        return p.then(function() {
+            return this.processDecrypted(message, this.number).then(function(message) {
+                var ev = new Event('sent');
+                ev.data = {
+                    destination : destination,
+                    timestamp   : timestamp.toNumber(),
+                    message     : message
+                };
+                this.dispatchEvent(ev);
+            }.bind(this));
+        });
     },
     handleDataMessage: function(envelope, message, close_session) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
