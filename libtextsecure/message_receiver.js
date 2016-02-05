@@ -145,7 +145,7 @@ MessageReceiver.prototype.extend({
                 };
                 this.dispatchEvent(ev);
             }.bind(this));
-        });
+        }.bind(this));
     },
     handleDataMessage: function(envelope, message, close_session) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
