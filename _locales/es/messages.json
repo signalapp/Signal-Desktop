@@ -138,7 +138,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Sesión segura terminado",
+        "message": "Reinicio de sesión segura",
         "description": ""
     },
     "installGetStartedButton": {

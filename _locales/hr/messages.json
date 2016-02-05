@@ -1,78 +1,78 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Nepodržana vrsta privitka. Pritisnite za spremanje.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Primljena poruka s nepoznatim ključom identiteta. Pritisnite za obradu i prikaz.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Ime ovog računala bit će",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Shvatio!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Nepodržana vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Stvaranje ključeva",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Ponovno pokreni sjednicu",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Dobrodošli u Signal",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "Članovi",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Obriši poruke",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Odaberite kontakt ili grupu za početak dopisivanja",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Povezivanje...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to <span class='verify'>verify</span> this contact.",
+        "message": "Možda biste htjeli <span class='verify'>provjeriti</span> ovaj kontakt.",
         "description": ""
     },
     "sent": {
-        "message": "Sent",
+        "message": "Poslano",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Provjeri identitet",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Od",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Ovaj će zapis biti objavljen javno na internetu za doprinositelje. Možete ga provjeriti i urediti prije slanja.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Potraži ljude ili grupe",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Pratite nas</a> za novosti o podršci za više uređaja na iOS-u.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,71 +82,71 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Vaš identitet (vi čitate):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Žao nam je, imate već previše povezanih uređaja. Pokušajte ukloniti neke.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Sinkroniziranje grupa i kontakata",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Privatnost je moguća. Signal je čini lakom.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Nepovezano",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "Prihvati novi ključ",
         "description": ""
     },
     "received": {
-        "message": "Received",
+        "message": "Primljeno",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Pošalji poruku",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Promijenio se ključ identiteta ove osobe. Pritisnite za obradu i prikaz.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Žao nam je, odabrana datoteka nadmašuje ograničenja veličine poruke",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Otvorite Signal na vašem mobilnom telefonu i otvorite Postavke > Uređaji. Pritisnite gumb za dodavanje novog uređaja, zatim skenirajte kôd iznad.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Dobrodošli u Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Otkaži",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Ponovno pokretanje sigurne sjednice",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Započnite",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Prvo, instalirajte <a $a_params$>Signal</a> na Vaš Android mobilni telefon.<br /> Mi ćemo povezati Vaše uređaje i održati Vaše poruke sinkroniziranima.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,55 +156,55 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Povezivanje s",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Njihov identitet (oni čitaju):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Niste još razmijenili poruke s ovim kontaktom. Njihov identitet bit će dostupan nakon prve poruke.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Pošalji",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Za",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Izgleda dobro",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Detalji poruke",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Provjeri",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients.",
+        "message": "Neuspješno slanje nekim primateljima.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "U redu",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Pošalji debug zapis",
         "description": ""
     },
     "error": {
-        "message": "Error",
+        "message": "Greška",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "Ponovno pošalji",
         "description": ""
     }
 }

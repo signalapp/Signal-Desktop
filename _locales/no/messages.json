@@ -1,78 +1,78 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Vedlegg er ikke støttet. Klikk for å lagre det.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Melding mottatt med ukjent id-nøkkel. Klikk for å godta og vise.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Jeg kaller denne datamaskinen for ",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Perfekt!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Filtype er ikke støttet.",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Genererer Nøkler",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Start sesjon på nytt",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Velkommen til Signal!",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "Medlemmer",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Slett meldinger",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Velg en kontakt eller gruppe for å chatte",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Kobler til....",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to <span class='verify'>verify</span> this contact.",
+        "message": "Du ønsker kanskje å <span class='verify'>verifisere</span> denne kontakten.",
         "description": ""
     },
     "sent": {
-        "message": "Sent",
+        "message": "Melding sendt",
         "description": "Label for the time a message was sent"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Verifiser identitet",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Fra",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Denne logg-meldingen vil bli publisert på nettet for deltakere i prosjektet. Du kan se på og redigere den før du sender den inn.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Søk etter personer eller gruppper",
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Følg oss</a> for å få oppdateringer om støtte for flere enheter på iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,71 +82,71 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Din identitet (du leser):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Beklager. Du har for mange enheter tilkoblet. Prøv å fjern noen.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Synkroniserer grupper og kontakter",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Personvern er mulig. Signal gjør det enkelt.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Tilkobling brutt.",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "Aksepter ny nøkkel",
         "description": ""
     },
     "received": {
-        "message": "Received",
+        "message": "Melding mottatt",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Send en melding",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "ID-nøkkelen til denne kontakten har blitt endret. Klikk for å godta og vise den.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Beklager. Valgt fil er for stor.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Start Signal på telefonen din, og naviger til Innstillinger > Enheter. Klikk på knappen for å legge til en ny enhet. Deretter må du scanne koden over.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Velkommen til Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Avbryt",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Jeg har Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Start sikker sesjon på nytt",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Start her",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Begynn med å installer <a $a_params$>Signal</a> på din Android-telefon.<br /> Vi kobler enhetene dine sammen og holder meldingene dine synkronisert.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,39 +156,39 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Lenker opp med",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Hans/hennes identitet (leser):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Du har ikke vekslet meldinger med denne kontakten ennå. Deres identitet blir tilgjengelig etter første melding.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Send",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Til",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Ser bra ut",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Meldingsdetaljer",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Verifiser",
         "description": ""
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients.",
+        "message": "Kunne ikke sende til noen kontakter",
         "description": ""
     },
     "ok": {
@@ -196,15 +196,15 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Send logg for feilsøk.",
         "description": ""
     },
     "error": {
-        "message": "Error",
+        "message": "Feil",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "Send på nytt",
         "description": ""
     }
 }

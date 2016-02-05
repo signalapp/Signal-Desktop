@@ -8,7 +8,7 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "Dieser Computer heißt",
+        "message": "Der Name dieses Computers lautet",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Schlüssel werden erstellt",
+        "message": "Schlüssel werden erzeugt",
         "description": ""
     },
     "resetSession": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Verbinde...",
+        "message": "Verbindung wird hergestellt …",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Folgen Sie uns</a> für Informationen über die Unterstützung mehrerer Geräte für iOS.",
+        "message": "<a $a_params$>Folgen Sie uns</a> für neue Informationen über die Unterstützung mehrerer Geräte für iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,11 +82,11 @@
         }
     },
     "yourIdentity": {
-        "message": "Ihre Identität (sie lesen):",
+        "message": "Ihr Identitätsschlüssel (Sie lesen vor):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Entschuldigung, Sie haben bereits zu viele Geräte registriert. Versuchen Sie einige zu entfernen.",
+        "message": "Es sind bereits zu viele Geräte verknüpft. Versuchen Sie, mindestens eines zu entfernen.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -94,7 +94,7 @@
         "description": ""
     },
     "installTagline": {
-        "message": "Privatsphäre ist möglich. Signal macht es einfach.",
+        "message": "Privatsphäre ist möglich. Signal macht sie einfach.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -114,7 +114,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Der Schlüssel dieser Kontaktidentität hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Der Identitätsschlüssel dieses Kontakts hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -122,7 +122,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Öffnen Sie Signal auf Ihrem Smartphone und gehen Sie zu Einstellungen > Geräte. Klicken Sie den Button zum Hinzufügen eines neuen Gerätes und scannen Sie dann den obigen Code.",
+        "message": "Öffnen Sie Signal auf Ihrem Smartphone und gehen Sie zu Einstellungen > Geräte. Tippen Sie die Schaltfläche zum Hinzufügen eines neuen Geräts an und scannen Sie dann den obigen Code ein.",
         "description": ""
     },
     "installWelcome": {
@@ -146,7 +146,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Installieren Sie zuerst <a $a_params$>Signal</a> auf Ihrem Android Gerät.<br /> Ihre Geräte werden dann verbunden und Ihre Nachrichten synchronisiert.",
+        "message": "Installieren Sie zuerst <a $a_params$>Signal</a> auf Ihrem Android-Gerät.<br /> Ihre Geräte werden dann verknüpft und Ihre Nachrichten synchronisiert.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,15 +156,15 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Verknüpfe mit",
+        "message": "Verknüpfung wird durchgeführt mit",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Seine/Ihre Identität (er/sie ließt):",
+        "message": "Identitätsschlüssel des Kontakts (Kontakt liest vor):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "Sie haben bis jetzt noch keine Nachrichten mit diesem Kontakt ausgetauscht. Die Identität wird nach der ersten Nachricht verfügbar sein.",
+        "message": "Sie haben bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Der Identitätsschlüssel des Kontakts wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
     },
     "submit": {

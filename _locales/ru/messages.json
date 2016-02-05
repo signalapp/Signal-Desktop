@@ -8,7 +8,7 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Имя этого компьютера будет ",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Создание ключей",
         "description": ""
     },
     "resetSession": {
@@ -32,7 +32,7 @@
         "description": ""
     },
     "members": {
-        "message": "Члены",
+        "message": "Участники",
         "description": ""
     },
     "deleteMessages": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Соединение...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -60,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "От",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Следите за информацией</a> об обновлениях с поддержкой iOS устройств.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,19 +82,19 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Ваш идентификатор (вы читаете): ",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Извините, вы уже подсоединили слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Синхронизация групп и контактов",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Приватное общение возможно. Signal делает его легче.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -122,11 +122,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кноку добавления нового устройства и отсканируйте код, указанный выше.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Добро пожаловать в Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "cancel": {
@@ -134,19 +134,19 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "У меня установлен Signal для Android смартфона",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Безопасная сессия закончена",
+        "message": "Безопасная сессия перезапущена",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Начать",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Сначала установите <a $a_params$>Signal</a> на Android смартфоне.<br /> Мы свяжем ваши устройства и синхронизируем сообщения между ними.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,15 +156,15 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Связать с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Идентификатор собеседника (он читает): ",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Вы еще не обменивались сообщениями с этим пользователем. Его идентификатор будет доступен после первого сообщения.",
         "description": ""
     },
     "submit": {
@@ -176,7 +176,7 @@
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Отлично!",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
