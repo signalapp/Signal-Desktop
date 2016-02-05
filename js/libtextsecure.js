@@ -37438,14 +37438,16 @@ Message.prototype = {
         if (this.dataMessage instanceof textsecure.protobuf.DataMessage) {
             return this.dataMessage;
         }
-        var proto = new textsecure.protobuf.DataMessage();
-        proto.body = this.body;
-        proto.attachments =  this.attachments;
+        var proto         = new textsecure.protobuf.DataMessage();
+        proto.body        = this.body;
+        proto.attachments = this.attachments;
         if (this.flags) {
             proto.flags = this.flags;
         }
         if (this.group) {
-            proto.group = this.group;
+            proto.group      = new textsecure.protobuf.GroupContext();
+            proto.group.id   = toArrayBuffer(this.group.id);
+            proto.group.type = this.group.type
         }
 
         this.dataMessage = proto;
@@ -37643,20 +37645,28 @@ MessageSender.prototype = {
     },
 
     sendMessageToGroup: function(groupId, messageText, attachments, timestamp) {
-        var proto = new textsecure.protobuf.DataMessage();
-        proto.body = messageText;
-        proto.group = new textsecure.protobuf.GroupContext();
-        proto.group.id = toArrayBuffer(groupId);
-        proto.group.type = textsecure.protobuf.GroupContext.Type.DELIVER;
-
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
 
-            return Promise.all(attachments.map(this.makeAttachmentPointer.bind(this))).then(function(attachmentsArray) {
-                proto.attachments = attachmentsArray;
-                return this.sendGroupProto(numbers, proto, timestamp);
-            }.bind(this));
+            var me = textsecure.storage.user.getNumber();
+            numbers = numbers.filter(function(number) { return number != me; });
+            if (numbers.length === 0) {
+                return Promise.reject(new Error('No other members in the group'));
+            }
+
+            var message = new Message({
+                recipients  : numbers,
+                body        : messageText,
+                timestamp   : timestamp,
+                attachments : attachments,
+                needsSync   : true,
+                group: {
+                    id: groupId,
+                    type: textsecure.protobuf.GroupContext.Type.DELIVER
+                }
+            });
+            return this.sendMessage(message);
         }.bind(this));
     },
 
