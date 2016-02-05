@@ -37422,6 +37422,32 @@ OutgoingMessage.prototype = {
 /*
  * vim: ts=4:sw=4:expandtab
  */
+
+function Message(options) {
+    this.body        = options.body;
+    this.attachments = options.attachments || [];
+    this.group       = options.group;
+    this.flags       = options.flags;
+    this.recipients  = options.recipients;
+    this.timestamp   = options.timestamp;
+    this.needsSync   = options.needsSync;
+}
+Message.prototype = {
+    constructor: Message,
+    toProto: function() {
+        if (this.dataMessage instanceof textsecure.protobuf.DataMessage) {
+            return;
+        }
+        var proto = new textsecure.protobuf.DataMessage();
+        proto.body = body;
+        proto.attachments =  this.attachments;
+        proto.group = this.group;
+        proto.flags = this.flags;
+
+        return proto;
+    }
+};
+
 function MessageSender(url, username, password, attachment_server_url) {
     this.server = new TextSecureServer(url, username, password, attachment_server_url);
     this.pendingMessages = {};
@@ -37558,11 +37584,16 @@ MessageSender.prototype = {
     },
 
     sendMessageToNumber: function(number, messageText, attachments, timestamp) {
-        var proto = new textsecure.protobuf.DataMessage();
-        proto.body = messageText;
+        var message = new Message({
+            recipients  : [number],
+            body        : messageText,
+            timestamp   : timestamp,
+            needsSync   : true
+        });
 
         return Promise.all(attachments.map(this.makeAttachmentPointer.bind(this))).then(function(attachmentsArray) {
-            proto.attachments = attachmentsArray;
+            message.attachments = attachmentsArray;
+            var proto = message.toProto();
             return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
                 res.dataMessage = proto.toArrayBuffer();
                 return res;
