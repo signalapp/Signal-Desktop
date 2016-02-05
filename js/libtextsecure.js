@@ -37436,15 +37436,23 @@ Message.prototype = {
     constructor: Message,
     toProto: function() {
         if (this.dataMessage instanceof textsecure.protobuf.DataMessage) {
-            return;
+            return this.dataMessage;
         }
         var proto = new textsecure.protobuf.DataMessage();
-        proto.body = body;
+        proto.body = this.body;
         proto.attachments =  this.attachments;
-        proto.group = this.group;
-        proto.flags = this.flags;
+        if (this.flags) {
+            proto.flags = this.flags;
+        }
+        if (this.group) {
+            proto.group = this.group;
+        }
 
+        this.dataMessage = proto;
         return proto;
+    },
+    toArrayBuffer: function() {
+        return this.toProto().toArrayBuffer();
     }
 };
 
@@ -37492,6 +37500,28 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
+    sendMessage: function(message) {
+        return Promise.all(
+            message.attachments.map(this.makeAttachmentPointer.bind(this))
+        ).then(function(attachmentPointers) {
+            message.attachments = attachmentPointers;
+            return new Promise(function(resolve, reject) {
+                this.sendMessageProto(
+                    message.timestamp,
+                    message.recipients,
+                    message.toProto(),
+                    function(res) {
+                        res.dataMessage = message.toArrayBuffer();
+                        if (res.errors.length > 0) {
+                            reject(res);
+                        } else {
+                            resolve(res);
+                        }
+                    }
+                );
+            }.bind(this));
+        }.bind(this));
+    },
     sendMessageProto: function(timestamp, numbers, message, callback) {
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
 
@@ -37588,20 +37618,11 @@ MessageSender.prototype = {
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
+            attachments : attachments,
             needsSync   : true
         });
 
-        return Promise.all(attachments.map(this.makeAttachmentPointer.bind(this))).then(function(attachmentsArray) {
-            message.attachments = attachmentsArray;
-            var proto = message.toProto();
-            return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
-                res.dataMessage = proto.toArrayBuffer();
-                return res;
-            }.bind(this)).catch(function(res) {
-                res.dataMessage = proto.toArrayBuffer();
-                throw res;
-            }.bind(this));
-        }.bind(this));
+        return this.sendMessage(message);
     },
 
     closeSession: function(number, timestamp) {
