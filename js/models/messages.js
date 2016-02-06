@@ -212,7 +212,8 @@
         removeOutgoingErrors: function(number) {
             var errors = _.partition(this.get('errors'), function(e) {
                 return e.number === number &&
-                    (e.name === 'OutgoingMessageError' ||
+                    (e.name === 'MessageError' ||
+                     e.name === 'OutgoingMessageError' ||
                      e.name === 'SendMessageNetworkError');
             });
             this.set({errors: errors[1]});

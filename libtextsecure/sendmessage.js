@@ -11,6 +11,7 @@ function Message(options) {
     this.timestamp   = options.timestamp;
     this.needsSync   = options.needsSync;
 }
+
 Message.prototype = {
     constructor: Message,
     toProto: function() {
@@ -81,7 +82,8 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessage: function(message) {
+    sendMessage: function(attrs) {
+        var message = new Message(attrs);
         return Promise.all(
             message.attachments.map(this.makeAttachmentPointer.bind(this))
         ).then(function(attachmentPointers) {
@@ -101,7 +103,13 @@ MessageSender.prototype = {
                     }
                 );
             }.bind(this));
-        }.bind(this));
+        }.bind(this)).catch(function(error) {
+            if (error instanceof Error && error.name === 'HTTPError') {
+                throw new textsecure.MessageError(attrs, error);
+            } else {
+                throw error;
+            }
+        });
     },
     sendMessageProto: function(timestamp, numbers, message, callback) {
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
@@ -195,15 +203,13 @@ MessageSender.prototype = {
     },
 
     sendMessageToNumber: function(number, messageText, attachments, timestamp) {
-        var message = new Message({
+        return this.sendMessage({
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
             attachments : attachments,
             needsSync   : true
         });
-
-        return this.sendMessage(message);
     },
 
     closeSession: function(number, timestamp) {
@@ -234,7 +240,7 @@ MessageSender.prototype = {
                 return Promise.reject(new Error('No other members in the group'));
             }
 
-            var message = new Message({
+            return this.sendMessage({
                 recipients  : numbers,
                 body        : messageText,
                 timestamp   : timestamp,
@@ -245,7 +251,6 @@ MessageSender.prototype = {
                     type: textsecure.protobuf.GroupContext.Type.DELIVER
                 }
             });
-            return this.sendMessage(message);
         }.bind(this));
     },
 
@@ -364,6 +369,7 @@ textsecure.MessageSender = function(url, username, password, attachment_server_u
     var sender = new MessageSender(url, username, password, attachment_server_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
+    textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
 
     this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
     this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);

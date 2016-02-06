@@ -86,7 +86,8 @@
         },
         retryMessage: function() {
             var retrys = _.filter(this.model.get('errors'), function(e) {
-                return (e.name === 'OutgoingMessageError' ||
+                return (e.name === 'MessageError' ||
+                        e.name === 'OutgoingMessageError' ||
                         e.name === 'SendMessageNetworkError');
             });
             _.map(retrys, 'number').forEach(function(number) {
@@ -105,7 +106,8 @@
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
             var hasRetry = _.find(this.model.get('errors'), function(e) {
-                return (e.name === 'OutgoingMessageError' ||
+                return (e.name === 'MessageError' ||
+                        e.name === 'OutgoingMessageError' ||
                         e.name === 'SendMessageNetworkError');
             });
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {

@@ -9,6 +9,7 @@
         ENCRYPT_MESSAGE: 1,
         INIT_SESSION: 2,
         TRANSMIT_MESSAGE: 3,
+        REBUILD_MESSAGE: 4,
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -87,10 +88,25 @@
     SendMessageNetworkError.prototype = new ReplayableError();
     SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
 
+    function MessageError(message, httpError) {
+        ReplayableError.call(this, {
+            functionCode : Type.REBUILD_MESSAGE,
+            args         : [message]
+        });
+        this.name = 'MessageError';
+        this.code = httpError.code;
+        this.message = httpError.message;
+        this.stack = httpError.stack;
+    }
+    MessageError.prototype = new ReplayableError();
+    MessageError.prototype.constructor = MessageError;
+
+
     window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
     window.textsecure.ReplayableError = ReplayableError;
     window.textsecure.OutgoingMessageError = OutgoingMessageError;
+    window.textsecure.MessageError = MessageError;
 
 })();
