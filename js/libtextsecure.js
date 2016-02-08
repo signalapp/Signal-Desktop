@@ -37119,7 +37119,7 @@ MessageReceiver.prototype.extend({
 
             return p.then(function() {
                 return this.processDecrypted(finalMessage);
-            }.bind(this);
+            }.bind(this));
         }.bind(this));
     },
     handleEndSession: function(number) {
