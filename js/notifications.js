@@ -8,7 +8,6 @@
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
             this.on('add', this.onAdd);
-            this.on('remove', this.onRemove);
         },
         isEnabled: function(callback) {
             return Notification.permission === 'granted' &&
@@ -81,9 +80,6 @@
         },
         onAdd: function() {
             extension.notification.clear();
-            this.update();
-        },
-        onRemove: function() {
             this.update();
         },
         clear: function() {
