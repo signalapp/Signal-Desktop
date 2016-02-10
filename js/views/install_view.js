@@ -44,8 +44,8 @@
             this.$('#qr').text(i18n("installConnecting"));
         },
         setProvisioningUrl: function(url) {
-                this.$('#qr').html('');
-                new QRCode(this.$('#qr')[0]).makeCode(url);
+            this.$('#qr').html('');
+            new QRCode(this.$('#qr')[0]).makeCode(url);
         },
         confirmNumber: function(number) {
             var parsed = libphonenumber.parse(number);
@@ -88,6 +88,9 @@
         },
         showTooManyDevices: function() {
             this.selectStep('TooManyDevices');
+        },
+        showConnectionError: function() {
+            this.$('#qr').text(i18n("installConnectionFailed"));
         }
     });
 })();

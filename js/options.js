@@ -44,7 +44,8 @@
                         view.showSync();
                     }).catch(function(e) {
                         if (e.message === 'websocket closed') {
-                            init();
+                            view.showConnectionError();
+                            setTimeout(init, 10000);
                         } else if (e.name === 'HTTPError' && e.code == 411) {
                             view.showTooManyDevices();
                         }

@@ -154,6 +154,10 @@
         "message": "Connecting...",
         "description": "Displayed when waiting for the QR Code"
     },
+    "installConnectionFailed": {
+        "message": "Failed to connect to server.",
+        "description": "Displayed when we can't connect to the server."
+    },
     "installGeneratingKeys": {
         "message": "Generating Keys"
     },
