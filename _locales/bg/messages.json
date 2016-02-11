@@ -82,11 +82,11 @@
         }
     },
     "yourIdentity": {
-        "message": "Вашата самоличност(вие трябва да прочетете):",
+        "message": "Вашата самоличност (както Вие четете):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Съжаляваме, вече имате прекалено много регистрирани устройства. Пробвайте да премахнете някое.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -122,12 +122,16 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Отворете Сигнал на вашия телефон, след което отидете в Настройки - Устройства. Натиснете бутона за да добавите ново устройство, след което сканирайте кода отгоре.",
+        "message": "Отворете Сигнал на Вашия телефон, след което отидете в Настройки - Устройства. Натиснете бутона за да добавите ново устройство, след което сканирайте кода отгоре.",
         "description": ""
     },
     "installWelcome": {
         "message": "Добре дошли в Сигнал за настолен компютър",
         "description": "Welcome title on the install page"
+    },
+    "installConnectionFailed": {
+        "message": "Failed to connect to server.",
+        "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
         "message": "Отказ",
@@ -138,7 +142,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Защитената сесия беше прекратена",
+        "message": "Рестартиране на поверителна сесия",
         "description": ""
     },
     "installGetStartedButton": {
@@ -146,7 +150,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Първо, инсталирайте <a $a_params$>Сигнал</a> на вашият Андройд телефон.<br /> Ние ще свържем вашите устройства и ще ви синхронизираме съобщенията.",
+        "message": "Първо, инсталирайте <a $a_params$>Сигнал</a> на Вашия Андройд телефон.<br /> Ние ще свържем вашите устройства и ще синхронизираме съобщенията Ви.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -160,11 +164,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Тяхна самоличност(те трябва да прочетат):",
+        "message": "Тяхна самоличност (както те четат):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Не сте обменяли съобщения с този Ваш контакт до сега. Самоличността на контакта ще бъде достъпна след първото съобщение.",
         "description": ""
     },
     "submit": {

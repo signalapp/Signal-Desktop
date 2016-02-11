@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Folgen Sie uns</a> für neue Informationen über die Unterstützung mehrerer Geräte für iOS.",
+        "message": "<a $a_params$>Folgen Sie uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -129,6 +129,10 @@
         "message": "Willkommen bei Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "installConnectionFailed": {
+        "message": "Verbindung zum Server fehlgeschlagen.",
+        "description": "Displayed when we can't connect to the server."
+    },
     "cancel": {
         "message": "Abbrechen",
         "description": ""
@@ -168,7 +172,7 @@
         "description": ""
     },
     "submit": {
-        "message": "Senden",
+        "message": "Übermitteln",
         "description": ""
     },
     "to": {
@@ -188,7 +192,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Nachricht konnte nicht an alle Empfänger gesendet werden.",
+        "message": "Nachricht konnte an einige Empfänger nicht versendet werden.",
         "description": ""
     },
     "ok": {

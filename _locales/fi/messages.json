@@ -129,6 +129,10 @@
         "message": "Tervetuloa Signal Desktopiin",
         "description": "Welcome title on the install page"
     },
+    "installConnectionFailed": {
+        "message": "Palvelimeen ei saada yhteyttä.",
+        "description": "Displayed when we can't connect to the server."
+    },
     "cancel": {
         "message": "Peruuta",
         "description": ""

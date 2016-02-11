@@ -129,6 +129,10 @@
         "message": "Welcom bij Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "installConnectionFailed": {
+        "message": "Verbinden met server mislukt.",
+        "description": "Displayed when we can't connect to the server."
+    },
     "cancel": {
         "message": "Annuleren",
         "description": ""

@@ -8,7 +8,7 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Bu bilgisayarın adı olacak",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Anahtarlar oluşturuluyor",
         "description": ""
     },
     "resetSession": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Bağlanılıyor...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -60,11 +60,11 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Gönderen",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Bu kayıt, gönüllü katkıcıların görmesi için alenen gönderilecek. Göndermeden önce kaydı inceleyebilir ve düzenleyebilirsin.",
+        "message": "Bu kayıt, katkıda bulunanların görmesi için alenen gönderilecek. Göndermeden önce kaydı inceleyebilir ve düzenleyebilirsiniz.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "iOS çoklu cihaz desteği hakkında güncellemeler için <a $a_params$>bizi takip edin.</a>",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,19 +82,19 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Sizin kimliğiniz (sizin okuduğunuz):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Maalesef, çok fazla sayıda cihaz zaten bağlı. Bazılarını kaldırmayı deneyin.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Gruplar ve kişiler senkronize ediliyor",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Gizlilik mümkün. Signal bunu kolaylaştırır.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -122,31 +122,35 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Telefonunuzda Signal'i açın ve Ayarlar > Cihazlar bölümüne gidin. Daha sonra, yeni cihaz ekleme butonuna dokunun ve kodu taratın.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Signal Masaüstü Uygulamasına Hoş Geldiniz",
         "description": "Welcome title on the install page"
+    },
+    "installConnectionFailed": {
+        "message": "Sunucuyla bağlantı başarısız.",
+        "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
         "message": "İptal",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Android cihazımda Signal yüklü",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Güvenli oturum sona erdi",
+        "message": "Güvenli oturumu sıfırla",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Kullanmaya başla",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "İlk olarak Android cihazınıza <a $a_params$>Signal</a> yükleyin. Biz cihazlarınızı bağlayacak ve mesajlarınızı senkronize içinde tutacağız.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,15 +160,15 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "İle bağla",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Onların kimliği (onların okuduğu):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Henüz bu kişi ile herhangi bir mesaj alışverişinde bulunmadınız. Onların kimliği, ilk mesajdan sonra geçerli olacak.",
         "description": ""
     },
     "submit": {
@@ -172,11 +176,11 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Alıcı",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "İyi görünüyor",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {

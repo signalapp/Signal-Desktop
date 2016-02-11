@@ -28,7 +28,7 @@
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Benvenuti a Signal",
+        "message": "Benvenuti su Signal",
         "description": ""
     },
     "members": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Seleziona un contatto o un gruppo per iniziare una chat.",
+        "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
         "description": ""
     },
     "installConnecting": {
@@ -129,8 +129,12 @@
         "message": "Benvenuto in Signal per desktop",
         "description": "Welcome title on the install page"
     },
+    "installConnectionFailed": {
+        "message": "Connessione al server non riuscita.",
+        "description": "Displayed when we can't connect to the server."
+    },
     "cancel": {
-        "message": "Cancella",
+        "message": "Annulla",
         "description": ""
     },
     "installIHaveSignalButton": {

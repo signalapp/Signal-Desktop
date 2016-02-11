@@ -8,7 +8,7 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Datornamnet kommer att vara",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Genererar nycklar",
         "description": ""
     },
     "resetSession": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Ansluter...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -60,7 +60,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Från",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -72,7 +72,7 @@
         "description": "Placeholder text in the search input"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Följ oss</a> för uppdateringar om iOS stöd för fler enheter.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -82,19 +82,19 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Din identitet (du läser):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Synkroniserar grupper och kontakter",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Integritet är möjligt. Signal gör det lätt.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -122,31 +122,35 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Öppna Signal på din telefon och navigera till Inställningar > Enheter. Tryck på knappen för att lägga till en ny enhet, sedan skanna koden ovan.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Välkommen till Signal Desktop",
         "description": "Welcome title on the install page"
+    },
+    "installConnectionFailed": {
+        "message": "Failed to connect to server.",
+        "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
         "message": "Avbryt",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Jag har Signal för Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Säker session avslutad",
+        "message": "Återställning av säkerhetssession",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Komma igång",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Börja med att installera <a $a_params$>Signal</a> på din Android telefon.<br /> Vi kommer att länka dina enheter och hålla dina meddelanden synkroniserade.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -156,15 +160,15 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Länkar till",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Deras identitet (de läser):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Du har inte utbytt något meddelande med den här kontakten ännu. Hens identitet kommer att finnas tillgänglig efter det första meddelandet.",
         "description": ""
     },
     "submit": {
@@ -172,11 +176,11 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Till",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Ser bra ut",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
