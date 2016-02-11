@@ -234,11 +234,6 @@
         var groups    = new Whisper.ConversationCollection();
         console.log('delivery receipt from', pushMessage.source + '.' + pushMessage.sourceDevice, timestamp);
 
-        if (pushMessage.source === textsecure.storage.user.getNumber()) {
-            // disregard delivery receipts from myself
-            return;
-        }
-
         groups.fetchGroups(pushMessage.source).then(function() {
             messages.fetchSentAt(timestamp).then(function() {
                 var ids = groups.pluck('id');
