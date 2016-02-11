@@ -246,6 +246,7 @@
                     }.bind(this));
                 }
                 promise.catch(function(e) {
+                    this.removeConflictFor(number);
                     this.saveErrors(e);
                 }.bind(this));
 
