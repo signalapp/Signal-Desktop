@@ -241,24 +241,27 @@
 
         groups.fetchGroups(pushMessage.source).then(function() {
             messages.fetchSentAt(timestamp).then(function() {
-                var found = false;
-                messages.where({type: 'outgoing'}).forEach(function(message) {
-                    var deliveries     = message.get('delivered') || 0;
-                    var conversationId = message.get('conversationId');
-                    if (conversationId === pushMessage.source || groups.get(conversationId)) {
-                        message.save({delivered: deliveries + 1}).then(function() {
-                            // notify frontend listeners
-                            var conversation = ConversationController.get(conversationId);
-                            if (conversation) {
-                                conversation.trigger('newmessage', message);
-                            }
-                        });
-                        found = true;
-                        // TODO: consider keeping a list of numbers we've
-                        // successfully delivered to?
-                    }
+                var ids = groups.pluck('id');
+                ids.push(pushMessage.source);
+                var message = messages.find(function(message) {
+                    return (message.get('type') === 'outgoing' &&
+                            _.contains(ids, message.get('conversationId')));
                 });
-                if (found) { return; }
+                if (message) {
+                    var deliveries = message.get('delivered') || 0;
+                    message.save({delivered: deliveries + 1}).then(function() {
+                        // notify frontend listeners
+                        var conversation = ConversationController.get(
+                            message.get('conversationId')
+                        );
+                        if (conversation) {
+                            conversation.trigger('newmessage', message);
+                        }
+                    });
+                    // TODO: consider keeping a list of numbers we've
+                    // successfully delivered to?
+                    return;
+                }
                 // if we get here, we didn't find a matching message.
                 // keep the receipt in memory in case it shows up later
                 // as a sync message.
