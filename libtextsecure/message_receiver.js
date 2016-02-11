@@ -241,25 +241,29 @@ MessageReceiver.prototype.extend({
             while (groupDetails !== undefined) {
                 var promise = (function(groupDetails) {
                     groupDetails.id = getString(groupDetails.id);
-                    return textsecure.storage.groups.getGroup(groupDetails.id).
-                        then(function(existingGroup) {
-                            if (existingGroup === undefined) {
-                                return textsecure.storage.groups.createNewGroup(
-                                    groupDetails.members, groupDetails.id
-                                );
-                            } else {
-                                return textsecure.storage.groups.updateNumbers(
-                                    groupDetails.id, groupDetails.members
-                                );
-                            }
-                        }).then(function() {
-                            var ev = new Event('group');
-                            ev.groupDetails = groupDetails;
-                            eventTarget.dispatchEvent(ev);
-                        }).catch(function(e) {
-                            console.log('error processing group', groupDetails.id, e);
-                        });
-                })(groupDetails);
+                    if (groupDetails.active) {
+                        return textsecure.storage.groups.getGroup(groupDetails.id).
+                            then(function(existingGroup) {
+                                if (existingGroup === undefined) {
+                                    return textsecure.storage.groups.createNewGroup(
+                                        groupDetails.members, groupDetails.id
+                                    );
+                                } else {
+                                    return textsecure.storage.groups.updateNumbers(
+                                        groupDetails.id, groupDetails.members
+                                    );
+                                }
+                            }).then(function() { return groupDetails });
+                    } else {
+                        return Promise.resolve(groupDetails);
+                    }
+                })(groupDetails).then(function(groupDetails) {
+                    var ev = new Event('group');
+                    ev.groupDetails = groupDetails;
+                    eventTarget.dispatchEvent(ev);
+                }).catch(function(e) {
+                    console.log('error processing group', e);
+                });
                 groupDetails = groupBuffer.next();
                 promises.push(promise);
             }

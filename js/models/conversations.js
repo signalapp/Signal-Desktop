@@ -164,6 +164,7 @@
     leaveGroup: function() {
         var now = Date.now();
         if (this.get('type') === 'group') {
+            this.save({left: true});
             var message = this.messageCollection.create({
                 group_update: { left: 'You' },
                 conversationId : this.id,

@@ -131,13 +131,17 @@
 
     function onGroupReceived(ev) {
         var groupDetails = ev.groupDetails;
-        ConversationController.create({
+        var conversation = ConversationController.create({
             id: groupDetails.id,
             name: groupDetails.name,
             members: groupDetails.members,
             avatar: groupDetails.avatar,
             type: 'group',
-        }).save();
+        });
+        if (!groupDetails.active) {
+            conversation.set({left: true});
+        }
+        conversation.save();
     }
 
     function onMessageReceived(ev) {
