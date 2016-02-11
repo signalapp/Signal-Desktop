@@ -22,7 +22,7 @@
             this.timeStampView = new Whisper.ExtendedTimestampView();
         },
         events: {
-            'click .timestamp': 'select',
+            'click .meta': 'select',
             'click .error': 'select'
         },
         select: function(e) {

@@ -627,10 +627,6 @@ input.search {
           height: 16px;
           width: 16px;
           border: solid 3px transparent; }
-        .conversation .panel .discussion-container .message-list .timestamp {
-          cursor: pointer; }
-          .conversation .panel .discussion-container .message-list .timestamp:hover {
-            text-decoration: underline; }
 
 .group-member-list,
 .new-group-update,
@@ -753,6 +749,8 @@ input.search {
 .timestamp {
   font-size: smaller;
   margin-right: 3px; }
+  .timestamp:hover {
+    text-decoration: underline; }
 
 .outgoing.entry .status {
   display: inline-block;
@@ -810,6 +808,9 @@ input.search {
       margin: 0; }
     .message-detail .bubble .meta,
     .message-list .bubble .meta {
+      margin-top: 3px;
+      float: right;
+      cursor: pointer;
       opacity: 0.5; }
       .message-detail .bubble .meta:hover,
       .message-list .bubble .meta:hover {
@@ -910,10 +911,6 @@ input.search {
     height: 36px;
     width: 36px;
     line-height: 36px; }
-  .message-detail .meta,
-  .message-list .meta {
-    margin-top: 3px;
-    float: right; }
   .message-detail .end-session,
   .message-list .end-session {
     font: small;
