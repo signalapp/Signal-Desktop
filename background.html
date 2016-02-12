@@ -171,14 +171,14 @@
         <span class='conversation-title'>{{ title }}</span>
     </div>
     <div class='container'>
+      {{ #hasRetry }}
+        <div class='hasRetry clearfix'>
+          <div class='retryMessage'>{{ failedToSend }}</div>
+          <button class='retry'>{{ resend }}</button>
+        </div>
+      {{ /hasRetry }}
       <div class='message-container'></div>
       <div class='info'>
-        {{ #hasRetry }}
-          <h3 class='hasRetry clearfix'>
-            <button class='retry'>{{ resend }}</button>
-            <span>{{ failedToSend }}</span>
-          </h3>
-        {{ /hasRetry }}
         <table>
           <tr>
             <td class='label'>{{ sent }}</td>

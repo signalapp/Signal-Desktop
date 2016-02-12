@@ -649,6 +649,32 @@ input.search {
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
+.message-detail .hasRetry {
+  background: #F3F3A7;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px; }
+  .message-detail .hasRetry .retryMessage {
+    font-weight: bold; }
+  .message-detail .hasRetry button {
+    margin: 5px;
+    background: #2090ea;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em;
+    font-weight: bold; }
+    .message-detail .hasRetry button span {
+      vertical-align: middle; }
+    .message-detail .hasRetry button:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background: url("/images/refresh.png") no-repeat center center;
+      background-size: 100%; }
 .message-detail .message-container {
   background: white;
   padding: 1em 0; }
@@ -665,8 +691,7 @@ input.search {
     border-radius: 5px;
     color: white;
     padding: 0.5em;
-    font-weight: bold;
-    background: #2090ea; }
+    font-weight: bold; }
     .message-detail .info button span {
       vertical-align: middle; }
     .message-detail .info button:before {
@@ -683,8 +708,6 @@ input.search {
 .message-detail h3 {
   font-size: 1em;
   padding: 5px; }
-  .message-detail h3 button {
-    float: right; }
 .message-detail .error-icon {
   display: inline-block;
   width: 18px;

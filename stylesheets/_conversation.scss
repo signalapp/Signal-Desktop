@@ -94,6 +94,42 @@
     height: calc(100% - (#{$header-height} + 4px));
   }
 
+  .hasRetry {
+    background: #F3F3A7;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+
+    .retryMessage {
+      font-weight: bold;
+    }
+
+    button {
+      margin: 5px;
+      background: $blue;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 0.5em;
+      font-weight: bold;
+
+      span {
+        vertical-align: middle;
+      }
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 18px;
+        height: 18px;
+        background: url('/images/refresh.png') no-repeat center center;
+        background-size: 100%;
+      }
+    }
+  }
+
   .message-container {
     background: white;
     padding: 1em 0;
@@ -118,7 +154,6 @@
       color: white;
       padding: 0.5em;
       font-weight: bold;
-      background: $blue;
 
       span {
         vertical-align: middle;
@@ -144,10 +179,6 @@
   h3 {
     font-size: 1em;
     padding: 5px;
-
-    button {
-      float: right;
-    }
   }
 
   .error-icon {
