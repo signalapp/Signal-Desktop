@@ -68,6 +68,7 @@
 
     storage.fetch();
     storage.onready(function() {
+        window.dispatchEvent(new Event('storage_ready'));
         setUnreadCount(storage.get("unreadCount", 0));
 
         if (textsecure.registration.isDone()) {

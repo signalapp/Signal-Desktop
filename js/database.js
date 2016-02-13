@@ -14,6 +14,7 @@
             version: "1.0",
             migrate: function(transaction, next) {
                 console.log('migration 1.0');
+                console.log('creating object stores');
                 var messages = transaction.db.createObjectStore("messages");
                 messages.createIndex("conversation", ["conversationId", "received_at"], { unique: false });
                 messages.createIndex("receipt", "sent_at", { unique: false });
@@ -42,11 +43,14 @@
                 var conversations = transaction.objectStore("conversations");
                 conversations.createIndex("search", "tokens", { unique: false, multiEntry: true });
 
-                var all = new Whisper.ConversationCollection();
-                all.fetch().then(function() {
-                    all.each(function(model) {
-                        model.updateTokens();
-                        model.save();
+                window.addEventListener('storage_ready', function() {
+                    console.log('migrating search tokens');
+                    var all = new Whisper.ConversationCollection();
+                    all.fetch().then(function() {
+                        all.each(function(model) {
+                            model.updateTokens();
+                            model.save();
+                        });
                     });
                 });
                 next();
@@ -58,17 +62,20 @@
                 console.log('migration 3.0');
                 var conversations = transaction.objectStore("items");
 
-                var all = new Whisper.ConversationCollection();
-                all.fetch().then(function() {
-                    var unreadCount = all.reduce(function(total, model) {
-                        var count = model.get('unreadCount');
-                        if (count === undefined) {
-                            count = 0;
-                        }
-                        return total + count;
-                    }, 0);
-                    storage.remove('unreadCount');
-                    storage.put('unreadCount', unreadCount);
+                window.addEventListener('storage_ready', function() {
+                    console.log('migrating unread count');
+                    var all = new Whisper.ConversationCollection();
+                    all.fetch().then(function() {
+                        var unreadCount = all.reduce(function(total, model) {
+                            var count = model.get('unreadCount');
+                            if (count === undefined) {
+                                count = 0;
+                            }
+                            return total + count;
+                        }, 0);
+                        storage.remove('unreadCount');
+                        storage.put('unreadCount', unreadCount);
+                    });
                 });
                 next();
             }
@@ -77,11 +84,14 @@
             version: "4.0",
             migrate: function(transaction, next) {
                 console.log('migration 4.0');
-                var all = new Whisper.ConversationCollection();
-                all.fetch().then(function() {
-                    all.each(function(c) {
-                        c.updateTokens();
-                        c.save();
+                window.addEventListener('storage_ready', function() {
+                    console.log('migrating search tokens');
+                    var all = new Whisper.ConversationCollection();
+                    all.fetch().then(function() {
+                        all.each(function(c) {
+                            c.updateTokens();
+                            c.save();
+                        });
                     });
                 });
                 next();
@@ -91,9 +101,12 @@
             version: "5.0",
             migrate: function(transaction, next) {
                 console.log('migration 5.0');
-                if (storage.get("chromiumRegistrationDone") === "") {
-                    storage.put("chromiumRegistrationDoneEver", "");
-                }
+                window.addEventListener('storage_ready', function() {
+                    console.log('migrating registration flags');
+                    if (storage.get("chromiumRegistrationDone") === "") {
+                        storage.put("chromiumRegistrationDoneEver", "");
+                    }
+                });
                 next();
             }
         },
@@ -101,11 +114,14 @@
             version: "6.0",
             migrate: function(transaction, next) {
                 console.log('migration 6.0');
-                storage.onready(function() {
-                    if (storage.get("chromiumRegistrationDone") === "") {
-                        storage.put("chromiumRegistrationDoneEver", "");
-                        next();
-                    }
+                window.addEventListener('storage_ready', function() {
+                    console.log('migrating registration flags');
+                    storage.onready(function() {
+                        if (storage.get("chromiumRegistrationDone") === "") {
+                            storage.put("chromiumRegistrationDoneEver", "");
+                            next();
+                        }
+                    });
                 });
                 next();
             }
@@ -114,6 +130,7 @@
             version: "7.0",
             migrate: function(transaction, next) {
                 console.log('migration 7.0');
+                console.log('creating debug log');
                 transaction.db.createObjectStore("debug");
                 next();
             }
