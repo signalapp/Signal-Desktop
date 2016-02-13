@@ -29,7 +29,7 @@
         },
         log: function(str) {
             this.add({time: Date.now(), value: str}).save();
-            if (this.length > MAX_MESSAGES) {
+            while (this.length > MAX_MESSAGES) {
                 this.at(0).destroy();
             }
         },
