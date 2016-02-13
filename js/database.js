@@ -107,7 +107,6 @@
                         next();
                     }
                 });
-                storage.fetch();
                 next();
             }
         },
