@@ -7,24 +7,17 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.KeyConflictDialogueView = Whisper.View.extend({
-        className: 'key-conflict-dialogue',
+        className: 'key-conflict-dialogue clearfix',
         templateName: 'key-conflict-dialogue',
         initialize: function(options) {
             this.conversation = options.conversation;
         },
         events: {
             'click .verify': 'triggerVerify',
-            'click .resolve': 'resolve',
-            'click .cancel': 'remove',
-            'click': 'clickOut'
+            'click .resolve': 'resolve'
         },
         triggerVerify: function() {
             this.trigger('verify', {identityKey: this.model.identityKey});
-        },
-        clickOut: function(e) {
-            if (!$(e.target).closest('.content').length) {
-                this.remove();
-            }
         },
         resolve: function() {
             this.trigger('resolve');
@@ -33,8 +26,7 @@
         },
         render_attributes: function() {
             return {
-                message: this.model.message,
-                cancel: i18n('cancel'),
+                message: i18n('identityChanged'),
                 resolve: i18n('acceptNewKey'),
                 verifyContact: i18n('verifyContact')
             };

@@ -14,12 +14,21 @@
                 return (e.name === 'IncomingIdentityKeyError' ||
                         e.name === 'OutgoingIdentityKeyError');
             });
+
         },
         events: {
-            'click .conflict': 'triggerConflict'
+            'click .conflict': 'triggerConflict',
+            'click .cancel'  : 'cancel'
         },
         triggerConflict: function() {
-            this.$el.trigger('conflict', {conflict: this.conflict});
+            this.$el.trigger('conflict', {conflict: this.conflict, el: this.el});
+            this.$('.cancel').show();
+            this.$('.conflict').hide();
+        },
+        cancel: function() {
+            this.$('.key-conflict-dialogue').remove();
+            this.$('.cancel').hide();
+            this.$('.conflict').show();
         },
         render_attributes: function() {
             return {
@@ -27,7 +36,8 @@
                 avatar   : this.model.getAvatar(),
                 conflict : this.conflict,
                 errors   : this.errors,
-                verify   : i18n('verify')
+                verify   : i18n('verify'),
+                cancel   : i18n('cancel')
             };
         }
     });
@@ -76,7 +86,7 @@
                 model: data.conflict,
                 conversation: this.conversation
             });
-            view.render().$el.appendTo(this.$el);
+            view.render().$el.appendTo(data.el);
             this.listenTo(view, 'verify', function(data) {
                 this.verify(data.identityKey);
             });

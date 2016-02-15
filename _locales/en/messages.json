@@ -9,7 +9,15 @@
       "message": "Submit"
     },
     "verifyContact": {
-      "message": "You may wish to <span class='verify'>verify</span> this contact."
+      "message": "You may wish to $tag_start$verify$tag_end$ this contact.",
+      "placeholders": {
+        "tag_start": {
+          "content": "<a class='verify' href='#'>"
+        },
+        "tag_end": {
+          "content": "</a>"
+        }
+      }
     },
     "acceptNewKey": {
       "message": "Accept new key"
@@ -19,6 +27,9 @@
     },
     "newIdentity": {
       "message": "New Identity"
+    },
+    "identityChanged": {
+      "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key."
     },
     "outgoingKeyConflict": {
       "message": "This contact's identity key has changed. Click to process and display."

@@ -657,26 +657,27 @@ input.search {
   border-radius: 5px; }
   .message-detail .hasConflict button,
   .message-detail .hasRetry button {
-    margin: 5px;
-    background: #2090ea;
     outline: none;
     border: none;
     border-radius: 5px;
     color: white;
-    padding: 0.5em;
-    font-weight: bold; }
+    padding: 0.5em 1em;
+    font-weight: bold;
+    line-height: 18px; }
     .message-detail .hasConflict button span,
     .message-detail .hasRetry button span {
       vertical-align: middle; }
-    .message-detail .hasConflict button:before,
-    .message-detail .hasRetry button:before {
-      content: '';
-      display: inline-block;
-      vertical-align: middle;
-      width: 18px;
-      height: 18px;
-      background: url("/images/refresh.png") no-repeat center center;
-      background-size: 100%; }
+.message-detail .hasRetry button {
+  margin: 5px;
+  background: #2090ea; }
+  .message-detail .hasRetry button:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background: url("/images/refresh.png") no-repeat center center;
+    background-size: 100%; }
 .message-detail .message-container {
   background: white;
   padding: 1em 0; }
@@ -704,9 +705,25 @@ input.search {
       height: 18px;
       background: url("/images/refresh.png") no-repeat center center;
       background-size: 100%; }
-.message-detail .contact-detail {
-  margin-bottom: 5px;
+.message-detail .conflicts .contact-detail {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 10px; }
+.message-detail .contacts .contact-detail {
   padding: 0 36px; }
+.message-detail .contact-detail {
+  margin-bottom: 5px; }
+  .message-detail .contact-detail .key-conflict-dialogue .content {
+    max-width: 40em;
+    margin: 0 auto; }
+  .message-detail .contact-detail .key-conflict-dialogue .verify {
+    color: #2090ea;
+    text-decoration: underline;
+    cursor: pointer; }
+  .message-detail .contact-detail .key-conflict-dialogue button {
+    float: right;
+    background: #2090ea;
+    margin: 0 0 10px 10px; }
 .message-detail h3 {
   font-size: 1em;
   padding: 5px; }
@@ -746,10 +763,10 @@ input.search {
 .message-detail button.conflict {
   float: right;
   background: #d00; }
-  .message-detail button.conflict span {
-    padding-left: 5px; }
-  .message-detail button.conflict:before {
-    background: url("/images/error.png") no-repeat center center; }
+.message-detail button.cancel {
+  float: right;
+  color: #454545;
+  border: solid 1px #ccc; }
 
 .group-update {
   font-size: smaller; }
@@ -950,23 +967,6 @@ input.search {
     .message-detail .key-conflict button,
     .message-list .key-conflict button {
       margin-top: 5px; }
-
-.key-conflict-dialogue {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  padding: 36px; }
-  .key-conflict-dialogue .content {
-    padding: 1em;
-    background: white;
-    color: black;
-    box-shadow: 0 0 5px 0 black; }
-  .key-conflict-dialogue .verify {
-    color: #2090ea;
-    text-decoration: underline;
-    cursor: pointer; }
 
 .bottom-bar {
   margin-top: 4px;

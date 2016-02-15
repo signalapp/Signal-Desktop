@@ -276,7 +276,7 @@
     <p>{{ message }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
-      <div>
+      <div class='clearfix'>
         {{ #errors }}
             <span class='error-icon'>
               <span class='error-message'>{{message}}</span>
@@ -286,6 +286,7 @@
         <span class='name'>{{ name }}
         {{ #conflict }}
             <button class='conflict'><span>{{ verify }}</span></button>
+            <button class='cancel hide'><span>{{ cancel }}</span></button>
         {{ /conflict }}
         </span>
       </div>
@@ -294,11 +295,8 @@
     <div class='content'>
       <p> {{ message }} </p>
       <p> {{{ verifyContact }}} </p>
-      <p>
-        <button class='cancel'>{{ cancel }}</button>
-        <button class='resolve'>{{ resolve }}</button>
-      </p>
     </div>
+    <button class='resolve'>{{ resolve }}</button>
   </script>
   <script type='text/x-tmpl-mustache' id='window-controls'>
     <button class='minimize'>&minus;</button>

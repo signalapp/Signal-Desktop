@@ -102,18 +102,23 @@
     border-radius: 5px;
 
     button {
-      margin: 5px;
-      background: $blue;
       outline: none;
       border: none;
       border-radius: 5px;
       color: white;
-      padding: 0.5em;
+      padding: 0.5em 1em;
       font-weight: bold;
+      line-height: 18px;
 
       span {
         vertical-align: middle;
       }
+    }
+  }
+  .hasRetry {
+    button {
+      margin: 5px;
+      background: $blue;
 
       &:before {
         content: '';
@@ -168,9 +173,34 @@
     }
   }
 
+  .conflicts .contact-detail {
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+  .contacts .contact-detail {
+    padding: 0 36px;
+  }
   .contact-detail {
     margin-bottom: 5px;
-    padding: 0 36px;
+
+    .key-conflict-dialogue {
+      .content {
+        max-width: 40em;
+        margin: 0 auto;
+      }
+      .verify {
+        color: $blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      button {
+        float: right;
+        background: $blue;
+        margin: 0 0 10px 10px;
+      }
+    }
   }
 
   h3 {
@@ -220,14 +250,11 @@
   button.conflict {
     float: right;
     background: #d00;
-
-    span {
-      padding-left: 5px;
-    }
-
-    &:before {
-      background: url('/images/error.png') no-repeat center center;
-    }
+  }
+  button.cancel {
+    float: right;
+    color: $grey_d;
+    border: solid 1px #ccc;
   }
 }
 
@@ -482,28 +509,6 @@
     button {
       margin-top: 5px;
     }
-  }
-}
-
-.key-conflict-dialogue {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  padding: $header-height;
-
-  .content {
-    padding: 1em;
-    background: white;
-    color: black;
-    box-shadow: 0 0 5px 0 black;
-  }
-
-  .verify {
-    color: $blue;
-    text-decoration: underline;
-    cursor: pointer;
   }
 }
 
