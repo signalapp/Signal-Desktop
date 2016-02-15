@@ -87,7 +87,19 @@
 
             this.renderControl();
 
-            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
+            twemoji.parse(this.el, {
+              attributes: function(icon, variant) {
+                var colon = emoji_util.get_colon_from_unicode(icon);
+                console.log("colon: ", colon);
+                if (colon) {
+                  return {title: ":" + colon + ":"};
+                } else {
+                  return {};
+                }
+              },
+              base: '/images/twemoji/',
+              size: 16
+            });
 
             var content = this.$('.content');
             var escaped = content.html();
