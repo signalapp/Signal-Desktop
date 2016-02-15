@@ -649,13 +649,13 @@ input.search {
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
+.message-detail .hasConflict,
 .message-detail .hasRetry {
   background: #F3F3A7;
   padding: 10px 20px;
   margin: 0 5px;
   border-radius: 5px; }
-  .message-detail .hasRetry .retryMessage {
-    font-weight: bold; }
+  .message-detail .hasConflict button,
   .message-detail .hasRetry button {
     margin: 5px;
     background: #2090ea;
@@ -665,8 +665,10 @@ input.search {
     color: white;
     padding: 0.5em;
     font-weight: bold; }
+    .message-detail .hasConflict button span,
     .message-detail .hasRetry button span {
       vertical-align: middle; }
+    .message-detail .hasConflict button:before,
     .message-detail .hasRetry button:before {
       content: '';
       display: inline-block;

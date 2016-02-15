@@ -17,6 +17,9 @@
     "verify": {
       "message": "Verify"
     },
+    "newIdentity": {
+      "message": "New Identity"
+    },
     "outgoingKeyConflict": {
       "message": "This contact's identity key has changed. Click to process and display."
     },

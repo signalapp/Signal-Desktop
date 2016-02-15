@@ -173,10 +173,17 @@
     <div class='container'>
       {{ #hasRetry }}
         <div class='hasRetry clearfix'>
-          <div class='retryMessage'>{{ failedToSend }}</div>
+          <h3 class='retryMessage'>{{ failedToSend }}</h3>
           <button class='retry'>{{ resend }}</button>
         </div>
       {{ /hasRetry }}
+      {{ #hasConflict }}
+        <div class='hasConflict clearfix'>
+          <h3>{{ hasConflict }}</h3>
+          <div class='conflicts'>
+          </div>
+        </div>
+      {{ /hasConflict }}
       <div class='message-container'></div>
       <div class='info'>
         <table>

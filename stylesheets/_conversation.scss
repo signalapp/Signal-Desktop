@@ -94,15 +94,12 @@
     height: calc(100% - (#{$header-height} + 4px));
   }
 
+  .hasConflict,
   .hasRetry {
     background: #F3F3A7;
     padding: 10px 20px;
     margin: 0 5px;
     border-radius: 5px;
-
-    .retryMessage {
-      font-weight: bold;
-    }
 
     button {
       margin: 5px;

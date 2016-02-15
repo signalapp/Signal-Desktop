@@ -101,7 +101,11 @@
                 conflict: conflict,
                 errors: this.errors[contact.id]
             }).render();
-            this.$('.contacts').append(v.el);
+            if (conflict) {
+                this.$('.conflicts').append(v.el);
+            } else {
+                this.$('.contacts').append(v.el);
+            }
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
@@ -110,6 +114,10 @@
                         e.name === 'OutgoingMessageError' ||
                         e.name === 'SendMessageNetworkError');
             });
+            var hasConflict = false;
+            if (this.model.hasKeyConflicts()) {
+                hasConflict = i18n('newIdentity');
+            }
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
@@ -121,7 +129,8 @@
                 resend      : i18n('resend'),
                 failedToSend: i18n('failedToSend'),
                 errorLabel  : i18n('error'),
-                hasRetry    : hasRetry
+                hasRetry    : hasRetry,
+                hasConflict : hasConflict
             }));
             this.view.$el.prependTo(this.$('.message-container'));
 
