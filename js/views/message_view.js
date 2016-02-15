@@ -56,12 +56,12 @@
         renderErrors: function() {
             var errors = this.model.get('errors');
             if (_.size(errors) > 0) {
-                this.$('.bubble').addClass('error');
+                this.$el.addClass('error');
                 if (this.model.isIncoming()) {
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }
             } else {
-                this.$('.bubble').removeClass('error');
+                this.$el.removeClass('error');
             }
         },
         renderControl: function() {

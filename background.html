@@ -187,6 +187,12 @@
       <div class='message-container'></div>
       <div class='info'>
         <table>
+          {{ #errors }}
+            <tr>
+              <td class='label'>{{ errorLabel }}</td>
+              <td> <span class='error-message'>{{message}}</span> </td>
+            </tr>
+          {{ /errors }}
           <tr>
             <td class='label'>{{ sent }}</td>
             <td> {{ sent_at }}</td>
@@ -197,12 +203,6 @@
               <td> {{ received_at }}</td>
             </tr>
           {{ /received_at }}
-          {{ #errors }}
-            <tr>
-              <td class='label'>{{ errorLabel }}</td>
-              <td> <span class='error-message'>{{message}}</span> </td>
-            </tr>
-          {{ /errors }}
             <tr> <td class='tofrom label'>{{tofrom}}</td> </tr>
         </table>
         <div class='contacts'>

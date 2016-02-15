@@ -257,7 +257,6 @@
     border: solid 1px #ccc;
   }
 }
-
 .group-update {
   font-size: smaller;
 }
@@ -288,33 +287,11 @@
 .timestamp {
   font-size: smaller;
   margin-right: 3px;
-  &:hover {
-      text-decoration: underline;
-  }
-}
-
-.outgoing.entry {
-  .status {
-    display: inline-block;
-    width: 18px;
-    height: 1em;
-  }
-  &.sent .status {
-    background: url('/images/check-white.png');
-  }
-  &.delivered .status {
-    background: url('/images/double-check-white.png');
-  }
-  &.pending .status {
-    background: none;
-    &:before { content: '...'; }
-  }
 }
 
 .message-detail,
 .message-list {
   list-style: none;
-
 
   li {
     max-width: 800px;
@@ -358,29 +335,53 @@
     p {
       margin: 0;
     }
-    .meta {
-      margin-top: 3px;
-      float: right;
-      cursor: pointer;
-      opacity: 0.5;
+  }
 
-      &:hover {
+  .meta {
+    margin-top: 3px;
+    float: right;
+    cursor: pointer;
+
+    .timestamp, .status {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      .timestamp, .status {
         opacity: 1.0;
+      }
+      .timestamp {
+        text-decoration: underline;
       }
     }
   }
 
-  .error.bubble {
-    cursor: pointer;
+  .status {
+    float: right;
+    width: 18px;
+    height: 1em;
+  }
+  .sent .status {
+    display: inline-block;
+    background: url('/images/check-white.png');
+  }
+  .delivered .status {
+    display: inline-block;
+    background: url('/images/double-check-white.png');
+  }
+  .pending .status {
+    display: inline-block;
+    background: none;
+    &:before { content: '...'; }
+  }
+  .error .status {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    opacity: 1 !important;
     background: url('/images/error_red.png') no-repeat;
-  }
-  .incoming .error.bubble {
-    padding-right: 40px;
-    background-position: calc(100% - 12px) 9px;
-  }
-  .outgoing .error.bubble {
-    padding-left: 40px;
-    background-position: 12px 9px;
+    cursor: pointer;
   }
 
   .incoming {
