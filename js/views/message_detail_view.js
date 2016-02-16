@@ -12,7 +12,9 @@
             this.conflict = options.conflict;
             this.errors = _.reject(options.errors, function(e) {
                 return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError');
+                        e.name === 'OutgoingIdentityKeyError' ||
+                        e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
             });
 
         },
@@ -125,15 +127,17 @@
                         e.name === 'OutgoingMessageError' ||
                         e.name === 'SendMessageNetworkError');
             });
-            var hasConflict = false;
-            if (this.model.hasKeyConflicts()) {
-                hasConflict = i18n('newIdentity');
+            var unknownErrors = this.errors['undefined'];
+            if (unknownErrors) {
+                unknownErrors = unknownErrors.filter(function(e) {
+                    return (e.name !== 'MessageError');
+                });
             }
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {
                 sent_at     : moment(this.model.get('sent_at')).toString(),
                 received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
                 tofrom      : this.model.isIncoming() ? i18n('from') : i18n('to'),
-                errors      : this.errors['undefined'],
+                errors      : unknownErrors,
                 title       : i18n('messageDetail'),
                 sent        : i18n('sent'),
                 received    : i18n('received'),
