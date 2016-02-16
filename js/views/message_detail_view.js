@@ -37,7 +37,8 @@
                 conflict : this.conflict,
                 errors   : this.errors,
                 verify   : i18n('verify'),
-                cancel   : i18n('cancel')
+                cancel   : i18n('cancel'),
+                newIdentity: i18n('newIdentity')
             };
         }
     });
@@ -140,7 +141,7 @@
                 failedToSend: i18n('failedToSend'),
                 errorLabel  : i18n('error'),
                 hasRetry    : hasRetry,
-                hasConflict : hasConflict
+                hasConflict : this.model.hasKeyConflicts()
             }));
             this.view.$el.prependTo(this.$('.message-container'));
 

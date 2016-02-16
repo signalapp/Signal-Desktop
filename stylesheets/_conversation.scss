@@ -96,11 +96,6 @@
 
   .hasConflict,
   .hasRetry {
-    background: #F3F3A7;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border-radius: 5px;
-
     button {
       outline: none;
       border: none;
@@ -115,7 +110,15 @@
       }
     }
   }
+  .conflicts .contact-detail,
   .hasRetry {
+    background: #F3F3A7;
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em;
+  }
+  .hasRetry {
+    padding: 10px 20px;
     button {
       margin: 5px;
       background: $blue;
@@ -174,8 +177,8 @@
   }
 
   .conflicts .contact-detail {
+    background: #F3F3A7;
     padding: 1em;
-    border: 1px solid #ccc;
     border-radius: 10px;
   }
   .contacts .contact-detail {

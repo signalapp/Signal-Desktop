@@ -649,35 +649,37 @@ input.search {
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
-.message-detail .hasConflict,
+.message-detail .hasConflict button,
+.message-detail .hasRetry button {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  line-height: 18px; }
+  .message-detail .hasConflict button span,
+  .message-detail .hasRetry button span {
+    vertical-align: middle; }
+.message-detail .conflicts .contact-detail,
 .message-detail .hasRetry {
   background: #F3F3A7;
-  padding: 10px 20px;
-  margin: 0 5px;
-  border-radius: 5px; }
-  .message-detail .hasConflict button,
+  border-radius: 5px;
+  padding: 1em;
+  margin: 1em; }
+.message-detail .hasRetry {
+  padding: 10px 20px; }
   .message-detail .hasRetry button {
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 0.5em 1em;
-    font-weight: bold;
-    line-height: 18px; }
-    .message-detail .hasConflict button span,
-    .message-detail .hasRetry button span {
-      vertical-align: middle; }
-.message-detail .hasRetry button {
-  margin: 5px;
-  background: #2090ea; }
-  .message-detail .hasRetry button:before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    width: 18px;
-    height: 18px;
-    background: url("/images/refresh.png") no-repeat center center;
-    background-size: 100%; }
+    margin: 5px;
+    background: #2090ea; }
+    .message-detail .hasRetry button:before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      background: url("/images/refresh.png") no-repeat center center;
+      background-size: 100%; }
 .message-detail .message-container {
   background: white;
   padding: 1em 0; }
@@ -706,8 +708,8 @@ input.search {
       background: url("/images/refresh.png") no-repeat center center;
       background-size: 100%; }
 .message-detail .conflicts .contact-detail {
+  background: #F3F3A7;
   padding: 1em;
-  border: 1px solid #ccc;
   border-radius: 10px; }
 .message-detail .contacts .contact-detail {
   padding: 0 36px; }

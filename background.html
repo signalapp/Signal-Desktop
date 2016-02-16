@@ -179,7 +179,6 @@
       {{ /hasRetry }}
       {{ #hasConflict }}
         <div class='hasConflict clearfix'>
-          <h3>{{ hasConflict }}</h3>
           <div class='conflicts'>
           </div>
         </div>
@@ -277,6 +276,9 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
       <div class='clearfix'>
+        {{ #conflict }}
+          <h3>{{ newIdentity }}</h3>
+        {{ /conflict }}
         {{ #errors }}
             <span class='error-icon'>
               <span class='error-message'>{{message}}</span>
