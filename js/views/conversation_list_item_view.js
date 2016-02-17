@@ -13,7 +13,8 @@
         },
         templateName: 'conversation-preview',
         events: {
-            'click': 'select'
+            'click': 'select',
+            'contextmenu': 'contextMenu'
         },
         initialize: function() {
             this.listenTo(this.model, 'change', this.render); // auto update
@@ -30,6 +31,20 @@
         select: function(e) {
             this.markSelected();
             this.$el.trigger('select', this.model);
+        },
+
+        contextMenu: function(e) {
+            e.preventDefault();
+            this.open_context_menu(e, [{
+                label: i18n('deleteConversation'),
+                action: function (){
+                    this.confirm(i18n('deleteConversationDetailed')).then(function() {
+                        this.model.destroyMessages();
+                    }.bind(this)).catch(function() {
+                        // clicked cancel, nothing to do.
+                    });
+                }.bind(this)
+            }]);
         },
 
         render: function() {

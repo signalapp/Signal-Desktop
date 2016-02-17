@@ -47,6 +47,7 @@
             return conversations.get(id);
         },
         create: function(attrs) {
+          console.log("create");
             if (typeof attrs !== 'object') {
                 throw new Error('ConversationController.create requires an object, got', attrs);
             }

@@ -100,35 +100,40 @@ button.back {
     height: $header-height;
     background: url('/images/menu.png') no-repeat center;
   }
+
   .menu-list {
     display: none;
-    position: absolute;
-    color: $grey_d;
-    z-index: 1;
-
     top: 100%;
     right: 0;
-    margin: 0;
-    padding: 0;
-    border: solid 1px $blue;
-    background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(darken($blue, 30%), 0.8);
+  }
+}
 
-    li {
+.menu-list {
+  outline: none;
+  position: absolute;
+  color: $grey_d;
+  z-index: 1;
+
+  margin: 0;
+  padding: 0;
+  border: solid 1px $blue;
+  background-color: white;
+  box-shadow: 0 4px 3px 0px rgba(darken($blue, 30%), 0.8);
+
+  li {
+    display: block;
+    white-space: nowrap;
+
+    a {
+      cursor: pointer;
       display: block;
-      white-space: nowrap;
+      padding: 5px 15px 5px 10px;
 
-      a {
-        cursor: pointer;
-        display: block;
-        padding: 5px 15px 5px 10px;
-
-        &:hover {
-          background-color: $grey_l;
-        }
+      &:hover {
+        background-color: $grey_l;
       }
-
     }
+
   }
 }
 

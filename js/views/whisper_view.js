@@ -57,6 +57,13 @@
                 this.$el.closest('body').append(dialog.el);
             }.bind(this));
         },
+        open_context_menu: function(e, items){
+            this.$el.addClass('context-selected');
+            var context_menu = new Whisper.ContextMenuView(e, this, items);
+            context_menu.contextClose = function (){
+                this.$el.removeClass('context-selected');
+            }.bind(this);
+        },
         i18n_with_link: function(message, href){
             var attrs = 'class="link" href="' + encodeURI(href) + '" target="_blank"';
             return i18n(message, attrs);

@@ -54,6 +54,13 @@
             }
             $el.prependTo(this.el);
             conversation.trigger('opened');
+        },
+        onChangeActiveAt: function(conversation){
+          var $el = this.$('#conversation-' + conversation.cid);
+          if ($el && $el.length > 0 && !conversation.get('active_at')) {
+            // Conversation has been deleted
+            $el.remove();
+          }
         }
     });
 
@@ -62,12 +69,16 @@
         className: 'inbox',
         initialize: function (options) {
             this.render();
+            var inboxCollection = getInboxCollection();
+
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
                 model: { appWindow: options.appWindow }
             });
+            this.conversation_stack.listenTo(inboxCollection,
+                    'add change:active_at',
+                    this.conversation_stack.onChangeActiveAt);
 
-            var inboxCollection = getInboxCollection();
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
                 collection : inboxCollection

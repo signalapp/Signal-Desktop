@@ -107,9 +107,6 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
     },
-    "deleteMessages": {
-        "message": "Delete messages"
-    },
     "sessionEnded": {
         "message": "Secure session reset"
     },
@@ -178,5 +175,11 @@
     },
     "installTooManyDevices": {
         "message": "Sorry, you have too many devices linked already. Try removing some."
+    },
+    "deleteConversation": {
+        "message": "Delete Conversation"
+    },
+    "deleteConversationDetailed": {
+        "message": "Delete this conversation thread, and all the messages in it?"
     }
 }
