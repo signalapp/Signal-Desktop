@@ -276,9 +276,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
       <div class='clearfix'>
-        {{ #conflict }}
-          <h3>{{ newIdentity }}</h3>
-        {{ /conflict }}
         {{ #errors }}
             <span class='error-icon'>
               <span class='error-message'>{{message}}</span>
@@ -286,19 +283,23 @@
         {{ /errors }}
         {{> avatar }}
         <span class='name'>{{ name }}
-        {{ #conflict }}
-            <button class='conflict'><span>{{ verify }}</span></button>
-            <button class='cancel hide'><span>{{ cancel }}</span></button>
-        {{ /conflict }}
         </span>
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
-    <div class='content'>
+    <div class='clearfix'>
+      <h3>{{ newIdentity }}</h3>
+      {{> avatar }}
+      <span class='name'>{{ name }}
+      <button class='conflict'><span>{{ verify }}</span></button>
+      <button class='cancel hide'><span>{{ cancel }}</span></button>
+      </span>
+    </div>
+    <div class='content hide'>
       <p> {{ message }} </p>
       <p> {{{ verifyContact }}} </p>
+      <p><button class='resolve'>{{ resolve }}</button></p>
     </div>
-    <button class='resolve'>{{ resolve }}</button>
   </script>
   <script type='text/x-tmpl-mustache' id='window-controls'>
     <button class='minimize'>&minus;</button>

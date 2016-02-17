@@ -649,24 +649,24 @@ input.search {
 
 .message-detail .container {
   height: calc(100% - (36px + 4px)); }
-.message-detail .hasConflict button,
-.message-detail .hasRetry button {
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  padding: 0.5em 1em;
-  font-weight: bold;
-  line-height: 18px; }
-  .message-detail .hasConflict button span,
-  .message-detail .hasRetry button span {
-    vertical-align: middle; }
-.message-detail .conflicts .contact-detail,
+.message-detail .key-conflict-dialogue,
 .message-detail .hasRetry {
   background: #F3F3A7;
   border-radius: 5px;
   padding: 1em;
   margin: 1em; }
+  .message-detail .key-conflict-dialogue button,
+  .message-detail .hasRetry button {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em 1em;
+    font-weight: bold;
+    line-height: 18px; }
+    .message-detail .key-conflict-dialogue button span,
+    .message-detail .hasRetry button span {
+      vertical-align: middle; }
 .message-detail .hasRetry {
   padding: 10px 20px; }
   .message-detail .hasRetry button {
@@ -680,6 +680,15 @@ input.search {
       height: 18px;
       background: url("/images/refresh.png") no-repeat center center;
       background-size: 100%; }
+.message-detail .key-conflict-dialogue .content p {
+  max-width: 40em;
+  margin: 1em  auto; }
+.message-detail .key-conflict-dialogue .verify {
+  color: #2090ea;
+  text-decoration: underline;
+  cursor: pointer; }
+.message-detail .key-conflict-dialogue .resolve {
+  background: #2090ea; }
 .message-detail .message-container {
   background: white;
   padding: 1em 0; }
@@ -707,25 +716,9 @@ input.search {
       height: 18px;
       background: url("/images/refresh.png") no-repeat center center;
       background-size: 100%; }
-.message-detail .conflicts .contact-detail {
-  background: #F3F3A7;
-  padding: 1em;
-  border-radius: 10px; }
 .message-detail .contacts .contact-detail {
-  padding: 0 36px; }
-.message-detail .contact-detail {
+  padding: 0 36px;
   margin-bottom: 5px; }
-  .message-detail .contact-detail .key-conflict-dialogue .content {
-    max-width: 40em;
-    margin: 0 auto; }
-  .message-detail .contact-detail .key-conflict-dialogue .verify {
-    color: #2090ea;
-    text-decoration: underline;
-    cursor: pointer; }
-  .message-detail .contact-detail .key-conflict-dialogue button {
-    float: right;
-    background: #2090ea;
-    margin: 0 0 10px 10px; }
 .message-detail h3 {
   font-size: 1em;
   padding: 5px; }

@@ -94,8 +94,13 @@
     height: calc(100% - (#{$header-height} + 4px));
   }
 
-  .hasConflict,
+  .key-conflict-dialogue,
   .hasRetry {
+    background: #F3F3A7;
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1em;
+
     button {
       outline: none;
       border: none;
@@ -110,13 +115,7 @@
       }
     }
   }
-  .conflicts .contact-detail,
-  .hasRetry {
-    background: #F3F3A7;
-    border-radius: 5px;
-    padding: 1em;
-    margin: 1em;
-  }
+
   .hasRetry {
     padding: 10px 20px;
     button {
@@ -132,6 +131,21 @@
         background: url('/images/refresh.png') no-repeat center center;
         background-size: 100%;
       }
+    }
+  }
+
+  .key-conflict-dialogue {
+    .content p {
+      max-width: 40em;
+      margin: 1em  auto;
+    }
+    .verify {
+      color: $blue;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .resolve {
+      background: $blue;
     }
   }
 
@@ -176,34 +190,9 @@
     }
   }
 
-  .conflicts .contact-detail {
-    background: #F3F3A7;
-    padding: 1em;
-    border-radius: 10px;
-  }
   .contacts .contact-detail {
     padding: 0 36px;
-  }
-  .contact-detail {
     margin-bottom: 5px;
-
-    .key-conflict-dialogue {
-      .content {
-        max-width: 40em;
-        margin: 0 auto;
-      }
-      .verify {
-        color: $blue;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
-      button {
-        float: right;
-        background: $blue;
-        margin: 0 0 10px 10px;
-      }
-    }
   }
 
   h3 {

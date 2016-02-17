@@ -18,29 +18,11 @@
             });
 
         },
-        events: {
-            'click .conflict': 'triggerConflict',
-            'click .cancel'  : 'cancel'
-        },
-        triggerConflict: function() {
-            this.$el.trigger('conflict', {conflict: this.conflict, el: this.el});
-            this.$('.cancel').show();
-            this.$('.conflict').hide();
-        },
-        cancel: function() {
-            this.$('.key-conflict-dialogue').remove();
-            this.$('.cancel').hide();
-            this.$('.conflict').show();
-        },
         render_attributes: function() {
             return {
                 name     : this.model.getTitle(),
                 avatar   : this.model.getAvatar(),
-                conflict : this.conflict,
-                errors   : this.errors,
-                verify   : i18n('verify'),
-                cancel   : i18n('cancel'),
-                newIdentity: i18n('newIdentity')
+                errors   : this.errors
             };
         }
     });
@@ -57,7 +39,6 @@
         },
         events: {
             'click .back': 'goBack',
-            'conflict': 'conflictDialogue',
             'click .retry': 'retryMessage',
         },
         goBack: function() {
@@ -84,19 +65,6 @@
                 return this.conversation.contactCollection.models;
             }
         },
-        conflictDialogue: function(e, data) {
-            var view = new Whisper.KeyConflictDialogueView({
-                model: data.conflict,
-                conversation: this.conversation
-            });
-            view.render().$el.appendTo(data.el);
-            this.listenTo(view, 'verify', function(data) {
-                this.verify(data.identityKey);
-            });
-            this.listenTo(view, 'resolve', function() {
-                this.render();
-            });
-        },
         retryMessage: function() {
             var retrys = _.filter(this.model.get('errors'), function(e) {
                 return (e.name === 'MessageError' ||
@@ -108,17 +76,32 @@
             }.bind(this));
         },
         renderContact: function(contact) {
-            var conflict = this.model.getKeyConflict(contact.id);
-            var v = new ContactView({
+            var view = new ContactView({
                 model: contact,
-                conflict: conflict,
                 errors: this.errors[contact.id]
             }).render();
+            this.$('.contacts').append(view.el);
+
+            var conflict = this.model.getKeyConflict(contact.id);
             if (conflict) {
-                this.$('.conflicts').append(v.el);
-            } else {
-                this.$('.contacts').append(v.el);
+                this.renderConflict(contact, conflict);
             }
+        },
+        renderConflict: function(contact, conflict) {
+            var view = new Whisper.KeyConflictDialogueView({
+                model: conflict,
+                contact: contact,
+                conversation: this.conversation
+            }).render();
+            this.$('.conflicts').append(view.el);
+            this.listenTo(view, 'verify', function(data) {
+                this.verify(conflict.identityKey);
+            });
+            /*
+            this.listenTo(view, 'resolve', function() {
+                this.render();
+            });
+            */
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
