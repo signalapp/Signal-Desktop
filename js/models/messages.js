@@ -167,15 +167,17 @@
         },
 
         sendSyncMessage: function() {
-            var dataMessage = this.get('dataMessage');
-            if (this.get('synced') || !dataMessage) {
-                return;
-            }
-
-            textsecure.messaging.sendSyncMessage(
-                dataMessage, this.get('sent_at'), this.get('destination')
-            ).then(function() {
-                this.save({synced: true, dataMessage: null});
+            this.syncPromise = this.syncPromise || Promise.resolve();
+            this.syncPromise = this.syncPromise.then(function() {
+                var dataMessage = this.get('dataMessage');
+                if (this.get('synced') || !dataMessage) {
+                    return;
+                }
+                return textsecure.messaging.sendSyncMessage(
+                    dataMessage, this.get('sent_at'), this.get('destination')
+                ).then(function() {
+                    this.save({synced: true, dataMessage: null});
+                }.bind(this));
             }.bind(this));
         },
 
