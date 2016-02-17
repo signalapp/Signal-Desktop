@@ -250,7 +250,10 @@
         },
 
         openDropped: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            var dropType = e.originalEvent.dataTransfer.types[0];
+            if (dropType != 'Files' && dropType != 'application/x-moz-file') {
+              return;
+            }
 
             e.stopPropagation();
             e.preventDefault();
@@ -260,7 +263,10 @@
         },
 
         showArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            var dropType = e.originalEvent.dataTransfer.types[0];
+            if (dropType != 'Files' && dropType != 'application/x-moz-file') {
+              return;
+            }
 
             e.stopPropagation();
             e.preventDefault();
@@ -268,7 +274,10 @@
         },
 
         hideArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            var dropType = e.originalEvent.dataTransfer.types[0];
+            if (dropType != 'Files' && dropType != 'application/x-moz-file') {
+              return;
+            }
 
             e.stopPropagation();
             e.preventDefault();
