@@ -115,14 +115,21 @@
             welcomeToSignal: i18n('welcomeToSignal'),
             selectAContact: i18n('selectAContact'),
             searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
-            submitDebugLog: i18n('submitDebugLog')
+            submitDebugLog: i18n('submitDebugLog'),
+            settings: i18n('settings'),
         },
         events: {
             'click': 'closeMenu',
             'click .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
+            'click .settings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts'
+        },
+        showSettings: function() {
+            var view = new Whisper.SettingsView().render();
+            view.update();
+            view.$el.insertAfter(this.el);
         },
         filterContacts: function(e) {
             this.searchView.filterContacts(e);

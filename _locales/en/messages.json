@@ -192,5 +192,33 @@
     },
     "installTooManyDevices": {
         "message": "Sorry, you have too many devices linked already. Try removing some."
+    },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
     }
 }

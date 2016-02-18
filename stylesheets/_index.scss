@@ -264,3 +264,19 @@ input.search {
     top: -30px;
   }
 }
+.settings {
+  .close {
+    float: right;
+    font-family: sans-serif;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+
+    background: #666;
+    color: #fff;
+    text-align: center;
+  }
+}

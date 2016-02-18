@@ -375,6 +375,25 @@ img.emoji {
     text-align: center;
     -webkit-user-select: text; }
 
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 10; }
+  .modal .content {
+    position: relative;
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 1em;
+    background: white;
+    border-radius: 10px;
+    overflow: auto;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
+
 .gutter {
   padding: 36px 0 0; }
 
@@ -577,6 +596,19 @@ input.search {
   .contact.placeholder:after {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
+
+.settings .close {
+  float: right;
+  font-family: sans-serif;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  background: #666;
+  color: #fff;
+  text-align: center; }
 
 .conversation-title {
   display: block;

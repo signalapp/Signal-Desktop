@@ -7,6 +7,7 @@
       <div class='global-menu menu'>
         <button class='hamburger'></button>
         <ul class='menu-list'>
+            <li><a class='settings'>{{ settings }}</a></li>
             <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
         </ul>
       </div>
@@ -319,6 +320,28 @@
       <div><button class='close'>{{ close }}</button></div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='settings'>
+    <div class='content'>
+      <div class='close'>x</div>
+      <h3>Notifications</h3>
+      <div>
+        <input type='radio' name='notifications' id='notification-setting-message' value='message'>
+        <label for='notification-setting-message'>{{ nameAndMessage }} </label>
+      </div>
+      <div>
+        <input type='radio' name='notifications' id='notification-setting-name'  value='name'/>
+        <label for='notification-setting-name'>{{ nameOnly }} </label>
+      </div>
+      <div>
+        <input type='radio' name='notifications' id='notification-setting-count' value='count'/>
+        <label for='notification-setting-count'>{{ noNameOrMessage }} </label>
+      </div>
+      <div>
+        <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
+        <label for='notification-setting-off'>{{ off }} </label>
+      </div>
+    </div>
+  </script>
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/debugLog.js'></script>
@@ -362,6 +385,7 @@
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
+  <script type='text/javascript' src='js/views/settings_view.js'></script>
 
   <script type='text/javascript' src='js/background.js'></script>
 </head>
