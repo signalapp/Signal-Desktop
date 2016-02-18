@@ -1,3 +1,4 @@
 {
-  "disallowMixedSpacesAndTabs": true
+  "disallowMixedSpacesAndTabs": true,
+  "disallowTrailingWhitespace": true
 }

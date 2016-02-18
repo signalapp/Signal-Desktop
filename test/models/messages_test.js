@@ -87,7 +87,7 @@
             message = messages.add({type: 'incoming'});
             assert.ok(message.isIncoming());
         });
-        
+
         it('checks if is outgoing message', function() {
             var messages = new Whisper.MessageCollection();
             var message = messages.add(attributes);

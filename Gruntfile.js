@@ -134,13 +134,25 @@ module.exports = function(grunt) {
     },
     jscs: {
       all: {
-        src: ['js/**/*.js', '!js/libtextsecure.js', '!js/libaxolotl-worker.js', '!js/components.js', 'test/**/*.js']
+        src: [
+        'Gruntfile',
+        'js/**/*.js',
+        '!js/libtextsecure.js',
+        '!js/libaxolotl-worker.js',
+        '!js/components.js',
+        'test/**/*.js',
+        '!test/blanket_mocha.js',
+        ]
       }
     },
     watch: {
       scripts: {
         files: ['<%= jshint.files %>', './js/**/*.js'],
         tasks: ['jshint']
+      },
+      style: {
+        files: ['<%= jscs.all.src %>', './js/**/*.js'],
+        tasks: ['jscs']
       },
       sass: {
         files: ['./stylesheets/*.scss'],
