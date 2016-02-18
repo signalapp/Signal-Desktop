@@ -24,7 +24,7 @@
         put: function(key, value) {
             if (value === undefined)
                 throw new Error("Tried to store undefined");
-            var item = items.add({id: key, value: value});
+            var item = items.add({id: key, value: value}, {merge: true});
             item.save();
         },
 
