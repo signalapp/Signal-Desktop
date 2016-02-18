@@ -84,17 +84,12 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'Gruntfile.js',
-        'js/background.js',
-        'js/chromium.js',
-        'js/conversation_panel.js',
-        'js/database.js',
-        'js/inbox_controller.js',
-        'js/index.js',
-        'js/libphonenumber-util.js',
-        'js/options.js',
-        'js/panel_controller.js',
-        'js/models/*.js',
-        'js/views/*.js',
+        'js/**/*.js',
+        '!js/libtextsecure.js',
+        '!js/libaxolotl-worker.js',
+        '!js/components.js',
+        '!js/axolotl_store.js',
+        '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },
     },
