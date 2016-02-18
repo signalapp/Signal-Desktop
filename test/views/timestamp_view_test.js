@@ -25,7 +25,9 @@ describe('TimestampView', function() {
 
         // Helper to check an absolute TS for an exact match against both views
         var checkAbs = function(ts, expected_brief, expected_ext) {
-            if (!expected_ext) expected_ext = expected_brief;
+            if (!expected_ext) {
+                expected_ext = expected_brief;
+            }
             check(brief_view, ts, expected_brief);
             check(ext_view, ts, expected_ext);
         };

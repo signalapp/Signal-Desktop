@@ -101,7 +101,7 @@ describe("AxolotlStore", function() {
         var promise = Promise.resolve();
         devices.forEach(function(encodedNumber) {
             promise = promise.then(function() {
-                return store.putSession(encodedNumber, testRecord + encodedNumber)
+                return store.putSession(encodedNumber, testRecord + encodedNumber);
             });
         });
         promise.then(function() {
@@ -133,7 +133,7 @@ describe("AxolotlStore", function() {
         var promise = Promise.resolve();
         devices.forEach(function(encodedNumber) {
             promise = promise.then(function() {
-                return store.putSession(encodedNumber, testRecord + encodedNumber)
+                return store.putSession(encodedNumber, testRecord + encodedNumber);
             });
         });
         promise.then(function() {

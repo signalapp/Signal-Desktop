@@ -74,7 +74,9 @@
 
                 // TODO: css animation or error notification
                 errors.removeClass('error');
-                setTimeout(function(){ errors.addClass('error'); }, 300);
+                setTimeout(function() {
+                    errors.addClass('error');
+                }, 300);
 
                 return;
             }

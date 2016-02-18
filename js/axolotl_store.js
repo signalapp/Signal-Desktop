@@ -11,11 +11,13 @@
                     thing.__proto__ == StaticByteBufferProto));
     }
     function convertToArrayBuffer(thing) {
-        if (thing === undefined)
+        if (thing === undefined) {
             return undefined;
+        }
         if (thing === Object(thing)) {
-            if (thing.__proto__ == StaticArrayBufferProto)
+            if (thing.__proto__ == StaticArrayBufferProto) {
                 return thing;
+            }
             //TODO: Several more cases here...
         }
 
@@ -23,22 +25,25 @@
             // Assuming Uint16Array from curve25519
             var res = new ArrayBuffer(thing.length * 2);
             var uint = new Uint16Array(res);
-            for (var i = 0; i < thing.length; i++)
+            for (var i = 0; i < thing.length; i++) {
                 uint[i] = thing[i];
+            }
             return res;
         }
 
         var str;
-        if (isStringable(thing))
+        if (isStringable(thing)) {
             str = stringObject(thing);
-        else if (typeof thing == "string")
+        } else if (typeof thing == "string") {
             str = thing;
-        else
+        } else {
             throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
+        }
         var res = new ArrayBuffer(str.length);
         var uint = new Uint8Array(res);
-        for (var i = 0; i < str.length; i++)
+        for (var i = 0; i < str.length; i++) {
             uint[i] = str.charCodeAt(i);
+        }
         return res;
     }
 
@@ -168,8 +173,9 @@
 
         getSession: function(encodedNumber) {
             console.log('getSession', encodedNumber);
-            if (encodedNumber === null || encodedNumber === undefined)
+            if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to get session for undefined/null number");
+            }
             return new Promise(function(resolve) {
                 var session = new Session({id: encodedNumber});
                 console.log('fetching session for', encodedNumber);
@@ -182,8 +188,9 @@
         },
         putSession: function(encodedNumber, record) {
             console.log('putSession', encodedNumber);
-            if (encodedNumber === null || encodedNumber === undefined)
+            if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to put session for undefined/null number");
+            }
             return new Promise(function(resolve) {
                 var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
                 var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
@@ -204,8 +211,9 @@
             });
         },
         getDeviceIds: function(number) {
-            if (number === null || number === undefined)
+            if (number === null || number === undefined) {
                 throw new Error("Tried to get device ids for undefined/null number");
+            }
             return new Promise(function(resolve) {
                 var sessions = new SessionCollection();
                 sessions.fetchSessionsForNumber(number).always(function() {
@@ -222,13 +230,14 @@
             });
         },
         removeAllSessions: function(number) {
-            if (number === null || number === undefined)
+            if (number === null || number === undefined) {
                 throw new Error("Tried to remove sessions for undefined/null number");
+            }
             return new Promise(function(resolve) {
                 var sessions = new SessionCollection();
                 sessions.fetchSessionsForNumber(number).always(function() {
                     var promises = [];
-                    while(sessions.length > 0) {
+                    while (sessions.length > 0) {
                         promises.push(new Promise(function(res) {
                             sessions.pop().destroy().then(res);
                         }));
@@ -245,8 +254,9 @@
 
         },
         getIdentityKey: function(identifier) {
-            if (identifier === null || identifier === undefined)
+            if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to get identity key for undefined/null key");
+            }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
                 var identityKey = new IdentityKey({id: number});
@@ -256,8 +266,9 @@
             });
         },
         putIdentityKey: function(identifier, publicKey) {
-            if (identifier === null || identifier === undefined)
+            if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to put identity key for undefined/null key");
+            }
             if (!(publicKey instanceof ArrayBuffer)) {
                 publicKey = convertToArrayBuffer(publicKey);
             }
@@ -292,8 +303,9 @@
             });
         },
         getGroup: function(groupId) {
-            if (groupId === null || groupId === undefined)
+            if (groupId === null || groupId === undefined) {
                 throw new Error("Tried to get group for undefined/null id");
+            }
             return new Promise(function(resolve) {
                 var group = new Group({id: groupId});
                 group.fetch().always(function() {
@@ -302,18 +314,21 @@
             });
         },
         putGroup: function(groupId, group) {
-            if (groupId === null || groupId === undefined)
+            if (groupId === null || groupId === undefined) {
                 throw new Error("Tried to put group key for undefined/null id");
-            if (group === null || group === undefined)
+            }
+            if (group === null || group === undefined) {
                 throw new Error("Tried to put undefined/null group object");
+            }
             var group = new Group({id: groupId, data: group});
             return new Promise(function(resolve) {
                 group.save().always(resolve);
             });
         },
         removeGroup: function(groupId) {
-            if (groupId === null || groupId === undefined)
+            if (groupId === null || groupId === undefined) {
                 throw new Error("Tried to remove group key for undefined/null id");
+            }
             return new Promise(function(resolve) {
                 var group = new Group({id: groupId});
                 group.destroy().always(resolve);

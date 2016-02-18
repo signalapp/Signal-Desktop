@@ -231,7 +231,7 @@
         },
 
         replace_colons: function(str) {
-            return str.replace(emoji.rx_colons, function(m){
+            return str.replace(emoji.rx_colons, function(m) {
                 var idx = m.substr(1, m.length-2);
                 var val = emoji.map.colons[idx];
                 if (val) {

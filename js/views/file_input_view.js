@@ -250,7 +250,9 @@
         },
 
         openDropped: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
+                return;
+            }
 
             e.stopPropagation();
             e.preventDefault();
@@ -260,7 +262,9 @@
         },
 
         showArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
+                return;
+            }
 
             e.stopPropagation();
             e.preventDefault();
@@ -268,7 +272,9 @@
         },
 
         hideArea: function(e) {
-            if (e.originalEvent.dataTransfer.types[0] != 'Files') return;
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
+                return;
+            }
 
             e.stopPropagation();
             e.preventDefault();

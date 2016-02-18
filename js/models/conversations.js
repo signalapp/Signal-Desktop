@@ -181,7 +181,7 @@
             var conversationId = this.id;
             Whisper.Notifications.remove(
                 Whisper.Notifications.models.filter(
-                    function(model){
+                    function(model) {
                         return model.attributes.conversationId===conversationId;
                     }));
         }

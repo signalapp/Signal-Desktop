@@ -1,7 +1,7 @@
 describe('ListView', function() {
   var collection;
 
-  beforeEach(function(){
+  beforeEach(function() {
     collection = new Backbone.Collection();
   });
 

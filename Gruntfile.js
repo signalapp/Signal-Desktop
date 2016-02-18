@@ -142,6 +142,7 @@ module.exports = function(grunt) {
         '!js/components.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
+        '!test/test.js',
         ]
       }
     },

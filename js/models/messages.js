@@ -400,7 +400,7 @@
                 if (this.length === 0) {
                     // fetch the most recent messages first
                     upper = Number.MAX_VALUE;
-                } else  {
+                } else {
                     // not our first rodeo, fetch older messages.
                     upper = this.at(0).get('received_at');
                 }

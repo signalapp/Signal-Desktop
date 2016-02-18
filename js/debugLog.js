@@ -45,7 +45,7 @@
     var log = new DebugLog();
     if (window.console) {
         console._log = console.log;
-        console.log = function(){
+        console.log = function() {
             console._log.apply(this, arguments);
             var args = Array.prototype.slice.call(arguments);
             var str = args.join(' ').replace(PHONE_REGEX, "+[REDACTED]$1");

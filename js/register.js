@@ -39,10 +39,11 @@
         });
 
         $('#code').on('change', function() {
-            if (!validateCode())
+            if (!validateCode()) {
                 $('#code').addClass('invalid');
-            else
+            } else {
                 $('#code').removeClass('invalid');
+            }
         });
 
         $('#request-voice').click(function() {

@@ -22,16 +22,18 @@
         *** Base Storage Routines ***
         *****************************/
         put: function(key, value) {
-            if (value === undefined)
+            if (value === undefined) {
                 throw new Error("Tried to store undefined");
+            }
             var item = items.add({id: key, value: value}, {merge: true});
             item.save();
         },
 
         get: function(key, defaultValue) {
             var item = items.get("" + key);
-            if (!item)
+            if (!item) {
                 return defaultValue;
+            }
             return item.get('value');
         },
 

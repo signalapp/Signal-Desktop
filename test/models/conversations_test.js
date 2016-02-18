@@ -93,7 +93,7 @@
                     sent_at        : Date.now(),
                     received_at    : Date.now()
                 });
-                message.save().then(done)
+                message.save().then(done);
             });
         });
         after(clearDatabase);
