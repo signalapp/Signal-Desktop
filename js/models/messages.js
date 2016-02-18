@@ -240,7 +240,7 @@
                         this.handleDataMessage(dataMessage);
                     }.bind(this));
                 } else {
-                    promise = promise.then(function() {
+                    promise = this.send(promise).then(function() {
                         this.removeConflictFor(number);
                         this.save();
                     }.bind(this));
