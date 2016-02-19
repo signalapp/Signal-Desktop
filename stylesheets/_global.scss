@@ -91,6 +91,7 @@ button.back {
   position: relative;
   float: right;
   height: 36px;
+  text-transform: capitalize;
 
   .hamburger {
     width: $header-height;

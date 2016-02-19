@@ -85,7 +85,8 @@ button.back {
 .menu {
   position: relative;
   float: right;
-  height: 36px; }
+  height: 36px;
+  text-transform: capitalize; }
   .menu .hamburger {
     width: 36px;
     height: 36px;
