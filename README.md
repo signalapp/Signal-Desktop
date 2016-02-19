@@ -29,11 +29,7 @@ for setup instructions and contributor guidelines. And don't forget to sign the
 [CLA](https://whispersystems.org/cla/).
 
 ## Contributing Ideas
-Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the mailing list!
-
-whispersystems@lists.riseup.net
-
-https://lists.riseup.net/www/info/whispersystems
+Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the [community forum](https://whispersystems.discoursehosting.net)!
 
 ## Contributing Funds
 [![Donate](https://cloud.githubusercontent.com/assets/3121306/11278543/d46e03d0-8eeb-11e5-9691-0da1bf643192.png)](https://www.coinbase.com/checkouts/51dac699e660a4d773216b5ad94d6a0b)
