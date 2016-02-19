@@ -9,7 +9,7 @@
       "message": "Submit"
     },
     "verifyContact": {
-      "message": "You may wish to $tag_start$verify$tag_end$ this contact.",
+      "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
       "placeholders": {
         "tag_start": {
           "content": "<a class='verify' href='#'>"
