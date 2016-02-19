@@ -328,50 +328,30 @@ img.emoji {
 @keyframes rotate {
   to {
     transform: rotate(360deg); } }
-.debug-log {
-  position: absolute;
+.debug-log.modal .content {
+  max-width: 90%; }
+.debug-log ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15); }
+.debug-log textarea {
   width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  resize: vertical; }
+.debug-log button, .debug-log input[type=submit] {
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  cursor: pointer;
+  margin: 1em auto;
   padding: 1em;
+  font-family: inherit;
+  color: #616161;
   background: #f3f3f3;
-  z-index: 1;
-  overflow-y: auto; }
-  .debug-log a.x {
-    display: inline-block;
-    float: right;
-    cursor: pointer;
-    font-family: sans-serif;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    padding: 0px;
-    background: #666;
-    color: #fff;
-    text-align: center;
-    font-size: 19px; }
-  .debug-log textarea {
-    width: 100%;
-    resize: vertical; }
-  .debug-log button, .debug-log input[type=submit] {
-    border-radius: 4px;
-    border: solid 1px #ccc;
-    cursor: pointer;
-    margin: 1em auto;
-    padding: 1em;
-    font-family: inherit;
-    color: #616161;
-    background: #f3f3f3;
-    box-shadow: 0 0 10px -5px rgba(97, 97, 97, 0.5); }
-    .debug-log button:hover, .debug-log input[type=submit]:hover {
-      color: black;
-      box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
-  .debug-log .result {
-    display: none;
-    text-align: center;
-    -webkit-user-select: text; }
+  box-shadow: 0 0 10px -5px rgba(97, 97, 97, 0.5); }
+  .debug-log button:hover, .debug-log input[type=submit]:hover {
+    color: black;
+    box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
+.debug-log .result {
+  display: none;
+  text-align: center;
+  -webkit-user-select: text; }
 
 .modal {
   position: absolute;
@@ -391,6 +371,20 @@ img.emoji {
     border-radius: 10px;
     overflow: auto;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
+  .modal a.x {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-family: sans-serif;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background: #666;
+    color: #fff;
+    text-align: center;
+    font-size: 19px; }
 
 .gutter {
   padding: 36px 0 0; }
@@ -592,19 +586,6 @@ input.search {
   .contact.placeholder:after {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
-
-.settings .close {
-  float: right;
-  font-family: sans-serif;
-  color: white;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  padding: 0px;
-  background: #666;
-  color: #fff;
-  text-align: center; }
 
 .conversation-title {
   display: block;

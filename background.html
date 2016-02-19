@@ -307,22 +307,24 @@
     <button class='close'>&times;</button>
   </script>
   <script type='text/x-tmpl-mustache' id='debug-log'>
-    <a class='x close'>&times;</a>
-    <h1>{{ title }}</h1>
-    <p> {{ debugLogExplanation }}</p>
-    <form>
-      <textarea rows='5'></textarea>
-      <input class='submit' type='submit' value='{{ submit }}' />
-      <button class='close'>{{ cancel }}</button>
-    </form>
-    <div class='result'>
-      <a target='_blank'></a>
-      <div><button class='close'>{{ close }}</button></div>
+    <div class='content'>
+      <a class='x close'>&times;</a>
+      <h1>{{ title }}</h1>
+      <p> {{ debugLogExplanation }}</p>
+      <form>
+        <textarea rows='5'></textarea>
+        <input class='submit' type='submit' value='{{ submit }}' />
+        <button class='close'>{{ cancel }}</button>
+      </form>
+      <div class='result'>
+        <a target='_blank'></a>
+        <div><button class='close'>{{ close }}</button></div>
+      </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='settings'>
     <div class='content'>
-      <div class='close'>x</div>
+      <a class='x close'>&times;</a>
       <h3>Notifications</h3>
       <div>
         <input type='radio' name='notifications' id='notification-setting-message' value='message'>

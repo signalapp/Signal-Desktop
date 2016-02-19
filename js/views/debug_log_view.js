@@ -7,7 +7,7 @@
 
     Whisper.DebugLogView = Whisper.View.extend({
         templateName: 'debug-log',
-        className: 'debug-log',
+        className: 'debug-log modal',
         initialize: function() {
             this.render();
             this.$('textarea').val(console.get());
