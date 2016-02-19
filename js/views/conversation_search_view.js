@@ -67,7 +67,11 @@
                 }
                 this.pending = this.pending.then(function() {
                     return this.typeahead.search(query).then(function() {
-                        this.typeahead_view.collection.reset(this.typeahead.models);
+                        this.typeahead_view.collection.reset(
+                            this.typeahead.filter(function(m) {
+                                return m.isSearchable();
+                            })
+                        );
                     }.bind(this));
                 }.bind(this));
                 this.trigger('show');

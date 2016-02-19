@@ -123,6 +123,10 @@
         message.send(sendFunc(this.get('id'), body, attachments, now));
     },
 
+    isSearchable: function() {
+        return !this.get('left') || !!this.get('lastMessage');
+    },
+
     endSession: function() {
         if (this.isPrivate()) {
             var now = Date.now();

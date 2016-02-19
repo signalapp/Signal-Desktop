@@ -394,7 +394,10 @@
             });
         },
 
-        fetchConversation: function(conversationId) {
+        fetchConversation: function(conversationId, limit) {
+            if (typeof limit !== 'number') {
+                limit = 100;
+            }
             return new Promise(function(resolve) {
                 var upper;
                 if (this.length === 0) {
@@ -404,7 +407,7 @@
                     // not our first rodeo, fetch older messages.
                     upper = this.at(0).get('received_at');
                 }
-                var options = {remove: false, limit: 100};
+                var options = {remove: false, limit: limit};
                 options.index = {
                     // 'conversation' index on [conversationId, received_at]
                     name  : 'conversation',
