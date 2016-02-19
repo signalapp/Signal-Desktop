@@ -39,15 +39,11 @@ body {
 
 #header {
   position: fixed;
-  top: 1px;
-  width: calc(100% - 2px);
-  z-index: 1;
+  width: 100%;
   height: 36px;
   line-height: 24px;
-  color: #f2f2f2;
-  -webkit-app-region: drag; }
+  color: #f2f2f2; }
   #header button {
-    -webkit-app-region: no-drag;
     color: inherit; }
     #header button:hover {
       background-color: rgba(0, 0, 0, 0.2); }

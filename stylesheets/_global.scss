@@ -30,16 +30,12 @@ body {
 
 #header {
   position: fixed;
-  top: 1px;
-  width: calc(100% - 2px);
-  z-index: 1;
+  width: 100%;
   height: $header-height;
   line-height: 24px;
   color: #f2f2f2;
-  -webkit-app-region: drag;
 
   button {
-    -webkit-app-region: no-drag;
     color: inherit;
 
     &:hover {
