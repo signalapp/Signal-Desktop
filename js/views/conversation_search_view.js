@@ -53,7 +53,7 @@
             'click .new-contact': 'createConversation',
         },
 
-        filterContacts: function(e) {
+        filterContacts: function() {
             var query = this.$input.val().trim();
             if (query.length) {
                 if (this.maybeNumber(query)) {
