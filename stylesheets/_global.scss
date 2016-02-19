@@ -29,7 +29,6 @@ body {
 }
 
 #header {
-  max-width: 1300px;
   position: fixed;
   top: 1px;
   width: calc(100% - 2px);
@@ -92,8 +91,6 @@ button.back {
   position: relative;
   float: right;
   height: 36px;
-  padding-right: 8px;
-
 
   .hamburger {
     width: $header-height;

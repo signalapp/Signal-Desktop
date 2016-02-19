@@ -15,8 +15,9 @@
 }
 
 .conversation {
+  max-width: 950px;
   background-color: #ffffff;
-  margin: 10px;
+  margin: 10px auto;
   padding: 20px 20px 10px;
   border-radius: 10px;
   height: calc(100% - 20px);

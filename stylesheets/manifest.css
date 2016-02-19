@@ -38,7 +38,6 @@ body {
   display: none; }
 
 #header {
-  max-width: 1300px;
   position: fixed;
   top: 1px;
   width: calc(100% - 2px);
@@ -86,8 +85,7 @@ button.back {
 .menu {
   position: relative;
   float: right;
-  height: 36px;
-  padding-right: 8px; }
+  height: 36px; }
   .menu .hamburger {
     width: 36px;
     height: 36px;
@@ -433,8 +431,7 @@ img.emoji {
     background: url("/images/error_red.png") no-repeat left center; }
 
 .conversation-stack {
-  padding-left: 300px;
-  padding-top: 36px; }
+  padding: 36px 10px 0px 310px; }
   .conversation-stack .conversation {
     display: none; }
   .conversation-stack .conversation:first-child {
@@ -516,7 +513,6 @@ input.search {
     opacity: 1; }
 
 .index {
-  max-width: 1300px;
   color: #454545;
   background: #2eace0; }
   .index .gutter .new-group-update-form {
@@ -626,8 +622,9 @@ input.search {
   color: #999; }
 
 .conversation {
+  max-width: 950px;
   background-color: #ffffff;
-  margin: 10px;
+  margin: 10px auto;
   padding: 20px 20px 10px;
   border-radius: 10px;
   height: calc(100% - 20px);

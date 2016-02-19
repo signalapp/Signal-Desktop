@@ -50,8 +50,7 @@
 }
 
 .conversation-stack {
-  padding-left: 300px;
-  padding-top: $header-height;
+  padding: $header-height 10px 0px 310px;
   .conversation {
     display: none;
   }
@@ -163,7 +162,6 @@ input.search {
 }
 
 .index {
-  max-width: 1300px;
   color: $grey_d;
   background: #2eace0;
 
