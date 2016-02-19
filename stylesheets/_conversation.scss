@@ -601,16 +601,7 @@
 }
 
 .confirmation-dialog {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 0 20px;
-  z-index: 10;
-
-  .modal {
+  .content {
     max-width: 350px;
     margin: 100px auto;
     padding: 1em;

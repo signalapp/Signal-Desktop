@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.ConfirmationDialogView = Whisper.View.extend({
-        className: 'confirmation-dialog',
+        className: 'confirmation-dialog modal',
         templateName: 'confirmation-dialog',
         initialize: function(options) {
             this.message = options.message;
