@@ -13,7 +13,7 @@
     var inboxCollection = new (Backbone.Collection.extend({
         initialize: function() {
             this.on('change:active_at', this.sort);
-            this.on('change:unreadCount', this.updateUnreadCount);
+            this.on('add remove change:unreadCount', this.updateUnreadCount);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);
         },
@@ -28,10 +28,13 @@
             }
         },
         updateUnreadCount: function(model, count) {
-            var prev = model.previous('unreadCount') || 0;
-            var newUnreadCount = storage.get("unreadCount", 0) - (prev - count);
-            if (newUnreadCount < 0) { newUnreadCount = 0; }
-            storage.remove("unreadCount");
+            var newUnreadCount = _.reduce(
+                this.map(function(m) { return m.get('unreadCount'); }),
+                function(item, memo) {
+                    return item + memo;
+                },
+                0
+            );
             storage.put("unreadCount", newUnreadCount);
 
             setUnreadCount(newUnreadCount);

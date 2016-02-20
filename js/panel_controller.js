@@ -80,12 +80,12 @@
     window.setUnreadCount = function(count) {
         if (count > 0) {
             extension.navigator.setBadgeText(count);
-            if (inboxOpened === true) {
+            if (inboxOpened === true && appWindow) {
                 appWindow.contentWindow.document.title = "Signal (" + count + ")";
             }
         } else {
             extension.navigator.setBadgeText("");
-            if (inboxOpened === true) {
+            if (inboxOpened === true && appWindow) {
                 appWindow.contentWindow.document.title = "Signal";
             }
         }
