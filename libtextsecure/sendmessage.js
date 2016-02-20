@@ -182,6 +182,24 @@ MessageSender.prototype = {
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     },
+    sendReadReceipts: function(receipts) {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.read = [];
+            for (var i = 0; i < receipts.length; ++i) {
+                var read = new textsecure.protobuf.SyncMessage.Read();
+                read.timestamp = receipts[i].timestamp;
+                read.sender = receipts[i].sender;
+                syncMessage.read.push(read);
+            }
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    },
 
     sendGroupProto: function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
@@ -383,6 +401,7 @@ textsecure.MessageSender = function(url, username, password, attachment_server_u
     this.setGroupAvatar                = sender.setGroupAvatar               .bind(sender);
     this.leaveGroup                    = sender.leaveGroup                   .bind(sender);
     this.sendSyncMessage               = sender.sendSyncMessage              .bind(sender);
+    this.sendReadReceipts              = sender.sendReadReceipts             .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

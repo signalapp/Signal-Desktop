@@ -60,11 +60,16 @@ message SyncMessage {
     }
     optional Type type = 1;
   }
+  message Read {
+    optional string sender    = 1;
+    optional uint64 timestamp = 2;
+  }
 
   optional Sent     sent     = 1;
   optional Contacts contacts = 2;
   optional Groups   groups   = 3;
   optional Request  request  = 4;
+  repeated Read     read     = 5;
 }
 
 message AttachmentPointer {

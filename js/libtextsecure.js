@@ -37034,7 +37034,11 @@ MessageReceiver.prototype.extend({
         }
         if (syncMessage.sent) {
             var sentMessage = syncMessage.sent;
-            console.log('sent message to', sentMessage.destination, sentMessage.timestamp.toNumber(), 'from', envelope.source + '.' + envelope.sourceDevice);
+            console.log('sent message to',
+                    sentMessage.destination,
+                    sentMessage.timestamp.toNumber(),
+                    'from', envelope.source + '.' + envelope.sourceDevice
+            );
             return this.handleSentMessage(
                     sentMessage.destination,
                     sentMessage.timestamp,
@@ -37046,8 +37050,20 @@ MessageReceiver.prototype.extend({
             this.handleGroups(syncMessage.groups);
         } else if (syncMessage.request) {
             console.log('Got SyncMessage Request');
+        } else if (syncMessage.read) {
+            console.log('read messages',
+                    'from', envelope.source + '.' + envelope.sourceDevice);
+            this.handleRead(syncMessage.read);
         } else {
             throw new Error('Got empty SyncMessage');
+        }
+    },
+    handleRead: function(read) {
+        for (var i = 0; i < read.length; ++i) {
+            var ev = new Event('read');
+            ev.timestamp = read[i].timestamp;
+            ev.sender = read[i].sender;
+            this.dispatchEvent(ev);
         }
     },
     handleContacts: function(contacts) {
@@ -37623,6 +37639,24 @@ MessageSender.prototype = {
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     },
+    sendReadReceipts: function(receipts) {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.read = [];
+            for (var i = 0; i < receipts.length; ++i) {
+                var read = new textsecure.protobuf.SyncMessage.Read();
+                read.timestamp = receipts[i].timestamp;
+                read.sender = receipts[i].sender;
+                syncMessage.read.push(read);
+            }
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    },
 
     sendGroupProto: function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
@@ -37824,6 +37858,7 @@ textsecure.MessageSender = function(url, username, password, attachment_server_u
     this.setGroupAvatar                = sender.setGroupAvatar               .bind(sender);
     this.leaveGroup                    = sender.leaveGroup                   .bind(sender);
     this.sendSyncMessage               = sender.sendSyncMessage              .bind(sender);
+    this.sendReadReceipts              = sender.sendReadReceipts             .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

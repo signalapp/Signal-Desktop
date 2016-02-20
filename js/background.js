@@ -103,6 +103,7 @@
         messageReceiver.addEventListener('contact', onContactReceived);
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
+        messageReceiver.addEventListener('read', onReadReceipt);
         messageReceiver.addEventListener('error', onError);
 
         window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL);
@@ -226,6 +227,12 @@
         }
 
         throw e;
+    }
+
+    function onReadReceipt(ev) {
+        var timestamp = ev.timestamp.toNumber();
+        var sender    = ev.sender;
+        console.log('read receipt ', sender, timestamp);
     }
 
     // lazy hack

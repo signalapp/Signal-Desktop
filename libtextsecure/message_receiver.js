@@ -198,7 +198,11 @@ MessageReceiver.prototype.extend({
         }
         if (syncMessage.sent) {
             var sentMessage = syncMessage.sent;
-            console.log('sent message to', sentMessage.destination, sentMessage.timestamp.toNumber(), 'from', envelope.source + '.' + envelope.sourceDevice);
+            console.log('sent message to',
+                    sentMessage.destination,
+                    sentMessage.timestamp.toNumber(),
+                    'from', envelope.source + '.' + envelope.sourceDevice
+            );
             return this.handleSentMessage(
                     sentMessage.destination,
                     sentMessage.timestamp,
@@ -210,8 +214,20 @@ MessageReceiver.prototype.extend({
             this.handleGroups(syncMessage.groups);
         } else if (syncMessage.request) {
             console.log('Got SyncMessage Request');
+        } else if (syncMessage.read) {
+            console.log('read messages',
+                    'from', envelope.source + '.' + envelope.sourceDevice);
+            this.handleRead(syncMessage.read);
         } else {
             throw new Error('Got empty SyncMessage');
+        }
+    },
+    handleRead: function(read) {
+        for (var i = 0; i < read.length; ++i) {
+            var ev = new Event('read');
+            ev.timestamp = read[i].timestamp;
+            ev.sender = read[i].sender;
+            this.dispatchEvent(ev);
         }
     },
     handleContacts: function(contacts) {
