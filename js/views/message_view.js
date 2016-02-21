@@ -30,7 +30,9 @@
             e.stopPropagation();
         },
         className: function() {
-            return ['entry', this.model.get('type')].join(' ');
+            var classes = [];
+            if (this.model.isIncoming()) classes = ['color-' + Math.abs(this.model.getContact().hashCode()) % 15];
+            return classes.concat(['entry', this.model.get('type')]).join(' ');
         },
         renderPending: function() {
             this.$el.addClass('pending');
