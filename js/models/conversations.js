@@ -357,11 +357,7 @@
         var title = this.get('name');
         var color;
         if (this.isPrivate()) {
-            if (title) {
-                color = COLORS[Math.abs(this.hashCode()) % 15];
-            } else {
-                color = '#999999';
-            }
+            color = COLORS[Math.abs(this.hashCode()) % 15];
         } else {
             color = '#2090ea';
         }
@@ -444,7 +440,7 @@
     },
     hashCode: function() {
         if (this.hash === undefined) {
-            var string = this.getTitle() || '';
+            var string = this.get('id') || '';
             if (string.length === 0) {
                 return 0;
             }
