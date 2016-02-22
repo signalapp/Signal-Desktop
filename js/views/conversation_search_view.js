@@ -125,7 +125,11 @@
             if (this.showAllContacts) {
                 this.typeahead.fetchAlphabetical().then(function() {
                     if (this.typeahead.length > 0) {
-                        this.typeahead_view.collection.reset(this.typeahead.models);
+                        this.typeahead_view.collection.reset(
+                            this.typeahead.filter(function(m) {
+                                return m.isSearchable();
+                            })
+                        );
                     } else {
                         this.showHints();
                     }
