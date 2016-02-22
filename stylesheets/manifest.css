@@ -353,9 +353,9 @@ img.emoji {
     color: black;
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
 .debug-log .result {
-  display: none;
-  text-align: center;
-  -webkit-user-select: text; }
+  text-align: center; }
+  .debug-log .result a {
+    -webkit-user-select: text; }
 
 .modal {
   position: absolute;

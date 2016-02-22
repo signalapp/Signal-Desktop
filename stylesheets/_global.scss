@@ -451,9 +451,10 @@ $avatar-size: 44px;
   }
 
   .result {
-    display: none;
     text-align: center;
-    -webkit-user-select: text;
+    a {
+      -webkit-user-select: text;
+    }
   }
 }
 .modal {

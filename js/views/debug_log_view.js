@@ -30,12 +30,13 @@
         submit: function(e) {
             e.preventDefault();
             console.post(this.$('textarea').val()).then(function(url) {
-                this.$el.removeClass('loading');
-                var link = this.$('.result').show().find('a');
+                this.$('.loading').removeClass('loading');
+                var link = this.$('.result').find('a');
                 link.attr('href', url).text(url);
+                this.$('.result .hide').removeClass('hide');
             }.bind(this));
-            this.$('form').remove();
-            this.$el.addClass('loading');
+            this.$('.buttons, textarea').remove();
+            this.$('.result').addClass('loading');
         }
     });
 
