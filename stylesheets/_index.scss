@@ -1,7 +1,3 @@
-.gutter {
-  padding: $header-height 0 0;
-}
-
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%;
@@ -14,11 +10,15 @@
 
 .gutter {
   float: left;
-  margin: 10px 0;
   width: 300px;
+  .content {
+    height: 100%;
+    padding: 46px 0 10px;
+  }
+
   .conversations {
     overflow-y: scroll;
-    height: calc(100% - 20px);
+    height: 100%;
     width: 100%;
   }
 }

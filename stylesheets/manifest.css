@@ -383,9 +383,6 @@ img.emoji {
     text-align: center;
     font-size: 19px; }
 
-.gutter {
-  padding: 36px 0 0; }
-
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
@@ -396,11 +393,13 @@ img.emoji {
 
 .gutter {
   float: left;
-  margin: 10px 0;
   width: 300px; }
+  .gutter .content {
+    height: 100%;
+    padding: 46px 0 10px; }
   .gutter .conversations {
     overflow-y: scroll;
-    height: calc(100% - 20px);
+    height: 100%;
     width: 100%; }
 
 .socket-status {
