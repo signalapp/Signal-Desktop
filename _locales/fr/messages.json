@@ -3,6 +3,10 @@
         "message": "Pièce jointe non supportée. Cliquer pour l'enregistrer.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Paramètres",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Un message avec une clé de chiffrement inconnue a été reçu. Cliquer pour l'accepter et l'afficher.",
         "description": ""
@@ -43,8 +47,12 @@
         "message": "Selectionner un contact ou groupe pour commencer à chatter.",
         "description": ""
     },
+    "off": {
+        "message": "Désactivées",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
-        "message": "Connection en cours...",
+        "message": "Connexion en cours...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Envoyé",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "Nouveau message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Nom",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Vérifier l'identité",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Rechercher des personnes ou groupes",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "Aucun nom ni message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Suivez nous</a> pour être informés du support multi-appareils pour iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Syncronistation des goupes et contacts",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Nouvelle identité",
         "description": ""
     },
     "installTagline": {
@@ -130,7 +154,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "La connexion au serveur a échoué.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -167,6 +191,10 @@
         "message": "Leur identité (ils lisent)",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Nouveaux messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Vous n'avez pas encore discuté avec ce contact. Son idendité sera connue après le premier message envoyé.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Vérifier",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Nom et message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Échec de l’envoi à certains destinataires.",
+        "message": "L'envoie du message à certains destinataires a échoué. Vérifiez votre connexion réseau.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "La clé de chiffrement ce contact a changé. Cela peut vouloir dire que quelqu'un essaie d'intercepter votre communication ou que votre contact a simplement ré-installé Signal et possède maintenant une nouvelle clé de chiffrement.",
         "description": ""
     },
     "submitDebugLog": {

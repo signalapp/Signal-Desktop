@@ -3,6 +3,10 @@
         "message": "Nieobsługiwany typ załącznika. Kliknij aby zapisać.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Odebrano wiadomość z nieznanym kluczem tożsamości. Kliknij aby procesować i pokazać.",
         "description": ""
@@ -43,6 +47,10 @@
         "message": "Wybierz kontakt lub grupę aby zacząć rozmowę.",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Trwa łączenie",
         "description": "Displayed when waiting for the QR Code"
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Wsłano",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Weryfikuj tożsamość",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Szukaj ludzi lub grup",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$> Śledź nas </a> aktualizacje o wsparcie dla wielu urządzeń iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Trwa synchronizacja grup i kontaktów",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +191,10 @@
         "message": "Ich identyfikacja (oni widzą):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Jeszcze nie rozmawiałeś z tą osobą. Ich tożsamość będzie dostępna po pierwszej wiadomości.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Weryfikuj",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
         "message": "Nie udało się wysłać do kilku odbiorców.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {

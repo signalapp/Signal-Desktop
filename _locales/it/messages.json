@@ -3,12 +3,16 @@
         "message": "Tipo di allegato non supportato. Clicca per salvare.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Impostazioni",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Ricevuto un messaggio con una chiave d'identità sconosciuta. Clicca per procedere e visualizzare.",
         "description": ""
     },
     "installComputerName": {
-        "message": "Questo dispositivo sarà conosciuto con il seguente nome",
+        "message": "Questo dispositivo sarà conosciuto con il nome",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -24,11 +28,11 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Resetta Sessione",
+        "message": "Resetta sessione",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Benvenuti su Signal",
+        "message": "Benvenuto in Signal",
         "description": ""
     },
     "members": {
@@ -43,20 +47,40 @@
         "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Connessione in corso...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Forse desideri <span class='verify'>verificare</span> questo contatto.",
-        "description": ""
+        "message": "Dovresti $tag_start$ verificare $tag_end$ questo contatto.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Inviato",
         "description": "Label for the time a message was sent"
     },
+    "newMessage": {
+        "message": "Nuovo messaggio",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Solo nome",
+        "description": "Label for setting notifications to display sender name only"
+    },
     "verifyIdentity": {
-        "message": "Verifica Identità",
+        "message": "Verifica identità",
         "description": ""
     },
     "from": {
@@ -64,12 +88,16 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Questo file di log sarà esposto al publico per essere controllato dai contributori. Esaminalo bene e modificalo prima d'inviarlo. ",
+        "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
         "message": "Cerca persone o gruppi",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "Né nome né messaggio",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Seguici</a> per aggiornamenti sulle funzionalità multi dispositivo per iOS.",
@@ -86,11 +114,15 @@
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Spiacente, ha troppi dispositivi collegati. Prova a rimuoverne qualcuno",
+        "message": "Spiacente, hai troppi dispositivi collegati. Prova a rimuoverne qualcuno.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizzazione gruppi e contatti in corso",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Nuova identità",
         "description": ""
     },
     "installTagline": {
@@ -126,7 +158,7 @@
         "description": ""
     },
     "installWelcome": {
-        "message": "Benvenuto in Signal per desktop",
+        "message": "Benvenuto in Signal per Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -167,6 +199,10 @@
         "message": "Identità del conttato (legge il tuo contatto)",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Nuovi messaggi",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Non hai ancora scambiato nessun messaggio con questo contatto. La sua identità sarà disponibile subito dopo il primo invio. ",
         "description": ""
@@ -184,19 +220,27 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Dettagli Messaggio",
+        "message": "Dettagli messaggio",
         "description": ""
     },
     "verify": {
         "message": "Verifca",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Nome e messaggio",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Il messaggio non ha raggiunto alcuni destinatari.",
+        "message": "Invio fallito per alcuni destinatari. Controllare la connessione di rete.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "La chiave d'identità di questo contatto è cambiata. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal ed ora ha una nuova chiave.",
         "description": ""
     },
     "submitDebugLog": {

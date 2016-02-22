@@ -3,6 +3,10 @@
         "message": "Неподдържан прикачен тип. Натиснете за да го запишете.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Получено съобщение с непознат ключ за самоличност. Натиснете за да бъде обработено и показано.",
         "description": ""
@@ -43,6 +47,10 @@
         "message": "Изберете контакт или група за да започнете разговор.",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Свързване...",
         "description": "Displayed when waiting for the QR Code"
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Изпратено",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Удостовери самоличност",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Търси за хора или групи",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Следвайте ни</a> за обновления относно поддръжката на различни устройства за iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Синхронизиране на групи и контакти",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +191,10 @@
         "message": "Тяхна самоличност (както те четат):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Не сте обменяли съобщения с този Ваш контакт до сега. Самоличността на контакта ще бъде достъпна след първото съобщение.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Удостовери",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
         "message": "Изпращането до някои от получателите бе неуспешно.",
         "description": ""
     },
     "ok": {
         "message": "Добре",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {

@@ -3,6 +3,10 @@
         "message": "Desteklenmeyen ek türü. Kaydetmek için tıkla.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Ayarlar",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Bilinmiyen kimlik anahtarı ile mesaj alındı. İşlem yapmak ve görüntülemek için tıkla.",
         "description": ""
@@ -43,17 +47,37 @@
         "message": "Sohbete başlamak için bir kişi veya topluluk seç.",
         "description": ""
     },
+    "off": {
+        "message": "Kapalı",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Bağlanılıyor...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Bu kişiyi <span class='verify'>doğrulamak</span> isteyebilirsiniz.",
-        "description": ""
+        "message": "Bu kişiyi $tag_start$ doğrulamak $tag_end$ isteyebilirsiniz.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Gönderildi",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "Yeni Mesaj",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Sadece isim",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Kimlik Doğrulama",
@@ -70,6 +94,10 @@
     "searchForPeopleOrGroups": {
         "message": "Kişi veya topluluk ara",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "İsim veya mesaj gösterme",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "iOS çoklu cihaz desteği hakkında güncellemeler için <a $a_params$>bizi takip edin.</a>",
@@ -91,6 +119,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Gruplar ve kişiler senkronize ediliyor",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Yeni Kimlik",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +199,10 @@
         "message": "Onların kimliği (onların okuduğu):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Yeni Mesajlar",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Henüz bu kişi ile herhangi bir mesaj alışverişinde bulunmadınız. Onların kimliği, ilk mesajdan sonra geçerli olacak.",
         "description": ""
@@ -191,12 +227,20 @@
         "message": "Doğrula",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "İsim ve mesaj",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Bazı alıcılara gönderilemedi.",
+        "message": "Bazı alıcılara gönderilemedi. Ağ bağlantınızı kontrol edin.",
         "description": ""
     },
     "ok": {
         "message": "TAMAM",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "Bu kişinin tanımlama anahtarı değişti. Bunun anlamı birisi sizin iletişiminizi kesmeye çalışıyor, veya bu kişi Signal'i tekrardan yükledi ve şimdi yeni bir tanımlama anahtarı var.",
         "description": ""
     },
     "submitDebugLog": {

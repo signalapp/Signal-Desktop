@@ -3,6 +3,10 @@
         "message": "Tipo de anexo não suportado. Clique para guardar.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Recebida mensagem com uma chave desconhecida. Clica aqui para processar e mostrar.",
         "description": ""
@@ -43,6 +47,10 @@
         "message": "Seleccione um contacto ou grupo para começar a falar",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Conectando...",
         "description": "Displayed when waiting for the QR Code"
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Enviada",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Verificar identidade",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Procurar por pessoas ou grupos",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$> Siga-nos </a> para atualizações sobre o suporte multi-dispositivo para o iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos e contatos",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +191,10 @@
         "message": "A identidade do destinatário (ele lê):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Você não trocou nenhuma mensagem com esse contato ainda. A sua identidade estará disponível após a primeira mensagem.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Verificar",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
         "message": "Falhou o envio para alguns destinatários.",
         "description": ""
     },
     "ok": {
         "message": "Ok",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {

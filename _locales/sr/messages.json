@@ -3,6 +3,10 @@
         "message": "Unsupported attachment type. Click to save.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Received message with unknown identity key. Click to process and display.",
         "description": ""
@@ -43,17 +47,37 @@
         "message": "Select a contact or group to start chatting.",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Connecting...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to <span class='verify'>verify</span> this contact.",
-        "description": ""
+        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Sent",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Verify Identity",
@@ -70,6 +94,10 @@
     "searchForPeopleOrGroups": {
         "message": "Search for people or groups",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
@@ -91,6 +119,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Syncing groups and contacts",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +199,10 @@
         "message": "Their identity (they read):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
@@ -191,12 +227,20 @@
         "message": "Verify",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Failed to send to some recipients.",
+        "message": "Failed to send to some recipients. Check your network connection.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {

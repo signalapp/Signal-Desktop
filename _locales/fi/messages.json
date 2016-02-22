@@ -3,6 +3,10 @@
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Asetukset",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Vastaanotettiin viesti tuntemattomalla identiteettiavaimella. Aloita käsittely napsauttamalla.",
         "description": ""
@@ -43,17 +47,37 @@
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
         "description": ""
     },
+    "off": {
+        "message": "Pois päältä",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Yhdistetään...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Saatat haluta <span class='verify'>varmentaa</span> tämän yhteystiedon.",
-        "description": ""
+        "message": "Saatat haluta $tag_start$ varmentaa $tag_end$ tämän yhteystiedon.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Lähetetty",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "Uusi viesti",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Vain nimi",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Varmenna identiteetti",
@@ -70,6 +94,10 @@
     "searchForPeopleOrGroups": {
         "message": "Etsi yhteystietoja tai ryhmiä",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "Ei nimeä eikä viestiä",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "Jos haluat saada uutisia ja tietoja usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
@@ -91,6 +119,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Uusi identiteetti",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +199,10 @@
         "message": "Vastapuolen identiteetti (hän lukee):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Uusia viestejä",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Et ole vaihtanut tämän yhteystiedon kanssa vielä yhtään viestiä. Hänen identiteettnsä tulee näkyviin ensimmäisen viestin jälkeen.",
         "description": ""
@@ -191,12 +227,20 @@
         "message": "Varmenna",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Nimi ja viesti",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Lähetys epäonnistui joillekin vastaanottajille",
+        "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteytesi.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "Tämän yhteystiedon identiteettiavain on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että hän on yksinkertaisesti uudelleenasentanut Signalin, ja siksi käyttää nyt uutta identiteettiavainta.",
         "description": ""
     },
     "submitDebugLog": {

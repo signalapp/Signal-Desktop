@@ -3,6 +3,10 @@
         "message": "Niet ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Bericht ontvangen met een onbekende identiteitssleutel. Klik om deze te tonen en verwerken.",
         "description": ""
@@ -43,6 +47,10 @@
         "message": "Selecteer een contact of groep om te starten met chatten.",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Aan het verbinden...",
         "description": "Displayed when waiting for the QR Code"
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Verzonden",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Identiteit verifiëren",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Zoeken naar personen of groepen",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Groepen en contacten aan het synchroniseren",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +191,10 @@
         "message": "Identiteit partner (partner leest):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Na het eerste bericht komt de identiteit beschikbaar.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Verifiëren",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
         "message": "Verzenden naar bepaalde ontvangers mislukt.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {

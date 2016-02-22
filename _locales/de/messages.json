@@ -3,6 +3,10 @@
         "message": "Nicht unterstütztes Anhangsformat. Zum Speichern anklicken.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Einstellungen",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
@@ -43,17 +47,37 @@
         "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
         "description": ""
     },
+    "off": {
+        "message": "Aus",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Verbindung wird hergestellt …",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Sie sollten diesen Kontakt ggf. <span class='verify'>überprüfen</span>.",
-        "description": ""
+        "message": "Sie sollten diesen Kontakt ggf. $tag_start$ überprüfen $tag_end$.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Gesendet",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "Neue Nachricht",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Nur Name",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Identität überprüfen",
@@ -70,6 +94,10 @@
     "searchForPeopleOrGroups": {
         "message": "Nach Personen oder Gruppen suchen",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "Weder Name noch Nachricht",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Folgen Sie uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
@@ -91,6 +119,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Gruppen und Kontakte werden synchronisiert",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Neue Identität",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +199,10 @@
         "message": "Identitätsschlüssel des Kontakts (Kontakt liest vor):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Neue Nachrichten",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Sie haben bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Der Identitätsschlüssel des Kontakts wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
@@ -191,12 +227,20 @@
         "message": "Überprüfen",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name und Nachricht",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "Nachricht konnte an einige Empfänger nicht versendet werden.",
+        "message": "Versand an einige Empfänger fehlgeschlagen. Überprüfen Sie Ihre Netzwerkverbindung.",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "Der Identitätschlüssel des Kontakts hat sich geändert. Dies könnte bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören. Vielleicht hat dieser Kontakt Signal aber auch nur neu installiert und verwendet nun einen neuen Schlüssel.",
         "description": ""
     },
     "submitDebugLog": {

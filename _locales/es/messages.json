@@ -3,6 +3,10 @@
         "message": "Tipo de archivo adjunto no admitido. Haga clic para guardarlo.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Parámetros",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Mensaje recibido con una clave identificadora desconocida. Haga clic para procesar y mostrarlo.",
         "description": ""
@@ -43,17 +47,37 @@
         "message": "Seleccione un contacto o grupo para empezar a chatear.",
         "description": ""
     },
+    "off": {
+        "message": "Desactivar",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Conectando...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Puede que dese <span class='verify'>verificar</span> este contacto.",
-        "description": ""
+        "message": "Puede que desee $tag_start$ verificar $tag_end$ este contacto.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Enviado",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "Nuevo mensaje",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Solo nombre",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Verificar Identidad",
@@ -70,6 +94,10 @@
     "searchForPeopleOrGroups": {
         "message": "Buscar contactos o grupos",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "Nombre o mensaje que faltan",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$> Síguenos </a> para obtener noticias sobre soporte multi-dispositivo para iOS.\n",
@@ -91,6 +119,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos y contactos",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "Nueva identidad",
         "description": ""
     },
     "installTagline": {
@@ -130,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Error al conectar con el servidor.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -167,6 +199,10 @@
         "message": "Identidad de ellos (ellos leen)",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "Nuevos mensajes",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Todavía no ha intercambiado los mensajes con este contacto. Su identidad estará disponible después del primer mensaje.",
         "description": ""
@@ -191,12 +227,20 @@
         "message": "Verificar",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Nombre y mensaje",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
-        "message": "No se puede enviar a algunos destinatarios.",
+        "message": "Error al enviar a algunos destinatarios. Compruebe su conexión de red.",
         "description": ""
     },
     "ok": {
         "message": "Aceptar",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "La clave identificadora de este contacto ha cambiado. Podría significar que alguien está intentando interceptar sus comunicaciones, o este contacto simplemente reinstaló Signal y ahora tiene una nueva clave identificadora.",
         "description": ""
     },
     "submitDebugLog": {

@@ -3,6 +3,10 @@
         "message": "Vedlegg er ikke støttet. Klikk for å lagre det.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Menu item and header for global settings"
+    },
     "incomingKeyConflict": {
         "message": "Melding mottatt med ukjent id-nøkkel. Klikk for å godta og vise.",
         "description": ""
@@ -43,6 +47,10 @@
         "message": "Velg en kontakt eller gruppe for å chatte",
         "description": ""
     },
+    "off": {
+        "message": "Off",
+        "description": "Label for disabling notifications"
+    },
     "installConnecting": {
         "message": "Kobler til....",
         "description": "Displayed when waiting for the QR Code"
@@ -54,6 +62,14 @@
     "sent": {
         "message": "Melding sendt",
         "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "New Message",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "Name only",
+        "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
         "message": "Verifiser identitet",
@@ -70,6 +86,10 @@
     "searchForPeopleOrGroups": {
         "message": "Søk etter personer eller gruppper",
         "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "No name or message",
+        "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Følg oss</a> for å få oppdateringer om støtte for flere enheter på iOS.",
@@ -91,6 +111,10 @@
     },
     "installSyncingGroupsAndContacts": {
         "message": "Synkroniserer grupper og kontakter",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "New Identity",
         "description": ""
     },
     "installTagline": {
@@ -167,6 +191,10 @@
         "message": "Hans/hennes identitet (leser):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
+    "newMessages": {
+        "message": "New Messages",
+        "description": "Displayed in notifications for multiple messages"
+    },
     "theirIdentityUnknown": {
         "message": "Du har ikke vekslet meldinger med denne kontakten ennå. Deres identitet blir tilgjengelig etter første melding.",
         "description": ""
@@ -191,12 +219,20 @@
         "message": "Verifiser",
         "description": ""
     },
+    "nameAndMessage": {
+        "message": "Name and message",
+        "description": "Label for setting notifications to display name and message text"
+    },
     "failedToSend": {
         "message": "Kunne ikke sende til noen kontakter",
         "description": ""
     },
     "ok": {
         "message": "OK",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
         "description": ""
     },
     "submitDebugLog": {
