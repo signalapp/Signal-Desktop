@@ -324,13 +324,21 @@ img.emoji {
 @keyframes rotate {
   to {
     transform: rotate(360deg); } }
-.debug-log.modal .content {
-  max-width: 90%; }
+.debug-log.modal {
+  padding: 50px; }
+  .debug-log.modal .content {
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; }
+    .debug-log.modal .content textarea {
+      flex-grow: 1;
+      width: 100%;
+      resize: none; }
 .debug-log ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.15); }
-.debug-log textarea {
-  width: 100%;
-  resize: vertical; }
 .debug-log button, .debug-log input[type=submit] {
   border-radius: 4px;
   border: solid 1px #ccc;

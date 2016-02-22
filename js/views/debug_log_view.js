@@ -13,7 +13,7 @@
             this.$('textarea').val(console.get());
         },
         events: {
-            'submit': 'submit',
+            'click .submit': 'submit',
             'click .close': 'close'
         },
         render_attributes: {

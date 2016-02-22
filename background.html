@@ -310,14 +310,16 @@
   </script>
   <script type='text/x-tmpl-mustache' id='debug-log'>
     <div class='content'>
-      <a class='x close'>&times;</a>
-      <h1>{{ title }}</h1>
-      <p> {{ debugLogExplanation }}</p>
-      <form>
-        <textarea rows='5'></textarea>
-        <input class='submit' type='submit' value='{{ submit }}' />
+      <div>
+        <a class='x close'>&times;</a>
+        <h1> {{ title }} </h1>
+        <p> {{ debugLogExplanation }}</p>
+      </div>
+      <textarea rows='5'></textarea>
+      <div class='buttons'>
+        <button class='submit'>{{ submit }}</button>
         <button class='close'>{{ cancel }}</button>
-      </form>
+      </div>
       <div class='result'>
         <a target='_blank'></a>
         <div><button class='close'>{{ close }}</button></div>

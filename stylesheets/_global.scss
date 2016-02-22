@@ -410,17 +410,27 @@ $avatar-size: 44px;
 }
 
 .debug-log {
-  &.modal .content {
-    max-width: 90%;
+  &.modal {
+    padding: 50px;
+
+    .content {
+      margin: 0;
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      textarea {
+        flex-grow: 1;
+        width: 100%;
+        resize: none;
+      }
+    }
   }
 
   ::-webkit-scrollbar-thumb {
     background: rgba(0,0,0,0.15);
-  }
-
-  textarea {
-    width: 100%;
-    resize: vertical;
   }
 
   button, input[type=submit] {
