@@ -147,14 +147,6 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      scripts: {
-        files: ['<%= jshint.files %>', './js/**/*.js'],
-        tasks: ['jshint']
-      },
-      style: {
-        files: ['<%= jscs.all.src %>', './js/**/*.js'],
-        tasks: ['jscs']
-      },
       sass: {
         files: ['./stylesheets/*.scss'],
         tasks: ['sass']
@@ -166,6 +158,14 @@ module.exports = function(grunt) {
       dist: {
         files: ['<%= dist.src %>', '<%= dist.res %>'],
         tasks: ['copy']
+      },
+      scripts: {
+        files: ['<%= jshint.files %>', './js/**/*.js'],
+        tasks: ['jshint']
+      },
+      style: {
+        files: ['<%= jscs.all.src %>', './js/**/*.js'],
+        tasks: ['jscs']
       },
     },
     connect: {
