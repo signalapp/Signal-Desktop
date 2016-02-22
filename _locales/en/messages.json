@@ -52,7 +52,8 @@
       "message": "Disconnected"
     },
     "submitDebugLog": {
-      "message": "Submit debug log"
+      "message": "Submit Debug Log",
+      "description": "Menu item and header text for debug log modal, title case."
     },
     "searchForPeopleOrGroups": {
       "message": "Search for people or groups",
@@ -122,7 +123,8 @@
         "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
     },
     "deleteMessages": {
-        "message": "Delete messages"
+        "message": "Delete Messages",
+        "description": "Menu item for deleting messages, title case."
     },
     "sessionEnded": {
         "message": "Secure session reset"
