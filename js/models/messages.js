@@ -363,6 +363,10 @@
                     });
                 });
             });
+        },
+        markRead: function(sync) {
+            this.unset('unread');
+            return this.save();
         }
 
     });

@@ -134,6 +134,16 @@
                 transaction.db.createObjectStore("debug");
                 next();
             }
+        },
+        {
+            version: "8.0",
+            migrate: function(transaction, next) {
+                console.log('migration 8.0');
+                console.log('creating unread message index');
+                var conversations = transaction.objectStore('messages');
+                conversations.createIndex('unread', ['conversationId', 'unread'], { unique: false });
+                next();
+            }
         }
     ];
 }());

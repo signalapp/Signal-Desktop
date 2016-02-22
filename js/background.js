@@ -175,7 +175,8 @@
             sent_at        : timestamp,
             received_at    : now,
             conversationId : source,
-            type           : 'incoming'
+            type           : 'incoming',
+            unread         : true
         });
 
         return message;
@@ -232,7 +233,29 @@
     function onReadReceipt(ev) {
         var timestamp = ev.timestamp.toNumber();
         var sender    = ev.sender;
+        var messages  = new Whisper.MessageCollection();
+        var groups    = new Whisper.ConversationCollection();
         console.log('read receipt ', sender, timestamp);
+        groups.fetchGroups(sender).then(function() {
+            messages.fetchSentAt(timestamp).then(function() {
+                var ids = groups.pluck('id');
+                ids.push(sender);
+                var message = messages.find(function(message) {
+                    return (message.get('type') === 'incoming' &&
+                            _.contains(ids, message.get('conversationId')));
+                });
+                if (message) {
+                    message.markRead().then(function() {
+                        var conversation = ConversationController.get({
+                            id: message.get('conversationId')
+                        });
+
+                        // notify frontend listeners
+                        conversation.trigger('read', message);
+                    });
+                }
+            });
+        });
     }
 
     // lazy hack

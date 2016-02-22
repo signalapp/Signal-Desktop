@@ -44,6 +44,31 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
+        this.on('read', this.countUnread);
+    },
+
+    countUnread: function() {
+        return this.getUnread().then(function(unreadMessages) {
+            this.save({unreadCount: unreadMessages.length});
+        }.bind(this));
+    },
+
+    getUnread: function() {
+        var conversationId = this.id;
+        var unreadMessages = new Whisper.MessageCollection();
+        return new Promise(function(resolve) {
+            return unreadMessages.fetch({
+                index: {
+                    // 'unread' index
+                    name: 'unread',
+                    lower: [conversationId, true],
+                    upper: [conversationId, true]
+                }
+            }).always(function() {
+                resolve(unreadMessages);
+            });
+        });
+
     },
 
     validate: function(attributes, options) {
@@ -182,13 +207,22 @@
 
     markRead: function() {
         if (this.get('unreadCount') > 0) {
-            this.save({unreadCount: 0});
+            this.save({ unreadCount: 0 });
             var conversationId = this.id;
-            Whisper.Notifications.remove(
-                Whisper.Notifications.models.filter(
-                    function(model) {
-                        return model.attributes.conversationId===conversationId;
-                    }));
+            Whisper.Notifications.remove(Whisper.Notifications.where({
+                conversationId: conversationId
+            }));
+
+            var readReceipts = this.messageCollection.where({
+                type: 'incoming', unread: true
+            }).map(function(m) {
+                m.markRead();
+                return {
+                    sender: m.get('source'),
+                    timestamp: m.get('sent_at')
+                };
+            }.bind(this));
+            textsecure.messaging.sendReadReceipts(readReceipts);
         }
     },
 
