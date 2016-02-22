@@ -29,9 +29,8 @@ body {
 }
 
 #header {
-  position: fixed;
   width: 100%;
-  height: $header-height;
+  height: 0;
   line-height: 24px;
   color: #f2f2f2;
 
