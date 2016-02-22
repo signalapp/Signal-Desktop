@@ -56,8 +56,11 @@
             var index = this.collection.indexOf(model);
             if (index === this.collection.length - 1) {
                 // add to the bottom.
+                var scrolldown = this.$el.scrollTop() === this.el.scrollHeight - this.el.clientHeight;
                 this.$el.append(view.el);
-                this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
+                if (scrolldown) {
+                    this.$el.scrollTop(this.el.scrollHeight);
+                }
                 this.measureScrollPosition();
             } else if (index === 0) {
                 // add to top
