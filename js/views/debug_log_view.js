@@ -29,7 +29,11 @@
         },
         submit: function(e) {
             e.preventDefault();
-            console.post(this.$('textarea').val()).then(function(url) {
+            var log = this.$('textarea').val();
+            if (log.length === 0) {
+                return;
+            }
+            console.post(log).then(function(url) {
                 this.$('.loading').removeClass('loading');
                 var link = this.$('.result').find('a');
                 link.attr('href', url).text(url);
