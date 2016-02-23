@@ -132,6 +132,7 @@
         },
 
         drawAttention: function(window_id) {
+            console.log('draw attention');
             if (chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 w.clearAttention();
@@ -140,6 +141,7 @@
         },
 
         clearAttention: function(window_id) {
+            console.log('clear attention');
             if (chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 w.clearAttention();
