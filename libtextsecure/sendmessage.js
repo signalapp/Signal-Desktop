@@ -10,10 +10,52 @@ function Message(options) {
     this.recipients  = options.recipients;
     this.timestamp   = options.timestamp;
     this.needsSync   = options.needsSync;
+
+    if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
+        throw new Error('Invalid recipient list');
+    }
+
+    if (!this.group && this.recipients.length > 1) {
+        throw new Error('Invalid recipient list for non-group');
+    }
+
+    if (typeof this.timestamp !== 'number') {
+        throw new Error('Invalid timestamp');
+    }
+
+    if (this.attachments) {
+        if (!(this.attachments instanceof Array)) {
+            throw new Error('Invalid message attachments');
+        }
+    }
+    if (this.flags !== undefined) {
+        if (typeof this.flags !== 'number') {
+            throw new Error('Invalid message flags');
+        }
+    }
+    if (this.isEndSession()) {
+        if (this.body !== null || this.group !== null || this.attachments.length !== 0) {
+            throw new Error('Invalid end session message');
+        }
+    } else {
+        if ( (typeof this.timestamp !== 'number') ||
+            (this.body && typeof this.body !== 'string') ) {
+            throw new Error('Invalid message body');
+        }
+        if (this.group) {
+            if ( (typeof this.group.id !== 'string') ||
+                (typeof this.group.type !== 'number') ) {
+                throw new Error('Invalid group context');
+            }
+        }
+    }
 }
 
 Message.prototype = {
     constructor: Message,
+    isEndSession: function() {
+        return (this.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION);
+    },
     toProto: function() {
         if (this.dataMessage instanceof textsecure.protobuf.DataMessage) {
             return this.dataMessage;
