@@ -156,6 +156,7 @@
                 type           : 'outgoing',
                 sent_at        : now,
                 received_at    : now,
+                destination    : this.id,
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
             message.send(textsecure.messaging.closeSession(this.id, now));
