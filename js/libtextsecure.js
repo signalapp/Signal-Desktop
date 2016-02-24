@@ -37519,7 +37519,7 @@ Message.prototype = {
         }
         var proto         = new textsecure.protobuf.DataMessage();
         proto.body        = this.body;
-        proto.attachments = this.attachments;
+        proto.attachments = this.attachmentPointers;
         if (this.flags) {
             proto.flags = this.flags;
         }
@@ -37581,12 +37581,23 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessage: function(attrs) {
-        var message = new Message(attrs);
+    uploadMedia: function(message) {
         return Promise.all(
             message.attachments.map(this.makeAttachmentPointer.bind(this))
         ).then(function(attachmentPointers) {
-            message.attachments = attachmentPointers;
+            message.attachmentPointers = attachmentPointers;
+        }).catch(function(error) {
+            if (error instanceof Error && error.name === 'HTTPError') {
+                throw new textsecure.MessageError(message, error);
+            } else {
+                throw error;
+            }
+        });
+    },
+
+    sendMessage: function(attrs) {
+        var message = new Message(attrs);
+        return this.uploadMedia(message).then(function() {
             return new Promise(function(resolve, reject) {
                 this.sendMessageProto(
                     message.timestamp,
@@ -37602,13 +37613,7 @@ MessageSender.prototype = {
                     }
                 );
             }.bind(this));
-        }.bind(this)).catch(function(error) {
-            if (error instanceof Error && error.name === 'HTTPError') {
-                throw new textsecure.MessageError(attrs, error);
-            } else {
-                throw error;
-            }
-        });
+        }.bind(this));
     },
     sendMessageProto: function(timestamp, numbers, message, callback) {
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
