@@ -29,11 +29,7 @@
     database: Whisper.Database,
     storeName: 'conversations',
     defaults: function() {
-      var timestamp = new Date().getTime();
-      return {
-        unreadCount : 0,
-        timestamp   : timestamp,
-      };
+      return { unreadCount : 0 };
     },
 
     initialize: function() {

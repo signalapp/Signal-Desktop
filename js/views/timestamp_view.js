@@ -13,6 +13,9 @@
             this.clearTimeout();
             var millis_now = Date.now();
             var millis = this.$el.data('timestamp');
+            if (millis === "") {
+                return;
+            }
             if (millis >= millis_now) {
                 millis = millis_now;
             }
