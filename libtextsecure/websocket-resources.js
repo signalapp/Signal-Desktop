@@ -30,8 +30,8 @@
         this.verb    = options.verb || options.type;
         this.path    = options.path || options.url;
         this.body    = options.body || options.data;
-        this.success = options.success
-        this.error   = options.error
+        this.success = options.success;
+        this.error   = options.error;
         this.id      = options.id;
 
         if (this.id === undefined) {

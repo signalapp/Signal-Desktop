@@ -15,7 +15,7 @@
             return axolotlInstance.decryptWhisperMessage(fromAddress, getString(blob));
         },
         closeOpenSessionForDevice: function(encodedNumber) {
-            return axolotlInstance.closeOpenSessionForDevice(encodedNumber)
+            return axolotlInstance.closeOpenSessionForDevice(encodedNumber);
         },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);

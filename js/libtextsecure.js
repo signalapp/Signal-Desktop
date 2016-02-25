@@ -35248,7 +35248,7 @@ axolotlInternal.RecipientRecord = function() {
             return axolotlInstance.decryptWhisperMessage(fromAddress, getString(blob));
         },
         closeOpenSessionForDevice: function(encodedNumber) {
-            return axolotlInstance.closeOpenSessionForDevice(encodedNumber)
+            return axolotlInstance.closeOpenSessionForDevice(encodedNumber);
         },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);
@@ -35843,8 +35843,8 @@ axolotlInternal.RecipientRecord = function() {
         this.verb    = options.verb || options.type;
         this.path    = options.path || options.url;
         this.body    = options.body || options.data;
-        this.success = options.success
-        this.error   = options.error
+        this.success = options.success;
+        this.error   = options.error;
         this.id      = options.id;
 
         if (this.id === undefined) {
