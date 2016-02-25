@@ -215,11 +215,13 @@
             }).map(function(m) {
                 m.markRead();
                 return {
-                    sender: m.get('source'),
-                    timestamp: m.get('sent_at')
+                    sender    : m.get('source'),
+                    timestamp : m.get('sent_at')
                 };
             }.bind(this));
-            textsecure.messaging.sendReadReceipts(readReceipts);
+            if (readReceipts.length > 0) {
+                textsecure.messaging.sendReadReceipts(readReceipts);
+            }
         }
     },
 
