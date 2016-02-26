@@ -210,18 +210,18 @@
                 conversationId: conversationId
             }));
 
-            var readReceipts = this.messageCollection.where({
-                type: 'incoming', unread: 1
-            }).map(function(m) {
-                m.markRead();
-                return {
-                    sender    : m.get('source'),
-                    timestamp : m.get('sent_at')
-                };
-            }.bind(this));
-            if (readReceipts.length > 0) {
-                textsecure.messaging.sendReadReceipts(readReceipts);
-            }
+            this.getUnread().then(function(unreadMessages) {
+                var read = unreadMessages.map(function(m) {
+                    m.markRead();
+                    return {
+                        sender    : m.get('source'),
+                        timestamp : m.get('sent_at')
+                    };
+                });
+                if (read.length > 0) {
+                    textsecure.messaging.sendReadReceipts(read);
+                }
+            });
         }
     },
 
