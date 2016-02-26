@@ -1,6 +1,21 @@
 Contributor Guidelines
 ======================
 
+## Advice for new contributors
+
+Start small. The PRs most likely to be merged are the ones that make small,
+easily reviewed changes with clear, and specific intentions. See below for more
+[guidelines on pull requests](#pull-requests).
+
+Stick to issues that are
+[on the roadmap](https://github.com/WhisperSystems/Signal-Desktop/issues?q=is%3Aopen+is%3Aissue+milestone%3A%22On+the+roadmap%22).
+Issues that are not included in this milestone may be not yet triaged,
+unplanned, or not actionable for one reason or another.
+
+If you start working on an issue, leave a comment to let others know. It is
+also a good idea to outline your approach to the problem in order to get
+feedback.
+
 ## Installation
 
 * Clone the repo
