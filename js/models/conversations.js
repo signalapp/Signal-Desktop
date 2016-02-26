@@ -211,7 +211,7 @@
             }));
 
             var readReceipts = this.messageCollection.where({
-                type: 'incoming', unread: true
+                type: 'incoming', unread: 1
             }).map(function(m) {
                 m.markRead();
                 return {
