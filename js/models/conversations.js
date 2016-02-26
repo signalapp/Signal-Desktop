@@ -219,7 +219,7 @@
                     };
                 });
                 if (read.length > 0) {
-                    textsecure.messaging.sendReadReceipts(read);
+                    textsecure.messaging.syncReadMessages(read);
                 }
             });
         }
