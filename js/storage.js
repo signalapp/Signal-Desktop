@@ -25,6 +25,9 @@
             if (value === undefined) {
                 throw new Error("Tried to store undefined");
             }
+            if (!ready) {
+                console.log('Called storage.put before storage is ready');
+            }
             var item = items.add({id: key, value: value}, {merge: true});
             item.save();
         },
