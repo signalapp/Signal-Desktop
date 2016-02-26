@@ -176,7 +176,7 @@
             received_at    : now,
             conversationId : source,
             type           : 'incoming',
-            unread         : true
+            unread         : 1
         });
 
         return message;

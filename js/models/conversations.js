@@ -56,9 +56,9 @@
             return unreadMessages.fetch({
                 index: {
                     // 'unread' index
-                    name: 'unread',
-                    lower: [conversationId, true],
-                    upper: [conversationId, true]
+                    name  : 'unread',
+                    lower : [conversationId],
+                    upper : [conversationId, Number.MAX_VALUE],
                 }
             }).always(function() {
                 resolve(unreadMessages);
