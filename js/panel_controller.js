@@ -29,6 +29,7 @@
     var inboxWindowId = 'inbox';
     var appWindow = null;
     window.openInbox = function() {
+        console.log('open inbox');
         if (inboxOpened === false) {
             inboxOpened = true;
             extension.windows.open({
