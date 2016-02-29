@@ -359,6 +359,7 @@ var TextSecureServer = (function() {
             );
         },
         getProvisioningSocket: function () {
+            console.log('opening provisioning socket', this.url);
             return new WebSocket(
                 this.url.replace('https://', 'wss://')
                     .replace('http://', 'ws://')
