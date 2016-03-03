@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Du kan <span class='verify'>verifiera</span> den här kontakten om du vill.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Skickat",

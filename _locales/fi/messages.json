@@ -41,7 +41,7 @@
     },
     "deleteMessages": {
         "message": "Poista viestit",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
@@ -88,7 +88,7 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Loki lähetetään Internetiin ja se tulee kehittäjien ja muiden nähtäville julkisesti. Voit tarkastella ja muokata sitä ennen lähettämistä.",
+        "message": "Tämä loki tullaan julkaisemaan verkossa, jotta kehittäjät ja muut voivat tarkastella sitä. Voit esikatsella ja muokata lokia vielä ennen kuin lähetät sen.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -200,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "Uusia viestejä",
+        "message": "uutta viestiä",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -245,7 +245,7 @@
     },
     "submitDebugLog": {
         "message": "Lähetä virheenkorjausloki",
-        "description": ""
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Virhe",

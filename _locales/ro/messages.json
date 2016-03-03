@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Setări",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -41,14 +41,14 @@
     },
     "deleteMessages": {
         "message": "Şterge mesajele",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Alege un contact sau un grup pentru a discuta.",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Oprit",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -56,19 +56,27 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "S-ar putea să dorești să  <span class='verify'>verifici </span>acest contact.",
-        "description": ""
+        "message": "S-ar putea să dorești să $tag_start$ verifici $tag_end$ acest contact.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Trimis",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Mesaj nou",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Numai numele",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Niciun nume sau mesaj",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -114,7 +122,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Identitate nouă",
         "description": ""
     },
     "installTagline": {
@@ -192,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Mesaje noi",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -220,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Nume și mesaj",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Mesajul nu a putut fi trimis la unii destinatari.",
+        "message": "Mesajul nu a putut fi trimis la unii destinatari. Verifică conexiunea la rețea.",
         "description": ""
     },
     "ok": {
@@ -232,12 +240,12 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Cheia de identitate a contactului s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal și are acum o nouă cheie de identitate.",
         "description": ""
     },
     "submitDebugLog": {
         "message": "Trimite log-ul de depanare",
-        "description": ""
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Eroare",

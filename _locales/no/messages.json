@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Du ønsker kanskje å <span class='verify'>verifisere</span> denne kontakten.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Melding sendt",

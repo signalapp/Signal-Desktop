@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Možda biste htjeli <span class='verify'>provjeriti</span> ovaj kontakt.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Poslano",

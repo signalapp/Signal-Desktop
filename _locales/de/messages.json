@@ -41,7 +41,7 @@
     },
     "deleteMessages": {
         "message": "Nachrichten löschen",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
@@ -88,7 +88,7 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Eventuell sollte es noch einmal untersucht und bearbeitet werden, bevor es veröffentlicht wird. ",
+        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor Sie das Protokoll übermitteln, können es noch einmal untersuchen und bearbeiten.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -244,8 +244,8 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Diagnoseprotokoll senden",
-        "description": ""
+        "message": "Diagnoseprotokoll übermitteln",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Fehler",

@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Configurações",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -40,15 +40,15 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "Apagar mensagens",
-        "description": ""
+        "message": "Excluir mensagens",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Seleccione um contacto ou grupo para começar a falar",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Desligado",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -56,19 +56,27 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Pode querer <span class='verify'>verificar</span> este contacto.",
-        "description": ""
+        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Enviada",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nova mensagem",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Somente nome",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Sem nome ou mensagem",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -114,7 +122,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Nova identidade",
         "description": ""
     },
     "installTagline": {
@@ -154,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Falha ao conectar com o servidor",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -192,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Novas mensagens",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -220,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Nome e mensagem",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Falhou o envio para alguns destinatários.",
+        "message": "Falha ao enviar para alguns destinatários. Verifique sua conexão de rede",
         "description": ""
     },
     "ok": {
@@ -232,12 +240,12 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "A chave de identidade do contato foi alterada. Isto pode indicar que alguém está tentando interceptar sua comunicação, ou o contato simplesmente reinstalou Signal e agora possui uma nova chave de identidade.",
         "description": ""
     },
     "submitDebugLog": {
         "message": "Enviar log de depuração",
-        "description": ""
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Erro",

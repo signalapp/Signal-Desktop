@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Ustawienia",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -40,15 +40,15 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "Usuń wiadomości",
-        "description": ""
+        "message": "Usuń Wiadomości",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Wybierz kontakt lub grupę aby zacząć rozmowę.",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Wyłącz",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -56,19 +56,27 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Polecana <span class='verify'>weryfikacja</span> tego kontaktu",
-        "description": ""
+        "message": "Możesz $tag_start$ zweryfikować $tag_end$ ten kontakt.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Wsłano",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nowa wiadomość",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Tylko nazwa",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Brak nazwy lub wiadomości",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -114,7 +122,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Nowa tożsamość",
         "description": ""
     },
     "installTagline": {
@@ -154,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Nie można połączyć się z serwerem.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -192,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nowe wiadomości",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -220,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Nazwa i wiadomość",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Nie udało się wysłać do kilku odbiorców.",
+        "message": "Nie można było wysłać wiadomości do niektórych adresatów. Sprawdź połączenie z internetem.",
         "description": ""
     },
     "ok": {
@@ -232,12 +240,12 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Klucz kontaktu został zmieniony. To oznacza, że ktoś próbował przechwycić połączenie, lub kontakt przeinstalował aplikację Signal i ma nowy klucz tożsamości.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Wyślij logi debugowania",
-        "description": ""
+        "message": "Wyślij Log Debugowania",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Błąd",

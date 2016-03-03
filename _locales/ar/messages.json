@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "تضبيطات",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -41,7 +41,7 @@
     },
     "deleteMessages": {
         "message": "حذف الرساله",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "اختر مستخدم او مجموعه لبدء محادثه",
@@ -56,19 +56,27 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "هل ترغب  <span class='verify'> فى التأكد من </span> هذا المستخدم",
-        "description": ""
+        "message": "هل ترغب $tag_start$ فى التأكد $tag_end$ من هذا المستخدم؟",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "مرسله",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "رسالة جديدة",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "اسم فقط",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "لا اسم او رسالة",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -114,7 +122,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "هوية جديدة",
         "description": ""
     },
     "installTagline": {
@@ -154,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "قشلت محاولة الاتصال بالسيرفير",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -192,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "رسائل جديدة",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -220,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "اسم و رسالة",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "فشل ارسال لبعض المستخدمين",
+        "message": "فشل ارسال لبعض المستخدمين. تأكد من شبكتك.",
         "description": ""
     },
     "ok": {
@@ -237,7 +245,7 @@
     },
     "submitDebugLog": {
         "message": "ارسال ملف الاحداث",
-        "description": ""
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "خطأ",

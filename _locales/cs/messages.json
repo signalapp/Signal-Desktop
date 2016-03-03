@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Odeslat",

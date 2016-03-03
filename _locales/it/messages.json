@@ -41,7 +41,7 @@
     },
     "deleteMessages": {
         "message": "Cancella messaggi",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
@@ -216,7 +216,7 @@
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Sembra tutto apposto",
+        "message": "Sembra tutto a posto",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -244,8 +244,8 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Invia il file log di debug",
-        "description": ""
+        "message": "Invia log di debug",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Errore",

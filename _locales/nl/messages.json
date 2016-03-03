@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Je wilt wellicht dit contact <span class='verify'>verifiëren</span>.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Verzonden",

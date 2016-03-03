@@ -4,19 +4,19 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Pengaturan",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Pesan didapatkan dengan kunci tak dikenal. Klik untuk memproses dan menampilkan.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Nama komputer ini akan menjadi",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Saya mengerti!",
         "description": ""
     },
     "unsupportedFileType": {
@@ -24,7 +24,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Sedang Membuat Kunci",
         "description": ""
     },
     "resetSession": {
@@ -40,15 +40,15 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "Menghapus pesan",
-        "description": ""
+        "message": "Hapus Pesan",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Pilih kontak atau grup untuk mulai mengobrol",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Mati",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -64,11 +64,11 @@
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Pesan Baru",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Hanya nama",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -80,7 +80,7 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Catatan ini akan diunggah secara publik agar kontributor dapat melihat. Anda dapat memeriksa kembali dan menyunting ini sebelum mengunggahnya.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -88,7 +88,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Tanpa nama ataupun pesan",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -102,11 +102,11 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Identitas Anda (yang Anda lihat):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus beberapa.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -114,7 +114,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Identitas Baru",
         "description": ""
     },
     "installTagline": {
@@ -142,11 +142,11 @@
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Maaf, berkas tersebut melebihi batas ukuran pesan.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Buka Signal di ponsel Anda dan pergi ke Settings > Devices. Sentuh tombol tambah perangkat, kemudian pindai kode di atas.",
         "description": ""
     },
     "installWelcome": {
@@ -154,7 +154,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Gagal menyambungkan ke server.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -162,7 +162,7 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Saya memiliki Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
@@ -170,7 +170,7 @@
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Memulai",
         "description": ""
     },
     "installSignalLink": {
@@ -188,11 +188,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Identitas mereka (yang mereka baca):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Pesan Baru",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -200,7 +200,7 @@
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Kirim",
         "description": ""
     },
     "to": {
@@ -220,11 +220,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Nama dan pesan",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Gagal mengirim. Cek sambungan jaringan Anda.",
         "description": ""
     },
     "ok": {
@@ -236,8 +236,8 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
-        "description": ""
+        "message": "Kirim Catatan Awakutu",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Galat",

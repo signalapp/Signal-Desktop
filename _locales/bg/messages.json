@@ -57,7 +57,15 @@
     },
     "verifyContact": {
         "message": "Може да желаете да <span class='verify'>удостоверите</span> този контакт.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "sent": {
         "message": "Изпратено",
