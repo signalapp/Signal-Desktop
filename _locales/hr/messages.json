@@ -1,14 +1,14 @@
 {
     "unsupportedAttachment": {
-        "message": "Nepodržana vrsta privitka. Pritisnite za spremanje.",
+        "message": "Nepodržana vrsta privitka. Kliknite za spremanje.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Postavke",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Primljena poruka s nepoznatim ključom identiteta. Pritisnite za obradu i prikaz.",
+        "message": "Primljena poruka s nepoznatim ključem identiteta. Kliknite za obradu i prikaz.",
         "description": ""
     },
     "installComputerName": {
@@ -16,7 +16,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Shvatio!",
+        "message": "Shvaćam!",
         "description": ""
     },
     "unsupportedFileType": {
@@ -28,7 +28,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Ponovno pokreni sjednicu",
+        "message": "Ponovno pokreni sesiju",
         "description": ""
     },
     "welcomeToSignal": {
@@ -44,11 +44,11 @@
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Odaberite kontakt ili grupu za početak dopisivanja",
+        "message": "Odaberite kontakt ili grupu za početak dopisivanja.",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Ugašeno",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -56,7 +56,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Možda biste htjeli <span class='verify'>provjeriti</span> ovaj kontakt.",
+        "message": "Možda bi htjeli $tag_start$ provjeriti $tag_end$ ovaj kontakt.",
         "description": "",
         "placeholders": {
             "tag_start": {
@@ -72,15 +72,15 @@
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nova poruka",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Samo ime",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Provjeri identitet",
+        "message": "Potvrdi identitet",
         "description": ""
     },
     "from": {
@@ -88,15 +88,15 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Ovaj će zapis biti objavljen javno na internetu za doprinositelje. Možete ga provjeriti i urediti prije slanja.",
+        "message": "Ovaj će zapis biti objavljen javno na internetu, doprinositeljima na uvid. Možete ga provjeriti i urediti prije slanja.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Potraži ljude ili grupe",
+        "message": "Traži ljude ili grupe",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Nema imena ili poruke.",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -110,7 +110,7 @@
         }
     },
     "yourIdentity": {
-        "message": "Vaš identitet (vi čitate):",
+        "message": "Vaš identitet (Vi čitate):",
         "description": ""
     },
     "installTooManyDevices": {
@@ -118,11 +118,11 @@
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Sinkroniziranje grupa i kontakata",
+        "message": "Sinkroniziranje grupa i kontakta",
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Novi identitet",
         "description": ""
     },
     "installTagline": {
@@ -146,11 +146,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Promijenio se ključ identiteta ove osobe. Pritisnite za obradu i prikaz.",
+        "message": "Promijenio se ključ identiteta ove osobe. Kliknite za obradu i prikaz.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Žao nam je, odabrana datoteka nadmašuje ograničenja veličine poruke",
+        "message": "Žao nam je, odabrana datoteka nadmašuje ograničenja veličine poruke.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -162,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Nije uspjelo spajanje na poslužitelj.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -174,7 +174,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Ponovno pokretanje sigurne sjednice",
+        "message": "Ponovno pokretanje sigurne sesije",
         "description": ""
     },
     "installGetStartedButton": {
@@ -182,7 +182,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Prvo, instalirajte <a $a_params$>Signal</a> na Vaš Android mobilni telefon.<br /> Mi ćemo povezati Vaše uređaje i održati Vaše poruke sinkroniziranima.",
+        "message": "Prvo, instalirajte <a $a_params$>Signal</a> na Vaš Android telefon.<br /> Mi ćemo povezati Vaše uređaje i održati Vaše poruke sinkroniziranima.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -200,15 +200,15 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nove poruke",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Niste još razmijenili poruke s ovim kontaktom. Njihov identitet bit će dostupan nakon prve poruke.",
+        "message": "Niste još razmijenili poruke s ovim kontaktom. Njegov identitet će biti dostupan nakon prve poruke.",
         "description": ""
     },
     "submit": {
-        "message": "Pošalji",
+        "message": "Predaj",
         "description": ""
     },
     "to": {
@@ -224,27 +224,27 @@
         "description": ""
     },
     "verify": {
-        "message": "Provjeri",
+        "message": "Potvrdi",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Ime i poruka",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Neuspješno slanje nekim primateljima.",
+        "message": "Nije uspjelo slanje nekim primateljima. Provjerite svoju mrežnu vezu.",
         "description": ""
     },
     "ok": {
-        "message": "U redu",
+        "message": "OK",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Ključ identiteta ovog kontakta se promjenio. Ovo može značiti da netko pokušava presresti Vašu komunikaciju ili da je taj kontakt jednostavno ponovno instalirao Signal i sad ima novi ključ identiteta.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Pošalji debug zapis",
+        "message": "Podnesi zapis o otklanjanju pogreške",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {

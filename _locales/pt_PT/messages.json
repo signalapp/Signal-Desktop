@@ -24,7 +24,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Gerando chaves",
+        "message": "A gerar chaves",
         "description": ""
     },
     "resetSession": {
@@ -52,11 +52,11 @@
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
-        "message": "Conectando...",
+        "message": "A ligar...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Pode ser necessário $tag_start$ verificar $tag_end$ este contacto.",
         "description": "",
         "placeholders": {
             "tag_start": {
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Somente nome",
+        "message": "Apenas nome",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -114,11 +114,11 @@
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Desculpe, você tem muitos dispositivos já vinculado. Tente remover alguns.",
+        "message": "Pedimos desculpa, mas existem muitos dispositivos já sincronizados. Tente remover alguns.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Sincronizando grupos e contatos",
+        "message": "A sincronizar grupos e contatos",
         "description": ""
     },
     "newIdentity": {
@@ -126,7 +126,7 @@
         "description": ""
     },
     "installTagline": {
-        "message": "Privacidade é possível. Signal torna mais fácil.",
+        "message": "Privacidade é possível. O Signal torna-a mais fácil.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -154,7 +154,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra Signal no seu telefone e navegue para Configurações > Dispositivos. Toque no botão para adicionar um novo dispositivo, em seguida, digitalizar o código acima.",
+        "message": "Abra O Signal no seu telefone e vá até Configurações > Dispositivos. Pressione o botão para adicionar um novo dispositivo e em seguida, digitalize o código acima.",
         "description": ""
     },
     "installWelcome": {
@@ -162,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Falha ao conectar com o servidor",
+        "message": "Falha na ligação ao servidor",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -170,7 +170,7 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "Eu tenho Signal para o Android.",
+        "message": "Eu tenho o Signal para o Android.",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
@@ -182,7 +182,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Primeiro, instale <a $a_params$> Signal </a> em seu telefone Android. <br /> Vamos vincular os seus dispositivos e manter suas mensagens em sincronia.",
+        "message": "Primeiro, instale <a $a_params$> Signal </a> no seu telefone Android. <br /> Vamos ligar os seus dispositivos e manter as suas mensagens sincronizadas.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -192,7 +192,7 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Vinculação com",
+        "message": "Ligado a",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
@@ -204,7 +204,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Você não trocou nenhuma mensagem com esse contato ainda. A sua identidade estará disponível após a primeira mensagem.",
+        "message": "Ainda não foi trocada nenhuma mensagem com este contacto ainda. A sua identidade estará disponível após a primeira mensagem.",
         "description": ""
     },
     "submit": {
@@ -216,7 +216,7 @@
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Tudo bem",
+        "message": "Parece correto",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -232,7 +232,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Falha ao enviar para alguns destinatários. Verifique sua conexão de rede",
+        "message": "Falha ao enviar para alguns destinatários. Verifique a sua ligação à rede",
         "description": ""
     },
     "ok": {
@@ -240,7 +240,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "A chave de identidade do contato foi alterada. Isto pode indicar que alguém está tentando interceptar sua comunicação, ou o contato simplesmente reinstalou Signal e agora possui uma nova chave de identidade.",
+        "message": "A chave de identidade do contacto foi alterada. Isto pode indicar que alguém está a tentar interceptar sua comunicação, ou o contacto simplesmente reinstalou o Signal e agora possui uma nova chave de identidade.",
         "description": ""
     },
     "submitDebugLog": {
