@@ -3,7 +3,8 @@
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },
     "gotIt": {
-      "message": "Got it!"
+      "message": "Got it!",
+      "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
       "message": "Submit"
