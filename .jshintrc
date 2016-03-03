@@ -67,5 +67,6 @@
     "worker"        : false,
     "wsh"           : false,
     "yui"           : false,
-    "globals"       : {}
+    "globals"       : {},
+    "-W100"         : true
 }
