@@ -1,58 +1,58 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Tipo de anexo não suportado. Clique para guardar.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Configurações",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Recebida mensagem com uma chave desconhecida. Clica aqui para processar e mostrar.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "O nome deste computador será",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Ok, entendi!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Tipo de ficheiro não suportado",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Gerando chaves",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Reiniciar sessão",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Bem-vindo ao Signal",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "Membros",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Excluir mensagens",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Seleccione um contacto ou grupo para começar a falar",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Desligado",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Conectando...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -68,39 +68,39 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Enviada",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nova mensagem",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Somente nome",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Verificar identidade",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "De",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Este log vai ser publicado online para os contribuidores verem. Pode examiná-lo e editá-lo antes de o submeter. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Procurar por pessoas ou grupos",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Sem nome ou mensagem",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$> Siga-nos </a> para atualizações sobre o suporte multi-dispositivo para o iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -110,79 +110,79 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "A sua identidade (você lê):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Desculpe, você tem muitos dispositivos já vinculado. Tente remover alguns.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Sincronizando grupos e contatos",
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Nova identidade",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Privacidade é possível. Signal torna mais fácil.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Desligar",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "Aceitar nova chave",
         "description": ""
     },
     "received": {
-        "message": "Received",
+        "message": "Recebida",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Enviar mensagem",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "A chave deste contacto foi alterada. Clica aqui para processa-la e mostra-la.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Lamentamos, o ficheiro seleccionado excede o tamanho máximo da mensagem.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Abra Signal no seu telefone e navegue para Configurações > Dispositivos. Toque no botão para adicionar um novo dispositivo, em seguida, digitalizar o código acima.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Bem vindo ao Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Falha ao conectar com o servidor",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Cancelar",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Eu tenho Signal para o Android.",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Sessão segura reiniciada",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Começar",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Primeiro, instale <a $a_params$> Signal </a> em seu telefone Android. <br /> Vamos vincular os seus dispositivos e manter suas mensagens em sincronia.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -192,67 +192,67 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Vinculação com",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "A identidade do destinatário (ele lê):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Novas mensagens",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Você não trocou nenhuma mensagem com esse contato ainda. A sua identidade estará disponível após a primeira mensagem.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Enviar",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Para",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Tudo bem",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Detalhes da mensagem",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Verificar",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Nome e mensagem",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Falha ao enviar para alguns destinatários. Verifique sua conexão de rede",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "Ok",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "A chave de identidade do contato foi alterada. Isto pode indicar que alguém está tentando interceptar sua comunicação, ou o contato simplesmente reinstalou Signal e agora possui uma nova chave de identidade.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Enviar log de depuração",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Erro",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "Reenviar",
         "description": ""
     }
 }
