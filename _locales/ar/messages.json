@@ -1,18 +1,18 @@
 {
     "unsupportedAttachment": {
-        "message": "مرفق غير مدعوم.اضغط للحفظ",
+        "message": "نمط المرفق غير مدعوم. اضغط للحفظ",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "تضبيطات",
+        "message": "إعدادات",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "رساله مستلمه بمفتاح هويه غير معروف. اضغط للاكمال و الاظهار ",
+        "message": "رساله مستقبلة بمفتاح هوية غير معروف. اضغط للاكمال و الاظهار",
         "description": ""
     },
     "installComputerName": {
-        "message": "سيكون اسم الحاسوب : ",
+        "message": "اسم هذا الحاسوب سيكون:",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
@@ -20,7 +20,7 @@
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "نوع ملف غير مدعوم",
+        "message": "نمط الملف غير مدعوم",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -28,11 +28,11 @@
         "description": ""
     },
     "resetSession": {
-        "message": "تجديد الجلسه",
+        "message": "تجديد الجلسة",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "مرحبا الى سيجنال",
+        "message": "مرحبا الى سيجنال Signal",
         "description": ""
     },
     "members": {
@@ -40,23 +40,23 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "حذف الرساله",
+        "message": "احذف الرسائل",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "اختر مستخدم او مجموعه لبدء محادثه",
+        "message": "اختر جهة اتصال او مجموعة لبدء محادثه.",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "مطفأة",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
-        "message": "يتصل ",
+        "message": "جاري الاتصال...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "هل ترغب $tag_start$ فى التأكد $tag_end$ من هذا المستخدم؟",
+        "message": "قد ترغب $tag_start$ أن تتحقق $tag_end$ من هذا المستخدم.",
         "description": "",
         "placeholders": {
             "tag_start": {
@@ -68,7 +68,7 @@
         }
     },
     "sent": {
-        "message": "مرسله",
+        "message": "أُرسلت",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
@@ -76,31 +76,31 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "اسم فقط",
+        "message": "الاسم فقط",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "تأكيد الهويه",
+        "message": "تحقق من الهوية",
         "description": ""
     },
     "from": {
-        "message": "من ",
+        "message": "مِن",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "هذه التفريغات سيتم نشرها للعامه ليتمكن المشاركين من رؤيتها. ربما ترغب فى التعديل او  التحقق منها قبل الارسال ",
+        "message": "هذه السجلاّت سيتم نشرها علنا ليتمكن المساهمون من معاينتها. ربما ترغب فى تعديلها أو التحقق منها قبل إرسالها. ",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "بحث عن مجموعات او جهات اتصال.",
+        "message": "ابحث عن أشخاص أو مجموعات",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "لا اسم او رسالة",
+        "message": "بدون الاسم أو الرسالة",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$> تابعنا </a> للتحديثات لعدة اجهزه تدعم نظام ios",
+        "message": "<a $a_params$> تابعنا </a> لمعرفة آخر الأخبار عن دعم عدة أجهزة على آي أو إس iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -110,15 +110,15 @@
         }
     },
     "yourIdentity": {
-        "message": "هويتك ( تقرأ )",
+        "message": "هويتك (أنت تقرأ):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "نأسف, لديك أجهزه كثيره مرتبطه بالفعل. حاول ازالة بعضها",
+        "message": "معذرة، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "مزامنة المجموعات و المستحدمين",
+        "message": "مزامنة المجموعات و جهات الاتصال",
         "description": ""
     },
     "newIdentity": {
@@ -126,11 +126,11 @@
         "description": ""
     },
     "installTagline": {
-        "message": "الخصوصيه ممكنه . سيجنال جعلها سهله",
+        "message": "الحفاظ على الخصوصية أمر ممكن. سيجنال Signal يجعل ذلك سهلا.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "متوقف",
+        "message": "غير متصّل",
         "description": ""
     },
     "acceptNewKey": {
@@ -138,23 +138,23 @@
         "description": ""
     },
     "received": {
-        "message": "مستلمه",
+        "message": "استُقبلت",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "ارسال رساله",
+        "message": "أرسل رسالة",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "تم تغيير مفتاح هوية المستخدم. اضغط للاستمرار و الاظهار ",
+        "message": "لقد تغيّر مفتاح هوية هذا المستخدم. اضغط للاستمرار والاظهار ",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "نأسف. الملف المختار يتجاوز حدود حجم الرساله",
+        "message": "معذرة. حجم الملف المختار يتجاوز حد الرسالة الأقصى.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "افتح سيجنال على هاتفك و توجه الى الاعدادات ثم الاجهزه .اختر الزر لاضافة جهاز جديد",
+        "message": "افتح سيجنال على هاتفك و توجه الى الاعدادات ثم الأجهزة .اضغط على الزر لإضافة جهاز جديد، ثم قم بمسح الرمز الموجود في الأعلى.",
         "description": ""
     },
     "installWelcome": {
@@ -162,19 +162,19 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "قشلت محاولة الاتصال بالسيرفير",
+        "message": "محاولة الاتصال بالمخدّم فشلت",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
-        "message": "الغاء",
+        "message": "إلغاء",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "لدى نسخة سيجنال للاندرويد",
+        "message": "لدي تطبيق سيجنال Signal على الأندرويد",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "تجديد جلسه مؤمنه",
+        "message": "تجديد جلسة آمنة",
         "description": ""
     },
     "installGetStartedButton": {
@@ -182,7 +182,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "اولا جهز <a $a_params$> سيجنال </a> على هاتف الاندرويد . <br />  و سنقوم بربط و مزامنة جهازك",
+        "message": "اولا قم بتنصيب <a $a_params$> سيجنال </a> على هاتف الاندرويد خاصتك. <br /> سنقوم بربط و مزامنة جهازك.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -192,11 +192,11 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "ارتباط ب :",
+        "message": "ارتباط بـ :",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "هويتهم ( يقرأون )",
+        "message": "هويتهّم (هم يقرأون):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
@@ -204,23 +204,23 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "لم تقم بالتراسل مع هذا المستخدم باية رسائل بعد. ستكون هويتهم متاحه يعد اول رساله",
+        "message": "لم تقم بتبادل أي رسالة مع جهة الاتصال هذه. ستكون هويتهم متاحه بعد تبادل أول رسالة.",
         "description": ""
     },
     "submit": {
-        "message": "ارسال",
+        "message": "إرسال",
         "description": ""
     },
     "to": {
-        "message": "الى",
+        "message": "إلى",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "يبدو جيدا",
+        "message": "تمام",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "تفاصيل الرساله",
+        "message": "تفاصيل الرسالة",
         "description": ""
     },
     "verify": {
@@ -228,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "اسم و رسالة",
+        "message": "الاسم و الرسالة",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "فشل ارسال لبعض المستخدمين. تأكد من شبكتك.",
+        "message": "فشل سيغنال في الارسال لبعض المستخدمين. تأكد من الاتصال بالشبكة.",
         "description": ""
     },
     "ok": {
@@ -240,11 +240,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "تغيرت هوية جهة الاتصال هذه. قد يعني هذا أن أحدهم يحاول التنصت على اتصالك، أو أن جهة الاتصال هذه قامت بإعادة تنصيب وإعداد تطبيق سيغنال Signal ولذلك أصبح لديها هوية جديدة.  ",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "ارسال ملف الاحداث",
+        "message": "أرسل ملف معاينة الأخطاء",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -252,7 +252,7 @@
         "description": ""
     },
     "resend": {
-        "message": "اعادة ارسال ",
+        "message": "اعادة إرسال ",
         "description": ""
     }
 }

@@ -1,0 +1,258 @@
+{
+    "unsupportedAttachment": {
+        "message": "ಬೆಂಬಲವಿಲ್ಲದ ಲಗತ್ತಿನ ಪ್ರಕಾರ. ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
+        "description": "Displayed for incoming unsupported attachment"
+    },
+    "settings": {
+        "message": "ಸಿದ್ಧತೆಗಳು",
+        "description": "Menu item and header for global settings"
+    },
+    "incomingKeyConflict": {
+        "message": "ಅಪರಿಚಿತ ಗುರುತಿನ ಕೀಲಿಯ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "description": ""
+    },
+    "installComputerName": {
+        "message": "ಈ ಗಣಕದ ಹೆಸರು",
+        "description": "Text displayed before the input where the user can enter the name for this device."
+    },
+    "gotIt": {
+        "message": "ಅರ್ಥವಾಯಿತು!",
+        "description": ""
+    },
+    "unsupportedFileType": {
+        "message": "ಬೆಂಬಲವಿಲ್ಲದ ಕಡತ ಪ್ರಕಾರ",
+        "description": "Displayed for outgoing unsupported attachment"
+    },
+    "installGeneratingKeys": {
+        "message": "ಕೀಲಿಗಳನ್ನು ರಚಿಸಲಾಗುತ್ತಿದೆ ...",
+        "description": ""
+    },
+    "resetSession": {
+        "message": "ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ",
+        "description": ""
+    },
+    "welcomeToSignal": {
+        "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ",
+        "description": ""
+    },
+    "members": {
+        "message": "ಸದಸ್ಯರು",
+        "description": ""
+    },
+    "deleteMessages": {
+        "message": "ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "selectAContact": {
+        "message": "ಸಂವಾದ ಪ್ರಾರಂಭಿಸಲು ಸಂಪರ್ಕ ಅಥವಾ ಗುಂಪುನ್ನು ಆಯ್ಕೆಮಾಡಿಕೊಳ್ಳಿ.",
+        "description": ""
+    },
+    "off": {
+        "message": "ಆರಿಸು",
+        "description": "Label for disabling notifications"
+    },
+    "installConnecting": {
+        "message": "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
+        "description": "Displayed when waiting for the QR Code"
+    },
+    "verifyContact": {
+        "message": "ನೀವು ಈ ಸಂಪರ್ಕವನ್ನು  $tag_start$ ಪರಿಶೀಲಿಸಬಹುದು $tag_end$.",
+        "description": "",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
+    },
+    "sent": {
+        "message": "ಕಳುಹಿಸಿ",
+        "description": "Label for the time a message was sent"
+    },
+    "newMessage": {
+        "message": "ಹೊಸ ಸಂದೇಶ",
+        "description": "Displayed in notifications for only 1 message"
+    },
+    "nameOnly": {
+        "message": "ಹೆಸರು ಮಾತ್ರ",
+        "description": "Label for setting notifications to display sender name only"
+    },
+    "verifyIdentity": {
+        "message": "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ",
+        "description": ""
+    },
+    "from": {
+        "message": "ಇಂದ",
+        "description": "Label for the sender of a message"
+    },
+    "debugLogExplanation": {
+        "message": "ಈ ದಾಖಲೆಯನ್ನು ಕೊಡುಗೆದಾರರ ವೀಕ್ಷಣೆಗೆ ಬಹಿರಂಗ ಅಂತರಜಾಲಕ್ಕೆ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವು ಇದನ್ನು ಪರೀಕ್ಷಿಸಬಹುದು ಮತ್ತು ಸಲ್ಲಿಸುವ ಮೊದಲು ಪರಿಷ್ಕರಿಸಬಹುದು.",
+        "description": ""
+    },
+    "searchForPeopleOrGroups": {
+        "message": "ಜನರು ಅಥವಾ ಗುಂಪುಗಳನ್ನು ಹುಡುಕಿ",
+        "description": "Placeholder text in the search input"
+    },
+    "noNameOrMessage": {
+        "message": "ಯಾವುದೇ ಹೆಸರು ಅಥವಾ ಸಂದೇಶ",
+        "description": "Label for setting notifications to display no name and no message text"
+    },
+    "installFollowUs": {
+        "message": "ಐ.ಒ.ಎಸ್ ಬಹು ಸಾಧನ ಬೆಂಬಲ ಬಗ್ಗೆ  ತಿಳಿಯಲು <a $a_params$>ನಮ್ಮನ್ನು ಹಿಂಬಾಲಿಸು</a>",
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "yourIdentity": {
+        "message": "ನಿಮ್ಮ ಗುರುತು (ನೀವು ಓದುವುದು):",
+        "description": ""
+    },
+    "installTooManyDevices": {
+        "message": "ಕ್ಷಮಿಸಿ, ನೀವು ಹಲವಾರು ಸಾಧನಗಳು ಈಗಾಗಲೇ ಜೋಡಿಸಿದ್ದೀರಿ. ಕೆಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸಿ.",
+        "description": ""
+    },
+    "installSyncingGroupsAndContacts": {
+        "message": "ಗುಂಪುಗಳು ಹಾಗು ಸಂಪರ್ಕಗಳನ್ನು  ಸಮನ್ವಯಗೊಳಿಸಲಾಗುತ್ತಿದೆ",
+        "description": ""
+    },
+    "newIdentity": {
+        "message": "ಹೊಸ ಗುರುತು",
+        "description": ""
+    },
+    "installTagline": {
+        "message": "ಖಾಸಗಿತನ ಸಾಧ್ಯ. ಸಿಗ್ನಲ್ ಇದನ್ನು ಸುಲಭವಾಗಿಸುತ್ತದೆ.",
+        "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "disconnected": {
+        "message": "ಸಂಪರ್ಕ ಕಡಿತಗೊಂಡಿದೆ",
+        "description": ""
+    },
+    "acceptNewKey": {
+        "message": "ಹೊಸ ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿ",
+        "description": ""
+    },
+    "received": {
+        "message": "ಸ್ವೀಕರಿಸಲಾಗಿದೆ",
+        "description": "Label for the time a message was received"
+    },
+    "sendMessage": {
+        "message": "ಒಂದು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ",
+        "description": "Placeholder text in the message entry field"
+    },
+    "outgoingKeyConflict": {
+        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ.  ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "description": ""
+    },
+    "fileSizeWarning": {
+        "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ.",
+        "description": ""
+    },
+    "installAndroidInstructions": {
+        "message": "ನಿಮ್ಮ ಫೋನ್ನನ ಸಿಗ್ನಲ್‌ನಲ್ಲಿ, ಸೆಟ್ಟಿಂಗ್ಗಳು > ಸಾಧನಗಳನ್ನು ತೆರೆಯಿರಿ.  \"ಹೊಸ ಸಾಧನವನ್ನು ಸೇರಿಸಿ\" ಬಟನ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ, ನಂತರ ಮೇಲಿನ ಸಂಕೇತವನ್ನು ಸ್ಕ್ಯಾನ್‌ಮಾಡಿ. ",
+        "description": ""
+    },
+    "installWelcome": {
+        "message": "ಸಿಗ್ನಲ್ ಗಣಕತೆರೆಗೆ ಸ್ವಾಗತ",
+        "description": "Welcome title on the install page"
+    },
+    "installConnectionFailed": {
+        "message": "ಪೂರೈಕೆಗಣಕದ ಜೋತೆ ಸಂಪರ್ಕ ವಿಫಲವಾಗಿದೆ.",
+        "description": "Displayed when we can't connect to the server."
+    },
+    "cancel": {
+        "message": "ರದ್ದುಗೊಳಿಸಿ",
+        "description": ""
+    },
+    "installIHaveSignalButton": {
+        "message": "\nನನ್ನ ಆಂಡ್ರ್ಯಾಡ್‌ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಇದೆ",
+        "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "sessionEnded": {
+        "message": "ಸುರಕ್ಷಿತ ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ",
+        "description": ""
+    },
+    "installGetStartedButton": {
+        "message": "ಪ್ರಾರಂಭಿಸಿ",
+        "description": ""
+    },
+    "installSignalLink": {
+        "message": "ಮೊದಲ, ನಿಮ್ಮ ಆಂಡ್ರ್ಯಾಡ್ ಫೋನ್‌ನಲ್ಲಿ <a $a_params$>ಸಿಗ್ನಲ್‌ನನ್ನ್ನು</a> ಅನುಸ್ಥಾಪಿಸಲು. <br /> ನಾವು ನಿಮ್ಮ ಸಾಧನಗಳನ್ನು ಜೋಡಿಸುತ್ತೇವೆ ಹಾಗು ನಿಮ್ಮ ಸಂದೇಶಗಳನ್ನು ಸಮನ್ವಯಗೊಳಿಸುತ್ತೇವೆ.",
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
+    "installLinkingWithNumber": {
+        "message": "ಜೊತೆ  ಜೋಡಣೆ",
+        "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "theirIdentity": {
+        "message": "ಅವರ ಗುರುತು (ಅವರು ಓದುವುದು):",
+        "description": "They is used here as a gender-neutral third-person singular"
+    },
+    "newMessages": {
+        "message": "ಹೊಸ ಸಂದೇಶಗಳು",
+        "description": "Displayed in notifications for multiple messages"
+    },
+    "theirIdentityUnknown": {
+        "message": "ನೀವು ಈ ಸಂಪರ್ಕದ ಜೋತೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ಇನ್ನೂ ವಿನಿಮಯ ಮಾಡಿಕೊಂಡಿಲ್ಲ.  ಅವರ ಗುರುತು ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಾಗುತ್ತದೆ.",
+        "description": ""
+    },
+    "submit": {
+        "message": "ಸಲ್ಲಿಸಿ",
+        "description": ""
+    },
+    "to": {
+        "message": "ಗೆ",
+        "description": "Label for the receiver of a message"
+    },
+    "installFinalButton": {
+        "message": "ಚೆನ್ನಾಗಿದೆ",
+        "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "messageDetail": {
+        "message": "ಸಂದೇಶದ ವಿವರಗಳು",
+        "description": ""
+    },
+    "verify": {
+        "message": "ಪರಿಶೀಲಿಸಿ",
+        "description": ""
+    },
+    "nameAndMessage": {
+        "message": "ಹೆಸರು ಮತ್ತು ಸಂದೇಶ",
+        "description": "Label for setting notifications to display name and message text"
+    },
+    "failedToSend": {
+        "message": "ಕೆಲವು ಸ್ವೀಕೃತದಾರರಿಗೆ ಕಳುಹಿಸಲಾಗಲ್ಲಿಲ್ಲ. ನಿಮ್ಮ ಜಾಲಬಂಧವನ್ನು ಪರಿಶೀಲಿಸಿ.",
+        "description": ""
+    },
+    "ok": {
+        "message": "ಸರಿ",
+        "description": ""
+    },
+    "identityChanged": {
+        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ. ಇದರ ಆರ್ಥ ನಿಮ್ಮ ಸಂಭಾಷಣೆಯನ್ನು ಯಾರೊ ಕದ್ದು ಕೇಳಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ, ಅಥವ ಈ ಸಂಪರ್ಕ ಸಿಗ್ನಲ್‌ನ್ನು ಸ್ಥಾಪಿಸಿದ ಕಾರಣ ಹೋಸ ಗುರುತಿಸುವ ಕೀಲಿಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ.",
+        "description": ""
+    },
+    "submitDebugLog": {
+        "message": "ಡೀಬಗ್ ದಾಖಲೆಗಳನ್ನು ಸಲ್ಲಿಸಿ",
+        "description": "Menu item and header text for debug log modal, title case."
+    },
+    "error": {
+        "message": "ದೋಷ",
+        "description": ""
+    },
+    "resend": {
+        "message": "ಪುನಃ ಕಳುಹಿಸಿ",
+        "description": ""
+    }
+}

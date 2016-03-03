@@ -41,7 +41,7 @@
     },
     "deleteMessages": {
         "message": "Obriši poruke",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Odaberite kontakt ili grupu za početak dopisivanja",
@@ -245,7 +245,7 @@
     },
     "submitDebugLog": {
         "message": "Pošalji debug zapis",
-        "description": ""
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Greška",

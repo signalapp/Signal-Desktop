@@ -1,50 +1,50 @@
 {
     "unsupportedAttachment": {
-        "message": "Этот формат вложения не поддерживается. Нажмите чтобы сохранить.",
+        "message": "Typo de anexo sem suporte. Clique para salvar. ",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Настройки",
+        "message": "Settings",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с неизвестным ключом личности. Нажмите чтобы продолжить и отобразить.",
+        "message": "Mensagem recebida com uma identidade de chave desconhecida. Clique para aceitar e exibir.",
         "description": ""
     },
     "installComputerName": {
-        "message": "Имя этого компьютера будет ",
+        "message": "This computer's name will be",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Готово!",
+        "message": "Tudo bem!",
         "description": ""
     },
     "unsupportedFileType": {
-        "message": "Неподдерживаемый формат файла",
+        "message": "Typo de arquivo sem suporte",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Создание ключей",
+        "message": "Generating Keys",
         "description": ""
     },
     "resetSession": {
-        "message": "Сбросить Сессию",
+        "message": "Reiniciar a sessão",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Добро пожаловать в Signal",
+        "message": "Welcome to Signal",
         "description": ""
     },
     "members": {
-        "message": "Участники",
+        "message": "Members",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Удалить сообщения",
+        "message": "Apagar Mensagens",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Выберите контакта или группу чтобы начать общение.",
+        "message": "Select a contact or group to start chatting.",
         "description": ""
     },
     "off": {
@@ -52,11 +52,11 @@
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
-        "message": "Соединение...",
+        "message": "Connecting...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Вы возможно хотите <span class='verify'>подтвердить</span> этого контакта.",
+        "message": "Você quer $tag_start$ verificar $tag_end$ esta pessoa?",
         "description": "",
         "placeholders": {
             "tag_start": {
@@ -68,31 +68,31 @@
         }
     },
     "sent": {
-        "message": "Отправлено",
+        "message": "Enviar",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "Новое сообщение",
+        "message": "New Message",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Только имя",
+        "message": "Name only",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Идентификация Личности",
+        "message": "Verificar Identidade",
         "description": ""
     },
     "from": {
-        "message": "От",
+        "message": "From",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Этот лог будет открыт публично для чтения для помощников. Вы можете проверить и изменить его перед отправкой.",
+        "message": "Esse histórico será postado online publicamente para que colaboradores possam vê-lo. Antes de enviar, você pode verificá-lo e editá-lo.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Искать людей или группы",
+        "message": "Search for people or groups",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -100,7 +100,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Следите за информацией</a> об обновлениях с поддержкой iOS устройств.",
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -110,15 +110,15 @@
         }
     },
     "yourIdentity": {
-        "message": "Ваш идентификатор (вы читаете): ",
+        "message": "Your identity (you read):",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Извините, вы уже подсоединили слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Синхронизация групп и контактов",
+        "message": "Syncing groups and contacts",
         "description": ""
     },
     "newIdentity": {
@@ -126,63 +126,63 @@
         "description": ""
     },
     "installTagline": {
-        "message": "Приватное общение возможно. Signal делает его легче.",
+        "message": "Privacy is possible. Signal makes it easy.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Соединение разорвано",
+        "message": "Desconectar",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Принять новый ключ",
+        "message": "Aceitar a nova chave",
         "description": ""
     },
     "received": {
-        "message": "Получено",
+        "message": "Recebida",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Отправить сообщение",
+        "message": "Enviar uma mensagem",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Ключ личности этого контакта был изменён. Нажмите чтобы продолжить и отобразить.",
+        "message": "A identificação da chave dessa pessoa mudou. Clique para processar e mostrar.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Извините, этот файл превышает лимит размера сообщения.",
+        "message": "Desculpe, o arquivo selecionado excede o tamanho m aximo aceito.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кноку добавления нового устройства и отсканируйте код, указанный выше.",
+        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Добро пожаловать в Signal Desktop",
+        "message": "Welcome to Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Не удалось подключиться к серверу",
+        "message": "Failed to connect to server.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
-        "message": "Отменить",
+        "message": "Cancel",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "У меня установлен Signal для Android смартфона",
+        "message": "I have Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Безопасная сессия перезапущена",
+        "message": "A sessão securizada reiniciada",
         "description": ""
     },
     "installGetStartedButton": {
-        "message": "Начать",
+        "message": "Get started",
         "description": ""
     },
     "installSignalLink": {
-        "message": "Сначала установите <a $a_params$>Signal</a> на Android смартфоне.<br /> Мы свяжем ваши устройства и синхронизируем сообщения между ними.",
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -192,23 +192,23 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Связать с ",
+        "message": "Linking with",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Идентификатор собеседника (он читает): ",
+        "message": "Their identity (they read):",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "Новые сообщения",
+        "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Вы еще не обменивались сообщениями с этим пользователем. Его идентификатор будет доступен после первого сообщения.",
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
     },
     "submit": {
-        "message": "Отправить",
+        "message": "Enviar",
         "description": ""
     },
     "to": {
@@ -216,27 +216,27 @@
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Отлично!",
+        "message": "Looking good",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Детали Сообщения",
+        "message": "Detalhe da mensagem",
         "description": ""
     },
     "verify": {
-        "message": "Подтвердить",
+        "message": "Verificar",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Имя и сообщение",
+        "message": "Name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Ошибка при отправке некоторым контактам.",
+        "message": "Failed to send to some recipients. Check your network connection.",
         "description": ""
     },
     "ok": {
-        "message": "ОК",
+        "message": "OK",
         "description": ""
     },
     "identityChanged": {
@@ -244,15 +244,15 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Отправить лог отладки",
+        "message": "Submit Debug Log",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Ошибка",
+        "message": "Error",
         "description": ""
     },
     "resend": {
-        "message": "Отправить ещё раз",
+        "message": "Resend",
         "description": ""
     }
 }
