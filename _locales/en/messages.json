@@ -108,7 +108,8 @@
       "message": "Members"
     },
     "resetSession": {
-        "message": "Reset Session"
+        "message": "Reset Session",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "verifyIdentity": {
         "message": "Verify Identity"
@@ -128,7 +129,8 @@
         "description": "Menu item for deleting messages, title case."
     },
     "sessionEnded": {
-        "message": "Secure session reset"
+        "message": "Secure session reset",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installWelcome": {
         "message": "Welcome to Signal Desktop",
