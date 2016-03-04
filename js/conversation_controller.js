@@ -18,7 +18,7 @@
             this.listenTo(conversations, 'add change:active_at', this.addActive);
         },
         comparator: function(model) {
-            return -model.get('active_at');
+            return -model.get('timestamp');
         },
         addActive: function(model) {
             if (model.get('active_at')) {
