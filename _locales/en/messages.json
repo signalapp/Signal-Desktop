@@ -212,15 +212,15 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
