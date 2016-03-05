@@ -203,6 +203,10 @@
         "message": "Settings",
         "description": "Menu item and header for global settings"
     },
+    "notificationSettingsDialog": {
+        "message": "When messages arrive, display notifications that reveal:",
+        "description": "Explain the purpose of the notification settings"
+    },
     "disableNotifications": {
         "message": "Disable notifications",
         "description": "Label for disabling notifications"

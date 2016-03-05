@@ -26,6 +26,7 @@
         },
         render_attributes: function() {
             return {
+              notificationSettingsDialog: i18n('notificationSettingsDialog'),
               settings: i18n('settings'),
               disableNotifications: i18n('disableNotifications'),
               nameAndMessage: i18n('nameAndMessage'),
