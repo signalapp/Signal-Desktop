@@ -203,8 +203,8 @@
         "message": "Settings",
         "description": "Menu item and header for global settings"
     },
-    "off": {
-        "message": "Off",
+    "disableNotifications": {
+        "message": "Disable notifications",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
