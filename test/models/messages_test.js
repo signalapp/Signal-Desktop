@@ -18,9 +18,28 @@
                         attachments: [],
                         received_at: new Date().getTime() };
 
+    var attachment = { data: 'datasaurus',
+                       contentType: 'plain/text' };
+
     describe('MessageCollection', function() {
         before(clear);
         after(clear);
+
+        it('has no image url', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add(attributes);
+            assert.isNull(message.getImageUrl());
+        });
+
+        it('updates image url', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add({ attachments: [attachment] });
+
+            var firstUrl = message.getImageUrl();
+            message.updateImageUrl();
+            var secondUrl = message.getImageUrl();
+            assert.notEqual(secondUrl, firstUrl);
+        });
 
         it('adds without saving', function() {
             var messages = new Whisper.MessageCollection();
