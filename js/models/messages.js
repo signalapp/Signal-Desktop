@@ -367,6 +367,9 @@
         },
         markRead: function(sync) {
             this.unset('unread');
+            Whisper.Notifications.remove(Whisper.Notifications.where({
+                messageId: this.id
+            }));
             return this.save();
         }
 

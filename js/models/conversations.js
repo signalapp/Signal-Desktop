@@ -403,7 +403,8 @@
                     message        : message.getNotificationText(),
                     iconUrl        : iconUrl,
                     imageUrl       : message.getImageUrl(),
-                    conversationId : conversationId
+                    conversationId : conversationId,
+                    messageId      : message.id
                 });
             });
         });
