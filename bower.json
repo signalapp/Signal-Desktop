@@ -17,7 +17,7 @@
     "intl-tel-input": "~4.0.1",
     "blueimp-load-image": "~1.13.0",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "twemoji": "~1.2.1",
+    "twemoji": "~2.0.5",
     "emojijs": "https://github.com/iamcal/js-emoji.git",
     "autosize": "~3.0.6"
   },

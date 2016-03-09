@@ -471,7 +471,7 @@ var twemoji = (function (
             '"'
           );
           attrib = options.attributes(icon, variant);
-          for (attrname in attrib) {
+          for (attrname in attrib) { 
             if (
               attrib.hasOwnProperty(attrname) &&
               // don't allow any handlers to be set + don't allow overrides
