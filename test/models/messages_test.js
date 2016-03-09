@@ -41,6 +41,18 @@
             assert.notEqual(secondUrl, firstUrl);
         });
 
+        it('gets outgoing contact', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add(attributes);
+            message.getContact();
+        });
+
+        it('gets incoming contact', function() {
+            var messages = new Whisper.MessageCollection();
+            var message = messages.add({ type: 'incoming' });
+            message.getContact();
+        });
+
         it('adds without saving', function() {
             var messages = new Whisper.MessageCollection();
             var message = messages.add(attributes);
