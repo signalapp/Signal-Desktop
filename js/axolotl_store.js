@@ -292,12 +292,12 @@
             });
         },
         removeIdentityKey: function(number) {
-            return new Promise(function(resolve) {
+            return new Promise(function(resolve, reject) {
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().then(function() {
                     identityKey.save({publicKey: undefined});
                 }).fail(function() {
-                    throw new Error("Tried to remove identity for unknown number");
+                    reject(new Error("Tried to remove identity for unknown number"));
                 });
                 resolve(textsecure.storage.axolotl.removeAllSessions(number));
             });
