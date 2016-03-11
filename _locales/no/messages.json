@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Innstillinger",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Perfekt!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Filtype er ikke støttet.",
@@ -29,7 +29,7 @@
     },
     "resetSession": {
         "message": "Start sesjon på nytt",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Velkommen til Signal!",
@@ -41,14 +41,14 @@
     },
     "deleteMessages": {
         "message": "Slett meldinger",
-        "description": ""
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Velg en kontakt eller gruppe for å chatte",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Av",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
@@ -56,8 +56,8 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Du ønsker kanskje å <span class='verify'>verifisere</span> denne kontakten.",
-        "description": "",
+        "message": "Du ønsker kanskje å $tag_start$ bekrefte $tag_end$ denne kontakten.",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -72,11 +72,11 @@
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Ny melding",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Kun Navn",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Ingen navn eller melding",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -122,7 +122,7 @@
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Ny Identitet",
         "description": ""
     },
     "installTagline": {
@@ -162,7 +162,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Kunne ikke koble til serveren.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
@@ -175,7 +175,7 @@
     },
     "sessionEnded": {
         "message": "Start sikker sesjon på nytt",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Start her",
@@ -200,7 +200,7 @@
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "nye meldinger",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -228,11 +228,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Navn og melding",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Kunne ikke sende til noen kontakter",
+        "message": "Kunne ikke sende til noen mottakere. Sjekk nettverkstilkoblingen.",
         "description": ""
     },
     "ok": {
@@ -240,12 +240,12 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Denne kontakten identitet nøkkel er endret. Dette kan enten bety at noen forsøker å fange opp kommunikasjon, eller denne kontakten bare re-installert Signal og har nå en ny identitet nøkkel.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Send logg for feilsøk.",
-        "description": ""
+        "message": "Send Debug Log",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Feil",

@@ -1,63 +1,63 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Ikke-understøttet vedhæftningstype. Klik for at gemme.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Indstillinger",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Besked modtaget med ukendt identitets nøgle. Klik for at vise og behandle.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Denne computers navn vil være",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
-        "description": ""
+        "message": "Forstået",
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Ikke-understøttet fil-type",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Genererer nøgler.",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
-        "description": ""
+        "message": "Nulstil session",
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Velkommen til Signal",
         "description": ""
     },
     "members": {
-        "message": "Members",
+        "message": "Medlemmer",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Delete messages",
-        "description": ""
+        "message": "Slet besked",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Vælg en kontakt eller gruppe for at komme igang med at chatte.",
         "description": ""
     },
     "off": {
-        "message": "Off",
+        "message": "Deaktivér",
         "description": "Label for disabling notifications"
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Forbinder...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
-        "description": "",
+        "message": "Du kan have brug for at $tag_start$ verificere $tag_end$ denne kontakt.",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -68,39 +68,39 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Sendt",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Ny besked",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Kun navn",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Verificér identitet",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Fra",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Denne log vil blive lagt offentligt online for udvikleres brug. Du kan undersøge og redigere den før du sender.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Søg efter folk eller grupper.",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Ingen navn eller besked",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Følg os</a> for opdateringer på support for iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -110,79 +110,79 @@
         }
     },
     "yourIdentity": {
-        "message": "Your identity (you read):",
+        "message": "Din identitet (Du læser)",
         "description": ""
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Beklager, du har for mange enheder forbundet. Prøv at fjerne nogle.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Sykronisere grupper og kontakter",
         "description": ""
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Ny identitet.",
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Privatliv er muligt. Signal gør det nemt.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Afbrudt",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
+        "message": "Acceptér ny nøgle",
         "description": ""
     },
     "received": {
-        "message": "Received",
+        "message": "Modtaget",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Send en besked",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Nøglen til denne kontakt er blevet ændret. Klik for at vise og behandle.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Beklager, den valgte fil overstiger den tilladte størrelse.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Åbn Signal på din telefon, og navigér til Indstillinger > Enheder. Tryk på knappen for at tilføje en ny enhed, skan derefter koden ovenfor.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Velkommen til Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Kunne ikke kontakte serveren.",
         "description": "Displayed when we can't connect to the server."
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Afbryd",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Jeg har Signal på Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
-        "description": ""
+        "message": "Reset sikker session",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Kom igang",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Først skal du installere <a $a_params$> Signal </a> på din Android-telefon. <br /> Vi linker herefter dine enheder og holder dine beskeder synkroniseret.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -192,67 +192,67 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Forbinder med",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
+        "message": "Deres identitet (De læser)",
         "description": "They is used here as a gender-neutral third-person singular"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nye beskeder",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Du har ikke udvekslet nogle beskeder med denne kontakt endnu. Deres identitet vil være tilgængelig ved første besked.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Send",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Til",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Det ser godt ud",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Besked detalje",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Verificér",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Navn og besked",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Kunne ikke sende til nogle modtagere. Kontrollér din internetforbindelse.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "Ok",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Denne kontakt's identitets-nøgle er ændret. Dette kan enten betyde, at nogen forsøger at opsnappe din kommunikation, eller denne kontakt blot har geninstalleret Signal og nu har en ny identitets-nøgle.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
-        "description": ""
+        "message": "Send Debug Log",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Fejl",
         "description": ""
     },
     "resend": {
-        "message": "Resend",
+        "message": "Gensend",
         "description": ""
     }
 }

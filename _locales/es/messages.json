@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "¡Entendido!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Tipo de archivo no admitido",
@@ -29,7 +29,7 @@
     },
     "resetSession": {
         "message": "Reiniciar la Sesión",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Bienvenido a Signal",
@@ -40,8 +40,8 @@
         "description": ""
     },
     "deleteMessages": {
-        "message": "Eliminar mensajes",
-        "description": ""
+        "message": "Eliminar Mensajes",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Seleccione un contacto o grupo para empezar a chatear.",
@@ -57,7 +57,7 @@
     },
     "verifyContact": {
         "message": "Puede que desee $tag_start$ verificar $tag_end$ este contacto.",
-        "description": "",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -175,7 +175,7 @@
     },
     "sessionEnded": {
         "message": "Reinicio de sesión segura",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Comience",
@@ -244,8 +244,8 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Enviar registro de depuración",
-        "description": ""
+        "message": "Enviar Registro de Depuración",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Error",
