@@ -172,22 +172,18 @@
         },
 
         getSession: function(encodedNumber) {
-            console.log('getSession', encodedNumber);
             if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to get session for undefined/null number");
             }
             return new Promise(function(resolve) {
                 var session = new Session({id: encodedNumber});
-                console.log('fetching session for', encodedNumber);
                 session.fetch().always(function() {
-                    console.log('returned session for', encodedNumber);
                     resolve(session.get('record'));
                 });
 
             });
         },
         putSession: function(encodedNumber, record) {
-            console.log('putSession', encodedNumber);
             if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to put session for undefined/null number");
             }
@@ -196,15 +192,12 @@
                 var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
 
                 var session = new Session({id: encodedNumber});
-                console.log('fetching session for', encodedNumber);
                 session.fetch().always(function() {
-                    console.log('saving session for', encodedNumber);
                     session.save({
                         record: record,
                         deviceId: deviceId,
                         number: number
                     }).always(function() {
-                        console.log('saved session for', encodedNumber);
                         resolve();
                     });
                 });
