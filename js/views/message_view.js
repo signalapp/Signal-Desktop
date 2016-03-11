@@ -90,7 +90,6 @@
             twemoji.parse(this.el, {
               attributes: function(icon, variant) {
                 var colon = emoji_util.get_colon_from_unicode(icon);
-                console.log("colon: ", colon);
                 if (colon) {
                   return {title: ":" + colon + ":"};
                 } else {
