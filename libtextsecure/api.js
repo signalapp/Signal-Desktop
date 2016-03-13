@@ -285,16 +285,16 @@ var TextSecureServer = (function() {
                     throw new Error("Invalid response");
                 }
                 res.identityKey = StringView.base64ToBytes(res.identityKey);
-                for (var i = 0; i < res.devices.length; i++) {
-                    if ( !validateResponse(res.devices[i], {signedPreKey: 'object', preKey: 'object'}) ||
-                         !validateResponse(res.devices[i].signedPreKey, {publicKey: 'string', signature: 'string'}) ||
-                         !validateResponse(res.devices[i].preKey, {publicKey: 'string'})) {
+                res.devices.forEach(function(device) {
+                    if ( !validateResponse(device, {signedPreKey: 'object', preKey: 'object'}) ||
+                         !validateResponse(device.signedPreKey, {publicKey: 'string', signature: 'string'}) ||
+                         !validateResponse(device.preKey, {publicKey: 'string'})) {
                         throw new Error("Invalid response");
                     }
-                    res.devices[i].signedPreKey.publicKey = StringView.base64ToBytes(res.devices[i].signedPreKey.publicKey);
-                    res.devices[i].signedPreKey.signature = StringView.base64ToBytes(res.devices[i].signedPreKey.signature);
-                    res.devices[i].preKey.publicKey = StringView.base64ToBytes(res.devices[i].preKey.publicKey);
-                }
+                    device.signedPreKey.publicKey = StringView.base64ToBytes(device.signedPreKey.publicKey);
+                    device.signedPreKey.signature = StringView.base64ToBytes(device.signedPreKey.signature);
+                    device.preKey.publicKey       = StringView.base64ToBytes(device.preKey.publicKey);
+                });
                 return res;
             });
         },
