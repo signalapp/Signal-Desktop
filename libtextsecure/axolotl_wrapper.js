@@ -30,7 +30,7 @@
     window.textsecure.protocol_wrapper = {
         decryptWhisperMessage: function(fromAddress, blob) {
             return queueJobForNumber(fromAddress, function() {
-                return axolotlInstance.decryptWhisperMessage(fromAddress, getString(blob));
+                return axolotlInstance.decryptWhisperMessage(fromAddress, blob.toArrayBuffer());
             });
         },
         closeOpenSessionForDevice: function(encodedNumber) {
