@@ -37132,7 +37132,7 @@ MessageReceiver.prototype.extend({
             var promises = [];
             while (groupDetails !== undefined) {
                 var promise = (function(groupDetails) {
-                    groupDetails.id = getString(groupDetails.id);
+                    groupDetails.id = groupDetails.id.toBinary();
                     if (groupDetails.active) {
                         return textsecure.storage.groups.getGroup(groupDetails.id).
                             then(function(existingGroup) {
@@ -37229,7 +37229,7 @@ MessageReceiver.prototype.extend({
         var promises = [];
 
         if (decrypted.group !== null) {
-            decrypted.group.id = getString(decrypted.group.id);
+            decrypted.group.id = decrypted.group.id.toBinary();
 
             if (decrypted.group.type == textsecure.protobuf.GroupContext.Type.UPDATE) {
                 if (decrypted.group.avatar !== null) {
