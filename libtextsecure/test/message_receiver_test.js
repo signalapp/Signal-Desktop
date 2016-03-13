@@ -7,11 +7,11 @@ describe('MessageReceiver', function() {
     var WebSocket = window.WebSocket;
     var number = '+19999999999';
     var deviceId = 1;
+    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
     before(function() {
         window.WebSocket = MockSocket;
         textsecure.storage.user.setNumberAndDeviceId(number, deviceId, 'name');
         textsecure.storage.put("password", "password");
-        var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
         textsecure.storage.put("signaling_key", signalingKey);
     });
     after (function() { window.WebSocket = WebSocket;  });
@@ -33,7 +33,7 @@ describe('MessageReceiver', function() {
             var signal = new textsecure.protobuf.Envelope(attrs).toArrayBuffer();
             var data = new textsecure.protobuf.DataMessage({ body: 'hello' });
 
-            var signaling_key = toArrayBuffer(textsecure.storage.get("signaling_key")); //TODO: in crypto_storage
+            var signaling_key = signalingKey;
             var aes_key = signaling_key.slice(0, 32);
             var mac_key = signaling_key.slice(32, 32 + 20);
 
