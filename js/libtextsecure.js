@@ -36107,32 +36107,6 @@ function getStringable(thing) {
                 thing.__proto__ == StaticByteBufferProto)));
 }
 
-function toArrayBuffer(thing) {
-    //TODO: Optimize this for specific cases
-    if (thing === undefined)
-        return undefined;
-    if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
-        return thing;
-
-    if (thing instanceof Array) {
-        // Assuming Uint16Array from curve25519
-        var res = new ArrayBuffer(thing.length * 2);
-        var uint = new Uint16Array(res);
-        for (var i = 0; i < thing.length; i++)
-            uint[i] = thing[i];
-        return res;
-    }
-
-    if (!getStringable(thing))
-        throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
-    var str = getString(thing);
-    var res = new ArrayBuffer(str.length);
-    var uint = new Uint8Array(res);
-    for (var i = 0; i < str.length; i++)
-        uint[i] = str.charCodeAt(i);
-    return res;
-}
-
 // Number formatting utils
 window.textsecure.utils = function() {
     var self = {};
@@ -37525,6 +37499,18 @@ OutgoingMessage.prototype = {
  * vim: ts=4:sw=4:expandtab
  */
 
+function stringToArrayBuffer(str) {
+    if (typeof str !== 'string') {
+        throw new Error('Passed non-string to stringToArrayBuffer');
+    }
+    var res = new ArrayBuffer(str.length);
+    var uint = new Uint8Array(res);
+    for (var i = 0; i < str.length; i++) {
+        uint[i] = str.charCodeAt(i);
+    }
+    return res;
+}
+
 function Message(options) {
     this.body        = options.body;
     this.attachments = options.attachments || [];
@@ -37591,7 +37577,7 @@ Message.prototype = {
         }
         if (this.group) {
             proto.group      = new textsecure.protobuf.GroupContext();
-            proto.group.id   = toArrayBuffer(this.group.id);
+            proto.group.id   = stringToArrayBuffer(this.group.id);
             proto.group.type = this.group.type
         }
 
@@ -37847,7 +37833,7 @@ MessageSender.prototype = {
         proto.group = new textsecure.protobuf.GroupContext();
 
         return textsecure.storage.groups.createNewGroup(numbers).then(function(group) {
-            proto.group.id = toArrayBuffer(group.id);
+            proto.group.id = stringToArrayBuffer(group.id);
             var numbers = group.numbers;
 
             proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
@@ -37867,7 +37853,7 @@ MessageSender.prototype = {
         var proto = new textsecure.protobuf.DataMessage();
         proto.group = new textsecure.protobuf.GroupContext();
 
-        proto.group.id = toArrayBuffer(groupId);
+        proto.group.id = stringToArrayBuffer(groupId);
         proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
         proto.group.name = name;
 
@@ -37889,7 +37875,7 @@ MessageSender.prototype = {
     addNumberToGroup: function(groupId, number) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.group = new textsecure.protobuf.GroupContext();
-        proto.group.id = toArrayBuffer(groupId);
+        proto.group.id = stringToArrayBuffer(groupId);
         proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
 
         return textsecure.storage.groups.addNumbers(groupId, [number]).then(function(numbers) {
@@ -37904,7 +37890,7 @@ MessageSender.prototype = {
     setGroupName: function(groupId, name) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.group = new textsecure.protobuf.GroupContext();
-        proto.group.id = toArrayBuffer(groupId);
+        proto.group.id = stringToArrayBuffer(groupId);
         proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
         proto.group.name = name;
 
@@ -37920,7 +37906,7 @@ MessageSender.prototype = {
     setGroupAvatar: function(groupId, avatar) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.group = new textsecure.protobuf.GroupContext();
-        proto.group.id = toArrayBuffer(groupId);
+        proto.group.id = stringToArrayBuffer(groupId);
         proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
@@ -37938,7 +37924,7 @@ MessageSender.prototype = {
     leaveGroup: function(groupId) {
         var proto = new textsecure.protobuf.DataMessage();
         proto.group = new textsecure.protobuf.GroupContext();
-        proto.group.id = toArrayBuffer(groupId);
+        proto.group.id = stringToArrayBuffer(groupId);
         proto.group.type = textsecure.protobuf.GroupContext.Type.QUIT;
 
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {

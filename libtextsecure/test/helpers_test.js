@@ -16,20 +16,19 @@ describe("Helpers", function() {
       });
   });
 
-  describe("toArrayBuffer", function() {
-      it('returns undefined when passed undefined', function() {
-          assert.strictEqual(toArrayBuffer(undefined), undefined);
-      });
-      it('returns ArrayBuffer when passed ArrayBuffer', function() {
+  describe("stringToArrayBuffer", function() {
+      it('returns ArrayBuffer when passed string', function() {
           var StaticArrayBufferProto = new ArrayBuffer().__proto__;
-          var anArrayBuffer = new ArrayBuffer();
-          assert.strictEqual(toArrayBuffer(anArrayBuffer), anArrayBuffer);
+          var anArrayBuffer = new ArrayBuffer(1);
+          var typedArray = new Uint8Array(anArrayBuffer);
+          typedArray[0] = 'a'.charCodeAt(0);
+          assertEqualArrayBuffers(stringToArrayBuffer('a'), anArrayBuffer);
       });
-      it('throws an error when passed a non Stringable thing', function() {
-          var madeUpObject = function() {};
-          var notStringable = new madeUpObject();
-          assert.throw(function() { toArrayBuffer(notStringable) },
-                       Error, /Tried to convert a non-stringable thing/);
+      it('throws an error when passed a non string', function() {
+          var notStringable = [{}, undefined, null, new ArrayBuffer()];
+          notStringable.forEach(function(notString) {
+            assert.throw(function() { stringToArrayBuffer(notString) }, Error);
+          });
       });
   });
 });

@@ -33,32 +33,6 @@ function getStringable(thing) {
                 thing.__proto__ == StaticByteBufferProto)));
 }
 
-function toArrayBuffer(thing) {
-    //TODO: Optimize this for specific cases
-    if (thing === undefined)
-        return undefined;
-    if (thing === Object(thing) && thing.__proto__ == StaticArrayBufferProto)
-        return thing;
-
-    if (thing instanceof Array) {
-        // Assuming Uint16Array from curve25519
-        var res = new ArrayBuffer(thing.length * 2);
-        var uint = new Uint16Array(res);
-        for (var i = 0; i < thing.length; i++)
-            uint[i] = thing[i];
-        return res;
-    }
-
-    if (!getStringable(thing))
-        throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
-    var str = getString(thing);
-    var res = new ArrayBuffer(str.length);
-    var uint = new Uint8Array(res);
-    for (var i = 0; i < str.length; i++)
-        uint[i] = str.charCodeAt(i);
-    return res;
-}
-
 // Number formatting utils
 window.textsecure.utils = function() {
     var self = {};
