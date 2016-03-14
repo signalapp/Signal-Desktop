@@ -305,29 +305,21 @@
                 }
                 if (type === 'outgoing') {
                     // lazy hack - check for receipts that arrived early.
+                    var recipients;
                     if (dataMessage.group && dataMessage.group.id) {  // group sync
-                        var members = conversation.get('members') || [];
-                        var receipts = window.receipts.where({ timestamp: timestamp });
-                        for (var i in receipts) {
-                            if (members.indexOf(receipts[i].get('source')) > -1) {
-                                window.receipts.remove(receipts[i]);
-                                message.set({
-                                    delivered: (message.get('delivered') || 0) + 1
-                                });
-                            }
-                        }
+                        recipients = conversation.get('members') || [];
                     } else {
-                        var receipt = window.receipts.findWhere({
-                            timestamp: timestamp,
-                            source: conversationId
-                        });
-                        if (receipt) {
-                            window.receipts.remove(receipt);
-                            message.set({
-                                delivered: (message.get('delivered') || 0) + 1
-                            });
-                        }
+                        recipients = [ conversation.id ];
                     }
+                    window.receipts.filter(function(receipt) {
+                        return (receipt.get('timestamp') === timestamp) &&
+                               (recipients.indexOf(receipt.get('source')) > -1);
+                    }).forEach(function(receipt) {
+                        window.receipts.remove(receipt);
+                        message.set({
+                            delivered: (message.get('delivered') || 0) + 1
+                        });
+                    });
                 }
                 attributes.active_at = now;
                 if (type === 'incoming') {
