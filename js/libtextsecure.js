@@ -34699,7 +34699,7 @@ window.axolotl.protocol = function(storage_interface) {
                             // We already had a session/known identity key:
                             if (util.isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
                                 // If the identity key matches the previous one, close the previous one and use the new one
-                                if (open_session !== undefin)
+                                if (open_session !== undefined)
                                     closeSession(open_session); // To be returned and saved later
                             } else {
                                 // ...otherwise create an error that the UI will pick up and ask the user if they want to re-negotiate
