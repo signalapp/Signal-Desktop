@@ -219,6 +219,7 @@
                     };
                 });
                 if (read.length > 0) {
+                    console.log('Sending', read.length, 'read receipts');
                     textsecure.messaging.syncReadMessages(read);
                 }
             });
