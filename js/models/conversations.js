@@ -112,36 +112,51 @@
         this.set({tokens: tokens});
     },
 
+    queueJob: function(callback) {
+        var previous = this.pending || Promise.resolve();
+        var current = this.pending = previous.then(callback, callback);
+
+        current.then(function() {
+            if (this.pending === current) {
+                delete this.pending;
+            }
+        }.bind(this));
+
+        return current;
+    },
+
     sendMessage: function(body, attachments) {
-        var now = Date.now();
-        var message = this.messageCollection.add({
-            body           : body,
-            conversationId : this.id,
-            type           : 'outgoing',
-            attachments    : attachments,
-            sent_at        : now,
-            received_at    : now
-        });
-        if (this.isPrivate()) {
-            message.set({destination: this.id});
-        }
-        message.save();
+        this.queueJob(function() {
+            var now = Date.now();
+            var message = this.messageCollection.add({
+                body           : body,
+                conversationId : this.id,
+                type           : 'outgoing',
+                attachments    : attachments,
+                sent_at        : now,
+                received_at    : now
+            });
+            if (this.isPrivate()) {
+                message.set({destination: this.id});
+            }
+            message.save();
 
-        this.save({
-            unreadCount : 0,
-            active_at   : now,
-            timestamp   : now,
-            lastMessage : message.getNotificationText()
-        });
+            this.save({
+                unreadCount : 0,
+                active_at   : now,
+                timestamp   : now,
+                lastMessage : message.getNotificationText()
+            });
 
-        var sendFunc;
-        if (this.get('type') == 'private') {
-            sendFunc = textsecure.messaging.sendMessageToNumber;
-        }
-        else {
-            sendFunc = textsecure.messaging.sendMessageToGroup;
-        }
-        message.send(sendFunc(this.get('id'), body, attachments, now));
+            var sendFunc;
+            if (this.get('type') == 'private') {
+                sendFunc = textsecure.messaging.sendMessageToNumber;
+            }
+            else {
+                sendFunc = textsecure.messaging.sendMessageToGroup;
+            }
+            message.send(sendFunc(this.get('id'), body, attachments, now));
+        }.bind(this));
     },
 
     isSearchable: function() {

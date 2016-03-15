@@ -267,92 +267,97 @@
                 conversationId = dataMessage.group.id;
             }
             var conversation = ConversationController.create({id: conversationId});
-            conversation.fetch().always(function() {
-                var now = new Date().getTime();
-                var attributes = { type: 'private' };
-                if (dataMessage.group) {
-                    var group_update = null;
-                    attributes = {
-                        type: 'group',
-                        groupId: dataMessage.group.id,
-                    };
-                    if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
-                        attributes = {
-                            type       : 'group',
-                            groupId    : dataMessage.group.id,
-                            name       : dataMessage.group.name,
-                            avatar     : dataMessage.group.avatar,
-                            members    : dataMessage.group.members,
-                        };
-                        group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
-                        var difference = _.difference(dataMessage.group.members, conversation.get('members'));
-                        if (difference.length > 0) {
-                            group_update.joined = difference;
-                        }
-                    }
-                    else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
-                        if (source == textsecure.storage.user.getNumber()) {
-                            group_update = { left: "You" };
-                        } else {
-                            group_update = { left: source };
-                        }
-                        attributes.members = _.without(conversation.get('members'), source);
-                    }
+            conversation.queueJob(function() {
+                return new Promise(function(resolve) {
+                    conversation.fetch().always(function() {
+                        var now = new Date().getTime();
+                        var attributes = { type: 'private' };
+                        if (dataMessage.group) {
+                            var group_update = null;
+                            attributes = {
+                                type: 'group',
+                                groupId: dataMessage.group.id,
+                            };
+                            if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
+                                attributes = {
+                                    type       : 'group',
+                                    groupId    : dataMessage.group.id,
+                                    name       : dataMessage.group.name,
+                                    avatar     : dataMessage.group.avatar,
+                                    members    : dataMessage.group.members,
+                                };
+                                group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
+                                var difference = _.difference(dataMessage.group.members, conversation.get('members'));
+                                if (difference.length > 0) {
+                                    group_update.joined = difference;
+                                }
+                            }
+                            else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
+                                if (source == textsecure.storage.user.getNumber()) {
+                                    group_update = { left: "You" };
+                                } else {
+                                    group_update = { left: source };
+                                }
+                                attributes.members = _.without(conversation.get('members'), source);
+                            }
 
-                    if (group_update !== null) {
-                        message.set({group_update: group_update});
-                    }
-                }
-                if (type === 'outgoing') {
-                    // lazy hack - check for receipts that arrived early.
-                    var recipients;
-                    if (dataMessage.group && dataMessage.group.id) {  // group sync
-                        recipients = conversation.get('members') || [];
-                    } else {
-                        recipients = [ conversation.id ];
-                    }
-                    window.receipts.filter(function(receipt) {
-                        return (receipt.get('timestamp') === timestamp) &&
-                               (recipients.indexOf(receipt.get('source')) > -1);
-                    }).forEach(function(receipt) {
-                        window.receipts.remove(receipt);
+                            if (group_update !== null) {
+                                message.set({group_update: group_update});
+                            }
+                        }
+                        if (type === 'outgoing') {
+                            // lazy hack - check for receipts that arrived early.
+                            var recipients;
+                            if (dataMessage.group && dataMessage.group.id) {  // group sync
+                                recipients = conversation.get('members') || [];
+                            } else {
+                                recipients = [ conversation.id ];
+                            }
+                            window.receipts.filter(function(receipt) {
+                                return (receipt.get('timestamp') === timestamp) &&
+                                    (recipients.indexOf(receipt.get('source')) > -1);
+                            }).forEach(function(receipt) {
+                                window.receipts.remove(receipt);
+                                message.set({
+                                    delivered: (message.get('delivered') || 0) + 1
+                                });
+                            });
+                        }
+                        attributes.active_at = now;
+                        if (type === 'incoming') {
+                            attributes.unreadCount = conversation.get('unreadCount') + 1;
+                        }
+                        conversation.set(attributes);
+
                         message.set({
-                            delivered: (message.get('delivered') || 0) + 1
+                            body           : dataMessage.body,
+                            conversationId : conversation.id,
+                            attachments    : dataMessage.attachments,
+                            decrypted_at   : now,
+                            flags          : dataMessage.flags,
+                            errors         : []
                         });
-                    });
-                }
-                attributes.active_at = now;
-                if (type === 'incoming') {
-                    attributes.unreadCount = conversation.get('unreadCount') + 1;
-                }
-                conversation.set(attributes);
 
-                message.set({
-                    body           : dataMessage.body,
-                    conversationId : conversation.id,
-                    attachments    : dataMessage.attachments,
-                    decrypted_at   : now,
-                    flags          : dataMessage.flags,
-                    errors         : []
-                });
+                        var conversation_timestamp = conversation.get('timestamp');
+                        if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
+                            conversation.set({
+                                timestamp: message.get('sent_at'),
+                                lastMessage: message.getNotificationText()
+                            });
+                        }
+                        else if (!conversation.get('lastMessage')) {
+                            conversation.set({
+                                lastMessage: message.getNotificationText()
+                            });
+                        }
 
-                var conversation_timestamp = conversation.get('timestamp');
-                if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
-                    conversation.set({
-                        timestamp: message.get('sent_at'),
-                        lastMessage: message.getNotificationText()
-                    });
-                }
-                else if (!conversation.get('lastMessage')) {
-                    conversation.set({
-                        lastMessage: message.getNotificationText()
-                    });
-                }
-
-                message.save().then(function() {
-                    conversation.save().then(function() {
-                        conversation.trigger('newmessage', message);
-                        conversation.notify(message);
+                        message.save().then(function() {
+                            conversation.save().then(function() {
+                                conversation.trigger('newmessage', message);
+                                conversation.notify(message);
+                                resolve();
+                            });
+                        });
                     });
                 });
             });
