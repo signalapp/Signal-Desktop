@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Alles klar!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Nicht unterstützter Dateityp",
@@ -29,11 +29,15 @@
     },
     "resetSession": {
         "message": "Verschlüsselung neu starten",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Willkommen bei Signal",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "Beim Eingang von Nachrichten Benachrichtigungen mit folgendem Inhalt anzeigen:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Mitglieder",
@@ -47,17 +51,13 @@
         "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
         "description": ""
     },
-    "off": {
-        "message": "Aus",
-        "description": "Label for disabling notifications"
-    },
     "installConnecting": {
         "message": "Verbindung wird hergestellt …",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Sie sollten diesen Kontakt ggf. $tag_start$ überprüfen $tag_end$.",
-        "description": "",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Nur Name",
+        "message": "Nur Absendername",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,7 +88,7 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor Sie das Protokoll übermitteln, können es noch einmal untersuchen und bearbeiten.",
+        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor Sie das Protokoll übermitteln, können Sie es noch einmal untersuchen und bearbeiten.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -165,6 +165,10 @@
         "message": "Verbindung zum Server fehlgeschlagen.",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Benachrichtigungen deaktivieren",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Abbrechen",
         "description": ""
@@ -175,7 +179,7 @@
     },
     "sessionEnded": {
         "message": "Verschlüsselung neu gestartet",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Legen Sie los",
@@ -228,7 +232,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name und Nachricht",
+        "message": "Absendername und Nachricht",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -250,6 +254,10 @@
     "error": {
         "message": "Fehler",
         "description": ""
+    },
+    "notifications": {
+        "message": "Benachrichtigungen",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Erneut senden",

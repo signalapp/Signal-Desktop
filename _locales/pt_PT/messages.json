@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Ok, entendi!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Tipo de ficheiro não suportado",
@@ -29,11 +29,15 @@
     },
     "resetSession": {
         "message": "Reiniciar sessão",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Bem-vindo ao Signal",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "Quando a mensagem chegar, mostrar notificações que mostram:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Membros",
@@ -47,17 +51,13 @@
         "message": "Seleccione um contacto ou grupo para começar a falar",
         "description": ""
     },
-    "off": {
-        "message": "Desligado",
-        "description": "Label for disabling notifications"
-    },
     "installConnecting": {
         "message": "A ligar...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Pode ser necessário $tag_start$ verificar $tag_end$ este contacto.",
-        "description": "",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Apenas nome",
+        "message": "Apenas nome do remetente",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Sem nome ou mensagem",
+        "message": "Nem o nome nem a mensagem",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -165,6 +165,10 @@
         "message": "Falha na ligação ao servidor",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Desativar notificações",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Cancelar",
         "description": ""
@@ -175,7 +179,7 @@
     },
     "sessionEnded": {
         "message": "Sessão segura reiniciada",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Começar",
@@ -192,7 +196,7 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Ligado a",
+        "message": "Ligando a",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
@@ -228,7 +232,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Nome e mensagem",
+        "message": "Nome do remetente e mensagem",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -250,6 +254,10 @@
     "error": {
         "message": "Erro",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notificações",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Reenviar",

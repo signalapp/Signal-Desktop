@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Saya mengerti!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Jenis berkas tidak didukung",
@@ -29,11 +29,15 @@
     },
     "resetSession": {
         "message": "Mengatur ulang sesi",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Selamat datang di Signal",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "When messages arrive, display notifications that reveal:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Anggota",
@@ -47,17 +51,13 @@
         "message": "Pilih kontak atau grup untuk mulai mengobrol",
         "description": ""
     },
-    "off": {
-        "message": "Mati",
-        "description": "Label for disabling notifications"
-    },
     "installConnecting": {
         "message": "Menyambungkan...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Kamu ingin untuk <span class='verify'>verifikasi</span> kontak ini.",
-        "description": "",
+        "message": "Anda mungkin ingin untuk $tag_start$ memverifikasi $tag_end$ kontak ini.",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Hanya nama",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,11 +96,11 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Tanpa nama ataupun pesan",
+        "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Ikuti kami</a> untuk pemutakhiran dukungan banyak perangkat di iOS",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -126,7 +126,7 @@
         "description": ""
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Privasi itu mungkin. Signal membuatnya lebih mudah.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -146,7 +146,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Kunci pengenal kontak ini telah berubah. Klik untuk memproses dan menampilkan.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -165,6 +165,10 @@
         "message": "Gagal menyambungkan ke server.",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Disable notifications",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Batal",
         "description": ""
@@ -175,14 +179,14 @@
     },
     "sessionEnded": {
         "message": "Sesi aman berakhir",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Memulai",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Pertama, pasang <a $a_params$>Signal</a> di ponsel Android Anda.<br/> Kami akan menautkan perangkat-perangkat Anda dan menjaga pesan-pesan Anda tetap tersinkronisasi.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -204,7 +208,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Anda belum pernah bertukar pesan dengan kontak ini. Identitas dia akan tersedia setelah pengiriman/penerimaan pesan pertama.",
         "description": ""
     },
     "submit": {
@@ -228,7 +232,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Nama dan pesan",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -240,7 +244,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Kunci pengenal dari kontak ini berubah. Ini bisa berarti ada orang yang ingin menyadap komunikasi Anda, atau kontak ini cuman memasang ulang Signal dan sekarang memiliki kunci pengenal yang berbeda.",
         "description": ""
     },
     "submitDebugLog": {
@@ -250,6 +254,10 @@
     "error": {
         "message": "Galat",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notifications",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Kirim ulang",

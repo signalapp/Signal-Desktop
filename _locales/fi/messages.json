@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Selvä!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
@@ -29,11 +29,15 @@
     },
     "resetSession": {
         "message": "Alusta istunto",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Tervetuloa Signaliin",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "When messages arrive, display notifications that reveal:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Jäsenet",
@@ -47,17 +51,13 @@
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
         "description": ""
     },
-    "off": {
-        "message": "Pois päältä",
-        "description": "Label for disabling notifications"
-    },
     "installConnecting": {
         "message": "Yhdistetään...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Saatat haluta $tag_start$ varmentaa $tag_end$ tämän yhteystiedon.",
-        "description": "",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Vain nimi",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Ei nimeä eikä viestiä",
+        "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -165,6 +165,10 @@
         "message": "Palvelimeen ei saada yhteyttä.",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Disable notifications",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Peruuta",
         "description": ""
@@ -175,7 +179,7 @@
     },
     "sessionEnded": {
         "message": "Suojattu istunto alustettu",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Aloita",
@@ -228,7 +232,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Nimi ja viesti",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -250,6 +254,10 @@
     "error": {
         "message": "Virhe",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notifications",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Lähetä uudelleen",

@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Shvaćam!",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Nepodržana vrsta datoteke",
@@ -29,11 +29,15 @@
     },
     "resetSession": {
         "message": "Ponovno pokreni sesiju",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Dobrodošli u Signal",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "Kad poruka dođe, prikaži obavijesti koje otkrivaju:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Članovi",
@@ -47,17 +51,13 @@
         "message": "Odaberite kontakt ili grupu za početak dopisivanja.",
         "description": ""
     },
-    "off": {
-        "message": "Ugašeno",
-        "description": "Label for disabling notifications"
-    },
     "installConnecting": {
         "message": "Povezivanje...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
         "message": "Možda bi htjeli $tag_start$ provjeriti $tag_end$ ovaj kontakt.",
-        "description": "",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Samo ime",
+        "message": "Samo pošiljateljevo ime",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Nema imena ili poruke.",
+        "message": "Ni ime ni poruka",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -165,6 +165,10 @@
         "message": "Nije uspjelo spajanje na poslužitelj.",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Onemogući obavijesti",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Otkaži",
         "description": ""
@@ -175,7 +179,7 @@
     },
     "sessionEnded": {
         "message": "Ponovno pokretanje sigurne sesije",
-        "description": ""
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Započnite",
@@ -228,7 +232,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Ime i poruka",
+        "message": "I pošiljateljevo ime i poruka",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -250,6 +254,10 @@
     "error": {
         "message": "Greška",
         "description": ""
+    },
+    "notifications": {
+        "message": "Obavijesti",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Ponovno pošalji",

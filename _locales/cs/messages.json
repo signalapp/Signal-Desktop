@@ -17,7 +17,7 @@
     },
     "gotIt": {
         "message": "Obdrženo",
-        "description": ""
+        "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "unsupportedFileType": {
         "message": "Nepodporovaný typ souboru",
@@ -29,35 +29,35 @@
     },
     "resetSession": {
         "message": "Reset připojení",
-        "description": ""
+        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
         "message": "Vítejte v Signalu",
         "description": ""
+    },
+    "notificationSettingsDialog": {
+        "message": "When messages arrive, display notifications that reveal:",
+        "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Členové",
         "description": ""
     },
     "deleteMessages": {
-        "message": "Smazat zprávu",
-        "description": ""
+        "message": "Delete Messages",
+        "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
         "message": "Vyber kontakt nebo skupinu pro spuštění konverzace",
         "description": ""
-    },
-    "off": {
-        "message": "Off",
-        "description": "Label for disabling notifications"
     },
     "installConnecting": {
         "message": "Connecting...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Přejete si <span class='verify'>ověřit</span> tento kontakt.",
-        "description": "",
+        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
                 "content": "<a class='verify' href='#'>"
@@ -76,7 +76,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Name only",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -96,7 +96,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "No name or message",
+        "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -165,6 +165,10 @@
         "message": "Failed to connect to server.",
         "description": "Displayed when we can't connect to the server."
     },
+    "disableNotifications": {
+        "message": "Disable notifications",
+        "description": "Label for disabling notifications"
+    },
     "cancel": {
         "message": "Zrušit",
         "description": ""
@@ -174,8 +178,8 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Zabezpečené připojení ukončeno",
-        "description": ""
+        "message": "Secure session reset",
+        "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Get started",
@@ -228,11 +232,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Name and message",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Neúspěšné odeslání některým příjemcům",
+        "message": "Failed to send to some recipients. Check your network connection.",
         "description": ""
     },
     "ok": {
@@ -244,12 +248,16 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Zadat debug log",
-        "description": ""
+        "message": "Submit Debug Log",
+        "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
         "message": "Chyba",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notifications",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Znovu odeslat",
