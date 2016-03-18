@@ -11,6 +11,10 @@
         initialize: function() {
             this.render();
             this.$('textarea').val(console.get());
+            this.$('.link').on('mouseup', function (e) {
+                e.preventDefault();
+                $(this).select();
+            });
         },
         events: {
             'click .submit': 'submit',
@@ -21,6 +25,7 @@
             cancel: i18n('cancel'),
             submit: i18n('submit'),
             close: i18n('gotIt'),
+            open: i18n('open'),
             debugLogExplanation: i18n('debugLogExplanation')
         },
         close: function(e) {
@@ -35,9 +40,12 @@
             }
             console.post(log).then(function(url) {
                 this.$('.loading').removeClass('loading');
-                var link = this.$('.result').find('a');
-                link.attr('href', url).text(url);
+                this.$('.link').val(url);
+                this.$('.open').click(function() {
+                    window.open(url);
+                });
                 this.$('.result .hide').removeClass('hide');
+                this.$('.link').select().focus();
             }.bind(this));
             this.$('.buttons, textarea').remove();
             this.$('.result').addClass('loading');

@@ -351,6 +351,12 @@ img.emoji {
   .debug-log button:hover, .debug-log input[type=submit]:hover {
     color: black;
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
+.debug-log .link {
+  width: 22em;
+  text-align: center; }
+.debug-log .open {
+  padding: 0.2em 0.4em;
+  margin: 0 0 0 0.5em; }
 .debug-log .result {
   text-align: center; }
   .debug-log .result a {
