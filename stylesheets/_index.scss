@@ -31,14 +31,9 @@
 
   * {
     display: inline;
-    cursor: pointer;
     padding-left: 20px;
-    border-radius: $header-height;
+    border-radius: 100%;
     vertical-align: middle;
-
-    &:hover {
-      background: url('/images/refresh.png') center;
-    }
   }
   .connecting .icon {
     background-color: $blue;

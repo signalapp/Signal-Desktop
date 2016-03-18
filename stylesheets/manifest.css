@@ -422,12 +422,9 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   line-height: 36px; }
   .socket-status * {
     display: inline;
-    cursor: pointer;
     padding-left: 20px;
-    border-radius: 36px;
+    border-radius: 100%;
     vertical-align: middle; }
-    .socket-status *:hover {
-      background: url("/images/refresh.png") center; }
   .socket-status .connecting .icon {
     background-color: #2090ea; }
   .socket-status .closing {

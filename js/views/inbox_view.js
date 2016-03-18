@@ -32,12 +32,6 @@
                 this.$el.attr('class', className);
                 this.$el.text(message);
             }
-        },
-        events: {
-            'click': 'reloadBackgroundPage'
-        },
-        reloadBackgroundPage: function() {
-            chrome.runtime.reload();
         }
     });
 
@@ -107,6 +101,7 @@
             searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
             submitDebugLog: i18n('submitDebugLog'),
             settings: i18n('settings'),
+            restartSignal: i18n('restartSignal')
         },
         events: {
             'click': 'closeMenu',
@@ -114,7 +109,11 @@
             'click .show-debug-log': 'showDebugLog',
             'click .settings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
-            'input input.search': 'filterContacts'
+            'input input.search': 'filterContacts',
+            'click .restart-signal': 'reloadBackgroundPage'
+        },
+        reloadBackgroundPage: function() {
+            chrome.runtime.reload();
         },
         showSettings: function() {
             var view = new Whisper.SettingsView().render();
