@@ -357,6 +357,8 @@ img.emoji {
 .debug-log .open {
   padding: 0.2em 0.4em;
   margin: 0 0 0 0.5em; }
+.debug-log .report {
+  margin-top: 0.5em; }
 .debug-log .result {
   text-align: center; }
   .debug-log .result a {

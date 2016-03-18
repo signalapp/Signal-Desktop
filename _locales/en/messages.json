@@ -2,6 +2,18 @@
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },
+    "reportIssue": {
+      "message": "You can report an issue $tag_start$here$tag_end$.",
+      "description": "Use $tag_start$ and $tag_end$ to wrap the word in this sentence that the user should click on in order to open the issue submission page.",
+      "placeholders": {
+        "tag_start": {
+          "content": "<a class='report-link' href='#'>"
+        },
+        "tag_end": {
+          "content": "</a>"
+        }
+      }
+    },
     "gotIt": {
       "message": "Got it!",
       "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."

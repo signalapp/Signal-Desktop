@@ -18,7 +18,8 @@
         },
         events: {
             'click .submit': 'submit',
-            'click .close': 'close'
+            'click .close': 'close',
+            'click .report-link': 'report'
         },
         render_attributes: {
             title: i18n('submitDebugLog'),
@@ -26,7 +27,8 @@
             submit: i18n('submit'),
             close: i18n('gotIt'),
             open: i18n('open'),
-            debugLogExplanation: i18n('debugLogExplanation')
+            debugLogExplanation: i18n('debugLogExplanation'),
+            reportIssue: i18n('reportIssue')
         },
         close: function(e) {
             e.preventDefault();
@@ -49,6 +51,9 @@
             }.bind(this));
             this.$('.buttons, textarea').remove();
             this.$('.result').addClass('loading');
+        },
+        report: function(e) {
+            window.open("https://github.com/WhisperSystems/Signal-Desktop/issues/new");
         }
     });
 
