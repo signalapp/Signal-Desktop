@@ -401,7 +401,6 @@
     },
     notify: function(message) {
         if (!message.isIncoming()) {
-            this.markRead();
             return;
         }
         if (window.isOpen() && window.isFocused()) {
