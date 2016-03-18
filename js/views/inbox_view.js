@@ -110,7 +110,7 @@
         },
         events: {
             'click': 'closeMenu',
-            'click .hamburger': 'toggleMenu',
+            'click .global-menu .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
             'click .settings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',

@@ -38,9 +38,10 @@
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='panel'>
-      <div class='conversation-header'>
+      <div class='conversation-header'
+          style='background-color: {{ avatar.color }}'>
           <div class='conversation-menu menu'>
-            <button class='drop-down'></button>
+            <button class='hamburger'></button>
             <ul class='menu-list'>
                 {{#group}}
                     <li><a class='view-members'>{{ view-members }}</a></li>
@@ -54,13 +55,15 @@
                 <li><a class='destroy'>{{ destroy }}</a></li>
             </ul>
           </div>
-          {{> avatar }}
           <span class='conversation-title'>
-            {{ title }}
+            {{ #name }}
+              <span class='conversation-name'>{{ name }}</span>
+            {{ /name }}
             {{ #number }}
               <span class='conversation-number'>{{ number }}</span>
             {{ /number }}
           </span>
+          {{> avatar }}
       </div>
 
       <div class='discussion-container'></div>

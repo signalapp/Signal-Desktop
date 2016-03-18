@@ -287,6 +287,14 @@
         }.bind(this));
     },
 
+    getName: function() {
+        if (this.isPrivate()) {
+            return this.get('name');
+        } else {
+            return this.get('name') || 'Unknown group';
+        }
+    },
+
     getTitle: function() {
         if (this.isPrivate()) {
             return this.get('name') || this.getNumber();
@@ -338,25 +346,27 @@
             this.trigger('change');
         }
     },
-
     getAvatar: function() {
         if (this.avatarUrl === undefined) {
             this.updateAvatarUrl(true);
         }
+
+        var title = this.get('name');
+        var color = '#999999';
+        if (this.isPrivate() && title) {
+            color = COLORS[Math.abs(this.hashCode()) % 15];
+        }
+
         if (this.avatarUrl) {
-            return { url: this.avatarUrl };
+            return { url: this.avatarUrl, color: color };
         } else if (this.isPrivate()) {
-            var title = this.get('name');
             if (!title) {
-                return { content: '#', color: '#999999' };
+                return { content: '#', color: color };
             }
             var initials = title.trim()[0];
-            return {
-                color: COLORS[Math.abs(this.hashCode()) % 15],
-                content: initials
-            };
+            return { content: initials, color: color };
         } else {
-            return { url: '/images/group_default.png', color: 'gray' };
+            return { url: '/images/group_default.png', color: color };
         }
     },
 

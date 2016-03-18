@@ -4,26 +4,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 10px;
+  padding: 0 10px;
   -webkit-user-select: text;
 }
-.conversation-number {
-  padding-left: 5px;
-  line-height: 1em;
-  font-size: small;
-  color: #999;
+.conversation-name + .conversation-number {
+  &:before {
+    content:"\00b7"; // &middot
+    font-weight: bold;
+    padding: 0 5px 0 4px;
+  }
 }
 
 .conversation {
-  max-width: 950px;
   background-color: #ffffff;
-  padding: 20px 20px 10px;
-  border-radius: 10px;
   height: 100%;
-
-  ::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-  }
 
   .panel {
     height: 100%;
@@ -42,10 +36,6 @@
         margin: 0;
         padding: 2em 8px 0;
         overflow-y: auto;
-
-        @media(min-width: $big-avatar-min-width) {
-          padding-left: 70px;
-        }
 
         &:before {
           display: block;
@@ -286,7 +276,7 @@
 
   li {
     max-width: 800px;
-    margin: 0 8px 16px;
+    margin: 0 auto 16px;
 
     &::after {
       visibility: hidden;
@@ -506,10 +496,13 @@
 
 .bottom-bar {
   $button-width: 36px;
-  margin-top: 4px;
-  height: 36px;
-  border-top: 1px solid $grey_l;
-  background: white;
+  padding: 5px;
+  height: 50px;
+  background: $grey_l;
+
+  form.send {
+    background: #ffffff;
+  }
 
   button, input, textarea {
     color: $grey_d;

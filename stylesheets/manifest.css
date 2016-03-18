@@ -83,8 +83,7 @@ button.back {
 
 .menu {
   position: relative;
-  float: right;
-  height: 36px; }
+  float: right; }
   .menu .hamburger {
     width: 36px;
     height: 36px;
@@ -93,7 +92,7 @@ button.back {
     display: none;
     position: absolute;
     color: #454545;
-    z-index: 1;
+    z-index: 50;
     top: 100%;
     right: 0;
     margin: 0;
@@ -113,7 +112,6 @@ button.back {
 
 .file-input {
   position: relative;
-  margin-right: 10px;
   box-sizing: content-box;
   border: 1px transparent solid; }
   .file-input .choose-file {
@@ -364,7 +362,7 @@ img.emoji {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 20px;
-  z-index: 10; }
+  z-index: 100; }
   .modal .content {
     position: relative;
     max-width: 350px;
@@ -439,21 +437,17 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     display: block; }
 
 .conversation-header {
-  border-bottom: solid 1px #d9d9d9;
-  margin-bottom: 4px;
-  padding-bottom: 5px; }
+  height: 64px;
+  text-align: center;
+  color: white; }
   .conversation-header .avatar {
-    float: left;
-    width: 36px;
-    height: 36px;
-    line-height: 36px; }
-  @media (min-width: 900px) {
-    .conversation-header .avatar {
-      width: 70px;
-      height: 70px;
-      line-height: 70px;
-      margin-bottom: -60px;
-      position: relative; } }
+    margin-bottom: -30px;
+    border: solid 2px white;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    line-height: 44px;
+    position: relative; }
 
 .menu.conversation-menu button.drop-down {
   background: url("/images/arrow_drop_down.png") no-repeat center; }
@@ -491,11 +485,14 @@ input.search {
     width: 100%;
     padding: 10px;
     border: solid 1px #f3f3f3; }
+    .tool-bar input.search.active {
+      outline: solid 1px #2090ea; }
 
 .last-timestamp {
   font-size: smaller;
   float: right;
-  margin: 0 10px; }
+  margin: 0 10px;
+  color: #616161; }
 
 .new-contact {
   display: none;
@@ -517,13 +514,12 @@ input.search {
   .index .last-message {
     margin: 6px 0;
     font-size: small;
-    font-weight: 300;
-    color: #616161; }
+    font-weight: 300; }
   .index .gutter .timestamp {
     position: absolute;
     top: 14px;
     right: 12px;
-    color: #888; }
+    color: #616161; }
 
 .conversations .unread .contact-details .name,
 .conversations .unread .contact-details .last-message,
@@ -595,23 +591,17 @@ input.search {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 10px;
+  padding: 0 10px;
   -webkit-user-select: text; }
 
-.conversation-number {
-  padding-left: 5px;
-  line-height: 1em;
-  font-size: small;
-  color: #999; }
+.conversation-name + .conversation-number:before {
+  content: "\00b7";
+  font-weight: bold;
+  padding: 0 5px 0 4px; }
 
 .conversation {
-  max-width: 950px;
   background-color: #ffffff;
-  padding: 20px 20px 10px;
-  border-radius: 10px;
   height: 100%; }
-  .conversation ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15); }
   .conversation .panel {
     height: 100%;
     display: flex;
@@ -627,9 +617,6 @@ input.search {
         margin: 0;
         padding: 2em 8px 0;
         overflow-y: auto; }
-        @media (min-width: 900px) {
-          .conversation .panel .discussion-container .message-list {
-            padding-left: 70px; } }
         .conversation .panel .discussion-container .message-list:before {
           display: block;
           margin: -25px auto 10px;
@@ -803,7 +790,7 @@ input.search {
   .message-detail li,
   .message-list li {
     max-width: 800px;
-    margin: 0 8px 16px; }
+    margin: 0 auto 16px; }
     .message-detail li::after,
     .message-list li::after {
       visibility: hidden;
@@ -983,10 +970,11 @@ input.search {
       margin-top: 5px; }
 
 .bottom-bar {
-  margin-top: 4px;
-  height: 36px;
-  border-top: 1px solid #f3f3f3;
-  background: white; }
+  padding: 5px;
+  height: 50px;
+  background: #f3f3f3; }
+  .bottom-bar form.send {
+    background: #ffffff; }
   .bottom-bar button, .bottom-bar input, .bottom-bar textarea {
     color: #454545; }
   .bottom-bar button {

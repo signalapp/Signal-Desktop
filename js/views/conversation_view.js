@@ -17,7 +17,7 @@
         render_attributes: function() {
             return {
                 group: this.model.get('type') === 'group',
-                title: this.model.getTitle(),
+                name: this.model.getName(),
                 number: this.model.getNumber(),
                 avatar: this.model.getAvatar(),
                 'view-members'    : i18n('members'),
@@ -84,7 +84,7 @@
             'click .update-group': 'newGroupUpdate',
             'click .verify-identity': 'verifyIdentity',
             'click .view-members': 'viewMembers',
-            'click .drop-down': 'toggleMenu',
+            'click .conversation-menu .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'select .message-list .entry': 'messageDetail',
@@ -177,7 +177,7 @@
         },
 
         closeMenu: function(e) {
-            if (e && !$(e.target).hasClass('drop-down')) {
+            if (e && !$(e.target).hasClass('hamburger')) {
                 this.$('.menu-list').hide();
             }
         },
@@ -271,7 +271,7 @@
 
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
-                    $attachmentPreviews.outerHeight() + 1);
+                    $attachmentPreviews.outerHeight() + 10);
 
             this.view.scrollToBottomIfNeeded();
         },

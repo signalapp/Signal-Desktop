@@ -91,7 +91,6 @@ button.back {
 .menu {
   position: relative;
   float: right;
-  height: 36px;
 
   .hamburger {
     width: $header-height;
@@ -102,7 +101,7 @@ button.back {
     display: none;
     position: absolute;
     color: $grey_d;
-    z-index: 1;
+    z-index: 50;
 
     top: 100%;
     right: 0;
@@ -132,7 +131,6 @@ button.back {
 
 .file-input {
   position: relative;
-  margin-right: 10px;
   box-sizing: content-box;
   border: 1px transparent solid;
   .choose-file {
@@ -464,7 +462,7 @@ $avatar-size: 44px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 20px;
-  z-index: 10;
+  z-index: 100;
 
   .content {
     position: relative;

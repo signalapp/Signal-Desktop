@@ -62,23 +62,18 @@
 }
 
 .conversation-header {
-  border-bottom: solid 1px $grey_l2;
-  margin-bottom: 4px;
-  padding-bottom: 5px;
+  height: 64px;
+  text-align: center;
+  color: white;
+
   .avatar {
-    float: left;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-  }
-  @media(min-width: $big-avatar-min-width) {
-    .avatar {
-      width: 70px;
-      height: 70px;
-      line-height: 70px;
-      margin-bottom: -60px;
-      position: relative;
-    }
+    margin-bottom: -30px;
+    border: solid 2px white;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    line-height: 44px;
+    position: relative;
   }
 }
 .menu.conversation-menu {
@@ -128,6 +123,10 @@ input.search {
     width: 100%;
     padding: 10px;
     border: solid 1px $grey_l;
+
+    &.active {
+      outline: solid 1px $blue;
+    }
   }
 }
 
@@ -135,6 +134,7 @@ input.search {
   font-size: smaller;
   float: right;
   margin: 0 10px;
+  color: $grey;
 }
 
 .new-contact {
@@ -165,14 +165,13 @@ input.search {
     margin: 6px 0;
     font-size: small;
     font-weight: 300;
-    color: $grey;
   }
 
   .gutter .timestamp {
     position: absolute;
     top: 14px;
     right: 12px;
-    color: #888;
+    color: $grey;
   }
 
 }
