@@ -89,8 +89,7 @@
             this.new_contact_view = new Whisper.NewContactView({
                 el: this.$new_contact,
                 model: ConversationController.create({
-                    type: 'private',
-                    newContact: true
+                    type: 'private'
                 })
             }).render();
         },
