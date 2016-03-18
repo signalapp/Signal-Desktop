@@ -15,7 +15,7 @@
                 e.preventDefault();
                 $(this).select();
             });
-            this.$('.report-link').text(this.$('.report-link').text().trim())
+            this.$('.report-link').text(this.$('.report-link').text().trim());
         },
         events: {
             'click .submit': 'submit',
