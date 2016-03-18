@@ -35,9 +35,6 @@
     // start a background worker for ecc
     textsecure.protocol_wrapper.startWorker();
 
-    // load the initial set of conversations into memory
-    ConversationController.updateInbox();
-
     extension.onLaunched(function() {
         console.log('extension launched');
         storage.onready(function() {

@@ -74,7 +74,7 @@
             }).render();
 
             this.inboxListView.listenTo(inboxCollection,
-                    'change:active_at',
+                    'add change:active_at',
                     this.inboxListView.onChangeActiveAt);
 
             this.searchView = new Whisper.ConversationSearchView({

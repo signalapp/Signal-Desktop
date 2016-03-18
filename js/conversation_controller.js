@@ -74,7 +74,7 @@
             });
         },
         updateInbox: function() {
-            conversations.fetchActive();
+            return conversations.fetchActive();
         }
     };
 })();
