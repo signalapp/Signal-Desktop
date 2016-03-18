@@ -123,22 +123,26 @@
             name: contactDetails.name,
             id: contactDetails.number,
             avatar: contactDetails.avatar,
-            type: 'private'
+            type: 'private',
+            active_at: Date.now()
         }).save();
     }
 
     function onGroupReceived(ev) {
         var groupDetails = ev.groupDetails;
-        var conversation = ConversationController.create({
+        var attributes = {
             id: groupDetails.id,
             name: groupDetails.name,
             members: groupDetails.members,
             avatar: groupDetails.avatar,
             type: 'group',
-        });
-        if (!groupDetails.active) {
-            conversation.set({left: true});
+        };
+        if (groupDetails.active) {
+            attributes.active_at = Date.now();
+        } else {
+            attributes.left = true;
         }
+        var conversation = ConversationController.create(attributes);
         conversation.save();
     }
 

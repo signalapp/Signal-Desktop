@@ -14,7 +14,8 @@
                 if (conversation.get('active_at')) {
                     $el.prependTo(this.el);
                 } else {
-                    $el.remove();
+                    var index = getInboxCollection().indexOf(conversation);
+                    $el.insertBefore(this.$('.conversation-list-item')[index+1]);
                 }
             }
         }

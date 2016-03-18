@@ -95,16 +95,6 @@
             this.listenTo(this.searchView, 'open',
                 this.openConversation.bind(this, null));
 
-            if (inboxCollection.length === 0) {
-                this.searchView.showAllContacts = true;
-                this.searchView.reset();
-                this.listenToOnce(inboxCollection, 'add', function(model) {
-                    this.searchView.showAllContacts = false;
-                    this.searchView.reset();
-                    model.trigger('opened');
-                }.bind(this));
-            }
-
             new SocketView().render().$el.appendTo(this.$('.socket-status'));
 
             extension.windows.onClosed(function() {

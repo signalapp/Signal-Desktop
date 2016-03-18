@@ -144,6 +144,41 @@
                 conversations.createIndex('unread', ['conversationId', 'unread'], { unique: false });
                 next();
             }
+        },
+        {
+            version: "9.0",
+            migrate: function(transaction, next) {
+                console.log('migration 9.0');
+                window.addEventListener('storage_ready', function() {
+                    console.log('marking contacts and groups active');
+                    var all = new Whisper.ConversationCollection();
+                    var myNumber = textsecure.storage.user.getNumber();
+                    all.fetch().then(function() {
+                        var inactive = all.filter(function(model) {
+                            return !model.get('active_at') && model.id !== myNumber;
+                        });
+                        inactive.sort(function(m1, m2) {
+                            var title1 = m1.getTitle().toLowerCase();
+                            var title2 = m2.getTitle().toLowerCase();
+                            if (title1 ===  title2) {
+                                return 0;
+                            }
+                            if (title1 < title2) {
+                                return -1;
+                            }
+                            if (title1 > title2) {
+                                return 1;
+                            }
+                        });
+                        inactive.forEach(function(model) {
+                            if (model.isPrivate() || !model.get('left')) {
+                                model.save({ active_at: 1 });
+                            }
+                        });
+                    });
+                });
+                next();
+            }
         }
     ];
 }());
