@@ -3,21 +3,22 @@
 <head>
   <meta charset='utf-8'>
   <script type='text/x-tmpl-mustache' id='two-column'>
-    <div class='title-bar' id='header'>
-      <div class='global-menu menu'>
-        <button class='hamburger'></button>
-        <ul class='menu-list'>
-            <li><a class='settings'>{{ settings }}</a></li>
-            <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
-        </ul>
-      </div>
-      <span class='socket-status' title='Restart Signal'></span>
-      <div class='tool-bar clearfix'>
-        <!-- <button class='show-new-conversation'></button> -->
-        <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
-      </div>
-    </div>
     <div class='gutter'>
+        <div class='title-bar' id='header'>
+          <div class='global-menu menu'>
+            <button class='hamburger'></button>
+            <ul class='menu-list'>
+                <li><a class='settings'>{{ settings }}</a></li>
+                <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
+            </ul>
+          </div>
+          <span class='socket-status' title='Restart Signal'></span>
+          <h1>Signal</h1>
+          <div class='tool-bar clearfix'>
+            <!-- <button class='show-new-conversation'></button> -->
+            <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
+          </div>
+        </div>
         <div class='content'>
           <div class='conversations scrollable inbox'></div>
           <div class='conversations scrollable search-results hide'>

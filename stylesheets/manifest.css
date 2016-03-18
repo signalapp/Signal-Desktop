@@ -39,9 +39,13 @@ body {
 
 #header {
   width: 100%;
-  height: 0;
-  line-height: 24px;
-  color: #f2f2f2; }
+  line-height: 24px; }
+  #header h1 {
+    margin: 20px 0;
+    padding-left: 20px;
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: normal; }
   #header button {
     color: inherit; }
     #header button:hover {
@@ -74,8 +78,8 @@ button.back {
   width: 10px; }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.6); }
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px; }
 
 .menu {
   position: relative;
@@ -235,13 +239,11 @@ img.emoji {
   white-space: nowrap;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.6);
-  margin: 10px;
-  border-radius: 10px; }
+  margin: 1px; }
   .contact.selected {
-    background: #f3f3f3;
-    padding-left: 22px;
-    margin-left: 0;
-    border-radius: 0 10px 10px 0; }
+    background: #ecf3fc;
+    padding-left: 7px;
+    border-left: 5px solid #2090ea; }
   .contact:first-child {
     margin-top: 0; }
   .contact:last-child::after {
@@ -336,8 +338,6 @@ img.emoji {
       flex-grow: 1;
       width: 100%;
       resize: none; }
-.debug-log ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15); }
 .debug-log button, .debug-log input[type=submit] {
   border-radius: 4px;
   border: solid 1px #ccc;
@@ -389,6 +389,9 @@ img.emoji {
     text-align: center;
     font-size: 19px; }
 
+input[type=text]:active, input[type=text]:focus, input[type=search]:active, input[type=search]:focus, textarea:active, textarea:focus {
+  outline: 1px solid #2090ea; }
+
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
@@ -398,11 +401,13 @@ img.emoji {
   overflow: auto; }
 
 .gutter {
+  color: #000000;
+  background-color: #2090ea;
   float: left;
   width: 300px; }
   .gutter .content {
-    height: 100%;
-    padding: 46px 0 10px; }
+    background-color: #f3f3f3;
+    height: calc(100% - 100px); }
   .gutter .conversations {
     overflow-y: scroll;
     height: 100%;
@@ -427,7 +432,7 @@ img.emoji {
     background: url("/images/error_red.png") no-repeat left center; }
 
 .conversation-stack {
-  padding: 36px 10px 0px 310px; }
+  padding-left: 300px; }
   .conversation-stack .conversation {
     display: none; }
   .conversation-stack .conversation:first-child {
@@ -467,29 +472,25 @@ input.search {
   input.search::-webkit-search-cancel-button:hover {
     cursor: pointer; }
 
-.tool-bar button.show-new-conversation {
-  float: right;
-  height: 36px;
-  width: 36px;
-  border: 0;
-  outline: 0;
-  font: 300 36px Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  color: white;
-  background: url("/images/pencil.png") no-repeat center center; }
-  .tool-bar button.show-new-conversation:hover {
-    background-color: #ebebeb; }
-.tool-bar input.search {
-  height: 26px;
-  width: 270px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 10px;
-  padding: 5px; }
-  .tool-bar input.search::-webkit-input-placeholder {
-    color: white; }
-  .tool-bar input.search.active, .tool-bar input.search:active, .tool-bar input.search:focus {
-    background: white; }
-    .tool-bar input.search.active::-webkit-input-placeholder, .tool-bar input.search:active::-webkit-input-placeholder, .tool-bar input.search:focus::-webkit-input-placeholder {
-      color: #ccc; }
+.tool-bar {
+  background: #f3f3f3;
+  padding: 2px; }
+  .tool-bar button.show-new-conversation {
+    float: right;
+    height: 36px;
+    width: 36px;
+    border: 0;
+    outline: 0;
+    font: 300 36px Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: white;
+    background: url("/images/pencil.png") no-repeat center center; }
+    .tool-bar button.show-new-conversation:hover {
+      background-color: #ebebeb; }
+  .tool-bar input.search {
+    height: 36px;
+    width: 100%;
+    padding: 10px;
+    border: solid 1px #f3f3f3; }
 
 .last-timestamp {
   font-size: smaller;
@@ -509,8 +510,7 @@ input.search {
     opacity: 1; }
 
 .index {
-  color: #454545;
-  background: #2eace0; }
+  color: #454545; }
   .index .gutter .new-group-update-form {
     display: none;
     padding: 0.5em; }
@@ -607,11 +607,9 @@ input.search {
 .conversation {
   max-width: 950px;
   background-color: #ffffff;
-  margin: 10px auto;
   padding: 20px 20px 10px;
   border-radius: 10px;
-  height: calc(100% - 20px);
-  border-radius: 10px; }
+  height: 100%; }
   .conversation ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15); }
   .conversation .panel {

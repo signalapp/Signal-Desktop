@@ -9,11 +9,13 @@
 }
 
 .gutter {
+  color: #000000;
+  background-color: $blue;
   float: left;
   width: 300px;
   .content {
-    height: 100%;
-    padding: 46px 0 10px;
+    background-color: $grey_l;
+    height: calc(100% - 100px);
   }
 
   .conversations {
@@ -50,7 +52,7 @@
 }
 
 .conversation-stack {
-  padding: $header-height 10px 0px 310px;
+  padding-left: 300px;
   .conversation {
     display: none;
   }
@@ -103,6 +105,9 @@ input.search {
 }
 
 .tool-bar {
+  background: $grey_l;
+  padding: 2px;
+
   button.show-new-conversation {
     float: right;
     height: $header-height;
@@ -119,23 +124,10 @@ input.search {
   }
 
   input.search {
-    height: $header-height - 10px;
-    width: 270px;
-    background: rgba(255,255,255,0.2);
-    margin: 10px;
-    padding: 5px;
-
-    &::-webkit-input-placeholder {
-      color: white;
-    }
-
-    &.active, &:active, &:focus {
-      background: white;
-
-      &::-webkit-input-placeholder {
-        color: #ccc;
-      }
-    }
+    height: $header-height;
+    width: 100%;
+    padding: 10px;
+    border: solid 1px $grey_l;
   }
 }
 
@@ -163,7 +155,6 @@ input.search {
 
 .index {
   color: $grey_d;
-  background: #2eace0;
 
   .gutter .new-group-update-form {
     display: none;
