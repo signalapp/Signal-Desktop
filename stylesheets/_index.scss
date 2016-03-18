@@ -15,7 +15,7 @@
   width: 300px;
   .content {
     background-color: $grey_l;
-    height: calc(100% - 100px);
+    height: calc(100% - 104px);
   }
 
   .conversations {
@@ -27,14 +27,14 @@
 
 .socket-status {
   float: right;
-  padding: 6px;
-  -webkit-app-region: no-drag;
+  line-height: $header-height;
 
   * {
     display: inline;
     cursor: pointer;
     padding-left: 20px;
     border-radius: $header-height;
+    vertical-align: middle;
 
     &:hover {
       background: url('/images/refresh.png') center;
@@ -65,6 +65,7 @@
   height: 64px;
   text-align: center;
   color: white;
+  background: #999999;
 
   .avatar {
     margin-bottom: -30px;
@@ -74,11 +75,6 @@
     height: 48px;
     line-height: 44px;
     position: relative;
-  }
-}
-.menu.conversation-menu {
-  button.drop-down {
-    background: url('/images/arrow_drop_down.png') no-repeat center;
   }
 }
 

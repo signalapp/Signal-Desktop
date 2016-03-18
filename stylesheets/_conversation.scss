@@ -4,7 +4,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 10px;
+  padding: 0 36px;
   -webkit-user-select: text;
 }
 .conversation-name + .conversation-number {
@@ -496,7 +496,7 @@
 
 .bottom-bar {
   $button-width: 36px;
-  padding: 5px;
+  padding: 5px 0;
   height: 50px;
   background: $grey_l;
 

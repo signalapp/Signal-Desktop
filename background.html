@@ -5,14 +5,18 @@
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
         <div class='title-bar' id='header'>
-          <div class='global-menu menu'>
-            <button class='hamburger'></button>
-            <ul class='menu-list'>
-                <li><a class='settings'>{{ settings }}</a></li>
-                <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
-            </ul>
+          <div class='header-buttons'>
+            <div class='vertical-align'>
+              <div class='global-menu menu'>
+                <button class='hamburger'></button>
+                <ul class='menu-list'>
+                    <li><a class='settings'>{{ settings }}</a></li>
+                    <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
+                </ul>
+              </div>
+              <span class='socket-status' title='Restart Signal'></span>
+            </div>
           </div>
-          <span class='socket-status' title='Restart Signal'></span>
           <h1>Signal</h1>
           <div class='tool-bar clearfix'>
             <!-- <button class='show-new-conversation'></button> -->
@@ -40,20 +44,24 @@
     <div class='panel'>
       <div class='conversation-header'
           style='background-color: {{ avatar.color }}'>
-          <div class='conversation-menu menu'>
-            <button class='hamburger'></button>
-            <ul class='menu-list'>
-                {{#group}}
-                    <li><a class='view-members'>{{ view-members }}</a></li>
-                    <!-- <li><a class='update-group'>Update group</a></li> -->
-                    <!-- <li><a class='leave-group'>Leave group</a></li> -->
-                {{/group}}
-                {{^group}}
-                    <li><a class='end-session'>{{ end-session }}</a></li>
-                    <li><a class='verify-identity'>{{ verify-identity }}</a></li>
-                {{/group}}
-                <li><a class='destroy'>{{ destroy }}</a></li>
-            </ul>
+          <div class='header-buttons'>
+            <div class='vertical-align'>
+              <div class='conversation-menu menu'>
+                <button class='hamburger'></button>
+                <ul class='menu-list'>
+                    {{#group}}
+                        <li><a class='view-members'>{{ view-members }}</a></li>
+                        <!-- <li><a class='update-group'>Update group</a></li> -->
+                        <!-- <li><a class='leave-group'>Leave group</a></li> -->
+                    {{/group}}
+                    {{^group}}
+                        <li><a class='end-session'>{{ end-session }}</a></li>
+                        <li><a class='verify-identity'>{{ verify-identity }}</a></li>
+                    {{/group}}
+                    <li><a class='destroy'>{{ destroy }}</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
           <span class='conversation-title'>
             {{ #name }}

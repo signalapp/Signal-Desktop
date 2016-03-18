@@ -37,19 +37,13 @@ body {
 .hide {
   display: none; }
 
-#header {
-  width: 100%;
-  line-height: 24px; }
-  #header h1 {
-    margin: 20px 0;
-    padding-left: 20px;
-    font-size: 22px;
-    color: #ffffff;
-    font-weight: normal; }
-  #header button {
-    color: inherit; }
-    #header button:hover {
-      background-color: rgba(0, 0, 0, 0.2); }
+#header h1 {
+  margin: 0;
+  line-height: 64px;
+  padding-left: 20px;
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: normal; }
 
 .title-text {
   height: 36px;
@@ -81,18 +75,30 @@ button.back {
   background: rgba(0, 0, 0, 0.15);
   border-radius: 10px; }
 
+.header-buttons {
+  float: right;
+  height: 0; }
+  .header-buttons .vertical-align {
+    height: 64px;
+    vertical-align: middle;
+    display: table-cell; }
+
 .menu {
   position: relative;
   float: right; }
   .menu .hamburger {
     width: 36px;
     height: 36px;
-    background: url("/images/menu.png") no-repeat center; }
+    background: url("/images/menu.png") no-repeat center;
+    vertical-align: middle; }
+    .menu .hamburger:hover {
+      background-color: rgba(0, 0, 0, 0.2); }
   .menu .menu-list {
     display: none;
     position: absolute;
     color: #454545;
     z-index: 50;
+    text-align: initial;
     top: 100%;
     right: 0;
     margin: 0;
@@ -405,7 +411,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   width: 300px; }
   .gutter .content {
     background-color: #f3f3f3;
-    height: calc(100% - 100px); }
+    height: calc(100% - 104px); }
   .gutter .conversations {
     overflow-y: scroll;
     height: 100%;
@@ -413,13 +419,13 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 
 .socket-status {
   float: right;
-  padding: 6px;
-  -webkit-app-region: no-drag; }
+  line-height: 36px; }
   .socket-status * {
     display: inline;
     cursor: pointer;
     padding-left: 20px;
-    border-radius: 36px; }
+    border-radius: 36px;
+    vertical-align: middle; }
     .socket-status *:hover {
       background: url("/images/refresh.png") center; }
   .socket-status .connecting .icon {
@@ -439,7 +445,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 .conversation-header {
   height: 64px;
   text-align: center;
-  color: white; }
+  color: white;
+  background: #999999; }
   .conversation-header .avatar {
     margin-bottom: -30px;
     border: solid 2px white;
@@ -448,9 +455,6 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     height: 48px;
     line-height: 44px;
     position: relative; }
-
-.menu.conversation-menu button.drop-down {
-  background: url("/images/arrow_drop_down.png") no-repeat center; }
 
 input.search {
   border: none;
@@ -591,7 +595,7 @@ input.search {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 10px;
+  padding: 0 36px;
   -webkit-user-select: text; }
 
 .conversation-name + .conversation-number:before {
@@ -970,7 +974,7 @@ input.search {
       margin-top: 5px; }
 
 .bottom-bar {
-  padding: 5px;
+  padding: 5px 0;
   height: 50px;
   background: #f3f3f3; }
   .bottom-bar form.send {

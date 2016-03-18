@@ -29,24 +29,15 @@ body {
 }
 
 #header {
-  width: 100%;
-  line-height: 24px;
-
   h1 {
-    margin: 20px 0;
+    margin: 0;
+    line-height: 64px;
     padding-left: 20px;
     font-size: 22px;
     color: #ffffff;
     font-weight: normal;
   }
 
-  button {
-    color: inherit;
-
-    &:hover {
-      background-color: rgba(0,0,0, 0.2);
-    }
-  }
 }
 
 .title-text {
@@ -88,6 +79,17 @@ button.back {
   border-radius: 10px;
 }
 
+.header-buttons {
+  float: right;
+  height: 0;
+
+  .vertical-align {
+    height: 64px;
+    vertical-align: middle;
+    display: table-cell;
+  }
+}
+
 .menu {
   position: relative;
   float: right;
@@ -96,12 +98,18 @@ button.back {
     width: $header-height;
     height: $header-height;
     background: url('/images/menu.png') no-repeat center;
+    vertical-align: middle;
+
+    &:hover {
+      background-color: rgba(0,0,0, 0.2);
+    }
   }
   .menu-list {
     display: none;
     position: absolute;
     color: $grey_d;
     z-index: 50;
+    text-align: initial;
 
     top: 100%;
     right: 0;
