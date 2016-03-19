@@ -28,6 +28,10 @@
       flex-grow: 1;
       position: relative;
 
+      .bar-container {
+        height: 5px;
+      }
+
       .message-list {
         position: absolute;
         top: 0;
@@ -36,16 +40,6 @@
         margin: 0;
         padding: 2em 8px 0;
         overflow-y: auto;
-
-        &:before {
-          display: block;
-          margin: -25px auto 10px;
-          content: " ";
-          height: $loading-height;
-          width: $loading-height;
-          border: solid 3px transparent;
-        }
-
       }
     }
   }

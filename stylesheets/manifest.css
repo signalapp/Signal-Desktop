@@ -396,6 +396,33 @@ img.emoji {
 input[type=text]:active, input[type=text]:focus, input[type=search]:active, input[type=search]:focus, textarea:active, textarea:focus {
   outline: 1px solid #2090ea; }
 
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0; }
+  to {
+    background-position: 0 0; } }
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+  background-size: 40px 40px; }
+
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent); }
+
+.progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  -o-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite; }
+
+.bar-container {
+  background: #a2d2f4; }
+  .bar-container .progress-bar {
+    height: 100%; }
+
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
@@ -610,6 +637,8 @@ input.search {
     .conversation .panel .discussion-container {
       flex-grow: 1;
       position: relative; }
+      .conversation .panel .discussion-container .bar-container {
+        height: 5px; }
       .conversation .panel .discussion-container .message-list {
         position: absolute;
         top: 0;
@@ -618,13 +647,6 @@ input.search {
         margin: 0;
         padding: 2em 8px 0;
         overflow-y: auto; }
-        .conversation .panel .discussion-container .message-list:before {
-          display: block;
-          margin: -25px auto 10px;
-          content: " ";
-          height: 16px;
-          width: 16px;
-          border: solid 3px transparent; }
 
 .group-member-list,
 .new-group-update,

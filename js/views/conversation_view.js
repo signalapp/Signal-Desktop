@@ -105,10 +105,10 @@
         },
 
         fetchMessages: function() {
-            this.$('.message-list').addClass('loading');
+            this.$('.bar-container').show();
             return this.model.fetchContacts().then(function() {
                 return this.model.fetchMessages().then(function() {
-                    this.$('.message-list').removeClass('loading');
+                    this.$('.bar-container').hide();
                 }.bind(this));
             }.bind(this));
             // TODO catch?
