@@ -174,7 +174,8 @@ img.emoji {
   line-height: 44px;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  color: white; }
+  color: white;
+  font-size: 18px; }
 
 .group-info-input {
   background: white; }
