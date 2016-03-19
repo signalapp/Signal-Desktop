@@ -251,8 +251,10 @@
                             id: message.get('conversationId')
                         });
 
-                        // notify frontend listeners
-                        conversation.trigger('read', message);
+                        if (conversation) {
+                            // notify frontend listeners
+                            conversation.trigger('read', message);
+                        }
                     });
                 }
             });
