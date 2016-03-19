@@ -37,13 +37,15 @@ body {
 .hide {
   display: none; }
 
-#header h1 {
-  margin: 0;
-  line-height: 64px;
-  padding-left: 20px;
-  font-size: 22px;
-  color: #ffffff;
-  font-weight: normal; }
+#header {
+  background-color: #2090ea; }
+  #header h1 {
+    margin: 0;
+    line-height: 64px;
+    padding-left: 20px;
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: normal; }
 
 .title-text {
   height: 36px;
@@ -433,7 +435,6 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 
 .gutter {
   color: #000000;
-  background-color: #2090ea;
   float: left;
   width: 300px; }
   .gutter .content {
@@ -459,12 +460,10 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   .socket-status .closed {
     background: url("/images/error_red.png") no-repeat left center; }
 
-.conversation-stack {
-  padding-left: 300px; }
-  .conversation-stack .conversation {
-    display: none; }
-  .conversation-stack .conversation:first-child {
-    display: block; }
+.conversation-stack .conversation {
+  display: none; }
+.conversation-stack .conversation:first-child {
+  display: block; }
 
 .conversation-header {
   height: 64px;
@@ -496,7 +495,7 @@ input.search {
 
 .tool-bar {
   background: #f3f3f3;
-  padding: 2px; }
+  padding: 2px 1px 1px; }
   .tool-bar button.show-new-conversation {
     float: right;
     height: 36px;
@@ -584,7 +583,7 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
-  padding-top: 100px;
+  padding: 100px 36px;
   color: #aaa; }
 
 .contact.placeholder {
