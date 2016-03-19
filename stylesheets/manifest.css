@@ -483,7 +483,8 @@ input.search {
   width: 270px;
   background: rgba(255, 255, 255, 0.2);
   margin: 10px;
-  padding: 5px; }
+  padding: 5px 7px;
+  border-radius: 5px; }
   .tool-bar input.search::-webkit-input-placeholder {
     color: white; }
   .tool-bar input.search.active, .tool-bar input.search:active, .tool-bar input.search:focus {

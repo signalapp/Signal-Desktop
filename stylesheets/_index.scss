@@ -123,7 +123,8 @@ input.search {
     width: 270px;
     background: rgba(255,255,255,0.2);
     margin: 10px;
-    padding: 5px;
+    padding: 5px 7px;
+    border-radius: 5px;
 
     &::-webkit-input-placeholder {
       color: white;
