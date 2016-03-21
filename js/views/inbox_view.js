@@ -105,12 +105,26 @@
         },
         events: {
             'click': 'closeMenu',
+            'click #header': 'focusHeader',
+            'click .conversation': 'focusConversation',
             'click .global-menu .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
             'click .settings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage'
+        },
+        focusConversation: function(e) {
+            if (e && this.$(e.target).hasClass('placeholder')) {
+                return;
+            }
+
+            this.$('#header').removeClass('active');
+            this.$('.conversation-stack').removeClass('inactive');
+        },
+        focusHeader: function() {
+            this.$('.conversation-stack').addClass('inactive');
+            this.$('#header').addClass('active');
         },
         reloadBackgroundPage: function() {
             chrome.runtime.reload();
@@ -133,6 +147,7 @@
             this.searchView.hideHints();
             conversation = ConversationController.create(conversation);
             this.conversation_stack.open(conversation);
+            this.focusConversation();
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();

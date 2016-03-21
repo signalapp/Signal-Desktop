@@ -29,7 +29,14 @@ body {
 }
 
 #header {
-  background-color: $blue;
+  background-color: $grey_l;
+  color: black;
+
+  &.active {
+    background-color: $blue;
+    color: white;
+  }
+
   h1 {
     margin: 0;
     line-height: 64px;
@@ -38,7 +45,6 @@ body {
     color: #ffffff;
     font-weight: normal;
   }
-
 }
 
 .title-text {

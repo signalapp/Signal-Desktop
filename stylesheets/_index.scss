@@ -70,6 +70,10 @@
     position: relative;
   }
 }
+.inactive .conversation-header {
+  background: $grey_l !important;
+  color: $grey_d;
+}
 
 input.search {
   border: none;
@@ -90,7 +94,7 @@ input.search {
 
 .tool-bar {
   background: $grey_l;
-  padding: 2px 1px 1px;
+  padding: 2px;
 
   button.show-new-conversation {
     float: right;

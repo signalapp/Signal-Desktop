@@ -38,7 +38,11 @@ body {
   display: none; }
 
 #header {
-  background-color: #2090ea; }
+  background-color: #f3f3f3;
+  color: black; }
+  #header.active {
+    background-color: #2090ea;
+    color: white; }
   #header h1 {
     margin: 0;
     line-height: 64px;
@@ -480,6 +484,10 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     line-height: 44px;
     position: relative; }
 
+.inactive .conversation-header {
+  background: #f3f3f3 !important;
+  color: #454545; }
+
 input.search {
   border: none;
   padding: 0;
@@ -496,7 +504,7 @@ input.search {
 
 .tool-bar {
   background: #f3f3f3;
-  padding: 2px 1px 1px; }
+  padding: 2px; }
   .tool-bar button.show-new-conversation {
     float: right;
     height: 36px;
