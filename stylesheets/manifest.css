@@ -39,7 +39,8 @@ body {
 
 #header {
   background-color: #f3f3f3;
-  color: #454545; }
+  color: #454545;
+  transition: background-color 0.5s; }
   #header.active {
     background-color: #2090ea;
     color: white; }
@@ -473,7 +474,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   height: 64px;
   text-align: center;
   color: white;
-  background: #999999; }
+  background-color: #999999;
+  transition: background-color 0.5s; }
   .conversation-header .avatar {
     margin-bottom: -30px;
     border: solid 2px white;
@@ -484,7 +486,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     position: relative; }
 
 .inactive .conversation-header {
-  background: #f3f3f3 !important;
+  background-color: #f3f3f3 !important;
   color: #454545; }
 
 input.search {

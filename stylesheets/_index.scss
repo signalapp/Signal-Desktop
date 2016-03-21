@@ -58,7 +58,8 @@
   height: 64px;
   text-align: center;
   color: white;
-  background: #999999;
+  background-color: #999999;
+  transition: background-color 0.5s;
 
   .avatar {
     margin-bottom: -30px;
@@ -71,7 +72,7 @@
   }
 }
 .inactive .conversation-header {
-  background: $grey_l !important;
+  background-color: $grey_l !important;
   color: $grey_d;
 }
 

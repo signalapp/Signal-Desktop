@@ -31,6 +31,7 @@ body {
 #header {
   background-color: $grey_l;
   color: $grey_d;
+  transition: background-color 0.5s;
 
   &.active {
     background-color: $blue;
