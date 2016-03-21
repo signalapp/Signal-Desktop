@@ -352,19 +352,26 @@
         }
 
         var title = this.get('name');
-        var color = '#999999';
-        if (this.isPrivate() && title) {
-            color = COLORS[Math.abs(this.hashCode()) % 15];
+        var color;
+        if (this.isPrivate()) {
+            if (title) {
+                color = COLORS[Math.abs(this.hashCode()) % 15];
+            } else {
+                color = '#999999';
+            }
+        } else {
+            color = '#2090ea';
         }
 
         if (this.avatarUrl) {
             return { url: this.avatarUrl, color: color };
         } else if (this.isPrivate()) {
+            var content;
             if (!title) {
-                return { content: '#', color: color };
+                content = '#';
             }
-            var initials = title.trim()[0];
-            return { content: initials, color: color };
+            var content = title.trim()[0];
+            return { content: content, color: color };
         } else {
             return { url: '/images/group_default.png', color: color };
         }
