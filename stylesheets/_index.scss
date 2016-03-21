@@ -26,7 +26,7 @@
 
 .socket-status {
   float: right;
-  line-height: $header-height;
+  line-height: $button-height;
 
   * {
     display: inline;
@@ -55,7 +55,7 @@
 }
 
 .conversation-header {
-  height: 64px;
+  height: $header-height;
   text-align: center;
   color: white;
   background-color: #999999;
@@ -99,8 +99,8 @@ input.search {
 
   button.show-new-conversation {
     float: right;
-    height: $header-height;
-    width: $header-height;
+    height: $button-height;
+    width: $button-height;
     border: 0;
     outline: 0;
     font: 300 36px $roboto;
@@ -113,7 +113,7 @@ input.search {
   }
 
   input.search {
-    height: $header-height;
+    height: $button-height;
     width: 100%;
     padding: 10px;
     border: solid 1px $grey_l;

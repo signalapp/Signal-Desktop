@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.KeyVerificationView = Whisper.View.extend({
-        className: 'key-verification',
+        className: 'key-verification panel',
         templateName: 'key-verification',
         events: {
             'click .back': 'goBack'

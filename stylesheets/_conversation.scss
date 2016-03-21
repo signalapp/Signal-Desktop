@@ -1,6 +1,6 @@
 .conversation-title {
   display: block;
-  line-height: $header-height;
+  line-height: $button-height;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -20,11 +20,11 @@
   height: 100%;
 
   .panel {
-    height: 100%;
+    height: calc(100% - #{$header-height});
     display: flex;
     flex-direction: column;
 
-    .discussion-container {
+    .container {
       flex-grow: 1;
       position: relative;
 
@@ -45,12 +45,6 @@
   }
 }
 
-.group-member-list,
-.new-group-update,
-.message-detail, .key-verification {
-  height: 100%;
-}
-
 .key-verification {
   background: white;
 
@@ -67,16 +61,9 @@
   .placeholder {
     font-weight: bold;
   }
-  .container {
-    height: calc(100% - (#{$header-height} + 5px + 1px + 4px));
-  }
 }
 
 .message-detail {
-  .container {
-    height: calc(100% - (#{$header-height} + 4px));
-  }
-
   .key-conflict-dialogue,
   .hasRetry {
     background: #F3F3A7;
@@ -236,14 +223,8 @@
   font-size: smaller;
 }
 
-.group-member-list {
-  .container {
-    height: calc(100% - #{$header-height});
-  }
- }
-
 .new-group-update {
-  .container { height: calc(100% - #{$header-height} - 85px); }
+  .container { height: calc(100% - #{$button-height} - 85px); }
 }
 
 .private .entry .avatar,
@@ -264,7 +245,7 @@
   margin-right: 3px;
 }
 
-.message-detail,
+.message-container,
 .message-list {
   list-style: none;
 
@@ -559,14 +540,10 @@
     }
   }
 
-  form, input, textarea {
-    height: 100%;
-  }
-
   .send-message {
     display: block;
     width: calc(100% - #{$button-width});
-    min-height: $header-height - 1px;
+    min-height: $button-height - 1px;
     max-height: 100px;
     padding: 10px;
     border: 0;

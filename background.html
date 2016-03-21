@@ -42,40 +42,40 @@
     <p> {{ content }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
-    <div class='panel'>
-      <div class='conversation-header'
-          style='background-color: {{ avatar.color }}'>
-          <div class='header-buttons'>
-            <div class='vertical-align'>
-              <div class='conversation-menu menu'>
-                <button class='hamburger'></button>
-                <ul class='menu-list'>
-                    {{#group}}
-                        <li><a class='view-members'>{{ view-members }}</a></li>
-                        <!-- <li><a class='update-group'>Update group</a></li> -->
-                        <!-- <li><a class='leave-group'>Leave group</a></li> -->
-                    {{/group}}
-                    {{^group}}
-                        <li><a class='end-session'>{{ end-session }}</a></li>
-                        <li><a class='verify-identity'>{{ verify-identity }}</a></li>
-                    {{/group}}
-                    <li><a class='destroy'>{{ destroy }}</a></li>
-                </ul>
-              </div>
+    <div class='conversation-header'
+        style='background-color: {{ avatar.color }}'>
+        <div class='header-buttons'>
+          <div class='vertical-align'>
+            <button class='back hide'></button>
+            <div class='conversation-menu menu'>
+              <button class='hamburger'></button>
+              <ul class='menu-list'>
+                  {{#group}}
+                      <li><a class='view-members'>{{ view-members }}</a></li>
+                      <!-- <li><a class='update-group'>Update group</a></li> -->
+                      <!-- <li><a class='leave-group'>Leave group</a></li> -->
+                  {{/group}}
+                  {{^group}}
+                      <li><a class='end-session'>{{ end-session }}</a></li>
+                      <li><a class='verify-identity'>{{ verify-identity }}</a></li>
+                  {{/group}}
+                  <li><a class='destroy'>{{ destroy }}</a></li>
+              </ul>
             </div>
           </div>
-          <span class='conversation-title'>
-            {{ #name }}
-              <span class='conversation-name'>{{ name }}</span>
-            {{ /name }}
-            {{ #number }}
-              <span class='conversation-number'>{{ number }}</span>
-            {{ /number }}
-          </span>
-          {{> avatar }}
-      </div>
-
-      <div class='discussion-container'>
+        </div>
+        <span class='conversation-title'>
+          {{ #name }}
+            <span class='conversation-name'>{{ name }}</span>
+          {{ /name }}
+          {{ #number }}
+            <span class='conversation-number'>{{ number }}</span>
+          {{ /number }}
+        </span>
+        {{> avatar }}
+    </div>
+    <div class='main panel'>
+      <div class='discussion-container container'>
           <div class='bar-container hide'>
             <div class='bar active progress-bar-striped progress-bar'></div>
           </div>
@@ -191,10 +191,6 @@
       Sorry, your attachment has a type, {{type}}, that is not currently supported.
   </script>
   <script type='text/x-tmpl-mustache' id='message-detail'>
-    <div class='conversation-header'>
-        <button class='back'></button>
-        <span class='conversation-title'>{{ title }}</span>
-    </div>
     <div class='container'>
       {{ #hasRetry }}
         <div class='hasRetry clearfix'>
@@ -235,19 +231,9 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='group-member-list'>
-    <div class='conversation-header'>
-        <button class='back'></button>
-        <span class='conversation-title'>{{ members }}</span>
-    </div>
-    <div class='container'>
-      <div class='scrollable'></div>
-    </div>
+    <div class='container'></div>
   </script>
   <script type='text/x-tmpl-mustache' id='key-verification'>
-    <div class='conversation-header'>
-        <button class='back'></button>
-        <span class='conversation-title'>{{ verifyIdentity }}</span>
-    </div>
     <div class='container'>
       <p> {{theirIdentity}} </p>
       {{ ^their_key }}

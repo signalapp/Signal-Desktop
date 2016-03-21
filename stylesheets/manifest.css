@@ -51,11 +51,6 @@ body {
     font-size: 22px;
     font-weight: normal; }
 
-.title-text {
-  height: 36px;
-  line-height: 36px;
-  font-family: Roboto-Light, "Helvetica Neue", Arial, Helvetica, sans-serif; }
-
 .conversation-header button,
 .title-bar button {
   width: 36px;
@@ -68,11 +63,11 @@ body {
 button {
   cursor: pointer; }
 
-button.back {
-  float: left;
+.inactive button.back {
   background: url("/images/back.png") no-repeat center center; }
-  button.back + .title-text {
-    text-indent: -36px; }
+
+button.back {
+  background: url("/images/back_white.png") no-repeat center center; }
 
 ::-webkit-scrollbar {
   width: 10px; }
@@ -642,15 +637,15 @@ input.search {
   background-color: #ffffff;
   height: 100%; }
   .conversation .panel {
-    height: 100%;
+    height: calc(100% - 64px);
     display: flex;
     flex-direction: column; }
-    .conversation .panel .discussion-container {
+    .conversation .panel .container {
       flex-grow: 1;
       position: relative; }
-      .conversation .panel .discussion-container .bar-container {
+      .conversation .panel .container .bar-container {
         height: 5px; }
-      .conversation .panel .discussion-container .message-list {
+      .conversation .panel .container .message-list {
         position: absolute;
         top: 0;
         height: 100%;
@@ -658,11 +653,6 @@ input.search {
         margin: 0;
         padding: 2em 20px 0;
         overflow-y: auto; }
-
-.group-member-list,
-.new-group-update,
-.message-detail, .key-verification {
-  height: 100%; }
 
 .key-verification {
   background: white; }
@@ -675,11 +665,7 @@ input.search {
     font-family: monospace; }
   .key-verification .placeholder {
     font-weight: bold; }
-  .key-verification .container {
-    height: calc(100% - (36px + 5px + 1px + 4px)); }
 
-.message-detail .container {
-  height: calc(100% - (36px + 4px)); }
 .message-detail .key-conflict-dialogue,
 .message-detail .hasRetry {
   background: #F3F3A7;
@@ -797,9 +783,6 @@ input.search {
 .group-update {
   font-size: smaller; }
 
-.group-member-list .container {
-  height: calc(100% - 36px); }
-
 .new-group-update .container {
   height: calc(100% - 36px - 85px); }
 
@@ -818,14 +801,14 @@ input.search {
   font-size: smaller;
   margin-right: 3px; }
 
-.message-detail,
+.message-container,
 .message-list {
   list-style: none; }
-  .message-detail li,
+  .message-container li,
   .message-list li {
     max-width: 800px;
     margin: 0 auto 16px; }
-    .message-detail li::after,
+    .message-container li::after,
     .message-list li::after {
       visibility: hidden;
       display: block;
@@ -833,7 +816,7 @@ input.search {
       content: " ";
       clear: both;
       height: 0; }
-  .message-detail .bubble,
+  .message-container .bubble,
   .message-list .bubble {
     position: relative;
     left: -2px;
@@ -846,56 +829,56 @@ input.search {
     margin-left: 8px;
     max-width: 30em; }
     @media (max-width: 899px) {
-      .message-detail .bubble,
+      .message-container .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px); } }
-    .message-detail .bubble .content,
+    .message-container .bubble .content,
     .message-list .bubble .content {
       -webkit-user-select: text;
       white-space: pre-wrap; }
-      .message-detail .bubble .content a,
+      .message-container .bubble .content a,
       .message-list .bubble .content a {
         word-break: break-all; }
-    .message-detail .bubble p,
+    .message-container .bubble p,
     .message-list .bubble p {
       margin: 0; }
-  .message-detail .meta,
+  .message-container .meta,
   .message-list .meta {
     margin-top: 3px;
     float: right;
     cursor: pointer; }
-    .message-detail .meta .timestamp, .message-detail .meta .status,
+    .message-container .meta .timestamp, .message-container .meta .status,
     .message-list .meta .timestamp,
     .message-list .meta .status {
       opacity: 0.5; }
-    .message-detail .meta:hover .timestamp, .message-detail .meta:hover .status,
+    .message-container .meta:hover .timestamp, .message-container .meta:hover .status,
     .message-list .meta:hover .timestamp,
     .message-list .meta:hover .status {
       opacity: 1.0; }
-    .message-detail .meta:hover .timestamp,
+    .message-container .meta:hover .timestamp,
     .message-list .meta:hover .timestamp {
       text-decoration: underline; }
-  .message-detail .status,
+  .message-container .status,
   .message-list .status {
     float: right;
     width: 18px;
     height: 1em; }
-  .message-detail .sent .status,
+  .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;
     background: url("/images/check-white.png"); }
-  .message-detail .delivered .status,
+  .message-container .delivered .status,
   .message-list .delivered .status {
     display: inline-block;
     background: url("/images/double-check-white.png"); }
-  .message-detail .pending .status,
+  .message-container .pending .status,
   .message-list .pending .status {
     display: inline-block;
     background: none; }
-    .message-detail .pending .status:before,
+    .message-container .pending .status:before,
     .message-list .pending .status:before {
       content: '...'; }
-  .message-detail .error .status,
+  .message-container .error .status,
   .message-list .error .status {
     position: relative;
     display: inline-block;
@@ -904,102 +887,102 @@ input.search {
     opacity: 1 !important;
     background: url("/images/error_red.png") no-repeat;
     cursor: pointer; }
-  .message-detail .incoming .avatar, .message-detail .incoming .bubble,
+  .message-container .incoming .avatar, .message-container .incoming .bubble,
   .message-list .incoming .avatar,
   .message-list .incoming .bubble {
     float: left; }
-  .message-detail .incoming .bubble,
+  .message-container .incoming .bubble,
   .message-list .incoming .bubble {
     color: #454545;
     background-color: #f3f3f3; }
-    .message-detail .incoming .bubble::before,
+    .message-container .incoming .bubble::before,
     .message-list .incoming .bubble::before {
       left: -10px;
       border-right: 10px solid white; }
-    .message-detail .incoming .bubble::after,
+    .message-container .incoming .bubble::after,
     .message-list .incoming .bubble::after {
       left: -8px;
       border-right: 8px solid #f3f3f3; }
-  .message-detail .outgoing .avatar, .message-detail .outgoing .bubble,
+  .message-container .outgoing .avatar, .message-container .outgoing .bubble,
   .message-list .outgoing .avatar,
   .message-list .outgoing .bubble {
     float: right; }
-  .message-detail .outgoing .bubble,
+  .message-container .outgoing .bubble,
   .message-list .outgoing .bubble {
     clear: left;
     color: white;
     background-color: #2090ea; }
-    .message-detail .outgoing .bubble .meta,
+    .message-container .outgoing .bubble .meta,
     .message-list .outgoing .bubble .meta {
       color: white; }
-    .message-detail .outgoing .bubble::before,
+    .message-container .outgoing .bubble::before,
     .message-list .outgoing .bubble::before {
       right: -10px;
       border-left: 10px solid white; }
-    .message-detail .outgoing .bubble::after,
+    .message-container .outgoing .bubble::after,
     .message-list .outgoing .bubble::after {
       right: -8px;
       border-left: 8px solid #2090ea; }
-    .message-detail .outgoing .bubble .attachments a, .message-detail .outgoing .bubble .content a,
+    .message-container .outgoing .bubble .attachments a, .message-container .outgoing .bubble .content a,
     .message-list .outgoing .bubble .attachments a,
     .message-list .outgoing .bubble .content a {
       color: #f3f3f3; }
-    .message-detail .outgoing .bubble .content::selection, .message-detail .outgoing .bubble .content a::selection,
+    .message-container .outgoing .bubble .content::selection, .message-container .outgoing .bubble .content a::selection,
     .message-list .outgoing .bubble .content::selection,
     .message-list .outgoing .bubble .content a::selection {
       color: #454545;
       background: white; }
-    .message-detail .outgoing .bubble .content::-moz-selection, .message-detail .outgoing .bubble .content a::-moz-selection,
+    .message-container .outgoing .bubble .content::-moz-selection, .message-container .outgoing .bubble .content a::-moz-selection,
     .message-list .outgoing .bubble .content::-moz-selection,
     .message-list .outgoing .bubble .content a::-moz-selection {
       color: #454545;
       background: white; }
-  .message-detail .control .bubble .content,
+  .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }
-  .message-detail .control .bubble::before, .message-detail .control .bubble::after,
+  .message-container .control .bubble::before, .message-container .control .bubble::after,
   .message-list .control .bubble::before,
   .message-list .control .bubble::after {
     display: none; }
-  .message-detail .attachments a,
+  .message-container .attachments a,
   .message-list .attachments a {
     font-style: italic;
     display: block;
     padding: 1em;
     background-color: #ccc; }
-  .message-detail .attachments img, .message-detail .attachments audio, .message-detail .attachments video,
+  .message-container .attachments img, .message-container .attachments audio, .message-container .attachments video,
   .message-list .attachments img,
   .message-list .attachments audio,
   .message-list .attachments video {
     max-width: 100%;
     max-height: 300px; }
-  .message-detail .attachments video,
+  .message-container .attachments video,
   .message-list .attachments video {
     background: black;
     min-height: 300px; }
-  .message-detail .attachments img,
+  .message-container .attachments img,
   .message-list .attachments img {
     cursor: pointer; }
-  .message-detail .outgoing .avatar,
+  .message-container .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
-  .message-detail .avatar,
+  .message-container .avatar,
   .message-list .avatar {
     height: 36px;
     width: 36px;
     line-height: 36px; }
-  .message-detail .end-session,
+  .message-container .end-session,
   .message-list .end-session {
     font: small;
     font-style: italic;
     opacity: 0.8; }
-  .message-detail .bubble .error-message,
+  .message-container .bubble .error-message,
   .message-list .bubble .error-message {
     font-style: italic; }
-  .message-detail .key-conflict,
+  .message-container .key-conflict,
   .message-list .key-conflict {
     padding: 15px 10px; }
-    .message-detail .key-conflict button,
+    .message-container .key-conflict button,
     .message-list .key-conflict button {
       margin-top: 5px; }
 
@@ -1050,8 +1033,6 @@ input.search {
     cursor: pointer; }
     .bottom-bar .send-btn::before {
       content: '+'; }
-  .bottom-bar form, .bottom-bar input, .bottom-bar textarea {
-    height: 100%; }
   .bottom-bar .send-message {
     display: block;
     width: calc(100% - 36px);

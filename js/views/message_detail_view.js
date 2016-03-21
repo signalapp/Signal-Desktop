@@ -28,7 +28,7 @@
     });
 
     Whisper.MessageDetailView = Whisper.View.extend({
-        className: 'message-detail',
+        className: 'message-detail panel',
         templateName: 'message-detail',
         initialize: function(options) {
             this.view = new Whisper.MessageView({model: this.model});

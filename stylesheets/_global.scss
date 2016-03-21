@@ -40,24 +40,18 @@ body {
 
   h1 {
     margin: 0;
-    line-height: 64px;
+    line-height: $header-height;
     padding-left: 20px;
     font-size: 22px;
     font-weight: normal;
   }
 }
 
-.title-text {
-  height: $header-height;
-  line-height: $header-height;
-  font-family: $roboto-light;
-}
-
 .conversation-header button,
 .title-bar button {
-  width: $header-height;
-  height: $header-height;
-  line-height: $header-height;
+  width: $button-height;
+  height: $button-height;
+  line-height: $button-height;
   padding: 0;
   border: 0;
   outline: 0;
@@ -65,13 +59,11 @@ body {
 
 button { cursor: pointer; }
 
-button.back {
-  float: left;
+.inactive button.back {
   background: url('/images/back.png') no-repeat center center;
-
-  & + .title-text {
-    text-indent: -$header-height;
-  }
+}
+button.back {
+  background: url('/images/back_white.png') no-repeat center center;
 }
 
 ::-webkit-scrollbar {
@@ -91,7 +83,7 @@ button.back {
   height: 0;
 
   .vertical-align {
-    height: 64px;
+    height: $header-height;
     vertical-align: middle;
     display: table-cell;
   }
@@ -106,8 +98,8 @@ button.back {
   float: right;
 
   .hamburger {
-    width: $header-height;
-    height: $header-height;
+    width: $button-height;
+    height: $button-height;
     background: url('/images/menu.png') no-repeat center;
     vertical-align: middle;
 

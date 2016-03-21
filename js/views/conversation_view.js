@@ -95,7 +95,8 @@
             'click .choose-file': 'focusMessageField',
             'loadMore .message-list': 'fetchMessages',
             'focus .send-message': 'focusBottomBar',
-            'blur .send-message': 'unfocusBottomBar'
+            'blur .send-message': 'unfocusBottomBar',
+            'click .back': 'resetPanel'
         },
 
         unfocusBottomBar: function() {
@@ -179,13 +180,16 @@
         },
 
         listenBack: function(view) {
-            this.$('.panel').hide();
-            view.$el.prependTo(this.el);
-            this.listenToOnce(view, 'back', function(e) {
-                view.remove();
-                this.$('.panel').show();
-                this.$el.trigger('force-resize');
-            }.bind(this));
+            this.panel = view;
+            this.$('.main.panel, .menu').hide();
+            this.$('.back').show();
+            view.$el.insertBefore(this.$('.panel'));
+        },
+        resetPanel: function() {
+            this.panel.remove();
+            this.$('.main.panel, .menu').show();
+            this.$('.back').hide();
+            this.$el.trigger('force-resize');
         },
 
         closeMenu: function(e) {
@@ -283,7 +287,7 @@
 
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
-                    $attachmentPreviews.outerHeight() + 10);
+                    $attachmentPreviews.outerHeight() + 12);
 
             this.view.scrollToBottomIfNeeded();
         },

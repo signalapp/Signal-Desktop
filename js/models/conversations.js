@@ -366,12 +366,10 @@
         if (this.avatarUrl) {
             return { url: this.avatarUrl, color: color };
         } else if (this.isPrivate()) {
-            var content;
-            if (!title) {
-                content = '#';
-            }
-            var content = title.trim()[0];
-            return { content: content, color: color };
+            return {
+                color: color,
+                content: title ? title.trim()[0] : '#'
+            };
         } else {
             return { url: '/images/group_default.png', color: color };
         }

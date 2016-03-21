@@ -6,7 +6,7 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.GroupMemberList = Whisper.View.extend({
-        className: 'group-member-list',
+        className: 'group-member-list panel',
         templateName: 'group-member-list',
         initialize: function() {
             this.render();
@@ -15,7 +15,7 @@
                 className: 'members'
             });
             this.member_list_view.render();
-            this.$('.scrollable').append(this.member_list_view.el);
+            this.$('.container').append(this.member_list_view.el);
         },
         render_attributes: {
             members: i18n('members')
