@@ -72,6 +72,9 @@
             }.bind(this));
 
             this.fetchMessages();
+
+            this.$('.send-message').focus(this.focusBottomBar.bind(this));
+            this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
         },
 
         events: {
@@ -90,7 +93,16 @@
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
             'click .choose-file': 'focusMessageField',
-            'loadMore .message-list': 'fetchMessages'
+            'loadMore .message-list': 'fetchMessages',
+            'focus .send-message': 'focusBottomBar',
+            'blur .send-message': 'unfocusBottomBar'
+        },
+
+        unfocusBottomBar: function() {
+            this.$('.bottom-bar form').removeClass('active');
+        },
+        focusBottomBar: function() {
+            this.$('.bottom-bar form').addClass('active');
         },
 
         onOpened: function() {

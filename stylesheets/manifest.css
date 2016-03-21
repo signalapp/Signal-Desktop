@@ -1001,9 +1001,11 @@ input.search {
       margin-top: 5px; }
 
 .bottom-bar {
-  padding: 5px 0;
+  padding: 5px 1px 5px 0;
   height: 50px;
   background: #f3f3f3; }
+  .bottom-bar form.active {
+    outline: solid 1px #2090ea; }
   .bottom-bar form.send {
     background: #ffffff; }
   .bottom-bar button, .bottom-bar input, .bottom-bar textarea {
