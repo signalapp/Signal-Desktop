@@ -722,7 +722,7 @@ input.search {
   background: #2090ea; }
 .message-detail .message-container {
   background: white;
-  padding: 1em 0; }
+  padding: 20px; }
   .message-detail .message-container .sender {
     display: none; }
 .message-detail .info {
