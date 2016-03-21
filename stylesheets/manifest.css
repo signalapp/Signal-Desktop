@@ -38,12 +38,12 @@ body {
   display: none; }
 
 #header {
-  background-color: #f3f3f3;
-  color: #454545;
+  background-color: #2090ea;
+  color: white;
   transition: background-color 0.5s; }
-  #header.active {
-    background-color: #2090ea;
-    color: white; }
+  #header.inactive {
+    background-color: #f3f3f3;
+    color: #454545; }
   #header h1 {
     margin: 0;
     line-height: 64px;
@@ -88,6 +88,9 @@ button.back {
     height: 64px;
     vertical-align: middle;
     display: table-cell; }
+
+.inactive .menu .hamburger {
+  background: url("/images/menu_black.png") no-repeat center; }
 
 .menu {
   position: relative;

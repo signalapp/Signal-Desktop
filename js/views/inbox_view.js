@@ -119,12 +119,12 @@
                 return;
             }
 
-            this.$('#header').removeClass('active');
+            this.$('#header').addClass('inactive');
             this.$('.conversation-stack').removeClass('inactive');
         },
         focusHeader: function() {
             this.$('.conversation-stack').addClass('inactive');
-            this.$('#header').addClass('active');
+            this.$('#header').removeClass('inactive');
         },
         reloadBackgroundPage: function() {
             chrome.runtime.reload();

@@ -29,13 +29,13 @@ body {
 }
 
 #header {
-  background-color: $grey_l;
-  color: $grey_d;
+  background-color: $blue;
+  color: white;
   transition: background-color 0.5s;
 
-  &.active {
-    background-color: $blue;
-    color: white;
+  &.inactive {
+    background-color: $grey_l;
+    color: $grey_d;
   }
 
   h1 {
@@ -95,6 +95,10 @@ button.back {
     vertical-align: middle;
     display: table-cell;
   }
+}
+
+.inactive .menu .hamburger {
+  background: url('/images/menu_black.png') no-repeat center;
 }
 
 .menu {
