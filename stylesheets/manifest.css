@@ -173,7 +173,6 @@ img.emoji {
   display: inline-block;
   height: 44px;
   width: 44px;
-  background: #f3f3f3 url("/images/default.png") no-repeat center;
   border-radius: 50%;
   background-size: cover;
   vertical-align: middle;

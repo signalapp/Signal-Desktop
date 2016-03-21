@@ -139,7 +139,12 @@
   </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
     <span class='avatar'
-          style='background-image: url("{{ avatar.url }}"); background-color: {{ avatar.color }}'>
+          {{ #avatar.url }}
+            style='background-image: url("{{ avatar.url }}");'>
+          {{ /avatar.url }}
+          {{ ^avatar.url }}
+            style='background-color: {{ avatar.color }};'>
+          {{ /avatar.url }}
         {{ avatar.content }}
     </span>
   </script>
