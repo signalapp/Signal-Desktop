@@ -157,9 +157,11 @@
             new Whisper.DebugLogView().$el.appendTo(this.el);
         },
         closeMenu: function(e) {
-            if (e && !$(e.target).hasClass('hamburger')) {
-                this.$('.global-menu .menu-list').hide();
+            if (e && this.$(e.target).parent('.global-menu').length > 0 ) {
+                return;
             }
+
+            this.$('.global-menu .menu-list').hide();
         }
     });
 
