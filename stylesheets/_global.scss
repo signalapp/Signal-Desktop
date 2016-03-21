@@ -30,7 +30,7 @@ body {
 
 #header {
   background-color: $grey_l;
-  color: black;
+  color: $grey_d;
 
   &.active {
     background-color: $blue;
@@ -42,7 +42,6 @@ body {
     line-height: 64px;
     padding-left: 20px;
     font-size: 22px;
-    color: #ffffff;
     font-weight: normal;
   }
 }

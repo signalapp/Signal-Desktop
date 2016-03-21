@@ -39,7 +39,7 @@ body {
 
 #header {
   background-color: #f3f3f3;
-  color: black; }
+  color: #454545; }
   #header.active {
     background-color: #2090ea;
     color: white; }
@@ -48,7 +48,6 @@ body {
     line-height: 64px;
     padding-left: 20px;
     font-size: 22px;
-    color: #ffffff;
     font-weight: normal; }
 
 .title-text {
@@ -439,7 +438,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   overflow: auto; }
 
 .gutter {
-  color: #000000;
+  color: #454545;
   float: left;
   width: 300px; }
   .gutter .content {
