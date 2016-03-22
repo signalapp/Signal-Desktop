@@ -460,10 +460,12 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   .socket-status .closed {
     background: url("/images/error_red.png") no-repeat left center; }
 
-.conversation-stack .conversation {
-  display: none; }
-.conversation-stack .conversation:first-child {
-  display: block; }
+.conversation-stack {
+  padding-left: 300px; }
+  .conversation-stack .conversation {
+    display: none; }
+  .conversation-stack .conversation:first-child {
+    display: block; }
 
 .conversation-header {
   height: 64px;
