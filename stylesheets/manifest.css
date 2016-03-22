@@ -77,8 +77,11 @@ button.back {
   border-radius: 10px; }
 
 .header-buttons {
-  float: right;
   height: 0; }
+  .header-buttons.left {
+    float: left; }
+  .header-buttons.right {
+    float: right; }
   .header-buttons .vertical-align {
     height: 64px;
     vertical-align: middle;

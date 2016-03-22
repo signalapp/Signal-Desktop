@@ -79,7 +79,12 @@ button.back {
 }
 
 .header-buttons {
-  float: right;
+  &.left {
+    float: left;
+  }
+  &.right {
+    float: right;
+  }
   height: 0;
 
   .vertical-align {
