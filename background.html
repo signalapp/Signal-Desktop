@@ -239,9 +239,11 @@
       {{ ^their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
       {{ /their_key }}
-      <div class='key'>
-        {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
-      </div>
+      {{ #has_their_key }}
+        <div class='key'>
+          {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
+        </div>
+      {{ /has_their_key }}
       <p> {{yourIdentity}} </p>
       <div class='key'>
         {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}

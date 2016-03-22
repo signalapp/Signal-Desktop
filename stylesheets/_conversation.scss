@@ -47,6 +47,7 @@
 
 .key-verification {
   background: white;
+  padding: 20px 10px;
 
   p {
     padding: 1em;
@@ -57,6 +58,11 @@
   }
   .key {
     font-family: monospace;
+    padding: 10px;
+    margin: 10px;
+    background: $grey_l;
+    border: solid 1px $grey_l2;
+    border-radius: 5px;
   }
   .placeholder {
     font-weight: bold;

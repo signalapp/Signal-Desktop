@@ -653,14 +653,20 @@ input.search {
         overflow-y: auto; }
 
 .key-verification {
-  background: white; }
+  background: white;
+  padding: 20px 10px; }
   .key-verification p {
     padding: 1em; }
   .key-verification .key, .key-verification .placeholder {
     padding: 0 1em;
     -webkit-user-select: text; }
   .key-verification .key {
-    font-family: monospace; }
+    font-family: monospace;
+    padding: 10px;
+    margin: 10px;
+    background: #f3f3f3;
+    border: solid 1px #d9d9d9;
+    border-radius: 5px; }
   .key-verification .placeholder {
     font-weight: bold; }
 

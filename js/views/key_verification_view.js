@@ -31,7 +31,8 @@
                 theirIdentity: i18n('theirIdentity'),
                 their_key_unknown: i18n('theirIdentityUnknown'),
                 your_key: this.splitKey(this.model.your_key),
-                their_key: this.splitKey(this.model.their_key)
+                their_key: this.splitKey(this.model.their_key),
+                has_their_key: this.model.their_key !== undefined
             };
         }
     });
