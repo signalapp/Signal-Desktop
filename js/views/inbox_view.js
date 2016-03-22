@@ -115,7 +115,7 @@
             'click .restart-signal': 'reloadBackgroundPage'
         },
         focusConversation: function(e) {
-            if (e && this.$(e.target).hasClass('placeholder')) {
+            if (e && this.$(e.target).closest('.placeholder').length) {
                 return;
             }
 
