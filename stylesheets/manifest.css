@@ -997,7 +997,7 @@ input.search {
 
 .bottom-bar {
   box-sizing: content-box;
-  padding: 5px 1px 5px 0;
+  padding: 5px 5px 5px 0;
   background: #f3f3f3; }
   .bottom-bar form.active {
     outline: solid 1px #2090ea; }
