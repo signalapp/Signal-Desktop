@@ -454,7 +454,6 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   .socket-status * {
     display: inline;
     padding-left: 20px;
-    border-radius: 100%;
     vertical-align: middle; }
   .socket-status .connecting .icon {
     background-color: #2090ea; }
