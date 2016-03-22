@@ -125,6 +125,7 @@
         focusHeader: function() {
             this.$('.conversation-stack').addClass('inactive');
             this.$('#header').removeClass('inactive');
+            this.$('.conversation:first .menu').trigger('close');
         },
         reloadBackgroundPage: function() {
             chrome.runtime.reload();

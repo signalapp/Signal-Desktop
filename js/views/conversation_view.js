@@ -96,7 +96,8 @@
             'loadMore .message-list': 'fetchMessages',
             'focus .send-message': 'focusBottomBar',
             'blur .send-message': 'unfocusBottomBar',
-            'click .back': 'resetPanel'
+            'click .back': 'resetPanel',
+            'close .menu': 'closeMenu'
         },
 
         unfocusBottomBar: function() {
