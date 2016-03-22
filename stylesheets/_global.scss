@@ -142,8 +142,6 @@ button.back {
 
 .file-input {
   position: relative;
-  box-sizing: content-box;
-  border: 1px transparent solid;
   .choose-file {
     cursor: pointer;
   }
@@ -185,7 +183,7 @@ button.back {
 }
 
 .dropoff {
-  border: 1px #2090ea dashed;
+  outline: solid 1px #2090ea;
 }
 
 img.emoji {

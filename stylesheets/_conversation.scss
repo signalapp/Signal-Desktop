@@ -470,9 +470,9 @@
 }
 
 .bottom-bar {
+  box-sizing: content-box;
   $button-width: 36px;
   padding: 5px 1px 5px 0;
-  height: 50px;
   background: $grey_l;
 
   form.active {
@@ -481,6 +481,7 @@
 
   form.send {
     background: #ffffff;
+    padding-bottom: 1px;
   }
 
   button, input, textarea {
@@ -543,7 +544,6 @@
   .send-message {
     display: block;
     width: calc(100% - #{$button-width});
-    min-height: $button-height - 1px;
     max-height: 100px;
     padding: 10px;
     border: 0;

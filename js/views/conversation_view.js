@@ -92,7 +92,7 @@
             'click' : 'onClick',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'click .choose-file': 'focusMessageField',
+            'click .bottom-bar': 'focusMessageField',
             'loadMore .message-list': 'fetchMessages',
             'focus .send-message': 'focusBottomBar',
             'blur .send-message': 'unfocusBottomBar',
@@ -281,13 +281,6 @@
 
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);
-
-            var $attachmentPreviews = this.$('.attachment-previews'),
-                $bottomBar = this.$('.bottom-bar');
-
-            $bottomBar.outerHeight(
-                    this.$messageField.outerHeight() +
-                    $attachmentPreviews.outerHeight() + 12);
 
             this.view.scrollToBottomIfNeeded();
         },
