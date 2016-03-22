@@ -110,6 +110,10 @@
         <img src='{{ source }}' class='preview' />
         <div class='close'>x</div>
   </script>
+  <script type='text/x-tmpl-mustache' id='hasRetry'>
+    {{ messageNotSent }}
+    <span href='#' class='retry'>{{ resend }}</span>
+  </script>
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble'>
@@ -196,12 +200,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='container'>
-      {{ #hasRetry }}
-        <div class='hasRetry clearfix'>
-          <h3 class='retryMessage'>{{ failedToSend }}</h3>
-          <button class='retry'>{{ resend }}</button>
-        </div>
-      {{ /hasRetry }}
       {{ #hasConflict }}
         <div class='hasConflict clearfix'>
           <div class='conflicts'>

@@ -7,6 +7,16 @@
 
     var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
 
+    var NetworkErrorView = Whisper.View.extend({
+        tagName: 'span',
+        className: 'hasRetry',
+        templateName: 'hasRetry',
+        render_attributes: {
+            messageNotSent: i18n('messageNotSent'),
+            resend: i18n('resend')
+        }
+    });
+
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
         templateName: 'message',
@@ -22,8 +32,20 @@
             this.timeStampView = new Whisper.ExtendedTimestampView();
         },
         events: {
-            'click .meta': 'select',
+            'click .retry': 'retryMessage',
+            'click .timestamp': 'select',
+            'click .status': 'select',
             'click .error': 'select'
+        },
+        retryMessage: function() {
+            var retrys = _.filter(this.model.get('errors'), function(e) {
+                return (e.name === 'MessageError' ||
+                        e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
+            });
+            _.map(retrys, 'number').forEach(function(number) {
+                this.model.resend(number);
+            }.bind(this));
         },
         select: function(e) {
             this.$el.trigger('select', {message: this.model});
@@ -63,6 +85,11 @@
             } else {
                 this.$el.removeClass('error');
             }
+            if (this.model.hasNetworkError()) {
+                this.$('.meta').prepend(new NetworkErrorView().render().el);
+            } else {
+                this.$('.meta .hasRetry').remove();
+            }
         },
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
@@ -79,7 +106,7 @@
                     message: this.model.get('body'),
                     timestamp: this.model.get('sent_at'),
                     sender: (contact && contact.getTitle()) || '',
-                    avatar: (contact && contact.getAvatar())
+                    avatar: (contact && contact.getAvatar()),
                 }, this.render_partials())
             );
             this.timeStampView.setElement(this.$('.timestamp'));

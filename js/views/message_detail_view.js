@@ -38,8 +38,7 @@
             this.listenTo(this.model, 'change', this.render);
         },
         events: {
-            'click .back': 'goBack',
-            'click .retry': 'retryMessage',
+            'click .back': 'goBack'
         },
         goBack: function() {
             this.trigger('back');
@@ -64,16 +63,6 @@
             } else {
                 return this.conversation.contactCollection.models;
             }
-        },
-        retryMessage: function() {
-            var retrys = _.filter(this.model.get('errors'), function(e) {
-                return (e.name === 'MessageError' ||
-                        e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
-            });
-            _.map(retrys, 'number').forEach(function(number) {
-                this.model.resend(number);
-            }.bind(this));
         },
         renderContact: function(contact) {
             var view = new ContactView({
@@ -105,11 +94,6 @@
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
-            var hasRetry = _.find(this.model.get('errors'), function(e) {
-                return (e.name === 'MessageError' ||
-                        e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
-            });
             var unknownErrors = this.errors['undefined'];
             if (unknownErrors) {
                 unknownErrors = unknownErrors.filter(function(e) {
@@ -124,10 +108,7 @@
                 title       : i18n('messageDetail'),
                 sent        : i18n('sent'),
                 received    : i18n('received'),
-                resend      : i18n('resend'),
-                failedToSend: i18n('failedToSend'),
                 errorLabel  : i18n('error'),
-                hasRetry    : hasRetry,
                 hasConflict : this.model.hasKeyConflicts()
             }));
             this.view.$el.prependTo(this.$('.message-container'));

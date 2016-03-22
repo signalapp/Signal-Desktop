@@ -211,6 +211,14 @@
             this.set({errors: errors});
         },
 
+        hasNetworkError: function(number) {
+            var error = _.find(this.get('errors'), function(e) {
+                return (e.name === 'MessageError' ||
+                        e.name === 'OutgoingMessageError' ||
+                        e.name === 'SendMessageNetworkError');
+            });
+            return !!error;
+        },
         removeOutgoingErrors: function(number) {
             var errors = _.partition(this.get('errors'), function(e) {
                 return e.number === number &&

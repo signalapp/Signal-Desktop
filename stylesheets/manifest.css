@@ -675,14 +675,12 @@ input.search {
   .key-verification .placeholder {
     font-weight: bold; }
 
-.message-detail .key-conflict-dialogue,
-.message-detail .hasRetry {
+.message-detail .key-conflict-dialogue {
   background: #F3F3A7;
   border-radius: 5px;
   padding: 1em;
   margin: 1em; }
-  .message-detail .key-conflict-dialogue button,
-  .message-detail .hasRetry button {
+  .message-detail .key-conflict-dialogue button {
     outline: none;
     border: none;
     border-radius: 5px;
@@ -690,22 +688,8 @@ input.search {
     padding: 0.5em 1em;
     font-weight: bold;
     line-height: 18px; }
-    .message-detail .key-conflict-dialogue button span,
-    .message-detail .hasRetry button span {
+    .message-detail .key-conflict-dialogue button span {
       vertical-align: middle; }
-.message-detail .hasRetry {
-  padding: 10px 20px; }
-  .message-detail .hasRetry button {
-    margin: 5px;
-    background: #2090ea; }
-    .message-detail .hasRetry button:before {
-      content: '';
-      display: inline-block;
-      vertical-align: middle;
-      width: 18px;
-      height: 18px;
-      background: url("/images/refresh.png") no-repeat center center;
-      background-size: 100%; }
 .message-detail .key-conflict-dialogue .content p {
   max-width: 40em;
   margin: 1em  auto; }
@@ -807,7 +791,6 @@ input.search {
   font-weight: bold; }
 
 .timestamp {
-  font-size: smaller;
   margin-right: 3px; }
 
 .message-container,
@@ -853,25 +836,39 @@ input.search {
       margin: 0; }
   .message-container .meta,
   .message-list .meta {
+    font-size: smaller;
     margin-top: 3px;
-    float: right;
-    cursor: pointer; }
+    float: right; }
+    .message-container .meta .hasRetry + .timestamp:before,
+    .message-list .meta .hasRetry + .timestamp:before {
+      content: "\00b7";
+      font-weight: bold;
+      padding: 0 5px 0 4px;
+      text-decoration: none;
+      opacity: 0.5; }
+    .message-container .meta .retry,
+    .message-list .meta .retry {
+      text-decoration: underline;
+      cursor: pointer; }
+    .message-container .meta .hasRetry, .message-container .meta .timestamp, .message-container .meta .status,
+    .message-list .meta .hasRetry,
+    .message-list .meta .timestamp,
+    .message-list .meta .status {
+      float: left; }
     .message-container .meta .timestamp, .message-container .meta .status,
     .message-list .meta .timestamp,
     .message-list .meta .status {
+      cursor: pointer;
       opacity: 0.5; }
-    .message-container .meta:hover .timestamp, .message-container .meta:hover .status,
-    .message-list .meta:hover .timestamp,
-    .message-list .meta:hover .status {
-      opacity: 1.0; }
-    .message-container .meta:hover .timestamp,
-    .message-list .meta:hover .timestamp {
-      text-decoration: underline; }
+      .message-container .meta .timestamp:hover, .message-container .meta .status:hover,
+      .message-list .meta .timestamp:hover,
+      .message-list .meta .status:hover {
+        opacity: 1.0; }
   .message-container .status,
   .message-list .status {
-    float: right;
     width: 18px;
-    height: 1em; }
+    height: 14px;
+    line-height: 1em; }
   .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;

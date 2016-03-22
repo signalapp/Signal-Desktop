@@ -70,8 +70,7 @@
 }
 
 .message-detail {
-  .key-conflict-dialogue,
-  .hasRetry {
+  .key-conflict-dialogue {
     background: #F3F3A7;
     border-radius: 5px;
     padding: 1em;
@@ -88,24 +87,6 @@
 
       span {
         vertical-align: middle;
-      }
-    }
-  }
-
-  .hasRetry {
-    padding: 10px 20px;
-    button {
-      margin: 5px;
-      background: $blue;
-
-      &:before {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        width: 18px;
-        height: 18px;
-        background: url('/images/refresh.png') no-repeat center center;
-        background-size: 100%;
       }
     }
   }
@@ -247,7 +228,6 @@
 }
 
 .timestamp {
-  font-size: smaller;
   margin-right: 3px;
 }
 
@@ -300,28 +280,43 @@
   }
 
   .meta {
+    font-size: smaller;
     margin-top: 3px;
     float: right;
-    cursor: pointer;
 
-    .timestamp, .status {
-      opacity: 0.5;
+    .hasRetry + .timestamp {
+      &:before {
+        content:"\00b7"; // &middot
+        font-weight: bold;
+        padding: 0 5px 0 4px;
+        text-decoration: none;
+        opacity: 0.5;
+      }
     }
 
-    &:hover {
-      .timestamp, .status {
+    .retry {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .hasRetry, .timestamp, .status {
+      float: left;
+    }
+
+    .timestamp, .status {
+      cursor: pointer;
+      opacity: 0.5;
+
+      &:hover {
         opacity: 1.0;
-      }
-      .timestamp {
-        text-decoration: underline;
       }
     }
   }
 
   .status {
-    float: right;
     width: 18px;
-    height: 1em;
+    height: 14px;
+    line-height: 1em;
   }
   .sent .status {
     display: inline-block;
