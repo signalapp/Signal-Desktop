@@ -61,6 +61,7 @@
   color: white;
   background-color: #999999;
   transition: background-color 0.5s;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
 
   .avatar {
     margin-bottom: -30px;
@@ -75,6 +76,7 @@
 .inactive .conversation-header {
   background-color: $grey_l !important;
   color: $grey_d;
+  border-color: 1px solid rgba(0,0,0,0.05);
 }
 
 input.search {

@@ -116,7 +116,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
-      <div class='bubble'>
+      <div class='bubble' style='background-color: {{ avatar.color }};'>
           <div class='sender'>{{ sender }}</div>
           <div class='attachments'></div>
           <p class='content'>{{ message }}</p>

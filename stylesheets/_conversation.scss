@@ -321,11 +321,11 @@
   }
   .sent .status {
     display: inline-block;
-    background: url('/images/check-white.png');
+    background: url('/images/check-black.png');
   }
   .delivered .status {
     display: inline-block;
-    background: url('/images/double-check-white.png');
+    background: url('/images/double-check-black.png');
   }
   .pending .status {
     display: inline-block;
@@ -347,29 +347,6 @@
       float: left;
     }
     .bubble {
-      color: $grey_d;
-      background-color: $grey_l;
-
-      &::before {
-        left: -10px;
-        border-right: 10px solid white;
-      }
-
-      &::after {
-        left: -8px;
-        border-right: 8px solid $grey_l;
-      }
-    }
-  }
-
-  .outgoing {
-
-    .avatar, .bubble {
-      float: right;
-    }
-
-    .bubble {
-      clear: left;
       color: white;
       background-color: $blue;
 
@@ -377,21 +354,6 @@
         color: white;
       }
 
-      &::before {
-        right: -10px;
-        border-left: 10px solid white;
-      }
-
-      &::after {
-        right: -8px;
-        border-left: 8px solid $blue;
-      }
-
-      .attachments, .content {
-        a {
-          color: $grey_l;
-        }
-      }
       .content {
         &::selection, a::selection {
           color: $grey_d;
@@ -403,6 +365,24 @@
           background: white;
         }
       }
+
+      .attachments, .content {
+        a {
+          color: $grey_l;
+        }
+      }
+    }
+  }
+
+  .outgoing {
+
+    .avatar, .bubble {
+      float: right;
+    }
+
+    .bubble {
+      background-color: $grey_l;
+      clear: left;
     }
   }
 

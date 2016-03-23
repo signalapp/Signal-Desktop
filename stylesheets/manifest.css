@@ -474,7 +474,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   text-align: center;
   color: white;
   background-color: #999999;
-  transition: background-color 0.5s; }
+  transition: background-color 0.5s;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
   .conversation-header .avatar {
     margin-bottom: -30px;
     border: solid 2px white;
@@ -486,7 +487,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 
 .inactive .conversation-header {
   background-color: #f3f3f3 !important;
-  color: #454545; }
+  color: #454545;
+  border-color: 1px solid rgba(0, 0, 0, 0.05); }
 
 input.search {
   border: none;
@@ -875,11 +877,11 @@ input.search {
   .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;
-    background: url("/images/check-white.png"); }
+    background: url("/images/check-black.png"); }
   .message-container .delivered .status,
   .message-list .delivered .status {
     display: inline-block;
-    background: url("/images/double-check-white.png"); }
+    background: url("/images/double-check-black.png"); }
   .message-container .pending .status,
   .message-list .pending .status {
     display: inline-block;
@@ -902,50 +904,33 @@ input.search {
     float: left; }
   .message-container .incoming .bubble,
   .message-list .incoming .bubble {
-    color: #454545;
-    background-color: #f3f3f3; }
-    .message-container .incoming .bubble::before,
-    .message-list .incoming .bubble::before {
-      left: -10px;
-      border-right: 10px solid white; }
-    .message-container .incoming .bubble::after,
-    .message-list .incoming .bubble::after {
-      left: -8px;
-      border-right: 8px solid #f3f3f3; }
+    color: white;
+    background-color: #2090ea; }
+    .message-container .incoming .bubble .meta,
+    .message-list .incoming .bubble .meta {
+      color: white; }
+    .message-container .incoming .bubble .content::selection, .message-container .incoming .bubble .content a::selection,
+    .message-list .incoming .bubble .content::selection,
+    .message-list .incoming .bubble .content a::selection {
+      color: #454545;
+      background: white; }
+    .message-container .incoming .bubble .content::-moz-selection, .message-container .incoming .bubble .content a::-moz-selection,
+    .message-list .incoming .bubble .content::-moz-selection,
+    .message-list .incoming .bubble .content a::-moz-selection {
+      color: #454545;
+      background: white; }
+    .message-container .incoming .bubble .attachments a, .message-container .incoming .bubble .content a,
+    .message-list .incoming .bubble .attachments a,
+    .message-list .incoming .bubble .content a {
+      color: #f3f3f3; }
   .message-container .outgoing .avatar, .message-container .outgoing .bubble,
   .message-list .outgoing .avatar,
   .message-list .outgoing .bubble {
     float: right; }
   .message-container .outgoing .bubble,
   .message-list .outgoing .bubble {
-    clear: left;
-    color: white;
-    background-color: #2090ea; }
-    .message-container .outgoing .bubble .meta,
-    .message-list .outgoing .bubble .meta {
-      color: white; }
-    .message-container .outgoing .bubble::before,
-    .message-list .outgoing .bubble::before {
-      right: -10px;
-      border-left: 10px solid white; }
-    .message-container .outgoing .bubble::after,
-    .message-list .outgoing .bubble::after {
-      right: -8px;
-      border-left: 8px solid #2090ea; }
-    .message-container .outgoing .bubble .attachments a, .message-container .outgoing .bubble .content a,
-    .message-list .outgoing .bubble .attachments a,
-    .message-list .outgoing .bubble .content a {
-      color: #f3f3f3; }
-    .message-container .outgoing .bubble .content::selection, .message-container .outgoing .bubble .content a::selection,
-    .message-list .outgoing .bubble .content::selection,
-    .message-list .outgoing .bubble .content a::selection {
-      color: #454545;
-      background: white; }
-    .message-container .outgoing .bubble .content::-moz-selection, .message-container .outgoing .bubble .content a::-moz-selection,
-    .message-list .outgoing .bubble .content::-moz-selection,
-    .message-list .outgoing .bubble .content a::-moz-selection {
-      color: #454545;
-      background: white; }
+    background-color: #f3f3f3;
+    clear: left; }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }

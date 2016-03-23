@@ -100,7 +100,7 @@
             }
         },
         render: function() {
-            var contact = this.model.getContact();
+            var contact = this.model.isIncoming() ? this.model.getContact() : null;
             this.$el.html(
                 Mustache.render(_.result(this, 'template', ''), {
                     message: this.model.get('body'),
