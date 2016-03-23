@@ -165,7 +165,9 @@
 
     // Translate
     window.i18n = function(message, substitutions) {
-        return chrome.i18n.getMessage(message, substitutions);
+        if (window.chrome && chrome.i18n) {
+            return chrome.i18n.getMessage(message, substitutions);
+        }
     };
 
     window.textsecure = window.textsecure || {};
