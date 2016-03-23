@@ -21,13 +21,25 @@
 
   .panel {
     height: calc(100% - #{$header-height});
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto;
 
     .container {
+      padding-top: 20px;
+      max-width: 910px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  }
+  .main.panel {
+    display: flex;
+    flex-direction: column;
+    overflow: initial;
+
+    .discussion-container {
       flex-grow: 1;
       position: relative;
-      padding-top: 20px;
+      max-width: 100%;
+      margin: 0;
 
       .bar-container {
         height: 5px;
@@ -47,9 +59,6 @@
 }
 
 .key-verification {
-  &.panel {
-    padding: 20px 10px;
-  }
 
   .key, .placeholder {
     padding: 0 1em;
@@ -70,11 +79,6 @@
 }
 
 .message-detail {
-  & > .container > * {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
   .key-conflict-dialogue {
     background: #F3F3A7;
     border-radius: 5px;

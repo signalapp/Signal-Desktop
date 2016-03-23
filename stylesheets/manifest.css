@@ -432,7 +432,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 .new-conversation, .inbox, .gutter {
   height: 100%; }
 
-.container, .scrollable {
+.scrollable {
   height: 100%;
   overflow: auto; }
 
@@ -640,15 +640,24 @@ input.search {
   height: 100%; }
   .conversation .panel {
     height: calc(100% - 64px);
-    display: flex;
-    flex-direction: column; }
+    overflow-y: auto; }
     .conversation .panel .container {
+      padding-top: 20px;
+      max-width: 910px;
+      margin: 0 auto;
+      padding: 20px; }
+  .conversation .main.panel {
+    display: flex;
+    flex-direction: column;
+    overflow: initial; }
+    .conversation .main.panel .discussion-container {
       flex-grow: 1;
       position: relative;
-      padding-top: 20px; }
-      .conversation .panel .container .bar-container {
+      max-width: 100%;
+      margin: 0; }
+      .conversation .main.panel .discussion-container .bar-container {
         height: 5px; }
-      .conversation .panel .container .message-list {
+      .conversation .main.panel .discussion-container .message-list {
         position: absolute;
         top: 0;
         height: 100%;
@@ -657,8 +666,6 @@ input.search {
         padding: 2em 20px 0;
         overflow-y: auto; }
 
-.key-verification.panel {
-  padding: 20px 10px; }
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
   -webkit-user-select: text; }
@@ -673,9 +680,6 @@ input.search {
 .key-verification .placeholder {
   font-weight: bold; }
 
-.message-detail > .container > * {
-  max-width: 800px;
-  margin: 0 auto; }
 .message-detail .key-conflict-dialogue {
   background: #F3F3A7;
   border-radius: 5px;
