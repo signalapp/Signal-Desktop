@@ -8,12 +8,6 @@
     Whisper.KeyVerificationView = Whisper.View.extend({
         className: 'key-verification',
         templateName: 'key_verification',
-        events: {
-            'click .back': 'goBack'
-        },
-        goBack: function() {
-            this.trigger('back');
-        },
         splitKey: function(key) {
             // key is an array buffer
             var bytes = new Uint8Array(key);

@@ -19,12 +19,6 @@
         },
         render_attributes: {
             members: i18n('members')
-        },
-        events: {
-            'click .back': 'goBack',
-        },
-        goBack: function() {
-            this.trigger('back');
-        },
+        }
     });
 })();

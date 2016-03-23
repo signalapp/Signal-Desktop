@@ -37,12 +37,6 @@
 
             this.listenTo(this.model, 'change', this.render);
         },
-        events: {
-            'click .back': 'goBack'
-        },
-        goBack: function() {
-            this.trigger('back');
-        },
         contacts: function() {
             if (this.model.isIncoming()) {
                 var number = this.model.get('source');
