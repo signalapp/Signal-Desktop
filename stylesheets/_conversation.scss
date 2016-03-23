@@ -21,7 +21,7 @@
 
   .panel {
     height: calc(100% - #{$header-height});
-    overflow-y: auto;
+    overflow-y: scroll;
 
     .container {
       padding-top: 20px;

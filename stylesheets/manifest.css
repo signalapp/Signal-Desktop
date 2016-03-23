@@ -640,7 +640,7 @@ input.search {
   height: 100%; }
   .conversation .panel {
     height: calc(100% - 64px);
-    overflow-y: auto; }
+    overflow-y: scroll; }
     .conversation .panel .container {
       padding-top: 20px;
       max-width: 910px;
