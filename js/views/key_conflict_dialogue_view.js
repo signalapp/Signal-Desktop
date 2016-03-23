@@ -11,42 +11,48 @@
         className: 'key-conflict-dialogue clearfix',
         initialize: function(options) {
             this.contact = options.contact;
-            this.conflict = options.conflict;
             this.conversation = options.conversation;
+            textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
+                this.your_key = our_key;
+                this.render();
+            }.bind(this));
+            textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
+                var view = new Whisper.KeyVerificationView({
+                    model: {
+                        their_key : this.model.identityKey,
+                        your_key  : our_key
+                    }
+                });
+                view.render().$el.appendTo(this.$('.keys'));
+            }.bind(this));
         },
         events: {
-            'click .conflict': 'showDialog',
-            'click .cancel'  : 'cancel',
-            'click .verify'  : 'triggerVerify',
+            'click .showKeys': 'showKeys',
+            'click .hideKeys': 'hideKeys',
             'click .resolve' : 'resolve'
         },
-        triggerVerify: function() {
-            this.trigger('verify', {identityKey: this.model.identityKey});
+        hideKeys: function() {
+            this.$('.keys, .hideKeys').hide();
+            this.$('.showKeys').show();
+        },
+        showKeys: function() {
+            this.$('.keys, .hideKeys').show();
+            this.$('.showKeys').hide();
         },
         resolve: function() {
-            this.trigger('resolve');
             this.remove();
             this.conversation.resolveConflicts(this.model);
-        },
-        showDialog: function() {
-            this.$('.conflict').hide();
-            this.$('.cancel, .content').show();
-        },
-        cancel: function() {
-            this.$('.cancel, .content').hide();
-            this.$('.conflict').show();
         },
         render_attributes: function() {
             return {
                 name         : this.contact.getTitle(),
                 avatar       : this.contact.getAvatar(),
-                conflict     : this.conflict,
-                verify       : i18n('verify'),
-                cancel       : i18n('cancel'),
+                conflict     : this.model,
                 newIdentity  : i18n('newIdentity'),
                 message      : i18n('identityChanged'),
                 resolve      : i18n('acceptNewKey'),
-                verifyContact: i18n('verifyContact')
+                showKeys     : i18n('showMore'),
+                hideKeys     : i18n('showLess')
             };
         }
     });

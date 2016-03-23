@@ -657,48 +657,47 @@ input.search {
         padding: 2em 20px 0;
         overflow-y: auto; }
 
-.key-verification {
-  background: white;
+.key-verification.panel {
   padding: 20px 10px; }
-  .key-verification p {
-    padding: 1em; }
-  .key-verification .key, .key-verification .placeholder {
-    padding: 0 1em;
-    -webkit-user-select: text; }
-  .key-verification .key {
-    font-family: monospace;
-    padding: 10px;
-    margin: 10px;
-    background: #f3f3f3;
-    border: solid 1px #d9d9d9;
-    border-radius: 5px; }
-  .key-verification .placeholder {
-    font-weight: bold; }
+.key-verification .key, .key-verification .placeholder {
+  padding: 0 1em;
+  -webkit-user-select: text; }
+.key-verification .key {
+  display: inline-block;
+  font-family: monospace;
+  padding: 10px;
+  margin: 10px;
+  background: #f3f3f3;
+  border: solid 1px #d9d9d9;
+  border-radius: 5px; }
+.key-verification .placeholder {
+  font-weight: bold; }
 
+.message-detail > .container > * {
+  max-width: 800px;
+  margin: 0 auto; }
 .message-detail .key-conflict-dialogue {
   background: #F3F3A7;
   border-radius: 5px;
-  padding: 1em;
-  margin: 1em; }
-  .message-detail .key-conflict-dialogue button {
+  padding: 20px;
+  margin: 20px; }
+  .message-detail .key-conflict-dialogue button.resolve {
     outline: none;
     border: none;
     border-radius: 5px;
     color: white;
-    padding: 0.5em 1em;
     font-weight: bold;
-    line-height: 18px; }
-    .message-detail .key-conflict-dialogue button span {
-      vertical-align: middle; }
-.message-detail .key-conflict-dialogue .content p {
-  max-width: 40em;
-  margin: 1em  auto; }
-.message-detail .key-conflict-dialogue .verify {
-  color: #2090ea;
-  text-decoration: underline;
-  cursor: pointer; }
-.message-detail .key-conflict-dialogue .resolve {
-  background: #2090ea; }
+    line-height: 36px;
+    padding: 0 20px;
+    float: right;
+    background: #2090ea;
+    margin-left: 20px; }
+  .message-detail .key-conflict-dialogue .hideKeys, .message-detail .key-conflict-dialogue .showKeys {
+    color: #2090ea;
+    text-decoration: underline;
+    cursor: pointer;
+    float: right;
+    line-height: 36px; }
 .message-detail .message-container {
   background: white;
   padding: 20px; }
@@ -972,11 +971,6 @@ input.search {
   .message-container .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
-  .message-container .avatar,
-  .message-list .avatar {
-    height: 36px;
-    width: 36px;
-    line-height: 36px; }
   .message-container .end-session,
   .message-list .end-session {
     font: small;
@@ -991,6 +985,13 @@ input.search {
     .message-container .key-conflict button,
     .message-list .key-conflict button {
       margin-top: 5px; }
+
+.message-list .avatar,
+.message-container .avatar,
+.key-conflict-dialogue .avatar {
+  height: 36px;
+  width: 36px;
+  line-height: 36px; }
 
 .bottom-bar {
   box-sizing: content-box;

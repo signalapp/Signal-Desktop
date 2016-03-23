@@ -6,8 +6,8 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.KeyVerificationView = Whisper.View.extend({
-        className: 'key-verification panel',
-        templateName: 'key-verification',
+        className: 'key-verification',
+        templateName: 'key_verification',
         events: {
             'click .back': 'goBack'
         },
@@ -35,5 +35,9 @@
                 has_their_key: this.model.their_key !== undefined
             };
         }
+    });
+    Whisper.KeyVerificationPanelView = Whisper.KeyVerificationView.extend({
+        className: 'key-verification panel',
+        templateName: 'key_verification_panel',
     });
 })();

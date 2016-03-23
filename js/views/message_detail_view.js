@@ -43,19 +43,6 @@
         goBack: function() {
             this.trigger('back');
         },
-        verify: function(their_key) {
-            textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
-                var view = new Whisper.KeyVerificationView({
-                    model: { their_key: their_key, your_key: our_key }
-                });
-                this.$el.hide();
-                view.render().$el.insertAfter(this.el);
-                this.listenTo(view, 'back', function() {
-                    view.remove();
-                    this.$el.show();
-                }.bind(this));
-            }.bind(this));
-        },
         contacts: function() {
             if (this.model.isIncoming()) {
                 var number = this.model.get('source');
@@ -83,14 +70,6 @@
                 conversation: this.conversation
             }).render();
             this.$('.conflicts').append(view.el);
-            this.listenTo(view, 'verify', function(data) {
-                this.verify(conflict.identityKey);
-            });
-            /*
-            this.listenTo(view, 'resolve', function() {
-                this.render();
-            });
-            */
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');

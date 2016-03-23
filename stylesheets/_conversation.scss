@@ -47,17 +47,16 @@
 }
 
 .key-verification {
-  background: white;
-  padding: 20px 10px;
-
-  p {
-    padding: 1em;
+  &.panel {
+    padding: 20px 10px;
   }
+
   .key, .placeholder {
     padding: 0 1em;
     -webkit-user-select: text;
   }
   .key {
+    display: inline-block;
     font-family: monospace;
     padding: 10px;
     margin: 10px;
@@ -71,39 +70,36 @@
 }
 
 .message-detail {
+  & > .container > * {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
   .key-conflict-dialogue {
     background: #F3F3A7;
     border-radius: 5px;
-    padding: 1em;
-    margin: 1em;
+    padding: 20px;
+    margin: 20px;
 
-    button {
+    button.resolve {
       outline: none;
       border: none;
       border-radius: 5px;
       color: white;
-      padding: 0.5em 1em;
       font-weight: bold;
-      line-height: 18px;
-
-      span {
-        vertical-align: middle;
-      }
+      line-height: 36px;
+      padding: 0 20px;
+      float: right;
+      background: $blue;
+      margin-left: 20px;
     }
-  }
 
-  .key-conflict-dialogue {
-    .content p {
-      max-width: 40em;
-      margin: 1em  auto;
-    }
-    .verify {
+    .hideKeys, .showKeys {
       color: $blue;
       text-decoration: underline;
       cursor: pointer;
-    }
-    .resolve {
-      background: $blue;
+      float: right;
+      line-height: 36px;
     }
   }
 
@@ -446,12 +442,6 @@
     display: none;
   }
 
-  .avatar {
-    height: 36px;
-    width: 36px;
-    line-height: 36px;
-  }
-
   .end-session {
     font: small;
     font-style: italic;
@@ -468,6 +458,16 @@
     button {
       margin-top: 5px;
     }
+  }
+}
+
+.message-list,
+.message-container,
+.key-conflict-dialogue {
+  .avatar {
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
   }
 }
 

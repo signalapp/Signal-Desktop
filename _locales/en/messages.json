@@ -22,16 +22,18 @@
       }
     },
     "acceptNewKey": {
-      "message": "Accept new key"
+      "message": "Accept",
+      "description": "Label for a button to accept a new identity key"
     },
     "verify": {
       "message": "Verify"
     },
     "newIdentity": {
-      "message": "New Identity"
+      "message": "New Identity",
+      "description": "Header for a key change dialog"
     },
     "identityChanged": {
-      "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key."
+      "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity."
     },
     "outgoingKeyConflict": {
       "message": "This contact's identity key has changed. Click to process and display."
@@ -242,5 +244,13 @@
     "messageNotSent": {
         "message": "Message not sent.",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
+    "showLess": {
+        "message": "Hide details",
+        "description": "Hides the details of a key change"
     }
 }

@@ -235,8 +235,12 @@
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'></div>
   </script>
-  <script type='text/x-tmpl-mustache' id='key-verification'>
+  <script type='text/x-tmpl-mustache' id='key_verification_panel'>
     <div class='container'>
+      {{> key_verification }}
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='key_verification'>
       <p> {{theirIdentity}} </p>
       {{ ^their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
@@ -250,7 +254,6 @@
       <div class='key'>
         {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
       </div>
-    </div>
   </script>
   <!-- index -->
   <script type='text/x-tmpl-mustache' id='group_info_input'>
@@ -305,15 +308,13 @@
     <div class='clearfix'>
       <h3>{{ newIdentity }}</h3>
       {{> avatar }}
-      <span class='name'>{{ name }}
-      <button class='conflict'><span>{{ verify }}</span></button>
-      <button class='cancel hide'><span>{{ cancel }}</span></button>
-      </span>
+      <span class='name'>{{ name }}</span>
+      <button class='resolve'>{{ resolve }}</button>
+      <span class='hideKeys hide'> {{ hideKeys }} </span>
+      <span class='showKeys'> {{ showKeys }} </span>
     </div>
-    <div class='content hide'>
+    <div class='keys hide'>
       <p> {{ message }} </p>
-      <p> {{{ verifyContact }}} </p>
-      <p><button class='resolve'>{{ resolve }}</button></p>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='window-controls'>
