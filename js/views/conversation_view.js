@@ -90,14 +90,14 @@
             'click .conversation-menu .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
-            'select .message-list .entry': 'messageDetail',
-            'force-resize': 'forceUpdateMessageFieldSize',
             'click .bottom-bar': 'focusMessageField',
-            'loadMore .message-list': 'fetchMessages',
+            'click .back': 'resetPanel',
             'focus .send-message': 'focusBottomBar',
             'blur .send-message': 'unfocusBottomBar',
-            'click .back': 'resetPanel',
-            'close .menu': 'closeMenu'
+            'loadMore .message-list': 'fetchMessages',
+            'close .menu': 'closeMenu',
+            'select .message-list .entry': 'messageDetail',
+            'force-resize': 'forceUpdateMessageFieldSize'
         },
 
         unfocusBottomBar: function() {
