@@ -488,7 +488,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 .inactive .conversation-header {
   background-color: #f3f3f3 !important;
   color: #454545;
-  border-color: 1px solid rgba(0, 0, 0, 0.05); }
+  border-color: rgba(0, 0, 0, 0.05); }
 
 input.search {
   border: none;
