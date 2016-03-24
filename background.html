@@ -10,9 +10,9 @@
               <div class='global-menu menu'>
                 <button class='hamburger'></button>
                 <ul class='menu-list'>
-                    <li><a class='settings'>{{ settings }}</a></li>
-                    <li><a class='show-debug-log'>{{ submitDebugLog }}</a></li>
-                    <li><a class='restart-signal'>{{ restartSignal }}</a></li>
+                    <li class='settings'>{{ settings }}</li>
+                    <li class='show-debug-log'>{{ submitDebugLog }}</li>
+                    <li class='restart-signal'>{{ restartSignal }}</li>
                 </ul>
               </div>
               <span class='socket-status' title='Restart Signal'></span>
@@ -55,15 +55,15 @@
               <button class='hamburger'></button>
               <ul class='menu-list'>
                   {{#group}}
-                      <li><a class='view-members'>{{ view-members }}</a></li>
-                      <!-- <li><a class='update-group'>Update group</a></li> -->
-                      <!-- <li><a class='leave-group'>Leave group</a></li> -->
+                      <li class='view-members'>{{ view-members }}</li>
+                      <!-- <li class='update-group'>Update group</li> -->
+                      <!-- <li class='leave-group'>Leave group</li> -->
                   {{/group}}
                   {{^group}}
-                      <li><a class='end-session'>{{ end-session }}</a></li>
-                      <li><a class='verify-identity'>{{ verify-identity }}</a></li>
+                      <li class='end-session'>{{ end-session }}</li>
+                      <li class='verify-identity'>{{ verify-identity }}</li>
                   {{/group}}
-                  <li><a class='destroy'>{{ destroy }}</a></li>
+                  <li class='destroy'>{{ destroy }}</li>
               </ul>
             </div>
           </div>

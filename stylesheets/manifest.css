@@ -115,16 +115,14 @@ button.back {
     padding: 0;
     border: solid 1px #2090ea;
     background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(10, 62, 103, 0.8); }
+    box-shadow: -2px 2px 2px 0px rgba(0, 0, 0, 0.2); }
     .menu .menu-list li {
       display: block;
-      white-space: nowrap; }
-      .menu .menu-list li a {
-        cursor: pointer;
-        display: block;
-        padding: 5px 15px 5px 10px; }
-        .menu .menu-list li a:hover {
-          background-color: #f3f3f3; }
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 5px 15px 5px 10px; }
+      .menu .menu-list li:hover {
+        background-color: #f3f3f3; }
 
 .file-input {
   position: relative; }

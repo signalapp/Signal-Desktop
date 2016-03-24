@@ -126,22 +126,17 @@ button.back {
     padding: 0;
     border: solid 1px $blue;
     background-color: white;
-    box-shadow: 0 4px 3px 0px rgba(darken($blue, 30%), 0.8);
+    box-shadow: -2px 2px 2px 0px rgba(0,0,0, 0.2);
 
     li {
       display: block;
       white-space: nowrap;
+      cursor: pointer;
+      padding: 5px 15px 5px 10px;
 
-      a {
-        cursor: pointer;
-        display: block;
-        padding: 5px 15px 5px 10px;
-
-        &:hover {
-          background-color: $grey_l;
-        }
+      &:hover {
+        background-color: $grey_l;
       }
-
     }
   }
 }
