@@ -238,10 +238,11 @@
   <script type='text/x-tmpl-mustache' id='key_verification_panel'>
     <div class='container'>
       {{> key_verification }}
+      <p> {{> link_to_support }} </p>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key_verification'>
-      <p> {{theirIdentity}} </p>
+      <label> {{theirIdentity}} </label>
       {{ ^their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
       {{ /their_key }}
@@ -250,7 +251,7 @@
           {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
         </div>
       {{ /has_their_key }}
-      <p> {{yourIdentity}} </p>
+      <label> {{yourIdentity}} </label>
       <div class='key'>
         {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
       </div>
@@ -304,17 +305,25 @@
         </span>
       </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='link_to_support'>
+    <a href='http://support.whispersystems.org/hc/articles/213134107' target='_blank'>
+      {{ learnMore }}
+    </a>
+  </script>
   <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
-    <div class='clearfix'>
-      <h3>{{ newIdentity }}</h3>
+    <h3 class='header'>{{ newIdentity }}</h3>
+    <div class='content clearfix'>
       {{> avatar }}
       <span class='name'>{{ name }}</span>
       <button class='resolve'>{{ resolve }}</button>
-      <span class='hideKeys hide'> {{ hideKeys }} </span>
-      <span class='showKeys'> {{ showKeys }} </span>
-    </div>
-    <div class='keys hide'>
-      <p> {{ message }} </p>
+      <a href='#' class='hideKeys hide'> {{ hideKeys }} </a>
+      <a href='#' class='showKeys'> {{ showKeys }} </a>
+      <div class='keys hide'>
+        <p>
+          {{ message }}
+          {{> link_to_support }}
+        </p>
+      </div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='window-controls'>

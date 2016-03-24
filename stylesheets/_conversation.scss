@@ -25,7 +25,7 @@
 
     .container {
       padding-top: 20px;
-      max-width: 910px;
+      max-width: 950px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -59,6 +59,11 @@
 }
 
 .key-verification {
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: small;
+  }
 
   .key, .placeholder {
     padding: 0 1em;
@@ -68,7 +73,7 @@
     display: inline-block;
     font-family: monospace;
     padding: 10px;
-    margin: 10px;
+    margin-bottom: 20px;
     background: $grey_l;
     border: solid 1px $grey_l2;
     border-radius: 5px;
@@ -80,10 +85,19 @@
 
 .message-detail {
   .key-conflict-dialogue {
-    background: #F3F3A7;
     border-radius: 5px;
-    padding: 20px;
-    margin: 20px;
+    margin: 20px 0;
+
+    .header {
+      border-radius: 5px 5px 0 0;
+      background: #F3F3A7;
+      margin: 0;
+      padding: 10px 20px
+    }
+    .content {
+      padding: 20px;
+      border: 2px solid #F3F3A7;
+    }
 
     button.resolve {
       outline: none;
@@ -99,9 +113,6 @@
     }
 
     .hideKeys, .showKeys {
-      color: $blue;
-      text-decoration: underline;
-      cursor: pointer;
       float: right;
       line-height: 36px;
     }

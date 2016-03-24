@@ -20,6 +20,7 @@
         },
         render_attributes: function() {
             return {
+                learnMore    : i18n('learnMore'),
                 verifyIdentity: i18n('verifyIdentity'),
                 yourIdentity: i18n('yourIdentity'),
                 theirIdentity: i18n('theirIdentity'),

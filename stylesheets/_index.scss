@@ -86,6 +86,7 @@ input.search {
   outline: 0;
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
+    display: block;
     width: 16px;
     height: 16px;
     background: url('/images/x.png') no-repeat center;

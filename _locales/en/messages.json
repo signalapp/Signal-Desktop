@@ -33,7 +33,7 @@
       "description": "Header for a key change dialog"
     },
     "identityChanged": {
-      "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity."
+      "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below."
     },
     "outgoingKeyConflict": {
       "message": "This contact's identity key has changed. Click to process and display."
@@ -118,11 +118,12 @@
         "message": "Verify Identity"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Their identity",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "yourIdentity": {
-        "message": "Your identity (you read):"
+        "message": "Your identity",
+        "description": "Label for the user's own identity key."
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
@@ -252,5 +253,9 @@
     "showLess": {
         "message": "Hide details",
         "description": "Hides the details of a key change"
+    },
+    "learnMore": {
+        "message": "Learn more about verifying keys.",
+        "description": "Text that links to a support article on verifying identity keys"
     }
 }

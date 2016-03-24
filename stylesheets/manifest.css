@@ -63,6 +63,9 @@ body {
 button {
   cursor: pointer; }
 
+a {
+  color: #2090ea; }
+
 .inactive button.back {
   background: url("/images/back.png") no-repeat center center; }
 
@@ -497,6 +500,7 @@ input.search {
   outline: 0; }
   input.search::-webkit-search-cancel-button {
     -webkit-appearance: none;
+    display: block;
     width: 16px;
     height: 16px;
     background: url("/images/x.png") no-repeat center;
@@ -645,7 +649,7 @@ input.search {
     overflow-y: scroll; }
     .conversation .panel .container {
       padding-top: 20px;
-      max-width: 910px;
+      max-width: 950px;
       margin: 0 auto;
       padding: 20px; }
   .conversation .main.panel {
@@ -668,6 +672,10 @@ input.search {
         padding: 2em 20px 0;
         overflow-y: auto; }
 
+.key-verification label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: small; }
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
   -webkit-user-select: text; }
@@ -675,7 +683,7 @@ input.search {
   display: inline-block;
   font-family: monospace;
   padding: 10px;
-  margin: 10px;
+  margin-bottom: 20px;
   background: #f3f3f3;
   border: solid 1px #d9d9d9;
   border-radius: 5px; }
@@ -683,10 +691,16 @@ input.search {
   font-weight: bold; }
 
 .message-detail .key-conflict-dialogue {
-  background: #F3F3A7;
   border-radius: 5px;
-  padding: 20px;
-  margin: 20px; }
+  margin: 20px 0; }
+  .message-detail .key-conflict-dialogue .header {
+    border-radius: 5px 5px 0 0;
+    background: #F3F3A7;
+    margin: 0;
+    padding: 10px 20px; }
+  .message-detail .key-conflict-dialogue .content {
+    padding: 20px;
+    border: 2px solid #F3F3A7; }
   .message-detail .key-conflict-dialogue button.resolve {
     outline: none;
     border: none;
@@ -699,9 +713,6 @@ input.search {
     background: #2090ea;
     margin-left: 20px; }
   .message-detail .key-conflict-dialogue .hideKeys, .message-detail .key-conflict-dialogue .showKeys {
-    color: #2090ea;
-    text-decoration: underline;
-    cursor: pointer;
     float: right;
     line-height: 36px; }
 .message-detail .message-container {

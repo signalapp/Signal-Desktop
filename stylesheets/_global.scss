@@ -58,6 +58,7 @@ body {
 }
 
 button { cursor: pointer; }
+a { color: $blue; }
 
 .inactive button.back {
   background: url('/images/back.png') no-repeat center center;

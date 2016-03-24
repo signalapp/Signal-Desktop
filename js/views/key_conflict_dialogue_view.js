@@ -52,7 +52,8 @@
                 message      : i18n('identityChanged'),
                 resolve      : i18n('acceptNewKey'),
                 showKeys     : i18n('showMore'),
-                hideKeys     : i18n('showLess')
+                hideKeys     : i18n('showLess'),
+                learnMore    : i18n('learnMore')
             };
         }
     });
