@@ -284,6 +284,7 @@
     font-size: smaller;
     margin-top: 3px;
     float: right;
+    line-height: 18px;
 
     .hasRetry + .timestamp {
       &:before {
@@ -316,16 +317,15 @@
 
   .status {
     width: 18px;
-    height: 14px;
-    line-height: 1em;
+    height: 18px;
   }
   .sent .status {
     display: inline-block;
-    background: url('/images/check-black.png');
+    background: url('/images/check-black.png') center;
   }
   .delivered .status {
     display: inline-block;
-    background: url('/images/double-check-black.png');
+    background: url('/images/double-check-black.png') center;
   }
   .pending .status {
     display: inline-block;
@@ -338,7 +338,7 @@
     width: 18px;
     height: 18px;
     opacity: 1 !important;
-    background: url('/images/error_red.png') no-repeat;
+    background: url('/images/error_red.png') center no-repeat;
     cursor: pointer;
   }
 

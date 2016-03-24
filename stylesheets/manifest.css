@@ -843,7 +843,8 @@ input.search {
   .message-list .meta {
     font-size: smaller;
     margin-top: 3px;
-    float: right; }
+    float: right;
+    line-height: 18px; }
     .message-container .meta .hasRetry + .timestamp:before,
     .message-list .meta .hasRetry + .timestamp:before {
       content: "\00b7";
@@ -872,16 +873,15 @@ input.search {
   .message-container .status,
   .message-list .status {
     width: 18px;
-    height: 14px;
-    line-height: 1em; }
+    height: 18px; }
   .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;
-    background: url("/images/check-black.png"); }
+    background: url("/images/check-black.png") center; }
   .message-container .delivered .status,
   .message-list .delivered .status {
     display: inline-block;
-    background: url("/images/double-check-black.png"); }
+    background: url("/images/double-check-black.png") center; }
   .message-container .pending .status,
   .message-list .pending .status {
     display: inline-block;
@@ -896,7 +896,7 @@ input.search {
     width: 18px;
     height: 18px;
     opacity: 1 !important;
-    background: url("/images/error_red.png") no-repeat;
+    background: url("/images/error_red.png") center no-repeat;
     cursor: pointer; }
   .message-container .incoming .avatar, .message-container .incoming .bubble,
   .message-list .incoming .avatar,
