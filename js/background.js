@@ -217,10 +217,17 @@
             var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
             message.saveErrors(e).then(function() {
                 ConversationController.findOrCreatePrivateById(message.get('conversationId')).then(function(conversation) {
-                    conversation.save({
+                    conversation.set({
                         active_at: Date.now(),
                         unreadCount: conversation.get('unreadCount') + 1
                     });
+
+                    var conversation_timestamp = conversation.get('timestamp');
+                    var message_timestamp = message.get('timestamp');
+                    if (!conversation_timestamp || message_timestamp > conversation_timestamp) {
+                        conversation.set({ timestamp: message.get('sent_at') });
+                    }
+                    conversation.save();
                     conversation.trigger('newmessage', message);
                     conversation.notify(message);
                 });
