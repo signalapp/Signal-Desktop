@@ -12,7 +12,7 @@
     var conversations = new Whisper.ConversationCollection();
     var inboxCollection = new (Backbone.Collection.extend({
         initialize: function() {
-            this.on('change:active_at', this.sort);
+            this.on('change:timestamp change:name change:number', this.sort);
             this.on('add remove change:unreadCount', this.updateUnreadCount);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);

@@ -283,7 +283,7 @@
             var models = this.messageCollection.models;
             this.messageCollection.reset([]);
             _.each(models, function(message) { message.destroy(); });
-            this.save({active_at: null, lastMessage: '', timestamp: null}); // archive
+            this.save({lastMessage: null, timestamp: null}); // archive
         }.bind(this));
     },
 

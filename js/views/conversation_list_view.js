@@ -8,14 +8,15 @@
     Whisper.ConversationListView = Whisper.ListView.extend({
         tagName: 'div',
         itemView: Whisper.ConversationListItemView,
-        onChangeActiveAt: function(conversation) {
+        sort: function(conversation) {
+            console.log('sorting conversation', conversation.id);
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
-                if (conversation.get('active_at')) {
-                    $el.prependTo(this.el);
-                } else {
-                    var index = getInboxCollection().indexOf(conversation);
+                var index = getInboxCollection().indexOf(conversation);
+                if (index > 0) {
                     $el.insertBefore(this.$('.conversation-list-item')[index+1]);
+                } else {
+                    this.$el.prepend($el);
                 }
             }
         }

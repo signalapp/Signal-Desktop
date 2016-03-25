@@ -68,8 +68,8 @@
             }).render();
 
             this.inboxListView.listenTo(inboxCollection,
-                    'add change:active_at',
-                    this.inboxListView.onChangeActiveAt);
+                    'add change:timestamp change:name change:number',
+                    this.inboxListView.sort);
 
             this.searchView = new Whisper.ConversationSearchView({
                 el    : this.$('.search-results'),
