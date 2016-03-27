@@ -84,6 +84,16 @@ input.search {
   padding: 0;
   margin: 0;
   outline: 0;
+  height: $button-height;
+  width: 100%;
+  padding: 10px;
+  border: solid 1px $grey_l;
+  outline-offset: -2px;
+
+  &.active {
+    outline: solid 1px $blue;
+  }
+
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: block;
@@ -92,15 +102,13 @@ input.search {
     background: url('/images/x.png') no-repeat center;
     background-size: cover;
   }
+
   &::-webkit-search-cancel-button:hover {
     cursor: pointer;
   }
 }
 
 .tool-bar {
-  background: $grey_l;
-  padding: 2px;
-
   button.show-new-conversation {
     float: right;
     height: $button-height;
@@ -116,16 +124,6 @@ input.search {
     }
   }
 
-  input.search {
-    height: $button-height;
-    width: 100%;
-    padding: 10px;
-    border: solid 1px $grey_l;
-
-    &.active {
-      outline: solid 1px $blue;
-    }
-  }
 }
 
 .last-timestamp {
