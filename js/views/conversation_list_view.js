@@ -13,10 +13,12 @@
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
                 var index = getInboxCollection().indexOf(conversation);
-                if (index > 0) {
-                    $el.insertBefore(this.$('.conversation-list-item')[index+1]);
-                } else {
+                if (index === 0) {
                     this.$el.prepend($el);
+                } else if (index === this.collection.length - 1) {
+                    this.$el.append($el);
+                } else {
+                    $el.insertBefore(this.$('.conversation-list-item')[index+1]);
                 }
             }
         }
