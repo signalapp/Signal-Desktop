@@ -34594,6 +34594,9 @@ window.axolotl.protocol = function(storage_interface) {
                                 throw e;
                             }
                         }
+                        if (message.preKeyId && !preKeyPair) {
+                          console.log('Invalid prekey id');
+                        }
                         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
                                         .then(function(new_session) {
                             // Note that the session is not actually saved until the very end of decryptWhisperMessage

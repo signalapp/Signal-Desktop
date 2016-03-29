@@ -34708,6 +34708,9 @@ window.axolotl.protocol = function(storage_interface) {
                                 throw e;
                             }
                         }
+                        if (message.preKeyId && !preKeyPair) {
+                          console.log('Invalid prekey id');
+                        }
                         return initSession(false, preKeyPair, signedPreKeyPair, encodedNumber, toArrayBuffer(message.identityKey), toArrayBuffer(message.baseKey), undefined)
                                         .then(function(new_session) {
                             // Note that the session is not actually saved until the very end of decryptWhisperMessage
@@ -36776,6 +36779,7 @@ var TextSecureServer = (function() {
             var generateKeys = this.generateKeys.bind(this, 100);
             var registerKeys = this.server.registerKeys.bind(this.server);
             return this.server.getMyKeys().then(function(preKeyCount) {
+                console.log('prekey count ' + preKeyCount);
                 if (preKeyCount < 10) {
                     return generateKeys().then(registerKeys);
                 }
