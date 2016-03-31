@@ -35335,6 +35335,7 @@ axolotlInternal.RecipientRecord = function() {
             });
         },
         handlePreKeyWhisperMessage: function(from, blob) {
+            console.log('prekey whisper message');
             blob.mark();
             var version = blob.readUint8();
             if ((version & 0xF) > 3 || (version >> 4) < 3) {
