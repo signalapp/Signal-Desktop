@@ -78,7 +78,7 @@
                     }.bind(this)),
                     buttons : [{
                         title   : 'Mark all as read',
-                        iconUrl : 'images/check.png'
+                        iconUrl : 'images/check.svg'
                     }]
                 });
             } else {

@@ -146,16 +146,6 @@
       span {
         vertical-align: middle;
       }
-
-      &:before {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        width: 18px;
-        height: 18px;
-        background: url('/images/refresh.png') no-repeat center center;
-        background-size: 100%;
-      }
     }
   }
 
@@ -332,11 +322,11 @@
   }
   .sent .status {
     display: inline-block;
-    background: url('/images/check-black.png') center;
+    @include color-svg('/images/check.svg', black);
   }
   .delivered .status {
     display: inline-block;
-    background: url('/images/double-check-black.png') center;
+    @include color-svg('/images/double-check.svg', black);
   }
   .pending .status {
     display: inline-block;

@@ -61,10 +61,11 @@ button { cursor: pointer; }
 a { color: $blue; }
 
 .inactive button.back {
-  background: url('/images/back.png') no-repeat center center;
+  @include header-icon-black('/images/back.svg');
+
 }
 button.back {
-  background: url('/images/back_white.png') no-repeat center center;
+  @include header-icon-white('/images/back.svg');
 }
 
 ::-webkit-scrollbar {
@@ -96,7 +97,7 @@ button.back {
 }
 
 .inactive .menu .hamburger {
-  background: url('/images/menu_black.png') no-repeat center;
+  @include header-icon-black('/images/menu.svg');
 }
 
 .menu {
@@ -106,12 +107,8 @@ button.back {
   .hamburger {
     width: $button-height;
     height: $button-height;
-    background: url('/images/menu.png') no-repeat center;
     vertical-align: middle;
-
-    &:hover {
-      background-color: rgba(0,0,0, 0.2);
-    }
+    @include header-icon-white('/images/menu.svg');
   }
   .menu-list {
     display: none;
@@ -260,10 +257,6 @@ $avatar-size: 44px;
   }
 }
 
-.conversation-header .check {
-  float: right;
-  background: url('/images/check.png') no-repeat center center;
-}
 .conversation-list-item {
   cursor: pointer;
   &:hover {

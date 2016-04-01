@@ -119,8 +119,8 @@
 
             var type = file.type.split('/')[0];
             switch (type) {
-                case 'audio': this.addThumb('/images/audio.png'); break;
-                case 'video': this.addThumb('/images/video.png'); break;
+                case 'audio': this.addThumb('/images/audio.svg'); break;
+                case 'video': this.addThumb('/images/video.svg'); break;
                 case 'image':
                     this.oUrl = URL.createObjectURL(file);
                     this.addThumb(this.oUrl);
