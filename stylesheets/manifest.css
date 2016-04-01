@@ -1032,18 +1032,6 @@ input.search {
   .bottom-bar .choose-file {
     float: left;
     height: 36px; }
-  .bottom-bar .send-btn {
-    float: right;
-    height: 36px;
-    width: 36px;
-    border: none;
-    outline: none;
-    background: url("/images/send.png") no-repeat;
-    background-size: 75%;
-    background-position: center center;
-    cursor: pointer; }
-    .bottom-bar .send-btn::before {
-      content: '+'; }
   .bottom-bar .send-message {
     display: block;
     width: calc(100% - 36px);

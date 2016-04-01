@@ -508,22 +508,6 @@
     height: 36px;
   }
 
-  .send-btn {
-    float: right;
-    height: 36px;
-    width: 36px;
-    border: none;
-    outline: none;
-    background: url('/images/send.png') no-repeat;
-    background-size: 75%;
-    background-position: center center;
-    cursor: pointer;
-
-    &::before {
-      content: '+';
-    }
-  }
-
   .send-message {
     display: block;
     width: calc(100% - #{$button-width});
