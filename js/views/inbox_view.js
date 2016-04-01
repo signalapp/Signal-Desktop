@@ -119,12 +119,12 @@
                 return;
             }
 
-            this.$('#header').addClass('inactive');
+            this.$('#header, .gutter').addClass('inactive');
             this.$('.conversation-stack').removeClass('inactive');
         },
         focusHeader: function() {
             this.$('.conversation-stack').addClass('inactive');
-            this.$('#header').removeClass('inactive');
+            this.$('#header, .gutter').removeClass('inactive');
             this.$('.conversation:first .menu').trigger('close');
         },
         reloadBackgroundPage: function() {

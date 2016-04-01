@@ -291,6 +291,10 @@ $avatar-size: 44px;
     border: solid 1px rgba(255,255,255,0.6);
   }
 }
+.inactive .contact.selected {
+  padding-left: 7px;
+  border-left: 5px solid $blue;
+}
 .contact {
   position: relative;
   padding: 12px;
@@ -301,8 +305,6 @@ $avatar-size: 44px;
 
   &.selected {
     background: rgb(236, 243, 252);
-    padding-left: 7px;
-    border-left: 5px solid $blue;
   }
 
   &:first-child {
