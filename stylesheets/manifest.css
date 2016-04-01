@@ -829,7 +829,7 @@ input.search {
     display: inline-block;
     vertical-align: top;
     padding: 9px 12px;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
