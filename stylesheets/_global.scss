@@ -143,12 +143,19 @@ button.back {
   position: relative;
   .choose-file {
     cursor: pointer;
+    padding-left: 10px;
   }
 
   .paperclip {
-    width: 36px;
+    width: $button-height;
     height: 100%;
-    background: url('/images/paperclip.png') no-repeat center center;
+    @include color-svg('/images/paperclip.svg', $grey);
+    opacity: 0.5;
+    transform: rotateZ(-45deg);
+
+    &:hover {
+      opacity: 1.0;
+    }
   }
 
   input[type=file] {

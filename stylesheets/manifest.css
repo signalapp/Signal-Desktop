@@ -150,11 +150,18 @@ button.back {
 .file-input {
   position: relative; }
   .file-input .choose-file {
-    cursor: pointer; }
+    cursor: pointer;
+    padding-left: 10px; }
   .file-input .paperclip {
-    width: 36px;
+    width: 24px;
     height: 100%;
-    background: url("/images/paperclip.png") no-repeat center center; }
+    -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #616161;
+    opacity: 0.5;
+    transform: rotateZ(-45deg); }
+    .file-input .paperclip:hover {
+      opacity: 1.0; }
   .file-input input[type=file] {
     display: none;
     position: absolute;
