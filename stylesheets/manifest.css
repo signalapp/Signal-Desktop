@@ -89,7 +89,7 @@ button.back {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.15);
-  border-radius: 10px; }
+  border-radius: 5px; }
 
 .header-buttons {
   height: 0; }
@@ -370,7 +370,7 @@ img.emoji {
       width: 100%;
       resize: none; }
 .debug-log button, .debug-log input[type=submit] {
-  border-radius: 4px;
+  border-radius: 5px;
   border: solid 1px #ccc;
   cursor: pointer;
   margin: 1em auto;
@@ -402,7 +402,7 @@ img.emoji {
     margin: 100px auto;
     padding: 1em;
     background: white;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: auto;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
   .modal a.x {
@@ -576,7 +576,7 @@ input.search {
 .hint {
   margin: 10px;
   padding: 1em;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   border: 2px dashed white; }
   .hint h3 {
@@ -611,7 +611,6 @@ input.search {
   top: 50px;
   left: 0;
   background: transparent;
-  border-radius: 10px;
   color: white;
   border: 2px dashed white;
   overflow: visible; }
@@ -759,7 +758,7 @@ input.search {
     position: absolute;
     background: black;
     color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0.5em;
     font-weight: normal;
     bottom: calc(100% + 16px);
@@ -1059,7 +1058,7 @@ input.search {
   background: rgba(0, 0, 0, 0.75);
   color: white;
   box-shadow: 0 0 5px 0 black;
-  border-radius: 20px;
+  border-radius: 5px;
   font-size: small; }
 
 .confirmation-dialog .content {
@@ -1067,7 +1066,7 @@ input.search {
   margin: 100px auto;
   padding: 1em;
   background: white;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: auto;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
   .confirmation-dialog .content .message {

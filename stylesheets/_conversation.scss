@@ -76,7 +76,7 @@
     margin-bottom: 20px;
     background: $grey_l;
     border: solid 1px $grey_l2;
-    border-radius: 5px;
+    border-radius: $border-radius;
   }
   .placeholder {
     font-weight: bold;
@@ -85,11 +85,11 @@
 
 .message-detail {
   .key-conflict-dialogue {
-    border-radius: 5px;
+    border-radius: $border-radius;
     margin: 20px 0;
 
     .header {
-      border-radius: 5px 5px 0 0;
+      border-radius: $border-radius $border-radius 0 0;
       background: #F3F3A7;
       margin: 0;
       padding: 10px 20px
@@ -102,7 +102,7 @@
     button.resolve {
       outline: none;
       border: none;
-      border-radius: 5px;
+      border-radius: $border-radius;
       color: white;
       font-weight: bold;
       line-height: 36px;
@@ -138,7 +138,7 @@
 
     button {
       border: none;
-      border-radius: 5px;
+      border-radius: $border-radius;
       color: white;
       padding: 0.5em;
       font-weight: bold;
@@ -174,7 +174,7 @@
       position: absolute;
       background: black;
       color: white;
-      border-radius: 10px;
+      border-radius: $border-radius;
       padding: 0.5em;
       font-weight: normal;
       bottom: calc(100% + 16px);
@@ -253,7 +253,7 @@
     display: inline-block;
     vertical-align: top;
     padding: 9px 12px;
-    border-radius: 5px;
+    border-radius: $border-radius;
     box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
@@ -491,7 +491,7 @@
     }
     img {
       border: 2px solid #ddd;
-      border-radius: 5px;
+      border-radius: $border-radius;
       max-height: 100px;
     }
 
@@ -546,7 +546,7 @@
   background: rgba(0, 0, 0, 0.75);
   color: white;
   box-shadow: 0 0 5px 0 black;
-  border-radius: 20px;
+  border-radius: $border-radius;
   font-size: small;
 }
 
@@ -556,7 +556,7 @@
     margin: 100px auto;
     padding: 1em;
     background: white;
-    border-radius: 10px;
+    border-radius: $border-radius;
     overflow: auto;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
 
@@ -571,7 +571,7 @@
         float: right;
         margin-left: 10px;
         background-color: $grey_l;
-        border-radius: 5px;
+        border-radius: $border-radius;
         outline: none;
         padding: 5px 8px;
         border: 1px solid $grey_l2;

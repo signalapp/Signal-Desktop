@@ -32,12 +32,13 @@ $roboto-light: Roboto-Light, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 $header-height: 64px;
 $button-height: 24px;
 $header-color: $blue;
-$bubble-border-radius: 20px;
 
 $unread-badge-size: 21px;
 $loading-height: 16px;
 
 $big-avatar-min-width: 900px;
+
+$border-radius: 5px;
 
 @mixin color-svg($svg, $color) {
     -webkit-mask: url($svg) no-repeat center;

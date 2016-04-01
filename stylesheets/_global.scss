@@ -77,7 +77,7 @@ button.back {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(0,0,0,0.15);
-  border-radius: 10px;
+  border-radius: $border-radius;
 }
 
 .header-buttons {
@@ -279,7 +279,7 @@ $avatar-size: 44px;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
-    border-radius: 5px;
+    border-radius: $border-radius;
     background-color: $blue;
     color: white;
     border: solid 1px rgba(255,255,255,0.6);
@@ -437,7 +437,7 @@ $avatar-size: 44px;
   }
 
   button, input[type=submit] {
-    border-radius: 4px;
+    border-radius: $border-radius;
     border: solid 1px #ccc;
     cursor: pointer;
     margin: 1em auto;
@@ -476,7 +476,7 @@ $avatar-size: 44px;
     margin: 100px auto;
     padding: 1em;
     background: white;
-    border-radius: 10px;
+    border-radius: $border-radius;
     overflow: auto;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
   }

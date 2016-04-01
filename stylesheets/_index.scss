@@ -166,7 +166,7 @@ input.search {
 .hint {
   margin: 10px;
   padding: 1em;
-  border-radius: 10px;
+  border-radius: $border-radius;
   color: white;
   border: 2px dashed white;
 
@@ -209,7 +209,6 @@ input.search {
   top: 50px;
   left: 0;
   background: transparent;
-  border-radius: 10px;
   color: white;
   border: 2px dashed white;
   overflow: visible;
