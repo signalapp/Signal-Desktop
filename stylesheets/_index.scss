@@ -89,6 +89,7 @@ input.search {
   padding: 10px;
   border: solid 1px $grey_l;
   outline-offset: -2px;
+  font-size: inherit;
 
   &.active {
     outline: solid 1px $blue;

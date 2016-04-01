@@ -500,7 +500,8 @@ input.search {
   width: 100%;
   padding: 10px;
   border: solid 1px #f3f3f3;
-  outline-offset: -2px; }
+  outline-offset: -2px;
+  font-size: inherit; }
   input.search.active {
     outline: solid 1px #2090ea; }
   input.search::-webkit-search-cancel-button {

@@ -60,7 +60,7 @@
       "description": "Menu item and header text for debug log modal, title case."
     },
     "searchForPeopleOrGroups": {
-      "message": "Search for people or groups",
+      "message": "Search...",
       "description": "Placeholder text in the search input"
     },
     "welcomeToSignal": {
