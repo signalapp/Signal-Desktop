@@ -181,7 +181,9 @@
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
           {{ /unreadCount }}
-          <p class='last-message'> {{ last_message }} </p>
+          {{ #last_message }}
+            <p class='last-message'> {{ last_message }} </p>
+          {{ /last_message }}
       </div>
   </script>
   <script type='text/x-tmpl-mustache' id='phone-number'>

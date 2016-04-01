@@ -318,9 +318,9 @@ $avatar-size: 44px;
   .contact-details {
     $left-margin: 8px;
 
-    vertical-align: top;
+    vertical-align: middle;
     display: inline-block;
-    margin: 4px 0 0 $left-margin;
+    margin: 0 0 0 $left-margin;
     width: calc(100% - #{$avatar-size} - #{$left-margin});
 
     p {

@@ -261,9 +261,9 @@ img.emoji {
   .contact:last-child::after {
     display: none; }
   .contact .contact-details {
-    vertical-align: top;
+    vertical-align: middle;
     display: inline-block;
-    margin: 4px 0 0 8px;
+    margin: 0 0 0 8px;
     width: calc(100% - 44px - 8px); }
     .contact .contact-details p {
       overflow-x: hidden;
@@ -552,7 +552,7 @@ input.search {
     display: none;
     padding: 0.5em; }
   .index .last-message {
-    margin: 6px 0;
+    margin: 6px 0 0;
     font-size: small;
     font-weight: 300; }
   .index .gutter .timestamp {
