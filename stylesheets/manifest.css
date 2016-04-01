@@ -53,9 +53,9 @@ body {
 
 .conversation-header button,
 .title-bar button {
-  width: 36px;
-  height: 36px;
-  line-height: 36px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
   padding: 0;
   border: 0;
   outline: 0; }
@@ -94,9 +94,11 @@ button.back {
 .header-buttons {
   height: 0; }
   .header-buttons.left {
-    float: left; }
+    float: left;
+    padding-left: 10px; }
   .header-buttons.right {
-    float: right; }
+    float: right;
+    padding-right: 10px; }
   .header-buttons .vertical-align {
     height: 64px;
     vertical-align: middle;
@@ -115,8 +117,8 @@ button.back {
   position: relative;
   float: right; }
   .menu .hamburger {
-    width: 36px;
-    height: 36px;
+    width: 24px;
+    height: 24px;
     vertical-align: middle;
     -webkit-mask: url("/images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
@@ -135,9 +137,8 @@ button.back {
     right: 0;
     margin: 0;
     padding: 0;
-    border: solid 1px #2090ea;
     background-color: white;
-    box-shadow: -2px 2px 2px 0px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2); }
     .menu .menu-list li {
       display: block;
       white-space: nowrap;
@@ -471,7 +472,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 
 .socket-status {
   float: right;
-  line-height: 36px; }
+  line-height: 24px; }
   .socket-status * {
     display: inline;
     padding-left: 20px;
@@ -787,9 +788,6 @@ input.search {
 
 .group-update {
   font-size: smaller; }
-
-.new-group-update .container {
-  height: calc(100% - 36px - 85px); }
 
 .private .entry .avatar,
 .private .sender,

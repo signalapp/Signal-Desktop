@@ -1,6 +1,6 @@
 .conversation-title {
   display: block;
-  line-height: $button-height;
+  line-height: 36px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -210,10 +210,6 @@
 }
 .group-update {
   font-size: smaller;
-}
-
-.new-group-update {
-  .container { height: calc(100% - #{$button-height} - 85px); }
 }
 
 .private .entry .avatar,
