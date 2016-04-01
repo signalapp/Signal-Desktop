@@ -544,8 +544,7 @@ input.search {
 .new-contact {
   display: none;
   cursor: pointer;
-  opacity: 0.7;
-  background: #f3f3f3; }
+  opacity: 0.7; }
   .new-contact .contact-details .number {
     display: block;
     font-style: italic;
