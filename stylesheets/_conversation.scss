@@ -496,6 +496,9 @@
     }
 
     .close {
+      position: absolute;
+      top: 5px;
+      right: 2px;
       background: #999;
 
       &:hover {

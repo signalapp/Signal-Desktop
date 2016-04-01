@@ -172,20 +172,6 @@ button.back {
     left: 0;
     cursor: pointer;
     z-index: 1; }
-  .file-input .close {
-    font-family: sans-serif;
-    color: white;
-    position: absolute;
-    top: 5px;
-    right: 2px;
-    cursor: pointer;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    padding: 0px;
-    background: #666;
-    color: #fff;
-    text-align: center; }
 
 .dropoff {
   outline: solid 1px #2090ea; }
@@ -412,20 +398,24 @@ img.emoji {
     border-radius: 5px;
     overflow: auto;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
-  .modal a.x {
-    display: inline-block;
-    float: right;
-    cursor: pointer;
-    font-family: sans-serif;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    padding: 0px;
-    background: #666;
-    color: #fff;
-    text-align: center;
-    font-size: 19px; }
+
+.x {
+  display: inline-block;
+  float: right;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  background: #616161; }
+  .x:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-mask: url("/images/x.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
 
 input[type=text]:active, input[type=text]:focus, input[type=search]:active, input[type=search]:focus, textarea:active, textarea:focus {
   outline: 1px solid #2090ea; }
@@ -1026,6 +1016,9 @@ input.search {
       border-radius: 5px;
       max-height: 100px; }
     .bottom-bar .attachment-previews .close {
+      position: absolute;
+      top: 5px;
+      right: 2px;
       background: #999; }
       .bottom-bar .attachment-previews .close:hover {
         background: #616161; }
