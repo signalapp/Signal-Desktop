@@ -37028,7 +37028,7 @@ MessageReceiver.prototype.extend({
             }.bind(this));
         }.bind(this));
     },
-    handleDataMessage: function(envelope, message, close_session) {
+    handleDataMessage: function(envelope, message) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
         console.log('data message from', encodedNumber, envelope.timestamp.toNumber());
         var p = Promise.resolve();

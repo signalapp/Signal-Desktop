@@ -147,7 +147,7 @@ MessageReceiver.prototype.extend({
             }.bind(this));
         }.bind(this));
     },
-    handleDataMessage: function(envelope, message, close_session) {
+    handleDataMessage: function(envelope, message) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
         console.log('data message from', encodedNumber, envelope.timestamp.toNumber());
         var p = Promise.resolve();
@@ -170,20 +170,18 @@ MessageReceiver.prototype.extend({
     handleLegacyMessage: function (envelope) {
         return this.decrypt(envelope, envelope.legacyMessage).then(function(result) {
             var plaintext = result[0]; // array buffer
-            var close_session = result[1]; // function
             var message = textsecure.protobuf.DataMessage.decode(plaintext);
-            return this.handleDataMessage(envelope, message, close_session);
+            return this.handleDataMessage(envelope, message);
         }.bind(this));
     },
     handleContentMessage: function (envelope) {
         return this.decrypt(envelope, envelope.content).then(function(result) {
             var plaintext = result[0]; // array buffer
-            var close_session = result[1]; // function
             var content = textsecure.protobuf.Content.decode(plaintext);
             if (content.syncMessage) {
                 return this.handleSyncMessage(envelope, content.syncMessage);
             } else if (content.dataMessage) {
-                return this.handleDataMessage(envelope, content.dataMessage, close_session);
+                return this.handleDataMessage(envelope, content.dataMessage);
             } else {
                 throw new Error('Got Content message with no dataMessage and no syncMessage');
             }
