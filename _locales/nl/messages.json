@@ -1,10 +1,10 @@
 {
     "unsupportedAttachment": {
-        "message": "Niet ondersteund bestandstype. Klik om op te slaan.",
+        "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Instellingen",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -19,8 +19,12 @@
         "message": "Begrepen!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
-        "message": "Niet ondersteund bestandstype",
+        "message": "Niet-ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -28,7 +32,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Sessie resetten",
+        "message": "Sessie opnieuw instellen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -36,15 +40,19 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Toon wanneer een bericht ontvangen wordt meldingen die het volgende weergeven:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Deelnemers",
         "description": ""
     },
+    "restartSignal": {
+        "message": "Signal herstarten",
+        "description": "Menu item for restarting the program."
+    },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Berichten verwijderen",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
@@ -56,7 +64,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Je wil wellicht dit contact $tag_start$ verifiëren.$tag_end$",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -72,11 +80,11 @@
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nieuw bericht",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Enkel naam van afzender",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,15 +96,15 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Deze log zal publiekelijk online beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
+        "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Zoeken naar personen of groepen",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Naam van afzender noch berichtinhoud",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Lees meer over het verifiëren van sleutels.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Jouw identiteit (jij leest):",
-        "description": ""
+        "message": "Jouw identiteit",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
@@ -121,21 +133,25 @@
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
     },
+    "showLess": {
+        "message": "Details verbergen",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
-        "message": "New Identity",
-        "description": ""
+        "message": "Nieuwe identiteit",
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Niet meer verbonden",
+        "message": "Verbinding verbroken",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Nieuwe sleutel accepteren",
-        "description": ""
+        "message": "Aanvaarden",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Ontvangen",
@@ -150,7 +166,7 @@
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Excuses, het geselecteerde bestand overschrijdt de maximale grootte.",
+        "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -158,15 +174,19 @@
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcom bij Signal Desktop",
+        "message": "Welkom bij Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
         "message": "Verbinden met server mislukt.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Bericht niet verzonden.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Meldingen uitschakelen",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -178,7 +198,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Beveiligde sessie gereset",
+        "message": "Beveiligde sessie opnieuw ingesteld",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -186,7 +206,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Installeer eerst <a $a_params$>Signal</a> op je Android telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
+        "message": "Installeer eerst <a $a_params$>Signal</a> op je Android-telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -200,11 +220,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Identiteit partner (partner leest):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Hun identiteit",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nieuwe berichten",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -224,7 +244,7 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Bericht details",
+        "message": "Berichtdetails",
         "description": ""
     },
     "verify": {
@@ -232,23 +252,23 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Naam van afzender en berichtinhoud",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Verzenden naar bepaalde ontvangers mislukt. Controleer je netwerkverbinding.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "Oké",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "Dit contact gebruikt een nieuwe Signal-identiteit. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat het contact Signal opnieuw heeft geïnstalleerd. Je wil wellicht hun nieuwe identiteitssleutel hieronder verifiëren.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Debuglog indienen",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -256,7 +276,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Meldingen",
         "description": "Header for notification settings"
     },
     "resend": {

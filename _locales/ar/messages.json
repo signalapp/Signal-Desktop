@@ -19,6 +19,10 @@
         "message": "واضح",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "تفاصيل",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "نمط الملف غير مدعوم",
         "description": "Displayed for outgoing unsupported attachment"
@@ -36,12 +40,16 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "عند وصول الرسائل، أظهر إشعارات تتضمن:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "أعضاء",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "اعادة تشغيل سيجنال Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "احذف الرسائل",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "اسم المُرسِل فقط",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "ابحث عن أشخاص أو مجموعات",
+        "message": "بحث...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "لا الاسم ولا الرسالة",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "مزيد من المعلومات حول التحقق من المفاتيح.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "هويتك (أنت تقرأ):",
-        "description": ""
+        "message": "هويتك",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "معذرة، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها.",
@@ -121,9 +133,13 @@
         "message": "مزامنة المجموعات و جهات الاتصال",
         "description": ""
     },
+    "showLess": {
+        "message": "اخفاء التفاصيل",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "هوية جديدة",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "الحفاظ على الخصوصية أمر ممكن. سيجنال Signal يجعل ذلك سهلا.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "قبول مفتاح جديد",
-        "description": ""
+        "message": "موافقة",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "استُقبلت",
@@ -165,8 +181,12 @@
         "message": "محاولة الاتصال بالمخدّم فشلت",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "لم يتم إرسال الرسالة.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "تعطيل الإشعارات",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "هويتهّم (هم يقرأون):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "هويتهم",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "رسائل جديدة",
@@ -232,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "الاسم والرسالة",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "تغيرت هوية جهة الاتصال هذه. قد يعني هذا أن أحدهم يحاول التنصت على اتصالك، أو أن جهة الاتصال هذه قامت بإعادة تنصيب وإعداد تطبيق سيغنال Signal ولذلك أصبح لديها هوية جديدة.  ",
+        "message": "جهة الاتصال تستخدم هوية سيجنال جديدة. وهذا يمكن أن يعني إما أن هناك من يحاول اعتراض اتصالاتكم، أو أن جهة الاتصال قامت بمجرد اعادة تحميل سيجنال. قد ترغب في التحقق من هوية المفتاح الجديد أدناه.",
         "description": ""
     },
     "submitDebugLog": {
@@ -256,7 +276,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "الإشعارات",
         "description": "Header for notification settings"
     },
     "resend": {

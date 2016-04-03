@@ -19,6 +19,10 @@
         "message": "Selvä!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Lisätietoja",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
@@ -36,12 +40,16 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Näytä saapuneiden viestien ilmoituksissa:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Jäsenet",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Käynnistä Signal uudelleen",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Poista viestit",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "vain lähettäjän nimi",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Etsi yhteystietoja tai ryhmiä",
+        "message": "Hae...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "ei nimeä eikä viestiä",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Lue lisää avainten varmentamisesta.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Oma identiteettisi (sinä luet):",
-        "description": ""
+        "message": "Oma identiteettisi",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
@@ -121,9 +133,13 @@
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
         "description": ""
     },
+    "showLess": {
+        "message": "Piilota lisätiedot",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Uusi identiteetti",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Yksityisyys on mahdollista. Signal tekee siitä helppoa.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Hyväksy uusi avain",
-        "description": ""
+        "message": "Hyväksy",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Vastaanotettu",
@@ -165,8 +181,12 @@
         "message": "Palvelimeen ei saada yhteyttä.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Viestiä ei lähetetty",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "ilmoitukset kokonaan pois päältä",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Vastapuolen identiteetti (hän lukee):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Vastapuolen identiteetti",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "uutta viestiä",
@@ -232,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "sekä nimi että viesti",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Tämän yhteystiedon identiteettiavain on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että hän on yksinkertaisesti uudelleenasentanut Signalin, ja siksi käyttää nyt uutta identiteettiavainta.",
+        "message": "Tämän yhteystiedon Signal-identiteetti on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että yhteystietosi on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa hänen alla näkyvän identiteettiavaimensa.",
         "description": ""
     },
     "submitDebugLog": {
@@ -256,7 +276,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Ilmoitukset",
         "description": "Header for notification settings"
     },
     "resend": {

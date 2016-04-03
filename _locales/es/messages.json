@@ -19,6 +19,10 @@
         "message": "¡Entendido!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Detalles",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Tipo de archivo no admitido",
         "description": "Displayed for outgoing unsupported attachment"
@@ -35,9 +39,17 @@
         "message": "Bienvenido a Signal",
         "description": ""
     },
+    "notificationSettingsDialog": {
+        "message": "Cuando llegan mensajes, se muestran notificaciones que revelan:",
+        "description": "Explain the purpose of the notification settings"
+    },
     "members": {
         "message": "Miembros",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Reiniciar Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Eliminar Mensajes",
@@ -46,10 +58,6 @@
     "selectAContact": {
         "message": "Seleccione un contacto o grupo para empezar a chatear.",
         "description": ""
-    },
-    "off": {
-        "message": "Desactivar",
-        "description": "Label for disabling notifications"
     },
     "installConnecting": {
         "message": "Conectando...",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Solo nombre",
+        "message": "Solo nombre del emisor",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Buscar contactos o grupos",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Nombre o mensaje que faltan",
+        "message": "Ni nombre ni mensaje",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Aprender más sobre la verificación de claves.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Su identidad (usted lee)",
-        "description": ""
+        "message": "Tu identidad",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Lo sentimos, ya tiene demasiados dispositivos vinculados. Pruebe a eliminar algunos.",
@@ -121,9 +133,13 @@
         "message": "Sincronizando grupos y contactos",
         "description": ""
     },
+    "showLess": {
+        "message": "Ocultar detalles",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Nueva identidad",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "La privacidad es posible. Signal hace fácil.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Aceptar la nueva clave",
-        "description": ""
+        "message": "Aceptar",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Recibido",
@@ -154,7 +170,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra Signal en su teléfono movíl, y seleccione Parámetros > Dispositivos. Pulse el botón para añadir un nuevo dispositivo, pues escanee el código QR.",
+        "message": "Abra Signal en su teléfono móvíl, y seleccione Parámetros > Dispositivos. Pulse el botón para añadir un nuevo dispositivo, después escanee el código QR.",
         "description": ""
     },
     "installWelcome": {
@@ -164,6 +180,14 @@
     "installConnectionFailed": {
         "message": "Error al conectar con el servidor.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "messageNotSent": {
+        "message": "Mensaje no se ha enviado.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
+    "disableNotifications": {
+        "message": "Desactivar notifiaciones",
+        "description": "Label for disabling notifications"
     },
     "cancel": {
         "message": "Cancelar",
@@ -182,7 +206,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "En primer lugar, instale <a $a_params$> Signal </a> en su teléfono Android. <br /> Entonces podemos vincular sus dispositivos y guardamos sus mensajes en sincronía.",
+        "message": "Primero, instale <a $a_params$> Signal </a> en su teléfono Android. <br /> Así vincularemos sus dispositivos y mantendremos sus mensajes sincronizados.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -196,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Identidad de ellos (ellos leen)",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Identidad de ellos",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Nuevos mensajes",
@@ -228,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Nombre y mensaje",
+        "message": "Nombre del emisor y mensaje",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -240,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "La clave identificadora de este contacto ha cambiado. Podría significar que alguien está intentando interceptar sus comunicaciones, o este contacto simplemente reinstaló Signal y ahora tiene una nueva clave identificadora.",
+        "message": "Este contacto esta usando una nueva identidad de Signal. Podría significar que alguien está intentando interceptar sus comunicaciones, o este contacto simplemente reinstaló Signal. Puede que desee verificar la nueva clave identificadora abajo. ",
         "description": ""
     },
     "submitDebugLog": {
@@ -250,6 +274,10 @@
     "error": {
         "message": "Error",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notificaciones",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Reenviar",

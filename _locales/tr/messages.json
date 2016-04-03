@@ -19,6 +19,10 @@
         "message": "Anladım!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Detaylar",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Desteklenmeyen dosya türü",
         "description": "Displayed for outgoing unsupported attachment"
@@ -36,12 +40,16 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Mesaj geldiğinde bildirimlerde şunları göster:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Üyeler",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Signal'ı yeniden başlat",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Mesajları Sil",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Sadece gönderenin adı",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Kişi veya topluluk ara",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Gönderenin adını ve mesajını gösterme",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Anahtarların doğrulanması hakkında daha fazla bilgi öğren",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Sizin kimliğiniz (sizin okuduğunuz):",
-        "description": ""
+        "message": "Kimliğiniz",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Maalesef, çok fazla sayıda cihaz zaten bağlı. Bazılarını kaldırmayı deneyin.",
@@ -121,9 +133,13 @@
         "message": "Gruplar ve kişiler senkronize ediliyor",
         "description": ""
     },
+    "showLess": {
+        "message": "Detayları gizle",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Yeni Kimlik",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Gizlilik mümkün. Signal bunu kolaylaştırır.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Yeni anahtarı kabul et",
-        "description": ""
+        "message": "Kabul et",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Alındı",
@@ -165,8 +181,12 @@
         "message": "Sunucuyla bağlantı başarısız.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Mesaj gönderilmedi",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Bildirimleri etkisiz kıl",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -186,7 +206,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "İlk olarak Android cihazınıza <a $a_params$>Signal</a> yükleyin. Biz cihazlarınızı bağlayacak ve mesajlarınızı senkronize içinde tutacağız.",
+        "message": "İlk olarak Android cihazınıza <a $a_params$>Signal</a> yükleyin. Biz cihazlarınızı bağlayarak mesajlarınızı senkronize edeceğiz.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Onların kimliği (onların okuduğu):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Karşı tarafın kimliği",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Yeni Mesajlar",
@@ -232,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Gönderenin adı ve mesajı",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Bu kişinin tanımlama anahtarı değişti. Bunun anlamı birisi sizin iletişiminizi kesmeye çalışıyor, veya bu kişi Signal'i tekrardan yükledi ve şimdi yeni bir tanımlama anahtarı var.",
+        "message": "Bu kişi yeni bir Signal anahtarı kullanıyor. Bunun anlamı birisi sizin iletişiminizi kesmeye çalışıyor, veya bu kişi Signal'i tekrardan yükledi ve şimdi yeni bir tanımlama anahtarı var.",
         "description": ""
     },
     "submitDebugLog": {
@@ -256,7 +276,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Bildirimler",
         "description": "Header for notification settings"
     },
     "resend": {

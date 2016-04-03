@@ -19,6 +19,10 @@
         "message": "Perfekt!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Filtype er ikke støttet.",
         "description": "Displayed for outgoing unsupported attachment"
@@ -35,9 +39,17 @@
         "message": "Velkommen til Signal!",
         "description": ""
     },
+    "notificationSettingsDialog": {
+        "message": "When messages arrive, display notifications that reveal:",
+        "description": "Explain the purpose of the notification settings"
+    },
     "members": {
         "message": "Medlemmer",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Restart Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Slett meldinger",
@@ -46,10 +58,6 @@
     "selectAContact": {
         "message": "Velg en kontakt eller gruppe for å chatte",
         "description": ""
-    },
-    "off": {
-        "message": "Av",
-        "description": "Label for disabling notifications"
     },
     "installConnecting": {
         "message": "Kobler til....",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Kun Navn",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Søk etter personer eller gruppper",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Ingen navn eller melding",
+        "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Learn more about verifying keys.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Din identitet (du leser):",
-        "description": ""
+        "message": "Your identity",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Beklager. Du har for mange enheter tilkoblet. Prøv å fjern noen.",
@@ -121,9 +133,13 @@
         "message": "Synkroniserer grupper og kontakter",
         "description": ""
     },
+    "showLess": {
+        "message": "Hide details",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Ny Identitet",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Personvern er mulig. Signal gjør det enkelt.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Aksepter ny nøkkel",
-        "description": ""
+        "message": "Accept",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Melding mottatt",
@@ -164,6 +180,14 @@
     "installConnectionFailed": {
         "message": "Kunne ikke koble til serveren.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "messageNotSent": {
+        "message": "Message not sent.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
+    "disableNotifications": {
+        "message": "Disable notifications",
+        "description": "Label for disabling notifications"
     },
     "cancel": {
         "message": "Avbryt",
@@ -196,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Hans/hennes identitet (leser):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Their identity",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "nye meldinger",
@@ -228,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Navn og melding",
+        "message": "Both sender name and message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -240,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Denne kontakten identitet nøkkel er endret. Dette kan enten bety at noen forsøker å fange opp kommunikasjon, eller denne kontakten bare re-installert Signal og har nå en ny identitet nøkkel.",
+        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
     },
     "submitDebugLog": {
@@ -250,6 +274,10 @@
     "error": {
         "message": "Feil",
         "description": ""
+    },
+    "notifications": {
+        "message": "Notifications",
+        "description": "Header for notification settings"
     },
     "resend": {
         "message": "Send på nytt",

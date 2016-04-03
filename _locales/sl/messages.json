@@ -19,6 +19,10 @@
         "message": "Razumem!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Podrobnosti",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
@@ -36,12 +40,16 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Ko prispe sporočilo v obvestilu razkrij:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Člani",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Ponovno zaženi Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Izbriši sporočila",
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Samo ime pošiljatelja",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,11 +100,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Iskanje po skupinah ali ljudeh",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Niti imena pošiljatelja niti sporočila",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Več o overjanju ključev.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Moja istovetnost (preberem jaz):",
-        "description": ""
+        "message": "Moja istovetnost",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
@@ -121,9 +133,13 @@
         "message": "Usklajujem skupine in stike...",
         "description": ""
     },
+    "showLess": {
+        "message": "Skrij podrobnosti",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Nova identiteta",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Sprejmi novi ključ",
-        "description": ""
+        "message": "Sprejmi",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Prejeto",
@@ -165,8 +181,12 @@
         "message": "Ne morem se povezati s strežnikom.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Sporočilo ni bilo poslano.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Izklopi obvestila",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Istovetnost stika (prebere on):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Istovetnost stika",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Novo sporočilo",
@@ -232,7 +252,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Ime pošiljatelja in sporočilo",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Identifikacijska številka te osebe je bila spremenjena. To lahko pomeni, da nekdo prestreza komunikacijo, ali pa, da je ta oseba le ponovno namestila Signal in ima zdaj novo identifikacijsko številko.",
+        "message": "Ta oseba uporablja nov identifikacijski ključ Signal. To lahko pomeni, da nekdo prestreza vašo komunikacijo, ali pa, da je ta oseba le ponovno namestila aplikacijo Signal. Spodaj lahko overite njihov novi ključ.",
         "description": ""
     },
     "submitDebugLog": {
@@ -256,7 +276,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Obvestila",
         "description": "Header for notification settings"
     },
     "resend": {

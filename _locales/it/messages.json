@@ -19,6 +19,10 @@
         "message": "Capito!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Dettagli",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Tipo di file non supportato",
         "description": "Displayed for outgoing unsupported attachment"
@@ -42,6 +46,10 @@
     "members": {
         "message": "Membri",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Riavvia Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Cancella messaggi",
@@ -92,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Cerca persone o gruppi",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Impara di più sulla verifica delle chiavi.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "La tua identità (leggi tu)",
-        "description": ""
+        "message": "La tua identità",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Spiacente, hai troppi dispositivi collegati. Prova a rimuoverne qualcuno.",
@@ -121,9 +133,13 @@
         "message": "Sincronizzazione gruppi e contatti in corso",
         "description": ""
     },
+    "showLess": {
+        "message": "Nascondi dettagli",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Nuova identità",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "La privacy è possibile. Signal la rende facile.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accetta la nuova chiave",
-        "description": ""
+        "message": "Accetta",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Ricevuto",
@@ -154,7 +170,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Apri Signal sul tuo smartphone e vai a Impostazioni > Dispositivi. Fai tap sul pulsante per aggiungere un nuovo dispositivo e quindi scansiona il codice qui sopra.",
+        "message": "Apri Signal sul tuo smartphone e vai su Impostazioni > Dispositivi collegati. Fai tap sul pulsante per aggiungere un nuovo dispositivo e quindi scansiona il codice qui sopra.",
         "description": ""
     },
     "installWelcome": {
@@ -164,6 +180,10 @@
     "installConnectionFailed": {
         "message": "Connessione al server non riuscita.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "messageNotSent": {
+        "message": "Messaggio non inviato.",
+        "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
         "message": "Disabilita notifiche",
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Identità del conttato (legge il tuo contatto)",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Identità altrui",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Nuovi messaggi",
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "La chiave d'identità di questo contatto è cambiata. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal ed ora ha una nuova chiave.",
+        "message": "Questo contatto sta usando una nuova identità Signal. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal. Dovresti verificare le nuove chiavi a seguire.",
         "description": ""
     },
     "submitDebugLog": {

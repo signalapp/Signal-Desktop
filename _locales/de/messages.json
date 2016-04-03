@@ -19,6 +19,10 @@
         "message": "Alles klar!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Nicht unterstützter Dateityp",
         "description": "Displayed for outgoing unsupported attachment"
@@ -28,7 +32,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Verschlüsselung neu starten",
+        "message": "Sitzung zurücksetzen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -43,6 +47,10 @@
         "message": "Mitglieder",
         "description": ""
     },
+    "restartSignal": {
+        "message": "Signal neu starten",
+        "description": "Menu item for restarting the program."
+    },
     "deleteMessages": {
         "message": "Nachrichten löschen",
         "description": "Menu item for deleting messages, title case."
@@ -52,7 +60,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Verbindung wird hergestellt …",
+        "message": "Verbindungsaufbau…",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -92,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Nach Personen oder Gruppen suchen",
+        "message": "sucht...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -109,36 +117,44 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Erfahren Sie mehr über das Überprüfen von Schlüsseln.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Ihr Identitätsschlüssel (Sie lesen vor):",
-        "description": ""
+        "message": "Ihre Identität",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Es sind bereits zu viele Geräte verknüpft. Versuchen Sie, mindestens eines zu entfernen.",
+        "message": "Es sind bereits zu viele Geräte verknüpft. Versuchen Sie, einige zu entfernen.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
         "message": "Gruppen und Kontakte werden synchronisiert",
         "description": ""
     },
+    "showLess": {
+        "message": "Details ausblenden",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Neue Identität",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Privatsphäre ist möglich. Signal macht sie einfach.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Nicht verbunden",
+        "message": "Getrennt",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Neuen Schlüssel akzeptieren",
-        "description": ""
+        "message": "Akzeptieren",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
-        "message": "Erhalten",
+        "message": "Empfangen",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
@@ -146,11 +162,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Der Identitätsschlüssel dieses Kontakts hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Der Identitätsschlüssel dieses Kontaktes hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Entschuldigen Sie, die ausgewählte Datei überschreitet die maximal erlaubte Größe.",
+        "message": "Entschuldigung, die ausgewählte Datei überschreitet die erlaubte Nachrichtengröße.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -165,6 +181,10 @@
         "message": "Verbindung zum Server fehlgeschlagen.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Nachricht nicht versendet.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
         "message": "Benachrichtigungen deaktivieren",
         "description": "Label for disabling notifications"
@@ -178,7 +198,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Verschlüsselung neu gestartet",
+        "message": "Sichere Sitzung zurückgesetzt",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -196,12 +216,12 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Verknüpfung wird durchgeführt mit",
+        "message": "Verknüpfen mit",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Identitätsschlüssel des Kontakts (Kontakt liest vor):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Identität des Kontaktes",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Neue Nachrichten",
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Der Identitätschlüssel des Kontakts hat sich geändert. Dies könnte bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören. Vielleicht hat dieser Kontakt Signal aber auch nur neu installiert und verwendet nun einen neuen Schlüssel.",
+        "message": "Dieser Kontakt nutzt eine neue Signal-Identität. Dies kann entweder bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchten Sie den neuen Identitätsschlüssel unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {

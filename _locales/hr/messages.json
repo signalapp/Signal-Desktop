@@ -19,6 +19,10 @@
         "message": "Shvaćam!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
         "message": "Nepodržana vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
@@ -42,6 +46,10 @@
     "members": {
         "message": "Članovi",
         "description": ""
+    },
+    "restartSignal": {
+        "message": "Restart Signal",
+        "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
         "message": "Obriši poruke",
@@ -92,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Traži ljude ili grupe",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -109,9 +117,13 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Learn more about verifying keys.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Vaš identitet (Vi čitate):",
-        "description": ""
+        "message": "Your identity",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
         "message": "Žao nam je, imate već previše povezanih uređaja. Pokušajte ukloniti neke.",
@@ -121,9 +133,13 @@
         "message": "Sinkroniziranje grupa i kontakta",
         "description": ""
     },
+    "showLess": {
+        "message": "Hide details",
+        "description": "Hides the details of a key change"
+    },
     "newIdentity": {
         "message": "Novi identitet",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Privatnost je moguća. Signal je čini lakom.",
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Prihvati novi ključ",
-        "description": ""
+        "message": "Accept",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Primljeno",
@@ -164,6 +180,10 @@
     "installConnectionFailed": {
         "message": "Nije uspjelo spajanje na poslužitelj.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "messageNotSent": {
+        "message": "Message not sent.",
+        "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
         "message": "Onemogući obavijesti",
@@ -200,8 +220,8 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Njihov identitet (oni čitaju):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Their identity",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Nove poruke",
@@ -244,7 +264,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Ključ identiteta ovog kontakta se promjenio. Ovo može značiti da netko pokušava presresti Vašu komunikaciju ili da je taj kontakt jednostavno ponovno instalirao Signal i sad ima novi ključ identiteta.",
+        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
     },
     "submitDebugLog": {

@@ -1,62 +1,70 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "این نوع ضمیمه پشتیبانی نمی‌شود. برای ذخیره کلیک کنید.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "تنظیمات",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "پیام بدون کلید هویت دریافت شد. برای بررسی کلیک کنید.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "نام این دستگاه",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "فهمیدم!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Details",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "این نوع فایل پشتیبانی نمی‌شود",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "در حال تولید کلیدها",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "ایجاد جلسه‌ی جدید",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "به سبگنال خوش آمدید",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "جزئیات آگاهسازی هنگام دریافت پیام:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "اعضا",
         "description": ""
     },
+    "restartSignal": {
+        "message": "Restart Signal",
+        "description": "Menu item for restarting the program."
+    },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "حذف پیام‌ها",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "برای شروع چت یک مخاطب یا گروه را انتخاب کنید.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "در حال اتصال...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "شما می‌توانید هویت این مخاطب را $tag_start$بررسی کنید$tag_end$.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -68,39 +76,39 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "ارسال شد",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "پیام جدید",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "فقط نام فرستنده",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "بررسی هویت",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "از",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "این گزارش برای شما آنلاین ذخیره می‌شود. شما می‌توانید قبل از ارسال لینک، گزارش را بررسی و ویرایش کنید.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search for people or groups",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "نه نام و نه متن پیام",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>ما را دنبال کنید</a> تا جدیدترین اطلاعات در مورد دستگاه‌های پشتی‌بانی شده را دریافت کنید.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -109,84 +117,96 @@
             }
         }
     },
+    "learnMore": {
+        "message": "Learn more about verifying keys.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Your identity (you read):",
-        "description": ""
+        "message": "Your identity",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "در حال هماهنگ‌سازی گروه‌ها و مخاطب‌ها",
         "description": ""
+    },
+    "showLess": {
+        "message": "Hide details",
+        "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
-        "description": ""
+        "message": "هویت جدید",
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "حفظ حریم خصوصی ممکن است. سیگنال کار را راحتتر میکند.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "ارتباط قطع شد",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept new key",
-        "description": ""
+        "message": "Accept",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
-        "message": "Received",
+        "message": "دریافت شد",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "ارسال پیام",
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "کلید هویت این مخاطب تغییر کرده است. برای بررسی کلیک کنید.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "سیگنال را بر روی گوشی خود باز کنید و به بخش \"تنظیمات\" > \"دستگاه‌های متصل‌شده\" بروید. دکمه‌ی اتصال دستگاه جدید را بزنید و کد بالا را اسکن کنید.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "به سبگنال دسکتاپ خوش آمدید",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "برقراری ارتباط با سرور ناموفق بود.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Message not sent.",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "آگاه‌سازی‌ها غیرفعال باشند",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "انصراف",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "من سیگنال برای اندروید دارم",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "ایجاد جلسه‌ی امن جدید",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "شروع",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "ابتدا <a $a_params$>سیگنال</a> را بر روی گوشی اندروید خود نصب کنید.</br>ما دستگاه‌های شما را به هم متصل کرده و پیام‌های‌تان را هماهنگسازی می‌کنیم.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -196,71 +216,71 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "اتصال به",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity (they read):",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Their identity",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "پیام‌های جدید",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "هیچ پیامی بین شما تبادل نشده است. کلید هویت مخاطب بعد از اولین پیام در دسترس خواهد بود.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "ارسال",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "به",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "خوبه!",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "جزئیات پیام",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "تایید",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "هم نام و هم متن پیام",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "ارسال به چند مخاطب ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "باشه",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's identity key has changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal and now has a new identity key.",
+        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "ارسال گزارش خطاها",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "خطا",
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "آگاه‌سازی‌ها",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "ارسال دوباره",
         "description": ""
     }
 }

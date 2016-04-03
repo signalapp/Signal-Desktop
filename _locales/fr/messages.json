@@ -19,12 +19,16 @@
         "message": "Bien reçu!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "showMore": {
+        "message": "Détails",
+        "description": "Displays the details of a key change"
+    },
     "unsupportedFileType": {
-        "message": "Type de fichier non supporté",
+        "message": "Type de fichier non géré",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generation des clés",
+        "message": "Génération des clés",
         "description": ""
     },
     "resetSession": {
@@ -36,19 +40,23 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Lors de la réception de messages, afficher les notifications révélant : ",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
         "message": "Membres",
         "description": ""
     },
+    "restartSignal": {
+        "message": "Redémarrer Signal",
+        "description": "Menu item for restarting the program."
+    },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Effacer les messages",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Selectionner un contact ou groupe pour commencer à chatter.",
+        "message": "Sélectionner un contact ou groupe pour commencer une discussion.",
         "description": ""
     },
     "installConnecting": {
@@ -56,7 +64,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Vous devriez $tag_start$ vérifier $tag_end$ ce contact.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -76,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Seulement le nom de l'émetteur",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -88,15 +96,15 @@
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "Ce journal d'événements sera visible en ligne publiquement pour que les contributeurs puisse les voir. Vous pouvez l'analyser et l'éditer avant de l'envoyer.",
+        "message": "Ce journal d'événements sera visible en ligne publiquement afin que les contributeurs puissent le consulter. Vous pouvez l'analyser et l'éditer avant de l'envoyer.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Rechercher des personnes ou groupes",
+        "message": "Search...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Ni le nom ni le message",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -109,24 +117,32 @@
             }
         }
     },
+    "learnMore": {
+        "message": "En savoir davantage sur les clés de vérification.",
+        "description": "Text that links to a support article on verifying identity keys"
+    },
     "yourIdentity": {
-        "message": "Votre identité (vous lisez)",
-        "description": ""
+        "message": "Votre identité",
+        "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Nombre maximal d'appareils atteint. Supprimez-en d'abord.",
+        "message": "Nombre maximal d'appareils liés atteint. Supprimez-en d'abord.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncronistation des goupes et contacts",
+        "message": "Synchronisation des groupes et contacts",
         "description": ""
+    },
+    "showLess": {
+        "message": "Masquer les détails",
+        "description": "Hides the details of a key change"
     },
     "newIdentity": {
         "message": "Nouvelle identité",
-        "description": ""
+        "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "la confidentialité est possible. Signal le rend facile",
+        "message": "La confidentialité est possible. Signal le rend facile.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -134,8 +150,8 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accepter la nouvelle clé",
-        "description": ""
+        "message": "Accepter",
+        "description": "Label for a button to accept a new identity key"
     },
     "received": {
         "message": "Reçu",
@@ -154,7 +170,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Ouvrez signal sur votre téléphone et naviguez sur Réglage > Appareil. Appuyer sur le bouton ajouter nouveau appareil, puis scanner le code au-dessus.",
+        "message": "Ouvrez Signal sur votre téléphone et naviguez vers Réglage > Appareil. Appuyer sur le bouton ajouter nouveau appareil, puis scanner le code au-dessus.",
         "description": ""
     },
     "installWelcome": {
@@ -165,8 +181,12 @@
         "message": "La connexion au serveur a échoué.",
         "description": "Displayed when we can't connect to the server."
     },
+    "messageNotSent": {
+        "message": "Message non envoyé",
+        "description": "Informational label, appears on messages that failed to send"
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Notifications désactivées",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -196,19 +216,19 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Liaison en cours",
+        "message": "Liaison en cours avec",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Leur identité (ils lisent)",
-        "description": "They is used here as a gender-neutral third-person singular"
+        "message": "Leur identité",
+        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
         "message": "Nouveaux messages",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Vous n'avez pas encore discuté avec ce contact. Son idendité sera connue après le premier message envoyé.",
+        "message": "Vous n'avez pas encore discuté avec ce contact. Son identité sera connue une fois le premier message envoyé.",
         "description": ""
     },
     "submit": {
@@ -220,7 +240,7 @@
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Ça à l'air de marcher",
+        "message": "Ça a l'air de marcher",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -232,11 +252,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "À la fois l'émetteur et son message",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "L'envoie du message à certains destinataires a échoué. Vérifiez votre connexion réseau.",
+        "message": "L'envoi du message à certains destinataires a échoué. Vérifiez votre connexion réseau.",
         "description": ""
     },
     "ok": {
@@ -244,11 +264,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "La clé de chiffrement ce contact a changé. Cela peut vouloir dire que quelqu'un essaie d'intercepter votre communication ou que votre contact a simplement ré-installé Signal et possède maintenant une nouvelle clé de chiffrement.",
+        "message": "Ce contact utilise une nouvelle identité Signal.  Cela pourrait être dû soit au fait que quelqu'un essaie d'intercepter votre communication, soit que votre contact a réinstallé Signal. Vous devriez vérifier sa nouvelle clé d'identité ci-dessous.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Soumettre le journal de debogage",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
