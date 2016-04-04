@@ -253,7 +253,7 @@
                 var ids = groups.pluck('id');
                 ids.push(sender);
                 var message = messages.find(function(message) {
-                    return (message.get('type') === 'incoming' &&
+                    return (message.isIncoming() && message.isUnread() &&
                             _.contains(ids, message.get('conversationId')));
                 });
                 if (message) {

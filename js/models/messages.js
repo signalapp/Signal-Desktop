@@ -35,6 +35,9 @@
         isIncoming: function() {
             return this.get('type') === 'incoming';
         },
+        isUnread: function() {
+            return !!this.get('unread');
+        },
         getDescription: function() {
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
