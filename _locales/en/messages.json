@@ -257,5 +257,13 @@
     "learnMore": {
         "message": "Learn more about verifying keys.",
         "description": "Text that links to a support article on verifying identity keys"
+    },
+    "expiredWarning": {
+        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "description": "Warning notification that this version of the app has expired"
+    },
+    "upgrade": {
+        "message": "Upgrade",
+        "description": "Label text for button to upgrade the app to the latest version"
     }
 }

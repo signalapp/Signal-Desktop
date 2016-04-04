@@ -6,6 +6,15 @@
     window.Whisper = window.Whisper || {};
     emoji.init_colons();
 
+    Whisper.ExpiredToast = Whisper.ToastView.extend({
+        templateName: 'expired_toast',
+        render_attributes: function() {
+            return {
+                expiredWarning: i18n('expiredWarning')
+            };
+        }
+    });
+
     Whisper.ConversationView = Whisper.View.extend({
         className: function() {
             return [ 'conversation', this.model.get('type') ].join(' ');
@@ -232,6 +241,12 @@
         },
 
         sendMessage: function(e) {
+            if (extension.expired()) {
+                var toast = new Whisper.ExpiredToast();
+                toast.$el.insertAfter(this.$el);
+                toast.render();
+                return;
+            }
             e.preventDefault();
             var input = this.$messageField;
             var message = this.replace_colons(input.val()).trim();

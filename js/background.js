@@ -94,7 +94,9 @@
         var mySignalingKey = storage.get('signaling_key');
 
         // initialize the socket and start listening for messages
-        messageReceiver = new textsecure.MessageReceiver(SERVER_URL, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL);
+        messageReceiver = new textsecure.MessageReceiver(
+            SERVER_URL, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL
+        );
         messageReceiver.addEventListener('message', onMessageReceived);
         messageReceiver.addEventListener('receipt', onDeliveryReceipt);
         messageReceiver.addEventListener('contact', onContactReceived);
@@ -103,7 +105,9 @@
         messageReceiver.addEventListener('read', onReadReceipt);
         messageReceiver.addEventListener('error', onError);
 
-        window.textsecure.messaging = new textsecure.MessageSender(SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL);
+        window.textsecure.messaging = new textsecure.MessageSender(
+            SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL
+        );
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
             syncRequest.addEventListener('success', function() {

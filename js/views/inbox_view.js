@@ -94,14 +94,20 @@
             extension.windows.onClosed(function() {
                 this.inboxListView.stopListening();
             }.bind(this));
+
+            if (extension.expired()) {
+                var banner = new Whisper.ExpiredAlertBanner().render();
+                banner.$el.prependTo(this.$el);
+                this.$el.addClass('expired');
+            }
         },
         render_attributes: {
-            welcomeToSignal: i18n('welcomeToSignal'),
-            selectAContact: i18n('selectAContact'),
-            searchForPeopleOrGroups: i18n('searchForPeopleOrGroups'),
-            submitDebugLog: i18n('submitDebugLog'),
-            settings: i18n('settings'),
-            restartSignal: i18n('restartSignal')
+            welcomeToSignal         : i18n('welcomeToSignal'),
+            selectAContact          : i18n('selectAContact'),
+            searchForPeopleOrGroups : i18n('searchForPeopleOrGroups'),
+            submitDebugLog          : i18n('submitDebugLog'),
+            settings                : i18n('settings'),
+            restartSignal           : i18n('restartSignal'),
         },
         events: {
             'click': 'closeMenu',
@@ -163,6 +169,17 @@
             }
 
             this.$('.global-menu .menu-list').hide();
+        }
+    });
+
+    Whisper.ExpiredAlertBanner = Whisper.View.extend({
+        templateName: 'expired_alert',
+        className: 'expiredAlert clearfix',
+        render_attributes: function() {
+            return {
+                expiredWarning: i18n('expiredWarning'),
+                upgrade: i18n('upgrade'),
+            };
         }
     });
 

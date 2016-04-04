@@ -3,6 +3,12 @@
   height: 100%;
 }
 
+.expired {
+  .conversation-stack, .gutter {
+    height: calc(100% - 56px);
+  }
+}
+
 .scrollable {
   height: 100%;
   overflow: auto;

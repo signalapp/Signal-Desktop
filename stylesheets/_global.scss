@@ -496,3 +496,21 @@ input[type=text], input[type=search], textarea {
     outline: 1px solid $blue;
   }
 }
+
+.expiredAlert {
+  background: #F3F3A7;
+  padding: 10px;
+  line-height: 36px;
+
+  button {
+    float: right;
+    border: none;
+    border-radius: $border-radius;
+    color: white;
+    font-weight: bold;
+    line-height: 36px;
+    padding: 0 20px;
+    background: $blue;
+    margin-left: 20px;
+  }
+}

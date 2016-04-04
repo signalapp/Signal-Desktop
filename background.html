@@ -38,6 +38,15 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='expired_alert'>
+    <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
+      <button class='upgrade'>{{ upgrade }}</button>
+    </a>
+    {{ expiredWarning }}
+  </script>
+  <script type='text/x-tmpl-mustache' id='expired_toast'>
+    {{ expiredWarning }}
+  </script>
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
   </script>
