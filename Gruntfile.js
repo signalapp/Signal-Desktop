@@ -125,6 +125,14 @@ module.exports = function(grunt) {
                 'textsecure-service-ca.whispersystems.org:4433').replace(
                 /whispersystems-textsecure-attachments-staging.s3.amazonaws.com/g,
                 'whispersystems-textsecure-attachments.s3.amazonaws.com');
+            } else if (srcpath.match('expire.js')) {
+              var gitinfo = grunt.config.get('gitinfo');
+              var commited = gitinfo.local.branch.current.lastCommitTime;
+              var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+              return content.replace(
+                /var BUILD_EXPIRATION = 0/,
+                "var BUILD_EXPIRATION = " + time
+              );
             } else {
               return content;
             }
@@ -157,7 +165,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: ['<%= dist.src %>', '<%= dist.res %>'],
-        tasks: ['copy']
+        tasks: ['copy_dist']
       },
       scripts: {
         files: ['<%= jshint.files %>', './js/**/*.js'],
@@ -198,7 +206,8 @@ module.exports = function(grunt) {
       'tx-pull': {
         cmd: 'tx pull'
       }
-    }
+    },
+    gitinfo: {} // to be populated by grunt gitinfo
   });
 
   Object.keys(grunt.config.get('pkg').devDependencies).forEach(function(key) {
@@ -232,6 +241,7 @@ module.exports = function(grunt) {
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
-  grunt.registerTask('default', ['concat', 'sass', 'copy']);
+  grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
+  grunt.registerTask('default', ['concat', 'sass', 'copy_dist']);
 
 };
