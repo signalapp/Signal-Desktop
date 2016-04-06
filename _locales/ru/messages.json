@@ -1,6 +1,6 @@
 {
     "unsupportedAttachment": {
-        "message": "Этот формат вложения не поддерживается. Нажмите чтобы сохранить.",
+        "message": "Этот формат вложения не поддерживается. Нажмите, чтобы сохранить.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
@@ -8,7 +8,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с неизвестным ключом личности. Нажмите чтобы продолжить и отобразить.",
+        "message": "Получено сообщение с неизвестным ключом личности. Нажмите, чтобы продолжить и отобразить.",
         "description": ""
     },
     "installComputerName": {
@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Подробнее",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Перезапустить Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -56,7 +56,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Выберите контакта или группу чтобы начать общение.",
+        "message": "Выберите контакта или группу, чтобы начать общение.",
         "description": ""
     },
     "installConnecting": {
@@ -100,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Поиск...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -134,7 +134,7 @@
         "description": ""
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Скрыть",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -150,7 +150,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Принять",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
@@ -162,7 +162,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "outgoingKeyConflict": {
-        "message": "Ключ личности этого контакта был изменён. Нажмите чтобы продолжить и отобразить.",
+        "message": "Ключ личности этого контакта был изменён. Нажмите, чтобы продолжить и отобразить.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -170,7 +170,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кноку добавления нового устройства и отсканируйте код, указанный выше.",
+        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кнопку добавления нового устройства и отсканируйте код, указанный выше.",
         "description": ""
     },
     "installWelcome": {
