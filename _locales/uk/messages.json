@@ -1,70 +1,70 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Непідтримуваний формат вкладення. Клацніть щоб зберегти.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Налаштування",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Отримано повідомлення з невідомим особистим ключем. Клацніть щоб продовжити та переглянути.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Ім'я цього комп'ютера буде",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Зрозуміло!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Деталі",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Непідтримуваний формат файлу.",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Створення Ключів",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Скинути сесію",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Ласкаво просимо до Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "При отриманні повідомлення показувати нотифікації які відображають:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Учасники",
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Перезапустити Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Видалити повідомлення",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Оберіть контакт чи групу щоб почати спілкування.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "З'єднання...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Ви, можливо, захочете $tag_start$ перевірити $tag_end$ цей контакт.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -76,39 +76,39 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Надіслано",
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Нове Повідомлення",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Тільки ім'я відправника",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Ідентифікація особи",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Від",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Цей журнал буде доступний для розробників. Ви можете перевірити його перед відправкою.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Пошук...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Нічого",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Приєднуйтесь</a>,  щоб дізнаватись про оновлення  та підтримку багатьох пристроїв у iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -118,95 +118,103 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Дізнатись більше про перевірку ключів.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Ваша особа",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Вибачте, у вас забагато пов'язаних пристроїв. Видаліть які-небудь.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Синхронізація груп та контактів",
         "description": ""
     },
+    "upgrade": {
+        "message": "Оновити",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
-        "message": "Hide details",
+        "message": "Сховати деталі",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Нова особистість",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Приватність - це можливо. Signal робить її досягнення простим.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Від'єднано",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Прийняти",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
-        "message": "Received",
+        "message": "Отримано",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Надіслати повідомлення",
         "description": "Placeholder text in the message entry field"
     },
+    "expiredWarning": {
+        "message": "Ця версія застаріла. Оновіться до останньої версії щоб продовжити спілкування.",
+        "description": "Warning notification that this version of the app has expired"
+    },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Особистий ключ цього контакту було змінено. Клацніть щоб продовжити та переглянути.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Вибачте, але розмір обраного файлу перевищує обмеження.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Відкрийте Signal у вашому смартфоні та перейдіть до Налаштування > Пристрої. Торкніться кнопки для додавання нового пристрою та відскануйте код вище.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Ласкаво просимо до Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Не вдалося підключитись до сервера.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Повідомлення не надіслане.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Вимкнути нотифікації",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Відмінити",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Я маю Signal для Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Захищену сесію перезапущено",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Давайте почнемо",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Встановіть <a $a_params$>Signal</a> на вашому Android смартфоні.<br />\nМи пов'яжемо ваші пристрої і синхронізуємо повідомлення.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -216,71 +224,71 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Пов'язування з",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Їхня особа",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Нові Повідомлення",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Ви ще не надіслали жодного повідомлення цій особі. Ця особа буде доступна після першого повідомлення.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Надіслати",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Кому",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Виглядає добре",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Деталі повідомлення",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Перевірити",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Ім'я відправника і повідомлення",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Не вдалося відіслати деяким адресатам. Перевірте ваше мережеве з'єднання.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "Добре",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Цей контакт використовує нову особистість. Це може означати, що хтось намагається перехопити дані або цей контакт просто перевстановив Signal. Перевірте особистий ключ нижче.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Відіслати журнал відладки",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Помилка",
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Нотифікації",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Надіслати знову",
         "description": ""
     }
 }

@@ -133,6 +133,10 @@
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
         "description": ""
     },
+    "upgrade": {
+        "message": "Päivitä",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Piilota lisätiedot",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "Lähetä viesti",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "Käyttämäsi versio Signal Desktopista on vanhentunut. Viestien lähettäminen ja vastaanottaminen eivät enää toimi, ennen kuin olet päiväittänyt uusimpaan versioon.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "Tämän yhteystiedon identiteettiavain on vaihtunut. Aloita käsittely napsauttamalla.",

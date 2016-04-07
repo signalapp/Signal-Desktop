@@ -133,6 +133,10 @@
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
     },
+    "upgrade": {
+        "message": "Upgrade",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Details verbergen",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "Een bericht versturen",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "De identiteitssleutel van dit contact is gewijzigd. Klik om deze te tonen en te verwerken.",

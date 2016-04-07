@@ -133,6 +133,10 @@
         "message": "ಗುಂಪುಗಳು ಹಾಗು ಸಂಪರ್ಕಗಳನ್ನು  ಸಮನ್ವಯಗೊಳಿಸಲಾಗುತ್ತಿದೆ",
         "description": ""
     },
+    "upgrade": {
+        "message": "Upgrade",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Hide details",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "ಒಂದು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ.  ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",

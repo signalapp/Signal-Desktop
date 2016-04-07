@@ -4,7 +4,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Nastavení",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Detaily",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -28,7 +28,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Generuji klíče",
         "description": ""
     },
     "resetSession": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "V notifikacích nově přijatých zpráv ukázat:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Restartovat Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -80,11 +80,11 @@
         "description": "Label for the time a message was sent"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nová zpráva",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Pouze jméno odesílatele",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -92,7 +92,7 @@
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Od",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
@@ -104,7 +104,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Nezobrazovat ani jméno odesílatele ani zprávu",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -118,11 +118,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Zjistit více o verifikaci klíčů.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Vaše identita",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -133,12 +133,16 @@
         "message": "Syncing groups and contacts",
         "description": ""
     },
+    "upgrade": {
+        "message": "Upgrade",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
-        "message": "Hide details",
+        "message": "Skrýt detaily",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Nová identita",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -161,6 +165,10 @@
         "message": "Poslat zprávu ",
         "description": "Placeholder text in the message entry field"
     },
+    "expiredWarning": {
+        "message": "Tato verze aplikace Signal Desktop je zastaralá. Prosím, aktualizujte ji na nejnovjější verzi.",
+        "description": "Warning notification that this version of the app has expired"
+    },
     "outgoingKeyConflict": {
         "message": "Tento identifikační klíč kontaktu byl změněn. Klikni pro zpracování a zobrazení.",
         "description": ""
@@ -174,19 +182,19 @@
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Vítejte v aplikaci Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Připojení k serveru selhalo.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Zpráva nemohla být odeslána.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Vypnout notifikace",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -194,7 +202,7 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Mám aplikaci Signal pro Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
@@ -224,7 +232,7 @@
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nové zprávy",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -236,7 +244,7 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Komu",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
@@ -252,7 +260,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Jméno odesílatele a zprávu",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -276,7 +284,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Notifikace",
         "description": "Header for notification settings"
     },
     "resend": {

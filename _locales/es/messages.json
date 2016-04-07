@@ -100,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Buscar…",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -133,6 +133,10 @@
         "message": "Sincronizando grupos y contactos",
         "description": ""
     },
+    "upgrade": {
+        "message": "Actualizar",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Ocultar detalles",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "Enviar mensaje",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "Esta versión de Signal Desktop ha caducado. Por favor, actualice a la última versión para seguir enviando mensajes.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "La clave identificadora de este contacto ha cambiado. Haga clic para procesar y mostrarla.",

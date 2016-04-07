@@ -100,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Išči...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -133,6 +133,10 @@
         "message": "Usklajujem skupine in stike...",
         "description": ""
     },
+    "upgrade": {
+        "message": "Posodobi",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Skrij podrobnosti",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "Pošlji sporočilo",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "Identifikacijski ključ te osebe je bil spremenjen. Kliknite za prikaz in obdelavo.",

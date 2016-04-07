@@ -32,7 +32,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Sitzung zurücksetzen",
+        "message": "Verschlüsselung neu starten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -52,7 +52,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Nachrichten löschen",
+        "message": "Unterhaltung löschen",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
@@ -60,7 +60,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Verbindungsaufbau…",
+        "message": "Verbindung wird hergestellt …",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -88,7 +88,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Identität überprüfen",
+        "message": "Kontakt überprüfen",
         "description": ""
     },
     "from": {
@@ -100,7 +100,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "sucht...",
+        "message": "Suchen …",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -122,7 +122,7 @@
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Ihre Identität",
+        "message": "Ihr Identitätsschlüssel:",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -133,12 +133,16 @@
         "message": "Gruppen und Kontakte werden synchronisiert",
         "description": ""
     },
+    "upgrade": {
+        "message": "Aktualisierung",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Details ausblenden",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "Neue Identität",
+        "message": "Neuer Identitätsschlüssel",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -146,7 +150,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Getrennt",
+        "message": "Nicht verbunden",
         "description": ""
     },
     "acceptNewKey": {
@@ -161,8 +165,12 @@
         "message": "Eine Nachricht senden",
         "description": "Placeholder text in the message entry field"
     },
+    "expiredWarning": {
+        "message": "Diese Version von Signal Desktop ist veraltet. Bitte führen Sie eine Aktualisierung auf die aktuellste Version durch, um weiterhin Nachrichten austauschen zu können.",
+        "description": "Warning notification that this version of the app has expired"
+    },
     "outgoingKeyConflict": {
-        "message": "Der Identitätsschlüssel dieses Kontaktes hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Der Identitätsschlüssel dieses Kontakts hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -198,7 +206,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Sichere Sitzung zurückgesetzt",
+        "message": "Verschlüsselung neu gestartet",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -206,7 +214,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Installieren Sie zuerst <a $a_params$>Signal</a> auf Ihrem Android-Gerät.<br /> Ihre Geräte werden dann verknüpft und Ihre Nachrichten synchronisiert.",
+        "message": "Installieren Sie zuerst <a $a_params$>Signal</a> auf Ihrem Android-Gerät.<br /> Ihre Geräte werden dann verknüpft und Ihre Nachrichten zukünftig synchronisiert.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -216,11 +224,11 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Verknüpfen mit",
+        "message": "Verknüpfung wird durchgeführt mit",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Identität des Kontaktes",
+        "message": "Identitätsschlüssel des Kontakts:",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -264,7 +272,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Dieser Kontakt nutzt eine neue Signal-Identität. Dies kann entweder bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchten Sie den neuen Identitätsschlüssel unten überprüfen.",
+        "message": "Dieser Kontakt verwendet einen neuen Signal-Identitätsschlüssel. Dies kann entweder bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchten Sie den neuen Identitätsschlüssel unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {

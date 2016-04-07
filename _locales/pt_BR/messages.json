@@ -84,7 +84,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Apenas o nome da pessoa remetente",
+        "message": "Apenas o nome do remetente",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -133,6 +133,10 @@
         "message": "Sincronizando grupos e contatos",
         "description": ""
     },
+    "upgrade": {
+        "message": "Atualizar",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "Ocultar detalhes",
         "description": "Hides the details of a key change"
@@ -161,6 +165,10 @@
         "message": "Enviar uma mensagem",
         "description": "Placeholder text in the message entry field"
     },
+    "expiredWarning": {
+        "message": "Esta versão do Signal Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens.",
+        "description": "Warning notification that this version of the app has expired"
+    },
     "outgoingKeyConflict": {
         "message": "A chave de identidade deste contato mudou. Clique para processar e exibir.",
         "description": ""
@@ -170,7 +178,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abrir Signal no seu telefone e ir até Configurações > Dispositivos. Pressionar o botão para adicionar um novo dispositivo e em seguida, digitar o código acima.",
+        "message": "Abra o Signal no seu telefone e vá para Configurações > Dispositivos. Pressione o botão de adicionar um novo dispositivo e em seguida, escaneie o código acima.",
         "description": ""
     },
     "installWelcome": {

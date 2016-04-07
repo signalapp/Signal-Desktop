@@ -133,6 +133,10 @@
         "message": "مزامنة المجموعات و جهات الاتصال",
         "description": ""
     },
+    "upgrade": {
+        "message": "Upgrade",
+        "description": "Label text for button to upgrade the app to the latest version"
+    },
     "showLess": {
         "message": "اخفاء التفاصيل",
         "description": "Hides the details of a key change"
@@ -160,6 +164,10 @@
     "sendMessage": {
         "message": "أرسل رسالة",
         "description": "Placeholder text in the message entry field"
+    },
+    "expiredWarning": {
+        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
         "message": "لقد تغيّر مفتاح هوية هذا المستخدم. اضغط للاستمرار والاظهار ",
