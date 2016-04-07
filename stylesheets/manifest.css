@@ -479,7 +479,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   width: 300px; }
   .gutter .content {
     background-color: #f3f3f3;
-    height: calc(100% - 104px); }
+    height: calc(100% - 64px - 36px); }
   .gutter .conversations {
     overflow-y: scroll;
     height: 100%;

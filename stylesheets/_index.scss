@@ -20,7 +20,7 @@
   width: 300px;
   .content {
     background-color: $grey_l;
-    height: calc(100% - 104px);
+    height: calc(100% - #{$header-height} - #{$search-height});
   }
 
   .conversations {
@@ -90,7 +90,7 @@ input.search {
   padding: 0;
   margin: 0;
   outline: 0;
-  height: 36px;
+  height: $search-height;
   width: 100%;
   padding: 10px;
   border: solid 1px $grey_l;
