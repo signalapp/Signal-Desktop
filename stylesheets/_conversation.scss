@@ -467,22 +467,9 @@
     padding-bottom: 1px;
   }
 
-  button, input, textarea {
+  input, textarea {
     color: $grey_d;
   }
-
-  button {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: $button-width;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 24px;
-    background: transparent;
-  }
-
 
   .attachment-previews {
     padding: 0 36px;

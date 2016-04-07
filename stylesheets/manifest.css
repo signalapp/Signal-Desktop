@@ -1013,18 +1013,8 @@ input.search {
   .bottom-bar form.send {
     background: #ffffff;
     padding-bottom: 1px; }
-  .bottom-bar button, .bottom-bar input, .bottom-bar textarea {
+  .bottom-bar input, .bottom-bar textarea {
     color: #454545; }
-  .bottom-bar button {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 36px;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 24px;
-    background: transparent; }
   .bottom-bar .attachment-previews {
     padding: 0 36px; }
     .bottom-bar .attachment-previews .attachment-preview {
