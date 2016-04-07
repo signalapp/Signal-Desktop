@@ -1342,10 +1342,10 @@
                     ++week;
                 }
             } else if (w.e != null) {
-                // local weekday -- counting starts from begining of week
+                // local weekday -- counting starts from beginning of week
                 weekday = w.e + dow;
             } else {
-                // default to begining of week
+                // default to beginning of week
                 weekday = dow;
             }
         }

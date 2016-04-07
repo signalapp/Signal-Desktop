@@ -127,8 +127,8 @@ module.exports = function(grunt) {
                 'whispersystems-textsecure-attachments.s3.amazonaws.com');
             } else if (srcpath.match('expire.js')) {
               var gitinfo = grunt.config.get('gitinfo');
-              var commited = gitinfo.local.branch.current.lastCommitTime;
-              var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+              var committed = gitinfo.local.branch.current.lastCommitTime;
+              var time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
               return content.replace(
                 /var BUILD_EXPIRATION = 0/,
                 "var BUILD_EXPIRATION = " + time

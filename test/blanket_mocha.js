@@ -309,7 +309,7 @@ parseStatement: true, parseSourceElement: true */
         }
 
         // 'const' is specialized as Keyword in V8.
-        // 'yield' and 'let' are for compatiblity with SpiderMonkey and ES.next.
+        // 'yield' and 'let' are for compatibility with SpiderMonkey and ES.next.
         // Some others are from future reserved words.
 
         switch (id.length) {
@@ -5100,7 +5100,7 @@ _blanket.extend({
                     inputFileName: url
                 },function(instrumented){
                     try{
-                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successfull.");}
+                        if (_blanket.options("debug")) {console.log("BLANKET-instrument of:"+url+" was successful.");}
                         _blanket.utils.blanketEval(instrumented);
                         cb();
                         _blanket.requiringFile(url,true);

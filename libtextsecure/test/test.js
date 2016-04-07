@@ -6489,7 +6489,7 @@ function propFilter( props, specialEasing ) {
 			value = hooks.expand( value );
 			delete props[ name ];
 
-			// not quite $.extend, this wont overwrite keys already present.
+			// not quite $.extend, this won't overwrite keys already present.
 			// also - reusing 'index' from above because we have the correct "name"
 			for ( index in value ) {
 				if ( !( index in props ) ) {
@@ -9786,7 +9786,7 @@ SocketService.prototype = {
   */
   notify: function(namespace) {
 
-    // This strips the namespace from the list of args as we dont want to pass that into the callback.
+    // This strips the namespace from the list of args as we don't want to pass that into the callback.
     var argumentsForCallback = Array.prototype.slice.call(arguments, 1);
 
     if(!this.verifyNamespaceArg(namespace)) {
@@ -9807,7 +9807,7 @@ SocketService.prototype = {
   */
   notifyOnlyFor: function(context, namespace) {
 
-    // This strips the namespace from the list of args as we dont want to pass that into the callback.
+    // This strips the namespace from the list of args as we don't want to pass that into the callback.
     var argumentsForCallback = Array.prototype.slice.call(arguments, 2);
 
     if(!this.verifyNamespaceArg(namespace)) {
@@ -20293,7 +20293,7 @@ module.exports = function getEnumerableProperties(object) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var flag = require('./flag')
@@ -21101,7 +21101,7 @@ function objectToString(o) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var inspect = require('./inspect');
@@ -21320,7 +21320,7 @@ module.exports = function (ctx, name, getter) {
  */
 
 /*!
- * Module dependancies
+ * Module dependencies
  */
 
 var flag = require('./flag');

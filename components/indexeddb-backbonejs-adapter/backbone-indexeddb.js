@@ -57,7 +57,7 @@
 
         this.dbRequest.onsuccess = function (e) {
             this.db = e.target.result; // Attach the connection ot the queue.
-            var currentIntDBVersion = (parseInt(this.db.version) ||  0); // we need convert beacuse chrome store in integer and ie10 DP4+ in int;
+            var currentIntDBVersion = (parseInt(this.db.version) ||  0); // we need convert because chrome store in integer and ie10 DP4+ in int;
             var lastMigrationInt = (parseInt(lastMigrationPathVersion) || 0);  // And make sure we compare numbers with numbers.
 
             if (currentIntDBVersion === lastMigrationInt) { //if support new event onupgradeneeded will trigger the ready function
@@ -577,7 +577,7 @@
 
     // Method used by Backbone for sync of data with data store. It was initially designed to work with "server side" APIs, This wrapper makes
     // it work with the local indexedDB stuff. It uses the schema attribute provided by the object.
-    // The wrapper keeps an active Executuon Queue for each "schema", and executes querues agains it, based on the object type (collection or
+    // The wrapper keeps an active Execution Queue for each "schema", and executes queries against it, based on the object type (collection or
     // single model), but also the method... etc.
     // Keeps track of the connections
     var Databases = {};

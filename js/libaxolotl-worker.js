@@ -150,7 +150,7 @@ else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
   }
 }
 else {
-  // Unreachable because SHELL is dependant on the others
+  // Unreachable because SHELL is dependent on the others
   throw 'Unknown runtime environment. Where are we?';
 }
 

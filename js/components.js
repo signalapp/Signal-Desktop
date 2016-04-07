@@ -6489,7 +6489,7 @@ function propFilter( props, specialEasing ) {
 			value = hooks.expand( value );
 			delete props[ name ];
 
-			// not quite $.extend, this wont overwrite keys already present.
+			// not quite $.extend, this won't overwrite keys already present.
 			// also - reusing 'index' from above because we have the correct "name"
 			for ( index in value ) {
 				if ( !( index in props ) ) {
@@ -10291,7 +10291,7 @@ return jQuery;
         ByteBuffer.DEFAULT_CAPACITY = 16;
 
         /**
-         * Default endianess of `false` for big endian.
+         * Default endianness of `false` for big endian.
          * @type {boolean}
          * @expose
          */
@@ -17211,7 +17211,7 @@ return jQuery;
             };
 
             /**
-             * Creates ths specified protocol types at the current pointer position.
+             * Creates the specified protocol types at the current pointer position.
              * @param {Array.<Object.<string,*>>} defs Messages, enums or services to create
              * @return {ProtoBuf.Builder} this
              * @throws {Error} If a message definition is invalid
@@ -20338,7 +20338,7 @@ return jQuery;
   // -------------------
 
   // If models tend to represent a single row of data, a Backbone Collection is
-  // more analagous to a table full of data ... or a small slice or page of that
+  // more analogous to a table full of data ... or a small slice or page of that
   // table, or a collection of rows that belong together for a particular reason
   // -- all of the messages in this particular folder, all of the documents
   // belonging to this particular author, and so on. Collections maintain
@@ -21415,7 +21415,7 @@ return jQuery;
 
         this.dbRequest.onsuccess = function (e) {
             this.db = e.target.result; // Attach the connection ot the queue.
-            var currentIntDBVersion = (parseInt(this.db.version) ||  0); // we need convert beacuse chrome store in integer and ie10 DP4+ in int;
+            var currentIntDBVersion = (parseInt(this.db.version) ||  0); // we need convert because chrome store in integer and ie10 DP4+ in int;
             var lastMigrationInt = (parseInt(lastMigrationPathVersion) || 0);  // And make sure we compare numbers with numbers.
 
             if (currentIntDBVersion === lastMigrationInt) { //if support new event onupgradeneeded will trigger the ready function
@@ -21935,7 +21935,7 @@ return jQuery;
 
     // Method used by Backbone for sync of data with data store. It was initially designed to work with "server side" APIs, This wrapper makes
     // it work with the local indexedDB stuff. It uses the schema attribute provided by the object.
-    // The wrapper keeps an active Executuon Queue for each "schema", and executes querues agains it, based on the object type (collection or
+    // The wrapper keeps an active Execution Queue for each "schema", and executes queries against it, based on the object type (collection or
     // single model), but also the method... etc.
     // Keeps track of the connections
     var Databases = {};
@@ -24694,10 +24694,10 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
                     ++week;
                 }
             } else if (w.e != null) {
-                // local weekday -- counting starts from begining of week
+                // local weekday -- counting starts from beginning of week
                 weekday = w.e + dow;
             } else {
-                // default to begining of week
+                // default to beginning of week
                 weekday = dow;
             }
         }
@@ -26542,7 +26542,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             }
             // format
             if (val) {
-                // this wont be run after _updateDialCode as that's only called if no val
+                // this won't be run after _updateDialCode as that's only called if no val
                 this._updateVal(val, false);
             }
         },
@@ -26594,7 +26594,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             if (this.options.autoFormat) {
                 // format number and update flag on keypress
                 // use keypress event as we want to ignore all input except for a select few keys,
-                // but we dont want to ignore the navigation keys like the arrows etc.
+                // but we don't want to ignore the navigation keys like the arrows etc.
                 // NOTE: no point in refactoring this to only bind these listeners on focus/blur because then you would need to have those 2 listeners running the whole time anyway...
                 this.telInput.on("keypress" + this.ns, function(e) {
                     // 32 is space, and after that it's all chars (not meta/nav keys)
@@ -26604,10 +26604,10 @@ https://github.com/Bluefieldscom/intl-tel-input.git
                     if (e.which >= keys.SPACE && !e.metaKey && window.intlTelInputUtils && !that.telInput.prop("readonly")) {
                         e.preventDefault();
                         // allowed keys are just numeric keys and plus
-                        // we must allow plus for the case where the user does select-all and then hits plus to start typing a new number. we could refine this logic to first check that the selection contains a plus, but that wont work in old browsers, and I think it's overkill anyway
+                        // we must allow plus for the case where the user does select-all and then hits plus to start typing a new number. we could refine this logic to first check that the selection contains a plus, but that won't work in old browsers, and I think it's overkill anyway
                         var isAllowedKey = e.which >= keys.ZERO && e.which <= keys.NINE || e.which == keys.PLUS, input = that.telInput[0], noSelection = that.isGoodBrowser && input.selectionStart == input.selectionEnd, max = that.telInput.attr("maxlength"), val = that.telInput.val(), // assumes that if max exists, it is >0
                         isBelowMax = max ? val.length < max : true;
-                        // first: ensure we dont go over maxlength. we must do this here to prevent adding digits in the middle of the number
+                        // first: ensure we don't go over maxlength. we must do this here to prevent adding digits in the middle of the number
                         // still reformat even if not an allowed key as they could by typing a formatting char, but ignore if there's a selection as doesn't make sense to replace selection with illegal char and then immediately remove it
                         if (isBelowMax && (isAllowedKey || noSelection)) {
                             var newChar = isAllowedKey ? String.fromCharCode(e.which) : null;
@@ -26626,7 +26626,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             // handle keyup event
             // for autoFormat: we use keyup to catch cut/paste events and also delete events (after the fact)
             this.telInput.on("keyup" + this.ns, function(e) {
-                // the "enter" key event from selecting a dropdown item is triggered here on the input, because the document.keydown handler that initially handles that event triggers a focus on the input, and so the keyup for that same key event gets triggered here. weird, but just make sure we dont bother doing any re-formatting in this case (we've already done preventDefault in the keydown handler, so it wont actually submit the form or anything).
+                // the "enter" key event from selecting a dropdown item is triggered here on the input, because the document.keydown handler that initially handles that event triggers a focus on the input, and so the keyup for that same key event gets triggered here. weird, but just make sure we don't bother doing any re-formatting in this case (we've already done preventDefault in the keydown handler, so it won't actually submit the form or anything).
                 // ALSO: ignore keyup if readonly
                 if (e.which == keys.ENTER || that.telInput.prop("readonly")) {} else if (that.options.autoFormat && window.intlTelInputUtils) {
                     var isCtrl = e.which == keys.CTRL || e.which == keys.CMD1 || e.which == keys.CMD2, input = that.telInput[0], // noSelection defaults to false for bad browsers, else would be reformatting on all ctrl keys e.g. select-all/copy
@@ -26662,7 +26662,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             var val = this.telInput.val(), numericBefore = this._getNumeric(val), originalLeftChar, // raw DOM element
             input = this.telInput[0], digitsOnRight = 0;
             if (this.isGoodBrowser) {
-                // cursor strategy: maintain the number of digits on the right. we use the right instead of the left so that A) we dont have to account for the new digit (or digits if paste event), and B) we're always on the right side of formatting suffixes
+                // cursor strategy: maintain the number of digits on the right. we use the right instead of the left so that A) we don't have to account for the new digit (or digits if paste event), and B) we're always on the right side of formatting suffixes
                 digitsOnRight = this._getDigitsOnRight(val, input.selectionEnd);
                 // if handling a new number character: insert it in the right place
                 if (newNumericChar) {
@@ -26918,7 +26918,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             var formatted;
             if (this.options.autoFormat && window.intlTelInputUtils) {
                 formatted = intlTelInputUtils.formatNumber(val, this.selectedCountryData.iso2, addSuffix, this.options.preventInvalidNumbers);
-                // ensure we dont go over maxlength. we must do this here to truncate any formatting suffix, and also handle paste events
+                // ensure we don't go over maxlength. we must do this here to truncate any formatting suffix, and also handle paste events
                 var max = this.telInput.attr("maxlength");
                 if (max && formatted.length > max) {
                     formatted = formatted.substr(0, max);
@@ -26932,7 +26932,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
         // check if need to select a new flag based on the given number
         _updateFlagFromNumber: function(number) {
             // if we're in nationalMode and we're on US/Canada, make sure the number starts with a +1 so _getDialCode will be able to extract the area code
-            // update: if we dont yet have selectedCountryData, but we're here (trying to update the flag from the number), that means we're initialising the plugin with a number that already has a dial code, so fine to ignore this bit
+            // update: if we don't yet have selectedCountryData, but we're here (trying to update the flag from the number), that means we're initialising the plugin with a number that already has a dial code, so fine to ignore this bit
             if (this.options.nationalMode && this.selectedCountryData && this.selectedCountryData.dialCode == "1" && number.substr(0, 1) != "+") {
                 number = "+1" + number;
             }
@@ -27156,9 +27156,9 @@ https://github.com/Bluefieldscom/intl-tel-input.git
         loadUtils: function(path) {
             var utilsScript = path || this.options.utilsScript;
             if (!$.fn[pluginName].loadedUtilsScript && utilsScript) {
-                // don't do this twice! (dont just check if the global intlTelInputUtils exists as if init plugin multiple times in quick succession, it may not have finished loading yet)
+                // don't do this twice! (don't just check if the global intlTelInputUtils exists as if init plugin multiple times in quick succession, it may not have finished loading yet)
                 $.fn[pluginName].loadedUtilsScript = true;
-                // dont use $.getScript as it prevents caching
+                // don't use $.getScript as it prevents caching
                 $.ajax({
                     url: utilsScript,
                     success: function() {
