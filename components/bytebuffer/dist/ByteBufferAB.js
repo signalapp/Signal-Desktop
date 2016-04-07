@@ -142,7 +142,7 @@
         ByteBuffer.DEFAULT_CAPACITY = 16;
 
         /**
-         * Default endianess of `false` for big endian.
+         * Default endianness of `false` for big endian.
          * @type {boolean}
          * @expose
          */

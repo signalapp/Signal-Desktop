@@ -3786,7 +3786,7 @@
             };
 
             /**
-             * Creates ths specified protocol types at the current pointer position.
+             * Creates the specified protocol types at the current pointer position.
              * @param {Array.<Object.<string,*>>} defs Messages, enums or services to create
              * @return {ProtoBuf.Builder} this
              * @throws {Error} If a message definition is invalid

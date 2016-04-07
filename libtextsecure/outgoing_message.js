@@ -169,7 +169,7 @@ OutgoingMessage.prototype = {
             return this.getKeysForNumber(number, updateDevices)
                 .then(this.reloadDevicesAndSend(number, true))
                 .catch(function(error) {
-                    this.registerError(number, "Failed to retreive new device keys for number " + number, error);
+                    this.registerError(number, "Failed to retrieve new device keys for number " + number, error);
                 }.bind(this));
         }.bind(this));
     }

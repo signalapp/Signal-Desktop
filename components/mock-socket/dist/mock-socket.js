@@ -580,7 +580,7 @@ SocketService.prototype = {
   */
   notify: function(namespace) {
 
-    // This strips the namespace from the list of args as we dont want to pass that into the callback.
+    // This strips the namespace from the list of args as we don't want to pass that into the callback.
     var argumentsForCallback = Array.prototype.slice.call(arguments, 1);
 
     if(!this.verifyNamespaceArg(namespace)) {
@@ -601,7 +601,7 @@ SocketService.prototype = {
   */
   notifyOnlyFor: function(context, namespace) {
 
-    // This strips the namespace from the list of args as we dont want to pass that into the callback.
+    // This strips the namespace from the list of args as we don't want to pass that into the callback.
     var argumentsForCallback = Array.prototype.slice.call(arguments, 2);
 
     if(!this.verifyNamespaceArg(namespace)) {

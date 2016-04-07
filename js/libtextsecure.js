@@ -264,7 +264,7 @@ else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
   }
 }
 else {
-  // Unreachable because SHELL is dependant on the others
+  // Unreachable because SHELL is dependent on the others
   throw 'Unknown runtime environment. Where are we?';
 }
 
@@ -26534,7 +26534,7 @@ Curve25519Worker.prototype = {
         ByteBuffer.DEFAULT_CAPACITY = 16;
 
         /**
-         * Default endianess of `false` for big endian.
+         * Default endianness of `false` for big endian.
          * @type {boolean}
          * @expose
          */
@@ -33454,7 +33454,7 @@ Curve25519Worker.prototype = {
             };
 
             /**
-             * Creates ths specified protocol types at the current pointer position.
+             * Creates the specified protocol types at the current pointer position.
              * @param {Array.<Object.<string,*>>} defs Messages, enums or services to create
              * @return {ProtoBuf.Builder} this
              * @throws {Error} If a message definition is invalid
@@ -34058,7 +34058,7 @@ axolotlInternal.crypto = function() {
 
         HKDF: function(input, salt, info) {
             // Specific implementation of RFC 5869 that only returns the first 3 32-byte chunks
-            // TODO: We dont always need the third chunk, we might skip it
+            // TODO: We don't always need the third chunk, we might skip it
             return axolotlInternal.crypto.sign(salt, input).then(function(PRK) {
                 var infoBuffer = new ArrayBuffer(info.byteLength + 1 + 32);
                 var infoArray = new Uint8Array(infoBuffer);
@@ -34641,7 +34641,7 @@ window.axolotl.protocol = function(storage_interface) {
             return;
 
         // After this has run, we can still receive messages on ratchet chains which
-        // were already open (unless we know we dont need them),
+        // were already open (unless we know we don't need them),
         // but we cannot send messages or step the ratchet
 
         // Delete current sending ratchet
@@ -34878,7 +34878,7 @@ window.axolotl.protocol = function(storage_interface) {
     *** Public crypto API ***
     *************************/
     //TODO: SHARP EDGE HERE
-    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
+    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally can't!
     // returns decrypted plaintext and a function that must be called if the message indicates session close
     self.decryptWhisperMessage = function(encodedNumber, messageBytes) {
         return doDecryptWhisperMessage(encodedNumber, toArrayBuffer(messageBytes));
@@ -37510,7 +37510,7 @@ OutgoingMessage.prototype = {
             return this.getKeysForNumber(number, updateDevices)
                 .then(this.reloadDevicesAndSend(number, true))
                 .catch(function(error) {
-                    this.registerError(number, "Failed to retreive new device keys for number " + number, error);
+                    this.registerError(number, "Failed to retrieve new device keys for number " + number, error);
                 }.bind(this));
         }.bind(this));
     }
