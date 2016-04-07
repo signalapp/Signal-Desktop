@@ -70,7 +70,7 @@ a {
   -webkit-mask: url("/images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
-  .inactive button.back:hover {
+  .inactive button.back:focus, .inactive button.back:hover {
     -webkit-mask: url("/images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
@@ -79,7 +79,7 @@ button.back {
   -webkit-mask: url("/images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
-  button.back:hover {
+  button.back:focus, button.back:hover {
     -webkit-mask: url("/images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
@@ -108,7 +108,7 @@ button.back {
   -webkit-mask: url("/images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
-  .inactive .menu .hamburger:hover {
+  .inactive .menu .hamburger:focus, .inactive .menu .hamburger:hover {
     -webkit-mask: url("/images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
@@ -123,7 +123,7 @@ button.back {
     -webkit-mask: url("/images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
-    .menu .hamburger:hover {
+    .menu .hamburger:focus, .menu .hamburger:hover {
       -webkit-mask: url("/images/menu.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }

@@ -49,13 +49,13 @@ $border-radius: 5px;
 }
 @mixin header-icon-white($svg) {
   @include color-svg($svg, rgba(255,255,255, 0.8));
-  &:hover {
+  &:focus, &:hover {
     @include color-svg($svg, white);
   }
 }
 @mixin header-icon-black($svg) {
   @include color-svg($svg, rgba(0,0,0, 0.5));
-  &:hover {
+  &:focus, &:hover {
     @include color-svg($svg, black);
   }
 }
