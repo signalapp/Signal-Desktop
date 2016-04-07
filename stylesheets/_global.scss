@@ -153,7 +153,8 @@ button.back {
     opacity: 0.5;
     transform: rotateZ(-45deg);
 
-    &:hover {
+
+    &:focus, &:hover {
       opacity: 1.0;
     }
   }

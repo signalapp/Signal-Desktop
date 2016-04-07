@@ -160,7 +160,7 @@ button.back {
     background-color: #616161;
     opacity: 0.5;
     transform: rotateZ(-45deg); }
-    .file-input .paperclip:hover {
+    .file-input .paperclip:focus, .file-input .paperclip:hover {
       opacity: 1.0; }
   .file-input input[type=file] {
     display: none;
