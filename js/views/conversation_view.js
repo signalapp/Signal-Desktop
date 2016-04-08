@@ -128,6 +128,7 @@
         },
 
         fetchMessages: function() {
+            console.log('fetchMessages');
             this.$('.bar-container').show();
             return this.model.fetchContacts().then(function() {
                 return this.model.fetchMessages().then(function() {
