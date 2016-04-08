@@ -171,7 +171,7 @@
         }
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Devices. Tap the button to add a new device, then scan the code above."
+        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above."
     },
     "installConnecting": {
         "message": "Connecting...",
