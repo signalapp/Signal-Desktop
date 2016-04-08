@@ -54,7 +54,7 @@ Currently only the Android client supports multi-device linking.
    at `textsecure-service-staging.whispersystems.org`. This task is 1% search and
    replace, 99% [setting up your build environment](https://github.com/WhisperSystems/Signal-Android/blob/master/BUILDING.md).
 1. Upon installing the extension you will be presented with a qr code.
-2. On your phone, open Signal and navigate to Settings > Devices. Tap the "+"
+2. On your phone, open Signal and navigate to Settings > Linked Devices. Tap the "+"
    button and scan the qr code.
 3. Click through the confirmation dialog on the phone.
 4. The browser will display your phone number and device name. Edit the device
