@@ -178,7 +178,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Buka Signal di ponsel Anda dan pergi ke Settings > Devices. Sentuh tombol tambah perangkat, kemudian pindai kode di atas.",
+        "message": "Buka Signal di ponsel Anda dan pergi ke Settings > Linked Devices. Sentuh tombol tambah perangkat, kemudian pindai kode di atas.",
         "description": ""
     },
     "installWelcome": {
