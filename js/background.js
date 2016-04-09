@@ -280,7 +280,11 @@
         var timestamp = pushMessage.timestamp.toNumber();
         var messages  = new Whisper.MessageCollection();
         var groups    = new Whisper.ConversationCollection();
-        console.log('delivery receipt from', pushMessage.source + '.' + pushMessage.sourceDevice, timestamp);
+        console.log(
+            'delivery receipt from',
+            pushMessage.source + '.' + pushMessage.sourceDevice,
+            timestamp
+        );
 
         groups.fetchGroups(pushMessage.source).then(function() {
             messages.fetchSentAt(timestamp).then(function() {
