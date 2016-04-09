@@ -291,7 +291,7 @@
                 var ids = groups.pluck('id');
                 ids.push(pushMessage.source);
                 var message = messages.find(function(message) {
-                    return (message.get('type') === 'outgoing' &&
+                    return (!message.isIncoming() &&
                             _.contains(ids, message.get('conversationId')));
                 });
                 if (message) {
