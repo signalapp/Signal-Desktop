@@ -86,6 +86,15 @@ conversation.
 
 So you wanna make a pull request? Please observe the following guidelines.
 
+ * Please do not submit pull requests for translation fixes. Anyone can update
+   the translations in
+   [Transifex](https://www.transifex.com/projects/p/signal-desktop).
+ * Always localize your strings. Signal Desktop uses the
+   [chrome.i18n infrastructure](https://developer.chrome.com/extensions/i18n)
+   for localization. You **only** need to modify the default locale
+   [`_locales/en/messages.json`](_locales/en/messages.json). Other locales are
+   generated automatically based on that file and then periodically uploaded to
+   Transifex for translation.
  * Rebase your changes on the latest master branch, resolving any conflicts
    that may arise. This ensures that your changes will merge cleanly when you
    open your PR.
