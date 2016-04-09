@@ -4,7 +4,10 @@
 
 // Global Settings, Variables, and Mixins
   @import 'variables';
+  @import 'mixins';
   @import 'global';
+
+// Components
   @import 'progress';
 
 // Build the main view
