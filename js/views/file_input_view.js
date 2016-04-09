@@ -101,8 +101,8 @@
                             canvas.toDataURL('image/jpeg', quality)
                         );
                         quality = quality * maxSize / blob.size;
-                        if (quality < 50) {
-                            quality = 50;
+                        if (quality < 0.5) {
+                            quality = 0.5;
                         }
                     } while (i > 0 && blob.size > maxSize);
 
