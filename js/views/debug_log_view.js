@@ -11,7 +11,10 @@
             this.url = options.url;
         },
         render_attributes: function() {
-            return { url: this.url };
+            return {
+                url: this.url,
+                reportIssue: i18n('reportIssue')
+            };
         }
     });
     Whisper.DebugLogView = Whisper.View.extend({
