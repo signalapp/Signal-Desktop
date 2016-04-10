@@ -346,12 +346,15 @@
       <textarea rows='5'></textarea>
       <div class='buttons'>
         <button class='submit'>{{ submit }}</button>
-        <button class='close'>{{ cancel }}</button>
       </div>
       <div class='result'>
-        <a class='hide' target='_blank'></a>
-        <div class='hide'><button class='close'>{{ close }}</button></div>
       </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='debug-log-link'>
+    <div class='input-group clearfix'>
+      <input type='text' class='link' readonly value='{{ url }}' />
+      <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='settings'>

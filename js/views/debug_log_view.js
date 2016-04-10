@@ -5,6 +5,15 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    Whisper.DebugLogLinkView = Whisper.View.extend({
+        templateName: 'debug-log-link',
+        initialize: function(options) {
+            this.url = options.url;
+        },
+        render_attributes: function() {
+            return { url: this.url };
+        }
+    });
     Whisper.DebugLogView = Whisper.View.extend({
         templateName: 'debug-log',
         className: 'debug-log modal',
@@ -34,10 +43,13 @@
                 return;
             }
             console.post(log).then(function(url) {
+                var view = new Whisper.DebugLogLinkView({
+                    url: url,
+                    el: this.$('.result')
+                });
                 this.$('.loading').removeClass('loading');
-                var link = this.$('.result').find('a');
-                link.attr('href', url).text(url);
-                this.$('.result .hide').removeClass('hide');
+                view.render();
+                this.$('.link').focus().select();
             }.bind(this));
             this.$('.buttons, textarea').remove();
             this.$('.result').addClass('loading');

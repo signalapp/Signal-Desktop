@@ -362,7 +362,7 @@ img.emoji {
       flex-grow: 1;
       width: 100%;
       resize: none; }
-.debug-log button, .debug-log input[type=submit] {
+.debug-log .submit {
   border-radius: 5px;
   border: solid 1px #ccc;
   cursor: pointer;
@@ -372,13 +372,47 @@ img.emoji {
   color: #616161;
   background: #f3f3f3;
   box-shadow: 0 0 10px -5px rgba(97, 97, 97, 0.5); }
-  .debug-log button:hover, .debug-log input[type=submit]:hover {
+  .debug-log .submit:hover {
     color: black;
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
 .debug-log .result {
   text-align: center; }
-  .debug-log .result a {
-    -webkit-user-select: text; }
+  .debug-log .result .input-group {
+    display: inline-block;
+    width: 100%;
+    max-width: 446px; }
+  .debug-log .result .open {
+    float: left;
+    display: inline-block;
+    width: 46px;
+    height: 36px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: solid 1px #ccc;
+    border-radius: 0 5px 5px 0;
+    background: #f3f3f3; }
+    .debug-log .result .open:before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 24px;
+      -webkit-mask: url("/images/open_link.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: rgba(0, 0, 0, 0.5); }
+      .debug-log .result .open:before:focus, .debug-log .result .open:before:hover {
+        -webkit-mask: url("/images/open_link.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: black; }
+  .debug-log .result .link {
+    border-radius: 5px 0 0 5px;
+    float: left;
+    width: calc(100% - 46px);
+    max-width: 400px;
+    height: 36px;
+    padding: 0 10px;
+    outline-offset: -4px;
+    border: solid 1px #ccc;
+    border-right: none; }
 
 .modal {
   position: absolute;

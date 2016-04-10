@@ -427,7 +427,7 @@ $avatar-size: 44px;
     }
   }
 
-  button, input[type=submit] {
+  .submit {
     border-radius: $border-radius;
     border: solid 1px #ccc;
     cursor: pointer;
@@ -445,10 +445,49 @@ $avatar-size: 44px;
   }
 
   .result {
+    $link-max-width: 400px;
+    $open-width: 46px;
+    $open-height: 36px;
+    $group-max-width: $link-max-width + $open-width;
     text-align: center;
-    a {
-      -webkit-user-select: text;
+
+    .input-group {
+      display: inline-block;
+      width: 100%;
+      max-width: $group-max-width;
     }
+
+    .open {
+      float: left;
+      display: inline-block;
+      width: $open-width;
+      height: $open-height;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: solid 1px #ccc;
+      border-radius: 0 $border-radius $border-radius 0;
+      background: $grey_l;
+      &:before {
+        content: '';
+        display: block;
+        width: $button-height;
+        height: $button-height;
+        @include header-icon-black('/images/open_link.svg');
+      }
+    }
+
+    .link {
+      border-radius: $border-radius 0 0 $border-radius;
+      float: left;
+      width: calc(100% - #{$open-width});
+      max-width: $link-max-width;
+      height: $open-height;
+      padding: 0 10px;
+      outline-offset: -4px;
+      border: solid 1px #ccc;
+      border-right: none;
+    }
+
   }
 }
 .modal {
