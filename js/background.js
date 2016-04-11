@@ -245,31 +245,8 @@
     function onReadReceipt(ev) {
         var timestamp = ev.timestamp.toNumber();
         var sender    = ev.sender;
-        var messages  = new Whisper.MessageCollection();
-        var groups    = new Whisper.ConversationCollection();
         console.log('read receipt ', sender, timestamp);
-        groups.fetchGroups(sender).then(function() {
-            messages.fetchSentAt(timestamp).then(function() {
-                var ids = groups.pluck('id');
-                ids.push(sender);
-                var message = messages.find(function(message) {
-                    return (message.isIncoming() && message.isUnread() &&
-                            _.contains(ids, message.get('conversationId')));
-                });
-                if (message) {
-                    message.markRead().then(function() {
-                        var conversation = ConversationController.get({
-                            id: message.get('conversationId')
-                        });
-
-                        if (conversation) {
-                            // notify frontend listeners
-                            conversation.trigger('read', message);
-                        }
-                    });
-                }
-            });
-        });
+        Whisper.ReadReceipts.add({sender: sender, timestamp: timestamp});
     }
 
     // lazy hack

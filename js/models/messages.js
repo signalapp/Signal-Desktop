@@ -326,7 +326,12 @@
                         }
                         attributes.active_at = now;
                         if (type === 'incoming') {
-                            attributes.unreadCount = conversation.get('unreadCount') + 1;
+                            // experimental
+                            if (Whisper.ReadReceipts.forMessage(message)) {
+                                message.unset('unread');
+                            } else {
+                                attributes.unreadCount = conversation.get('unreadCount') + 1;
+                            }
                         }
                         conversation.set(attributes);
 
