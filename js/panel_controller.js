@@ -22,6 +22,9 @@
             extension.windows.drawAttention(inboxWindowId);
         }
     };
+    window.clearAttention = function() {
+        extension.windows.clearAttention(inboxWindowId);
+    };
 
     /* Inbox window controller */
     var inboxFocused = false;
@@ -58,7 +61,7 @@
                 });
                 appWindow.contentWindow.addEventListener('focus', function() {
                     inboxFocused = true;
-                    extension.windows.clearAttention(inboxWindowId);
+                    clearAttention();
                 });
 
                 // close the inbox if background.html is refreshed

@@ -62,6 +62,9 @@
             storage.put("unreadCount", newUnreadCount);
 
             setUnreadCount(newUnreadCount);
+            if (newUnreadCount === 0) {
+                window.clearAttention();
+            }
         }
     }))();
 
