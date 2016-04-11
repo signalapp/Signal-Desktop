@@ -13,9 +13,12 @@
     var inboxCollection = new (Backbone.Collection.extend({
         initialize: function() {
             this.on('change:timestamp change:name change:number', this.sort);
-            this.on('add remove change:unreadCount', this.updateUnreadCount);
 
             this.listenTo(conversations, 'add change:active_at', this.addActive);
+
+            this.on('add remove change:unreadCount',
+                _.debounce(this.updateUnreadCount.bind(this), 1000)
+            );
         },
         comparator: function(m1, m2) {
             var timestamp1 = m1.get('timestamp');
@@ -48,7 +51,7 @@
                 this.remove(model);
             }
         },
-        updateUnreadCount: function(model, count) {
+        updateUnreadCount: function() {
             var newUnreadCount = _.reduce(
                 this.map(function(m) { return m.get('unreadCount'); }),
                 function(item, memo) {

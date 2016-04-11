@@ -14,7 +14,7 @@
 
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
-            this.on('add', this.onAdd);
+            this.on('add', _.debounce(this.update.bind(this), 1000));
             this.on('remove', this.onRemove);
         },
         onclick: function() {
@@ -30,6 +30,10 @@
             this.clear();
         },
         update: function() {
+            extension.notification.clear();
+            if (this.length === 0) {
+                return;
+            }
             var setting = storage.get('notification-setting') || 'message';
             if (setting === SETTINGS.OFF) {
                 return;
@@ -115,10 +119,6 @@
         showSender: function() {
             var setting = this.getSetting();
             return (setting === SETTINGS.MESSAGE || setting === SETTINGS.NAME);
-        },
-        onAdd: function() {
-            extension.notification.clear();
-            this.update();
         },
         onRemove: function() {
             if (this.length === 0) {

@@ -16,7 +16,8 @@
             'click': 'select'
         },
         initialize: function() {
-            this.listenTo(this.model, 'change', this.render); // auto update
+            // auto update
+            this.listenTo(this.model, 'change', _.debounce(this.render.bind(this), 1000));
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
             extension.windows.onClosed(this.stopListening.bind(this));
