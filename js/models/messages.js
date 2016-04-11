@@ -317,18 +317,8 @@
                             }
                         }
                         if (type === 'outgoing') {
-                            // lazy hack - check for receipts that arrived early.
-                            var recipients;
-                            if (dataMessage.group && dataMessage.group.id) {  // group sync
-                                recipients = conversation.get('members') || [];
-                            } else {
-                                recipients = [ conversation.id ];
-                            }
-                            window.receipts.filter(function(receipt) {
-                                return (receipt.get('timestamp') === timestamp) &&
-                                    (recipients.indexOf(receipt.get('source')) > -1);
-                            }).forEach(function(receipt) {
-                                window.receipts.remove(receipt);
+                            var receipts = Whisper.DeliveryReceipts.forMessage(conversation, message);
+                            receipts.forEach(function(receipt) {
                                 message.set({
                                     delivered: (message.get('delivered') || 0) + 1
                                 });
@@ -402,13 +392,15 @@
         },
 
         fetchSentAt: function(timestamp) {
-            return this.fetch({
-                index: {
-                    // 'receipt' index on sent_at
-                    name: 'receipt',
-                    only: timestamp
-                }
-            });
+            return new Promise(function(resolve) {
+                return this.fetch({
+                    index: {
+                        // 'receipt' index on sent_at
+                        name: 'receipt',
+                        only: timestamp
+                    }
+                }).always(resolve);
+            }.bind(this));
         },
 
         fetchConversation: function(conversationId, limit) {

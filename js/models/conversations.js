@@ -509,12 +509,14 @@
     },
 
     fetchGroups: function(number) {
-        return this.fetch({
-            index: {
-                name: 'group',
-                only: number
-            }
-        });
+        return new Promise(function(resolve) {
+            this.fetch({
+                index: {
+                    name: 'group',
+                    only: number
+                }
+            }).always(resolve);
+        }.bind(this));
     },
 
     fetchActive: function() {

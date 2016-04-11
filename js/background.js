@@ -278,43 +278,14 @@
     function onDeliveryReceipt(ev) {
         var pushMessage = ev.proto;
         var timestamp = pushMessage.timestamp.toNumber();
-        var messages  = new Whisper.MessageCollection();
-        var groups    = new Whisper.ConversationCollection();
         console.log(
             'delivery receipt from',
             pushMessage.source + '.' + pushMessage.sourceDevice,
             timestamp
         );
 
-        groups.fetchGroups(pushMessage.source).then(function() {
-            messages.fetchSentAt(timestamp).then(function() {
-                var ids = groups.pluck('id');
-                ids.push(pushMessage.source);
-                var message = messages.find(function(message) {
-                    return (!message.isIncoming() &&
-                            _.contains(ids, message.get('conversationId')));
-                });
-                if (message) {
-                    var deliveries = message.get('delivered') || 0;
-                    message.save({delivered: deliveries + 1}).then(function() {
-                        // notify frontend listeners
-                        var conversation = ConversationController.get(
-                            message.get('conversationId')
-                        );
-                        if (conversation) {
-                            conversation.trigger('newmessage', message);
-                        }
-                    });
-                    // TODO: consider keeping a list of numbers we've
-                    // successfully delivered to?
-                    return;
-                }
-                // if we get here, we didn't find a matching message.
-                // keep the receipt in memory in case it shows up later
-                // as a sync message.
-                receipts.add({ timestamp: timestamp, source: pushMessage.source });
-                return;
-            });
+        Whisper.DeliveryReceipts.add({
+            timestamp: timestamp, source: pushMessage.source
         });
     }
 })();
