@@ -85,17 +85,35 @@
   border-color: rgba(0,0,0,0.05);
 }
 
+.tool-bar {
+  position: relative;
+  .search-icon {
+    content: '';
+    display: inline-block;
+    float: left;
+    width: 24px;
+    height: 100%;
+    -webkit-mask: url('/images/search.svg') no-repeat left center;
+    -webkit-mask-size: 100%;
+    background-color: #ccc;
+    position: absolute;
+    left: 20px;
+    top: 0;
+  }
+}
+
 input.search {
   border: none;
-  padding: 0;
+  padding: 0 10px 0 65px;
   margin: 0;
   outline: 0;
   height: $search-height;
+  line-height: $search-height;
   width: 100%;
-  padding: 10px;
   border: solid 1px $grey_l;
   outline-offset: -2px;
   font-size: inherit;
+  position: relative;
 
   &.active {
     outline: solid 1px $blue;

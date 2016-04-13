@@ -561,17 +561,33 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   color: #454545;
   border-color: rgba(0, 0, 0, 0.05); }
 
+.tool-bar {
+  position: relative; }
+  .tool-bar .search-icon {
+    content: '';
+    display: inline-block;
+    float: left;
+    width: 24px;
+    height: 100%;
+    -webkit-mask: url("/images/search.svg") no-repeat left center;
+    -webkit-mask-size: 100%;
+    background-color: #ccc;
+    position: absolute;
+    left: 20px;
+    top: 0; }
+
 input.search {
   border: none;
-  padding: 0;
+  padding: 0 10px 0 65px;
   margin: 0;
   outline: 0;
   height: 36px;
+  line-height: 36px;
   width: 100%;
-  padding: 10px;
   border: solid 1px #f3f3f3;
   outline-offset: -2px;
-  font-size: inherit; }
+  font-size: inherit;
+  position: relative; }
   input.search.active {
     outline: solid 1px #2090ea; }
   input.search::-webkit-search-cancel-button {
