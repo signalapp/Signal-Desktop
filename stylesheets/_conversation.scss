@@ -152,50 +152,23 @@
   .contacts .contact-detail {
     padding: 0 36px;
     margin-bottom: 5px;
+
+    .error-icon-container {
+      float: right;
+    }
+
+    .error-message {
+      margin: 6px 0 0;
+      font-size: small;
+      font-weight: bold;
+      color: red;
+    }
+
   }
 
   h3 {
     font-size: 1em;
     padding: 5px;
-  }
-
-  .error-icon {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    background: url('/images/error_red.png') no-repeat center center;
-    vertical-align: middle;
-    position: relative;
-    margin: 9px;
-    float: right;
-
-    .error-message {
-      display: none;
-      position: absolute;
-      background: black;
-      color: white;
-      border-radius: $border-radius;
-      padding: 0.5em;
-      font-weight: normal;
-      bottom: calc(100% + 16px);
-      left: 50%;
-      margin-left: -130px;
-      width: 180px;
-      z-index: 10;
-
-      &:before {
-        left: -10px;
-        display: block;
-        content: '';
-        position: absolute;
-        bottom: -23px;
-        left: calc(50% - 6px + 40px);
-        border: 6px solid transparent;
-        border-top: 18px solid #000000;
-      }
-    }
-
-    &:hover .error-message { display: block; }
   }
 
   button.conflict {
@@ -208,6 +181,55 @@
     border: solid 1px #ccc;
   }
 }
+li.entry .error-icon-container {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  height: 100%;
+
+  .error-icon {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+  }
+
+  .error-message {
+    display: none;
+    position: absolute;
+    background: black;
+    color: white;
+    border-radius: $border-radius;
+    padding: 0.5em;
+    font-weight: normal;
+    bottom: calc(50% + 18px);
+    left: -84px;
+    width: 180px;
+    z-index: 10;
+
+    &:before {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      border: 6px solid transparent;
+      border-top: 10px solid #000000;
+    }
+  }
+
+  &:hover .error-message { display: inline-block; }
+}
+
+.error-icon {
+  display: inline-block;
+  width: $error-icon-size;
+  height: $error-icon-size;
+  position: relative;
+  @include color-svg('/images/warning.svg', red);
+
+}
+
+
 .group-update {
   font-size: smaller;
 }
@@ -261,7 +283,7 @@
     max-width: 30em;
 
     @media(max-width: $big-avatar-min-width - 1px) {
-      max-width: calc(100% - 45px); // avatar size + padding
+      max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
     }
 
     .content {
@@ -282,6 +304,7 @@
     font-size: smaller;
     margin-top: 3px;
     float: right;
+    text-align: right;
     line-height: 18px;
 
     .hasRetry + .timestamp {
@@ -374,6 +397,10 @@
   }
 
   .outgoing {
+    .error-icon-container {
+      left: auto;
+      right: calc(100% + 5px);
+    }
 
     .avatar, .bubble {
       float: right;
@@ -431,7 +458,7 @@
     opacity: 0.8;
   }
 
-  .bubble .error-message {
+  .bubble .content.error-message {
     font-style: italic;
   }
 

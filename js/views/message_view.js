@@ -7,6 +7,13 @@
 
     var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
 
+    var ErrorIconView = Whisper.View.extend({
+        templateName: 'error-icon',
+        className: 'error-icon-container',
+        render_attributes: function() {
+            return { message: this.model && this.model.message };
+        }
+    });
     var NetworkErrorView = Whisper.View.extend({
         tagName: 'span',
         className: 'hasRetry',
@@ -33,6 +40,7 @@
         },
         events: {
             'click .retry': 'retryMessage',
+            'click .error-icon': 'select',
             'click .timestamp': 'select',
             'click .status': 'select',
             'click .error': 'select'
@@ -78,12 +86,13 @@
         renderErrors: function() {
             var errors = this.model.get('errors');
             if (_.size(errors) > 0) {
-                this.$el.addClass('error');
                 if (this.model.isIncoming()) {
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }
+                var view = new ErrorIconView({ model: errors[0] });
+                view.render().$el.appendTo(this.$('.bubble'));
             } else {
-                this.$el.removeClass('error');
+                this.$('.error-icon-container').remove();
             }
             if (this.model.hasNetworkError()) {
                 this.$('.meta').prepend(new NetworkErrorView().render().el);

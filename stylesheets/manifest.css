@@ -274,22 +274,23 @@ img.emoji {
     margin-top: 0; }
   .contact:last-child::after {
     display: none; }
-  .contact .contact-details {
-    vertical-align: middle;
-    display: inline-block;
-    margin: 0 0 0 8px;
-    width: calc(100% - 44px - 8px); }
-    .contact .contact-details p {
-      overflow-x: hidden;
-      text-overflow: ellipsis; }
-  .contact .name {
+
+.contact-details {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 0 0 8px;
+  width: calc(100% - 44px - 8px - 4px); }
+  .contact-details p {
+    overflow-x: hidden;
+    text-overflow: ellipsis; }
+  .contact-details .name {
     display: block;
     margin: 0;
     font-size: 1em;
     font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden; }
-  .contact .number {
+  .contact-details .number {
     color: #616161;
     font-size: small; }
 
@@ -807,42 +808,16 @@ input.search {
 .message-detail .contacts .contact-detail {
   padding: 0 36px;
   margin-bottom: 5px; }
+  .message-detail .contacts .contact-detail .error-icon-container {
+    float: right; }
+  .message-detail .contacts .contact-detail .error-message {
+    margin: 6px 0 0;
+    font-size: small;
+    font-weight: bold;
+    color: red; }
 .message-detail h3 {
   font-size: 1em;
   padding: 5px; }
-.message-detail .error-icon {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url("/images/error_red.png") no-repeat center center;
-  vertical-align: middle;
-  position: relative;
-  margin: 9px;
-  float: right; }
-  .message-detail .error-icon .error-message {
-    display: none;
-    position: absolute;
-    background: black;
-    color: white;
-    border-radius: 5px;
-    padding: 0.5em;
-    font-weight: normal;
-    bottom: calc(100% + 16px);
-    left: 50%;
-    margin-left: -130px;
-    width: 180px;
-    z-index: 10; }
-    .message-detail .error-icon .error-message:before {
-      left: -10px;
-      display: block;
-      content: '';
-      position: absolute;
-      bottom: -23px;
-      left: calc(50% - 6px + 40px);
-      border: 6px solid transparent;
-      border-top: 18px solid #000000; }
-  .message-detail .error-icon:hover .error-message {
-    display: block; }
 .message-detail button.conflict {
   float: right;
   background: #d00; }
@@ -850,6 +825,47 @@ input.search {
   float: right;
   color: #454545;
   border: solid 1px #ccc; }
+
+li.entry .error-icon-container {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  height: 100%; }
+  li.entry .error-icon-container .error-icon {
+    cursor: pointer;
+    display: block;
+    height: 100%; }
+  li.entry .error-icon-container .error-message {
+    display: none;
+    position: absolute;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-weight: normal;
+    bottom: calc(50% + 18px);
+    left: -84px;
+    width: 180px;
+    z-index: 10; }
+    li.entry .error-icon-container .error-message:before {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      border: 6px solid transparent;
+      border-top: 10px solid #000000; }
+  li.entry .error-icon-container:hover .error-message {
+    display: inline-block; }
+
+.error-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  -webkit-mask: url("/images/warning.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: red; }
 
 .group-update {
   font-size: smaller; }
@@ -899,7 +915,7 @@ input.search {
     @media (max-width: 899px) {
       .message-container .bubble,
       .message-list .bubble {
-        max-width: calc(100% - 45px); } }
+        max-width: calc(100% - 45px - 24px); } }
     .message-container .bubble .content,
     .message-list .bubble .content {
       -webkit-user-select: text;
@@ -915,6 +931,7 @@ input.search {
     font-size: smaller;
     margin-top: 3px;
     float: right;
+    text-align: right;
     line-height: 18px; }
     .message-container .meta .hasRetry + .timestamp:before,
     .message-list .meta .hasRetry + .timestamp:before {
@@ -999,6 +1016,10 @@ input.search {
     .message-list .incoming .bubble .attachments a,
     .message-list .incoming .bubble .content a {
       color: #f3f3f3; }
+  .message-container .outgoing .error-icon-container,
+  .message-list .outgoing .error-icon-container {
+    left: auto;
+    right: calc(100% + 5px); }
   .message-container .outgoing .avatar, .message-container .outgoing .bubble,
   .message-list .outgoing .avatar,
   .message-list .outgoing .bubble {
@@ -1041,8 +1062,8 @@ input.search {
     font: small;
     font-style: italic;
     opacity: 0.8; }
-  .message-container .bubble .error-message,
-  .message-list .bubble .error-message {
+  .message-container .bubble .content.error-message,
+  .message-list .bubble .content.error-message {
     font-style: italic; }
   .message-container .key-conflict,
   .message-list .key-conflict {
