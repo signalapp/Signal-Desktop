@@ -785,7 +785,7 @@ input.search {
     line-height: 36px; }
 .message-detail .message-container {
   background: white;
-  padding: 20px; }
+  padding: 20px 0; }
   .message-detail .message-container .sender {
     display: none; }
 .message-detail .info {
