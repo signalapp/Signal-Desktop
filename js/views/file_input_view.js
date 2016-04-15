@@ -30,7 +30,7 @@
         },
 
         events: {
-            'change': 'previewImages',
+            'change .choose-file': 'previewImages',
             'click .close': 'deleteFiles',
             'click .choose-file': 'open',
             'drop': 'openDropped',
