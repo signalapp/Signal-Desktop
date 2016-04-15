@@ -347,15 +347,12 @@
                         var conversation_timestamp = conversation.get('timestamp');
                         if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                             conversation.set({
-                                timestamp: message.get('sent_at'),
-                                lastMessage: message.getNotificationText()
+                                timestamp: message.get('sent_at')
                             });
                         }
-                        else if (!conversation.get('lastMessage')) {
-                            conversation.set({
-                                lastMessage: message.getNotificationText()
-                            });
-                        }
+                        conversation.set({
+                            lastMessage: message.getNotificationText()
+                        });
 
                         message.save().then(function() {
                             conversation.save().then(function() {
