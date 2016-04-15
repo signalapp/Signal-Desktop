@@ -38,7 +38,8 @@
             'dragleave': 'hideArea'
         },
 
-        open: function() {
+        open: function(e) {
+            e.preventDefault();
             // hack
             if (this.window && this.window.chrome && this.window.chrome.fileSystem) {
                 this.window.chrome.fileSystem.chooseEntry({type: 'openFile'}, function(entry) {
