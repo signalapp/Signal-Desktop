@@ -864,7 +864,8 @@ input.search {
   font-weight: bold; }
 
 .timestamp {
-  margin-right: 3px; }
+  margin-right: 3px;
+  white-space: nowrap; }
 
 .message-container,
 .message-list {
