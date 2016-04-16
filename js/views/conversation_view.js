@@ -299,6 +299,13 @@
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);
 
+            var $attachmentPreviews = this.$('.attachment-previews'),
+                $bottomBar = this.$('.bottom-bar');
+
+            $bottomBar.outerHeight(
+                    this.$messageField.outerHeight() +
+                    $attachmentPreviews.outerHeight() + 11);
+
             this.view.scrollToBottomIfNeeded();
         },
 
