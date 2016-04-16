@@ -269,5 +269,9 @@
     "upgrade": {
         "message": "Upgrade",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "mediaMessage": {
+        "message": "Media message",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     }
 }

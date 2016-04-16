@@ -73,7 +73,7 @@
                 return description;
             }
             if (this.get('attachments').length > 0) {
-                return 'Media message';
+                return i18n('mediaMessage');
             }
 
             return '';
