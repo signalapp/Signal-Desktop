@@ -37210,7 +37210,7 @@ MessageReceiver.prototype.extend({
             if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
                     == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
                     finalMessage.sync !== null) {
-                    var number = textsecure.utils.unencodeNumber(encodedNumber)[0];
+                    var number = textsecure.utils.unencodeNumber(from)[0];
                     p = this.handleEndSession(number);
             }
 
