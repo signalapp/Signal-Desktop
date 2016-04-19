@@ -6,7 +6,10 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.TimestampView = Whisper.View.extend({
-        initialize: function() {
+        initialize: function(options) {
+            if (options) {
+                this.brief = options.brief;
+            }
             extension.windows.onClosed(this.clearTimeout.bind(this));
         },
         update: function() {
@@ -19,102 +22,97 @@
             if (millis >= millis_now) {
                 millis = millis_now;
             }
-            // defined in subclass!
             var result = this.getRelativeTimeSpanString(millis);
             this.$el.text(result);
 
+            var timestamp = moment(millis);
+            this.$el.attr('title', timestamp.format('llll'));
+
             var millis_since = millis_now - millis;
-            var delay = this.computeDelay(millis_since);
-            if (delay) {
-                if (delay < 0) { delay = 1000; }
-                this.timeout = setTimeout(this.update.bind(this), delay);
+            if (this.delay) {
+                if (this.delay < 0) { this.delay = 1000; }
+                this.timeout = setTimeout(this.update.bind(this), this.delay);
+                console.log('ts', timestamp.valueOf(), result,
+                    timestamp.format('YYYY-MM-DD HH:mm:ss.SSS'),
+                    'next update at',
+                    moment().add(this.delay, 'ms').format('YYYY-MM-DD HH:mm:ss.SSS')
+                );
             }
         },
         clearTimeout: function() {
             clearTimeout(this.timeout);
         },
-        computeDelay: function(millis_since) {
-            var delay;
-            if (millis_since <= moment.relativeTimeThreshold('s') * 1000) {
-                // a few seconds ago
-                delay = 45 * 1000 - millis_since;
-            } else if (millis_since <= moment.relativeTimeThreshold('m') * 1000 * 60) {
-                // N minutes ago
-                delay = 60 * 1000;
-            } else if (millis_since <= moment.relativeTimeThreshold('h') * 1000 * 60 * 60) {
-                // N hours ago
-                delay = 60 * 60 * 1000;
-            } else { // more than a week ago
-                // Day of week + time
-                delay = 7 * 24 * 60 * 60 * 1000 - millis_since;
-
-                if (delay < -(60 * 1000)) {
-                  // more than one week and one minute ago
-                  // don't do any further updates as the displayed timestamp
-                  // won't change any more
-                  return;
-                }
-            }
-            return delay;
-        }
-    });
-
-    Whisper.BriefTimestampView = Whisper.TimestampView.extend({
         getRelativeTimeSpanString: function(timestamp_) {
             // Convert to moment timestamp if it isn't already
             var timestamp = moment(timestamp_),
                 timediff = moment.duration(moment() - timestamp);
 
-            // Do some wrapping to match conversation view, display >= 30 minutes (seconds)
-            // as a full hour (minute) if the number of hours (minutes) isn't zero
-            if (timediff.hours >= 1 && timediff.minutes() >= 30) {
-                timediff.add(1, 'hours');
-            } else if (timediff.minutes() >= 1 && timediff.seconds() >= 30) {
-                timediff.add(1, 'minutes');
-            }
-
             if (timediff.years() > 0) {
-                return timestamp.format('MMM D, YYYY');
+                this.delay = null;
+                return timestamp.format(this._format['y']);
             } else if (timediff.months() > 0 || timediff.days() > 6) {
-                return timestamp.format('MMM D');
+                this.delay = null;
+                return timestamp.format(this._format['m']);
             } else if (timediff.days() > 0) {
-                return timestamp.format('ddd');
+                this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(moment());
+                return timestamp.format(this._format['d']);
             } else if (timediff.hours() > 1) {
-                 return timediff.hours() + ' hours';
-            } else if (timediff.hours() === 1 || timediff.minutes() >= 45) {
-                // to match conversation view, display >= 45 minutes as 1 hour
-                return '1 hour';
+                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
+                return this.relativeTime(timediff.hours(), 'hh');
+            } else if (timediff.hours() === 1) {
+                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
+                return this.relativeTime(timediff.hours(), 'h');
             } else if (timediff.minutes() > 1) {
-                return timediff.minutes() + ' min';
-            } else if (timediff.minutes() === 1 || timediff.seconds() >= 45) {
-                // same as hours/minutes, 0:00:45 -> 1 min
-                return '1 min';
+                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
+                return this.relativeTime(timediff.minutes(), 'mm');
+            } else if (timediff.minutes() === 1) {
+                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
+                return this.relativeTime(timediff.minutes(), 'm');
             } else {
-                return 'now';
+                this.delay = moment(timestamp).add(1,'m').diff(moment());
+                return this.relativeTime(timediff.seconds(), 's');
             }
         },
+        relativeTime : function (number, string, isFuture) {
+            return this._relativeTime[string].replace(/%d/i, number);
+        },
+        _relativeTime : {
+            s:  "now",
+            m:  "1 min",
+            mm: "%d min",
+            h:  "1 hour",
+            hh: "%d hours",
+            d:  "1 day",
+            dd: "%d days",
+            M:  "1 month",
+            MM: "%d months",
+            y:  "1 year",
+            yy: "%d years"
+        },
+        _format: {
+            y: 'MMM D, YYYY',
+            m: 'MMM D',
+            d: 'ddd'
+        }
     });
-
-
     Whisper.ExtendedTimestampView = Whisper.TimestampView.extend({
-        getRelativeTimeSpanString: function(timestamp_) {
-            var timestamp = moment(timestamp_),
-                now = moment(),
-                lastWeek = moment().subtract(7, 'days'),
-                lastYear = moment().subtract(1, 'years');
-            if (timestamp > now.startOf('day')) {
-                // t units ago
-                return timestamp.fromNow();
-            } else if (timestamp > lastWeek) {
-                // Fri 1:30 PM or Fri 13:30
-                return timestamp.format('ddd ') + timestamp.format('LT');
-            } else if (timestamp > lastYear) {
-                // Oct 31 1:30 PM or Oct 31
-                return timestamp.format('MMM D ') + timestamp.format('LT');
-            } else {
-                // Oct 31, 2012 1:30 PM
-                return timestamp.format('MMM D, YYYY ') + timestamp.format('LT');
-            }
+        _relativeTime : {
+            s:  "now",
+            m:  "1 minute ago",
+            mm: "%d minutes ago",
+            h:  "1 hour ago",
+            hh: "%d hours ago",
+            d:  "1 day ago",
+            dd: "%d days ago",
+            M:  "1 month ago",
+            MM: "%d months ago",
+            y:  "1 year ago",
+            yy: "%d years ago"
         },
+        _format: {
+            y: 'MMM D, YYYY LT',
+            m: 'MMM D LT',
+            d: 'ddd LT'
+        }
     });
 })();

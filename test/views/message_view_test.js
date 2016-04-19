@@ -29,21 +29,21 @@ describe('MessageView', function() {
     var view = new Whisper.MessageView({model: message});
     message.set({'sent_at': Date.now() - 5000});
     view.render();
-    assert.match(view.$el.html(), /seconds ago/);
+    assert.match(view.$el.html(), /now/);
 
     message.set({'sent_at': Date.now() - 60000});
     view.render();
-    assert.match(view.$el.html(), /minute ago/);
+    assert.match(view.$el.html(), /min/);
 
     message.set({'sent_at': Date.now() - 3600000});
     view.render();
-    assert.match(view.$el.html(), /hour ago/);
+    assert.match(view.$el.html(), /hour/);
   });
   it('should not imply messages are from the future', function() {
     var view = new Whisper.MessageView({model: message});
     message.set({'sent_at': Date.now() + 60000});
     view.render();
-    assert.match(view.$el.html(), /seconds ago/);
+    assert.match(view.$el.html(), /now/);
   });
 
   it('should go away when the model is destroyed', function() {

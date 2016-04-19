@@ -21,7 +21,7 @@
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
             extension.windows.onClosed(this.stopListening.bind(this));
-            this.timeStampView = new Whisper.BriefTimestampView();
+            this.timeStampView = new Whisper.TimestampView({brief: true});
         },
 
         markSelected: function() {

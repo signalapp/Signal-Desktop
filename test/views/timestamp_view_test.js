@@ -6,7 +6,7 @@
 describe('TimestampView', function() {
     it('formats long-ago timestamps correctly', function() {
         var timestamp = Date.now();
-        var brief_view = new Whisper.BriefTimestampView().render(),
+        var brief_view = new Whisper.TimestampView({brief: true}).render(),
             ext_view = new Whisper.ExtendedTimestampView().render();
 
         // Helper functions to check absolute and relative timestamps
@@ -40,15 +40,14 @@ describe('TimestampView', function() {
         };
 
         // check integer timestamp, JS Date object and moment object
-        checkAbs(timestamp, 'now', 'a few seconds ago');
-        checkAbs(new Date(), 'now', 'a few seconds ago');
-        checkAbs(moment(), 'now', 'a few seconds ago');
+        checkAbs(timestamp, 'now', 'now');
+        checkAbs(new Date(), 'now', 'now');
+        checkAbs(moment(), 'now', 'now');
 
         // check recent timestamps
-        checkDiff(30, 'now', 'a few seconds ago'); // 30 seconds
-        checkDiff(50, '1 min', 'a minute ago'); // >= 45 seconds => 1 minute
+        checkDiff(30, 'now', 'now'); // 30 seconds
         checkDiff(40*60, '40 min', '40 minutes ago');
-        checkDiff(60*60, '1 hour', 'an hour ago');
+        checkDiff(60*60, '1 hour', '1 hour ago');
         checkDiff(125*60, '2 hours', '2 hours ago');
 
         // set to third of month to avoid problems on the 29th/30th/31st
@@ -72,16 +71,54 @@ describe('TimestampView', function() {
     });
 
 
-    it('updates at reasonable intervals', function() {
-        var view = new Whisper.TimestampView();
-        assert.isBelow(view.computeDelay(1000), 60 * 1000); // < minute
-        assert.strictEqual(view.computeDelay(1000 * 60 * 5), 60 * 1000); // minute
-        assert.strictEqual(view.computeDelay(1000 * 60 * 60 * 5), 60 * 60 * 1000); // hour
+    describe('updates within a minute reasonable intervals', function() {
+        var view;
+        beforeEach(function() {
+            view = new Whisper.TimestampView();
+        });
+        afterEach(function() {
+            clearTimeout(view.timeout);
+        });
 
-        assert.isBelow(view.computeDelay(6 * 24 * 60 * 60 * 1000), 7 * 24 * 60 * 60 * 1000); // < week
+        it('updates timestamps this minute within a minute', function() {
+            var now = Date.now();
+            view.$el.attr('data-timestamp', now - 1000);
+            view.update();
+            assert.isAbove(view.delay, 0); // non zero
+            assert.isBelow(view.delay, 60 * 1000); // < minute
+        });
 
-        // return falsey value for long ago dates that don't update
-        assert.notOk(view.computeDelay(1000 * 60 * 60 * 24 * 8));
+        it('updates timestamps from this hour within a minute', function() {
+            var now = Date.now();
+            view.$el.attr('data-timestamp', now - 1000 - 1000*60*5); // 5 minutes and 1 sec ago
+            view.update();
+            assert.isAbove(view.delay, 0); // non zero
+            assert.isBelow(view.delay, 60 * 1000); // minute
+        });
+
+        it('updates timestamps from today within an hour', function() {
+            var now = Date.now();
+            view.$el.attr('data-timestamp', now - 1000 - 1000*60*60*5); // 5 hours and 1 sec ago
+            view.update();
+            assert.isAbove(view.delay, 60 * 1000); // minute
+            assert.isBelow(view.delay, 60 * 60 * 1000); // hour
+        });
+
+        it('updates timestamps from this week within a day', function() {
+            var now = Date.now();
+            view.$el.attr('data-timestamp', now - 1000 - 6*24*60*60*1000); // 6 days and 1 sec ago
+            view.update();
+            assert.isAbove(view.delay, 60 * 60 * 1000); // hour
+            assert.isBelow(view.delay, 24 * 60 * 60 * 1000); // day
+        });
+
+        it('does not updates very old timestamps', function() {
+            var now = Date.now();
+            // return falsey value for long ago dates that don't update
+            view.$el.attr('data-timestamp', now - 8*24*60*60*1000);
+            view.update();
+            assert.notOk(view.delay);
+        });
 
     });
 
