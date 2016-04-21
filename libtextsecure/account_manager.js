@@ -141,14 +141,14 @@
 
 
             var store = textsecure.storage.axolotl;
-            return store.getMyIdentityKey().then(function(identityKey) {
+            return store.getIdentityKeyPair().then(function(identityKey) {
                 var result = { preKeys: [], identityKey: identityKey.pubKey };
                 var promises = [];
 
                 for (var keyId = startId; keyId < startId+count; ++keyId) {
                     promises.push(
                         axolotl.util.generatePreKey(keyId).then(function(res) {
-                            store.putPreKey(res.keyId, res.keyPair);
+                            store.storePreKey(res.keyId, res.keyPair);
                             result.preKeys.push({
                                 keyId     : res.keyId,
                                 publicKey : res.keyPair.pubKey
@@ -160,7 +160,7 @@
 
                 promises.push(
                     axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
-                        store.putSignedPreKey(res.keyId, res.keyPair);
+                        store.storeSignedPreKey(res.keyId, res.keyPair);
                         result.signedPreKey = {
                             keyId     : res.keyId,
                             publicKey : res.keyPair.pubKey,

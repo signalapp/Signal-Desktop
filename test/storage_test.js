@@ -21,19 +21,19 @@ describe("AxolotlStore", function() {
         privKey: textsecure.crypto.getRandomBytes(32),
     };
     it('retrieves my registration id', function(done) {
-        store.getMyRegistrationId().then(function(reg) {
+        store.getLocalRegistrationId().then(function(reg) {
             assert.strictEqual(reg, 1337);
         }).then(done, done);
     });
     it('retrieves my identity key', function(done) {
-        store.getMyIdentityKey().then(function(key) {
+        store.getIdentityKeyPair().then(function(key) {
             assertEqualArrayBuffers(key.pubKey, identityKey.pubKey);
             assertEqualArrayBuffers(key.privKey, identityKey.privKey);
         }).then(done,done);
     });
     it('stores identity keys', function(done) {
         store.putIdentityKey(identifier, testKey.pubKey).then(function() {
-            return store.getIdentityKey(identifier).then(function(key) {
+            return store.loadIdentityKey(identifier).then(function(key) {
                 assertEqualArrayBuffers(key, testKey.pubKey);
             });
         }).then(done,done);
@@ -50,8 +50,8 @@ describe("AxolotlStore", function() {
         });
     });
     it('stores prekeys', function(done) {
-        store.putPreKey(1, testKey).then(function() {
-            return store.getPreKey(1).then(function(key) {
+        store.storePreKey(1, testKey).then(function() {
+            return store.loadPreKey(1).then(function(key) {
                 assertEqualArrayBuffers(key.pubKey, testKey.pubKey);
                 assertEqualArrayBuffers(key.privKey, testKey.privKey);
             });
@@ -59,17 +59,17 @@ describe("AxolotlStore", function() {
     });
     it('deletes prekeys', function(done) {
         before(function(done) {
-            store.putPreKey(2, testKey).then(done);
+            store.storePreKey(2, testKey).then(done);
         });
         store.removePreKey(2, testKey).then(function() {
-            return store.getPreKey(2).then(function(key) {
+            return store.loadPreKey(2).then(function(key) {
                 assert.isUndefined(key);
             });
         }).then(done,done);
     });
     it('stores signed prekeys', function(done) {
-        store.putSignedPreKey(3, testKey).then(function() {
-            return store.getSignedPreKey(3).then(function(key) {
+        store.storeSignedPreKey(3, testKey).then(function() {
+            return store.loadSignedPreKey(3).then(function(key) {
                 assertEqualArrayBuffers(key.pubKey, testKey.pubKey);
                 assertEqualArrayBuffers(key.privKey, testKey.privKey);
             });
@@ -77,18 +77,18 @@ describe("AxolotlStore", function() {
     });
     it('deletes signed prekeys', function(done) {
         before(function(done) {
-            store.putSignedPreKey(4, testKey).then(done);
+            store.storeSignedPreKey(4, testKey).then(done);
         });
         store.removeSignedPreKey(4, testKey).then(function() {
-            return store.getSignedPreKey(4).then(function(key) {
+            return store.loadSignedPreKey(4).then(function(key) {
                 assert.isUndefined(key);
             });
         }).then(done,done);
     });
     it('stores sessions', function(done) {
         var testRecord = "an opaque string";
-        store.putSession(identifier + '.1', testRecord).then(function() {
-            return store.getSession(identifier + '.1').then(function(record) {
+        store.storeSession(identifier + '.1', testRecord).then(function() {
+            return store.loadSession(identifier + '.1').then(function(record) {
                 assert.deepEqual(record, testRecord);
             });
         }).then(done,done);
@@ -101,12 +101,12 @@ describe("AxolotlStore", function() {
         var promise = Promise.resolve();
         devices.forEach(function(encodedNumber) {
             promise = promise.then(function() {
-                return store.putSession(encodedNumber, testRecord + encodedNumber);
+                return store.storeSession(encodedNumber, testRecord + encodedNumber);
             });
         });
         promise.then(function() {
             return store.removeAllSessions(identifier).then(function(record) {
-                return Promise.all(devices.map(store.getSession.bind(store))).then(function(records) {
+                return Promise.all(devices.map(store.loadSession.bind(store))).then(function(records) {
                     for (var i in records) {
                         assert.isUndefined(records[i]);
                     };
@@ -116,9 +116,9 @@ describe("AxolotlStore", function() {
     });
     it ('clears the session store', function(done) {
         var testRecord = "an opaque string";
-        store.putSession(identifier + '.1', testRecord).then(function() {
+        store.storeSession(identifier + '.1', testRecord).then(function() {
             return store.clearSessionStore().then(function() {
-                return store.getSession(identifier + '.1').then(function(record) {
+                return store.loadSession(identifier + '.1').then(function(record) {
                     assert.isUndefined(record);
                 });
             });
@@ -133,7 +133,7 @@ describe("AxolotlStore", function() {
         var promise = Promise.resolve();
         devices.forEach(function(encodedNumber) {
             promise = promise.then(function() {
-                return store.putSession(encodedNumber, testRecord + encodedNumber);
+                return store.storeSession(encodedNumber, testRecord + encodedNumber);
             });
         });
         promise.then(function() {

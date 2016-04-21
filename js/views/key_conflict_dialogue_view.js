@@ -12,11 +12,11 @@
         initialize: function(options) {
             this.contact = options.contact;
             this.conversation = options.conversation;
-            textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
+            textsecure.storage.axolotl.loadIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
                 this.your_key = our_key;
                 this.render();
             }.bind(this));
-            textsecure.storage.axolotl.getIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
+            textsecure.storage.axolotl.loadIdentityKey(textsecure.storage.user.getNumber()).then(function(our_key) {
                 var view = new Whisper.KeyVerificationView({
                     model: {
                         their_key : this.model.identityKey,

@@ -3,10 +3,10 @@ function AxolotlStore() {
 }
 
 AxolotlStore.prototype = {
-	getMyIdentityKey: function() {
+	getIdentityKeyPair: function() {
 		return Promise.resolve(this.get('identityKey'));
 	},
-	getMyRegistrationId: function() {
+	getLocalRegistrationId: function() {
 		return Promise.resolve(this.get('registrationId'));
 	},
 	put: function(key, value) {
@@ -29,7 +29,7 @@ AxolotlStore.prototype = {
 		delete this.store[key];
 	},
 
-	getIdentityKey: function(identifier) {
+	loadIdentityKey: function(identifier) {
 		if (identifier === null || identifier === undefined)
 			throw new Error("Tried to get identity key for undefined/null key");
 		return new Promise(function(resolve) {
@@ -45,13 +45,13 @@ AxolotlStore.prototype = {
 	},
 
 	/* Returns a prekeypair object or undefined */
-	getPreKey: function(keyId) {
+	loadPreKey: function(keyId) {
 		return new Promise(function(resolve) {
 			var res = this.get('25519KeypreKey' + keyId);
 			resolve(res);
 		}.bind(this));
 	},
-	putPreKey: function(keyId, keyPair) {
+	storePreKey: function(keyId, keyPair) {
 		return new Promise(function(resolve) {
 			resolve(this.put('25519KeypreKey' + keyId, keyPair));
 		}.bind(this));
@@ -63,13 +63,13 @@ AxolotlStore.prototype = {
 	},
 
 	/* Returns a signed keypair object or undefined */
-	getSignedPreKey: function(keyId) {
+	loadSignedPreKey: function(keyId) {
 		return new Promise(function(resolve) {
 			var res = this.get('25519KeysignedKey' + keyId);
 			resolve(res);
 		}.bind(this));
 	},
-	putSignedPreKey: function(keyId, keyPair) {
+	storeSignedPreKey: function(keyId, keyPair) {
 		return new Promise(function(resolve) {
 			resolve(this.put('25519KeysignedKey' + keyId, keyPair));
 		}.bind(this));
@@ -80,12 +80,12 @@ AxolotlStore.prototype = {
 		}.bind(this));
 	},
 
-	getSession: function(identifier) {
+	loadSession: function(identifier) {
 		return new Promise(function(resolve) {
 			resolve(this.get('session' + identifier));
 		}.bind(this));
 	},
-	putSession: function(identifier, record) {
+	storeSession: function(identifier, record) {
 		return new Promise(function(resolve) {
 			resolve(this.put('session' + identifier, record));
 		}.bind(this));

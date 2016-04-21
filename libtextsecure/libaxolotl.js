@@ -34216,7 +34216,7 @@ window.axolotl.protocol = function(storage_interface) {
     var crypto_storage = {};
 
     function getRecord(encodedNumber) {
-        return storage_interface.getSession(encodedNumber).then(function(serialized) {
+        return storage_interface.loadSession(encodedNumber).then(function(serialized) {
             if (serialized === undefined) {
                 return undefined;
             }
@@ -34276,12 +34276,12 @@ window.axolotl.protocol = function(storage_interface) {
             else if (record.registrationId === null)
                 throw new Error("Had open sessions on a record that had no registrationId set");
 
-            return storage_interface.getIdentityKey(encodedNumber).then(function(identityKey) {
+            return storage_interface.loadIdentityKey(encodedNumber).then(function(identityKey) {
                 if (identityKey !== undefined && toString(identityKey) !== toString(record.identityKey))
                     throw new Error("Tried to change identity key at save time");
 
                 return storage_interface.putIdentityKey(encodedNumber, record.identityKey).then(function() {
-                    return storage_interface.putSession(encodedNumber, record.serialize());
+                    return storage_interface.storeSession(encodedNumber, record.serialize());
                 });
             });
         });
@@ -34348,7 +34348,7 @@ window.axolotl.protocol = function(storage_interface) {
     crypto_storage.getSessionOrIdentityKeyByBaseKey = function(encodedNumber, baseKey) {
         return getRecord(encodedNumber).then(function(record) {
             if (record === undefined) {
-                return storage_interface.getIdentityKey(encodedNumber).then(function(identityKey) {
+                return storage_interface.loadIdentityKey(encodedNumber).then(function(identityKey) {
                     if (identityKey === undefined)
                         return undefined;
                     return { indexInfo: { remoteIdentityKey: identityKey } };
@@ -34424,7 +34424,7 @@ window.axolotl.protocol = function(storage_interface) {
     }
 
     var initSession = function(isInitiator, ourEphemeralKey, ourSignedKey, encodedNumber, theirIdentityPubKey, theirEphemeralPubKey, theirSignedPubKey) {
-        return storage_interface.getMyIdentityKey().then(function(ourIdentityKey) {
+        return storage_interface.getIdentityKeyPair().then(function(ourIdentityKey) {
             if (isInitiator) {
                 if (ourSignedKey !== undefined) {
                     throw new Error("Invalid call to initSession");
@@ -34560,8 +34560,8 @@ window.axolotl.protocol = function(storage_interface) {
     var initSessionFromPreKeyWhisperMessage = function(encodedNumber, message) {
         var preKeyPair, signedPreKeyPair, session;
         return Promise.all([
-            storage_interface.getPreKey(message.preKeyId),
-            storage_interface.getSignedPreKey(message.signedPreKeyId),
+            storage_interface.loadPreKey(message.preKeyId),
+            storage_interface.loadSignedPreKey(message.signedPreKeyId),
             crypto_storage.getSessionOrIdentityKeyByBaseKey(encodedNumber, toArrayBuffer(message.baseKey))
         ]).then(function(results) {
             preKeyPair       = results[0];
@@ -34725,7 +34725,7 @@ window.axolotl.protocol = function(storage_interface) {
                     return HKDF(toArrayBuffer(messageKey), '', "WhisperMessageKeys");
                 });
             }).then(function(keys) {
-                return storage_interface.getMyIdentityKey().then(function(ourIdentityKey) {
+                return storage_interface.getIdentityKeyPair().then(function(ourIdentityKey) {
 
                     var macInput = new Uint8Array(messageProto.byteLength + 33*2 + 1);
                     macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)));
@@ -34806,8 +34806,8 @@ window.axolotl.protocol = function(storage_interface) {
 
         var ourIdentityKey, myRegistrationId, session, hadSession;
         return Promise.all([
-            storage_interface.getMyIdentityKey(),
-            storage_interface.getMyRegistrationId(),
+            storage_interface.getIdentityKeyPair(),
+            storage_interface.getLocalRegistrationId(),
             crypto_storage.getOpenSession(deviceObject.encodedNumber)
         ]).then(function(results) {
             ourIdentityKey   = results[0];

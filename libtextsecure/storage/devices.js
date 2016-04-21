@@ -16,7 +16,7 @@
     window.textsecure.storage.devices = {
         saveKeysToDeviceObject: function(deviceObject) {
             var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-            return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey !== undefined && deviceObject.identityKey !== undefined && getString(identityKey) != getString(deviceObject.identityKey)) {
                     var error = new Error("Identity key changed");
                     error.identityKey = deviceObject.identityKey;
@@ -60,7 +60,7 @@
             });
         },
         getDeviceObjectsForNumber: function(number) {
-            return textsecure.storage.axolotl.getIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey === undefined) {
                     return [];
                 }

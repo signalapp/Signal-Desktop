@@ -83,7 +83,7 @@
 
     AxolotlStore.prototype = {
         constructor: AxolotlStore,
-        getMyIdentityKey: function() {
+        getIdentityKeyPair: function() {
             var item = new Item({id: 'identityKey'});
             return new Promise(function(resolve) {
                 item.fetch().then(function() {
@@ -91,7 +91,7 @@
                 });
             });
         },
-        getMyRegistrationId: function() {
+        getLocalRegistrationId: function() {
             var item = new Item({id: 'registrationId'});
             return new Promise(function(resolve) {
                 item.fetch().then(function() {
@@ -101,7 +101,7 @@
         },
 
         /* Returns a prekeypair object or undefined */
-        getPreKey: function(keyId) {
+        loadPreKey: function(keyId) {
             var prekey = new PreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
@@ -112,7 +112,7 @@
                 }).fail(resolve);
             });
         },
-        putPreKey: function(keyId, keyPair) {
+        storePreKey: function(keyId, keyPair) {
             var prekey = new PreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
@@ -139,7 +139,7 @@
         },
 
         /* Returns a signed keypair object or undefined */
-        getSignedPreKey: function(keyId) {
+        loadSignedPreKey: function(keyId) {
             var prekey = new SignedPreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
@@ -150,7 +150,7 @@
                 }).fail(resolve);
             });
         },
-        putSignedPreKey: function(keyId, keyPair) {
+        storeSignedPreKey: function(keyId, keyPair) {
             var prekey = new SignedPreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
@@ -171,7 +171,7 @@
             });
         },
 
-        getSession: function(encodedNumber) {
+        loadSession: function(encodedNumber) {
             if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to get session for undefined/null number");
             }
@@ -183,7 +183,7 @@
 
             });
         },
-        putSession: function(encodedNumber, record) {
+        storeSession: function(encodedNumber, record) {
             if (encodedNumber === null || encodedNumber === undefined) {
                 throw new Error("Tried to put session for undefined/null number");
             }
@@ -246,7 +246,7 @@
             });
 
         },
-        getIdentityKey: function(identifier) {
+        loadIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to get identity key for undefined/null key");
             }
