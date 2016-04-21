@@ -1,8 +1,8 @@
-function AxolotlStore() {
+function SignalProtocolStore() {
 	this.store = {};
 }
 
-AxolotlStore.prototype = {
+SignalProtocolStore.prototype = {
 	getIdentityKeyPair: function() {
 		return Promise.resolve(this.get('identityKey'));
 	},

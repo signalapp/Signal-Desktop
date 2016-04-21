@@ -35296,7 +35296,7 @@ axolotlInternal.RecipientRecord = function() {
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
-    textsecure.storage.axolotl = new AxolotlStore();
+    textsecure.storage.axolotl = new SignalProtocolStore();
     var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
 
     /*

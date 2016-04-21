@@ -4,7 +4,7 @@
 
 'use strict';
 
-describe("AxolotlStore", function() {
+describe("SignalProtocolStore", function() {
     before(function(done) {
         storage.put('registrationId', 1337);
         storage.put('identityKey', identityKey);

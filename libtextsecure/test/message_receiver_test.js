@@ -3,7 +3,7 @@
  */
 
 describe('MessageReceiver', function() {
-    textsecure.storage.impl = new AxolotlStore();
+    textsecure.storage.impl = new SignalProtocolStore();
     var WebSocket = window.WebSocket;
     var number = '+19999999999';
     var deviceId = 1;

@@ -79,10 +79,10 @@
     var Group = Model.extend({ storeName: 'groups' });
     var Item = Model.extend({ storeName: 'items' });
 
-    function AxolotlStore() {}
+    function SignalProtocolStore() {}
 
-    AxolotlStore.prototype = {
-        constructor: AxolotlStore,
+    SignalProtocolStore.prototype = {
+        constructor: SignalProtocolStore,
         getIdentityKeyPair: function() {
             var item = new Item({id: 'identityKey'});
             return new Promise(function(resolve) {
@@ -330,5 +330,5 @@
 
     };
 
-    window.AxolotlStore = AxolotlStore;
+    window.SignalProtocolStore = SignalProtocolStore;
 })();

@@ -88,7 +88,7 @@ module.exports = function(grunt) {
         '!js/libtextsecure.js',
         '!js/libaxolotl-worker.js',
         '!js/components.js',
-        '!js/axolotl_store.js',
+        '!js/signal_protocol_store.js',
         '_locales/**/*'
       ],
       options: { jshintrc: '.jshintrc' },

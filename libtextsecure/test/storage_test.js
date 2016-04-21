@@ -4,7 +4,7 @@
 
 'use strict';
 
-describe("AxolotlStore", function() {
+describe("SignalProtocolStore", function() {
     before(function() { localStorage.clear(); });
     var store = textsecure.storage.axolotl;
     var identifier = '+5558675309';
