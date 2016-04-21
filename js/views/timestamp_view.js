@@ -7,9 +7,6 @@
 
     Whisper.TimestampView = Whisper.View.extend({
         initialize: function(options) {
-            if (options) {
-                this.brief = options.brief;
-            }
             extension.windows.onClosed(this.clearTimeout.bind(this));
         },
         update: function() {
@@ -49,13 +46,13 @@
 
             if (timediff.years() > 0) {
                 this.delay = null;
-                return timestamp.format(this._format['y']);
+                return timestamp.format(this._format.y);
             } else if (timediff.months() > 0 || timediff.days() > 6) {
                 this.delay = null;
-                return timestamp.format(this._format['m']);
+                return timestamp.format(this._format.m);
             } else if (timediff.days() > 0) {
                 this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(moment());
-                return timestamp.format(this._format['d']);
+                return timestamp.format(this._format.d);
             } else if (timediff.hours() > 1) {
                 this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
                 return this.relativeTime(timediff.hours(), 'hh');
