@@ -972,7 +972,8 @@ input.search {
     height: 18px;
     opacity: 1 !important;
     background: url("/images/error_red.png") center no-repeat;
-    cursor: pointer; }
+    cursor: pointer;
+    -webkit-mask: none; }
   .message-container .incoming .avatar, .message-container .incoming .bubble,
   .message-list .incoming .avatar,
   .message-list .incoming .bubble {
