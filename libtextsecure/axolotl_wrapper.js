@@ -7,7 +7,7 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     textsecure.storage.axolotl = new SignalProtocolStore();
-    var axolotlInstance = axolotl.protocol(textsecure.storage.axolotl);
+    var protocolInstance = axolotl.protocol(textsecure.storage.axolotl);
 
     /*
      * jobQueue manages multiple queues indexed by device to serialize
@@ -30,36 +30,36 @@
     window.textsecure.protocol_wrapper = {
         decryptWhisperMessage: function(fromAddress, blob) {
             return queueJobForNumber(fromAddress, function() {
-                return axolotlInstance.decryptWhisperMessage(fromAddress, blob.toArrayBuffer());
+                return protocolInstance.decryptWhisperMessage(fromAddress, blob.toArrayBuffer());
             });
         },
         closeOpenSessionForDevice: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
-                return axolotlInstance.closeOpenSessionForDevice(encodedNumber);
+                return protocolInstance.closeOpenSessionForDevice(encodedNumber);
             });
         },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return queueJobForNumber(deviceObject.encodedNumber, function() {
-                return axolotlInstance.encryptMessageFor(deviceObject, pushMessageContent);
+                return protocolInstance.encryptMessageFor(deviceObject, pushMessageContent);
             });
         },
         startWorker: function() {
-            axolotlInstance.startWorker('/js/libsignal-protocol-worker.js');
+            protocolInstance.startWorker('/js/libsignal-protocol-worker.js');
         },
         stopWorker: function() {
-            axolotlInstance.stopWorker();
+            protocolInstance.stopWorker();
         },
         createIdentityKeyRecvSocket: function() {
-            return axolotlInstance.createIdentityKeyRecvSocket();
+            return protocolInstance.createIdentityKeyRecvSocket();
         },
         hasOpenSession: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
-                return axolotlInstance.hasOpenSession(encodedNumber);
+                return protocolInstance.hasOpenSession(encodedNumber);
             });
         },
         getRegistrationId: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
-                return axolotlInstance.getRegistrationId(encodedNumber);
+                return protocolInstance.getRegistrationId(encodedNumber);
             });
         },
         handlePreKeyWhisperMessage: function(from, blob) {
@@ -71,7 +71,7 @@
                 throw new Error("Incompatible version byte");
             }
             return queueJobForNumber(from, function() {
-                return axolotlInstance.handlePreKeyWhisperMessage(from, blob).catch(function(e) {
+                return protocolInstance.handlePreKeyWhisperMessage(from, blob).catch(function(e) {
                     if (e.message === 'Unknown identity key') {
                         blob.reset(); // restore the version byte.
 
