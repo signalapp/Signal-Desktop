@@ -44,7 +44,7 @@
             });
         },
         startWorker: function() {
-            axolotlInstance.startWorker('/js/libaxolotl-worker.js');
+            axolotlInstance.startWorker('/js/libsignal-protocol-worker.js');
         },
         stopWorker: function() {
             axolotlInstance.stopWorker();

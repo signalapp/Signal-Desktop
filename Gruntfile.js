@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         },
         src: [
           'libtextsecure/errors.js',
-          'libtextsecure/libaxolotl.js',
+          'libtextsecure/libsignal-protocol.js',
           'libtextsecure/axolotl_wrapper.js',
 
           'libtextsecure/crypto.js',
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'js/**/*.js',
         '!js/libtextsecure.js',
-        '!js/libaxolotl-worker.js',
+        '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         '!js/signal_protocol_store.js',
         '_locales/**/*'
@@ -146,7 +146,7 @@ module.exports = function(grunt) {
         'Gruntfile',
         'js/**/*.js',
         '!js/libtextsecure.js',
-        '!js/libaxolotl-worker.js',
+        '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
