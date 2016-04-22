@@ -230,7 +230,7 @@ else if (ENVIRONMENT_IS_SHELL) {
 }
 else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
   Module['read'] = function read(url) {
-    var xhr = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest({mozSystem: true});
     xhr.open('GET', url, false);
     xhr.send(null);
     return xhr.responseText;
@@ -3972,7 +3972,7 @@ function copyTempDouble(ptr) {
         }
         LazyUint8Array.prototype.cacheLength = function LazyUint8Array_cacheLength() {
           // Find length
-          var xhr = new XMLHttpRequest();
+          var xhr = new XMLHttpRequest({mozSystem: true});
           xhr.open('HEAD', url, false);
           xhr.send(null);
           if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
@@ -3989,7 +3989,7 @@ function copyTempDouble(ptr) {
             if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
   
             // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
-            var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest({mozSystem: true});
             xhr.open('GET', url, false);
             if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
   
@@ -4903,7 +4903,7 @@ function copyTempDouble(ptr) {
           Browser.mouseY = y;
         }
       },xhrLoad:function (url, onload, onerror) {
-        var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest({mozSystem: true});
         xhr.open('GET', url, true);
         xhr.responseType = 'arraybuffer';
         xhr.onload = function xhr_onload() {
@@ -29953,7 +29953,7 @@ Curve25519Worker.prototype = {
             Util.XHR = function() {
                 // No dependencies please, ref: http://www.quirksmode.org/js/xmlhttp.html
                 var XMLHttpFactories = [
-                    function () {return new XMLHttpRequest()},
+                    function () {return new XMLHttpRequest({mozSystem: true})},
                     function () {return new ActiveXObject("Msxml2.XMLHTTP")},
                     function () {return new ActiveXObject("Msxml3.XMLHTTP")},
                     function () {return new ActiveXObject("Microsoft.XMLHTTP")}
@@ -36370,7 +36370,7 @@ var TextSecureServer = (function() {
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
             console.log(options.type, url);
-            var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest({mozSystem: true});
             xhr.open(options.type, url, true /*async*/);
 
             if ( options.responseType ) {

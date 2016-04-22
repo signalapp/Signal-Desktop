@@ -28,7 +28,7 @@ var TextSecureServer = (function() {
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
             console.log(options.type, url);
-            var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest({mozSystem: true});
             xhr.open(options.type, url, true /*async*/);
 
             if ( options.responseType ) {
