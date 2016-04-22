@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         src: [
           'libtextsecure/errors.js',
           'libtextsecure/libsignal-protocol.js',
-          'libtextsecure/axolotl_wrapper.js',
+          'libtextsecure/protocol_wrapper.js',
 
           'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
