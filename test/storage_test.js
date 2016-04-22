@@ -10,7 +10,7 @@ describe("SignalProtocolStore", function() {
         storage.put('identityKey', identityKey);
         storage.fetch().then(done, done);
     });
-    var store = textsecure.storage.axolotl;
+    var store = textsecure.storage.protocol;
     var identifier = '+5558675309';
     var identityKey = {
         pubKey: textsecure.crypto.getRandomBytes(33),

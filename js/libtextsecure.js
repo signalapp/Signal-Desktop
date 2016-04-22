@@ -35296,8 +35296,8 @@ Internal.RecipientRecord = function() {
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
-    textsecure.storage.axolotl = new SignalProtocolStore();
-    var protocolInstance = axolotl.protocol(textsecure.storage.axolotl);
+    textsecure.storage.protocol = new SignalProtocolStore();
+    var protocolInstance = axolotl.protocol(textsecure.storage.protocol);
 
     /*
      * jobQueue manages multiple queues indexed by device to serialize
@@ -35614,14 +35614,14 @@ Internal.RecipientRecord = function() {
     window.textsecure.storage.devices = {
         saveKeysToDeviceObject: function(deviceObject) {
             var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey !== undefined && deviceObject.identityKey !== undefined && getString(identityKey) != getString(deviceObject.identityKey)) {
                     var error = new Error("Identity key changed");
                     error.identityKey = deviceObject.identityKey;
                     throw error;
                 }
 
-                return textsecure.storage.axolotl.putIdentityKey(number, deviceObject.identityKey).then(function() {
+                return textsecure.storage.protocol.putIdentityKey(number, deviceObject.identityKey).then(function() {
                     tempKeys[deviceObject.encodedNumber] = {
                         preKey:  deviceObject.preKey,
                         preKeyId: deviceObject.preKeyId,
@@ -35640,7 +35640,7 @@ Internal.RecipientRecord = function() {
         },
 
         getStaleDeviceIdsForNumber: function(number) {
-            return textsecure.storage.axolotl.getDeviceIds(number).then(function(deviceIds) {
+            return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                 if (deviceIds.length === 0) {
                     return [1];
                 }
@@ -35658,11 +35658,11 @@ Internal.RecipientRecord = function() {
             });
         },
         getDeviceObjectsForNumber: function(number) {
-            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey === undefined) {
                     return [];
                 }
-                return textsecure.storage.axolotl.getDeviceIds(number).then(function(deviceIds) {
+                return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                     // Add pending devices from tempKeys
                     for (var encodedNumber in tempKeys) {
                         var deviceNumber = textsecure.utils.unencodeNumber(encodedNumber)[0];
@@ -35693,7 +35693,7 @@ Internal.RecipientRecord = function() {
                 promise = promise.then(function() {
                     var encodedNumber = number + "." + deviceIdsToRemove[j];
                     delete tempKeys[encodedNumber];
-                    return textsecure.storage.axolotl.removeSession(encodedNumber);
+                    return textsecure.storage.protocol.removeSession(encodedNumber);
                 });
             }
             return promise;
@@ -35717,7 +35717,7 @@ Internal.RecipientRecord = function() {
     // create a random group id that we haven't seen before.
     function generateNewGroupId() {
         var groupId = getString(textsecure.crypto.getRandomBytes(16));
-        return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+        return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
             if (group === undefined) {
                 return groupId;
             } else {
@@ -35732,7 +35732,7 @@ Internal.RecipientRecord = function() {
             var groupId = groupId;
             return new Promise(function(resolve) {
                 if (groupId !== undefined) {
-                    resolve(textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+                    resolve(textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                         if (group !== undefined) {
                             throw new Error("Tried to recreate group");
                         }
@@ -35763,14 +35763,14 @@ Internal.RecipientRecord = function() {
                 for (var i in finalNumbers)
                     groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-                return textsecure.storage.axolotl.putGroup(groupId, groupObject).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, groupObject).then(function() {
                     return {id: groupId, numbers: finalNumbers};
                 });
             });
         },
 
         getNumbers: function(groupId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -35779,7 +35779,7 @@ Internal.RecipientRecord = function() {
         },
 
         removeNumber: function(groupId, number) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -35791,7 +35791,7 @@ Internal.RecipientRecord = function() {
                 if (i > -1) {
                     group.numbers.splice(i, 1);
                     delete group.numberRegistrationIds[number];
-                    return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                    return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                         return group.numbers;
                     });
                 }
@@ -35801,7 +35801,7 @@ Internal.RecipientRecord = function() {
         },
 
         addNumbers: function(groupId, numbers) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -35815,18 +35815,18 @@ Internal.RecipientRecord = function() {
                     }
                 }
 
-                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                     return group.numbers;
                 });
             });
         },
 
         deleteGroup: function(groupId) {
-            return textsecure.storage.axolotl.removeGroup(groupId);
+            return textsecure.storage.protocol.removeGroup(groupId);
         },
 
         getGroup: function(groupId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -35835,7 +35835,7 @@ Internal.RecipientRecord = function() {
         },
 
         updateNumbers: function(groupId, numbers) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     throw new Error("Tried to update numbers for unknown group");
 
@@ -35859,7 +35859,7 @@ Internal.RecipientRecord = function() {
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     throw new Error("Unknown group for device registration id");
 
@@ -35871,7 +35871,7 @@ Internal.RecipientRecord = function() {
 
                 var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
                 group.numberRegistrationIds[number][encodedNumber] = registrationId;
-                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                     return needUpdate;
                 });
             });
@@ -36813,7 +36813,7 @@ var TextSecureServer = (function() {
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
             ).then(function(response) {
-                return textsecure.storage.axolotl.clearSessionStore().then(function() {
+                return textsecure.storage.protocol.clearSessionStore().then(function() {
                     textsecure.storage.remove('identityKey');
                     textsecure.storage.remove('signaling_key');
                     textsecure.storage.remove('password');
@@ -36824,10 +36824,10 @@ var TextSecureServer = (function() {
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    var putIdentity = textsecure.storage.axolotl.putIdentityKey.bind(
+                    var putIdentity = textsecure.storage.protocol.putIdentityKey.bind(
                         null, number, identityKeyPair.pubKey
                     );
-                    textsecure.storage.axolotl.removeIdentityKey(number).then(putIdentity, putIdentity);
+                    textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);
 
                     textsecure.storage.put('identityKey', identityKeyPair);
                     textsecure.storage.put('signaling_key', signalingKey);
@@ -36855,7 +36855,7 @@ var TextSecureServer = (function() {
             }
 
 
-            var store = textsecure.storage.axolotl;
+            var store = textsecure.storage.protocol;
             return store.getIdentityKeyPair().then(function(identityKey) {
                 var result = { preKeys: [], identityKey: identityKey.pubKey };
                 var promises = [];

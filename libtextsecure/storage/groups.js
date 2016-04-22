@@ -14,7 +14,7 @@
     // create a random group id that we haven't seen before.
     function generateNewGroupId() {
         var groupId = getString(textsecure.crypto.getRandomBytes(16));
-        return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+        return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
             if (group === undefined) {
                 return groupId;
             } else {
@@ -29,7 +29,7 @@
             var groupId = groupId;
             return new Promise(function(resolve) {
                 if (groupId !== undefined) {
-                    resolve(textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+                    resolve(textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                         if (group !== undefined) {
                             throw new Error("Tried to recreate group");
                         }
@@ -60,14 +60,14 @@
                 for (var i in finalNumbers)
                     groupObject.numberRegistrationIds[finalNumbers[i]] = {};
 
-                return textsecure.storage.axolotl.putGroup(groupId, groupObject).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, groupObject).then(function() {
                     return {id: groupId, numbers: finalNumbers};
                 });
             });
         },
 
         getNumbers: function(groupId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -76,7 +76,7 @@
         },
 
         removeNumber: function(groupId, number) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -88,7 +88,7 @@
                 if (i > -1) {
                     group.numbers.splice(i, 1);
                     delete group.numberRegistrationIds[number];
-                    return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                    return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                         return group.numbers;
                     });
                 }
@@ -98,7 +98,7 @@
         },
 
         addNumbers: function(groupId, numbers) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -112,18 +112,18 @@
                     }
                 }
 
-                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                     return group.numbers;
                 });
             });
         },
 
         deleteGroup: function(groupId) {
-            return textsecure.storage.axolotl.removeGroup(groupId);
+            return textsecure.storage.protocol.removeGroup(groupId);
         },
 
         getGroup: function(groupId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     return undefined;
 
@@ -132,7 +132,7 @@
         },
 
         updateNumbers: function(groupId, numbers) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     throw new Error("Tried to update numbers for unknown group");
 
@@ -156,7 +156,7 @@
         },
 
         needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            return textsecure.storage.axolotl.getGroup(groupId).then(function(group) {
+            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
                 if (group === undefined)
                     throw new Error("Unknown group for device registration id");
 
@@ -168,7 +168,7 @@
 
                 var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
                 group.numberRegistrationIds[number][encodedNumber] = registrationId;
-                return textsecure.storage.axolotl.putGroup(groupId, group).then(function() {
+                return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
                     return needUpdate;
                 });
             });

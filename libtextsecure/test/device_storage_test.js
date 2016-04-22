@@ -6,7 +6,7 @@
 
 describe('Device storage', function() {
     before(function() { localStorage.clear(); });
-    var store = textsecure.storage.axolotl;
+    var store = textsecure.storage.protocol;
     var identifier = '+5558675309';
     var another_identifier = '+5555590210';
     var identityKey = {

@@ -16,14 +16,14 @@
     window.textsecure.storage.devices = {
         saveKeysToDeviceObject: function(deviceObject) {
             var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey !== undefined && deviceObject.identityKey !== undefined && getString(identityKey) != getString(deviceObject.identityKey)) {
                     var error = new Error("Identity key changed");
                     error.identityKey = deviceObject.identityKey;
                     throw error;
                 }
 
-                return textsecure.storage.axolotl.putIdentityKey(number, deviceObject.identityKey).then(function() {
+                return textsecure.storage.protocol.putIdentityKey(number, deviceObject.identityKey).then(function() {
                     tempKeys[deviceObject.encodedNumber] = {
                         preKey:  deviceObject.preKey,
                         preKeyId: deviceObject.preKeyId,
@@ -42,7 +42,7 @@
         },
 
         getStaleDeviceIdsForNumber: function(number) {
-            return textsecure.storage.axolotl.getDeviceIds(number).then(function(deviceIds) {
+            return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                 if (deviceIds.length === 0) {
                     return [1];
                 }
@@ -60,11 +60,11 @@
             });
         },
         getDeviceObjectsForNumber: function(number) {
-            return textsecure.storage.axolotl.loadIdentityKey(number).then(function(identityKey) {
+            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
                 if (identityKey === undefined) {
                     return [];
                 }
-                return textsecure.storage.axolotl.getDeviceIds(number).then(function(deviceIds) {
+                return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                     // Add pending devices from tempKeys
                     for (var encodedNumber in tempKeys) {
                         var deviceNumber = textsecure.utils.unencodeNumber(encodedNumber)[0];
@@ -95,7 +95,7 @@
                 promise = promise.then(function() {
                     var encodedNumber = number + "." + deviceIdsToRemove[j];
                     delete tempKeys[encodedNumber];
-                    return textsecure.storage.axolotl.removeSession(encodedNumber);
+                    return textsecure.storage.protocol.removeSession(encodedNumber);
                 });
             }
             return promise;

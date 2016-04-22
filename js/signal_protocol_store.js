@@ -292,7 +292,7 @@
                 }).fail(function() {
                     reject(new Error("Tried to remove identity for unknown number"));
                 });
-                resolve(textsecure.storage.axolotl.removeAllSessions(number));
+                resolve(textsecure.storage.protocol.removeAllSessions(number));
             });
         },
         getGroup: function(groupId) {

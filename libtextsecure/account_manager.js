@@ -98,7 +98,7 @@
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
             ).then(function(response) {
-                return textsecure.storage.axolotl.clearSessionStore().then(function() {
+                return textsecure.storage.protocol.clearSessionStore().then(function() {
                     textsecure.storage.remove('identityKey');
                     textsecure.storage.remove('signaling_key');
                     textsecure.storage.remove('password');
@@ -109,10 +109,10 @@
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    var putIdentity = textsecure.storage.axolotl.putIdentityKey.bind(
+                    var putIdentity = textsecure.storage.protocol.putIdentityKey.bind(
                         null, number, identityKeyPair.pubKey
                     );
-                    textsecure.storage.axolotl.removeIdentityKey(number).then(putIdentity, putIdentity);
+                    textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);
 
                     textsecure.storage.put('identityKey', identityKeyPair);
                     textsecure.storage.put('signaling_key', signalingKey);
@@ -140,7 +140,7 @@
             }
 
 
-            var store = textsecure.storage.axolotl;
+            var store = textsecure.storage.protocol;
             return store.getIdentityKeyPair().then(function(identityKey) {
                 var result = { preKeys: [], identityKey: identityKey.pubKey };
                 var promises = [];

@@ -19,25 +19,25 @@ describe("Key generation", function() {
     }
     function itStoresPreKey(keyId) {
         it('prekey ' + keyId + ' is valid', function(done) {
-            return textsecure.storage.axolotl.loadPreKey(keyId).then(function(keyPair) {
+            return textsecure.storage.protocol.loadPreKey(keyId).then(function(keyPair) {
                 validateStoredKeyPair(keyPair);
             }).then(done,done);
         });
     }
     function itStoresSignedPreKey(keyId) {
         it('signed prekey ' + keyId + ' is valid', function(done) {
-            return textsecure.storage.axolotl.loadSignedPreKey(keyId).then(function(keyPair) {
+            return textsecure.storage.protocol.loadSignedPreKey(keyId).then(function(keyPair) {
                 validateStoredKeyPair(keyPair);
             }).then(done,done);
         });
     }
     function validateResultKey(resultKey) {
-        return textsecure.storage.axolotl.loadPreKey(resultKey.keyId).then(function(keyPair) {
+        return textsecure.storage.protocol.loadPreKey(resultKey.keyId).then(function(keyPair) {
             assertEqualArrayBuffers(resultKey.publicKey, keyPair.pubKey);
         });
     }
     function validateResultSignedKey(resultSignedKey) {
-        return textsecure.storage.axolotl.loadSignedPreKey(resultSignedKey.keyId).then(function(keyPair) {
+        return textsecure.storage.protocol.loadSignedPreKey(resultSignedKey.keyId).then(function(keyPair) {
             assertEqualArrayBuffers(resultSignedKey.publicKey, keyPair.pubKey);
         });
     }
@@ -45,7 +45,7 @@ describe("Key generation", function() {
     before(function(done) {
         localStorage.clear();
         axolotl.util.generateIdentityKeyPair().then(function(keyPair) {
-            return textsecure.storage.axolotl.put('identityKey', keyPair);
+            return textsecure.storage.protocol.put('identityKey', keyPair);
         }).then(done, done);
     });
 
@@ -164,7 +164,7 @@ describe("Key generation", function() {
             validateResultSignedKey(result.signedPreKey).then(done,done);
         });
         it('deletes signed key 1', function() {
-            textsecure.storage.axolotl.loadSignedPreKey(1).then(function(keyPair) {
+            textsecure.storage.protocol.loadSignedPreKey(1).then(function(keyPair) {
                 assert.isUndefined(keyPair);
             });
         });
