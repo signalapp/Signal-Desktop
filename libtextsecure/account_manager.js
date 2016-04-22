@@ -23,7 +23,7 @@
             var registerKeys = this.server.registerKeys.bind(this.server);
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
-            return axolotl.util.generateIdentityKeyPair().then(function(identityKeyPair) {
+            return libsignal.util.generateIdentityKeyPair().then(function(identityKeyPair) {
                 return createAccount(number, verificationCode, identityKeyPair).
                     then(generateKeys).
                     then(registerKeys).
@@ -93,7 +93,7 @@
             var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
-            var registrationId = axolotl.util.generateRegistrationId();
+            var registrationId = libsignal.util.generateRegistrationId();
 
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
@@ -147,7 +147,7 @@
 
                 for (var keyId = startId; keyId < startId+count; ++keyId) {
                     promises.push(
-                        axolotl.util.generatePreKey(keyId).then(function(res) {
+                        libsignal.util.generatePreKey(keyId).then(function(res) {
                             store.storePreKey(res.keyId, res.keyPair);
                             result.preKeys.push({
                                 keyId     : res.keyId,
@@ -159,7 +159,7 @@
                 }
 
                 promises.push(
-                    axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
+                    libsignal.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
                         store.storeSignedPreKey(res.keyId, res.keyPair);
                         result.signedPreKey = {
                             keyId     : res.keyId,

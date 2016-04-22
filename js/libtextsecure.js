@@ -35297,7 +35297,7 @@ Internal.RecipientRecord = function() {
     window.textsecure.storage = window.textsecure.storage || {};
 
     textsecure.storage.protocol = new SignalProtocolStore();
-    var protocolInstance = axolotl.protocol(textsecure.storage.protocol);
+    var protocolInstance = libsignal.protocol(textsecure.storage.protocol);
 
     /*
      * jobQueue manages multiple queues indexed by device to serialize
@@ -36738,7 +36738,7 @@ var TextSecureServer = (function() {
             var registerKeys = this.server.registerKeys.bind(this.server);
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
-            return axolotl.util.generateIdentityKeyPair().then(function(identityKeyPair) {
+            return libsignal.util.generateIdentityKeyPair().then(function(identityKeyPair) {
                 return createAccount(number, verificationCode, identityKeyPair).
                     then(generateKeys).
                     then(registerKeys).
@@ -36808,7 +36808,7 @@ var TextSecureServer = (function() {
             var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
-            var registrationId = axolotl.util.generateRegistrationId();
+            var registrationId = libsignal.util.generateRegistrationId();
 
             return this.server.confirmCode(
                 number, verificationCode, password, signalingKey, registrationId, deviceName
@@ -36862,7 +36862,7 @@ var TextSecureServer = (function() {
 
                 for (var keyId = startId; keyId < startId+count; ++keyId) {
                     promises.push(
-                        axolotl.util.generatePreKey(keyId).then(function(res) {
+                        libsignal.util.generatePreKey(keyId).then(function(res) {
                             store.storePreKey(res.keyId, res.keyPair);
                             result.preKeys.push({
                                 keyId     : res.keyId,
@@ -36874,7 +36874,7 @@ var TextSecureServer = (function() {
                 }
 
                 promises.push(
-                    axolotl.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
+                    libsignal.util.generateSignedPreKey(identityKey, signedKeyId).then(function(res) {
                         store.storeSignedPreKey(res.keyId, res.keyPair);
                         result.signedPreKey = {
                             keyId     : res.keyId,

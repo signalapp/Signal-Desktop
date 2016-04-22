@@ -44,7 +44,7 @@ describe("Key generation", function() {
 
     before(function(done) {
         localStorage.clear();
-        axolotl.util.generateIdentityKeyPair().then(function(keyPair) {
+        libsignal.util.generateIdentityKeyPair().then(function(keyPair) {
             return textsecure.storage.protocol.put('identityKey', keyPair);
         }).then(done, done);
     });

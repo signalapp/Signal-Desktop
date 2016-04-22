@@ -7,7 +7,7 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     textsecure.storage.protocol = new SignalProtocolStore();
-    var protocolInstance = axolotl.protocol(textsecure.storage.protocol);
+    var protocolInstance = libsignal.protocol(textsecure.storage.protocol);
 
     /*
      * jobQueue manages multiple queues indexed by device to serialize
