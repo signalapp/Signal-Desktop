@@ -35108,7 +35108,7 @@ axolotlInternal.protoText = function() {
 
 	protoText['protos/WhisperTextProtocol.proto'] = 
 		'package textsecure;\n' +
-		'option java_package = "org.whispersystems.libaxolotl.protocol";\n' +
+		'option java_package = "org.whispersystems.libsignal.protocol";\n' +
 		'option java_outer_classname = "WhisperProtos";\n' +
 		'message WhisperMessage {\n' +
 		'  optional bytes  ephemeralKey    = 1;\n' +
