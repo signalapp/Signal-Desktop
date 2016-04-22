@@ -9,7 +9,7 @@ describe("Key generation", function() {
     this.timeout(count*2000);
 
     function validateStoredKeyPair(keyPair) {
-        /* Ensure the keypair matches the format used internally by libaxolotl */
+        /* Ensure the keypair matches the format used internally by libsignal-protocol */
         assert.isObject(keyPair, 'Stored keyPair is not an object');
         assert.instanceOf(keyPair.pubKey, ArrayBuffer);
         assert.instanceOf(keyPair.privKey, ArrayBuffer);
