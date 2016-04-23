@@ -59,7 +59,7 @@
                 return i18n('sessionEnded');
             }
             if (this.isIncoming() && this.hasKeyConflicts()) {
-                return 'Received message with unknown identity key.';
+                return i18n('incomingKeyConflict');
             }
             if (this.isIncoming() && this.hasErrors()) {
                 return 'Error handling incoming message.';

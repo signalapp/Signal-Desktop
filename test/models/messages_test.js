@@ -177,7 +177,7 @@
             assert.equal(message.getDescription(), i18n('sessionEnded'));
 
             message = messages.add({type: 'incoming', errors: [{name: 'OutgoingIdentityKeyError'}]});
-            assert.equal(message.getDescription(), 'Received message with unknown identity key.');
+            assert.equal(message.getDescription(), i18n('incomingKeyConflict'));
 
         });
 
