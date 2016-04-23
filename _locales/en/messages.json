@@ -45,6 +45,9 @@
     "incomingKeyConflict": {
       "message": "Received message with unknown identity key. Click to process and display."
     },
+    "incomingError": {
+      "message": "Error handling incoming message."
+    },
     "unsupportedAttachment": {
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
