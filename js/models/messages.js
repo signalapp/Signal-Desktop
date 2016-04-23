@@ -56,7 +56,7 @@
                 return messages.join(' ');
             }
             if (this.isEndSession()) {
-                return 'Secure session ended.';
+                return i18n('sessionEnded');
             }
             if (this.isIncoming() && this.hasKeyConflicts()) {
                 return 'Received message with unknown identity key.';

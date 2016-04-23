@@ -174,7 +174,7 @@
             assert.equal(message.getDescription(), 'Updated the group. Title is now \'blerg\'. Bob joined the group.', 'Notes when there are multiple changes to group_updates properties.');
 
             message = messages.add({flags: true});
-            assert.equal(message.getDescription(), 'Secure session ended.');
+            assert.equal(message.getDescription(), i18n('sessionEnded'));
 
             message = messages.add({type: 'incoming', errors: [{name: 'OutgoingIdentityKeyError'}]});
             assert.equal(message.getDescription(), 'Received message with unknown identity key.');
