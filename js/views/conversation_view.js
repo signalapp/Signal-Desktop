@@ -232,7 +232,7 @@
         },
 
         destroyMessages: function(e) {
-            this.confirm("Permanently delete this conversation?").then(function() {
+            this.confirm(i18n('deleteConversationConfirmation')).then(function() {
                 this.model.destroyMessages();
                 this.remove();
             }.bind(this)).catch(function() {
