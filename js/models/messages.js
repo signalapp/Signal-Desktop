@@ -62,7 +62,7 @@
                 return i18n('incomingKeyConflict');
             }
             if (this.isIncoming() && this.hasErrors()) {
-                return 'Error handling incoming message.';
+                return i18n('incomingError');
             }
 
             return this.get('body');
