@@ -4,6 +4,10 @@
 ;(function() {
     'use strict';
 
+    var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
+    var StaticArrayBufferProto = new ArrayBuffer().__proto__;
+    var StaticUint8ArrayProto = new Uint8Array().__proto__;
+
     function isStringable(thing) {
         return (thing === Object(thing) &&
                     (thing.__proto__ == StaticArrayBufferProto ||
