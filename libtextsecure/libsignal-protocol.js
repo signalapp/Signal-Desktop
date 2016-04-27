@@ -34513,19 +34513,7 @@ window.libsignal.protocol = function(storage_interface) {
                 var address = SignalProtocolAddress.fromString(deviceObject.encodedNumber);
                 var builder = new SessionBuilder(storage_interface, address);
 
-                return builder.processPreKey({
-                    identityKey: toArrayBuffer(deviceObject.identityKey),
-                    preKey: {
-                        keyId: deviceObject.preKeyId,
-                        publicKey: toArrayBuffer(deviceObject.preKey),
-                    },
-                    signedPreKey: {
-                        keyId: deviceObject.signedKeyId,
-                        publicKey: toArrayBuffer(deviceObject.signedKey),
-                        signature: toArrayBuffer(deviceObject.signedKeySignature),
-                    },
-                    registrationId: deviceObject.registrationId
-                });
+                return builder.processPreKey(deviceObject);
             }
         }).then(function() {
             return getRecord(deviceObject.encodedNumber).then(function(refreshed) {

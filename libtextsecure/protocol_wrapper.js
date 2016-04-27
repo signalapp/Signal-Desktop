@@ -82,6 +82,13 @@
                     throw e;
                 });
             });
+        },
+        processPreKey: function(preKeyBundle) {
+            return queueJobForNumber(preKeyBundle.encodedNumber, function() {
+                var address = libsignal.SignalProtocolAddress.fromString(preKeyBundle.encodedNumber);
+                var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
+                return builder.processPreKey(preKeyBundle);
+            });
         }
     };
 })();

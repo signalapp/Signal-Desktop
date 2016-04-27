@@ -15,24 +15,8 @@
 
     window.textsecure.storage.devices = {
         saveKeysToDeviceObject: function(deviceObject) {
-            var number = textsecure.utils.unencodeNumber(deviceObject.encodedNumber)[0];
-            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
-                if (identityKey !== undefined && deviceObject.identityKey !== undefined && getString(identityKey) != getString(deviceObject.identityKey)) {
-                    var error = new Error("Identity key changed");
-                    error.identityKey = deviceObject.identityKey;
-                    throw error;
-                }
-
-                return textsecure.storage.protocol.putIdentityKey(number, deviceObject.identityKey).then(function() {
-                    tempKeys[deviceObject.encodedNumber] = {
-                        preKey:  deviceObject.preKey,
-                        preKeyId: deviceObject.preKeyId,
-                        signedKey: deviceObject.signedKey,
-                        signedKeyId: deviceObject.signedKeyId,
-                        signedKeySignature: deviceObject.signedKeySignature,
-                        registrationId: deviceObject.registrationId
-                    };
-                });
+            return textsecure.protocol_wrapper.processPreKey(deviceObject).then(function() {
+                tempKeys[deviceObject.encodedNumber] = deviceObject;
             });
         },
 

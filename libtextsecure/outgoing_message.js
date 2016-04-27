@@ -52,23 +52,19 @@ OutgoingMessage.prototype = {
     getKeysForNumber: function(number, updateDevices) {
         var handleResult = function(response) {
             return Promise.all(response.devices.map(function(device) {
-                if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1)
-                    return textsecure.storage.devices.saveKeysToDeviceObject({
-                        encodedNumber: number + "." + device.deviceId,
-                        identityKey: response.identityKey,
-                        preKey: device.preKey.publicKey,
-                        preKeyId: device.preKey.keyId,
-                        signedKey: device.signedPreKey.publicKey,
-                        signedKeyId: device.signedPreKey.keyId,
-                        signedKeySignature: device.signedPreKey.signature,
-                        registrationId: device.registrationId
-                    }).catch(function(error) {
+                device.identityKey = response.identityKey;
+                device.encodedNumber = number + "." + device.deviceId;
+                if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
+                    return textsecure.storage.devices.saveKeysToDeviceObject(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
-                            error = new textsecure.OutgoingIdentityKeyError(number, this.message.toArrayBuffer(), this.timestamp, error.identityKey);
+                            error = new textsecure.OutgoingIdentityKeyError(
+                                number, this.message.toArrayBuffer(),
+                                this.timestamp, device.identityKey);
                             this.registerError(number, "Identity key changed", error);
                         }
                         throw error;
                     }.bind(this));
+                }
             }.bind(this)));
         }.bind(this);
 
