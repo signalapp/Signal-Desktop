@@ -35674,18 +35674,9 @@ libsignal.SessionBuilder = SessionBuilder;
     window.textsecure = window.textsecure || {};
     window.textsecure.storage = window.textsecure.storage || {};
 
-    var tempKeys = {};
-
     window.textsecure.storage.devices = {
         saveKeysToDeviceObject: function(deviceObject) {
-            return textsecure.protocol_wrapper.processPreKey(deviceObject).then(function() {
-                tempKeys[deviceObject.encodedNumber] = deviceObject;
-            });
-        },
-
-        removeTempKeysFromDevice: function(encodedNumber) {
-            delete tempKeys[encodedNumber];
-            return Promise.resolve();
+            return textsecure.protocol_wrapper.processPreKey(deviceObject);
         },
 
         getStaleDeviceIdsForNumber: function(number) {
@@ -35695,9 +35686,9 @@ libsignal.SessionBuilder = SessionBuilder;
                 }
                 var updateDevices = [];
                 return Promise.all(deviceIds.map(function(deviceId) {
-                    var encodedNumber = number + '.' + deviceId;
-                    return textsecure.protocol_wrapper.hasOpenSession(encodedNumber).then(function(hasSession) {
-                        if (!hasSession && !tempKeys[encodedNumber]) {
+                    var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
+                    return textsecure.protocol_wrapper.hasOpenSession(address).then(function(hasSession) {
+                        if (!hasSession) {
                             updateDevices.push(deviceId);
                         }
                     });
@@ -35712,24 +35703,13 @@ libsignal.SessionBuilder = SessionBuilder;
                     return [];
                 }
                 return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
-                    // Add pending devices from tempKeys
-                    for (var encodedNumber in tempKeys) {
-                        var deviceNumber = textsecure.utils.unencodeNumber(encodedNumber)[0];
-                        var deviceId = parseInt(textsecure.utils.unencodeNumber(encodedNumber)[1]);
-                        if (deviceNumber === number && deviceIds.indexOf(deviceId) < 0) {
-                            deviceIds.push(deviceId);
-                        }
-                    }
                     return Promise.all(deviceIds.map(function(deviceId) {
-                        var encodedNumber = number + '.' + deviceId;
-                        var deviceObject = tempKeys[encodedNumber] || {};
-                        deviceObject.encodedNumber = encodedNumber;
-                        deviceObject.identityKey = identityKey;
-                        return textsecure.protocol_wrapper.getRegistrationId(encodedNumber).then(function(registrationId) {
-                            if (deviceObject.registrationId === undefined) {
-                                deviceObject.registrationId = registrationId;
-                            }
-                            return deviceObject;
+                        var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
+                        return textsecure.protocol_wrapper.getRegistrationId(address).then(function(registrationId) {
+                            return {
+                                encodedNumber  : address,
+                                registrationId : registrationId
+                            };
                         });
                     }));
                 });
@@ -35741,7 +35721,6 @@ libsignal.SessionBuilder = SessionBuilder;
             for (var j in deviceIdsToRemove) {
                 promise = promise.then(function() {
                     var encodedNumber = number + "." + deviceIdsToRemove[j];
-                    delete tempKeys[encodedNumber];
                     return textsecure.storage.protocol.removeSession(encodedNumber);
                 });
             }
@@ -37522,10 +37501,7 @@ OutgoingMessage.prototype = {
         var plaintext = this.message.toArrayBuffer();
         return Promise.all(deviceObjectList.map(function(device) {
             return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
-                var json = this.toJSON(device, encryptedMsg);
-                return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
-                    return json;
-                });
+                return this.toJSON(device, encryptedMsg);
             }.bind(this));
         }.bind(this)));
     },

@@ -131,10 +131,7 @@ OutgoingMessage.prototype = {
         var plaintext = this.message.toArrayBuffer();
         return Promise.all(deviceObjectList.map(function(device) {
             return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
-                var json = this.toJSON(device, encryptedMsg);
-                return textsecure.storage.devices.removeTempKeysFromDevice(device.encodedNumber).then(function() {
-                    return json;
-                });
+                return this.toJSON(device, encryptedMsg);
             }.bind(this));
         }.bind(this)));
     },
