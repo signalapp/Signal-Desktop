@@ -35675,10 +35675,6 @@ libsignal.SessionBuilder = SessionBuilder;
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage.devices = {
-        saveKeysToDeviceObject: function(deviceObject) {
-            return textsecure.protocol_wrapper.processPreKey(deviceObject);
-        },
-
         getStaleDeviceIdsForNumber: function(number) {
             return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                 if (deviceIds.length === 0) {
@@ -37425,7 +37421,7 @@ OutgoingMessage.prototype = {
                 device.identityKey = response.identityKey;
                 device.encodedNumber = number + "." + device.deviceId;
                 if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
-                    return textsecure.storage.devices.saveKeysToDeviceObject(device).catch(function(error) {
+                    return textsecure.protocol_wrapper.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
                             error = new textsecure.OutgoingIdentityKeyError(
                                 number, this.message.toArrayBuffer(),

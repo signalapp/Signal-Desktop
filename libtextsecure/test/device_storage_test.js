@@ -4,7 +4,7 @@
 
 'use strict';
 
-describe('Device storage', function() {
+describe('Protocol Wrapper', function() {
     var store = textsecure.storage.protocol;
     var identifier = '+5558675309';
     var another_identifier = '+5555590210';
@@ -16,9 +16,9 @@ describe('Device storage', function() {
             return textsecure.storage.protocol.putIdentityKey(identifier, identityKey);
         }).then(done);
     });
-    describe('saveKeysToDeviceObject', function() {
+    describe('processPreKey', function() {
         it('rejects if the identity key changes', function(done) {
-            return textsecure.storage.devices.saveKeysToDeviceObject({
+            return textsecure.protocol_wrapper.processPreKey({
                 identityKey: textsecure.crypto.getRandomBytes(33),
                 encodedNumber: identifier + '.1'
             }).then(function() {

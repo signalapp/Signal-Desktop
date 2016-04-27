@@ -12,10 +12,6 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     window.textsecure.storage.devices = {
-        saveKeysToDeviceObject: function(deviceObject) {
-            return textsecure.protocol_wrapper.processPreKey(deviceObject);
-        },
-
         getStaleDeviceIdsForNumber: function(number) {
             return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                 if (deviceIds.length === 0) {
