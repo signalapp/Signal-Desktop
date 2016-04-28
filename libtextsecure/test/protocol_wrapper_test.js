@@ -12,7 +12,7 @@ describe('Protocol Wrapper', function() {
     this.timeout(5000);
     before(function(done) {
         localStorage.clear();
-        libsignal.util.generateIdentityKeyPair().then(function(identityKey) {
+        libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKey) {
             return textsecure.storage.protocol.putIdentityKey(identifier, identityKey);
         }).then(done);
     });

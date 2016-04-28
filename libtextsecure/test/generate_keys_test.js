@@ -44,7 +44,7 @@ describe("Key generation", function() {
 
     before(function(done) {
         localStorage.clear();
-        libsignal.util.generateIdentityKeyPair().then(function(keyPair) {
+        libsignal.KeyHelper.generateIdentityKeyPair().then(function(keyPair) {
             return textsecure.storage.protocol.put('identityKey', keyPair);
         }).then(done, done);
     });

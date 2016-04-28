@@ -33909,6 +33909,13 @@ var Internal = Internal || {};
 Internal.crypto = function() {
     'use strict';
 
+    var crypto = window.crypto;
+
+    if (!crypto || !crypto.subtle || typeof crypto.getRandomValues !== 'function') {
+        throw new Error('WebCrypto not found');
+    }
+
+
     var validatePubKeyFormat = function(pubKey) {
         if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32))
             throw new Error("Invalid public key");
@@ -33923,22 +33930,22 @@ Internal.crypto = function() {
     return {
         getRandomBytes: function(size) {
             var array = new Uint8Array(size);
-            window.crypto.getRandomValues(array);
+            crypto.getRandomValues(array);
             return array.buffer;
         },
         encrypt: function(key, data, iv) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-                return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+            return crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
+                return crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
             });
         },
         decrypt: function(key, data, iv) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
-                return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
+            return crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
+                return crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
             });
         },
         sign: function(key, data) {
-            return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
-                return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
+            return crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
+                return crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
             });
         },
 
@@ -34146,57 +34153,8 @@ var util = (function() {
 'use strict';
 window.libsignal = window.libsignal || {};
 
-function isNonNegativeInteger(n) {
-    return (typeof n === 'number' && (n % 1) === 0  && n >= 0);
-}
 
-libsignal.util = {
-    generateIdentityKeyPair: function() {
-        return Internal.crypto.createKeyPair();
-    },
-
-    generateRegistrationId: function() {
-        var registrationId = new Uint16Array(Internal.crypto.getRandomBytes(2))[0];
-        return registrationId & 0x3fff;
-    },
-
-    generateSignedPreKey: function (identityKeyPair, signedKeyId) {
-        if (!(identityKeyPair.privKey instanceof ArrayBuffer) ||
-            identityKeyPair.privKey.byteLength != 32 ||
-            !(identityKeyPair.pubKey instanceof ArrayBuffer) ||
-            identityKeyPair.pubKey.byteLength != 33) {
-            throw new TypeError('Invalid argument for identityKeyPair');
-        }
-        if (!isNonNegativeInteger(signedKeyId)) {
-            throw new TypeError(
-                'Invalid argument for signedKeyId: ' + signedKeyId
-            );
-        }
-
-        return Internal.crypto.createKeyPair().then(function(keyPair) {
-            return Internal.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
-                return {
-                    keyId      : signedKeyId,
-                    keyPair    : keyPair,
-                    signature  : sig
-                };
-            });
-        });
-    },
-
-    generatePreKey: function(keyId) {
-        if (!isNonNegativeInteger(keyId)) {
-            throw new TypeError('Invalid argument for keyId: ' + keyId);
-        }
-
-        return Internal.crypto.createKeyPair().then(function(keyPair) {
-            return { keyId: keyId, keyPair: keyPair };
-        });
-    },
-
-};
-
-window.libsignal.protocol = function(storage_interface) {
+libsignal.protocol = function(storage_interface) {
     var self = {};
 
     /***************************
@@ -34266,43 +34224,15 @@ window.libsignal.protocol = function(storage_interface) {
     self.closeOpenSessionForDevice = function(encodedNumber) {
         return getRecord(encodedNumber).then(function(record) {
             if (record !== undefined) {
-                var session = record.getOpenSession();
-                if (session === undefined)
+                if (record.getOpenSession() === undefined) {
                     return;
+                }
 
-                record.closeSession(session);
-                record.updateSessionState(session);
+                record.archiveCurrentState();
                 return storage_interface.storeSession(encodedNumber, record.serialize());
             }
         });
     }
-
-
-    /*************************
-    *** Public crypto API ***
-    *************************/
-    //TODO: SHARP EDGE HERE
-    //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
-    // returns decrypted plaintext and a function that must be called if the message indicates session close
-    self.decryptWhisperMessage = function(encodedNumber, messageBytes) {
-        var address = SignalProtocolAddress.fromString(encodedNumber);
-        var sessionCipher = new SessionCipher(storage_interface, address);
-        return sessionCipher.decryptWhisperMessage(util.toArrayBuffer(messageBytes));
-    };
-
-    // Inits a session (maybe) and then decrypts the message
-    self.handlePreKeyWhisperMessage = function(encodedNumber, encodedMessage, encoding) {
-        var address = SignalProtocolAddress.fromString(encodedNumber);
-        var sessionCipher = new SessionCipher(storage_interface, address);
-        return sessionCipher.decryptPreKeyWhisperMessage(encodedMessage, encoding);
-    };
-
-    // return Promise(encoded [PreKey]WhisperMessage)
-    self.encryptMessageFor = function(deviceObject, plaintext) {
-        var address = SignalProtocolAddress.fromString(deviceObject.encodedNumber);
-        var sessionCipher = new SessionCipher(storage_interface, address);
-        return sessionCipher.encrypt(plaintext);
-    };
 
     self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
@@ -34378,6 +34308,57 @@ window.libsignal.protocol = function(storage_interface) {
 };
 
 })();
+
+function isNonNegativeInteger(n) {
+    return (typeof n === 'number' && (n % 1) === 0  && n >= 0);
+}
+
+var KeyHelper = {
+    generateIdentityKeyPair: function() {
+        return Internal.crypto.createKeyPair();
+    },
+
+    generateRegistrationId: function() {
+        var registrationId = new Uint16Array(Internal.crypto.getRandomBytes(2))[0];
+        return registrationId & 0x3fff;
+    },
+
+    generateSignedPreKey: function (identityKeyPair, signedKeyId) {
+        if (!(identityKeyPair.privKey instanceof ArrayBuffer) ||
+            identityKeyPair.privKey.byteLength != 32 ||
+            !(identityKeyPair.pubKey instanceof ArrayBuffer) ||
+            identityKeyPair.pubKey.byteLength != 33) {
+            throw new TypeError('Invalid argument for identityKeyPair');
+        }
+        if (!isNonNegativeInteger(signedKeyId)) {
+            throw new TypeError(
+                'Invalid argument for signedKeyId: ' + signedKeyId
+            );
+        }
+
+        return Internal.crypto.createKeyPair().then(function(keyPair) {
+            return Internal.crypto.Ed25519Sign(identityKeyPair.privKey, keyPair.pubKey).then(function(sig) {
+                return {
+                    keyId      : signedKeyId,
+                    keyPair    : keyPair,
+                    signature  : sig
+                };
+            });
+        });
+    },
+
+    generatePreKey: function(keyId) {
+        if (!isNonNegativeInteger(keyId)) {
+            throw new TypeError('Invalid argument for keyId: ' + keyId);
+        }
+
+        return Internal.crypto.createKeyPair().then(function(keyPair) {
+            return { keyId: keyId, keyPair: keyPair };
+        });
+    }
+};
+
+libsignal.KeyHelper = KeyHelper;
 
 var Internal = Internal || {};
 
@@ -34671,6 +34652,13 @@ Internal.SessionRecord = function() {
             else if (this.registrationId === null)
                 throw new Error("Had open sessions on a record that had no registrationId set");
         },
+        archiveCurrentState: function() {
+            var open_session = this.getOpenSession();
+            if (open_session !== undefined) {
+                this.closeSession(open_session);
+                this.updateSessionState(open_session);
+            }
+        },
         closeSession: function(session) {
             if (session.indexInfo.closed > -1) {
                 return;
@@ -34739,15 +34727,21 @@ SignalProtocolAddress.prototype = {
   }
 };
 
-SignalProtocolAddress.fromString = function(encodedAddress) {
+libsignal.SignalProtocolAddress = function(name, deviceId) {
+  var address = new SignalProtocolAddress(name, deviceId);
+
+  ['getName', 'getDeviceId', 'toString', 'equals'].forEach(function(method) {
+    this[method] = address[method].bind(address);
+  }.bind(this));
+}
+
+libsignal.SignalProtocolAddress.fromString = function(encodedAddress) {
   if (typeof encodedAddress !== 'string' || !encodedAddress.match(/.*\.\d+/)) {
     throw new Error('Invalid SignalProtocolAddress string');
   }
   var parts = encodedAddress.split('.');
-  return new SignalProtocolAddress(parts[0], parseInt(parts[1]));
+  return new libsignal.SignalProtocolAddress(parts[0], parseInt(parts[1]));
 };
-
-libsignal.SignalProtocolAddress = SignalProtocolAddress;
 
 function SessionBuilder(storage, remoteAddress) {
   this.remoteAddress = remoteAddress;
@@ -34792,12 +34786,7 @@ SessionBuilder.prototype = {
           record = new Internal.SessionRecord(device.identityKey, device.registrationId);
         }
 
-        var open_session = record.getOpenSession();
-        if (open_session) {
-            record.closeSession(open_session);
-            record.updateSessionState(open_session);
-        }
-
+        record.archiveCurrentState();
         record.updateSessionState(session, device.registrationId);
         return Promise.all([
           this.storage.storeSession(address, record.serialize()),
@@ -34809,7 +34798,6 @@ SessionBuilder.prototype = {
   processV3: function(record, message) {
     var preKeyPair, signedPreKeyPair;
     var session = record.getSessionOrIdentityKeyByBaseKey(message.baseKey);
-    var open_session = record.getOpenSession();
     return Promise.all([
         this.storage.loadPreKey(message.preKeyId),
         this.storage.loadSignedPreKey(message.signedPreKeyId),
@@ -34837,11 +34825,7 @@ SessionBuilder.prototype = {
             if (util.isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
                 // If the identity key matches the previous one, close the
                 // previous one and use the new one
-                if (open_session !== undefined) {
-                    // To be returned and saved later
-                    record.closeSession(open_session);
-                    record.updateSessionState(open_session);
-                }
+                record.archiveCurrentState();
             } else {
                 // ...otherwise create an error that the UI will pick up
                 // and ask the user if they want to re-negotiate
@@ -35284,9 +35268,16 @@ SessionCipher.prototype = {
 
 libsignal.SessionCipher = function(storage, remoteAddress) {
     var cipher = new SessionCipher(storage, remoteAddress);
+
+    // return Promise that resolves
     this.encrypt = cipher.encrypt.bind(cipher);
+
+    // returns a Promise that inits a session if necessary and resolves
+    // to a decrypted plaintext array buffer
     this.decryptPreKeyWhisperMessage = cipher.decryptPreKeyWhisperMessage.bind(cipher);
+
+    // returns a Promise that resolves to decrypted plaintext array buffer
     this.decryptWhisperMessage = cipher.decryptWhisperMessage.bind(cipher);
-}
+};
 
 })();
