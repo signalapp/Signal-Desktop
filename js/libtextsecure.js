@@ -34175,6 +34175,15 @@ var util = (function() {
     }
 
     return {
+        toString: function(thing) {
+            if (typeof thing == 'string') {
+                return thing;
+            } else if (util.isStringable(thing)) {
+                return util.stringObject(thing);
+            } else {
+                throw new Error("Unsure how to convert object to string from type " + typeof thing);
+            }
+        },
         stringObject: stringObject,
         isStringable: function (thing) {
             return (thing === Object(thing) &&
@@ -34182,7 +34191,41 @@ var util = (function() {
                         thing.__proto__ == StaticUint8ArrayProto ||
                         thing.__proto__ == StaticByteBufferProto));
         },
+        toArrayBuffer: function(thing) {
+            if (thing === undefined) {
+                return undefined;
+            }
+            if (thing === Object(thing)) {
+                if (thing.__proto__ == StaticArrayBufferProto)
+                    return thing;
+                //TODO: Several more cases here...
+            }
 
+            if (thing instanceof Array) {
+                // Assuming Uint16Array from curve25519
+                //TODO: Move to convertToArrayBuffer
+                var res = new ArrayBuffer(thing.length * 2);
+                var uint = new Uint16Array(res);
+                for (var i = 0; i < thing.length; i++)
+                    uint[i] = thing[i];
+                return res;
+            }
+
+            var str;
+            if (util.isStringable(thing)) {
+                str = util.stringObject(thing);
+            } else if (typeof thing == "string") {
+                str = thing;
+            } else {
+                throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
+            }
+            var res = new ArrayBuffer(str.length);
+            var uint = new Uint8Array(res);
+            for (var i = 0; i < str.length; i++) {
+                uint[i] = str.charCodeAt(i);
+            }
+            return res;
+        },
         isEqual: function(a, b) {
             // TODO: Special-case arraybuffers, etc
             if (a === undefined || b === undefined)
@@ -34270,59 +34313,6 @@ libsignal.util = {
 window.libsignal.protocol = function(storage_interface) {
     var self = {};
 
-    /******************************
-    *** Random constants/utils ***
-    ******************************/
-    // We consider messages lost after a week and might throw away keys at that point
-    // (also the time between signedPreKey regenerations)
-
-    function toString(thing) {
-        if (typeof thing == 'string') {
-            return thing;
-        } else if (util.isStringable(thing)) {
-            return util.stringObject(thing);
-        } else {
-            throw new Error("Unsure how to convert object to string from type " + typeof thing);
-        }
-    }
-
-    var StaticArrayBufferProto = new ArrayBuffer().__proto__;
-    function toArrayBuffer(thing) {
-        if (thing === undefined) {
-            return undefined;
-        }
-        if (thing === Object(thing)) {
-            if (thing.__proto__ == StaticArrayBufferProto)
-                return thing;
-            //TODO: Several more cases here...
-        }
-
-        if (thing instanceof Array) {
-            // Assuming Uint16Array from curve25519
-            //TODO: Move to convertToArrayBuffer
-            var res = new ArrayBuffer(thing.length * 2);
-            var uint = new Uint16Array(res);
-            for (var i = 0; i < thing.length; i++)
-                uint[i] = thing[i];
-            return res;
-        }
-
-        var str;
-        if (util.isStringable(thing)) {
-            str = util.stringObject(thing);
-        } else if (typeof thing == "string") {
-            str = thing;
-        } else {
-            throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
-        }
-        var res = new ArrayBuffer(str.length);
-        var uint = new Uint8Array(res);
-        for (var i = 0; i < str.length; i++) {
-            uint[i] = str.charCodeAt(i);
-        }
-        return res;
-    }
-
     /***************************
     *** Key/session storage ***
     ***************************/
@@ -34338,16 +34328,12 @@ window.libsignal.protocol = function(storage_interface) {
     /*****************************
     *** Internal Crypto stuff ***
     *****************************/
-    var HKDF = Internal.HKDF = function(input, salt, info) {
+    Internal.HKDF = function(input, salt, info) {
         // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
-        if (salt == '')
-            salt = new ArrayBuffer(32);
         if (salt.byteLength != 32)
             throw new Error("Got salt of incorrect length");
 
-        info = toArrayBuffer(info); // TODO: maybe convert calls?
-
-        return Internal.crypto.HKDF(input, salt, info);
+        return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
     }
 
     var verifyMAC = function(data, key, mac, length) {
@@ -34370,11 +34356,11 @@ window.libsignal.protocol = function(storage_interface) {
     /******************************
     *** Ratchet implementation ***
     ******************************/
-    var calculateRatchet = Internal.calculateRatchet = function(session, remoteKey, sending) {
+    Internal.calculateRatchet = function(session, remoteKey, sending) {
         var ratchet = session.currentRatchet;
 
-        return Internal.crypto.ECDHE(remoteKey, toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
-            return HKDF(sharedSecret, toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
+        return Internal.crypto.ECDHE(remoteKey, util.toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
+            return Internal.HKDF(sharedSecret, util.toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
                 var ephemeralPublicKey;
                 if (sending) {
                     ephemeralPublicKey = ratchet.ephemeralKeyPair.pubKey;
@@ -34382,7 +34368,7 @@ window.libsignal.protocol = function(storage_interface) {
                 else {
                     ephemeralPublicKey = remoteKey;
                 }
-                session[toString(ephemeralPublicKey)] = {
+                session[util.toString(ephemeralPublicKey)] = {
                     messageKeys: {},
                     chainKey: { counter: -1, key: masterKey[1] }
                 };
@@ -34405,133 +34391,6 @@ window.libsignal.protocol = function(storage_interface) {
         });
     }
 
-    var fillMessageKeys = function(chain, counter) {
-        if (Object.keys(chain.messageKeys).length >= 1000) {
-            console.log("Too many message keys for chain");
-            return Promise.resolve(); // Stalker, much?
-        }
-
-        if (chain.chainKey.counter >= counter)
-            return Promise.resolve(); // Already calculated
-
-        if (chain.chainKey.key === undefined)
-            throw new Error("Got invalid request to extend chain after it was already closed");
-
-        var key = toArrayBuffer(chain.chainKey.key);
-        var byteArray = new Uint8Array(1);
-        byteArray[0] = 1;
-        return Internal.crypto.sign(key, byteArray.buffer).then(function(mac) {
-            byteArray[0] = 2;
-            return Internal.crypto.sign(key, byteArray.buffer).then(function(key) {
-                chain.messageKeys[chain.chainKey.counter + 1] = mac;
-                chain.chainKey.key = key
-                chain.chainKey.counter += 1;
-                return fillMessageKeys(chain, counter);
-            });
-        });
-    };
-
-    var maybeStepRatchet = function(session, remoteKey, previousCounter) {
-        if (session[toString(remoteKey)] !== undefined)
-            return Promise.resolve();
-
-        var ratchet = session.currentRatchet;
-
-        return Promise.resolve().then(function() {
-            var previousRatchet = session[toString(ratchet.lastRemoteEphemeralKey)];
-            if (previousRatchet !== undefined) {
-                return fillMessageKeys(previousRatchet, previousCounter).then(function() {
-                    delete previousRatchet.chainKey.key;
-                    session.oldRatchetList[session.oldRatchetList.length] = {
-                        added        : Date.now(),
-                        ephemeralKey : ratchet.lastRemoteEphemeralKey
-                    };
-                });
-            }
-        }).then(function() {
-            return calculateRatchet(session, remoteKey, false).then(function() {
-                // Now swap the ephemeral key and calculate the new sending chain
-                var previousRatchet = toString(ratchet.ephemeralKeyPair.pubKey);
-                if (session[previousRatchet] !== undefined) {
-                    ratchet.previousCounter = session[previousRatchet].chainKey.counter;
-                    delete session[previousRatchet];
-                }
-
-                return Internal.crypto.createKeyPair().then(function(keyPair) {
-                    ratchet.ephemeralKeyPair = keyPair;
-                    return calculateRatchet(session, remoteKey, true).then(function() {
-                        ratchet.lastRemoteEphemeralKey = remoteKey;
-                    });
-                });
-            });
-        });
-    };
-
-    var doDecryptWhisperMessage = function(encodedNumber, messageBytes, session) {
-        if (!messageBytes instanceof ArrayBuffer) {
-            throw new Error("Expected messageBytes to be an ArrayBuffer");
-        }
-        var version = (new Uint8Array(messageBytes))[0];
-        if (version !== ((3 << 4) | 3)) {
-            throw new Error("Bad version number on WhisperMessage");
-        }
-        var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
-        var mac = messageBytes.slice(messageBytes.byteLength - 8, messageBytes.byteLength);
-
-        var message = Internal.protobuf.WhisperMessage.decode(messageProto);
-        var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
-
-        if (session === undefined) {
-            throw new Error("No session found to decrypt message from " + encodedNumber);
-        }
-        if (session.indexInfo.closed != -1) {
-            console.log('decrypting message for closed session');
-        }
-
-        return maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
-            var chain = session[toString(message.ephemeralKey)];
-
-            return fillMessageKeys(chain, message.counter).then(function() {
-                var messageKey = chain.messageKeys[message.counter];
-                if (messageKey === undefined) {
-                    var e = new Error("Message key not found. The counter was repeated or the key was not filled.");
-                    e.name = 'MessageCounterError';
-                    throw e;
-                }
-                delete chain.messageKeys[message.counter];
-                return HKDF(toArrayBuffer(messageKey), '', "WhisperMessageKeys");
-            });
-        }).then(function(keys) {
-            return storage_interface.getIdentityKeyPair().then(function(ourIdentityKey) {
-
-                var macInput = new Uint8Array(messageProto.byteLength + 33*2 + 1);
-                macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)));
-                macInput.set(new Uint8Array(toArrayBuffer(ourIdentityKey.pubKey)), 33);
-                macInput[33*2] = (3 << 4) | 3;
-                macInput.set(new Uint8Array(messageProto), 33*2 + 1);
-
-                return verifyMAC(macInput.buffer, keys[1], mac, 8);
-            }).then(function() {
-                return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
-            });
-        }).then(function(paddedPlaintext) {
-            paddedPlaintext = new Uint8Array(paddedPlaintext);
-            var plaintext;
-            for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
-                if (paddedPlaintext[i] == 0x80) {
-                    plaintext = new Uint8Array(i);
-                    plaintext.set(paddedPlaintext.subarray(0, i));
-                    plaintext = plaintext.buffer;
-                    break;
-                } else if (paddedPlaintext[i] != 0x00) {
-                    throw new Error('Invalid padding');
-                }
-            }
-
-            delete session['pendingPreKey'];
-            return plaintext;
-        });
-    }
 
     /*************************
     *** Public crypto API ***
@@ -34540,169 +34399,35 @@ window.libsignal.protocol = function(storage_interface) {
     //XXX: Also, you MUST call the session close function before processing another message....except its a promise...so you literally cant!
     // returns decrypted plaintext and a function that must be called if the message indicates session close
     self.decryptWhisperMessage = function(encodedNumber, messageBytes) {
-        return getRecord(encodedNumber).then(function(record) {
-            if (!record) {
-                throw new Error("No record for device " + encodedNumber);
-            }
-            var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
-            var message = Internal.protobuf.WhisperMessage.decode(messageProto);
-            var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
-            var session = record.getSessionByRemoteEphemeralKey(remoteEphemeralKey);
-            return doDecryptWhisperMessage(encodedNumber, toArrayBuffer(messageBytes), session).then(function(plaintext) {
-                record.updateSessionState(session);
-                return storage_interface.storeSession(encodedNumber, record.serialize()).then(function() {
-                    return [plaintext]
-                });
-            });
-        });
+        var address = SignalProtocolAddress.fromString(encodedNumber);
+        var sessionCipher = new SessionCipher(storage_interface, address);
+        return sessionCipher.decryptWhisperMessage(util.toArrayBuffer(messageBytes));
     };
 
     // Inits a session (maybe) and then decrypts the message
     self.handlePreKeyWhisperMessage = function(encodedNumber, encodedMessage, encoding) {
-        return getRecord(encodedNumber).then(function(record) {
-            var preKeyProto = Internal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, encoding);
-            if (!record) {
-                if (preKeyProto.registrationId === undefined) {
-                    throw new Error("No registrationId");
-                }
-                record = new Internal.SessionRecord(
-                    toString(preKeyProto.identityKey),
-                    preKeyProto.registrationId
-                );
-            }
-            var address = SignalProtocolAddress.fromString(encodedNumber);
-            var builder = new SessionBuilder(storage_interface, address);
-
-            return builder.processV3(record, preKeyProto).then(function(preKeyId) {
-                var session = record.getSessionOrIdentityKeyByBaseKey(preKeyProto.baseKey);
-                return doDecryptWhisperMessage(
-                    encodedNumber, preKeyProto.message.toArrayBuffer(), session
-                ).then(function(plaintext) {
-                    record.updateSessionState(session);
-                    return storage_interface.storeSession(encodedNumber, record.serialize()).then(function() {
-                        if (preKeyId !== undefined) {
-                            return storage_interface.removePreKey(preKeyId);
-                        }
-                    }).then(function() {
-                        return [plaintext]
-                    });
-                });
-            });
-        });
+        var address = SignalProtocolAddress.fromString(encodedNumber);
+        var sessionCipher = new SessionCipher(storage_interface, address);
+        return sessionCipher.decryptPreKeyWhisperMessage(encodedMessage, encoding);
     };
-
-    function getPaddedMessageLength(messageLength) {
-        var messageLengthWithTerminator = messageLength + 1;
-        var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
-
-        if (messageLengthWithTerminator % 160 != 0) {
-            messagePartCount++;
-        }
-
-        return messagePartCount * 160;
-    }
 
     // return Promise(encoded [PreKey]WhisperMessage)
     self.encryptMessageFor = function(deviceObject, plaintext) {
-        if (!(plaintext instanceof ArrayBuffer)) {
-            throw new Error("Expected plaintext to be an ArrayBuffer");
-        }
-
-        var ourIdentityKey, myRegistrationId, record, session;
-        return Promise.all([
-            storage_interface.getIdentityKeyPair(),
-            storage_interface.getLocalRegistrationId(),
-            getRecord(deviceObject.encodedNumber)
-        ]).then(function(results) {
-            ourIdentityKey   = results[0];
-            myRegistrationId = results[1];
-            record           = results[2];
-            if (!record) {
-                throw new Error("No record for " + deviceObject.encodedNumber);
-            }
-            session = record.getOpenSession();
-            if (!session) {
-                throw new Error("No session to encrypt message for " + deviceObject.encodedNumber);
-            }
-        }).then(function doEncryptPushMessageContent() {
-            var msg = new Internal.protobuf.WhisperMessage();
-
-            var paddedPlaintext = new Uint8Array(
-                getPaddedMessageLength(plaintext.byteLength + 1) - 1
-            );
-            paddedPlaintext.set(new Uint8Array(plaintext));
-            paddedPlaintext[plaintext.byteLength] = 0x80;
-
-            msg.ephemeralKey = toArrayBuffer(
-                session.currentRatchet.ephemeralKeyPair.pubKey
-            );
-            var chain = session[toString(msg.ephemeralKey)];
-
-            return fillMessageKeys(chain, chain.chainKey.counter + 1).then(function() {
-                return HKDF(toArrayBuffer(chain.messageKeys[chain.chainKey.counter]),
-                    '', "WhisperMessageKeys"
-                ).then(function(keys) {
-                    delete chain.messageKeys[chain.chainKey.counter];
-                    msg.counter = chain.chainKey.counter;
-                    msg.previousCounter = session.currentRatchet.previousCounter;
-
-                    return Internal.crypto.encrypt(
-                        keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)
-                    ).then(function(ciphertext) {
-                        msg.ciphertext = ciphertext;
-                        var encodedMsg = toArrayBuffer(msg.encode());
-
-                        var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
-                        macInput.set(new Uint8Array(toArrayBuffer(ourIdentityKey.pubKey)));
-                        macInput.set(new Uint8Array(toArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
-                        macInput[33*2] = (3 << 4) | 3;
-                        macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
-
-                        return Internal.crypto.sign(
-                            keys[1], macInput.buffer
-                        ).then(function(mac) {
-                            var result = new Uint8Array(encodedMsg.byteLength + 9);
-                            result[0] = (3 << 4) | 3;
-                            result.set(new Uint8Array(encodedMsg), 1);
-                            result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
-
-                            record.updateSessionState(session);
-                            return storage_interface.storeSession(deviceObject.encodedNumber, record.serialize()).then(function() {
-                                return result;
-                            });
-                        });
-                    });
-                });
-            });
-        }).then(function(message) {
-            if (session.pendingPreKey !== undefined) {
-                var preKeyMsg = new Internal.protobuf.PreKeyWhisperMessage();
-                preKeyMsg.identityKey = toArrayBuffer(ourIdentityKey.pubKey);
-                preKeyMsg.registrationId = myRegistrationId;
-
-                preKeyMsg.baseKey = toArrayBuffer(session.pendingPreKey.baseKey);
-                preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
-                preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
-
-                preKeyMsg.message = message;
-                var result = String.fromCharCode((3 << 4) | 3) + toString(preKeyMsg.encode());
-                return {type: 3, body: result};
-            } else {
-                return {type: 1, body: toString(message)};
-            }
-        });
-    }
+        var address = SignalProtocolAddress.fromString(deviceObject.encodedNumber);
+        var sessionCipher = new SessionCipher(storage_interface, address);
+        return sessionCipher.encrypt(plaintext);
+    };
 
     self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
         var keyPair;
 
         socketInfo.decryptAndHandleDeviceInit = function(deviceInit) {
-            var masterEphemeral = toArrayBuffer(deviceInit.publicKey);
-            var message = toArrayBuffer(deviceInit.body);
+            var masterEphemeral = util.toArrayBuffer(deviceInit.publicKey);
+            var message = util.toArrayBuffer(deviceInit.body);
 
             return Internal.crypto.ECDHE(masterEphemeral, keyPair.privKey).then(function(ecRes) {
-                return HKDF(ecRes, '', "TextSecure Provisioning Message").then(function(keys) {
+                return Internal.HKDF(ecRes, new ArrayBuffer(32), "TextSecure Provisioning Message").then(function(keys) {
                     if (new Uint8Array(message)[0] != 1)
                         throw new Error("Bad version number on ProvisioningMessage");
 
@@ -34891,15 +34616,6 @@ var Internal = Internal || {};
 Internal.SessionRecord = function() {
     'use strict';
     var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
-    function toString(thing) {
-        if (typeof thing == 'string') {
-            return thing;
-        } else if (util.isStringable(thing)) {
-            return util.stringObject(thing);
-        } else {
-            throw new Error("Unsure how to convert object to string from type " + typeof thing);
-        }
-    }
     function ensureStringed(thing) {
         if (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean")
             return thing;
@@ -34927,7 +34643,7 @@ Internal.SessionRecord = function() {
 
     var SessionRecord = function(identityKey, registrationId) {
         this._sessions = {};
-        identityKey = toString(identityKey);
+        identityKey = util.toString(identityKey);
         if (typeof identityKey !== 'string') {
             throw new Error('SessionRecord: Invalid identityKey');
         }
@@ -34964,7 +34680,7 @@ Internal.SessionRecord = function() {
         getSessionOrIdentityKeyByBaseKey: function(baseKey) {
             var sessions = this._sessions;
 
-            var preferredSession = this._sessions[toString(baseKey)];
+            var preferredSession = this._sessions[util.toString(baseKey)];
             if (preferredSession !== undefined) {
                 return preferredSession;
             }
@@ -34979,7 +34695,7 @@ Internal.SessionRecord = function() {
             this.detectDuplicateOpenSessions();
             var sessions = this._sessions;
 
-            var searchKey = toString(remoteEphemeralKey);
+            var searchKey = util.toString(remoteEphemeralKey);
 
             var openSession = undefined;
             for (var key in sessions) {
@@ -35029,7 +34745,7 @@ Internal.SessionRecord = function() {
             if (this.identityKey === null) {
                 this.identityKey = session.indexInfo.remoteIdentityKey;
             }
-            if (toString(this.identityKey) !== toString(session.indexInfo.remoteIdentityKey)) {
+            if (util.toString(this.identityKey) !== util.toString(session.indexInfo.remoteIdentityKey)) {
                 var e = new Error("Identity key changed at session save time");
                 e.identityKey = session.indexInfo.remoteIdentityKey.toArrayBuffer();
                 throw e;
@@ -35054,9 +34770,9 @@ Internal.SessionRecord = function() {
             }
 
             if (doDeleteSession)
-                delete sessions[toString(session.indexInfo.baseKey)];
+                delete sessions[util.toString(session.indexInfo.baseKey)];
             else
-                sessions[toString(session.indexInfo.baseKey)] = session;
+                sessions[util.toString(session.indexInfo.baseKey)] = session;
 
             var openSessionRemaining = false;
             for (var key in sessions)
@@ -35079,7 +34795,7 @@ Internal.SessionRecord = function() {
             // but we cannot send messages or step the ratchet
 
             // Delete current sending ratchet
-            delete session[toString(session.currentRatchet.ephemeralKeyPair.pubKey)];
+            delete session[util.toString(session.currentRatchet.ephemeralKeyPair.pubKey)];
             // Move all receive ratchets to the oldRatchetList to mark them for deletion
             for (var i in session) {
                 if (session[i].chainKey !== undefined && session[i].chainKey.key !== undefined) {
@@ -35107,7 +34823,7 @@ Internal.SessionRecord = function() {
                         index = i;
                     }
                 }
-                delete session[toString(oldest.ephemeralKey)];
+                delete session[util.toString(oldest.ephemeralKey)];
                 session.oldRatchetList.splice(index, 1);
             }
         },
@@ -35189,6 +34905,13 @@ SessionBuilder.prototype = {
         } else {
           record = new Internal.SessionRecord(device.identityKey, device.registrationId);
         }
+
+        var open_session = record.getOpenSession();
+        if (open_session) {
+            record.closeSession(open_session);
+            record.updateSessionState(open_session);
+        }
+
         record.updateSessionState(session, device.registrationId);
         return Promise.all([
           this.storage.storeSession(address, record.serialize()),
@@ -35307,7 +35030,7 @@ SessionBuilder.prototype = {
                 });
             }
         }).then(function() {
-            return Internal.HKDF(sharedSecret.buffer, '', "WhisperText");
+            return Internal.HKDF(sharedSecret.buffer, new ArrayBuffer(32), "WhisperText");
         }).then(function(masterKey) {
             var session = {
                 currentRatchet: {
@@ -35340,10 +35063,345 @@ SessionBuilder.prototype = {
         });
     });
   }
-
 };
 
-libsignal.SessionBuilder = SessionBuilder;
+libsignal.SessionBuilder = function (storage, remoteAddress) {
+  var builder = new SessionBuilder(storage, remoteAddress);
+  this.processPreKey = builder.processPreKey.bind(builder);
+  this.processV3 = builder.processV3.bind(builder);
+};
+
+function SessionCipher(storage, remoteAddress) {
+  this.remoteAddress = remoteAddress;
+  this.storage = storage;
+}
+
+SessionCipher.prototype = {
+  getRecord: function(encodedNumber) {
+      return this.storage.loadSession(encodedNumber).then(function(serialized) {
+          if (serialized === undefined) {
+              return undefined;
+          }
+          return Internal.SessionRecord.deserialize(serialized);
+      });
+  },
+  encrypt: function(plaintext) {
+    if (!(plaintext instanceof ArrayBuffer)) {
+        throw new Error("Expected plaintext to be an ArrayBuffer");
+    }
+
+    var address = this.remoteAddress.toString();
+    var ourIdentityKey, myRegistrationId, record, session;
+    return Promise.all([
+        this.storage.getIdentityKeyPair(),
+        this.storage.getLocalRegistrationId(),
+        this.getRecord(address)
+    ]).then(function(results) {
+        ourIdentityKey   = results[0];
+        myRegistrationId = results[1];
+        record           = results[2];
+        if (!record) {
+            throw new Error("No record for " + address);
+        }
+        session = record.getOpenSession();
+        if (!session) {
+            throw new Error("No session to encrypt message for " + address);
+        }
+
+        var msg = new Internal.protobuf.WhisperMessage();
+        var paddedPlaintext = new Uint8Array(
+            this.getPaddedMessageLength(plaintext.byteLength + 1) - 1
+        );
+        paddedPlaintext.set(new Uint8Array(plaintext));
+        paddedPlaintext[plaintext.byteLength] = 0x80;
+
+        msg.ephemeralKey = util.toArrayBuffer(
+            session.currentRatchet.ephemeralKeyPair.pubKey
+        );
+        var chain = session[util.toString(msg.ephemeralKey)];
+
+        return this.fillMessageKeys(chain, chain.chainKey.counter + 1).then(function() {
+            return Internal.HKDF(util.toArrayBuffer(chain.messageKeys[chain.chainKey.counter]),
+                new ArrayBuffer(32), "WhisperMessageKeys"
+            ).then(function(keys) {
+                delete chain.messageKeys[chain.chainKey.counter];
+                msg.counter = chain.chainKey.counter;
+                msg.previousCounter = session.currentRatchet.previousCounter;
+
+                return Internal.crypto.encrypt(
+                    keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)
+                ).then(function(ciphertext) {
+                    msg.ciphertext = ciphertext;
+                    var encodedMsg = util.toArrayBuffer(msg.encode());
+
+                    var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
+                    macInput.set(new Uint8Array(util.toArrayBuffer(ourIdentityKey.pubKey)));
+                    macInput.set(new Uint8Array(util.toArrayBuffer(session.indexInfo.remoteIdentityKey)), 33);
+                    macInput[33*2] = (3 << 4) | 3;
+                    macInput.set(new Uint8Array(encodedMsg), 33*2 + 1);
+
+                    return Internal.crypto.sign(
+                        keys[1], macInput.buffer
+                    ).then(function(mac) {
+                        var result = new Uint8Array(encodedMsg.byteLength + 9);
+                        result[0] = (3 << 4) | 3;
+                        result.set(new Uint8Array(encodedMsg), 1);
+                        result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
+
+                        record.updateSessionState(session);
+                        return this.storage.storeSession(address, record.serialize()).then(function() {
+                            return result;
+                        });
+                    }.bind(this));
+                }.bind(this));
+            }.bind(this));
+        }.bind(this));
+    }.bind(this)).then(function(message) {
+        if (session.pendingPreKey !== undefined) {
+            var preKeyMsg = new Internal.protobuf.PreKeyWhisperMessage();
+            preKeyMsg.identityKey = util.toArrayBuffer(ourIdentityKey.pubKey);
+            preKeyMsg.registrationId = myRegistrationId;
+
+            preKeyMsg.baseKey = util.toArrayBuffer(session.pendingPreKey.baseKey);
+            preKeyMsg.preKeyId = session.pendingPreKey.preKeyId;
+            preKeyMsg.signedPreKeyId = session.pendingPreKey.signedKeyId;
+
+            preKeyMsg.message = message;
+            var result = String.fromCharCode((3 << 4) | 3) + util.toString(preKeyMsg.encode());
+            return {type: 3, body: result};
+        } else {
+            return {type: 1, body: util.toString(message)};
+        }
+    });
+  },
+  getPaddedMessageLength: function(messageLength) {
+    var messageLengthWithTerminator = messageLength + 1;
+    var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
+
+    if (messageLengthWithTerminator % 160 != 0) {
+        messagePartCount++;
+    }
+
+    return messagePartCount * 160;
+  },
+  decryptWhisperMessage: function(messageBytes) {
+      var address = this.remoteAddress.toString();
+      return this.getRecord(address).then(function(record) {
+          if (!record) {
+              throw new Error("No record for device " + address);
+          }
+          var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
+          var message = Internal.protobuf.WhisperMessage.decode(messageProto);
+          var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
+          var session = record.getSessionByRemoteEphemeralKey(remoteEphemeralKey);
+          return this.doDecryptWhisperMessage(util.toArrayBuffer(messageBytes), session).then(function(plaintext) {
+              record.updateSessionState(session);
+              return this.storage.storeSession(address, record.serialize()).then(function() {
+                  return [plaintext]
+              });
+          }.bind(this));
+      }.bind(this));
+  },
+  decryptPreKeyWhisperMessage: function(encodedMessage, encoding) {
+      var address = this.remoteAddress.toString();
+      return this.getRecord(address).then(function(record) {
+          var preKeyProto = Internal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, encoding);
+          if (!record) {
+              if (preKeyProto.registrationId === undefined) {
+                  throw new Error("No registrationId");
+              }
+              record = new Internal.SessionRecord(
+                  util.toString(preKeyProto.identityKey),
+                  preKeyProto.registrationId
+              );
+          }
+          var builder = new SessionBuilder(this.storage, this.remoteAddress);
+          return builder.processV3(record, preKeyProto).then(function(preKeyId) {
+              var session = record.getSessionOrIdentityKeyByBaseKey(preKeyProto.baseKey);
+              return this.doDecryptWhisperMessage(
+                  preKeyProto.message.toArrayBuffer(), session
+              ).then(function(plaintext) {
+                  record.updateSessionState(session);
+                  return this.storage.storeSession(address, record.serialize()).then(function() {
+                      if (preKeyId !== undefined) {
+                          return this.storage.removePreKey(preKeyId);
+                      }
+                  }.bind(this)).then(function() {
+                      return [plaintext]
+                  });
+              }.bind(this));
+          }.bind(this));
+      }.bind(this));
+  },
+  doDecryptWhisperMessage: function(messageBytes, session) {
+    if (!messageBytes instanceof ArrayBuffer) {
+        throw new Error("Expected messageBytes to be an ArrayBuffer");
+    }
+    var version = (new Uint8Array(messageBytes))[0];
+    if (version !== ((3 << 4) | 3)) {
+        throw new Error("Bad version number on WhisperMessage");
+    }
+    var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
+    var mac = messageBytes.slice(messageBytes.byteLength - 8, messageBytes.byteLength);
+
+    var message = Internal.protobuf.WhisperMessage.decode(messageProto);
+    var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
+
+    if (session === undefined) {
+        throw new Error("No session found to decrypt message from " + this.remoteAddress.toString());
+    }
+    if (session.indexInfo.closed != -1) {
+        console.log('decrypting message for closed session');
+    }
+
+    return this.maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
+        var chain = session[util.toString(message.ephemeralKey)];
+
+        return this.fillMessageKeys(chain, message.counter).then(function() {
+            var messageKey = chain.messageKeys[message.counter];
+            if (messageKey === undefined) {
+                var e = new Error("Message key not found. The counter was repeated or the key was not filled.");
+                e.name = 'MessageCounterError';
+                throw e;
+            }
+            delete chain.messageKeys[message.counter];
+            return Internal.HKDF(util.toArrayBuffer(messageKey), new ArrayBuffer(32), "WhisperMessageKeys");
+        });
+    }.bind(this)).then(function(keys) {
+        return this.storage.getIdentityKeyPair().then(function(ourIdentityKey) {
+
+            var macInput = new Uint8Array(messageProto.byteLength + 33*2 + 1);
+            macInput.set(new Uint8Array(util.toArrayBuffer(session.indexInfo.remoteIdentityKey)));
+            macInput.set(new Uint8Array(util.toArrayBuffer(ourIdentityKey.pubKey)), 33);
+            macInput[33*2] = (3 << 4) | 3;
+            macInput.set(new Uint8Array(messageProto), 33*2 + 1);
+
+            return this.verifyMAC(macInput.buffer, keys[1], mac, 8);
+        }.bind(this)).then(function() {
+            return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
+        });
+    }.bind(this)).then(function(paddedPlaintext) {
+        paddedPlaintext = new Uint8Array(paddedPlaintext);
+        var plaintext;
+        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+            if (paddedPlaintext[i] == 0x80) {
+                plaintext = new Uint8Array(i);
+                plaintext.set(paddedPlaintext.subarray(0, i));
+                plaintext = plaintext.buffer;
+                break;
+            } else if (paddedPlaintext[i] != 0x00) {
+                throw new Error('Invalid padding');
+            }
+        }
+
+        delete session['pendingPreKey'];
+        return plaintext;
+    });
+  },
+  fillMessageKeys: function(chain, counter) {
+      if (Object.keys(chain.messageKeys).length >= 1000) {
+          console.log("Too many message keys for chain");
+          return Promise.resolve(); // Stalker, much?
+      }
+
+      if (chain.chainKey.counter >= counter)
+          return Promise.resolve(); // Already calculated
+
+      if (chain.chainKey.key === undefined)
+          throw new Error("Got invalid request to extend chain after it was already closed");
+
+      var key = util.toArrayBuffer(chain.chainKey.key);
+      var byteArray = new Uint8Array(1);
+      byteArray[0] = 1;
+      return Internal.crypto.sign(key, byteArray.buffer).then(function(mac) {
+          byteArray[0] = 2;
+          return Internal.crypto.sign(key, byteArray.buffer).then(function(key) {
+              chain.messageKeys[chain.chainKey.counter + 1] = mac;
+              chain.chainKey.key = key
+              chain.chainKey.counter += 1;
+              return this.fillMessageKeys(chain, counter);
+          }.bind(this));
+      }.bind(this));
+  },
+  maybeStepRatchet: function(session, remoteKey, previousCounter) {
+      if (session[util.toString(remoteKey)] !== undefined)
+          return Promise.resolve();
+
+      var ratchet = session.currentRatchet;
+
+      return Promise.resolve().then(function() {
+          var previousRatchet = session[util.toString(ratchet.lastRemoteEphemeralKey)];
+          if (previousRatchet !== undefined) {
+              return this.fillMessageKeys(previousRatchet, previousCounter).then(function() {
+                  delete previousRatchet.chainKey.key;
+                  session.oldRatchetList[session.oldRatchetList.length] = {
+                      added        : Date.now(),
+                      ephemeralKey : ratchet.lastRemoteEphemeralKey
+                  };
+              });
+          }
+      }.bind(this)).then(function() {
+          return this.calculateRatchet(session, remoteKey, false).then(function() {
+              // Now swap the ephemeral key and calculate the new sending chain
+              var previousRatchet = util.toString(ratchet.ephemeralKeyPair.pubKey);
+              if (session[previousRatchet] !== undefined) {
+                  ratchet.previousCounter = session[previousRatchet].chainKey.counter;
+                  delete session[previousRatchet];
+              }
+
+              return Internal.crypto.createKeyPair().then(function(keyPair) {
+                  ratchet.ephemeralKeyPair = keyPair;
+                  return this.calculateRatchet(session, remoteKey, true).then(function() {
+                      ratchet.lastRemoteEphemeralKey = remoteKey;
+                  }.bind(this));
+              }.bind(this));
+          }.bind(this));
+      }.bind(this));
+  },
+  calculateRatchet: function(session, remoteKey, sending) {
+      var ratchet = session.currentRatchet;
+
+      return Internal.crypto.ECDHE(remoteKey, util.toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
+          return Internal.HKDF(sharedSecret, util.toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
+              var ephemeralPublicKey;
+              if (sending) {
+                  ephemeralPublicKey = ratchet.ephemeralKeyPair.pubKey;
+              }
+              else {
+                  ephemeralPublicKey = remoteKey;
+              }
+              session[util.toString(ephemeralPublicKey)] = {
+                  messageKeys: {},
+                  chainKey: { counter: -1, key: masterKey[1] }
+              };
+              ratchet.rootKey = masterKey[0];
+          });
+      });
+  },
+  verifyMAC: function(data, key, mac, length) {
+      return Internal.crypto.sign(key, data).then(function(calculated_mac) {
+          if (mac.byteLength != length  || calculated_mac.byteLength < length) {
+              throw new Error("Bad MAC length");
+          }
+          var a = new Uint8Array(calculated_mac);
+          var b = new Uint8Array(mac);
+          var result = 0;
+          for (var i=0; i < mac.byteLength; ++i) {
+              result = result | (a[i] ^ b[i]);
+          }
+          if (result !== 0) {
+              throw new Error("Bad MAC");
+          }
+      });
+  }
+};
+
+libsignal.SessionCipher = function(storage, remoteAddress) {
+    var cipher = new SessionCipher(storage, remoteAddress);
+    this.encrypt = cipher.encrypt.bind(cipher);
+    this.decryptPreKeyWhisperMessage = cipher.decryptPreKeyWhisperMessage.bind(cipher);
+    this.decryptWhisperMessage = cipher.decryptWhisperMessage.bind(cipher);
+}
 
 })();
 /*
