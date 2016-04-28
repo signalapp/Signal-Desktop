@@ -174,6 +174,7 @@
             clearTimeout(this.keepAliveTimer);
             clearTimeout(this.disconnectTimer);
             this.keepAliveTimer = setTimeout(function() {
+                console.log('sending keepalive');
                 this.wsr.sendRequest({
                     verb: 'GET',
                     path: this.path,
