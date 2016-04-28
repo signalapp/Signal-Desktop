@@ -79,6 +79,10 @@
         "message": "Inviato",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Segnala un problema",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Nuovo messaggio",
         "description": "Displayed in notifications for only 1 message"
@@ -100,7 +104,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Cerca...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -134,7 +138,7 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Aggiorna",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
@@ -165,8 +169,12 @@
         "message": "Invia messaggio",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Messaggio multimediale",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Questa versione di Signal Desktop è scaduta. Per continuare a chattare aggiornala all'ultima versione.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -178,7 +186,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Apri Signal sul tuo smartphone e vai su Impostazioni > Dispositivi collegati. Fai tap sul pulsante per aggiungere un nuovo dispositivo e quindi scansiona il codice qui sopra.",
+        "message": "Apri Signal sul tuo telefono e via su Impostazioni > Dispositivi collegati. Premi il bottone per aggiungere un nuovo dispositivo e poi fai lo scan del codice in alto.",
         "description": ""
     },
     "installWelcome": {

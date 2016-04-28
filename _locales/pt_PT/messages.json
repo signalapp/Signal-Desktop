@@ -1,6 +1,6 @@
 {
     "unsupportedAttachment": {
-        "message": "Tipo de anexo não suportado. Clique para guardar.",
+        "message": "Tipo de anexo não suportado. Clica para guardar.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Detalhes",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Reiniciar o Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -79,6 +79,10 @@
         "message": "Enviada",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Reportar um problema",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Nova mensagem",
         "description": "Displayed in notifications for only 1 message"
@@ -100,7 +104,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Procurar...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -108,7 +112,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$> Siga-nos </a> para atualizações sobre o suporte multi-dispositivo para o iOS.",
+        "message": "<a $a_params$> Siga-nos </a> para actualizações sobre o suporte multi-dispositivo para o iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -118,11 +122,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Saiba mais sobre verificação de chaves.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "A sua identidade",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -134,11 +138,11 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Actualizar",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Esconder detalhes",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -154,7 +158,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Aceitar",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
@@ -162,11 +166,15 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Enviar mensagem",
+        "message": "Enviar uma mensagem",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Mensagem media",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Esta versão do Signal Desktop expirou. Por favor faça a actualização para a última versão para continuar a enviar mensagens.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -178,11 +186,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra O Signal no seu telefone e vá até Configurações > Dispositivos. Pressione o botão para adicionar um novo dispositivo e em seguida, digitalize o código acima.",
+        "message": "Abra o Signal no seu telemóvel e vá até Definições > Dispositivos sincronizados. Pressione o botão para adicionar um novo dispositivo, depois faça o scan do código abaixo.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Bem vindo ao Signal Desktop",
+        "message": "Bem-vindo ao Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -190,7 +198,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Mensagem não enviada.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -214,7 +222,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Primeiro, instale <a $a_params$> Signal </a> no seu telefone Android. <br /> Vamos ligar os seus dispositivos e manter as suas mensagens sincronizadas.",
+        "message": "Primeiro, instala o <a $a_params$> Signal </a> no teu telefone Android. <br /> Vamos conectar os teus dispositivos e manter as tuas mensagens sincronizadas.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -228,7 +236,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "A identidade dele/a",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -236,7 +244,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Ainda não foi trocada nenhuma mensagem com este contacto ainda. A sua identidade estará disponível após a primeira mensagem.",
+        "message": "Ainda não foi trocada nenhuma mensagem com este contacto. A sua identidade estará disponível após a primeira mensagem.",
         "description": ""
     },
     "submit": {
@@ -268,11 +276,11 @@
         "description": ""
     },
     "ok": {
-        "message": "Ok",
+        "message": "OK",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Este contacto está a usar uma nova identidade Signal. Isto pode ocorrer quando alguém está a tentar interceptar as suas comunicações ou que o contacto simplesmente reinstalou o Signal. Poderá querer verificar a sua nova identidade abaixo.",
         "description": ""
     },
     "submitDebugLog": {

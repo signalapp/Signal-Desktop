@@ -79,6 +79,10 @@
         "message": "Lähetetty",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Ilmoita ongelmasta",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Uusi viesti",
         "description": "Displayed in notifications for only 1 message"
@@ -165,6 +169,10 @@
         "message": "Lähetä viesti",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Mediaviesti",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
         "message": "Käyttämäsi versio Signal Desktopista on vanhentunut. Viestien lähettäminen ja vastaanottaminen eivät enää toimi, ennen kuin olet päiväittänyt uusimpaan versioon.",
         "description": "Warning notification that this version of the app has expired"
@@ -178,7 +186,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
+        "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Yhdistetyt laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
         "description": ""
     },
     "installWelcome": {

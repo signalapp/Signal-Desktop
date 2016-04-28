@@ -79,6 +79,10 @@
         "message": "Enviado",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Informar de un problema",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Nuevo mensaje",
         "description": "Displayed in notifications for only 1 message"
@@ -165,6 +169,10 @@
         "message": "Enviar mensaje",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Mensaje multimedia",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
         "message": "Esta versión de Signal Desktop ha caducado. Por favor, actualice a la última versión para seguir enviando mensajes.",
         "description": "Warning notification that this version of the app has expired"
@@ -178,7 +186,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra Signal en su teléfono móvíl, y seleccione Parámetros > Dispositivos. Pulse el botón para añadir un nuevo dispositivo, después escanee el código QR.",
+        "message": "Abra Signal en su teléfono móvíl, y seleccione Parámetros > Dispositivos enlazados. Pulse el botón para añadir un nuevo dispositivo, después escanee el código QR.",
         "description": ""
     },
     "installWelcome": {

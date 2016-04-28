@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Detalii",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Repornește Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -79,6 +79,10 @@
         "message": "Trimis",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Raportează o problemă",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Mesaj nou",
         "description": "Displayed in notifications for only 1 message"
@@ -100,7 +104,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Caută...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -118,11 +122,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Află mai multe despre verificarea cheilor.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Identitatea ta",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -134,11 +138,11 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Actualizează",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Ascunde detaliile",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -154,7 +158,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Acceptă",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
@@ -165,8 +169,12 @@
         "message": "Trimite mesaj",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Mesaj media",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Această versiune de Signal Desktop a expirat. Te rog actualizează aplicația la ultima versiune pentru a putea trimite mesaje în continuare.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -178,7 +186,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Deschide Signal pe telefonul tău și navighează la Setări > Dispozitive. Apasă butonul pentru a adăuga un nou dispozitiv, apoi scanează codul de deasupra.",
+        "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive conectate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
         "description": ""
     },
     "installWelcome": {
@@ -190,7 +198,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Mesajul nu a fost trimis.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -228,7 +236,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Identitatea lor",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -272,7 +280,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Acest contact folosește o nouă identitate Signal. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noua lor cheie de identitate de mai jos.",
         "description": ""
     },
     "submitDebugLog": {

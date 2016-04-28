@@ -36,11 +36,11 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Boas vindas ao Signal",
+        "message": "Boas-vindas ao Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "Quando a mensagem chegar, exibir notificacoes que mostrem:",
+        "message": "Quando a mensagem chegar, exibir notificações que mostrem:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -56,7 +56,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Selecione um contato ou grupo para começar a conversar.",
+        "message": "Selecionar um contato ou grupo para começar a conversar.",
         "description": ""
     },
     "installConnecting": {
@@ -79,12 +79,16 @@
         "message": "Enviar",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Relatar um problema",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Nova mensagem",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Apenas o nome do remetente",
+        "message": "Apenas o nome da pessoa remetente",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -108,7 +112,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$> Siga-nos </a> para atualizações sobre o suporte multidispositivo para o iOS.",
+        "message": "<a $a_params$>Seguir-nos</a> para atualizações de funções multiaparelhos do iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -126,7 +130,7 @@
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Desculpe. Existem muitos dispositivos já religados. Tente remover alguns.",
+        "message": "Desculpe. Existem muitos aparelhos já religados. Tente remover alguns.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -150,7 +154,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Desconectar",
+        "message": "Desconectad",
         "description": ""
     },
     "acceptNewKey": {
@@ -162,8 +166,12 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Enviar uma mensagem",
+        "message": "Enviar mensagem",
         "description": "Placeholder text in the message entry field"
+    },
+    "mediaMessage": {
+        "message": "Mensagem de mídia (MMS)",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
         "message": "Esta versão do Signal Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens.",
@@ -178,11 +186,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra o Signal no seu telefone e vá para Configurações > Dispositivos. Pressione o botão de adicionar um novo dispositivo e em seguida, escaneie o código acima.",
+        "message": "Abrir Signal no seu telefone e ir até Configurações > Aparelhos religados. Clicar no botão para adicional um novo aparelho e copiar o código abaixo.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Boas vindas ao Desktop do Signal",
+        "message": "Boas-vindas ao Desktop do Signal",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -214,7 +222,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Primeiro, instale <a $a_params$> Signal </a> no seu telefone Android. <br /> Vamos religar os seus dispositivos e manter as suas mensagens sincronizadas.",
+        "message": "Primeiro, instale <a $a_params$> Signal </a> no seu telefone Android. <br /> Vamos religar os seus aparelhos e manter as suas mensagens sincronizadas.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {

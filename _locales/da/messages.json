@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Detaljer",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Når beskeder ankommer, vis notifikationer med:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Genstart Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -79,12 +79,16 @@
         "message": "Sendt",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Rapporter en fejl",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Ny besked",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Kun navn",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -100,11 +104,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Søg...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Hverken navn eller besked",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -118,11 +122,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Lær mere om at verificere nøgler.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Din identitet",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -130,15 +134,15 @@
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Sykronisere grupper og kontakter",
+        "message": "Sykroniserer grupper og kontakter",
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Opgrader",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Skjul detaljer",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -154,7 +158,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Acceptér",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
@@ -165,8 +169,12 @@
         "message": "Send en besked",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Media message",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Denne version af Signal er forældet. Venligst opgrader til den seneste version.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -178,7 +186,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Åbn Signal på din telefon, og navigér til Indstillinger > Enheder. Tryk på knappen for at tilføje en ny enhed, skan derefter koden ovenfor.",
+        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
         "description": ""
     },
     "installWelcome": {
@@ -190,11 +198,11 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Besked ikke afsendt.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Slå notifikationer fra",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -228,7 +236,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Deres identitet",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -260,7 +268,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Både navn og besked",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -284,7 +292,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Notifikationer",
         "description": "Header for notification settings"
     },
     "resend": {

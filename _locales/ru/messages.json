@@ -1,6 +1,6 @@
 {
     "unsupportedAttachment": {
-        "message": "Этот формат вложения не поддерживается. Нажмите чтобы сохранить.",
+        "message": "Неподдерживаемый формат вложения. Нажмите чтобы сохранить.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
@@ -8,7 +8,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с неизвестным ключом личности. Нажмите чтобы продолжить и отобразить.",
+        "message": "Получено сообщение с неизвестным ключом. Нажмите чтобы обработать и отобразить.",
         "description": ""
     },
     "installComputerName": {
@@ -20,7 +20,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Подробнее",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -40,7 +40,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Когда приходят сообщения, показывать уведомления с:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Перезапустить Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -56,7 +56,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Выберите контакта или группу чтобы начать общение.",
+        "message": "Выберите контакт или группу для начала общения.",
         "description": ""
     },
     "installConnecting": {
@@ -64,7 +64,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Возможно вы хотите $tag_start$ проверить $tag_end$ этот контакт.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -79,6 +79,10 @@
         "message": "Отправлено",
         "description": "Label for the time a message was sent"
     },
+    "reportIssue": {
+        "message": "Сообщить о проблеме",
+        "description": "Link to open the issue tracker"
+    },
     "newMessage": {
         "message": "Новое сообщение",
         "description": "Displayed in notifications for only 1 message"
@@ -88,7 +92,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Идентификация Личности",
+        "message": "Проверить подлинность",
         "description": ""
     },
     "from": {
@@ -100,11 +104,11 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Поиск...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Ни имени, ни сообщения",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
@@ -118,11 +122,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Изнать больше о проверке ключей.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Ваш идентификатор",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -134,15 +138,15 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Обновить",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Скрыть детали",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Новый идентификатор",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -154,7 +158,7 @@
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Принять",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
@@ -165,20 +169,24 @@
         "message": "Отправить сообщение",
         "description": "Placeholder text in the message entry field"
     },
+    "mediaMessage": {
+        "message": "Media message",
+        "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Это версия приложения устарела. Пожалуйста обновитесь до последней версии для отправки сообщений.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Ключ личности этого контакта был изменён. Нажмите чтобы продолжить и отобразить.",
+        "message": "Ключ этого контакта был изменён. Нажмите чтобы продолжить и отобразить.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Извините, этот файл превышает лимит размера сообщения.",
+        "message": "Извините, выбранный файл превышает лимит размера сообщения.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кноку добавления нового устройства и отсканируйте код, указанный выше.",
+        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кнопку, чтобы добавить новое устройство, и отсканируйте код, указанный выше.",
         "description": ""
     },
     "installWelcome": {
@@ -190,7 +198,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Сообщение не отправлено.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -206,7 +214,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Безопасная сессия перезапущена",
+        "message": "Защищенная сессия перезапущена",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -228,7 +236,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Их идентификатор",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -244,7 +252,7 @@
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Кому",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
@@ -260,23 +268,23 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Имя отправителя и текст сообщения",
+        "message": "И имя отправителя и текст сообщения",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Не удалось отправить некоторым получателям. Проверьте сетевое соединение.",
         "description": ""
     },
     "ok": {
-        "message": "ОК",
+        "message": "OK",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Этот контакт использует новый интентификатор. Это значит, они просто переустановили Signal, либо кто-то пытается перехватить вашу переписку. Возможно вы хотите проверить их новый идентификационный ключ ниже.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Отправить лог ошибки",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
