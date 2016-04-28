@@ -28,9 +28,11 @@
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        decryptWhisperMessage: function(fromAddress, blob) {
+        decryptWhisperMessage: function(fromAddress, message) {
             return queueJobForNumber(fromAddress, function() {
-                return protocolInstance.decryptWhisperMessage(fromAddress, blob.toArrayBuffer());
+                var address = libsignal.SignalProtocolAddress.fromString(fromAddress);
+                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                return sessionCipher.decryptWhisperMessage(message.toArrayBuffer());
             });
         },
         closeOpenSessionForDevice: function(encodedNumber) {
@@ -40,7 +42,9 @@
         },
         encryptMessageFor: function(deviceObject, pushMessageContent) {
             return queueJobForNumber(deviceObject.encodedNumber, function() {
-                return protocolInstance.encryptMessageFor(deviceObject, pushMessageContent);
+                var address = libsignal.SignalProtocolAddress.fromString(deviceObject.encodedNumber);
+                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                return sessionCipher.encrypt(pushMessageContent);
             });
         },
         startWorker: function() {
@@ -71,7 +75,9 @@
                 throw new Error("Incompatible version byte");
             }
             return queueJobForNumber(from, function() {
-                return protocolInstance.handlePreKeyWhisperMessage(from, blob).catch(function(e) {
+                var address = libsignal.SignalProtocolAddress.fromString(from);
+                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                return sessionCipher.decryptPreKeyWhisperMessage(blob).catch(function(e) {
                     if (e.message === 'Unknown identity key') {
                         blob.reset(); // restore the version byte.
 
