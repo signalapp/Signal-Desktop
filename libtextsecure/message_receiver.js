@@ -111,9 +111,11 @@ MessageReceiver.prototype.extend({
     decrypt: function(envelope, ciphertext) {
         var fromAddress = [envelope.source , (envelope.sourceDevice || 0)].join('.');
         var promise;
+        var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
+        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-                promise = textsecure.protocol_wrapper.decryptWhisperMessage(fromAddress, ciphertext);
+                promise = sessionCipher.decryptWhisperMessage(ciphertext.toArrayBuffer());
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 promise = textsecure.protocol_wrapper.handlePreKeyWhisperMessage(fromAddress, ciphertext);

@@ -28,13 +28,6 @@
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        decryptWhisperMessage: function(fromAddress, message) {
-            return queueJobForNumber(fromAddress, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(fromAddress);
-                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                return sessionCipher.decryptWhisperMessage(message.toArrayBuffer());
-            });
-        },
         closeOpenSessionForDevice: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
                 return protocolInstance.closeOpenSessionForDevice(encodedNumber);
