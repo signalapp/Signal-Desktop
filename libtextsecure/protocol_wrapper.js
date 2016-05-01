@@ -40,13 +40,6 @@
                 return protocolInstance.closeOpenSessionForDevice(encodedNumber);
             });
         },
-        encryptMessageFor: function(deviceObject, pushMessageContent) {
-            return queueJobForNumber(deviceObject.encodedNumber, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(deviceObject.encodedNumber);
-                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                return sessionCipher.encrypt(pushMessageContent);
-            });
-        },
         startWorker: function() {
             protocolInstance.startWorker('/js/libsignal-protocol-worker.js');
         },
@@ -59,11 +52,6 @@
         hasOpenSession: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
                 return protocolInstance.hasOpenSession(encodedNumber);
-            });
-        },
-        getRegistrationId: function(encodedNumber) {
-            return queueJobForNumber(encodedNumber, function() {
-                return protocolInstance.getRegistrationId(encodedNumber);
             });
         },
         handlePreKeyWhisperMessage: function(from, blob) {

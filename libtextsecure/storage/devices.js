@@ -38,12 +38,7 @@
                 return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                     return Promise.all(deviceIds.map(function(deviceId) {
                         var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
-                        return textsecure.protocol_wrapper.getRegistrationId(address).then(function(registrationId) {
-                            return {
-                                encodedNumber  : address,
-                                registrationId : registrationId
-                            };
-                        });
+                        return { encodedNumber  : address };
                     }));
                 });
             });

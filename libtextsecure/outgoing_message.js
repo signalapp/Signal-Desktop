@@ -130,17 +130,21 @@ OutgoingMessage.prototype = {
     encryptToDevices: function(deviceObjectList) {
         var plaintext = this.message.toArrayBuffer();
         return Promise.all(deviceObjectList.map(function(device) {
-            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
-                return this.toJSON(device, encryptedMsg);
+            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+            return sessionCipher.encrypt(plaintext).then(function(encryptedMsg) {
+                return sessionCipher.getRemoteRegistrationId().then(function(registrationId) {
+                    return this.toJSON(device, encryptedMsg, registrationId);
+                }.bind(this));
             }.bind(this));
         }.bind(this)));
     },
 
-    toJSON: function(device, encryptedMsg) {
+    toJSON: function(device, encryptedMsg, registrationId) {
         var json = {
             type: encryptedMsg.type,
             destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
-            destinationRegistrationId: device.registrationId
+            destinationRegistrationId: registrationId
         };
 
         if (device.relay !== undefined) {

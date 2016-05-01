@@ -35505,13 +35505,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                 return protocolInstance.closeOpenSessionForDevice(encodedNumber);
             });
         },
-        encryptMessageFor: function(deviceObject, pushMessageContent) {
-            return queueJobForNumber(deviceObject.encodedNumber, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(deviceObject.encodedNumber);
-                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                return sessionCipher.encrypt(pushMessageContent);
-            });
-        },
         startWorker: function() {
             protocolInstance.startWorker('/js/libsignal-protocol-worker.js');
         },
@@ -35524,11 +35517,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
         hasOpenSession: function(encodedNumber) {
             return queueJobForNumber(encodedNumber, function() {
                 return protocolInstance.hasOpenSession(encodedNumber);
-            });
-        },
-        getRegistrationId: function(encodedNumber) {
-            return queueJobForNumber(encodedNumber, function() {
-                return protocolInstance.getRegistrationId(encodedNumber);
             });
         },
         handlePreKeyWhisperMessage: function(from, blob) {
@@ -35824,12 +35812,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                 return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
                     return Promise.all(deviceIds.map(function(deviceId) {
                         var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
-                        return textsecure.protocol_wrapper.getRegistrationId(address).then(function(registrationId) {
-                            return {
-                                encodedNumber  : address,
-                                registrationId : registrationId
-                            };
-                        });
+                        return { encodedNumber  : address };
                     }));
                 });
             });
@@ -37619,17 +37602,21 @@ OutgoingMessage.prototype = {
     encryptToDevices: function(deviceObjectList) {
         var plaintext = this.message.toArrayBuffer();
         return Promise.all(deviceObjectList.map(function(device) {
-            return textsecure.protocol_wrapper.encryptMessageFor(device, plaintext).then(function(encryptedMsg) {
-                return this.toJSON(device, encryptedMsg);
+            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+            return sessionCipher.encrypt(plaintext).then(function(encryptedMsg) {
+                return sessionCipher.getRemoteRegistrationId().then(function(registrationId) {
+                    return this.toJSON(device, encryptedMsg, registrationId);
+                }.bind(this));
             }.bind(this));
         }.bind(this)));
     },
 
-    toJSON: function(device, encryptedMsg) {
+    toJSON: function(device, encryptedMsg, registrationId) {
         var json = {
             type: encryptedMsg.type,
             destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
-            destinationRegistrationId: device.registrationId
+            destinationRegistrationId: registrationId
         };
 
         if (device.relay !== undefined) {
