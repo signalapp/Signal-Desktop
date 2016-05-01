@@ -36,11 +36,6 @@
         },
         createIdentityKeyRecvSocket: function() {
             return protocolInstance.createIdentityKeyRecvSocket();
-        },
-        hasOpenSession: function(encodedNumber) {
-            return queueJobForNumber(encodedNumber, function() {
-                return protocolInstance.hasOpenSession(encodedNumber);
-            });
         }
     };
 })();

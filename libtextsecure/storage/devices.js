@@ -19,8 +19,9 @@
                 }
                 var updateDevices = [];
                 return Promise.all(deviceIds.map(function(deviceId) {
-                    var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
-                    return textsecure.protocol_wrapper.hasOpenSession(address).then(function(hasSession) {
+                    var address = new libsignal.SignalProtocolAddress(number, deviceId);
+                    var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                    return sessionCipher.hasOpenSession().then(function(hasSession) {
                         if (!hasSession) {
                             updateDevices.push(deviceId);
                         }
