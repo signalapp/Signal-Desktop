@@ -46,29 +46,6 @@
             return queueJobForNumber(encodedNumber, function() {
                 return protocolInstance.hasOpenSession(encodedNumber);
             });
-        },
-        handlePreKeyWhisperMessage: function(from, blob) {
-            console.log('prekey whisper message');
-            blob.mark();
-            var version = blob.readUint8();
-            if ((version & 0xF) > 3 || (version >> 4) < 3) {
-                // min version > 3 or max version < 3
-                throw new Error("Incompatible version byte");
-            }
-            return queueJobForNumber(from, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(from);
-                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                return sessionCipher.decryptPreKeyWhisperMessage(blob).catch(function(e) {
-                    if (e.message === 'Unknown identity key') {
-                        blob.reset(); // restore the version byte.
-
-                        // create an error that the UI will pick up and ask the
-                        // user if they want to re-negotiate
-                        throw new textsecure.IncomingIdentityKeyError(from, blob.toArrayBuffer(), e.identityKey);
-                    }
-                    throw e;
-                });
-            });
         }
     };
 })();

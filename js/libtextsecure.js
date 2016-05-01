@@ -35511,29 +35511,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
             return queueJobForNumber(encodedNumber, function() {
                 return protocolInstance.hasOpenSession(encodedNumber);
             });
-        },
-        handlePreKeyWhisperMessage: function(from, blob) {
-            console.log('prekey whisper message');
-            blob.mark();
-            var version = blob.readUint8();
-            if ((version & 0xF) > 3 || (version >> 4) < 3) {
-                // min version > 3 or max version < 3
-                throw new Error("Incompatible version byte");
-            }
-            return queueJobForNumber(from, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(from);
-                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                return sessionCipher.decryptPreKeyWhisperMessage(blob).catch(function(e) {
-                    if (e.message === 'Unknown identity key') {
-                        blob.reset(); // restore the version byte.
-
-                        // create an error that the UI will pick up and ask the
-                        // user if they want to re-negotiate
-                        throw new textsecure.IncomingIdentityKeyError(from, blob.toArrayBuffer(), e.identityKey);
-                    }
-                    throw e;
-                });
-            });
         }
     };
 })();
@@ -37125,7 +37102,6 @@ MessageReceiver.prototype.extend({
         this.dispatchEvent(ev);
     },
     decrypt: function(envelope, ciphertext) {
-        var fromAddress = [envelope.source , (envelope.sourceDevice || 0)].join('.');
         var promise;
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
@@ -37134,7 +37110,27 @@ MessageReceiver.prototype.extend({
                 promise = sessionCipher.decryptWhisperMessage(ciphertext.toArrayBuffer());
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
-                promise = textsecure.protocol_wrapper.handlePreKeyWhisperMessage(fromAddress, ciphertext);
+                console.log('prekey whisper message');
+                ciphertext.mark();
+                var version = ciphertext.readUint8();
+                if ((version & 0xF) > 3 || (version >> 4) < 3) {
+                    // min version > 3 or max version < 3
+                    throw new Error("Incompatible version byte");
+                }
+                promise = sessionCipher.decryptPreKeyWhisperMessage(ciphertext).catch(function(e) {
+                    if (e.message === 'Unknown identity key') {
+                        ciphertext.reset(); // restore the version byte.
+
+                        // create an error that the UI will pick up and ask the
+                        // user if they want to re-negotiate
+                        throw new textsecure.IncomingIdentityKeyError(
+                            address.toString(),
+                            ciphertext.toArrayBuffer(),
+                            e.identityKey
+                        );
+                    }
+                    throw e;
+                });
                 break;
             default:
                 promise = Promise.reject(new Error("Unknown message type"));
