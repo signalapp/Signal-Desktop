@@ -35541,13 +35541,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                     throw e;
                 });
             });
-        },
-        processPreKey: function(preKeyBundle) {
-            return queueJobForNumber(preKeyBundle.encodedNumber, function() {
-                var address = libsignal.SignalProtocolAddress.fromString(preKeyBundle.encodedNumber);
-                var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
-                return builder.processPreKey(preKeyBundle);
-            });
         }
     };
 })();
@@ -37527,7 +37520,9 @@ OutgoingMessage.prototype = {
                 device.identityKey = response.identityKey;
                 device.encodedNumber = number + "." + device.deviceId;
                 if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
-                    return textsecure.protocol_wrapper.processPreKey(device).catch(function(error) {
+                    var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+                    var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
+                    return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
                             error = new textsecure.OutgoingIdentityKeyError(
                                 number, this.message.toArrayBuffer(),

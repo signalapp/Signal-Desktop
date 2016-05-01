@@ -18,9 +18,11 @@ describe('Protocol Wrapper', function() {
     });
     describe('processPreKey', function() {
         it('rejects if the identity key changes', function(done) {
-            return textsecure.protocol_wrapper.processPreKey({
+            var address = new libsignal.SignalProtocolAddress(identifier, 1);
+            var builder = new libsignal.SessionBuilder(store, address);
+            return builder.processPreKey({
                 identityKey: textsecure.crypto.getRandomBytes(33),
-                encodedNumber: identifier + '.1'
+                encodedNumber: address.toString()
             }).then(function() {
                 done(new Error('Allowed to overwrite identity key'));
             }).catch(function(e) {
