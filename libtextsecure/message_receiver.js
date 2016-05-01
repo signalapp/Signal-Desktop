@@ -343,9 +343,9 @@ MessageReceiver.prototype.extend({
     },
     handleEndSession: function(number) {
         console.log('got end session');
-        return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
-            return Promise.all(devices.map(function(device) {
-                var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
+        return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
+            return Promise.all(deviceIds.map(function(deviceId) {
+                var address = new libsignal.SignalProtocolAddress(number, deviceId);
                 var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
 
                 console.log('closing session for', address.toString());
