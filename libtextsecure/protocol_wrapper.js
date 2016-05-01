@@ -28,11 +28,6 @@
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        closeOpenSessionForDevice: function(encodedNumber) {
-            return queueJobForNumber(encodedNumber, function() {
-                return protocolInstance.closeOpenSessionForDevice(encodedNumber);
-            });
-        },
         startWorker: function() {
             protocolInstance.startWorker('/js/libsignal-protocol-worker.js');
         },

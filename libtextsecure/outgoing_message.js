@@ -96,7 +96,14 @@ OutgoingMessage.prototype = {
     },
 
     doSendMessage: function(number, devicesForNumber, recurse) {
-        return this.encryptToDevices(devicesForNumber).then(function(jsonData) {
+        var ciphers = {};
+        var plaintext = this.message.toArrayBuffer();
+        return Promise.all(devicesForNumber.map(function(device) {
+            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+            var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
+            ciphers[address.getDeviceId()] = sessionCipher;
+            return this.encryptToDevice(device, plaintext, sessionCipher);
+        }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
                 this.numberCompleted();
@@ -111,7 +118,7 @@ OutgoingMessage.prototype = {
                     p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
                 } else {
                     p = Promise.all(error.response.staleDevices.map(function(deviceId) {
-                        return textsecure.protocol_wrapper.closeOpenSessionForDevice(number + '.' + deviceId);
+                        return ciphers[deviceId].closeOpenSessionForDevice();
                     }));
                 }
 
@@ -129,17 +136,13 @@ OutgoingMessage.prototype = {
         }.bind(this));
     },
 
-    encryptToDevices: function(deviceObjectList) {
-        var plaintext = this.message.toArrayBuffer();
-        return Promise.all(deviceObjectList.map(function(device) {
-            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
-            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-            return sessionCipher.encrypt(plaintext).then(function(encryptedMsg) {
-                return sessionCipher.getRemoteRegistrationId().then(function(registrationId) {
-                    return this.toJSON(device, encryptedMsg, registrationId);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this)));
+    encryptToDevice: function(device, plaintext, sessionCipher) {
+        return Promise.all([
+            sessionCipher.encrypt(plaintext),
+            sessionCipher.getRemoteRegistrationId()
+        ]).then(function(result) {
+            return this.toJSON(device, result[0], result[1]);
+        }.bind(this));
     },
 
     toJSON: function(device, encryptedMsg, registrationId) {

@@ -35493,11 +35493,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 
     window.textsecure = window.textsecure || {};
     window.textsecure.protocol_wrapper = {
-        closeOpenSessionForDevice: function(encodedNumber) {
-            return queueJobForNumber(encodedNumber, function() {
-                return protocolInstance.closeOpenSessionForDevice(encodedNumber);
-            });
-        },
         startWorker: function() {
             protocolInstance.startWorker('/js/libsignal-protocol-worker.js');
         },
@@ -37338,8 +37333,11 @@ MessageReceiver.prototype.extend({
         console.log('got end session');
         return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
             return Promise.all(devices.map(function(device) {
-                console.log('closing session for', device.encodedNumber);
-                return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
+                var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
+                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+                console.log('closing session for', address.toString());
+                return sessionCipher.closeOpenSessionForDevice();
             }));
         });
     },
@@ -37552,7 +37550,14 @@ OutgoingMessage.prototype = {
     },
 
     doSendMessage: function(number, devicesForNumber, recurse) {
-        return this.encryptToDevices(devicesForNumber).then(function(jsonData) {
+        var ciphers = {};
+        var plaintext = this.message.toArrayBuffer();
+        return Promise.all(devicesForNumber.map(function(device) {
+            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+            var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
+            ciphers[address.getDeviceId()] = sessionCipher;
+            return this.encryptToDevice(device, plaintext, sessionCipher);
+        }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
                 this.numberCompleted();
@@ -37567,7 +37572,7 @@ OutgoingMessage.prototype = {
                     p = textsecure.storage.devices.removeDeviceIdsForNumber(number, error.response.extraDevices);
                 } else {
                     p = Promise.all(error.response.staleDevices.map(function(deviceId) {
-                        return textsecure.protocol_wrapper.closeOpenSessionForDevice(number + '.' + deviceId);
+                        return ciphers[deviceId].closeOpenSessionForDevice();
                     }));
                 }
 
@@ -37585,17 +37590,13 @@ OutgoingMessage.prototype = {
         }.bind(this));
     },
 
-    encryptToDevices: function(deviceObjectList) {
-        var plaintext = this.message.toArrayBuffer();
-        return Promise.all(deviceObjectList.map(function(device) {
-            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
-            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-            return sessionCipher.encrypt(plaintext).then(function(encryptedMsg) {
-                return sessionCipher.getRemoteRegistrationId().then(function(registrationId) {
-                    return this.toJSON(device, encryptedMsg, registrationId);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this)));
+    encryptToDevice: function(device, plaintext, sessionCipher) {
+        return Promise.all([
+            sessionCipher.encrypt(plaintext),
+            sessionCipher.getRemoteRegistrationId()
+        ]).then(function(result) {
+            return this.toJSON(device, result[0], result[1]);
+        }.bind(this));
     },
 
     toJSON: function(device, encryptedMsg, registrationId) {
@@ -37930,7 +37931,10 @@ MessageSender.prototype = {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
                     console.log('closing session for', device.encodedNumber);
-                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
+
+                    var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+                    var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                    return sessionCipher.closeOpenSessionForDevice();
                 })).then(function() {
                     return res;
                 });

@@ -298,7 +298,10 @@ MessageSender.prototype = {
             return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
                 return Promise.all(devices.map(function(device) {
                     console.log('closing session for', device.encodedNumber);
-                    return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
+
+                    var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+                    var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                    return sessionCipher.closeOpenSessionForDevice();
                 })).then(function() {
                     return res;
                 });

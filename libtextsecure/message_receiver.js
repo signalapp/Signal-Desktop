@@ -345,8 +345,11 @@ MessageReceiver.prototype.extend({
         console.log('got end session');
         return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
             return Promise.all(devices.map(function(device) {
-                console.log('closing session for', device.encodedNumber);
-                return textsecure.protocol_wrapper.closeOpenSessionForDevice(device.encodedNumber);
+                var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
+                var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+                console.log('closing session for', address.toString());
+                return sessionCipher.closeOpenSessionForDevice();
             }));
         });
     },
