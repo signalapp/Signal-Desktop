@@ -34020,7 +34020,7 @@ Curve25519Worker.prototype = {
  */
 var Internal = Internal || {};
 
-Internal.crypto = function() {
+(function() {
     'use strict';
 
     var crypto = window.crypto;
@@ -34041,7 +34041,7 @@ Internal.crypto = function() {
         }
     };
 
-    return {
+    Internal.crypto = {
         getRandomBytes: function(size) {
             var array = new Uint8Array(size);
             crypto.getRandomValues(array);
@@ -34138,7 +34138,16 @@ Internal.crypto = function() {
             return Internal.curve25519.verify(pubKey, msg, sig);
         }
     };
-}();
+
+    // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
+    Internal.HKDF = function(input, salt, info) {
+        if (salt.byteLength != 32)
+            throw new Error("Got salt of incorrect length");
+
+        return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
+    }
+
+})();
 
 /* vim: ts=4:sw=4
  *
@@ -34270,17 +34279,6 @@ window.libsignal = window.libsignal || {};
 libsignal.protocol = function() {
     var self = {};
 
-    /*****************************
-    *** Internal Crypto stuff ***
-    *****************************/
-    Internal.HKDF = function(input, salt, info) {
-        // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
-        if (salt.byteLength != 32)
-            throw new Error("Got salt of incorrect length");
-
-        return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
-    }
-
     var verifyMAC = function(data, key, mac, length) {
         return Internal.crypto.sign(key, data).then(function(calculated_mac) {
             if (mac.byteLength != length  || calculated_mac.byteLength < length) {
@@ -34301,27 +34299,6 @@ libsignal.protocol = function() {
     /******************************
     *** Ratchet implementation ***
     ******************************/
-    Internal.calculateRatchet = function(session, remoteKey, sending) {
-        var ratchet = session.currentRatchet;
-
-        return Internal.crypto.ECDHE(remoteKey, util.toArrayBuffer(ratchet.ephemeralKeyPair.privKey)).then(function(sharedSecret) {
-            return Internal.HKDF(sharedSecret, util.toArrayBuffer(ratchet.rootKey), "WhisperRatchet").then(function(masterKey) {
-                var ephemeralPublicKey;
-                if (sending) {
-                    ephemeralPublicKey = ratchet.ephemeralKeyPair.pubKey;
-                }
-                else {
-                    ephemeralPublicKey = remoteKey;
-                }
-                session[util.toString(ephemeralPublicKey)] = {
-                    messageKeys: {},
-                    chainKey: { counter: -1, key: masterKey[1] }
-                };
-                ratchet.rootKey = masterKey[0];
-            });
-        });
-    }
-
     self.createIdentityKeyRecvSocket = function() {
         var socketInfo = {};
         var keyPair;
@@ -34613,10 +34590,12 @@ Internal.SessionRecord = function() {
         haveOpenSession: function() {
             return this.registrationId !== null;
         },
-        getSessionOrIdentityKeyByBaseKey: function(baseKey) {
-            var sessions = this._sessions;
 
-            var preferredSession = this._sessions[util.toString(baseKey)];
+        getSessionByBaseKey: function(baseKey) {
+            return this._sessions[util.toString(baseKey)];
+        },
+        getSessionOrIdentityKeyByBaseKey: function(baseKey) {
+            var preferredSession = this.getSessionByBaseKey(baseKey);
             if (preferredSession !== undefined) {
                 return preferredSession;
             }
@@ -34867,15 +34846,31 @@ SessionBuilder.prototype = {
     }.bind(this));
   },
   processV3: function(record, message) {
-    var preKeyPair, signedPreKeyPair;
-    var session = record.getSessionOrIdentityKeyByBaseKey(message.baseKey);
-    return Promise.all([
-        this.storage.loadPreKey(message.preKeyId),
-        this.storage.loadSignedPreKey(message.signedPreKeyId),
-    ]).then(function(results) {
-        preKeyPair       = results[0];
-        signedPreKeyPair = results[1];
-    }).then(function() {
+    var preKeyPair, signedPreKeyPair, session;
+    return this.storage.isTrustedIdentity(
+        this.remoteAddress.getName(), message.identityKey.toArrayBuffer()
+    ).then(function(trusted) {
+        if (!trusted) {
+            var e = new Error('Unknown identity key');
+            e.identityKey = message.identityKey.toArrayBuffer();
+            throw e;
+        }
+        return Promise.all([
+            this.storage.loadPreKey(message.preKeyId),
+            this.storage.loadSignedPreKey(message.signedPreKeyId),
+        ]).then(function(results) {
+            preKeyPair       = results[0];
+            signedPreKeyPair = results[1];
+        });
+    }.bind(this)).then(function() {
+        session = record.getSessionByBaseKey(message.baseKey);
+        if (session) {
+          console.log("Duplicate PreKeyMessage for session");
+          return;
+        }
+
+        session = record.getOpenSession();
+
         if (signedPreKeyPair === undefined) {
             // Session may or may not be the right one, but if its not, we
             // can't do anything about it ...fall through and let
@@ -34886,24 +34881,9 @@ SessionBuilder.prototype = {
                 throw new Error("Missing Signed PreKey for PreKeyWhisperMessage");
             }
         }
-        if (session !== undefined) {
-            // Duplicate PreKeyMessage for session:
-            if (util.isEqual(session.indexInfo.baseKey, message.baseKey)) {
-                return;
-            }
 
-            // We already had a session/known identity key:
-            if (util.isEqual(session.indexInfo.remoteIdentityKey, message.identityKey)) {
-                // If the identity key matches the previous one, close the
-                // previous one and use the new one
-                record.archiveCurrentState();
-            } else {
-                // ...otherwise create an error that the UI will pick up
-                // and ask the user if they want to re-negotiate
-                var e = new Error('Unknown identity key');
-                e.identityKey = message.identityKey.toArrayBuffer();
-                throw e;
-            }
+        if (session !== undefined) {
+            record.archiveCurrentState();
         }
         if (message.preKeyId && !preKeyPair) {
             console.log('Invalid prekey id');
@@ -34992,18 +34972,36 @@ SessionBuilder.prototype = {
                 session.indexInfo.baseKey = ourEphemeralKey.pubKey;
                 return Internal.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
                     session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
-                    return Internal.calculateRatchet(session, theirSignedPubKey, true).then(function() {
+                    return this.calculateSendingRatchet(session, theirSignedPubKey).then(function() {
                         return session;
                     });
-                });
+                }.bind(this));
             } else {
                 session.indexInfo.baseKey = theirEphemeralPubKey;
                 session.currentRatchet.ephemeralKeyPair = ourSignedKey;
                 return session;
             }
-        });
-    });
+        }.bind(this));
+    }.bind(this));
+  },
+  calculateSendingRatchet: function(session, remoteKey) {
+      var ratchet = session.currentRatchet;
+
+      return Internal.crypto.ECDHE(
+          remoteKey, util.toArrayBuffer(ratchet.ephemeralKeyPair.privKey)
+      ).then(function(sharedSecret) {
+          return Internal.HKDF(
+              sharedSecret, util.toArrayBuffer(ratchet.rootKey), "WhisperRatchet"
+          );
+      }).then(function(masterKey) {
+          session[util.toString(ratchet.ephemeralKeyPair.pubKey)] = {
+              messageKeys : {},
+              chainKey    : { counter : -1, key : masterKey[1] }
+          };
+          ratchet.rootKey = masterKey[0];
+      });
   }
+
 };
 
 libsignal.SessionBuilder = function (storage, remoteAddress) {
@@ -35162,7 +35160,7 @@ SessionCipher.prototype = {
               }
               var builder = new SessionBuilder(this.storage, this.remoteAddress);
               return builder.processV3(record, preKeyProto).then(function(preKeyId) {
-                  var session = record.getSessionOrIdentityKeyByBaseKey(preKeyProto.baseKey);
+                  var session = record.getSessionByBaseKey(preKeyProto.baseKey);
                   return this.doDecryptWhisperMessage(
                       preKeyProto.message.toArrayBuffer(), session
                   ).then(function(plaintext) {
