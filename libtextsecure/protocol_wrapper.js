@@ -7,18 +7,8 @@
     window.textsecure.storage = window.textsecure.storage || {};
 
     textsecure.storage.protocol = new SignalProtocolStore();
-    var protocolInstance = libsignal.protocol(textsecure.storage.protocol);
 
-    window.textsecure = window.textsecure || {};
-    window.textsecure.protocol_wrapper = {
-        startWorker: function(url) {
-            protocolInstance.startWorker(url);
-        },
-        stopWorker: function() {
-            protocolInstance.stopWorker();
-        },
-        createIdentityKeyRecvSocket: function() {
-            return protocolInstance.createIdentityKeyRecvSocket();
-        }
-    };
+    textsecure.ProvisioningCipher = libsignal.ProvisioningCipher;
+    textsecure.startWorker        = libsignal.worker.startWorker;
+    textsecure.stopWorker         = libsignal.worker.stopWorker;
 })();

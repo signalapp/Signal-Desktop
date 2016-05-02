@@ -35,7 +35,8 @@
             var generateKeys = this.generateKeys.bind(this, 100, progressCallback);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
-            return textsecure.protocol_wrapper.createIdentityKeyRecvSocket().then(function(cryptoInfo) {
+            var provisioningCipher = new libsignal.ProvisioningCipher();
+            return provisioningCipher.getPublicKey().then(function(pubKey) {
                 return new Promise(function(resolve, reject) {
                     var socket = getSocket();
                     socket.onclose = function(e) {
@@ -49,14 +50,14 @@
                                 var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
                                 setProvisioningUrl([
                                     'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
-                                    encodeURIComponent(btoa(getString(cryptoInfo.pubKey)))
+                                    encodeURIComponent(btoa(getString(pubKey)))
                                 ].join(''));
                                 request.respond(200, 'OK');
                             } else if (request.path === "/v1/message" && request.verb === "PUT") {
                                 var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                                 request.respond(200, 'OK');
                                 wsr.close();
-                                resolve(cryptoInfo.decryptAndHandleDeviceInit(envelope).then(function(provisionMessage) {
+                                resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
                                     return confirmNumber(provisionMessage.number).then(function(deviceName) {
                                         if (typeof deviceName !== 'string' || deviceName.length === 0) {
                                             throw new Error('Invalid device name');
