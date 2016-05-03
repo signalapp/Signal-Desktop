@@ -49,7 +49,7 @@ SignalProtocolStore.prototype = {
 			resolve(this.get('identityKey' + identifier));
 		}.bind(this));
 	},
-	putIdentityKey: function(identifier, identityKey) {
+	saveIdentity: function(identifier, identityKey) {
 		if (identifier === null || identifier === undefined)
 			throw new Error("Tried to put identity key for undefined/null key");
 		return new Promise(function(resolve) {

@@ -275,7 +275,7 @@
                 });
             });
         },
-        putIdentityKey: function(identifier, publicKey) {
+        saveIdentity: function(identifier, publicKey) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to put identity key for undefined/null key");
             }

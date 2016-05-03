@@ -13,7 +13,7 @@ describe('Protocol Wrapper', function() {
     before(function(done) {
         localStorage.clear();
         libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKey) {
-            return textsecure.storage.protocol.putIdentityKey(identifier, identityKey);
+            return textsecure.storage.protocol.saveIdentity(identifier, identityKey);
         }).then(done);
     });
     describe('processPreKey', function() {

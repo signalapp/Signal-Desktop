@@ -34411,37 +34411,6 @@ Internal.protoText = function() {
 		'}\n' +
 ''	;
 
-	protoText['protos/DeviceMessages.proto'] = 
-		'package textsecure;\n' +
-		'message ProvisioningUuid {\n' +
-		' optional string uuid = 1;\n' +
-		'}\n' +
-		'message ProvisionEnvelope {\n' +
-		'  optional bytes publicKey = 1;\n' +
-		'  optional bytes body      = 2; // Encrypted ProvisionMessage\n' +
-		'}\n' +
-		'message ProvisionMessage {\n' +
-		'  optional bytes  identityKeyPrivate = 2;\n' +
-		'  optional string number             = 3;\n' +
-		'  optional string provisioningCode   = 4;\n' +
-		'}\n' +
-		'message DeviceControl {\n' +
-		'  enum Type {\n' +
-		'    UNKNOWN                            = 0;\n' +
-		'    NEW_DEVICE_REGISTERED              = 1; // Requries only newDeviceId\n' +
-		'    SENT_MESSAGE                       = 2; // Requires only message\n' +
-		'  }\n' +
-		'  message MessageSent {\n' +
-		'    required string  otherNumber = 1; // The destination account (ie phone #), not device\n' +
-		'    required uint64  timestamp   = 2;\n' +
-		'    required bytes   message     = 3; // PushMessageContent\n' +
-		'  }\n' +
-		'  required Type        type        = 1;\n' +
-		'  optional uint32      newDeviceId = 2;\n' +
-		'  optional MessageSent message     = 3;\n' +
-		'}\n' +
-''	;
-
 	return protoText;
 }();
 /* vim: ts=4:sw=4
@@ -34469,15 +34438,10 @@ Internal.protobuf = function() {
     };
 
     var protocolMessages = loadProtoBufs('WhisperTextProtocol.proto');
-    var deviceMessages   = loadProtoBufs('DeviceMessages.proto');
 
     return {
         WhisperMessage            : protocolMessages.WhisperMessage,
-        PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage,
-        DeviceInit                : deviceMessages.DeviceInit,
-        IdentityKey               : deviceMessages.IdentityKey,
-        DeviceControl             : deviceMessages.DeviceControl,
-        ProvisionMessage          : deviceMessages.ProvisionMessage,
+        PreKeyWhisperMessage      : protocolMessages.PreKeyWhisperMessage
     };
 }();
 
@@ -34639,28 +34603,9 @@ Internal.SessionRecord = function() {
                 throw e;
             }
 
-            var doDeleteSession = false;
-            if (session.indexInfo.closed != -1) {
-                doDeleteSession = (session.indexInfo.closed < (Date.now() - MESSAGE_LOST_THRESHOLD_MS));
+            sessions[util.toString(session.indexInfo.baseKey)] = session;
 
-                if (!doDeleteSession) {
-                    var keysLeft = false;
-                    for (var key in session) {
-                        if (key != "indexInfo" && key != "oldRatchetList" && key != "currentRatchet") {
-                            keysLeft = true;
-                            break;
-                        }
-                    }
-                    doDeleteSession = !keysLeft;
-                    console.log((doDeleteSession ? "Deleting " : "Not deleting ") + "closed session which has not yet timed out");
-                } else
-                    console.log("Deleting closed session due to timeout (created at " + session.indexInfo.closed + ")");
-            }
-
-            if (doDeleteSession)
-                delete sessions[util.toString(session.indexInfo.baseKey)];
-            else
-                sessions[util.toString(session.indexInfo.baseKey)] = session;
+            this.removeOldSessions();
 
             var openSessionRemaining = false;
             for (var key in sessions)
@@ -34720,6 +34665,23 @@ Internal.SessionRecord = function() {
                 }
                 delete session[util.toString(oldest.ephemeralKey)];
                 session.oldRatchetList.splice(index, 1);
+            }
+        },
+        removeOldSessions: function() {
+            // Retain only the last 20 sessions
+            var sessions = this._sessions;
+            var oldestBaseKey, oldestSession;
+            while (Object.keys(sessions).length > 20) {
+                for (var key in sessions) {
+                    var session = sessions[key];
+                    if (session.indexInfo.closed > -1 && // session is closed
+                        (!oldestSession || session.indexInfo.closed < oldestSession.indexInfo.closed)) {
+                        oldestBaseKey = key;
+                        oldestSession = session;
+                    }
+                }
+                console.log("Deleting session closed at", session.indexInfo.closed);
+                delete this.sessions[util.toString(oldestBaseKey)];
             }
         },
     };
@@ -34812,7 +34774,7 @@ SessionBuilder.prototype = {
           record.updateSessionState(session, device.registrationId);
           return Promise.all([
             this.storage.storeSession(address, record.serialize()),
-            this.storage.putIdentityKey(this.remoteAddress.getName(), record.identityKey)
+            this.storage.saveIdentity(this.remoteAddress.getName(), record.identityKey)
           ]);
         }.bind(this));
       }.bind(this));
@@ -34869,7 +34831,7 @@ SessionBuilder.prototype = {
             // end of decryptWhisperMessage ... to ensure that the sender
             // actually holds the private keys for all reported pubkeys
             record.updateSessionState(new_session, message.registrationId);
-            return this.storage.putIdentityKey(this.remoteAddress.getName(), message.identityKey.toArrayBuffer()).then(function() {
+            return this.storage.saveIdentity(this.remoteAddress.getName(), message.identityKey.toArrayBuffer()).then(function() {
               return message.preKeyId;
             });
         }.bind(this));
@@ -35389,7 +35351,6 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 })();
 
 })();
-
 /*
  * vim: ts=4:sw=4:expandtab
  */
@@ -36810,7 +36771,7 @@ var TextSecureServer = (function() {
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    var putIdentity = textsecure.storage.protocol.putIdentityKey.bind(
+                    var putIdentity = textsecure.storage.protocol.saveIdentity.bind(
                         null, number, identityKeyPair.pubKey
                     );
                     textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);

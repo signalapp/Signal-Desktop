@@ -403,7 +403,7 @@
         }
 
         return textsecure.storage.protocol.removeIdentityKey(number).then(function() {
-            return textsecure.storage.protocol.putIdentityKey(number, identityKey).then(function() {
+            return textsecure.storage.protocol.saveIdentity(number, identityKey).then(function() {
                 var promise = Promise.resolve();
                 this.messageCollection.each(function(message) {
                     if (message.hasKeyConflict(number)) {

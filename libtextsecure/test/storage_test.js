@@ -31,7 +31,7 @@ describe("SignalProtocolStore", function() {
         }).then(done,done);
     });
     it('stores identity keys', function(done) {
-        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+        store.saveIdentity(identifier, testKey.pubKey).then(function() {
             return store.loadIdentityKey(identifier).then(function(key) {
                 assertEqualArrayBuffers(key, testKey.pubKey);
             });
@@ -39,7 +39,7 @@ describe("SignalProtocolStore", function() {
     });
     it('returns whether a key is trusted', function(done) {
         var newIdentity = textsecure.crypto.getRandomBytes(33);
-        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+        store.saveIdentity(identifier, testKey.pubKey).then(function() {
             store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
                 if (trusted) {
                     done(new Error('Allowed to overwrite identity key'));
@@ -51,7 +51,7 @@ describe("SignalProtocolStore", function() {
     });
     it('returns whether a key is untrusted', function(done) {
         var newIdentity = textsecure.crypto.getRandomBytes(33);
-        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+        store.saveIdentity(identifier, testKey.pubKey).then(function() {
             store.isTrustedIdentity(identifier, testKey.pubKey).then(function(trusted) {
                 if (trusted) {
                     done();

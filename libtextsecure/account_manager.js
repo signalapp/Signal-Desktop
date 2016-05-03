@@ -110,7 +110,7 @@
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    var putIdentity = textsecure.storage.protocol.putIdentityKey.bind(
+                    var putIdentity = textsecure.storage.protocol.saveIdentity.bind(
                         null, number, identityKeyPair.pubKey
                     );
                     textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);

@@ -35,9 +35,9 @@ describe("SignalProtocolStore", function() {
             }).then(done,done);
         });
     });
-    describe('putIdentityKey', function() {
+    describe('saveIdentity', function() {
         it('stores identity keys', function(done) {
-            store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 return store.loadIdentityKey(identifier).then(function(key) {
                     assertEqualArrayBuffers(key, testKey.pubKey);
                 });
@@ -45,8 +45,8 @@ describe("SignalProtocolStore", function() {
         });
         it('rejects on key change', function(done) {
             var newIdentity = textsecure.crypto.getRandomBytes(33);
-            store.putIdentityKey(identifier, testKey.pubKey).then(function() {
-                store.putIdentityKey(identifier, newIdentity).then(function() {
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
+                store.saveIdentity(identifier, newIdentity).then(function() {
                     done(new Error('Allowed to overwrite identity key'));
                 }).catch(function(e) {
                     assert(e instanceof Error);
@@ -57,7 +57,7 @@ describe("SignalProtocolStore", function() {
     });
     describe('isTrustedIdentity', function() {
         it('returns true if a key is trusted', function(done) {
-            store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 store.isTrustedIdentity(identifier, testKey.pubKey).then(function(trusted) {
                     if (trusted) {
                         done();
@@ -69,7 +69,7 @@ describe("SignalProtocolStore", function() {
         });
         it('returns false if a key is untrusted', function(done) {
             var newIdentity = textsecure.crypto.getRandomBytes(33);
-            store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
                     if (trusted) {
                         done(new Error('Allowed to overwrite identity key'));
