@@ -108,6 +108,7 @@
             submitDebugLog          : i18n('submitDebugLog'),
             settings                : i18n('settings'),
             restartSignal           : i18n('restartSignal'),
+            version                 : chrome.runtime.getManifest().version
         },
         events: {
             'click': 'closeMenu',
