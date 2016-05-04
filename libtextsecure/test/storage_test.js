@@ -37,6 +37,30 @@ describe("SignalProtocolStore", function() {
             });
         }).then(done,done);
     });
+    it('returns whether a key is trusted', function(done) {
+        var newIdentity = textsecure.crypto.getRandomBytes(33);
+        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
+                if (trusted) {
+                    done(new Error('Allowed to overwrite identity key'));
+                } else {
+                    done();
+                }
+            }).catch(done);
+        });
+    });
+    it('returns whether a key is untrusted', function(done) {
+        var newIdentity = textsecure.crypto.getRandomBytes(33);
+        store.putIdentityKey(identifier, testKey.pubKey).then(function() {
+            store.isTrustedIdentity(identifier, testKey.pubKey).then(function(trusted) {
+                if (trusted) {
+                    done();
+                } else {
+                    done(new Error('Allowed to overwrite identity key'));
+                }
+            }).catch(done);
+        });
+    });
     it('stores prekeys', function(done) {
         store.storePreKey(1, testKey).then(function() {
             return store.loadPreKey(1).then(function(key) {
