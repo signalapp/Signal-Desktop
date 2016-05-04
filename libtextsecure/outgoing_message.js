@@ -34,11 +34,11 @@ OutgoingMessage.prototype = {
     },
     reloadDevicesAndSend: function(number, recurse) {
         return function() {
-            return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devicesForNumber) {
-                if (devicesForNumber.length == 0) {
+            return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
+                if (deviceIds.length == 0) {
                     return this.registerError(number, "Got empty device list when loading device keys", null);
                 }
-                return this.doSendMessage(number, devicesForNumber, recurse);
+                return this.doSendMessage(number, deviceIds, recurse);
             }.bind(this));
         }.bind(this);
     },
@@ -89,14 +89,14 @@ OutgoingMessage.prototype = {
         });
     },
 
-    doSendMessage: function(number, devicesForNumber, recurse) {
+    doSendMessage: function(number, deviceIds, recurse) {
         var ciphers = {};
         var plaintext = this.message.toArrayBuffer();
-        return Promise.all(devicesForNumber.map(function(device) {
-            var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+        return Promise.all(deviceIds.map(function(deviceId) {
+            var address = new libsignal.SignalProtocolAddress(number, deviceId);
             var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
             ciphers[address.getDeviceId()] = sessionCipher;
-            return this.encryptToDevice(device, plaintext, sessionCipher);
+            return this.encryptToDevice(address, plaintext, sessionCipher);
         }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
@@ -130,19 +130,19 @@ OutgoingMessage.prototype = {
         }.bind(this));
     },
 
-    encryptToDevice: function(device, plaintext, sessionCipher) {
+    encryptToDevice: function(address, plaintext, sessionCipher) {
         return Promise.all([
             sessionCipher.encrypt(plaintext),
             sessionCipher.getRemoteRegistrationId()
         ]).then(function(result) {
-            return this.toJSON(device, result[0], result[1]);
+            return this.toJSON(address, result[0], result[1]);
         }.bind(this));
     },
 
-    toJSON: function(device, encryptedMsg, registrationId) {
+    toJSON: function(address, encryptedMsg, registrationId) {
         var json = {
             type: encryptedMsg.type,
-            destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
+            destinationDeviceId: address.getDeviceId(),
             destinationRegistrationId: registrationId
         };
 

@@ -295,11 +295,10 @@ MessageSender.prototype = {
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
         return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
-            return textsecure.storage.devices.getDeviceObjectsForNumber(number).then(function(devices) {
-                return Promise.all(devices.map(function(device) {
-                    console.log('closing session for', device.encodedNumber);
-
-                    var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+            return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
+                return Promise.all(deviceIds.map(function(deviceId) {
+                    var address = new libsignal.SignalProtocolAddress(number, deviceId);
+                    console.log('closing session for', address.toString());
                     var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
                     return sessionCipher.closeOpenSessionForDevice();
                 })).then(function() {
