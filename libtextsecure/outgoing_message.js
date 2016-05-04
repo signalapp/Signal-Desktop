@@ -38,12 +38,6 @@ OutgoingMessage.prototype = {
                 if (devicesForNumber.length == 0) {
                     return this.registerError(number, "Got empty device list when loading device keys", null);
                 }
-                var relay = devicesForNumber[0].relay;
-                for (var i=1; i < devicesForNumber.length; ++i) {
-                    if (devicesForNumber[i].relay !== relay) {
-                        throw new Error("Mismatched relays for number " + number);
-                    }
-                }
                 return this.doSendMessage(number, devicesForNumber, recurse);
             }.bind(this));
         }.bind(this);
@@ -151,10 +145,6 @@ OutgoingMessage.prototype = {
             destinationDeviceId: textsecure.utils.unencodeNumber(device.encodedNumber)[1],
             destinationRegistrationId: registrationId
         };
-
-        if (device.relay !== undefined) {
-            json.relay = device.relay;
-        }
 
         var content = btoa(encryptedMsg.body);
         if (this.legacy) {
