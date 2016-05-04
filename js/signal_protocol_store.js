@@ -250,6 +250,19 @@
             });
 
         },
+        isTrustedIdentity: function(identifier, publicKey) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to get identity key for undefined/null key");
+            }
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return new Promise(function(resolve) {
+                var identityKey = new IdentityKey({id: number});
+                identityKey.fetch().always(function() {
+                    var oldpublicKey = identityKey.get('publicKey');
+                    resolve(!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey));
+                });
+            });
+        },
         loadIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to get identity key for undefined/null key");

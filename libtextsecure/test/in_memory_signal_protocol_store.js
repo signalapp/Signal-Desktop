@@ -29,6 +29,19 @@ SignalProtocolStore.prototype = {
 		delete this.store[key];
 	},
 
+	isTrustedIdentity: function(identifier, identityKey) {
+		if (identifier === null || identifier === undefined) {
+			throw new error("tried to check identity key for undefined/null key");
+		}
+		if (!(identityKey instanceof ArrayBuffer)) {
+			throw new error("Expected identityKey to be an ArrayBuffer");
+		}
+		var trusted = this.get('identityKey' + identifier);
+		if (trusted === undefined) {
+			return Promise.resolve(true);
+		}
+		return Promise.resolve(identityKey === trusted);
+	},
 	loadIdentityKey: function(identifier) {
 		if (identifier === null || identifier === undefined)
 			throw new Error("Tried to get identity key for undefined/null key");
