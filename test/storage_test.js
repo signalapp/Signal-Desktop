@@ -91,10 +91,10 @@ describe("SignalProtocolStore", function() {
         });
     });
     describe('removePreKey', function() {
+        before(function(done) {
+            store.storePreKey(2, testKey).then(done);
+        });
         it('deletes prekeys', function(done) {
-            before(function(done) {
-                store.storePreKey(2, testKey).then(done);
-            });
             store.removePreKey(2, testKey).then(function() {
                 return store.loadPreKey(2).then(function(key) {
                     assert.isUndefined(key);
@@ -113,10 +113,10 @@ describe("SignalProtocolStore", function() {
         });
     });
     describe('removeSignedPreKey', function() {
+        before(function(done) {
+            store.storeSignedPreKey(4, testKey).then(done);
+        });
         it('deletes signed prekeys', function(done) {
-            before(function(done) {
-                store.storeSignedPreKey(4, testKey).then(done);
-            });
             store.removeSignedPreKey(4, testKey).then(function() {
                 return store.loadSignedPreKey(4).then(function(key) {
                     assert.isUndefined(key);
