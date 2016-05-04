@@ -31,19 +31,6 @@
                 });
             });
         },
-        getDeviceObjectsForNumber: function(number) {
-            return textsecure.storage.protocol.loadIdentityKey(number).then(function(identityKey) {
-                if (identityKey === undefined) {
-                    return [];
-                }
-                return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
-                    return Promise.all(deviceIds.map(function(deviceId) {
-                        var address = new libsignal.SignalProtocolAddress(number, deviceId).toString();
-                        return { encodedNumber  : address };
-                    }));
-                });
-            });
-        },
 
         removeDeviceIdsForNumber: function(number, deviceIdsToRemove) {
             var promise = Promise.resolve();
