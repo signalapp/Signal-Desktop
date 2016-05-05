@@ -32,6 +32,7 @@ Describe here the issue that you are experiencing.
 <!-- replace examples with your info -->
 **Operating System**: My Operating System A
 **Browser**: My Browser X.Y.Z
+<!-- you can see Signal's version number in your browser's extensions page: chrome://extensions -->
 **Signal version:** Z.Y.Y
 
 ### Link to debug log
