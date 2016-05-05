@@ -1,70 +1,70 @@
 {
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Không hỗ trợ loại đính kèm. Bấm để lưu.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Các cài đặt",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Đã nhận tin nhắn với mã khóa chứng thực không rõ danh tính. Bấm để xử lý và hiển thị.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Tên của máy tính này sẽ là",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Đã rõ!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Chi tiết",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Không hỗ trợ loại tập tin",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Tạo mã khóa",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Tái khởi tạo phiên làm việc",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Chào mừng đến với Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Thành viên",
         "description": ""
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Khởi động lại Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Xóa tin nhắn",
         "description": "Menu item for deleting messages, title case."
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Chọn một liên hệ hoặc nhóm để bắt đầu chat.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Đang kết nối...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Bạn có thể muốn $tag_start$ xác thực $tag_end$ liên hệ này.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -76,43 +76,43 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Đã gửi",
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Báo lỗi",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Tin nhắn mới",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Chỉ tên người gửi",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Kiểm tra chứng thực",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Từ",
         "description": "Label for the sender of a message"
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Tìm kiếm...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Không hiện tên cũng như tin nhắn",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Theo dõi chúng tôi</a> để cập nhật về hỗ trợ đa thiết bị cho iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -122,107 +122,107 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Tìm hiểu thêm về xác thực mã khóa.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Chứng thực của bạn",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được kết nối. Thử gỡ bỏ vài thiết bị.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Đang đồng bộ các nhóm và liên hệ",
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Nâng cấp",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Ẩn chi tiết",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Chứng thực mới",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Sự riêng tư là có thể. Signal khiến điều đó trở nên dễ dàng.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Đã ngắt kết nối",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Chấp nhận",
         "description": "Label for a button to accept a new identity key"
     },
     "received": {
-        "message": "Received",
+        "message": "Đã nhận",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Gửi tin nhắn",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Tin nhắn đa phương tiện",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Phiên bản này của Signal Desktop đã hết hạn. Vui lòng nâng cấp lên phiên bản mới nhất để tiếp tục nhắn tin.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Mã khóa chứng thực của liên hệ này đã thay đổi. Bấm để xử lý và hiển thị.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Rất tiếc, các tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Mở Signal trên điện thoại và chuyển đến mục Cài đặt > Các thiết bị đã kết nối. Bấm nút để thêm thiết bị mới, sau đó quét mã trên.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Chào mừng đến với Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Kết nối đến máy chủ thất bại.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Tin nhắn chưa được gửi",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Vô hiệu hóa thông báo",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Hủy",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Tôi đã có Signal cho Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Khởi tạo lại phiên làm việc bảo mật",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Bắt đầu",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Trước tiên, cài đặt <a $a_params$>Signal</a> trên điện thoại Android.<br /> Chúng tôi sẽ liên kết các thiết bị và giữ cho các tin nhắn của bạn được đồng bộ.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -232,47 +232,47 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Kết nối với",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Chứng thực của họ",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Các tin nhắn mới",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Bạn chưa từng trao đổi tin nhắn nào với liên hệ này. Chứng thực của họ sẽ xuất hiện sau khi thực hiện tin nhắn đầu tiên.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Gửi",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Tới",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Có vẻ tốt",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Chi tiết tin nhắn",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Xác nhận",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Cả tên người gửi lẫn tin nhắn",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Không thể gửi đến một số người nhận. Kiểm tra kết nối mạng của bạn.",
         "description": ""
     },
     "ok": {
@@ -280,23 +280,23 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Sô liên hệ này đang sử dụng một chứng thực Signal mới. Điều này có thể có nghĩa rằng ai đó đang cố gắng can thiệp vào sự liên lạc của bạn, hoặc đơn giản là số liên hệ này vừa cài lại Signal. Bạn có thể xác nhận mã khóa chứng thực mới của họ dưới đây.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Gửi bản ghi gỡ lỗi",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Lỗi",
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Thông báo",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Gửi lại",
         "description": ""
     }
 }
