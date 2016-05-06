@@ -32,6 +32,7 @@ Describe here the issue that you are experiencing.
 <!-- replace examples with your info -->
 **Operating System**: My Operating System A
 **Browser**: My Browser X.Y.Z
+<!-- to see Signal's version number move your mouse cursor over the title "Signal" on the top left corner of the app -->
 **Signal version:** Z.Y.Y
 
 ### Link to debug log
