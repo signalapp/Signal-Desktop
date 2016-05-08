@@ -10,12 +10,12 @@ describe("SignalProtocolStore", function() {
     var identifier = '+5558675309';
     var another_identifier = '+5555590210';
     var identityKey = {
-        pubKey: textsecure.crypto.getRandomBytes(33),
-        privKey: textsecure.crypto.getRandomBytes(32),
+        pubKey: libsignal.crypto.getRandomBytes(33),
+        privKey: libsignal.crypto.getRandomBytes(32),
     };
     var testKey = {
-        pubKey: textsecure.crypto.getRandomBytes(33),
-        privKey: textsecure.crypto.getRandomBytes(32),
+        pubKey: libsignal.crypto.getRandomBytes(33),
+        privKey: libsignal.crypto.getRandomBytes(32),
     };
     it('retrieves my registration id', function(done) {
         store.put('registrationId', 1337);
@@ -38,7 +38,7 @@ describe("SignalProtocolStore", function() {
         }).then(done,done);
     });
     it('returns whether a key is trusted', function(done) {
-        var newIdentity = textsecure.crypto.getRandomBytes(33);
+        var newIdentity = libsignal.crypto.getRandomBytes(33);
         store.saveIdentity(identifier, testKey.pubKey).then(function() {
             store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
                 if (trusted) {
@@ -50,7 +50,7 @@ describe("SignalProtocolStore", function() {
         });
     });
     it('returns whether a key is untrusted', function(done) {
-        var newIdentity = textsecure.crypto.getRandomBytes(33);
+        var newIdentity = libsignal.crypto.getRandomBytes(33);
         store.saveIdentity(identifier, testKey.pubKey).then(function() {
             store.isTrustedIdentity(identifier, testKey.pubKey).then(function(trusted) {
                 if (trusted) {

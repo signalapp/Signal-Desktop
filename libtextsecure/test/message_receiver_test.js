@@ -7,7 +7,7 @@ describe('MessageReceiver', function() {
     var WebSocket = window.WebSocket;
     var number = '+19999999999';
     var deviceId = 1;
-    var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
+    var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
     before(function() {
         window.WebSocket = MockSocket;
         textsecure.storage.user.setNumberAndDeviceId(number, deviceId, 'name');
@@ -38,7 +38,7 @@ describe('MessageReceiver', function() {
             var mac_key = signaling_key.slice(32, 32 + 20);
 
             window.crypto.subtle.importKey('raw', aes_key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-                var iv = textsecure.crypto.getRandomBytes(16);
+                var iv = libsignal.crypto.getRandomBytes(16);
                 window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, signal).then(function(ciphertext) {
                     window.crypto.subtle.importKey('raw', mac_key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
                         window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, signal).then(function(mac) {

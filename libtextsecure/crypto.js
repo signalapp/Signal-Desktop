@@ -5,44 +5,10 @@
 ;(function(){
     'use strict';
 
-    // Various wrappers around low-level crypto operation for specific functions
-
-    var encrypt = function(key, data, iv) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-            return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-        });
-    };
-
-    var decrypt = function(key, data, iv) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
-            return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-        });
-    };
-
-    var calculateMAC = function(key, data) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
-            return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
-        });
-    };
-
-    var verifyMAC = function(data, key, mac, length) {
-        return calculateMAC(key, data).then(function(calculated_mac) {
-            if (mac.byteLength != length  || calculated_mac.byteLength < length) {
-                throw new Error("Bad MAC length");
-            }
-            var a = new Uint8Array(calculated_mac);
-            var b = new Uint8Array(mac);
-
-            var result = 0;
-            for (var i=0; i < mac.byteLength; ++i) {
-                result = result | (a[i] ^ b[i]);
-            }
-
-            if (result !== 0) {
-                throw new Error("Bad MAC");
-            }
-        });
-    };
+    var encrypt      = libsignal.crypto.encrypt;
+    var decrypt      = libsignal.crypto.decrypt;
+    var calculateMAC = libsignal.crypto.calculateMAC;
+    var verifyMAC    = libsignal.crypto.verifyMAC;
 
     window.textsecure = window.textsecure || {};
     window.textsecure.crypto = {
@@ -119,9 +85,7 @@
         },
 
         getRandomBytes: function(size) {
-            var array = new Uint8Array(size);
-            window.crypto.getRandomValues(array);
-            return array.buffer;
+            return libsignal.crypto.getRandomBytes(size);
         }
     };
 })();

@@ -13,7 +13,7 @@
 
     // create a random group id that we haven't seen before.
     function generateNewGroupId() {
-        var groupId = getString(textsecure.crypto.getRandomBytes(16));
+        var groupId = getString(libsignal.crypto.getRandomBytes(16));
         return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
             if (group === undefined) {
                 return groupId;

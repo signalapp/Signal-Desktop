@@ -36591,44 +36591,10 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 ;(function(){
     'use strict';
 
-    // Various wrappers around low-level crypto operation for specific functions
-
-    var encrypt = function(key, data, iv) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['encrypt']).then(function(key) {
-            return window.crypto.subtle.encrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-        });
-    };
-
-    var decrypt = function(key, data, iv) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'AES-CBC'}, false, ['decrypt']).then(function(key) {
-            return window.crypto.subtle.decrypt({name: 'AES-CBC', iv: new Uint8Array(iv)}, key, data);
-        });
-    };
-
-    var calculateMAC = function(key, data) {
-        return window.crypto.subtle.importKey('raw', key, {name: 'HMAC', hash: {name: 'SHA-256'}}, false, ['sign']).then(function(key) {
-            return window.crypto.subtle.sign( {name: 'HMAC', hash: 'SHA-256'}, key, data);
-        });
-    };
-
-    var verifyMAC = function(data, key, mac, length) {
-        return calculateMAC(key, data).then(function(calculated_mac) {
-            if (mac.byteLength != length  || calculated_mac.byteLength < length) {
-                throw new Error("Bad MAC length");
-            }
-            var a = new Uint8Array(calculated_mac);
-            var b = new Uint8Array(mac);
-
-            var result = 0;
-            for (var i=0; i < mac.byteLength; ++i) {
-                result = result | (a[i] ^ b[i]);
-            }
-
-            if (result !== 0) {
-                throw new Error("Bad MAC");
-            }
-        });
-    };
+    var encrypt      = libsignal.crypto.encrypt;
+    var decrypt      = libsignal.crypto.decrypt;
+    var calculateMAC = libsignal.crypto.calculateMAC;
+    var verifyMAC    = libsignal.crypto.verifyMAC;
 
     window.textsecure = window.textsecure || {};
     window.textsecure.crypto = {
@@ -36705,9 +36671,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
         },
 
         getRandomBytes: function(size) {
-            var array = new Uint8Array(size);
-            window.crypto.getRandomValues(array);
-            return array.buffer;
+            return libsignal.crypto.getRandomBytes(size);
         }
     };
 })();
@@ -36819,7 +36783,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 
     // create a random group id that we haven't seen before.
     function generateNewGroupId() {
-        var groupId = getString(textsecure.crypto.getRandomBytes(16));
+        var groupId = getString(libsignal.crypto.getRandomBytes(16));
         return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
             if (group === undefined) {
                 return groupId;
@@ -37910,8 +37874,8 @@ var TextSecureServer = (function() {
             }.bind(this));
         },
         createAccount: function(number, verificationCode, identityKeyPair, deviceName) {
-            var signalingKey = textsecure.crypto.getRandomBytes(32 + 20);
-            var password = btoa(getString(textsecure.crypto.getRandomBytes(16)));
+            var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
+            var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
             var registrationId = libsignal.KeyHelper.generateRegistrationId();
 
@@ -38778,9 +38742,9 @@ MessageSender.prototype = {
             return Promise.resolve(undefined);
         }
         var proto = new textsecure.protobuf.AttachmentPointer();
-        proto.key = textsecure.crypto.getRandomBytes(64);
+        proto.key = libsignal.crypto.getRandomBytes(64);
 
-        var iv = textsecure.crypto.getRandomBytes(16);
+        var iv = libsignal.crypto.getRandomBytes(16);
         return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
             return this.server.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;

@@ -13,12 +13,12 @@ describe("SignalProtocolStore", function() {
     var store = textsecure.storage.protocol;
     var identifier = '+5558675309';
     var identityKey = {
-        pubKey: textsecure.crypto.getRandomBytes(33),
-        privKey: textsecure.crypto.getRandomBytes(32),
+        pubKey: libsignal.crypto.getRandomBytes(33),
+        privKey: libsignal.crypto.getRandomBytes(32),
     };
     var testKey = {
-        pubKey: textsecure.crypto.getRandomBytes(33),
-        privKey: textsecure.crypto.getRandomBytes(32),
+        pubKey: libsignal.crypto.getRandomBytes(33),
+        privKey: libsignal.crypto.getRandomBytes(32),
     };
     describe('getLocalRegistrationId', function() {
         it('retrieves my registration id', function(done) {
@@ -44,7 +44,7 @@ describe("SignalProtocolStore", function() {
             }).then(done,done);
         });
         it('rejects on key change', function(done) {
-            var newIdentity = textsecure.crypto.getRandomBytes(33);
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 store.saveIdentity(identifier, newIdentity).then(function() {
                     done(new Error('Allowed to overwrite identity key'));
@@ -68,7 +68,7 @@ describe("SignalProtocolStore", function() {
             });
         });
         it('returns false if a key is untrusted', function(done) {
-            var newIdentity = textsecure.crypto.getRandomBytes(33);
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
                     if (trusted) {

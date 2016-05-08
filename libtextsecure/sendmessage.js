@@ -104,9 +104,9 @@ MessageSender.prototype = {
             return Promise.resolve(undefined);
         }
         var proto = new textsecure.protobuf.AttachmentPointer();
-        proto.key = textsecure.crypto.getRandomBytes(64);
+        proto.key = libsignal.crypto.getRandomBytes(64);
 
-        var iv = textsecure.crypto.getRandomBytes(16);
+        var iv = libsignal.crypto.getRandomBytes(16);
         return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
             return this.server.putAttachment(encryptedBin).then(function(id) {
                 proto.id = id;
