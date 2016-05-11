@@ -55,6 +55,10 @@
         "message": "Delete Messages",
         "description": "Menu item for deleting messages, title case."
     },
+    "incomingError": {
+        "message": "Error handling incoming message.",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Изберете контакт или група за да започнете разговор.",
         "description": ""
@@ -98,6 +102,10 @@
     "from": {
         "message": "От",
         "description": "Label for the sender of a message"
+    },
+    "deleteConversationConfirmation": {
+        "message": "Permanently delete this conversation?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
         "message": "Съобщенията ще бъдат публикувани онлайн за да бъдат прегледани от сътрудниците. Може да ги разгледате и редактирате преди да ги изпратите.",

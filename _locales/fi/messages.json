@@ -55,6 +55,10 @@
         "message": "Poista viestit",
         "description": "Menu item for deleting messages, title case."
     },
+    "incomingError": {
+        "message": "Virhe saapuvan viestin käsittelyssä.",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Aloita keskustelu valitsemalla jokin yhteystieto tai ryhmä",
         "description": ""
@@ -98,6 +102,10 @@
     "from": {
         "message": "Lähettäjä",
         "description": "Label for the sender of a message"
+    },
+    "deleteConversationConfirmation": {
+        "message": "Poista tämä keskustelu pysyvästi?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
         "message": "Tämä loki tullaan julkaisemaan verkossa, jotta kehittäjät ja muut voivat tarkastella sitä. Voit esikatsella ja muokata lokia vielä ennen kuin lähetät sen.",

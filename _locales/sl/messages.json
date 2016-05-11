@@ -55,6 +55,10 @@
         "message": "Izbriši sporočila",
         "description": "Menu item for deleting messages, title case."
     },
+    "incomingError": {
+        "message": "Napaka pri obdelavi dohodnega sporočila.",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Izberite osebo ali skupino in začnite s pogovorom.",
         "description": ""
@@ -98,6 +102,10 @@
     "from": {
         "message": "Pošiljatelj",
         "description": "Label for the sender of a message"
+    },
+    "deleteConversationConfirmation": {
+        "message": "Ali res želite nepovratno izbrisati ta pogovor?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
         "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",

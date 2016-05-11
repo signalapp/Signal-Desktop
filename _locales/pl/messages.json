@@ -55,6 +55,10 @@
         "message": "Usuń Wiadomości",
         "description": "Menu item for deleting messages, title case."
     },
+    "incomingError": {
+        "message": "Error handling incoming message.",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Wybierz kontakt lub grupę aby zacząć rozmowę.",
         "description": ""
@@ -98,6 +102,10 @@
     "from": {
         "message": "Od",
         "description": "Label for the sender of a message"
+    },
+    "deleteConversationConfirmation": {
+        "message": "Permanently delete this conversation?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
         "message": "Ten log będzie wysłany publicznie dla współpracowników. Możesz go sprawdzić i edytować przed wysłaniem",

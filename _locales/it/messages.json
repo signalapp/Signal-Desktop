@@ -55,6 +55,10 @@
         "message": "Cancella messaggi",
         "description": "Menu item for deleting messages, title case."
     },
+    "incomingError": {
+        "message": "Errore in gestione messaggio in arrivo.",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
         "description": ""
@@ -98,6 +102,10 @@
     "from": {
         "message": "Da",
         "description": "Label for the sender of a message"
+    },
+    "deleteConversationConfirmation": {
+        "message": "Rimuovere definitivamente la conversazione?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
         "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo. ",
@@ -186,7 +194,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Apri Signal sul tuo telefono e via su Impostazioni > Dispositivi collegati. Premi il bottone per aggiungere un nuovo dispositivo e poi fai lo scan del codice in alto.",
+        "message": "Apri Signal sul tuo telefono e vai su Impostazioni > Dispositivi collegati. Premi il bottone per aggiungere un nuovo dispositivo e poi fai lo scan del codice in alto.",
         "description": ""
     },
     "installWelcome": {
