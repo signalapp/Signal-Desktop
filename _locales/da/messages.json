@@ -56,7 +56,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Fejl i forbindelse med indgående besked.",
         "description": ""
     },
     "selectAContact": {
@@ -104,7 +104,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Slet samtale permanent?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -178,7 +178,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Mediebesked",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
@@ -194,7 +194,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Åbn Signal på din telefon og naviger til Indstillinger > Enheder. Klik for at tilføje en ny enhed og scan ovenstående kode.",
         "description": ""
     },
     "installWelcome": {
@@ -288,7 +288,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Denne kontakt bruger en ny Signal identitet. Dette kan være fordi nogen prøver at opfange jeres kommunikation, eller bare fordi denne kontakt geninstallerede Signal. Du kan verificere deres nye identitet forneden.",
         "description": ""
     },
     "submitDebugLog": {
