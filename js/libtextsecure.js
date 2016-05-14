@@ -38485,9 +38485,8 @@ OutgoingMessage.prototype = {
         var handleResult = function(response) {
             return Promise.all(response.devices.map(function(device) {
                 device.identityKey = response.identityKey;
-                device.encodedNumber = number + "." + device.deviceId;
                 if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
-                    var address = libsignal.SignalProtocolAddress.fromString(device.encodedNumber);
+                    var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
                     var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
                     return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
