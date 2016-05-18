@@ -114,7 +114,7 @@ MessageReceiver.prototype.extend({
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-                promise = sessionCipher.decryptWhisperMessage(ciphertext.toArrayBuffer());
+                promise = sessionCipher.decryptWhisperMessage(ciphertext);
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 console.log('prekey whisper message');
@@ -132,16 +132,8 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     decryptPreKeyWhisperMessage: function(ciphertext, sessionCipher, address) {
-        ciphertext.mark();
-        var version = ciphertext.readUint8();
-        if ((version & 0xF) > 3 || (version >> 4) < 3) {
-            // min version > 3 or max version < 3
-            throw new Error("Incompatible version byte");
-        }
         return sessionCipher.decryptPreKeyWhisperMessage(ciphertext).catch(function(e) {
             if (e.message === 'Unknown identity key') {
-                ciphertext.reset(); // restore the version byte.
-
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate
                 throw new textsecure.IncomingIdentityKeyError(
@@ -324,8 +316,7 @@ MessageReceiver.prototype.extend({
         then(decryptAttachment).
         then(updateAttachment);
     },
-    tryMessageAgain: function(from, encodedMessage) {
-        var ciphertext = dcodeIO.ByteBuffer.wrap(encodedMessage);
+    tryMessageAgain: function(from, ciphertext) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         console.log('retrying prekey whisper message');

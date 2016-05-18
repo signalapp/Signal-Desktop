@@ -36060,10 +36060,11 @@ SessionCipher.prototype = {
           return Internal.SessionRecord.deserialize(serialized);
       });
   },
-  encrypt: function(plaintext) {
+  encrypt: function(buffer, encoding) {
+    buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding).toArrayBuffer();
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
-      if (!(plaintext instanceof ArrayBuffer)) {
-          throw new Error("Expected plaintext to be an ArrayBuffer");
+      if (!(buffer instanceof ArrayBuffer)) {
+          throw new Error("Expected buffer to be an ArrayBuffer");
       }
 
       var address = this.remoteAddress.toString();
@@ -36071,10 +36072,10 @@ SessionCipher.prototype = {
 
       var msg = new Internal.protobuf.WhisperMessage();
       var paddedPlaintext = new Uint8Array(
-          this.getPaddedMessageLength(plaintext.byteLength + 1) - 1
+          this.getPaddedMessageLength(buffer.byteLength + 1) - 1
       );
-      paddedPlaintext.set(new Uint8Array(plaintext));
-      paddedPlaintext[plaintext.byteLength] = 0x80;
+      paddedPlaintext.set(new Uint8Array(buffer));
+      paddedPlaintext[buffer.byteLength] = 0x80;
 
       return Promise.all([
           this.storage.getIdentityKeyPair(),
@@ -36160,18 +36161,19 @@ SessionCipher.prototype = {
 
     return messagePartCount * 160;
   },
-  decryptWhisperMessage: function(messageBytes) {
+  decryptWhisperMessage: function(buffer, encoding) {
+      buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding).toArrayBuffer();
       return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
         var address = this.remoteAddress.toString();
         return this.getRecord(address).then(function(record) {
             if (!record) {
                 throw new Error("No record for device " + address);
             }
-            var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
+            var messageProto = buffer.slice(1, buffer.byteLength - 8);
             var message = Internal.protobuf.WhisperMessage.decode(messageProto);
             var remoteEphemeralKey = message.ephemeralKey.toArrayBuffer();
             var session = record.getSessionByRemoteEphemeralKey(remoteEphemeralKey);
-            return this.doDecryptWhisperMessage(util.toArrayBuffer(messageBytes), session).then(function(plaintext) {
+            return this.doDecryptWhisperMessage(buffer, session).then(function(plaintext) {
                 record.updateSessionState(session);
                 return this.storage.storeSession(address, record.serialize()).then(function() {
                     return plaintext;
@@ -36180,11 +36182,16 @@ SessionCipher.prototype = {
         }.bind(this));
       }.bind(this));
   },
-  decryptPreKeyWhisperMessage: function(encodedMessage, encoding) {
+  decryptPreKeyWhisperMessage: function(buffer, encoding) {
+      buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding);
+      var version = buffer.readUint8();
+      if ((version & 0xF) > 3 || (version >> 4) < 3) {  // min version > 3 or max version < 3
+          throw new Error("Incompatible version number on PreKeyWhisperMessage");
+      }
       return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
           var address = this.remoteAddress.toString();
           return this.getRecord(address).then(function(record) {
-              var preKeyProto = Internal.protobuf.PreKeyWhisperMessage.decode(encodedMessage, encoding);
+              var preKeyProto = Internal.protobuf.PreKeyWhisperMessage.decode(buffer);
               if (!record) {
                   if (preKeyProto.registrationId === undefined) {
                       throw new Error("No registrationId");
@@ -36218,8 +36225,8 @@ SessionCipher.prototype = {
         throw new Error("Expected messageBytes to be an ArrayBuffer");
     }
     var version = (new Uint8Array(messageBytes))[0];
-    if (version !== ((3 << 4) | 3)) {
-        throw new Error("Bad version number on WhisperMessage");
+    if ((version & 0xF) > 3 || (version >> 4) < 3) {  // min version > 3 or max version < 3
+        throw new Error("Incompatible version number on WhisperMessage");
     }
     var messageProto = messageBytes.slice(1, messageBytes.byteLength- 8);
     var mac = messageBytes.slice(messageBytes.byteLength - 8, messageBytes.byteLength);
