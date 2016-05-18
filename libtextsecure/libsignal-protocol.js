@@ -1,4 +1,6 @@
 ;(function(){
+var Internal = {};
+window.libsignal = {};
 // The Module object: Our interface to the outside world. We import
 // and export values on it, and do the work to get that through
 // closure compiler if necessary. There are various ways Module can be used:
@@ -25148,7 +25150,7 @@ run();
  */
 var Internal = Internal || {};
 
-Internal.curve25519 = function() {
+(function() {
     'use strict';
 
     // Insert some bytes into the emscripten memory and return a pointer
@@ -25166,38 +25168,35 @@ Internal.curve25519 = function() {
     var basepoint = new Uint8Array(32);
     basepoint[0] = 9;
 
-    return {
+    Internal.curve25519 = {
         keyPair: function(privKey) {
-            return new Promise(function(resolve) {
-                var priv = new Uint8Array(privKey);
-                priv[0]  &= 248;
-                priv[31] &= 127;
-                priv[31] |= 64
+            var priv = new Uint8Array(privKey);
+            priv[0]  &= 248;
+            priv[31] &= 127;
+            priv[31] |= 64
 
-                // Where to store the result
-                var publicKey_ptr = Module._malloc(32);
+            // Where to store the result
+            var publicKey_ptr = Module._malloc(32);
 
-                // Get a pointer to the private key
-                var privateKey_ptr = _allocate(priv);
+            // Get a pointer to the private key
+            var privateKey_ptr = _allocate(priv);
 
-                // The basepoint for generating public keys
-                var basepoint_ptr = _allocate(basepoint);
+            // The basepoint for generating public keys
+            var basepoint_ptr = _allocate(basepoint);
 
-                // The return value is just 0, the operation is done in place
-                var err = Module._curve25519_donna(publicKey_ptr,
-                                                privateKey_ptr,
-                                                basepoint_ptr);
+            // The return value is just 0, the operation is done in place
+            var err = Module._curve25519_donna(publicKey_ptr,
+                                            privateKey_ptr,
+                                            basepoint_ptr);
 
-                var res = new Uint8Array(32);
-                _readBytes(publicKey_ptr, 32, res);
+            var res = new Uint8Array(32);
+            _readBytes(publicKey_ptr, 32, res);
 
-                Module._free(publicKey_ptr);
-                Module._free(privateKey_ptr);
-                Module._free(basepoint_ptr);
+            Module._free(publicKey_ptr);
+            Module._free(privateKey_ptr);
+            Module._free(basepoint_ptr);
 
-                resolve({ pubKey: res.buffer, privKey: privKey });
-            });
-
+            return { pubKey: res.buffer, privKey: priv.buffer };
         },
         sharedSecret: function(pubKey, privKey) {
             // Where to store the result
@@ -25222,7 +25221,7 @@ Internal.curve25519 = function() {
             Module._free(privateKey_ptr);
             Module._free(basepoint_ptr);
 
-            return Promise.resolve(res.buffer);
+            return res.buffer;
         },
         sign: function(privKey, message) {
             // Where to store the result
@@ -25246,7 +25245,7 @@ Internal.curve25519 = function() {
             Module._free(privateKey_ptr);
             Module._free(message_ptr);
 
-            return Promise.resolve(res.buffer);
+            return res.buffer;
         },
         verify: function(pubKey, message, sig) {
             // Get a pointer to their public key
@@ -25267,36 +25266,55 @@ Internal.curve25519 = function() {
             Module._free(signature_ptr);
             Module._free(message_ptr);
 
+            return res !== 0;
+        }
+    };
+
+    Internal.curve25519_async = {
+        keyPair: function(privKey) {
+            return new Promise(function(resolve) {
+                resolve(Internal.curve25519.keyPair(privKey));
+            });
+        },
+        sharedSecret: function(pubKey, privKey) {
+            return new Promise(function(resolve) {
+                resolve(Internal.curve25519.sharedSecret(pubKey, privKey));
+            });
+        },
+        sign: function(privKey, message) {
+            return new Promise(function(resolve) {
+                resolve(Internal.curve25519.sign(privKey, message));
+            });
+        },
+        verify: function(pubKey, message, sig) {
             return new Promise(function(resolve, reject) {
-                if (res !== 0) {
+                if (Internal.curve25519.verify(pubKey, message, sig)) {
                     reject(new Error("Invalid signature"));
                 } else {
                     resolve();
                 }
             });
-        }
+        },
     };
-}();
+
+})();
 
 ;(function() {
 
 'use strict';
-window.libsignal = window.libsignal || {};
-
-var Internal = Internal || {};
 
 // I am the...workee?
-var origCurve25519 = Internal.curve25519;
+var origCurve25519 = Internal.curve25519_async;
 
 Internal.startWorker = function(url) {
     Internal.stopWorker(); // there can be only one
-    Internal.curve25519 = new Curve25519Worker(url);
+    Internal.curve25519_async = new Curve25519Worker(url);
 };
 
 Internal.stopWorker = function() {
-    if (Internal.curve25519 instanceof Curve25519Worker) {
-        var worker = Internal.curve25519.worker;
-        Internal.curve25519 = origCurve25519;
+    if (Internal.curve25519_async instanceof Curve25519Worker) {
+        var worker = Internal.curve25519_async.worker;
+        Internal.curve25519_async = origCurve25519;
         worker.terminate();
     }
 };
@@ -35094,6 +35112,116 @@ Curve25519Worker.prototype = {
     return ProtoBuf;
 });
 
+(function() {
+    'use strict';
+
+    function validatePrivKey(privKey) {
+        if (privKey === undefined || !(privKey instanceof ArrayBuffer) || privKey.byteLength != 32) {
+            throw new Error("Invalid private key");
+        }
+    }
+    function validatePubKeyFormat(pubKey) {
+        if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32)) {
+            throw new Error("Invalid public key");
+        }
+        if (pubKey.byteLength == 33) {
+            return pubKey.slice(1);
+        } else {
+            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
+            return pubKey;
+        }
+    }
+
+    function processKeys(raw_keys) {
+        // prepend version byte
+        var origPub = new Uint8Array(raw_keys.pubKey);
+        var pub = new Uint8Array(33);
+        pub.set(origPub, 1);
+        pub[0] = 5;
+
+        return { pubKey: pub.buffer, privKey: raw_keys.privKey };
+    }
+
+    function wrapCurve25519(curve25519) {
+        return {
+            // Curve 25519 crypto
+            createKeyPair: function(privKey) {
+                validatePrivKey(privKey);
+                var raw_keys = curve25519.keyPair(privKey);
+                if (raw_keys instanceof Promise) {
+                    return raw_keys.then(processKeys);
+                } else {
+                    return processKeys(raw_keys);
+                }
+            },
+            ECDHE: function(pubKey, privKey) {
+                pubKey = validatePubKeyFormat(pubKey);
+                validatePrivKey(privKey);
+
+                if (pubKey === undefined || pubKey.byteLength != 32) {
+                    throw new Error("Invalid public key");
+                }
+
+                return curve25519.sharedSecret(pubKey, privKey);
+            },
+            Ed25519Sign: function(privKey, message) {
+                validatePrivKey(privKey);
+
+                if (message === undefined) {
+                    throw new Error("Invalid message");
+                }
+
+                return curve25519.sign(privKey, message);
+            },
+            Ed25519Verify: function(pubKey, msg, sig) {
+                pubKey = validatePubKeyFormat(pubKey);
+
+                if (pubKey === undefined || pubKey.byteLength != 32) {
+                    throw new Error("Invalid public key");
+                }
+
+                if (msg === undefined) {
+                    throw new Error("Invalid message");
+                }
+
+                if (sig === undefined || sig.byteLength != 64) {
+                    throw new Error("Invalid signature");
+                }
+
+                return curve25519.verify(pubKey, msg, sig);
+            }
+        };
+    };
+
+    Internal.Curve       = wrapCurve25519(Internal.curve25519);
+    Internal.Curve.async = wrapCurve25519(Internal.curve25519_async);
+
+    function wrapCurve(curve) {
+        return {
+            generateKeyPair: function() {
+                var privKey = Internal.crypto.getRandomBytes(32);
+                return curve.createKeyPair(privKey);
+            },
+            createKeyPair: function(privKey) {
+                return curve.createKeyPair(privKey);
+            },
+            calculateAgreement: function(pubKey, privKey) {
+                return curve.ECDHE(pubKey, privKey);
+            },
+            verifySignature: function(pubKey, msg, sig) {
+                return curve.Ed25519Verify(pubKey, msg, sig);
+            },
+            calculateSignature: function(privKey, message) {
+                return curve.Ed25519Sign(privKey, message);
+            }
+        };
+    }
+
+    libsignal.Curve       = wrapCurve(Internal.Curve);
+    libsignal.Curve.async = wrapCurve(Internal.Curve.async);
+
+})();
+
 /* vim: ts=4:sw=4
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35118,19 +35246,6 @@ var Internal = Internal || {};
 
     if (!crypto || !crypto.subtle || typeof crypto.getRandomValues !== 'function') {
         throw new Error('WebCrypto not found');
-    }
-
-
-    function validatePubKeyFormat(pubKey) {
-        if (pubKey === undefined || ((pubKey.byteLength != 33 || new Uint8Array(pubKey)[0] != 5) && pubKey.byteLength != 32)) {
-            throw new Error("Invalid public key");
-        }
-        if (pubKey.byteLength == 33) {
-            return pubKey.slice(1);
-        } else {
-            console.error("WARNING: Expected pubkey of length 33, please report the ST and client that generated the pubkey");
-            return pubKey;
-        }
     }
 
     Internal.crypto = {
@@ -35182,61 +35297,19 @@ var Internal = Internal || {};
             if (privKey === undefined) {
                 privKey = Internal.crypto.getRandomBytes(32);
             }
-            if (privKey.byteLength != 32) {
-                throw new Error("Invalid private key");
-            }
-
-            return Internal.curve25519.keyPair(privKey).then(function(raw_keys) {
-                // prepend version byte
-                var origPub = new Uint8Array(raw_keys.pubKey);
-                var pub = new Uint8Array(33);
-                pub.set(origPub, 1);
-                pub[0] = 5;
-
-                return { pubKey: pub.buffer, privKey: raw_keys.privKey };
-            });
+            return Internal.Curve.async.createKeyPair(privKey);
         },
         ECDHE: function(pubKey, privKey) {
-            pubKey = validatePubKeyFormat(pubKey);
-            if (privKey === undefined || privKey.byteLength != 32) {
-                throw new Error("Invalid private key");
-            }
-
-            if (pubKey === undefined || pubKey.byteLength != 32) {
-                throw new Error("Invalid public key");
-            }
-
-            return Internal.curve25519.sharedSecret(pubKey, privKey);
+            return Internal.Curve.async.ECDHE(pubKey, privKey);
         },
         Ed25519Sign: function(privKey, message) {
-            if (privKey === undefined || privKey.byteLength != 32) {
-                throw new Error("Invalid private key");
-            }
-
-            if (message === undefined) {
-                throw new Error("Invalid message");
-            }
-
-            return Internal.curve25519.sign(privKey, message);
+            return Internal.Curve.async.Ed25519Sign(privKey, message);
         },
         Ed25519Verify: function(pubKey, msg, sig) {
-            pubKey = validatePubKeyFormat(pubKey);
-
-            if (pubKey === undefined || pubKey.byteLength != 32) {
-                throw new Error("Invalid public key");
-            }
-
-            if (msg === undefined) {
-                throw new Error("Invalid message");
-            }
-
-            if (sig === undefined || sig.byteLength != 64) {
-                throw new Error("Invalid signature");
-            }
-
-            return Internal.curve25519.verify(pubKey, msg, sig);
+            return Internal.Curve.async.Ed25519Verify(pubKey, msg, sig);
         }
     };
+
 
     // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
     Internal.HKDF = function(input, salt, info) {
@@ -35262,24 +35335,6 @@ var Internal = Internal || {};
                 throw new Error("Bad MAC");
             }
         });
-    };
-
-    libsignal.Curve = {
-        generateKeyPair: function() {
-            return Internal.crypto.createKeyPair();
-        },
-        createKeyPair: function(privKey) {
-            return Internal.crypto.createKeyPair(privKey);
-        },
-        calculateAgreement: function(pubKey, privKey) {
-            return Internal.crypto.ECDHE(pubKey, privKey);
-        },
-        verifySignature: function(pubKey, msg, sig) {
-            return Internal.crypto.Ed25519Verify(pubKey, msg, sig);
-        },
-        calculateSignature: function(privKey, message) {
-            return Internal.crypto.Ed25519Sign(privKey, message);
-        },
     };
 
     libsignal.HKDF = {
@@ -35781,8 +35836,8 @@ Internal.SessionRecord = function() {
                         oldestSession = session;
                     }
                 }
-                console.log("Deleting session closed at", session.indexInfo.closed);
-                delete this.sessions[util.toString(oldestBaseKey)];
+                console.log("Deleting session closed at", oldestSession.indexInfo.closed);
+                delete sessions[util.toString(oldestBaseKey)];
             }
         },
     };
@@ -36422,7 +36477,7 @@ SessionCipher.prototype = {
 libsignal.SessionCipher = function(storage, remoteAddress) {
     var cipher = new SessionCipher(storage, remoteAddress);
 
-    // returns a Promise that resolves to a ciphertext array buffer
+    // returns a Promise that resolves to a ciphertext object
     this.encrypt = cipher.encrypt.bind(cipher);
 
     // returns a Promise that inits a session if necessary and resolves
