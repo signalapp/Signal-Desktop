@@ -192,15 +192,13 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleLegacyMessage: function (envelope) {
-        return this.decrypt(envelope, envelope.legacyMessage).then(function(result) {
-            var plaintext = result[0]; // array buffer
+        return this.decrypt(envelope, envelope.legacyMessage).then(function(plaintext) {
             var message = textsecure.protobuf.DataMessage.decode(plaintext);
             return this.handleDataMessage(envelope, message);
         }.bind(this));
     },
     handleContentMessage: function (envelope) {
-        return this.decrypt(envelope, envelope.content).then(function(result) {
-            var plaintext = result[0]; // array buffer
+        return this.decrypt(envelope, envelope.content).then(function(plaintext) {
             var content = textsecure.protobuf.Content.decode(plaintext);
             if (content.syncMessage) {
                 return this.handleSyncMessage(envelope, content.syncMessage);
@@ -331,8 +329,8 @@ MessageReceiver.prototype.extend({
         var address = libsignal.SignalProtocolAddress.fromString(from);
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         console.log('retrying prekey whisper message');
-        return this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address).then(function(res) {
-            var finalMessage = textsecure.protobuf.DataMessage.decode(res[0]);
+        return this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address).then(function(plaintext) {
+            var finalMessage = textsecure.protobuf.DataMessage.decode(plaintext);
 
             var p = Promise.resolve();
             if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
