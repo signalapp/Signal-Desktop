@@ -37164,7 +37164,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                 disconnect : opts.keepalive.disconnect
             });
             var resetKeepAliveTimer = keepalive.reset.bind(keepalive);
-            socket.addEventListener('connect', resetKeepAliveTimer);
+            socket.addEventListener('open', resetKeepAliveTimer);
             socket.addEventListener('message', resetKeepAliveTimer);
             socket.addEventListener('close', keepalive.stop.bind(keepalive));
         }
