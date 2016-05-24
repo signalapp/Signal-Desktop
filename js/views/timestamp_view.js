@@ -29,11 +29,6 @@
             if (this.delay) {
                 if (this.delay < 0) { this.delay = 1000; }
                 this.timeout = setTimeout(this.update.bind(this), this.delay);
-                console.log('ts', timestamp.valueOf(), result,
-                    timestamp.format('YYYY-MM-DD HH:mm:ss.SSS'),
-                    'next update at',
-                    moment().add(this.delay, 'ms').format('YYYY-MM-DD HH:mm:ss.SSS')
-                );
             }
         },
         clearTimeout: function() {
