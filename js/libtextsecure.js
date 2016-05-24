@@ -38514,7 +38514,7 @@ OutgoingMessage.prototype = {
         }
     },
     registerError: function(number, reason, error) {
-        if (!error || error.name === 'HTTPError') {
+        if (!error || error.name === 'HTTPError' && error.code !== 404) {
             error = new textsecure.OutgoingMessageError(number, this.message.toArrayBuffer(), this.timestamp, error);
         }
 
@@ -38570,7 +38570,7 @@ OutgoingMessage.prototype = {
 
     transmitMessage: function(number, jsonData, timestamp) {
         return this.server.sendMessages(number, jsonData, timestamp).catch(function(e) {
-            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+            if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410 && e.code !== 404)) {
                 // 409 and 410 should bubble and be handled by doSendMessage
                 // all other network errors can be retried later.
                 throw new textsecure.SendMessageNetworkError(number, jsonData, e, timestamp);
