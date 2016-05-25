@@ -101,7 +101,17 @@
     MessageError.prototype = new ReplayableError();
     MessageError.prototype.constructor = MessageError;
 
+    function UnregisteredUserError(number, httpError) {
+        this.name = 'UnregisteredUserError';
+        this.number = number;
+        this.code = httpError.code;
+        this.message = httpError.message;
+        this.stack = httpError.stack;
+    }
+    UnregisteredUserError.prototype = new Error();
+    UnregisteredUserError.prototype.constructor = UnregisteredUserError;
 
+    window.textsecure.UnregisteredUserError = UnregisteredUserError;
     window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
     window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
     window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
