@@ -229,6 +229,12 @@ li.entry .error-icon-container {
 
 }
 
+.group {
+  li.entry .unregistered-user-error {
+    display: none;
+  }
+}
+
 
 .group-update {
   font-size: smaller;
