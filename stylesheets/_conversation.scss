@@ -181,6 +181,11 @@
     border: solid 1px #ccc;
   }
 }
+.message-list {
+  .error-icon {
+    cursor: pointer;
+  }
+}
 li.entry .error-icon-container {
   position: absolute;
   top: 0;
@@ -188,7 +193,6 @@ li.entry .error-icon-container {
   height: 100%;
 
   .error-icon {
-    cursor: pointer;
     display: block;
     height: 100%;
   }
