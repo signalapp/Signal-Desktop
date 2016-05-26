@@ -1057,6 +1057,7 @@ li.entry .error-icon-container {
     opacity: 0.8; }
   .message-container .bubble .content.error-message,
   .message-list .bubble .content.error-message {
+    cursor: pointer;
     font-style: italic; }
   .message-container .key-conflict,
   .message-list .key-conflict {

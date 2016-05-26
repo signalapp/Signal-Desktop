@@ -48,7 +48,7 @@
             'click .error-icon': 'select',
             'click .timestamp': 'select',
             'click .status': 'select',
-            'click .error': 'select'
+            'click .error-message': 'select'
         },
         retryMessage: function() {
             var retrys = _.filter(this.model.get('errors'), function(e) {
