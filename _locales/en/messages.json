@@ -280,5 +280,9 @@
     "mediaMessage": {
         "message": "Media message",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unregisteredUser": {
+        "message": "Number is not registered",
+        "description": "Error message displayed when sending to an unregistered user."
     }
 }

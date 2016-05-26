@@ -11,7 +11,12 @@
         templateName: 'error-icon',
         className: 'error-icon-container',
         render_attributes: function() {
-            return { message: this.model && this.model.message };
+            var message;
+            if (this.model.name === 'UnregisteredUserError') {
+                message = i18n('unregisteredUser');
+                this.$el.addClass('unregistered-user-error');
+            }
+            return { message: message };
         }
     });
     var NetworkErrorView = Whisper.View.extend({
