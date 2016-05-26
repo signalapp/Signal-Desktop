@@ -359,16 +359,6 @@ li.entry .error-icon-container {
     background: none;
     &:before { content: '...'; }
   }
-  .error .status {
-    position: relative;
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    opacity: 1 !important;
-    background: url('/images/error_red.png') center no-repeat;
-    cursor: pointer;
-    -webkit-mask: none;
-  }
 
   .incoming {
     .avatar, .bubble {
