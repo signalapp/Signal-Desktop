@@ -405,13 +405,20 @@
         return textsecure.storage.protocol.removeIdentityKey(number).then(function() {
             return textsecure.storage.protocol.saveIdentity(number, identityKey).then(function() {
                 var promise = Promise.resolve();
-                this.messageCollection.each(function(message) {
-                    if (message.hasKeyConflict(number)) {
-                        var resolveConflict = function() {
-                            return message.resolveConflict(number);
-                        };
-                        promise = promise.then(resolveConflict, resolveConflict);
-                    }
+                var conflicts = this.messageCollection.filter(function(message) {
+                    return message.hasKeyConflict(number);
+                });
+                // group incoming & outgoing
+                conflicts = _.groupBy(conflicts, function(m) { return m.get('type'); });
+                // sort each group by date and concatenate outgoing after incoming
+                conflicts = _.flatten([
+                    _.sortBy(conflicts.incoming, function(m) { return m.get('received_at'); }),
+                    _.sortBy(conflicts.outgoing, function(m) { return m.get('received_at'); }),
+                ]).forEach(function(message) {
+                    var resolveConflict = function() {
+                        return message.resolveConflict(number);
+                    };
+                    promise = promise.then(resolveConflict, resolveConflict);
                 });
                 return promise;
             }.bind(this));
