@@ -69,7 +69,13 @@ OutgoingMessage.prototype = {
             var promise = Promise.resolve();
             updateDevices.forEach(function(device) {
                 promise = promise.then(function() {
-                    return this.server.getKeysForNumber(number, device).then(handleResult);
+                    return this.server.getKeysForNumber(number, device).then(handleResult).catch(function(e) {
+                        if (e.name === 'HTTPError' && e.code === 404 && device !== 1) {
+                            return this.removeDeviceIdsForNumber(number, [device]);
+                        } else {
+                            throw e;
+                        }
+                    }.bind(this));
                 }.bind(this));
             }.bind(this));
 
