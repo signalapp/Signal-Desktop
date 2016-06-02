@@ -142,6 +142,9 @@
             var escaped = content.html();
             content.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));
 
+            // Add auto direction attribute to message container to suppurt RTL languages
+            content.attr("dir", "auto");
+            
             this.renderSent();
             this.renderDelivered();
             this.renderErrors();
