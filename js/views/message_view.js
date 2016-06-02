@@ -144,7 +144,7 @@
 
             // Add auto direction attribute to message container to suppurt RTL languages
             content.attr("dir", "auto");
-            
+
             this.renderSent();
             this.renderDelivered();
             this.renderErrors();
