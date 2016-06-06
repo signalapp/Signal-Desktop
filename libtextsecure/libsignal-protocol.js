@@ -25133,21 +25133,7 @@ run();
 
 
 
-/* vim: ts=4:sw=4:expandtab
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+/* vim: ts=4:sw=4:expandtab */
 var Internal = Internal || {};
 
 (function() {
@@ -25173,7 +25159,7 @@ var Internal = Internal || {};
             var priv = new Uint8Array(privKey);
             priv[0]  &= 248;
             priv[31] &= 127;
-            priv[31] |= 64
+            priv[31] |= 64;
 
             // Where to store the result
             var publicKey_ptr = Module._malloc(32);
@@ -35191,7 +35177,7 @@ Curve25519Worker.prototype = {
                 return curve25519.verify(pubKey, msg, sig);
             }
         };
-    };
+    }
 
     Internal.Curve       = wrapCurve25519(Internal.curve25519);
     Internal.Curve.async = wrapCurve25519(Internal.curve25519_async);
@@ -35222,21 +35208,8 @@ Curve25519Worker.prototype = {
 
 })();
 
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+/* vim: ts=4:sw=4 */
+
 var Internal = Internal || {};
 
 (function() {
@@ -35363,63 +35336,21 @@ var Internal = Internal || {};
 
 })();
 
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * vim: ts=4:sw=4
  */
 
 var util = (function() {
     'use strict';
 
-    var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
-    var StaticUint8ArrayProto = new Uint8Array().__proto__;
-
-    function stringObject(thing) {
-        if (typeof thing === 'string') {
-            return thing;
-        }
-        if (thing === Object(thing)) {
-            if (thing.__proto__ == StaticUint8ArrayProto) {
-                return String.fromCharCode.apply(null, thing);
-            }
-            if (thing.__proto__ == StaticArrayBufferProto) {
-                return stringObject(new Uint8Array(thing));
-            }
-            if (thing.__proto__ == StaticByteBufferProto) {
-                return thing.toString('binary');
-            }
-        }
-        throw new Error('unsure how to stringify object of type ' + typeof thing);
-    }
 
     return {
         toString: function(thing) {
             if (typeof thing == 'string') {
                 return thing;
-            } else if (util.isStringable(thing)) {
-                return util.stringObject(thing);
-            } else {
-                throw new Error("Unsure how to convert object to string from type " + typeof thing);
             }
-        },
-        stringObject: stringObject,
-        isStringable: function (thing) {
-            return (thing === Object(thing) &&
-                    (thing.__proto__ == StaticArrayBufferProto ||
-                        thing.__proto__ == StaticUint8ArrayProto ||
-                        thing.__proto__ == StaticByteBufferProto));
+            return new dcodeIO.ByteBuffer.wrap(thing).toString('binary');
         },
         toArrayBuffer: function(thing) {
             if (thing === undefined) {
@@ -35429,42 +35360,23 @@ var util = (function() {
                 if (thing.__proto__ == StaticArrayBufferProto) {
                     return thing;
                 }
-                //TODO: Several more cases here...
-            }
-
-            if (thing instanceof Array) {
-                // Assuming Uint16Array from curve25519
-                //TODO: Move to convertToArrayBuffer
-                var res = new ArrayBuffer(thing.length * 2);
-                var uint = new Uint16Array(res);
-                for (var i = 0; i < thing.length; i++) {
-                    uint[i] = thing[i];
-                }
-                return res;
             }
 
             var str;
-            if (util.isStringable(thing)) {
-                str = util.stringObject(thing);
-            } else if (typeof thing == "string") {
+            if (typeof thing == "string") {
                 str = thing;
             } else {
-                throw new Error("Tried to convert a non-stringable thing of type " + typeof thing + " to an array buffer");
+                throw new Error("Tried to convert a non-string of type " + typeof thing + " to an array buffer");
             }
-            var res = new ArrayBuffer(str.length);
-            var uint = new Uint8Array(res);
-            for (var i = 0; i < str.length; i++) {
-                uint[i] = str.charCodeAt(i);
-            }
-            return res;
+            return new dcodeIO.ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
         },
         isEqual: function(a, b) {
             // TODO: Special-case arraybuffers, etc
             if (a === undefined || b === undefined) {
                 return false;
             }
-            a = stringObject(a);
-            b = stringObject(b);
+            a = util.toString(a);
+            b = util.toString(b);
             var maxLength = Math.max(a.length, b.length);
             if (maxLength < 5) {
                 throw new Error("a/b compare too short");
@@ -35559,21 +35471,7 @@ Internal.protoText = function() {
 
 	return protoText;
 }();
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+/* vim: ts=4:sw=4 */
 var Internal = Internal || {};
 
 Internal.protobuf = function() {
@@ -35581,7 +35479,7 @@ Internal.protobuf = function() {
 
     function loadProtoBufs(filename) {
         return dcodeIO.ProtoBuf.loadProto(Internal.protoText['protos/' + filename]).build('textsecure');
-    };
+    }
 
     var protocolMessages = loadProtoBufs('WhisperTextProtocol.proto');
 
@@ -35591,44 +35489,50 @@ Internal.protobuf = function() {
     };
 }();
 
-/* vim: ts=4:sw=4
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+/* vim: ts=4:sw=4 */
 
 var Internal = Internal || {};
+
+Internal.BaseKeyType = {
+  OURS: 1,
+  THEIRS: 2
+};
+Internal.ChainType = {
+  SENDING: 1,
+  RECEIVING: 2
+};
 
 Internal.SessionRecord = function() {
     'use strict';
     var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
+
+    var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
+    var StaticArrayBufferProto = new ArrayBuffer().__proto__;
+    var StaticUint8ArrayProto = new Uint8Array().__proto__;
+
+    function isStringable(thing) {
+        return (thing === Object(thing) &&
+                (thing.__proto__ == StaticArrayBufferProto ||
+                    thing.__proto__ == StaticUint8ArrayProto ||
+                    thing.__proto__ == StaticByteBufferProto));
+    }
     function ensureStringed(thing) {
         if (typeof thing == "string" || typeof thing == "number" || typeof thing == "boolean") {
             return thing;
-        } else if (util.isStringable(thing)) {
-            return util.stringObject(thing);
+        } else if (isStringable(thing)) {
+            return util.toString(thing);
         } else if (thing instanceof Array) {
-            var res = [];
+            var array = [];
             for (var i = 0; i < thing.length; i++) {
-                res[i] = ensureStringed(thing[i]);
+                array[i] = ensureStringed(thing[i]);
             }
-            return res;
+            return array;
         } else if (thing === Object(thing)) {
-            var res = {};
+            var obj = {};
             for (var key in thing) {
-                res[key] = ensureStringed(thing[key]);
+                obj[key] = ensureStringed(thing[key]);
             }
-            return res;
+            return obj;
         } else if (thing === null) {
             return null;
         } else {
@@ -35680,19 +35584,12 @@ Internal.SessionRecord = function() {
         },
 
         getSessionByBaseKey: function(baseKey) {
-            return this._sessions[util.toString(baseKey)];
-        },
-        getSessionOrIdentityKeyByBaseKey: function(baseKey) {
-            var preferredSession = this.getSessionByBaseKey(baseKey);
-            if (preferredSession !== undefined) {
-                return preferredSession;
+            var session = this._sessions[util.toString(baseKey)];
+            if (session && session.indexInfo.baseKeyType === Internal.BaseKeyType.OURS) {
+                console.log("Tried to lookup a session using our basekey");
+                return undefined;
             }
-
-            if (this.identityKey !== undefined) {
-                return { indexInfo: { remoteIdentityKey: this.identityKey } };
-            }
-
-            throw new Error("Datastore inconsistency: device was stored without identity key");
+            return session;
         },
         getSessionByRemoteEphemeralKey: function(remoteEphemeralKey) {
             this.detectDuplicateOpenSessions();
@@ -35700,7 +35597,7 @@ Internal.SessionRecord = function() {
 
             var searchKey = util.toString(remoteEphemeralKey);
 
-            var openSession = undefined;
+            var openSession;
             for (var key in sessions) {
                 if (sessions[key].indexInfo.closed == -1) {
                     openSession = sessions[key];
@@ -35731,7 +35628,7 @@ Internal.SessionRecord = function() {
             return undefined;
         },
         detectDuplicateOpenSessions: function() {
-            var openSession = undefined;
+            var openSession;
             var sessions = this._sessions;
             for (var key in sessions) {
                 if (sessions[key].indexInfo.closed == -1) {
@@ -35801,8 +35698,8 @@ Internal.SessionRecord = function() {
                 }
             }
             // Delete current root key and our ephemeral key pair to disallow ratchet stepping
-            delete session.currentRatchet['rootKey'];
-            delete session.currentRatchet['ephemeralKeyPair'];
+            delete session.currentRatchet.rootKey;
+            delete session.currentRatchet.ephemeralKeyPair;
             session.indexInfo.closed = Date.now();
             this.removeOldChains(session);
         },
@@ -36061,6 +35958,7 @@ SessionBuilder.prototype = {
             // otherwise we figure it out when we first maybeStepRatchet with the remote's ephemeral key
             if (isInitiator) {
                 session.indexInfo.baseKey = ourEphemeralKey.pubKey;
+                session.indexInfo.baseKeyType = Internal.BaseKeyType.OURS;
                 return Internal.crypto.createKeyPair().then(function(ourSendingEphemeralKey) {
                     session.currentRatchet.ephemeralKeyPair = ourSendingEphemeralKey;
                     return this.calculateSendingRatchet(session, theirSignedPubKey).then(function() {
@@ -36069,6 +35967,7 @@ SessionBuilder.prototype = {
                 }.bind(this));
             } else {
                 session.indexInfo.baseKey = theirEphemeralPubKey;
+                session.indexInfo.baseKeyType = Internal.BaseKeyType.THEIRS;
                 session.currentRatchet.ephemeralKeyPair = ourSignedKey;
                 return session;
             }
@@ -36087,7 +35986,8 @@ SessionBuilder.prototype = {
       }).then(function(masterKey) {
           session[util.toString(ratchet.ephemeralKeyPair.pubKey)] = {
               messageKeys : {},
-              chainKey    : { counter : -1, key : masterKey[1] }
+              chainKey    : { counter : -1, key : masterKey[1] },
+              chainType   : Internal.ChainType.SENDING
           };
           ratchet.rootKey = masterKey[0];
       });
@@ -36152,6 +36052,9 @@ SessionCipher.prototype = {
               session.currentRatchet.ephemeralKeyPair.pubKey
           );
           chain = session[util.toString(msg.ephemeralKey)];
+          if (chain.chainType === Internal.ChainType.RECEIVING) {
+              throw new Error("Tried to encrypt on a receiving chain");
+          }
 
           return this.fillMessageKeys(chain, chain.chainKey.counter + 1);
       }.bind(this)).then(function() {
@@ -36210,7 +36113,7 @@ SessionCipher.prototype = {
     var messageLengthWithTerminator = messageLength + 1;
     var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
 
-    if (messageLengthWithTerminator % 160 != 0) {
+    if (messageLengthWithTerminator % 160 !== 0) {
         messagePartCount++;
     }
 
@@ -36298,6 +36201,9 @@ SessionCipher.prototype = {
 
     return this.maybeStepRatchet(session, remoteEphemeralKey, message.previousCounter).then(function() {
         var chain = session[util.toString(message.ephemeralKey)];
+        if (chain.chainType === Internal.ChainType.SENDING) {
+            throw new Error("Tried to decrypt on a sending chain");
+        }
 
         return this.fillMessageKeys(chain, message.counter).then(function() {
             var messageKey = chain.messageKeys[message.counter];
@@ -36331,12 +36237,12 @@ SessionCipher.prototype = {
                 plaintext.set(paddedPlaintext.subarray(0, i));
                 plaintext = plaintext.buffer;
                 break;
-            } else if (paddedPlaintext[i] != 0x00) {
+            } else if (paddedPlaintext[i] !== 0x00) {
                 throw new Error('Invalid padding');
             }
         }
 
-        delete session['pendingPreKey'];
+        delete session.pendingPreKey;
         return plaintext;
     });
   },
@@ -36417,7 +36323,8 @@ SessionCipher.prototype = {
               }
               session[util.toString(ephemeralPublicKey)] = {
                   messageKeys: {},
-                  chainKey: { counter: -1, key: masterKey[1] }
+                  chainKey: { counter: -1, key: masterKey[1] },
+                  chainType: sending ? Internal.ChainType.SENDING : Internal.ChainType.RECEIVING
               };
               ratchet.rootKey = masterKey[0];
           });
