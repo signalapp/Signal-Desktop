@@ -108,13 +108,29 @@ MessageReceiver.prototype.extend({
         ev.proto = envelope;
         this.dispatchEvent(ev);
     },
+    unpad: function(paddedPlaintext) {
+        paddedPlaintext = new Uint8Array(paddedPlaintext);
+        var plaintext;
+        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+            if (paddedPlaintext[i] == 0x80) {
+                plaintext = new Uint8Array(i);
+                plaintext.set(paddedPlaintext.subarray(0, i));
+                plaintext = plaintext.buffer;
+                break;
+            } else if (paddedPlaintext[i] !== 0x00) {
+                throw new Error('Invalid padding');
+            }
+        }
+
+        return plaintext;
+    },
     decrypt: function(envelope, ciphertext) {
         var promise;
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-                promise = sessionCipher.decryptWhisperMessage(ciphertext);
+                promise = sessionCipher.decryptWhisperMessage(ciphertext).then(this.unpad);
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 console.log('prekey whisper message');
@@ -132,7 +148,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     decryptPreKeyWhisperMessage: function(ciphertext, sessionCipher, address) {
-        return sessionCipher.decryptPreKeyWhisperMessage(ciphertext).catch(function(e) {
+        return sessionCipher.decryptPreKeyWhisperMessage(ciphertext).then(this.unpad).catch(function(e) {
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate

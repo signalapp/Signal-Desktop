@@ -36150,11 +36150,6 @@ SessionCipher.prototype = {
       var ourIdentityKey, myRegistrationId, record, session, chain;
 
       var msg = new Internal.protobuf.WhisperMessage();
-      var paddedPlaintext = new Uint8Array(
-          this.getPaddedMessageLength(buffer.byteLength + 1) - 1
-      );
-      paddedPlaintext.set(new Uint8Array(buffer));
-      paddedPlaintext[buffer.byteLength] = 0x80;
 
       return Promise.all([
           this.storage.getIdentityKeyPair(),
@@ -36191,7 +36186,7 @@ SessionCipher.prototype = {
           msg.previousCounter = session.currentRatchet.previousCounter;
 
           return Internal.crypto.encrypt(
-              keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)
+              keys[0], buffer, keys[2].slice(0, 16)
           ).then(function(ciphertext) {
               msg.ciphertext = ciphertext;
               var encodedMsg = msg.toArrayBuffer();
@@ -36352,20 +36347,7 @@ SessionCipher.prototype = {
         }.bind(this)).then(function() {
             return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
         });
-    }.bind(this)).then(function(paddedPlaintext) {
-        paddedPlaintext = new Uint8Array(paddedPlaintext);
-        var plaintext;
-        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
-            if (paddedPlaintext[i] == 0x80) {
-                plaintext = new Uint8Array(i);
-                plaintext.set(paddedPlaintext.subarray(0, i));
-                plaintext = plaintext.buffer;
-                break;
-            } else if (paddedPlaintext[i] !== 0x00) {
-                throw new Error('Invalid padding');
-            }
-        }
-
+    }.bind(this)).then(function(plaintext) {
         delete session.pendingPreKey;
         return plaintext;
     });
@@ -38055,13 +38037,29 @@ MessageReceiver.prototype.extend({
         ev.proto = envelope;
         this.dispatchEvent(ev);
     },
+    unpad: function(paddedPlaintext) {
+        paddedPlaintext = new Uint8Array(paddedPlaintext);
+        var plaintext;
+        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+            if (paddedPlaintext[i] == 0x80) {
+                plaintext = new Uint8Array(i);
+                plaintext.set(paddedPlaintext.subarray(0, i));
+                plaintext = plaintext.buffer;
+                break;
+            } else if (paddedPlaintext[i] !== 0x00) {
+                throw new Error('Invalid padding');
+            }
+        }
+
+        return plaintext;
+    },
     decrypt: function(envelope, ciphertext) {
         var promise;
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-                promise = sessionCipher.decryptWhisperMessage(ciphertext);
+                promise = sessionCipher.decryptWhisperMessage(ciphertext).then(this.unpad);
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
                 console.log('prekey whisper message');
@@ -38079,7 +38077,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     decryptPreKeyWhisperMessage: function(ciphertext, sessionCipher, address) {
-        return sessionCipher.decryptPreKeyWhisperMessage(ciphertext).catch(function(e) {
+        return sessionCipher.decryptPreKeyWhisperMessage(ciphertext).then(this.unpad).catch(function(e) {
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate
@@ -38506,14 +38504,31 @@ OutgoingMessage.prototype = {
         });
     },
 
+    getPaddedMessageLength: function(messageLength) {
+        var messageLengthWithTerminator = messageLength + 1;
+        var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
+
+        if (messageLengthWithTerminator % 160 !== 0) {
+            messagePartCount++;
+        }
+
+        return messagePartCount * 160;
+    },
+
     doSendMessage: function(number, deviceIds, recurse) {
         var ciphers = {};
         var plaintext = this.message.toArrayBuffer();
+        var paddedPlaintext = new Uint8Array(
+            this.getPaddedMessageLength(plaintext.byteLength + 1) - 1
+        );
+        paddedPlaintext.set(new Uint8Array(plaintext));
+        paddedPlaintext[plaintext.byteLength] = 0x80;
+
         return Promise.all(deviceIds.map(function(deviceId) {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
             var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
             ciphers[address.getDeviceId()] = sessionCipher;
-            return this.encryptToDevice(address, plaintext, sessionCipher);
+            return this.encryptToDevice(address, paddedPlaintext, sessionCipher);
         }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;

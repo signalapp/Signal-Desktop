@@ -36026,11 +36026,6 @@ SessionCipher.prototype = {
       var ourIdentityKey, myRegistrationId, record, session, chain;
 
       var msg = new Internal.protobuf.WhisperMessage();
-      var paddedPlaintext = new Uint8Array(
-          this.getPaddedMessageLength(buffer.byteLength + 1) - 1
-      );
-      paddedPlaintext.set(new Uint8Array(buffer));
-      paddedPlaintext[buffer.byteLength] = 0x80;
 
       return Promise.all([
           this.storage.getIdentityKeyPair(),
@@ -36067,7 +36062,7 @@ SessionCipher.prototype = {
           msg.previousCounter = session.currentRatchet.previousCounter;
 
           return Internal.crypto.encrypt(
-              keys[0], paddedPlaintext.buffer, keys[2].slice(0, 16)
+              keys[0], buffer, keys[2].slice(0, 16)
           ).then(function(ciphertext) {
               msg.ciphertext = ciphertext;
               var encodedMsg = msg.toArrayBuffer();
@@ -36228,20 +36223,7 @@ SessionCipher.prototype = {
         }.bind(this)).then(function() {
             return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
         });
-    }.bind(this)).then(function(paddedPlaintext) {
-        paddedPlaintext = new Uint8Array(paddedPlaintext);
-        var plaintext;
-        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
-            if (paddedPlaintext[i] == 0x80) {
-                plaintext = new Uint8Array(i);
-                plaintext.set(paddedPlaintext.subarray(0, i));
-                plaintext = plaintext.buffer;
-                break;
-            } else if (paddedPlaintext[i] !== 0x00) {
-                throw new Error('Invalid padding');
-            }
-        }
-
+    }.bind(this)).then(function(plaintext) {
         delete session.pendingPreKey;
         return plaintext;
     });

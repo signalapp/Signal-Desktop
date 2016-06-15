@@ -98,14 +98,31 @@ OutgoingMessage.prototype = {
         });
     },
 
+    getPaddedMessageLength: function(messageLength) {
+        var messageLengthWithTerminator = messageLength + 1;
+        var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
+
+        if (messageLengthWithTerminator % 160 !== 0) {
+            messagePartCount++;
+        }
+
+        return messagePartCount * 160;
+    },
+
     doSendMessage: function(number, deviceIds, recurse) {
         var ciphers = {};
         var plaintext = this.message.toArrayBuffer();
+        var paddedPlaintext = new Uint8Array(
+            this.getPaddedMessageLength(plaintext.byteLength + 1) - 1
+        );
+        paddedPlaintext.set(new Uint8Array(plaintext));
+        paddedPlaintext[plaintext.byteLength] = 0x80;
+
         return Promise.all(deviceIds.map(function(deviceId) {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
             var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
             ciphers[address.getDeviceId()] = sessionCipher;
-            return this.encryptToDevice(address, plaintext, sessionCipher);
+            return this.encryptToDevice(address, paddedPlaintext, sessionCipher);
         }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
