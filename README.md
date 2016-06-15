@@ -1,12 +1,11 @@
 [![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop)
 Signal Desktop
 ==========================
-Coming soon to the Chrome Web Store. Want to get early access? [Sign up here](https://whispersystems.org/blog/signal-desktop/)
+Get [Signal Private Messenger](https://chrome.google.com/webstore/detail/signal-private-messenger/bikioccmkafdpakkkcpdbppfkghcmihk) on the Chrome Web Store!
 
-Signal Desktop is a chrome packaged app that links with the
-[Signal-iOS](https://github.com/WhisperSystems/Signal-iOS) or
-[Signal-Android](https://github.com/WhisperSystems/Signal-Android)
-client already installed on your phone.
+Signal Desktop is a chrome packaged app that links with your
+[Signal Android](https://github.com/WhisperSystems/Signal-Android)
+app.
 
 ## Got a question?
 The best place to ask questions is [http://support.whispersystems.org](http://support.whispersystems.org).
