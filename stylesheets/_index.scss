@@ -253,3 +253,30 @@ input.search {
     top: -30px;
   }
 }
+.syncSettings {
+  button {
+    float: right;
+    border: none;
+    border-radius: $border-radius;
+    color: white;
+    font-weight: bold;
+    line-height: 36px;
+    padding: 0 20px;
+    background: $blue;
+    margin-left: 20px;
+    margin-bottom: 20px;
+
+    &[disabled=disabled] {
+      background: $grey;
+    }
+  }
+  .synced_at {
+      font-size: small;
+      color: $grey;
+  }
+  .sync_failed {
+      display: none;
+      font-size: small;
+      color: red;
+  }
+}

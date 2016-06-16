@@ -698,6 +698,27 @@ input.search {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
 
+.syncSettings button {
+  float: right;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px;
+  background: #2090ea;
+  margin-left: 20px;
+  margin-bottom: 20px; }
+  .syncSettings button[disabled=disabled] {
+    background: #616161; }
+.syncSettings .synced_at {
+  font-size: small;
+  color: #616161; }
+.syncSettings .sync_failed {
+  display: none;
+  font-size: small;
+  color: red; }
+
 .conversation-title {
   display: block;
   line-height: 36px;

@@ -83,6 +83,10 @@
         }
     });
 
+    window.getSyncRequest = function() {
+        return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
+    };
+
     function init(firstRun) {
         window.removeEventListener('online', init);
         if (!textsecure.registration.isDone()) { return; }
@@ -112,6 +116,7 @@
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
             syncRequest.addEventListener('success', function() {
                 console.log('sync successful');
+                storage.put('synced_at', Date.now());
                 window.dispatchEvent(new Event('textsecure:contactsync'));
             });
             syncRequest.addEventListener('timeout', function() {

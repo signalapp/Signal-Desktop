@@ -382,6 +382,8 @@
   <script type='text/x-tmpl-mustache' id='settings'>
     <div class='content'>
       <a class='x close' alt='close settings' href='#'></a>
+      <h2>{{ settings }}</h2>
+      <hr>
       <h3>{{ notifications }}</h3>
       <p>{{ notificationSettingsDialog }}</p>
       <div>
@@ -401,6 +403,20 @@
         <label for='notification-setting-off'>{{ disableNotifications }} </label>
       </div>
     </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='syncSettings'>
+      <hr>
+      <h3>{{ sync }}</h3>
+      <div>
+        <button class='sync'>{{ syncNow }}</button>
+        <p>
+          {{ syncExplanation }}
+          <div class='synced_at'>
+              {{ lastSynced }} {{ syncDate }} {{ syncTime }}
+          </div>
+          <div class='sync_failed'>{{ syncFailed }}</div>
+        </p>
+      </div>
   </script>
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
