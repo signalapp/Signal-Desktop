@@ -231,9 +231,6 @@ img.emoji {
   .new-group-update .members .contact .last-message,
   .new-group-update .members .contact .last-timestamp {
     display: none; }
-  .group-member-list .members .contact .number,
-  .new-group-update .members .contact .number {
-    display: none; }
 
 .conversation-list-item {
   cursor: pointer; }

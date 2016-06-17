@@ -246,13 +246,8 @@ $avatar-size: 44px;
     .last-message, .last-timestamp {
       display: none;
     }
-
-    .number {
-      display: none;
-    }
   }
 }
-
 .conversation-list-item {
   cursor: pointer;
   &:hover {
