@@ -1063,7 +1063,8 @@ li.entry .error-icon-container {
   .message-container .attachments video,
   .message-list .attachments video {
     background: black;
-    min-height: 300px; }
+    min-height: 300px;
+    min-width: 240px; }
   .message-container .attachments img,
   .message-list .attachments img {
     cursor: pointer; }
