@@ -118,7 +118,8 @@
             'click .settings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
-            'click .restart-signal': 'reloadBackgroundPage'
+            'click .restart-signal': 'reloadBackgroundPage',
+            'show .lightbox': 'showLightbox'
         },
         focusConversation: function(e) {
             if (e && this.$(e.target).closest('.placeholder').length) {
@@ -162,6 +163,9 @@
         showDebugLog: function() {
             this.$('.debug-log').remove();
             new Whisper.DebugLogView().$el.appendTo(this.el);
+        },
+        showLightbox: function(e) {
+            this.$el.append(e.target);
         },
         closeMenu: function(e) {
             if (e && this.$(e.target).parent('.global-menu').length > 0 ) {

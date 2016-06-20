@@ -496,6 +496,48 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     border: solid 1px #ccc;
     border-right: none; }
 
+.lightbox.modal {
+  padding: 30px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8); }
+  .lightbox.modal .content {
+    margin: 0;
+    padding: 0 50px;
+    max-width: 100%;
+    height: 100%;
+    box-shadow: none;
+    background: transparent; }
+    .lightbox.modal .content img {
+      display: block;
+      margin: auto;
+      max-width: 100%;
+      max-height: 100%; }
+  .lightbox.modal .controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px; }
+  .lightbox.modal a {
+    background: transparent;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 3px; }
+    .lightbox.modal a:before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%; }
+    .lightbox.modal a:hover {
+      background: #616161; }
+  .lightbox.modal .save:before {
+    -webkit-mask: url("/images/save.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }

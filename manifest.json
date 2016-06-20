@@ -12,7 +12,7 @@
     "permissions": [
       "unlimitedStorage",
       "notifications",
-      "fileSystem",
+      {"fileSystem": ["write"]},
       "alarms",
       "fullscreen"
     ],
