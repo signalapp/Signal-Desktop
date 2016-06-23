@@ -35706,8 +35706,8 @@ Internal.SessionRecord = function() {
         removeOldChains: function(session) {
             // Sending ratchets are always removed when we step because we never need them again
             // Receiving ratchets are added to the oldRatchetList, which we parse
-            // here and remove all but the last four.
-            while (session.oldRatchetList.length > 4) {
+            // here and remove all but the last five.
+            while (session.oldRatchetList.length > 5) {
                 var index = 0;
                 var oldest = session.oldRatchetList[0];
                 for (var i = 0; i < session.oldRatchetList.length; i++) {
@@ -36104,16 +36104,6 @@ SessionCipher.prototype = {
       });
     }.bind(this));
   },
-  getPaddedMessageLength: function(messageLength) {
-    var messageLengthWithTerminator = messageLength + 1;
-    var messagePartCount            = Math.floor(messageLengthWithTerminator / 160);
-
-    if (messageLengthWithTerminator % 160 !== 0) {
-        messagePartCount++;
-    }
-
-    return messagePartCount * 160;
-  },
   decryptWhisperMessage: function(buffer, encoding) {
       buffer = dcodeIO.ByteBuffer.wrap(buffer, encoding).toArrayBuffer();
       return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
@@ -36219,7 +36209,7 @@ SessionCipher.prototype = {
             macInput[33*2] = (3 << 4) | 3;
             macInput.set(new Uint8Array(messageProto), 33*2 + 1);
 
-            return this.verifyMAC(macInput.buffer, keys[1], mac, 8);
+            return Internal.verifyMAC(macInput.buffer, keys[1], mac, 8);
         }.bind(this)).then(function() {
             return Internal.crypto.decrypt(keys[0], message.ciphertext.toArrayBuffer(), keys[2].slice(0, 16));
         });
@@ -36310,22 +36300,6 @@ SessionCipher.prototype = {
               };
               ratchet.rootKey = masterKey[0];
           });
-      });
-  },
-  verifyMAC: function(data, key, mac, length) {
-      return Internal.crypto.sign(key, data).then(function(calculated_mac) {
-          if (mac.byteLength != length  || calculated_mac.byteLength < length) {
-              throw new Error("Bad MAC length");
-          }
-          var a = new Uint8Array(calculated_mac);
-          var b = new Uint8Array(mac);
-          var result = 0;
-          for (var i=0; i < mac.byteLength; ++i) {
-              result = result | (a[i] ^ b[i]);
-          }
-          if (result !== 0) {
-              throw new Error("Bad MAC");
-          }
       });
   },
   getRemoteRegistrationId: function() {
