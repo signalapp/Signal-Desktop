@@ -10,13 +10,6 @@
           this.dataUrl = dataUrl;
           this.$el.text(i18n('unsupportedAttachment'));
       },
-      events: {
-          'click': 'open'
-      },
-      open: function (e) {
-          e.preventDefault();
-          window.open(this.dataUrl, '_blank');
-      },
       render: function() {
         this.$el.attr('href', this.dataUrl);
         this.trigger('update');
@@ -90,6 +83,26 @@
             view.render();
             view.$el.appendTo(this.el);
             view.$el.trigger('show');
+        } else if (this.contentType !== 'audio' && this.contentType !== 'video') {
+            var suggestedName;
+            if (this.fileType) {
+                suggestedName = 'signal.' + this.fileType;
+            }
+            var w = extension.windows.getViews()[0];
+            if (w && w.chrome && w.chrome.fileSystem) {
+                w.chrome.fileSystem.chooseEntry({
+                    type: 'saveFile', suggestedName: suggestedName
+                }, function(entry) {
+                    if (!entry) {
+                        return;
+                    }
+                    entry.createWriter(function(fileWriter) {
+                        fileWriter.write(this.blob);
+                    }.bind(this));
+                }.bind(this));
+            } else {
+                console.log('Failed to get window');
+            }
         }
     },
     render: function() {
