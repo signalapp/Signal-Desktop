@@ -101,7 +101,7 @@
                   <button class='paperclip thumbnail'></button>
                   <input type='file' class='file-input'>
               </div>
-              <textarea class='send-message' placeholder='{{ send-message }}' rows='1'></textarea>
+              <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
           </form>
       </div>
     </div>
@@ -137,7 +137,7 @@
       <div class='bubble' style='background-color: {{ avatar.color }};'>
           <div class='sender'>{{ sender }}</div>
           <div class='attachments'></div>
-          <p class='content'>{{ message }}</p>
+          <p class='content' dir='auto'>{{ message }}</p>
           <div class='meta'>
             <span class='timestamp' data-timestamp={{ timestamp }}></span>
             <span class='status hide'></span>
