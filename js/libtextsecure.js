@@ -39120,7 +39120,11 @@ textsecure.MessageSender.prototype = {
             }
         },
         onTimeout: function() {
-            this.dispatchEvent(new Event('timeout'));
+            if (this.contactSync || this.groupSync) {
+                this.dispatchEvent(new Event('success'));
+            } else {
+                this.dispatchEvent(new Event('timeout'));
+            }
             this.cleanup();
         },
         cleanup: function() {
