@@ -308,5 +308,69 @@
     "syncFailed": {
         "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
         "description": "Informational text displayed if a sync operation times out."
-    }
+    },
+    "timestamp_s": {
+       "description": "",
+       "message": "now"
+    },
+    "timestamp_m": {
+      "description": "",
+      "message": "1 min"
+    },
+    "timestamp_mm": {
+       "description": "",
+       "message": "%d min"
+    },
+    "timestamp_h": {
+       "description": "",
+       "message": "1 hour"
+    },
+    "timestamp_hh": {
+       "description": "",
+       "message": "%d hours"
+    },
+    "timestampFormat_y" : {
+       "description": "",
+       "message": "MMM D, YYYY"
+    },
+    "timestampFormat_m" : {
+       "description": "",
+       "message": "MMM D"
+    },
+    "timestampFormat_d" : {
+       "description": "",
+       "message": "ddd"
+    },
+    "extendedTimestamp_s": {
+       "description": "",
+       "message": "now"
+    },
+    "extendedTimestamp_m": {
+       "description": "",
+       "message": "1 minute ago"
+    },
+    "extendedTimestamp_mm": {
+       "description": "",
+       "message": "%d minute ago"
+    },
+    "extendedTimestamp_h": {
+       "description": "",
+       "message": "1 hour ago"
+    },
+    "extendedTimestamp_hh": {
+       "description": "",
+       "message": "%d hours ago"
+    },
+    "extendedTimestampFormat_y" : {
+       "description": "",
+       "message": "MMM D, YYYY LT"
+    },
+    "extendedTimestampFormat_m" : {
+       "description": "",
+       "message": "MMM D LT"
+    },
+    "extendedTimestampFormat_d" : {
+       "description": "",
+       "message": "ddd LT"
+   }
 }

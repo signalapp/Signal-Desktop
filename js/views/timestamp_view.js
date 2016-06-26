@@ -66,45 +66,22 @@
             }
         },
         relativeTime : function (number, string, isFuture) {
-            return this._relativeTime[string].replace(/%d/i, number);
-        },
-        _relativeTime : {
-            s:  "now",
-            m:  "1 min",
-            mm: "%d min",
-            h:  "1 hour",
-            hh: "%d hours",
-            d:  "1 day",
-            dd: "%d days",
-            M:  "1 month",
-            MM: "%d months",
-            y:  "1 year",
-            yy: "%d years"
+            return i18n("timestamp_"+string).replace(/%d/i, number);
         },
         _format: {
-            y: 'MMM D, YYYY',
-            m: 'MMM D',
-            d: 'ddd'
+            y: i18n('timestampFormat_y'),
+            m: i18n('timestampFormat_m'),
+            d: i18n('timestampFormat_d')
         }
     });
     Whisper.ExtendedTimestampView = Whisper.TimestampView.extend({
-        _relativeTime : {
-            s:  "now",
-            m:  "1 minute ago",
-            mm: "%d minutes ago",
-            h:  "1 hour ago",
-            hh: "%d hours ago",
-            d:  "1 day ago",
-            dd: "%d days ago",
-            M:  "1 month ago",
-            MM: "%d months ago",
-            y:  "1 year ago",
-            yy: "%d years ago"
+        relativeTime : function (number, string, isFuture) {
+            return i18n("extendedTimestamp_"+string).replace(/%d/i, number);
         },
         _format: {
-            y: 'MMM D, YYYY LT',
-            m: 'MMM D LT',
-            d: 'ddd LT'
+            y: i18n('extendedTimestampFormat_y'),
+            m: i18n('extendedTimestampFormat_m'),
+            d: i18n('extendedTimestampFormat_d')
         }
     });
 })();
