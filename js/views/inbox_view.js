@@ -38,16 +38,25 @@
     Whisper.ConversationStack = Whisper.View.extend({
         className: 'conversation-stack',
         open: function(conversation) {
-            var $el = this.$('#conversation-' + conversation.cid);
-            if ($el === null || $el.length === 0) {
-                var view = new Whisper.ConversationView({
-                    model: conversation,
-                    appWindow: this.model.appWindow
+            var id = 'conversation-' + conversation.cid;
+            if(id !== this.el.firstChild.id) {
+                this.$("video").each(function() {
+                    this.pause();
                 });
-                $el = view.$el;
+                this.$("audio").each(function() {
+                    this.pause();
+                });
+                var $el = this.$('#'+id);
+                if ($el === null || $el.length === 0) {
+                    var view = new Whisper.ConversationView({
+                        model: conversation,
+                        appWindow: this.model.appWindow
+                    });
+                    $el = view.$el;
+                }
+                $el.prependTo(this.el);
+                conversation.trigger('opened');
             }
-            $el.prependTo(this.el);
-            conversation.trigger('opened');
         }
     });
 
