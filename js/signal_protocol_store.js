@@ -201,6 +201,8 @@
                         record: record,
                         deviceId: deviceId,
                         number: number
+                    }).fail(function(e) {
+                        console.log('Failed to save session', encodedNumber, e);
                     }).always(function() {
                         resolve();
                     });
