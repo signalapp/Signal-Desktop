@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Última importação feita em ",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Tipo de anexo sem suporte. Clique para salvar. ",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Membros",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Importar todos os grupos e contatos no Signal do seu aparelho celular. ",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Reiniciar Signal",
@@ -119,6 +127,14 @@
         "message": "Nem nome nem mensagem",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Importar agora",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Erro ao importar. O seu computador e o seu celular estão conectados à Internet?",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Seguir-nos</a> para atualizações de funções multiaparelhos do iOS.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Desconectad",
         "description": ""
     },
+    "syncing": {
+        "message": "Importando...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Aceitar",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Número não registrado",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contatos",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Recebida",

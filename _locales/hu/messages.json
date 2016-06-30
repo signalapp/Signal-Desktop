@@ -1,10 +1,14 @@
 {
+    "lastSynced": {
+        "message": "Last import at",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Unsupported attachment type. Click to save.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Beállítások",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -12,15 +16,15 @@
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "E számítógép neve ez lesz:",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Rendben!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Részletek",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -28,7 +32,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Kulcsok létrehozása",
         "description": ""
     },
     "resetSession": {
@@ -44,15 +48,19 @@
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Tagok",
         "description": ""
     },
+    "syncExplanation": {
+        "message": "Import all Signal groups and contacts from your mobile device.",
+        "description": "Explanatory text for sync settings"
+    },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Signal újraindítása",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Üzenetek törlése",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -64,7 +72,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Csatlakozás...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -80,15 +88,15 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Elküldve",
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Hiba bejelentése",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Új üzenet",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
@@ -96,15 +104,15 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Identitás ellenőrzése",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Feladó",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Véglegesen törölni szeretnéd ezt a beszélgetést?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -112,12 +120,20 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Keresés...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
         "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
+    },
+    "syncNow": {
+        "message": "Import now",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
         "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
@@ -134,7 +150,7 @@
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "A te identitásod",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -142,19 +158,19 @@
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Csoportok és kapcsolatok szinkronizálása",
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Frissítés",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Részletek elrejtése",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Új identitás",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -165,16 +181,28 @@
         "message": "Disconnected",
         "description": ""
     },
+    "syncing": {
+        "message": "Importing...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Accept",
         "description": "Label for a button to accept a new identity key"
     },
+    "unregisteredUser": {
+        "message": "A szám nincs regisztrálva",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacts",
+        "description": "Label for contact and group sync settings"
+    },
     "received": {
-        "message": "Received",
+        "message": "Fogadva",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Üzenet küldése",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -206,15 +234,15 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Az üzenet nem lett elküldve.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Értesítések letiltása",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Mégse",
         "description": ""
     },
     "installIHaveSignalButton": {
@@ -240,15 +268,15 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Társítás ezzel:",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Az ő identitása",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Új üzenetek",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -256,15 +284,15 @@
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Küldés",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Címzett",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Jónak tűnik",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -280,7 +308,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Nem sikerült az üzenet elküldése néhány címzettnek. Ellenőrizd a hálózati kapcsolatot.",
         "description": ""
     },
     "ok": {
@@ -296,15 +324,15 @@
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Hiba",
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Értesítések",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Újraküldés",
         "description": ""
     }
 }

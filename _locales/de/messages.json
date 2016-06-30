@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Letzter Import am",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Nicht unterstütztes Anhangsformat. Zum Speichern anklicken.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Mitglieder",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Alle Signal-Gruppen und -Kontakte von Ihrem Mobilgerät importieren.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Signal neu starten",
@@ -104,7 +112,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Diese Unterhaltung unwiderruflich löschen?",
+        "message": "Soll diese Unterhaltung unwiderruflich gelöscht werden?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -118,6 +126,14 @@
     "noNameOrMessage": {
         "message": "Weder Name noch Nachricht",
         "description": "Label for setting notifications to display no name and no message text"
+    },
+    "syncNow": {
+        "message": "Jetzt importieren",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Importieren fehlgeschlagen. Stellen Sie sicher, dass Ihr Computer und Ihr Mobilgerät mit dem Internet verbunden sind.",
+        "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
         "message": "<a $a_params$>Folgen Sie uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
@@ -165,9 +181,21 @@
         "message": "Nicht verbunden",
         "description": ""
     },
+    "syncing": {
+        "message": "Import wird durchgeführt …",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Akzeptieren",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Rufnummer ist nicht registriert",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Kontakte",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Empfangen",

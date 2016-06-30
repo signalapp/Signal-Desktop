@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Ultima importazione il",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Tipo di allegato non supportato. Clicca per salvare.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Membri",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Importa tutti i gruppi Signal e i contatti dal tuo dispositivo mobile.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Riavvia Signal",
@@ -119,6 +127,14 @@
         "message": "Né il mittente, né il messaggio",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Importa ora",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Importazione fallita. Assicurati che il tuo computer ed il tuo telefono siano connessi ad Internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Seguici</a> per aggiornamenti sulle funzionalità multi dispositivo per iOS.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Sconnesso",
         "description": ""
     },
+    "syncing": {
+        "message": "Importazione...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Accetta",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Il numero non è registrato",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contatti",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Ricevuto",

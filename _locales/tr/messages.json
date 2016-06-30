@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Last import at",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Desteklenmeyen ek türü. Kaydetmek için tıkla.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Üyeler",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Import all Signal groups and contacts from your mobile device.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Signal'ı yeniden başlat",
@@ -119,6 +127,14 @@
         "message": "Gönderenin adını ve mesajını gösterme",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Import now",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "iOS çoklu cihaz desteği hakkında güncellemeler için <a $a_params$>bizi takip edin.</a>",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Bağlantı yok",
         "description": ""
     },
+    "syncing": {
+        "message": "Importing...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Kabul et",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Number is not registered",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacts",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Alındı",

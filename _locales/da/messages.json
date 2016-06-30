@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Last import at",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Ikke-understøttet vedhæftningstype. Klik for at gemme.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Medlemmer",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Import all Signal groups and contacts from your mobile device.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Genstart Signal",
@@ -119,6 +127,14 @@
         "message": "Hverken navn eller besked",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Import now",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Følg os</a> for opdateringer på support for iOS.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Afbrudt",
         "description": ""
     },
+    "syncing": {
+        "message": "Importing...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Acceptér",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Number is not registered",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacts",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Modtaget",

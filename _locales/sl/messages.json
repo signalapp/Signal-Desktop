@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Nazadnje uvoženo: ",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Člani",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Uvoz stikov in skupin Signal iz mobilne naprave.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Ponovno zaženi Signal",
@@ -119,6 +127,14 @@
         "message": "Niti imena pošiljatelja niti sporočila",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Uvozi zdaj",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Uvoz ni bil uspešen. Preverite, če sta vaša računalnik in mobilna naprava povezana z internetom.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Spremljajte nas</a> v zvezi s podporo za več naprav za iOS.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Povezava je prekinjena",
         "description": ""
     },
+    "syncing": {
+        "message": "Uvažam...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Sprejmi",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Številka ni registrirana",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Stiki",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Prejeto",

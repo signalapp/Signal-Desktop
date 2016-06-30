@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Viimeksi tuotu",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Jäsenet",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Tuo kaikkien Signal-yhteystietojen ja -ryhmien tiedot mobiililaitteestasi.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Käynnistä Signal uudelleen",
@@ -119,6 +127,14 @@
         "message": "ei nimeä eikä viestiä",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Tuo nyt",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Tuonti epäonnistui. Varmista, että tietokoneesi ja puhelimesi ovat kytketty Internettiin.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "Jos haluat saada uutisia ja tietoja usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Ei yhteyttä",
         "description": ""
     },
+    "syncing": {
+        "message": "Tuodaan...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Hyväksy",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Numero ei ole rekisteröity.",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Yhteystiedot",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Vastaanotettu",

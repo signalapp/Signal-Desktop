@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Laatst geïmporteerd op",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
@@ -47,6 +51,10 @@
         "message": "Deelnemers",
         "description": ""
     },
+    "syncExplanation": {
+        "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
+        "description": "Explanatory text for sync settings"
+    },
     "restartSignal": {
         "message": "Signal herstarten",
         "description": "Menu item for restarting the program."
@@ -56,7 +64,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Fout bij verwerken van inkomend bericht.",
         "description": ""
     },
     "selectAContact": {
@@ -84,11 +92,11 @@
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Meld een probleem",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "Nieuw bericht",
+        "message": "nieuw bericht",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
@@ -104,7 +112,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Dit gesprek voorgoed verwijderen?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -118,6 +126,14 @@
     "noNameOrMessage": {
         "message": "Naam van afzender noch berichtinhoud",
         "description": "Label for setting notifications to display no name and no message text"
+    },
+    "syncNow": {
+        "message": "Nu importeren",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Importeren mislukt. Zorg ervoor dat je computer en je telefoon met het internet verbonden zijn.",
+        "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
         "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
@@ -165,9 +181,21 @@
         "message": "Verbinding verbroken",
         "description": ""
     },
+    "syncing": {
+        "message": "Importeren...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Aanvaarden",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Nummer is niet geregistreerd",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacten",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Ontvangen",
@@ -178,7 +206,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Mediabericht",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
@@ -194,7 +222,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Open Signal op je telefoon en ga naar Instellingen > Gekoppelde apparaten. Tik op de knop om een nieuw apparaat toe te voegen en scan daarna de code hierboven.",
         "description": ""
     },
     "installWelcome": {
@@ -248,7 +276,7 @@
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "Nieuwe berichten",
+        "message": "nieuwe berichten",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {

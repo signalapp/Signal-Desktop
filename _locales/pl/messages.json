@@ -1,4 +1,8 @@
 {
+    "lastSynced": {
+        "message": "Last import at",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
         "message": "Nieobsługiwany typ załącznika. Kliknij aby zapisać.",
         "description": "Displayed for incoming unsupported attachment"
@@ -46,6 +50,10 @@
     "members": {
         "message": "Użytkownicy",
         "description": ""
+    },
+    "syncExplanation": {
+        "message": "Import all Signal groups and contacts from your mobile device.",
+        "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
         "message": "Restart Signal",
@@ -119,6 +127,14 @@
         "message": "Neither name nor message",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Import now",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
         "message": "<a $a_params$> Śledź nas </a> aktualizacje o wsparcie dla wielu urządzeń iOS.",
         "description": "",
@@ -165,9 +181,21 @@
         "message": "Odłączony",
         "description": ""
     },
+    "syncing": {
+        "message": "Importing...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
         "message": "Accept",
         "description": "Label for a button to accept a new identity key"
+    },
+    "unregisteredUser": {
+        "message": "Number is not registered",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacts",
+        "description": "Label for contact and group sync settings"
     },
     "received": {
         "message": "Odebrano",

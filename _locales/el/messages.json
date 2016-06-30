@@ -1,74 +1,82 @@
 {
+    "lastSynced": {
+        "message": "Last import at",
+        "description": "Label for date and time of last sync operation"
+    },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Μη υποστηριζόμενος τύπος συνημμένου. Πατήστε για αποθήκευση.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Ρυθμίσεις",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Λήψη μηνύματος με άγνωστη ταυτότητα. Πιέστε για επεξεργασία και προβολή.",
         "description": ""
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Το όνομα αυτού του υπολογιστή θα είναι",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Κατάλαβα!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Λεπτομέρειες",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Μη υποστηριζόμενος τύπος αρχείου",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Δημιουργία κλειδιών",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Επανέναρξη συνόδου",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Καλώς ήλθατε στο Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Κατά την λήψη μηνυμάτων, εμφάνιση ειδοποιήσεων που αποκαλύπτουν:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Μέλη",
         "description": ""
     },
+    "syncExplanation": {
+        "message": "Import all Signal groups and contacts from your mobile device.",
+        "description": "Explanatory text for sync settings"
+    },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Επανεκκίνηση του Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Διαγραφή Μηνυμάτων",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος.",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Επιλέξτε μία επαφή ή μία ομάδα για να ξεκινήσετε μία συζήτηση.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Σύνδεση...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Ίσως επιθυμείτε να $tag_start$ επιβεβαιώσετε $tag_end$ αυτή την επαφή.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -80,47 +88,55 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Εστάλει",
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Υποβολή παραπόνου",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Νέο Μήνυμα",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Μόνο το όνομα του αποστολέα",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Επιβεβαίωση Ταυτότητας",
         "description": ""
     },
     "from": {
-        "message": "From",
+        "message": "Απο",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Οριστική διαγραφή αυτής της συζήτησης;",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Αυτό το αρχείο καταγραφής συμβάντων θα δημοσιευτεί στο internet ώστε να το εξετάσουν εθελοντές. Μπορείτε να το μελετήσετε και να το τροποποιήσετε πριν το υποβάλετε.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Αναζήτηση...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Ούτε το όνομα αποστολέα, ούτε το μήνυμα",
         "description": "Label for setting notifications to display no name and no message text"
     },
+    "syncNow": {
+        "message": "Import now",
+        "description": "Label for a button that syncs contacts and groups from your phone"
+    },
+    "syncFailed": {
+        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "description": "Informational text displayed if a sync operation times out."
+    },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Ακολουθήστε μας</a> για ενημερώσεις σχετικά με την υποστήριξη πολλαπλών συσκευών στο iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -130,107 +146,119 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Μάθετε περισσότερα για την επιβεβαίωση κλειδιών.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Η Ταυτότητά σας",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Λυπούμεθα, έχετε ήδη συνδεδεμένες πολλές συσκευές. Προσπαθήστε να αφαιρέσετε μερικές.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Συγχρονισμός ομάδων και επαφών",
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Αναβάθμιση",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Απόκρυψη λεπτομερειών",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Νέα ταυτότητα",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Η ιδιωτικότητα είναι εφικτή. Το Signal την κάνει εύκολη.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Αποσυνδεδεμένος",
         "description": ""
     },
+    "syncing": {
+        "message": "Importing...",
+        "description": "Label for a disabled sync button while sync is in progress."
+    },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Αποδοχή",
         "description": "Label for a button to accept a new identity key"
     },
+    "unregisteredUser": {
+        "message": "Number is not registered",
+        "description": "Error message displayed when sending to an unregistered user."
+    },
+    "sync": {
+        "message": "Contacts",
+        "description": "Label for contact and group sync settings"
+    },
     "received": {
-        "message": "Received",
+        "message": "Λήφθηκε",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Στείλτε ένα μήνυμα",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Μήνυμα πολυμέσων",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Η τρέχουσα έκδοση του Signal Desktop έχει λήξει. Παρακαλούμε αναβαθμίστε στην τελευταία έκδοση για να συνεχίσετε την επικοινωνία σας.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "Η ταυτότητα αυτής της επαφής έχει αλλάξει. Πατήστε για επεξεργασία και προβολή.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Λυπούμεθα, το επιλεγμένο αρχείο υπερβαίνει τα όρια μεγέθους μηνυμάτων.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Ανοίξτε το Signal στο κινητό σας και πηγαίνετε στο Ρυθμίσεις > Συνδεδεμένες συσκευές. Πιέστε το πλήκτρο προσθήκης νέας συσκευής και σαρώστε το παραπάνω γραφικό.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Καλώς ήλθατε στο Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Αδυναμία σύνδεσης με τον διακομιστή.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Το μήνυμα δεν εστάλει",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Απενεργοποίηση ειδοποιήσεων",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Άκυρο",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Έχω το Signal στο Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Η ασφαλής σύνδεση επανεκκινήθηκε",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Πρώτα βήματα",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Πρώτα εγκαταστήστε το <a $a_params$>Signal</a> στο Android κινητό σας.<br /> Θα συνδέσουμε τις συσκευές σας και θα διατηρήσουμε τα μηνύματά σας συγχρονισμένα.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -240,71 +268,71 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Σύνδεση με",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Η ταυτότητα της επαφής σας",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Νέα Μηνύματα",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Δεν έχετε ανταλλάξει μηνύματα με αυτή την επαφή ακόμη. Η ταυτότητά της θα είναι διαθέσιμη μετά το πρώτο μήνυμα.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Υποβολή",
         "description": ""
     },
     "to": {
-        "message": "To",
+        "message": "Προς",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Όλα δείχνουν να είναι εντάξει",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Λεπτομέρειες μηνύματος",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Επιβεβαίωση",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Όνομα αποστολέα και μήνυμα",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Αποτυχία αποστολής σε κάποιους παραλήπτες. Ελέγξτε την σύνδεση δικτύου.",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "ΟΚ",
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Αυτή η επαφή χρησιμοποιεί μία νέα ταυτότητα Signal. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την συνομιλία σας, ή απλά πως η επαφή σας επανεγκατέστησε το Signal. Ίσως επιθυμείτε να επιβεβαιώσετε την νέα ταυτότητα παρακάτω.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Υποβολή Αρχείου Καταγραφής Συμβάντων",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Σφάλμα",
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Ειδοποιήσεις",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Επαναποστολή",
         "description": ""
     }
 }

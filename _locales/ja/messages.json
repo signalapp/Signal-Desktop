@@ -1,82 +1,82 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "最近の取り込みは",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Tipo de anexo não suportado. Clica para guardar.",
+        "message": "サポートされていない種類の添付ファイルです。クリックして保存してください。",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Definições",
+        "message": "設定",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Mensagem recebida com uma chave desconhecida. Clica aqui para processar e mostrar.",
+        "message": "受信したメッセージのIDキーが不明です。クリックして処理と表示を行ってください。",
         "description": ""
     },
     "installComputerName": {
-        "message": "O nome deste computador será",
+        "message": "コンピュータの名前は",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "gotIt": {
-        "message": "Ok, entendi!",
+        "message": "了解",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Detalhes",
+        "message": "詳細",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "Tipo de ficheiro não suportado",
+        "message": "サポートされていない種類のファイル",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "A gerar chaves",
+        "message": "キーを生成",
         "description": ""
     },
     "resetSession": {
-        "message": "Reiniciar sessão",
+        "message": "セッションをリセット",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Bem-vindo ao Signal",
+        "message": "Signalにようこそ",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "Quando receber uma mensagem, as notificações irão mostrar:",
+        "message": "新着メッセージの通知で表示する項目：",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Membros",
+        "message": "メンバー",
         "description": ""
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Signalのグループと連絡先を携帯端末から取り込む",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Reinicie o Signal",
+        "message": "Signalを再起動",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Apagar mensagens",
+        "message": "メッセージを削除",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Erro a receber mensagem",
+        "message": "受信中にエラー",
         "description": ""
     },
     "selectAContact": {
-        "message": "Seleccione um contacto ou grupo para começar a falar",
+        "message": "会話を始めるには連絡先かグループを選択してください",
         "description": ""
     },
     "installConnecting": {
-        "message": "A ligar...",
+        "message": "QRコードを待っています",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Pode ser necessário $tag_start$ verificar $tag_end$ este contacto.",
+        "message": "この連絡先を$tag_start$確認$tag_end$することができます。",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -88,55 +88,55 @@
         }
     },
     "sent": {
-        "message": "Enviada",
+        "message": "送信",
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Reportar um problema",
+        "message": "問題を報告",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "Nova mensagem",
+        "message": "新着メッセージ",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Apenas nome do remetente",
+        "message": "差出人名のみ",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verificar Identidade",
+        "message": "本人確認",
         "description": ""
     },
     "from": {
-        "message": "De",
+        "message": "差出人",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Deseja apagar esta conversa definitivamente?",
+        "message": "この会話を完全に消去しますが，よろしいですか？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "Este relatório será publicado online para os contribuidores analisarem. É possível examiná-lo e editá-lo antes de o submeter.",
+        "message": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Procurar...",
+        "message": "検索",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Nem o nome nem a mensagem",
+        "message": "なし",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "取り込む",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "取り込みに失敗しました。パソコンと携帯端末がインターネットに接続されているか確認してください。",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$> Siga-nos </a> para actualizações sobre o suporte multi-dispositivo para iOS.",
+        "message": "iOS端末の複数使用に関する最新情報は<a $a_params$>こちら</a>",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -146,119 +146,119 @@
         }
     },
     "learnMore": {
-        "message": "Saiba mais sobre verificação de chaves.",
+        "message": "キー認証に関する詳細情報",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "A sua identidade",
+        "message": "自分のIDキー",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Pedimos desculpa, mas existem demasiados dispositivos sincronizados. Tente remover alguns.",
+        "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
-        "message": "A sincronizar grupos e contactos",
+        "message": "連絡先とグループを同期",
         "description": ""
     },
     "upgrade": {
-        "message": "Actualizar",
+        "message": "アップデート",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Esconder detalhes",
+        "message": "詳細を隠す",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "Nova identidade",
+        "message": "新しいID",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacidade é possível. Signal torna-a mais fácil.",
+        "message": "プライバシーは守れます。Signalを使えば簡単に。",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Desligado",
+        "message": "接続オフ",
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "取り込み中……",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Aceitar",
+        "message": "受け入れる",
         "description": "Label for a button to accept a new identity key"
     },
     "unregisteredUser": {
-        "message": "Número não registado",
+        "message": "宛先の電話番号は登録されていません",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "連絡先",
         "description": "Label for contact and group sync settings"
     },
     "received": {
-        "message": "Recebida",
+        "message": "受信",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Enviar uma mensagem",
+        "message": "メッセージ",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Mensagem de média",
+        "message": "メディアメッセージ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "Esta versão do Signal Desktop expirou. Para poder continuar a enviar mensagens, actualize para a última versão .",
+        "message": "アプリのバージョンが古すぎます。最新版にアップデートしてください。",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "A chave deste contacto foi alterada. Clica aqui para processa-la e mostra-la.",
+        "message": "この連絡先のIDキーが変わりました。クリックして処理と表示を行ってください。",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Lamentamos, o ficheiro seleccionado excede o tamanho máximo da mensagem.",
+        "message": "選択したファイルが大きすぎます",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Abra o Signal no seu telemóvel e vá até Definições > Dispositivos sincronizados. Pressione o botão para adicionar um novo dispositivo, de seguida faça scan do código abaixo.",
+        "message": "携帯電話でSignalを起動し，「設定」>「結び付いているデバイス」に進み，デバイス追加のボタンを押して，上部のコードをスキャンしてください。",
         "description": ""
     },
     "installWelcome": {
-        "message": "Bem-vindo ao Signal Desktop",
+        "message": "Signal Desktopにようこそ",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Falha na ligação ao servidor",
+        "message": "サーバーに接続できませんでした",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Mensagem não enviada.",
+        "message": "送信失敗",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Desactivar notificações",
+        "message": "通知をオフにする",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancelar",
+        "message": "キャンセル",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "Eu tenho o Signal para o Android.",
+        "message": "Signal for Androidをインストール済みです",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Sessão segura reiniciada",
+        "message": "安全なセッションがリセットされました",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Começar",
+        "message": "始めましょう",
         "description": ""
     },
     "installSignalLink": {
-        "message": "Primeiro, instale o <a $a_params$> Signal </a> no seu telefone Android. <br /> Vamos vincular os seus dispositivos e manter as suas mensagens sincronizadas.",
+        "message": "まず<a $a_params$>Signal</a>をAndroid携帯電話にインストールしてください。<br />そうするとお使いの端末は結び付けられ，メッセージは同期されます。",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -268,47 +268,47 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Ligado com ",
+        "message": "接続先の番号",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "A identidade deles",
+        "message": "相手のIDキー",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "Novas mensagens",
+        "message": "新着メッセージ",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Ainda não trocou mensagens com este contacto. Após a primeira mensagem poderá verificar a sua identidade",
+        "message": "この連絡先とメッセージを交わしたことがないため，IDキーは不明です。",
         "description": ""
     },
     "submit": {
-        "message": "Enviar",
+        "message": "提出",
         "description": ""
     },
     "to": {
-        "message": "Para",
+        "message": "宛先",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "Parece correcto",
+        "message": "OK",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Detalhes da mensagem",
+        "message": "メッセージ詳細",
         "description": ""
     },
     "verify": {
-        "message": "Verificar",
+        "message": "確認する",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Nome do remetente e mensagem",
+        "message": "差出人名とメッセージ",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Falha ao enviar para alguns destinatários. Verifique a sua ligação à rede",
+        "message": "宛先の一部で送信に失敗しました。ネットワークの接続をチェックしてください。",
         "description": ""
     },
     "ok": {
@@ -316,23 +316,23 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Este contacto está a usar uma nova identidade Signal. Isto pode ocorrer quando alguém está a tentar interceptar as suas comunicações ou quando o contacto simplesmente reinstalou o Signal. Poderá querer verificar a sua nova identidade abaixo.",
+        "message": "この相手は新しいIDを使っています。相手がSignalをインストールし直した可能性もありますが，だれか第3者が通信を傍受している可能性もあります。IDキーを確認した方がいいかも知れません。",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Enviar relatório de erros",
+        "message": "デバッグログを提出",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Erro",
+        "message": "エラー",
         "description": ""
     },
     "notifications": {
-        "message": "Notificações",
+        "message": "通知",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Reenviar",
+        "message": "再送",
         "description": ""
     }
 }
