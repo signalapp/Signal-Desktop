@@ -131,6 +131,12 @@
   Whisper.LightboxView = Whisper.View.extend({
       templateName: 'lightbox',
       className: 'modal lightbox',
+      initialize: function() {
+          this.window = extension.windows.getWindow();
+          this.$document = $(this.window.document);
+          this.listener = this.onkeyup.bind(this);
+          this.$document.on('keyup', this.listener);
+      },
       events: {
           'click .save': 'save',
           'click .close': 'remove',
@@ -145,6 +151,12 @@
               e.preventDefault();
               this.remove();
               return false;
+          }
+      },
+      onkeyup: function(e) {
+          if (e.keyCode === 27) {
+              this.remove();
+              this.$document.off('keyup', this.listener);
           }
       },
       render_attributes: function() {
