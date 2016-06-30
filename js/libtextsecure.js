@@ -35332,7 +35332,9 @@ Curve25519Worker.prototype = {
 
 })();
 
-/* vim: ts=4:sw=4 */
+/*
+ * vim: ts=4:sw=4
+ */
 
 var Internal = Internal || {};
 
@@ -35429,6 +35431,8 @@ var Internal = Internal || {};
                 result = result | (a[i] ^ b[i]);
             }
             if (result !== 0) {
+                console.log('Our MAC  ', dcodeIO.ByteBuffer.wrap(calculated_mac).toHex());
+                console.log('Their MAC', dcodeIO.ByteBuffer.wrap(mac).toHex());
                 throw new Error("Bad MAC");
             }
         });
@@ -35613,7 +35617,9 @@ Internal.protobuf = function() {
     };
 }();
 
-/* vim: ts=4:sw=4 */
+/*
+ * vim: ts=4:sw=4
+ */
 
 var Internal = Internal || {};
 
@@ -35625,6 +35631,8 @@ Internal.ChainType = {
   SENDING: 1,
   RECEIVING: 2
 };
+
+var ARCHIVED_STATES_MAX_LENGTH = 40;
 
 Internal.SessionRecord = function() {
     'use strict';
@@ -35840,6 +35848,7 @@ Internal.SessionRecord = function() {
                         index = i;
                     }
                 }
+                console.log("Deleting chain closed at", oldest.added);
                 delete session[util.toString(oldest.ephemeralKey)];
                 session.oldRatchetList.splice(index, 1);
             }
@@ -35848,7 +35857,7 @@ Internal.SessionRecord = function() {
             // Retain only the last 20 sessions
             var sessions = this._sessions;
             var oldestBaseKey, oldestSession;
-            while (Object.keys(sessions).length > 20) {
+            while (Object.keys(sessions).length > ARCHIVED_STATES_MAX_LENGTH) {
                 for (var key in sessions) {
                     var session = sessions[key];
                     if (session.indexInfo.closed > -1 && // session is closed
@@ -35998,7 +36007,7 @@ SessionBuilder.prototype = {
             record.archiveCurrentState();
         }
         if (message.preKeyId && !preKeyPair) {
-            console.log('Invalid prekey id');
+            console.log('Invalid prekey id', message.preKeyId);
         }
         return this.initSession(false, preKeyPair, signedPreKeyPair,
             message.identityKey.toArrayBuffer(),
@@ -36374,6 +36383,7 @@ SessionCipher.prototype = {
           return Promise.resolve();
       }
 
+      console.log('New remote ephemeral key');
       var ratchet = session.currentRatchet;
 
       return Promise.resolve().then(function() {
