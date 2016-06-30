@@ -39,11 +39,8 @@
         className: 'conversation-stack',
         open: function(conversation) {
             var id = 'conversation-' + conversation.cid;
-            if(id !== this.el.firstChild.id) {
-                this.$("video").each(function() {
-                    this.pause();
-                });
-                this.$("audio").each(function() {
+            if (id !== this.el.firstChild.id) {
+                this.$el.first().find('video, audio').each(function() {
                     this.pause();
                 });
                 var $el = this.$('#'+id);
