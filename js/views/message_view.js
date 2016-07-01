@@ -153,9 +153,11 @@
             this.model.get('attachments').forEach(function(attachment) {
                 var view = new Whisper.AttachmentView({ model: attachment });
                 this.listenTo(view, 'update', function() {
-                    this.trigger('beforeChangeHeight');
-                    this.$('.attachments').append(view.el);
-                    this.trigger('afterChangeHeight');
+                    if(!view.el.parentNode) {
+                        this.trigger('beforeChangeHeight');
+                        this.$('.attachments').append(view.el);
+                        this.trigger('afterChangeHeight');
+                    }
                 });
                 view.render();
             }.bind(this));
