@@ -59,7 +59,7 @@
   var VideoView = MediaView.extend({ tagName: 'video' });
 
   Whisper.AttachmentView = Backbone.View.extend({
-    tagName: 'span',
+    tagName: 'div',
     className: 'attachment',
     initialize: function() {
         this.blob = new Blob([this.model.data], {type: this.model.contentType});
@@ -69,13 +69,11 @@
         this.fileType = parts[1];
     },
     events: {
+        'click .saveAttachment': 'saveFile',
         'click': 'onclick'
     },
     onclick: function(e) {
         switch (this.contentType) {
-            case 'audio':
-            case 'video':
-                return;
             case 'image':
                 var view = new Whisper.LightboxView({ model: this });
                 view.render();
@@ -84,10 +82,11 @@
                 break;
 
             default:
-                this.saveFile();
+                return;
         }
     },
-    saveFile: function() {
+    saveFile: function(e) {
+        e.stopPropagation();
         var blob = this.blob;
         var suggestedName;
         if (this.fileType) {
@@ -124,6 +123,11 @@
         view.$el.appendTo(this.$el);
         view.on('update', this.trigger.bind(this, 'update'));
         view.render();
+        
+        var $save = $('<div class="saveAttachment">');
+        $save.html(i18n('saveAs'));
+        $save.appendTo(this.$el);
+        
         return this;
     }
   });
