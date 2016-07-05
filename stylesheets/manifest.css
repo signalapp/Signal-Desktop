@@ -276,7 +276,8 @@ img.emoji {
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 8px;
-  width: calc(100% - 44px - 8px - 4px); }
+  width: calc(100% - 44px - 8px - 4px);
+  text-align: left; }
   .contact-details p {
     overflow-x: hidden;
     text-overflow: ellipsis; }
@@ -286,7 +287,8 @@ img.emoji {
     font-size: 1em;
     font-weight: 400;
     text-overflow: ellipsis;
-    overflow-x: hidden; }
+    overflow-x: hidden;
+	text-align: left; }
   .contact-details .number {
     color: #616161;
     font-size: small; }
@@ -977,7 +979,8 @@ li.entry .error-icon-container {
     box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
-    max-width: 30em; }
+    max-width: 30em;
+    text-align: -webkit-auto; }
     @media (max-width: 899px) {
       .message-container .bubble,
       .message-list .bubble {

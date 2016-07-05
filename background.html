@@ -20,7 +20,7 @@
           </div>
           <h1>Signal</h1>
           <div class='tool-bar clearfix'>
-            <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}'>
+            <input type='search' class='search' placeholder='{{ searchForPeopleOrGroups }}' dir='auto'>
             <span class='search-icon'></span>
           </div>
         </div>
@@ -80,7 +80,7 @@
         </div>
         <span class='conversation-title'>
           {{ #name }}
-            <span class='conversation-name'>{{ name }}</span>
+            <span class='conversation-name' dir='auto'>{{ name }}</span>
           {{ /name }}
           {{ #number }}
             <span class='conversation-number'>{{ number }}</span>
@@ -136,7 +136,7 @@
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble' style='background-color: {{ avatar.color }};'>
-          <div class='sender'>{{ sender }}</div>
+          <div class='sender' dir='auto'>{{ sender }}</div>
           <div class='attachments'></div>
           <p class='content' dir='auto'>{{ message }}</p>
           <div class='meta'>
@@ -179,7 +179,7 @@
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
-      <h3 class='name'> {{ title }} </h3>
+      <h3 class='name' dir='auto'> {{ title }} </h3>
       <div class='number'>{{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
@@ -195,13 +195,13 @@
   <script type='text/x-tmpl-mustache' id='conversation-preview'>
       {{> avatar }}
       <div class='contact-details'>
-          <span class='last-timestamp' data-timestamp={{ last_message_timestamp }}> </span>
+          <span class='last-timestamp' data-timestamp={{ last_message_timestamp }} dir='auto'> </span>
           {{> contact_name_and_number }}
           {{ #unreadCount }}
             <span class='unread-count'>{{ unreadCount }}</span>
           {{ /unreadCount }}
           {{ #last_message }}
-            <p class='last-message'> {{ last_message }} </p>
+            <p class='last-message' dir='auto'> {{ last_message }} </p>
           {{ /last_message }}
       </div>
   </script>
@@ -304,7 +304,7 @@
   <script type='text/x-tmpl-mustache' id='recipients-input'>
       <div class='recipients-container'>
         <span class='recipients'></span>
-        <input type='text' class='search' placeholder='{{ placeholder }}' />
+        <input type='text' class='search' placeholder='{{ placeholder }}' dir='auto' />
       </div>
       <div class='results'>
         <div class='new-contact contact hide'></div>
@@ -330,7 +330,7 @@
                 <span class='error-icon'></span>
               </div>
           {{ /errors }}
-          <span class='name'>{{ name }}</span>
+          <span class='name' dir='auto'>{{ name }}</span>
           {{ #errors }}
             {{ #message }}
               <p class='error-message'>{{message}}</p>
