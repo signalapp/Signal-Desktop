@@ -225,7 +225,10 @@ input.search {
 .conversation.placeholder {
   text-align: center;
   padding: 100px 36px;
-  color: #aaa;
+
+  h3 {
+    font-size: large;
+  }
 }
 .contact.placeholder {
   position: absolute;
