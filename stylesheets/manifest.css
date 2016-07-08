@@ -288,7 +288,7 @@ img.emoji {
     font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden;
-	text-align: left; }
+    text-align: left; }
   .contact-details .number {
     color: #616161;
     font-size: small; }

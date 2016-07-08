@@ -291,6 +291,7 @@ li.entry .error-icon-container {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em;
+    text-align: -webkit-auto;
 
     @media(max-width: $big-avatar-min-width - 1px) {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
