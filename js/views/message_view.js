@@ -5,7 +5,7 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
+    var URL_REGEX = /((https?|ftp)\:\/\/)?([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?([a-z0-9-.]*)\.([a-z]{2,4})(\:[0-9]{2,5})?(\/([a-z0-9+\$_-]\.?)+)*\/?((?:\:|\?)?[a-z+&\$_.-][a-z0-9';:@&%=+\/\$_.-]*)?(#[a-z_.-][a-z0-9+\$_.-]*)?/gi;
 
     var ErrorIconView = Whisper.View.extend({
         templateName: 'error-icon',
@@ -140,7 +140,7 @@
 
             var content = this.$('.content');
             var escaped = content.html();
-            content.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));
+            content.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "<a href='$&' target='_blank'>$&</a>"));
 
             this.renderSent();
             this.renderDelivered();

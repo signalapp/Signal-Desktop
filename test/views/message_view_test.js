@@ -64,6 +64,51 @@ describe('MessageView', function() {
     assert.strictEqual(link.attr('href'), url);
   });
 
+  it('should linkify url without scheme properly', function(){
+    var url = 'example.com';
+    message.set('body', url);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var link = view.$el.find('.content a');
+    assert.strictEqual(link.length, 1);
+    assert.strictEqual(link.text(), url);
+    assert.strictEqual(link.attr('href'), url);
+  });
+
+  it('should linkify parenthetical url properly', function(){
+    var url = 'https://example.com';
+    var parentheticalLink = '(' + url + ')';
+    message.set('body', parentheticalLink);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var link = view.$el.find('.content a');
+    assert.strictEqual(link.length, 1);
+    assert.strictEqual(link.text(), url);
+    assert.strictEqual(link.attr('href'), url);
+  });
+
+  it('should linkify url with apostrophe and colon in GET params properly', function(){
+    var url = "https://example.com/Param:abc'xyz";
+    message.set('body', url);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var link = view.$el.find('.content a');
+    assert.strictEqual(link.length, 1);
+    assert.strictEqual(link.text(), url);
+    assert.strictEqual(link.attr('href'), url);
+  });
+
+  it('should linkify multiple URLs', function(){
+    var url1 = "http://example.com/";
+    var url2 = "http://example2.com/";
+    var msg = url1 + 'and' + url2;
+    message.set('body', msg);
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var links = view.$el.find('.content a');
+    assert.strictEqual(links.length, 2);
+  });
+
   it('disallows xss', function() {
     var xss = '<script>alert("pwnd")</script>';
     message.set('body', xss);
