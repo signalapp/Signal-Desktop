@@ -153,7 +153,7 @@
             this.model.get('attachments').forEach(function(attachment) {
                 var view = new Whisper.AttachmentView({ model: attachment });
                 this.listenTo(view, 'update', function() {
-                    if(!view.el.parentNode) {
+                    if (!view.el.parentNode) {
                         this.trigger('beforeChangeHeight');
                         this.$('.attachments').append(view.el);
                         this.trigger('afterChangeHeight');
