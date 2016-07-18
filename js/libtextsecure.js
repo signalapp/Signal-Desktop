@@ -37997,10 +37997,12 @@ MessageReceiver.prototype.extend({
         this.pending = this.pending.then(handleEnvelope, handleEnvelope);
     },
     handleEnvelope: function(envelope) {
-        console.log('envelope from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
         if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
             return this.onDeliveryReceipt(envelope);
-        } else if (envelope.content) {
+        }
+
+        console.log('envelope from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
+        if (envelope.content) {
             return this.handleContentMessage(envelope);
         } else if (envelope.legacyMessage) {
             return this.handleLegacyMessage(envelope);
