@@ -30,6 +30,7 @@
             this.clear();
         },
         update: function() {
+            console.log('updating notifications', this.length);
             extension.notification.clear();
             if (this.length === 0) {
                 return;
