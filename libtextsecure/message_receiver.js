@@ -89,7 +89,6 @@ MessageReceiver.prototype.extend({
             return this.onDeliveryReceipt(envelope);
         }
 
-        console.log('envelope from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
         if (envelope.content) {
             return this.handleContentMessage(envelope);
         } else if (envelope.legacyMessage) {
@@ -132,10 +131,11 @@ MessageReceiver.prototype.extend({
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
+                console.log('message from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
                 promise = sessionCipher.decryptWhisperMessage(ciphertext).then(this.unpad);
                 break;
             case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
-                console.log('prekey whisper message');
+                console.log('prekey message from', envelope.source + '.' + envelope.sourceDevice, envelope.timestamp.toNumber());
                 promise = this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address);
                 break;
             default:
