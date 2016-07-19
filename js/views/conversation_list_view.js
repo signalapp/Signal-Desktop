@@ -13,6 +13,9 @@
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
                 var index = getInboxCollection().indexOf(conversation);
+                if (index === this.$el.index($el)) {
+                    return;
+                }
                 if (index === 0) {
                     this.$el.prepend($el);
                 } else if (index === this.collection.length - 1) {
