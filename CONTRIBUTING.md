@@ -36,16 +36,6 @@ mobile, **you must build a mobile client that targets the staging server**
 (see below, under
 [Linking](#linking)).
 
-**Important!** The staging server uses a [self-signed ssl
-certificate](https://github.com/WhisperSystems/Signal-Browser/issues/110).
-By default, your browser will reject this certificate as insecure. Therefore,
-in order to register or send and receive messages of any kind, you must first
-visit <https://textsecure-service-staging.whispersystems.org/> in a new tab and
-click through the warnings to allow the certificate. If done successfully,
-you should get a 404 from the server. If at any time in the future you notice
-a console error about an "INSECURE RESPONSE" or "Handshake was canceled",
-repeat this step.
-
 ## Linking
 
 Currently only the Android client supports multi-device linking.

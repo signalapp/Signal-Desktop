@@ -121,7 +121,7 @@ module.exports = function(grunt) {
           process: function(content, srcpath) {
             if (srcpath.match('background.js')) {
               return content.replace(
-                /textsecure-service-staging.whispersystems.org/g,
+                /textsecure-service-staging.whispersystems.org:4433/g,
                 'textsecure-service-ca.whispersystems.org:4433').replace(
                 /whispersystems-textsecure-attachments-staging.s3.amazonaws.com/g,
                 'whispersystems-textsecure-attachments.s3.amazonaws.com');
