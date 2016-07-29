@@ -438,6 +438,7 @@
         var conversationId = this.id;
         sender.fetch().then(function() {
             sender.getNotificationIcon().then(function(iconUrl) {
+                console.log('adding notification');
                 Whisper.Notifications.add({
                     title          : sender.getTitle(),
                     message        : message.getNotificationText(),

@@ -122,6 +122,7 @@
             return (setting === SETTINGS.MESSAGE || setting === SETTINGS.NAME);
         },
         onRemove: function() {
+            console.log('remove notification');
             if (this.length === 0) {
                 extension.notification.clear();
                 return;
