@@ -357,7 +357,9 @@
                         message.save().then(function() {
                             conversation.save().then(function() {
                                 conversation.trigger('newmessage', message);
-                                conversation.notify(message);
+                                if (message.get('unread')) {
+                                    conversation.notify(message);
+                                }
                                 resolve();
                             });
                         });
