@@ -71,9 +71,9 @@
             return i18n("timestamp_"+string).replace(/%d/i, number);
         },
         _format: {
-            y: i18n('timestampFormat_y'),
-            m: i18n('timestampFormat_m'),
-            d: i18n('timestampFormat_d')
+            y: "MMM D, YYYY",
+            m: "MMM D",
+            d: "ddd"
         }
     });
     Whisper.ExtendedTimestampView = Whisper.TimestampView.extend({
@@ -81,9 +81,9 @@
             return i18n("extendedTimestamp_"+string).replace(/%d/i, number);
         },
         _format: {
-            y: i18n('extendedTimestampFormat_y'),
-            m: i18n('extendedTimestampFormat_m'),
-            d: i18n('extendedTimestampFormat_d')
+            y: "MMM D, YYYY LT",
+            m: "MMM D LT",
+            d: "ddd LT"
         }
     });
 })();

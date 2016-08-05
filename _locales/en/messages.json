@@ -329,18 +329,6 @@
        "description": "",
        "message": "%d hours"
     },
-    "timestampFormat_y" : {
-       "description": "",
-       "message": "MMM D, YYYY"
-    },
-    "timestampFormat_m" : {
-       "description": "",
-       "message": "MMM D"
-    },
-    "timestampFormat_d" : {
-       "description": "",
-       "message": "ddd"
-    },
     "extendedTimestamp_s": {
        "description": "",
        "message": "now"
@@ -360,17 +348,5 @@
     "extendedTimestamp_hh": {
        "description": "",
        "message": "%d hours ago"
-    },
-    "extendedTimestampFormat_y" : {
-       "description": "",
-       "message": "MMM D, YYYY LT"
-    },
-    "extendedTimestampFormat_m" : {
-       "description": "",
-       "message": "MMM D LT"
-    },
-    "extendedTimestampFormat_d" : {
-       "description": "",
-       "message": "ddd LT"
-   }
+    }
 }
