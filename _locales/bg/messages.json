@@ -1,6 +1,6 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Последно внасяне на ",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -8,7 +8,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "Settings",
+        "message": "Настройки",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
@@ -24,7 +24,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Подробности",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -44,7 +44,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Когато съобщенията пристигнат, да се изпишат известия които разкриват:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -52,19 +52,19 @@
         "description": ""
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Внасяне на всички Signal групи и контакти от Вашето мобилно устройство.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Рестартиране на Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Изтриване на съобщения",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Грешка при обработката на входящо съобщение.",
         "description": ""
     },
     "selectAContact": {
@@ -76,7 +76,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Вероятно желаете да $tag_start$ удостоверите $tag_end$ този контакт.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -92,15 +92,15 @@
         "description": "Label for the time a message was sent"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Докладвай за проблем",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Ново съобщение",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Само име на изпращача",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -112,7 +112,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Перманентно изтриване на този разговор?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -120,19 +120,19 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Търсене...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Нито име, нито съобщение",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Внеси сега",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Внасянето беше неуспешно. Убедете се че компютърът и телефонът Ви са свързани към интернет.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -146,11 +146,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Научете повече за сверяване на ключове.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Ваша самоличност",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -162,15 +162,15 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Обновяване",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Скрии подробностите",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Нова самоличност",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -182,19 +182,19 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Внасяне...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Приемане",
         "description": "Label for a button to accept a new identity key"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Номерът не е регистриран.",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Контакти",
         "description": "Label for contact and group sync settings"
     },
     "received": {
@@ -206,11 +206,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Мултимедиино съобщение",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Тази версия на Signal за компютър вече е остаряла. Моля, обновете до последната версия за да можете да изпращате съобщения.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -222,7 +222,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Отворете Signal на телефона си, след което отворете 'Настройки' > 'Регистрирани устройства'. Натиснете бутона за да добавите ново устройство, след което сканирайте кода отгоре.",
         "description": ""
     },
     "installWelcome": {
@@ -230,15 +230,15 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Неуспешна връзка със сървъра.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Съобщението не беше изпратено.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Изключване на известия",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -246,7 +246,7 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "Имам Сигнал за Андройд.",
+        "message": "Имам Сигнал за Андройд",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
@@ -272,11 +272,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Тяхна самоличност",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Нови съобщения",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -304,11 +304,11 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Име на изпращача и съобщение",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Неупешно изпращане до някои от получателите. Проверете вашата връзка към мрежата.",
         "description": ""
     },
     "ok": {
@@ -316,11 +316,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Този контакт използва нова самоличност в Signal. Това може да означава, че или получателят се опитва да прихване вашите съобщения, или просто повторно е инсталирал приложението Signal. Вероятно желаете да удостоверите новият им ключ за самоличност написан отдолу.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Изпрати данни за отстраняване на проблеми",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -328,7 +328,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Известия",
         "description": "Header for notification settings"
     },
     "resend": {

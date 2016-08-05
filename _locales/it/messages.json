@@ -52,7 +52,7 @@
         "description": ""
     },
     "syncExplanation": {
-        "message": "Importa tutti i gruppi Signal e i contatti dal tuo dispositivo mobile.",
+        "message": "Importa dal tuo dispositivo mobile tutti i contatti ed i gruppi Signal.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -300,7 +300,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Verifca",
+        "message": "Verifica",
         "description": ""
     },
     "nameAndMessage": {

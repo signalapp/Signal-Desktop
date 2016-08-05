@@ -202,7 +202,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "메세지를 보내다",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {

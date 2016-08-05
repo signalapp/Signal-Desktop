@@ -1,6 +1,6 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Última importação em ",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importar todos os grupos e contactos do Signal a partir do seu dispositivo móvel.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -128,11 +128,11 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importar agora",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "A importação falhou. Por favor verifique que o seu computador e o seu dispositivos estão ligados à Internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -182,7 +182,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "A importar...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -194,7 +194,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Contactos",
         "description": "Label for contact and group sync settings"
     },
     "received": {

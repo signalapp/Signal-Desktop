@@ -1,10 +1,10 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Utolsó importálás:",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Nem támogatott csatolmánytípus. Mentéshez kattints ide.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
@@ -12,7 +12,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with unknown identity key. Click to process and display.",
+        "message": "Üzenet érkezett ismeretlen azonosítókulccsal. Megtekintéshez kattints ide.",
         "description": ""
     },
     "installComputerName": {
@@ -28,7 +28,7 @@
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Nem támogatott fájltípus",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -36,15 +36,15 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Munkamenet visszaállítása",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Üdvözlünk a Signal-ban",
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Amikor üzenet érkezik, az értesítőn látszódjon:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -52,7 +52,7 @@
         "description": ""
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Minden Signal csoport és partner importálása a mobileszközödről.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -64,11 +64,11 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "A bejövő üzenet kezelése sikertelen volt.",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Válassz ki egy partnert vagy csoportot a beszélgetés elkezdéséhez.",
         "description": ""
     },
     "installConnecting": {
@@ -76,7 +76,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "$tag_start$ Ellenőrizheted $tag_end$ ezt a partnert.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -100,7 +100,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Csak a küldő neve",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -116,7 +116,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Ez a napló publikusan elérhető lesz az interneten, hogy a hozzájárulók megtekinthessék. Ellenőrizheted és szerkesztheted a tartalmát küldés előtt.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -124,19 +124,19 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Sem név, sem üzenet",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importálás most",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Az importálás sikertelen volt. Győződj meg róla, hogy a számítógéped és a telefonod csatlakozik-e az internetre.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Kövess minket</a>, ha érdekelnek a hírek az iOS több eszközös támogatásáról.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -146,7 +146,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Tudj meg többet a kulcsok ellenőrzéséről.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
@@ -154,7 +154,7 @@
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Elnézést, de túl sok társított eszközöd van. Próbálj kitörölni néhányat.",
         "description": ""
     },
     "installSyncingGroupsAndContacts": {
@@ -174,19 +174,19 @@
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "A magánélet védelme lehetséges. A Signal ezt egyszerűvé teszi.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Lecsatlakozva",
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importálás...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Elfogadás",
         "description": "Label for a button to accept a new identity key"
     },
     "unregisteredUser": {
@@ -194,7 +194,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Partnerek",
         "description": "Label for contact and group sync settings"
     },
     "received": {
@@ -206,31 +206,31 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Médiaüzenet",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "A Signal Desktop ezen verziója elavult. Kérjük, frissítsd a legújabb verzióra, hogy folytatni tudd a beszélgetést.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's identity key has changed. Click to process and display.",
+        "message": "A partner azonosítókulcsa megváltozott. Megtekintéshez kattints ide.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Elnézést, a kiválasztott fájl túllépi az üzenet méretének korlátját.",
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Nyisd meg a Signal-t a telefonodon, és menj a Beállítások > Társított készülékek menübe. Érintsd meg az eszköz hozzáadása gombot, és olvasd be a fenti kódot.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Üdvözlünk a Signal Desktop-ban",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "A szerverhez való csatlakozás sikertelen volt.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
@@ -246,19 +246,19 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Már van Androidos Signal-om",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Munkamenet biztonságos visszaállítása",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Kezdés",
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Először telepítsd a <a $a_params$>Signal-t</a> az Android telefonodra.<br />Össze fogjuk kötni az eszközeid és szinkronban tartjuk az üzeneteid.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -280,7 +280,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
+        "message": "Még nem beszélgettél ezzel a partnerrel. Az identitása elérhető lesz az első üzenet után.",
         "description": ""
     },
     "submit": {
@@ -296,15 +296,15 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Üzenet részletei",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Ellenőrzés",
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Küldő neve és az üzenet",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -316,11 +316,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Ez a partner egy új Signal identitást használ. Ez jelentheti azt, hogy valaki megpróbálja lehallgatni a kommunikációt vagy a partnered egyszerűen újratelepítette a Signal-t. Ajánlott ellenőrizni a partner új azonosítókulcsát lent.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Hibakeresési napló küldése",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
