@@ -62,7 +62,7 @@
       "libphonenumber_api-compiled.js"
     ],
     "momentjs": [
-      "moment.js"
+      "min/moment-with-locales.js"
     ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
