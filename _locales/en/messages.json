@@ -327,7 +327,6 @@
     },
     "timestamp_hh": {
         "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list.",
-       "description": "",
        "message": "%d hours"
     },
     "extendedTimestamp_s": {
