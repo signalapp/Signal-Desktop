@@ -5,8 +5,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    moment.locale(chrome.i18n.getUILanguage());
-
     Whisper.TimestampView = Whisper.View.extend({
         initialize: function(options) {
             extension.windows.onClosed(this.clearTimeout.bind(this));
