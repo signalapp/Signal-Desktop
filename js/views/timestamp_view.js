@@ -44,7 +44,7 @@
                 return timestamp.format(this._format.y);
             } else if (timediff.months() > 0 || timediff.days() > 6) {
                 this.delay = null;
-                return timestamp.format(this._format.m);
+                return timestamp.format(this._format.mo);
             } else if (timediff.days() > 0) {
                 this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(moment());
                 return timestamp.format(this._format.d);
@@ -66,21 +66,33 @@
             }
         },
         relativeTime : function (number, string, isFuture) {
-            return i18n("timestamp_"+string).replace(/%d/i, number);
+            var format = i18n("timestamp_"+string) || this._format[string];
+            return format.replace(/%d/i, number);
         },
         _format: {
+            s: "now",
+            m: "1 min",
+            mm: "%d min",
+            h: "1 hour",
+            hh: "%d hours",
             y: "MMM D, YYYY",
-            m: "MMM D",
+            mo: "MMM D",
             d: "ddd"
         }
     });
     Whisper.ExtendedTimestampView = Whisper.TimestampView.extend({
         relativeTime : function (number, string, isFuture) {
-            return i18n("extendedTimestamp_"+string).replace(/%d/i, number);
+            var format = i18n("extendedTimestamp_"+string) || this._format[string];
+            return format.replace(/%d/i, number);
         },
         _format: {
+            s: "now",
+            m: "%d minute ago",
+            mm: "%d minutes ago",
+            h: "%d hour ago",
+            hh: "%d hours ago",
             y: "MMM D, YYYY LT",
-            m: "MMM D LT",
+            mo: "MMM D LT",
             d: "ddd LT"
         }
     });
