@@ -58,7 +58,9 @@
 
         fetch: function() {
             return new Promise(function(resolve) {
-                items.fetch({reset: true}).always(resolve);
+                items.fetch({reset: true}).fail(function() {
+                    console.log('Failed to fetch from storage');
+                }).always(resolve);
             });
         }
     };
