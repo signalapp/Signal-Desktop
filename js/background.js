@@ -4,6 +4,10 @@
 
 ;(function() {
     'use strict';
+    window.onInvalidStateError = function(e) {
+        console.log(e);
+    };
+
     console.log('background page reloaded');
     // register some chrome listeners
     if (chrome.notifications) {

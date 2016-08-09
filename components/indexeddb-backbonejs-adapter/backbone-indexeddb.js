@@ -562,7 +562,15 @@
         // Executes a given command on the driver. If not started, just stacks up one more element.
         execute: function (message) {
             if (this.started) {
+              try {
                 this.driver.execute(message[2].storeName || message[1].storeName, message[0], message[1], message[2]); // Upon messages, we execute the query
+              } catch (e) {
+                if (e.name === 'InvalidStateError') {
+                  var f = window.onInvalidStateError;
+                  if (f) f(e);
+                }
+                throw e;
+              }
             } else if (this.failed) {
                 message[2].error();
             } else {
