@@ -46,7 +46,7 @@ describe('TimestampView', function() {
 
         // check recent timestamps
         checkDiff(30, 'now', 'now'); // 30 seconds
-        checkDiff(40*60, '40 min', '40 minutes ago');
+        checkDiff(40*60, '40 minutes', '40 minutes ago');
         checkDiff(60*60, '1 hour', '1 hour ago');
         checkDiff(125*60, '2 hours', '2 hours ago');
 

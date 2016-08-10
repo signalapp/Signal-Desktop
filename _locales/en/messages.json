@@ -310,43 +310,15 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-       "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list.",
+       "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
        "message": "now"
     },
     "timestamp_m": {
-      "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list.",
-      "message": "1 min"
-    },
-    "timestamp_mm": {
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list.",
-       "message": "%d min"
+       "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
+       "message": "1 minute"
     },
     "timestamp_h": {
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list.",
+       "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
        "message": "1 hour"
-    },
-    "timestamp_hh": {
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list.",
-       "message": "%d hours"
-    },
-    "extendedTimestamp_s": {
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble.",
-       "message": "now"
-    },
-    "extendedTimestamp_m": {
-       "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble.",
-       "message": "1 minute ago"
-    },
-    "extendedTimestamp_mm": {
-       "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble.",
-       "message": "%d minutes ago"
-    },
-    "extendedTimestamp_h": {
-       "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble.",
-       "message": "1 hour ago"
-    },
-    "extendedTimestamp_hh": {
-       "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble.",
-       "message": "%d hours ago"
     }
 }

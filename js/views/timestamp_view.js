@@ -5,6 +5,15 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    moment.updateLocale(i18n.getLocale(), {
+        relativeTime : {
+            s: i18n('timestamp_s') || 'now',
+            m: i18n('timestamp_m') || '1 minute',
+            h: i18n('timestamp_h') || '1 hour'
+        }
+    });
+    moment.locale(i18n.getLocale());
+
     Whisper.TimestampView = Whisper.View.extend({
         initialize: function(options) {
             extension.windows.onClosed(this.clearTimeout.bind(this));
@@ -50,13 +59,13 @@
                 return timestamp.format(this._format.d);
             } else if (timediff.hours() > 1) {
                 this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
-                return this.relativeTime(timediff.hours(), 'hh');
+                return this.relativeTime(timediff.hours(), 'h');
             } else if (timediff.hours() === 1) {
                 this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
                 return this.relativeTime(timediff.hours(), 'h');
             } else if (timediff.minutes() > 1) {
                 this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
-                return this.relativeTime(timediff.minutes(), 'mm');
+                return this.relativeTime(timediff.minutes(), 'm');
             } else if (timediff.minutes() === 1) {
                 this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
                 return this.relativeTime(timediff.minutes(), 'm');
@@ -65,16 +74,10 @@
                 return this.relativeTime(timediff.seconds(), 's');
             }
         },
-        relativeTime : function (number, string, isFuture) {
-            var format = i18n("timestamp_"+string) || this._format[string];
-            return format.replace(/%d/i, number);
+        relativeTime : function (number, string) {
+            return moment.duration(number, string).humanize();
         },
         _format: {
-            s: "now",
-            m: "1 min",
-            mm: "%d min",
-            h: "1 hour",
-            hh: "%d hours",
             y: "MMM D, YYYY",
             mo: "MMM D",
             d: "ddd"
@@ -82,15 +85,9 @@
     });
     Whisper.ExtendedTimestampView = Whisper.TimestampView.extend({
         relativeTime : function (number, string, isFuture) {
-            var format = i18n("extendedTimestamp_"+string) || this._format[string];
-            return format.replace(/%d/i, number);
+            return moment.duration(-1 * number, string).humanize(string !== 's');
         },
         _format: {
-            s: "now",
-            m: "%d minute ago",
-            mm: "%d minutes ago",
-            h: "%d hour ago",
-            hh: "%d hours ago",
             y: "MMM D, YYYY LT",
             mo: "MMM D LT",
             d: "ddd LT"

@@ -169,9 +169,12 @@
             return chrome.i18n.getMessage(message, substitutions);
         }
     };
-    if (window.chrome && chrome.i18n) {
-        moment.locale(chrome.i18n.getUILanguage());
-    }
+    i18n.getLocale = function() {
+        if (window.chrome && chrome.i18n) {
+            return chrome.i18n.getUILanguage();
+        }
+        return 'en';
+    };
 
     window.textsecure = window.textsecure || {};
     window.textsecure.registration = {
