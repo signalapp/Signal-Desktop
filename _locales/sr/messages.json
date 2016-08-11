@@ -19,8 +19,12 @@
         "message": "This computer's name will be",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
+    "timestamp_m": {
+        "message": "1 min",
+        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+    },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Важи!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
@@ -31,12 +35,16 @@
         "message": "Unsupported file type",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "extendedTimestamp_m": {
+        "message": "1 minute ago",
+        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
+    },
     "installGeneratingKeys": {
         "message": "Generating Keys",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Ресетуј сесију",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -48,8 +56,12 @@
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Чланови",
         "description": ""
+    },
+    "timestamp_h": {
+        "message": "1 hour",
+        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
     },
     "syncExplanation": {
         "message": "Import all Signal groups and contacts from your mobile device.",
@@ -60,7 +72,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Обриши поруке",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -76,7 +88,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Можда желите да $tag_start$ проверите $tag_end$ овог контакта.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -87,9 +99,17 @@
             }
         }
     },
+    "timestamp_mm": {
+        "message": "%d min",
+        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
+    },
     "sent": {
-        "message": "Sent",
+        "message": "Послата",
         "description": "Label for the time a message was sent"
+    },
+    "timestamp_s": {
+        "message": "now",
+        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
     },
     "reportIssue": {
         "message": "Report an issue",
@@ -104,7 +124,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Провери идентитет",
         "description": ""
     },
     "from": {
@@ -157,6 +177,10 @@
         "message": "Sorry, you have too many devices linked already. Try removing some.",
         "description": ""
     },
+    "extendedTimestamp_s": {
+        "message": "now",
+        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Syncing groups and contacts",
         "description": ""
@@ -185,9 +209,17 @@
         "message": "Importing...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
+    "extendedTimestamp_hh": {
+        "message": "%d hours ago",
+        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
+    },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Прихвати",
         "description": "Label for a button to accept a new identity key"
+    },
+    "extendedTimestamp_mm": {
+        "message": "%d minutes ago",
+        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Number is not registered",
@@ -198,11 +230,15 @@
         "description": "Label for contact and group sync settings"
     },
     "received": {
-        "message": "Received",
+        "message": "Примљена",
         "description": "Label for the time a message was received"
     },
+    "extendedTimestamp_h": {
+        "message": "1 hour ago",
+        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
+    },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Пошаљи поруку",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -242,19 +278,19 @@
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Одустани",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Имам Сигнал за Андроид",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Безбедна сесија ресетована",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Почните",
         "description": ""
     },
     "installSignalLink": {
@@ -284,7 +320,7 @@
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Пошаљи",
         "description": ""
     },
     "to": {
@@ -296,11 +332,11 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Детаљи поруке",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Провери",
         "description": ""
     },
     "nameAndMessage": {
@@ -312,19 +348,23 @@
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "У реду",
         "description": ""
     },
     "identityChanged": {
         "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
     },
+    "timestamp_hh": {
+        "message": "%d hours",
+        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
+    },
     "submitDebugLog": {
         "message": "Submit Debug Log",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Грешка",
         "description": ""
     },
     "notifications": {
@@ -332,7 +372,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Пошаљи поново",
         "description": ""
     }
 }

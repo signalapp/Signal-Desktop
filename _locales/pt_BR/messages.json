@@ -19,6 +19,10 @@
         "message": "O nome deste computador será",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
+    "timestamp_m": {
+        "message": "1 min",
+        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+    },
     "gotIt": {
         "message": "Entendido!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -30,6 +34,10 @@
     "unsupportedFileType": {
         "message": "Tipo de arquivo sem suporte",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "extendedTimestamp_m": {
+        "message": "Há 1 minuto",
+        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Gerando Chaves",
@@ -50,6 +58,10 @@
     "members": {
         "message": "Membros",
         "description": ""
+    },
+    "timestamp_h": {
+        "message": "1 hora",
+        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
     },
     "syncExplanation": {
         "message": "Importar todos os grupos e contatos no Signal do seu aparelho celular. ",
@@ -87,9 +99,17 @@
             }
         }
     },
+    "timestamp_mm": {
+        "message": "%d min",
+        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
+    },
     "sent": {
         "message": "Enviada",
         "description": "Label for the time a message was sent"
+    },
+    "timestamp_s": {
+        "message": "agora",
+        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
     },
     "reportIssue": {
         "message": "Relatar um problema",
@@ -157,6 +177,10 @@
         "message": "Desculpe. Existem muitos aparelhos já religados. Tente remover alguns.",
         "description": ""
     },
+    "extendedTimestamp_s": {
+        "message": "agora",
+        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos e contatos",
         "description": ""
@@ -185,9 +209,17 @@
         "message": "Importando...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
+    "extendedTimestamp_hh": {
+        "message": "Há %d horas",
+        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
+    },
     "acceptNewKey": {
         "message": "Aceitar",
         "description": "Label for a button to accept a new identity key"
+    },
+    "extendedTimestamp_mm": {
+        "message": "Há %d minutos",
+        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Número não registrado",
@@ -200,6 +232,10 @@
     "received": {
         "message": "Recebida",
         "description": "Label for the time a message was received"
+    },
+    "extendedTimestamp_h": {
+        "message": "Há 1 hora",
+        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Enviar mensagem",
@@ -318,6 +354,10 @@
     "identityChanged": {
         "message": "Esse contato está usando uma nova identidade. Isso pode ser uma tentativa de interceptação das suas comunicações ou uma simples reinstalação do Signal. Recomendamos-lhe verificar a nova chave de identidade desse contato, abaixo. ",
         "description": ""
+    },
+    "timestamp_hh": {
+        "message": "%d horas",
+        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Enviar registro de depuração",

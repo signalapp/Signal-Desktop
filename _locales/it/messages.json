@@ -19,6 +19,10 @@
         "message": "Questo dispositivo sarà conosciuto con il nome",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
+    "timestamp_m": {
+        "message": "1 min",
+        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+    },
     "gotIt": {
         "message": "Capito!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -30,6 +34,10 @@
     "unsupportedFileType": {
         "message": "Tipo di file non supportato",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "extendedTimestamp_m": {
+        "message": "1 minuto fa",
+        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Generazione chiavi in corso",
@@ -50,6 +58,10 @@
     "members": {
         "message": "Membri",
         "description": ""
+    },
+    "timestamp_h": {
+        "message": "1 ora",
+        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
     },
     "syncExplanation": {
         "message": "Importa dal tuo dispositivo mobile tutti i contatti ed i gruppi Signal.",
@@ -87,9 +99,17 @@
             }
         }
     },
+    "timestamp_mm": {
+        "message": "%d min",
+        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
+    },
     "sent": {
         "message": "Inviato",
         "description": "Label for the time a message was sent"
+    },
+    "timestamp_s": {
+        "message": "adesso",
+        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
     },
     "reportIssue": {
         "message": "Segnala un problema",
@@ -157,6 +177,10 @@
         "message": "Spiacente, hai troppi dispositivi collegati. Prova a rimuoverne qualcuno.",
         "description": ""
     },
+    "extendedTimestamp_s": {
+        "message": "adesso",
+        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizzazione gruppi e contatti in corso",
         "description": ""
@@ -185,9 +209,17 @@
         "message": "Importazione...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
+    "extendedTimestamp_hh": {
+        "message": "%d ore fa",
+        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
+    },
     "acceptNewKey": {
         "message": "Accetta",
         "description": "Label for a button to accept a new identity key"
+    },
+    "extendedTimestamp_mm": {
+        "message": "%d minuti fa",
+        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Il numero non è registrato",
@@ -200,6 +232,10 @@
     "received": {
         "message": "Ricevuto",
         "description": "Label for the time a message was received"
+    },
+    "extendedTimestamp_h": {
+        "message": "1 ora fa",
+        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Invia messaggio",
@@ -318,6 +354,10 @@
     "identityChanged": {
         "message": "Questo contatto sta usando una nuova identità Signal. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal. Dovresti verificare le nuove chiavi a seguire.",
         "description": ""
+    },
+    "timestamp_hh": {
+        "message": "%d ore",
+        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Invia log di debug",

@@ -4,19 +4,19 @@
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "ಬೆಂಬಲವಿಲ್ಲದ ಲಗತ್ತಿನ ಪ್ರಕಾರ. ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
+        "message": "Nepalaikomas priedo tipas. Spustelėkite, kad įrašytumėte.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
-        "message": "ಸಿದ್ಧತೆಗಳು",
+        "message": "Nustatymai",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "ಅಪರಿಚಿತ ಗುರುತಿನ ಕೀಲಿಯ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "message": "Received message with unknown identity key. Click to process and display.",
         "description": ""
     },
     "installComputerName": {
-        "message": "ಈ ಗಣಕದ ಹೆಸರು",
+        "message": "Šio kompiuterio pavadinimas bus",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
@@ -24,7 +24,7 @@
         "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
     },
     "gotIt": {
-        "message": "ಅರ್ಥವಾಯಿತು!",
+        "message": "Got it!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
@@ -32,7 +32,7 @@
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
-        "message": "ಬೆಂಬಲವಿಲ್ಲದ ಕಡತ ಪ್ರಕಾರ",
+        "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "extendedTimestamp_m": {
@@ -40,15 +40,15 @@
         "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
-        "message": "ಕೀಲಿಗಳನ್ನು ರಚಿಸಲಾಗುತ್ತಿದೆ ...",
+        "message": "Kuriami raktai",
         "description": ""
     },
     "resetSession": {
-        "message": "ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ",
+        "message": "Reset Session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ",
+        "message": "Sveiki atvykę į Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
@@ -56,7 +56,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "ಸದಸ್ಯರು",
+        "message": "Members",
         "description": ""
     },
     "timestamp_h": {
@@ -64,15 +64,15 @@
         "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importuoti visas Signal grupes ir kontaktus iš jūsų mobiliojo įrenginio.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Paleisti Signal iš naujo",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ",
+        "message": "Delete Messages",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -80,15 +80,15 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "ಸಂವಾದ ಪ್ರಾರಂಭಿಸಲು ಸಂಪರ್ಕ ಅಥವಾ ಗುಂಪುನ್ನು ಆಯ್ಕೆಮಾಡಿಕೊಳ್ಳಿ.",
+        "message": "Select a contact or group to start chatting.",
         "description": ""
     },
     "installConnecting": {
-        "message": "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
+        "message": "Jungiamasi...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "ನೀವು ಈ ಸಂಪರ್ಕವನ್ನು  $tag_start$ ಪರಿಶೀಲಿಸಬಹುದು $tag_end$.",
+        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -104,7 +104,7 @@
         "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
     },
     "sent": {
-        "message": "ಕಳುಹಿಸಿ",
+        "message": "Išsiųsta",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
@@ -112,23 +112,23 @@
         "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Pranešti apie klaidą",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "ಹೊಸ ಸಂದೇಶ",
+        "message": "New Message",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "ಕಳುಹಿಸುವವರ ಹೆಸರು ಮಾತ್ರ",
+        "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ",
+        "message": "Verify Identity",
         "description": ""
     },
     "from": {
-        "message": "ಇಂದ",
+        "message": "Nuo",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
@@ -136,11 +136,11 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "ಈ ದಾಖಲೆಯನ್ನು ಕೊಡುಗೆದಾರರ ವೀಕ್ಷಣೆಗೆ ಬಹಿರಂಗ ಅಂತರಜಾಲಕ್ಕೆ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವು ಇದನ್ನು ಪರೀಕ್ಷಿಸಬಹುದು ಮತ್ತು ಸಲ್ಲಿಸುವ ಮೊದಲು ಪರಿಷ್ಕರಿಸಬಹುದು.",
+        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "ಹುಡುಕಿ... ",
+        "message": "Ieškoti...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -148,15 +148,15 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importuoti dabar",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Importavimas nepavyko. Įsitikinkite, kad jūsų kompiuteris ir telefonas yra prijungti prie interneto.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "ಐ.ಒ.ಎಸ್ ಬಹು ಸಾಧನ ಬೆಂಬಲ ಬಗ್ಗೆ  ತಿಳಿಯಲು <a $a_params$>ನಮ್ಮನ್ನು ಹಿಂಬಾಲಿಸು</a>",
+        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -170,11 +170,11 @@
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "ನಿಮ್ಮ ಗುರುತು",
+        "message": "Jūsų tapatybė",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "ಕ್ಷಮಿಸಿ, ನೀವು ಹಲವಾರು ಸಾಧನಗಳು ಈಗಾಗಲೇ ಜೋಡಿಸಿದ್ದೀರಿ. ಕೆಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸಿ.",
+        "message": "Sorry, you have too many devices linked already. Try removing some.",
         "description": ""
     },
     "extendedTimestamp_s": {
@@ -182,11 +182,11 @@
         "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
     },
     "installSyncingGroupsAndContacts": {
-        "message": "ಗುಂಪುಗಳು ಹಾಗು ಸಂಪರ್ಕಗಳನ್ನು  ಸಮನ್ವಯಗೊಳಿಸಲಾಗುತ್ತಿದೆ",
+        "message": "Sinchronizuojamos grupės ir kontaktai",
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Naujinti",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
@@ -194,19 +194,19 @@
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
-        "message": "ಹೊಸ ಗುರುತು",
+        "message": "Nauja tapatybė",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "ಖಾಸಗಿತನ ಸಾಧ್ಯ. ಸಿಗ್ನಲ್ ಇದನ್ನು ಸುಲಭವಾಗಿಸುತ್ತದೆ.",
+        "message": "Privacy is possible. Signal makes it easy.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
-        "message": "ಸಂಪರ್ಕ ಕಡಿತಗೊಂಡಿದೆ",
+        "message": "Atsijungta",
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importuojama...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "extendedTimestamp_hh": {
@@ -214,7 +214,7 @@
         "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
     },
     "acceptNewKey": {
-        "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
+        "message": "Priimti",
         "description": "Label for a button to accept a new identity key"
     },
     "extendedTimestamp_mm": {
@@ -230,7 +230,7 @@
         "description": "Label for contact and group sync settings"
     },
     "received": {
-        "message": "ಸ್ವೀಕರಿಸಲಾಗಿದೆ",
+        "message": "Gauta",
         "description": "Label for the time a message was received"
     },
     "extendedTimestamp_h": {
@@ -238,7 +238,7 @@
         "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
-        "message": "ಒಂದು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ",
+        "message": "Siųsti žinutę",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -250,11 +250,11 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ.  ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "message": "This contact's identity key has changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ.",
+        "message": "Sorry, the selected file exceeds message size restrictions.",
         "description": ""
     },
     "installAndroidInstructions": {
@@ -262,39 +262,39 @@
         "description": ""
     },
     "installWelcome": {
-        "message": "ಸಿಗ್ನಲ್ ಗಣಕತೆರೆಗೆ ಸ್ವಾಗತ",
+        "message": "Welcome to Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "ಪೂರೈಕೆಗಣಕದ ಜೋತೆ ಸಂಪರ್ಕ ವಿಫಲವಾಗಿದೆ.",
+        "message": "Nepavyko prisijungti prie serverio.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Žinutė neišsiųsta.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "ಸೂಚನೆಗಳನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ",
+        "message": "Išjungti pranešimus",
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "ರದ್ದುಗೊಳಿಸಿ",
+        "message": "Atsisakyti",
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "\nನನ್ನ ಆಂಡ್ರ್ಯಾಡ್‌ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಇದೆ",
+        "message": "Aš turiu programą Signal, skirtą Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "ಸುರಕ್ಷಿತ ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ",
+        "message": "Secure session reset",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "ಪ್ರಾರಂಭಿಸಿ",
+        "message": "Darbo pradžia",
         "description": ""
     },
     "installSignalLink": {
-        "message": "ಮೊದಲ, ನಿಮ್ಮ ಆಂಡ್ರ್ಯಾಡ್ ಫೋನ್‌ನಲ್ಲಿ <a $a_params$>ಸಿಗ್ನಲ್‌ನನ್ನ್ನು</a> ಅನುಸ್ಥಾಪಿಸಲು. <br /> ನಾವು ನಿಮ್ಮ ಸಾಧನಗಳನ್ನು ಜೋಡಿಸುತ್ತೇವೆ ಹಾಗು ನಿಮ್ಮ ಸಂದೇಶಗಳನ್ನು ಸಮನ್ವಯಗೊಳಿಸುತ್ತೇವೆ.",
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -304,39 +304,39 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "ಜೊತೆ  ಜೋಡಣೆ",
+        "message": "Linking with",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "ಅವರ ಗುರುತು",
+        "message": "Their identity",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "ಹೊಸ ಸಂದೇಶಗಳು",
+        "message": "New Messages",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "ನೀವು ಈ ಸಂಪರ್ಕದ ಜೋತೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ಇನ್ನೂ ವಿನಿಮಯ ಮಾಡಿಕೊಂಡಿಲ್ಲ.  ಅವರ ಗುರುತು ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಾಗುತ್ತದೆ.",
+        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message.",
         "description": ""
     },
     "submit": {
-        "message": "ಸಲ್ಲಿಸಿ",
+        "message": "Submit",
         "description": ""
     },
     "to": {
-        "message": "ಗೆ",
+        "message": "Kam",
         "description": "Label for the receiver of a message"
     },
     "installFinalButton": {
-        "message": "ಚೆನ್ನಾಗಿದೆ",
+        "message": "Looking good",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "ಸಂದೇಶದ ವಿವರಗಳು",
+        "message": "Message Detail",
         "description": ""
     },
     "verify": {
-        "message": "ಪರಿಶೀಲಿಸಿ",
+        "message": "Verify",
         "description": ""
     },
     "nameAndMessage": {
@@ -344,11 +344,11 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "ಕೆಲವು ಸ್ವೀಕೃತದಾರರಿಗೆ ಕಳುಹಿಸಲಾಗಲ್ಲಿಲ್ಲ. ನಿಮ್ಮ ಜಾಲಬಂಧವನ್ನು ಪರಿಶೀಲಿಸಿ.",
+        "message": "Failed to send to some recipients. Check your network connection.",
         "description": ""
     },
     "ok": {
-        "message": "ಸರಿ",
+        "message": "Gerai",
         "description": ""
     },
     "identityChanged": {
@@ -360,19 +360,19 @@
         "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
-        "message": "ಡೀಬಗ್ ದಾಖಲೆಗಳನ್ನು ಸಲ್ಲಿಸಿ",
+        "message": "Pateikti derinimo žurnalą",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "ದೋಷ",
+        "message": "Klaida",
         "description": ""
     },
     "notifications": {
-        "message": "ಸೂಚನೆಗಳು",
+        "message": "Pranešimai",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "ಪುನಃ ಕಳುಹಿಸಿ",
+        "message": "Resend",
         "description": ""
     }
 }

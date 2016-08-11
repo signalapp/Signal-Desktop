@@ -19,6 +19,10 @@
         "message": "コンピュータの名前は",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
+    "timestamp_m": {
+        "message": "1分前",
+        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+    },
     "gotIt": {
         "message": "了解",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -30,6 +34,10 @@
     "unsupportedFileType": {
         "message": "サポートされていない種類のファイル",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "extendedTimestamp_m": {
+        "message": "1分前",
+        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "キーを生成",
@@ -50,6 +58,10 @@
     "members": {
         "message": "メンバー",
         "description": ""
+    },
+    "timestamp_h": {
+        "message": "1時間前",
+        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
     },
     "syncExplanation": {
         "message": "Signalのグループと連絡先を携帯端末から取り込む",
@@ -87,9 +99,17 @@
             }
         }
     },
+    "timestamp_mm": {
+        "message": "%d分前",
+        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
+    },
     "sent": {
         "message": "送信",
         "description": "Label for the time a message was sent"
+    },
+    "timestamp_s": {
+        "message": "１分以内",
+        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
     },
     "reportIssue": {
         "message": "問題を報告",
@@ -157,6 +177,10 @@
         "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
         "description": ""
     },
+    "extendedTimestamp_s": {
+        "message": "1分以内",
+        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
+    },
     "installSyncingGroupsAndContacts": {
         "message": "連絡先とグループを同期",
         "description": ""
@@ -185,9 +209,17 @@
         "message": "取り込み中……",
         "description": "Label for a disabled sync button while sync is in progress."
     },
+    "extendedTimestamp_hh": {
+        "message": "%d時間前",
+        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
+    },
     "acceptNewKey": {
         "message": "受け入れる",
         "description": "Label for a button to accept a new identity key"
+    },
+    "extendedTimestamp_mm": {
+        "message": "%d分前",
+        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "宛先の電話番号は登録されていません",
@@ -200,6 +232,10 @@
     "received": {
         "message": "受信",
         "description": "Label for the time a message was received"
+    },
+    "extendedTimestamp_h": {
+        "message": "1時間前",
+        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "メッセージ",
@@ -318,6 +354,10 @@
     "identityChanged": {
         "message": "この相手は新しいIDを使っています。相手がSignalをインストールし直した可能性もありますが，だれか第3者が通信を傍受している可能性もあります。IDキーを確認した方がいいかも知れません。",
         "description": ""
+    },
+    "timestamp_hh": {
+        "message": "%d時間前",
+        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "デバッグログを提出",
