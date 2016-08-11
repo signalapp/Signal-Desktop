@@ -12,7 +12,7 @@
     "mustache": "~0.8.2",
     "qrcode": "https://github.com/davidshimjs/qrcodejs.git#1c78ccd71",
     "libphonenumber-api": "https://github.com/liliakai/libphonenumber-api.git",
-    "momentjs": "~2.8.3",
+    "momentjs": "~2.14.0",
     "indexeddb-backbonejs-adapter": "*",
     "intl-tel-input": "~4.0.1",
     "blueimp-load-image": "~1.13.0",
