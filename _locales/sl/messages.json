@@ -36,7 +36,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "extendedTimestamp_m": {
-        "message": "1 minuto nazaj",
+        "message": "pred 1 minuto",
         "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
@@ -234,7 +234,7 @@
         "description": "Label for the time a message was received"
     },
     "extendedTimestamp_h": {
-        "message": "1 uro nazaj",
+        "message": "pred 1 uro",
         "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
