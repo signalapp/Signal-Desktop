@@ -320,5 +320,9 @@
     "timestamp_h": {
        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
        "message": "1 hour"
+    },
+    "timestampFormat_M": {
+       "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'.",
+       "message": "MMM D"
     }
 }

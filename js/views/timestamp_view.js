@@ -53,7 +53,7 @@
                 return timestamp.format(this._format.y);
             } else if (timediff.months() > 0 || timediff.days() > 6) {
                 this.delay = null;
-                return timestamp.format(this._format.mo);
+                return timestamp.format(this._format.M);
             } else if (timediff.days() > 0) {
                 this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(moment());
                 return timestamp.format(this._format.d);
@@ -78,8 +78,8 @@
             return moment.duration(number, string).humanize();
         },
         _format: {
-            y: "MMM D, YYYY",
-            mo: "MMM D",
+            y: "ll",
+            M: i18n('timestampFormat_M') || "MMM D",
             d: "ddd"
         }
     });
@@ -88,8 +88,8 @@
             return moment.duration(-1 * number, string).humanize(string !== 's');
         },
         _format: {
-            y: "MMM D, YYYY LT",
-            mo: "MMM D LT",
+            y: "lll",
+            M: (i18n('timestampFormat_M') || "MMM D") + ' LT',
             d: "ddd LT"
         }
     });
