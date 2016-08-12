@@ -36124,9 +36124,18 @@ SessionCipher.prototype = {
 
               preKeyMsg.message = message;
               var result = String.fromCharCode((3 << 4) | 3) + util.toString(preKeyMsg.encode());
-              return {type: 3, body: result};
+              return {
+                  type           : 3,
+                  body           : result,
+                  registrationId : record.registrationId
+              };
+
           } else {
-              return {type: 1, body: util.toString(message)};
+              return {
+                  type           : 1,
+                  body           : util.toString(message),
+                  registrationId : record.registrationId
+              };
           }
       });
     }.bind(this));

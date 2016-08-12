@@ -157,19 +157,16 @@ OutgoingMessage.prototype = {
     },
 
     encryptToDevice: function(address, plaintext, sessionCipher) {
-        return Promise.all([
-            sessionCipher.encrypt(plaintext),
-            sessionCipher.getRemoteRegistrationId()
-        ]).then(function(result) {
-            return this.toJSON(address, result[0], result[1]);
+        return sessionCipher.encrypt(plaintext).then(function(ciphertext) {
+            return this.toJSON(address, ciphertext);
         }.bind(this));
     },
 
-    toJSON: function(address, encryptedMsg, registrationId) {
+    toJSON: function(address, encryptedMsg) {
         var json = {
-            type: encryptedMsg.type,
-            destinationDeviceId: address.getDeviceId(),
-            destinationRegistrationId: registrationId
+            type                      : encryptedMsg.type,
+            destinationDeviceId       : address.getDeviceId(),
+            destinationRegistrationId : encryptedMsg.registrationId
         };
 
         var content = btoa(encryptedMsg.body);
