@@ -101,12 +101,39 @@
             'click' : 'onClick',
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
+            'click .microphone': 'captureAudio',
             'focus .send-message': 'focusBottomBar',
+            'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
             'loadMore .message-list': 'fetchMessages',
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize'
+        },
+        toggleMicrophone: function() {
+            if (this.$('.send-message').val().length > 0 || this.fileInput.hasFiles()) {
+                this.$('.capture-audio').hide();
+            } else {
+                this.$('.capture-audio').show();
+            }
+        },
+        captureAudio: function(e) {
+            e.preventDefault();
+            var view = new Whisper.RecorderView().render();
+            view.on('send', this.handleAudioCapture.bind(this));
+            view.on('closed', this.endCaptureAudio.bind(this));
+            view.$el.appendTo(this.$('.capture-audio'));
+            this.$('.send-message').attr('disabled','disabled');
+            this.$('.microphone').hide();
+        },
+        handleAudioCapture: function(blob) {
+            this.fileInput.file = blob;
+            this.fileInput.previewImages();
+            this.$('.bottom-bar form').submit();
+        },
+        endCaptureAudio: function() {
+            this.$('.send-message').removeAttr('disabled');
+            this.$('.microphone').show();
         },
 
         unfocusBottomBar: function() {
@@ -295,6 +322,7 @@
                 event.preventDefault();
                 return this.$('.bottom-bar form').submit();
             }
+            this.toggleMicrophone();
 
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);

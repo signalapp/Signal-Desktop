@@ -248,6 +248,7 @@
             this.$input.wrap('<form>').parent('form').trigger('reset');
             this.$input.unwrap();
             this.file = null;
+            this.$input.trigger('change');
         },
 
         openDropped: function(e) {

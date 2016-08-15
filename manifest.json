@@ -14,7 +14,8 @@
       "notifications",
       {"fileSystem": ["write"]},
       "alarms",
-      "fullscreen"
+      "fullscreen",
+      "audioCapture"
     ],
 
     "icons": {

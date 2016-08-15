@@ -540,6 +540,81 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     -webkit-mask-size: 100%;
     background-color: white; }
 
+.capture-audio {
+  text-align: center; }
+  .capture-audio .microphone {
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    opacity: 0.5;
+    background: transparent;
+    padding: 0;
+    border: none; }
+    .capture-audio .microphone:focus, .capture-audio .microphone:hover {
+      opacity: 1.0; }
+    .capture-audio .microphone:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      width: 24px;
+      -webkit-mask: url("/images/microphone.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #616161; }
+
+.recorder {
+  background: #f3f3f3; }
+  .recorder button {
+    float: right;
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    margin-left: 5px;
+    opacity: 0.5;
+    text-align: center;
+    padding: 0; }
+    .recorder button:focus, .recorder button:hover {
+      opacity: 1.0; }
+    .recorder button .icon {
+      display: inline-block;
+      width: 24px;
+      height: 24px; }
+  .recorder .finish {
+    background: #9ae99a;
+    border: 1px solid #47D647; }
+    .recorder .finish .icon {
+      -webkit-mask: url("/images/check.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #47D647; }
+  .recorder .close {
+    background: #fbe3e3;
+    border: 1px solid #EF8989; }
+    .recorder .close .icon {
+      -webkit-mask: url("/images/x.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #EF8989; }
+  .recorder .time {
+    color: #616161;
+    float: right;
+    line-height: 36px;
+    padding: 0 10px; }
+@keyframes pulse {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+    .recorder .time::before {
+      content: '';
+      display: inline-block;
+      border-radius: 10px;
+      width: 10px;
+      height: 10px;
+      background: #f00;
+      margin-right: 10px;
+      opacity: 0;
+      animation: pulse 2s infinite; }
+
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
@@ -1147,8 +1222,7 @@ li.entry .error-icon-container {
   .bottom-bar form.active {
     outline: solid 1px #2090ea; }
   .bottom-bar form.send {
-    background: #ffffff;
-    padding-bottom: 1px; }
+    background: #ffffff; }
   .bottom-bar input, .bottom-bar textarea {
     color: #454545; }
   .bottom-bar .attachment-previews {
@@ -1166,12 +1240,16 @@ li.entry .error-icon-container {
       background: #999; }
       .bottom-bar .attachment-previews .close:hover {
         background: #616161; }
+  .bottom-bar .flex {
+    display: flex;
+    flex-direction: row; }
+    .bottom-bar .flex .send-message {
+      flex-grow: 1; }
   .bottom-bar .choose-file {
     float: left;
     height: 36px; }
   .bottom-bar .send-message {
     display: block;
-    width: calc(100% - 36px);
     max-height: 100px;
     padding: 10px;
     border: 0;
@@ -1180,6 +1258,11 @@ li.entry .error-icon-container {
     resize: none;
     font-size: 1em;
     font-family: inherit; }
+    .bottom-bar .send-message[disabled=disabled] {
+      background: transparent; }
+  .bottom-bar .capture-audio {
+    float: right;
+    height: 36px; }
 
 .toast {
   position: absolute;

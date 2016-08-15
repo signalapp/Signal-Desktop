@@ -496,7 +496,6 @@ li.entry .error-icon-container {
 
   form.send {
     background: #ffffff;
-    padding-bottom: 1px;
   }
 
   input, textarea {
@@ -525,14 +524,22 @@ li.entry .error-icon-container {
       }
     }
   }
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+
+    .send-message {
+      flex-grow: 1;
+    }
+  }
+
   .choose-file {
     float: left;
     height: 36px;
   }
-
   .send-message {
     display: block;
-    width: calc(100% - #{$button-width});
     max-height: 100px;
     padding: 10px;
     border: 0;
@@ -541,7 +548,16 @@ li.entry .error-icon-container {
     resize: none;
     font-size: 1em;
     font-family: inherit;
+
+    &[disabled=disabled] {
+      background: transparent;
+    }
   }
+  .capture-audio {
+    float: right;
+    height: 36px;
+  }
+
 }
 
 .toast {

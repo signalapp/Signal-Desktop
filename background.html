@@ -98,14 +98,24 @@
       <div class='bottom-bar' id='footer'>
           <form class='send clearfix'>
               <div class='attachment-previews'></div>
-              <div class='choose-file'>
-                  <button class='paperclip thumbnail'></button>
-                  <input type='file' class='file-input'>
+              <div class='flex'>
+                <div class='choose-file'>
+                    <button class='paperclip thumbnail'></button>
+                    <input type='file' class='file-input'>
+                </div>
+                <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
+                <div class='capture-audio'>
+                    <button class='microphone'></button>
+                </div>
               </div>
-              <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
           </form>
       </div>
     </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='recorder'>
+      <button class='finish'><span class='icon'></span></button>
+      <span class='time'>0:00</span>
+      <button class='close'><span class='icon'></span></button>
   </script>
   <script type='text/x-tmpl-mustache' id='lightbox'>
     <div class='content'>
@@ -467,6 +477,7 @@
   <script type='text/javascript' src='js/views/message_detail_view.js'></script>
   <script type='text/javascript' src='js/views/message_list_view.js'></script>
   <script type='text/javascript' src='js/views/group_member_list_view.js'></script>
+  <script type='text/javascript' src='js/views/recorder_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/new_conversation_view.js'></script>
   <script type='text/javascript' src='js/views/conversation_search_view.js'></script>

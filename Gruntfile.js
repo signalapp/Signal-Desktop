@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   for (var i in bower.concat.app) {
     components.push('components/' + bower.concat.app[i] + '/**/*.js');
   }
+  components.push('components/' + 'webaudiorecorder/lib/WebAudioRecorder.js');
 
   var libtextsecurecomponents = [];
   for (i in bower.concat.libtextsecure) {
@@ -86,6 +87,8 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'js/**/*.js',
         '!js/libtextsecure.js',
+        '!js/WebAudioRecorderMp3.js',
+        '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         '!js/signal_protocol_store.js',
@@ -146,6 +149,8 @@ module.exports = function(grunt) {
         'Gruntfile',
         'js/**/*.js',
         '!js/libtextsecure.js',
+        '!js/WebAudioRecorderMp3.js',
+        '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
         'test/**/*.js',

@@ -116,7 +116,7 @@
             restartSignal           : i18n('restartSignal'),
         },
         events: {
-            'click': 'closeMenu',
+            'click': 'onClick',
             'click #header': 'focusHeader',
             'click .conversation': 'focusConversation',
             'click .global-menu .hamburger': 'toggleMenu',
@@ -173,12 +173,22 @@
         showLightbox: function(e) {
             this.$el.append(e.target);
         },
+        closeRecording: function(e) {
+            if (e && this.$(e.target).closest('.capture-audio').length > 0 ) {
+                return;
+            }
+            this.$('.conversation:first .audio-capture').trigger('close');
+        },
         closeMenu: function(e) {
             if (e && this.$(e.target).parent('.global-menu').length > 0 ) {
                 return;
             }
 
             this.$('.global-menu .menu-list').hide();
+        },
+        onClick: function(e) {
+            this.closeMenu(e);
+            this.closeRecording(e);
         }
     });
 

@@ -19,7 +19,9 @@
     "blueimp-canvas-to-blob": "~2.1.1",
     "twemoji": "~2.0.5",
     "emojijs": "https://github.com/iamcal/js-emoji.git",
-    "autosize": "~3.0.6"
+    "autosize": "~3.0.6",
+    "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
+    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -92,6 +94,13 @@
     ],
     "autosize": [
       "dist/autosize.js"
+    ],
+    "webaudiorecorder": [
+      "lib/WebAudioRecorder.js",
+      "lib/WebAudioRecorderMp3.js"
+    ],
+    "mp3lameencoder": [
+      "lib/Mp3LameEncoder.js"
     ]
   },
   "concat": {
