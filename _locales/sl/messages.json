@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minuto",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Razumem!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "pred 1 minuto",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Generiram ključe...",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 ura",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Uvoz stikov in skupin Signal iz mobilne naprave.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Poslano",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "ravnokar",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Prijava napake",
@@ -177,10 +169,6 @@
         "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "ravnokar",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Usklajujem skupine in stike...",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Uvažam...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d ur nazaj",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Sprejmi",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minut nazaj",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Številka ni registrirana",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Prejeto",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "pred 1 uro",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Pošlji sporočilo",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Ta oseba uporablja nov identifikacijski ključ Signal. To lahko pomeni, da nekdo prestreza vašo komunikacijo, ali pa, da je ta oseba le ponovno namestila aplikacijo Signal. Spodaj lahko overite njihov novi ključ.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d ur",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Oddaj sistemsko zabeležbo",

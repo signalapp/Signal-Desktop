@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 Min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Alles klar!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Nicht unterstützter Dateityp",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "vor 1 Minute",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Schlüssel werden erzeugt",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 Stunde",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Alle Signal-Gruppen und -Kontakte von Ihrem Mobilgerät importieren.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d Min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Gesendet",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "Jetzt",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Melden Sie ein Problem",
@@ -177,10 +169,6 @@
         "message": "Es sind bereits zu viele Geräte verknüpft. Versuchen Sie, einige zu entfernen.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "Jetzt",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Gruppen und Kontakte werden synchronisiert",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Import wird durchgeführt …",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "vor %d Stunden",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Akzeptieren",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "vor %d Minuten",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Rufnummer ist nicht registriert",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Empfangen",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "vor 1 Stunde",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Eine Nachricht senden",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Dieser Kontakt verwendet einen neuen Signal-Identitätsschlüssel. Dies kann entweder bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchten Sie den neuen Identitätsschlüssel unten überprüfen.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d Stunden",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Diagnoseprotokoll übermitteln",

@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Got it!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minute ago",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Kuriami raktai",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 hour",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Importuoti visas Signal grupes ir kontaktus iš jūsų mobiliojo įrenginio.",
@@ -72,11 +68,11 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Ištrinti žinutes",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Klaida, apdorojant gaunamą žinutę.",
         "description": ""
     },
     "selectAContact": {
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Išsiųsta",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "now",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Pranešti apie klaidą",
@@ -124,7 +116,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Verify Identity",
+        "message": "Patvirtinti tapatybę",
         "description": ""
     },
     "from": {
@@ -132,7 +124,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Ar ištrinti šį pokalbį visiems laikams?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -174,12 +166,8 @@
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
         "description": ""
-    },
-    "extendedTimestamp_s": {
-        "message": "now",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sinchronizuojamos grupės ir kontaktai",
@@ -209,17 +197,9 @@
         "message": "Importuojama...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d hours ago",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Priimti",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minutes ago",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Number is not registered",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Gauta",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 hour ago",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Siųsti žinutę",
@@ -294,7 +270,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Iš pradžių, įdiekite <a $a_params$>Signal</a> savo Android telefone.<br /> Mes susiesime jūsų įrenginius ir išlaikysime jūsų žinutes sinchronizuotas.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -344,7 +320,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Nepavyko išsiųsti kai kuriems gavėjams. Patikrinkite savo tinklo ryšį.",
         "description": ""
     },
     "ok": {
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d hours",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Pateikti derinimo žurnalą",
@@ -372,7 +344,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Siųsti iš naujo",
         "description": ""
     }
 }

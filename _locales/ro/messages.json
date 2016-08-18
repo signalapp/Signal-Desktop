@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minut",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Am înţeles!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Tipul fişierului nu este suportat",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minute ago",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Se generează cheile",
@@ -60,8 +56,8 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "message": "o oră",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Importă toate grupurile și contactele Signal de pe dispozitivul tău mobil.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Trimis",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
-        "message": "now",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "message": "acum",
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Raportează o problemă",
@@ -177,10 +169,6 @@
         "message": "Ne pare rău, ai prea multe dispozitive conectate deja. Încearcă să elimini câteva.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "now",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizare grupuri şi contacte",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Se importă...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d hours ago",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Acceptă",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minutes ago",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Numărul nu este înregistrat",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Primit",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 hour ago",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Trimite mesaj",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Acest contact folosește o nouă identitate Signal. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noua lor cheie de identitate de mai jos.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d hours",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Trimite log-ul de depanare",

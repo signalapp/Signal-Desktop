@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minuutti",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Selvä!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minuutti sitten",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Luodaan avaimia",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 tunti",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Tuo kaikkien Signal-yhteystietojen ja -ryhmien tiedot mobiililaitteestasi.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Lähetetty",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "nyt",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Ilmoita ongelmasta",
@@ -177,10 +169,6 @@
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "nyt",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Tuodaan...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "1 tuntia sitten",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Hyväksy",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minuuttia sitten",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Numero ei ole rekisteröity.",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Vastaanotettu",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 tunti sitten",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Lähetä viesti",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Tämän yhteystiedon Signal-identiteetti on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että yhteystietosi on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa hänen alla näkyvän identiteettiavaimensa.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d tuntia",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Lähetä virheenkorjausloki",

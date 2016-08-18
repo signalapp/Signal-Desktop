@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "فهمیدم!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "این نوع فایل پشتیبانی نمی‌شود",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minute ago",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "در حال تولید کلیدها",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 hour",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Import all Signal groups and contacts from your mobile device.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "ارسال شد",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "now",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Report an issue",
@@ -177,10 +169,6 @@
         "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "now",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "در حال هماهنگ‌سازی گروه‌ها و مخاطب‌ها",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Importing...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d hours ago",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Accept",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minutes ago",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Number is not registered",
@@ -232,10 +212,6 @@
     "received": {
         "message": "دریافت شد",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 hour ago",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "ارسال پیام",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d hours",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "ارسال گزارش خطاها",

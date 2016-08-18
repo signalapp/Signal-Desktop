@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minuto",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "¡Entendido!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Tipo de archivo no admitido",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "Hace 1 minuto",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Generando claves",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 hora",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Importar todos los grupos y contactos de Signal desde su dispositivo móvil.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d minutos",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Enviado",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "ahora",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Informar de un problema",
@@ -177,10 +169,6 @@
         "message": "Lo sentimos, ya tiene demasiados dispositivos vinculados. Pruebe a eliminar algunos.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "ahora",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos y contactos",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Importando…",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "Hace %d horas",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Aceptar",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "Hace %d minutos",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "El número no está registrado.",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Recibido",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "Hace 1 hora",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Enviar mensaje",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Este contacto está usando una nueva identidad de Signal. Podría significar que alguien está intentando interceptar sus comunicaciones, o este contacto simplemente reinstaló Signal. Puede que desee verificar la nueva clave identificadora abajo. ",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d horas",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Enviar Registro de Depuración",

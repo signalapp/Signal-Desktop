@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minuut",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Begrepen!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Niet-ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minuut geleden",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Sleutels aan het genereren",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 uur",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Verzonden",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "nu",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Meld een probleem",
@@ -177,10 +169,6 @@
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "nu",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Importeren...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d uur geleden",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Aanvaarden",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minuten geleden",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Nummer is niet geregistreerd",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Ontvangen",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 uur geleden",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Een bericht versturen",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Dit contact gebruikt een nieuwe Signal-identiteit. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat het contact Signal opnieuw heeft geïnstalleerd. Je wil wellicht hun nieuwe identiteitssleutel hieronder verifiëren.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d uur",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Debuglog indienen",

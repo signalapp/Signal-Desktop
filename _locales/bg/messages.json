@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 min",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Разбрах!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Неподдържан файлов тип",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 minute ago",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Генериране на ключове",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 hour",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Внасяне на всички Signal групи и контакти от Вашето мобилно устройство.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d min",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Изпратено",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "now",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Докладвай за проблем",
@@ -177,10 +169,6 @@
         "message": "Съжаляваме, вече имате прекалено много регистрирани устройства. Пробвайте да премахнете някое.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "now",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Синхронизиране на групи и контакти",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Внасяне...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d hours ago",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Приемане",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d minutes ago",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Номерът не е регистриран.",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Получено",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 hour ago",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Изпрати съобщение",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Този контакт използва нова самоличност в Signal. Това може да означава, че или получателят се опитва да прихване вашите съобщения, или просто повторно е инсталирал приложението Signal. Вероятно желаете да удостоверите новият им ключ за самоличност написан отдолу.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d hours",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Изпрати данни за отстраняване на проблеми",

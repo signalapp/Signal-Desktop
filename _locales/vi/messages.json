@@ -20,8 +20,8 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 phút",
-        "description": "Short or abbreviated timestamp for messages sent a minute ago. Displayed in the conversation list."
+        "message": "1 minute",
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
         "message": "Đã rõ!",
@@ -34,10 +34,6 @@
     "unsupportedFileType": {
         "message": "Không hỗ trợ loại tập tin",
         "description": "Displayed for outgoing unsupported attachment"
-    },
-    "extendedTimestamp_m": {
-        "message": "1 phút trước",
-        "description": "Timestamp for messages sent about a minute ago. Displayed in the message bubble."
     },
     "installGeneratingKeys": {
         "message": "Tạo mã khóa",
@@ -61,7 +57,7 @@
     },
     "timestamp_h": {
         "message": "1 giờ",
-        "description": "Short or abbreviated timestamp for messages sent about an hour ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
         "message": "Nhập tất cả liên hệ và nhóm của Signal từ thiết bị di động của bạn.",
@@ -99,17 +95,13 @@
             }
         }
     },
-    "timestamp_mm": {
-        "message": "%d phút",
-        "description": "Short or abbreviated timestamp for messages sent multiple minutes ago. Displayed in the conversation list."
-    },
     "sent": {
         "message": "Đã gửi",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
         "message": "hiện tại",
-        "description": "Short or abbreviated timestamp for messages sent less than a minute ago. Displayed in the conversation list."
+        "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
         "message": "Báo lỗi",
@@ -177,10 +169,6 @@
         "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được kết nối. Thử gỡ bỏ vài thiết bị.",
         "description": ""
     },
-    "extendedTimestamp_s": {
-        "message": "hiện tại",
-        "description": "Timestamp for messages sent less than a minute ago. Displayed in the message bubble."
-    },
     "installSyncingGroupsAndContacts": {
         "message": "Đang đồng bộ các nhóm và liên hệ",
         "description": ""
@@ -209,17 +197,9 @@
         "message": "Đang nhập",
         "description": "Label for a disabled sync button while sync is in progress."
     },
-    "extendedTimestamp_hh": {
-        "message": "%d giờ trước",
-        "description": "Timestamp for messages sent multiple hours ago. Displayed in the message bubble."
-    },
     "acceptNewKey": {
         "message": "Chấp nhận",
         "description": "Label for a button to accept a new identity key"
-    },
-    "extendedTimestamp_mm": {
-        "message": "%d phút trước",
-        "description": "Timestamp for messages sent multiple minutes ago. Displayed in the message bubble."
     },
     "unregisteredUser": {
         "message": "Số điện thoại chưa đăng ký",
@@ -232,10 +212,6 @@
     "received": {
         "message": "Đã nhận",
         "description": "Label for the time a message was received"
-    },
-    "extendedTimestamp_h": {
-        "message": "1 giờ trước",
-        "description": "Timestamp for messages sent one hour ago. Displayed in the message bubble."
     },
     "sendMessage": {
         "message": "Gửi tin nhắn",
@@ -354,10 +330,6 @@
     "identityChanged": {
         "message": "Sô liên hệ này đang sử dụng một chứng thực Signal mới. Điều này có thể có nghĩa rằng ai đó đang cố gắng can thiệp vào sự liên lạc của bạn, hoặc đơn giản là số liên hệ này vừa cài lại Signal. Bạn có thể xác nhận mã khóa chứng thực mới của họ dưới đây.",
         "description": ""
-    },
-    "timestamp_hh": {
-        "message": "%d giờ",
-        "description": "Short or abbreviated timestamp for messages sent multiple hours ago. Displayed in the conversation list."
     },
     "submitDebugLog": {
         "message": "Gửi bản ghi gỡ lỗi",
