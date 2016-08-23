@@ -200,8 +200,13 @@
                 textsecure.storage.protocol.loadIdentityKey(their_number).then(function(their_key) {
                     textsecure.storage.protocol.loadIdentityKey(our_number).then(function(our_key) {
                         var view = new Whisper.KeyVerificationPanelView({
-                            model: { their_key: their_key, your_key: our_key }
-                        }).render();
+                            model: {
+                                your_number: our_number,
+                                their_number: their_number,
+                                their_key: their_key,
+                                your_key: our_key
+                            }
+                        });
                         this.listenBack(view);
                     }.bind(this));
                 }.bind(this));
