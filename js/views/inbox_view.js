@@ -57,11 +57,41 @@
         }
     });
 
+    Whisper.FontSizeView = Whisper.View.extend({
+        defaultSize: 14,
+        maxSize: 30,
+        minSize: 14,
+        initialize: function() {
+            this.currentSize = this.defaultSize;
+            this.render();
+        },
+        events: { 'mousewheel': 'zoomText' },
+        zoomText: function(e) {
+            if (e.ctrlKey == true) {
+                if (e.originalEvent.deltaY > 0) {
+                    if (this.currentSize > this.minSize) {
+                        this.currentSize--
+                        this.render();
+                    }
+                } else if (e.originalEvent.deltaY < 0) {
+                    if (this.currentSize < this.maxSize) {
+                        this.currentSize++;
+                        this.render();
+                    }
+                }
+            }
+        },
+        render: function() {
+            this.$el.css('font-size', this.currentSize + 'px');
+        }
+    });
+
     Whisper.InboxView = Whisper.View.extend({
         templateName: 'two-column',
         className: 'inbox',
         initialize: function (options) {
             this.render();
+            new Whisper.FontSizeView({ el: this.el });
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
                 model: { appWindow: options.appWindow }
