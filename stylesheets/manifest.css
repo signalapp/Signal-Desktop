@@ -1192,11 +1192,6 @@ li.entry .error-icon-container {
   .message-container .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
-  .message-container .end-session,
-  .message-list .end-session {
-    font: small;
-    font-style: italic;
-    opacity: 0.8; }
   .message-container .bubble .content.error-message,
   .message-list .bubble .content.error-message {
     cursor: pointer;
