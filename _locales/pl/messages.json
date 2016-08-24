@@ -1,10 +1,10 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Ostatni import",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Nieobsługiwany typ załącznika. Kliknij aby zapisać.",
+        "message": "Nieobsługiwany typ załącznika. Kliknij, aby zapisać.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "settings": {
@@ -12,15 +12,15 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Odebrano wiadomość z nieznanym kluczem tożsamości. Kliknij aby procesować i pokazać.",
+        "message": "Odebrano wiadomość z nieznanym kluczem tożsamości. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "installComputerName": {
-        "message": "Nazwa tego komputera będzie",
+        "message": "Nazwa dla tego komputera",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 minuta",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -28,7 +28,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "Szczegóły",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Po otrzymaniu wiadomości, pokaż powiadomienie:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -56,23 +56,23 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 godzina",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Zaimportuj wszystkie grupy i kontakty ze swojego urządzenia mobilnego",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Uruchom ponownie",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Usuń Wiadomości",
+        "message": "Usuń wiadomości",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Błąd przy obsłudze przychodzącej wiadomości.",
         "description": ""
     },
     "selectAContact": {
@@ -80,7 +80,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Trwa łączenie",
+        "message": "Trwa łączenie...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -96,15 +96,15 @@
         }
     },
     "sent": {
-        "message": "Wsłano",
+        "message": "Wysłano",
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "teraz",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Zgłoś problem",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -112,7 +112,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Tylko z nazwą nadawcy",
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
@@ -124,31 +124,31 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Usunąć permanentnie tę konwersację?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "Ten log będzie wysłany publicznie dla współpracowników. Możesz go sprawdzić i edytować przed wysłaniem",
+        "message": "Ten log zostanie publicznie opublikowany autorom aplikacji. Możesz go przejrzeć i zedytować przed wysłaniem.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Szukaj...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Bez nadawcy i wiadomości",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importuj",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Import nieudany. Upewnij się, że komputer i urządzenie mobilne mają połączenie z internetem.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$> Śledź nas </a> aktualizacje o wsparcie dla wielu urządzeń iOS.",
+        "message": "<a $a_params$> Śledź nas </a>, aby dowiedzieć się o wsparciu dla wielu urządzeń w iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -158,11 +158,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Dowiedz się więcej o weryfikacji kluczy.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Twoja tożsamość",
         "description": "Label for the user's own identity key."
     },
     "installTooManyDevices": {
@@ -174,11 +174,11 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Aktualizuj",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Ukryj szczegóły",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -194,19 +194,23 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importowanie...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Akceptuj",
         "description": "Label for a button to accept a new identity key"
     },
+    "timestampFormat_M": {
+        "message": "D MMM",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Niezarejestrowany numer",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontakty",
         "description": "Label for contact and group sync settings"
     },
     "received": {
@@ -218,15 +222,15 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Wiadomość multimedialna",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Ta wersja Signal Desktop jest przestarzała. Aby nadal wysyłać wiadomości, wykonaj aktualizację.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Tożsamość tego kontaktu się zmieniła. Kliknij aby procesować i pokazać.",
+        "message": "Tożsamość tego kontaktu się zmieniła. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -234,11 +238,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Otwórz Signal w swoim urządzeniu i przejdź do Ustawienia > Połączone urządzenia. Dotknij przycisk dodawania nowego urządzenia i przeskanuj wyświetlony kod.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Witamy na Signal Desktop",
+        "message": "Witamy w Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -246,11 +250,11 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Wiadomość nie została wysłana.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Wyłącz powiadomienia",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -258,7 +262,7 @@
         "description": ""
     },
     "installIHaveSignalButton": {
-        "message": "Mam Signal for Android",
+        "message": "Mam Signal dla Androida",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
@@ -270,7 +274,7 @@
         "description": ""
     },
     "installSignalLink": {
-        "message": "Najpierw, zainstaluj <a $a_params$>Signal</a> na twoim Androidzie.<br />Połączymy twoje urządzenia i zsynchronizujemy wiadomości.",
+        "message": "Najpierw zainstaluj <a $a_params$>Signal</a> na Twoim Androidzie.<br />Połączymy twoje urządzenia i zsynchronizujemy wiadomości.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -284,7 +288,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Tożsamość kontaktu",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -292,7 +296,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Jeszcze nie rozmawiałeś z tą osobą. Ich tożsamość będzie dostępna po pierwszej wiadomości.",
+        "message": "Jeszcze nie rozmawiałeś z tą osobą. Jej tożsamość będzie dostępna po pierwszej wiadomości.",
         "description": ""
     },
     "submit": {
@@ -308,7 +312,7 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Szczegóły Wiadomości",
+        "message": "Szczegóły wiadomości",
         "description": ""
     },
     "verify": {
@@ -316,7 +320,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Z nazwą nadawcy i wiadomością",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -328,7 +332,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "Ten kontakt używa nowej tożsamości Signal. To może oznaczać, że ktoś próbuje przechwycić Waszą komunikację lub że po prostu kontakt przeinstalował Signal. Możesz zweryfikować jego nową tożsamość poniżej.",
         "description": ""
     },
     "submitDebugLog": {
@@ -340,7 +344,7 @@
         "description": ""
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Powiadomienia",
         "description": "Header for notification settings"
     },
     "resend": {

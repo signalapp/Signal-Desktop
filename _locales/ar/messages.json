@@ -201,6 +201,10 @@
         "message": "موافقة",
         "description": "Label for a button to accept a new identity key"
     },
+    "timestampFormat_M": {
+        "message": "MMM D",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
     "unregisteredUser": {
         "message": "Number is not registered",
         "description": "Error message displayed when sending to an unregistered user."

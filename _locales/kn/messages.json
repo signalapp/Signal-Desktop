@@ -1,6 +1,6 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "ಕಳೆದ ಆಮದು",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -20,7 +20,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 ನಿಮಿಷ",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -28,7 +28,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "showMore": {
-        "message": "Details",
+        "message": "ವಿವರಗಳು",
         "description": "Displays the details of a key change"
     },
     "unsupportedFileType": {
@@ -48,7 +48,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ, ಸೂಚನೆಗಳಲ್ಲಿ ಇದನ್ನು ಬಹಿರಂಗಪಡಿಸಲಾಗುತ್ತದೆ:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -56,15 +56,15 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 ಗಂಟೆ",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಿಂದ ಎಲ್ಲಾ ಸಿಗ್ನಲ್ ಗುಂಪುಗಳು ಮತ್ತು ಸಂಪರ್ಕಗಳನ್ನು ಆಮದು ಮಾಡಿಕೋಌ",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": " ಸಿಗ್ನಲ್ ಮರುಪ್ರಾರಂಭಿಸಿ",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
@@ -72,7 +72,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "ಒಳಬರುವ ಸಂದೇಶ ನಿರ್ವಹಣಾ ದೋಷ.",
         "description": ""
     },
     "selectAContact": {
@@ -100,11 +100,11 @@
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "ಈಗ",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "ಸಮಸ್ಯೆಯನ್ನು ವರದಿಮಾಡಿ",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -124,7 +124,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "ಈ ಸಂವಾದವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುವುದೇ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -136,15 +136,15 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "ಯಾವುದೇ ಹೆಸರು ಅಥವಾ ಸಂದೇಶ ಬೇಡ",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "ಈಗ ಆಮದು ಮಾಡಿ",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "ಆಮದು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್ ಮತ್ತು ನಿಮ್ಮ ಫೋನ್ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಹೊಂದಿರುವ ಬಗ್ಗೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -158,7 +158,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "ಕೀಲಿಗಳನ್ನು ಪರಿಶೀಲಿಸುವ ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
@@ -174,11 +174,11 @@
         "description": ""
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "ಅಪ್ಗ್ರೇಡ್",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "ವಿವರಗಳನ್ನು ಮರೆಮಾಡಿ",
         "description": "Hides the details of a key change"
     },
     "newIdentity": {
@@ -194,19 +194,23 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
         "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
         "description": "Label for a button to accept a new identity key"
     },
+    "timestampFormat_M": {
+        "message": "MMM D",
+        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "ಸಂಖ್ಯೆ ನೋಂದಣಿಯಾಗಿಲ್ಲ",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "ಸಂಪರ್ಕಗಳು",
         "description": "Label for contact and group sync settings"
     },
     "received": {
@@ -218,11 +222,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "ಮಾಧ್ಯಮ ಸಂದೇಶ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್ಟಾಪ್ ಈ ಆವೃತ್ತಿಯ ಅವಧಿ ಮುಗಿದಿದೆ. ಸಂದೇಶ ಮುಂದುವರೆಸಲು ಹೊಸ ಆವೃತ್ತಿಗೆ ಅಪ್ಗ್ರೇಡ್ ಮಾಡಿ.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -234,7 +238,7 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "ನಿಮ್ಮ ಫೋನ್ನನ ಸಿಗ್ನಲ್‌ನಲ್ಲಿ, ಸೆಟ್ಟಿಂಗ್ಗಳು > ಸಾಧನಗಳನ್ನು ತೆರೆಯಿರಿ. \"ಹೊಸ ಸಾಧನವನ್ನು ಸೇರಿಸಿ\" ಬಟನ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ, ನಂತರ ಮೇಲಿನ ಸಂಕೇತವನ್ನು ಸ್ಕ್ಯಾನ್‌ಮಾಡಿ.",
         "description": ""
     },
     "installWelcome": {
@@ -246,7 +250,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -316,7 +320,7 @@
         "description": ""
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "ಕಳುಹಿಸುವವರ ಹೆಸರು ಮತ್ತು ಸಂದೇಶವನ್ನು ಎರಡೂ",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -328,7 +332,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact is using a new Signal identity. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new identity key below.",
+        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ. ಇದರ ಆರ್ಥ ನಿಮ್ಮ ಸಂಭಾಷಣೆಯನ್ನು ಯಾರೊ ಕದ್ದು ಕೇಳಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ, ಅಥವ ಈ ಸಂಪರ್ಕ ಸಿಗ್ನಲ್‌ನ್ನು ಸ್ಥಾಪಿಸಿದ ಕಾರಣ ಹೋಸ ಗುರುತಿಸುವ ಕೀಲಿಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ. ನೀವು ಬಯಸಿದರೆ  ಸಂಪರ್ಕದ ಹೊಸ ಗುರುತನ್ನು ಕೆಳಗೆ ಪರಿಶೀಲಿಸಿಸಬಹುದು.",
         "description": ""
     },
     "submitDebugLog": {
