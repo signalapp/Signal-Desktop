@@ -291,7 +291,7 @@ img.emoji {
     text-align: left; }
   .contact-details .number {
     color: #616161;
-    font-size: small; }
+    font-size: 0.92857em; }
 
 .recipients-input {
   position: relative; }
@@ -743,7 +743,7 @@ input.search {
     padding: 0.5em; }
   .index .last-message {
     margin: 6px 0 0;
-    font-size: small;
+    font-size: 0.92857em;
     font-weight: 300; }
   .index .gutter .timestamp {
     position: absolute;
@@ -829,11 +829,11 @@ input.search {
   .syncSettings button[disabled=disabled] {
     background: #616161; }
 .syncSettings .synced_at {
-  font-size: small;
+  font-size: 0.92857em;
   color: #616161; }
 .syncSettings .sync_failed {
   display: none;
-  font-size: small;
+  font-size: 0.92857em;
   color: red; }
 
 .conversation-title {
@@ -884,7 +884,7 @@ input.search {
 .key-verification label {
   display: block;
   margin-bottom: 10px;
-  font-size: small; }
+  font-size: 0.92857em; }
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
   -webkit-user-select: text; }
@@ -950,7 +950,7 @@ input.search {
     float: right; }
   .message-detail .contacts .contact-detail .error-message {
     margin: 6px 0 0;
-    font-size: small;
+    font-size: 0.92857em;
     font-weight: bold;
     color: red; }
 .message-detail h3 {
@@ -1268,7 +1268,7 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: 5px;
-  font-size: small; }
+  font-size: 0.92857em; }
 
 .confirmation-dialog .content {
   max-width: 350px;

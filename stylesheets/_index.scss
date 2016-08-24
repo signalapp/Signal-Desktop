@@ -165,7 +165,7 @@ input.search {
 
   .last-message {
     margin: 6px 0 0;
-    font-size: small;
+    font-size: $font-size-small;
     font-weight: 300;
   }
 
@@ -274,12 +274,12 @@ input.search {
     }
   }
   .synced_at {
-      font-size: small;
+      font-size: $font-size-small;
       color: $grey;
   }
   .sync_failed {
       display: none;
-      font-size: small;
+      font-size: $font-size-small;
       color: red;
   }
 }

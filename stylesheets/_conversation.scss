@@ -62,7 +62,7 @@
   label {
     display: block;
     margin-bottom: 10px;
-    font-size: small;
+    font-size: $font-size-small;
   }
 
   .key, .placeholder {
@@ -159,7 +159,7 @@
 
     .error-message {
       margin: 6px 0 0;
-      font-size: small;
+      font-size: $font-size-small;
       font-weight: bold;
       color: red;
     }
@@ -563,7 +563,7 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: $border-radius;
-  font-size: small;
+  font-size: $font-size-small;
 }
 
 .confirmation-dialog {
