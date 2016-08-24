@@ -61,7 +61,8 @@ body {
   outline: 0; }
 
 button {
-  cursor: pointer; }
+  cursor: pointer;
+  font-size: inherit; }
 
 a {
   color: #2090ea; }
@@ -276,7 +277,7 @@ img.emoji {
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 8px;
-  width: calc(100% - 44px - 8px - 4px);
+  width: calc(100% - 44px - 8px - 0.28571em);
   text-align: left; }
   .contact-details p {
     overflow-x: hidden;
@@ -359,7 +360,8 @@ img.emoji {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 20px;
-  z-index: 100; }
+  z-index: 100;
+  overflow-y: auto; }
   .modal .content {
     position: relative;
     max-width: 350px;
@@ -445,7 +447,8 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     .debug-log.modal .content textarea {
       flex-grow: 1;
       width: 100%;
-      resize: none; }
+      resize: none;
+      min-height: 100px; }
 .debug-log .submit {
   border-radius: 5px;
   border: solid 1px #ccc;

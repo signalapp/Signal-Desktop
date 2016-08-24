@@ -70,7 +70,7 @@
             if (e.ctrlKey == true) {
                 if (e.originalEvent.deltaY > 0) {
                     if (this.currentSize > this.minSize) {
-                        this.currentSize--
+                        this.currentSize--;
                         this.render();
                     }
                 } else if (e.originalEvent.deltaY < 0) {
@@ -151,7 +151,7 @@
             'click .conversation': 'focusConversation',
             'click .global-menu .hamburger': 'toggleMenu',
             'click .show-debug-log': 'showDebugLog',
-            'click .settings': 'showSettings',
+            'click .showSettings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
@@ -176,7 +176,7 @@
         showSettings: function() {
             var view = new Whisper.SettingsView().render();
             view.update();
-            view.$el.insertAfter(this.el);
+            view.$el.appendTo(this.el);
         },
         filterContacts: function(e) {
             this.searchView.filterContacts(e);

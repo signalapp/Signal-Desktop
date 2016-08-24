@@ -57,7 +57,10 @@ body {
   outline: 0;
 }
 
-button { cursor: pointer; }
+button {
+  cursor: pointer;
+  font-size: inherit;
+}
 a { color: $blue; }
 
 .inactive button.back {
@@ -305,7 +308,7 @@ $avatar-size: 44px;
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 $left-margin;
-  width: calc(100% - #{$avatar-size} - #{$left-margin} - 4px);
+  width: calc(100% - #{$avatar-size} - #{$left-margin} - #{(4/14) + em});
   text-align: left;
 
   p {
@@ -417,6 +420,7 @@ $avatar-size: 44px;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0 20px;
   z-index: 100;
+  overflow-y: auto;
 
   .content {
     position: relative;
