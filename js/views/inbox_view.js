@@ -67,7 +67,7 @@
         },
         events: { 'mousewheel': 'zoomText' },
         zoomText: function(e) {
-            if (e.ctrlKey == true) {
+            if (e.ctrlKey === true) {
                 if (e.originalEvent.deltaY > 0) {
                     if (this.currentSize > this.minSize) {
                         this.currentSize--;
