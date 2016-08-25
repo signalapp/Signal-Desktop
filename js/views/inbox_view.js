@@ -207,7 +207,7 @@
             if (e && this.$(e.target).closest('.capture-audio').length > 0 ) {
                 return;
             }
-            this.$('.conversation:first .audio-capture').trigger('close');
+            this.$('.conversation:first .recorder').trigger('close');
         },
         closeMenu: function(e) {
             if (e && this.$(e.target).parent('.global-menu').length > 0 ) {
