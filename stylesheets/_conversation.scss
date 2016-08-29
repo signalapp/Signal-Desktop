@@ -285,9 +285,6 @@ li.entry .error-icon-container {
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    padding: 9px 12px;
-    border-radius: $border-radius;
-    box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em;
@@ -297,7 +294,7 @@ li.entry .error-icon-container {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
     }
 
-    .content {
+    .body {
       -webkit-user-select: text;
       white-space: pre-wrap;
 

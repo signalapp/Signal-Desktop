@@ -1052,9 +1052,6 @@ li.entry .error-icon-container {
     left: -2px;
     display: inline-block;
     vertical-align: top;
-    padding: 9px 12px;
-    border-radius: 5px;
-    box-shadow: 0 3px 3px -4px black;
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em;
@@ -1063,12 +1060,12 @@ li.entry .error-icon-container {
       .message-container .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px - 24px); } }
-    .message-container .bubble .content,
-    .message-list .bubble .content {
+    .message-container .bubble .body,
+    .message-list .bubble .body {
       -webkit-user-select: text;
       white-space: pre-wrap; }
-      .message-container .bubble .content a,
-      .message-list .bubble .content a {
+      .message-container .bubble .body a,
+      .message-list .bubble .body a {
         word-break: break-all; }
     .message-container .bubble p,
     .message-list .bubble p {
@@ -1277,33 +1274,55 @@ li.entry .error-icon-container {
         background-color: #d9d9d9;
         border-color: silver; }
 
-.ios .incoming .bubble {
-  background-color: #f3f3f3;
-  color: #454545; }
-.ios .outgoing .bubble {
-  background-color: #2090ea; }
-  .ios .outgoing .bubble, .ios .outgoing .bubble .meta {
+.ios .bubble .content .body {
+  display: inline-block;
+  padding: 10px; }
+.ios .bubble .content, .ios .bubble .attachments img {
+  border-radius: 15px; }
+.ios .bubble .meta {
+  float: none;
+  clear: both; }
+.ios .incoming .content {
+  background-color: #e5e5e5;
+  color: black;
+  float: left; }
+.ios .outgoing .content {
+  background-color: #2090ea;
+  float: right; }
+  .ios .outgoing .content, .ios .outgoing .content .meta {
     color: white; }
-  .ios .outgoing .bubble .content::selection, .ios .outgoing .bubble .content a::selection {
+  .ios .outgoing .content::selection, .ios .outgoing .content a::selection, .ios .outgoing .content .content::selection, .ios .outgoing .content .content a::selection {
     background: white;
     color: #454545; }
-  .ios .outgoing .bubble .content::-moz-selection, .ios .outgoing .bubble .content a::-moz-selection {
+  .ios .outgoing .content::-moz-selection, .ios .outgoing .content a::-moz-selection, .ios .outgoing .content .content::-moz-selection, .ios .outgoing .content .content a::-moz-selection {
     background: white;
     color: #454545; }
-  .ios .outgoing .bubble .attachments a, .ios .outgoing .bubble .content a {
+  .ios .outgoing .content a, .ios .outgoing .content .attachments a, .ios .outgoing .content .content a {
     color: #f3f3f3; }
+.ios .outgoing .timestamp {
+  float: none; }
+.ios .outgoing .status {
+  float: right; }
+.ios .attachment {
+  margin-bottom: 1px; }
+  .ios .attachment a {
+    border-radius: 15px; }
 
+.android .bubble {
+  padding: 9px 12px;
+  border-radius: 5px;
+  box-shadow: 0 3px 3px -4px black; }
 .android .outgoing .bubble {
   background-color: #f3f3f3; }
 .android .incoming .bubble, .android .incoming .bubble .meta {
   color: white; }
-.android .incoming .bubble .content::selection, .android .incoming .bubble .content a::selection {
+.android .incoming .bubble::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .content a::selection {
   background: white;
   color: #454545; }
-.android .incoming .bubble .content::-moz-selection, .android .incoming .bubble .content a::-moz-selection {
+.android .incoming .bubble::-moz-selection, .android .incoming .bubble a::-moz-selection, .android .incoming .bubble .content::-moz-selection, .android .incoming .bubble .content a::-moz-selection {
   background: white;
   color: #454545; }
-.android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
+.android .incoming .bubble a, .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
 
 .avatar.red, .conversation-header.red, .android .bubble.red {

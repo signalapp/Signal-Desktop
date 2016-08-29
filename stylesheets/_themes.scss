@@ -3,7 +3,7 @@
     color: white;
   }
 
-  .content {
+  &, .content {
     &::selection, a::selection {
       background: white;
       color: $grey_d;
@@ -15,7 +15,7 @@
     }
   }
 
-  .attachments, .content {
+  &, .attachments, .content {
     a {
       color: $grey_l;
     }
@@ -23,17 +23,51 @@
 }
 
 .ios {
-  .incoming .bubble {
-    background-color: $grey_l;
-    color: $grey_d;
+  .bubble {
+    .content .body {
+      display: inline-block;
+      padding: 10px;
+    }
+    .content, .attachments img {
+      border-radius: 15px;
+    }
+    .meta {
+      float: none;
+      clear: both;
+    }
   }
-  .outgoing .bubble {
-    background-color: $blue;
-    @include invert-text-color;
+  .incoming .content {
+    background-color: #e5e5e5;
+    color: black;
+    float: left;
+  }
+  .outgoing {
+    .content {
+      background-color: $blue;
+      @include invert-text-color;
+      float: right;
+    }
+    .timestamp {
+      float: none;
+    }
+    .status {
+      float: right;
+    }
+  }
+  .attachment {
+    a {
+      border-radius: 15px;
+    }
+    margin-bottom: 1px;
   }
 }
 
 .android {
+  .bubble {
+    padding: 9px 12px;
+    border-radius: $border-radius;
+    box-shadow: 0 3px 3px -4px black;
+  }
   .outgoing .bubble {
     background-color: $grey_l;
   }
