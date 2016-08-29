@@ -89,9 +89,15 @@
     Whisper.InboxView = Whisper.View.extend({
         templateName: 'two-column',
         className: 'inbox',
+        applyTheme: function() {
+            var theme = storage.get('theme-setting') || 'android';
+            this.$el.removeClass('ios')
+                    .removeClass('android')
+                    .addClass(theme);
+        },
         initialize: function (options) {
             this.render();
-            this.$el.addClass('android'); // theme
+            this.applyTheme();
             new Whisper.FontSizeView({ el: this.el });
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
@@ -175,9 +181,9 @@
             chrome.runtime.reload();
         },
         showSettings: function() {
-            var view = new Whisper.SettingsView().render();
-            view.update();
+            var view = new Whisper.SettingsView();
             view.$el.appendTo(this.el);
+            view.$el.on('change-theme', this.applyTheme.bind(this));
         },
         filterContacts: function(e) {
             this.searchView.filterContacts(e);

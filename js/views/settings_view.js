@@ -5,28 +5,48 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    Whisper.SettingsView = Whisper.View.extend({
-        className: 'settings modal',
-        templateName: 'settings',
+    var RadioButtonGroupView = Whisper.View.extend({
+        initialize: function(options) {
+            this.name = options.name;
+            this.defaultValue = options.defaultValue;
+            this.populate();
+        },
         events: {
-            'change': 'change',
-            'click .close': 'remove'
+            'change': 'change'
         },
         change: function(e) {
             var value = this.$(e.target).val();
-            storage.put('notification-setting', value);
-            console.log('notification setting changed to', value);
+            storage.put(this.name, value);
+            console.log(this.name, 'changed to', value);
+            this.$el.trigger('change-theme');
         },
-        update: function() {
-            var setting = storage.get('notification-setting');
-            if (!setting) {
-                setting = 'message';
-            }
-            this.$('#notification-setting-' + setting).attr('checked','checked');
+        populate: function() {
+            var value = storage.get(this.name, this.defaultValue);
+            this.$('#' + this.name + '-' + value).attr('checked', 'checked');
+        },
+    });
+    Whisper.SettingsView = Whisper.View.extend({
+        className: 'settings modal',
+        templateName: 'settings',
+        initialize: function() {
+            this.render();
+            new RadioButtonGroupView({
+                el: this.$('.notification-settings'),
+                defaultValue: 'message',
+                name: 'notification-setting'
+            });
+            new RadioButtonGroupView({
+                el: this.$('.theme-settings'),
+                defaultValue: 'message',
+                name: 'theme-setting'
+            });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
                 this.$('.content').append(syncView.el);
             }
+        },
+        events: {
+            'click .close': 'remove'
         },
         render_attributes: function() {
             return {
