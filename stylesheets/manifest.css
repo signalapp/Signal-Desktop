@@ -1132,27 +1132,6 @@ li.entry .error-icon-container {
   .message-list .incoming .avatar,
   .message-list .incoming .bubble {
     float: left; }
-  .message-container .incoming .bubble,
-  .message-list .incoming .bubble {
-    color: white;
-    background-color: #2090ea; }
-    .message-container .incoming .bubble .meta,
-    .message-list .incoming .bubble .meta {
-      color: white; }
-    .message-container .incoming .bubble .content::selection, .message-container .incoming .bubble .content a::selection,
-    .message-list .incoming .bubble .content::selection,
-    .message-list .incoming .bubble .content a::selection {
-      color: #454545;
-      background: white; }
-    .message-container .incoming .bubble .content::-moz-selection, .message-container .incoming .bubble .content a::-moz-selection,
-    .message-list .incoming .bubble .content::-moz-selection,
-    .message-list .incoming .bubble .content a::-moz-selection {
-      color: #454545;
-      background: white; }
-    .message-container .incoming .bubble .attachments a, .message-container .incoming .bubble .content a,
-    .message-list .incoming .bubble .attachments a,
-    .message-list .incoming .bubble .content a {
-      color: #f3f3f3; }
   .message-container .outgoing .error-icon-container,
   .message-list .outgoing .error-icon-container {
     left: auto;
@@ -1163,7 +1142,6 @@ li.entry .error-icon-container {
     float: right; }
   .message-container .outgoing .bubble,
   .message-list .outgoing .bubble {
-    background-color: #f3f3f3;
     clear: left; }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
@@ -1298,5 +1276,69 @@ li.entry .error-icon-container {
       .confirmation-dialog .content .buttons button:hover {
         background-color: #d9d9d9;
         border-color: silver; }
+
+.ios .incoming .bubble {
+  background-color: #f3f3f3;
+  color: #454545; }
+.ios .outgoing .bubble {
+  background-color: #2090ea; }
+  .ios .outgoing .bubble, .ios .outgoing .bubble .meta {
+    color: white; }
+  .ios .outgoing .bubble .content::selection, .ios .outgoing .bubble .content a::selection {
+    background: white;
+    color: #454545; }
+  .ios .outgoing .bubble .content::-moz-selection, .ios .outgoing .bubble .content a::-moz-selection {
+    background: white;
+    color: #454545; }
+  .ios .outgoing .bubble .attachments a, .ios .outgoing .bubble .content a {
+    color: #f3f3f3; }
+
+.android .outgoing .bubble {
+  background-color: #f3f3f3; }
+.android .incoming .bubble, .android .incoming .bubble .meta {
+  color: white; }
+.android .incoming .bubble .content::selection, .android .incoming .bubble .content a::selection {
+  background: white;
+  color: #454545; }
+.android .incoming .bubble .content::-moz-selection, .android .incoming .bubble .content a::-moz-selection {
+  background: white;
+  color: #454545; }
+.android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
+  color: #f3f3f3; }
+
+.avatar.red, .conversation-header.red, .android .bubble.red {
+  background-color: #EF5350; }
+.avatar.pink, .conversation-header.pink, .android .bubble.pink {
+  background-color: #EC407A; }
+.avatar.purple, .conversation-header.purple, .android .bubble.purple {
+  background-color: #AB47BC; }
+.avatar.deep_purple, .conversation-header.deep_purple, .android .bubble.deep_purple {
+  background-color: #7E57C2; }
+.avatar.indigo, .conversation-header.indigo, .android .bubble.indigo {
+  background-color: #5C6BC0; }
+.avatar.blue, .conversation-header.blue, .android .bubble.blue {
+  background-color: #2196F3; }
+.avatar.light_blue, .conversation-header.light_blue, .android .bubble.light_blue {
+  background-color: #03A9F4; }
+.avatar.cyan, .conversation-header.cyan, .android .bubble.cyan {
+  background-color: #00BCD4; }
+.avatar.teal, .conversation-header.teal, .android .bubble.teal {
+  background-color: #009688; }
+.avatar.green, .conversation-header.green, .android .bubble.green {
+  background-color: #4CAF50; }
+.avatar.light_green, .conversation-header.light_green, .android .bubble.light_green {
+  background-color: #7CB342; }
+.avatar.orange, .conversation-header.orange, .android .bubble.orange {
+  background-color: #FF9800; }
+.avatar.deep_orange, .conversation-header.deep_orange, .android .bubble.deep_orange {
+  background-color: #FF5722; }
+.avatar.amber, .conversation-header.amber, .android .bubble.amber {
+  background-color: #FFB300; }
+.avatar.blue_grey, .conversation-header.blue_grey, .android .bubble.blue_grey {
+  background-color: #607D8B; }
+.avatar.grey, .conversation-header.grey, .android .bubble.grey {
+  background-color: #999999; }
+.avatar.default, .conversation-header.default, .android .bubble.default {
+  background-color: #2090ea; }
 
 /*# sourceMappingURL=manifest.css.map */

@@ -1,0 +1,64 @@
+@mixin invert-text-color {
+  &, .meta {
+    color: white;
+  }
+
+  .content {
+    &::selection, a::selection {
+      background: white;
+      color: $grey_d;
+    }
+
+    &::-moz-selection, a::-moz-selection {
+      background: white;
+      color: $grey_d;
+    }
+  }
+
+  .attachments, .content {
+    a {
+      color: $grey_l;
+    }
+  }
+}
+
+.ios {
+  .incoming .bubble {
+    background-color: $grey_l;
+    color: $grey_d;
+  }
+  .outgoing .bubble {
+    background-color: $blue;
+    @include invert-text-color;
+  }
+}
+
+.android {
+  .outgoing .bubble {
+    background-color: $grey_l;
+  }
+
+  .incoming .bubble {
+    @include invert-text-color;
+  }
+}
+
+.avatar, .conversation-header, .android .bubble {
+  &.red         { background-color: $material_red         ; }
+  &.pink        { background-color: $material_pink        ; }
+  &.purple      { background-color: $material_purple      ; }
+  &.deep_purple { background-color: $material_deep_purple ; }
+  &.indigo      { background-color: $material_indigo      ; }
+  &.blue        { background-color: $material_blue        ; }
+  &.light_blue  { background-color: $material_light_blue  ; }
+  &.cyan        { background-color: $material_cyan        ; }
+  &.teal        { background-color: $material_teal        ; }
+  &.green       { background-color: $material_green       ; }
+  &.light_green { background-color: $material_light_green ; }
+  &.orange      { background-color: $material_orange      ; }
+  &.deep_orange { background-color: $material_deep_orange ; }
+  &.amber       { background-color: $material_amber       ; }
+  &.blue_grey   { background-color: $material_blue_grey   ; }
+  &.grey        { background-color: #999999               ; }
+  &.default     { background-color: $blue                 ; }
+}

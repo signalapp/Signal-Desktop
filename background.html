@@ -52,8 +52,7 @@
     <p> {{ content }}</p>
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
-    <div class='conversation-header'
-        style='background-color: {{ avatar.color }}'>
+    <div class='conversation-header {{ avatar.color }}'>
         <div class='header-buttons left'>
           <div class='vertical-align'>
             <button class='back hide'></button>
@@ -146,7 +145,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
-      <div class='bubble' style='background-color: {{ avatar.color }};'>
+      <div class='bubble {{ avatar.color }}'>
           <div class='sender' dir='auto'>{{ sender }}</div>
           <div class='attachments'></div>
           <p class='content' dir='auto'>{{ message }}</p>
@@ -176,13 +175,15 @@
       </svg>
   </script>
   <script type='text/x-tmpl-mustache' id='avatar'>
-    <span class='avatar' aria-hidden
-          {{ #avatar.url }}
-            style='background-image: url("{{ avatar.url }}");'>
-          {{ /avatar.url }}
-          {{ ^avatar.url }}
-            style='background-color: {{ avatar.color }};'>
-          {{ /avatar.url }}
+    <span aria-hidden class='avatar
+      {{ ^avatar.url }}
+        {{ avatar.color }}
+      {{ /avatar.url }}
+      '
+      {{ #avatar.url }}
+        style='background-image: url("{{ avatar.url }}");'
+      {{ /avatar.url }}
+    >
         {{ avatar.content }}
     </span>
   </script>

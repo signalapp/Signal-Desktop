@@ -369,32 +369,6 @@ li.entry .error-icon-container {
     .avatar, .bubble {
       float: left;
     }
-    .bubble {
-      color: white;
-      background-color: $blue;
-
-      .meta {
-        color: white;
-      }
-
-      .content {
-        &::selection, a::selection {
-          color: $grey_d;
-          background: white;
-        }
-
-        &::-moz-selection, a::-moz-selection {
-          color: $grey_d;
-          background: white;
-        }
-      }
-
-      .attachments, .content {
-        a {
-          color: $grey_l;
-        }
-      }
-    }
   }
 
   .outgoing {
@@ -408,7 +382,6 @@ li.entry .error-icon-container {
     }
 
     .bubble {
-      background-color: $grey_l;
       clear: left;
     }
   }

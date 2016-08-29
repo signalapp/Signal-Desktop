@@ -91,6 +91,7 @@
         className: 'inbox',
         initialize: function (options) {
             this.render();
+            this.$el.addClass('android'); // theme
             new Whisper.FontSizeView({ el: this.el });
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
