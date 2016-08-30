@@ -29,15 +29,6 @@ body {
 }
 
 #header {
-  background-color: $blue;
-  color: white;
-  transition: background-color 0.5s;
-
-  &.inactive {
-    background-color: $grey_l;
-    color: $grey_d;
-  }
-
   h1 {
     margin: 0;
     line-height: $header-height;

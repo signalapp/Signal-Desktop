@@ -23,6 +23,32 @@
 }
 
 .ios {
+  #header {
+    height: 64px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    background-color: $grey_l;
+    color: $grey_d;
+    h1 { display: none; }
+  }
+  .tool-bar {
+    float: left;
+    padding: 15px;
+  }
+  textarea.send-message,
+  input.search {
+    border-radius: 5px;
+    height: 34px;
+    line-height: 34px;
+  }
+  .conversation-header {
+    background-color: $grey_l;
+    color: $grey_d;
+    border-color: rgba(0,0,0,0.05);
+  }
+  .menu .hamburger {
+    @include header-icon-black('/images/menu.svg');
+  }
+
   .control .content {
     padding: 10px;
   }
@@ -66,6 +92,16 @@
 }
 
 .android {
+  #header {
+    background-color: $blue;
+    color: white;
+    transition: background-color 0.5s;
+
+    &.inactive {
+      background-color: $grey_l;
+      color: $grey_d;
+    }
+  }
   .bubble {
     padding: 9px 12px;
     border-radius: $border-radius;
@@ -80,7 +116,7 @@
   }
 }
 
-.avatar, .conversation-header, .android .bubble {
+.avatar, .android .conversation-header, .android .bubble {
   &.red         { background-color: $material_red         ; }
   &.pink        { background-color: $material_pink        ; }
   &.purple      { background-color: $material_purple      ; }

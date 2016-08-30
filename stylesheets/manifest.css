@@ -37,19 +37,12 @@ body {
 .hide {
   display: none; }
 
-#header {
-  background-color: #2090ea;
-  color: white;
-  transition: background-color 0.5s; }
-  #header.inactive {
-    background-color: #f3f3f3;
-    color: #454545; }
-  #header h1 {
-    margin: 0;
-    line-height: 64px;
-    padding-left: 20px;
-    font-size: 22px;
-    font-weight: normal; }
+#header h1 {
+  margin: 0;
+  line-height: 64px;
+  padding-left: 20px;
+  font-size: 22px;
+  font-weight: normal; }
 
 .conversation-header button,
 .title-bar button {
@@ -1274,6 +1267,33 @@ li.entry .error-icon-container {
         background-color: #d9d9d9;
         border-color: silver; }
 
+.ios #header {
+  height: 64px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #f3f3f3;
+  color: #454545; }
+  .ios #header h1 {
+    display: none; }
+.ios .tool-bar {
+  float: left;
+  padding: 15px; }
+.ios textarea.send-message,
+.ios input.search {
+  border-radius: 5px;
+  height: 34px;
+  line-height: 34px; }
+.ios .conversation-header {
+  background-color: #f3f3f3;
+  color: #454545;
+  border-color: rgba(0, 0, 0, 0.05); }
+.ios .menu .hamburger {
+  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .ios .menu .hamburger:focus, .ios .menu .hamburger:hover {
+    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 .ios .control .content {
   padding: 10px; }
 .ios .bubble .content .body {
@@ -1310,6 +1330,13 @@ li.entry .error-icon-container {
   .ios .attachment a {
     border-radius: 15px; }
 
+.android #header {
+  background-color: #2090ea;
+  color: white;
+  transition: background-color 0.5s; }
+  .android #header.inactive {
+    background-color: #f3f3f3;
+    color: #454545; }
 .android .bubble {
   padding: 9px 12px;
   border-radius: 5px;
@@ -1327,39 +1354,39 @@ li.entry .error-icon-container {
 .android .incoming .bubble a, .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
 
-.avatar.red, .conversation-header.red, .android .bubble.red {
+.avatar.red, .android .conversation-header.red, .android .bubble.red {
   background-color: #EF5350; }
-.avatar.pink, .conversation-header.pink, .android .bubble.pink {
+.avatar.pink, .android .conversation-header.pink, .android .bubble.pink {
   background-color: #EC407A; }
-.avatar.purple, .conversation-header.purple, .android .bubble.purple {
+.avatar.purple, .android .conversation-header.purple, .android .bubble.purple {
   background-color: #AB47BC; }
-.avatar.deep_purple, .conversation-header.deep_purple, .android .bubble.deep_purple {
+.avatar.deep_purple, .android .conversation-header.deep_purple, .android .bubble.deep_purple {
   background-color: #7E57C2; }
-.avatar.indigo, .conversation-header.indigo, .android .bubble.indigo {
+.avatar.indigo, .android .conversation-header.indigo, .android .bubble.indigo {
   background-color: #5C6BC0; }
-.avatar.blue, .conversation-header.blue, .android .bubble.blue {
+.avatar.blue, .android .conversation-header.blue, .android .bubble.blue {
   background-color: #2196F3; }
-.avatar.light_blue, .conversation-header.light_blue, .android .bubble.light_blue {
+.avatar.light_blue, .android .conversation-header.light_blue, .android .bubble.light_blue {
   background-color: #03A9F4; }
-.avatar.cyan, .conversation-header.cyan, .android .bubble.cyan {
+.avatar.cyan, .android .conversation-header.cyan, .android .bubble.cyan {
   background-color: #00BCD4; }
-.avatar.teal, .conversation-header.teal, .android .bubble.teal {
+.avatar.teal, .android .conversation-header.teal, .android .bubble.teal {
   background-color: #009688; }
-.avatar.green, .conversation-header.green, .android .bubble.green {
+.avatar.green, .android .conversation-header.green, .android .bubble.green {
   background-color: #4CAF50; }
-.avatar.light_green, .conversation-header.light_green, .android .bubble.light_green {
+.avatar.light_green, .android .conversation-header.light_green, .android .bubble.light_green {
   background-color: #7CB342; }
-.avatar.orange, .conversation-header.orange, .android .bubble.orange {
+.avatar.orange, .android .conversation-header.orange, .android .bubble.orange {
   background-color: #FF9800; }
-.avatar.deep_orange, .conversation-header.deep_orange, .android .bubble.deep_orange {
+.avatar.deep_orange, .android .conversation-header.deep_orange, .android .bubble.deep_orange {
   background-color: #FF5722; }
-.avatar.amber, .conversation-header.amber, .android .bubble.amber {
+.avatar.amber, .android .conversation-header.amber, .android .bubble.amber {
   background-color: #FFB300; }
-.avatar.blue_grey, .conversation-header.blue_grey, .android .bubble.blue_grey {
+.avatar.blue_grey, .android .conversation-header.blue_grey, .android .bubble.blue_grey {
   background-color: #607D8B; }
-.avatar.grey, .conversation-header.grey, .android .bubble.grey {
+.avatar.grey, .android .conversation-header.grey, .android .bubble.grey {
   background-color: #999999; }
-.avatar.default, .conversation-header.default, .android .bubble.default {
+.avatar.default, .android .conversation-header.default, .android .bubble.default {
   background-color: #2090ea; }
 
 /*# sourceMappingURL=manifest.css.map */
