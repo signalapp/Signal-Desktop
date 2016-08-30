@@ -1274,6 +1274,8 @@ li.entry .error-icon-container {
         background-color: #d9d9d9;
         border-color: silver; }
 
+.ios .control .content {
+  padding: 10px; }
 .ios .bubble .content .body {
   display: inline-block;
   padding: 10px; }
