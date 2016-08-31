@@ -168,6 +168,24 @@
           }
         }
     },
+    "installSignalLinks": {
+        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+          "play_store": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          },
+          "app_store": {
+            "content": "$1",
+            "example": "href='http://example.com'"
+          }
+        }
+    },
+    "installGotIt": {
+        "message": "Got it",
+        "description": "Button for the user to confirm that they have Signal installed."
+    },
     "installIHaveSignalButton": {
         "message": "I have Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
