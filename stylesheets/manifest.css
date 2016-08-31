@@ -191,6 +191,40 @@ img.emoji {
   text-overflow: ellipsis;
   color: white;
   font-size: 18px; }
+  .avatar.red {
+    background-color: #EF5350; }
+  .avatar.pink {
+    background-color: #EC407A; }
+  .avatar.purple {
+    background-color: #AB47BC; }
+  .avatar.deep_purple {
+    background-color: #7E57C2; }
+  .avatar.indigo {
+    background-color: #5C6BC0; }
+  .avatar.blue {
+    background-color: #2196F3; }
+  .avatar.light_blue {
+    background-color: #03A9F4; }
+  .avatar.cyan {
+    background-color: #00BCD4; }
+  .avatar.teal {
+    background-color: #009688; }
+  .avatar.green {
+    background-color: #4CAF50; }
+  .avatar.light_green {
+    background-color: #7CB342; }
+  .avatar.orange {
+    background-color: #FF9800; }
+  .avatar.deep_orange {
+    background-color: #FF5722; }
+  .avatar.amber {
+    background-color: #FFB300; }
+  .avatar.blue_grey {
+    background-color: #607D8B; }
+  .avatar.grey {
+    background-color: #999999; }
+  .avatar.default {
+    background-color: #2090ea; }
 
 .group-info-input {
   background: white; }
@@ -781,8 +815,9 @@ input.search {
       left: -30px; }
 
 .conversation.placeholder {
-  text-align: center;
-  padding: 100px 36px; }
+  text-align: center; }
+  .conversation.placeholder .content {
+    padding: 100px 36px; }
   .conversation.placeholder h3 {
     font-size: large; }
 
@@ -1274,18 +1309,34 @@ li.entry .error-icon-container {
   color: #454545; }
   .ios #header h1 {
     display: none; }
+.ios .gutter .content {
+  height: calc(100% - 64px); }
 .ios .tool-bar {
   float: left;
   padding: 15px; }
-.ios textarea.send-message,
 .ios input.search {
   border-radius: 5px;
+  width: 220px;
   height: 34px;
-  line-height: 34px; }
+  padding-left: 30px;
+  line-height: 34px;
+  background-color: #dddddd; }
 .ios .conversation-header {
   background-color: #f3f3f3;
   color: #454545;
   border-color: rgba(0, 0, 0, 0.05); }
+  .ios .conversation-header .conversation-title {
+    line-height: 64px; }
+  .ios .conversation-header .avatar {
+    display: none; }
+.ios button.back {
+  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .ios button.back:focus, .ios button.back:hover {
+    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 .ios .menu .hamburger {
   -webkit-mask: url("/images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -1294,6 +1345,11 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+.ios .bottom-bar {
+  padding: 15px;
+  min-height: 30px; }
+  .ios .bottom-bar form.send {
+    border-radius: 5px; }
 .ios .control .content {
   padding: 10px; }
 .ios .bubble .content .body {
@@ -1337,6 +1393,44 @@ li.entry .error-icon-container {
   .android #header.inactive {
     background-color: #f3f3f3;
     color: #454545; }
+.android .conversation.placeholder .conversation-header {
+  display: none; }
+.android .conversation-header.red, .android .bubble.red {
+  background-color: #EF5350; }
+.android .conversation-header.pink, .android .bubble.pink {
+  background-color: #EC407A; }
+.android .conversation-header.purple, .android .bubble.purple {
+  background-color: #AB47BC; }
+.android .conversation-header.deep_purple, .android .bubble.deep_purple {
+  background-color: #7E57C2; }
+.android .conversation-header.indigo, .android .bubble.indigo {
+  background-color: #5C6BC0; }
+.android .conversation-header.blue, .android .bubble.blue {
+  background-color: #2196F3; }
+.android .conversation-header.light_blue, .android .bubble.light_blue {
+  background-color: #03A9F4; }
+.android .conversation-header.cyan, .android .bubble.cyan {
+  background-color: #00BCD4; }
+.android .conversation-header.teal, .android .bubble.teal {
+  background-color: #009688; }
+.android .conversation-header.green, .android .bubble.green {
+  background-color: #4CAF50; }
+.android .conversation-header.light_green, .android .bubble.light_green {
+  background-color: #7CB342; }
+.android .conversation-header.orange, .android .bubble.orange {
+  background-color: #FF9800; }
+.android .conversation-header.deep_orange, .android .bubble.deep_orange {
+  background-color: #FF5722; }
+.android .conversation-header.amber, .android .bubble.amber {
+  background-color: #FFB300; }
+.android .conversation-header.blue_grey, .android .bubble.blue_grey {
+  background-color: #607D8B; }
+.android .conversation-header.grey, .android .bubble.grey {
+  background-color: #999999; }
+.android .conversation-header.default, .android .bubble.default {
+  background-color: #2090ea; }
+.android .bottom-bar {
+  min-height: 10px; }
 .android .bubble {
   padding: 9px 12px;
   border-radius: 5px;
@@ -1353,40 +1447,5 @@ li.entry .error-icon-container {
   color: #454545; }
 .android .incoming .bubble a, .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
-
-.avatar.red, .android .conversation-header.red, .android .bubble.red {
-  background-color: #EF5350; }
-.avatar.pink, .android .conversation-header.pink, .android .bubble.pink {
-  background-color: #EC407A; }
-.avatar.purple, .android .conversation-header.purple, .android .bubble.purple {
-  background-color: #AB47BC; }
-.avatar.deep_purple, .android .conversation-header.deep_purple, .android .bubble.deep_purple {
-  background-color: #7E57C2; }
-.avatar.indigo, .android .conversation-header.indigo, .android .bubble.indigo {
-  background-color: #5C6BC0; }
-.avatar.blue, .android .conversation-header.blue, .android .bubble.blue {
-  background-color: #2196F3; }
-.avatar.light_blue, .android .conversation-header.light_blue, .android .bubble.light_blue {
-  background-color: #03A9F4; }
-.avatar.cyan, .android .conversation-header.cyan, .android .bubble.cyan {
-  background-color: #00BCD4; }
-.avatar.teal, .android .conversation-header.teal, .android .bubble.teal {
-  background-color: #009688; }
-.avatar.green, .android .conversation-header.green, .android .bubble.green {
-  background-color: #4CAF50; }
-.avatar.light_green, .android .conversation-header.light_green, .android .bubble.light_green {
-  background-color: #7CB342; }
-.avatar.orange, .android .conversation-header.orange, .android .bubble.orange {
-  background-color: #FF9800; }
-.avatar.deep_orange, .android .conversation-header.deep_orange, .android .bubble.deep_orange {
-  background-color: #FF5722; }
-.avatar.amber, .android .conversation-header.amber, .android .bubble.amber {
-  background-color: #FFB300; }
-.avatar.blue_grey, .android .conversation-header.blue_grey, .android .bubble.blue_grey {
-  background-color: #607D8B; }
-.avatar.grey, .android .conversation-header.grey, .android .bubble.grey {
-  background-color: #999999; }
-.avatar.default, .android .conversation-header.default, .android .bubble.default {
-  background-color: #2090ea; }
 
 /*# sourceMappingURL=manifest.css.map */

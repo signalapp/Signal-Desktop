@@ -224,7 +224,9 @@ input.search {
 
 .conversation.placeholder {
   text-align: center;
-  padding: 100px 36px;
+  .content {
+    padding: 100px 36px;
+  }
 
   h3 {
     font-size: large;

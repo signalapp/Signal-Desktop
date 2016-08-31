@@ -15,3 +15,22 @@
     @include color-svg($svg, black);
   }
 }
+@mixin avatar-colors {
+  &.red         { background-color: $material_red         ; }
+  &.pink        { background-color: $material_pink        ; }
+  &.purple      { background-color: $material_purple      ; }
+  &.deep_purple { background-color: $material_deep_purple ; }
+  &.indigo      { background-color: $material_indigo      ; }
+  &.blue        { background-color: $material_blue        ; }
+  &.light_blue  { background-color: $material_light_blue  ; }
+  &.cyan        { background-color: $material_cyan        ; }
+  &.teal        { background-color: $material_teal        ; }
+  &.green       { background-color: $material_green       ; }
+  &.light_green { background-color: $material_light_green ; }
+  &.orange      { background-color: $material_orange      ; }
+  &.deep_orange { background-color: $material_deep_orange ; }
+  &.amber       { background-color: $material_amber       ; }
+  &.blue_grey   { background-color: $material_blue_grey   ; }
+  &.grey        { background-color: #999999               ; }
+  &.default     { background-color: $blue                 ; }
+}

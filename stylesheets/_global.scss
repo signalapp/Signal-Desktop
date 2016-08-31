@@ -196,6 +196,7 @@ $avatar-size: 44px;
   text-overflow: ellipsis;
   color: white;
   font-size: 18px;
+  @include avatar-colors;
 }
 
 .group-info-input {

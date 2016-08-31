@@ -337,7 +337,8 @@
 
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
-                    $attachmentPreviews.outerHeight() + 11);
+                    $attachmentPreviews.outerHeight() +
+                    parseInt($bottomBar.css('min-height')));
 
             this.view.scrollToBottomIfNeeded();
         },

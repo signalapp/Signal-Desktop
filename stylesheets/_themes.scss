@@ -24,29 +24,49 @@
 
 .ios {
   #header {
-    height: 64px;
+    height: $header-height;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     background-color: $grey_l;
     color: $grey_d;
     h1 { display: none; }
   }
+  .gutter .content {
+    height: calc(100% - #{$header-height});
+  }
   .tool-bar {
     float: left;
     padding: 15px;
   }
-  textarea.send-message,
   input.search {
     border-radius: 5px;
+    width: 220px;
     height: 34px;
+    padding-left: 30px;
     line-height: 34px;
+    background-color: #dddddd;
   }
   .conversation-header {
     background-color: $grey_l;
     color: $grey_d;
     border-color: rgba(0,0,0,0.05);
+
+    .conversation-title {
+      line-height: $header-height;
+    }
+    .avatar { display: none; }
+  }
+  button.back {
+    @include header-icon-black('/images/back.svg');
   }
   .menu .hamburger {
     @include header-icon-black('/images/menu.svg');
+  }
+  .bottom-bar {
+    padding: 15px;
+    min-height: 30px;
+    form.send {
+      border-radius: 5px;
+    }
   }
 
   .control .content {
@@ -102,11 +122,21 @@
       color: $grey_d;
     }
   }
+  .conversation.placeholder .conversation-header {
+    display: none;
+  }
+  .conversation-header, .bubble {
+    @include avatar-colors;
+  }
+  .bottom-bar {
+    min-height: 10px;
+  }
   .bubble {
     padding: 9px 12px;
     border-radius: $border-radius;
     box-shadow: 0 3px 3px -4px black;
   }
+
   .outgoing .bubble {
     background-color: $grey_l;
   }
@@ -116,22 +146,3 @@
   }
 }
 
-.avatar, .android .conversation-header, .android .bubble {
-  &.red         { background-color: $material_red         ; }
-  &.pink        { background-color: $material_pink        ; }
-  &.purple      { background-color: $material_purple      ; }
-  &.deep_purple { background-color: $material_deep_purple ; }
-  &.indigo      { background-color: $material_indigo      ; }
-  &.blue        { background-color: $material_blue        ; }
-  &.light_blue  { background-color: $material_light_blue  ; }
-  &.cyan        { background-color: $material_cyan        ; }
-  &.teal        { background-color: $material_teal        ; }
-  &.green       { background-color: $material_green       ; }
-  &.light_green { background-color: $material_light_green ; }
-  &.orange      { background-color: $material_orange      ; }
-  &.deep_orange { background-color: $material_deep_orange ; }
-  &.amber       { background-color: $material_amber       ; }
-  &.blue_grey   { background-color: $material_blue_grey   ; }
-  &.grey        { background-color: #999999               ; }
-  &.default     { background-color: $blue                 ; }
-}
