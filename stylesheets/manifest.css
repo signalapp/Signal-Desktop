@@ -1384,9 +1384,29 @@ li.entry .error-icon-container {
     border: 1px solid rgba(0, 0, 0, 0.1); }
 .ios .control .content {
   padding: 10px; }
-.ios .bubble .content .body {
-  display: inline-block;
-  padding: 10px; }
+.ios .bubble .content {
+  margin-bottom: 5px; }
+  .ios .bubble .content .body {
+    display: inline-block;
+    padding: 10px;
+    position: relative; }
+    .ios .bubble .content .body:before, .ios .bubble .content .body:after {
+      content: '';
+      display: block;
+      border-radius: 20px;
+      position: absolute;
+      width: 10px; }
+    .ios .bubble .content .body:before {
+      right: -1px;
+      bottom: -3px;
+      height: 10px;
+      border-radius: 20px;
+      background: #2090ea; }
+    .ios .bubble .content .body:after {
+      height: 11px;
+      right: -6px;
+      bottom: -3px;
+      background: white; }
 .ios .bubble .content, .ios .bubble .attachments img {
   border-radius: 15px; }
 .ios .bubble .meta {
@@ -1396,6 +1416,11 @@ li.entry .error-icon-container {
   background-color: #e6e5ea;
   color: black;
   float: left; }
+  .ios .incoming .content .body:before {
+    left: -1px;
+    background-color: #e6e5ea; }
+  .ios .incoming .content .body:after {
+    left: -6px; }
 .ios .outgoing .content {
   background-color: #2090ea;
   float: right; }
