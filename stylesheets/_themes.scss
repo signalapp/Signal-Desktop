@@ -22,20 +22,52 @@
   }
 }
 
+$ios-header-border-color: rgba(0,0,0,0.05);
+$ios-border-color: rgba(0,0,0,0.1);
+
 .ios {
   #header {
     height: $header-height;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid $ios-header-border-color;
+    border-width: 0 1px 1px 0;
     background-color: $grey_l;
     color: $grey_d;
     h1 { display: none; }
   }
-  .gutter .content {
-    height: calc(100% - #{$header-height});
+  .gutter {
+    border-right: 1px solid $ios-border-color;
+    .content {
+      height: calc(100% - #{$header-height});
+      background: $ios-border-color;
+    }
+    .contact {
+      background: $grey_l;
+      margin-right: 0;
+
+      &.selected {
+        background: $blue;
+        color: white;
+        .last-timestamp {
+          color: white;
+        }
+      }
+    }
+    ::-webkit-scrollbar-track {
+      background: $grey_l;
+    }
   }
   .tool-bar {
     float: left;
     padding: 15px;
+  }
+  input[type=text]:active,
+  input[type=text]:focus,
+  input[type=search]:active,
+  input[type=search]:focus,
+  input[type=search].active,
+  form.active {
+    outline-offset: 0;
+    outline: -webkit-focus-ring-color auto 5px;
   }
   input.search {
     border-radius: 5px;
@@ -48,7 +80,8 @@
   .conversation-header {
     background-color: $grey_l;
     color: $grey_d;
-    border-color: rgba(0,0,0,0.05);
+    border-color: $ios-header-border-color;
+    text-align: left;
 
     .conversation-title {
       line-height: $header-height;
@@ -64,10 +97,13 @@
   .bottom-bar {
     padding: 15px;
     min-height: 30px;
+    border-top: 1px solid $ios-border-color;
     form.send {
       border-radius: 5px;
+      border: 1px solid $ios-border-color;
     }
   }
+
 
   .control .content {
     padding: 10px;
@@ -86,7 +122,7 @@
     }
   }
   .incoming .content {
-    background-color: #e5e5e5;
+    background-color: #e6e5ea;
     color: black;
     float: left;
   }
@@ -121,6 +157,9 @@
       background-color: $grey_l;
       color: $grey_d;
     }
+  }
+  .contact-details .name {
+    font-weight: 400;
   }
   .conversation.placeholder .conversation-header {
     display: none;

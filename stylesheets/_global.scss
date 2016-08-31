@@ -145,12 +145,21 @@ button.back {
   }
 
   .paperclip {
-    width: $button-height;
+    width: 36px;
     height: 100%;
-    @include color-svg('/images/paperclip.svg', $grey);
+    padding: 5px 0 0;
     opacity: 0.5;
-    transform: rotateZ(-45deg);
+    border: none;
+    background: transparent;
 
+    &:before {
+      content: '';
+      display: inline-block;
+      width: $button-height;
+      height: $button-height;
+      @include color-svg('/images/paperclip.svg', $grey);
+      transform: rotateZ(-45deg);
+    }
 
     &:focus, &:hover {
       opacity: 1.0;
@@ -312,7 +321,6 @@ $avatar-size: 44px;
     display: block;
     margin: 0;
     font-size: 1em;
-    font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden;
     text-align: left;

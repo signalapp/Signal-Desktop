@@ -149,13 +149,21 @@ button.back {
     cursor: pointer;
     padding-left: 10px; }
   .file-input .paperclip {
-    width: 24px;
+    width: 36px;
     height: 100%;
-    -webkit-mask: url("/images/paperclip.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: #616161;
+    padding: 5px 0 0;
     opacity: 0.5;
-    transform: rotateZ(-45deg); }
+    border: none;
+    background: transparent; }
+    .file-input .paperclip:before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #616161;
+      transform: rotateZ(-45deg); }
     .file-input .paperclip:focus, .file-input .paperclip:hover {
       opacity: 1.0; }
   .file-input input[type=file] {
@@ -313,7 +321,6 @@ img.emoji {
     display: block;
     margin: 0;
     font-size: 1em;
-    font-weight: 400;
     text-overflow: ellipsis;
     overflow-x: hidden;
     text-align: left; }
@@ -873,7 +880,7 @@ input.search {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 36px;
+  padding: 0 46px;
   -webkit-user-select: text; }
 
 .conversation-name + .conversation-number:before {
@@ -1305,15 +1312,37 @@ li.entry .error-icon-container {
 .ios #header {
   height: 64px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-width: 0 1px 1px 0;
   background-color: #f3f3f3;
   color: #454545; }
   .ios #header h1 {
     display: none; }
-.ios .gutter .content {
-  height: calc(100% - 64px); }
+.ios .gutter {
+  border-right: 1px solid rgba(0, 0, 0, 0.1); }
+  .ios .gutter .content {
+    height: calc(100% - 64px);
+    background: rgba(0, 0, 0, 0.1); }
+  .ios .gutter .contact {
+    background: #f3f3f3;
+    margin-right: 0; }
+    .ios .gutter .contact.selected {
+      background: #2090ea;
+      color: white; }
+      .ios .gutter .contact.selected .last-timestamp {
+        color: white; }
+  .ios .gutter ::-webkit-scrollbar-track {
+    background: #f3f3f3; }
 .ios .tool-bar {
   float: left;
   padding: 15px; }
+.ios input[type=text]:active,
+.ios input[type=text]:focus,
+.ios input[type=search]:active,
+.ios input[type=search]:focus,
+.ios input[type=search].active,
+.ios form.active {
+  outline-offset: 0;
+  outline: -webkit-focus-ring-color auto 5px; }
 .ios input.search {
   border-radius: 5px;
   width: 220px;
@@ -1324,7 +1353,8 @@ li.entry .error-icon-container {
 .ios .conversation-header {
   background-color: #f3f3f3;
   color: #454545;
-  border-color: rgba(0, 0, 0, 0.05); }
+  border-color: rgba(0, 0, 0, 0.05);
+  text-align: left; }
   .ios .conversation-header .conversation-title {
     line-height: 64px; }
   .ios .conversation-header .avatar {
@@ -1347,9 +1377,11 @@ li.entry .error-icon-container {
     background-color: black; }
 .ios .bottom-bar {
   padding: 15px;
-  min-height: 30px; }
+  min-height: 30px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1); }
   .ios .bottom-bar form.send {
-    border-radius: 5px; }
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1); }
 .ios .control .content {
   padding: 10px; }
 .ios .bubble .content .body {
@@ -1361,7 +1393,7 @@ li.entry .error-icon-container {
   float: none;
   clear: both; }
 .ios .incoming .content {
-  background-color: #e5e5e5;
+  background-color: #e6e5ea;
   color: black;
   float: left; }
 .ios .outgoing .content {
@@ -1393,6 +1425,8 @@ li.entry .error-icon-container {
   .android #header.inactive {
     background-color: #f3f3f3;
     color: #454545; }
+.android .contact-details .name {
+  font-weight: 400; }
 .android .conversation.placeholder .conversation-header {
   display: none; }
 .android .conversation-header.red, .android .bubble.red {
