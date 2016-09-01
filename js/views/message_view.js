@@ -125,20 +125,10 @@
 
             this.renderControl();
 
-            twemoji.parse(this.el, {
-              attributes: function(icon, variant) {
-                var colon = emoji_util.get_colon_from_unicode(icon);
-                if (colon) {
-                  return {title: ":" + colon + ":"};
-                } else {
-                  return {};
-                }
-              },
-              base: '/images/twemoji/',
-              size: 16
-            });
-
             var body = this.$('.body');
+
+            emoji_util.parse(body);
+
             if (body.length > 0) {
                 var escaped = body.html();
                 body.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));

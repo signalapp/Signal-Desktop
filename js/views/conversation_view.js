@@ -4,7 +4,6 @@
 (function () {
     'use strict';
     window.Whisper = window.Whisper || {};
-    emoji.init_colons();
 
     Whisper.ExpiredToast = Whisper.ToastView.extend({
         templateName: 'expired_toast',
@@ -45,7 +44,7 @@
 
             this.render();
 
-            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
+            emoji_util.parse(this.$('.conversation-name'));
 
             this.appWindow = options.appWindow;
             this.fileInput = new Whisper.FileInputView({

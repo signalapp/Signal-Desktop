@@ -17,8 +17,8 @@
     "intl-tel-input": "~4.0.1",
     "blueimp-load-image": "~1.13.0",
     "blueimp-canvas-to-blob": "~2.1.1",
-    "twemoji": "~2.0.5",
     "emojijs": "https://github.com/iamcal/js-emoji.git",
+    "emojidata": "https://github.com/iamcal/emoji-data.git",
     "autosize": "~3.0.6",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
     "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
@@ -80,14 +80,12 @@
     "blueimp-canvas-to-blob": [
       "js/canvas-to-blob.js"
     ],
-    "twemoji": [
-      "twemoji.js",
-      "72x72/*",
-      "36x36/*",
-      "16x16/*"
-    ],
     "emojijs": [
-      "emoji.js"
+      "lib/emoji.js",
+      "demo/emoji.css"
+    ],
+    "emojidata": [
+      "img-apple-64/*"
     ],
     "mock-socket": [
       "dist/mock-socket.js"
@@ -120,7 +118,6 @@
       "backbone.typeahead",
       "blueimp-load-image",
       "blueimp-canvas-to-blob",
-      "twemoji",
       "emojijs",
       "autosize"
     ],

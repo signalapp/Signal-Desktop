@@ -47,7 +47,8 @@
             this.timeStampView.setElement(this.$('.last-timestamp'));
             this.timeStampView.update();
 
-            twemoji.parse(this.el, { base: '/images/twemoji/', size: 16 });
+            emoji_util.parse(this.$('.name'));
+            emoji_util.parse(this.$('.last-message'));
 
             var unread = this.model.get('unreadCount');
             if (unread > 0) {
