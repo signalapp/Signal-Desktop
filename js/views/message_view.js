@@ -105,7 +105,9 @@
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
                 this.$el.addClass('control');
-                this.$('.content').text(this.model.getDescription());
+                var content = this.$('.content');
+                content.text(this.model.getDescription());
+                emoji_util.parse(content);
             } else {
                 this.$el.removeClass('control');
             }
