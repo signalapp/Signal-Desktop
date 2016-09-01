@@ -139,6 +139,9 @@ $ios-border-color: rgba(0,0,0,0.1);
     .content, .attachments img {
       border-radius: 15px;
     }
+    .attachments img {
+      border: 1px solid $ios-border-color;
+    }
     .meta {
       float: none;
       clear: both;
