@@ -159,22 +159,18 @@
         "message": "Get started"
     },
     "installSignalLink": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on their phone before linking",
+        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-          "play_store": {
-            "content": "$1",
-            "example": "href='http://example.com'"
-          },
-          "app_store": {
+          "a_params": {
             "content": "$1",
             "example": "href='http://example.com'"
           }
         }
     },
     "installIHaveSignalButton": {
-        "message": "Got it",
-        "description": "Button for the user to confirm that they have Signal installed."
+        "message": "I have Signal for Android",
+        "description": "Button for the user to confirm that they have Signal for Android"
     },
     "installFollowUs": {
         "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
