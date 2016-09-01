@@ -4,7 +4,10 @@
   }
 
   &, .body {
-    &::selection, a::selection,
+    &::selection, a::selection {
+      background: white;
+      color: $grey_d;
+    }
     &::-moz-selection, a::-moz-selection {
       background: white;
       color: $grey_d;
