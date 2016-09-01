@@ -42,28 +42,6 @@
     window.emoji = new EmojiConvertor();
     emoji.init_colons();
 
-    // Map from single unicode emoji strings to "colon" strings
-    var unicode_emoji_map;
-    var initialized = false;
-
-    function initialize() {
-      if (initialized) {
-        return;
-      }
-      initialized = true;
-      unicode_emoji_map = {};
-      $.each(emoji.data, function(_, data) {
-        if (data[0] && data[0][0] && data[3] && data[3].length > 0) {
-          unicode_emoji_map[data[0][0]] = data[3][0];
-        }
-      });
-    }
-
-    window.emoji_util.get_colon_from_unicode = function(emoji_string) {
-      initialize();
-      return unicode_emoji_map[emoji_string];
-    };
-
     window.emoji_util.parse = function($el) {
         $el.html(emoji.replace_unified($el.text()));
     };
