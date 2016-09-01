@@ -43,6 +43,9 @@
     emoji.init_colons();
 
     window.emoji_util.parse = function($el) {
+        if (!$el || !$el.length) {
+            return;
+        }
         $el.html(emoji.replace_unified($el.html()));
     };
 
