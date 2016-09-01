@@ -3,7 +3,7 @@
     color: white;
   }
 
-  &, .body {
+  &, .content {
     &::selection, a::selection {
       background: white;
       color: $grey_d;
@@ -103,6 +103,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
+  .error-message.content,
   .control .content {
     padding: 10px;
   }
