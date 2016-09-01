@@ -3,12 +3,8 @@
     color: white;
   }
 
-  &, .content {
-    &::selection, a::selection {
-      background: white;
-      color: $grey_d;
-    }
-
+  &, .body {
+    &::selection, a::selection,
     &::-moz-selection, a::-moz-selection {
       background: white;
       color: $grey_d;
@@ -164,7 +160,9 @@ $ios-border-color: rgba(0,0,0,0.1);
   .outgoing {
     .content {
       background-color: $blue;
-      @include invert-text-color;
+      .body {
+        @include invert-text-color;
+      }
       float: right;
     }
     .timestamp {

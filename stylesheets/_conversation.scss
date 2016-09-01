@@ -534,6 +534,7 @@ li.entry .error-icon-container {
   box-shadow: 0 0 5px 0 black;
   border-radius: $border-radius;
   font-size: $font-size-small;
+  z-index: 100;
 }
 
 .confirmation-dialog {

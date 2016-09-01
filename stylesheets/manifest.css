@@ -1317,7 +1317,8 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: 5px;
-  font-size: 0.92857em; }
+  font-size: 0.92857em;
+  z-index: 100; }
 
 .confirmation-dialog .content {
   max-width: 350px;
@@ -1462,15 +1463,12 @@ li.entry .error-icon-container {
 .ios .outgoing .content {
   background-color: #2090ea;
   float: right; }
-  .ios .outgoing .content, .ios .outgoing .content .meta {
+  .ios .outgoing .content .body, .ios .outgoing .content .body .meta {
     color: white; }
-  .ios .outgoing .content::selection, .ios .outgoing .content a::selection, .ios .outgoing .content .content::selection, .ios .outgoing .content .content a::selection {
+  .ios .outgoing .content .body::selection, .ios .outgoing .content .body a::selection, .ios .outgoing .content .body::-moz-selection, .ios .outgoing .content .body a::-moz-selection, .ios .outgoing .content .body .body::selection, .ios .outgoing .content .body .body a::selection, .ios .outgoing .content .body .body::-moz-selection, .ios .outgoing .content .body .body a::-moz-selection {
     background: white;
     color: #454545; }
-  .ios .outgoing .content::-moz-selection, .ios .outgoing .content a::-moz-selection, .ios .outgoing .content .content::-moz-selection, .ios .outgoing .content .content a::-moz-selection {
-    background: white;
-    color: #454545; }
-  .ios .outgoing .content a, .ios .outgoing .content .attachments a, .ios .outgoing .content .content a {
+  .ios .outgoing .content .body a, .ios .outgoing .content .body .attachments a, .ios .outgoing .content .body .content a {
     color: #f3f3f3; }
 .ios .outgoing .timestamp {
   float: none; }
@@ -1536,10 +1534,7 @@ li.entry .error-icon-container {
   background-color: #f3f3f3; }
 .android .incoming .bubble, .android .incoming .bubble .meta {
   color: white; }
-.android .incoming .bubble::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .content a::selection {
-  background: white;
-  color: #454545; }
-.android .incoming .bubble::-moz-selection, .android .incoming .bubble a::-moz-selection, .android .incoming .bubble .content::-moz-selection, .android .incoming .bubble .content a::-moz-selection {
+.android .incoming .bubble::selection, .android .incoming .bubble a::selection, .android .incoming .bubble::-moz-selection, .android .incoming .bubble a::-moz-selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .body a::selection, .android .incoming .bubble .body::-moz-selection, .android .incoming .bubble .body a::-moz-selection {
   background: white;
   color: #454545; }
 .android .incoming .bubble a, .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
