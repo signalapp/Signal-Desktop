@@ -1,6 +1,6 @@
 {
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Dernière importation à",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -56,11 +56,11 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 heure",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importer tous les groupes Signal et les contacts depuis votre appareil mobile",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -100,7 +100,7 @@
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "maintenant",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
@@ -140,11 +140,11 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importer maintenant",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Importation échouée. Vérifiez que votre ordinateur et votre téléphone sont connectés à internet",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -194,7 +194,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importation en cours",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -202,7 +202,7 @@
         "description": "Label for a button to accept a new identity key"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "MMM J",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unregisteredUser": {
@@ -277,7 +277,11 @@
         "message": "Commencez par installer <a $a_params$>Signal</a> sur votre téléphone Android. Nous lierons et synchroniserons vos appareils ensuite.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
-            "a_params": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
                 "content": "$1",
                 "example": "href='http://example.com'"
             }
