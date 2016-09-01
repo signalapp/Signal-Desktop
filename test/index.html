@@ -32,10 +32,12 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
-      <div class="bubble">
-          <div class='sender'>{{ sender }}</div>
+      <div class='bubble {{ avatar.color }}'>
+          <div class='sender' dir='auto'>{{ sender }}</div>
           <div class='attachments'></div>
-          <p class="content">{{ message }}</p>
+          <p class='content' dir='auto'>
+            {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
+          </p>
           <div class='meta'>
             <span class='timestamp' data-timestamp={{ timestamp }}></span>
             <span class='status hide'></span>

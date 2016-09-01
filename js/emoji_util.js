@@ -13,7 +13,7 @@
         }
         this.inits.env = 1;
         this.include_title = true;
-        this.img_sets.apple.path = 'images/emoji/apple/';
+        this.img_sets.apple.path = '/images/emoji/apple/';
         this.replace_mode = 'img';
     };
     EmojiConvertor.prototype.replace_unified = function(str) {
@@ -43,7 +43,7 @@
     emoji.init_colons();
 
     window.emoji_util.parse = function($el) {
-        $el.html(emoji.replace_unified($el.text()));
+        $el.html(emoji.replace_unified($el.html()));
     };
 
 })();

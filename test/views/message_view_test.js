@@ -58,7 +58,7 @@ describe('MessageView', function() {
     message.set('body', url);
     var view = new Whisper.MessageView({model: message});
     view.render();
-    var link = view.$el.find('.content a');
+    var link = view.$el.find('.body a');
     assert.strictEqual(link.length, 1);
     assert.strictEqual(link.text(), url);
     assert.strictEqual(link.attr('href'), url);
@@ -73,14 +73,14 @@ describe('MessageView', function() {
     assert.strictEqual(view.$el.find('script').length, 0); // should not appear as html
   });
 
-  it('supports twemoji', function() {
+  it('supports emoji', function() {
     message.set('body', 'I \u2764\uFE0F emoji!');
     var view = new Whisper.MessageView({model: message});
     view.render();
     var img = view.$el.find('.content img');
     assert.strictEqual(img.length, 1);
-    assert.strictEqual(img.attr('src'), '/images/twemoji/16x16/2764.png');
-    assert.strictEqual(img.attr('alt'), '\u2764\uFE0F');
+    assert.strictEqual(img.attr('src'), '/images/emoji/apple/2764.png');
+    assert.strictEqual(img.attr('title'), ':heart:');
     assert.strictEqual(img.attr('class'), 'emoji');
   });
 });
