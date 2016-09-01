@@ -66,6 +66,7 @@
                 this.$('#sync').click(function(e) {
                     e.stopPropagation();
                     var name = this.$('#device-name').val();
+                    name = name.replace(/\0/g,''); // strip unicode null
                     if (name.trim().length === 0) {
                         this.$('#device-name').focus();
                         return;
