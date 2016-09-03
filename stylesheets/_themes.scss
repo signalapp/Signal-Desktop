@@ -1,23 +1,9 @@
 @mixin invert-text-color {
-  &, .meta {
-    color: white;
-  }
+  color: white;
 
-  &, .content {
-    &::selection, a::selection {
-      background: white;
-      color: $grey_d;
-    }
-    &::-moz-selection, a::-moz-selection {
-      background: white;
-      color: $grey_d;
-    }
-  }
-
-  &, .attachments, .content {
-    a {
-      color: $grey_l;
-    }
+  &::selection {
+    background: white;
+    color: $grey_d;
   }
 }
 
@@ -164,7 +150,7 @@ $ios-border-color: rgba(0,0,0,0.1);
   .outgoing {
     .content {
       background-color: $blue;
-      .body {
+      &, .body, a {
         @include invert-text-color;
       }
       float: right;
@@ -218,7 +204,14 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .incoming .bubble {
-    @include invert-text-color;
+    .content, .body, .meta, a {
+      @include invert-text-color;
+    }
+    .attachments, .content {
+      a {
+        color: $grey_l;
+      }
+    }
   }
 }
 

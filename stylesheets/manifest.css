@@ -1464,16 +1464,11 @@ li.entry .error-icon-container {
 .ios .outgoing .content {
   background-color: #2090ea;
   float: right; }
-  .ios .outgoing .content .body, .ios .outgoing .content .body .meta {
+  .ios .outgoing .content, .ios .outgoing .content .body, .ios .outgoing .content a {
     color: white; }
-  .ios .outgoing .content .body::selection, .ios .outgoing .content .body a::selection, .ios .outgoing .content .body .content::selection, .ios .outgoing .content .body .content a::selection {
-    background: white;
-    color: #454545; }
-  .ios .outgoing .content .body::-moz-selection, .ios .outgoing .content .body a::-moz-selection, .ios .outgoing .content .body .content::-moz-selection, .ios .outgoing .content .body .content a::-moz-selection {
-    background: white;
-    color: #454545; }
-  .ios .outgoing .content .body a, .ios .outgoing .content .body .attachments a, .ios .outgoing .content .body .content a {
-    color: #f3f3f3; }
+    .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection {
+      background: white;
+      color: #454545; }
 .ios .outgoing .timestamp {
   float: none; }
 .ios .outgoing .status {
@@ -1536,15 +1531,12 @@ li.entry .error-icon-container {
   box-shadow: 0 3px 3px -4px black; }
 .android .outgoing .bubble {
   background-color: #f3f3f3; }
-.android .incoming .bubble, .android .incoming .bubble .meta {
+.android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
   color: white; }
-.android .incoming .bubble::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .content a::selection {
-  background: white;
-  color: #454545; }
-.android .incoming .bubble::-moz-selection, .android .incoming .bubble a::-moz-selection, .android .incoming .bubble .content::-moz-selection, .android .incoming .bubble .content a::-moz-selection {
-  background: white;
-  color: #454545; }
-.android .incoming .bubble a, .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
+  .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {
+    background: white;
+    color: #454545; }
+.android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
 
 /*# sourceMappingURL=manifest.css.map */
