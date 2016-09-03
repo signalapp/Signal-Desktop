@@ -355,15 +355,17 @@
         }
 
         var title = this.get('name');
-        var color;
-        if (this.isPrivate()) {
-            if (title) {
-                color = COLORS[Math.abs(this.hashCode()) % 15];
+        var color = this.get('color');
+        if (!color) {
+            if (this.isPrivate()) {
+                if (title) {
+                    color = COLORS[Math.abs(this.hashCode()) % 15];
+                } else {
+                    color = 'grey';
+                }
             } else {
-                color = 'grey';
+                color = 'default';
             }
-        } else {
-            color = 'default';
         }
 
         if (this.avatarUrl) {

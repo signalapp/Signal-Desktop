@@ -136,6 +136,7 @@
             name: contactDetails.name,
             id: contactDetails.number,
             avatar: contactDetails.avatar,
+            color: contactDetails.color,
             type: 'private',
             active_at: Date.now()
         }).save();
