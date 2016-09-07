@@ -275,14 +275,15 @@
         },
 
         sendMessage: function(e) {
+            var toast;
             if (extension.expired()) {
-                var toast = new Whisper.ExpiredToast();
+                toast = new Whisper.ExpiredToast();
                 toast.$el.insertAfter(this.$el);
                 toast.render();
                 return;
             }
             if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
-                var toast = new Whisper.BlockedToast();
+                toast = new Whisper.BlockedToast();
                 toast.$el.insertAfter(this.$el);
                 toast.render();
                 return;
