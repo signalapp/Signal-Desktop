@@ -6,11 +6,8 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.ExpiredToast = Whisper.ToastView.extend({
-        templateName: 'expired_toast',
         render_attributes: function() {
-            return {
-                expiredWarning: i18n('expiredWarning')
-            };
+            return { toastMessage: i18n('expiredWarning') };
         }
     });
 

@@ -7,6 +7,7 @@
 
     Whisper.ToastView = Whisper.View.extend({
         className: 'toast',
+        templateName: 'toast',
         initialize: function() {
             this.$el.hide();
         },
