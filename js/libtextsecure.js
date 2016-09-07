@@ -38100,7 +38100,10 @@ MessageReceiver.prototype.extend({
             // fault, and we should handle them gracefully and tell the
             // user they received an invalid message
             request.respond(200, 'OK');
-            this.queueEnvelope(envelope);
+
+            if (!this.isBlocked(envelope.source)) {
+                this.queueEnvelope(envelope);
+            }
 
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
@@ -38272,6 +38275,8 @@ MessageReceiver.prototype.extend({
             this.handleContacts(syncMessage.contacts);
         } else if (syncMessage.groups) {
             this.handleGroups(syncMessage.groups);
+        } else if (syncMessage.blocked) {
+            this.handleBlocked(syncMessage.blocked);
         } else if (syncMessage.request) {
             console.log('Got SyncMessage Request');
         } else if (syncMessage.read) {
@@ -38347,6 +38352,12 @@ MessageReceiver.prototype.extend({
                 eventTarget.dispatchEvent(new Event('groupsync'));
             });
         });
+    },
+    handleBlocked: function(blocked) {
+        textsecure.storage.put('blocked', blocked.numbers);
+    },
+    isBlocked: function(number) {
+        return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
     },
     handleAttachment: function(attachment) {
         function decryptAttachment(encrypted) {

@@ -324,5 +324,9 @@
     "timestampFormat_M": {
        "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'.",
        "message": "MMM D"
+    },
+    "unblockToSend": {
+      "message": "Unblock this contact to send a message.",
+      "description": "Brief message shown when trying to message a blocked number"
     }
 }

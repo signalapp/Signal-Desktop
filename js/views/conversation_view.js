@@ -10,6 +10,11 @@
             return { toastMessage: i18n('expiredWarning') };
         }
     });
+    Whisper.BlockedToast = Whisper.ToastView.extend({
+        render_attributes: function() {
+            return { toastMessage: i18n('unblockToSend') };
+        }
+    });
 
     Whisper.ConversationView = Whisper.View.extend({
         className: function() {
@@ -272,6 +277,12 @@
         sendMessage: function(e) {
             if (extension.expired()) {
                 var toast = new Whisper.ExpiredToast();
+                toast.$el.insertAfter(this.$el);
+                toast.render();
+                return;
+            }
+            if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
+                var toast = new Whisper.BlockedToast();
                 toast.$el.insertAfter(this.$el);
                 toast.render();
                 return;
