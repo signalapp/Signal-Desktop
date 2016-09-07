@@ -387,6 +387,7 @@ li.entry .error-icon-container {
     .bubble {
       .content {
         font-style: italic;
+        -webkit-user-select: text;
       }
 
       &::before, &::after {

@@ -1213,7 +1213,8 @@ li.entry .error-icon-container {
     clear: left; }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
-    font-style: italic; }
+    font-style: italic;
+    -webkit-user-select: text; }
   .message-container .control .bubble::before, .message-container .control .bubble::after,
   .message-list .control .bubble::before,
   .message-list .control .bubble::after {
