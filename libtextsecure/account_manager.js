@@ -7,8 +7,8 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
-    function AccountManager(url, username, password) {
-        this.server = new TextSecureServer(url, username, password);
+    function AccountManager(url, ports, username, password) {
+        this.server = new TextSecureServer(url, ports, username, password);
     }
 
     AccountManager.prototype = {

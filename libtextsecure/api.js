@@ -2,6 +2,18 @@
  * vim: ts=4:sw=4:expandtab
  */
 
+function PortManager(ports) {
+    this.ports = ports;
+    this.idx = 0;
+}
+
+PortManager.prototype = {
+    constructor: PortManager,
+    getPort: function() {
+        return this.ports[this.idx++];
+    }
+};
+
 var TextSecureServer = (function() {
     'use strict';
 
@@ -27,6 +39,9 @@ var TextSecureServer = (function() {
     // Promise-based async xhr routine
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
+            if (!url) {
+                url = options.host + ':' + options.port + '/' + options.path;
+            }
             console.log(options.type, url);
             var xhr = new XMLHttpRequest();
             xhr.open(options.type, url, true /*async*/);
@@ -74,24 +89,29 @@ var TextSecureServer = (function() {
         });
     }
 
-    function ajax(url, options) {
-        options.stack = new Error().stack; // just in case, save stack here.
-        var count = 3;
-
-        function retry(e) {
-            if (e.name === 'HTTPError' && e.code === -1 && count > 0) {
-                count = count - 1;
+    function retry_ajax(url, options, limit, count) {
+        count = count || 0;
+        limit = limit || 3;
+        if (options.ports) {
+            options.port = options.ports[count % options.ports.length];
+        }
+        count++;
+        return promise_ajax(url, options).catch(function(e) {
+            if (e.name === 'HTTPError' && e.code === -1 && count < limit) {
                 return new Promise(function(resolve) {
                     setTimeout(function() {
-                        resolve(promise_ajax(url, options).catch(retry));
-                    }, 1000 );
+                        resolve(retry_ajax(url, options, limit, count));
+                    }, 1000);
                 });
             } else {
                 throw e;
             }
-        }
+        });
+    }
 
-        return promise_ajax(url, options).catch(retry);
+    function ajax(url, options) {
+        options.stack = new Error().stack; // just in case, save stack here.
+        return retry_ajax(url, options);
     }
 
     function HTTPError(code, response, stack) {
@@ -109,17 +129,18 @@ var TextSecureServer = (function() {
     }
 
     var URL_CALLS = {
-        accounts   : "/v1/accounts",
-        devices    : "/v1/devices",
-        keys       : "/v2/keys",
-        messages   : "/v1/messages",
-        attachment : "/v1/attachments"
+        accounts   : "v1/accounts",
+        devices    : "v1/devices",
+        keys       : "v2/keys",
+        messages   : "v1/messages",
+        attachment : "v1/attachments"
     };
 
-    function TextSecureServer(url, username, password, attachment_server_url) {
+    function TextSecureServer(url, ports, username, password, attachment_server_url) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
+        this.portManager = new PortManager(ports);
         this.url = url;
         this.username = username;
         this.password = password;
@@ -138,11 +159,17 @@ var TextSecureServer = (function() {
 
     TextSecureServer.prototype = {
         constructor: TextSecureServer,
+        getUrl: function() {
+            return this.url + ':' + this.portManager.getPort();
+        },
         ajax: function(param) {
             if (!param.urlParameters) {
                 param.urlParameters = '';
             }
-            return ajax(this.url + URL_CALLS[param.call] + param.urlParameters, {
+            return ajax(null, {
+                    host        : this.url,
+                    ports       : this.portManager.ports,
+                    path        : URL_CALLS[param.call] + param.urlParameters,
                     type        : param.httpType,
                     data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
                     contentType : 'application/json; charset=utf-8',
@@ -351,7 +378,7 @@ var TextSecureServer = (function() {
         },
         getMessageSocket: function() {
             return new WebSocket(
-                this.url.replace('https://', 'wss://')
+                this.getUrl().replace('https://', 'wss://')
                     .replace('http://', 'ws://')
                     + '/v1/websocket/?login=' + encodeURIComponent(this.username)
                     + '&password=' + encodeURIComponent(this.password)
@@ -361,7 +388,7 @@ var TextSecureServer = (function() {
         getProvisioningSocket: function () {
             console.log('opening provisioning socket', this.url);
             return new WebSocket(
-                this.url.replace('https://', 'wss://')
+                this.getUrl().replace('https://', 'wss://')
                     .replace('http://', 'ws://')
                     + '/v1/websocket/provisioning/?agent=OWD'
             );

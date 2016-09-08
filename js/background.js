@@ -51,7 +51,8 @@
         });
     });
 
-    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org:4433';
+    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
+    var SERVER_PORTS = [4433, 8443];
     var ATTACHMENT_SERVER_URL = 'https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com';
     var messageReceiver;
     window.getSocketStatus = function() {
@@ -64,7 +65,7 @@
     window.getAccountManager = function() {
         var USERNAME = storage.get('number_id');
         var PASSWORD = storage.get('password');
-        return new textsecure.AccountManager(SERVER_URL, USERNAME, PASSWORD);
+        return new textsecure.AccountManager(SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD);
     };
 
     storage.fetch();
@@ -103,7 +104,7 @@
 
         // initialize the socket and start listening for messages
         messageReceiver = new textsecure.MessageReceiver(
-            SERVER_URL, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL
+            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL
         );
         messageReceiver.addEventListener('message', onMessageReceived);
         messageReceiver.addEventListener('receipt', onDeliveryReceipt);
@@ -114,7 +115,7 @@
         messageReceiver.addEventListener('error', onError);
 
         window.textsecure.messaging = new textsecure.MessageSender(
-            SERVER_URL, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL
+            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL
         );
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
