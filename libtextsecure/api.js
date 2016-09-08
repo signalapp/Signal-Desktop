@@ -377,19 +377,20 @@ var TextSecureServer = (function() {
             }.bind(this));
         },
         getMessageSocket: function() {
+            var url = this.getUrl();
+            console.log('opening message socket', url);
             return new WebSocket(
-                this.getUrl().replace('https://', 'wss://')
-                    .replace('http://', 'ws://')
+                url.replace('https://', 'wss://').replace('http://', 'ws://')
                     + '/v1/websocket/?login=' + encodeURIComponent(this.username)
                     + '&password=' + encodeURIComponent(this.password)
                     + '&agent=OWD'
             );
         },
         getProvisioningSocket: function () {
-            console.log('opening provisioning socket', this.url);
+            var url = this.getUrl();
+            console.log('opening provisioning socket', url);
             return new WebSocket(
-                this.getUrl().replace('https://', 'wss://')
-                    .replace('http://', 'ws://')
+                url.replace('https://', 'wss://').replace('http://', 'ws://')
                     + '/v1/websocket/provisioning/?agent=OWD'
             );
         }
