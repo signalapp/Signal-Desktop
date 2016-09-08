@@ -261,19 +261,9 @@ input.search {
 .syncSettings {
   button {
     float: right;
-    border: none;
-    border-radius: $border-radius;
-    color: white;
-    font-weight: bold;
     line-height: 36px;
     padding: 0 20px;
-    background: $blue;
-    margin-left: 20px;
-    margin-bottom: 20px;
-
-    &[disabled=disabled] {
-      background: $grey;
-    }
+    margin: 0 0 20px 20px;
   }
   .synced_at {
       font-size: $font-size-small;

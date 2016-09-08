@@ -52,6 +52,30 @@ button {
   cursor: pointer;
   font-size: inherit;
 }
+button.grey {
+  border-radius: $border-radius;
+  border: solid 1px #ccc;
+  cursor: pointer;
+  margin: 1em auto;
+  padding: 1em;
+  font-family: inherit;
+  color: $grey;
+  background: $grey_l;
+  box-shadow: 0 0 10px -5px rgba($grey, 0.5);
+
+  &:hover {
+    box-shadow: 0 0 10px -3px rgba($grey, 0.7);
+  }
+
+  &[disabled=disabled] {
+    &, &:hover {
+      opacity: 0.5;
+      box-shadow: none;
+      cursor: default;
+    }
+  }
+}
+
 a { color: $blue; }
 
 .inactive button.back {

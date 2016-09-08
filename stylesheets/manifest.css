@@ -57,6 +57,23 @@ button {
   cursor: pointer;
   font-size: inherit; }
 
+button.grey {
+  border-radius: 5px;
+  border: solid 1px #ccc;
+  cursor: pointer;
+  margin: 1em auto;
+  padding: 1em;
+  font-family: inherit;
+  color: #616161;
+  background: #f3f3f3;
+  box-shadow: 0 0 10px -5px rgba(97, 97, 97, 0.5); }
+  button.grey:hover {
+    box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
+  button.grey[disabled=disabled], button.grey[disabled=disabled]:hover {
+    opacity: 0.5;
+    box-shadow: none;
+    cursor: default; }
+
 a {
   color: #2090ea; }
 
@@ -477,19 +494,6 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       width: 100%;
       resize: none;
       min-height: 100px; }
-.debug-log .submit {
-  border-radius: 5px;
-  border: solid 1px #ccc;
-  cursor: pointer;
-  margin: 1em auto;
-  padding: 1em;
-  font-family: inherit;
-  color: #616161;
-  background: #f3f3f3;
-  box-shadow: 0 0 10px -5px rgba(97, 97, 97, 0.5); }
-  .debug-log .submit:hover {
-    color: black;
-    box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7); }
 .debug-log .result {
   text-align: center; }
   .debug-log .result .input-group {
@@ -891,17 +895,9 @@ input.search {
 
 .syncSettings button {
   float: right;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-weight: bold;
   line-height: 36px;
   padding: 0 20px;
-  background: #2090ea;
-  margin-left: 20px;
-  margin-bottom: 20px; }
-  .syncSettings button[disabled=disabled] {
-    background: #616161; }
+  margin: 0 0 20px 20px; }
 .syncSettings .synced_at {
   font-size: 0.92857em;
   color: #616161; }
