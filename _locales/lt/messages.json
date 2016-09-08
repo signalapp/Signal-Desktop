@@ -148,7 +148,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Sekite mus</a>, norėdami sužinoti apie atnaujinimus, susijusius su kelių įrenginių palaikymu, skirtu iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -238,11 +238,11 @@
         "description": ""
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Atverkite Signal savo telefone ir naršykite į Nustatymai > Susieti įrenginiai. Bakstelėkite mygtuką, kad pridėtumėte naują įrenginį, o tuomet nuskenuokite aukščiau esantį kodą.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Sveiki atvykę į Signal darbalaukiui",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
