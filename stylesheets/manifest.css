@@ -1528,9 +1528,9 @@ li.entry .error-icon-container {
   box-shadow: 0 3px 3px -4px black; }
 .android .outgoing .bubble {
   background-color: #f3f3f3; }
-.android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
+.android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
   color: white; }
-  .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {
+  .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {
     background: white;
     color: #454545; }
 .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
