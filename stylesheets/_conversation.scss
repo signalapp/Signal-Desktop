@@ -289,13 +289,13 @@ li.entry .error-icon-container {
     margin-left: 8px;
     max-width: 30em;
     text-align: -webkit-auto;
+    -webkit-user-select: text;
 
     @media(max-width: $big-avatar-min-width - 1px) {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
     }
 
     .body {
-      -webkit-user-select: text;
       white-space: pre-wrap;
 
       a {
@@ -387,7 +387,6 @@ li.entry .error-icon-container {
     .bubble {
       .content {
         font-style: italic;
-        -webkit-user-select: text;
       }
 
       &::before, &::after {

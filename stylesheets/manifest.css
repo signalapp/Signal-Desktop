@@ -1122,14 +1122,14 @@ li.entry .error-icon-container {
     word-wrap: break-word;
     margin-left: 8px;
     max-width: 30em;
-    text-align: -webkit-auto; }
+    text-align: -webkit-auto;
+    -webkit-user-select: text; }
     @media (max-width: 899px) {
       .message-container .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px - 24px); } }
     .message-container .bubble .body,
     .message-list .bubble .body {
-      -webkit-user-select: text;
       white-space: pre-wrap; }
       .message-container .bubble .body a,
       .message-list .bubble .body a {
@@ -1209,8 +1209,7 @@ li.entry .error-icon-container {
     clear: left; }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
-    font-style: italic;
-    -webkit-user-select: text; }
+    font-style: italic; }
   .message-container .control .bubble::before, .message-container .control .bubble::after,
   .message-list .control .bubble::before,
   .message-list .control .bubble::after {
