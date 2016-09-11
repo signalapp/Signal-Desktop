@@ -39,6 +39,11 @@
             this.listenTo(this.model, 'pending', this.renderPending);
             this.listenTo(this.model, 'done', this.renderDone);
             this.timeStampView = new Whisper.ExtendedTimestampView();
+
+            this.contact = this.model.isIncoming() ? this.model.getContact() : null;
+            if (this.contact) {
+                this.listenTo(this.contact, 'change:color', this.updateColor);
+            }
         },
         events: {
             'click .retry': 'retryMessage',
@@ -142,6 +147,18 @@
             this.loadAttachments();
 
             return this;
+        },
+        updateColor: function(model, color) {
+            var bubble = this.$('.bubble');
+            bubble.removeClass(Whisper.Conversation.COLORS);
+            if (color) {
+                bubble.addClass(color);
+            }
+            var avatarView = new (Whisper.View.extend({
+                templateName: 'avatar',
+                render_attributes: { avatar: model.getAvatar() }
+            }))();
+            this.$('.avatar').replaceWith(avatarView.render().$('.avatar'));
         },
         loadAttachments: function() {
             this.model.get('attachments').forEach(function(attachment) {

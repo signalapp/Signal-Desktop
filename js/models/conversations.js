@@ -349,11 +349,7 @@
             this.trigger('change');
         }
     },
-    getAvatar: function() {
-        if (this.avatarUrl === undefined) {
-            this.updateAvatarUrl(true);
-        }
-
+    getColor: function() {
         var title = this.get('name');
         var color = this.get('color');
         if (!color) {
@@ -367,6 +363,15 @@
                 color = 'default';
             }
         }
+        return color;
+    },
+    getAvatar: function() {
+        if (this.avatarUrl === undefined) {
+            this.updateAvatarUrl(true);
+        }
+
+        var title = this.get('name');
+        var color = this.getColor();
 
         if (this.avatarUrl) {
             return { url: this.avatarUrl, color: color };
@@ -543,4 +548,6 @@
         });
     }
   });
+
+  Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
 })();

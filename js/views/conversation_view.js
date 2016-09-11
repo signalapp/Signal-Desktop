@@ -39,7 +39,7 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
-            this.listenTo(this.model, 'change:avatar', this.updateAvatar);
+            this.listenTo(this.model, 'change:color', this.updateColor);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
@@ -319,12 +319,17 @@
             this.$('.conversation-title').text(this.model.getTitle());
         },
 
-        updateAvatar: function() {
+        updateColor: function(model, color) {
+            var header = this.$('.conversation-header');
+            header.removeClass(Whisper.Conversation.COLORS);
+            if (color) {
+                header.addClass(color);
+            }
             var avatarView = new (Whisper.View.extend({
                 templateName: 'avatar',
                 render_attributes: { avatar: this.model.getAvatar() }
             }))();
-            this.$('.conversation-header .avatar').replaceWith(avatarView.render().$('.avatar'));
+            header.find('.avatar').replaceWith(avatarView.render().$('.avatar'));
         },
 
         updateMessageFieldSize: function (event) {
