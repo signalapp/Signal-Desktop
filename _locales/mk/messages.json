@@ -261,6 +261,10 @@
         "message": "Откажи",
         "description": ""
     },
+    "unblockToSend": {
+        "message": "Unblock this contact to send a message.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
     "installIHaveSignalButton": {
         "message": "I have Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"

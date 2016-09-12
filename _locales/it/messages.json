@@ -261,6 +261,10 @@
         "message": "Annulla",
         "description": ""
     },
+    "unblockToSend": {
+        "message": "Per inviare un messaggio sblocca questo contatto.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
     "installIHaveSignalButton": {
         "message": "Ho Signal per Android",
         "description": "Button for the user to confirm that they have Signal for Android"

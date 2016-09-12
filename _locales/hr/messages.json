@@ -261,6 +261,10 @@
         "message": "Otkaži",
         "description": ""
     },
+    "unblockToSend": {
+        "message": "Unblock this contact to send a message.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
     "installIHaveSignalButton": {
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"

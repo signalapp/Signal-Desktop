@@ -261,6 +261,10 @@
         "message": "Abbrechen",
         "description": ""
     },
+    "unblockToSend": {
+        "message": "Heben Sie die Blockierung für diesen Kontakt auf, um eine Nachricht zu senden.",
+        "description": "Brief message shown when trying to message a blocked number"
+    },
     "installIHaveSignalButton": {
         "message": "Ich habe Signal für Android",
         "description": "Button for the user to confirm that they have Signal for Android"
