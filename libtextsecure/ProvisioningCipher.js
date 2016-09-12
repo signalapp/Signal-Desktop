@@ -34,7 +34,8 @@ ProvisioningCipher.prototype = {
                 return {
                     identityKeyPair  : keyPair,
                     number           : provisionMessage.number,
-                    provisioningCode : provisionMessage.provisioningCode
+                    provisioningCode : provisionMessage.provisioningCode,
+                    userAgent        : provisionMessage.userAgent
                 };
             });
         });

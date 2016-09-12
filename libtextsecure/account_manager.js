@@ -66,7 +66,8 @@
                                             provisionMessage.number,
                                             provisionMessage.provisioningCode,
                                             provisionMessage.identityKeyPair,
-                                            deviceName
+                                            deviceName,
+                                            provisionMessage.userAgent
                                         );
                                     });
                                 }));
@@ -90,7 +91,7 @@
                 }
             }.bind(this));
         },
-        createAccount: function(number, verificationCode, identityKeyPair, deviceName) {
+        createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
@@ -107,6 +108,7 @@
                     textsecure.storage.remove('number_id');
                     textsecure.storage.remove('device_name');
                     textsecure.storage.remove('regionCode');
+                    textsecure.storage.remove('userAgent');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -119,6 +121,9 @@
                     textsecure.storage.put('signaling_key', signalingKey);
                     textsecure.storage.put('password', password);
                     textsecure.storage.put('registrationId', registrationId);
+                    if (userAgent) {
+                        textsecure.storage.put('userAgent', userAgent);
+                    }
 
                     textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
                     textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));

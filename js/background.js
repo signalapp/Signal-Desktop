@@ -118,6 +118,9 @@
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL
         );
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
+            if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
+                storage.put('theme-setting', 'ios');
+            }
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
             syncRequest.addEventListener('success', function() {
                 console.log('sync successful');
