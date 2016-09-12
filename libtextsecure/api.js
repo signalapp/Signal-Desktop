@@ -10,7 +10,9 @@ function PortManager(ports) {
 PortManager.prototype = {
     constructor: PortManager,
     getPort: function() {
-        return this.ports[this.idx++];
+        var port = this.ports[this.idx];
+        this.idx = (this.idx + 1) % this.ports.length;
+        return port;
     }
 };
 
