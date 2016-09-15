@@ -450,5 +450,13 @@
     "you": {
       "message": "You",
       "description": "A gender-neutral second-person prounoun used as a subject, as in, 'You set the timer to 5 seconds'"
+    },
+    "safetyNumbersSettingHeader": {
+      "message": "Safety numbers approval",
+      "description": "Description for safety numbers setting"
+    },
+    "safetyNumbersSettingDescription": {
+      "message": "Require approval of new safety numbers when they change.",
+      "description": "Description for safety numbers setting"
     }
 }

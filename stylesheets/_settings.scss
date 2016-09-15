@@ -1,0 +1,31 @@
+.settings {
+  &.modal {
+    padding: 50px;
+
+    .content {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+  hr {
+    margin: 10px 0;
+  }
+  .syncSettings {
+    button {
+      float: right;
+      line-height: 36px;
+      padding: 0 20px;
+      margin: 0 0 20px 20px;
+    }
+    .synced_at {
+        font-size: $font-size-small;
+        color: $grey;
+    }
+    .sync_failed {
+        display: none;
+        font-size: $font-size-small;
+        color: red;
+    }
+  }
+}

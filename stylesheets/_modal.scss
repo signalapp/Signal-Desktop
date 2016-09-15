@@ -1,0 +1,22 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 100;
+  overflow-y: auto;
+
+  .content {
+    position: relative;
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 1em;
+    background: white;
+    border-radius: $border-radius;
+    overflow: auto;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+  }
+}

@@ -403,26 +403,6 @@ button.hamburger {
 @keyframes rotate {
   to {
     transform: rotate(360deg); } }
-.modal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 0 20px;
-  z-index: 100;
-  overflow-y: auto; }
-  .modal .content {
-    position: relative;
-    max-width: 350px;
-    margin: 100px auto;
-    padding: 1em;
-    background: white;
-    border-radius: 5px;
-    overflow: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
-
 .x {
   display: inline-block;
   float: right;
@@ -485,6 +465,26 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
   background: #a2d2f4; }
   .bar-container .progress-bar {
     height: 100%; }
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  z-index: 100;
+  overflow-y: auto; }
+  .modal .content {
+    position: relative;
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 1em;
+    background: white;
+    border-radius: 5px;
+    overflow: auto;
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
 
 .debug-log.modal {
   padding: 50px; }
@@ -698,6 +698,27 @@ img.emoji {
   width: 1em;
   height: 1em; }
 
+.settings.modal {
+  padding: 50px; }
+  .settings.modal .content {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px; }
+.settings hr {
+  margin: 10px 0; }
+.settings .syncSettings button {
+  float: right;
+  line-height: 36px;
+  padding: 0 20px;
+  margin: 0 0 20px 20px; }
+.settings .syncSettings .synced_at {
+  font-size: 0.92857em;
+  color: #616161; }
+.settings .syncSettings .sync_failed {
+  display: none;
+  font-size: 0.92857em;
+  color: red; }
+
 .conversation-stack,
 .new-conversation, .inbox, .gutter {
   height: 100%; }
@@ -898,19 +919,6 @@ input.search {
   .contact.placeholder:after {
     border-color: transparent transparent #2eace0 transparent;
     top: -30px; }
-
-.syncSettings button {
-  float: right;
-  line-height: 36px;
-  padding: 0 20px;
-  margin: 0 0 20px 20px; }
-.syncSettings .synced_at {
-  font-size: 0.92857em;
-  color: #616161; }
-.syncSettings .sync_failed {
-  display: none;
-  font-size: 0.92857em;
-  color: red; }
 
 .conversation-title {
   display: block;

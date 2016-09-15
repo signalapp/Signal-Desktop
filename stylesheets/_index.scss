@@ -258,20 +258,3 @@ input.search {
     top: -30px;
   }
 }
-.syncSettings {
-  button {
-    float: right;
-    line-height: 36px;
-    padding: 0 20px;
-    margin: 0 0 20px 20px;
-  }
-  .synced_at {
-      font-size: $font-size-small;
-      color: $grey;
-  }
-  .sync_failed {
-      display: none;
-      font-size: $font-size-small;
-      color: red;
-  }
-}

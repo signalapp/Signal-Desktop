@@ -5,6 +5,25 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    var CheckboxView = Whisper.View.extend({
+        initialize: function(options) {
+            this.name = options.name;
+            this.defaultValue = options.defaultValue;
+            this.populate();
+        },
+        events: {
+            'change': 'change'
+        },
+        change: function(e) {
+            var value = e.target.checked;
+            storage.put(this.name, value);
+            console.log(this.name, 'changed to', value);
+        },
+        populate: function() {
+            var value = storage.get(this.name, this.defaultValue);
+            this.$('input').prop('checked', !!value);
+        },
+    });
     var RadioButtonGroupView = Whisper.View.extend({
         initialize: function(options) {
             this.name = options.name;
@@ -26,7 +45,7 @@
         },
     });
     Whisper.SettingsView = Whisper.View.extend({
-        className: 'settings modal',
+        className: 'settings modal expand',
         templateName: 'settings',
         initialize: function() {
             this.render();
@@ -39,6 +58,11 @@
                 el: this.$('.theme-settings'),
                 defaultValue: 'message',
                 name: 'theme-setting'
+            });
+            new CheckboxView({
+                el: this.$('.safety-numbers-settings'),
+                defaultValue: true,
+                name: 'safety-numbers-approval'
             });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
@@ -57,6 +81,8 @@
               nameAndMessage: i18n('nameAndMessage'),
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
+              safetyNumbersSettingDescription: i18n('safetyNumbersSettingDescription'),
+              safetyNumbersSettingHeader: i18n('safetyNumbersSettingHeader'),
             };
         }
     });
