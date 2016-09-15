@@ -261,9 +261,26 @@
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().always(function() {
                     var oldpublicKey = identityKey.get('publicKey');
-                    resolve(!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey));
-                });
-            });
+                    var matches = equalArrayBuffers(oldpublicKey, publicKey);
+                    var changed = !!oldpublicKey && !matches;
+                    if (changed) {
+                        console.log('Key changed for', identifier);
+                        this.trigger('keychange', identifier);
+                    }
+                    var trusted = !oldpublicKey || matches;
+                    if (trusted) {
+                        resolve(true);
+                    } else if (!storage.get('safety-numbers-approval', true)) {
+                        this.removeIdentityKey(identifier).then(function() {
+                            this.saveIdentity(identifier, publicKey).then(function() {
+                                resolve(true);
+                            });
+                        }.bind(this));
+                    } else {
+                        resolve(false);
+                    }
+                }.bind(this));
+            }.bind(this));
         },
         loadIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined) {
