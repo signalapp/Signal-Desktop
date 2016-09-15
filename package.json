@@ -1,9 +1,6 @@
 {
   "name": "signal-desktop",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WhisperSystems/Signal-Desktop.git"
-  },
+  "repository": "https://github.com/WhisperSystems/Signal-Desktop.git",
   "version": "0.0.0",
   "devDependencies": {
     "bower": "^1.3.12",
@@ -19,22 +16,10 @@
     "grunt-gitinfo": "^0.1.7",
     "grunt-jscs": "^1.1.0",
     "grunt-preen": "^1.0.0",
-    "grunt-saucelabs": "^8.3.3",
-    "mocha": "^3.0.2"
+    "grunt-saucelabs": "^8.3.3"
   },
   "scripts": {
     "test": "grunt test",
     "lint": "grunt jshint"
-  },
-  "description": "[![Build Status](https://travis-ci.org/WhisperSystems/Signal-Desktop.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-Desktop) Signal Desktop ========================== Get [Signal Private Messenger](https://chrome.google.com/webstore/detail/signal-private-messenger/bikioccmkafdpakkkcpdbppfkghcmihk) on the Chrome Web Store!",
-  "bugs": {
-    "url": "https://github.com/WhisperSystems/Signal-Desktop/issues"
-  },
-  "homepage": "https://github.com/WhisperSystems/Signal-Desktop#readme",
-  "main": "Gruntfile.js",
-  "directories": {
-    "test": "test"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }
