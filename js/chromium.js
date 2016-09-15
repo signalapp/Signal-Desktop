@@ -105,6 +105,10 @@
             }
         },
 
+        getAll: function() {
+            return chrome.app.window.getAll();
+        },
+
         getViews: function() {
             if (chrome.extension) {
                 return chrome.extension.getViews();
@@ -214,6 +218,27 @@
 
     var notification_pending = Promise.resolve();
     extension.notification = {
+        init: function() {
+            // register some chrome listeners
+            if (chrome.notifications) {
+                chrome.notifications.onClicked.addListener(function() {
+                    extension.notification.clear();
+                    Whisper.Notifications.onclick();
+                });
+                chrome.notifications.onButtonClicked.addListener(function() {
+                    extension.notification.clear();
+                    Whisper.Notifications.clear();
+                    getInboxCollection().each(function(model) {
+                        model.markRead();
+                    });
+                });
+                chrome.notifications.onClosed.addListener(function(id, byUser) {
+                    if (byUser) {
+                        Whisper.Notifications.clear();
+                    }
+                });
+            }
+        },
         clear: function() {
             notification_pending = notification_pending.then(function() {
                 return new Promise(function(resolve) {

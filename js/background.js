@@ -9,29 +9,11 @@
     };
 
     console.log('background page reloaded');
-    // register some chrome listeners
-    if (chrome.notifications) {
-        chrome.notifications.onClicked.addListener(function() {
-            extension.notification.clear();
-            Whisper.Notifications.onclick();
-        });
-        chrome.notifications.onButtonClicked.addListener(function() {
-            extension.notification.clear();
-            Whisper.Notifications.clear();
-            getInboxCollection().each(function(model) {
-                model.markRead();
-            });
-        });
-        chrome.notifications.onClosed.addListener(function(id, byUser) {
-            if (byUser) {
-                Whisper.Notifications.clear();
-            }
-        });
-    }
+    extension.notification.init();
 
     // Close and reopen existing windows
     var open = false;
-    chrome.app.window.getAll().forEach(function(appWindow) {
+    extension.windows.getAll().forEach(function(appWindow) {
         open = true;
         appWindow.close();
     });
