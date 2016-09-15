@@ -91,6 +91,7 @@
             'submit .send': 'sendMessage',
             'input .send-message': 'updateMessageFieldSize',
             'keydown .send-message': 'updateMessageFieldSize',
+            'click .send-button': 'sendMessage',
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
@@ -314,6 +315,10 @@
                 }
             });
         },
+
+        // sendMessage: function() {
+        //     return this.$('.bottom-bar form').submit();
+        // }
 
         updateTitle: function() {
             this.$('.conversation-title').text(this.model.getTitle());
