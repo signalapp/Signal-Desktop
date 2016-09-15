@@ -51,6 +51,9 @@
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
         );
         accountManager.addEventListener('registration', function() {
+            if (!Whisper.Registration.everDone()) {
+                storage.put('safety-numbers-approval', false);
+            }
             Whisper.Registration.markDone();
             extension.trigger('registration_done');
         });
