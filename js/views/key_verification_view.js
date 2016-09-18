@@ -37,12 +37,41 @@
         className: 'key-verification',
         templateName: 'key_verification',
         initialize: function() {
-            this.render();
-            /*
-            this.$('.securityNumber').append(
-                new SecurityNumberView({model: this.model}).el
-            );
-            */
+            Promise.all([
+                this.loadTheirKey(),
+                this.loadOurKey(),
+            ]).then(function() {
+                this.render();
+                /*
+                this.$('.securityNumber').append(
+                    new SecurityNumberView({model: this.model}).el
+                );
+                */
+            }.bind(this));
+        },
+        setOurKey: function(our_key) {
+            this.model.your_key = our_key;
+        },
+        setTheirKey: function(their_key) {
+            this.model.their_key = their_key;
+        },
+        loadTheirKey: function() {
+            if (this.model.their_key) {
+                return Promise.resolve(this.model.their_key);
+            } else {
+                return textsecure.storage.protocol.loadIdentityKey(
+                    this.model.their_number
+                ).then(this.setTheirKey.bind(this));
+            }
+        },
+        loadOurKey: function() {
+            if (this.model.your_key) {
+                return Promise.resolve(this.model.your_key);
+            } else {
+                return textsecure.storage.protocol.loadIdentityKey(
+                    textsecure.storage.user.getNumber()
+                ).then(this.setOurKey.bind(this));
+            }
         },
         splitKey: function(key) {
             // key is an array buffer

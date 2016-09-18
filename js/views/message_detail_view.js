@@ -62,7 +62,7 @@
                 model: conflict,
                 contact: contact,
                 conversation: this.conversation
-            }).render();
+            });
             this.$('.conflicts').append(view.el);
         },
         render: function() {

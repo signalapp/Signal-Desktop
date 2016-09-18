@@ -12,20 +12,14 @@
         initialize: function(options) {
             this.contact = options.contact;
             this.conversation = options.conversation;
-            var our_number = textsecure.storage.user.getNumber();
-            textsecure.storage.protocol.loadIdentityKey(our_number).then(function(our_key) {
-                this.your_key = our_key;
-                this.render();
-                var view = new Whisper.KeyVerificationView({
-                    model: {
-                        your_number: our_number,
-                        their_number: this.model.number,
-                        their_key : this.model.identityKey,
-                        your_key  : our_key
-                    }
-                });
-                view.$el.appendTo(this.$('.keys'));
-            }.bind(this));
+            this.render();
+            var view = new Whisper.KeyVerificationView({
+                model: {
+                    their_number: this.model.number,
+                    their_key : this.model.identityKey,
+                }
+            });
+            view.$el.appendTo(this.$('.keys'));
         },
         events: {
             'click .showKeys': 'showKeys',
