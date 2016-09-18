@@ -259,7 +259,7 @@
             }
             if (model) {
                 var view = new Whisper.KeyVerificationPanelView({
-                    model: { their_number: model.id }
+                    model: model
                 });
                 this.listenBack(view);
             }

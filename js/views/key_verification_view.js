@@ -5,94 +5,64 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var SecurityNumberView = Whisper.View.extend({
-        className: 'securityNumber',
-        templateName: 'security_number',
-        initialize: function() {
-            this.generateSecurityNumber();
+    Whisper.KeyVerificationView = Whisper.View.extend({
+        className: 'key-verification',
+        templateName: 'key_verification',
+        initialize: function(options) {
+            this.our_number = textsecure.storage.user.getNumber();
+            if (options.newKey) {
+              this.their_key = options.newKey;
+            }
+            Promise.all([
+                this.loadTheirKey(),
+                this.loadOurKey(),
+            ]).then(this.generateSecurityNumber.bind(this))
+              .then(this.render.bind(this));
+        },
+        loadTheirKey: function() {
+            if (this.their_key) {
+                return Promise.resolve(this.their_key);
+            } else {
+                return textsecure.storage.protocol.loadIdentityKey(
+                    this.model.id
+                ).then(function(their_key) {
+                    this.their_key = their_key;
+                }.bind(this));
+            }
+        },
+        loadOurKey: function() {
+            if (this.our_key) {
+                return Promise.resolve(this.our_key);
+            } else {
+                return textsecure.storage.protocol.loadIdentityKey(
+                    this.our_number
+                ).then(function(our_key) {
+                    this.our_key = our_key;
+                }.bind(this));
+            }
         },
         generateSecurityNumber: function() {
-            new libsignal.FingerprintGenerator(5200).createFor(
-                this.model.your_number,
-                this.model.your_key,
-                this.model.their_number,
-                this.model.their_key
-            ).then(this.handleSecurityNumber.bind(this));
-        },
-        handleSecurityNumber: function(securityNumber) {
-            this.model.securityNumber = securityNumber;
-            this.render();
+            return new libsignal.FingerprintGenerator(5200).createFor(
+                this.our_number, this.our_key, this.model.id, this.their_key
+            ).then(function(securityNumber) {
+                this.securityNumber = securityNumber;
+            }.bind(this));
         },
         render_attributes: function() {
-            var s = this.model.securityNumber;
+            var s = this.securityNumber;
             var chunks = [];
             for (var i = 0; i < s.length; i += 5) {
                 chunks.push(s.substring(i, i+5));
             }
-            return { chunks: chunks };
-        }
-    });
-
-    Whisper.KeyVerificationView = Whisper.View.extend({
-        className: 'key-verification',
-        templateName: 'key_verification',
-        initialize: function() {
-            Promise.all([
-                this.loadTheirKey(),
-                this.loadOurKey(),
-            ]).then(function() {
-                this.render();
-                /*
-                this.$('.securityNumber').append(
-                    new SecurityNumberView({model: this.model}).el
-                );
-                */
-            }.bind(this));
-        },
-        setOurKey: function(our_key) {
-            this.model.your_key = our_key;
-        },
-        setTheirKey: function(their_key) {
-            this.model.their_key = their_key;
-        },
-        loadTheirKey: function() {
-            if (this.model.their_key) {
-                return Promise.resolve(this.model.their_key);
-            } else {
-                return textsecure.storage.protocol.loadIdentityKey(
-                    this.model.their_number
-                ).then(this.setTheirKey.bind(this));
-            }
-        },
-        loadOurKey: function() {
-            if (this.model.your_key) {
-                return Promise.resolve(this.model.your_key);
-            } else {
-                return textsecure.storage.protocol.loadIdentityKey(
-                    textsecure.storage.user.getNumber()
-                ).then(this.setOurKey.bind(this));
-            }
-        },
-        splitKey: function(key) {
-            // key is an array buffer
-            var bytes = new Uint8Array(key);
-            var octets = [];
-            for (var i = 0; i < bytes.byteLength; ++i) {
-                octets.push(('0' + bytes[i].toString(16)).slice(-2));
-            }
-
-            return octets;
-        },
-        render_attributes: function() {
+            var yourSafetyNumberWith = i18n(
+                'yourSafetyNumberWith', this.model.getTitle()
+            );
             return {
-                learnMore    : i18n('learnMore'),
-                verifyIdentity: i18n('verifyIdentity'),
-                yourIdentity: i18n('yourIdentity'),
-                theirIdentity: i18n('theirIdentity'),
-                their_key_unknown: i18n('theirIdentityUnknown'),
-                your_key: this.splitKey(this.model.your_key),
-                their_key: this.splitKey(this.model.their_key),
-                has_their_key: this.model.their_key !== undefined
+                learnMore            : i18n('learnMore'),
+                their_key_unknown    : i18n('theirIdentityUnknown'),
+                yourSafetyNumberWith : i18n('yourSafetyNumberWith', this.model.getTitle()),
+                has_their_key        : this.their_key !== undefined,
+                chunks               : chunks,
             };
         }
     });

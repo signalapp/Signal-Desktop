@@ -14,10 +14,8 @@
             this.conversation = options.conversation;
             this.render();
             var view = new Whisper.KeyVerificationView({
-                model: {
-                    their_number: this.model.number,
-                    their_key : this.model.identityKey,
-                }
+                model  : this.contact,
+                newKey : this.model.identityKey
             });
             view.$el.appendTo(this.$('.keys'));
         },

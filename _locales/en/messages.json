@@ -468,5 +468,15 @@
           "example": "John"
         }
       }
+    },
+    "yourSafetyNumberWith": {
+      "message": "Your safety number with $name$",
+      "description": "Heading for safety number view",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
     }
 }

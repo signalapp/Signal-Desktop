@@ -299,26 +299,15 @@
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='key_verification'>
-      <label> {{theirIdentity}} </label>
-      {{ ^their_key }}
+      {{ ^has_their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
-      {{ /their_key }}
+      {{ /has_their_key }}
       {{ #has_their_key }}
+        <label> {{ yourSafetyNumberWith }} </label>
         <div class='key'>
-          {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
+          {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
         </div>
       {{ /has_their_key }}
-      <label> {{yourIdentity}} </label>
-      <div class='key'>
-        {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
-      </div>
-      <div class='securityNumber'></div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='security_number'>
-      <label> Security number </label>
-      <div class='key'>
-        {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
-      </div>
   </script>
   <!-- index -->
   <script type='text/x-tmpl-mustache' id='group_info_input'>
