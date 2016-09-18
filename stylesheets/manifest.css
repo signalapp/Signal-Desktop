@@ -1380,6 +1380,14 @@ li.entry .error-icon-container {
         background-color: #d9d9d9;
         border-color: silver; }
 
+.message-list li.keychange {
+  text-align: center; }
+  .message-list li.keychange .content {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #fff5c4;
+    border-radius: 5px; }
+
 .ios #header {
   height: 64px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);

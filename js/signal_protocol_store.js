@@ -261,20 +261,15 @@
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().always(function() {
                     var oldpublicKey = identityKey.get('publicKey');
-                    var matches = equalArrayBuffers(oldpublicKey, publicKey);
-                    var changed = !!oldpublicKey && !matches;
-                    if (changed) {
-                        console.log('Key changed for', identifier);
-                        this.trigger('keychange', identifier);
-                    }
-                    var trusted = !oldpublicKey || matches;
-                    if (trusted) {
+                    if (!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey)) {
                         resolve(true);
                     } else if (!storage.get('safety-numbers-approval', true)) {
                         this.removeIdentityKey(identifier).then(function() {
                             this.saveIdentity(identifier, publicKey).then(function() {
+                                console.log('Key changed for', identifier);
+                                this.trigger('keychange:' + identifier);
                                 resolve(true);
-                            });
+                            }.bind(this));
                         }.bind(this));
                     } else {
                         resolve(false);

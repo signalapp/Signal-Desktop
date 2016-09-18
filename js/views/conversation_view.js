@@ -149,7 +149,8 @@
             'loadMore .message-list': 'fetchMessages',
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
-            'force-resize': 'forceUpdateMessageFieldSize'
+            'force-resize': 'forceUpdateMessageFieldSize',
+            'verify-identity': 'verifyIdentity'
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
@@ -252,10 +253,13 @@
             this.model.markRead();
         },
 
-        verifyIdentity: function() {
-            if (this.model.isPrivate()) {
+        verifyIdentity: function(ev, model) {
+            if (!model && this.model.isPrivate()) {
+                model = this.model;
+            }
+            if (model) {
                 var view = new Whisper.KeyVerificationPanelView({
-                    model: { their_number: this.model.id }
+                    model: { their_number: model.id }
                 });
                 this.listenBack(view);
             }

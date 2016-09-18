@@ -67,6 +67,27 @@
         }
     });
 
+    Whisper.KeyChangeView = Whisper.View.extend({
+        tagName:   'li',
+        className: 'keychange',
+        templateName: 'keychange',
+        initialize: function() {
+            this.conversation = this.model.getModelForKeyChange();
+            this.listenTo(this.conversation, 'change', this.render);
+        },
+        events: {
+            'click .content': 'verifyIdentity'
+        },
+        render_attributes: function() {
+            return {
+              content: i18n('keychanged', this.conversation.getTitle())
+            };
+        },
+        verifyIdentity: function() {
+            this.$el.trigger('verify-identity', this.conversation);
+        }
+    });
+
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
         templateName: 'message',

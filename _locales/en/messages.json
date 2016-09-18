@@ -458,5 +458,15 @@
     "safetyNumbersSettingDescription": {
       "message": "Require approval of new safety numbers when they change.",
       "description": "Description for safety numbers setting"
+    },
+    "keychanged": {
+      "message": "$name$'s safety numbers have changed",
+      "description": "",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
     }
 }

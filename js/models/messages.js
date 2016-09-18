@@ -132,6 +132,15 @@
             }
             return c;
         },
+        getModelForKeyChange: function() {
+            var id = this.get('key_changed');
+            var c = ConversationController.get(id);
+            if (!c) {
+                c = ConversationController.create({ id: id, type: 'private' });
+                c.fetch();
+            }
+            return c;
+        },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
         },
