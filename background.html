@@ -105,7 +105,10 @@
                     <button class='paperclip thumbnail'></button>
                     <input type='file' class='file-input'>
                 </div>
-                <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
+                <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto' data-emojiable="true"></textarea>
+                <div class='emoji-panel'>
+                    <button class='emoji-button'></button>
+                 </div>
                 <div class='capture-audio'>
                     <!--<button class='microphone'></button>-->
                 </div>
@@ -518,6 +521,12 @@
   <script type='text/javascript' src='js/views/settings_view.js'></script>
 
   <script type='text/javascript' src='js/background.js'></script>
+
+  <link rel="stylesheet" href="components/jquery-emojiarea/jquery.emojiarea.css">
+
+  <script src="components/jquery-emojiarea/test.js"></script>
+  <script src="components/jquery-emojiarea/packs/basic/emojis.js"></script>
+
 </head>
 <body>
 </body>
