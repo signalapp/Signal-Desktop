@@ -17,7 +17,13 @@
                 this.loadTheirKey(),
                 this.loadOurKey(),
             ]).then(this.generateSecurityNumber.bind(this))
-              .then(this.render.bind(this));
+              .then(this.render.bind(this))
+              .then(this.makeQRCode.bind(this));
+        },
+        makeQRCode: function() {
+            new QRCode(this.$('.qr')[0]).makeCode(
+                dcodeIO.ByteBuffer.wrap(this.our_key).toString('base64')
+            );
         },
         loadTheirKey: function() {
             if (this.their_key) {

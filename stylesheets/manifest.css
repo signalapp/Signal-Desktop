@@ -967,7 +967,7 @@ input.search {
 
 .key-verification label {
   display: block;
-  margin-bottom: 10px;
+  margin: 10px 0;
   font-size: 0.92857em; }
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
@@ -982,6 +982,17 @@ input.search {
   border-radius: 5px; }
 .key-verification .placeholder {
   font-weight: bold; }
+.key-verification .qr {
+  border-radius: 200px;
+  border: solid 1px #d9d9d9;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  padding: 25px;
+  margin: 10px auto; }
+  .key-verification .qr img {
+    display: inline-block;
+    max-width: 100%; }
 
 .message-detail .key-conflict-dialogue {
   border-radius: 5px;
