@@ -375,7 +375,7 @@
           } else {
               this.$emojiMenu.hide();
           }
-    	  }
+        }
     });
 
 })();
