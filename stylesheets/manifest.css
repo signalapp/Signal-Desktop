@@ -990,6 +990,8 @@ input.search {
   text-align: center;
   padding: 25px;
   margin: 10px auto; }
+  .key-verification .qr canvas {
+    display: none; }
   .key-verification .qr img {
     display: inline-block;
     max-width: 100%; }

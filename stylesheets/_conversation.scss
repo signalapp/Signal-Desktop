@@ -89,6 +89,9 @@
     text-align: center;
     padding: 25px;
     margin: 10px auto;
+    canvas {
+      display: none;
+    }
     img {
       display: inline-block;
       max-width: 100%;
