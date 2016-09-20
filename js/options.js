@@ -21,7 +21,7 @@
                     el: $('#install'),
                     deviceName: deviceName
                 });
-                if (bg.textsecure.registration.everDone()) {
+                if (bg.Whisper.Registration.everDone()) {
                     view.selectStep(3);
                 }
                 view.$el.show();

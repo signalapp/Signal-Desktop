@@ -24,10 +24,10 @@
     extension.onLaunched(function() {
         console.log('extension launched');
         storage.onready(function() {
-            if (textsecure.registration.everDone()) {
+            if (Whisper.Registration.everDone()) {
                 openInbox();
             }
-            if (!textsecure.registration.isDone()) {
+            if (!Whisper.Registration.isDone()) {
                 extension.install();
             }
         });
@@ -47,7 +47,14 @@
     window.getAccountManager = function() {
         var USERNAME = storage.get('number_id');
         var PASSWORD = storage.get('password');
-        return new textsecure.AccountManager(SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD);
+        var accountManager = new textsecure.AccountManager(
+            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
+        );
+        accountManager.addEventListener('registration', function() {
+            Whisper.Registration.markDone();
+            extension.trigger('registration_done');
+        });
+        return accountManager;
     };
 
     storage.fetch();
@@ -55,7 +62,7 @@
         window.dispatchEvent(new Event('storage_ready'));
         setUnreadCount(storage.get("unreadCount", 0));
 
-        if (textsecure.registration.isDone()) {
+        if (Whisper.Registration.isDone()) {
             extension.keepAwake();
             init();
         }
@@ -76,7 +83,7 @@
 
     function init(firstRun) {
         window.removeEventListener('online', init);
-        if (!textsecure.registration.isDone()) { return; }
+        if (!Whisper.Registration.isDone()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
 
@@ -189,7 +196,7 @@
         console.log(e.stack);
 
         if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
-            textsecure.registration.remove();
+            Whisper.Registration.remove();
             extension.install();
             return;
         }

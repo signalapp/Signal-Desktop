@@ -37886,7 +37886,8 @@ var TextSecureServer = (function() {
         this.server = new TextSecureServer(url, ports, username, password);
     }
 
-    AccountManager.prototype = {
+    AccountManager.prototype = new textsecure.EventTarget();
+    AccountManager.prototype.extend({
         constructor: AccountManager,
         requestVoiceVerification: function(number) {
             return this.server.requestVerificationVoice(number);
@@ -37898,16 +37899,18 @@ var TextSecureServer = (function() {
             var registerKeys = this.server.registerKeys.bind(this.server);
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
+            var registrationDone = this.registrationDone.bind(this);
             return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
                 return createAccount(number, verificationCode, identityKeyPair).
                     then(generateKeys).
                     then(registerKeys).
-                    then(textsecure.registration.done);
+                    then(registrationDone);
             }.bind(this));
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100, progressCallback);
+            var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
             var provisioningCipher = new libsignal.ProvisioningCipher();
@@ -37954,7 +37957,7 @@ var TextSecureServer = (function() {
                 });
             }).then(generateKeys).
                then(registerKeys).
-               then(textsecure.registration.done);
+               then(registrationDone);
         },
         refreshPreKeys: function() {
             var generateKeys = this.generateKeys.bind(this, 100);
@@ -38057,8 +38060,11 @@ var TextSecureServer = (function() {
                     return result;
                 });
             });
+        },
+        registrationDone: function() {
+            this.dispatchEvent(new Event('registration'));
         }
-    };
+    });
     textsecure.AccountManager = AccountManager;
 
 }());
