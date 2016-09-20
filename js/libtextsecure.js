@@ -38237,7 +38237,7 @@ MessageReceiver.prototype.extend({
             throw e;
         });
     },
-    handleSentMessage: function(destination, timestamp, message) {
+    handleSentMessage: function(destination, timestamp, message, expirationStartTimestamp) {
         var p = Promise.resolve();
         if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
                 textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
@@ -38247,9 +38247,10 @@ MessageReceiver.prototype.extend({
             return this.processDecrypted(message, this.number).then(function(message) {
                 var ev = new Event('sent');
                 ev.data = {
-                    destination : destination,
-                    timestamp   : timestamp.toNumber(),
-                    message     : message
+                    destination              : destination,
+                    timestamp                : timestamp.toNumber(),
+                    message                  : message,
+                    expirationStartTimestamp : expirationStartTimestamp
                 };
                 this.dispatchEvent(ev);
             }.bind(this));
@@ -38310,7 +38311,8 @@ MessageReceiver.prototype.extend({
             return this.handleSentMessage(
                     sentMessage.destination,
                     sentMessage.timestamp,
-                    sentMessage.message
+                    sentMessage.message,
+                    sentMessage.expirationStartTimestamp
             );
         } else if (syncMessage.contacts) {
             this.handleContacts(syncMessage.contacts);

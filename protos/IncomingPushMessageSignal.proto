@@ -29,12 +29,14 @@ message Content {
 message DataMessage {
   enum Flags {
     END_SESSION = 1;
+    EXPIRATION_TIMER_UPDATE = 2;
   }
 
   optional string             body        = 1;
   repeated AttachmentPointer  attachments = 2;
   optional GroupContext       group       = 3;
   optional uint32             flags       = 4;
+  optional uint32             expireTimer = 5;
 }
 
 message SyncMessage {
@@ -42,6 +44,7 @@ message SyncMessage {
     optional string  destination = 1;
     optional uint64  timestamp   = 2;
     optional DataMessage message = 3;
+    optional uint64  expirationStartTimestamp = 4;
   }
 
   message Contacts {
