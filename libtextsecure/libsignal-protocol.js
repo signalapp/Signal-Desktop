@@ -35512,11 +35512,10 @@ Internal.ChainType = {
   RECEIVING: 2
 };
 
-var ARCHIVED_STATES_MAX_LENGTH = 40;
-
 Internal.SessionRecord = function() {
     'use strict';
-    var MESSAGE_LOST_THRESHOLD_MS = 1000*60*60*24*7;
+    var ARCHIVED_STATES_MAX_LENGTH = 40;
+    var SESSION_RECORD_VERSION = 'v1';
 
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
@@ -35556,28 +35555,48 @@ Internal.SessionRecord = function() {
         return JSON.stringify(ensureStringed(thing)); //TODO: jquery???
     }
 
-    var SessionRecord = function(identityKey, registrationId) {
-        this._sessions = {};
-        identityKey = util.toString(identityKey);
-        if (typeof identityKey !== 'string') {
-            throw new Error('SessionRecord: Invalid identityKey');
+    var migrations = [
+      {
+        version: 'v1',
+        migrate: function migrateV1(data) {
+          var sessions = data.sessions;
+          if (data.registrationId) {
+              for (var key in sessions) {
+                  if (!sessions[key].registrationId) {
+                      sessions[key].registrationId = data.registrationId;
+                  }
+              }
+          }
         }
-        this.identityKey = identityKey;
-        this.registrationId = registrationId;
+      }
+    ];
 
-        if (this.registrationId === undefined || typeof this.registrationId !== 'number') {
-            this.registrationId = null;
+    function migrate(data) {
+      var run = (data.version === undefined);
+      for (var i=0; i < migrations.length; ++i) {
+        if (run) {
+          migrations[i].migrate(data);
+        } else if (migrations[i].version === data.version) {
+          run = true;
         }
+      }
+      if (!run) {
+        throw new Error("Error migrating SessionRecord");
+      }
+    }
+
+    var SessionRecord = function() {
+        this._sessions = {};
+        this.version = SESSION_RECORD_VERSION;
     };
 
     SessionRecord.deserialize = function(serialized) {
         var data = JSON.parse(serialized);
-        var record = new SessionRecord(data.identityKey, data.registrationId);
+        if (data.version !== SESSION_RECORD_VERSION) { migrate(data); }
+
+        var record = new SessionRecord();
         record._sessions = data.sessions;
         if (record._sessions === undefined || record._sessions === null || typeof record._sessions !== "object" || Array.isArray(record._sessions)) {
-            throw new Error("Error deserializing SessionRecord");
-        }
-        if (record.identityKey === undefined || record.registrationId === undefined) {
             throw new Error("Error deserializing SessionRecord");
         }
         return record;
@@ -35587,12 +35606,11 @@ Internal.SessionRecord = function() {
         serialize: function() {
             return jsonThing({
                 sessions       : this._sessions,
-                registrationId : this.registrationId,
-                identityKey    : this.identityKey
+                version        : this.version
             });
         },
         haveOpenSession: function() {
-            return this.registrationId !== null;
+            return this.getOpenSession() !== undefined;
         },
 
         getSessionByBaseKey: function(baseKey) {
@@ -35651,37 +35669,15 @@ Internal.SessionRecord = function() {
                 }
             }
         },
-        updateSessionState: function(session, registrationId) {
+        updateSessionState: function(session) {
             var sessions = this._sessions;
 
             this.removeOldChains(session);
-
-            if (this.identityKey === null) {
-                this.identityKey = session.indexInfo.remoteIdentityKey;
-            }
-            if (util.toString(this.identityKey) !== util.toString(session.indexInfo.remoteIdentityKey)) {
-                var e = new Error("Identity key changed at session save time");
-                e.identityKey = session.indexInfo.remoteIdentityKey.toArrayBuffer();
-                throw e;
-            }
 
             sessions[util.toString(session.indexInfo.baseKey)] = session;
 
             this.removeOldSessions();
 
-            var openSessionRemaining = false;
-            for (var key in sessions) {
-                if (sessions[key].indexInfo.closed == -1) {
-                    openSessionRemaining = true;
-                }
-            }
-            if (!openSessionRemaining) { // Used as a flag to get new pre keys for the next session
-                this.registrationId = null;
-            } else if (this.registrationId === null && registrationId !== undefined) {
-                this.registrationId = registrationId;
-            } else if (this.registrationId === null) {
-                throw new Error("Had open sessions on a record that had no registrationId set");
-            }
         },
         getSessions: function() {
             // return an array of sessions ordered by time closed,
@@ -35835,7 +35831,7 @@ SessionBuilder.prototype = {
       }).then(function(baseKey) {
         var devicePreKey = (device.preKey.publicKey);
         return this.initSession(true, baseKey, undefined, device.identityKey,
-          devicePreKey, device.signedPreKey.publicKey
+          devicePreKey, device.signedPreKey.publicKey, device.registrationId
         ).then(function(session) {
             session.pendingPreKey = {
                 preKeyId    : device.preKey.keyId,
@@ -35851,14 +35847,14 @@ SessionBuilder.prototype = {
           if (serialized !== undefined) {
             record = Internal.SessionRecord.deserialize(serialized);
           } else {
-            record = new Internal.SessionRecord(device.identityKey, device.registrationId);
+            record = new Internal.SessionRecord();
           }
 
           record.archiveCurrentState();
           record.updateSessionState(session, device.registrationId);
           return Promise.all([
             this.storage.storeSession(address, record.serialize()),
-            this.storage.saveIdentity(this.remoteAddress.getName(), record.identityKey)
+            this.storage.saveIdentity(this.remoteAddress.getName(), session.indexInfo.remoteIdentityKey)
           ]);
         }.bind(this));
       }.bind(this));
@@ -35909,7 +35905,7 @@ SessionBuilder.prototype = {
         }
         return this.initSession(false, preKeyPair, signedPreKeyPair,
             message.identityKey.toArrayBuffer(),
-            message.baseKey.toArrayBuffer(), undefined
+            message.baseKey.toArrayBuffer(), undefined, message.registrationId
         ).then(function(new_session) {
             // Note that the session is not actually saved until the very
             // end of decryptWhisperMessage ... to ensure that the sender
@@ -35923,7 +35919,7 @@ SessionBuilder.prototype = {
   },
   initSession: function(isInitiator, ourEphemeralKey, ourSignedKey,
                    theirIdentityPubKey, theirEphemeralPubKey,
-                   theirSignedPubKey) {
+                   theirSignedPubKey, registrationId) {
     return this.storage.getIdentityKeyPair().then(function(ourIdentityKey) {
         if (isInitiator) {
             if (ourSignedKey !== undefined) {
@@ -35973,6 +35969,7 @@ SessionBuilder.prototype = {
             return Internal.HKDF(sharedSecret.buffer, new ArrayBuffer(32), "WhisperText");
         }).then(function(masterKey) {
             var session = {
+                registrationId: registrationId,
                 currentRatchet: {
                     rootKey                : masterKey[0],
                     lastRemoteEphemeralKey : theirSignedPubKey,
@@ -36131,14 +36128,14 @@ SessionCipher.prototype = {
               return {
                   type           : 3,
                   body           : result,
-                  registrationId : record.registrationId
+                  registrationId : session.registrationId
               };
 
           } else {
               return {
                   type           : 1,
                   body           : util.toString(message),
-                  registrationId : record.registrationId
+                  registrationId : session.registrationId
               };
           }
       });
@@ -36195,7 +36192,6 @@ SessionCipher.prototype = {
                       throw new Error("No registrationId");
                   }
                   record = new Internal.SessionRecord(
-                      util.toString(preKeyProto.identityKey),
                       preKeyProto.registrationId
                   );
               }
@@ -36364,7 +36360,11 @@ SessionCipher.prototype = {
           if (record === undefined) {
               return undefined;
           }
-          return record.registrationId;
+          var openSession = record.getOpenSession();
+          if (openSession === undefined) {
+              return null;
+          }
+          return openSession.registrationId;
       });
     }.bind(this));
   },
