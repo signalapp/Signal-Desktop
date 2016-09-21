@@ -40,10 +40,14 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
-        this.on('read', this.countUnread);
+        this.on('read', this.onReadMessage);
     },
 
-    countUnread: function() {
+    onReadMessage: function(message) {
+        if (this.messageCollection.get(message.id)) {
+            this.messageCollection.get(message.id).fetch();
+        }
+
         return this.getUnread().then(function(unreadMessages) {
             this.save({unreadCount: unreadMessages.length});
             if (unreadMessages.length) {

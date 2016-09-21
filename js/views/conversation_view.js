@@ -43,7 +43,8 @@
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
-            this.listenTo(this.model.messageCollection, 'expired', this.onExpired);
+            this.listenTo(this.model, 'expired', this.onExpired);
+            this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
 
             this.render();
 
@@ -168,6 +169,12 @@
         },
 
         onExpired: function(message) {
+            var mine = this.model.messageCollection.get(message.id);
+            if (mine && mine.cid !== message.cid) {
+                mine.trigger('expired', mine);
+            }
+        },
+        onExpiredCollection: function(message) {
             this.model.messageCollection.remove(message.id);
         },
 

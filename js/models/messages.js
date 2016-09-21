@@ -105,6 +105,11 @@
             }
             return this.imageUrl;
         },
+        getConversation: function() {
+            return ConversationController.add({
+                id: this.get('conversationId')
+            });
+        },
         getContact: function() {
             var conversationId = this.get('source');
             if (!this.isIncoming()) {
@@ -390,6 +395,8 @@
             this.expirationTimeout = null;
             this.trigger('expired', this);
             this.destroy();
+
+            this.getConversation().trigger('expired', this);
         },
         setToExpire: function() {
             if (this.get('expireTimer') && this.get('expirationStartTimestamp') && !this.expireTimer) {

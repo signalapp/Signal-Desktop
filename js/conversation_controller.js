@@ -76,6 +76,9 @@
         get: function(id) {
             return conversations.get(id);
         },
+        add: function(attrs) {
+            return conversations.add(attrs, {merge: true});
+        },
         create: function(attrs) {
             if (typeof attrs !== 'object') {
                 throw new Error('ConversationController.create requires an object, got', attrs);
