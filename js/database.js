@@ -179,6 +179,16 @@
                 });
                 next();
             }
+        },
+        {
+            version: "10.0",
+            migrate: function(transaction, next) {
+                console.log('migration 10.0');
+                console.log('creating expiring message index');
+                var messages = transaction.objectStore('messages');
+                messages.createIndex('expire', 'expireTimer', { unique: false });
+                next();
+            }
         }
     ];
 }());
