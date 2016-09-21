@@ -230,17 +230,20 @@
 
             this.getUnread().then(function(unreadMessages) {
                 var read = unreadMessages.map(function(m) {
+                    if (this.messageCollection.get(m.id)) {
+                        m = this.messageCollection.get(m.id);
+                    }
                     m.markRead();
                     return {
                         sender    : m.get('source'),
                         timestamp : m.get('sent_at')
                     };
-                });
+                }.bind(this));
                 if (read.length > 0) {
                     console.log('Sending', read.length, 'read receipts');
                     textsecure.messaging.syncReadMessages(read);
                 }
-            });
+            }.bind(this));
         }
     },
 

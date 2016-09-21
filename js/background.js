@@ -169,7 +169,8 @@
             received_at    : now,
             conversationId : data.destination,
             type           : 'outgoing',
-            sent           : true
+            sent           : true,
+            expirationStartTimestamp: data.expirationStartTimestamp,
         });
 
         message.handleDataMessage(data.message);

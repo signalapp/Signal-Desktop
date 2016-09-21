@@ -43,6 +43,7 @@
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
+            this.listenTo(this.model.messageCollection, 'expired', this.onExpired);
 
             this.render();
 
@@ -166,8 +167,13 @@
             // TODO catch?
         },
 
+        onExpired: function(message) {
+            this.model.messageCollection.remove(message.id);
+        },
+
         addMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
+            message.setToExpire();
 
             if (!this.isHidden() && window.isFocused()) {
                 this.markRead();

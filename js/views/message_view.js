@@ -35,7 +35,8 @@
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
             this.listenTo(this.model, 'change', this.renderSent);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
-            this.listenTo(this.model, 'destroy', this.remove);
+            this.listenTo(this.model, 'destroy', this.onDestroy);
+            this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model, 'pending', this.renderPending);
             this.listenTo(this.model, 'done', this.renderDone);
             this.timeStampView = new Whisper.ExtendedTimestampView();
@@ -61,6 +62,17 @@
             _.map(retrys, 'number').forEach(function(number) {
                 this.model.resend(number);
             }.bind(this));
+        },
+        onExpired: function() {
+            this.$el.addClass('expired');
+            this.$el.find('.bubble').one('webkitAnimationEnd animationend',
+                this.remove.bind(this));
+        },
+        onDestroy: function() {
+            if (this.$el.hasClass('expired')) {
+              return;
+            }
+            this.remove();
         },
         select: function(e) {
             this.$el.trigger('select', {message: this.model});

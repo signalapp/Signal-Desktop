@@ -11,6 +11,9 @@
         initialize: function() {
             this.on('change:attachments', this.updateImageUrl);
             this.on('destroy', this.revokeImageUrl);
+            this.on('change:expirationStartTimestamp', this.setToExpire);
+            this.on('change:expireTimer', this.setToExpire);
+            this.setToExpire();
         },
         defaults  : function() {
             return {
@@ -344,6 +347,10 @@
                             errors         : []
                         });
 
+                        if (dataMessage.expireTimer) {
+                            message.set({expireTimer: dataMessage.expireTimer});
+                        }
+
                         var conversation_timestamp = conversation.get('timestamp');
                         if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                             conversation.set({
@@ -367,12 +374,35 @@
                 });
             });
         },
-        markRead: function(sync) {
+        markRead: function() {
             this.unset('unread');
+            if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
+                this.set('expirationStartTimestamp', Date.now());
+            }
             Whisper.Notifications.remove(Whisper.Notifications.where({
                 messageId: this.id
             }));
             return this.save();
+        },
+        markExpired: function() {
+            console.log('message', this.get('sent_at'), 'expired');
+            clearInterval(this.expirationTimeout);
+            this.expirationTimeout = null;
+            this.trigger('expired', this);
+            this.destroy();
+        },
+        setToExpire: function() {
+            if (this.get('expireTimer') && this.get('expirationStartTimestamp') && !this.expireTimer) {
+                var now = Date.now();
+                var start = this.get('expirationStartTimestamp');
+                var delta = this.get('expireTimer') * 1000;
+                var ms_from_now = start + delta - now;
+                if (ms_from_now < 0) {
+                    ms_from_now = 0;
+                }
+                console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
+                this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);
+            }
         }
 
     });
@@ -432,6 +462,10 @@
                 };
                 this.fetch(options).then(resolve);
             }.bind(this));
+        },
+
+        fetchExpiring: function() {
+            this.fetch({conditions: {expireTimer: {$gte: 0}}});
         },
 
         hasKeyConflicts: function() {
