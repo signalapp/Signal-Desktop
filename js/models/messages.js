@@ -374,10 +374,10 @@
                 });
             });
         },
-        markRead: function() {
+        markRead: function(read_at) {
             this.unset('unread');
             if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
-                this.set('expirationStartTimestamp', Date.now());
+                this.set('expirationStartTimestamp', read_at || Date.now());
             }
             Whisper.Notifications.remove(Whisper.Notifications.where({
                 messageId: this.id

@@ -38325,16 +38325,19 @@ MessageReceiver.prototype.extend({
         } else if (syncMessage.read) {
             console.log('read messages',
                     'from', envelope.source + '.' + envelope.sourceDevice);
-            this.handleRead(syncMessage.read);
+            this.handleRead(syncMessage.read, envelope.timestamp);
         } else {
             throw new Error('Got empty SyncMessage');
         }
     },
-    handleRead: function(read) {
+    handleRead: function(read, timestamp) {
         for (var i = 0; i < read.length; ++i) {
             var ev = new Event('read');
-            ev.timestamp = read[i].timestamp;
-            ev.sender = read[i].sender;
+            ev.timestamp = timestamp.toNumber();
+            ev.read = {
+              timestamp : read[i].timestamp.toNumber(),
+              sender    : read[i].sender
+            }
             this.dispatchEvent(ev);
         }
     },

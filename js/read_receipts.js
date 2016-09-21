@@ -28,7 +28,7 @@
                 });
                 if (message) {
                     this.remove(receipt);
-                    message.markRead().then(function() {
+                    message.markRead(receipt.get('read_at')).then(function() {
                         var conversation = ConversationController.get({
                             id: message.get('conversationId')
                         });
