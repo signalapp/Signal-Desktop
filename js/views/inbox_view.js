@@ -13,25 +13,27 @@
         },
         updateStatus: function() {
             var className, message = '';
-            switch(getSocketStatus && getSocketStatus()) {
-                case WebSocket.CONNECTING:
-                    className = 'connecting';
-                    break;
-                case WebSocket.OPEN:
-                    className = 'open';
-                    break;
-                case WebSocket.CLOSING:
-                    className = 'closing';
-                    break;
-                case WebSocket.CLOSED:
-                    className = 'closed';
-                    message = i18n('disconnected');
-                    break;
-            }
+            if (typeof getSocketStatus === 'function') {
+              switch(getSocketStatus()) {
+                  case WebSocket.CONNECTING:
+                      className = 'connecting';
+                      break;
+                  case WebSocket.OPEN:
+                      className = 'open';
+                      break;
+                  case WebSocket.CLOSING:
+                      className = 'closing';
+                      break;
+                  case WebSocket.CLOSED:
+                      className = 'closed';
+                      message = i18n('disconnected');
+                      break;
+              }
             if (!this.$el.hasClass(className)) {
                 this.$el.attr('class', className);
                 this.$el.text(message);
             }
+          }
         }
     });
 

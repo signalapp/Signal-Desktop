@@ -73,7 +73,7 @@
             }.bind(this);
             this.appWindow.contentWindow.addEventListener('focus', onFocus);
 
-            this.appWindow.onClosed.addListener(function () {
+            extension.windows.onClosed(function () {
                 this.appWindow.contentWindow.removeEventListener('resize', onResize);
                 this.appWindow.contentWindow.removeEventListener('focus', onFocus);
                 window.autosize.destroy(this.$messageField);
