@@ -262,7 +262,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Deblokkeer dit contact om een bericht te versturen.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {

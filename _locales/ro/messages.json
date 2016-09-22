@@ -262,7 +262,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Deblochează acest contact pentru a putea trimite mesaje.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {

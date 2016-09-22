@@ -144,7 +144,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Importieren fehlgeschlagen. Stellen Sie sicher, dass Ihr Computer und Ihr Mobilgerät mit dem Internet verbunden sind.",
+        "message": "Importieren gescheitert. Stellen Sie sicher, dass Ihr Computer und Ihr Mobilgerät mit dem Internet verbunden sind.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -246,7 +246,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Verbindung zum Server fehlgeschlagen.",
+        "message": "Verbindung zum Server gescheitert.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
@@ -328,7 +328,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Versand an einige Empfänger fehlgeschlagen. Überprüfen Sie Ihre Netzwerkverbindung.",
+        "message": "Versand an einige Empfänger gescheitert. Überprüfen Sie Ihre Netzwerkverbindung.",
         "description": ""
     },
     "ok": {
