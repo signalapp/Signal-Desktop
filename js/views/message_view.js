@@ -33,6 +33,7 @@
             this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
             this.listenTo(this.model, 'change:body', this.render);
             this.listenTo(this.model, 'change:delivered', this.renderDelivered);
+            this.listenTo(this.model, 'change:expirationStartTimestamp', this.renderExpiring);
             this.listenTo(this.model, 'change', this.renderSent);
             this.listenTo(this.model, 'change:flags change:group_update', this.renderControl);
             this.listenTo(this.model, 'destroy', this.onDestroy);
@@ -65,8 +66,11 @@
         },
         onExpired: function() {
             this.$el.addClass('expired');
-            this.$el.find('.bubble').one('webkitAnimationEnd animationend',
-                this.remove.bind(this));
+            this.$el.find('.bubble').one('webkitAnimationEnd animationend', function(e) {
+                if (e.target === this.$('.bubble')[0]) {
+                  this.remove();
+                }
+            }.bind(this));
         },
         onDestroy: function() {
             if (this.$el.hasClass('expired')) {
@@ -129,6 +133,12 @@
                 this.$el.removeClass('control');
             }
         },
+        renderExpiring: function() {
+            if (this.model.isExpiring()) {
+                this.$('.hourglass').css('animation-duration', this.model.msTilExpire()*0.001 + 's');
+                this.$el.addClass('expiring');
+            }
+        },
         render: function() {
             var contact = this.model.isIncoming() ? this.model.getContact() : null;
             this.$el.html(
@@ -156,6 +166,8 @@
             this.renderSent();
             this.renderDelivered();
             this.renderErrors();
+            this.renderExpiring();
+
             this.loadAttachments();
 
             return this;

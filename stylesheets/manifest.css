@@ -1221,6 +1221,49 @@ li.entry .error-icon-container {
   .message-container .expired .bubble,
   .message-list .expired .bubble {
     animation: shake 0.2s linear 3; }
+  .message-container .timer,
+  .message-list .timer {
+    display: none; }
+  .message-container .expiring .timer,
+  .message-list .expiring .timer {
+    display: inline-block;
+    display: inline-block;
+    position: relative;
+    vertical-align: text-bottom;
+    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: transparent;
+    background-size: 100%; }
+    .message-container .expiring .timer, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
+    .message-list .expiring .timer,
+    .message-list .expiring .timer:before,
+    .message-list .expiring .timer:after {
+      width: 13px;
+      height: 11px; }
+    .message-container .expiring .timer:before, .message-container .expiring .timer:after,
+    .message-list .expiring .timer:before,
+    .message-list .expiring .timer:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .message-container .expiring .timer:before,
+    .message-list .expiring .timer:before {
+      background: #999;
+      animation: moveDown 5s linear;
+      animation-duration: inherit;
+      animation-fill-mode: forwards; }
+    .message-container .expiring .timer:after,
+    .message-list .expiring .timer:after {
+      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #999; }
+@keyframes moveDown {
+  from {
+    transform: translateY(0); }
+  to {
+    transform: translateY(11px); } }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }

@@ -398,15 +398,25 @@
 
             this.getConversation().trigger('expired', this);
         },
+        isExpiring: function() {
+            return this.get('expireTimer') && this.get('expirationStartTimestamp');
+        },
+        msTilExpire: function() {
+              if (!this.isExpiring()) {
+                return Infinity;
+              }
+              var now = Date.now();
+              var start = this.get('expirationStartTimestamp');
+              var delta = this.get('expireTimer') * 1000;
+              var ms_from_now = start + delta - now;
+              if (ms_from_now < 0) {
+                  ms_from_now = 0;
+              }
+              return ms_from_now;
+        },
         setToExpire: function() {
-            if (this.get('expireTimer') && this.get('expirationStartTimestamp') && !this.expireTimer) {
-                var now = Date.now();
-                var start = this.get('expirationStartTimestamp');
-                var delta = this.get('expireTimer') * 1000;
-                var ms_from_now = start + delta - now;
-                if (ms_from_now < 0) {
-                    ms_from_now = 0;
-                }
+            if (this.isExpiring() && !this.expireTimer) {
+                var ms_from_now = this.msTilExpire();
                 console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
                 this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);
             }

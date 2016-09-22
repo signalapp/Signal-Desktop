@@ -1,0 +1,36 @@
+@mixin hourglass($width, $height, $color) {
+  display: inline-block;
+  position: relative;
+  vertical-align: text-bottom;
+  @include color-svg('/images/hourglass_full.svg', transparent);
+  background-size: 100%;
+
+  &, &:before, &:after {
+    width: $width;
+    height: $height;
+  }
+  &:before, &:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &:before {
+    background: $color;
+    animation: moveDown 5s linear;
+    animation-duration: inherit;
+    animation-fill-mode: forwards;
+  }
+  &:after {
+    @include color-svg('/images/hourglass_empty.svg', $color);
+  }
+  @keyframes moveDown {
+    from {
+      transform: translateY(0);
+    }
+    to   {
+      transform: translateY($height);
+    }
+  }
+}
