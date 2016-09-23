@@ -135,7 +135,11 @@
         },
         renderExpiring: function() {
             if (this.model.isExpiring()) {
-                this.$('.hourglass').css('animation-duration', this.model.msTilExpire()*0.001 + 's');
+                var totalTime = this.model.get('expireTimer') * 1000;
+                var remainingTime = this.model.msTilExpire();
+                this.$('.hourglass .sand')
+                    .css('animation-duration', remainingTime*0.001 + 's')
+                    .css('transform', 'translateY(' + 100*(1 - (remainingTime / totalTime)) + '%)');
                 this.$el.addClass('expiring');
             }
         },

@@ -1234,13 +1234,15 @@ li.entry .error-icon-container {
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
-    .message-container .expiring .timer, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
+    .message-container .expiring .timer, .message-container .expiring .timer .sand, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
     .message-list .expiring .timer,
+    .message-list .expiring .timer .sand,
     .message-list .expiring .timer:before,
     .message-list .expiring .timer:after {
       width: 13px;
       height: 11px; }
-    .message-container .expiring .timer:before, .message-container .expiring .timer:after,
+    .message-container .expiring .timer .sand, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
+    .message-list .expiring .timer .sand,
     .message-list .expiring .timer:before,
     .message-list .expiring .timer:after {
       content: '';
@@ -1248,11 +1250,10 @@ li.entry .error-icon-container {
       position: absolute;
       top: 0;
       left: 0; }
-    .message-container .expiring .timer:before,
-    .message-list .expiring .timer:before {
+    .message-container .expiring .timer .sand,
+    .message-list .expiring .timer .sand {
       background: #999;
-      animation: moveDown 5s linear;
-      animation-duration: inherit;
+      animation: moveDown linear;
       animation-fill-mode: forwards; }
     .message-container .expiring .timer:after,
     .message-list .expiring .timer:after {
@@ -1260,10 +1261,8 @@ li.entry .error-icon-container {
       -webkit-mask-size: 100%;
       background-color: #999; }
 @keyframes moveDown {
-  from {
-    transform: translateY(0); }
   to {
-    transform: translateY(11px); } }
+    transform: translateY(100%); } }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }

@@ -5,32 +5,28 @@
   @include color-svg('/images/hourglass_full.svg', transparent);
   background-size: 100%;
 
-  &, &:before, &:after {
+  &, .sand, &:before, &:after {
     width: $width;
     height: $height;
   }
-  &:before, &:after {
+  .sand, &:before, &:after {
     content: '';
     display: inline-block;
     position: absolute;
     top: 0;
     left: 0;
   }
-  &:before {
+  .sand {
     background: $color;
-    animation: moveDown 5s linear;
-    animation-duration: inherit;
+    animation: moveDown linear;
     animation-fill-mode: forwards;
   }
   &:after {
     @include color-svg('/images/hourglass_empty.svg', $color);
   }
   @keyframes moveDown {
-    from {
-      transform: translateY(0);
-    }
     to   {
-      transform: translateY($height);
+      transform: translateY(100%);
     }
   }
 }
