@@ -235,6 +235,10 @@
         "message": "Settings",
         "description": "Menu item and header for global settings"
     },
+    "theme": {
+        "message": "Theme",
+        "description": "Header for theme settings"
+    },
     "notifications": {
         "message": "Notifications",
         "description": "Header for notification settings"
