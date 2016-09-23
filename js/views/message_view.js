@@ -25,6 +25,23 @@
             resend: i18n('resend')
         }
     });
+    var TimerView = Whisper.View.extend({
+        templateName: 'hourglass',
+        className: 'timer',
+        initialize: function() {
+            if (this.model.isExpiring()) {
+                this.render();
+                var totalTime = this.model.get('expireTimer') * 1000;
+                var remainingTime = this.model.msTilExpire();
+                var elapsed = (totalTime - remainingTime) / totalTime;
+                this.$('.sand')
+                    .css('animation-duration', remainingTime*0.001 + 's')
+                    .css('transform', 'translateY(' + elapsed*100 + '%)');
+                this.$el.show();
+            }
+            return this;
+        }
+    });
 
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
@@ -134,14 +151,7 @@
             }
         },
         renderExpiring: function() {
-            if (this.model.isExpiring()) {
-                var totalTime = this.model.get('expireTimer') * 1000;
-                var remainingTime = this.model.msTilExpire();
-                this.$('.hourglass .sand')
-                    .css('animation-duration', remainingTime*0.001 + 's')
-                    .css('transform', 'translateY(' + 100*(1 - (remainingTime / totalTime)) + '%)');
-                this.$el.addClass('expiring');
-            }
+            new TimerView({ model: this.model, el: this.$('.timer') });
         },
         render: function() {
             var contact = this.model.isIncoming() ? this.model.getContact() : null;

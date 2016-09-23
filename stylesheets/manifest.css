@@ -1224,45 +1224,6 @@ li.entry .error-icon-container {
   .message-container .timer,
   .message-list .timer {
     display: none; }
-  .message-container .expiring .timer,
-  .message-list .expiring .timer {
-    display: inline-block;
-    display: inline-block;
-    position: relative;
-    vertical-align: text-bottom;
-    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: transparent;
-    background-size: 100%; }
-    .message-container .expiring .timer, .message-container .expiring .timer .sand, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
-    .message-list .expiring .timer,
-    .message-list .expiring .timer .sand,
-    .message-list .expiring .timer:before,
-    .message-list .expiring .timer:after {
-      width: 13px;
-      height: 11px; }
-    .message-container .expiring .timer .sand, .message-container .expiring .timer:before, .message-container .expiring .timer:after,
-    .message-list .expiring .timer .sand,
-    .message-list .expiring .timer:before,
-    .message-list .expiring .timer:after {
-      content: '';
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      left: 0; }
-    .message-container .expiring .timer .sand,
-    .message-list .expiring .timer .sand {
-      background: #999;
-      animation: moveDown linear;
-      animation-fill-mode: forwards; }
-    .message-container .expiring .timer:after,
-    .message-list .expiring .timer:after {
-      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #999; }
-@keyframes moveDown {
-  to {
-    transform: translateY(100%); } }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }
@@ -1530,7 +1491,33 @@ li.entry .error-icon-container {
   margin-bottom: 1px; }
   .ios .attachment a {
     border-radius: 15px; }
-
+.ios .hourglass {
+  display: inline-block;
+  position: relative;
+  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: transparent;
+  background-size: 100%; }
+  .ios .hourglass, .ios .hourglass .sand, .ios .hourglass:before, .ios .hourglass:after {
+    width: 13px;
+    height: 11px; }
+  .ios .hourglass .sand, .ios .hourglass:before, .ios .hourglass:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .ios .hourglass .sand {
+    background: #999;
+    animation: moveDown linear;
+    animation-fill-mode: forwards; }
+  .ios .hourglass:after {
+    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #999; }
+@keyframes moveDown {
+  to {
+    transform: translateY(100%); } }
 .android #header {
   background-color: #2090ea;
   color: white;
@@ -1584,6 +1571,60 @@ li.entry .error-icon-container {
   box-shadow: 0 3px 3px -4px black; }
 .android .outgoing .bubble {
   background-color: #f3f3f3; }
+.android .outgoing .hourglass {
+  display: inline-block;
+  position: relative;
+  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: transparent;
+  background-size: 100%; }
+  .android .outgoing .hourglass, .android .outgoing .hourglass .sand, .android .outgoing .hourglass:before, .android .outgoing .hourglass:after {
+    width: 13px;
+    height: 11px; }
+  .android .outgoing .hourglass .sand, .android .outgoing .hourglass:before, .android .outgoing .hourglass:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .android .outgoing .hourglass .sand {
+    background: #999;
+    animation: moveDown linear;
+    animation-fill-mode: forwards; }
+  .android .outgoing .hourglass:after {
+    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #999; }
+@keyframes moveDown {
+  to {
+    transform: translateY(100%); } }
+.android .incoming .hourglass {
+  display: inline-block;
+  position: relative;
+  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: transparent;
+  background-size: 100%; }
+  .android .incoming .hourglass, .android .incoming .hourglass .sand, .android .incoming .hourglass:before, .android .incoming .hourglass:after {
+    width: 13px;
+    height: 11px; }
+  .android .incoming .hourglass .sand, .android .incoming .hourglass:before, .android .incoming .hourglass:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .android .incoming .hourglass .sand {
+    background: #fff;
+    animation: moveDown linear;
+    animation-fill-mode: forwards; }
+  .android .incoming .hourglass:after {
+    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #fff; }
+@keyframes moveDown {
+  to {
+    transform: translateY(100%); } }
 .android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
   color: white; }
   .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {

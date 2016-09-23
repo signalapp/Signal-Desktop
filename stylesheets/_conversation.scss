@@ -395,10 +395,8 @@ li.entry .error-icon-container {
     animation: shake 0.2s linear 3;
   }
 
-  .timer { display: none; }
-  .expiring .timer {
-    display: inline-block;
-    @include hourglass(13px, 11px, #999);
+  .timer {
+    display: none;
   }
 
   .control {

@@ -1,13 +1,12 @@
-@mixin hourglass($width, $height, $color) {
+@mixin hourglass($color) {
   display: inline-block;
   position: relative;
-  vertical-align: text-bottom;
   @include color-svg('/images/hourglass_full.svg', transparent);
   background-size: 100%;
 
   &, .sand, &:before, &:after {
-    width: $width;
-    height: $height;
+    width: 13px;
+    height: 11px;
   }
   .sand, &:before, &:after {
     content: '';
@@ -25,8 +24,6 @@
     @include color-svg('/images/hourglass_empty.svg', $color);
   }
   @keyframes moveDown {
-    to   {
-      transform: translateY(100%);
-    }
+    to { transform: translateY(100%); }
   }
 }

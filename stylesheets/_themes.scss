@@ -170,6 +170,9 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
     margin-bottom: 1px;
   }
+  .hourglass {
+    @include hourglass(#999);
+  }
 }
 
 .android {
@@ -203,6 +206,12 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .outgoing .bubble {
     background-color: $grey_l;
+  }
+  .outgoing .hourglass {
+    @include hourglass(#999);
+  }
+  .incoming .hourglass {
+    @include hourglass(#fff);
   }
 
   .incoming .bubble {
