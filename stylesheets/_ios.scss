@@ -29,8 +29,13 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
     }
   }
+
   .banner {
     top: 15px;
+  }
+
+  .selected .contact-details .ismuted.muted {
+    @include color-svg('/images/do_not_disturb.svg', white);
   }
 
   .tool-bar {

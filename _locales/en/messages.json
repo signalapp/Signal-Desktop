@@ -750,5 +750,9 @@
     },
     "relink": {
         "message": "Relink"
+    },
+    "muteConversation": {
+      "message": "Mute/Unmute",
+      "description": "Mute/unmute current conversation"
     }
 }

@@ -390,8 +390,19 @@ $avatar-size: 44px;
     text-overflow: ellipsis;
   }
 
+  .ismuted {
+    display: none;
+  }
+
+  .ismuted.muted {
+    display: inline-block;
+    @include color-svg('/images/do_not_disturb.svg', black);
+    width: 1em;
+    height: 1em;
+  }
+
   .name {
-    display: block;
+    display: inline-block;
     margin: 0;
     font-size: 1em;
     text-overflow: ellipsis;

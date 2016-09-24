@@ -118,6 +118,7 @@
               <button class='hamburger' alt='conversation menu'></button>
               <ul class='menu-list'>
                   <li class='disappearing-messages'>{{ disappearing-messages }}</li>
+                  <li class='muted'>{{ muted }}</li>
                   {{#group}}
                       <li class='show-members'>{{ show-members }}</li>
                       <!-- <li class='update-group'>Update group</li> -->
@@ -280,6 +281,7 @@
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
+      <span class='ismuted'></span>
       <h3 class='name' dir='auto'> {{ title }} </h3>
       <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
