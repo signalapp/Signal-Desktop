@@ -2,7 +2,9 @@
 
 describe("Fixtures", function() {
   before(function(done) {
-    Whisper.Fixtures.saveAll().then(done);
+    Whisper.Fixtures.saveAll().then(function() {
+      done();
+    });
   });
   it('renders', function(done) {
     ConversationController.updateInbox().then(function() {
