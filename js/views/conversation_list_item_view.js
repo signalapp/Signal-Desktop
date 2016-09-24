@@ -43,7 +43,8 @@
                     last_message_timestamp: this.model.get('timestamp'),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
-                    unreadCount: this.model.get('unreadCount')
+                    unreadCount: this.model.get('unreadCount'),
+                    ismuted: this.model.getMutedIcon()
                 }, this.render_partials())
             );
             this.timeStampView.setElement(this.$('.last-timestamp'));
