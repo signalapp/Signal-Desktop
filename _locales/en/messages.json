@@ -177,7 +177,7 @@
             "example": "href='http://example.com'"
           },
           "app_store": {
-            "content": "$1",
+            "content": "$2",
             "example": "href='http://example.com'"
           }
         }
