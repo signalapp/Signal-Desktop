@@ -117,6 +117,15 @@ button.back {
     vertical-align: middle;
     display: table-cell; }
 
+.clock {
+  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .clock:focus, .clock:hover {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
+
 .inactive .menu .hamburger {
   -webkit-mask: url("/images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -1036,6 +1045,13 @@ input.search {
 
 .message-list .error-icon {
   cursor: pointer; }
+.message-list .advisory {
+  text-align: center; }
+  .message-list .advisory .content {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #fff5c4;
+    border-radius: 5px; }
 
 li.entry .error-icon-container {
   position: absolute;

@@ -166,6 +166,21 @@
         }.bind(this));
     },
 
+    addExpirationTimerUpdate: function(source, time) {
+        var now = Date.now();
+        var message = this.messageCollection.add({
+            conversationId : this.id,
+            type           : 'expirationTimerUpdate',
+            sent_at        : now,
+            received_at    : now,
+            timerUpdate    : {
+              expireTimer    : time,
+              source         : source
+            }
+        });
+        message.save();
+    },
+
     isSearchable: function() {
         return !this.get('left') || !!this.get('lastMessage');
     },

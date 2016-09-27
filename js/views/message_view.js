@@ -43,6 +43,23 @@
         }
     });
 
+    Whisper.ExpirationTimerUpdateView = Whisper.View.extend({
+        tagName:   'li',
+        className: 'expirationTimerUpdate advisory',
+        templateName: 'expirationTimerUpdate',
+        initialize: function() {
+            this.conversation = this.model.getModelForExpirationTimerUpdate();
+            this.listenTo(this.conversation, 'change', this.render);
+        },
+        render_attributes: function() {
+            return {
+              content: i18n('changedTheTimer',
+                            this.conversation.getTitle(),
+                            this.model.get('timerUpdate').time)
+            };
+        }
+    });
+
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
         templateName: 'message',

@@ -43,21 +43,24 @@
             this.$el.scrollTop(this.el.scrollHeight - this.bottomOffset);
         },
         addOne: function(model) {
-            if (this.itemView) {
-                var view = new this.itemView({model: model}).render();
+            var view;
+            if (model.get('type') === 'expirationTimerUpdate') {
+                view = new Whisper.ExpirationTimerUpdateView({model: model}).render();
+            } else {
+                view = new this.itemView({model: model}).render();
                 this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
                 this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
-                if (this.collection.indexOf(model) === this.collection.length - 1) {
-                    // add to the bottom.
-                    this.$el.append(view.el);
-                    this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
-                    this.measureScrollPosition();
-                } else {
-                    // add to the top.
-                    this.measureScrollPosition();
-                    this.$el.prepend(view.el);
-                    this.scrollToBottomIfNeeded();
-                }
+            }
+            if (this.collection.indexOf(model) === this.collection.length - 1) {
+                // add to the bottom.
+                this.$el.append(view.el);
+                this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
+                this.measureScrollPosition();
+            } else {
+                // add to the top.
+                this.measureScrollPosition();
+                this.$el.prepend(view.el);
+                this.scrollToBottomIfNeeded();
             }
         },
     });

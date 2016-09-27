@@ -120,6 +120,9 @@ button.back {
   }
 }
 
+.clock {
+  @include header-icon-black('/images/clock.svg');
+}
 .inactive .menu .hamburger {
   @include header-icon-black('/images/menu.svg');
 }

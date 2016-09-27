@@ -224,5 +224,11 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
     }
   }
+  .clock {
+    @include header-icon-white('/images/clock.svg');
+  }
+  .inactive .clock {
+    @include header-icon-black('/images/clock.svg');
+  }
 }
 
