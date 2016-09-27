@@ -73,12 +73,6 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
     .avatar { display: none; }
   }
-  button.back {
-    @include header-icon-black('/images/back.svg');
-  }
-  .menu .hamburger {
-    @include header-icon-black('/images/menu.svg');
-  }
   .bottom-bar {
     padding: 15px;
     min-height: 30px;
@@ -224,11 +218,23 @@ $ios-border-color: rgba(0,0,0,0.1);
       }
     }
   }
-  .clock {
+  button.clock {
     @include header-icon-white('/images/clock.svg');
   }
-  .inactive .clock {
+  .inactive button.clock {
     @include header-icon-black('/images/clock.svg');
+  }
+  button.hamburger {
+    @include header-icon-white('/images/menu.svg');
+  }
+  .inactive button.hamburger {
+    @include header-icon-black('/images/menu.svg');
+  }
+  button.back {
+    @include header-icon-white('/images/back.svg');
+  }
+  .inactive button.back {
+    @include header-icon-black('/images/back.svg');
   }
 }
 

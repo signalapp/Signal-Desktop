@@ -78,13 +78,16 @@ button.grey {
 
 a { color: $blue; }
 
-.inactive button.back {
-  @include header-icon-black('/images/back.svg');
-
-}
 button.back {
-  @include header-icon-white('/images/back.svg');
+  @include header-icon-black('/images/back.svg');
 }
+button.clock {
+  @include header-icon-black('/images/clock.svg');
+}
+button.hamburger {
+  @include header-icon-black('/images/menu.svg');
+}
+
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -120,13 +123,6 @@ button.back {
   }
 }
 
-.clock {
-  @include header-icon-black('/images/clock.svg');
-}
-.inactive .menu .hamburger {
-  @include header-icon-black('/images/menu.svg');
-}
-
 .menu {
   position: relative;
   float: right;
@@ -135,7 +131,6 @@ button.back {
     width: $button-height;
     height: $button-height;
     vertical-align: middle;
-    @include header-icon-white('/images/menu.svg');
   }
   .menu-list {
     display: none;

@@ -77,23 +77,32 @@ button.grey {
 a {
   color: #2090ea; }
 
-.inactive button.back {
+button.back {
   -webkit-mask: url("/images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
-  .inactive button.back:focus, .inactive button.back:hover {
+  button.back:focus, button.back:hover {
     -webkit-mask: url("/images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
-button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+button.clock {
+  -webkit-mask: url("/images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
-  background-color: rgba(255, 255, 255, 0.8); }
-  button.back:focus, button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+  background-color: rgba(0, 0, 0, 0.5); }
+  button.clock:focus, button.clock:hover {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
-    background-color: white; }
+    background-color: black; }
+
+button.hamburger {
+  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  button.hamburger:focus, button.hamburger:hover {
+    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 
 ::-webkit-scrollbar {
   width: 10px; }
@@ -117,38 +126,13 @@ button.back {
     vertical-align: middle;
     display: table-cell; }
 
-.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: rgba(0, 0, 0, 0.5); }
-  .clock:focus, .clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
-
-.inactive .menu .hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: rgba(0, 0, 0, 0.5); }
-  .inactive .menu .hamburger:focus, .inactive .menu .hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
-
 .menu {
   position: relative;
   float: right; }
   .menu .hamburger {
     width: 24px;
     height: 24px;
-    vertical-align: middle;
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: rgba(255, 255, 255, 0.8); }
-    .menu .hamburger:focus, .menu .hamburger:hover {
-      -webkit-mask: url("/images/menu.svg") no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: white; }
+    vertical-align: middle; }
   .menu .menu-list {
     display: none;
     position: absolute;
@@ -1425,22 +1409,6 @@ li.entry .error-icon-container {
     line-height: 64px; }
   .ios .conversation-header .avatar {
     display: none; }
-.ios button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: rgba(0, 0, 0, 0.5); }
-  .ios button.back:focus, .ios button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
-.ios .menu .hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
-  -webkit-mask-size: 100%;
-  background-color: rgba(0, 0, 0, 0.5); }
-  .ios .menu .hamburger:focus, .ios .menu .hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
 .ios .bottom-bar {
   padding: 15px;
   min-height: 30px;
@@ -1648,5 +1616,53 @@ li.entry .error-icon-container {
     color: #454545; }
 .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
+.android button.clock {
+  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(255, 255, 255, 0.8); }
+  .android button.clock:focus, .android button.clock:hover {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+.android .inactive button.clock {
+  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .android .inactive button.clock:focus, .android .inactive button.clock:hover {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
+.android button.hamburger {
+  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(255, 255, 255, 0.8); }
+  .android button.hamburger:focus, .android button.hamburger:hover {
+    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+.android .inactive button.hamburger {
+  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .android .inactive button.hamburger:focus, .android .inactive button.hamburger:hover {
+    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
+.android button.back {
+  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(255, 255, 255, 0.8); }
+  .android button.back:focus, .android button.back:hover {
+    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+.android .inactive button.back {
+  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .android .inactive button.back:focus, .android .inactive button.back:hover {
+    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 
 /*# sourceMappingURL=manifest.css.map */
