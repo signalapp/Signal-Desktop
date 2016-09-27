@@ -57,9 +57,12 @@
                 this.$el.closest('body').append(dialog.el);
             }.bind(this));
         },
-        i18n_with_link: function(message, href) {
-            var attrs = 'class="link" href="' + encodeURI(href) + '" target="_blank"';
-            return i18n(message, attrs);
+        i18n_with_links: function() {
+            var args = Array.prototype.slice.call(arguments);
+            for (var i=1; i < args.length; ++i) {
+              args[i] = 'class="link" href="' + encodeURI(args[i]) + '" target="_blank"';
+            }
+            return i18n(args[0], args.slice(1));
         }
     },{
         // Class attributes
