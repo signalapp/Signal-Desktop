@@ -38458,11 +38458,15 @@ MessageReceiver.prototype.extend({
         // Note that messages may (generally) only perform one action and we ignore remaining fields
         // after the first action.
 
-        if (decrypted.flags == null)
+        if (decrypted.flags == null) {
             decrypted.flags = 0;
+        }
+        if (decrypted.expireTimer == null) {
+            decrypted.expireTimer = 0;
+        }
 
-        if ((decrypted.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
-                    == textsecure.protobuf.DataMessage.Flags.END_SESSION) {
+        if (decrypted.flags & (   textsecure.protobuf.DataMessage.Flags.END_SESSION
+                                | textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE )) {
             decrypted.body = null;
             decrypted.attachments = [];
             decrypted.group = null;
