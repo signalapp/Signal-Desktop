@@ -169,6 +169,20 @@
         "message": "ಕ್ಷಮಿಸಿ, ನೀವು ಹಲವಾರು ಸಾಧನಗಳು ಈಗಾಗಲೇ ಜೋಡಿಸಿದ್ದೀರಿ. ಕೆಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸಿ.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "ಗುಂಪುಗಳು ಹಾಗು ಸಂಪರ್ಕಗಳನ್ನು  ಸಮನ್ವಯಗೊಳಿಸಲಾಗುತ್ತಿದೆ",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "ಸಂಪರ್ಕಗಳು",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Got it",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "ಸ್ವೀಕರಿಸಲಾಗಿದೆ",

@@ -169,6 +169,20 @@
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "Installeer eerst Signal op je <a $play_store$>Android-telefoon</a> of <a $app_store$>iPhone</a>.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "Contacten",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Begrepen",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Ontvangen",

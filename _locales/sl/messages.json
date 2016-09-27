@@ -169,6 +169,20 @@
         "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "Najprej namestite aplikacijo Signal na svojo napravo <a $play_store$>Android</a> oziroma <a $app_store$>iPhone</a>.<br /> Napravo bomo povezali z računalnikom in sinhronizirali sporočila.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Usklajujem skupine in stike...",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "Stiki",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Razumem",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Prejeto",

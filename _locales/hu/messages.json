@@ -169,6 +169,20 @@
         "message": "Elnézést, de túl sok társított eszközöd van. Próbálj kitörölni néhányat.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Csoportok és kapcsolatok szinkronizálása",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "Partnerek",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Got it",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Fogadva",

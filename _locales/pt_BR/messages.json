@@ -169,6 +169,20 @@
         "message": "Desculpe. Existem muitos aparelhos já religados. Tente remover alguns.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "Primeiro, instale Signal <a $play_store$>no seu Android</a> ou $app_store$>iPhone</a>.<br /> Seus aparelhos serão religados e suas mensagens, sincronizadas.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizando grupos e contatos",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "Contatos",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Entendido!",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Recebida",

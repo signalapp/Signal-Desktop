@@ -20,7 +20,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 minutt",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -56,11 +56,11 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 time",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importer alle Signal grupper og kontakter fra din mobile enhet.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -100,11 +100,11 @@
         "description": "Label for the time a message was sent"
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "nå",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Rapporter et problem",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -124,7 +124,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Vil du slette denne samtalen?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -140,7 +140,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importer nå",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
@@ -158,7 +158,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
+        "message": "Lær mer om å verifisere nøkler.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
@@ -168,6 +168,20 @@
     "installTooManyDevices": {
         "message": "Beklager. Du har for mange enheter tilkoblet. Prøv å fjern noen.",
         "description": ""
+    },
+    "installSignalLinks": {
+        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
     },
     "installSyncingGroupsAndContacts": {
         "message": "Synkroniserer grupper og kontakter",
@@ -194,7 +208,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importerer...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -206,12 +220,16 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Nummeret er ikke registrert",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontakt",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Har det",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Melding mottatt",
@@ -222,7 +240,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Media melding",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {

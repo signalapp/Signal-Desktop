@@ -169,6 +169,20 @@
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
         "description": ""
     },
+    "installSignalLinks": {
+        "message": "Asenna Signal ensin <a $play_store$>Android</a>- tai <a $app_store$>iPhone</a>-puhelimeesi.<br /> Yhdistämme sitten laitteesi toisiinsa ja synkronoimme viestisi.",
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
         "description": ""
@@ -212,6 +226,10 @@
     "sync": {
         "message": "Yhteystiedot",
         "description": "Label for contact and group sync settings"
+    },
+    "installGotIt": {
+        "message": "Selvä!",
+        "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
         "message": "Vastaanotettu",
