@@ -32,6 +32,10 @@
             var flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
             return !!(this.get('flags') & flag);
         },
+        isExpirationTimerUpdate: function() {
+            var flag = textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+            return !!(this.get('flags') & flag);
+        },
         isGroupUpdate: function() {
             return !!(this.get('group_update'));
         },
