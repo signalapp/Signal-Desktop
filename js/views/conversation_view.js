@@ -39,7 +39,7 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
-            this.listenTo(this.model, 'change:color', this.updateColor);
+            this.listenTo(this.model, 'change:avatar', this.updateAvatar);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
@@ -62,6 +62,7 @@
             this.view.render();
 
             this.$messageField = this.$('.send-message');
+            this.$emojiMenu = new EmojiMenu(this.$('.emoji-button'), this.$('.main.panel'), this.$('.send-message'));
 
             var onResize = this.forceUpdateMessageFieldSize.bind(this);
             this.appWindow.contentWindow.addEventListener('resize', onResize);
@@ -90,6 +91,7 @@
         events: {
             'submit .send': 'sendMessage',
             'input .send-message': 'updateMessageFieldSize',
+            'change .send-message': 'updateMessageFieldSize',
             'keydown .send-message': 'updateMessageFieldSize',
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
@@ -103,6 +105,7 @@
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
             'click .microphone': 'captureAudio',
+            'click .emoji-button': 'showPanel',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
@@ -308,17 +311,12 @@
             this.$('.conversation-title').text(this.model.getTitle());
         },
 
-        updateColor: function(model, color) {
-            var header = this.$('.conversation-header');
-            header.removeClass(Whisper.Conversation.COLORS);
-            if (color) {
-                header.addClass(color);
-            }
+        updateAvatar: function() {
             var avatarView = new (Whisper.View.extend({
                 templateName: 'avatar',
                 render_attributes: { avatar: this.model.getAvatar() }
             }))();
-            header.find('.avatar').replaceWith(avatarView.render().$('.avatar'));
+            this.$('.conversation-header .avatar').replaceWith(avatarView.render().$('.avatar'));
         },
 
         updateMessageFieldSize: function (event) {
@@ -352,10 +350,21 @@
             this.view.scrollToBottomIfNeeded();
             window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);
+            this.$emojiMenu.reposition();
         },
 
         isHidden: function() {
             return (this.$el.css('display') === 'none') || this.$('.panel').css('display') === 'none';
+        },
+
+        showPanel: function(e) {
+          e.preventDefault();
+          if (!this.$emojiMenu.visible) {
+              this.$emojiMenu.show();
+          } else {
+              this.$emojiMenu.hide();
+          }
         }
     });
+
 })();
