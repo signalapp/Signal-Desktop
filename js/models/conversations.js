@@ -166,19 +166,25 @@
         }.bind(this));
     },
 
-    addExpirationTimerUpdate: function(source, time) {
+    addExpirationTimerUpdate: function(time, source) {
         var now = Date.now();
+        this.save({ expireTimer: time });
         var message = this.messageCollection.add({
-            conversationId : this.id,
-            type           : 'expirationTimerUpdate',
-            sent_at        : now,
-            received_at    : now,
-            timerUpdate    : {
+            conversationId        : this.id,
+            type                  : 'outgoing',
+            sent_at               : now,
+            received_at           : now,
+            flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+            expirationTimerUpdate : {
               expireTimer    : time,
               source         : source
             }
         });
         message.save();
+    },
+    sendExpirationTimerUpdate: function(time) {
+        this.addExpirationTimerUpdate(time, textsecure.storage.user.getNumber());
+        // todo: send.
     },
 
     isSearchable: function() {

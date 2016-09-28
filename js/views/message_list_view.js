@@ -44,7 +44,7 @@
         },
         addOne: function(model) {
             var view;
-            if (model.get('type') === 'expirationTimerUpdate') {
+            if (model.isExpirationTimerUpdate()) {
                 view = new Whisper.ExpirationTimerUpdateView({model: model}).render();
             } else {
                 view = new this.itemView({model: model}).render();

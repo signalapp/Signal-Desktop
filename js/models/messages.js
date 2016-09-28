@@ -71,7 +71,6 @@
             if (this.isIncoming() && this.hasErrors()) {
                 return i18n('incomingError');
             }
-
             return this.get('body');
         },
         getNotificationText: function() {
@@ -122,15 +121,6 @@
             var c = ConversationController.get(conversationId);
             if (!c) {
                 c = ConversationController.create({id: conversationId, type: 'private'});
-                c.fetch();
-            }
-            return c;
-        },
-        getModelForExpirationTimerUpdate: function() {
-            var id = this.get('timerUpdate').source;
-            var c = ConversationController.get(id);
-            if (!c) {
-                c = ConversationController.create({ id: id, type: 'private' });
                 c.fetch();
             }
             return c;
@@ -364,9 +354,18 @@
                             flags          : dataMessage.flags,
                             errors         : []
                         });
-
-                        if (dataMessage.expireTimer) {
+                        if (message.isExpirationTimerUpdate()) {
+                            message.set({
+                                expirationTimerUpdate: {
+                                    source      : source,
+                                    expireTimer : dataMessage.expireTimer
+                                }
+                            });
+                            conversation.set({expireTimer: dataMessage.expireTimer});
+                        } else if (dataMessage.expireTimer) {
                             message.set({expireTimer: dataMessage.expireTimer});
+                            // todo: insert an update if needed
+                            conversation.set({expireTimer: dataMessage.expireTimer});
                         }
 
                         var conversation_timestamp = conversation.get('timestamp');

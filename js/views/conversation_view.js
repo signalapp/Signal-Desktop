@@ -16,6 +16,39 @@
         }
     });
 
+    var MenuView = Whisper.View.extend({
+        toggleMenu: function() {
+            this.$('.menu-list').toggle();
+        }
+    });
+    var TimerMenuView = MenuView.extend({
+        initialize: function() {
+            this.render();
+            this.listenTo(this.model, 'change:expireTimer', this.render);
+        },
+        events: {
+          'click button': 'toggleMenu',
+          'click li': 'setTimer'
+        },
+        setTimer: function(e) {
+            var seconds = this.$(e.target).data().seconds;
+            if (seconds >= 0) {
+                this.model.sendExpirationTimerUpdate(seconds);
+            }
+        },
+        render: function() {
+            var seconds = this.model.get('expireTimer');
+            if (seconds) {
+              var s = Whisper.ExpirationTimerOptions.getAbbreviated(seconds);
+              this.$el.attr('data-time', s);
+              this.$el.show();
+            } else {
+              this.$el.attr('data-time', null);
+              this.$el.hide();
+            }
+        }
+    });
+
     Whisper.ConversationView = Whisper.View.extend({
         className: function() {
             return [ 'conversation', this.model.get('type') ].join(' ');
@@ -30,11 +63,14 @@
                 name: this.model.getName(),
                 number: this.model.getNumber(),
                 avatar: this.model.getAvatar(),
+                expireTimer: this.model.get('expireTimer'),
                 'view-members'    : i18n('members'),
                 'end-session'     : i18n('resetSession'),
                 'verify-identity' : i18n('verifyIdentity'),
                 'destroy'         : i18n('deleteMessages'),
-                'send-message'    : i18n('sendMessage')
+                'send-message'    : i18n('sendMessage'),
+                'disappearing-messages': i18n('disappearingMessages'),
+                timer_options     : Whisper.ExpirationTimerOptions.models
             };
         },
         initialize: function(options) {
@@ -47,6 +83,7 @@
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
 
             this.render();
+            new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
 
             emoji_util.parse(this.$('.conversation-name'));
 
@@ -105,6 +142,7 @@
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
             'click .microphone': 'captureAudio',
+            'click .disappearing-messages': 'enableDisappearingMessages',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
@@ -112,6 +150,13 @@
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize'
+        },
+        enableDisappearingMessages: function() {
+            if (!this.model.get('expireTimer')) {
+                this.model.sendExpirationTimerUpdate(
+                    moment.duration(1, 'day').asSeconds()
+                );
+            }
         },
         toggleMicrophone: function() {
             if (this.$('.send-message').val().length > 0 || this.fileInput.hasFiles()) {
@@ -240,7 +285,10 @@
 
         closeMenu: function(e) {
             if (e && !$(e.target).hasClass('hamburger')) {
-                this.$('.menu-list').hide();
+                this.$('.conversation-menu .menu-list').hide();
+            }
+            if (e && !$(e.target).hasClass('clock')) {
+                this.$('.timer-menu .menu-list').hide();
             }
         },
 
@@ -255,7 +303,7 @@
         },
 
         toggleMenu: function() {
-            this.$('.menu-list').toggle();
+            this.$('.conversation-menu .menu-list').toggle();
         },
 
         newGroupUpdate: function() {

@@ -48,14 +48,16 @@
         className: 'expirationTimerUpdate advisory',
         templateName: 'expirationTimerUpdate',
         initialize: function() {
-            this.conversation = this.model.getModelForExpirationTimerUpdate();
+            this.conversation = this.model.getContact();
             this.listenTo(this.conversation, 'change', this.render);
         },
         render_attributes: function() {
+            var seconds = this.model.get('expirationTimerUpdate').expireTimer;
             return {
-              content: i18n('changedTheTimer',
-                            this.conversation.getTitle(),
-                            this.model.get('timerUpdate').time)
+              content: i18n('changedTheTimer', [
+                         this.conversation.getTitle(),
+                         Whisper.ExpirationTimerOptions.getName(seconds)
+              ])
             };
         }
     });

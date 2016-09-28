@@ -126,6 +126,19 @@ button.hamburger {
     vertical-align: middle;
     display: table-cell; }
 
+.conversation-header .timer-menu {
+  margin-right: 10px; }
+  .conversation-header .timer-menu:before {
+    content: attr(data-time);
+    display: inline-block;
+    position: absolute;
+    bottom: -10px;
+    height: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 8px;
+    font-weight: bold; }
+
 .menu {
   position: relative;
   float: right; }
