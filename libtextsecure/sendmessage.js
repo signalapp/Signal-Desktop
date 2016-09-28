@@ -22,6 +22,7 @@ function Message(options) {
     this.recipients  = options.recipients;
     this.timestamp   = options.timestamp;
     this.needsSync   = options.needsSync;
+    this.expireTimer = options.expireTimer;
 
     if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
         throw new Error('Invalid recipient list');
@@ -33,6 +34,12 @@ function Message(options) {
 
     if (typeof this.timestamp !== 'number') {
         throw new Error('Invalid timestamp');
+    }
+
+    if (this.expireTimer !== undefined) {
+        if (typeof this.expireTimer !== 'number' || !(this.expireTimer >= 0)) {
+            throw new Error('Invalid expireTimer');
+        }
     }
 
     if (this.attachments) {
@@ -82,6 +89,9 @@ Message.prototype = {
             proto.group      = new textsecure.protobuf.GroupContext();
             proto.group.id   = stringToArrayBuffer(this.group.id);
             proto.group.type = this.group.type
+        }
+        if (this.expireTimer) {
+            proto.expireTimer = this.expireTimer;
         }
 
         this.dataMessage = proto;
@@ -279,13 +289,14 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToNumber: function(number, messageText, attachments, timestamp) {
+    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer) {
         return this.sendMessage({
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
             attachments : attachments,
-            needsSync   : true
+            needsSync   : true,
+            expireTimer : expireTimer
         });
     },
 
@@ -308,7 +319,7 @@ MessageSender.prototype = {
         });
     },
 
-    sendMessageToGroup: function(groupId, messageText, attachments, timestamp) {
+    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -325,6 +336,7 @@ MessageSender.prototype = {
                 timestamp   : timestamp,
                 attachments : attachments,
                 needsSync   : true,
+                expireTimer : expireTimer,
                 group: {
                     id: groupId,
                     type: textsecure.protobuf.GroupContext.Type.DELIVER

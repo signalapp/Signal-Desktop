@@ -141,7 +141,8 @@
                 type           : 'outgoing',
                 attachments    : attachments,
                 sent_at        : now,
-                received_at    : now
+                received_at    : now,
+                expireTimer    : this.get('expireTimer')
             });
             if (this.isPrivate()) {
                 message.set({destination: this.id});
@@ -162,7 +163,7 @@
             else {
                 sendFunc = textsecure.messaging.sendMessageToGroup;
             }
-            message.send(sendFunc(this.get('id'), body, attachments, now));
+            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer')));
         }.bind(this));
     },
 
