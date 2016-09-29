@@ -155,13 +155,15 @@
         send: function(promise) {
             this.trigger('pending');
             return promise.then(function(result) {
+                var now = Date.now();
                 this.trigger('done');
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
-                this.save({sent: true});
+                this.save({sent: true, expirationStartTimestamp: now});
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {
+                var now = Date.now();
                 this.trigger('done');
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
@@ -172,7 +174,7 @@
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
-                        this.set({sent: true});
+                        this.set({sent: true, expirationStartTimestamp: now});
                         this.sendSyncMessage();
                     }
                 }
@@ -188,7 +190,7 @@
                     return;
                 }
                 return textsecure.messaging.sendSyncMessage(
-                    dataMessage, this.get('sent_at'), this.get('destination')
+                    dataMessage, this.get('sent_at'), this.get('destination'), this.get('expirationStartTimestamp')
                 ).then(function() {
                     this.save({synced: true, dataMessage: null});
                 }.bind(this));

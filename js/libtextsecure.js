@@ -38996,7 +38996,7 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendSyncMessage: function(encodedDataMessage, timestamp, destination) {
+    sendSyncMessage: function(encodedDataMessage, timestamp, destination, expirationStartTimestamp) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice == 1) {
@@ -39009,6 +39009,9 @@ MessageSender.prototype = {
         sentMessage.message = dataMessage;
         if (destination) {
             sentMessage.destination = destination;
+        }
+        if (expirationStartTimestamp) {
+            sentMessage.expirationStartTimestamp = expirationStartTimestamp;
         }
         var syncMessage = new textsecure.protobuf.SyncMessage();
         syncMessage.sent = sentMessage;
