@@ -81,6 +81,13 @@
             if (this.get('attachments').length > 0) {
                 return i18n('mediaMessage');
             }
+            if (this.isExpirationTimerUpdate()) {
+                return i18n('timerSetTo',
+                    Whisper.ExpirationTimerOptions.getAbbreviated(
+                      this.get('expirationTimerUpdate').expireTimer
+                    )
+                );
+            }
 
             return '';
         },

@@ -432,5 +432,15 @@
     "timerOption_1_week_abbreviated": {
       "message": "1w",
       "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerSetTo": {
+      "message": "Timer set to $time$",
+      "description": "Displayed in the conversation list when the timer is updated.",
+      "placeholders": {
+        "time": {
+          "content": "$1",
+          "example": "1w"
+        }
+      }
     }
 }
