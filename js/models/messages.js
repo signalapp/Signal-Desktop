@@ -329,6 +329,14 @@
                                 message.set({group_update: group_update});
                             }
                         }
+                        message.set({
+                            body           : dataMessage.body,
+                            conversationId : conversation.id,
+                            attachments    : dataMessage.attachments,
+                            decrypted_at   : now,
+                            flags          : dataMessage.flags,
+                            errors         : []
+                        });
                         if (type === 'outgoing') {
                             var receipts = Whisper.DeliveryReceipts.forMessage(conversation, message);
                             receipts.forEach(function(receipt) {
@@ -340,7 +348,7 @@
                         attributes.active_at = now;
                         if (type === 'incoming') {
                             // experimental
-                            if (Whisper.ReadReceipts.forMessage(message)) {
+                            if (Whisper.ReadReceipts.forMessage(message) || message.isExpirationTimerUpdate()) {
                                 message.unset('unread');
                             } else {
                                 attributes.unreadCount = conversation.get('unreadCount') + 1;
@@ -348,14 +356,6 @@
                         }
                         conversation.set(attributes);
 
-                        message.set({
-                            body           : dataMessage.body,
-                            conversationId : conversation.id,
-                            attachments    : dataMessage.attachments,
-                            decrypted_at   : now,
-                            flags          : dataMessage.flags,
-                            errors         : []
-                        });
                         if (message.isExpirationTimerUpdate()) {
                             message.set({
                                 expirationTimerUpdate: {
