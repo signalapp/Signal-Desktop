@@ -167,6 +167,18 @@
         }.bind(this));
     },
 
+    updateLastMessage: function() {
+        var lastMessage = this.messageCollection.at(this.messageCollection.length - 1);
+        if (lastMessage) {
+          this.save({
+            lastMessage : lastMessage.getNotificationText(),
+            timestamp   : lastMessage.get('sent_at')
+          });
+        } else {
+          this.save({ lastMessage: '', timestamp: null });
+        }
+    },
+
     addExpirationTimerUpdate: function(time, source) {
         var now = Date.now();
         this.save({ expireTimer: time });
