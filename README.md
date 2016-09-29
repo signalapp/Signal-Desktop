@@ -5,7 +5,7 @@ Get [Signal Private Messenger](https://chrome.google.com/webstore/detail/signal-
 
 Signal Desktop is a chrome packaged app that links with your
 [Signal Android](https://github.com/WhisperSystems/Signal-Android)
-app.
+ or [Signal iOS](https://github.com/WhisperSystems/Signal-iOS) app.
 
 ## Got a question?
 The best place to ask questions is [http://support.whispersystems.org](http://support.whispersystems.org).
