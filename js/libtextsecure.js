@@ -38873,7 +38873,9 @@ Message.prototype = {
             return this.dataMessage;
         }
         var proto         = new textsecure.protobuf.DataMessage();
-        proto.body        = this.body;
+        if (this.body) {
+          proto.body        = this.body;
+        }
         proto.attachments = this.attachmentPointers;
         if (this.flags) {
             proto.flags = this.flags;
@@ -39244,6 +39246,39 @@ MessageSender.prototype = {
                 return this.sendGroupProto(numbers, proto);
             }.bind(this));
         });
+    },
+    sendExpirationTimerUpdateToGroup: function(groupId, expireTimer, timestamp) {
+        return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
+            if (numbers === undefined)
+                return Promise.reject(new Error("Unknown Group"));
+
+            var me = textsecure.storage.user.getNumber();
+            numbers = numbers.filter(function(number) { return number != me; });
+            if (numbers.length === 0) {
+                return Promise.reject(new Error('No other members in the group'));
+            }
+            return this.sendMessage({
+                recipients  : numbers,
+                timestamp   : timestamp,
+                needsSync   : true,
+                expireTimer : expireTimer,
+                flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+                group: {
+                    id: groupId,
+                    type: textsecure.protobuf.GroupContext.Type.DELIVER
+                }
+            });
+        }.bind(this));
+    },
+    sendExpirationTimerUpdateToNumber: function(number, expireTimer, timestamp) {
+        var proto = new textsecure.protobuf.DataMessage();
+        return this.sendMessage({
+            recipients  : [number],
+            timestamp   : timestamp,
+            needsSync   : true,
+            expireTimer : expireTimer,
+            flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+        });
     }
 };
 
@@ -39255,19 +39290,21 @@ textsecure.MessageSender = function(url, ports, username, password, attachment_s
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
 
-    this.sendRequestGroupSyncMessage   = sender.sendRequestGroupSyncMessage  .bind(sender);
-    this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(sender);
-    this.sendMessageToNumber           = sender.sendMessageToNumber          .bind(sender);
-    this.closeSession                  = sender.closeSession                 .bind(sender);
-    this.sendMessageToGroup            = sender.sendMessageToGroup           .bind(sender);
-    this.createGroup                   = sender.createGroup                  .bind(sender);
-    this.updateGroup                   = sender.updateGroup                  .bind(sender);
-    this.addNumberToGroup              = sender.addNumberToGroup             .bind(sender);
-    this.setGroupName                  = sender.setGroupName                 .bind(sender);
-    this.setGroupAvatar                = sender.setGroupAvatar               .bind(sender);
-    this.leaveGroup                    = sender.leaveGroup                   .bind(sender);
-    this.sendSyncMessage               = sender.sendSyncMessage              .bind(sender);
-    this.syncReadMessages              = sender.syncReadMessages             .bind(sender);
+    this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
+    this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
+    this.sendRequestGroupSyncMessage       = sender.sendRequestGroupSyncMessage      .bind(sender);
+    this.sendRequestContactSyncMessage     = sender.sendRequestContactSyncMessage    .bind(sender);
+    this.sendMessageToNumber               = sender.sendMessageToNumber              .bind(sender);
+    this.closeSession                      = sender.closeSession                     .bind(sender);
+    this.sendMessageToGroup                = sender.sendMessageToGroup               .bind(sender);
+    this.createGroup                       = sender.createGroup                      .bind(sender);
+    this.updateGroup                       = sender.updateGroup                      .bind(sender);
+    this.addNumberToGroup                  = sender.addNumberToGroup                 .bind(sender);
+    this.setGroupName                      = sender.setGroupName                     .bind(sender);
+    this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
+    this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
+    this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
+    this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

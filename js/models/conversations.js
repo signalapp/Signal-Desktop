@@ -182,10 +182,18 @@
             }
         });
         message.save();
+        return message;
     },
     sendExpirationTimerUpdate: function(time) {
-        this.addExpirationTimerUpdate(time, textsecure.storage.user.getNumber());
-        // todo: send.
+        var message = this.addExpirationTimerUpdate(time, textsecure.storage.user.getNumber());
+        var sendFunc;
+        if (this.get('type') == 'private') {
+            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
+        }
+        else {
+            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
+        }
+        message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
     },
 
     isSearchable: function() {
