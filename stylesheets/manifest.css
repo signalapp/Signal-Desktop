@@ -346,11 +346,11 @@ button.hamburger {
     font-size: 0.92857em; }
   .contact-details .ismuted {
     position:absolute;
-    top:2px;
-    right:2px;
-    height: 16px;
-    width: 16px;
-    background-size: 16px 16px;
+    top: 0px;
+    right: 0px;
+    height: 24px;
+    width: 24px;
+    background-size: 24px 24px;
     background-repeat: no-repeat;
   }
 
