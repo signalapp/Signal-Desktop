@@ -424,9 +424,9 @@
     },
     getMutedIcon: function() {
         if (this.getMutedState()) {
-            return { url: '/images/do_not_disturb.svg', px: '16px' };
+            return { url: '/images/do_not_disturb.svg' };
         } else {
-            return { url: '', px: '0px'};
+            return { url: '' };
         }
     },
 

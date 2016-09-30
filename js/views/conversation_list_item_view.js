@@ -50,6 +50,12 @@
             this.timeStampView.setElement(this.$('.last-timestamp'));
             this.timeStampView.update();
 
+            if (this.model.getMutedState()) {
+                this.$('.ismuted').show();
+            } else {
+                this.$('.ismuted').hide();
+            }
+
             emoji_util.parse(this.$('.name'));
             emoji_util.parse(this.$('.last-message'));
 
@@ -62,6 +68,5 @@
 
             return this;
         }
-
     });
 })();
