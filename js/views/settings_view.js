@@ -37,7 +37,7 @@
             });
             new RadioButtonGroupView({
                 el: this.$('.theme-settings'),
-                defaultValue: 'message',
+                defaultValue: 'android',
                 name: 'theme-setting'
             });
             if (textsecure.storage.user.getDeviceId() != '1') {
