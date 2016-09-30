@@ -336,7 +336,7 @@ button.hamburger {
     text-overflow: ellipsis; }
   .contact-details .name {
     display: block;
-    margin: 0;
+    margin: 0px;
     font-size: 1em;
     text-overflow: ellipsis;
     overflow-x: hidden;
@@ -345,12 +345,10 @@ button.hamburger {
     color: #616161;
     font-size: 0.92857em; }
   .contact-details .ismuted {
-    position:absolute;
-    top: 0px;
-    right: 0px;
-    height: 24px;
-    width: 24px;
-    background-size: 24px 24px;
+    float: left;
+    height: 16px;
+    width: 16px;
+    background-size: 16px 16px;
     background-repeat: no-repeat;
   }
 

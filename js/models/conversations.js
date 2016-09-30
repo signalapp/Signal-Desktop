@@ -400,7 +400,6 @@
     muteConversation: function() {
         if (!storage.isMuted(this.id)) {
             var numbers = storage.get('muted', []);
-            console.log(numbers.constructor === Array);
             if (numbers.length > 0) {
                 numbers.push(this.id);
                 storage.put('muted', numbers);
@@ -409,15 +408,11 @@
                 mutedNumbers.push(this.id);
                 storage.put('muted', mutedNumbers);
             }
-            console.log(storage.get('muted', []));
         } else {
             var numbers = storage.get('muted', []);
-            console.log("get storage: " + numbers);
             var index = numbers.indexOf(this.id);
-            console.log("index: " + index);
             if (index > -1) {
                 numbers.splice(index, 1);
-                console.log("after removing: " + numbers);
                 // restore muted numbers
                 storage.put('muted', numbers);
             }
@@ -429,9 +424,9 @@
     },
     getMutedIcon: function() {
         if (this.getMutedState()) {
-            return { url: '/images/do_not_disturb.svg' };
+            return { url: '/images/do_not_disturb.svg', px: '16px' };
         } else {
-            return { url: '' };
+            return { url: '', px: '0px'};
         }
     },
 
