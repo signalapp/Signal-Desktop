@@ -56,7 +56,7 @@
             });
             new RadioButtonGroupView({
                 el: this.$('.theme-settings'),
-                defaultValue: 'message',
+                defaultValue: 'android',
                 name: 'theme-setting'
             });
             new CheckboxView({
