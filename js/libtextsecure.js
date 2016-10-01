@@ -38250,7 +38250,7 @@ MessageReceiver.prototype.extend({
                     destination              : destination,
                     timestamp                : timestamp.toNumber(),
                     message                  : message,
-                    expirationStartTimestamp : expirationStartTimestamp
+                    expirationStartTimestamp : expirationStartTimestamp.toNumber()
                 };
                 this.dispatchEvent(ev);
             }.bind(this));
