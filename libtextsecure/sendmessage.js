@@ -36,7 +36,7 @@ function Message(options) {
         throw new Error('Invalid timestamp');
     }
 
-    if (this.expireTimer !== undefined) {
+    if (this.expireTimer !== undefined && this.expireTimer !== null) {
         if (typeof this.expireTimer !== 'number' || !(this.expireTimer >= 0)) {
             throw new Error('Invalid expireTimer');
         }
