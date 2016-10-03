@@ -389,6 +389,10 @@
       "message": "Disappearing messages",
       "description": "Conversation menu option to enable disappearing messages"
     },
+    "timerOption_0_seconds_abbreviated": {
+      "message": "off",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timerOption_5_seconds_abbreviated": {
       "message": "5s",
       "description": "Label for a selectable option in the message expiration timer menu"
