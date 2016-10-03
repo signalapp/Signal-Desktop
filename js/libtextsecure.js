@@ -38249,9 +38249,11 @@ MessageReceiver.prototype.extend({
                 ev.data = {
                     destination              : destination,
                     timestamp                : timestamp.toNumber(),
-                    message                  : message,
-                    expirationStartTimestamp : expirationStartTimestamp.toNumber()
+                    message                  : message
                 };
+                if (expirationStartTimestamp) {
+                  ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
+                }
                 this.dispatchEvent(ev);
             }.bind(this));
         }.bind(this));
