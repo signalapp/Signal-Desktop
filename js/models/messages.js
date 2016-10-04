@@ -376,10 +376,13 @@
                         }
                         if (dataMessage.expireTimer) {
                             if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                              conversation.addExpirationTimerUpdate(dataMessage.expireTimer, source);
+                              conversation.addExpirationTimerUpdate(
+                                  dataMessage.expireTimer, source,
+                                  message.get('received_at'));
                             }
                         } else if (conversation.get('expireTimer')) {
-                            conversation.addExpirationTimerUpdate(0, source);
+                            conversation.addExpirationTimerUpdate(0, source,
+                                message.get('received_at'));
                         }
 
                         var conversation_timestamp = conversation.get('timestamp');

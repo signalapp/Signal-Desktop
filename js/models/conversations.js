@@ -179,17 +179,17 @@
         }
     },
 
-    addExpirationTimerUpdate: function(time, source) {
-        var now = Date.now();
-        this.save({ expireTimer: time });
+    addExpirationTimerUpdate: function(expireTimer, source, received_at) {
+        received_at = received_at || Date.now();
+        this.save({ expireTimer: expireTimer });
         var message = this.messageCollection.add({
             conversationId        : this.id,
             type                  : 'outgoing',
-            sent_at               : now,
-            received_at           : now,
+            sent_at               : received_at,
+            received_at           : received_at,
             flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
             expirationTimerUpdate : {
-              expireTimer    : time,
+              expireTimer    : expireTimer,
               source         : source
             }
         });
