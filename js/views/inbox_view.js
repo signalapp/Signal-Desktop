@@ -67,21 +67,23 @@
             this.currentSize = this.defaultSize;
             this.render();
         },
-        events: { 'mousewheel': 'zoomText' },
+        events: { 'keydown': 'zoomText' },
         zoomText: function(e) {
-            if (e.ctrlKey === true) {
-                if (e.originalEvent.deltaY > 0) {
-                    if (this.currentSize > this.minSize) {
-                        this.currentSize--;
-                        this.render();
-                    }
-                } else if (e.originalEvent.deltaY < 0) {
-                    if (this.currentSize < this.maxSize) {
-                        this.currentSize++;
-                        this.render();
-                    }
+            if (!e.ctrlKey)
+                return;
+            var keyCode = e.which || e.keyCode;
+            var maxSize = 22; // if bigger text goes outside send-message textarea
+            var minSize = 14;
+            if (keyCode === 189 || keyCode == 109) {
+                if (this.currentSize > minSize) {
+                    this.currentSize--;
+                }
+            } else if (keyCode === 187 || keyCode == 107) {
+                if (this.currentSize < maxSize) {
+                    this.currentSize++;
                 }
             }
+            this.render();
         },
         render: function() {
             this.$el.css('font-size', this.currentSize + 'px');
@@ -100,7 +102,8 @@
         initialize: function (options) {
             this.render();
             this.applyTheme();
-            new Whisper.FontSizeView({ el: this.el });
+            this.$el.attr('tabindex', '1');
+            new Whisper.FontSizeView({ el: this.$el });
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
                 model: { appWindow: options.appWindow }
