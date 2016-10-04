@@ -47,6 +47,9 @@
         tagName:   'li',
         className: 'expirationTimerUpdate advisory',
         templateName: 'expirationTimerUpdate',
+        id: function() {
+            return this.model.id;
+        },
         initialize: function() {
             this.conversation = this.model.getContact();
             this.listenTo(this.conversation, 'change', this.render);
@@ -67,6 +70,9 @@
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
         templateName: 'message',
+        id: function() {
+            return this.model.id;
+        },
         initialize: function() {
             this.listenTo(this.model, 'change:errors', this.onErrorsChanged);
             this.listenTo(this.model, 'change:body', this.render);

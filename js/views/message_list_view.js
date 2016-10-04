@@ -51,15 +51,36 @@
                 this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
                 this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
             }
-            if (this.collection.indexOf(model) === this.collection.length - 1) {
+            var index = this.collection.indexOf(model);
+            if (index === this.collection.length - 1) {
                 // add to the bottom.
                 this.$el.append(view.el);
                 this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
                 this.measureScrollPosition();
-            } else {
-                // add to the top.
-                this.measureScrollPosition();
+            } else if (index === 0) {
                 this.$el.prepend(view.el);
+            } else {
+                // insert
+                this.measureScrollPosition();
+
+                var next = this.$('#' + this.collection.at(index + 1).id);
+                var prev = this.$('#' + this.collection.at(index - 1).id);
+                if (next.length > 0) {
+                    view.$el.insertBefore(next);
+                } else if (prev.length > 0) {
+                    view.$el.insertAfter(prev);
+                } else {
+                    // scan for the right spot
+                    var elements = this.$el.children();
+                    for (var i in elements) {
+                        var m = this.collection.get(elements[i].id);
+                        var m_index = this.collection.indexOf(m);
+                        if (m_index > index) {
+                            view.$el.insertBefore(elements[i]);
+                            break;
+                        }
+                    }
+                }
                 this.scrollToBottomIfNeeded();
             }
         },
