@@ -446,5 +446,9 @@
           "example": "1w"
         }
       }
+    },
+    "you": {
+      "message": "You",
+      "description": "A gender-neutral second-person prounoun used as a subject, as in, 'You set the timer to 5 seconds'"
     }
 }

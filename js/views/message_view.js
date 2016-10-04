@@ -53,11 +53,13 @@
         },
         render_attributes: function() {
             var seconds = this.model.get('expirationTimerUpdate').expireTimer;
+            var name = this.conversation.getTitle();
+            if (this.conversation.id === textsecure.storage.user.getNumber()) {
+                name = i18n('you');
+            }
             return {
-              content: i18n('changedTheTimer', [
-                         this.conversation.getTitle(),
-                         Whisper.ExpirationTimerOptions.getName(seconds)
-              ])
+              content: i18n('changedTheTimer', [name,
+                         Whisper.ExpirationTimerOptions.getName(seconds)])
             };
         }
     });
