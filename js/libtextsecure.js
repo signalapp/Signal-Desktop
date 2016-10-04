@@ -38467,14 +38467,15 @@ MessageReceiver.prototype.extend({
             decrypted.expireTimer = 0;
         }
 
-        if (decrypted.flags & (   textsecure.protobuf.DataMessage.Flags.END_SESSION
-                                | textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE )) {
+        if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
             decrypted.body = null;
             decrypted.attachments = [];
             decrypted.group = null;
             return Promise.resolve(decrypted);
-        }
-        if (decrypted.flags != 0) {
+        } else if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE ) {
+            decrypted.body = null;
+            decrypted.attachments = [];
+        } else if (decrypted.flags != 0) {
             throw new Error("Unknown flags in message");
         }
 
