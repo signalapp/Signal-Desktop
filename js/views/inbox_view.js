@@ -67,21 +67,27 @@
             this.currentSize = this.defaultSize;
             this.render();
         },
-        events: { 'mousewheel': 'zoomText' },
-        zoomText: function(e) {
-            if (e.ctrlKey === true) {
-                if (e.originalEvent.deltaY > 0) {
-                    if (this.currentSize > this.minSize) {
-                        this.currentSize--;
-                        this.render();
-                    }
-                } else if (e.originalEvent.deltaY < 0) {
-                    if (this.currentSize < this.maxSize) {
-                        this.currentSize++;
-                        this.render();
-                    }
+        events: { 'keydown': 'zoomText' },
+        zoomText: function(event) {
+            if (!event.ctrlKey)
+                return;
+            var keyCode = event.which || event.keyCode;
+            console.log(keyCode);
+            var maxSize = 22; // if bigger text goes outside send-message textarea
+            var minSize = 14;
+            if (keyCode === 189) {
+                console.log('font should decrease');
+                if (this.currentSize > minSize) {
+                    this.currentSize--;
+                }
+            } else if (keyCode === 187) {
+                console.log('font should increase');
+                if (this.currentSize < maxSize) {
+                    this.currentSize++;
                 }
             }
+            console.log(this.currentSize);
+            this.$el.css('font-size', this.currentSize + 'px');
         },
         render: function() {
             this.$el.css('font-size', this.currentSize + 'px');
