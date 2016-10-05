@@ -394,15 +394,18 @@
                         } else if (dataMessage.expireTimer) {
                             message.set({expireTimer: dataMessage.expireTimer});
                         }
-                        if (dataMessage.expireTimer) {
-                            if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                              conversation.addExpirationTimerUpdate(
-                                  dataMessage.expireTimer, source,
-                                  message.get('received_at'));
+
+                        if (!message.isEndSession()) {
+                            if (dataMessage.expireTimer) {
+                                if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
+                                  conversation.addExpirationTimerUpdate(
+                                      dataMessage.expireTimer, source,
+                                      message.get('received_at'));
+                                }
+                            } else if (conversation.get('expireTimer')) {
+                                conversation.addExpirationTimerUpdate(0, source,
+                                    message.get('received_at'));
                             }
-                        } else if (conversation.get('expireTimer')) {
-                            conversation.addExpirationTimerUpdate(0, source,
-                                message.get('received_at'));
                         }
 
                         var conversation_timestamp = conversation.get('timestamp');
