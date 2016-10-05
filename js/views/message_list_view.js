@@ -60,7 +60,10 @@
                 this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
                 this.measureScrollPosition();
             } else if (index === 0) {
+                // add to top
+                this.measureScrollPosition();
                 this.$el.prepend(view.el);
+                this.scrollToBottomIfNeeded();
             } else {
                 // insert
                 this.measureScrollPosition();
@@ -74,13 +77,17 @@
                 } else {
                     // scan for the right spot
                     var elements = this.$el.children();
-                    for (var i in elements) {
-                        var m = this.collection.get(elements[i].id);
-                        var m_index = this.collection.indexOf(m);
-                        if (m_index > index) {
-                            view.$el.insertBefore(elements[i]);
-                            break;
+                    if (elements.length > 0) {
+                        for (var i = 0; i < elements.length; ++i) {
+                            var m = this.collection.get(elements[i].id);
+                            var m_index = this.collection.indexOf(m);
+                            if (m_index > index) {
+                                view.$el.insertBefore(elements[i]);
+                                break;
+                            }
                         }
+                    } else {
+                        this.$el.append(view.el);
                     }
                 }
                 this.scrollToBottomIfNeeded();
