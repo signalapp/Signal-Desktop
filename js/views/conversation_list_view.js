@@ -9,7 +9,6 @@
         tagName: 'div',
         itemView: Whisper.ConversationListItemView,
         sort: function(conversation) {
-            console.log('sorting conversation', conversation.id);
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
                 var index = getInboxCollection().indexOf(conversation);
