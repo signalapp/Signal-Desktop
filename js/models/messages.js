@@ -120,6 +120,17 @@
                 id: this.get('conversationId')
             });
         },
+        getExpirationTimerUpdateSource: function() {
+            if (this.isExpirationTimerUpdate()) {
+              var conversationId = this.get('expirationTimerUpdate').source;
+              var c = ConversationController.get(conversationId);
+              if (!c) {
+                  c = ConversationController.create({id: conversationId, type: 'private'});
+                  c.fetch();
+              }
+              return c;
+            }
+        },
         getContact: function() {
             var conversationId = this.get('source');
             if (!this.isIncoming()) {

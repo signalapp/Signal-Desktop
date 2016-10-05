@@ -51,7 +51,7 @@
             return this.model.id;
         },
         initialize: function() {
-            this.conversation = this.model.getContact();
+            this.conversation = this.model.getExpirationTimerUpdateSource();
             this.listenTo(this.conversation, 'change', this.render);
         },
         render_attributes: function() {
