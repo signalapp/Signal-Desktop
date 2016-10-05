@@ -276,13 +276,13 @@
 
         listenBack: function(view) {
             this.panel = view;
-            this.$('.main.panel, .menu').hide();
+            this.$('.main.panel, .header-buttons.right').hide();
             this.$('.back').show();
             view.$el.insertBefore(this.$('.panel'));
         },
         resetPanel: function() {
             this.panel.remove();
-            this.$('.main.panel, .menu').show();
+            this.$('.main.panel, .header-buttons.right').show();
             this.$('.back').hide();
             this.$el.trigger('force-resize');
         },
