@@ -35541,7 +35541,12 @@ Internal.SessionRecord = function() {
         } else if (thing === Object(thing)) {
             var obj = {};
             for (var key in thing) {
-                obj[key] = ensureStringed(thing[key]);
+                try {
+                  obj[key] = ensureStringed(thing[key]);
+                } catch (ex) {
+                  console.log('Error serializing key', key);
+                  throw ex;
+                }
             }
             return obj;
         } else if (thing === null) {
@@ -35560,10 +35565,19 @@ Internal.SessionRecord = function() {
         version: 'v1',
         migrate: function migrateV1(data) {
           var sessions = data.sessions;
+          var key;
           if (data.registrationId) {
-              for (var key in sessions) {
+              for (key in sessions) {
                   if (!sessions[key].registrationId) {
                       sessions[key].registrationId = data.registrationId;
+                  }
+              }
+          } else {
+              for (key in sessions) {
+                  if (sessions[key].indexInfo.closed === -1) {
+                      console.log('V1 session storage migration error: registrationId',
+                          data.registrationId, 'for open session version',
+                          data.version);
                   }
               }
           }
@@ -35610,7 +35624,8 @@ Internal.SessionRecord = function() {
             });
         },
         haveOpenSession: function() {
-            return this.getOpenSession() !== undefined;
+            var openSession = this.getOpenSession();
+            return (!!openSession && !!openSession.registrationId);
         },
 
         getSessionByBaseKey: function(baseKey) {
