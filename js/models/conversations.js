@@ -69,9 +69,6 @@
 
         return this.getUnread().then(function(unreadMessages) {
             this.save({unreadCount: unreadMessages.length});
-            if (unreadMessages.length) {
-                console.log(this.id, 'unread messages:', unreadMessages.pluck('sent_at'));
-            }
         }.bind(this));
     },
 
