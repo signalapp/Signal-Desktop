@@ -56,14 +56,20 @@
         },
         render_attributes: function() {
             var seconds = this.model.get('expirationTimerUpdate').expireTimer;
-            var name = this.conversation.getTitle();
+            var timerMessage;
             if (this.conversation.id === textsecure.storage.user.getNumber()) {
-                name = i18n('you');
+                timerMessage = {
+                  content: i18n('youChangedTheTimer',
+                             Whisper.ExpirationTimerOptions.getName(seconds))
+                };
+            } else {
+                timerMessage = {
+                  content: i18n('theyChangedTheTimer', [
+                             this.conversation.getTitle(),
+                             Whisper.ExpirationTimerOptions.getName(seconds)])
+                };
             }
-            return {
-              content: i18n('changedTheTimer', [name,
-                         Whisper.ExpirationTimerOptions.getName(seconds)])
-            };
+            return timerMessage;
         }
     });
 

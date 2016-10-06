@@ -347,9 +347,19 @@
       "message": "Unblock this contact to send a message.",
       "description": "Brief message shown when trying to message a blocked number"
     },
-    "changedTheTimer": {
+    "youChangedTheTimer": {
+      "message": "You set the timer to $time$.",
+      "description": "Message displayed when you change the message expiration timer in a conversation.",
+      "placeholders": {
+        "time": {
+          "content": "$1",
+          "example": "10m"
+        }
+      }
+    },
+    "theyChangedTheTimer": {
       "message": "$name$ set the timer to $time$.",
-      "description": "Message displayed when someone changes the message expiration timer in a conversation.",
+      "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
       "placeholders": {
         "name": {
           "content": "$1",
@@ -446,10 +456,6 @@
           "example": "1w"
         }
       }
-    },
-    "you": {
-      "message": "You",
-      "description": "A gender-neutral second-person prounoun used as a subject, as in, 'You set the timer to 5 seconds'"
     },
     "safetyNumbersSettingHeader": {
       "message": "Safety numbers approval",
