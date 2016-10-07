@@ -87,15 +87,15 @@
 
             emoji_util.parse(this.$('.conversation-name'));
 
-            this.appWindow = options.appWindow;
+            this.window = options.window;
             this.fileInput = new Whisper.FileInputView({
                 el: this.$('form.send'),
-                window: this.appWindow.contentWindow
+                window: this.window
             });
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection,
-                window: this.appWindow.contentWindow
+                window: this.window
             });
             this.$('.discussion-container').append(this.view.el);
             this.view.render();
@@ -103,18 +103,18 @@
             this.$messageField = this.$('.send-message');
 
             var onResize = this.forceUpdateMessageFieldSize.bind(this);
-            this.appWindow.contentWindow.addEventListener('resize', onResize);
+            this.window.addEventListener('resize', onResize);
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
                     this.markRead();
                 }
             }.bind(this);
-            this.appWindow.contentWindow.addEventListener('focus', onFocus);
+            this.window.addEventListener('focus', onFocus);
 
             extension.windows.onClosed(function () {
-                this.appWindow.contentWindow.removeEventListener('resize', onResize);
-                this.appWindow.contentWindow.removeEventListener('focus', onFocus);
+                this.window.removeEventListener('resize', onResize);
+                this.window.removeEventListener('focus', onFocus);
                 window.autosize.destroy(this.$messageField);
                 this.remove();
                 this.model.messageCollection.reset([]);
@@ -313,7 +313,7 @@
         newGroupUpdate: function() {
             this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
                 model: this.model,
-                window: this.appWindow.contentWindow
+                window: this.window
             });
             this.listenBack(this.newGroupUpdateView);
         },

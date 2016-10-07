@@ -49,7 +49,7 @@
                 if ($el === null || $el.length === 0) {
                     var view = new Whisper.ConversationView({
                         model: conversation,
-                        appWindow: this.model.appWindow
+                        window: this.model.window
                     });
                     $el = view.$el;
                 }
@@ -107,7 +107,7 @@
             new Whisper.FontSizeView({ el: this.$el });
             this.conversation_stack = new Whisper.ConversationStack({
                 el: this.$('.conversation-stack'),
-                model: { appWindow: options.appWindow }
+                model: { window: options.window }
             });
 
             var inboxCollection = getInboxCollection();
