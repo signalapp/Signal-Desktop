@@ -58,18 +58,14 @@
             var seconds = this.model.get('expirationTimerUpdate').expireTimer;
             var timerMessage;
             if (this.conversation.id === textsecure.storage.user.getNumber()) {
-                timerMessage = {
-                  content: i18n('youChangedTheTimer',
-                             Whisper.ExpirationTimerOptions.getName(seconds))
-                };
+                timerMessage = i18n('youChangedTheTimer',
+                  Whisper.ExpirationTimerOptions.getName(seconds));
             } else {
-                timerMessage = {
-                  content: i18n('theyChangedTheTimer', [
-                             this.conversation.getTitle(),
-                             Whisper.ExpirationTimerOptions.getName(seconds)])
-                };
+                timerMessage = i18n('theyChangedTheTimer', [
+                  this.conversation.getTitle(),
+                  Whisper.ExpirationTimerOptions.getName(seconds)]);
             }
-            return timerMessage;
+            return { content: timerMessage };
         }
     });
 
