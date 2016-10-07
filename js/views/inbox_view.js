@@ -69,8 +69,9 @@
         },
         events: { 'keydown': 'zoomText' },
         zoomText: function(e) {
-            if (!e.ctrlKey)
+            if (!e.ctrlKey) {
                 return;
+            }
             var keyCode = e.which || e.keyCode;
             var maxSize = 22; // if bigger text goes outside send-message textarea
             var minSize = 14;
