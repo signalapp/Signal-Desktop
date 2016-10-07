@@ -1,4 +1,8 @@
 {
+    "timerOption_10_seconds": {
+        "message": "10 sekuntia",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "lastSynced": {
         "message": "Viimeksi tuotu",
         "description": "Label for date and time of last sync operation"
@@ -7,6 +11,16 @@
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "youChangedTheTimer": {
+        "message": "Sinä asetit ajastimen: $time$.",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "settings": {
         "message": "Asetukset",
         "description": "Menu item and header for global settings"
@@ -14,6 +28,10 @@
     "incomingKeyConflict": {
         "message": "Vastaanotettiin viesti tuntemattomalla identiteettiavaimella. Aloita käsittely napsauttamalla.",
         "description": ""
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installComputerName": {
         "message": "Tämän tietokoneen nimeksi tulee",
@@ -27,9 +45,17 @@
         "message": "Selvä!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "disappearingMessages": {
+        "message": "Viestien katoaminen",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
     "showMore": {
         "message": "Lisätietoja",
         "description": "Displays the details of a key change"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5m",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
@@ -58,6 +84,10 @@
     "timestamp_h": {
         "message": "1 tunti",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "poissa päältä",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "syncExplanation": {
         "message": "Tuo kaikkien Signal-yhteystietojen ja -ryhmien tiedot mobiililaitteestasi.",
@@ -99,9 +129,27 @@
         "message": "Lähetetty",
         "description": "Label for the time a message was sent"
     },
+    "theyChangedTheTimer": {
+        "message": "$name$ asetti ajastimen: $time$.",
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
+    },
     "timestamp_s": {
         "message": "nyt",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_1_day": {
+        "message": "1 päivä",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
         "message": "Ilmoita ongelmasta",
@@ -165,6 +213,10 @@
         "message": "Oma identiteettisi",
         "description": "Label for the user's own identity key."
     },
+    "safetyNumbersSettingHeader": {
+        "message": "Turvanumeroiden hyväksyntä",
+        "description": "Description for safety numbers setting"
+    },
     "installTooManyDevices": {
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
         "description": ""
@@ -187,9 +239,27 @@
         "message": "Synkronoidaan ryhmiä ja yhteystietoja",
         "description": ""
     },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "upgrade": {
         "message": "Päivitä",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Sinun ja yhteystiedon $name$ turvanumerot",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "showLess": {
         "message": "Piilota lisätiedot",
@@ -215,17 +285,33 @@
         "message": "Hyväksy",
         "description": "Label for a button to accept a new identity key"
     },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12t",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6t",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unregisteredUser": {
         "message": "Numero ei ole rekisteröity.",
         "description": "Error message displayed when sending to an unregistered user."
     },
+    "timerOption_1_day_abbreviated": {
+        "message": "1p",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sync": {
         "message": "Yhteystiedot",
         "description": "Label for contact and group sync settings"
+    },
+    "timerOption_1_week": {
+        "message": "1 viikko",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
         "message": "Selvä!",
@@ -234,6 +320,10 @@
     "received": {
         "message": "Vastaanotettu",
         "description": "Label for the time a message was received"
+    },
+    "timerOption_30_seconds": {
+        "message": "30 sekuntia",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
         "message": "Lähetä viesti",
@@ -254,6 +344,10 @@
     "fileSizeWarning": {
         "message": "Valitettavasti kyseinen tiedosto ylittää viesteille asetetun kokorajoituksen.",
         "description": ""
+    },
+    "timerOption_0_seconds": {
+        "message": "pois päältä",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
         "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Yhdistetyt laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
@@ -295,6 +389,14 @@
         "message": "Aloita",
         "description": ""
     },
+    "timerOption_1_week_abbreviated": {
+        "message": "1vk",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_seconds": {
+        "message": "5 sekuntia",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "installSignalLink": {
         "message": "Asenna <a $a_params$>Signal</a> ensin Android puhelimeesi.<br /> Yhdistämme laitteesi toisiinsa ja synkronoimme viestisi.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -325,9 +427,27 @@
         "message": "Lähetä",
         "description": ""
     },
+    "keychanged": {
+        "message": "Yhteystiedon $name$ turvanumerot ovat vaihtuneet",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "safetyNumbersSettingDescription": {
+        "message": "Jos yhteystiedon turvanumerot vaihtuvat, vaadi niiden erillistä hyväksymistä",
+        "description": "Description for safety numbers setting"
+    },
     "to": {
         "message": "Vastaanottajat",
         "description": "Label for the receiver of a message"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1t",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installFinalButton": {
         "message": "Hyvältä näyttää",
@@ -340,6 +460,10 @@
     "verify": {
         "message": "Varmenna",
         "description": ""
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "nameAndMessage": {
         "message": "sekä nimi että viesti",
@@ -364,6 +488,20 @@
     "error": {
         "message": "Virhe",
         "description": ""
+    },
+    "timerSetTo": {
+        "message": "Ajastin asetettu: $time$",
+        "description": "Displayed in the conversation list when the timer is updated.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "notifications": {
         "message": "Ilmoitukset",

@@ -1,4 +1,8 @@
 {
+    "timerOption_10_seconds": {
+        "message": "10 seconds",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "lastSynced": {
         "message": "Ultima importación a ",
         "description": "Label for date and time of last sync operation"
@@ -7,6 +11,16 @@
         "message": "Tipo de archivo adjunto no admitido. Haga clic para guardarlo.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "youChangedTheTimer": {
+        "message": "You set the timer to $time$.",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "settings": {
         "message": "Parámetros",
         "description": "Menu item and header for global settings"
@@ -14,6 +28,10 @@
     "incomingKeyConflict": {
         "message": "Mensaje recibido con una clave identificadora desconocida. Haga clic para procesar y mostrarlo.",
         "description": ""
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installComputerName": {
         "message": "El nombre de este dispositivo será",
@@ -27,9 +45,17 @@
         "message": "¡Entendido!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "disappearingMessages": {
+        "message": "Disappearing messages",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
     "showMore": {
         "message": "Detalles",
         "description": "Displays the details of a key change"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5m",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unsupportedFileType": {
         "message": "Tipo de archivo no admitido",
@@ -58,6 +84,10 @@
     "timestamp_h": {
         "message": "1 hora",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "off",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "syncExplanation": {
         "message": "Importar todos los grupos y contactos de Signal desde su dispositivo móvil.",
@@ -99,9 +129,27 @@
         "message": "Enviado",
         "description": "Label for the time a message was sent"
     },
+    "theyChangedTheTimer": {
+        "message": "$name$ set the timer to $time$.",
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
+    },
     "timestamp_s": {
         "message": "ahora",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_1_day": {
+        "message": "1 day",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
         "message": "Informar de un problema",
@@ -165,6 +213,10 @@
         "message": "Tu identidad",
         "description": "Label for the user's own identity key."
     },
+    "safetyNumbersSettingHeader": {
+        "message": "Safety numbers approval",
+        "description": "Description for safety numbers setting"
+    },
     "installTooManyDevices": {
         "message": "Lo sentimos, ya tiene demasiados dispositivos vinculados. Pruebe a eliminar algunos.",
         "description": ""
@@ -187,9 +239,27 @@
         "message": "Sincronizando grupos y contactos",
         "description": ""
     },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "upgrade": {
         "message": "Actualizar",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Your safety number with $name$",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "showLess": {
         "message": "Ocultar detalles",
@@ -215,17 +285,33 @@
         "message": "Aceptar",
         "description": "Label for a button to accept a new identity key"
     },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12h",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6h",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unregisteredUser": {
         "message": "El número no está registrado.",
         "description": "Error message displayed when sending to an unregistered user."
     },
+    "timerOption_1_day_abbreviated": {
+        "message": "1d",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sync": {
         "message": "Contactos",
         "description": "Label for contact and group sync settings"
+    },
+    "timerOption_1_week": {
+        "message": "1 week",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
         "message": "Entendido",
@@ -234,6 +320,10 @@
     "received": {
         "message": "Recibido",
         "description": "Label for the time a message was received"
+    },
+    "timerOption_30_seconds": {
+        "message": "30 seconds",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
         "message": "Enviar mensaje",
@@ -254,6 +344,10 @@
     "fileSizeWarning": {
         "message": "Lo sentimos, el archivo seleccionado excede las restricciones de tamaño.",
         "description": ""
+    },
+    "timerOption_0_seconds": {
+        "message": "off",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
         "message": "Abra Signal en su teléfono móvíl, y seleccione Parámetros > Dispositivos enlazados. Pulse el botón para añadir un nuevo dispositivo, después escanee el código QR.",
@@ -295,6 +389,14 @@
         "message": "Comience",
         "description": ""
     },
+    "timerOption_1_week_abbreviated": {
+        "message": "1w",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_seconds": {
+        "message": "5 seconds",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "installSignalLink": {
         "message": "Primero, instale <a $a_params$> Signal </a> en su teléfono Android. <br /> Así vincularemos sus dispositivos y mantendremos sus mensajes sincronizados.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -325,9 +427,27 @@
         "message": "Enviar",
         "description": ""
     },
+    "keychanged": {
+        "message": "$name$'s safety numbers have changed",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "safetyNumbersSettingDescription": {
+        "message": "Require approval of new safety numbers when they change.",
+        "description": "Description for safety numbers setting"
+    },
     "to": {
         "message": "Para",
         "description": "Label for the receiver of a message"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1h",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installFinalButton": {
         "message": "Todo está bien",
@@ -340,6 +460,10 @@
     "verify": {
         "message": "Verificar",
         "description": ""
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "nameAndMessage": {
         "message": "Nombre del emisor y mensaje",
@@ -364,6 +488,20 @@
     "error": {
         "message": "Error",
         "description": ""
+    },
+    "timerSetTo": {
+        "message": "Timer set to $time$",
+        "description": "Displayed in the conversation list when the timer is updated.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "notifications": {
         "message": "Notificaciones",

@@ -1,4 +1,8 @@
 {
+    "timerOption_10_seconds": {
+        "message": "10 seconden",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "lastSynced": {
         "message": "Laatst geïmporteerd op",
         "description": "Label for date and time of last sync operation"
@@ -7,6 +11,16 @@
         "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "youChangedTheTimer": {
+        "message": "You set the timer to $time$.",
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "settings": {
         "message": "Instellingen",
         "description": "Menu item and header for global settings"
@@ -14,6 +28,10 @@
     "incomingKeyConflict": {
         "message": "Bericht ontvangen met een onbekende identiteitssleutel. Klik om deze te tonen en verwerken.",
         "description": ""
+    },
+    "timerOption_5_seconds_abbreviated": {
+        "message": "5s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installComputerName": {
         "message": "De naam van deze computer zal zijn",
@@ -27,9 +45,17 @@
         "message": "Begrepen!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
+    "disappearingMessages": {
+        "message": "Verdwijnende berichten",
+        "description": "Conversation menu option to enable disappearing messages"
+    },
     "showMore": {
         "message": "Details",
         "description": "Displays the details of a key change"
+    },
+    "timerOption_5_minutes_abbreviated": {
+        "message": "5m",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unsupportedFileType": {
         "message": "Niet-ondersteund bestandstype",
@@ -58,6 +84,10 @@
     "timestamp_h": {
         "message": "1 uur",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_0_seconds_abbreviated": {
+        "message": "uit",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "syncExplanation": {
         "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
@@ -99,9 +129,27 @@
         "message": "Verzonden",
         "description": "Label for the time a message was sent"
     },
+    "theyChangedTheTimer": {
+        "message": "$name$ set the timer to $time$.",
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
+    },
     "timestamp_s": {
         "message": "nu",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "timerOption_1_day": {
+        "message": "1 dag",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
         "message": "Meld een probleem",
@@ -165,6 +213,10 @@
         "message": "Jouw identiteit",
         "description": "Label for the user's own identity key."
     },
+    "safetyNumbersSettingHeader": {
+        "message": "Veiligheidsnummerbevestiging",
+        "description": "Description for safety numbers setting"
+    },
     "installTooManyDevices": {
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
@@ -187,9 +239,27 @@
         "message": "Groepen en contacten aan het synchroniseren",
         "description": ""
     },
+    "timerOption_30_minutes_abbreviated": {
+        "message": "30m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_1_minute_abbreviated": {
+        "message": "1m",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "upgrade": {
         "message": "Opwaarderen",
         "description": "Label text for button to upgrade the app to the latest version"
+    },
+    "yourSafetyNumberWith": {
+        "message": "Je veiligheidsnummer met $name$",
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "showLess": {
         "message": "Details verbergen",
@@ -215,17 +285,33 @@
         "message": "Aanvaarden",
         "description": "Label for a button to accept a new identity key"
     },
+    "timerOption_12_hours_abbreviated": {
+        "message": "12u",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timerOption_6_hours_abbreviated": {
+        "message": "6u",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "unregisteredUser": {
         "message": "Nummer is niet geregistreerd",
         "description": "Error message displayed when sending to an unregistered user."
     },
+    "timerOption_1_day_abbreviated": {
+        "message": "1d",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "sync": {
         "message": "Contacten",
         "description": "Label for contact and group sync settings"
+    },
+    "timerOption_1_week": {
+        "message": "1 week",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
         "message": "Begrepen",
@@ -234,6 +320,10 @@
     "received": {
         "message": "Ontvangen",
         "description": "Label for the time a message was received"
+    },
+    "timerOption_30_seconds": {
+        "message": "30 seconden",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
         "message": "Een bericht versturen",
@@ -254,6 +344,10 @@
     "fileSizeWarning": {
         "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
         "description": ""
+    },
+    "timerOption_0_seconds": {
+        "message": "uit",
+        "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
         "message": "Open Signal op je telefoon en ga naar Instellingen > Gekoppelde apparaten. Tik op de knop om een nieuw apparaat toe te voegen en scan daarna de code hierboven.",
@@ -295,6 +389,14 @@
         "message": "Aan de slag",
         "description": ""
     },
+    "timerOption_1_week_abbreviated": {
+        "message": "1w",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "timerOption_5_seconds": {
+        "message": "5 seconden",
+        "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "installSignalLink": {
         "message": "Installeer eerst <a $a_params$>Signal</a> op je Android-telefoon.<br /> We zullen je apparaten koppelen en je berichten gesynchroniseerd houden.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -325,9 +427,27 @@
         "message": "Verzenden",
         "description": ""
     },
+    "keychanged": {
+        "message": "De veiligheidsnummers van $name$ zijn veranderd",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "safetyNumbersSettingDescription": {
+        "message": "Vereis bevestiging van nieuwe veiligheidsnummers.",
+        "description": "Description for safety numbers setting"
+    },
     "to": {
         "message": "Naar",
         "description": "Label for the receiver of a message"
+    },
+    "timerOption_1_hour_abbreviated": {
+        "message": "1u",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installFinalButton": {
         "message": "Prima",
@@ -340,6 +460,10 @@
     "verify": {
         "message": "Verifiëren",
         "description": ""
+    },
+    "timerOption_10_seconds_abbreviated": {
+        "message": "10s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "nameAndMessage": {
         "message": "Naam van afzender en berichtinhoud",
@@ -364,6 +488,20 @@
     "error": {
         "message": "Fout",
         "description": ""
+    },
+    "timerSetTo": {
+        "message": "Timer ingesteld op $time$",
+        "description": "Displayed in the conversation list when the timer is updated.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
+    },
+    "timerOption_30_seconds_abbreviated": {
+        "message": "30s",
+        "description": "Label for a selectable option in the message expiration timer menu"
     },
     "notifications": {
         "message": "Meldingen",
