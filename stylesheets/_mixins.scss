@@ -34,3 +34,11 @@
   &.grey        { background-color: #999999               ; }
   &.default     { background-color: $blue                 ; }
 }
+@mixin invert-text-color {
+  color: white;
+
+  &::selection {
+    background: white;
+    color: $grey_d;
+  }
+}
