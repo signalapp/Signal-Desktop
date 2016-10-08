@@ -1451,6 +1451,9 @@ li.entry .error-icon-container {
     line-height: 64px; }
   .ios .conversation-header .avatar {
     display: none; }
+.ios .settings h3,
+.ios .menu-list li {
+  text-transform: capitalize; }
 .ios .bottom-bar {
   padding: 15px;
   min-height: 30px;

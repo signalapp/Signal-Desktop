@@ -63,7 +63,7 @@
       "message": "Disconnected"
     },
     "submitDebugLog": {
-      "message": "Submit Debug Log",
+      "message": "Submit debug log",
       "description": "Menu item and header text for debug log modal, title case."
     },
     "searchForPeopleOrGroups": {
@@ -118,14 +118,14 @@
       "message": "Members"
     },
     "resetSession": {
-        "message": "Reset Session",
+        "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "verifyIdentity": {
         "message": "Verify Identity"
     },
     "verifySafetyNumbers": {
-        "message": "Verify Safety Numbers"
+        "message": "Verify safety numbers"
     },
     "theirIdentity": {
         "message": "Their identity",
@@ -139,7 +139,7 @@
         "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
     },
     "deleteMessages": {
-        "message": "Delete Messages",
+        "message": "Delete messages",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {

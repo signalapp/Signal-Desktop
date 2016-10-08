@@ -64,6 +64,10 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
     .avatar { display: none; }
   }
+  .settings h3,
+  .menu-list li {
+    text-transform: capitalize;
+  }
   .bottom-bar {
     padding: 15px;
     min-height: 30px;
