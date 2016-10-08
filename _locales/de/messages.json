@@ -8,11 +8,15 @@
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Nicht unterstütztes Anhangsformat. Zum Speichern anklicken.",
+        "message": "Nicht unterstützter Anhangstyp. Zum Speichern anklicken.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Sicherheitsnummern überprüfen",
+        "description": ""
+    },
     "youChangedTheTimer": {
-        "message": "Sie haben die Zeitbegrenzung auf $time$ festgelegt.",
+        "message": "Du hast die Zeitbegrenzung auf $time$ festgelegt.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Der Name dieses Computers lautet",
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5min",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Nicht unterstützter Dateityp",
@@ -87,10 +91,10 @@
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "aus",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Alle Signal-Gruppen und -Kontakte von Ihrem Mobilgerät importieren.",
+        "message": "Alle Signal-Gruppen und -Kontakte von deinem Mobilgerät importieren.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -98,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Unterhaltung löschen",
+        "message": "Nachrichten löschen",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -106,7 +110,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Wählen Sie einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
+        "message": "Wähle einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
         "description": ""
     },
     "installConnecting": {
@@ -114,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Sie sollten diesen Kontakt ggf. $tag_start$ überprüfen $tag_end$.",
+        "message": "Du solltest diesen Kontakt ggf. $tag_start$ überprüfen $tag_end$.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -144,7 +148,7 @@
         }
     },
     "timestamp_s": {
-        "message": "Jetzt",
+        "message": "Gerade eben",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
@@ -152,7 +156,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
-        "message": "Melden Sie ein Problem",
+        "message": "Problem melden",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -176,7 +180,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor Sie das Protokoll übermitteln, können Sie es noch einmal untersuchen und bearbeiten.",
+        "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal untersuchen und bearbeiten.",
         "description": ""
     },
     "searchForPeopleOrGroups": {
@@ -192,11 +196,11 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Importieren gescheitert. Stellen Sie sicher, dass Ihr Computer und Ihr Mobilgerät mit dem Internet verbunden sind.",
+        "message": "Importieren gescheitert. Stelle sicher, dass dein Computer und dein Mobilgerät mit dem Internet verbunden sind.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Folgen Sie uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
+        "message": "<a $a_params$>Folge uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -206,11 +210,11 @@
         }
     },
     "learnMore": {
-        "message": "Erfahren Sie mehr über das Überprüfen von Schlüsseln.",
+        "message": "Erfahre mehr über das Überprüfen von Schlüsseln.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Ihr Identitätsschlüssel:",
+        "message": "Dein Identitätsschlüssel:",
         "description": "Label for the user's own identity key."
     },
     "safetyNumbersSettingHeader": {
@@ -218,11 +222,11 @@
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
-        "message": "Es sind bereits zu viele Geräte verknüpft. Versuchen Sie, einige zu entfernen.",
+        "message": "Es sind bereits zu viele Geräte verknüpft. Versuche, einige zu entfernen.",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "Installieren Sie zunächst Signal auf Ihrem <a $play_store$>Android-Gerät</a> oder <a $app_store$>iPhone</a>.<br /> Wir werden Ihre Geräte verknüpfen und Ihre Nachrichten synchronisiert halten.",
+        "message": "Installiere zunächst Signal auf deinem <a $play_store$>Android-Gerät</a> oder <a $app_store$>iPhone</a>.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -241,18 +245,18 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30min",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1min",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Aktualisieren",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Ihre Sicherheitsnummern mit $name$",
+        "message": "Deine Sicherheitsnummern mit $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Details ausblenden",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Design",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Neuer Identitätsschlüssel",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "D. MMM",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Rufnummer ist nicht registriert",
@@ -303,7 +311,7 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Kontakte",
@@ -334,7 +342,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "Diese Version von Signal Desktop ist veraltet. Bitte führen Sie eine Aktualisierung auf die aktuellste Version durch, um weiterhin Nachrichten austauschen zu können.",
+        "message": "Diese Version von Signal Desktop ist veraltet. Bitte führe eine Aktualisierung auf die aktuellste Version durch, um weiterhin Nachrichten austauschen zu können.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -350,7 +358,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Öffnen Sie Signal auf Ihrem Mobilgerät und gehen Sie zu »Einstellungen« > »Verknüpfte Geräte«. Tippen Sie die Schaltfläche zum Hinzufügen eines neuen Geräts an und scannen Sie dann den oben dargestellten Code ein.",
+        "message": "Öffne Signal auf deinem Mobilgerät und gehe zu »Einstellungen« > »Verknüpfte Geräte«. Tippe die Schaltfläche zum Hinzufügen eines neuen Geräts an und scanne dann den oben dargestellten Code ein.",
         "description": ""
     },
     "installWelcome": {
@@ -374,7 +382,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Heben Sie die Blockierung für diesen Kontakt auf, um eine Nachricht zu senden.",
+        "message": "Hebe die Blockierung für diesen Kontakt auf, um eine Nachricht zu senden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -386,19 +394,19 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Legen Sie los",
+        "message": "Leg los",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
         "message": "1w",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
         "message": "5 Sekunden",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "Installieren Sie zunächst <a $a_params$>Signal</a> auf Ihrem Android-Gerät.<br /> Wir werden Ihre Geräte verknüpfen und Ihre Nachrichten synchronisiert halten.",
+        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Android-Gerät.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -420,7 +428,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Sie haben bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Der Identitätsschlüssel des Kontakts wird nach der ersten Nachricht verfügbar sein.",
+        "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Der Identitätsschlüssel des Kontakts wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
     },
     "submit": {
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Sieht gut aus",
@@ -463,14 +471,14 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Kontaktname und Nachricht",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Versand an einige Empfänger gescheitert. Überprüfen Sie Ihre Netzwerkverbindung.",
+        "message": "Versand an einige Empfänger gescheitert. Überprüfe deine Netzwerkverbindung.",
         "description": ""
     },
     "ok": {
@@ -478,7 +486,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Dieser Kontakt verwendet einen neuen Signal-Identitätsschlüssel. Dies kann entweder bedeuten, dass jemand versucht, Ihre Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchten Sie den neuen Identitätsschlüssel unten überprüfen.",
+        "message": "Dieser Kontakt verwendet einen neuen Signal-Identitätsschlüssel. Dies kann entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchtest du den neuen Identitätsschlüssel unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Benachrichtigungen",

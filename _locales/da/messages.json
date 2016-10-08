@@ -11,6 +11,10 @@
         "message": "Ikke-understøttet vedhæftningstype. Klik for at gemme.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Verify safety numbers",
+        "description": ""
+    },
     "youChangedTheTimer": {
         "message": "You set the timer to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Denne computers navn vil være",
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Ikke-understøttet fil-type",
@@ -66,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Nulstil session",
+        "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -87,7 +91,7 @@
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "off",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Import all Signal groups and contacts from your mobile device.",
@@ -98,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Slet besked",
+        "message": "Delete messages",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -241,11 +245,11 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Opgrader",
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Skjul detaljer",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Theme",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Ny identitet.",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "MMM D",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Number is not registered",
@@ -303,7 +311,7 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Contacts",
@@ -391,7 +399,7 @@
     },
     "timerOption_1_week_abbreviated": {
         "message": "1w",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
         "message": "5 seconds",
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Det ser godt ud",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Både navn og besked",
@@ -482,7 +490,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Send Debug Log",
+        "message": "Submit debug log",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Notifikationer",

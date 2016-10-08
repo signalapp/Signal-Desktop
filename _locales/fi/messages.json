@@ -11,8 +11,12 @@
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Varmenna turvanumerot",
+        "description": ""
+    },
     "youChangedTheTimer": {
-        "message": "Sinä asetit ajastimen: $time$.",
+        "message": "Sinä asetit katoamisajan: $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Tämän tietokoneen nimeksi tulee",
@@ -46,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Viestien katoaminen",
+        "message": "Katoavat viestit",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Tiedostotyyppiä ei tueta",
@@ -87,7 +91,7 @@
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "poissa päältä",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Tuo kaikkien Signal-yhteystietojen ja -ryhmien tiedot mobiililaitteestasi.",
@@ -130,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ asetti ajastimen: $time$.",
+        "message": "$name$ asetti katoamisajan: $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -241,11 +245,11 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Päivitä",
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Piilota lisätiedot",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Teema",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Uusi identiteetti",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12t",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6t",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Numero ei ole rekisteröity.",
@@ -303,7 +311,7 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1p",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Yhteystiedot",
@@ -391,7 +399,7 @@
     },
     "timerOption_1_week_abbreviated": {
         "message": "1vk",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
         "message": "5 sekuntia",
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1t",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Hyvältä näyttää",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "sekä nimi että viesti",
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Ilmoitukset",

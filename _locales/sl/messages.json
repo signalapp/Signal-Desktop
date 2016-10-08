@@ -11,8 +11,12 @@
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Overi varnostna števila",
+        "description": ""
+    },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Odštevanje ste nastavili na $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Ime tega računalnika naj bo",
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Nepodprta vrsta datoteke",
@@ -87,7 +91,7 @@
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "Izključeno",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Uvoz stikov in skupin Signal iz mobilne naprave.",
@@ -130,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "Uporabnik $name$ je nastavil odštevanje na $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -241,11 +245,11 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Posodobi",
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Skrij podrobnosti",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Tema",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Nova identiteta",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "MMM D",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Številka ni registrirana",
@@ -303,7 +311,7 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Stiki",
@@ -391,7 +399,7 @@
     },
     "timerOption_1_week_abbreviated": {
         "message": "1t",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
         "message": "5 sekund",
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Izgleda super",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Ime pošiljatelja in sporočilo",
@@ -482,7 +490,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Oddaj sistemsko zabeležbo",
+        "message": "Pošlji sistemsko zabeležbo",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Obvestila",

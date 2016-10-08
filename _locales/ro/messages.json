@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 secunde",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -11,8 +11,12 @@
         "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Verifică numerele de siguranță",
+        "description": ""
+    },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Ai setat cronometrul la $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Numele acestui calculator va fi",
@@ -46,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Mesaje care dispar",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Tipul fişierului nu este suportat",
@@ -86,8 +90,8 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "Oprit",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Importă toate grupurile și contactele Signal de pe dispozitivul tău mobil.",
@@ -98,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Şterge mesajele",
+        "message": "Șterge mesajele",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -130,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ a setat cronometrul la $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -148,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 zi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -214,7 +218,7 @@
         "description": "Label for the user's own identity key."
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Aprobare numere de siguranță",
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
@@ -241,18 +245,18 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Actualizează",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Numărul tău de siguranță cu $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Ascunde detaliile",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Temă",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Identitate nouă",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Numărul nu este înregistrat",
@@ -303,14 +311,14 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Contacte",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 săptămână",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -322,7 +330,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 secunde",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -346,7 +354,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "Oprit",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -391,10 +399,10 @@
     },
     "timerOption_1_week_abbreviated": {
         "message": "1w",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 secunde",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -428,7 +436,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "Numerele de siguranță pentru $name$ s-au schimbat",
         "description": "",
         "placeholders": {
             "name": {
@@ -438,7 +446,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Cere aprobare pentru noile numere de siguranță când s-au schimbat.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Totul e ok",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Şi numele expeditorului şi mesajul",
@@ -490,7 +498,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Cronometru setat la $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Notificări",

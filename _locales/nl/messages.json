@@ -11,8 +11,12 @@
         "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "verifySafetyNumbers": {
+        "message": "Veiligheidsnummers verifiëren",
+        "description": ""
+    },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Je hebt de timer ingesteld op $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "De naam van deze computer zal zijn",
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Niet-ondersteund bestandstype",
@@ -87,7 +91,7 @@
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "uit",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
@@ -130,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ heeft de timer ingesteld op $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -241,11 +245,11 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
         "message": "Opwaarderen",
@@ -264,6 +268,10 @@
     "showLess": {
         "message": "Details verbergen",
         "description": "Hides the details of a key change"
+    },
+    "theme": {
+        "message": "Thema",
+        "description": "Header for theme settings"
     },
     "newIdentity": {
         "message": "Nieuwe identiteit",
@@ -287,7 +295,7 @@
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12u",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -295,7 +303,7 @@
     },
     "timerOption_6_hours_abbreviated": {
         "message": "6u",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Nummer is niet geregistreerd",
@@ -303,7 +311,7 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Contacten",
@@ -391,7 +399,7 @@
     },
     "timerOption_1_week_abbreviated": {
         "message": "1w",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
         "message": "5 seconden",
@@ -447,7 +455,7 @@
     },
     "timerOption_1_hour_abbreviated": {
         "message": "1u",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Prima",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Naam van afzender en berichtinhoud",
@@ -501,7 +509,7 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
         "message": "Meldingen",

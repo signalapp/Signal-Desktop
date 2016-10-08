@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -10,6 +10,10 @@
     "unsupportedAttachment": {
         "message": "Okänd filtyp på bilaga. Klicka för att spara.",
         "description": "Displayed for incoming unsupported attachment"
+    },
+    "verifySafetyNumbers": {
+        "message": "Verify safety numbers",
+        "description": ""
     },
     "youChangedTheTimer": {
         "message": "You set the timer to $time$.",
@@ -31,7 +35,7 @@
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
         "message": "Datornamnet kommer att vara",
@@ -46,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Försvinnande meddelanden",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -55,7 +59,7 @@
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Filtypen stöds ej",
@@ -66,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Återställ session",
+        "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -74,7 +78,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "När du får meddelanden, visa aviseringar som visar:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -86,8 +90,8 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "av",
+        "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
         "message": "Import all Signal groups and contacts from your mobile device.",
@@ -98,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Radera meddelanden",
+        "message": "Delete messages",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -148,15 +152,15 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 dag",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Anmäl ett programfel",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nytt meddelande",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
@@ -180,7 +184,7 @@
         "description": ""
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Sök...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -210,7 +214,7 @@
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
-        "message": "Your identity",
+        "message": "Din identitet",
         "description": "Label for the user's own identity key."
     },
     "safetyNumbersSettingHeader": {
@@ -241,14 +245,14 @@
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Uppgradera",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
@@ -265,8 +269,12 @@
         "message": "Hide details",
         "description": "Hides the details of a key change"
     },
+    "theme": {
+        "message": "Theme",
+        "description": "Header for theme settings"
+    },
     "newIdentity": {
-        "message": "New Identity",
+        "message": "Ny identitet",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -282,20 +290,20 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Godkänn",
         "description": "Label for a button to accept a new identity key"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "12t",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "6t",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
         "message": "Number is not registered",
@@ -303,14 +311,14 @@
     },
     "timerOption_1_day_abbreviated": {
         "message": "1d",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
         "message": "Contacts",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 vecka",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -322,7 +330,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -334,7 +342,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Den här versionen av Signal-Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
@@ -366,7 +374,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Stäng av aviseringar",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -390,11 +398,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "1v",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -412,11 +420,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Their identity",
+        "message": "Deras identitet",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nya meddelanden",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
@@ -446,8 +454,8 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "message": "1t",
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "Ser bra ut",
@@ -463,7 +471,7 @@
     },
     "timerOption_10_seconds_abbreviated": {
         "message": "10s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
         "message": "Both sender name and message",
@@ -482,7 +490,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit Debug Log",
+        "message": "Submit debug log",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -501,10 +509,10 @@
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
-        "description": "Label for a selectable option in the message expiration timer menu"
+        "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Aviseringar",
         "description": "Header for notification settings"
     },
     "resend": {
