@@ -124,6 +124,9 @@
     "verifyIdentity": {
         "message": "Verify Identity"
     },
+    "verifySafetyNumbers": {
+        "message": "Verify Safety Numbers"
+    },
     "theirIdentity": {
         "message": "Their identity",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."

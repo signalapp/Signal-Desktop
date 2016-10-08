@@ -66,7 +66,7 @@
                 expireTimer: this.model.get('expireTimer'),
                 'view-members'    : i18n('members'),
                 'end-session'     : i18n('resetSession'),
-                'verify-identity' : i18n('verifyIdentity'),
+                'verify-identity' : i18n('verifySafetyNumbers'),
                 'destroy'         : i18n('deleteMessages'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),
