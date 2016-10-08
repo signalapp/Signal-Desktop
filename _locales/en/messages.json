@@ -408,51 +408,51 @@
     },
     "timerOption_0_seconds_abbreviated": {
       "message": "off",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
       "message": "5s",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_10_seconds_abbreviated": {
       "message": "10s",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_seconds_abbreviated": {
       "message": "30s",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
       "message": "1m",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
       "message": "5m",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
       "message": "30m",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
       "message": "1h",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
       "message": "6h",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
       "message": "12h",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
       "message": "1d",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
       "message": "1w",
-      "description": "Label for a selectable option in the message expiration timer menu"
+      "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerSetTo": {
       "message": "Timer set to $time$",
