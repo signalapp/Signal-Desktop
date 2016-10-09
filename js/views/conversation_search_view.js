@@ -97,12 +97,19 @@
         createConversation: function() {
             var conversation = this.new_contact_view.model;
             if (this.new_contact_view.model.isValid()) {
-                ConversationController.findOrCreatePrivateById(
-                    this.new_contact_view.model.id
-                ).then(function(conversation) {
-                    this.trigger('open', conversation);
-                    this.initNewContact();
-                    this.resetTypeahead();
+                var accountManager = window.getAccountManager();
+                accountManager.server.getKeysForNumber(conversation.id)
+                .then(function(response) {
+                    ConversationController.findOrCreatePrivateById(
+                          this.new_contact_view.model.id
+                     ).then(function(conversation) {
+                          this.trigger('open', conversation);
+                          this.initNewContact();
+                          this.resetTypeahead();
+                    }.bind(this));
+                }.bind(this), function(error) {
+                    this.new_contact_view.$('.number').text(error);
+                    this.$input.focus();
                 }.bind(this));
             } else {
                 this.new_contact_view.$('.number').text("Invalid number");
