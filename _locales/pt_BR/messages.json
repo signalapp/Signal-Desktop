@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verificar códigos de segurança",
+        "message": "Verificar números de segurança",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "Você programou o cronômetro para $time$.",
+        "message": "Você definiu o cronômetro para $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ programou o cronômetro para $time$.",
+        "message": "$name$ definiu o cronômetro para $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "O seu código de segurança com $name$",
+        "message": "Os seus números de segurança com $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "O código de segurança de $name$ mudou.",
+        "message": "O número de segurança de $name$ mudou.",
         "description": "",
         "placeholders": {
             "name": {
@@ -446,7 +446,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Requerer confirmação do novo código de segurança quando ele for mudado.",
+        "message": "Requerer aprovação do novo número de segurança quando ele for mudado.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -498,7 +498,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Cronômetro programado para  $time$",
+        "message": "Cronômetro definido para  $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {

@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Numărul tău de siguranță cu $name$",
+        "message": "Your safety numbers with $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {

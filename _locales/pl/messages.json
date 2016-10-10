@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Twój numer bezpieczeństwa z $name$",
+        "message": "Twoje numery bezpieczeństwa z $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
