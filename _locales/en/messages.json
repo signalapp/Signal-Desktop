@@ -483,7 +483,7 @@
       }
     },
     "yourSafetyNumberWith": {
-      "message": "Your safety number with $name$",
+      "message": "Your safety numbers with $name$",
       "description": "Heading for safety number view",
       "placeholders": {
         "name": {
