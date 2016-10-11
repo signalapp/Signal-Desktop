@@ -37,7 +37,7 @@
                 this.$('.sand')
                     .css('animation-duration', remainingTime*0.001 + 's')
                     .css('transform', 'translateY(' + elapsed*100 + '%)');
-                this.$el.show();
+                this.$el.css('display', 'inline-block');
             }
             return this;
         }

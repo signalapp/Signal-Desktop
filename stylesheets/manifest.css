@@ -1258,6 +1258,9 @@ li.entry .error-icon-container {
   .message-container .timer,
   .message-list .timer {
     display: none; }
+    .message-container .timer .hourglass,
+    .message-list .timer .hourglass {
+      vertical-align: middle; }
   .message-container .control .bubble .content,
   .message-list .control .bubble .content {
     font-style: italic; }

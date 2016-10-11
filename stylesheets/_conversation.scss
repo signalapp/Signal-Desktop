@@ -423,6 +423,9 @@ li.entry .error-icon-container {
 
   .timer {
     display: none;
+    .hourglass {
+      vertical-align: middle;
+    }
   }
 
   .control {
