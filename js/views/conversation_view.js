@@ -209,6 +209,9 @@
             return this.model.fetchContacts().then(function() {
                 return this.model.fetchMessages().then(function() {
                     this.$('.bar-container').hide();
+                    this.model.messageCollection.where({unread: 1}).forEach(function(m) {
+                        m.fetch();
+                    });
                 }.bind(this));
             }.bind(this));
             // TODO catch?
