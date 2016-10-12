@@ -51,12 +51,11 @@
     },
 
     addKeyChange: function(id) {
-        var now = Date.now();
         var message = this.messageCollection.add({
             conversationId : this.id,
             type           : 'keychange',
-            sent_at        : now,
-            received_at    : now,
+            sent_at        : this.get('timestamp'),
+            received_at    : this.get('timestamp'),
             key_changed    : id
         });
         message.save();
