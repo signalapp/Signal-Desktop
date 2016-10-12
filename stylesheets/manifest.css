@@ -1499,7 +1499,6 @@ li.entry .error-icon-container {
 .ios .bubble .attachments img {
   border: 1px solid rgba(0, 0, 0, 0.1); }
 .ios .bubble .meta {
-  float: none;
   clear: both; }
 .ios .incoming .content {
   background-color: #e6e5ea;
