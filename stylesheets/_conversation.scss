@@ -337,7 +337,6 @@ li.entry .error-icon-container {
   .meta {
     font-size: smaller;
     margin-top: 3px;
-    float: right;
     text-align: right;
     line-height: 18px;
 
@@ -356,7 +355,7 @@ li.entry .error-icon-container {
       cursor: pointer;
     }
 
-    .hasRetry, .timestamp, .status {
+    .hasRetry, .timestamp, .status, .timer {
       float: left;
     }
 
@@ -395,6 +394,9 @@ li.entry .error-icon-container {
   }
 
   .outgoing {
+    .meta {
+      float: right;
+    }
     .error-icon-container {
       left: auto;
       right: calc(100% + 5px);

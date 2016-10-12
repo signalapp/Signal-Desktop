@@ -1175,7 +1175,6 @@ li.entry .error-icon-container {
   .message-list .meta {
     font-size: smaller;
     margin-top: 3px;
-    float: right;
     text-align: right;
     line-height: 18px; }
     .message-container .meta .hasRetry + .timestamp:before,
@@ -1189,10 +1188,11 @@ li.entry .error-icon-container {
     .message-list .meta .retry {
       text-decoration: underline;
       cursor: pointer; }
-    .message-container .meta .hasRetry, .message-container .meta .timestamp, .message-container .meta .status,
+    .message-container .meta .hasRetry, .message-container .meta .timestamp, .message-container .meta .status, .message-container .meta .timer,
     .message-list .meta .hasRetry,
     .message-list .meta .timestamp,
-    .message-list .meta .status {
+    .message-list .meta .status,
+    .message-list .meta .timer {
       float: left; }
     .message-container .meta .timestamp, .message-container .meta .status,
     .message-list .meta .timestamp,
@@ -1230,6 +1230,9 @@ li.entry .error-icon-container {
   .message-list .incoming .avatar,
   .message-list .incoming .bubble {
     float: left; }
+  .message-container .outgoing .meta,
+  .message-list .outgoing .meta {
+    float: right; }
   .message-container .outgoing .error-icon-container,
   .message-list .outgoing .error-icon-container {
     left: auto;
@@ -1515,10 +1518,6 @@ li.entry .error-icon-container {
     .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection {
       background: white;
       color: #454545; }
-.ios .outgoing .timestamp {
-  float: none; }
-.ios .outgoing .status {
-  float: right; }
 .ios .attachment {
   margin-bottom: 1px; }
   .ios .attachment a {
