@@ -17,7 +17,7 @@
   }
   .sand {
     background: $color;
-    animation: moveDown linear;
+    animation: moveDown steps(100);
     animation-fill-mode: forwards;
   }
   &:after {

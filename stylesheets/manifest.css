@@ -1539,7 +1539,7 @@ li.entry .error-icon-container {
     left: 0; }
   .ios .hourglass .sand {
     background: #999;
-    animation: moveDown linear;
+    animation: moveDown steps(100);
     animation-fill-mode: forwards; }
   .ios .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
@@ -1619,7 +1619,7 @@ li.entry .error-icon-container {
     left: 0; }
   .android .outgoing .hourglass .sand {
     background: #999;
-    animation: moveDown linear;
+    animation: moveDown steps(100);
     animation-fill-mode: forwards; }
   .android .outgoing .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
@@ -1646,7 +1646,7 @@ li.entry .error-icon-container {
     left: 0; }
   .android .incoming .hourglass .sand {
     background: #fff;
-    animation: moveDown linear;
+    animation: moveDown steps(100);
     animation-fill-mode: forwards; }
   .android .incoming .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
