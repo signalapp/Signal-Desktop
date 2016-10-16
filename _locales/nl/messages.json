@@ -334,7 +334,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "Een bericht versturen",
+        "message": "Verzend een bericht",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -382,7 +382,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Deblokkeer dit contact om een bericht te versturen.",
+        "message": "Deblokkeer dit contact om een bericht te verzenden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {

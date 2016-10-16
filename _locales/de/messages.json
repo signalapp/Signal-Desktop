@@ -394,7 +394,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Leg los",
+        "message": "Loslegen",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

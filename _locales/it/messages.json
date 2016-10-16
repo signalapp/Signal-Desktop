@@ -50,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Messaggi in scomparsa",
+        "message": "Messaggi a scomparsa",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "spento",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "I tuoi numeri sicuri con $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -354,7 +354,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "Spenti",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
