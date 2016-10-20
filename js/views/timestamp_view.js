@@ -46,7 +46,8 @@
         getRelativeTimeSpanString: function(timestamp_) {
             // Convert to moment timestamp if it isn't already
             var timestamp = moment(timestamp_),
-                timediff = moment.duration(moment() - timestamp);
+                now = moment(),
+                timediff = moment.duration(now - timestamp);
 
             if (timediff.years() > 0) {
                 this.delay = null;
@@ -55,22 +56,22 @@
                 this.delay = null;
                 return timestamp.format(this._format.M);
             } else if (timediff.days() > 0) {
-                this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(moment());
+                this.delay = moment(timestamp).add(timediff.days() + 1,'d').diff(now);
                 return timestamp.format(this._format.d);
             } else if (timediff.hours() > 1) {
-                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
+                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(now);
                 return this.relativeTime(timediff.hours(), 'h');
             } else if (timediff.hours() === 1) {
-                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(moment());
+                this.delay = moment(timestamp).add(timediff.hours() + 1,'h').diff(now);
                 return this.relativeTime(timediff.hours(), 'h');
             } else if (timediff.minutes() > 1) {
-                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
+                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(now);
                 return this.relativeTime(timediff.minutes(), 'm');
             } else if (timediff.minutes() === 1) {
-                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(moment());
+                this.delay = moment(timestamp).add(timediff.minutes() + 1,'m').diff(now);
                 return this.relativeTime(timediff.minutes(), 'm');
             } else {
-                this.delay = moment(timestamp).add(1,'m').diff(moment());
+                this.delay = moment(timestamp).add(1,'m').diff(now);
                 return this.relativeTime(timediff.seconds(), 's');
             }
         },
