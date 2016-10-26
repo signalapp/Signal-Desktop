@@ -74,8 +74,8 @@
                 });
             }
             this.$el.html(Mustache.render(_.result(this, 'template', ''), {
-                sent_at     : moment(this.model.get('sent_at')).toString(),
-                received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).toString() : null,
+                sent_at     : moment(this.model.get('sent_at')).format('LLLL'),
+                received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).format('LLLL') : null,
                 tofrom      : this.model.isIncoming() ? i18n('from') : i18n('to'),
                 errors      : unknownErrors,
                 title       : i18n('messageDetail'),
