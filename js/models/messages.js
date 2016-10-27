@@ -188,7 +188,9 @@
                     this.set({dataMessage: result.dataMessage});
                 }
                 this.save({sent: true, expirationStartTimestamp: now});
-                this.sendSyncMessage();
+                if(this.get('destination') !== textsecure.utils.unencodeNumber(storage.get('number_id'))[0]) {
+                    this.sendSyncMessage();
+                }
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
                 this.trigger('done');
