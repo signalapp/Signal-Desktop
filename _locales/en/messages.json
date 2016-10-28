@@ -291,8 +291,8 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Learn more about verifying keys.",
-        "description": "Text that links to a support article on verifying identity keys"
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
         "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
