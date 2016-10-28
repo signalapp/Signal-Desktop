@@ -27,13 +27,13 @@
     },
     "acceptNewKey": {
       "message": "Accept",
-      "description": "Label for a button to accept a new identity key"
+      "description": "Label for a button to accept a new safety numbers"
     },
     "verify": {
       "message": "Verify"
     },
     "newIdentity": {
-      "message": "New Identity",
+      "message": "New safety numbers",
       "description": "Header for a key change dialog"
     },
     "identityChanged": {
@@ -121,22 +121,11 @@
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
-    "verifyIdentity": {
-        "message": "Verify Identity"
-    },
     "verifySafetyNumbers": {
         "message": "Verify safety numbers"
     },
-    "theirIdentity": {
-        "message": "Their identity",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
-    "yourIdentity": {
-        "message": "Your identity",
-        "description": "Label for the user's own identity key."
-    },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Their identity will be available after the first message."
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message."
     },
     "deleteMessages": {
         "message": "Delete messages",
