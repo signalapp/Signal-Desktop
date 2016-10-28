@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -8,15 +8,15 @@
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Неподдерживаемый формат вложения. Нажмите чтобы сохранить.",
+        "message": "Неподдерживаемый формат вложения. Нажмите, чтобы сохранить.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Подтвердите код безопасности",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Вы установили таймер на $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -30,11 +30,11 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с неизвестным ключом. Нажмите чтобы обработать и отобразить.",
+        "message": "Получено сообщение с неизвестным ключом идентификации. Нажмите, чтобы обработать и отобразить.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5с",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -42,7 +42,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 мин.",
+        "message": "1 минута",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -50,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Исчезающие сообщения",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -58,7 +58,7 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5м",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Сбросить сессию",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -78,7 +78,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "Когда приходят сообщения, показывать уведомления с:",
+        "message": "При получении сообщения, всплывающие уведомления будут содержать:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "выкл",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Удалить сообщения",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Возможно вы хотите $tag_start$ проверить $tag_end$ этот контакт.",
+        "message": "Возможно, вы хотите $tag_start$ проверить $tag_end$ данный контакт.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ установил(а) таймер на $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -152,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 день",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -168,7 +168,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "verifyIdentity": {
-        "message": "Проверить подлинность",
+        "message": "Проверить идентификатор",
         "description": ""
     },
     "from": {
@@ -188,7 +188,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Ни имени, ни сообщения",
+        "message": "Не показывать ни имени, ни сообщения",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
@@ -200,7 +200,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Следите за информацией</a> об обновлениях с поддержкой iOS устройств.",
+        "message": "<a $a_params$>Следите за информацией</a> об обновлениях для iOS устройств.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -210,7 +210,7 @@
         }
     },
     "learnMore": {
-        "message": "Изнать больше о проверке ключей.",
+        "message": "Узнать больше о проверке ключей.",
         "description": "Text that links to a support article on verifying identity keys"
     },
     "yourIdentity": {
@@ -218,15 +218,15 @@
         "description": "Label for the user's own identity key."
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Подтверждение кодов безопасности",
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
-        "message": "Извините, вы уже подсоединили слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
+        "message": "Извините, вы привязали слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Сначала установите Signal на <a $play_store$>Android</a> или <a $app_store$>iPhone</a>.<br /> Мы свяжем ваши устройства и синхронизируем сообщения между ними.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -244,11 +244,11 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30м",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1м",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "Ваш код безопасности с $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Тема",
         "description": "Header for theme settings"
     },
     "newIdentity": {
@@ -278,7 +278,7 @@
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Приватное общение возможно. Signal делает его легче.",
+        "message": "Приватное общение возможно. Signal помогает его упростить.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -286,7 +286,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Импортируем...",
+        "message": "Импортирую...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -294,7 +294,7 @@
         "description": "Label for a button to accept a new identity key"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -302,15 +302,15 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Номер не зарегистрирован.",
+        "message": "Номер не зарегистрирован",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1д",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -318,11 +318,11 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 неделя",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "Понятно",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -330,7 +330,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -342,11 +342,11 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "Это версия приложения устарела. Пожалуйста обновитесь до последней версии для отправки сообщений.",
+        "message": "Данная версия приложения устарела. Пожалуйста, обновите Signal Desktop до последней версии для дальнейшей отправки сообщений.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Ключ этого контакта был изменен. Нажмите чтобы продолжить и отобразить.",
+        "message": "Ключ идентификации данного контакта был изменён. Нажмите, чтобы обработать и отобразить.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -354,11 +354,11 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "выключить",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Устройства. Нажмите на кнопку, чтобы добавить новое устройство, и отсканируйте код, указанный выше.",
+        "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Привязанные устройства. Коснитесь кнопки добавления нового устройства и отсканируйте QR-код указанный выше.",
         "description": ""
     },
     "installWelcome": {
@@ -366,7 +366,7 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Не удалось подключиться к серверу",
+        "message": "Не удалось подключиться к серверу.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
@@ -382,7 +382,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Разблокируйте этот номер, чтобы отправить сообщение.",
+        "message": "Разблокируйте этот контакт, чтобы отправить сообщение.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -390,7 +390,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Защищенная сессия перезапущена",
+        "message": "Защищённая сессия перезапущена",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -398,11 +398,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1нед.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -420,7 +420,7 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "theirIdentity": {
-        "message": "Их идентификатор",
+        "message": "Идентификатор собеседника",
         "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
     },
     "newMessages": {
@@ -428,7 +428,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Вы еще не обменивались сообщениями с этим пользователем. Его идентификатор будет доступен после первого сообщения.",
+        "message": "Вы ещё не обменивались сообщениями с данным собеседником. Его идентификатор будет доступен после отправки первого сообщения.",
         "description": ""
     },
     "submit": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "У $name$ изменился код безопасности",
         "description": "",
         "placeholders": {
             "name": {
@@ -446,7 +446,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Требовать подтверждение новых кодов безопасности после их изменения.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -454,11 +454,11 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Отлично!",
+        "message": "Отлично",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -470,11 +470,11 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10с",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "И имя отправителя и текст сообщения",
+        "message": "Как имя отправителя, так и текст сообщения",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -486,11 +486,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Этот контакт использует новый интентификатор. Это значит, они просто переустановили Signal, либо кто-то пытается перехватить вашу переписку. Возможно вы хотите проверить их новый идентификационный ключ ниже.",
+        "message": "Данный контакт использует новый идентификатор. Это может обозначать либо попытку перехвата сообщений, либо ваш собеседник попросту переустановил Signal. При желании, вы можете проверить идентификатор собеседника указанный ниже.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Отправить журнал отладки",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -498,7 +498,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Таймер установлен на $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -508,7 +508,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30с",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
@@ -516,7 +516,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Отправить еще раз",
+        "message": "Отправить ещё раз",
         "description": ""
     }
 }

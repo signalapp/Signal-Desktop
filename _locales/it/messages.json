@@ -354,7 +354,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "Spenti",
+        "message": "off",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -462,7 +462,7 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Dettagli messaggio",
+        "message": "Dettaglio messaggio",
         "description": ""
     },
     "verify": {

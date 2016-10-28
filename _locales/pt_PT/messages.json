@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 segundos",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Verificar Números de Segurança",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Definiu o temporizador para $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -50,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Destruição de mensagens",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Reiniciar sessão",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "desligado",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -98,11 +98,11 @@
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Reiniciar o Signal",
+        "message": "Reiniciar",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Apagar mensagens",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ definiu o temporizador para $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -152,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 dia",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -218,7 +218,7 @@
         "description": "Label for the user's own identity key."
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Aprovação dos Números de Segurança",
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "Números de segurança de $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
@@ -318,7 +318,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 semana",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -330,7 +330,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 segundos",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -354,11 +354,11 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "desligado",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Abra o Signal no seu telemóvel e vá até Definições > Dispositívos associados. Pressione o botão para adicionar um novo dispositívo, de seguida scaneie o código QR apresentado.",
+        "message": "Abra o Signal no seu telemóvel e vá até Definições > Dispositivos associados. Pressione o botão para adicionar um novo dispositivo, de seguida scaneie o código QR apresentado.",
         "description": ""
     },
     "installWelcome": {
@@ -398,11 +398,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 sem",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 segundos",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "Os Números de Segurança de $name$ mudaram",
         "description": "",
         "placeholders": {
             "name": {
@@ -446,7 +446,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Solicitar a aprovação de novos Números de Segurança quando alterados.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -490,7 +490,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Enviar relatório de erros",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -498,7 +498,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Temporizador definido para $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
