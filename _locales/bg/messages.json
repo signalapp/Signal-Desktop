@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено съобщение с непознат ключ за самоличност. Натиснете за да бъде обработено и показано.",
+        "message": "Received message with new safety numbers. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Само име на изпращача",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Удостовери самоличност",
-        "description": ""
-    },
     "from": {
         "message": "От",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Научете повече за сверяване на ключове.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Ваша самоличност",
-        "description": "Label for the user's own identity key."
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Safety numbers approval",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Нова самоличност",
+        "message": "New safety numbers",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Приемане",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Ключът за самоличност на този контакт е бил променен. Натиснете за да бъде обработен и показан.",
+        "message": "This contact's safety numbers have changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Свързване с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Тяхна самоличност",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Нови съобщения",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Не сте обменяли съобщения с този Ваш контакт до сега. Самоличността на контакта ще бъде достъпна след първото съобщение.",
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Този контакт използва нова самоличност в Signal. Това може да означава, че или получателят се опитва да прихване вашите съобщения, или просто повторно е инсталирал приложението Signal. Вероятно желаете да удостоверите новият им ключ за самоличност написан отдолу.",
+        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
         "description": ""
     },
     "submitDebugLog": {

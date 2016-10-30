@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Nachricht mit unbekanntem Identitätsschlüssel erhalten. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Nachricht mit neuen Sicherheitsnummern empfangen. Zum Verarbeiten und Anzeigen anklicken.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Nur Kontaktname",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Kontakt überprüfen",
-        "description": ""
-    },
     "from": {
         "message": "Von",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Erfahre mehr über das Überprüfen von Schlüsseln.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Dein Identitätsschlüssel:",
-        "description": "Label for the user's own identity key."
+        "message": "Erfahre mehr über das Überprüfen von Sicherheitsnummern.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Zustimmung für Sicherheitsnummern",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Neuer Identitätsschlüssel",
+        "message": "Neue Sicherheitsnummern",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Akzeptieren",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Der Identitätsschlüssel dieses Kontakts hat sich geändert. Hier anklicken, um fortzufahren und die Nachricht anzuzeigen.",
+        "message": "Die Sicherheitsnummern dieses Kontakts haben sich geändert. Zum Verarbeiten und Anzeigen anklicken.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Verknüpfung wird durchgeführt mit",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Identitätsschlüssel des Kontakts:",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Neue Nachrichten",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Der Identitätsschlüssel des Kontakts wird nach der ersten Nachricht verfügbar sein.",
+        "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Sicherheitsnummern werden nach der ersten Nachricht verfügbar sein.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Dieser Kontakt verwendet einen neuen Signal-Identitätsschlüssel. Dies kann entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dieser Kontakt hat Signal einfach erneut installiert. Vielleicht möchtest du den neuen Identitätsschlüssel unten überprüfen.",
+        "message": "Die Sicherheitsnummern dieses Kontakts haben sich geändert. Dies könnte entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dass dieser Kontakt Signal einfach erneut installiert hat. Vielleicht möchtest du die neuen Sicherheitsnummern unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {

@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Отримано повідомлення з невідомим особистим ключем. Клацніть щоб продовжити та переглянути.",
+        "message": "Отримано повідомлення з новими кодами безпеки. Клацніть, щоб продовжити та переглянути.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Тільки ім'я відправника",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Ідентифікація особи",
-        "description": ""
-    },
     "from": {
         "message": "Від",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Дізнатись більше про перевірку ключів.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Ваша особа",
-        "description": "Label for the user's own identity key."
+        "message": "Дізнатись більше про перевірку кодів безпеки.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Підтвердження кодів безпеки",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Нова особистість",
+        "message": "Нові коди безпеки",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Прийняти",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12г",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Особистий ключ цього контакту було змінено. Клацніть щоб продовжити та переглянути.",
+        "message": "Коди безпеки цього контакту було змінено. Клацніть, щоб продовжити та переглянути.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Пов'язування з",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Їхня особа",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Нові Повідомлення",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Ви ще не надіслали жодного повідомлення цій особі. Ця особа буде доступна після першого повідомлення.",
+        "message": "Ви ще не надіслали жодного повідомлення цій особі. Коди безпеки будуть доступні після першого повідомлення.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Цей контакт використовує нову особистість. Це може означати, що хтось намагається перехопити дані або цей контакт просто перевстановив Signal. Перевірте особистий ключ нижче.",
+        "message": "Коди безпеки цього контакта було змінено. Це може означати, що хтось намагається перехопити дані або цей контакт просто перевстановив Signal. Ви можете перевірити нові номери безпеки співрозмовника нижче.",
         "description": ""
     },
     "submitDebugLog": {

@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "ಅಪರಿಚಿತ ಗುರುತಿನ ಕೀಲಿಯ ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "message": "Received message with new safety numbers. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "ಕಳುಹಿಸುವವರ ಹೆಸರು ಮಾತ್ರ",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "ಗುರುತನ್ನು ಪರಿಶೀಲಿಸಿ",
-        "description": ""
-    },
     "from": {
         "message": "ಇಂದ",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "ಕೀಲಿಗಳನ್ನು ಪರಿಶೀಲಿಸುವ ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "ನಿಮ್ಮ ಗುರುತು",
-        "description": "Label for the user's own identity key."
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Safety numbers approval",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "ಹೊಸ ಗುರುತು",
+        "message": "New safety numbers",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ.  ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮತ್ತು ಪ್ರದರ್ಶಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+        "message": "This contact's safety numbers have changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "ಜೊತೆ  ಜೋಡಣೆ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "ಅವರ ಗುರುತು",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "ಹೊಸ ಸಂದೇಶಗಳು",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "ನೀವು ಈ ಸಂಪರ್ಕದ ಜೋತೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ಇನ್ನೂ ವಿನಿಮಯ ಮಾಡಿಕೊಂಡಿಲ್ಲ.  ಅವರ ಗುರುತು ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಾಗುತ್ತದೆ.",
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "ಈ ಸಂಪರ್ಕದ ಗುರುತಿನ ಕೀಲಿ ಬದಲಾಗಿದೆ. ಇದರ ಆರ್ಥ ನಿಮ್ಮ ಸಂಭಾಷಣೆಯನ್ನು ಯಾರೊ ಕದ್ದು ಕೇಳಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ, ಅಥವ ಈ ಸಂಪರ್ಕ ಸಿಗ್ನಲ್‌ನ್ನು ಸ್ಥಾಪಿಸಿದ ಕಾರಣ ಹೋಸ ಗುರುತಿಸುವ ಕೀಲಿಗಳನ್ನು ಹೊಂದಿದ್ದಾರೆ. ನೀವು ಬಯಸಿದರೆ  ಸಂಪರ್ಕದ ಹೊಸ ಗುರುತನ್ನು ಕೆಳಗೆ ಪರಿಶೀಲಿಸಿಸಬಹುದು.",
+        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
         "description": ""
     },
     "submitDebugLog": {

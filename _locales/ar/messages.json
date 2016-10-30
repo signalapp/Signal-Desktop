@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "رساله مستقبلة بمفتاح هوية غير معروف. اضغط للاكمال و الاظهار",
+        "message": "Received message with new safety numbers. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "اسم المُرسِل فقط",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "تحقق من الهوية",
-        "description": ""
-    },
     "from": {
         "message": "مِن",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "مزيد من المعلومات حول التحقق من المفاتيح.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "هويتك",
-        "description": "Label for the user's own identity key."
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "الموافقة على أرقام الأمن",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "هوية جديدة",
+        "message": "New safety numbers",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "موافقة",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12سا",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "لقد تغيّر مفتاح هوية هذا المستخدم. اضغط للاستمرار والاظهار ",
+        "message": "This contact's safety numbers have changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "ارتباط بـ :",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "هويتهم",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "رسائل جديدة",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "لم تقم بتبادل أي رسالة مع جهة الاتصال هذه. ستكون هويتهم متاحه بعد تبادل أول رسالة.",
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "جهة الاتصال تستخدم هوية سيجنال جديدة. وهذا يمكن أن يعني إما أن هناك من يحاول اعتراض اتصالاتكم، أو أن جهة الاتصال قامت بمجرد اعادة تحميل سيجنال. قد ترغب في التحقق من هوية المفتاح الجديد أدناه.",
+        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
         "description": ""
     },
     "submitDebugLog": {

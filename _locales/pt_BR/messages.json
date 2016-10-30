@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Mensagem recebida com uma identidade de chave desconhecida. Clique para aceitar e exibir.",
+        "message": "Received message with new safety numbers. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Apenas o nome da pessoa remetente",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Verificar a Identidade",
-        "description": ""
-    },
     "from": {
         "message": "De",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Saiba mais sobre como verificar chaves.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Sua identidade",
-        "description": "Label for the user's own identity key."
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Confirmação do código de segurança",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Nova Identidade",
+        "message": "New safety numbers",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Aceitar",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "A chave de identidade deste contato mudou. Clique para processar e exibir.",
+        "message": "This contact's safety numbers have changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Religando a",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Identidade da outra pessoa",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Novas mensagens",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Você ainda não trocou nenhuma mensagem com a pessoa deste contato. A identidade dela será disponível após a primeira mensagem.",
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Esse contato está usando uma nova identidade. Isso pode ser uma tentativa de interceptação das suas comunicações ou uma simples reinstalação do Signal. Recomendamos-lhe verificar a nova chave de identidade desse contato, abaixo. ",
+        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
         "description": ""
     },
     "submitDebugLog": {

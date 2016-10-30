@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с неизвестным ключом идентификации. Нажмите, чтобы обработать и отобразить.",
+        "message": "Получено сообщение с новыми кодами безопасности. Нажмите, чтобы обработать и отобразить.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Только имя отправителя",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Проверить идентификатор",
-        "description": ""
-    },
     "from": {
         "message": "От",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Узнать больше о проверке ключей.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Ваш идентификатор",
-        "description": "Label for the user's own identity key."
+        "message": "Узнать больше о проверке кодов безопасности.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Подтверждение кодов безопасности",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Новый идентификатор",
+        "message": "Новые коды безопасности",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Принять",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12ч",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Ключ идентификации данного контакта был изменён. Нажмите, чтобы обработать и отобразить.",
+        "message": "Коды безопасности данного контакта были изменены. Нажмите, чтобы обработать и отобразить.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Связать с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Идентификатор собеседника",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Новые сообщения",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Вы ещё не обменивались сообщениями с данным собеседником. Его идентификатор будет доступен после отправки первого сообщения.",
+        "message": "Вы ещё не обменивались сообщениями с данным собеседником. Коды безопасности будут доступны после отправки первого сообщения.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Данный контакт использует новый идентификатор. Это может обозначать либо попытку перехвата сообщений, либо ваш собеседник попросту переустановил Signal. При желании, вы можете проверить идентификатор собеседника указанный ниже.",
+        "message": "Коды безопасности данного контакта изменились. Это может обозначать либо попытку перехвата сообщений, либо ваш собеседник попросту переустановил Signal. При желании, вы можете проверить новые коды безопасности собеседника указанные ниже.",
         "description": ""
     },
     "submitDebugLog": {

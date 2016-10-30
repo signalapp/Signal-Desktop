@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Primljena poruka s nepoznatim ključem identiteta. Kliknite za obradu i prikaz.",
+        "message": "Received message with new safety numbers. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Samo pošiljateljevo ime",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Potvrdi identitet",
-        "description": ""
-    },
     "from": {
         "message": "Od",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Naučite više o verifikaciji ključeva.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Vaš identitet",
-        "description": "Label for the user's own identity key."
+        "message": "Learn more about verifying safety numbers.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Safety numbers approval",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Novi identitet",
+        "message": "New safety numbers",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Prihvati",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Promijenio se ključ identiteta ove osobe. Kliknite za obradu i prikaz.",
+        "message": "This contact's safety numbers have changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Povezivanje s",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Njihov identitet",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Nove poruke",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Niste još razmijenili poruke s ovim kontaktom. Njegov identitet će biti dostupan nakon prve poruke.",
+        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Ovaj kontakt koristi novi Signal idenitet. Ovo može značiti da netko pokušava presresti Vašu komunikaciju ili da je ovaj kontakt reinstalirao SIgnal. Možda bi htjeli verificirati njihov novi ključ identiteta ispod.",
+        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
         "description": ""
     },
     "submitDebugLog": {

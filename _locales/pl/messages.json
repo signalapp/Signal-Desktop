@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Odebrano wiadomość z nieznanym kluczem tożsamości. Kliknij, aby przetworzyć i wyświetlić.",
+        "message": "Dostałeś wiadomość z nowymi numerami bezpieczeństwa. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Tylko z nazwą nadawcy",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Weryfikuj tożsamość",
-        "description": ""
-    },
     "from": {
         "message": "Od",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Dowiedz się więcej o weryfikacji kluczy.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Twoja tożsamość",
-        "description": "Label for the user's own identity key."
+        "message": "Dowiedz się więcej o weryfikacji numerów bezpieczeństwa",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Zatwierdzanie numerów bezpieczeństwa",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Nowa tożsamość",
+        "message": "Nowe numery bezpieczeństwa",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Akceptuj",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12 godz.",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Tożsamość tego kontaktu się zmieniła. Kliknij, aby przetworzyć i wyświetlić.",
+        "message": "Ten kontakt ma nowe numery bezpieczeństwa. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Trwa łączenie z",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Tożsamość kontaktu",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Nowe wiadomości",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Jeszcze nie rozmawiałeś z tą osobą. Jej tożsamość będzie dostępna po pierwszej wiadomości.",
+        "message": "Jeszcze nie rozmawiałeś z tą osobą. Numery bezpieczeństwa będą dostępne po pierwszej wiadomości.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Ten kontakt używa nowej tożsamości Signal. To może oznaczać, że ktoś próbuje przechwycić Waszą komunikację lub że po prostu kontakt przeinstalował Signal. Możesz zweryfikować jego nową tożsamość poniżej.",
+        "message": "Ten kontakt ma nowe numery bezpieczeństwa. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu kontakt przeinstalował Signal. Możesz zweryfikować jego nowe numery bezpieczeństwa poniżej.",
         "description": ""
     },
     "submitDebugLog": {

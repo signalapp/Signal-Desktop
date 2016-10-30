@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "A fost primit un mesaj cu o cheie de identitate necunoscută. Click pentru a procesare şi afişare.",
+        "message": "A fost primit un mesaj cu noile numere de siguranță. Click pentru a le procesa şi a le afişa.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -167,10 +167,6 @@
         "message": "Numai numele expeditorului",
         "description": "Label for setting notifications to display sender name only"
     },
-    "verifyIdentity": {
-        "message": "Verifică identitatea",
-        "description": ""
-    },
     "from": {
         "message": "De la",
         "description": "Label for the sender of a message"
@@ -210,12 +206,8 @@
         }
     },
     "learnMore": {
-        "message": "Află mai multe despre verificarea cheilor.",
-        "description": "Text that links to a support article on verifying identity keys"
-    },
-    "yourIdentity": {
-        "message": "Identitatea ta",
-        "description": "Label for the user's own identity key."
+        "message": "Află mai multe despre verificarea numerelor de siguranță.",
+        "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Aprobare numere de siguranță",
@@ -274,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Identitate nouă",
+        "message": "Noile numere de siguranță",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -291,7 +283,7 @@
     },
     "acceptNewKey": {
         "message": "Acceptă",
-        "description": "Label for a button to accept a new identity key"
+        "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -346,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Cheia de identitate pentru acest contact s-a modificat. Click pentru procesare şi afişare.",
+        "message": "Numerele de siguranță ale contactului s-au schimbat. Apasă pentru a le procesa și a le afișa.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -419,16 +411,12 @@
         "message": "Se conectează cu",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
-    "theirIdentity": {
-        "message": "Identitatea lor",
-        "description": "Label for someone else's identity key. They is used here as a gender-neutral third-person singular."
-    },
     "newMessages": {
         "message": "Mesaje noi",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Identitatea lor va fi disponibilă după primul mesaj.",
+        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numerele de siguranță vor fi disponibile după primul mesaj.",
         "description": ""
     },
     "submit": {
@@ -486,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Acest contact folosește o nouă identitate Signal. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noua lor cheie de identitate de mai jos.",
+        "message": "Numerele de siguranță ale contactului s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noile numere de siguranță de mai jos.",
         "description": ""
     },
     "submitDebugLog": {
