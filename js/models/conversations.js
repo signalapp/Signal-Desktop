@@ -398,29 +398,14 @@
     },
 
     muteConversation: function() {
-        if (!storage.isMuted(this.id)) {
-            var numbers = storage.get('muted', []);
-            if (numbers.length > 0) {
-                numbers.push(this.id);
-                storage.put('muted', numbers);
-            } else {
-                var mutedNumbers = [];
-                mutedNumbers.push(this.id);
-                storage.put('muted', mutedNumbers);
-            }
+        if (this.get('muted')) {
+            this.save({'muted': false});
         } else {
-            var numbers = storage.get('muted', []);
-            var index = numbers.indexOf(this.id);
-            if (index > -1) {
-                numbers.splice(index, 1);
-                // restore muted numbers
-                storage.put('muted', numbers);
-            }
+            this.save({'muted': true});
         }
-        this.set({ 'muted': this.getMutedState() });
     },
     getMutedState: function() {
-      return storage.isMuted(this.id);
+      return this.get('muted');
     },
     getMutedIcon: function() {
         if (this.getMutedState()) {
@@ -534,7 +519,7 @@
         }.bind(this));
     },
     notify: function(message) {
-        if (storage.isMuted(this.id)) {
+        if (this.getMutedState()) {
             return;
         }
         if (!message.isIncoming()) {
