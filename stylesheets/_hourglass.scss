@@ -17,13 +17,8 @@
   }
   .sand {
     background: $color;
-    animation: moveDown steps(100);
-    animation-fill-mode: forwards;
   }
   &:after {
     @include color-svg('/images/hourglass_empty.svg', $color);
-  }
-  @keyframes moveDown {
-    to { transform: translateY(100%); }
   }
 }

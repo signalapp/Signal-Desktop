@@ -1538,16 +1538,12 @@ li.entry .error-icon-container {
     top: 0;
     left: 0; }
   .ios .hourglass .sand {
-    background: #999;
-    animation: moveDown steps(100);
-    animation-fill-mode: forwards; }
+    background: #999; }
   .ios .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
-@keyframes moveDown {
-  to {
-    transform: translateY(100%); } }
+
 .android #header {
   background-color: #2090ea;
   color: white;
@@ -1618,16 +1614,11 @@ li.entry .error-icon-container {
     top: 0;
     left: 0; }
   .android .outgoing .hourglass .sand {
-    background: #999;
-    animation: moveDown steps(100);
-    animation-fill-mode: forwards; }
+    background: #999; }
   .android .outgoing .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
-@keyframes moveDown {
-  to {
-    transform: translateY(100%); } }
 .android .incoming .hourglass {
   display: inline-block;
   position: relative;
@@ -1645,16 +1636,11 @@ li.entry .error-icon-container {
     top: 0;
     left: 0; }
   .android .incoming .hourglass .sand {
-    background: #fff;
-    animation: moveDown steps(100);
-    animation-fill-mode: forwards; }
+    background: #fff; }
   .android .incoming .hourglass:after {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #fff; }
-@keyframes moveDown {
-  to {
-    transform: translateY(100%); } }
 .android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
   color: white; }
   .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {

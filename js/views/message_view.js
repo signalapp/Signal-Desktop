@@ -29,14 +29,20 @@
         templateName: 'hourglass',
         className: 'timer',
         initialize: function() {
+            this.update();
+        },
+        update: function() {
+            if (this.timeout) {
+              clearTimeout(this.timeout);
+              this.timeout = null;
+            }
             if (this.model.isExpiring()) {
                 this.render();
                 var totalTime = this.model.get('expireTimer') * 1000;
                 var remainingTime = this.model.msTilExpire();
                 var elapsed = (totalTime - remainingTime) / totalTime;
-                this.$('.sand')
-                    .css('animation-duration', remainingTime*0.001 + 's')
-                    .css('transform', 'translateY(' + elapsed*100 + '%)');
+                this.$('.sand').css('transform', 'translateY(' + elapsed*100 + '%)');
+                this.timeout = setTimeout(this.update.bind(this), totalTime / 100);
                 this.$el.css('display', 'inline-block');
             }
             return this;
@@ -201,7 +207,10 @@
             }
         },
         renderExpiring: function() {
-            new TimerView({ model: this.model, el: this.$('.timer') });
+            if (!this.timerView) {
+              this.timerView = new TimerView({ model: this.model, el: this.$('.timer') });
+            }
+            this.timerView.update();
         },
         render: function() {
             var contact = this.model.isIncoming() ? this.model.getContact() : null;
