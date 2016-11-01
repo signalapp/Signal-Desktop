@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "新たな安全番号が付いたメッセージを受け取りました。表示・処理を行うにはクリックしてください。",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -206,7 +206,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "安全番号の確認についての詳細",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -266,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "新しい安全番号",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -338,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "この連絡先の安全番号が変わりました。表示・処理を行うにはクリックしてください。",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +416,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "この連絡先とはまだメッセージのやり取りがありませんので，安全番号もありません。",
         "description": ""
     },
     "submit": {
@@ -474,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "この連絡先の安全番号が以前と異なります。誰かが通信を傍受しようとしているかも知れませんし，この連絡先がSignalをインストールし直しただけかも知れません。新しい安全番号を以下で確認しておいた方がいいかも知れません。",
         "description": ""
     },
     "submitDebugLog": {

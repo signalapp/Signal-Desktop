@@ -218,7 +218,7 @@
         "description": ""
     },
     "installSignalLinks": {
-        "message": "Primeiro, instale Signal <a $play_store$>no seu Android</a> ou $app_store$>iPhone</a>.<br /> Seus aparelhos serão religados e suas mensagens, sincronizadas.",
+        "message": "Primeiro, instale Signal <a $play_store$>no seu Android</a> ou <a $app_store$>iPhone</a>.<br /> Seus aparelhos serão religados e suas mensagens, sincronizadas.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
