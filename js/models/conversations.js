@@ -41,12 +41,13 @@
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
         this.on('read', this.onReadMessage);
-        var members = this.get('members') || [];
-        members.map(function(number) {
-            textsecure.storage.protocol.on('keychange:' + m.id, function() {
-                this.conversation.addKeyChange(m.id);
+        this.fetchContacts().then(function() {
+            this.contactCollection.each(function(contact) {
+                textsecure.storage.protocol.on('keychange:' + contact.id, function() {
+                    this.addKeyChange(contact.id);
+                }.bind(this));
             }.bind(this));
-        });
+        }.bind(this));
     },
 
     addKeyChange: function(id) {
@@ -323,7 +324,7 @@
             } else {
                 var promises = [];
                 var members = this.get('members') || [];
-                this.contactCollection.add(
+                this.contactCollection.reset(
                     members.map(function(number) {
                         var c = ConversationController.create({
                             id   : number,

@@ -269,14 +269,12 @@
         },
 
         messageDetail: function(e, data) {
-            return this.model.fetchContacts().then(function() {
-              var view = new Whisper.MessageDetailView({
-                  model: data.message,
-                  conversation: this.model
-              });
-              this.listenBack(view);
-              view.render();
+            var view = new Whisper.MessageDetailView({
+                model: data.message,
+                conversation: this.model
             });
+            this.listenBack(view);
+            view.render();
         },
 
         listenBack: function(view) {
