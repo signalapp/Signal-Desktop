@@ -12,6 +12,8 @@
   </div>
   <div id="render-android" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
+  <div id="render-android-dark" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
+  </div>
   <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
   <script type='text/x-tmpl-mustache' id='two-column'>
@@ -435,6 +437,10 @@
         <div>
           <input type='radio' name='theme' id='theme-setting-android' value='android'>
           <label for='theme-setting-android'>Android</label>
+        </div>
+        <div>
+          <input type='radio' name='theme' id='theme-setting-android-dark' value='android-dark'>
+          <label for='theme-setting-android-dark'>{{ themeAndroidDark }} </label>
         </div>
         <div>
           <input type='radio' name='theme' id='theme-setting-ios'  value='ios'/>

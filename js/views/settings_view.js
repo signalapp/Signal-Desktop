@@ -84,6 +84,7 @@
               nameOnly: i18n('nameOnly'),
               safetyNumbersSettingDescription: i18n('safetyNumbersSettingDescription'),
               safetyNumbersSettingHeader: i18n('safetyNumbersSettingHeader'),
+              themeAndroidDark: i18n('themeAndroidDark'),
             };
         }
     });

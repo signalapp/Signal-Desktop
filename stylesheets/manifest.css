@@ -1697,4 +1697,185 @@ li.entry .error-icon-container {
     -webkit-mask-size: 100%;
     background-color: black; }
 
+.android-dark {
+  color: #CCCCCC; }
+  .android-dark hr {
+    border-color: #333333; }
+  .android-dark #header {
+    background-color: #333333;
+    color: #CCCCCC;
+    transition: background-color 0.5s; }
+    .android-dark #header.inactive {
+      background-color: #333333;
+      color: #CCCCCC; }
+  .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation, .android-dark .modal .content,
+  .android-dark .discussion-container, .android-dark .attachment-previews {
+    background-color: #171717; }
+  .android-dark .lightbox .content {
+    background-color: transparent; }
+  .android-dark .key-verification .key {
+    background-color: #030303;
+    border-color: #292929; }
+  .android-dark .menu-list {
+    background-color: #292929;
+    color: #CCCCCC; }
+    .android-dark .menu-list li:hover {
+      background-color: #333333; }
+  .android-dark .flex {
+    background-color: #292929; }
+    .android-dark .flex .send-message {
+      background-color: #292929;
+      color: #CCCCCC; }
+  .android-dark .conversation-stack .inactive .conversation-header {
+    background-color: #333333;
+    color: #CCCCCC; }
+  .android-dark .contact-details .name {
+    font-weight: 400; }
+  .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
+    background-color: #171717;
+    border-color: #333333; }
+  .android-dark .conversation.placeholder .conversation-header {
+    display: none; }
+  .android-dark .conversation-header.red, .android-dark .bubble.red {
+    background-color: #EF5350; }
+  .android-dark .conversation-header.pink, .android-dark .bubble.pink {
+    background-color: #EC407A; }
+  .android-dark .conversation-header.purple, .android-dark .bubble.purple {
+    background-color: #AB47BC; }
+  .android-dark .conversation-header.deep_purple, .android-dark .bubble.deep_purple {
+    background-color: #7E57C2; }
+  .android-dark .conversation-header.indigo, .android-dark .bubble.indigo {
+    background-color: #5C6BC0; }
+  .android-dark .conversation-header.blue, .android-dark .bubble.blue {
+    background-color: #2196F3; }
+  .android-dark .conversation-header.light_blue, .android-dark .bubble.light_blue {
+    background-color: #03A9F4; }
+  .android-dark .conversation-header.cyan, .android-dark .bubble.cyan {
+    background-color: #00BCD4; }
+  .android-dark .conversation-header.teal, .android-dark .bubble.teal {
+    background-color: #009688; }
+  .android-dark .conversation-header.green, .android-dark .bubble.green {
+    background-color: #4CAF50; }
+  .android-dark .conversation-header.light_green, .android-dark .bubble.light_green {
+    background-color: #7CB342; }
+  .android-dark .conversation-header.orange, .android-dark .bubble.orange {
+    background-color: #FF9800; }
+  .android-dark .conversation-header.deep_orange, .android-dark .bubble.deep_orange {
+    background-color: #FF5722; }
+  .android-dark .conversation-header.amber, .android-dark .bubble.amber {
+    background-color: #FFB300; }
+  .android-dark .conversation-header.blue_grey, .android-dark .bubble.blue_grey {
+    background-color: #607D8B; }
+  .android-dark .conversation-header.grey, .android-dark .bubble.grey {
+    background-color: #999999; }
+  .android-dark .conversation-header.default, .android-dark .bubble.default {
+    background-color: #2090ea; }
+  .android-dark .message-list .advisory .content {
+    background-color: #333333; }
+  .android-dark .inactive .conversation-header {
+    background-color: #333333 !important;
+    color: #CCCCCC; }
+  .android-dark .sent .status {
+    display: inline-block;
+    -webkit-mask: url("/images/check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android-dark .paperclip:before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white;
+    transform: rotateZ(-45deg); }
+  .android-dark .scrollable {
+    background-color: #171717; }
+    .android-dark .scrollable .conversation-list-item {
+      background-color: #171717;
+      color: #CCCCCC; }
+  .android-dark .bottom-bar {
+    min-height: 10px;
+    background-color: #292929; }
+  .android-dark .search {
+    background-color: #292929;
+    border-color: #292929;
+    color: white; }
+    .android-dark .search::selection {
+      background: white;
+      color: #454545; }
+  .android-dark .bubble {
+    padding: 9px 12px;
+    border-radius: 5px;
+    box-shadow: 0 3px 3px -4px black; }
+  .android-dark .outgoing .bubble {
+    background-color: #333333;
+    color: white; }
+    .android-dark .outgoing .bubble::selection {
+      background: white;
+      color: #454545; }
+  .android-dark .outgoing .hourglass, .android-dark .incoming .hourglass {
+    display: inline-block;
+    position: relative;
+    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: transparent;
+    background-size: 100%; }
+    .android-dark .outgoing .hourglass, .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass, .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+      width: 13px;
+      height: 11px; }
+    .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .android-dark .outgoing .hourglass .sand, .android-dark .incoming .hourglass .sand {
+      background: #000; }
+    .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass:after {
+      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #000; }
+  .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a {
+    color: white; }
+    .android-dark .incoming .bubble .sender::selection, .android-dark .incoming .bubble .content::selection, .android-dark .incoming .bubble .body::selection, .android-dark .incoming .bubble .meta::selection, .android-dark .incoming .bubble a::selection {
+      background: white;
+      color: #454545; }
+  .android-dark .incoming .bubble .attachments a, .android-dark .incoming .bubble .content a {
+    color: #f3f3f3; }
+  .android-dark button.clock {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: rgba(255, 255, 255, 0.8); }
+    .android-dark button.clock:focus, .android-dark button.clock:hover {
+      -webkit-mask: url("/images/clock.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: white; }
+  .android-dark button.hamburger {
+    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: rgba(255, 255, 255, 0.8); }
+    .android-dark button.hamburger:focus, .android-dark button.hamburger:hover {
+      -webkit-mask: url("/images/menu.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: white; }
+  .android-dark button.back {
+    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: rgba(255, 255, 255, 0.8); }
+    .android-dark button.back:focus, .android-dark button.back:hover {
+      -webkit-mask: url("/images/back.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: white; }
+  .android-dark button.grey {
+    background-color: #333333;
+    color: #CCCCCC;
+    border-color: #292929; }
+  .android-dark ::-webkit-scrollbar-thumb {
+    background: rgba(120, 120, 120, 0.15); }
+    .android-dark ::-webkit-scrollbar-thumb:hover {
+      background: rgba(120, 120, 120, 0.25); }
+  .android-dark ::-webkit-scrollbar-track {
+    background-color: #292929; }
+
 /*# sourceMappingURL=manifest.css.map */
