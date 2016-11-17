@@ -480,5 +480,9 @@
           "example": "John"
         }
       }
+    },
+    "themeAndroidDark": {
+      "message": "Android (dark)",
+      "description": "Label text for dark Android theme"
     }
 }
