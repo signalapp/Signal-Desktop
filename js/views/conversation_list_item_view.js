@@ -43,11 +43,18 @@
                     last_message_timestamp: this.model.get('timestamp'),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
-                    unreadCount: this.model.get('unreadCount')
+                    unreadCount: this.model.get('unreadCount'),
+                    ismuted: this.model.getMutedIcon()
                 }, this.render_partials())
             );
             this.timeStampView.setElement(this.$('.last-timestamp'));
             this.timeStampView.update();
+
+            if (this.model.getMutedState()) {
+                this.$('.ismuted').show();
+            } else {
+                this.$('.ismuted').hide();
+            }
 
             emoji_util.parse(this.$('.name'));
             emoji_util.parse(this.$('.last-message'));
@@ -61,6 +68,5 @@
 
             return this;
         }
-
     });
 })();

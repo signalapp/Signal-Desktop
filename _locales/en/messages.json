@@ -480,5 +480,9 @@
           "example": "John"
         }
       }
+    },
+    "muteConversation": {
+      "message": "Mute/Unmute",
+      "description": "Mute/unmute current conversation"
     }
 }
