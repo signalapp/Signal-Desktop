@@ -56,6 +56,7 @@
     },
 
     addKeyChange: function(id) {
+        console.log('adding key change advisory for', this.id, this.get('timestamp'));
         var timestamp = Date.now();
         var message = new Whisper.Message({
             conversationId : this.id,
