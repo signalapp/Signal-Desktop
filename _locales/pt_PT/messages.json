@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Mensagem recebida com novos Números de Segurança. Clique para processar e mostrar.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -206,7 +206,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Saber mais sobre verificação de Números de Segurança.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -266,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Novos Números de Segurança",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -338,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "Os Números de Segurança deste contacto mudaram. Clique para processar e mostrar.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +416,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Ainda não trocou nenhuma mensagem com este contacto. Os Números de Segurança estarão disponíveis depois da primeira mensagem.",
         "description": ""
     },
     "submit": {
@@ -474,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "Os Números de Segurança deste contacto mudaram. Isto pode queres dizer que alguém está a tentar interceptar as suas comunicações, ou simplesmente que o Signal foi reinstalado. Poderá desejar verficar os novos Números de Segurança.",
         "description": ""
     },
     "submitDebugLog": {
