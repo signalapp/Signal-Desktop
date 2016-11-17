@@ -1,0 +1,109 @@
+$grey-dark: #333333;
+$grey-dark_l2: darken($grey-dark, 3%);
+$grey-dark_l3: darken($grey-dark_l2, 6%);
+$grey-dark_l4: darken($grey-dark_l3, 9%);
+$text-dark: #CCCCCC;
+
+.android-dark {
+  #header {
+    background-color: $grey-dark;
+    color: $text-dark;
+    transition: background-color 0.5s;
+
+    &.inactive {
+      background-color: $grey-dark;
+      color: $text-dark;
+    }
+  }
+  .message-container {
+    background-color: $grey-dark_l4;
+  }
+  .flex {
+    background-color: $grey-dark_l2;
+    .send-message {
+      background-color: $grey-dark_l2;
+      color: $text-dark;
+    }
+  }
+  .conversation-stack .inactive {
+    .conversation-header{
+        background-color: $grey-dark;
+        color: $text-dark;
+    }
+  }
+  .contact-details .name {
+    font-weight: 400;
+  }
+  .conversation.placeholder .conversation-header {
+    display: none;
+  }
+  .conversation-header, .bubble {
+    @include avatar-colors;
+  }
+  .conversation {
+    background-color: $grey-dark_l4;
+  }
+  .inactive .conversation-header {
+    background-color: $grey-dark !important;
+    color: $text-dark;
+  }
+  .scrollable {
+    background-color: $grey-dark_l3;
+    .conversation-list-item {
+      background-color: $grey-dark_l3;
+      color: $text-dark;
+    }
+  }
+  .discussion-container {
+    background-color: $grey-dark_l2;
+  }
+  .bottom-bar {
+    min-height: 10px;
+    background-color: $grey-dark;
+  }
+  .search {
+    background-color: $grey-dark_l2;
+    border-color: $grey-dark_l2;
+  }
+  .bubble {
+    padding: 9px 12px;
+    border-radius: $border-radius;
+    box-shadow: 0 3px 3px -4px black;
+  }
+
+  .outgoing .bubble {
+    background-color: $grey-dark;
+    @include invert-text-color;
+  }
+  .outgoing .hourglass {
+    @include hourglass(#000);
+  }
+  .incoming .hourglass {
+    @include hourglass(#000);
+  }
+
+  .incoming .bubble {
+
+    .sender, .content, .body, .meta, a {
+      @include invert-text-color;
+    }
+    .attachments, .content {
+      a {
+        color: $grey_l;
+      }
+    }
+  }
+  button.clock {
+    @include header-icon-white('/images/clock.svg');
+  }
+  button.hamburger {
+    @include header-icon-white('/images/menu.svg');
+  }
+  button.back {
+    @include header-icon-white('/images/back.svg');
+  }
+  .sent .status {
+    display: inline-block;
+    @include color-svg('/images/check.svg', white);
+  }
+}
