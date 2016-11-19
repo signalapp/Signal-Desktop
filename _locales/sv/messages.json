@@ -4,7 +4,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Senaste import",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Verifiera säkerhetssiffror",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Du satte timern på $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -26,11 +26,11 @@
         }
     },
     "settings": {
-        "message": "Settings",
+        "message": "Inställningar",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Mottog meddelande med nya säkerhetssiffror. Klicka för att bearbeta och visa.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -54,7 +54,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Details",
+        "message": "Info",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Återställ session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -94,19 +94,19 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Importera alla grupper och kontakter från Signal-appen på din mobil.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Starta om Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Radera meddelanden",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Kunde inte ta emot meddelande.",
         "description": ""
     },
     "selectAContact": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Kanske vill du $tag_start$ verifiera $tag_end$ denna kontakt.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ satte timern på $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -148,7 +148,7 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "nyss",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
@@ -164,7 +164,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Enbart sändarens namn",
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
@@ -172,7 +172,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Vill du radera denna konversation för alltid?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
@@ -184,15 +184,15 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Varken namn eller meddelande",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Importera nu",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Importen misslyckades. Kontrollera att din datorn och din telefon har en fungerande internetuppkoppling.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -206,11 +206,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Mer om hur du kan verifiera säkerhetssiffror",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Godkännande av säkerhetssiffror",
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
@@ -218,7 +218,7 @@
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Börja med att installera Signal på din <a $play_store$>Android-enhet</a> eller <a $app_store$>iPhone</a>.<br /> Vi länkar då ihop dina enheter och synkar dina meddelanden.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -248,7 +248,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "Dina säkerhetssiffror för $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -258,15 +258,15 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Göm info",
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Nya säkerhetssiffror",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -278,7 +278,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Importerar...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -290,7 +290,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
@@ -298,7 +298,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Numret kunde inte hittas",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
@@ -306,7 +306,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontakter",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
@@ -314,7 +314,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "OK",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -330,7 +330,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Bildmeddelande",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
@@ -338,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "Denna kontakts säkerhetssiffror har ändrats. Klicka för att bearbeta och visa.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -346,11 +346,11 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "av",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Öppna Signal-appen på din telefon och gå till Settings > Linked devices. Tryck på knappen för att lägga en ny enhet och skanna sedan kodan ovan.",
         "description": ""
     },
     "installWelcome": {
@@ -358,11 +358,11 @@
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Kunde inte kontakta servern.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Meddelandet kunde ej skickas.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -374,7 +374,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Avblockera denna kontakt för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -416,7 +416,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Säkerhetssiffror blir tillgängliga efter att ett meddelande har skickats.",
         "description": ""
     },
     "submit": {
@@ -424,7 +424,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "$name$'s säkerhetssiffror har ändrats",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +434,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Kräv godkännande av säkerhetssiffror när de ändras.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -462,11 +462,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Både sändarens namn och meddelande",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Kunde inte skicka till vissa mottagare. Kontrollera din internetuppkoppling.",
         "description": ""
     },
     "ok": {
@@ -474,11 +474,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "Denna kontakts säkerhetssiffror har ändrats. Detta kan innebära att någon försöker avlyssna er kommunikation. Det kan också betyda att kontakten har installerat om Signal. Du kan verifiera de nya säkerhetssiffrorna nedan.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Skicka debug-logg",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
