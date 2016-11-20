@@ -1,22 +1,37 @@
 $grey-dark: #333333;
-$grey-dark_l2: darken($grey-dark, 3%);
-$grey-dark_l3: darken($grey-dark_l2, 6%);
-$grey-dark_l4: darken($grey-dark_l3, 9%);
+$grey-dark_l2: darken($grey-dark, 4%);
+$grey-dark_l3: darken($grey-dark_l2, 7%);
+$grey-dark_l4: darken($grey-dark_l3, 8%);
 $text-dark: #CCCCCC;
 
 .android-dark {
+  color: $text-dark;
+  hr {
+    border-color: $grey-dark;
+  }
   #header {
     background-color: $grey-dark;
     color: $text-dark;
     transition: background-color 0.5s;
-
     &.inactive {
       background-color: $grey-dark;
       color: $text-dark;
     }
   }
-  .message-container {
+  .message-detail, .message-container, .conversation, .modal .content,
+  .discussion-container {
+    background-color: $grey-dark_l3;
+  }
+  .key-verification .key {
     background-color: $grey-dark_l4;
+    border-color: $grey-dark_l2;
+  }
+  .menu-list {
+    background-color: $grey-dark_l2;
+    color: $text-dark;
+    li:hover {
+      background-color: $grey-dark;
+    }
   }
   .flex {
     background-color: $grey-dark_l2;
@@ -27,12 +42,16 @@ $text-dark: #CCCCCC;
   }
   .conversation-stack .inactive {
     .conversation-header{
-        background-color: $grey-dark;
-        color: $text-dark;
+      background-color: $grey-dark;
+      color: $text-dark;
     }
   }
   .contact-details .name {
     font-weight: 400;
+  }
+  .group-member-list .members .contact, .new-group-update .members .contact {
+    background-color: $grey-dark_l3;
+    border-color: $grey-dark;
   }
   .conversation.placeholder .conversation-header {
     display: none;
@@ -40,12 +59,24 @@ $text-dark: #CCCCCC;
   .conversation-header, .bubble {
     @include avatar-colors;
   }
-  .conversation {
-    background-color: $grey-dark_l4;
+  .message-list .advisory .content {
+    background-color: $grey-dark;
   }
   .inactive .conversation-header {
     background-color: $grey-dark !important;
     color: $text-dark;
+  }
+  .sent .status {
+    display: inline-block;
+    @include color-svg('/images/check.svg', white);
+  }
+  .paperclip:before {
+    content: '';
+    display: inline-block;
+    width: $button-height;
+    height: $button-height;
+    @include color-svg('/images/paperclip.svg', white);
+    transform: rotateZ(-45deg);
   }
   .scrollable {
     background-color: $grey-dark_l3;
@@ -54,12 +85,9 @@ $text-dark: #CCCCCC;
       color: $text-dark;
     }
   }
-  .discussion-container {
-    background-color: $grey-dark_l2;
-  }
   .bottom-bar {
     min-height: 10px;
-    background-color: $grey-dark;
+    background-color: $grey-dark_l2;
   }
   .search {
     background-color: $grey-dark_l2;
@@ -75,15 +103,11 @@ $text-dark: #CCCCCC;
     background-color: $grey-dark;
     @include invert-text-color;
   }
-  .outgoing .hourglass {
-    @include hourglass(#000);
-  }
-  .incoming .hourglass {
+  .outgoing .hourglass, .incoming .hourglass {
     @include hourglass(#000);
   }
 
   .incoming .bubble {
-
     .sender, .content, .body, .meta, a {
       @include invert-text-color;
     }
@@ -102,8 +126,20 @@ $text-dark: #CCCCCC;
   button.back {
     @include header-icon-white('/images/back.svg');
   }
-  .sent .status {
-    display: inline-block;
-    @include color-svg('/images/check.svg', white);
+  button.grey {
+    background-color: $grey-dark;
+    color: $text-dark;
+    border-color: $grey-dark_l2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(120,120,120,0.15);
+
+    &:hover {
+      background: rgba(120,120,120,0.25);
+    }
+  }
+  ::-webkit-scrollbar-track {
+    background-color: $grey-dark_l2;
   }
 }
