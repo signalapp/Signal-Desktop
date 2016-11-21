@@ -1547,6 +1547,11 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
+.ios .socket-status {
+  position: absolute;
+  padding-top: -3px;
+  top: 0;
+  right: 5px; }
 
 .android #header {
   background-color: #2090ea;
