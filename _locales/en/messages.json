@@ -14,7 +14,7 @@
       "message": "Submit"
     },
     "verifyContact": {
-      "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+      "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
       "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
       "placeholders": {
         "tag_start": {
@@ -27,23 +27,23 @@
     },
     "acceptNewKey": {
       "message": "Accept",
-      "description": "Label for a button to accept a new safety numbers"
+      "description": "Label for a button to accept a new safety number"
     },
     "verify": {
       "message": "Verify"
     },
     "newIdentity": {
-      "message": "New safety numbers",
+      "message": "New safety number",
       "description": "Header for a key change dialog"
     },
     "identityChanged": {
-      "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below."
+      "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
     },
     "outgoingKeyConflict": {
-      "message": "This contact's safety numbers have changed. Click to process and display."
+      "message": "Your safety number with this contact has changed. Click to process and display."
     },
     "incomingKeyConflict": {
-      "message": "Received message with new safety numbers. Click to process and display."
+      "message": "Received message with a new safety number. Click to process and display."
     },
     "incomingError": {
       "message": "Error handling incoming message."
@@ -122,10 +122,10 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers"
+        "message": "Verify safety number"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message."
+        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
     },
     "deleteMessages": {
         "message": "Delete messages",
@@ -280,7 +280,7 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Learn more about verifying safety numbers",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
@@ -455,14 +455,14 @@
     },
     "safetyNumbersSettingHeader": {
       "message": "Safety numbers approval",
-      "description": "Description for safety numbers setting"
+      "description": "Header for safety numbers setting"
     },
     "safetyNumbersSettingDescription": {
-      "message": "Require approval of new safety numbers when they change.",
+      "message": "Require approval of new safety numbers when they change",
       "description": "Description for safety numbers setting"
     },
     "keychanged": {
-      "message": "$name$'s safety numbers have changed",
+      "message": "Your safety number with $name$ has changed.",
       "description": "",
       "placeholders": {
         "name": {
@@ -472,7 +472,7 @@
       }
     },
     "yourSafetyNumberWith": {
-      "message": "Your safety numbers with $name$",
+      "message": "Your safety number with $name$",
       "description": "Heading for safety number view",
       "placeholders": {
         "name": {
