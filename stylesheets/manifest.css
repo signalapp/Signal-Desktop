@@ -1711,6 +1711,8 @@ li.entry .error-icon-container {
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation, .android-dark .modal .content,
   .android-dark .discussion-container, .android-dark .attachment-previews {
     background-color: #171717; }
+  .android-dark .lightbox .content {
+    background-color: transparent; }
   .android-dark .key-verification .key {
     background-color: #030303;
     border-color: #292929; }

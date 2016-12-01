@@ -22,6 +22,9 @@ $text-dark: #CCCCCC;
   .discussion-container, .attachment-previews {
     background-color: $grey-dark_l3;
   }
+  .lightbox .content {
+    background-color: rgba(0, 0, 0, 0);
+  }
   .key-verification .key {
     background-color: $grey-dark_l4;
     border-color: $grey-dark_l2;
