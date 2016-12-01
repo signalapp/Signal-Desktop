@@ -1709,7 +1709,7 @@ li.entry .error-icon-container {
       background-color: #333333;
       color: #CCCCCC; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation, .android-dark .modal .content,
-  .android-dark .discussion-container {
+  .android-dark .discussion-container, .android-dark .attachment-previews {
     background-color: #171717; }
   .android-dark .key-verification .key {
     background-color: #030303;
@@ -1729,7 +1729,7 @@ li.entry .error-icon-container {
     color: #CCCCCC; }
   .android-dark .contact-details .name {
     font-weight: 400; }
-  .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact {
+  .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
     background-color: #171717;
     border-color: #333333; }
   .android-dark .conversation.placeholder .conversation-header {
@@ -1797,7 +1797,11 @@ li.entry .error-icon-container {
     background-color: #292929; }
   .android-dark .search {
     background-color: #292929;
-    border-color: #292929; }
+    border-color: #292929;
+    color: white; }
+    .android-dark .search::selection {
+      background: white;
+      color: #454545; }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;

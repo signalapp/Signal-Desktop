@@ -19,7 +19,7 @@ $text-dark: #CCCCCC;
     }
   }
   .message-detail, .message-container, .conversation, .modal .content,
-  .discussion-container {
+  .discussion-container, .attachment-previews {
     background-color: $grey-dark_l3;
   }
   .key-verification .key {
@@ -49,7 +49,7 @@ $text-dark: #CCCCCC;
   .contact-details .name {
     font-weight: 400;
   }
-  .group-member-list .members .contact, .new-group-update .members .contact {
+  .group-member-list .members .contact, .new-group-update .members .contact, .attachment-previews img {
     background-color: $grey-dark_l3;
     border-color: $grey-dark;
   }
@@ -92,6 +92,7 @@ $text-dark: #CCCCCC;
   .search {
     background-color: $grey-dark_l2;
     border-color: $grey-dark_l2;
+    @include invert-text-color;
   }
   .bubble {
     padding: 9px 12px;
