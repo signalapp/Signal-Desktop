@@ -1702,15 +1702,17 @@ li.entry .error-icon-container {
   .android-dark hr {
     border-color: #333333; }
   .android-dark #header {
-    background-color: #333333;
-    color: #CCCCCC;
+    background-color: #2090ea;
+    color: white;
     transition: background-color 0.5s; }
     .android-dark #header.inactive {
       background-color: #333333;
       color: #CCCCCC; }
-  .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation, .android-dark .modal .content,
-  .android-dark .discussion-container, .android-dark .attachment-previews {
+  .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
+  .android-dark .discussion-container {
     background-color: #171717; }
+  .android-dark .modal .content {
+    background-color: #333333; }
   .android-dark .lightbox .content {
     background-color: transparent; }
   .android-dark .key-verification .key {
@@ -1722,9 +1724,9 @@ li.entry .error-icon-container {
     .android-dark .menu-list li:hover {
       background-color: #333333; }
   .android-dark .flex {
-    background-color: #292929; }
+    background-color: #171717; }
     .android-dark .flex .send-message {
-      background-color: #292929;
+      background-color: #171717;
       color: #CCCCCC; }
   .android-dark .conversation-stack .inactive .conversation-header {
     background-color: #333333;
@@ -1780,6 +1782,11 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+  .android-dark .delivered .status {
+    display: inline-block;
+    -webkit-mask: url("/images/double-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
   .android-dark .paperclip:before {
     content: '';
     display: inline-block;
@@ -1790,52 +1797,80 @@ li.entry .error-icon-container {
     background-color: white;
     transform: rotateZ(-45deg); }
   .android-dark .scrollable {
-    background-color: #171717; }
+    background-color: #292929; }
     .android-dark .scrollable .conversation-list-item {
       background-color: #171717;
       color: #CCCCCC; }
   .android-dark .bottom-bar {
     min-height: 10px;
     background-color: #292929; }
+    .android-dark .bottom-bar form.send {
+      background: #171717; }
   .android-dark .search {
-    background-color: #292929;
+    background-color: #171717;
     border-color: #292929;
     color: white; }
     .android-dark .search::selection {
       background: white;
       color: #454545; }
+    .android-dark .search::-webkit-search-cancel-button {
+      background: url("/images/x_white.svg") no-repeat center;
+      background-size: cover; }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;
     box-shadow: 0 3px 3px -4px black; }
   .android-dark .outgoing .bubble {
     background-color: #333333;
-    color: white; }
+    color: white;
+    color: #CCCCCC; }
     .android-dark .outgoing .bubble::selection {
       background: white;
       color: #454545; }
-  .android-dark .outgoing .hourglass, .android-dark .incoming .hourglass {
+  .android-dark .outgoing .hourglass {
     display: inline-block;
     position: relative;
     -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
-    .android-dark .outgoing .hourglass, .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass, .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+    .android-dark .outgoing .hourglass, .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after {
       width: 13px;
       height: 11px; }
-    .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+    .android-dark .outgoing .hourglass .sand, .android-dark .outgoing .hourglass:before, .android-dark .outgoing .hourglass:after {
       content: '';
       display: inline-block;
       position: absolute;
       top: 0;
       left: 0; }
-    .android-dark .outgoing .hourglass .sand, .android-dark .incoming .hourglass .sand {
-      background: #000; }
-    .android-dark .outgoing .hourglass:after, .android-dark .incoming .hourglass:after {
+    .android-dark .outgoing .hourglass .sand {
+      background: #999; }
+    .android-dark .outgoing .hourglass:after {
       -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
-      background-color: #000; }
+      background-color: #999; }
+  .android-dark .incoming .hourglass {
+    display: inline-block;
+    position: relative;
+    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: transparent;
+    background-size: 100%; }
+    .android-dark .incoming .hourglass, .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+      width: 13px;
+      height: 11px; }
+    .android-dark .incoming .hourglass .sand, .android-dark .incoming .hourglass:before, .android-dark .incoming .hourglass:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .android-dark .incoming .hourglass .sand {
+      background: #fff; }
+    .android-dark .incoming .hourglass:after {
+      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #fff; }
   .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a {
     color: white; }
     .android-dark .incoming .bubble .sender::selection, .android-dark .incoming .bubble .content::selection, .android-dark .incoming .bubble .body::selection, .android-dark .incoming .bubble .meta::selection, .android-dark .incoming .bubble a::selection {
@@ -1867,14 +1902,10 @@ li.entry .error-icon-container {
       -webkit-mask: url("/images/back.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
-  .android-dark button.grey {
-    background-color: #333333;
-    color: #CCCCCC;
-    border-color: #292929; }
   .android-dark ::-webkit-scrollbar-thumb {
-    background: rgba(120, 120, 120, 0.15); }
+    background: rgba(255, 255, 255, 0.15); }
     .android-dark ::-webkit-scrollbar-thumb:hover {
-      background: rgba(120, 120, 120, 0.25); }
+      background: rgba(255, 255, 255, 0.25); }
   .android-dark ::-webkit-scrollbar-track {
     background-color: #292929; }
 
