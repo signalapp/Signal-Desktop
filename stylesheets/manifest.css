@@ -1738,39 +1738,39 @@ li.entry .error-icon-container {
     border-color: #333333; }
   .android-dark .conversation.placeholder .conversation-header {
     display: none; }
-  .android-dark .conversation-header.red, .android-dark .bubble.red {
-    background-color: #EF5350; }
-  .android-dark .conversation-header.pink, .android-dark .bubble.pink {
-    background-color: #EC407A; }
-  .android-dark .conversation-header.purple, .android-dark .bubble.purple {
-    background-color: #AB47BC; }
-  .android-dark .conversation-header.deep_purple, .android-dark .bubble.deep_purple {
-    background-color: #7E57C2; }
-  .android-dark .conversation-header.indigo, .android-dark .bubble.indigo {
-    background-color: #5C6BC0; }
-  .android-dark .conversation-header.blue, .android-dark .bubble.blue {
-    background-color: #2196F3; }
-  .android-dark .conversation-header.light_blue, .android-dark .bubble.light_blue {
-    background-color: #03A9F4; }
-  .android-dark .conversation-header.cyan, .android-dark .bubble.cyan {
-    background-color: #00BCD4; }
-  .android-dark .conversation-header.teal, .android-dark .bubble.teal {
-    background-color: #009688; }
-  .android-dark .conversation-header.green, .android-dark .bubble.green {
-    background-color: #4CAF50; }
-  .android-dark .conversation-header.light_green, .android-dark .bubble.light_green {
-    background-color: #7CB342; }
-  .android-dark .conversation-header.orange, .android-dark .bubble.orange {
-    background-color: #FF9800; }
-  .android-dark .conversation-header.deep_orange, .android-dark .bubble.deep_orange {
-    background-color: #FF5722; }
-  .android-dark .conversation-header.amber, .android-dark .bubble.amber {
-    background-color: #FFB300; }
-  .android-dark .conversation-header.blue_grey, .android-dark .bubble.blue_grey {
-    background-color: #607D8B; }
-  .android-dark .conversation-header.grey, .android-dark .bubble.grey {
-    background-color: #999999; }
-  .android-dark .conversation-header.default, .android-dark .bubble.default {
+  .android-dark .avatar.red, .android-dark .conversation-header.red, .android-dark .bubble.red {
+    background-color: #D32F2F; }
+  .android-dark .avatar.pink, .android-dark .conversation-header.pink, .android-dark .bubble.pink {
+    background-color: #C2185B; }
+  .android-dark .avatar.purple, .android-dark .conversation-header.purple, .android-dark .bubble.purple {
+    background-color: #7B1FA2; }
+  .android-dark .avatar.deep_purple, .android-dark .conversation-header.deep_purple, .android-dark .bubble.deep_purple {
+    background-color: #512DA8; }
+  .android-dark .avatar.indigo, .android-dark .conversation-header.indigo, .android-dark .bubble.indigo {
+    background-color: #303F9F; }
+  .android-dark .avatar.blue, .android-dark .conversation-header.blue, .android-dark .bubble.blue {
+    background-color: #1976D2; }
+  .android-dark .avatar.light_blue, .android-dark .conversation-header.light_blue, .android-dark .bubble.light_blue {
+    background-color: #0288D1; }
+  .android-dark .avatar.cyan, .android-dark .conversation-header.cyan, .android-dark .bubble.cyan {
+    background-color: #0097A7; }
+  .android-dark .avatar.teal, .android-dark .conversation-header.teal, .android-dark .bubble.teal {
+    background-color: #00796B; }
+  .android-dark .avatar.green, .android-dark .conversation-header.green, .android-dark .bubble.green {
+    background-color: #388E3C; }
+  .android-dark .avatar.light_green, .android-dark .conversation-header.light_green, .android-dark .bubble.light_green {
+    background-color: #689F38; }
+  .android-dark .avatar.orange, .android-dark .conversation-header.orange, .android-dark .bubble.orange {
+    background-color: #F57C00; }
+  .android-dark .avatar.deep_orange, .android-dark .conversation-header.deep_orange, .android-dark .bubble.deep_orange {
+    background-color: #E64A19; }
+  .android-dark .avatar.amber, .android-dark .conversation-header.amber, .android-dark .bubble.amber {
+    background-color: #FFA000; }
+  .android-dark .avatar.blue_grey, .android-dark .conversation-header.blue_grey, .android-dark .bubble.blue_grey {
+    background-color: #455A64; }
+  .android-dark .avatar.grey, .android-dark .conversation-header.grey, .android-dark .bubble.grey {
+    background-color: #666666; }
+  .android-dark .avatar.default, .android-dark .conversation-header.default, .android-dark .bubble.default {
     background-color: #2090ea; }
   .android-dark .message-list .advisory .content {
     background-color: #333333; }

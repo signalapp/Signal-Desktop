@@ -34,6 +34,25 @@
   &.grey        { background-color: #999999               ; }
   &.default     { background-color: $blue                 ; }
 }
+@mixin dark-avatar-colors {
+  &.red         { background-color: $dark_material_red         ; }
+  &.pink        { background-color: $dark_material_pink        ; }
+  &.purple      { background-color: $dark_material_purple      ; }
+  &.deep_purple { background-color: $dark_material_deep_purple ; }
+  &.indigo      { background-color: $dark_material_indigo      ; }
+  &.blue        { background-color: $dark_material_blue        ; }
+  &.light_blue  { background-color: $dark_material_light_blue  ; }
+  &.cyan        { background-color: $dark_material_cyan        ; }
+  &.teal        { background-color: $dark_material_teal        ; }
+  &.green       { background-color: $dark_material_green       ; }
+  &.light_green { background-color: $dark_material_light_green ; }
+  &.orange      { background-color: $dark_material_orange      ; }
+  &.deep_orange { background-color: $dark_material_deep_orange ; }
+  &.amber       { background-color: $dark_material_amber       ; }
+  &.blue_grey   { background-color: $dark_material_blue_grey   ; }
+  &.grey        { background-color: #666666               ; }
+  &.default     { background-color: $blue                 ; }
+}
 @mixin invert-text-color {
   color: white;
 

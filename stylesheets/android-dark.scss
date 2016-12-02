@@ -62,8 +62,8 @@ $text-dark: #CCCCCC;
   .conversation.placeholder .conversation-header {
     display: none;
   }
-  .conversation-header, .bubble {
-    @include avatar-colors;
+  .avatar, .conversation-header, .bubble {
+    @include dark-avatar-colors;
   }
   .message-list .advisory .content {
     background-color: $grey-dark;
