@@ -1,10 +1,10 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekundžių",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Paskutinis importavimas ties",
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Patvirtinti saugumo numerius",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Jūs nustatėte laikmatį į $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -30,11 +30,11 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Gauta žinutė su naujais saugumo numeriais. Spustelėkite, norėdami apdoroti ir parodyti.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 sek.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -42,23 +42,23 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 minutė",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Supratau!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Išnykstančios žinutės",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Details",
+        "message": "Išsamesnė informacija",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Atstatyti seansą",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -78,19 +78,19 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "Kai gaunamos žinutės, rodyti pranešimus, kuriuose atskleidžiama:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Nariai",
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 valanda",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "išjungta",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Ištrinti žinutes",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -110,7 +110,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Pasirinkite kontaktą ar grupę, kad pradėtumėte pokalbį.",
         "description": ""
     },
     "installConnecting": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ this contact.",
+        "message": "Jūs, tikriausiai, norėtumėte $tag_start$ patvirtinti $tag_end$ šį kontaktą.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ nustatė laikmatį į $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -148,11 +148,11 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "dabar",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 diena",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -160,11 +160,11 @@
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nauja žinutės",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Tik siuntėjo vardas",
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
@@ -184,7 +184,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Nei vardas, nei žinutė",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
@@ -206,11 +206,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Sužinoti daugiau apie saugumo numerių patvirtinimą.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Saugumo numerių patvirtinimas",
         "description": "Description for safety numbers setting"
     },
     "installTooManyDevices": {
@@ -218,7 +218,7 @@
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Iš pradžių, įdiekite Signal savo <a $play_store$>Android</a> ar <a $app_store$>iPhone</a> telefone.<br /> Mes susiesime jūsų įrenginius ir išlaikysime jūsų žinutes sinchronizuotas.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -236,11 +236,11 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -248,7 +248,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "Jūsų saugumo numeriai su $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -258,19 +258,19 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Slėpti išsamesnę informaciją",
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Nauji saugumo numeriai",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "disconnected": {
@@ -286,7 +286,7 @@
         "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -294,27 +294,27 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Numeris nėra registruotas",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 d.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontaktai",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 savaitė",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "Supratau",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -322,7 +322,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 sekundžių",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -330,15 +330,15 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Medija žinutė",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Pasibaigė šios Signal darbalaukiui skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "Šio kontakto saugumo numeriai pasikeitė. Spustelėkite, norėdami apdoroti ir parodyti.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -346,7 +346,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "išjungta",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -374,7 +374,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Atblokuokite šį kontaktą, kad išsiųstumėte žinutę.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -382,7 +382,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Saugusis seansas atstatytas",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -390,11 +390,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 sav.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekundės",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -408,23 +408,23 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Susiejama su",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Naujos žinutės",
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Saugumo numeriai bus prieinami po pirmosios žinutės.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Pateikti",
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "Pasikeitė kontakto $name$ saugumo numeriai",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +434,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Reikalauti naujų saugumo numerių patvirtinimo, jiems pasikeitus.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -442,27 +442,27 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 val.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Atrodo, viskas gerai",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Žinutės informacija",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Patvirtinti",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 sek.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Ir siuntėjo vardas, ir žinutė",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -474,11 +474,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "Pasikeitė šio kontakto saugumo numeriai. Tai galėtų reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naujus kontakto saugumo numerius.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Pateikti derinimo žurnalą",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -486,7 +486,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Laikmatis nustatytas į $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -496,7 +496,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 sek.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {

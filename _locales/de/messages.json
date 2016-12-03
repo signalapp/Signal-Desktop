@@ -338,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Die Sicherheitsnummern dieses Kontakts haben sich geändert. Zum Verarbeiten und Anzeigen anklicken.",
+        "message": "Die Sicherheitsnummern mit diesem Kontakt haben sich geändert. Zum Verarbeiten und Anzeigen anklicken.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -424,7 +424,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Die Sicherheitsnummern von $name$ haben sich geändert",
+        "message": "Die Sicherheitsnummern mit $name$ haben sich geändert",
         "description": "",
         "placeholders": {
             "name": {
@@ -474,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Die Sicherheitsnummern dieses Kontakts haben sich geändert. Dies könnte entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dass dieser Kontakt Signal einfach erneut installiert hat. Vielleicht möchtest du die neuen Sicherheitsnummern unten überprüfen.",
+        "message": "Die Sicherheitsnummern mit diesem Kontakt haben sich geändert. Dies könnte entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dass dieser Kontakt Signal einfach erneut installiert hat. Vielleicht möchtest du die neuen Sicherheitsnummern unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {

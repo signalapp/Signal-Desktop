@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Ricevuto messaggio con nuovi numeri sicuri. Clicca per procedere e visualizzare.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -206,7 +206,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Impara di più sulla verifica dei numeri sicuri.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -266,7 +266,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Nuovi numeri sicuri",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -338,7 +338,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "I numeri sicuri del contatto sono cambiati. Clicca per procedere e visualizzare.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +416,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Non hai ancora scambiato alcun messaggio con questo contatti. I numeri sicuri saranno disponibili dopo il primo messaggio.",
         "description": ""
     },
     "submit": {
@@ -474,7 +474,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "I numeri sicuri di questo contatto sono cambiati. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal.",
         "description": ""
     },
     "submitDebugLog": {
