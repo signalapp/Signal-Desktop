@@ -1702,7 +1702,7 @@ li.entry .error-icon-container {
   .android-dark hr {
     border-color: #333333; }
   .android-dark #header {
-    background-color: #2090ea;
+    background-color: #292929;
     color: white;
     transition: background-color 0.5s; }
     .android-dark #header.inactive {
@@ -1728,9 +1728,6 @@ li.entry .error-icon-container {
     .android-dark .flex .send-message {
       background-color: #171717;
       color: #CCCCCC; }
-  .android-dark .conversation-stack .inactive .conversation-header {
-    background-color: #333333;
-    color: #CCCCCC; }
   .android-dark .contact-details .name {
     font-weight: 400; }
   .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
