@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Bekreft sikkerhets tall",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Tilbakestill økten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "av",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -152,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 dag",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -192,7 +192,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Importering mislyktes. Sørg for at datamaskinen og telefonen din er koblet til internett.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
@@ -206,7 +206,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Lær mer om å verifisere sikkerhets tall.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -262,11 +262,11 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Nye sikkerhets tall",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -286,7 +286,7 @@
         "description": "Label for a button to accept a new safety numbers"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -294,7 +294,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -310,7 +310,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 uke",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -322,7 +322,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -346,7 +346,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "av",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -374,7 +374,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Opphev blokkeringen på denne kontakten for å sende en melding.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -390,11 +390,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1u",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -442,7 +442,7 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -478,7 +478,7 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Send debug logg",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
