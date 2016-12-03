@@ -1699,6 +1699,8 @@ li.entry .error-icon-container {
 
 .android-dark {
   color: #CCCCCC; }
+  .android-dark a {
+    color: #57a5e5; }
   .android-dark hr {
     border-color: #333333; }
   .android-dark #header {
