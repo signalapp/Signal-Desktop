@@ -1725,6 +1725,13 @@ li.entry .error-icon-container {
     color: #CCCCCC; }
     .android-dark .menu-list li:hover {
       background-color: #333333; }
+  .android-dark .content textarea {
+    background-color: #171717;
+    border-width: 0px;
+    color: white; }
+    .android-dark .content textarea::selection {
+      background: white;
+      color: #454545; }
   .android-dark .flex {
     background-color: #171717; }
     .android-dark .flex .send-message {
