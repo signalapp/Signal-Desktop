@@ -467,7 +467,7 @@
               return ms_from_now;
         },
         setToExpire: function() {
-            if (this.isExpiring() && !this.expireTimer) {
+            if (this.isExpiring() && !this.expirationTimeout) {
                 var ms_from_now = this.msTilExpire();
                 console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
                 this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);
