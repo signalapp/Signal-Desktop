@@ -194,14 +194,15 @@
         }
     },
 
-    addExpirationTimerUpdate: function(expireTimer, source, received_at) {
-        received_at = received_at || Date.now();
+    updateExpirationTimer: function(expireTimer, source, received_at) {
+        source = source || textsecure.storage.user.getNumber();
+        var timestamp = received_at || Date.now();
         this.save({ expireTimer: expireTimer });
         var message = this.messageCollection.add({
             conversationId        : this.id,
             type                  : 'outgoing',
-            sent_at               : received_at,
-            received_at           : received_at,
+            sent_at               : timestamp,
+            received_at           : timestamp,
             flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
             expirationTimerUpdate : {
               expireTimer    : expireTimer,
@@ -212,18 +213,17 @@
             message.set({destination: this.id});
         }
         message.save();
+        if (!received_at) { // outgoing update, send it to the number/group
+            var sendFunc;
+            if (this.get('type') == 'private') {
+                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
+            }
+            else {
+                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
+            }
+            message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
+        }
         return message;
-    },
-    sendExpirationTimerUpdate: function(time) {
-        var message = this.addExpirationTimerUpdate(time, textsecure.storage.user.getNumber());
-        var sendFunc;
-        if (this.get('type') == 'private') {
-            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-        }
-        else {
-            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-        }
-        message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
     },
 
     isSearchable: function() {
