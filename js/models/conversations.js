@@ -200,7 +200,7 @@
         this.save({ expireTimer: expireTimer });
         var message = this.messageCollection.add({
             conversationId        : this.id,
-            type                  : 'outgoing',
+            type                  : received_at ? 'incoming' : 'outgoing',
             sent_at               : timestamp,
             received_at           : timestamp,
             flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
@@ -213,7 +213,7 @@
             message.set({destination: this.id});
         }
         message.save();
-        if (!received_at) { // outgoing update, send it to the number/group
+        if (message.isOutgoing()) { // outgoing update, send it to the number/group
             var sendFunc;
             if (this.get('type') == 'private') {
                 sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
