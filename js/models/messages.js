@@ -398,12 +398,12 @@
                         if (!message.isEndSession()) {
                             if (dataMessage.expireTimer) {
                                 if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                                  conversation.addExpirationTimerUpdate(
+                                  conversation.updateExpirationTimer(
                                       dataMessage.expireTimer, source,
                                       message.get('received_at'));
                                 }
                             } else if (conversation.get('expireTimer')) {
-                                conversation.addExpirationTimerUpdate(0, source,
+                                conversation.updateExpirationTimer(0, source,
                                     message.get('received_at'));
                             }
                         }
