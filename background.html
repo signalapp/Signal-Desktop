@@ -15,7 +15,6 @@
                     <li class='restart-signal'>{{ restartSignal }}</li>
                 </ul>
               </div>
-              <span class='socket-status'></span>
             </div>
           </div>
           <h1>Signal</h1>
@@ -24,6 +23,7 @@
             <span class='search-icon'></span>
           </div>
         </div>
+        <div class='network-status-container'></div>
         <div class='content'>
           <div class='conversations scrollable inbox'></div>
           <div class='conversations scrollable search-results hide'>
@@ -485,6 +485,18 @@
         </p>
       </div>
   </script>
+
+  <script type='text/x-tmpl-mustache' id='networkStatus'>
+    <div class="network-status-message">
+      {{ message }}
+    </div>
+    {{ #reconnectDurationAsSeconds }}
+    <div class="network-status-message">
+      Attempting reconnect in {{ reconnectDurationAsSeconds }} seconds
+    </div>
+    {{/reconnectDurationAsSeconds }}
+  </script>
+
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/debugLog.js'></script>
