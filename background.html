@@ -4,6 +4,7 @@
   <meta charset='utf-8'>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
+        <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
           <div class='header-buttons right'>
             <div class='vertical-align'>
@@ -15,7 +16,6 @@
                     <li class='restart-signal'>{{ restartSignal }}</li>
                 </ul>
               </div>
-              <span class='socket-status'></span>
             </div>
           </div>
           <h1>Signal</h1>
@@ -490,6 +490,19 @@
         </p>
       </div>
   </script>
+
+  <script type='text/x-tmpl-mustache' id='networkStatus'>
+    <div class='network-status-message' style='{{^instructions}}margin-top:3px;{{/instructions}}{{#instructions}}margin-top:-6px{{/instructions}}'>
+      <h3 style='{{^instructions}}font-size:17px;{{/instructions}}'>{{ message }}</h3>
+      <span>{{ instructions }}</span>
+    </div>
+    {{ #reconnectDurationAsSeconds }}
+    <div class="network-status-message">
+      {{ attemptingReconnectionMessage }}
+    </div>
+    {{/reconnectDurationAsSeconds }}
+  </script>
+
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/debugLog.js'></script>
@@ -537,6 +550,7 @@
   <script type='text/javascript' src='js/views/conversation_search_view.js'></script>
   <script type='text/javascript' src='js/views/hint_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
+  <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>

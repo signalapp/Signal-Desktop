@@ -6,37 +6,6 @@
 
     window.Whisper = window.Whisper || {};
 
-    var SocketView = Whisper.View.extend({
-        className: 'status',
-        initialize: function() {
-            setInterval(this.updateStatus.bind(this), 5000);
-        },
-        updateStatus: function() {
-            var className, message = '';
-            if (typeof getSocketStatus === 'function') {
-              switch(getSocketStatus()) {
-                  case WebSocket.CONNECTING:
-                      className = 'connecting';
-                      break;
-                  case WebSocket.OPEN:
-                      className = 'open';
-                      break;
-                  case WebSocket.CLOSING:
-                      className = 'closing';
-                      break;
-                  case WebSocket.CLOSED:
-                      className = 'closed';
-                      message = i18n('disconnected');
-                      break;
-              }
-            if (!this.$el.hasClass(className)) {
-                this.$el.attr('class', className);
-                this.$el.text(message);
-            }
-          }
-        }
-    });
-
     Whisper.ConversationStack = Whisper.View.extend({
         className: 'conversation-stack',
         open: function(conversation) {
@@ -112,6 +81,11 @@
             });
 
             var inboxCollection = getInboxCollection();
+
+            inboxCollection.on('messageError', function() {
+                this.networkStatusView.render();
+            });
+
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
                 collection : inboxCollection
@@ -139,7 +113,8 @@
             this.listenTo(this.searchView, 'open',
                 this.openConversation.bind(this, null));
 
-            new SocketView().render().$el.appendTo(this.$('.socket-status'));
+            this.networkStatusView = new Whisper.NetworkStatusView();
+            this.$el.find('.network-status-container').append(this.networkStatusView.render().el);
 
             extension.windows.onClosed(function() {
                 this.inboxListView.stopListening();
