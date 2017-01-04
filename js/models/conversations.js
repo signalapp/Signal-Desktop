@@ -32,11 +32,17 @@
       return { unreadCount : 0 };
     },
 
+    handleMessageError: function(message, errors) {
+        this.trigger('messageError', message, errors);
+    },
+
     initialize: function() {
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
         });
+
+        this.messageCollection.on('change:errors', this.handleMessageError, this);
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
