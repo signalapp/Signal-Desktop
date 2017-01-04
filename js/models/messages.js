@@ -395,7 +395,7 @@
                             message.set({expireTimer: dataMessage.expireTimer});
                         }
 
-                        if (!message.isEndSession()) {
+                        if (!message.isEndSession() && !message.isGroupUpdate()) {
                             if (dataMessage.expireTimer) {
                                 if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
                                   conversation.addExpirationTimerUpdate(
