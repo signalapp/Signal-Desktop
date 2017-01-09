@@ -15,25 +15,15 @@
         logError(error);
     };
 
-    var view;
-
     function render() {
         extension.windows.getBackground(function(bg) {
-            bg.ConversationController.updateInbox().then(function() {
-                try {
-                    if (view) { view.remove(); }
-                    var $body = bg.$('body',document).empty();
-                    view = new bg.Whisper.InboxView({window: window});
-                    view.$el.prependTo($body);
-                    window.openConversation = function(conversation) {
-                        if (conversation) {
-                            view.openConversation(null, conversation);
-                        }
-                    };
-                    openConversation(bg.getOpenConversation());
-                } catch (e) {
-                    logError(e);
-                }
+
+            var inboxPromise = bg.initLoading.done(function(owsDesktopApp) {
+                owsDesktopApp.getAppView(window).then(function(appView) {
+                    var bodyEl = document.getElementById('signal-container');
+                    bodyEl.innerHTML = "";
+                    bodyEl.append(appView.el);
+                });
             });
         });
     }
