@@ -156,6 +156,11 @@
             });
 
             var inboxCollection = getInboxCollection();
+
+            inboxCollection.on('messageSendErrors', function(){
+                this.networkStatusView.render();
+            });
+
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
                 collection : inboxCollection
