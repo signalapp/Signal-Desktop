@@ -120,6 +120,9 @@
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
         );
+
+        deferredInit.resolve(owsDesktopApp);
+
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
@@ -293,4 +296,38 @@
             timestamp: timestamp, source: pushMessage.source
         });
     }
+
+    var App = Backbone.Model.extend({
+        initialize: function(opts) {
+            this.inboxView = null;
+        },
+        getAppView: function(destWindow) {
+
+            var self = this;
+
+            return ConversationController.updateInbox().then(function() {
+                try {
+                    if (self.inboxView) { self.inboxView.remove(); }
+                    self.inboxView = new Whisper.InboxView({model: self, window: destWindow});
+                    destWindow.openConversation = function(conversation) {
+                        if (conversation) {
+                            self.inboxView.openConversation(null, conversation);
+                        }
+                    };
+                    destWindow.openConversation(getOpenConversation());
+
+                    return self.inboxView;
+
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+    });
+
+    window.owsDesktopApp = new App();
+
+    var deferredInit = $.Deferred();
+    window.initLoading = deferredInit.promise();
+
 })();
