@@ -419,6 +419,10 @@
       "message": "5m",
       "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "timerOption_10_minutes_abbreviated": {
+      "message": "10m",
+      "description": "Very short format indicating current timer setting in the conversation header"
+    },
     "timerOption_30_minutes_abbreviated": {
       "message": "30m",
       "description": "Very short format indicating current timer setting in the conversation header"
