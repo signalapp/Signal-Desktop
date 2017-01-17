@@ -4,6 +4,12 @@
 (function () {
   'use strict';
 
+  var timestampFormat = function(dateobj) {
+      var date = dateobj.toISOString().slice(0, 10);
+      var time = dateobj.toISOString().slice(11, 19).split(':');
+      return date + '-' + time[0] + time[1] + time[2];
+  };
+
   var FileView = Backbone.View.extend({
       tagName: 'a',
       initialize: function(dataUrl) {
@@ -67,6 +73,8 @@
         var parts = this.model.contentType.split('/');
         this.contentType = parts[0];
         this.fileType = parts[1];
+
+        this.timestamp = this.model.timestamp;
     },
     events: {
         'click': 'onclick'
@@ -91,7 +99,7 @@
         var blob = this.blob;
         var suggestedName;
         if (this.fileType) {
-            suggestedName = 'signal.' + this.fileType;
+            suggestedName = 'signal-' + timestampFormat(new Date(this.timestamp)) + '.' + this.fileType;
         }
         var w = extension.windows.getViews()[0];
         if (w && w.chrome && w.chrome.fileSystem) {
