@@ -79,6 +79,9 @@
         tagName:   'li',
         className: 'keychange',
         templateName: 'keychange',
+        id: function() {
+            return this.model.id;
+        },
         initialize: function() {
             this.conversation = this.model.getModelForKeyChange();
             this.listenTo(this.conversation, 'change', this.render);
