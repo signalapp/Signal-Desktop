@@ -259,7 +259,7 @@
         },
         loadAttachments: function() {
             this.model.get('attachments').forEach(function(attachment) {
-                var view = new Whisper.AttachmentView({ model: attachment });
+                var view = new Whisper.AttachmentView({ model: attachment, timestamp: this.model.get('timestamp') });
                 this.listenTo(view, 'update', function() {
                     if (!view.el.parentNode) {
                         this.trigger('beforeChangeHeight');
