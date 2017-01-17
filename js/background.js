@@ -138,7 +138,7 @@
             active_at: Date.now()
         });
         var error;
-        if (error = c.validateNumber()) {
+        if ((error = c.validateNumber())) {
           console.log(error);
           return;
         }
