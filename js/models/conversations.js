@@ -51,14 +51,16 @@
     },
 
     addKeyChange: function(id) {
-        var message = this.messageCollection.add({
+        var timestamp = Date.now();
+        var message = new Whisper.Message({
             conversationId : this.id,
             type           : 'keychange',
             sent_at        : this.get('timestamp'),
-            received_at    : this.get('timestamp'),
+            received_at    : timestamp,
             key_changed    : id
         });
-        message.save();
+        this.set({ lastMessage: message.getNotificationText() });
+        message.save().then(this.trigger.bind(this,'newmessage', message));
     },
 
     onReadMessage: function(message) {
