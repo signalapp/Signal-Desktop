@@ -91,7 +91,7 @@
         },
         render_attributes: function() {
             return {
-              content: i18n('keychanged', this.conversation.getTitle())
+              content: this.model.getNotificationText()
             };
         },
         verifyIdentity: function() {
