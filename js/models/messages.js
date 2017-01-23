@@ -73,6 +73,9 @@
             }
             return this.get('body');
         },
+        isKeyChange: function() {
+            return this.get('type') === 'keychange';
+        },
         getNotificationText: function() {
             var description = this.getDescription();
             if (description) {
@@ -87,6 +90,10 @@
                       this.get('expirationTimerUpdate').expireTimer
                     )
                 );
+            }
+            if (this.isKeyChange()) {
+                var conversation = this.getModelForKeyChange();
+                return i18n('keychanged', conversation.getTitle());
             }
 
             return '';
@@ -145,12 +152,15 @@
         },
         getModelForKeyChange: function() {
             var id = this.get('key_changed');
-            var c = ConversationController.get(id);
-            if (!c) {
-                c = ConversationController.create({ id: id, type: 'private' });
-                c.fetch();
+            if (!this.modelForKeyChange) {
+              var c = ConversationController.get(id);
+              if (!c) {
+                  c = ConversationController.create({ id: id, type: 'private' });
+                  c.fetch();
+              }
+              this.modelForKeyChange = c;
             }
-            return c;
+            return this.modelForKeyChange;
         },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
