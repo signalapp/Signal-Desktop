@@ -78,9 +78,9 @@
                 img.onload = function () {
                     URL.revokeObjectURL(url);
 
-                    var maxSize = 420 * 1024;
-                    var maxHeight = 1280;
-                    var maxWidth = 1280;
+                    var maxSize = 4000 * 1024;
+                    var maxHeight = 2048;
+                    var maxWidth = 2048;
                     if (img.width <= maxWidth && img.height <= maxHeight &&
                         file.size <= maxSize) {
                         resolve(file);
@@ -139,7 +139,7 @@
                 var blobType = file.type === 'image/gif' ? 'gif' : type;
                 switch (blobType) {
                     case 'image':
-                        limitKb = 420; break;
+                        limitKb = 4000; break;
                     case 'gif':
                         limitKb = 5000; break;
                     case 'audio':
