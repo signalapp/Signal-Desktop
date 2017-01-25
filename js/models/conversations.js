@@ -59,7 +59,6 @@
             received_at    : timestamp,
             key_changed    : id
         });
-        this.set({ lastMessage: message.getNotificationText() });
         message.save().then(this.trigger.bind(this,'newmessage', message));
     },
 
@@ -185,15 +184,18 @@
     },
 
     updateLastMessage: function() {
-        var lastMessage = this.messageCollection.at(this.messageCollection.length - 1);
-        if (lastMessage) {
-          this.save({
-            lastMessage : lastMessage.getNotificationText(),
-            timestamp   : lastMessage.get('sent_at')
-          });
-        } else {
-          this.save({ lastMessage: '', timestamp: null });
-        }
+        var collection = new Whisper.MessageCollection();
+        return collection.fetchConversation(this.id, 1).then(function() {
+            var lastMessage = collection.at(0);
+            if (lastMessage) {
+              this.save({
+                lastMessage : lastMessage.getNotificationText(),
+                timestamp   : lastMessage.get('sent_at')
+              });
+            } else {
+              this.save({ lastMessage: '', timestamp: null });
+            }
+        }.bind(this));
     },
 
     updateExpirationTimer: function(expireTimer, source, received_at) {
