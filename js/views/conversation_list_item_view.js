@@ -22,8 +22,11 @@
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
             this.listenTo(this.model.messageCollection, 'add remove',
               _.debounce(this.model.updateLastMessage.bind(this.model), 1000));
+            this.listenTo(this.model, 'newmessage',
+              _.debounce(this.model.updateLastMessage.bind(this.model), 1000));
             extension.windows.onClosed(this.stopListening.bind(this));
             this.timeStampView = new Whisper.TimestampView({brief: true});
+            this.model.updateLastMessage();
         },
 
         markSelected: function() {

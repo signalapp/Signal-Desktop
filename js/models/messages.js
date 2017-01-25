@@ -424,10 +424,6 @@
                                 timestamp: message.get('sent_at')
                             });
                         }
-                        conversation.set({
-                            lastMessage: message.getNotificationText()
-                        });
-
                         message.save().then(function() {
                             conversation.save().then(function() {
                                 conversation.trigger('newmessage', message);
