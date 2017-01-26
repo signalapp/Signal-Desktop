@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verificar números de segurança",
+        "message": "Verificar número de segurança",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Mensagem recebida com novos números de segurança. Clique para aceitar e exibir.",
+        "message": "Mensagem recebida com novo número de segurança. Clique para aceitar e exibir.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -94,7 +94,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Importar todos os grupos e contatos no Signal do seu aparelho celular. ",
+        "message": "Importar todos os grupos e contatos  do seu celular para o Signal. ",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -106,7 +106,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error de tratamento da mensagem recebida.",
+        "message": "Erro de tratamento da mensagem recebida.",
         "description": ""
     },
     "selectAContact": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Você quer $tag_start$ verificar $tag_end$ este contato?",
+        "message": "Queira $tag_start$ verificar $tag_end$ o seu número de segurança com este contato. ",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,19 +206,19 @@
         }
     },
     "learnMore": {
-        "message": "Saiba mais sobre como verificar números de segurança.",
+        "message": "Saiba mais sobre como verificar números de segurança",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Aprovação dos números de segurança",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Desculpe. Há muitos aparelhos já religados. Tente remover alguns.",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "Primeiro, instale Signal <a $play_store$>no seu Android</a> ou <a $app_store$>iPhone</a>.<br /> Seus aparelhos serão religados e suas mensagens, sincronizadas.",
+        "message": "Primeiro, instale Signal <a $play_store$>no seu Android</a> ou $app_store$>iPhone</a>.<br /> Seus aparelhos serão religados e suas mensagens, sincronizadas.\n\n \n",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -239,6 +239,10 @@
         "message": "30min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (escuro)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1min",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Os seus números de segurança com $name$",
+        "message": "O seu número de segurança com $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Novos números de segurança",
+        "message": "Novo número de segurança",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Aceitar",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": " Os números de segurança deste contato mudaram. Clique para aceitar e exibir.",
+        "message": "O seu número de segurança com este contato mudou. Clique para aceitar e exibir.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -350,11 +354,11 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Abrir Signal no seu telefone e ir até Configurações > Aparelhos religados. Clicar no botão para adicional um novo aparelho e copiar o código abaixo.",
+        "message": "Abrir Signal no seu telefone e ir até Configurações > Aparelhos religados. Clicar no botão para adicionar um novo aparelho e, em seguida, copiar o código abaixo.",
         "description": ""
     },
     "installWelcome": {
-        "message": "Boas-vindas ao Desktop do Signal",
+        "message": "Boas-vindas ao Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Você ainda não trocou nenhuma mensagem com a pessoa deste contato. Os números de segurança dela serão disponíveis após a primeira mensagem.",
+        "message": "Você ainda não trocou nenhuma mensagem com a pessoa deste contato. O seu número de segurança com ela será disponível após a primeira mensagem.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "O número de segurança de $name$ mudou.",
+        "message": "O seu número de segurança com $name$ mudou.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Requerer aprovação do novo número de segurança quando ele for mudado.",
+        "message": "Requerer aprovação de novos números de segurança quando eles mudarem.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,11 +478,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Os números de segurança deste contato mudaram. Isso pode ser uma tentativa de interceptação das suas comunicações ou uma simples reinstalação do Signal. Recomendamos-lhe verificar os novos números de segurança deste contato, abaixo.",
+        "message": "O seu número de segurança com este contato mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou uma simples reinstalação do Signal. Recomendamos-lhe verificar o novo número de segurança, abaixo.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Enviar relatório de bug",
+        "message": "Enviar registro de depuração",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {

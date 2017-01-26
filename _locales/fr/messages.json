@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Vérifier les numéros de sécurité",
+        "message": "Vérifier le numéro de sécurité",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Message reçu avec un nouveau numéro de sécurité. Cliquez pour traiter et afficher.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Vous devriez $tag_start$ vérifier $tag_end$ ce contact.",
+        "message": "Vous pouvez souhaiter $tag_start$ verify $tag_end$ votre numéro de sécurité avec ce contact.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "En savoir plus sur la vérification des numéros de sécurité",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Approbation des numéros de sécurité",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Nombre maximal d'appareils liés atteint. Supprimez-en d'abord.",
@@ -239,6 +239,10 @@
         "message": "30 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (sombre)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Vos numéros de sécurité avec $name$",
+        "message": "Votre numéro de sécurité avec $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Nouveau numéro de sécurité",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Accepter",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "Votre numéro de sécurité avec ce contact a changé. Cliquez pour traiter et afficher.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Vous n'avez pas encore échangé de messages avec ce contact. Votre numéro de sécurité sera disponible après le premier message.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Les numéros de sécurité de $name$ ont changé",
+        "message": "Votre numéro de sécurité avec $name$ a changé.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Exiger l’approbation des nouveaux numéros de sécurité lorsqu’ils changent.",
+        "message": "Exiger l'approbation de nouveaux numéros de sécurité lorsqu'ils changent",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "Votre numéro de sécurité avec ce contact a changé. Cela pourrait signifier que quelqu'un essaie d'intercepter votre communication, ou ce contact a simplement réinstallé Signal. Vous pouvez vérifier le nouveau numéro de sécurité ci-dessous.",
         "description": ""
     },
     "submitDebugLog": {
