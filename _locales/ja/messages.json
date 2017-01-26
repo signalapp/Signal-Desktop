@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "安全番号を確認する",
+        "message": "安全番号を確認",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "この連絡先を$tag_start$確認$tag_end$することができます。",
+        "message": "このコンタクトとの $tag_start$ 安全番号 $tag_end$ を確認することができます。",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "安全番号の確認についての詳細",
+        "message": "安全番号を確認することについて",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "安全番号が承認されました",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
@@ -239,6 +239,10 @@
         "message": "30分",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "アンドロイド（ダーク）",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1分",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "$name$との間の安全番号",
+        "message": "$name$ との安全番号",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "受け入れる",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12時間",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "この連絡先の安全番号が変わりました。表示・処理を行うにはクリックしてください。",
+        "message": "このコンタクトとの安全番号が変わりました。クリックして処理と表示を行ってください。",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "この連絡先とはまだメッセージのやり取りがありませんので，安全番号もありません。",
+        "message": "このコンタクトとまだメッセージを交換していません。最初のメッセージから安全番号は交換します。",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$の安全番号が変わりました",
+        "message": "$name$ との安全番号が変わりました。",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "暗証番号の変更に承認を要求する",
+        "message": "安全番号が変わると確認することが必要となる",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "この連絡先の安全番号が以前と異なります。誰かが通信を傍受しようとしているかも知れませんし，この連絡先がSignalをインストールし直しただけかも知れません。新しい安全番号を以下で確認しておいた方がいいかも知れません。",
+        "message": "このコンタクトとの安全番号が変わりました。誰かがこの会話を盗聴しようとしていることか、コンタクトはただ、Signalをまたインストールしたの２つの理由となります。以下の安全番号を確認してください。",
         "description": ""
     },
     "submitDebugLog": {

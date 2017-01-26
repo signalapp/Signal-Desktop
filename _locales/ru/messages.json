@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Подтвердите код безопасности",
+        "message": "Verify safety number",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Получено сообщение с новыми кодами безопасности. Нажмите, чтобы обработать и отобразить.",
+        "message": "Received message with a new safety number. Click to process and display.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Возможно, вы хотите $tag_start$ проверить $tag_end$ данный контакт.",
+        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Узнать больше о проверке кодов безопасности.",
+        "message": "Learn more about verifying safety numbers",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Подтверждение кодов безопасности",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Извините, вы привязали слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
@@ -239,6 +239,10 @@
         "message": "30м",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (dark)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1м",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Ваш код безопасности с $name$",
+        "message": "Your safety number with $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Новые коды безопасности",
+        "message": "New safety number",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Принять",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12ч",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Коды безопасности данного контакта были изменены. Нажмите, чтобы обработать и отобразить.",
+        "message": "Your safety number with this contact has changed. Click to process and display.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Вы ещё не обменивались сообщениями с данным собеседником. Коды безопасности будут доступны после отправки первого сообщения.",
+        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "У $name$ изменился код безопасности",
+        "message": "Your safety number with $name$ has changed.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Требовать подтверждение новых кодов безопасности после их изменения.",
+        "message": "Require approval of new safety numbers when they change",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Коды безопасности данного контакта изменились. Это может обозначать либо попытку перехвата сообщений, либо ваш собеседник попросту переустановил Signal. При желании, вы можете проверить новые коды безопасности собеседника указанные ниже.",
+        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
         "description": ""
     },
     "submitDebugLog": {
