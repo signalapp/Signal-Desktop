@@ -128,14 +128,22 @@
 
     function onContactReceived(ev) {
         var contactDetails = ev.contactDetails;
-        ConversationController.create({
+
+        var c = new Whisper.Conversation({
             name: contactDetails.name,
             id: contactDetails.number,
             avatar: contactDetails.avatar,
             color: contactDetails.color,
             type: 'private',
             active_at: Date.now()
-        }).save();
+        });
+        var error;
+        if ((error = c.validateNumber())) {
+          console.log(error);
+          return;
+        }
+
+        ConversationController.create(c).save();
     }
 
     function onGroupReceived(ev) {

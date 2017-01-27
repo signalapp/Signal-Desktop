@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Patvirtinti saugumo numerius",
+        "message": "Patvirtinti saugumo numerį",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Gauta žinutė su naujais saugumo numeriais. Spustelėkite, norėdami apdoroti ir parodyti.",
+        "message": "Gauta žinutė su nauju saugumo numeriu. Spustelėkite, norėdami apdoroti ir parodyti.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Jūs, tikriausiai, norėtumėte $tag_start$ patvirtinti $tag_end$ šį kontaktą.",
+        "message": "Jūs, tikriausiai, norėtumėte $tag_start$ patvirtinti $tag_end$ savo saugumo numerį su šiuo kontaktu.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Sužinoti daugiau apie saugumo numerių patvirtinimą.",
+        "message": "Sužinoti daugiau apie saugumo numerių patvirtinimą",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Saugumo numerių patvirtinimas",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
@@ -239,6 +239,10 @@
         "message": "30 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (tamsi)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Jūsų saugumo numeriai su $name$",
+        "message": "Jūsų saugumo numeris su $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Nauji saugumo numeriai",
+        "message": "Naujas saugumo numeris",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Priimti",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12 val.",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Šio kontakto saugumo numeriai pasikeitė. Spustelėkite, norėdami apdoroti ir parodyti.",
+        "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Spustelėkite, norėdami apdoroti ir parodyti.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Saugumo numeriai bus prieinami po pirmosios žinutės.",
+        "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Pasikeitė kontakto $name$ saugumo numeriai",
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė.",
         "description": "",
         "placeholders": {
             "name": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Pasikeitė šio kontakto saugumo numeriai. Tai galėtų reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naujus kontakto saugumo numerius.",
+        "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
         "description": ""
     },
     "submitDebugLog": {

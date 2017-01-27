@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verifică numerele de siguranță",
+        "message": "Verifică numărul de siguranță",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "A fost primit un mesaj cu noile numere de siguranță. Click pentru a le procesa şi a le afişa.",
+        "message": "A fost primit un mesaj cu noul număr de siguranță. Click pentru a-l procesa şi a-l afişa.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "S-ar putea să dorești să $tag_start$ verifici $tag_end$ acest contact.",
+        "message": "S-ar putea să dorești să $tag_start$ verifici $tag_end$ numărul tău de siguranță pentru acest contact.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -211,7 +211,7 @@
     },
     "safetyNumbersSettingHeader": {
         "message": "Aprobare numere de siguranță",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Ne pare rău, ai prea multe dispozitive conectate deja. Încearcă să elimini câteva.",
@@ -239,6 +239,10 @@
         "message": "30m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (închisă)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Numerele tale de siguranță pentru $name$",
+        "message": "Numărul tău de siguranță pentru $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Noile numere de siguranță",
+        "message": "Număr de siguranță nou",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Acceptă",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Numerele de siguranță ale contactului s-au schimbat. Apasă pentru a le procesa și a le afișa.",
+        "message": "Numărul de siguranță pentru acest contact s-a schimbat. Apasă pentru a-l procesa și a-l afișa.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numerele de siguranță vor fi disponibile după primul mesaj.",
+        "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numărul de siguranță va fi disponibil după primul mesaj.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Numerele de siguranță pentru $name$ s-au schimbat",
+        "message": "Numărul tău de siguranță pentru $name$ s-a schimbat.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Cere aprobare pentru noile numere de siguranță când s-au schimbat.",
+        "message": "Cere aprobare pentru noile numere de siguranță când se schimbă.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Numerele de siguranță ale contactului s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noile numere de siguranță de mai jos.",
+        "message": "Numărul de siguranță pentru acest contact s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. Ai putea dori să verifici noul număr de siguranță de mai jos.",
         "description": ""
     },
     "submitDebugLog": {

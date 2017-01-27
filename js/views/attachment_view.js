@@ -61,12 +61,15 @@
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'span',
     className: 'attachment',
-    initialize: function() {
+    initialize: function(options) {
         this.blob = new Blob([this.model.data], {type: this.model.contentType});
 
         var parts = this.model.contentType.split('/');
         this.contentType = parts[0];
         this.fileType = parts[1];
+        if (options.timestamp) {
+          this.timestamp = options.timestamp;
+        }
     },
     events: {
         'click': 'onclick'
@@ -89,9 +92,12 @@
     },
     saveFile: function() {
         var blob = this.blob;
-        var suggestedName;
+        var suggestedName = 'signal';
+        if (this.timestamp) {
+            suggestedName += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
+        }
         if (this.fileType) {
-            suggestedName = 'signal.' + this.fileType;
+            suggestedName += '.' + this.fileType;
         }
         var w = extension.windows.getViews()[0];
         if (w && w.chrome && w.chrome.fileSystem) {

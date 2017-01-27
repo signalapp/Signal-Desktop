@@ -79,6 +79,9 @@
         tagName:   'li',
         className: 'keychange',
         templateName: 'keychange',
+        id: function() {
+            return this.model.id;
+        },
         initialize: function() {
             this.conversation = this.model.getModelForKeyChange();
             this.listenTo(this.conversation, 'change', this.render);
@@ -88,7 +91,7 @@
         },
         render_attributes: function() {
             return {
-              content: i18n('keychanged', this.conversation.getTitle())
+              content: this.model.getNotificationText()
             };
         },
         verifyIdentity: function() {
@@ -259,7 +262,10 @@
         },
         loadAttachments: function() {
             this.model.get('attachments').forEach(function(attachment) {
-                var view = new Whisper.AttachmentView({ model: attachment });
+                var view = new Whisper.AttachmentView({
+                  model: attachment,
+                  timestamp: this.model.get('sent_at')
+                });
                 this.listenTo(view, 'update', function() {
                     if (!view.el.parentNode) {
                         this.trigger('beforeChangeHeight');

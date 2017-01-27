@@ -73,6 +73,9 @@
             }
             return this.get('body');
         },
+        isKeyChange: function() {
+            return this.get('type') === 'keychange';
+        },
         getNotificationText: function() {
             var description = this.getDescription();
             if (description) {
@@ -87,6 +90,10 @@
                       this.get('expirationTimerUpdate').expireTimer
                     )
                 );
+            }
+            if (this.isKeyChange()) {
+                var conversation = this.getModelForKeyChange();
+                return i18n('keychanged', conversation.getTitle());
             }
 
             return '';
@@ -145,12 +152,15 @@
         },
         getModelForKeyChange: function() {
             var id = this.get('key_changed');
-            var c = ConversationController.get(id);
-            if (!c) {
-                c = ConversationController.create({ id: id, type: 'private' });
-                c.fetch();
+            if (!this.modelForKeyChange) {
+              var c = ConversationController.get(id);
+              if (!c) {
+                  c = ConversationController.create({ id: id, type: 'private' });
+                  c.fetch();
+              }
+              this.modelForKeyChange = c;
             }
-            return c;
+            return this.modelForKeyChange;
         },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
@@ -395,15 +405,15 @@
                             message.set({expireTimer: dataMessage.expireTimer});
                         }
 
-                        if (!message.isEndSession()) {
+                        if (!message.isEndSession() && !message.isGroupUpdate()) {
                             if (dataMessage.expireTimer) {
                                 if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                                  conversation.addExpirationTimerUpdate(
+                                  conversation.updateExpirationTimer(
                                       dataMessage.expireTimer, source,
                                       message.get('received_at'));
                                 }
                             } else if (conversation.get('expireTimer')) {
-                                conversation.addExpirationTimerUpdate(0, source,
+                                conversation.updateExpirationTimer(0, source,
                                     message.get('received_at'));
                             }
                         }
@@ -414,10 +424,6 @@
                                 timestamp: message.get('sent_at')
                             });
                         }
-                        conversation.set({
-                            lastMessage: message.getNotificationText()
-                        });
-
                         message.save().then(function() {
                             conversation.save().then(function() {
                                 conversation.trigger('newmessage', message);
@@ -467,7 +473,7 @@
               return ms_from_now;
         },
         setToExpire: function() {
-            if (this.isExpiring() && !this.expireTimer) {
+            if (this.isExpiring() && !this.expirationTimeout) {
                 var ms_from_now = this.msTilExpire();
                 console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
                 this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);

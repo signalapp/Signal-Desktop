@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 δευτερόλεπτα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety numbers",
+        "message": "Επαλήθευση κωδικού ασφαλείας",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Ρύθμισες την αντίστροφη μέτρηση ίση με  $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -30,11 +30,11 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with new safety numbers. Click to process and display.",
+        "message": "Ελήφθη μήνυμα με καινούργιου κωδικό ασφαλείας. Κάνε κλίκ για προβολή.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -50,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Εξαφανιζόμενα μηνύματα",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -58,7 +58,7 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5λ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Επαναφορά συνεδρίας",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "εκτός",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Διαγραφή μηνυμάτων",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Ίσως θέλεις να $tag_start$ επιβεβαιώσεις $tag_end$ αυτή την επαφή.",
+        "message": "Ίσως επιθυμείς να $tag_start$ επιβεβαιώσεις $tag_end$ τον κωδικό ασφαλείας σου με αυτή την επαφή.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ ρύθμισε την αντίστροφη μέτρηση ίση με $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -152,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 ημέρα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers.",
+        "message": "Μάθε περισσότερα σχετικά με την επαλήθευση κωδικών ασφαλείας",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
-        "description": "Description for safety numbers setting"
+        "message": "Έγκριση κωδικού ασφαλείας",
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Δυστυχώς έχεις ήδη πολλές συνδεδεμένες συσκευές. Προσπάθησε να αφαιρέσεις μερικές.",
@@ -236,11 +236,15 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30λ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (Σκοτεινό)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1λ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety numbers with $name$",
+        "message": "Ο κωδικός ασφαλείας σου με τον/την $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -262,11 +266,11 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Θέμα",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety numbers",
+        "message": "Νέος κωδικός ασφαλείας",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,10 +287,10 @@
     },
     "acceptNewKey": {
         "message": "Αποδοχή",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12ω",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -294,7 +298,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6ω",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -302,7 +306,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1η",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -310,11 +314,11 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 εβδομάδα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Εντάξει",
+        "message": "Κατάλαβα!",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -322,11 +326,11 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 δευτερόλεπτα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "Στείλτε ένα μήνυμα",
+        "message": "Νέο Μήνυμα",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "This contact's safety numbers have changed. Click to process and display.",
+        "message": "Ο κωδικός ασφαλείας σας με αυτή την επαφή έχει αλλάξει. Κάντε κλικ για συνέχεια και προβολή",
         "description": ""
     },
     "fileSizeWarning": {
@@ -346,7 +350,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "εκτός",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -390,11 +394,11 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1ε",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 δευτερόλεπτα",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Safety numbers will be available after the first message.",
+        "message": "Δεν έχετε ανταλλάξει μηνύματα με αυτή την επαφή ακόμα. Ο κωδικός ασφαλείας σας με αυτή την επαφή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s safety numbers have changed",
+        "message": "Ο κωδικός ασφαλείας σας με τον/την $name$ έχει αλλάξει.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change.",
+        "message": "Απαιτείται επιβεβαίωση του νέου κωδικού ασφαλείας όταν αλλάξει.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -442,7 +446,7 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1ω",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -458,7 +462,7 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
@@ -474,11 +478,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "This contact's safety numbers have changed. This could either mean that someone is trying to intercept your communication, or this contact simply re-installed Signal. You may wish to verify their new safety numbers below.",
+        "message": "Ο κωδικός ασφαλείας με αυτή την επαφή έχει αλλάξει. Αυτό σημαίνει ότι είτε κάποιος προσπαθεί να υποκλέψει την συνομιλία σας είτε αυτή απλά επανεγκατέστησε  το Signal. Ίσως επιθυμείς να επαληθεύσεις το νέο κωδικό ασφαλείας πιο κάτω.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Υποβολή καταχωρήσεων αποσφαλμάτωσης",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -486,7 +490,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Η ρύθμιση της αντίστροφης μέτρησης είναι ίση με $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -496,7 +500,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30δ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {

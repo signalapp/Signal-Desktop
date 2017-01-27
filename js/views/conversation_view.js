@@ -33,7 +33,7 @@
         setTimer: function(e) {
             var seconds = this.$(e.target).data().seconds;
             if (seconds >= 0) {
-                this.model.sendExpirationTimerUpdate(seconds);
+                this.model.updateExpirationTimer(seconds);
             }
         },
         render: function() {
@@ -154,7 +154,7 @@
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
-                this.model.sendExpirationTimerUpdate(
+                this.model.updateExpirationTimer(
                     moment.duration(1, 'day').asSeconds()
                 );
             }

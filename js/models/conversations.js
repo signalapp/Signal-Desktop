@@ -51,14 +51,15 @@
     },
 
     addKeyChange: function(id) {
-        var message = this.messageCollection.add({
+        var timestamp = Date.now();
+        var message = new Whisper.Message({
             conversationId : this.id,
             type           : 'keychange',
             sent_at        : this.get('timestamp'),
-            received_at    : this.get('timestamp'),
+            received_at    : timestamp,
             key_changed    : id
         });
-        message.save();
+        message.save().then(this.trigger.bind(this,'newmessage', message));
     },
 
     onReadMessage: function(message) {
@@ -183,25 +184,29 @@
     },
 
     updateLastMessage: function() {
-        var lastMessage = this.messageCollection.at(this.messageCollection.length - 1);
-        if (lastMessage) {
-          this.save({
-            lastMessage : lastMessage.getNotificationText(),
-            timestamp   : lastMessage.get('sent_at')
-          });
-        } else {
-          this.save({ lastMessage: '', timestamp: null });
-        }
+        var collection = new Whisper.MessageCollection();
+        return collection.fetchConversation(this.id, 1).then(function() {
+            var lastMessage = collection.at(0);
+            if (lastMessage) {
+              this.save({
+                lastMessage : lastMessage.getNotificationText(),
+                timestamp   : lastMessage.get('sent_at')
+              });
+            } else {
+              this.save({ lastMessage: '', timestamp: null });
+            }
+        }.bind(this));
     },
 
-    addExpirationTimerUpdate: function(expireTimer, source, received_at) {
-        received_at = received_at || Date.now();
+    updateExpirationTimer: function(expireTimer, source, received_at) {
+        source = source || textsecure.storage.user.getNumber();
+        var timestamp = received_at || Date.now();
         this.save({ expireTimer: expireTimer });
         var message = this.messageCollection.add({
             conversationId        : this.id,
-            type                  : 'outgoing',
-            sent_at               : received_at,
-            received_at           : received_at,
+            type                  : received_at ? 'incoming' : 'outgoing',
+            sent_at               : timestamp,
+            received_at           : timestamp,
             flags                 : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
             expirationTimerUpdate : {
               expireTimer    : expireTimer,
@@ -212,18 +217,17 @@
             message.set({destination: this.id});
         }
         message.save();
+        if (message.isOutgoing()) { // outgoing update, send it to the number/group
+            var sendFunc;
+            if (this.get('type') == 'private') {
+                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
+            }
+            else {
+                sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
+            }
+            message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
+        }
         return message;
-    },
-    sendExpirationTimerUpdate: function(time) {
-        var message = this.addExpirationTimerUpdate(time, textsecure.storage.user.getNumber());
-        var sendFunc;
-        if (this.get('type') == 'private') {
-            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToNumber;
-        }
-        else {
-            sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
-        }
-        message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
     },
 
     isSearchable: function() {

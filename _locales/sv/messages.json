@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verifiera säkerhetssiffror",
+        "message": "Verifiera säkerhetsnummer",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Mottog meddelande med nya säkerhetssiffror. Klicka för att bearbeta och visa.",
+        "message": "Mottaget meddelande med ett nytt säkerhetsnummer. Klicka för att hantera och visa.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Kanske vill du $tag_start$ verifiera $tag_end$ denna kontakt.",
+        "message": "Du kanske vill $tag_start$ verifiera $tag_end$ ditt säkerhetsnummer med den här kontakten.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Mer om hur du kan verifiera säkerhetssiffror",
+        "message": "Lär dig mer om att verifiera säkerhetsnummer",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Godkännande av säkerhetssiffror",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
@@ -239,6 +239,10 @@
         "message": "30m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (mörk)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Dina säkerhetssiffror för $name$",
+        "message": "Ditt säkerhetsnummer med $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Nya säkerhetssiffror",
+        "message": "Nytt säkerhetsnummer",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Godkänn",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12t",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Denna kontakts säkerhetssiffror har ändrats. Klicka för att bearbeta och visa.",
+        "message": "Dit säkerhetsnummer med den här kontakten har ändrats. Klicka för att hantera och visa.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Säkerhetssiffror blir tillgängliga efter att ett meddelande har skickats.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängliga efter det första meddelandet.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$'s säkerhetssiffror har ändrats",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Kräv godkännande av säkerhetssiffror när de ändras.",
+        "message": "Kräver godkännande av nya säkerhetsnummer när de ändrar",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Denna kontakts säkerhetssiffror har ändrats. Detta kan innebära att någon försöker avlyssna er kommunikation. Det kan också betyda att kontakten har installerat om Signal. Du kan verifiera de nya säkerhetssiffrorna nedan.",
+        "message": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation, eller denna kontakt bara ominstallerade signal. Du kanske vill verifiera det nya säkerhetsnumret nedan.",
         "description": ""
     },
     "submitDebugLog": {

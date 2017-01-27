@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Weryfikuj numery bezpieczeństwa",
+        "message": "Zweryfikuj numer bezpieczeństwa",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "Ustawiłeś minutnik na $time$",
+        "message": "Ustawiłeś czas na $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Dostałeś wiadomość z nowymi numerami bezpieczeństwa. Kliknij, aby przetworzyć i wyświetlić.",
+        "message": "Dostałeś wiadomość z nowym numerem bezpieczeństwa. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "Wyłącz",
+        "message": "Wyłączone",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Możesz $tag_start$ zweryfikować $tag_end$ ten kontakt.",
+        "message": "Możesz $tag_start$ zweryfikować $tag_end$ numer bezpieczeństwa z tym kontaktem.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ ustawił minutnik na $time$.",
+        "message": "$name$ ustawił czas na $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -211,7 +211,7 @@
     },
     "safetyNumbersSettingHeader": {
         "message": "Zatwierdzanie numerów bezpieczeństwa",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj usunąć kilka.",
@@ -239,6 +239,10 @@
         "message": "30 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "themeAndroidDark": {
+        "message": "Android (ciemny)",
+        "description": "Label text for dark Android theme"
+    },
     "timerOption_1_minute_abbreviated": {
         "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Twoje numery bezpieczeństwa z $name$",
+        "message": "Twój numer bezpieczeństwa z $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Nowe numery bezpieczeństwa",
+        "message": "Nowy numer bezpieczeństwa",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Akceptuj",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12 godz.",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Ten kontakt ma nowe numery bezpieczeństwa. Kliknij, aby przetworzyć i wyświetlić.",
+        "message": "Twój numer bezpieczeństwa dla tego kontaktu zmienił się. Kliknij, aby przetworzyć i wyświetlić.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Jeszcze nie rozmawiałeś z tą osobą. Numery bezpieczeństwa będą dostępne po pierwszej wiadomości.",
+        "message": "Jeszcze nie rozmawiałeś z tą osobą. Numer bezpieczeństwa będzie dostępny po pierwszej wiadomości.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$ ma nowe numery bezpieczeństwa",
+        "message": "Twój numer bezpieczeństwa z $name$ zmienił się.",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Wymagaj zatwierdzenia nowych numerów bezpieczeństwa w razie ich zmiany.",
+        "message": "Wymagaj zatwierdzania nowych numerów bezpieczeństwa w razie ich zmiany.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Ten kontakt ma nowe numery bezpieczeństwa. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu kontakt przeinstalował Signal. Możesz zweryfikować jego nowe numery bezpieczeństwa poniżej.",
+        "message": "Numer bezpieczeństwa dla tego kontaktu zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu kontakt przeinstalował Signal. Możesz zweryfikować jego nowy numer bezpieczeństwa poniżej.",
         "description": ""
     },
     "submitDebugLog": {
@@ -486,7 +490,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Minutnik ustawiony na $time$.",
+        "message": "Czas ustawiony na $time$.",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {

@@ -439,6 +439,9 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background: #2090ea;
     margin-left: 20px; }
 
+.inbox:focus {
+  outline: none; }
+
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0; }
@@ -1405,6 +1408,7 @@ li.entry .error-icon-container {
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
+    color: #454545;
     border-radius: 5px; }
 
 .ios #header {
@@ -1725,6 +1729,13 @@ li.entry .error-icon-container {
     color: #CCCCCC; }
     .android-dark .menu-list li:hover {
       background-color: #333333; }
+  .android-dark .content textarea {
+    background-color: #171717;
+    border-width: 0px;
+    color: white; }
+    .android-dark .content textarea::selection {
+      background: white;
+      color: #454545; }
   .android-dark .flex {
     background-color: #171717; }
     .android-dark .flex .send-message {

@@ -12,11 +12,11 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Sicherheitsnummern überprüfen",
+        "message": "Sicherheitsnummer überprüfen",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "Du hast die Zeitbegrenzung auf $time$ festgelegt.",
+        "message": "Du hast die Zeitbegrenzung auf $time$ festgelegt",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Nachricht mit neuen Sicherheitsnummern empfangen. Zum Verarbeiten und Anzeigen anklicken.",
+        "message": "Nachricht mit neuer Sicherheitsnummer empfangen. Zum Verarbeiten und Anzeigen anklicken.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -66,7 +66,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Schlüssel werden erzeugt",
+        "message": "Schlüssel werden erzeugt …",
         "description": ""
     },
     "resetSession": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "Du solltest diesen Kontakt ggf. $tag_start$ überprüfen $tag_end$.",
+        "message": "Vielleicht möchtest du deine Sicherheitsnummer mit diesem Kontakt $tag_start$ überprüfen $tag_end$.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +134,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ hat die Zeitbegrenzung auf $time$ festgelegt.",
+        "message": "$name$ hat die Zeitbegrenzung auf $time$ festgelegt",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -206,12 +206,12 @@
         }
     },
     "learnMore": {
-        "message": "Erfahre mehr über das Überprüfen von Sicherheitsnummern.",
+        "message": "Erfahre mehr über das Überprüfen von Sicherheitsnummern",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
         "message": "Zustimmung für Sicherheitsnummern",
-        "description": "Description for safety numbers setting"
+        "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
         "message": "Es sind bereits zu viele Geräte verknüpft. Versuche, einige zu entfernen.",
@@ -232,12 +232,16 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Gruppen und Kontakte werden synchronisiert",
+        "message": "Gruppen und Kontakte werden synchronisiert …",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
         "message": "30min",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "themeAndroidDark": {
+        "message": "Android (dunkel)",
+        "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
         "message": "1min",
@@ -248,7 +252,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Deine Sicherheitsnummern mit $name$",
+        "message": "Deine Sicherheitsnummer mit $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,7 +270,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "Neue Sicherheitsnummern",
+        "message": "Neue Sicherheitsnummer",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -283,7 +287,7 @@
     },
     "acceptNewKey": {
         "message": "Akzeptieren",
-        "description": "Label for a button to accept a new safety numbers"
+        "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
         "message": "12h",
@@ -338,7 +342,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Die Sicherheitsnummern mit diesem Kontakt haben sich geändert. Zum Verarbeiten und Anzeigen anklicken.",
+        "message": "Deine Sicherheitsnummer mit diesem Kontakt hat sich geändert. Zum Verarbeiten und Anzeigen anklicken.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -416,7 +420,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "theirIdentityUnknown": {
-        "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Sicherheitsnummern werden nach der ersten Nachricht verfügbar sein.",
+        "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
     },
     "submit": {
@@ -424,7 +428,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Die Sicherheitsnummern mit $name$ haben sich geändert",
+        "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert",
         "description": "",
         "placeholders": {
             "name": {
@@ -434,7 +438,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Zustimmung erfordern für neue bzw. geänderte Sicherheitsnummern",
+        "message": "Zustimmung erfordern für geänderte Sicherheitsnummern",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -474,7 +478,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Die Sicherheitsnummern mit diesem Kontakt haben sich geändert. Dies könnte entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dass dieser Kontakt Signal einfach erneut installiert hat. Vielleicht möchtest du die neuen Sicherheitsnummern unten überprüfen.",
+        "message": "Deine Sicherheitsnummer mit diesem Kontakt hat sich geändert. Dies könnte entweder bedeuten, dass jemand versucht, deine Kommunikation abzuhören, oder aber dass dieser Kontakt Signal einfach erneut installiert hat. Vielleicht möchtest du die neue Sicherheitsnummer unten überprüfen.",
         "description": ""
     },
     "submitDebugLog": {

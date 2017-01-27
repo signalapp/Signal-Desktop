@@ -484,3 +484,8 @@ input[type=text], input[type=search], textarea {
     margin-left: 20px;
   }
 }
+
+//yellow border fix
+.inbox:focus {
+    outline: none;
+}
