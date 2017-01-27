@@ -6,34 +6,78 @@
 
     window.Whisper = window.Whisper || {};
 
-    var SocketView = Whisper.View.extend({
-        className: 'status',
+    Whisper.NetworkStatusView = Whisper.View.extend({
+        className: 'network-status',
         initialize: function() {
-            setInterval(this.updateStatus.bind(this), 5000);
+            this.$el.hide();
+
+            setInterval(this.render.bind(this), 5000);
+            setTimeout(this.finishConnectingGracePeriod.bind(this), 5000);
+
+            this.withinConnectingGracePeriod = true;
+            this.setSocketReconnectInterval(null);
+
+            window.addEventListener('online', this.render.bind(this));
+            window.addEventListener('offline', this.render.bind(this));
         },
-        updateStatus: function() {
-            var className, message = '';
-            if (typeof getSocketStatus === 'function') {
-              switch(getSocketStatus()) {
-                  case WebSocket.CONNECTING:
-                      className = 'connecting';
-                      break;
-                  case WebSocket.OPEN:
-                      className = 'open';
-                      break;
-                  case WebSocket.CLOSING:
-                      className = 'closing';
-                      break;
-                  case WebSocket.CLOSED:
-                      className = 'closed';
-                      message = i18n('disconnected');
-                      break;
-              }
-            if (!this.$el.hasClass(className)) {
-                this.$el.attr('class', className);
-                this.$el.text(message);
+        finishConnectingGracePeriod: function(){
+            this.withinConnectingGracePeriod = false;
+        },
+        setSocketReconnectInterval: function(millis){
+            this.socketReconnectWaitDuration = moment.duration(millis);
+        },
+        navigatorOnLine: function(){ return navigator.onLine; },
+        getSocketStatus: function(){ return window.getSocketStatus(); },
+        getNetworkStatus: function(){
+
+            var message = '';
+            var hasInterruption = false;
+
+            var socketStatus = this.getSocketStatus();
+            switch(socketStatus) {
+                case WebSocket.CONNECTING:
+                    message = i18n('connecting');
+                    this.setSocketReconnectInterval(null);
+                    break;
+                case WebSocket.OPEN:
+                    this.setSocketReconnectInterval(null);
+                    break;
+                case WebSocket.CLOSING:
+                    message = i18n('disconnected');
+                    hasInterruption = true;
+                break;
+                case WebSocket.CLOSED:
+                    message = i18n('disconnected');
+                    hasInterruption = true;
+                break;
             }
-          }
+
+            if(socketStatus == WebSocket.CONNECTING && !this.withinConnectingGracePeriod){
+                hasInterruption = true;
+            }
+            if(!this.navigatorOnLine()){
+                hasInterruption = true;
+                message = i18n('offline');
+            }
+
+            return {
+                message: message,
+                hasInterruption: hasInterruption,
+                reconnectDurationAsSeconds: this.socketReconnectWaitDuration.asSeconds()
+            };
+        },
+        render: function() {
+            var status = this.getNetworkStatus();
+
+            if (status.hasInterruption){
+                this.$el.slideDown();
+            }
+            else {
+                this.$el.hide();
+            }
+            var template = Whisper.View.Templates['networkStatus'];
+            this.$el.html(Mustache.render(template, status, Whisper.View.Templates));
+            return this;
         }
     });
 
@@ -112,6 +156,11 @@
             });
 
             var inboxCollection = getInboxCollection();
+
+            inboxCollection.on('messageSendErrors', function(){
+                this.networkStatusView.render();
+            });
+
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
                 collection : inboxCollection
@@ -139,7 +188,8 @@
             this.listenTo(this.searchView, 'open',
                 this.openConversation.bind(this, null));
 
-            new SocketView().render().$el.appendTo(this.$('.socket-status'));
+            this.networkStatusView = new Whisper.NetworkStatusView();
+            this.$el.find('.network-status-container').append(this.networkStatusView.render().el);
 
             extension.windows.onClosed(function() {
                 this.inboxListView.stopListening();

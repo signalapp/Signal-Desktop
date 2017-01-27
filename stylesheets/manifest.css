@@ -744,20 +744,16 @@ img.emoji {
     overflow-y: scroll;
     height: 100%;
     width: 100%; }
-
-.socket-status {
-  float: right;
-  line-height: 24px; }
-  .socket-status * {
-    display: inline;
-    padding-left: 20px;
-    vertical-align: middle; }
-  .socket-status .connecting .icon {
-    background-color: #2090ea; }
-  .socket-status .closing {
-    background-color: #a2d2f4; }
-  .socket-status .closed {
-    background: url("/images/error_red.png") no-repeat left center; }
+  .gutter .network-status-container .network-status {
+    height: 48px;
+    background: url("/images/error_red.png") no-repeat left 10px center;
+    background-color: #fcd156;
+    padding-top: 12px;
+    padding-left: 48px;
+    display: none; }
+    .gutter .network-status-container .network-status .network-status-message {
+      clear: left;
+      font-size: 12px; }
 
 .conversation-stack {
   padding-left: 300px; }
