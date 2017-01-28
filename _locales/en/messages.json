@@ -453,6 +453,10 @@
         }
       }
     },
+    "audioNotificationDescription": {
+      "message": "Play audio notification",
+      "description": "Description for audio notification setting"
+    },
     "safetyNumbersSettingHeader": {
       "message": "Safety numbers approval",
       "description": "Header for safety numbers setting"
