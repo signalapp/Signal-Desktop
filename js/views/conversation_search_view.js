@@ -16,7 +16,7 @@
         },
         render_attributes: function() {
             return {
-                    number: 'Click to create new contact',
+                    number: i18n('newContact'),
                     title: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
             };
@@ -105,7 +105,7 @@
                     this.resetTypeahead();
                 }.bind(this));
             } else {
-                this.new_contact_view.$('.number').text("Invalid number");
+                this.new_contact_view.$('.number').text(i18n('invalidNumberError'));
                 this.$input.focus();
             }
         },
@@ -144,7 +144,7 @@
             if (!this.hintView) {
                 this.hintView = new Whisper.HintView({
                     className: 'contact placeholder',
-                    content: "Enter a phone number to add a contact."
+                    content: i18n('newPhoneNumber')
                 }).render();
                 this.hintView.$el.insertAfter(this.$input);
             }
