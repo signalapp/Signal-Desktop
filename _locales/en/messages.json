@@ -488,5 +488,17 @@
     "themeAndroidDark": {
       "message": "Android (dark)",
       "description": "Label text for dark Android theme"
+    },
+    "newContact": {
+      "message": "Click to create new contact",
+      "description": ""
+    },
+    "newPhoneNumber": {
+      "message": "Enter a phone number to add a contact.",
+      "description": "Placeholder for adding a new number to a contact"
+    },
+    "invalidNumberError": {
+      "message": "Invalid number",
+      "description": "When a person inputs a number that is invalid"
     }
 }
