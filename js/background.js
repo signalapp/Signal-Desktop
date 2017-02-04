@@ -55,6 +55,7 @@
                 storage.put('safety-numbers-approval', false);
             }
             Whisper.Registration.markDone();
+            console.log("dispatching registration event");
             extension.trigger('registration_done');
         });
         return accountManager;
@@ -70,7 +71,9 @@
             init();
         }
 
+        console.log("listening for registration events");
         extension.on('registration_done', function() {
+            console.log("handling registration event");
             extension.keepAwake();
             init(true);
         });
