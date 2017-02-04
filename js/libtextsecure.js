@@ -38077,6 +38077,7 @@ var TextSecureServer = (function() {
             });
         },
         registrationDone: function() {
+            console.log('registration done');
             this.dispatchEvent(new Event('registration'));
         }
     });
