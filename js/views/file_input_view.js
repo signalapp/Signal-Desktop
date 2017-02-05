@@ -35,7 +35,8 @@
             'click .choose-file': 'open',
             'drop': 'openDropped',
             'dragover': 'showArea',
-            'dragleave': 'hideArea'
+            'dragleave': 'hideArea',
+            'paste': 'onPaste'
         },
 
         open: function(e) {
@@ -281,6 +282,19 @@
             e.stopPropagation();
             e.preventDefault();
             this.$el.removeClass('dropoff');
+        },
+        onPaste: function(e) {
+            var items = e.originalEvent.clipboardData.items;
+            var imgBlob = null;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.split('/')[0] === 'image') {
+                   imgBlob = items[i].getAsFile();
+                }
+            }
+            if (imgBlob !== null) {
+                this.file = imgBlob;
+                this.previewImages();
+            }
         }
     });
 })();
