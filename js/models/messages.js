@@ -201,21 +201,36 @@
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
+                var errors;
+                var conversation = this.getConversation();
                 this.trigger('done');
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
 
                 if (result instanceof Error) {
-                    this.saveErrors(result);
+                    errors = [result];
+                    this.saveErrors(errors);
                 } else {
-                    this.saveErrors(result.errors);
+                    errors = result.errors;
+                    this.saveErrors(errors);
                     if (result.successfulNumbers.length > 0) {
                         this.set({sent: true, expirationStartTimestamp: now});
                         this.sendSyncMessage();
                     }
                 }
 
+                if (conversation.get('type') === 'group') {
+                    errors.forEach(function(e) {
+                        if (e.name === 'UnregisteredUserError') {
+                            textsecure.storage.groups.removeNumber(conversation.id, e.number);
+                            conversation.addMemberLeft(e.number);
+                            conversation.set({
+                                members: _.without(conversation.get('members'), e.number)
+                            });
+                        }
+                    });
+                }
             }.bind(this));
         },
 
