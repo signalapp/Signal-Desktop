@@ -90,19 +90,22 @@
                 this.saveFile();
         }
     },
-    saveFile: function() {
-        var blob = this.blob;
-        var suggestedName = 'signal';
+    suggestedName: function() {
+        var suggestion = 'signal';
         if (this.timestamp) {
-            suggestedName += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
+            suggestion += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
         }
         if (this.fileType) {
-            suggestedName += '.' + this.fileType;
+            suggestion += '.' + this.fileType;
         }
+        return suggestion;
+    },
+    saveFile: function() {
+        var blob = this.blob;
         var w = extension.windows.getViews()[0];
         if (w && w.chrome && w.chrome.fileSystem) {
             w.chrome.fileSystem.chooseEntry({
-                type: 'saveFile', suggestedName: suggestedName
+                type: 'saveFile', suggestedName: this.suggestedName()
             }, function(entry) {
                 if (!entry) {
                     return;
