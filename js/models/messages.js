@@ -201,21 +201,32 @@
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
+                var errors;
+                var conversation = this.getConversation();
                 this.trigger('done');
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
 
                 if (result instanceof Error) {
-                    this.saveErrors(result);
+                    errors = [result];
                 } else {
-                    this.saveErrors(result.errors);
+                    errors = result.errors;
                     if (result.successfulNumbers.length > 0) {
                         this.set({sent: true, expirationStartTimestamp: now});
                         this.sendSyncMessage();
                     }
                 }
+                this.saveErrors(errors);
 
+                if (conversation.get('type') === 'group') {
+                    errors.forEach(function(e) {
+                        if (e.name === 'UnregisteredUserError') {
+                            textsecure.storage.groups.removeNumber(conversation.id, e.number);
+                            conversation.addMemberLeft(e.number);
+                        }
+                    });
+                }
             }.bind(this));
         },
 

@@ -62,6 +62,22 @@
         message.save().then(this.trigger.bind(this,'newmessage', message));
     },
 
+    addMemberLeft: function(source) {
+        var timestamp = Date.now();
+        var message = new Whisper.Message({
+            conversationId : this.id,
+            source         : source,
+            type           : 'incoming',
+            sent_at        : timestamp,
+            received_at    : timestamp,
+            group_update   : {left: source}
+        });
+        var members = this.get('members');
+        members.splice(members.indexOf(source), 1);
+        this.set({members: members});
+        message.save().then(this.trigger.bind(this,'newmessage', message));
+    },
+
     onReadMessage: function(message) {
         if (this.messageCollection.get(message.id)) {
             this.messageCollection.get(message.id).fetch();
