@@ -32,6 +32,9 @@
         }
         var o = this.findWhere({seconds: seconds});
         if (o) { return o.getName(); }
+        else {
+          return [seconds, 'seconds'].join(' ');
+        }
       },
       getAbbreviated: function(seconds) {
         if (!seconds) {
@@ -39,6 +42,9 @@
         }
         var o = this.findWhere({seconds: seconds});
         if (o) { return o.getAbbreviated(); }
+        else {
+          return [seconds, 's'].join('');
+        }
       }
     }))([
         [ 0,  'seconds'  ],
