@@ -345,10 +345,10 @@
                                     groupId    : dataMessage.group.id,
                                     name       : dataMessage.group.name,
                                     avatar     : dataMessage.group.avatar,
-                                    members    : dataMessage.group.members,
+                                    members    : _.union(dataMessage.group.members, conversation.get('members')),
                                 };
                                 group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
-                                var difference = _.difference(dataMessage.group.members, conversation.get('members'));
+                                var difference = _.difference(attributes.members, conversation.get('members'));
                                 if (difference.length > 0) {
                                     group_update.joined = difference;
                                 }
