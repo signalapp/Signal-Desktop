@@ -36987,19 +36987,9 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                 if (numbers.filter(textsecure.utils.isNumberSane).length < numbers.length)
                     throw new Error("Invalid number in new group members");
 
-                if (group.numbers.filter(function(number) { return numbers.indexOf(number) < 0 }).length > 0)
-                    throw new Error("Attempted to remove numbers from group with an UPDATE");
-
                 var added = numbers.filter(function(number) { return group.numbers.indexOf(number) < 0; });
 
-                return textsecure.storage.groups.addNumbers(groupId, added).then(function(newGroup) {
-                    if (numbers.filter(function(number) { return newGroup.indexOf(number) < 0; }).length != 0 ||
-                        newGroup.filter(function(number) { return numbers.indexOf(number) < 0; }).length != 0) {
-                        throw new Error("Error calculating group member difference");
-                    }
-
-                    return added;
-                });
+                return textsecure.storage.groups.addNumbers(groupId, added);
             });
         },
 
