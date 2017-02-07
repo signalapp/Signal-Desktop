@@ -63,6 +63,20 @@
                 this.$('#step4 .cancel').click(function(e) {
                     reject();
                 });
+                this.$('#device-name').keyup(function (e) {
+                    e.stopPropagation();
+                    if(event.keyCode == 13) {
+                        var name = this.$('#device-name').val();
+                        name = name.replace(/\0/g,''); // strip unicode null
+                        if (name.trim().length === 0) {
+                            this.$('#device-name').focus();
+                            return;
+                        }
+                        this.$('.progress-dialog .status').text(i18n('installGeneratingKeys'));
+                        this.selectStep(5);
+                        resolve(name);
+                    }
+                }.bind(this));
                 this.$('#sync').click(function(e) {
                     e.stopPropagation();
                     var name = this.$('#device-name').val();
