@@ -221,7 +221,9 @@
 
                 if (conversation.get('type') === 'group') {
                     errors.forEach(function(e) {
-                        if (e.name === 'UnregisteredUserError') {
+                        if (e.name === 'UnregisteredUserError' ||
+                            (e.name === 'HTTPError' && e.code === 404))
+                        {
                             textsecure.storage.groups.removeNumber(conversation.id, e.number);
                             conversation.addMemberLeft(e.number);
                         }
