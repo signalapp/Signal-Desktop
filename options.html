@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div id='step4' class='step'>
+      <form id='step4' class='step'>
           <p>{{ installLinkingWithNumber }}</p>
           <h2 class='number'></h2>
           <img id='signal-computer' src='/images/signal-laptop.png'>
@@ -51,9 +51,11 @@
             <input type='text' id='device-name' spellcheck='false' maxlength='50' />
           </div>
           <div class='nav'>
-            <div> <a class='button' id='sync'>{{ installFinalButton }}</a> </div>
+            <div>
+              <input type='submit' class='button' id='sync' value='{{ installFinalButton }}' />
+            </div>
           </div>
-      </div>
+      </form>
 
       <div id='step5' class='step'>
         <img id='signal-icon' src='/images/icon_250.png'/>
