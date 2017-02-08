@@ -11,8 +11,7 @@
         templateName: 'error-icon',
         className: 'error-icon-container',
         initialize: function() {
-            if (this.model.name === 'UnregisteredUserError' ||
-                (this.model.name === 'HTTPError' && this.model.code === 404)) {
+            if (this.model.name === 'UnregisteredUserError') {
                 this.$el.addClass('unregistered-user-error');
             }
         }
