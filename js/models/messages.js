@@ -210,14 +210,15 @@
 
                 if (result instanceof Error) {
                     errors = [result];
+                    this.saveErrors(errors);
                 } else {
                     errors = result.errors;
+                    this.saveErrors(errors);
                     if (result.successfulNumbers.length > 0) {
                         this.set({sent: true, expirationStartTimestamp: now});
                         this.sendSyncMessage();
                     }
                 }
-                this.saveErrors(errors);
 
                 if (conversation.get('type') === 'group') {
                     errors.forEach(function(e) {
