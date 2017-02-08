@@ -72,9 +72,6 @@
             received_at    : timestamp,
             group_update   : {left: source}
         });
-        var members = this.get('members');
-        members.splice(members.indexOf(source), 1);
-        this.set({members: members});
         message.save().then(this.trigger.bind(this,'newmessage', message));
     },
 

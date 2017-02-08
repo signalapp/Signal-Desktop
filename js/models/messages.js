@@ -224,6 +224,9 @@
                         if (e.name === 'UnregisteredUserError') {
                             textsecure.storage.groups.removeNumber(conversation.id, e.number);
                             conversation.addMemberLeft(e.number);
+                            conversation.set({
+                                members: _.without(conversation.get('members'), e.number)
+                            });
                         }
                     });
                 }
