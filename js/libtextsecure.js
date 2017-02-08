@@ -38640,8 +38640,9 @@ OutgoingMessage.prototype = {
             updateDevices.forEach(function(device) {
                 promise = promise.then(function() {
                     return this.server.getKeysForNumber(number, device).then(handleResult).catch(function(e) {
-                        if (e.name === 'HTTPError' && e.code === 404 && device !== 1) {
-                            return this.removeDeviceIdsForNumber(number, [device]);
+                        if (e.name === 'HTTPError' && e.code === 404) {
+                            if (device !== 1) return this.removeDeviceIdsForNumber(number, [device]);
+                            else throw new textsecure.UnregisteredUserError(number, e);
                         } else {
                             throw e;
                         }
