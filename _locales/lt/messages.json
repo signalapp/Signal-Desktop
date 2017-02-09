@@ -179,6 +179,10 @@
         "message": "Šis žurnalas bus viešai paskelbtas internete talkininkams peržiūrėti. Jūs galite jį išnagrinėti ir prieš pateikdami paredaguoti.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Įveskite kontakto, kurį norite pridėti, numerį.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Ieškoti...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Groti garso pranešimus",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Atsijungta",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Atverkite Signal savo telefone ir naršykite į Nustatymai > Susieti įrenginiai. Bakstelėkite mygtuką, kad pridėtumėte naują įrenginį, o tuomet nuskenuokite aukščiau esantį kodą.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Neteisingas numeris",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Sveiki atvykę į Signal darbalaukiui",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Naujos žinutės",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Spustelėkite, norėdami sukurti naują kontaktą",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",

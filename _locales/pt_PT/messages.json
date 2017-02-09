@@ -179,6 +179,10 @@
         "message": "Este relatório será publicado online para os contribuidores o analisarem. É possível examiná-lo e editá-lo antes de o submeter.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Procurar...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Privacidade é possível. Signal torna-a mais fácil.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Desligado",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Abra o Signal no seu telemóvel e vá até Definições > Dispositivos associados. Pressione o botão para adicionar um novo dispositivo, de seguida scaneie o código QR apresentado.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Bem-vindo ao Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Novas mensagens",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Ainda não trocou mensagens com este contacto. O seu número de segurança estará disponível a partir da primeira mensagem.",

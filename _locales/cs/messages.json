@@ -179,6 +179,10 @@
         "message": "Tento záznam bude přispěvatelům veřejně zpřístupněn k prohlížení. Můžete si jej před odesláním zkontrolovat a upravit.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Hledat…",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Soukromí je možné. Signal jej usnadňuje.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Odpojen",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Otevřete si Signal na telefonu a přejděte do Nastavení > Propojená zařízení. Stisknutím tlačítka přidejte nové zařízení, pak naskenujte kód nahoře.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Vítejte v aplikaci Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Nové zprávy",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "S tímto kontaktem jste si ještě nevyměnili žádné zprávy. Bezpečnostní číslo k němu bude dostupné po první zprávě.",

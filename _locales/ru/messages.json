@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "Подтвердить код безопасности",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Получено сообщение с новым кодом безопасности. Нажмите, чтобы продолжить.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Возможно, вы хотите $tag_start$ подтвердить код безопасности $tag_end$ для данного контакта.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -179,6 +179,10 @@
         "message": "Этот лог будет открыто опубликован для разработчиков. Вы можете проверить и изменить его перед отправкой.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Введите номер телефона собеседника.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Поиск...",
         "description": "Placeholder text in the search input"
@@ -206,7 +210,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Узнать больше о подтверждении кодов безопасности",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -240,7 +244,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (темная)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -252,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Ваш код безопасности с $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -270,12 +274,16 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Новый код безопасности",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Приватное общение возможно. Signal помогает его упростить.",
         "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "audioNotificationDescription": {
+        "message": "Звуковые уведомления",
+        "description": "Description for audio notification setting"
     },
     "disconnected": {
         "message": "Соединение разорвано",
@@ -342,7 +350,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Код безопасности данного контакта изменился. Нажмите, чтобы продолжить.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -356,6 +364,10 @@
     "installAndroidInstructions": {
         "message": "Откройте Signal на вашем телефоне и перейдите в Настройки > Привязанные устройства. Коснитесь кнопки добавления нового устройства и отсканируйте QR-код указанный выше.",
         "description": ""
+    },
+    "invalidNumberError": {
+        "message": "Неверный номер",
+        "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
         "message": "Добро пожаловать в Signal Desktop",
@@ -419,8 +431,12 @@
         "message": "Новые сообщения",
         "description": "Displayed in notifications for multiple messages"
     },
+    "newContact": {
+        "message": "Нажмите для создания нового диалога",
+        "description": ""
+    },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Вы еще не обменивались сообщениями с данным собеседником. Код безопасности станет доступен после отправки первого сообщения.",
         "description": ""
     },
     "submit": {
@@ -428,7 +444,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "Ваш код безопасности и пользователем $name$ изменился.",
         "description": "",
         "placeholders": {
             "name": {
@@ -438,7 +454,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "Требовать подтверждение кодов безопасности при их изменении",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -478,7 +494,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Код безопасности данного контакта изменился. Что это значит? Либо кто пытается перехватить ваши сообщения, либо собеседник переустановил Signal. Возможно, вы хотите подтвердить новый код безопасности собеседника указанный ниже.",
         "description": ""
     },
     "submitDebugLog": {

@@ -179,6 +179,10 @@
         "message": "Acest log v-a fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi să-l editezi înainte să fie publicat. ",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Introdu un număr de telefon pentru a adăuga un contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Caută...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Confidențialitatea este posibilă. Signal face asta ușor.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Redă notificarea audio",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Deconectat",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive conectate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Număr invalid",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Bun venit la Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Mesaje noi",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click pentru a crea un contact nou",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numărul de siguranță va fi disponibil după primul mesaj.",

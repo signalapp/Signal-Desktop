@@ -34,7 +34,7 @@
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 秒",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -46,7 +46,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "了解！",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
@@ -58,11 +58,11 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 分鐘",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "不支援的檔案類型",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -70,11 +70,11 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "重設對話",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "歡迎來到 Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
@@ -82,7 +82,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "成員",
         "description": ""
     },
     "timestamp_h": {
@@ -110,7 +110,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "選擇一個聯絡人或群組開始聊天。",
         "description": ""
     },
     "installConnecting": {
@@ -130,7 +130,7 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "已送出",
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
@@ -168,7 +168,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
-        "message": "From",
+        "message": "來自",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
@@ -179,8 +179,12 @@
         "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "搜尋...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -236,7 +240,7 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 分鐘",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -244,7 +248,7 @@
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 分鐘",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -277,8 +281,12 @@
         "message": "Privacy is possible. Signal makes it easy.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "已斷線",
         "description": ""
     },
     "syncing": {
@@ -290,7 +298,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 小時",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -298,7 +306,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 小時",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -306,7 +314,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 天",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -322,7 +330,7 @@
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
-        "message": "Received",
+        "message": "已接收",
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
@@ -330,7 +338,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "送出一則訊息",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -346,7 +354,7 @@
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "抱歉，選擇的檔案大小超過訊息限制",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -356,6 +364,10 @@
     "installAndroidInstructions": {
         "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
         "description": ""
+    },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
         "message": "Welcome to Signal Desktop",
@@ -370,7 +382,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "關閉通知",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -386,7 +398,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "安全對話重設",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -394,7 +406,7 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 週",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -416,15 +428,19 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "新訊息",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "送出",
         "description": ""
     },
     "keychanged": {
@@ -442,11 +458,11 @@
         "description": "Description for safety numbers setting"
     },
     "to": {
-        "message": "To",
+        "message": "至",
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 小時",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -454,15 +470,15 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "詳細訊息",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "驗證",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 秒",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
@@ -470,11 +486,11 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "傳送給一些收件人失敗。檢查你的網路連線。",
         "description": ""
     },
     "ok": {
-        "message": "OK",
+        "message": "好",
         "description": ""
     },
     "identityChanged": {
@@ -482,11 +498,11 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "送出偵錯紀錄",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "錯誤",
         "description": ""
     },
     "timerSetTo": {
@@ -500,7 +516,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 秒",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
@@ -508,7 +524,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "重送",
         "description": ""
     }
 }

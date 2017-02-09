@@ -16,7 +16,7 @@
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "Tu programas el reloj a $time$.",
+        "message": "Ha programada el reloj a $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -179,6 +179,10 @@
         "message": "Este registro se publicará en línea públicamente para contribuyentes para ver. Puede examinar y editarlo antes de enviarlo.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Introduzca un número de teléfono para añadir un contacto.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Buscar…",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "La privacidad es posible. Signal hace fácil.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Reproducir notificaciones de audio",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Desconectado",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Abra Signal en su teléfono móvíl, y seleccione Parámetros > Dispositivos enlazados. Pulse el botón para añadir un nuevo dispositivo, después escanee el código QR.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Número inválido",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Bienvenido a Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Nuevos mensajes",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Haga clic para crear un nuevo contacto",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Todavía no ha intercambiado ningún mensaje con este contacto.  El número de seguridad entre ustedes estará disponible después del primer mensaje.",
