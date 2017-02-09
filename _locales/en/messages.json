@@ -391,6 +391,10 @@
       "message": "1 week",
       "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "timerOption_3_week": {
+      "message": "3 week",
+      "description": "Label for a selectable option in the message expiration timer menu"
+    },
     "disappearingMessages": {
       "message": "Disappearing messages",
       "description": "Conversation menu option to enable disappearing messages"
@@ -441,6 +445,10 @@
     },
     "timerOption_1_week_abbreviated": {
       "message": "1w",
+      "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "timerOption_3_week_abbreviated": {
+      "message": "3w",
       "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerSetTo": {
