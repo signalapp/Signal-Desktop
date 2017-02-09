@@ -179,6 +179,10 @@
         "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Z vnosom telefonske številke boste ustvarili nov stik",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Išči...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Predvajaj zvočna obvestila",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Povezava je prekinjena",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Odprite aplikacijo Signal na vašem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Neveljavna številka",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Dobrodošli v aplikaciji Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Novo sporočilo",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Kliknite za nov stik",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvi izmenjavi.",

@@ -179,6 +179,10 @@
         "message": "Ovaj će zapis biti objavljen javno na internetu, doprinositeljima na uvid. Možete ga provjeriti i urediti prije slanja.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Traži...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Privatnost je moguća. Signal je čini lakom.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Nepovezano",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Otvorite Signal na svom telefonu i navigirajte do Postavke > Povezani uređaji. Dodirnite gumb za dodavanje novog uređaja, a zatim skenirajte gornji kod.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Dobrodošli u Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Nove poruke",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",

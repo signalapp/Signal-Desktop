@@ -179,6 +179,10 @@
         "message": "Ez a napló publikusan elérhető lesz az interneten, hogy a hozzájárulók megtekinthessék. Ellenőrizheted és szerkesztheted a tartalmát küldés előtt.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Keresés...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "A magánélet védelme lehetséges. A Signal ezt egyszerűvé teszi.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Lecsatlakozva",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Nyisd meg a Signal-t a telefonodon, és menj a Beállítások > Társított készülékek menübe. Érintsd meg az eszköz hozzáadása gombot, és olvasd be a fenti kódot.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Üdvözlünk a Signal Desktop-ban",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Új üzenetek",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",

@@ -179,6 +179,10 @@
         "message": "Tämä loki tullaan julkaisemaan verkossa, jotta kehittäjät ja muut voivat tarkastella sitä. Voit esikatsella ja muokata lokia vielä ennen kuin lähetät sen.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Syötä puhelinnumero lisätäksesi uuden yhteystiedon",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Hae...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Yksityisyys on mahdollista. Signal tekee siitä helppoa.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Käytä ilmoitusääniä",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Ei yhteyttä",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Avaa Signal puhelimessasi ja mene valikosta Asetukset > Yhdistetyt laitteet. Lisätäksesi uuden laitteen napsauta siellä olevaa sinistä nappia ja sitten skannaa yllä näkyvä QR-koodi.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Virheellinen numero",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Tervetuloa Signal Desktopiin",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "uutta viestiä",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Luo uusi yhteystieto klikkaamalla",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",

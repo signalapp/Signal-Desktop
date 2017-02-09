@@ -179,6 +179,10 @@
         "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Voer een telefoonnummer in om een contact toe te voegen.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Zoeken...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Audiomelding afspelen",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Verbinding verbroken",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Open Signal op je telefoon en ga naar Instellingen > Gekoppelde apparaten. Tik op de knop om een nieuw apparaat toe te voegen en scan daarna de code hierboven.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Ongeldig nummer",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Welkom bij Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "nieuwe berichten",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Klik om een nieuw contact aan te maken",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",

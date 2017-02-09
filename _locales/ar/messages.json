@@ -179,6 +179,10 @@
         "message": "هذه السجلاّت سيتم نشرها علنا ليتمكن المساهمون من معاينتها. ربما ترغب فى تعديلها أو التحقق منها قبل إرسالها. ",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "بحث...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "الحفاظ على الخصوصية أمر ممكن. سيجنال Signal يجعل ذلك سهلا.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "غير متصّل",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "افتح سيغنال على هاتفك وانتقل إلى الإعدادات> الأجهزة المرتبطة. اضغط على الزر لإضافة جهاز جديد، ثم امسح الرمز أعلاه.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "سيجنال للحاسوب. مرحبا بك ",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "رسائل جديدة",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",

@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Nulstil session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Slet beskeder",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Det er en god ide at $tag_start$ verificere $tag_end$ din sikkerhedsnøgle hos denne kontakt",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -178,6 +178,10 @@
     "debugLogExplanation": {
         "message": "Denne log vil blive lagt offentligt online for udvikleres brug. Du kan undersøge og redigere den før du sender.",
         "description": ""
+    },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
         "message": "Søg...",
@@ -277,6 +281,10 @@
         "message": "Privatliv er muligt. Signal gør det nemt.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Afbrudt",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Åbn Signal på din telefon og naviger til Indstillinger > Enheder. Klik for at tilføje en ny enhed og scan ovenstående kode.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Velkommen til Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Nye beskeder",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
