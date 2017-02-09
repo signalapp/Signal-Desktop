@@ -315,14 +315,19 @@ var TextSecureServer = (function() {
                 }
                 res.identityKey = StringView.base64ToBytes(res.identityKey);
                 res.devices.forEach(function(device) {
-                    if ( !validateResponse(device, {signedPreKey: 'object', preKey: 'object'}) ||
-                         !validateResponse(device.signedPreKey, {publicKey: 'string', signature: 'string'}) ||
-                         !validateResponse(device.preKey, {publicKey: 'string'})) {
-                        throw new Error("Invalid response");
+                    if ( !validateResponse(device, {signedPreKey: 'object'}) ||
+                         !validateResponse(device.signedPreKey, {publicKey: 'string', signature: 'string'}) ) {
+                        throw new Error("Invalid signedPreKey");
+                    }
+                    if ( device.preKey ) {
+                        if ( !validateResponse(device, {preKey: 'object'}) ||
+                             !validateResponse(device.preKey, {publicKey: 'string'})) {
+                            throw new Error("Invalid preKey");
+                        }
+                        device.preKey.publicKey = StringView.base64ToBytes(device.preKey.publicKey);
                     }
                     device.signedPreKey.publicKey = StringView.base64ToBytes(device.signedPreKey.publicKey);
                     device.signedPreKey.signature = StringView.base64ToBytes(device.signedPreKey.signature);
-                    device.preKey.publicKey       = StringView.base64ToBytes(device.preKey.publicKey);
                 });
                 return res;
             });
