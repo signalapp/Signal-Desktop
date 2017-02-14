@@ -158,7 +158,8 @@
             var prekey = new SignedPreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
-                privateKey : keyPair.privKey
+                privateKey : keyPair.privKey,
+                created_at : Date.now()
             });
             return new Promise(function(resolve) {
                 prekey.save().always(function() {
