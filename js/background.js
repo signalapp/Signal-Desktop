@@ -44,20 +44,23 @@
             return -1;
         }
     };
+    var accountManager;
     window.getAccountManager = function() {
-        var USERNAME = storage.get('number_id');
-        var PASSWORD = storage.get('password');
-        var accountManager = new textsecure.AccountManager(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
-        );
-        accountManager.addEventListener('registration', function() {
-            if (!Whisper.Registration.everDone()) {
-                storage.put('safety-numbers-approval', false);
-            }
-            Whisper.Registration.markDone();
-            console.log("dispatching registration event");
-            extension.trigger('registration_done');
-        });
+        if (!accountManager) {
+            var USERNAME = storage.get('number_id');
+            var PASSWORD = storage.get('password');
+            accountManager = new textsecure.AccountManager(
+                SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
+            );
+            accountManager.addEventListener('registration', function() {
+                if (!Whisper.Registration.everDone()) {
+                    storage.put('safety-numbers-approval', false);
+                }
+                Whisper.Registration.markDone();
+                console.log("dispatching registration event");
+                extension.trigger('registration_done');
+            });
+        }
         return accountManager;
     };
 

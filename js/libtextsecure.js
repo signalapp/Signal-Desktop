@@ -37902,6 +37902,7 @@ var TextSecureServer = (function() {
 
     function AccountManager(url, ports, username, password) {
         this.server = new TextSecureServer(url, ports, username, password);
+        this.pending = Promise.resolve();
     }
 
     AccountManager.prototype = new textsecure.EventTarget();
@@ -37918,12 +37919,16 @@ var TextSecureServer = (function() {
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
             var registrationDone = this.registrationDone.bind(this);
-            return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
-                return createAccount(number, verificationCode, identityKeyPair).
-                    then(generateKeys).
-                    then(registerKeys).
-                    then(registrationDone);
+            this.pending = this.pending.then(function() {
+                return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
+                    return createAccount(number, verificationCode, identityKeyPair).
+                        then(generateKeys).
+                        then(registerKeys).
+                        then(registrationDone);
+                }.bind(this));
             }.bind(this));
+
+            return this.pending;
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
@@ -37931,61 +37936,68 @@ var TextSecureServer = (function() {
             var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
-            var provisioningCipher = new libsignal.ProvisioningCipher();
-            return provisioningCipher.getPublicKey().then(function(pubKey) {
-                return new Promise(function(resolve, reject) {
-                    var socket = getSocket();
-                    socket.onclose = function(e) {
-                        console.log('websocket closed', e.code);
-                        reject(new Error('websocket closed'));
-                    };
-                    var wsr = new WebSocketResource(socket, {
-                        keepalive: { path: '/v1/keepalive/provisioning' },
-                        handleRequest: function(request) {
-                            if (request.path === "/v1/address" && request.verb === "PUT") {
-                                var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
-                                setProvisioningUrl([
-                                    'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
-                                    encodeURIComponent(btoa(getString(pubKey)))
-                                ].join(''));
-                                request.respond(200, 'OK');
-                            } else if (request.path === "/v1/message" && request.verb === "PUT") {
-                                var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
-                                request.respond(200, 'OK');
-                                wsr.close();
-                                resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
-                                    return confirmNumber(provisionMessage.number).then(function(deviceName) {
-                                        if (typeof deviceName !== 'string' || deviceName.length === 0) {
-                                            throw new Error('Invalid device name');
-                                        }
-                                        return createAccount(
-                                            provisionMessage.number,
-                                            provisionMessage.provisioningCode,
-                                            provisionMessage.identityKeyPair,
-                                            deviceName,
-                                            provisionMessage.userAgent
-                                        );
-                                    });
-                                }));
-                            } else {
-                                console.log('Unknown websocket message', request.path);
+            this.pending = this.pending.then(function() {
+                var provisioningCipher = new libsignal.ProvisioningCipher();
+                return provisioningCipher.getPublicKey().then(function(pubKey) {
+                    return new Promise(function(resolve, reject) {
+                        var socket = getSocket();
+                        socket.onclose = function(e) {
+                            console.log('websocket closed', e.code);
+                            reject(new Error('websocket closed'));
+                        };
+                        var wsr = new WebSocketResource(socket, {
+                            keepalive: { path: '/v1/keepalive/provisioning' },
+                            handleRequest: function(request) {
+                                if (request.path === "/v1/address" && request.verb === "PUT") {
+                                    var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
+                                    setProvisioningUrl([
+                                        'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
+                                        encodeURIComponent(btoa(getString(pubKey)))
+                                    ].join(''));
+                                    request.respond(200, 'OK');
+                                } else if (request.path === "/v1/message" && request.verb === "PUT") {
+                                    var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
+                                    request.respond(200, 'OK');
+                                    wsr.close();
+                                    resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
+                                        return confirmNumber(provisionMessage.number).then(function(deviceName) {
+                                            if (typeof deviceName !== 'string' || deviceName.length === 0) {
+                                                throw new Error('Invalid device name');
+                                            }
+                                            return createAccount(
+                                                provisionMessage.number,
+                                                provisionMessage.provisioningCode,
+                                                provisionMessage.identityKeyPair,
+                                                deviceName,
+                                                provisionMessage.userAgent
+                                            );
+                                        });
+                                    }));
+                                } else {
+                                    console.log('Unknown websocket message', request.path);
+                                }
                             }
-                        }
+                        });
                     });
-                });
-            }).then(generateKeys).
-               then(registerKeys).
-               then(registrationDone);
+                }).then(generateKeys).
+                  then(registerKeys).
+                  then(registrationDone);
+            }.bind(this));
+            return this.pending;
         },
         refreshPreKeys: function() {
             var generateKeys = this.generateKeys.bind(this, 100);
             var registerKeys = this.server.registerKeys.bind(this.server);
-            return this.server.getMyKeys().then(function(preKeyCount) {
-                console.log('prekey count ' + preKeyCount);
-                if (preKeyCount < 10) {
-                    return generateKeys().then(registerKeys);
-                }
+
+            this.pending = this.pending.then(function() {
+                return this.server.getMyKeys().then(function(preKeyCount) {
+                    console.log('prekey count ' + preKeyCount);
+                    if (preKeyCount < 10) {
+                        return generateKeys().then(registerKeys);
+                    }
+                }.bind(this));
             }.bind(this));
+            return this.pending;
         },
         createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
