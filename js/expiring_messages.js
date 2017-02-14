@@ -59,7 +59,7 @@
         [ 12, 'hours'    ],
         [ 1,  'day'      ],
         [ 1,  'week'     ],
-        [ 3,  'week'     ],
+        [ 3,  'weeks'     ],
     ].map(function(o) {
       var duration = moment.duration(o[0], o[1]); // 5, 'seconds'
       return {
