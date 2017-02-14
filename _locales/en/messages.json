@@ -392,7 +392,7 @@
       "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_3_week": {
-      "message": "3 week",
+      "message": "3 weeks",
       "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
