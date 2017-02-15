@@ -148,8 +148,10 @@
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
                     resolve({
-                        pubKey: prekey.attributes.publicKey,
-                        privKey: prekey.attributes.privateKey
+                        pubKey     : prekey.get('publicKey'),
+                        privKey    : prekey.get('privateKey'),
+                        created_at : prekey.get('created_at'),
+                        keyId      : prekey.get('id')
                     });
                 }).fail(resolve);
             });
