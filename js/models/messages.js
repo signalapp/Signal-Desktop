@@ -211,6 +211,9 @@
                 if (result instanceof Error) {
                     errors = [result];
                     this.saveErrors(errors);
+                    if (result.name === 'SignedPreKeyRotationError') {
+                        getAccountManager().rotateSignedPreKey();
+                    }
                 } else {
                     errors = result.errors;
                     this.saveErrors(errors);
@@ -283,7 +286,8 @@
             var error = _.find(this.get('errors'), function(e) {
                 return (e.name === 'MessageError' ||
                         e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
+                        e.name === 'SendMessageNetworkError' ||
+                        e.name === 'SignedPreKeyRotationError');
             });
             return !!error;
         },
@@ -292,10 +296,17 @@
                 return e.number === number &&
                     (e.name === 'MessageError' ||
                      e.name === 'OutgoingMessageError' ||
-                     e.name === 'SendMessageNetworkError');
+                     e.name === 'SendMessageNetworkError' ||
+                     e.name === 'SignedPreKeyRotationError');
             });
             this.set({errors: errors[1]});
             return errors[0][0];
+        },
+        isReplayableError: function(e) {
+            return (e.name === 'MessageError' ||
+                    e.name === 'OutgoingMessageError' ||
+                    e.name === 'SendMessageNetworkError' ||
+                    e.name === 'SignedPreKeyRotationError');
         },
 
         resend: function(number) {

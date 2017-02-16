@@ -11,6 +11,7 @@
         INIT_SESSION: 2,
         TRANSMIT_MESSAGE: 3,
         REBUILD_MESSAGE: 4,
+        RETRY_SEND_MESSAGE_PROTO: 5
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -89,6 +90,17 @@
     SendMessageNetworkError.prototype = new ReplayableError();
     SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
 
+    function SignedPreKeyRotationError(numbers, message, timestamp) {
+        ReplayableError.call(this, {
+            functionCode : Type.RETRY_SEND_MESSAGE_PROTO,
+            args         : [numbers, message, timestamp]
+        });
+        this.name = 'SignedPreKeyRotationError';
+        this.message = "Too many signed prekey rotation failures";
+    }
+    SignedPreKeyRotationError.prototype = new ReplayableError();
+    SignedPreKeyRotationError.prototype.constructor = SignedPreKeyRotationError;
+
     function MessageError(message, httpError) {
         ReplayableError.call(this, {
             functionCode : Type.REBUILD_MESSAGE,
@@ -119,6 +131,7 @@
     window.textsecure.ReplayableError = ReplayableError;
     window.textsecure.OutgoingMessageError = OutgoingMessageError;
     window.textsecure.MessageError = MessageError;
+    window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
 
 })();
 
@@ -39014,11 +39027,28 @@ MessageSender.prototype = {
         }.bind(this));
     },
     sendMessageProto: function(timestamp, numbers, message, callback) {
+        var rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
+        if (rejections > 5) {
+            throw new textsecure.SignedPreKeyRotationError(numbers, message.toArrayBuffer(), timestamp);
+        }
+
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
 
         numbers.forEach(function(number) {
             this.queueJobForNumber(number, function() {
                 return outgoing.sendToNumber(number);
+            });
+        }.bind(this));
+    },
+
+    retrySendMessageProto: function(numbers, encodedMessage, timestamp) {
+        var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
+        return new Promise(function(resolve, reject) {
+            this.sendMessageProto(timestamp, numbers, proto, function(res) {
+                if (res.errors.length > 0)
+                    reject(res);
+                else
+                    resolve(res);
             });
         }.bind(this));
     },
@@ -39330,6 +39360,7 @@ textsecure.MessageSender = function(url, ports, username, password, attachment_s
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
+    textsecure.replay.registerFunction(sender.retrySendMessageProto.bind(sender), textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO);
 
     this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
     this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);

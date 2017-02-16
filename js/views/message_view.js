@@ -131,11 +131,8 @@
             'click .error-message': 'select'
         },
         retryMessage: function() {
-            var retrys = _.filter(this.model.get('errors'), function(e) {
-                return (e.name === 'MessageError' ||
-                        e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
-            });
+            var retrys = _.filter(this.model.get('errors'),
+                    this.model.isReplayableError.bind(this.model));
             _.map(retrys, 'number').forEach(function(number) {
                 this.model.resend(number);
             }.bind(this));

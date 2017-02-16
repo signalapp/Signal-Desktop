@@ -183,11 +183,28 @@ MessageSender.prototype = {
         }.bind(this));
     },
     sendMessageProto: function(timestamp, numbers, message, callback) {
+        var rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
+        if (rejections > 5) {
+            throw new textsecure.SignedPreKeyRotationError(numbers, message.toArrayBuffer(), timestamp);
+        }
+
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
 
         numbers.forEach(function(number) {
             this.queueJobForNumber(number, function() {
                 return outgoing.sendToNumber(number);
+            });
+        }.bind(this));
+    },
+
+    retrySendMessageProto: function(numbers, encodedMessage, timestamp) {
+        var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
+        return new Promise(function(resolve, reject) {
+            this.sendMessageProto(timestamp, numbers, proto, function(res) {
+                if (res.errors.length > 0)
+                    reject(res);
+                else
+                    resolve(res);
             });
         }.bind(this));
     },
@@ -499,6 +516,7 @@ textsecure.MessageSender = function(url, ports, username, password, attachment_s
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
+    textsecure.replay.registerFunction(sender.retrySendMessageProto.bind(sender), textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO);
 
     this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
     this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
