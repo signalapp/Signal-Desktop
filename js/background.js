@@ -84,6 +84,8 @@
         if (open) {
             openInbox();
         }
+
+        RotateSignedPreKeyListener.init();
     });
 
     window.getSyncRequest = function() {
