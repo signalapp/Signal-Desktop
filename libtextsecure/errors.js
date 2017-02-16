@@ -10,6 +10,7 @@
         INIT_SESSION: 2,
         TRANSMIT_MESSAGE: 3,
         REBUILD_MESSAGE: 4,
+        RETRY_SEND_MESSAGE_PROTO: 5
     };
     window.textsecure = window.textsecure || {};
     window.textsecure.replay = {
@@ -88,6 +89,17 @@
     SendMessageNetworkError.prototype = new ReplayableError();
     SendMessageNetworkError.prototype.constructor = SendMessageNetworkError;
 
+    function SignedPreKeyRotationError(numbers, message, timestamp) {
+        ReplayableError.call(this, {
+            functionCode : Type.RETRY_SEND_MESSAGE_PROTO,
+            args         : [numbers, message, timestamp]
+        });
+        this.name = 'SignedPreKeyRotationError';
+        this.message = "Too many signed prekey rotation failures";
+    }
+    SignedPreKeyRotationError.prototype = new ReplayableError();
+    SignedPreKeyRotationError.prototype.constructor = SignedPreKeyRotationError;
+
     function MessageError(message, httpError) {
         ReplayableError.call(this, {
             functionCode : Type.REBUILD_MESSAGE,
@@ -118,5 +130,6 @@
     window.textsecure.ReplayableError = ReplayableError;
     window.textsecure.OutgoingMessageError = OutgoingMessageError;
     window.textsecure.MessageError = MessageError;
+    window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
 
 })();
