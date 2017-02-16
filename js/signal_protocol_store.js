@@ -70,6 +70,11 @@
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
+    var SignedPreKeyCollection = Backbone.Collection.extend({
+        storeName: 'signedPreKeys',
+        database: Whisper.Database,
+        model: SignedPreKey
+    });
     var Session = Model.extend({ storeName: 'sessions' });
     var SessionCollection = Backbone.Collection.extend({
         storeName: 'sessions',
@@ -154,6 +159,24 @@
                         keyId      : prekey.get('id')
                     });
                 }).fail(resolve);
+            });
+        },
+        loadSignedPreKeys: function() {
+            if (arguments.length > 0) {
+              return Promise.reject(new Error("loadSignedPreKeys takes no arguments"));
+            }
+            var signedPreKeys = new SignedPreKeyCollection();
+            return new Promise(function(resolve) {
+                signedPreKeys.fetch().then(function() {
+                    resolve(signedPreKeys.map(function(prekey) {
+                        return {
+                            pubKey     : prekey.get('publicKey'),
+                            privKey    : prekey.get('privateKey'),
+                            created_at : prekey.get('created_at'),
+                            keyId      : prekey.get('id')
+                        };
+                    }));
+                });
             });
         },
         storeSignedPreKey: function(keyId, keyPair) {
