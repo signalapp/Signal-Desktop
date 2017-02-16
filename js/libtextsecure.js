@@ -37619,6 +37619,7 @@ var TextSecureServer = (function() {
         accounts   : "v1/accounts",
         devices    : "v1/devices",
         keys       : "v2/keys",
+        signed     : "v2/keys/signed",
         messages   : "v1/messages",
         attachment : "v1/attachments"
     };
@@ -37774,6 +37775,17 @@ var TextSecureServer = (function() {
                 call                : 'keys',
                 httpType            : 'PUT',
                 jsonData            : keys,
+            });
+        },
+        setSignedPreKey: function(signedPreKey) {
+            return this.ajax({
+                call                : 'signed',
+                httpType            : 'PUT',
+                jsonData            : {
+                    keyId: signedPreKey.keyId,
+                    publicKey: btoa(getString(signedPreKey.publicKey)),
+                    signature: btoa(getString(signedPreKey.signature))
+                }
             });
         },
         getMyKeys: function(number, deviceId) {
