@@ -277,9 +277,6 @@
         });
     }
 
-    // lazy hack
-    window.receipts = new Backbone.Collection();
-
     function onDeliveryReceipt(ev) {
         var pushMessage = ev.proto;
         var timestamp = pushMessage.timestamp.toNumber();
