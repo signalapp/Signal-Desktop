@@ -37925,6 +37925,8 @@ var TextSecureServer = (function() {
     'use strict';
     window.textsecure = window.textsecure || {};
 
+    var ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
+
     function AccountManager(url, ports, username, password) {
         this.server = new TextSecureServer(url, ports, username, password);
         this.pending = Promise.resolve();
@@ -38024,6 +38026,74 @@ var TextSecureServer = (function() {
             }.bind(this));
             return this.pending;
         },
+        rotateSignedPreKey: function() {
+            this.pending = this.pending.then(function() {
+                var signedKeyId = textsecure.storage.get('signedKeyId', 1);
+
+                if (typeof signedKeyId != 'number') {
+                    throw new Error('Invalid signedKeyId');
+                }
+                var store = textsecure.storage.protocol;
+                var server = this.server;
+                var cleanSignedPreKeys = this.cleanSignedPreKeys;
+                return store.getIdentityKeyPair().then(function(identityKey) {
+                    return libsignal.KeyHelper.generateSignedPreKey(identityKey, signedKeyId);
+                }).then(function(res) {
+                    return server.setSignedPreKey({
+                        keyId     : res.keyId,
+                        publicKey : res.keyPair.pubKey,
+                        signature : res.signature
+                    }).then(function() {
+                        textsecure.storage.put('signedKeyId', signedKeyId + 1);
+                        textsecure.storage.remove('signedKeyRotationRejected');
+                        return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
+                            return cleanSignedPreKeys();
+                        });
+                    }).catch(function(e) {
+                        if (e instanceof Error && e.name == 'HTTPError' && e.code >= 400 && e.code <= 599) {
+                            var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
+                            textsecure.storage.put('signedKeyRotationRejected', rejections);
+                            console.log('Signed key rotation rejected count:', rejections);
+                        }
+                    });
+                });
+            }.bind(this));
+            return this.pending;
+        },
+        cleanSignedPreKeys: function() {
+            var nextSignedKeyId = textsecure.storage.get('signedKeyId');
+            if (typeof nextSignedKeyId != 'number') {
+                return Promise.resolve();
+            }
+            var activeSignedPreKeyId = nextSignedKeyId - 1;
+
+            var store = textsecure.storage.protocol;
+            return store.loadSignedPreKeys().then(function(allRecords) {
+                var oldRecords = allRecords.filter(function(record) {
+                    return record.keyId !== activeSignedPreKeyId;
+                });
+                oldRecords.sort(function(a, b) {
+                    return (a.created_at || 0) - (b.created_at || 0);
+                });
+
+                console.log("Active signed prekey: " + activeSignedPreKeyId);
+                console.log("Old signed prekey record count: " + oldRecords.length);
+
+                oldRecords.forEach(function(oldRecord) {
+                    if ( oldRecord.keyId > activeSignedPreKeyId - 3 ) {
+                        // keep at least the last 3 signed keys
+                        return;
+                    }
+                    var created_at = oldRecord.created_at || 0;
+                    var archiveDuration = Date.now() - created_at;
+                    if (archiveDuration > ARCHIVE_AGE) {
+                        console.log("Removing signed prekey record:",
+                          oldRecord.keyId, "with timestamp:", created_at);
+                        store.removeSignedPreKey(oldRecord.keyId);
+                    }
+                });
+            });
+        },
         createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
@@ -38108,13 +38178,14 @@ var TextSecureServer = (function() {
                     })
                 );
 
-                store.removeSignedPreKey(signedKeyId - 2);
                 textsecure.storage.put('maxPreKeyId', startId + count);
                 textsecure.storage.put('signedKeyId', signedKeyId + 1);
                 return Promise.all(promises).then(function() {
-                    return result;
-                });
-            });
+                    return this.cleanSignedPreKeys().then(function() {
+                        return result;
+                    });
+                }.bind(this));
+            }.bind(this));
         },
         registrationDone: function() {
             console.log('registration done');
