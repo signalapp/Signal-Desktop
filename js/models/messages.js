@@ -551,7 +551,7 @@
         },
 
         fetchExpiring: function() {
-            this.fetch({conditions: {expireTimer: {$gte: 0}}});
+            this.fetch({conditions: {expireTimer: {$gt: 0}}});
         },
 
         hasKeyConflicts: function() {
