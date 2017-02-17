@@ -82,6 +82,17 @@ SignalProtocolStore.prototype = {
 			resolve(res);
 		}.bind(this));
 	},
+    loadSignedPreKeys: function() {
+        return new Promise(function(resolve) {
+            var res = [];
+            for (var i in this.store) {
+                if (i.startsWith('25519KeysignedKey')) {
+                    res.push(this.store[i]);
+                }
+            }
+            resolve(res);
+        }.bind(this));
+    },
 	storeSignedPreKey: function(keyId, keyPair) {
 		return new Promise(function(resolve) {
 			resolve(this.put('25519KeysignedKey' + keyId, keyPair));
