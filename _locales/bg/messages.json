@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "Провери номер за безопасност",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Получено съобщение с нови номера за сигурност. Докосни за преглед.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Сигурно искате да $tag_start$ потвърдите $tag_end$ номерата за сигурност с този контакт.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -180,7 +180,7 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Въведете телефонен номер за да добавите контакт.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -210,7 +210,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Научете по-вече за потвърждението на номерата за безопасност.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -244,7 +244,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Андроид (тъмна)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -256,7 +256,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Вашите номера за безопасност с $name$ ",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -274,7 +274,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Нов номер за безопасност",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -282,7 +282,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Възпроизвеждане на аудио известия",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -350,7 +350,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Номерата ви за сигурност с този контакт са променени. Докоснете за преглед.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -366,7 +366,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Невалиден номер",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -432,11 +432,11 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Докосни за създаване на нов контакт",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Все още не сте се обменяли съобщения с този контакт. Вашият номер за безопасност с него ще бъде на разположение след първото съобщение.",
         "description": ""
     },
     "submit": {
@@ -444,7 +444,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "Вашите номера за безопасност с $name$ са променени.",
         "description": "",
         "placeholders": {
             "name": {
@@ -454,7 +454,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "Изисква одобрение на номера за безопасност, когато са променени.",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -494,7 +494,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Номера ви за безопасност с този контакт е променен. Това може да значи че някой се опитва да прихване комуникацията ви, или контакта ви просто е преинсталирал приложението. Потвърдете номерата по-долу.",
         "description": ""
     },
     "submitDebugLog": {
