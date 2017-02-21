@@ -274,6 +274,7 @@
                 conversation: this.model
             });
             this.listenBack(view);
+            this.listenTo(view, 'back', this.resetPanel);
             view.render();
         },
 
