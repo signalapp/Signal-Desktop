@@ -157,9 +157,10 @@ MessageReceiver.prototype.extend({
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate
+                var buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
                 throw new textsecure.IncomingIdentityKeyError(
                     address.toString(),
-                    ciphertext.toArrayBuffer(),
+                    buffer.toArrayBuffer(),
                     e.identityKey
                 );
             }
