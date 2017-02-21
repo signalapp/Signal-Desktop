@@ -86,6 +86,7 @@
         }
 
         RotateSignedPreKeyListener.init();
+        ExpiringMessagesListener.update();
     });
 
     window.getSyncRequest = function() {

@@ -144,6 +144,9 @@
                   this.remove();
                 }
             }.bind(this));
+
+            // Failsafe: if in the background, animation events don't fire
+            setTimeout(this.remove.bind(this), 1000);
         },
         onDestroy: function() {
             if (this.$el.hasClass('expired')) {

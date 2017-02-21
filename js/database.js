@@ -189,6 +189,16 @@
                 messages.createIndex('expire', 'expireTimer', { unique: false });
                 next();
             }
+        },
+        {
+            version: "11.0",
+            migrate: function(transaction, next) {
+                console.log('migration 11.0');
+                console.log('creating expires_at message index');
+                var messages = transaction.objectStore('messages');
+                messages.createIndex('expires_at', 'expires_at', { unique: false });
+                next();
+            }
         }
     ];
 }());
