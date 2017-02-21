@@ -38741,6 +38741,9 @@ OutgoingMessage.prototype = {
                 if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
                     var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
                     var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
+                    if (device.registrationId === 0) {
+                        console.log("device registrationId 0!");
+                    }
                     return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
                             error = new textsecure.OutgoingIdentityKeyError(
