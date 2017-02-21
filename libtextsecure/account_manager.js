@@ -43,30 +43,35 @@
             var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
-            return this.queueTask(function() {
-                var provisioningCipher = new libsignal.ProvisioningCipher();
-                return provisioningCipher.getPublicKey().then(function(pubKey) {
-                    return new Promise(function(resolve, reject) {
-                        var socket = getSocket();
-                        socket.onclose = function(e) {
-                            console.log('websocket closed', e.code);
+            var queueTask = this.queueTask.bind(this);
+            var provisioningCipher = new libsignal.ProvisioningCipher();
+            var gotProvisionEnvelope = false;
+            return provisioningCipher.getPublicKey().then(function(pubKey) {
+                return new Promise(function(resolve, reject) {
+                    var socket = getSocket();
+                    socket.onclose = function(e) {
+                        console.log('websocket closed', e.code);
+                        if (!gotProvisionEnvelope) {
                             reject(new Error('websocket closed'));
-                        };
-                        var wsr = new WebSocketResource(socket, {
-                            keepalive: { path: '/v1/keepalive/provisioning' },
-                            handleRequest: function(request) {
-                                if (request.path === "/v1/address" && request.verb === "PUT") {
-                                    var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
-                                    setProvisioningUrl([
-                                        'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
-                                        encodeURIComponent(btoa(getString(pubKey)))
-                                    ].join(''));
-                                    request.respond(200, 'OK');
-                                } else if (request.path === "/v1/message" && request.verb === "PUT") {
-                                    var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
-                                    request.respond(200, 'OK');
-                                    wsr.close();
-                                    resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
+                        }
+                    };
+                    var wsr = new WebSocketResource(socket, {
+                        keepalive: { path: '/v1/keepalive/provisioning' },
+                        handleRequest: function(request) {
+                            if (request.path === "/v1/address" && request.verb === "PUT") {
+                                var proto = textsecure.protobuf.ProvisioningUuid.decode(request.body);
+                                setProvisioningUrl([
+                                    'tsdevice:/?uuid=', proto.uuid, '&pub_key=',
+                                    encodeURIComponent(btoa(getString(pubKey)))
+                                ].join(''));
+                                request.respond(200, 'OK');
+                            } else if (request.path === "/v1/message" && request.verb === "PUT") {
+                                var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
+                                request.respond(200, 'OK');
+                                gotProvisionEnvelope = true;
+                                wsr.close();
+                                resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
+                                    return queueTask(function() {
                                         return confirmNumber(provisionMessage.number).then(function(deviceName) {
                                             if (typeof deviceName !== 'string' || deviceName.length === 0) {
                                                 throw new Error('Invalid device name');
@@ -77,19 +82,19 @@
                                                 provisionMessage.identityKeyPair,
                                                 deviceName,
                                                 provisionMessage.userAgent
-                                            );
+                                            ).then(generateKeys).
+                                              then(registerKeys).
+                                              then(registrationDone);
                                         });
-                                    }));
-                                } else {
-                                    console.log('Unknown websocket message', request.path);
-                                }
+                                    });
+                                }));
+                            } else {
+                                console.log('Unknown websocket message', request.path);
                             }
-                        });
+                        }
                     });
-                }).then(generateKeys).
-                  then(registerKeys).
-                  then(registrationDone);
-            }.bind(this));
+                });
+            });
         },
         refreshPreKeys: function() {
             var generateKeys = this.generateKeys.bind(this, 100);
