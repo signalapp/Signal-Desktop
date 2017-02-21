@@ -37946,7 +37946,7 @@ var TextSecureServer = (function() {
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
             var registrationDone = this.registrationDone.bind(this);
-            this.pending = this.pending.then(function() {
+            return this.queueTask(function() {
                 return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
                     return createAccount(number, verificationCode, identityKeyPair).
                         then(generateKeys).
@@ -37954,8 +37954,6 @@ var TextSecureServer = (function() {
                         then(registrationDone);
                 }.bind(this));
             }.bind(this));
-
-            return this.pending;
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
@@ -37963,7 +37961,7 @@ var TextSecureServer = (function() {
             var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
-            this.pending = this.pending.then(function() {
+            return this.queueTask(function() {
                 var provisioningCipher = new libsignal.ProvisioningCipher();
                 return provisioningCipher.getPublicKey().then(function(pubKey) {
                     return new Promise(function(resolve, reject) {
@@ -38010,13 +38008,12 @@ var TextSecureServer = (function() {
                   then(registerKeys).
                   then(registrationDone);
             }.bind(this));
-            return this.pending;
         },
         refreshPreKeys: function() {
             var generateKeys = this.generateKeys.bind(this, 100);
             var registerKeys = this.server.registerKeys.bind(this.server);
 
-            this.pending = this.pending.then(function() {
+            return this.queueTask(function() {
                 return this.server.getMyKeys().then(function(preKeyCount) {
                     console.log('prekey count ' + preKeyCount);
                     if (preKeyCount < 10) {
@@ -38024,10 +38021,9 @@ var TextSecureServer = (function() {
                     }
                 }.bind(this));
             }.bind(this));
-            return this.pending;
         },
         rotateSignedPreKey: function() {
-            this.pending = this.pending.then(function() {
+            return this.queueTask(function() {
                 var signedKeyId = textsecure.storage.get('signedKeyId', 1);
 
                 if (typeof signedKeyId != 'number') {
@@ -38058,7 +38054,9 @@ var TextSecureServer = (function() {
                     });
                 });
             }.bind(this));
-            return this.pending;
+        },
+        queueTask: function(task) {
+            return this.pending = this.pending.then(task, task);
         },
         cleanSignedPreKeys: function() {
             var nextSignedKeyId = textsecure.storage.get('signedKeyId');
