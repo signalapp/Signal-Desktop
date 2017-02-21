@@ -227,6 +227,7 @@
             }
         },
         onExpiredCollection: function(message) {
+            console.log('removing message', message.get('sent_at'), 'from collection');
             this.model.messageCollection.remove(message.id);
         },
 

@@ -459,15 +459,6 @@
             }));
             return this.save();
         },
-        markExpired: function() {
-            console.log('message', this.get('sent_at'), 'expired');
-            clearInterval(this.expirationTimeout);
-            this.expirationTimeout = null;
-            this.trigger('expired', this);
-            this.destroy();
-
-            this.getConversation().trigger('expired', this);
-        },
         isExpiring: function() {
             return this.get('expireTimer') && this.get('expirationStartTimestamp');
         },
@@ -485,10 +476,13 @@
               return ms_from_now;
         },
         setToExpire: function() {
-            if (this.isExpiring() && !this.expirationTimeout) {
-                var ms_from_now = this.msTilExpire();
-                console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
-                this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);
+            if (this.isExpiring() && !this.get('expires_at')) {
+                var start = this.get('expirationStartTimestamp');
+                var delta = this.get('expireTimer') * 1000;
+                var expires_at = start + delta;
+                this.save('expires_at', expires_at);
+                ExpiringMessagesListener.update();
+                console.log('message', this.get('sent_at'), 'expires at', expires_at);
             }
         }
 
@@ -551,8 +545,16 @@
             }.bind(this));
         },
 
-        fetchExpiring: function() {
-            this.fetch({conditions: {expireTimer: {$gt: 0}}});
+        fetchNextExpiring: function() {
+            this.fetch({ index: { name: 'expires_at' }, limit: 1 });
+        },
+
+        fetchExpired: function() {
+            console.log('loading expired messages');
+            this.fetch({
+                conditions: { expires_at: { $lte: Date.now() } },
+                addIndividually: true
+            });
         },
 
         hasKeyConflicts: function() {
