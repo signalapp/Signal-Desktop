@@ -424,7 +424,7 @@
                                       message.get('received_at'));
                                 }
                             } else if (conversation.get('expireTimer')) {
-                                conversation.updateExpirationTimer(0, source,
+                                conversation.updateExpirationTimer(null, source,
                                     message.get('received_at'));
                             }
                         }

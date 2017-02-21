@@ -199,6 +199,7 @@
     },
 
     updateExpirationTimer: function(expireTimer, source, received_at) {
+        if (!expireTimer) { expireTimer = null; }
         source = source || textsecure.storage.user.getNumber();
         var timestamp = received_at || Date.now();
         this.save({ expireTimer: expireTimer });
