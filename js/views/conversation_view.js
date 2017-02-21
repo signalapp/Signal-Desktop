@@ -32,8 +32,10 @@
         },
         setTimer: function(e) {
             var seconds = this.$(e.target).data().seconds;
-            if (seconds >= 0) {
+            if (seconds > 0) {
                 this.model.updateExpirationTimer(seconds);
+            } else {
+                this.model.updateExpirationTimer(null);
             }
         },
         render: function() {
