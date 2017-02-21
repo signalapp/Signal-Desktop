@@ -38681,12 +38681,18 @@ textsecure.MessageReceiver.prototype = {
  * vim: ts=4:sw=4:expandtab
  */
 function OutgoingMessage(server, timestamp, numbers, message, callback) {
+    if (message instanceof textsecure.protobuf.DataMessage) {
+        var content = new textsecure.protobuf.Content();
+        content.dataMessage = message;
+        message = content;
+    }
     this.server = server;
     this.timestamp = timestamp;
     this.numbers = numbers;
-    this.message = message; // DataMessage or ContentMessage proto
+    this.message = message; // ContentMessage proto
     this.callback = callback;
     this.legacy = (message instanceof textsecure.protobuf.DataMessage);
+
 
     this.numbersCompleted = 0;
     this.errors = [];
@@ -38853,11 +38859,7 @@ OutgoingMessage.prototype = {
         };
 
         var content = btoa(encryptedMsg.body);
-        if (this.legacy) {
-            json.body = content;
-        } else {
-            json.content = content;
-        }
+        json.content = content;
 
         return json;
     },
