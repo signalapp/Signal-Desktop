@@ -35626,7 +35626,7 @@ Internal.SessionRecord = function() {
         },
         haveOpenSession: function() {
             var openSession = this.getOpenSession();
-            return (!!openSession && !!openSession.registrationId);
+            return (!!openSession && typeof openSession.registrationId === 'number');
         },
 
         getSessionByBaseKey: function(baseKey) {
@@ -35872,7 +35872,7 @@ SessionBuilder.prototype = {
           }
 
           record.archiveCurrentState();
-          record.updateSessionState(session, device.registrationId);
+          record.updateSessionState(session);
           return Promise.all([
             this.storage.storeSession(address, record.serialize()),
             this.storage.saveIdentity(this.remoteAddress.getName(), session.indexInfo.remoteIdentityKey)
@@ -35931,7 +35931,7 @@ SessionBuilder.prototype = {
             // Note that the session is not actually saved until the very
             // end of decryptWhisperMessage ... to ensure that the sender
             // actually holds the private keys for all reported pubkeys
-            record.updateSessionState(new_session, message.registrationId);
+            record.updateSessionState(new_session);
             return this.storage.saveIdentity(this.remoteAddress.getName(), message.identityKey.toArrayBuffer()).then(function() {
               return message.preKeyId;
             });
