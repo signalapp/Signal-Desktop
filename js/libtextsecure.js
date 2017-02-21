@@ -37952,8 +37952,8 @@ var TextSecureServer = (function() {
                         then(generateKeys).
                         then(registerKeys).
                         then(registrationDone);
-                }.bind(this));
-            }.bind(this));
+                });
+            });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
@@ -38024,7 +38024,7 @@ var TextSecureServer = (function() {
                     if (preKeyCount < 10) {
                         return generateKeys().then(registerKeys);
                     }
-                }.bind(this));
+                });
             }.bind(this));
         },
         rotateSignedPreKey: function() {
