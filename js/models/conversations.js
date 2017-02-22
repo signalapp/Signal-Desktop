@@ -188,12 +188,15 @@
         return collection.fetchConversation(this.id, 1).then(function() {
             var lastMessage = collection.at(0);
             if (lastMessage) {
-              this.save({
+              this.set({
                 lastMessage : lastMessage.getNotificationText(),
                 timestamp   : lastMessage.get('sent_at')
               });
             } else {
-              this.save({ lastMessage: '', timestamp: null });
+              this.set({ lastMessage: '', timestamp: null });
+            }
+            if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
+                this.save();
             }
         }.bind(this));
     },
