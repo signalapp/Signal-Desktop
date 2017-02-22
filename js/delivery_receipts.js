@@ -69,7 +69,7 @@
                             message.get('conversationId')
                         );
                         if (conversation) {
-                            conversation.trigger('newmessage', message);
+                            conversation.trigger('delivered', message);
                         }
                     });
                     // TODO: consider keeping a list of numbers we've
