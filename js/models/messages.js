@@ -432,6 +432,7 @@
                         var conversation_timestamp = conversation.get('timestamp');
                         if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                             conversation.set({
+                                lastMessage : message.getNotificationText(),
                                 timestamp: message.get('sent_at')
                             });
                         }
