@@ -49,7 +49,7 @@
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();
             }
-            extension.on('registration_done', function() {
+            window.events.on('registration_done', function() {
                 scheduleNextRotation();
                 setTimeoutForNextRun();
             });
