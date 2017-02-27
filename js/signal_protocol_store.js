@@ -247,6 +247,7 @@
             });
         },
         removeSession: function(encodedNumber) {
+            console.log('deleting session for ', encodedNumber);
             return new Promise(function(resolve) {
                 var session = new Session({id: encodedNumber});
                 session.fetch().then(function() {
