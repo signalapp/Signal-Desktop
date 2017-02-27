@@ -44,6 +44,7 @@
             return -1;
         }
     };
+    window.events = _.clone(Backbone.Events);
     var accountManager;
     window.getAccountManager = function() {
         if (!accountManager) {
@@ -58,11 +59,12 @@
                 }
                 Whisper.Registration.markDone();
                 console.log("dispatching registration event");
-                extension.trigger('registration_done');
+                events.trigger('registration_done');
             });
         }
         return accountManager;
     };
+
 
     storage.fetch();
     storage.onready(function() {
@@ -75,7 +77,7 @@
         }
 
         console.log("listening for registration events");
-        extension.on('registration_done', function() {
+        events.on('registration_done', function() {
             console.log("handling registration event");
             extension.keepAwake();
             init(true);
