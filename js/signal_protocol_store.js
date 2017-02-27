@@ -251,7 +251,7 @@
                 var session = new Session({id: encodedNumber});
                 session.fetch().then(function() {
                     session.destroy().then(resolve);
-                });
+                }).fail(resolve);
             });
         },
         removeAllSessions: function(number) {
