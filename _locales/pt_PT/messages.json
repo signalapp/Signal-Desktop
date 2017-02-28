@@ -180,7 +180,7 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Introduza um número de telefone para adicionar como contacto.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -282,7 +282,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Reproduzir notificação áudio",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -366,7 +366,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Número inválido",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -432,7 +432,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Clique para criar novo contacto",
         "description": ""
     },
     "theirIdentityUnknown": {
