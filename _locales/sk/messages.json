@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekúnd",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Nepodporovaný typ prílohy. Kliknite pre uloženie.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
@@ -26,11 +26,11 @@
         }
     },
     "settings": {
-        "message": "Settings",
+        "message": "Nastavenia",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Prijatá správa s novým bezpečnostným číslom. Kliknite pre spracovanie a zobrazenie.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -38,7 +38,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Meno tohto počítača bude",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
@@ -46,7 +46,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
-        "message": "Got it!",
+        "message": "Rozumiem!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
@@ -54,7 +54,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Details",
+        "message": "Podrobnosti",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
@@ -62,19 +62,19 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Nepodporovaný typ súboru",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Vytvárajú sa kľúče",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Obnoviť spojenie",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Vitajte v aplikácií Signal",
         "description": ""
     },
     "notificationSettingsDialog": {
@@ -82,7 +82,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Members",
+        "message": "Členovia",
         "description": ""
     },
     "timestamp_h": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "vypnuté",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -98,11 +98,11 @@
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Reštartovať Signal",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Zmazať správy",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -110,15 +110,15 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Vyberte si kontakt alebo skupinu a zahájte rozhovor.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Pripájam sa...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Možno budete chcieť $tag_start$ overiť $tag_end$ svoj bezpečnostný kód s týmto kontaktom.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -130,7 +130,7 @@
         }
     },
     "sent": {
-        "message": "Sent",
+        "message": "Odoslaná",
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
@@ -148,11 +148,11 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "teraz",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 deň",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -160,7 +160,7 @@
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Nová správa",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
@@ -168,7 +168,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
-        "message": "From",
+        "message": "Od",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
@@ -176,7 +176,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Tento záznam bude verejne sprístupnený k prehliadaniu pre prispievateľov. Pred odoslaním si ho môžete skontrolovať a upraviť.",
         "description": ""
     },
     "newPhoneNumber": {
@@ -184,7 +184,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Hľadať...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -200,7 +200,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Sledujte nás</a> ak chcete dostávať aktualizácie ohľadne podpory viacerých zariadení pre iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -218,7 +218,7 @@
         "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Je nám ľúto, máte prepojený príliš veľa zariadení už. Skúste odstrániť niektoré z nich.",
         "description": ""
     },
     "installSignalLinks": {
@@ -236,7 +236,7 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Synchronizujúce sa skupiny a kontakty",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
@@ -244,7 +244,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (tmavá)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -266,11 +266,11 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Skryť podrobnosti",
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Téma",
         "description": "Header for theme settings"
     },
     "newIdentity": {
@@ -278,15 +278,15 @@
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Súkromie je možné. Signal ho uľahčuje.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Prehrať zvukovú notifikáciu",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Odpojený",
         "description": ""
     },
     "syncing": {
@@ -294,7 +294,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
-        "message": "Accept",
+        "message": "Prijať",
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
@@ -318,11 +318,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontakty",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 týždeň",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -330,15 +330,15 @@
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
-        "message": "Received",
+        "message": "Prijatá",
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 sekúnd",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "Poslať správu",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -350,35 +350,35 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Vaše bezpečnostné číslo k tomuto kontaktu sa zmenilo. Kliknite pre spracovanie a zobrazenie.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy.",
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "vypnuté",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Otvorte Signal v telefóne a prejdite na Nastavenia > Prepojené zariadenia. Kliknutím na tlačidlo pridajte nové zariadenie, potom naskenujte vyššie uvedený kód.",
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Neplatné číslo",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Vitajte v aplikácií Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Pripojenie k serveru zlyhalo.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Správa nebola odoslaná.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -386,7 +386,7 @@
         "description": "Label for disabling notifications"
     },
     "cancel": {
-        "message": "Cancel",
+        "message": "Zrušiť",
         "description": ""
     },
     "unblockToSend": {
@@ -394,27 +394,27 @@
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "Mám aplikáciu Signal pre Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "Zabezpečené spojenie bolo obnovené",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "Začať",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekúnd",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Najprv, nainštalujte <a $a_params$>Signal</a> na svoj telefón s Androidom.<br /> Následne prepojíme a zosynchronizujeme vaše zariadenia.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -424,11 +424,11 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Prepájam s",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Nové správy",
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
@@ -440,7 +440,7 @@
         "description": ""
     },
     "submit": {
-        "message": "Submit",
+        "message": "Odoslať",
         "description": ""
     },
     "keychanged": {
@@ -458,7 +458,7 @@
         "description": "Description for safety numbers setting"
     },
     "to": {
-        "message": "To",
+        "message": "Komu",
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
@@ -466,15 +466,15 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "To znie fajn",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "Podrobnosti správy",
         "description": ""
     },
     "verify": {
-        "message": "Verify",
+        "message": "Overiť",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -486,7 +486,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Zlyhalo odoslanie niektorým príjemcom. Skontrolujte pripojenie k sieti.",
         "description": ""
     },
     "ok": {
@@ -498,11 +498,11 @@
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Odoslať ladiaci záznam",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
-        "message": "Error",
+        "message": "Chyba",
         "description": ""
     },
     "timerSetTo": {
@@ -520,11 +520,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Upozornenia",
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Resend",
+        "message": "Znovu odoslať",
         "description": ""
     }
 }
