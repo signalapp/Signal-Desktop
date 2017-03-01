@@ -87,8 +87,9 @@
             openInbox();
         }
 
+        WallClockListener.init();
         RotateSignedPreKeyListener.init();
-        ExpiringMessagesListener.update();
+        ExpiringMessagesListener.init();
     });
 
     window.getSyncRequest = function() {

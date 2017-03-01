@@ -37,6 +37,10 @@
     }
 
     window.ExpiringMessagesListener = {
+        init: function() {
+            checkExpiringMessages();
+            window.events.on('timetravel', checkExpiringMessages);
+        },
         update: checkExpiringMessages
     };
 

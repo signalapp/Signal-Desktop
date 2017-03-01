@@ -53,6 +53,11 @@
                 scheduleNextRotation();
                 setTimeoutForNextRun();
             });
+            window.events.on('timetravel', function() {
+                if (Whisper.Registration.isDone()) {
+                    setTimeoutForNextRun();
+                }
+            });
         }
     };
 }());
