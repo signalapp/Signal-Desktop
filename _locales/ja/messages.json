@@ -180,7 +180,7 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "電話番号を入力して連絡先を追加する",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -282,7 +282,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "音声通知を有効にする",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -366,7 +366,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "不正な番号です",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -432,7 +432,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "新規連絡先を作る",
         "description": ""
     },
     "theirIdentityUnknown": {
