@@ -2,6 +2,7 @@
   "name": "signal-desktop",
   "repository": "https://github.com/WhisperSystems/Signal-Desktop.git",
   "version": "0.0.0",
+  "main": "main.js",
   "devDependencies": {
     "bower": "^1.3.12",
     "grunt": "^0.4.5",
@@ -20,6 +21,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "lint": "grunt jshint"
+    "lint": "grunt jshint",
+    "start": "electron ."
   }
 }
