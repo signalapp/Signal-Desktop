@@ -199,6 +199,25 @@
                 messages.createIndex('expires_at', 'expires_at', { unique: false });
                 next();
             }
+        },
+        {
+            version: "12.0",
+            migrate: function(transaction, next) {
+                console.log('migration 12.0');
+                console.log('cleaning up expiring messages with no expires_at');
+                var messages = transaction.objectStore('messages');
+                window.addEventListener('storage_ready', function() {
+                    var messages = new Whisper.MessageCollection();
+                    messages.fetch({
+                      conditions: {expireTimer: {$gt: 0}},
+                      addIndividually: true
+                    });
+                    messages.on('add', function(m) {
+                      messages.remove(m);
+                    });
+                });
+                next();
+            }
         }
     ];
 }());
