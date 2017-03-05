@@ -205,7 +205,6 @@
             migrate: function(transaction, next) {
                 console.log('migration 12.0');
                 console.log('cleaning up expiring messages with no expires_at');
-                var messages = transaction.objectStore('messages');
                 window.addEventListener('storage_ready', function() {
                     var messages = new Whisper.MessageCollection();
                     messages.fetch({
