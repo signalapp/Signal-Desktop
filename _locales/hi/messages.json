@@ -62,7 +62,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "असमर्थित फ़ाइल प्रकार",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
@@ -168,7 +168,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
-        "message": "From",
+        "message": "किस से",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
@@ -338,7 +338,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "Send a message",
+        "message": "एक संदेश भेजें",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
@@ -370,7 +370,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "सिग्नल डेस्कटॉप में आपका स्वागत है",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
@@ -402,7 +402,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "शुरू हो जाओ",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -458,7 +458,7 @@
         "description": "Description for safety numbers setting"
     },
     "to": {
-        "message": "To",
+        "message": "किस को",
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
@@ -470,7 +470,7 @@
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
-        "message": "Message Detail",
+        "message": "सन्देश विवरण",
         "description": ""
     },
     "verify": {
