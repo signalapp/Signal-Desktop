@@ -35,6 +35,10 @@ $ios-border-color: rgba(0,0,0,0.1);
   .tool-bar {
     float: left;
     padding: 15px;
+    .x-clear {
+      right:21px;
+      margin:24px 0;
+    }
   }
   input[type=text]:active,
   input[type=text]:focus,
