@@ -801,10 +801,27 @@ img.emoji {
     position: absolute;
     left: 20px;
     top: 0; }
+  .tool-bar .x-clear {
+    content: '';
+    float: right;
+    width: 16px;
+    height: 16px;
+    margin: 10px 0;
+    -webkit-mask: url("/images/x.svg") no-repeat right center;
+    -webkit-mask-size: 100%;
+    background-color: #454545;
+    position: absolute;
+    right: 6px;
+    top: 0;
+    display: none; }
+    .tool-bar .x-clear:hover {
+      cursor: pointer; }
+  .tool-bar .active ~ .x-clear {
+    display: inline-block; }
 
 input.search {
   border: none;
-  padding: 0 10px 0 65px;
+  padding: 0 25px 0 65px;
   margin: 0;
   outline: 0;
   height: 36px;
@@ -817,14 +834,7 @@ input.search {
   input.search.active {
     outline: solid 1px #2090ea; }
   input.search::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    display: block;
-    width: 16px;
-    height: 16px;
-    background: url("/images/x.svg") no-repeat center;
-    background-size: cover; }
-  input.search::-webkit-search-cancel-button:hover {
-    cursor: pointer; }
+    display: none; }
 
 .last-timestamp {
   font-size: smaller;
@@ -1437,6 +1447,9 @@ li.entry .error-icon-container {
 .ios .tool-bar {
   float: left;
   padding: 15px; }
+  .ios .tool-bar .x-clear {
+    right: 21px;
+    margin: 24px 0; }
 .ios input[type=text]:active,
 .ios input[type=text]:focus,
 .ios input[type=search]:active,
