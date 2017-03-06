@@ -167,6 +167,7 @@
             'click .showSettings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
+            'click .tool-bar .x-clear' : 'clearSearch',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox'
         },
@@ -199,6 +200,10 @@
             } else {
                 input.removeClass('active');
             }
+        },
+        clearSearch: function() {
+          this.searchView.resetTypeahead();
+          this.$('input.search').removeClass('active');
         },
         openConversation: function(e, conversation) {
             this.searchView.hideHints();
