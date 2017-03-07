@@ -102,14 +102,13 @@ $text-dark: #CCCCCC;
       background: $grey-dark_l3;
     }
   }
+  .tool-bar .x-clear {
+    background-color: white;
+  }
   .search {
     background-color: $grey-dark_l3;
     border-color: $grey-dark_l2;
     @include invert-text-color;
-    &::-webkit-search-cancel-button {
-      background: url('/images/x_white.svg') no-repeat center;
-      background-size: cover;
-    }
   }
   .bubble {
     padding: 9px 12px;

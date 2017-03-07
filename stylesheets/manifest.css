@@ -1834,6 +1834,8 @@ li.entry .error-icon-container {
     background-color: #292929; }
     .android-dark .bottom-bar form.send {
       background: #171717; }
+  .android-dark .tool-bar .x-clear {
+    background-color: white; }
   .android-dark .search {
     background-color: #171717;
     border-color: #292929;
@@ -1841,9 +1843,6 @@ li.entry .error-icon-container {
     .android-dark .search::selection {
       background: white;
       color: #454545; }
-    .android-dark .search::-webkit-search-cancel-button {
-      background: url("/images/x_white.svg") no-repeat center;
-      background-size: cover; }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;
