@@ -77,18 +77,18 @@ $text-dark: #CCCCCC;
   }
   .sent .status {
     display: inline-block;
-    @include color-svg('/images/check.svg', white);
+    @include color-svg('../images/check.svg', white);
   }
   .delivered .status {
     display: inline-block;
-    @include color-svg('/images/double-check.svg', white);
+    @include color-svg('../images/double-check.svg', white);
   }
   .file-input .paperclip:before {
     content: '';
     display: inline-block;
     width: $button-height;
     height: $button-height;
-    @include color-svg('/images/paperclip.svg', white);
+    @include color-svg('../images/paperclip.svg', white);
     transform: rotateZ(-45deg);
   }
   .capture-audio .microphone:before {
@@ -113,11 +113,11 @@ $text-dark: #CCCCCC;
     border-color: $grey-dark_l2;
     @include invert-text-color;
     &::-webkit-search-cancel-button {
-      background: url('/images/x_white.svg') no-repeat center;
+      background: url('../images/x_white.svg') no-repeat center;
       background-size: cover;
     }
     &.active.ltr, &.active.rtl {
-      background-image: url('/images/x_white.svg');
+      background-image: url('../images/x_white.svg');
     }
   }
   .bubble {
@@ -180,13 +180,13 @@ $text-dark: #CCCCCC;
   }
 
   button.clock {
-    @include header-icon-white('/images/clock.svg');
+    @include header-icon-white('../images/clock.svg');
   }
   button.hamburger {
-    @include header-icon-white('/images/menu.svg');
+    @include header-icon-white('../images/menu.svg');
   }
   button.back {
-    @include header-icon-white('/images/back.svg');
+    @include header-icon-white('../images/back.svg');
   }
 
   ::-webkit-scrollbar-thumb {
