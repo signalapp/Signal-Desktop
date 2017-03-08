@@ -53,22 +53,22 @@
   }
 
   button.clock {
-    @include header-icon-white('/images/clock.svg');
+    @include header-icon-white('../images/clock.svg');
   }
   .inactive button.clock {
-    @include header-icon-black('/images/clock.svg');
+    @include header-icon-black('../images/clock.svg');
   }
   button.hamburger {
-    @include header-icon-white('/images/menu.svg');
+    @include header-icon-white('../images/menu.svg');
   }
   .inactive button.hamburger {
-    @include header-icon-black('/images/menu.svg');
+    @include header-icon-black('../images/menu.svg');
   }
   button.back {
-    @include header-icon-white('/images/back.svg');
+    @include header-icon-white('../images/back.svg');
   }
   .inactive button.back {
-    @include header-icon-black('/images/back.svg');
+    @include header-icon-black('../images/back.svg');
   }
 
 }
