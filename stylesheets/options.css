@@ -1,17 +1,17 @@
 @charset "UTF-8";
 @font-face {
   font-family: 'Roboto-Light';
-  src: url("/fonts/Roboto-Light.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Light.ttf") format("truetype"); }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Regular.ttf") format("truetype"); }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Italic.ttf") format("truetype");
+  src: url("../fonts/Roboto-Italic.ttf") format("truetype");
   font-style: italic; }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+  src: url("../fonts/Roboto-Bold.ttf") format("truetype");
   font-weight: bold; }
 .iti-flag {
   width: 16px;
@@ -837,7 +837,7 @@
     height: 100%; }
 
 .iti-flag {
-  background: url("/images/flags.png"); }
+  background: url("../images/flags.png"); }
 
 * {
   box-sizing: border-box; }

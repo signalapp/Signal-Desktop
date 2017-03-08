@@ -19,7 +19,7 @@
     });
 
     // start a background worker for ecc
-    textsecure.startWorker('/js/libsignal-protocol-worker.js');
+    textsecure.startWorker('js/libsignal-protocol-worker.js');
     Whisper.KeyChangeListener.init(textsecure.storage.protocol);
     textsecure.storage.protocol.on('removePreKey', function() {
         getAccountManager().refreshPreKeys();
