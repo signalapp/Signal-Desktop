@@ -722,7 +722,7 @@
                 content: title ? title.trim()[0] : '#'
             };
         } else {
-            return { url: '/images/group_default.png', color: color };
+            return { url: 'images/group_default.png', color: color };
         }
     },
 

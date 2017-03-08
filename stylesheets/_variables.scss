@@ -12,20 +12,20 @@ $red: #EF8989;
 
 @font-face {
   font-family: 'Roboto-Light';
-  src: url('/fonts/Roboto-Light.ttf') format('truetype');
+  src: url('../fonts/Roboto-Light.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
-  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
-  src: url('/fonts/Roboto-Italic.ttf') format('truetype');
+  src: url('../fonts/Roboto-Italic.ttf') format('truetype');
   font-style: italic;
 }
 @font-face {
   font-family: 'Roboto';
-  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
+  src: url('../fonts/Roboto-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 $roboto: Roboto, 'Helvetica Neue', Arial, Helvetica, sans-serif;
