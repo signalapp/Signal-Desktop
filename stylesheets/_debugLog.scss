@@ -49,7 +49,7 @@
         display: block;
         width: $button-height;
         height: $button-height;
-        @include header-icon-black('/images/open_link.svg');
+        @include header-icon-black('../images/open_link.svg');
       }
     }
 

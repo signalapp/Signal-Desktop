@@ -1,7 +1,7 @@
 @mixin hourglass($color) {
   display: inline-block;
   position: relative;
-  @include color-svg('/images/hourglass_full.svg', transparent);
+  @include color-svg('../images/hourglass_full.svg', transparent);
   background-size: 100%;
 
   &, .sand, &:before, &:after {
@@ -19,6 +19,6 @@
     background: $color;
   }
   &:after {
-    @include color-svg('/images/hourglass_empty.svg', $color);
+    @include color-svg('../images/hourglass_empty.svg', $color);
   }
 }

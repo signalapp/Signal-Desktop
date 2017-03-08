@@ -78,13 +78,13 @@ button.grey {
 a { color: $blue; }
 
 button.back {
-  @include header-icon-black('/images/back.svg');
+  @include header-icon-black('../images/back.svg');
 }
 button.clock {
-  @include header-icon-black('/images/clock.svg');
+  @include header-icon-black('../images/clock.svg');
 }
 button.hamburger {
-  @include header-icon-black('/images/menu.svg');
+  @include header-icon-black('../images/menu.svg');
 }
 
 
@@ -195,7 +195,7 @@ button.hamburger {
       display: inline-block;
       width: $button-height;
       height: $button-height;
-      @include color-svg('/images/paperclip.svg', $grey);
+      @include color-svg('../images/paperclip.svg', $grey);
       transform: rotateZ(-45deg);
     }
 
@@ -511,7 +511,7 @@ $avatar-size: 44px;
     display: block;
     width: 100%;
     height: 100%;
-    @include color-svg('/images/x.svg', white);
+    @include color-svg('../images/x.svg', white);
   }
 }
 

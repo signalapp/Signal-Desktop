@@ -19,7 +19,7 @@
       display: inline-block;
       height: 24px;
       width: 24px;
-      @include color-svg('/images/microphone.svg', $grey);
+      @include color-svg('../images/microphone.svg', $grey);
     }
   }
 }
@@ -51,14 +51,14 @@
     background: lighten($green, 20%);
     border: 1px solid $green;
 
-    .icon { @include color-svg('/images/check.svg', $green); }
+    .icon { @include color-svg('../images/check.svg', $green); }
   }
 
   .close {
     background: lighten($red, 20%);
     border: 1px solid $red;
 
-    .icon { @include color-svg('/images/x.svg', $red); }
+    .icon { @include color-svg('../images/x.svg', $red); }
   }
 
   .time {
