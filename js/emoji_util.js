@@ -13,7 +13,7 @@
         }
         this.inits.env = 1;
         this.include_title = true;
-        this.img_sets.apple.path = '/images/emoji/apple/';
+        this.img_sets.apple.path = 'images/emoji/apple/';
         this.replace_mode = 'img';
     };
 
