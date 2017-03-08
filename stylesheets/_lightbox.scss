@@ -52,7 +52,7 @@
 
     .save {
       &:before {
-        @include color-svg('/images/save.svg', white);
+        @include color-svg('../images/save.svg', white);
       }
     }
   }

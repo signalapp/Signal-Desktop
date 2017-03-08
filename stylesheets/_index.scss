@@ -29,7 +29,7 @@
 }
 .network-status-container {
   .network-status {
-    background: url('/images/error_red.svg') no-repeat left 10px center;
+    background: url('../images/error_red.svg') no-repeat left 10px center;
     background-size: 25px 25px;
     background-color: #fcd156;
     padding: 10px;
@@ -108,7 +108,7 @@
     float: left;
     width: 24px;
     height: 100%;
-    -webkit-mask: url('/images/search.svg') no-repeat left center;
+    -webkit-mask: url('../images/search.svg') no-repeat left center;
     -webkit-mask-size: 100%;
     background-color: #ccc;
     position: absolute;
@@ -132,7 +132,7 @@ input.search {
 
   &.active {
     outline: solid 1px $blue;
-    background-image: url('/images/x.svg');
+    background-image: url('../images/x.svg');
     background-repeat: no-repeat;
     background-size: $search-x-size;
 

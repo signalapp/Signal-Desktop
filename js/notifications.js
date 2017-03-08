@@ -12,7 +12,7 @@
         MESSAGE : 'message'
     };
 
-    var sound = new Audio('/audio/NewMessage.mp3');
+    var sound = new Audio('audio/NewMessage.mp3');
 
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
