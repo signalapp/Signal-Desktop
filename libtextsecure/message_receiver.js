@@ -338,10 +338,12 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
     },
     handleAttachment: function(attachment) {
+        var digest = attachment.digest ? attachment.digest.toArrayBuffer() : undefined;
         function decryptAttachment(encrypted) {
             return textsecure.crypto.decryptAttachment(
                 encrypted,
-                attachment.key.toArrayBuffer()
+                attachment.key.toArrayBuffer(),
+                digest
             );
         }
 

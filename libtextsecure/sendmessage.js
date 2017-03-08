@@ -119,10 +119,11 @@ MessageSender.prototype = {
         proto.key = libsignal.crypto.getRandomBytes(64);
 
         var iv = libsignal.crypto.getRandomBytes(16);
-        return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(encryptedBin) {
-            return this.server.putAttachment(encryptedBin).then(function(id) {
+        return textsecure.crypto.encryptAttachment(attachment.data, proto.key, iv).then(function(result) {
+            return this.server.putAttachment(result.ciphertext).then(function(id) {
                 proto.id = id;
                 proto.contentType = attachment.contentType;
+                proto.digest = result.digest;
                 return proto;
             });
         }.bind(this));

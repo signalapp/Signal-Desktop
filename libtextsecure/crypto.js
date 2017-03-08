@@ -10,6 +10,23 @@
     var calculateMAC = libsignal.crypto.calculateMAC;
     var verifyMAC    = libsignal.crypto.verifyMAC;
 
+    function verifyDigest(data, theirDigest) {
+        return crypto.subtle.digest({name: 'SHA-256'}, data).then(function(ourDigest) {
+            var a = new Uint8Array(ourDigest);
+            var b = new Uint8Array(theirDigest);
+            var result = 0;
+            for (var i=0; i < theirDigest.byteLength; ++i) {
+                result = result | (a[i] ^ b[i]);
+            }
+            if (result !== 0) {
+              throw new Error('Bad digest');
+            }
+        });
+    }
+    function calculateDigest(data) {
+        return crypto.subtle.digest({name: 'SHA-256'}, data);
+    }
+
     window.textsecure = window.textsecure || {};
     window.textsecure.crypto = {
         // Decrypts message into a raw string
@@ -39,7 +56,7 @@
             });
         },
 
-        decryptAttachment: function(encryptedBin, keys) {
+        decryptAttachment: function(encryptedBin, keys, theirDigest) {
             if (keys.byteLength != 64) {
                 throw new Error("Got invalid length attachment keys");
             }
@@ -56,6 +73,10 @@
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac, 32).then(function() {
+                if (theirDigest !== undefined) {
+                  return verifyDigest(encryptedBin, theirDigest);
+                }
+            }).then(function() {
                 return decrypt(aes_key, ciphertext, iv);
             });
         },
@@ -79,7 +100,9 @@
                     var encryptedBin = new Uint8Array(16 + ciphertext.byteLength + 32);
                     encryptedBin.set(ivAndCiphertext);
                     encryptedBin.set(new Uint8Array(mac), 16 + ciphertext.byteLength);
-                    return encryptedBin.buffer;
+                    return calculateDigest(encryptedBin.buffer).then(function(digest) {
+                        return { ciphertext: encryptedBin.buffer, digest: digest };
+                    });
                 });
             });
         },
