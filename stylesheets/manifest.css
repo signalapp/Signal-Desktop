@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'Roboto-Light';
-  src: url("/fonts/Roboto-Light.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Light.ttf") format("truetype"); }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Regular.ttf") format("truetype"); }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Italic.ttf") format("truetype");
+  src: url("../fonts/Roboto-Italic.ttf") format("truetype");
   font-style: italic; }
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+  src: url("../fonts/Roboto-Bold.ttf") format("truetype");
   font-weight: bold; }
 * {
   box-sizing: border-box; }
@@ -77,29 +77,29 @@ a {
   color: #2090ea; }
 
 button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.back:focus, button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
 button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.clock:focus, button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
 button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.hamburger:focus, button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
@@ -185,7 +185,7 @@ button.hamburger {
       display: inline-block;
       width: 24px;
       height: 24px;
-      -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+      -webkit-mask: url("../images/paperclip.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #616161;
       transform: rotateZ(-45deg); }
@@ -462,7 +462,7 @@ button.hamburger {
     display: block;
     width: 100%;
     height: 100%;
-    -webkit-mask: url("/images/x.svg") no-repeat center;
+    -webkit-mask: url("../images/x.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 
@@ -618,11 +618,11 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       display: block;
       width: 24px;
       height: 24px;
-      -webkit-mask: url("/images/open_link.svg") no-repeat center;
+      -webkit-mask: url("../images/open_link.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: rgba(0, 0, 0, 0.5); }
       .debug-log .result .open:before:focus, .debug-log .result .open:before:hover {
-        -webkit-mask: url("/images/open_link.svg") no-repeat center;
+        -webkit-mask: url("../images/open_link.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: black; }
   .debug-log .result .link {
@@ -674,7 +674,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     .lightbox.modal a:hover {
       background: #616161; }
   .lightbox.modal .save:before {
-    -webkit-mask: url("/images/save.svg") no-repeat center;
+    -webkit-mask: url("../images/save.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 
@@ -695,7 +695,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       display: inline-block;
       height: 24px;
       width: 24px;
-      -webkit-mask: url("/images/microphone.svg") no-repeat center;
+      -webkit-mask: url("../images/microphone.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #616161; }
 
@@ -720,14 +720,14 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background: #9ae99a;
     border: 1px solid #47D647; }
     .recorder .finish .icon {
-      -webkit-mask: url("/images/check.svg") no-repeat center;
+      -webkit-mask: url("../images/check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #47D647; }
   .recorder .close {
     background: #fbe3e3;
     border: 1px solid #EF8989; }
     .recorder .close .icon {
-      -webkit-mask: url("/images/x.svg") no-repeat center;
+      -webkit-mask: url("../images/x.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #EF8989; }
   .recorder .time {
@@ -871,7 +871,7 @@ img.emoji.jumbo {
     overflow-y: auto; }
 
 .network-status-container .network-status {
-  background: url("/images/error_red.svg") no-repeat left 10px center;
+  background: url("../images/error_red.svg") no-repeat left 10px center;
   background-size: 25px 25px;
   background-color: #fcd156;
   padding: 10px;
@@ -934,7 +934,7 @@ img.emoji.jumbo {
     float: left;
     width: 24px;
     height: 100%;
-    -webkit-mask: url("/images/search.svg") no-repeat left center;
+    -webkit-mask: url("../images/search.svg") no-repeat left center;
     -webkit-mask-size: 100%;
     background-color: #ccc;
     position: absolute;
@@ -955,7 +955,7 @@ input.search {
   position: relative; }
   input.search.active {
     outline: solid 1px #2090ea;
-    background-image: url("/images/x.svg");
+    background-image: url("../images/x.svg");
     background-repeat: no-repeat;
     background-size: 16px; }
     input.search.active.ltr {
@@ -1334,7 +1334,7 @@ li.entry .error-icon-container {
   width: 24px;
   height: 24px;
   position: relative;
-  -webkit-mask: url("/images/warning.svg") no-repeat center;
+  -webkit-mask: url("../images/warning.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: red; }
 
@@ -1445,13 +1445,13 @@ li.entry .error-icon-container {
   .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;
-    -webkit-mask: url("/images/check.svg") no-repeat center;
+    -webkit-mask: url("../images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
   .message-container .delivered .status,
   .message-list .delivered .status {
     display: inline-block;
-    -webkit-mask: url("/images/double-check.svg") no-repeat center;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
   .message-container .pending .status,
@@ -1934,7 +1934,7 @@ li.entry .error-icon-container {
 .ios .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -1950,7 +1950,7 @@ li.entry .error-icon-container {
   .ios .hourglass .sand {
     background: #999; }
   .ios .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
 
@@ -2010,7 +2010,7 @@ li.entry .error-icon-container {
 .android .outgoing .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -2026,13 +2026,13 @@ li.entry .error-icon-container {
   .android .outgoing .hourglass .sand {
     background: #999; }
   .android .outgoing .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
 .android .incoming .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -2048,7 +2048,7 @@ li.entry .error-icon-container {
   .android .incoming .hourglass .sand {
     background: #fff; }
   .android .incoming .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #fff; }
 .android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a, .android .incoming .bubble .fileView {
@@ -2063,51 +2063,51 @@ li.entry .error-icon-container {
   -webkit-mask-size: 100%;
   background-color: white; }
 .android button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.clock:focus, .android button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 .android .inactive button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.clock:focus, .android .inactive button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 .android button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.hamburger:focus, .android button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 .android .inactive button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.hamburger:focus, .android .inactive button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 .android button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.back:focus, .android button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 .android .inactive button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.back:focus, .android .inactive button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
@@ -2244,12 +2244,12 @@ li.entry .error-icon-container {
       background-color: #CCCCCC; }
   .android-dark .sent .status {
     display: inline-block;
-    -webkit-mask: url("/images/check.svg") no-repeat center;
+    -webkit-mask: url("../images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .delivered .status {
     display: inline-block;
-    -webkit-mask: url("/images/double-check.svg") no-repeat center;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .file-input .paperclip:before {
@@ -2257,7 +2257,7 @@ li.entry .error-icon-container {
     display: inline-block;
     width: 24px;
     height: 24px;
-    -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+    -webkit-mask: url("../images/paperclip.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white;
     transform: rotateZ(-45deg); }
@@ -2283,7 +2283,7 @@ li.entry .error-icon-container {
       background: white;
       color: #454545; }
     .android-dark .search.active.ltr, .android-dark .search.active.rtl {
-      background-image: url("/images/x_white.svg"); }
+      background-image: url("../images/x_white.svg"); }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;
@@ -2298,7 +2298,7 @@ li.entry .error-icon-container {
   .android-dark .outgoing .hourglass {
     display: inline-block;
     position: relative;
-    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
@@ -2314,13 +2314,13 @@ li.entry .error-icon-container {
     .android-dark .outgoing .hourglass .sand {
       background: #999; }
     .android-dark .outgoing .hourglass:after {
-      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #999; }
   .android-dark .incoming .hourglass {
     display: inline-block;
     position: relative;
-    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
@@ -2336,7 +2336,7 @@ li.entry .error-icon-container {
     .android-dark .incoming .hourglass .sand {
       background: #fff; }
     .android-dark .incoming .hourglass:after {
-      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #fff; }
   .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a, .android-dark .incoming .bubble .fileView {
@@ -2379,27 +2379,27 @@ li.entry .error-icon-container {
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
   .android-dark button.clock {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.clock:focus, .android-dark button.clock:hover {
-      -webkit-mask: url("/images/clock.svg") no-repeat center;
+      -webkit-mask: url("../images/clock.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark button.hamburger {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.hamburger:focus, .android-dark button.hamburger:hover {
-      -webkit-mask: url("/images/menu.svg") no-repeat center;
+      -webkit-mask: url("../images/menu.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark button.back {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.back:focus, .android-dark button.back:hover {
-      -webkit-mask: url("/images/back.svg") no-repeat center;
+      -webkit-mask: url("../images/back.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark ::-webkit-scrollbar-thumb {
