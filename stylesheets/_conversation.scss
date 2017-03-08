@@ -358,7 +358,7 @@ li.entry .error-icon-container {
   width: $error-icon-size;
   height: $error-icon-size;
   position: relative;
-  @include color-svg('/images/warning.svg', red);
+  @include color-svg('../images/warning.svg', red);
 }
 
 .group {
@@ -487,11 +487,11 @@ li.entry .error-icon-container {
   }
   .sent .status {
     display: inline-block;
-    @include color-svg('/images/check.svg', black);
+    @include color-svg('../images/check.svg', black);
   }
   .delivered .status {
     display: inline-block;
-    @include color-svg('/images/double-check.svg', black);
+    @include color-svg('../images/double-check.svg', black);
   }
   .pending .status {
     display: inline-block;
