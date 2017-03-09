@@ -5,12 +5,44 @@
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
-    Whisper.ExpiringMessages = new (Whisper.MessageCollection.extend({
-        initialize: function() {
-            this.on('expired', this.remove);
-            this.fetchExpiring();
-        }
-    }))();
+
+    function destroyExpiredMessages() {
+        // Load messages that have expired and destroy them
+        var expired = new Whisper.MessageCollection();
+        expired.on('add', function(message) {
+            console.log('message', message.get('sent_at'), 'expired');
+            message.destroy();
+            message.getConversation().trigger('expired', message);
+        });
+        expired.on('reset', checkExpiringMessages);
+
+        expired.fetchExpired();
+    }
+
+    var timeout;
+    function checkExpiringMessages() {
+        // Look up the next expiring message and set a timer to destroy it
+        var expiring = new Whisper.MessageCollection();
+        expiring.once('add', function(next) {
+            var expires_at = next.get('expires_at');
+            console.log('next message expires', new Date(expires_at));
+
+            var wait = expires_at - Date.now();
+            if (wait < 0) { wait = 0; }
+
+            clearTimeout(timeout);
+            timeout = setTimeout(destroyExpiredMessages, wait);
+        });
+        expiring.fetchNextExpiring();
+    }
+
+    window.ExpiringMessagesListener = {
+        init: function() {
+            checkExpiringMessages();
+            window.events.on('timetravel', checkExpiringMessages);
+        },
+        update: checkExpiringMessages
+    };
 
     var TimerOption = Backbone.Model.extend({
       getName: function() {
@@ -32,6 +64,9 @@
         }
         var o = this.findWhere({seconds: seconds});
         if (o) { return o.getName(); }
+        else {
+          return [seconds, 'seconds'].join(' ');
+        }
       },
       getAbbreviated: function(seconds) {
         if (!seconds) {
@@ -39,6 +74,9 @@
         }
         var o = this.findWhere({seconds: seconds});
         if (o) { return o.getAbbreviated(); }
+        else {
+          return [seconds, 's'].join('');
+        }
       }
     }))([
         [ 0,  'seconds'  ],

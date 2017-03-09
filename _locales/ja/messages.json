@@ -179,6 +179,10 @@
         "message": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "電話番号を入力して連絡先を追加する",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "検索",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "プライバシーは守れます。Signalを使えば簡単に。",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "音声通知を有効にする",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "接続オフ",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "携帯電話でSignalを起動し，「設定」>「結び付いているデバイス」に進み，デバイス追加のボタンを押して，上部のコードをスキャンしてください。",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "不正な番号です",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Signal Desktopにようこそ",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "新着メッセージ",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "新規連絡先を作る",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "このコンタクトとまだメッセージを交換していません。最初のメッセージから安全番号は交換します。",

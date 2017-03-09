@@ -131,11 +131,8 @@
             'click .error-message': 'select'
         },
         retryMessage: function() {
-            var retrys = _.filter(this.model.get('errors'), function(e) {
-                return (e.name === 'MessageError' ||
-                        e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
-            });
+            var retrys = _.filter(this.model.get('errors'),
+                    this.model.isReplayableError.bind(this.model));
             _.map(retrys, 'number').forEach(function(number) {
                 this.model.resend(number);
             }.bind(this));
@@ -147,6 +144,9 @@
                   this.remove();
                 }
             }.bind(this));
+
+            // Failsafe: if in the background, animation events don't fire
+            setTimeout(this.remove.bind(this), 1000);
         },
         onDestroy: function() {
             if (this.$el.hasClass('expired')) {

@@ -134,6 +134,7 @@ var TextSecureServer = (function() {
         accounts   : "v1/accounts",
         devices    : "v1/devices",
         keys       : "v2/keys",
+        signed     : "v2/keys/signed",
         messages   : "v1/messages",
         attachment : "v1/attachments"
     };
@@ -291,6 +292,17 @@ var TextSecureServer = (function() {
                 jsonData            : keys,
             });
         },
+        setSignedPreKey: function(signedPreKey) {
+            return this.ajax({
+                call                : 'signed',
+                httpType            : 'PUT',
+                jsonData            : {
+                    keyId: signedPreKey.keyId,
+                    publicKey: btoa(getString(signedPreKey.publicKey)),
+                    signature: btoa(getString(signedPreKey.signature))
+                }
+            });
+        },
         getMyKeys: function(number, deviceId) {
             return this.ajax({
                 call                : 'keys',
@@ -315,14 +327,19 @@ var TextSecureServer = (function() {
                 }
                 res.identityKey = StringView.base64ToBytes(res.identityKey);
                 res.devices.forEach(function(device) {
-                    if ( !validateResponse(device, {signedPreKey: 'object', preKey: 'object'}) ||
-                         !validateResponse(device.signedPreKey, {publicKey: 'string', signature: 'string'}) ||
-                         !validateResponse(device.preKey, {publicKey: 'string'})) {
-                        throw new Error("Invalid response");
+                    if ( !validateResponse(device, {signedPreKey: 'object'}) ||
+                         !validateResponse(device.signedPreKey, {publicKey: 'string', signature: 'string'}) ) {
+                        throw new Error("Invalid signedPreKey");
+                    }
+                    if ( device.preKey ) {
+                        if ( !validateResponse(device, {preKey: 'object'}) ||
+                             !validateResponse(device.preKey, {publicKey: 'string'})) {
+                            throw new Error("Invalid preKey");
+                        }
+                        device.preKey.publicKey = StringView.base64ToBytes(device.preKey.publicKey);
                     }
                     device.signedPreKey.publicKey = StringView.base64ToBytes(device.signedPreKey.publicKey);
                     device.signedPreKey.signature = StringView.base64ToBytes(device.signedPreKey.signature);
-                    device.preKey.publicKey       = StringView.base64ToBytes(device.preKey.publicKey);
                 });
                 return res;
             });

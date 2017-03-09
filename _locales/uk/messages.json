@@ -179,6 +179,10 @@
         "message": "Цей журнал буде доступний для розробників. Ви можете перевірити його перед відправкою.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Пошук...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Приватність - це можливо. Signal робить її досягнення простим.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Від'єднано",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Відкрийте Signal у своєму телефоні і перейдіть у Налаштування > Пов'язані пристрої. Торкніться кнопки додавання нового пристрою і проскануйте QR-код.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Ласкаво просимо до Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Нові Повідомлення",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",

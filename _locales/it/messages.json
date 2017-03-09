@@ -179,6 +179,10 @@
         "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo. ",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Scrivi un numero da aggiungere ai contatti",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Cerca...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "La privacy è possibile. Signal la rende facile.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Avvia notifica audio",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Sconnesso",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Apri Signal sul tuo telefono e vai su Impostazioni > Dispositivi collegati. Premi il bottone per aggiungere un nuovo dispositivo e poi fai lo scan del codice in alto.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Numero non valido",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Benvenuto in Signal per Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Nuovi messaggi",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Premi per creare un nuovo contatto",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Non hai ancora scambiato alcun messaggio con questo contatto. Il numero sicuro sarà disponibile dopo il primo messaggio.",

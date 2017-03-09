@@ -27,23 +27,6 @@
         return self;
     }());
 
-    window.extension.trigger = function (name, object) {
-        chrome.runtime.sendMessage(null, { name: name, data: object });
-    };
-
-    window.extension.on = function (name, callback) {
-        // this causes every listener to fire on every message.
-        // if we eventually end up with lots of listeners (lol)
-        // might be worth making a map of 'name' -> [callbacks, ...]
-        // so we can fire a single listener that calls only the necessary
-        // calllbacks for that message name
-        chrome.runtime.onMessage.addListener(function(e) {
-            if (e.name === name) {
-                callback(e.data);
-            }
-        });
-    };
-
     extension.windows = {
         open: function(options, callback) {
             if (chrome.windows) {
@@ -275,7 +258,12 @@
     if (chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
             if (options.reason === 'install') {
+                console.log('new install');
                 extension.install();
+            } else if (options.reason === 'update') {
+                console.log('new update. previous version:', options.previousVersion);
+            } else {
+                console.log('onInstalled', options.reason);
             }
         });
     }

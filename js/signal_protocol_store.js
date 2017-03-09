@@ -70,6 +70,11 @@
     var Model = Backbone.Model.extend({ database: Whisper.Database });
     var PreKey = Model.extend({ storeName: 'preKeys' });
     var SignedPreKey = Model.extend({ storeName: 'signedPreKeys' });
+    var SignedPreKeyCollection = Backbone.Collection.extend({
+        storeName: 'signedPreKeys',
+        database: Whisper.Database,
+        model: SignedPreKey
+    });
     var Session = Model.extend({ storeName: 'sessions' });
     var SessionCollection = Backbone.Collection.extend({
         storeName: 'sessions',
@@ -148,17 +153,38 @@
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
                     resolve({
-                        pubKey: prekey.attributes.publicKey,
-                        privKey: prekey.attributes.privateKey
+                        pubKey     : prekey.get('publicKey'),
+                        privKey    : prekey.get('privateKey'),
+                        created_at : prekey.get('created_at'),
+                        keyId      : prekey.get('id')
                     });
                 }).fail(resolve);
+            });
+        },
+        loadSignedPreKeys: function() {
+            if (arguments.length > 0) {
+              return Promise.reject(new Error("loadSignedPreKeys takes no arguments"));
+            }
+            var signedPreKeys = new SignedPreKeyCollection();
+            return new Promise(function(resolve) {
+                signedPreKeys.fetch().then(function() {
+                    resolve(signedPreKeys.map(function(prekey) {
+                        return {
+                            pubKey     : prekey.get('publicKey'),
+                            privKey    : prekey.get('privateKey'),
+                            created_at : prekey.get('created_at'),
+                            keyId      : prekey.get('id')
+                        };
+                    }));
+                });
             });
         },
         storeSignedPreKey: function(keyId, keyPair) {
             var prekey = new SignedPreKey({
                 id         : keyId,
                 publicKey  : keyPair.pubKey,
-                privateKey : keyPair.privKey
+                privateKey : keyPair.privKey,
+                created_at : Date.now()
             });
             return new Promise(function(resolve) {
                 prekey.save().always(function() {
@@ -221,11 +247,12 @@
             });
         },
         removeSession: function(encodedNumber) {
+            console.log('deleting session for ', encodedNumber);
             return new Promise(function(resolve) {
                 var session = new Session({id: encodedNumber});
                 session.fetch().then(function() {
                     session.destroy().then(resolve);
-                });
+                }).fail(resolve);
             });
         },
         removeAllSessions: function(number) {

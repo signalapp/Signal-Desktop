@@ -24,6 +24,41 @@ message Envelope {
 message Content {
   optional DataMessage dataMessage = 1;
   optional SyncMessage syncMessage = 2;
+  optional CallMessage callMessage = 3;
+}
+
+message CallMessage {
+  message Offer {
+    optional uint64 id          = 1;
+    optional string description = 2;
+  }
+
+  message Answer {
+    optional uint64 id          = 1;
+    optional string description = 2;
+  }
+
+  message IceUpdate {
+    optional uint64 id            = 1;
+    optional string sdpMid        = 2;
+    optional uint32 sdpMLineIndex = 3;
+    optional string sdp           = 4;
+  }
+
+  message Busy {
+    optional uint64 id = 1;
+  }
+
+  message Hangup {
+    optional uint64 id = 1;
+  }
+
+
+  optional Offer     offer     = 1;
+  optional Answer    answer    = 2;
+  repeated IceUpdate iceUpdate = 3;
+  optional Hangup    hangup    = 4;
+  optional Busy      busy      = 5;
 }
 
 message DataMessage {

@@ -20,10 +20,11 @@
             this.listenTo(this.model, 'change', _.debounce(this.render.bind(this), 1000));
             this.listenTo(this.model, 'destroy', this.remove); // auto update
             this.listenTo(this.model, 'opened', this.markSelected); // auto update
-            this.listenTo(this.model.messageCollection, 'add remove',
-              _.debounce(this.model.updateLastMessage.bind(this.model), 1000));
-            this.listenTo(this.model, 'newmessage',
-              _.debounce(this.model.updateLastMessage.bind(this.model), 1000));
+
+            var updateLastMessage = _.debounce(this.model.updateLastMessage.bind(this.model), 1000);
+            this.listenTo(this.model.messageCollection, 'add remove', updateLastMessage);
+            this.listenTo(this.model, 'newmessage', updateLastMessage);
+
             extension.windows.onClosed(this.stopListening.bind(this));
             this.timeStampView = new Whisper.TimestampView({brief: true});
             this.model.updateLastMessage();

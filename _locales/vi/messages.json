@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -12,7 +12,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "Xác nhận số-an-toàn",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -30,7 +30,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Đã nhận tin nhắn với mộ số-an-toàn mới. Chọn để xử lý và hiển thị.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -42,7 +42,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 phút",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -50,7 +50,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Xóa (tự động) tin nhắn",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
@@ -90,7 +90,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "Tắt",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Xóa tin nhắn",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -118,7 +118,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Bạn muốn $tag_start$ để xác nhận $tag_end$ số-an-toàn của bạn với người (liên lạc) này.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -152,7 +152,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 ngày",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
@@ -178,6 +178,10 @@
     "debugLogExplanation": {
         "message": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi.",
         "description": ""
+    },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
         "message": "Tìm kiếm...",
@@ -206,11 +210,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Tìm hiểu thêm về xác nhận các số-an-toàn.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Chấp nhận số-an-toàn",
         "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
@@ -270,12 +274,16 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Số-an-toàn mới",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "Sự riêng tư là có thể. Signal khiến điều đó trở nên dễ dàng.",
         "description": "Tagline displayed under installWelcome on the install page"
+    },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
     },
     "disconnected": {
         "message": "Đã ngắt kết nối",
@@ -294,7 +302,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "Tháng Ngày",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
@@ -314,7 +322,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 tuần",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -326,7 +334,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -342,7 +350,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Số-an-toàn của bạn với người (liên lạc) này đã thay đổi. Chọn để xử lý và hiển thị.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -350,12 +358,16 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "Tắt",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
         "message": "Mở Signal trên điện thoại và chuyển đến mục Cài đặt > Các thiết bị đã kết nối. Bấm nút để thêm thiết bị mới, sau đó quét mã trên.",
         "description": ""
+    },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
         "message": "Chào mừng đến với Signal Desktop",
@@ -378,7 +390,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Mở khóa người (liên lạc) này để gởi thông báo.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -398,7 +410,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Các tin nhắn mới",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
@@ -478,11 +494,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Số-an-toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa rằng người nào đó đang xâm nhập vào liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn muốn xác nhận số-an-toàn mới bên dưới.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Gửi debug log",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {

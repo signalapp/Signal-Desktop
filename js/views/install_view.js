@@ -63,8 +63,9 @@
                 this.$('#step4 .cancel').click(function(e) {
                     reject();
                 });
-                this.$('#sync').click(function(e) {
+                this.$('#step4').submit(function(e) {
                     e.stopPropagation();
+                    e.preventDefault();
                     var name = this.$('#device-name').val();
                     name = name.replace(/\0/g,''); // strip unicode null
                     if (name.trim().length === 0) {

@@ -208,6 +208,9 @@
 
                 if (result instanceof Error) {
                     this.saveErrors(result);
+                    if (result.name === 'SignedPreKeyRotationError') {
+                        getAccountManager().rotateSignedPreKey();
+                    }
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
@@ -268,7 +271,8 @@
             var error = _.find(this.get('errors'), function(e) {
                 return (e.name === 'MessageError' ||
                         e.name === 'OutgoingMessageError' ||
-                        e.name === 'SendMessageNetworkError');
+                        e.name === 'SendMessageNetworkError' ||
+                        e.name === 'SignedPreKeyRotationError');
             });
             return !!error;
         },
@@ -277,10 +281,17 @@
                 return e.number === number &&
                     (e.name === 'MessageError' ||
                      e.name === 'OutgoingMessageError' ||
-                     e.name === 'SendMessageNetworkError');
+                     e.name === 'SendMessageNetworkError' ||
+                     e.name === 'SignedPreKeyRotationError');
             });
             this.set({errors: errors[1]});
             return errors[0][0];
+        },
+        isReplayableError: function(e) {
+            return (e.name === 'MessageError' ||
+                    e.name === 'OutgoingMessageError' ||
+                    e.name === 'SendMessageNetworkError' ||
+                    e.name === 'SignedPreKeyRotationError');
         },
 
         resend: function(number) {
@@ -345,10 +356,10 @@
                                     groupId    : dataMessage.group.id,
                                     name       : dataMessage.group.name,
                                     avatar     : dataMessage.group.avatar,
-                                    members    : dataMessage.group.members,
+                                    members    : _.union(dataMessage.group.members, conversation.get('members')),
                                 };
                                 group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
-                                var difference = _.difference(dataMessage.group.members, conversation.get('members'));
+                                var difference = _.difference(attributes.members, conversation.get('members'));
                                 if (difference.length > 0) {
                                     group_update.joined = difference;
                                 }
@@ -413,7 +424,7 @@
                                       message.get('received_at'));
                                 }
                             } else if (conversation.get('expireTimer')) {
-                                conversation.updateExpirationTimer(0, source,
+                                conversation.updateExpirationTimer(null, source,
                                     message.get('received_at'));
                             }
                         }
@@ -421,6 +432,7 @@
                         var conversation_timestamp = conversation.get('timestamp');
                         if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                             conversation.set({
+                                lastMessage : message.getNotificationText(),
                                 timestamp: message.get('sent_at')
                             });
                         }
@@ -447,15 +459,6 @@
             }));
             return this.save();
         },
-        markExpired: function() {
-            console.log('message', this.get('sent_at'), 'expired');
-            clearInterval(this.expirationTimeout);
-            this.expirationTimeout = null;
-            this.trigger('expired', this);
-            this.destroy();
-
-            this.getConversation().trigger('expired', this);
-        },
         isExpiring: function() {
             return this.get('expireTimer') && this.get('expirationStartTimestamp');
         },
@@ -473,10 +476,13 @@
               return ms_from_now;
         },
         setToExpire: function() {
-            if (this.isExpiring() && !this.expirationTimeout) {
-                var ms_from_now = this.msTilExpire();
-                console.log('message', this.get('sent_at'), 'expires in', ms_from_now, 'ms');
-                this.expirationTimeout = setTimeout(this.markExpired.bind(this), ms_from_now);
+            if (this.isExpiring() && !this.get('expires_at')) {
+                var start = this.get('expirationStartTimestamp');
+                var delta = this.get('expireTimer') * 1000;
+                var expires_at = start + delta;
+                this.save('expires_at', expires_at);
+                ExpiringMessagesListener.update();
+                console.log('message', this.get('sent_at'), 'expires at', expires_at);
             }
         }
 
@@ -539,8 +545,16 @@
             }.bind(this));
         },
 
-        fetchExpiring: function() {
-            this.fetch({conditions: {expireTimer: {$gte: 0}}});
+        fetchNextExpiring: function() {
+            this.fetch({ index: { name: 'expires_at' }, limit: 1 });
+        },
+
+        fetchExpired: function() {
+            console.log('loading expired messages');
+            this.fetch({
+                conditions: { expires_at: { $lte: Date.now() } },
+                addIndividually: true
+            });
         },
 
         hasKeyConflicts: function() {

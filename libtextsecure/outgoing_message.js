@@ -50,6 +50,9 @@ OutgoingMessage.prototype = {
                 if (updateDevices === undefined || updateDevices.indexOf(device.deviceId) > -1) {
                     var address = new libsignal.SignalProtocolAddress(number, device.deviceId);
                     var builder = new libsignal.SessionBuilder(textsecure.storage.protocol, address);
+                    if (device.registrationId === 0) {
+                        console.log("device registrationId 0!");
+                    }
                     return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
                             error = new textsecure.OutgoingIdentityKeyError(
@@ -70,8 +73,9 @@ OutgoingMessage.prototype = {
             updateDevices.forEach(function(device) {
                 promise = promise.then(function() {
                     return this.server.getKeysForNumber(number, device).then(handleResult).catch(function(e) {
-                        if (e.name === 'HTTPError' && e.code === 404 && device !== 1) {
-                            return this.removeDeviceIdsForNumber(number, [device]);
+                        if (e.name === 'HTTPError' && e.code === 404) {
+                            if (device !== 1) return this.removeDeviceIdsForNumber(number, [device]);
+                            else throw new textsecure.UnregisteredUserError(number, e);
                         } else {
                             throw e;
                         }

@@ -157,9 +157,10 @@ MessageReceiver.prototype.extend({
             if (e.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate
+                var buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
                 throw new textsecure.IncomingIdentityKeyError(
                     address.toString(),
-                    ciphertext.toArrayBuffer(),
+                    buffer.toArrayBuffer(),
                     e.identityKey
                 );
             }
@@ -436,20 +437,11 @@ MessageReceiver.prototype.extend({
 
                     switch(decrypted.group.type) {
                     case textsecure.protobuf.GroupContext.Type.UPDATE:
+                        decrypted.body = null;
+                        decrypted.attachments = [];
                         return textsecure.storage.groups.updateNumbers(
                             decrypted.group.id, decrypted.group.members
-                        ).then(function(added) {
-                            decrypted.group.added = added;
-
-                            if (decrypted.group.avatar === null &&
-                                decrypted.group.added.length == 0 &&
-                                decrypted.group.name === null) {
-                                return;
-                            }
-
-                            decrypted.body = null;
-                            decrypted.attachments = [];
-                        });
+                        );
 
                         break;
                     case textsecure.protobuf.GroupContext.Type.QUIT:

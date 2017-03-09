@@ -179,6 +179,10 @@
         "message": "Αυτό το αρχείο καταγραφής συμβάντων θα δημοσιευτεί στο internet ώστε να το εξετάσουν εθελοντές. Μπορείς να το μελετήσεις και να το αλλάξεις πριν το υποβάλλεις.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Enter a phone number to add a contact.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Αναζήτηση...",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Η ιδιωτικότητα είναι εφικτή. Το Signal την κάνει εύκολη.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Play audio notification",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Αποσυνδεδεμένος",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Άνοιξε το Signal στο κινητό σου και πήγαινε στο Ρυθμίσεις > Συνδεδεμένες συσκευές. Πίεσε το πλήκτρο προσθήκης νέας συσκευής και σάρωσε το παραπάνω γραφικό.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Invalid number",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Καλώς ήρθες στο Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Νέα Μηνύματα",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Click to create new contact",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Δεν έχετε ανταλλάξει μηνύματα με αυτή την επαφή ακόμα. Ο κωδικός ασφαλείας σας με αυτή την επαφή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",

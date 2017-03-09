@@ -7,8 +7,11 @@
     'use strict';
     window.textsecure = window.textsecure || {};
 
+    var ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
+
     function AccountManager(url, ports, username, password) {
         this.server = new TextSecureServer(url, ports, username, password);
+        this.pending = Promise.resolve();
     }
 
     AccountManager.prototype = new textsecure.EventTarget();
@@ -25,12 +28,14 @@
             var createAccount = this.createAccount.bind(this);
             var generateKeys = this.generateKeys.bind(this, 100);
             var registrationDone = this.registrationDone.bind(this);
-            return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
-                return createAccount(number, verificationCode, identityKeyPair).
-                    then(generateKeys).
-                    then(registerKeys).
-                    then(registrationDone);
-            }.bind(this));
+            return this.queueTask(function() {
+                return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
+                    return createAccount(number, verificationCode, identityKeyPair).
+                        then(generateKeys).
+                        then(registerKeys).
+                        then(registrationDone);
+                });
+            });
         },
         registerSecondDevice: function(setProvisioningUrl, confirmNumber, progressCallback) {
             var createAccount = this.createAccount.bind(this);
@@ -38,13 +43,17 @@
             var registrationDone = this.registrationDone.bind(this);
             var registerKeys = this.server.registerKeys.bind(this.server);
             var getSocket = this.server.getProvisioningSocket.bind(this.server);
+            var queueTask = this.queueTask.bind(this);
             var provisioningCipher = new libsignal.ProvisioningCipher();
+            var gotProvisionEnvelope = false;
             return provisioningCipher.getPublicKey().then(function(pubKey) {
                 return new Promise(function(resolve, reject) {
                     var socket = getSocket();
                     socket.onclose = function(e) {
                         console.log('websocket closed', e.code);
-                        reject(new Error('websocket closed'));
+                        if (!gotProvisionEnvelope) {
+                            reject(new Error('websocket closed'));
+                        }
                     };
                     var wsr = new WebSocketResource(socket, {
                         keepalive: { path: '/v1/keepalive/provisioning' },
@@ -59,19 +68,24 @@
                             } else if (request.path === "/v1/message" && request.verb === "PUT") {
                                 var envelope = textsecure.protobuf.ProvisionEnvelope.decode(request.body, 'binary');
                                 request.respond(200, 'OK');
+                                gotProvisionEnvelope = true;
                                 wsr.close();
                                 resolve(provisioningCipher.decrypt(envelope).then(function(provisionMessage) {
-                                    return confirmNumber(provisionMessage.number).then(function(deviceName) {
-                                        if (typeof deviceName !== 'string' || deviceName.length === 0) {
-                                            throw new Error('Invalid device name');
-                                        }
-                                        return createAccount(
-                                            provisionMessage.number,
-                                            provisionMessage.provisioningCode,
-                                            provisionMessage.identityKeyPair,
-                                            deviceName,
-                                            provisionMessage.userAgent
-                                        );
+                                    return queueTask(function() {
+                                        return confirmNumber(provisionMessage.number).then(function(deviceName) {
+                                            if (typeof deviceName !== 'string' || deviceName.length === 0) {
+                                                throw new Error('Invalid device name');
+                                            }
+                                            return createAccount(
+                                                provisionMessage.number,
+                                                provisionMessage.provisioningCode,
+                                                provisionMessage.identityKeyPair,
+                                                deviceName,
+                                                provisionMessage.userAgent
+                                            ).then(generateKeys).
+                                              then(registerKeys).
+                                              then(registrationDone);
+                                        });
                                     });
                                 }));
                             } else {
@@ -80,19 +94,90 @@
                         }
                     });
                 });
-            }).then(generateKeys).
-               then(registerKeys).
-               then(registrationDone);
+            });
         },
         refreshPreKeys: function() {
             var generateKeys = this.generateKeys.bind(this, 100);
             var registerKeys = this.server.registerKeys.bind(this.server);
-            return this.server.getMyKeys().then(function(preKeyCount) {
-                console.log('prekey count ' + preKeyCount);
-                if (preKeyCount < 10) {
-                    return generateKeys().then(registerKeys);
-                }
+
+            return this.queueTask(function() {
+                return this.server.getMyKeys().then(function(preKeyCount) {
+                    console.log('prekey count ' + preKeyCount);
+                    if (preKeyCount < 10) {
+                        return generateKeys().then(registerKeys);
+                    }
+                });
             }.bind(this));
+        },
+        rotateSignedPreKey: function() {
+            return this.queueTask(function() {
+                var signedKeyId = textsecure.storage.get('signedKeyId', 1);
+
+                if (typeof signedKeyId != 'number') {
+                    throw new Error('Invalid signedKeyId');
+                }
+                var store = textsecure.storage.protocol;
+                var server = this.server;
+                var cleanSignedPreKeys = this.cleanSignedPreKeys;
+                return store.getIdentityKeyPair().then(function(identityKey) {
+                    return libsignal.KeyHelper.generateSignedPreKey(identityKey, signedKeyId);
+                }).then(function(res) {
+                    return server.setSignedPreKey({
+                        keyId     : res.keyId,
+                        publicKey : res.keyPair.pubKey,
+                        signature : res.signature
+                    }).then(function() {
+                        textsecure.storage.put('signedKeyId', signedKeyId + 1);
+                        textsecure.storage.remove('signedKeyRotationRejected');
+                        return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
+                            return cleanSignedPreKeys();
+                        });
+                    }).catch(function(e) {
+                        if (e instanceof Error && e.name == 'HTTPError' && e.code >= 400 && e.code <= 599) {
+                            var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
+                            textsecure.storage.put('signedKeyRotationRejected', rejections);
+                            console.log('Signed key rotation rejected count:', rejections);
+                        }
+                    });
+                });
+            }.bind(this));
+        },
+        queueTask: function(task) {
+            return this.pending = this.pending.then(task, task);
+        },
+        cleanSignedPreKeys: function() {
+            var nextSignedKeyId = textsecure.storage.get('signedKeyId');
+            if (typeof nextSignedKeyId != 'number') {
+                return Promise.resolve();
+            }
+            var activeSignedPreKeyId = nextSignedKeyId - 1;
+
+            var store = textsecure.storage.protocol;
+            return store.loadSignedPreKeys().then(function(allRecords) {
+                var oldRecords = allRecords.filter(function(record) {
+                    return record.keyId !== activeSignedPreKeyId;
+                });
+                oldRecords.sort(function(a, b) {
+                    return (a.created_at || 0) - (b.created_at || 0);
+                });
+
+                console.log("Active signed prekey: " + activeSignedPreKeyId);
+                console.log("Old signed prekey record count: " + oldRecords.length);
+
+                oldRecords.forEach(function(oldRecord) {
+                    if ( oldRecord.keyId > activeSignedPreKeyId - 3 ) {
+                        // keep at least the last 3 signed keys
+                        return;
+                    }
+                    var created_at = oldRecord.created_at || 0;
+                    var archiveDuration = Date.now() - created_at;
+                    if (archiveDuration > ARCHIVE_AGE) {
+                        console.log("Removing signed prekey record:",
+                          oldRecord.keyId, "with timestamp:", created_at);
+                        store.removeSignedPreKey(oldRecord.keyId);
+                    }
+                });
+            });
         },
         createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
@@ -178,15 +263,17 @@
                     })
                 );
 
-                store.removeSignedPreKey(signedKeyId - 2);
                 textsecure.storage.put('maxPreKeyId', startId + count);
                 textsecure.storage.put('signedKeyId', signedKeyId + 1);
                 return Promise.all(promises).then(function() {
-                    return result;
-                });
-            });
+                    return this.cleanSignedPreKeys().then(function() {
+                        return result;
+                    });
+                }.bind(this));
+            }.bind(this));
         },
         registrationDone: function() {
+            console.log('registration done');
             this.dispatchEvent(new Event('registration'));
         }
     });

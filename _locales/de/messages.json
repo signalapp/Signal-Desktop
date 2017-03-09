@@ -179,6 +179,10 @@
         "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal untersuchen und bearbeiten.",
         "description": ""
     },
+    "newPhoneNumber": {
+        "message": "Rufnummer eingeben, um Kontakt hinzuzufügen.",
+        "description": "Placeholder for adding a new number to a contact"
+    },
     "searchForPeopleOrGroups": {
         "message": "Suchen …",
         "description": "Placeholder text in the search input"
@@ -277,6 +281,10 @@
         "message": "Privatsphäre ist möglich. Signal macht sie einfach.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
+    "audioNotificationDescription": {
+        "message": "Benachrichtigungston wiedergeben",
+        "description": "Description for audio notification setting"
+    },
     "disconnected": {
         "message": "Nicht verbunden",
         "description": ""
@@ -357,6 +365,10 @@
         "message": "Öffne Signal auf deinem Mobilgerät und gehe zu »Einstellungen« > »Verknüpfte Geräte«. Tippe die Schaltfläche zum Hinzufügen eines neuen Geräts an und scanne dann den oben dargestellten Code ein.",
         "description": ""
     },
+    "invalidNumberError": {
+        "message": "Ungültige Rufnummer",
+        "description": "When a person inputs a number that is invalid"
+    },
     "installWelcome": {
         "message": "Willkommen bei Signal Desktop",
         "description": "Welcome title on the install page"
@@ -418,6 +430,10 @@
     "newMessages": {
         "message": "Neue Nachrichten",
         "description": "Displayed in notifications for multiple messages"
+    },
+    "newContact": {
+        "message": "Für neuen Kontakt anklicken",
+        "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein.",

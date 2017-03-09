@@ -41,17 +41,23 @@
         },
         onReceipt: function(receipt) {
             var messages  = new Whisper.MessageCollection();
-            var groups    = new GroupCollection();
-            Promise.all([
-                groups.fetchGroups(receipt.get('source')),
-                messages.fetchSentAt(receipt.get('timestamp'))
-            ]).then(function() {
-                var ids = groups.pluck('id');
-                ids.push(receipt.get('source'));
+            messages.fetchSentAt(receipt.get('timestamp')).then(function() {
+                if (messages.length === 0) { return; }
                 var message = messages.find(function(message) {
-                    return (!message.isIncoming() &&
-                            _.contains(ids, message.get('conversationId')));
+                    return (!message.isIncoming() && receipt.get('source') === message.get('conversationId'));
                 });
+                if (message) { return message; }
+
+                var groups    = new GroupCollection();
+                return groups.fetchGroups(receipt.get('source')).then(function() {
+                    var ids = groups.pluck('id');
+                    ids.push(receipt.get('source'));
+                    return messages.find(function(message) {
+                        return (!message.isIncoming() &&
+                                _.contains(ids, message.get('conversationId')));
+                    });
+                });
+            }).then(function(message) {
                 if (message) {
                     this.remove(receipt);
                     var deliveries = message.get('delivered') || 0;
@@ -63,7 +69,7 @@
                             message.get('conversationId')
                         );
                         if (conversation) {
-                            conversation.trigger('newmessage', message);
+                            conversation.trigger('delivered', message);
                         }
                     });
                     // TODO: consider keeping a list of numbers we've

@@ -60,6 +60,11 @@
                 name: 'theme-setting'
             });
             new CheckboxView({
+                el: this.$('.audio-notification-setting'),
+                defaultValue: false,
+                name: 'audio-notification'
+            });
+            new CheckboxView({
                 el: this.$('.safety-numbers-settings'),
                 defaultValue: true,
                 name: 'safety-numbers-approval'
@@ -84,6 +89,7 @@
               nameOnly: i18n('nameOnly'),
               safetyNumbersSettingDescription: i18n('safetyNumbersSettingDescription'),
               safetyNumbersSettingHeader: i18n('safetyNumbersSettingHeader'),
+              audioNotificationDescription: i18n('audioNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
             };
         }

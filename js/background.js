@@ -44,21 +44,27 @@
             return -1;
         }
     };
+    window.events = _.clone(Backbone.Events);
+    var accountManager;
     window.getAccountManager = function() {
-        var USERNAME = storage.get('number_id');
-        var PASSWORD = storage.get('password');
-        var accountManager = new textsecure.AccountManager(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
-        );
-        accountManager.addEventListener('registration', function() {
-            if (!Whisper.Registration.everDone()) {
-                storage.put('safety-numbers-approval', false);
-            }
-            Whisper.Registration.markDone();
-            extension.trigger('registration_done');
-        });
+        if (!accountManager) {
+            var USERNAME = storage.get('number_id');
+            var PASSWORD = storage.get('password');
+            accountManager = new textsecure.AccountManager(
+                SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
+            );
+            accountManager.addEventListener('registration', function() {
+                if (!Whisper.Registration.everDone()) {
+                    storage.put('safety-numbers-approval', false);
+                }
+                Whisper.Registration.markDone();
+                console.log("dispatching registration event");
+                events.trigger('registration_done');
+            });
+        }
         return accountManager;
     };
+
 
     storage.fetch();
     storage.onready(function() {
@@ -70,7 +76,9 @@
             init();
         }
 
-        extension.on('registration_done', function() {
+        console.log("listening for registration events");
+        events.on('registration_done', function() {
+            console.log("handling registration event");
             extension.keepAwake();
             init(true);
         });
@@ -78,6 +86,10 @@
         if (open) {
             openInbox();
         }
+
+        WallClockListener.init();
+        RotateSignedPreKeyListener.init();
+        ExpiringMessagesListener.init();
     });
 
     window.getSyncRequest = function() {
@@ -274,9 +286,6 @@
             read_at   : read_at
         });
     }
-
-    // lazy hack
-    window.receipts = new Backbone.Collection();
 
     function onDeliveryReceipt(ev) {
         var pushMessage = ev.proto;

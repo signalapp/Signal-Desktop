@@ -463,6 +463,11 @@
           <label for='notification-setting-off'>{{ disableNotifications }} </label>
         </div>
       </div>
+      <br />
+      <div class='audio-notification-setting'>
+        <input type='checkbox' name='audio-notification' id='audio-notification'/>
+        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
+      </div>
       <hr>
       <div class='safety-numbers-settings'>
         <h3>{{ safetyNumbersSettingHeader }}</h3>
@@ -548,6 +553,8 @@
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>
 
+  <script type='text/javascript' src='js/wall_clock_listener.js'></script>
+  <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/background.js'></script>
 </head>
 <body>
