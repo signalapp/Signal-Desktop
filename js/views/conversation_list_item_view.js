@@ -54,7 +54,9 @@
             this.timeStampView.update();
 
             emoji_util.parse(this.$('.name'));
-            emoji_util.parse(this.$('.last-message'));
+            var lastMessage = this.$('.last-message');
+            lastMessage.html(mdRender.render(lastMessage.html()));
+            emoji_util.parse(lastMessage);
 
             var unread = this.model.get('unreadCount');
             if (unread > 0) {
