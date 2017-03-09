@@ -45,41 +45,12 @@
         console.log('open inbox');
         if (inboxOpened === false) {
             inboxOpened = true;
-            extension.windows.open({
-                id: 'inbox',
-                url: 'index.html',
-                focused: true,
-                width: 580,
-                height: 440,
-                minWidth: 600,
-                minHeight: 360
-            }, function (windowInfo) {
-                appWindow = windowInfo;
-                inboxWindowId = appWindow.id;
-
-                appWindow.contentWindow.addEventListener('load', function() {
-                    setUnreadCount(storage.get("unreadCount", 0));
-                });
-
-                appWindow.onClosed.addListener(function () {
-                    inboxOpened = false;
-                    appWindow = null;
-                });
-
-                appWindow.contentWindow.addEventListener('blur', function() {
-                    inboxFocused = false;
-                });
-                appWindow.contentWindow.addEventListener('focus', function() {
-                    inboxFocused = true;
-                    clearAttention();
-                });
-
-                // close the inbox if background.html is refreshed
-                extension.windows.onSuspend(function() {
-                    // TODO: reattach after reload instead of closing.
-                    extension.windows.remove(inboxWindowId);
-                });
+            owsDesktopApp.getAppView(window).then(function(appView) {
+                var bodyEl = $('body');
+                bodyEl.innerHTML = "";
+                bodyEl.append(appView.el);
             });
+            owsDesktopApp.openConversation(getOpenConversation());
         } else if (inboxOpened === true) {
             extension.windows.focus(inboxWindowId, function (error) {
                 if (error) {
