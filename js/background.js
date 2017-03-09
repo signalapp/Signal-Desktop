@@ -65,10 +65,6 @@
         return accountManager;
     };
 
-    window.mdRender = markdownit({
-        html: true
-    });
-
     storage.fetch();
     storage.onready(function() {
         window.dispatchEvent(new Event('storage_ready'));
