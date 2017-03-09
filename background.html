@@ -2,6 +2,13 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Signal</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='images/icon_128.png' rel='shortcut icon'>
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='/images/icon_128.png'>
@@ -734,5 +741,16 @@
   <script type='text/javascript' src='js/background.js'></script>
 </head>
 <body>
+  <div class='app-loading-screen'>
+    <div class='content'>
+      <img src='/images/icon_128.png'>
+      <div class='container'>
+        <span class='dot'></span>
+        <span class='dot'></span>
+        <span class='dot'></span>
+      </div>
+      <div class='message'>Loading...</div>
+    </div>
+  </div>
 </body>
 </html>
