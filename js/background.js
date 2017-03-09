@@ -65,6 +65,9 @@
         return accountManager;
     };
 
+    window.mdRender = markdownit({
+        html: true
+    });
 
     storage.fetch();
     storage.onready(function() {
