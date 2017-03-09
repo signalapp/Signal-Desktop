@@ -21,7 +21,8 @@
     "emojidata": "https://github.com/iamcal/emoji-data.git",
     "autosize": "~3.0.6",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
-    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
+    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
+    "markdown-it": "^8.3.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -49,6 +50,9 @@
     ],
     "backbone": [
       "backbone.js"
+    ],
+    "markdown-it": [
+      "dist/markdown-it.js"
     ],
     "qrcode": [
       "qrcode.js"
@@ -103,6 +107,7 @@
   },
   "concat": {
     "app": [
+      "markdown-it",
       "jquery",
       "long",
       "bytebuffer",
