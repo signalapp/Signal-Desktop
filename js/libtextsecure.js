@@ -37889,7 +37889,7 @@ var TextSecureServer = (function() {
                     data        : encryptedBin,
                     processData : false,
                 }).then(function() {
-                    return match[1];
+                    return response.idString;
                 }.bind(this));
             }.bind(this));
         },
