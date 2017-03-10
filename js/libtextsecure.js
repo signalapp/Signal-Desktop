@@ -37660,7 +37660,7 @@ var TextSecureServer = (function() {
         attachment : "v1/attachments"
     };
 
-    function TextSecureServer(url, ports, username, password, attachment_server_url) {
+    function TextSecureServer(url, ports, username, password) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
@@ -37668,17 +37668,6 @@ var TextSecureServer = (function() {
         this.url = url;
         this.username = username;
         this.password = password;
-
-        this.attachment_id_regex = RegExp("^https:\/\/.*\/(\\d+)\?");
-        if (attachment_server_url) {
-            // strip trailing /
-            attachment_server_url = attachment_server_url.replace(/\/$/,'');
-            // and escape
-            attachment_server_url = attachment_server_url.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            this.attachment_id_regex = RegExp( "^" + attachment_server_url + "\/(\\d+)\?");
-        }
-
-
     }
 
     TextSecureServer.prototype = {
@@ -37882,11 +37871,6 @@ var TextSecureServer = (function() {
                 urlParameters       : '/' + id,
                 validateResponse    : {location: 'string'}
             }).then(function(response) {
-                var match = response.location.match(this.attachment_id_regex);
-                if (!match) {
-                    console.log('Invalid attachment url for incoming message', response.location);
-                    throw new Error('Received invalid attachment url');
-                }
                 return ajax(response.location, {
                     type        : "GET",
                     responseType: "arraybuffer",
@@ -37899,13 +37883,6 @@ var TextSecureServer = (function() {
                 call     : 'attachment',
                 httpType : 'GET',
             }).then(function(response) {
-                // Extract the id as a string from the location url
-                // (workaround for ids too large for Javascript numbers)
-                var match = response.location.match(this.attachment_id_regex);
-                if (!match) {
-                    console.log('Invalid attachment url for outgoing message', response.location);
-                    throw new Error('Received invalid attachment url');
-                }
                 return ajax(response.location, {
                     type        : "PUT",
                     contentType : "application/octet-stream",
@@ -38226,12 +38203,12 @@ var TextSecureServer = (function() {
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, ports, username, password, signalingKey, attachment_server_url) {
+function MessageReceiver(url, ports, username, password, signalingKey) {
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
     this.password = password;
-    this.server = new TextSecureServer(url, ports, username, password, attachment_server_url);
+    this.server = new TextSecureServer(url, ports, username, password);
 
     var address = libsignal.SignalProtocolAddress.fromString(username);
     this.number = address.getName();
@@ -38702,8 +38679,8 @@ MessageReceiver.prototype.extend({
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, ports, username, password, signalingKey, attachment_server_url) {
-    var messageReceiver = new MessageReceiver(url, ports, username, password, signalingKey, attachment_server_url);
+textsecure.MessageReceiver = function(url, ports, username, password, signalingKey) {
+    var messageReceiver = new MessageReceiver(url, ports, username, password, signalingKey);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
@@ -39051,8 +39028,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, ports, username, password, attachment_server_url) {
-    this.server = new TextSecureServer(url, ports, username, password, attachment_server_url);
+function MessageSender(url, ports, username, password) {
+    this.server = new TextSecureServer(url, ports, username, password);
     this.pendingMessages = {};
 }
 
@@ -39459,8 +39436,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, ports, username, password, attachment_server_url) {
-    var sender = new MessageSender(url, ports, username, password, attachment_server_url);
+textsecure.MessageSender = function(url, ports, username, password) {
+    var sender = new MessageSender(url, ports, username, password);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);

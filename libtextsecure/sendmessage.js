@@ -104,8 +104,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, ports, username, password, attachment_server_url) {
-    this.server = new TextSecureServer(url, ports, username, password, attachment_server_url);
+function MessageSender(url, ports, username, password) {
+    this.server = new TextSecureServer(url, ports, username, password);
     this.pendingMessages = {};
 }
 
@@ -512,8 +512,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, ports, username, password, attachment_server_url) {
-    var sender = new MessageSender(url, ports, username, password, attachment_server_url);
+textsecure.MessageSender = function(url, ports, username, password) {
+    var sender = new MessageSender(url, ports, username, password);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);

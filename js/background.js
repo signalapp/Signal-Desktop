@@ -35,7 +35,6 @@
 
     var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
     var SERVER_PORTS = [80, 4433, 8443];
-    var ATTACHMENT_SERVER_URL = 'https://whispersystems-textsecure-attachments-staging.s3.amazonaws.com';
     var messageReceiver;
     window.getSocketStatus = function() {
         if (messageReceiver) {
@@ -108,7 +107,7 @@
 
         // initialize the socket and start listening for messages
         messageReceiver = new textsecure.MessageReceiver(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, mySignalingKey, ATTACHMENT_SERVER_URL
+            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, mySignalingKey
         );
         messageReceiver.addEventListener('message', onMessageReceived);
         messageReceiver.addEventListener('receipt', onDeliveryReceipt);
@@ -119,7 +118,7 @@
         messageReceiver.addEventListener('error', onError);
 
         window.textsecure.messaging = new textsecure.MessageSender(
-            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD, ATTACHMENT_SERVER_URL
+            SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
         );
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
