@@ -30,6 +30,41 @@
   "scripts": {
     "test": "grunt test",
     "lint": "grunt jshint",
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "release": "build"
+  },
+  "build": {
+    "appId": "org.whispersystems.signal-desktop",
+    "mac": {
+      "category": "public.app-category.social-networking"
+    },
+    "linux": {
+      "target": [
+        "deb"
+      ]
+    },
+    "win": {},
+    "files": [
+      "main.js",
+      "background.html",
+      "index.html",
+      "options.html",
+      "_locales/**",
+      "protos/*",
+      "js/**",
+      "!js/register.js",
+      "stylesheets/*.css",
+      "audio/**",
+      "images/**",
+      "fonts/*"
+    ],
+    "directories": {
+      "output": "pack"
+    },
+    "publish": [
+      "github"
+    ]
   }
 }
