@@ -222,7 +222,7 @@
         "description": ""
     },
     "installSignalLinks": {
-        "message": "Prima, installa Signal sul tuo <a $play_store$>Android</a> o <a $app_store$>iPhone</a>.<br /> Noi sincronizzeremo i tuoi device e terremo i tuoi messaggi sincronizzati.",
+        "message": "Per iniziare installa Signal sul tuo <a $play_store$>Android</a> od <a $app_store$>iPhone</a>.<br /> Noi collegheremo i tuoi dispositivi e terremo i tuoi messaggi sincronizzati.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -414,7 +414,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "Prima di tutto installa <a $a_params$>Signal</a> sul tuo smartphone Android.<br /> I tuoi dispositivi saranno collegati e i tuoi messaggi sincronizzati.",
+        "message": "Per iniziare installa <a $a_params$>Signal</a> sul tuo smartphone Android.<br /> Noi collegheremo i tuoi dispositivi e terremo i tuoi messaggi sincronizzati.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
