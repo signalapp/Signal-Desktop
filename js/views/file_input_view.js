@@ -24,6 +24,9 @@
         className: 'file-input',
         initialize: function(options) {
             this.$input = this.$('input[type=file]');
+            this.$input.click(function(e) {
+              e.stopPropagation();
+            });
             this.thumb = new Whisper.AttachmentPreviewView();
             this.$el.addClass('file-input');
             this.window = options.window;
