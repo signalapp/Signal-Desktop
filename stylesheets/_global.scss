@@ -489,3 +489,9 @@ input[type=text], input[type=search], textarea {
 .inbox:focus {
     outline: none;
 }
+
+.text-security .inbox {
+  .name, .body, .last-message, .sender, .conversation-title, .number {
+      -webkit-text-security: square;
+  }
+}

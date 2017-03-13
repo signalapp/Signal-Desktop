@@ -442,6 +442,9 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
 .inbox:focus {
   outline: none; }
 
+.text-security .inbox .name, .text-security .inbox .body, .text-security .inbox .last-message, .text-security .inbox .sender, .text-security .inbox .conversation-title, .text-security .inbox .number {
+  -webkit-text-security: square; }
+
 @keyframes progress-bar-stripes {
   from {
     background-position: 40px 0; }
