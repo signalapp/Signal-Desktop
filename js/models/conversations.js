@@ -190,7 +190,7 @@
             if (lastMessage) {
               this.set({
                 lastMessage : lastMessage.getNotificationText(),
-                timestamp   : lastMessage.get('sent_at')
+                timestamp   : lastMessage.get('received_at')
               });
             } else {
               this.set({ lastMessage: '', timestamp: null });
