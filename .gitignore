@@ -4,4 +4,3 @@ build/curve25519_compiled.js
 stylesheets/*.css.map
 dist
 .tx
-.idea
