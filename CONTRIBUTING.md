@@ -39,9 +39,11 @@ mobile, **you must build a mobile client that targets the staging server**
 ## Linking
 
 
-0. Build Signal for Android or iOS from source, and change its `TEXTSECURE_URL` to point
-   at `textsecure-service-staging.whispersystems.org`. This task is 1% search and
-   replace, 99% setting up your build environment. Instructions are available for both
+0. Build Signal for Android or iOS from source, and point its TextSecure service URL to `textsecure-service-staging.whispersystems.org`:
+  - **on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/WhisperSystems/Signal-Android/blob/master/build.gradle)
+  - **on iOS:** Replace the `textSecureServerURL` value in `TSConstants.h`(located in the SignalServiceKit pod)
+  
+    This task is 1% search and replace, 99% setting up your build environment. Instructions are available for both
    the [Android](https://github.com/WhisperSystems/Signal-Android/blob/master/BUILDING.md)
    and [iOS](https://github.com/WhisperSystems/Signal-iOS/blob/master/BUILDING.md) projects.
 1. Upon installing the extension you will be presented with a qr code.
