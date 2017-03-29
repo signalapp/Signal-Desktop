@@ -19,7 +19,7 @@
         self.tabs = tabs;
 
         self.setBadgeText = function (text) {
-            if (chrome.browserAction && chrome.browserAction.setBadgeText) {
+            if (window.chrome && chrome.browserAction && chrome.browserAction.setBadgeText) {
                 chrome.browserAction.setBadgeText({text: String(text)});
             }
         };
@@ -39,11 +39,11 @@
         },
 
         focus: function(id, callback) {
-            if (chrome.windows) {
+            if (window.chrome && chrome.windows) {
                 chrome.windows.update(id, { focused: true }, function() {
                     callback(chrome.runtime.lastError);
                 });
-            } else if (chrome.app.window) {
+            } else if (window.chrome && chrome.app.window) {
                 var appWindow = chrome.app.window.get(id);
                 if (appWindow) {
                     appWindow.show();
@@ -73,13 +73,13 @@
 
         getBackground: function(callback) {
             var getBackground;
-            if (chrome.extension) {
+            if (window.chrome && chrome.extension) {
                 var bg = chrome.extension.getBackgroundPage();
                 bg.storage.onready(function() {
                     callback(bg);
                     resolve();
                 });
-            } else if (chrome.runtime) {
+            } else if (window.chrome && chrome.runtime) {
                 chrome.runtime.getBackgroundPage(function(bg) {
                     bg.storage.onready(function() {
                         callback(bg);
@@ -89,7 +89,11 @@
         },
 
         getAll: function() {
-            return chrome.app.window.getAll();
+                  if (window.chrome) {
+                    return chrome.app.window.getAll();
+                  } else {
+                    return [];
+                  }
         },
 
         getViews: function() {
@@ -120,7 +124,7 @@
 
         drawAttention: function(window_id) {
             console.log('draw attention');
-            if (chrome.app.window) {
+            if (window.chrome && chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 if (w) {
                     w.clearAttention();
@@ -131,7 +135,7 @@
 
         clearAttention: function(window_id) {
             console.log('clear attention');
-            if (chrome.app.window) {
+            if (window.chrome && chrome.app.window) {
                 var w = chrome.app.window.get(window_id);
                 if (w) {
                     w.clearAttention();
@@ -142,10 +146,10 @@
     };
 
     extension.onLaunched = function(callback) {
-        if (chrome.browserAction && chrome.browserAction.onClicked) {
+        if (window.chrome && chrome.browserAction && chrome.browserAction.onClicked) {
             chrome.browserAction.onClicked.addListener(callback);
         }
-        if (chrome.app && chrome.app.runtime) {
+        if (window.chrome && chrome.app && chrome.app.runtime) {
             chrome.app.runtime.onLaunched.addListener(callback);
         }
     };
@@ -185,7 +189,7 @@
     extension.notification = {
         init: function() {
             // register some chrome listeners
-            if (chrome.notifications) {
+            if (window.chrome && chrome.notifications) {
                 chrome.notifications.onClicked.addListener(function() {
                     extension.notification.clear();
                     Whisper.Notifications.onclick();
@@ -207,12 +211,14 @@
         clear: function() {
             notification_pending = notification_pending.then(function() {
                 return new Promise(function(resolve) {
-                    chrome.notifications.clear('signal',  resolve);
+                    if (window.chrome) {
+                      chrome.notifications.clear('signal',  resolve);
+                    }
                 });
             });
         },
         update: function(options) {
-            if (chrome) {
+            if (window.chrome) {
                 var chromeOpts = {
                     type     : options.type,
                     title    : options.title,
@@ -247,7 +253,7 @@
     };
 
     extension.keepAwake = function() {
-        if (chrome && chrome.alarms) {
+        if (window.chrome && chrome && chrome.alarms) {
             chrome.alarms.onAlarm.addListener(function() {
                 // nothing to do.
             });
@@ -255,7 +261,7 @@
         }
     };
 
-    if (chrome.runtime.onInstalled) {
+    if (window.chrome && chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
             if (options.reason === 'install') {
                 console.log('new install');
