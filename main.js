@@ -9,6 +9,8 @@ const url = require('url')
 const autoUpdater = require('electron-updater').autoUpdater
 const autoUpdaterInterval = 60 * 60 * 1000;
 
+app.setAppUserModelId('org.whispersystems.signal-desktop')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
