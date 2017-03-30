@@ -66,5 +66,8 @@
     "publish": [
       "github"
     ]
+  },
+  "dependencies": {
+    "electron-updater": "^1.11.2"
   }
 }
