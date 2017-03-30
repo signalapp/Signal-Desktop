@@ -110,6 +110,9 @@ $text-dark: #CCCCCC;
       background: url('/images/x_white.svg') no-repeat center;
       background-size: cover;
     }
+    &.active.ltr, &.active.rtl {
+      background-image: url('/images/x_white.svg');
+    }
   }
   .bubble {
     padding: 9px 12px;

@@ -104,7 +104,7 @@
 
 input.search {
   border: none;
-  padding: 0 10px 0 65px;
+  padding: 0 $search-padding-right 0 $search-padding-left;
   margin: 0;
   outline: 0;
   height: $search-height;
@@ -117,13 +117,24 @@ input.search {
 
   &.active {
     outline: solid 1px $blue;
+    background-image: url('/images/x.svg');
+    background-repeat: no-repeat;
+    background-size: $search-x-size;
+
+    &.ltr {
+      background-position : right $search-padding-right center;
+    }
+
+    &.rtl {
+      background-position : left $search-padding-left center;
+    }
   }
 
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: block;
-    width: 16px;
-    height: 16px;
+    width: $search-x-size;
+    height: $search-x-size;
     background: url('/images/x.svg') no-repeat center;
     background-size: cover;
   }
