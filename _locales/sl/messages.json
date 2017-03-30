@@ -34,7 +34,7 @@
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -58,7 +58,7 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -66,7 +66,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generiram ključe...",
+        "message": "Generiram ključe ...",
         "description": ""
     },
     "resetSession": {
@@ -78,7 +78,7 @@
         "description": ""
     },
     "notificationSettingsDialog": {
-        "message": "Ko prispe sporočilo v obvestilu razkrij:",
+        "message": "Ko prispe sporočilo v obvestilu, razkrij:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -114,7 +114,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Povezujem...",
+        "message": "Povezujem ...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -184,7 +184,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
-        "message": "Išči...",
+        "message": "Išči ...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -236,11 +236,11 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Usklajujem skupine in stike...",
+        "message": "Usklajujem skupine in stike ...",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -248,7 +248,7 @@
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -290,7 +290,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Uvažam...",
+        "message": "Uvažam ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -298,7 +298,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -306,7 +306,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -314,7 +314,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -362,7 +362,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Odprite aplikacijo Signal na vašem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
+        "message": "Odprite aplikacijo Signal na svojem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
         "description": ""
     },
     "invalidNumberError": {
@@ -406,7 +406,7 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1t",
+        "message": "1 t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -414,7 +414,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "Najprej namestite <a $a_params$>Signal</a> na vaš Androidni telefon.<br /> Nato bomo povezali in uskladili obe napravi.",
+        "message": "Najprej namestite <a $a_params$>Signal</a> na svoj Androidni telefon.<br /> Nato bomo povezali in uskladili obe napravi.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -462,7 +462,7 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -478,7 +478,7 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
@@ -516,7 +516,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {

@@ -70,7 +70,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Resetuj sesiju",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "welcomeToSignal": {
@@ -102,7 +102,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Izbriši poruku",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
