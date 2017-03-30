@@ -1,5 +1,6 @@
 {
   "name": "signal-desktop",
+  "productName": "Signal",
   "description": "Private messaging from your desktop",
   "repository": "https://github.com/WhisperSystems/Signal-Desktop.git",
   "version": "1.0.0",
