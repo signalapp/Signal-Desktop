@@ -818,7 +818,14 @@ input.search {
   font-size: inherit;
   position: relative; }
   input.search.active {
-    outline: solid 1px #2090ea; }
+    outline: solid 1px #2090ea;
+    background-image: url("/images/x.svg");
+    background-repeat: no-repeat;
+    background-size: 16px; }
+    input.search.active.ltr {
+      background-position: right 10px center; }
+    input.search.active.rtl {
+      background-position: left 65px center; }
   input.search::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: block;
@@ -1455,6 +1462,8 @@ li.entry .error-icon-container {
   padding-left: 30px;
   line-height: 34px;
   background-color: #dddddd; }
+  .ios input.search.active.rtl {
+    background-position: left 30px center; }
 .ios .conversation-header {
   background-color: #f3f3f3;
   color: #454545;
@@ -1834,6 +1843,8 @@ li.entry .error-icon-container {
     .android-dark .search::-webkit-search-cancel-button {
       background: url("/images/x_white.svg") no-repeat center;
       background-size: cover; }
+    .android-dark .search.active.ltr, .android-dark .search.active.rtl {
+      background-image: url("/images/x_white.svg"); }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;

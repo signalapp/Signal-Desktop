@@ -49,9 +49,12 @@ $ios-border-color: rgba(0,0,0,0.1);
     border-radius: 5px;
     width: 220px;
     height: 34px;
-    padding-left: 30px;
+    padding-left: $search-padding-left-ios;
     line-height: 34px;
     background-color: #dddddd;
+    &.active.rtl {
+      background-position : left $search-padding-left-ios center;
+    }
   }
   .conversation-header {
     background-color: $grey_l;

@@ -197,6 +197,12 @@
             var input = this.$('input.search');
             if (input.val().length > 0) {
                 input.addClass('active');
+                var textDir = window.getComputedStyle(input[0]).direction;
+                if (textDir === 'ltr') {
+                    input.removeClass('rtl').addClass('ltr');
+                } else if (textDir === 'rtl') {
+                    input.removeClass('ltr').addClass('rtl');
+                }
             } else {
                 input.removeClass('active');
             }
