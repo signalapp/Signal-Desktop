@@ -166,21 +166,21 @@
     };
 
     extension.install = function(mode) {
-        var id = 'installer';
-        var url = 'options.html';
         if (mode === 'standalone') {
-            id = 'standalone-installer';
-            url = 'register.html';
+            return; // TODO
         }
-        if (!chrome.app.window.get(id)) {
-            extension.windows.open({
-                id: id,
-                url: url,
-                bounds: { width: 800, height: 666, },
-                minWidth: 800,
-                minHeight: 666
-            });
+        var installView = new Whisper.InstallView({
+              el: $('body').empty()
+        });
+        if (Whisper.Registration.everDone()) {
+            installView.selectStep(3);
+            installView.hideDots();
         }
+        installView.$el.show();
+        Whisper.events.once('contactsync', function() {
+            openInbox();
+            installView.remove();
+        });
     };
 
     var notification_pending = Promise.resolve();
