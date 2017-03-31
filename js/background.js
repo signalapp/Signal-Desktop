@@ -96,6 +96,13 @@
         Whisper.WallClockListener.init(Whisper.events);
         Whisper.RotateSignedPreKeyListener.init(Whisper.events);
         Whisper.ExpiringMessagesListener.init(Whisper.events);
+
+        if (Whisper.Registration.everDone()) {
+            openInbox();
+        }
+        if (!Whisper.Registration.isDone()) {
+            extension.install();
+        }
     });
 
     window.getSyncRequest = function() {
