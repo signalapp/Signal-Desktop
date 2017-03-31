@@ -869,7 +869,6 @@ input, button, select, textarea {
   line-height: inherit; }
 
 #install {
-  display: none;
   height: 100%; }
   @media screen and (max-height: 665px) {
     #install {
