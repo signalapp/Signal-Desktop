@@ -62,7 +62,8 @@ function createWindow () {
     slashes: true,
     query: {
       node_env: NODE_ENV,
-      locale: locale
+      locale: locale,
+      version: package_json.version
     }
   }))
 
