@@ -62,7 +62,7 @@
 
     Whisper.InboxView = Whisper.View.extend({
         templateName: 'two-column',
-        className: 'inbox',
+        className: 'inbox index',
         applyTheme: function() {
             var theme = storage.get('theme-setting') || 'android';
             this.$el.removeClass('ios')
