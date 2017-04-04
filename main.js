@@ -6,6 +6,7 @@ const url = require('url')
 const fs = require('fs')
 const autoUpdater = require('electron-updater').autoUpdater
 const autoUpdaterInterval = 60 * 60 * 1000;
+const ipc = electron.ipcMain;
 
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
@@ -47,12 +48,22 @@ function createWindow () {
     }
   })
 
+  // Load locale
+  const locale = 'en'; // FIXME
+  const localeData = JSON.parse(fs.readFileSync(path.join(__dirname, '_locales', locale, 'messages.json'), 'utf-8'))
+  ipc.on('locale-data', function(event, arg) {
+    event.returnValue = localeData;
+  });
+
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'background.html'),
     protocol: 'file:',
     slashes: true,
-    query: { node_env: NODE_ENV }
+    query: {
+      node_env: NODE_ENV,
+      locale: locale
+    }
   }))
 
   // Open the DevTools.
