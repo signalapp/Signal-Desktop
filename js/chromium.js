@@ -153,17 +153,19 @@
     };
 
     // Translate
-    window.i18n = function(message, substitutions) {
-        if (window.chrome && chrome.i18n) {
-            return chrome.i18n.getMessage(message, substitutions);
-        }
-    };
-    i18n.getLocale = function() {
-        if (window.chrome && chrome.i18n) {
-            return chrome.i18n.getUILanguage();
-        }
-        return 'en';
-    };
+
+    if (window.chrome && window.chrome.i18n) {
+      window.i18n = function(message, substitutions) {
+          return chrome.i18n.getMessage(message, substitutions);
+      };
+
+      i18n.getLocale = function() {
+          if (window.chrome && chrome.i18n) {
+              return chrome.i18n.getUILanguage();
+          }
+          return 'en';
+      };
+    }
 
     extension.install = function(mode) {
         if (mode === 'standalone') {
