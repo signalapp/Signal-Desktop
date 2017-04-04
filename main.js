@@ -83,12 +83,14 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
-  autoUpdater.addListener('update-downloaded', function() {
-    autoUpdater.quitAndInstall()
-  });
-  autoUpdater.checkForUpdates();
+  if (NODE_ENV === 'production') {
+    autoUpdater.addListener('update-downloaded', function() {
+      autoUpdater.quitAndInstall()
+    });
+    autoUpdater.checkForUpdates();
+    setInterval(function() { autoUpdater.checkForUpdates(); }, autoUpdaterInterval);
+  }
 
-  setInterval(function() { autoUpdater.checkForUpdates(); }, autoUpdaterInterval);
   createWindow();
 })
 
