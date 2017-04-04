@@ -6,353 +6,332 @@
   background: url("../images/flags.png");
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html,body {
+#install {
   height: 100%;
-}
-body {
-  margin: 0;
-  font-family: $roboto;
-  position: relative;
   background: #2090ea;
   color: white;
   text-align: center;
   font-size: 16px;
   overflow: auto;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: " ";
-}
-.clearfix:after {
-  clear: both;
-}
-
-input, button, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-#install {
-  height: 100%;
 
   // 666px is the minimum window height in chromium.js
   @media screen and (max-height: 665px) {
     height: 666px;
   }
-}
-.main {
-  padding: 70px 0 50px;
-}
-.step {
-  display: none;
-  height: 100%;
-}
-.inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%;
 
-  .step-body {
-    margin-top: auto;
-    width: 100%;
-    max-width: 600px;
+  input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
   }
-}
 
-#signal-computer,
-#signal-phone {
-  max-width: 50%;
-  max-height: 250px;
-}
-
-p {
-  max-width: 35em;
-  margin: 1em auto;
-  line-height: 1.5em;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-a {
-  cursor: pointer;
-  &, &:visited, &:hover {
-    text-decoration: none;
+  .main {
+    padding: 70px 0 50px;
   }
-}
+  .step {
+    display: none;
+    height: 100%;
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
 
-.button {
-  display: inline-block;
-  text-transform: uppercase;
-  border: none;
-  font-weight: bold;
-  min-width: 300px;
-  padding: 0.5em;
-  margin: 0.5em 0;
-  background: white;
-  color: $blue;
-}
+    .step-body {
+      margin-top: auto;
+      width: 100%;
+      max-width: 600px;
+    }
+  }
 
-.nav {
-  width: 100%;
-  bottom: 50px;
-  margin-top: auto;
-  padding: 0 20px;
+  #signal-computer,
+  #signal-phone {
+    max-width: 50%;
+    max-height: 250px;
+  }
+
+  p {
+    max-width: 35em;
+    margin: 1em auto;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  a {
+    cursor: pointer;
+    &, &:visited, &:hover {
+      text-decoration: none;
+    }
+  }
 
   .button {
-    margin-bottom: 3em;
+    display: inline-block;
+    text-transform: uppercase;
+    border: none;
+    font-weight: bold;
+    min-width: 300px;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    background: white;
+    color: $blue;
   }
 
-  .dot {
-    display: inline-block;
-    cursor: pointer;
-    margin: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background: white;
-    border: solid 5px $blue;
+  .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding: 0 20px;
 
-    &.selected {
-      background: $blue_l;
+    .button {
+      margin-bottom: 3em;
+    }
+
+    .dot {
+      display: inline-block;
+      cursor: pointer;
+      margin: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: white;
+      border: solid 5px $blue;
+
+      &.selected {
+        background: $blue_l;
+      }
     }
   }
-}
 
-.link {
-  &:hover, &:focus {
-    background: rgba(255,255,255,0.3);
-    outline: none;
+  .link {
+    &:hover, &:focus {
+      background: rgba(255,255,255,0.3);
+      outline: none;
+    }
+    &, &:visited, &:hover {
+      padding: 0 3px;
+      color: white;
+      font-weight: bold;
+      border-bottom: dashed 2px white;
+      text-decoration: none;
+    }
   }
-  &, &:visited, &:hover {
-    padding: 0 3px;
+
+  .container {
+    min-width: 650px;
+  }
+
+  h1 {
+    font-size: 30pt;
+    font-weight: normal;
+    padding-bottom: 10px;
+  }
+
+  h3.step {
+    margin-top: 0;
+    font-weight: bold;
+  }
+
+  .help {
+    border-top: 2px solid $grey_l;
+    padding: 1.5em 0.1em;
+  }
+
+  .install {
+    display: inline-block;
+    margin-top: 90px;
+  }
+
+  #qr {
+    display: inline-block;
+    min-height: 266px;
+    img {
+      border: 5px solid white;
+    }
+
+    canvas {
+      display: none;
+    }
+  }
+
+  #device-name {
+    border: none;
+    border-bottom: 1px solid white;
+    padding: 8px;
+    background: transparent;
     color: white;
     font-weight: bold;
-    border-bottom: dashed 2px white;
-    text-decoration: none;
-  }
-}
+    text-align: center;
+    &::selection, a::selection {
+      color: $grey_d;
+      background: white;
+    }
 
-.container {
-  min-width: 650px;
-}
+    &::-moz-selection, a::-moz-selection {
+      color: $grey_d;
+      background: white;
+    }
 
-h1 {
-  font-size: 30pt;
-  font-weight: normal;
-  padding-bottom: 10px;
-}
+    &:focus {
+      outline: none;
+    }
 
-h3.step {
-  margin-top: 0;
-  font-weight: bold;
-}
+    &:hover, &:focus {
+      background: rgba(255,255,255,0.1);
+    }
 
-.help {
-  border-top: 2px solid $grey_l;
-  padding: 1.5em 0.1em;
-}
-
-.install {
-  display: inline-block;
-  margin-top: 90px;
-}
-
-#qr {
-  display: inline-block;
-  min-height: 266px;
-  img {
-    border: 5px solid white;
   }
 
-  canvas {
+  #verifyCode,
+  #code,
+  #number {
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+
+  #request-voice,
+  #request-sms {
+    box-sizing: border-box;
+  }
+  #request-sms {
+    width: 57%;
+    float: right;
+  }
+  #request-voice {
+    width: 40%;
+    float: left;
+  }
+
+  .number-container {
+    position: relative;
+    margin-bottom: 0.5em;
+  }
+  .number-container .intl-tel-input,
+  .number-container .number {
+    width: 100%;
+  }
+  .number-container::after {
+    visibility: hidden;
+    content: ' ';
+    display: inline-block;
+    border-radius: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin: 3px 8px;
+    text-align: center;
+  }
+  .number-container.valid::after {
+    visibility: visible;
+    content: '✓';
+    background-color: #0f9d58;
+    color: #ffffff;
+  }
+  .number-container.invalid::after {
+    visibility: visible;
+    content: '!';
+    background-color: #f44336;
+    color: #ffffff;
+  }
+
+  #error {
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+    text-align: center;
+  }
+  #error   { background-color: #f44336; }
+  #error:before {
+    content: '\26a0';
+    padding-right: 0.5em;
+  }
+  .narrow {
+    margin: auto;
+    box-sizing: border-box;
+    width: 275px;
+    max-width: 100%;
+  }
+
+  ul.country-list {
+    min-width: 197px !important;
+  }
+
+  .confirmation-dialog, .progress-dialog, .error-dialog {
+    padding: 1em;
+    text-align: left;
+  }
+  .number { text-align: center; }
+  .confirmation-dialog, .error-dialog {
+    button {
+      float: right;
+      margin-left: 10px;
+    }
+  }
+  .progress-dialog {
+    text-align: center;
+    padding: 1em;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+
+    .status { padding: 1em; }
+
+    .bar-container {
+      height: 1em;
+      background-color: $grey_l;
+      border: solid 1px white;
+    }
+    .bar {
+      width: 0;
+      height: 100%;
+      background-color: $blue_l;
+      transition: width 0.25s;
+
+      &.active {
+      }
+    }
+  }
+  .error-dialog {
     display: none;
   }
-}
 
-#device-name {
-  border: none;
-  border-bottom: 1px solid white;
-  padding: 8px;
-  background: transparent;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  &::selection, a::selection {
-    color: $grey_d;
-    background: white;
-  }
-
-  &::-moz-selection, a::-moz-selection {
-    color: $grey_d;
-    background: white;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover, &:focus {
-    background: rgba(255,255,255,0.1);
-  }
-
-}
-
-#verifyCode,
-#code,
-#number {
-  box-sizing: border-box;
-  width: 100%;
-  display: block;
-  margin-bottom: 0.5em;
-  text-align: center;
-}
-
-#request-voice,
-#request-sms {
-  box-sizing: border-box;
-}
-#request-sms {
-  width: 57%;
-  float: right;
-}
-#request-voice {
-  width: 40%;
-  float: left;
-}
-
-.number-container {
-  position: relative;
-  margin-bottom: 0.5em;
-}
-.number-container .intl-tel-input,
-.number-container .number {
-  width: 100%;
-}
-.number-container::after {
-  visibility: hidden;
-  content: ' ';
-  display: inline-block;
-  border-radius: 1.5em;
-  width: 1.5em;
-  height: 1.5em;
-  line-height: 1.5em;
-  color: #ffffff;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin: 3px 8px;
-  text-align: center;
-}
-.number-container.valid::after {
-  visibility: visible;
-  content: '✓';
-  background-color: #0f9d58;
-  color: #ffffff;
-}
-.number-container.invalid::after {
-  visibility: visible;
-  content: '!';
-  background-color: #f44336;
-  color: #ffffff;
-}
-
-#error {
-  color: white;
-  font-weight: bold;
-  padding: 0.5em;
-  text-align: center;
-}
-#error   { background-color: #f44336; }
-#error:before {
-  content: '\26a0';
-  padding-right: 0.5em;
-}
-.narrow {
-  margin: auto;
-  box-sizing: border-box;
-  width: 275px;
-  max-width: 100%;
-}
-
-ul.country-list {
-  min-width: 197px !important;
-}
-
-.confirmation-dialog, .progress-dialog, .error-dialog {
-  padding: 1em;
-  text-align: left;
-}
-.number { text-align: center; }
-.confirmation-dialog, .error-dialog {
-  button {
-    float: right;
-    margin-left: 10px;
-  }
-}
-.progress-dialog {
-  text-align: center;
-  padding: 1em;
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-
-  .status { padding: 1em; }
-
-  .bar-container {
-    height: 1em;
-    background-color: $grey_l;
-    border: solid 1px white;
-  }
-  .bar {
-    width: 0;
+  .modal-container {
+    display: none;
+    position: absolute;
+    width: 100%;
     height: 100%;
-    background-color: $blue_l;
-    transition: width 0.25s;
+    background: rgba(0,0,0,0.1);
+    top: 0;
+    padding-top: 10em;
+    text-align: center;
 
-    &.active {
+    .modal-main {
+      display: inline-block;
+      width: 80%;
+      max-width: 500px;
+      border: solid 2px $blue;
+      background: white;
+      margin: 10% auto;
+      box-shadow: 0 0 5px 3px rgba(darken($blue, 30%), 0.2);
+
+      h4 {
+        background-color: $blue;
+        color: white;
+        padding: 1em;
+        margin: 0;
+        text-align: left;
+      }
+
     }
-  }
-}
-.error-dialog {
-  display: none;
-}
-
-.modal-container {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.1);
-  top: 0;
-  padding-top: 10em;
-  text-align: center;
-
-  .modal-main {
-    display: inline-block;
-    width: 80%;
-    max-width: 500px;
-    border: solid 2px $blue;
-    background: white;
-    margin: 10% auto;
-    box-shadow: 0 0 5px 3px rgba(darken($blue, 30%), 0.2);
-
-    h4 {
-      background-color: $blue;
-      color: white;
-      padding: 1em;
-      margin: 0;
-      text-align: left;
-    }
-
   }
 }
 
