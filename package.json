@@ -32,9 +32,9 @@
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
-    "pack": "build --dir",
-    "dist": "build",
-    "release": "build"
+    "pack": "build --dir --em.NODE_ENV=$NODE_ENV",
+    "dist": "build --em.NODE_ENV=$NODE_ENV",
+    "release": "build --em.NODE_ENV=$NODE_ENV"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

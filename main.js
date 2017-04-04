@@ -3,6 +3,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 const autoUpdater = require('electron-updater').autoUpdater
 const autoUpdaterInterval = 60 * 60 * 1000;
 
@@ -22,6 +23,14 @@ if (shouldQuit) {
   return;
 }
 
+// Read package.json
+const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
+const NODE_ENV = process.env.NODE_ENV || package_json.NODE_ENV || 'development';
+
+// use a separate data directory for development
+if (NODE_ENV !== 'production') {
+  app.setPath('userData', path.join(app.getPath('appData'), 'Signal-' + NODE_ENV))
+}
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -31,14 +40,19 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    webPreferences: { nodeIntegration: false, sandbox: true }
+    webPreferences: {
+      nodeIntegration: false,
+      sandbox: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'background.html'),
     protocol: 'file:',
-    slashes: true
+    slashes: true,
+    query: { node_env: NODE_ENV }
   }))
 
   // Open the DevTools.
