@@ -3274,295 +3274,239 @@ li.entry .error-icon-container {
 .iti-flag {
   background: url("../images/flags.png"); }
 
-* {
-  box-sizing: border-box; }
-
-html, body {
-  height: 100%; }
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  position: relative;
+#install {
+  height: 100%;
   background: #2090ea;
   color: white;
   text-align: center;
   font-size: 16px;
   overflow: auto; }
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: " "; }
-
-.clearfix:after {
-  clear: both; }
-
-input, button, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit; }
-
-#install {
-  height: 100%; }
   @media screen and (max-height: 665px) {
     #install {
       height: 666px; } }
-
-.main {
-  padding: 70px 0 50px; }
-
-.step {
-  display: none;
-  height: 100%; }
-
-.inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%; }
-  .inner .step-body {
-    margin-top: auto;
+  #install input, #install button, #install select, #install textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  #install .main {
+    padding: 70px 0 50px; }
+  #install .step {
+    display: none;
+    height: 100%; }
+  #install .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%; }
+    #install .inner .step-body {
+      margin-top: auto;
+      width: 100%;
+      max-width: 600px; }
+  #install #signal-computer,
+  #install #signal-phone {
+    max-width: 50%;
+    max-height: 250px; }
+  #install p {
+    max-width: 35em;
+    margin: 1em auto;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    font-weight: bold; }
+  #install a {
+    cursor: pointer; }
+    #install a, #install a:visited, #install a:hover {
+      text-decoration: none; }
+  #install .button {
+    display: inline-block;
+    text-transform: uppercase;
+    border: none;
+    font-weight: bold;
+    min-width: 300px;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    background: white;
+    color: #2090ea; }
+  #install .nav {
     width: 100%;
-    max-width: 600px; }
-
-#signal-computer,
-#signal-phone {
-  max-width: 50%;
-  max-height: 250px; }
-
-p {
-  max-width: 35em;
-  margin: 1em auto;
-  line-height: 1.5em;
-  font-size: 1.2em;
-  font-weight: bold; }
-
-a {
-  cursor: pointer; }
-  a, a:visited, a:hover {
-    text-decoration: none; }
-
-.button {
-  display: inline-block;
-  text-transform: uppercase;
-  border: none;
-  font-weight: bold;
-  min-width: 300px;
-  padding: 0.5em;
-  margin: 0.5em 0;
-  background: white;
-  color: #2090ea; }
-
-.nav {
-  width: 100%;
-  bottom: 50px;
-  margin-top: auto;
-  padding: 0 20px; }
-  .nav .button {
-    margin-bottom: 3em; }
-  .nav .dot {
-    display: inline-block;
-    cursor: pointer;
-    margin: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background: white;
-    border: solid 5px #2090ea; }
-    .nav .dot.selected {
-      background: #a2d2f4; }
-
-.link:hover, .link:focus {
-  background: rgba(255, 255, 255, 0.3);
-  outline: none; }
-.link, .link:visited, .link:hover {
-  padding: 0 3px;
-  color: white;
-  font-weight: bold;
-  border-bottom: dashed 2px white;
-  text-decoration: none; }
-
-.container {
-  min-width: 650px; }
-
-h1 {
-  font-size: 30pt;
-  font-weight: normal;
-  padding-bottom: 10px; }
-
-h3.step {
-  margin-top: 0;
-  font-weight: bold; }
-
-.help {
-  border-top: 2px solid #f3f3f3;
-  padding: 1.5em 0.1em; }
-
-.install {
-  display: inline-block;
-  margin-top: 90px; }
-
-#qr {
-  display: inline-block;
-  min-height: 266px; }
-  #qr img {
-    border: 5px solid white; }
-  #qr canvas {
-    display: none; }
-
-#device-name {
-  border: none;
-  border-bottom: 1px solid white;
-  padding: 8px;
-  background: transparent;
-  color: white;
-  font-weight: bold;
-  text-align: center; }
-  #device-name::selection, #device-name a::selection {
-    color: #454545;
-    background: white; }
-  #device-name::-moz-selection, #device-name a::-moz-selection {
-    color: #454545;
-    background: white; }
-  #device-name:focus {
+    bottom: 50px;
+    margin-top: auto;
+    padding: 0 20px; }
+    #install .nav .button {
+      margin-bottom: 3em; }
+    #install .nav .dot {
+      display: inline-block;
+      cursor: pointer;
+      margin: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: white;
+      border: solid 5px #2090ea; }
+      #install .nav .dot.selected {
+        background: #a2d2f4; }
+  #install .link:hover, #install .link:focus {
+    background: rgba(255, 255, 255, 0.3);
     outline: none; }
-  #device-name:hover, #device-name:focus {
-    background: rgba(255, 255, 255, 0.1); }
-
-#verifyCode,
-#code,
-#number {
-  box-sizing: border-box;
-  width: 100%;
-  display: block;
-  margin-bottom: 0.5em;
-  text-align: center; }
-
-#request-voice,
-#request-sms {
-  box-sizing: border-box; }
-
-#request-sms {
-  width: 57%;
-  float: right; }
-
-#request-voice {
-  width: 40%;
-  float: left; }
-
-.number-container {
-  position: relative;
-  margin-bottom: 0.5em; }
-
-.number-container .intl-tel-input,
-.number-container .number {
-  width: 100%; }
-
-.number-container::after {
-  visibility: hidden;
-  content: ' ';
-  display: inline-block;
-  border-radius: 1.5em;
-  width: 1.5em;
-  height: 1.5em;
-  line-height: 1.5em;
-  color: #ffffff;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin: 3px 8px;
-  text-align: center; }
-
-.number-container.valid::after {
-  visibility: visible;
-  content: '✓';
-  background-color: #0f9d58;
-  color: #ffffff; }
-
-.number-container.invalid::after {
-  visibility: visible;
-  content: '!';
-  background-color: #f44336;
-  color: #ffffff; }
-
-#error {
-  color: white;
-  font-weight: bold;
-  padding: 0.5em;
-  text-align: center; }
-
-#error {
-  background-color: #f44336; }
-
-#error:before {
-  content: '\26a0';
-  padding-right: 0.5em; }
-
-.narrow {
-  margin: auto;
-  box-sizing: border-box;
-  width: 275px;
-  max-width: 100%; }
-
-ul.country-list {
-  min-width: 197px !important; }
-
-.confirmation-dialog, .progress-dialog, .error-dialog {
-  padding: 1em;
-  text-align: left; }
-
-.number {
-  text-align: center; }
-
-.confirmation-dialog button, .error-dialog button {
-  float: right;
-  margin-left: 10px; }
-
-.progress-dialog {
-  text-align: center;
-  padding: 1em;
-  width: 100%;
-  max-width: 600px;
-  margin: auto; }
-  .progress-dialog .status {
-    padding: 1em; }
-  .progress-dialog .bar-container {
-    height: 1em;
-    background-color: #f3f3f3;
-    border: solid 1px white; }
-  .progress-dialog .bar {
-    width: 0;
-    height: 100%;
-    background-color: #a2d2f4;
-    transition: width 0.25s; }
-
-.error-dialog {
-  display: none; }
-
-.modal-container {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.1);
-  top: 0;
-  padding-top: 10em;
-  text-align: center; }
-  .modal-container .modal-main {
+  #install .link, #install .link:visited, #install .link:hover {
+    padding: 0 3px;
+    color: white;
+    font-weight: bold;
+    border-bottom: dashed 2px white;
+    text-decoration: none; }
+  #install .container {
+    min-width: 650px; }
+  #install h1 {
+    font-size: 30pt;
+    font-weight: normal;
+    padding-bottom: 10px; }
+  #install h3.step {
+    margin-top: 0;
+    font-weight: bold; }
+  #install .help {
+    border-top: 2px solid #f3f3f3;
+    padding: 1.5em 0.1em; }
+  #install .install {
     display: inline-block;
-    width: 80%;
-    max-width: 500px;
-    border: solid 2px #2090ea;
-    background: white;
-    margin: 10% auto;
-    box-shadow: 0 0 5px 3px rgba(10, 62, 103, 0.2); }
-    .modal-container .modal-main h4 {
-      background-color: #2090ea;
-      color: white;
-      padding: 1em;
-      margin: 0;
-      text-align: left; }
+    margin-top: 90px; }
+  #install #qr {
+    display: inline-block;
+    min-height: 266px; }
+    #install #qr img {
+      border: 5px solid white; }
+    #install #qr canvas {
+      display: none; }
+  #install #device-name {
+    border: none;
+    border-bottom: 1px solid white;
+    padding: 8px;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+    text-align: center; }
+    #install #device-name::selection, #install #device-name a::selection {
+      color: #454545;
+      background: white; }
+    #install #device-name::-moz-selection, #install #device-name a::-moz-selection {
+      color: #454545;
+      background: white; }
+    #install #device-name:focus {
+      outline: none; }
+    #install #device-name:hover, #install #device-name:focus {
+      background: rgba(255, 255, 255, 0.1); }
+  #install #verifyCode,
+  #install #code,
+  #install #number {
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5em;
+    text-align: center; }
+  #install #request-voice,
+  #install #request-sms {
+    box-sizing: border-box; }
+  #install #request-sms {
+    width: 57%;
+    float: right; }
+  #install #request-voice {
+    width: 40%;
+    float: left; }
+  #install .number-container {
+    position: relative;
+    margin-bottom: 0.5em; }
+  #install .number-container .intl-tel-input,
+  #install .number-container .number {
+    width: 100%; }
+  #install .number-container::after {
+    visibility: hidden;
+    content: ' ';
+    display: inline-block;
+    border-radius: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin: 3px 8px;
+    text-align: center; }
+  #install .number-container.valid::after {
+    visibility: visible;
+    content: '✓';
+    background-color: #0f9d58;
+    color: #ffffff; }
+  #install .number-container.invalid::after {
+    visibility: visible;
+    content: '!';
+    background-color: #f44336;
+    color: #ffffff; }
+  #install #error {
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+    text-align: center; }
+  #install #error {
+    background-color: #f44336; }
+  #install #error:before {
+    content: '\26a0';
+    padding-right: 0.5em; }
+  #install .narrow {
+    margin: auto;
+    box-sizing: border-box;
+    width: 275px;
+    max-width: 100%; }
+  #install ul.country-list {
+    min-width: 197px !important; }
+  #install .confirmation-dialog, #install .progress-dialog, #install .error-dialog {
+    padding: 1em;
+    text-align: left; }
+  #install .number {
+    text-align: center; }
+  #install .confirmation-dialog button, #install .error-dialog button {
+    float: right;
+    margin-left: 10px; }
+  #install .progress-dialog {
+    text-align: center;
+    padding: 1em;
+    width: 100%;
+    max-width: 600px;
+    margin: auto; }
+    #install .progress-dialog .status {
+      padding: 1em; }
+    #install .progress-dialog .bar-container {
+      height: 1em;
+      background-color: #f3f3f3;
+      border: solid 1px white; }
+    #install .progress-dialog .bar {
+      width: 0;
+      height: 100%;
+      background-color: #a2d2f4;
+      transition: width 0.25s; }
+  #install .error-dialog {
+    display: none; }
+  #install .modal-container {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    padding-top: 10em;
+    text-align: center; }
+    #install .modal-container .modal-main {
+      display: inline-block;
+      width: 80%;
+      max-width: 500px;
+      border: solid 2px #2090ea;
+      background: white;
+      margin: 10% auto;
+      box-shadow: 0 0 5px 3px rgba(10, 62, 103, 0.2); }
+      #install .modal-container .modal-main h4 {
+        background-color: #2090ea;
+        color: white;
+        padding: 1em;
+        margin: 0;
+        text-align: left; }
 
 /*# sourceMappingURL=manifest.css.map */
