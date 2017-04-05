@@ -7,6 +7,7 @@ const fs = require('fs')
 const autoUpdater = require('electron-updater').autoUpdater
 const autoUpdaterInterval = 60 * 60 * 1000;
 const ipc = electron.ipcMain;
+const Menu = electron.Menu;
 
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
@@ -90,6 +91,10 @@ app.on('ready', function() {
     autoUpdater.checkForUpdates();
     setInterval(function() { autoUpdater.checkForUpdates(); }, autoUpdaterInterval);
   }
+
+  let template = require('./menu.js');
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
 
   createWindow();
 })
