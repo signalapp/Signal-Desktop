@@ -25,7 +25,9 @@
             this.listenTo(this.model.messageCollection, 'add remove', updateLastMessage);
             this.listenTo(this.model, 'newmessage', updateLastMessage);
 
-            extension.windows.onClosed(this.stopListening.bind(this));
+            extension.windows.onClosed(function() {
+              this.stopListening();
+            }.bind(this));
             this.timeStampView = new Whisper.TimestampView({brief: true});
             this.model.updateLastMessage();
         },
