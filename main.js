@@ -68,8 +68,10 @@ function createWindow () {
     }
   }))
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  if (NODE_ENV === 'development') {
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
