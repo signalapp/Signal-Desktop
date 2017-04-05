@@ -248,7 +248,7 @@
       templateName: 'lightbox',
       className: 'modal lightbox',
       initialize: function() {
-          this.window = extension.windows.getViews()[0];
+          this.window = window;
           this.$document = $(this.window.document);
           this.listener = this.onkeyup.bind(this);
           this.$document.on('keyup', this.listener);
