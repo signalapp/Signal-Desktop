@@ -35,8 +35,8 @@
     "start": "electron .",
     "pack": "build --dir --em.NODE_ENV=$NODE_ENV",
     "dist": "build --em.NODE_ENV=$NODE_ENV",
-    "release": "build --em.NODE_ENV=$NODE_ENV",
-    "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./images -o ./build"
+    "release": "build -mwl --em.NODE_ENV=$NODE_ENV",
+    "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
