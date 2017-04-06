@@ -41,14 +41,29 @@
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
-      "category": "public.app-category.social-networking"
+      "category": "public.app-category.social-networking",
+      "publish": {
+        "provider": "s3",
+        "region": "us-east-1",
+        "bucket": "updates.signal.org",
+        "path": "desktop",
+        "acl": "public-read"
+      }
+    },
+    "win": {
+      "publish": {
+        "provider": "s3",
+        "region": "us-east-1",
+        "bucket": "updates.signal.org",
+        "path": "desktop",
+        "acl": "public-read"
+      }
     },
     "linux": {
       "target": [
         "deb"
       ]
     },
-    "win": {},
     "files": [
       "**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
@@ -73,10 +88,7 @@
     ],
     "directories": {
       "output": "pack"
-    },
-    "publish": [
-      "github"
-    ]
+    }
   },
   "dependencies": {
     "electron-updater": "^1.11.2"
