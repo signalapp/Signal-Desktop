@@ -35,13 +35,12 @@
 
             var deviceName = textsecure.storage.user.getDeviceName();
             if (!deviceName) {
-                deviceName = 'Chrome';
                 if (navigator.userAgent.match('Mac OS')) {
-                    deviceName += ' on Mac';
+                    deviceName = 'Mac';
                 } else if (navigator.userAgent.match('Linux')) {
-                    deviceName += ' on Linux';
+                    deviceName = 'Linux';
                 } else if (navigator.userAgent.match('Windows')) {
-                    deviceName += ' on Windows';
+                    deviceName = 'Windows';
                 }
             }
 
