@@ -38253,8 +38253,13 @@ MessageReceiver.prototype.extend({
         // We do the message decryption here, instead of in the ordered pending queue,
         // to avoid exposing the time it took us to process messages through the time-to-ack.
 
-        // TODO: handle different types of requests. for now we blindly assume
-        // PUT /messages <encrypted Envelope>
+        // TODO: handle different types of requests.
+        if (request.path !== '/api/v1/message') {
+            console.log('got request', request.verb, request.path);
+            request.respond(200, 'OK');
+            return;
+        }
+
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
