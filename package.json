@@ -51,6 +51,7 @@
       }
     },
     "win": {
+      "artifactName": "${productName}-Setup_${version}.${ext}",
       "publish": {
         "provider": "s3",
         "region": "us-east-1",
