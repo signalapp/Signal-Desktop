@@ -3,6 +3,8 @@
  * const env = require('url').parse(window.location, true).query;
 */
 
+console.log('preload');
+
 window.env = {};
 window.location.search.substring(1).split('&').forEach(function(variable) {
   var pair = variable.split('=');
