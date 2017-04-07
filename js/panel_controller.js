@@ -10,6 +10,14 @@
     window.Whisper = window.Whisper || {};
 
 
+    var inboxFocused = false;
+    window.addEventListener('blur', function() {
+        inboxFocused = false;
+    });
+    window.addEventListener('focus', function() {
+        inboxFocused = true;
+        clearAttention();
+    });
     window.isFocused = function() {
         return inboxFocused;
     };
@@ -39,7 +47,6 @@
     };
 
     /* Inbox window controller */
-    var inboxFocused = false;
     var inboxOpened = false;
     var inboxWindowId = 'inbox';
     var appWindow = null;
