@@ -28,7 +28,11 @@
             this.fetch({remove: false});
         },
         log: function(str) {
-            this.add({time: Date.now(), value: str}).save();
+            var entry = this.add({time: Date.now(), value: str});
+            if (window.Whisper.Database.nolog) {
+                entry.save();
+            }
+
             while (this.length > MAX_MESSAGES) {
                 this.at(0).destroy();
             }
