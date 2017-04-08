@@ -28,25 +28,25 @@
     height: 100%;
     width: 100%;
   }
-}
 
-.socket-status {
-  float: right;
-  line-height: $button-height;
+  .network-status-container {
 
-  * {
-    display: inline;
-    padding-left: 20px;
-    vertical-align: middle;
-  }
-  .connecting .icon {
-    background-color: $blue;
-  }
-  .closing {
-    background-color: $blue_l;
-  }
-  .closed {
-    background: url('/images/error_red.png') no-repeat left center;
+    .network-status {
+
+      height:2 *  $button-height;
+      background: url('/images/error_red.png') no-repeat left 10px center;
+      background-color: #fcd156;
+      padding-top: 0.5 * $button-height;
+      padding-left: 2 * $button-height;
+      display: none;
+
+      .network-status-message{
+        clear: left;
+        font-size: 12px;
+      }
+
+    }
+
   }
 }
 

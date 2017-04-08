@@ -60,7 +60,13 @@
       "message": "Sorry, the selected file exceeds message size restrictions."
     },
     "disconnected": {
-      "message": "Disconnected"
+      "message": "Disconnected."
+    },
+    "connecting": {
+      "message": "Connecting."
+    },
+    "offline": {
+      "message": "Offline, check your network connection."
     },
     "submitDebugLog": {
       "message": "Submit debug log",
