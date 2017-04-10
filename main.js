@@ -25,14 +25,17 @@ if (shouldQuit) {
   return;
 }
 
-// Read package.json
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
-const NODE_ENV = process.env.NODE_ENV || package_json.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || package_json.environment || 'development';
+process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
+const config = require('config');
 
 // use a separate data directory for development
-if (NODE_ENV !== 'production') {
-  app.setPath('userData', path.join(app.getPath('appData'), 'Signal-' + NODE_ENV))
+if (config.has('storageProfile')) {
+  app.setPath('userData', path.join(app.getPath('appData'),
+        'Signal-' + config.get('storageProfile')));
 }
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -62,13 +65,14 @@ function createWindow () {
     protocol: 'file:',
     slashes: true,
     query: {
-      node_env: NODE_ENV,
       locale: locale,
-      version: package_json.version
+      version: package_json.version,
+      SERVER_URL: config.get('SERVER_URL'),
+      NODE_ENV: process.env.NODE_ENV
     }
   }))
 
-  if (NODE_ENV === 'development') {
+  if (config.get('openDevTools')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
   }
@@ -86,7 +90,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
-  if (NODE_ENV === 'production') {
+  if (!config.get('disableAutoUpdate')) {
     autoUpdater.addListener('update-downloaded', function() {
       autoUpdater.quitAndInstall()
     });
