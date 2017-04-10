@@ -33,9 +33,14 @@
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
-    "pack": "build --dir --em.NODE_ENV=$NODE_ENV",
-    "dist": "build --em.NODE_ENV=$NODE_ENV",
-    "release": "build -mwl --em.NODE_ENV=$NODE_ENV",
+    "dist": "build --em.environment=$NODE_ENV",
+    "pack": "npm run dist -- --dir",
+    "pack-staging": "NODE_ENV=staging npm run pack",
+    "dist-staging": "NODE_ENV=staging npm run dist",
+    "pack-prod": "NODE_ENV=production npm run pack",
+    "dist-prod": "NODE_ENV=production npm run dist",
+    "dist-prod-all": "NODE_ENV=production npm run dist -- -mwl",
+    "release": "npm run dist-prod-all",
     "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build"
   },
   "build": {
@@ -66,32 +71,34 @@
       ]
     },
     "files": [
-      "**/*",
+      "package.json",
+      "config/default.json",
+      "config/${env.NODE_ENV}.json",
+      "background.html",
+      "_locales/**",
+      "protos/*",
+      "js/**",
+      "stylesheets/*.css",
+      "!js/register.js",
+      "preload.js",
+      "main.js",
+      "menu.js",
+      "audio/**",
+      "images/**",
+      "fonts/*",
+      "node_modules/**",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
       "!**/node_modules/.bin",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
       "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
-      "!test",
-      "!pack",
-      "!dist",
-      "!build",
-      "!components",
-      "!bower.json",
-      "!Gruntfile.js",
-      "!README.md",
-      "!CONTRIBUTING.md",
-      "!.sass-cache",
-      "!.tx",
-      "!.github",
-      "!.bowerrc",
-      "!.jscsrc"
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}"
     ],
     "directories": {
       "output": "pack"
     }
   },
   "dependencies": {
+    "config": "^1.25.1",
     "electron-updater": "^1.11.2"
   }
 }
