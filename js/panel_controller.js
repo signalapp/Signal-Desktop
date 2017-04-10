@@ -97,7 +97,7 @@
     var open;
     window.openConversation = function(conversation) {
         if (inboxOpened === true) {
-            appWindow.contentWindow.openConversation(conversation);
+            owsDesktopApp.openConversation(conversation);
         } else {
             open = conversation;
         }

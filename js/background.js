@@ -308,12 +308,7 @@
                 try {
                     if (self.inboxView) { self.inboxView.remove(); }
                     self.inboxView = new Whisper.InboxView({model: self, window: destWindow});
-                    destWindow.openConversation = function(conversation) {
-                        if (conversation) {
-                            self.inboxView.openConversation(null, conversation);
-                        }
-                    };
-                    destWindow.openConversation(getOpenConversation());
+                    self.openConversation(getOpenConversation());
 
                     return self.inboxView;
 
@@ -321,6 +316,11 @@
                     console.log(e);
                 }
             });
+        },
+        openConversation: function(conversation) {
+            if (this.inboxView && conversation) {
+                this.inboxView.openConversation(null, conversation);
+            }
         }
     };
 
