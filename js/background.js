@@ -9,6 +9,7 @@
     };
 
     console.log('background page reloaded');
+    console.log('NODE_ENV', window.env.NODE_ENV);
     extension.notification.init();
 
     // Close and reopen existing windows
@@ -38,11 +39,7 @@
         });
     });
 
-    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
-    if (window.env && window.env.node_env === 'production') {
-      SERVER_URL = 'https://textsecure-service-ca.whispersystems.org';
-    }
-
+    var SERVER_URL = env.SERVER_URL;
     var SERVER_PORTS = [80, 4433, 8443];
     var messageReceiver;
     window.getSocketStatus = function() {
