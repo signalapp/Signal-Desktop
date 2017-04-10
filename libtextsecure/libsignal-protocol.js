@@ -36177,7 +36177,7 @@ SessionCipher.prototype = {
             var errors = [];
             return this.decryptWithSessionList(buffer, record.getSessions(), errors).then(function(result) {
                 return this.getRecord(address).then(function(record) {
-                    if (result.session !== record.getOpenSession()) {
+                    if (result.session.indexInfo.baseKey !== record.getOpenSession().indexInfo.baseKey) {
                       record.archiveCurrentState();
                       record.promoteState(result.session);
                     }
