@@ -17,13 +17,10 @@
 
     function render() {
         extension.windows.getBackground(function(bg) {
-
-            var inboxPromise = bg.initLoading.done(function(owsDesktopApp) {
-                owsDesktopApp.getAppView(window).then(function(appView) {
-                    var bodyEl = document.getElementById('signal-container');
-                    bodyEl.innerHTML = "";
-                    bodyEl.append(appView.el);
-                });
+            bg.owsDesktopApp.getAppView(window).then(function(appView) {
+                var bodyEl = document.getElementById('signal-container');
+                bodyEl.innerHTML = "";
+                bodyEl.append(appView.el);
             });
         });
     }

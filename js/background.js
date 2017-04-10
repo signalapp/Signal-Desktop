@@ -121,8 +121,6 @@
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
         );
 
-        deferredInit.resolve(owsDesktopApp);
-
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
@@ -301,10 +299,7 @@
         });
     }
 
-    var App = Backbone.Model.extend({
-        initialize: function(opts) {
-            this.inboxView = null;
-        },
+    window.owsDesktopApp = {
         getAppView: function(destWindow) {
 
             var self = this;
@@ -327,11 +322,7 @@
                 }
             });
         }
-    });
+    };
 
-    window.owsDesktopApp = new App();
-
-    var deferredInit = $.Deferred();
-    window.initLoading = deferredInit.promise();
 
 })();
