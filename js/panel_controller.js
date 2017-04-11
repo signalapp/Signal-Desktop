@@ -9,24 +9,12 @@
 
     window.Whisper = window.Whisper || {};
 
-
-    var inboxFocused = false;
-    window.addEventListener('blur', function() {
-        inboxFocused = false;
-    });
-    window.addEventListener('focus', function() {
-        inboxFocused = true;
-        clearAttention();
-    });
-    window.isFocused = function() {
-        return inboxFocused;
-    };
     window.isOpen = function() {
         return inboxOpened;
     };
 
     window.drawAttention = function() {
-        if (inboxOpened && !inboxFocused) {
+        if (inboxOpened && !isFocused()) {
             extension.windows.drawAttention(inboxWindowId);
         }
     };
