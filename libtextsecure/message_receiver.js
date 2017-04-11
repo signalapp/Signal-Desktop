@@ -21,7 +21,6 @@ MessageReceiver.prototype.extend({
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
         }
-        console.log('opening websocket');
         // initialize the socket and start listening for messages
         this.socket = this.server.getMessageSocket();
         this.socket.onclose = this.onclose.bind(this);

@@ -37958,10 +37958,13 @@ var TextSecureServer = (function() {
                 return new Promise(function(resolve, reject) {
                     var socket = getSocket();
                     socket.onclose = function(e) {
-                        console.log('websocket closed', e.code);
+                        console.log('provisioning socket closed', e.code);
                         if (!gotProvisionEnvelope) {
                             reject(new Error('websocket closed'));
                         }
+                    };
+                    socket.onopen = function(e) {
+                        console.log('provisioning socket open');
                     };
                     var wsr = new WebSocketResource(socket, {
                         keepalive: { path: '/v1/keepalive/provisioning' },
@@ -38212,7 +38215,6 @@ MessageReceiver.prototype.extend({
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
         }
-        console.log('opening websocket');
         // initialize the socket and start listening for messages
         this.socket = this.server.getMessageSocket();
         this.socket.onclose = this.onclose.bind(this);
