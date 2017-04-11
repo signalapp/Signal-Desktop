@@ -5,6 +5,9 @@ $grey-dark_l4: darken($grey-dark_l3, 8%);
 $text-dark: #CCCCCC;
 
 .android-dark {
+  .gutter .content {
+    background-color: $grey-dark;
+  }
   color: $text-dark;
   a { color: #57a5e5; }
   hr {
@@ -88,7 +91,7 @@ $text-dark: #CCCCCC;
     @include color-svg('/images/paperclip.svg', white);
     transform: rotateZ(-45deg);
   }
-  .scrollable {
+  .conversations {
     background-color: $grey-dark_l2;
     .conversation-list-item {
       background-color: $grey-dark_l3;

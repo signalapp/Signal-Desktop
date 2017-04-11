@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class='content'>
-          <div class='conversations scrollable inbox'></div>
-          <div class='conversations scrollable search-results hide'>
+          <div class='conversations inbox'></div>
+          <div class='conversations search-results hide'>
             <div class='new-contact contact hide'></div>
           </div>
         </div>
@@ -492,8 +492,8 @@
   </script>
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
-    <div class='network-status-message' style='{{^instructions}}margin-top:3px;{{/instructions}}{{#instructions}}margin-top:-6px{{/instructions}}'>
-      <h3 style='{{^instructions}}font-size:17px;{{/instructions}}'>{{ message }}</h3>
+    <div class='network-status-message'>
+      <h3>{{ message }}</h3>
       <span>{{ instructions }}</span>
     </div>
     {{ #reconnectDurationAsSeconds }}

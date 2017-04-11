@@ -739,29 +739,30 @@ img.emoji {
 .gutter {
   color: #454545;
   float: left;
-  width: 300px; }
+  width: 300px;
+  display: flex;
+  flex-direction: column; }
   .gutter .content {
     background-color: #f3f3f3;
-    height: calc(100% - 64px - 36px); }
-  .gutter .conversations {
-    overflow-y: scroll;
-    height: 100%;
-    width: 100%; }
-  .gutter .network-status-container .network-status {
-    height: 48px;
-    background: url("/images/error_red.svg") no-repeat left 10px center;
-    background-size: 25px 25px;
-    background-color: #fcd156;
-    padding-top: 12px;
-    padding-left: 48px;
-    display: none; }
-    .gutter .network-status-container .network-status .network-status-message h3 {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 4px;
-      font-size: 14px; }
-    .gutter .network-status-container .network-status .network-status-message span {
-      font-size: 12px; }
+    flex-grow: 1;
+    overflow-y: auto; }
+
+.network-status-container .network-status {
+  background: url("/images/error_red.svg") no-repeat left 10px center;
+  background-size: 25px 25px;
+  background-color: #fcd156;
+  padding: 10px;
+  padding-left: 48px;
+  display: none; }
+  .network-status-container .network-status .network-status-message h3 {
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 2px;
+    font-size: 14px; }
+  .network-status-container .network-status .network-status-message span {
+    display: inline-block;
+    font-size: 12px;
+    padding: 0.5em 0; }
 
 .conversation-stack {
   padding-left: 300px; }
@@ -1716,6 +1717,8 @@ li.entry .error-icon-container {
 
 .android-dark {
   color: #CCCCCC; }
+  .android-dark .gutter .content {
+    background-color: #333333; }
   .android-dark a {
     color: #57a5e5; }
   .android-dark hr {
@@ -1819,9 +1822,9 @@ li.entry .error-icon-container {
     -webkit-mask-size: 100%;
     background-color: white;
     transform: rotateZ(-45deg); }
-  .android-dark .scrollable {
+  .android-dark .conversations {
     background-color: #292929; }
-    .android-dark .scrollable .conversation-list-item {
+    .android-dark .conversations .conversation-list-item {
       background-color: #171717;
       color: #CCCCCC; }
   .android-dark .bottom-bar {
