@@ -14,11 +14,6 @@
   font-size: 16px;
   overflow: auto;
 
-  // 666px is the minimum window height in chromium.js
-  @media screen and (max-height: 665px) {
-    height: 666px;
-  }
-
   input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
@@ -55,6 +50,7 @@
   p {
     max-width: 35em;
     margin: 1em auto;
+    padding: 0 1em;
     line-height: 1.5em;
     font-size: 1.2em;
     font-weight: bold;
@@ -83,7 +79,7 @@
     width: 100%;
     bottom: 50px;
     margin-top: auto;
-    padding: 0 20px;
+    padding: 20px;
 
     .button {
       margin-bottom: 3em;
