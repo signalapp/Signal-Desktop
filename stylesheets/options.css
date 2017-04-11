@@ -846,9 +846,6 @@
   text-align: center;
   font-size: 16px;
   overflow: auto; }
-  @media screen and (max-height: 665px) {
-    #install {
-      height: 666px; } }
   #install input, #install button, #install select, #install textarea {
     font-family: inherit;
     font-size: inherit;
@@ -875,6 +872,7 @@
   #install p {
     max-width: 35em;
     margin: 1em auto;
+    padding: 0 1em;
     line-height: 1.5em;
     font-size: 1.2em;
     font-weight: bold; }
@@ -896,7 +894,7 @@
     width: 100%;
     bottom: 50px;
     margin-top: auto;
-    padding: 0 20px; }
+    padding: 20px; }
     #install .nav .button {
       margin-bottom: 3em; }
     #install .nav .dot {
