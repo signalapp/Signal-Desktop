@@ -73,6 +73,7 @@
         },
         close: function() {
             this.remove();
+            Whisper.events.trigger('openInbox');
         },
         events: function() {
             return {
