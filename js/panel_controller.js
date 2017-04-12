@@ -1,4 +1,4 @@
-/*global $, Whisper, Backbone, textsecure, extension*/
+/*global $, Whisper, Backbone, extension*/
 /*
  * vim: ts=4:sw=4:expandtab
  */
@@ -10,11 +10,11 @@
     window.Whisper = window.Whisper || {};
 
     window.isOpen = function() {
-        return inboxOpened;
+        return true;
     };
 
     window.drawAttention = function() {
-        if (inboxOpened && !isFocused()) {
+        if (isOpen() && !isFocused()) {
             if (window.keepClear) {
                 clearInterval(window.keepClear);
                 delete window.keepClear;
@@ -33,29 +33,10 @@
             extension.windows.clearAttention(inboxWindowId);
         }, 2000);
     };
-
-    /* Inbox window controller */
-    var inboxOpened = false;
     var inboxWindowId = 'inbox';
-    var appWindow = null;
-    window.openInbox = function() {
-        console.log('open inbox');
-        if (inboxOpened === false) {
-            inboxOpened = true;
-            owsDesktopApp.getAppView(window).then(function(appView) {
-                var bodyEl = $('body');
-                bodyEl.innerHTML = "";
-                bodyEl.append(appView.el);
-            });
-            owsDesktopApp.openConversation(getOpenConversation());
-        } else if (inboxOpened === true) {
-            extension.windows.focus(inboxWindowId, function (error) {
-                if (error) {
-                    inboxOpened = false;
-                    openInbox();
-                }
-            });
-        }
+
+    window.openInbox = function(options) {
+        Whisper.events.trigger('openInbox', options);
     };
 
     window.setUnreadCount = function(count) {
@@ -68,18 +49,8 @@
         }
     };
 
-    var open;
     window.openConversation = function(conversation) {
-        if (inboxOpened === true) {
-            owsDesktopApp.openConversation(conversation);
-        } else {
-            open = conversation;
-        }
-        openInbox();
+        Whisper.events.trigger('openConversation', conversation);
     };
-    window.getOpenConversation = function() {
-        var o = open;
-        open = null;
-        return o;
-    };
+
 })();
