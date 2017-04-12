@@ -23,18 +23,6 @@
     textsecure.startWorker('js/libsignal-protocol-worker.js');
     Whisper.KeyChangeListener.init(textsecure.storage.protocol);
 
-    extension.onLaunched(function() {
-        console.log('extension launched');
-        storage.onready(function() {
-            if (Whisper.Registration.everDone()) {
-                openInbox();
-            }
-            if (!Whisper.Registration.isDone()) {
-                extension.install();
-            }
-        });
-    });
-
     var SERVER_URL = env.SERVER_URL;
     var SERVER_PORTS = [80, 4433, 8443];
     var messageReceiver;
