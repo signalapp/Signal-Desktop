@@ -58,16 +58,9 @@
         return accountManager;
     };
 
-
     storage.fetch();
     storage.onready(function() {
         window.dispatchEvent(new Event('storage_ready'));
-        setUnreadCount(storage.get("unreadCount", 0));
-
-        if (Whisper.Registration.isDone()) {
-            extension.keepAwake();
-            init();
-        }
 
         console.log("listening for registration events");
         Whisper.events.on('registration_done', function() {
@@ -76,8 +69,12 @@
             init(true);
         });
 
+        var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body'), events: Whisper.events});
+
         if (open) {
-            openInbox();
+            openInbox({
+                initialLoadComplete: initialLoadComplete
+            });
         }
 
         Whisper.WallClockListener.init(Whisper.events);
@@ -85,11 +82,21 @@
         Whisper.ExpiringMessagesListener.init(Whisper.events);
 
         if (Whisper.Registration.everDone()) {
-            openInbox();
+            init();
+            appView.openInbox({
+                initialLoadComplete: initialLoadComplete
+            });
+        } else {
+            appView.openInstaller();
         }
-        if (!Whisper.Registration.isDone()) {
-            extension.install();
-        }
+
+        Whisper.events.on('unauthorized', function() {
+            appView.inboxView.networkStatusView.update();
+        });
+        Whisper.events.on('reconnectTimer', function() {
+            appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
+        });
+
     });
 
     window.getSyncRequest = function() {
@@ -109,6 +116,7 @@
 
     function init(firstRun) {
         window.removeEventListener('online', init);
+
         if (!Whisper.Registration.isDone()) { return; }
         if (Whisper.Migration.inProgress()) { return; }
 
@@ -159,7 +167,7 @@
         initialLoadComplete = true;
 
         var interval = setInterval(function() {
-            var view = window.owsDesktopApp.inboxView;
+            var view = window.owsDesktopApp.appView;
             if (view) {
                 clearInterval(interval);
                 interval = null;
@@ -170,7 +178,7 @@
     function onProgress(ev) {
         var count = ev.count;
 
-        var view = window.owsDesktopApp.inboxView;
+        var view = window.owsDesktopApp.appView;
         if (view) {
             view.onProgress(count);
         }
@@ -317,7 +325,6 @@
         if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
             Whisper.Registration.remove();
             Whisper.events.trigger('unauthorized');
-            extension.install();
             return;
         }
 
@@ -460,50 +467,5 @@
         // Calling this directly so we can wait for completion
         return Whisper.DeliveryReceipts.onReceipt(receipt);
     }
-
-    window.owsDesktopApp = {
-        getAppView: function(destWindow) {
-            var self = this;
-
-            return ConversationController.updateInbox().then(function() {
-                try {
-                    if (self.inboxView) { self.inboxView.remove(); }
-                    self.inboxView = new Whisper.InboxView({
-                        model: self,
-                        window: destWindow,
-                        initialLoadComplete: initialLoadComplete
-                    });
-                    self.openConversation(getOpenConversation());
-
-                    return self.inboxView;
-
-                } catch (e) {
-                    console.log(e);
-                }
-            });
-        },
-        openConversation: function(conversation) {
-            if (this.inboxView && conversation) {
-                this.inboxView.openConversation(null, conversation);
-            }
-        }
-    };
-
-    Whisper.events.on('unauthorized', function() {
-        if (owsDesktopApp.inboxView) {
-            owsDesktopApp.inboxView.networkStatusView.update();
-        }
-    });
-    Whisper.events.on('reconnectTimer', function() {
-        if (owsDesktopApp.inboxView) {
-            owsDesktopApp.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-        }
-    });
-
-    chrome.commands.onCommand.addListener(function(command) {
-        if (command === 'show_signal') {
-            openInbox();
-        }
-    });
 
 })();
