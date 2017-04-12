@@ -26,7 +26,10 @@
             this.listenTo(this.model, 'change', this.onChange);
         },
         events: {
-            'click .openInstaller': extension.install
+            'click .openInstaller': 'openInstaller'
+        },
+        openInstaller: function() {
+            Whisper.events.trigger('openInstaller');
         },
         onReconnectTimer: function() {
           this.setSocketReconnectInterval(60000);
