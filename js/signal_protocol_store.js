@@ -158,7 +158,10 @@
                         created_at : prekey.get('created_at'),
                         keyId      : prekey.get('id')
                     });
-                }).fail(resolve);
+                }).fail(function() {
+                    console.log("Failed to load signed prekey:", keyId);
+                    resolve();
+                });
             });
         },
         loadSignedPreKeys: function() {
