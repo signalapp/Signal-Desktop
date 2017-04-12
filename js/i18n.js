@@ -5,7 +5,10 @@
     'use strict';
     var json = window.env.locale_json;
     window.i18n = function (message, substitutions) {
-      var s = json[message] ? json[message].message : message;
+      if (!json[message]) {
+        return;
+      }
+      var s = json[message].message;
       if (substitutions instanceof Array) {
         substitutions.forEach(function(sub) {
           s = s.replace(/\$.+?\$/, sub);
