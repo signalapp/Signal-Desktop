@@ -167,22 +167,8 @@
       };
     }
 
-    extension.install = function(mode) {
-        if (mode === 'standalone') {
-            return; // TODO
-        }
-        var installView = new Whisper.InstallView({
-              el: $('body').empty()
-        });
-        if (Whisper.Registration.everDone()) {
-            installView.selectStep(3);
-            installView.hideDots();
-        }
-        installView.$el.show();
-        Whisper.events.once('contactsync', function() {
-            openInbox();
-            installView.remove();
-        });
+    extension.install = function() {
+        Whisper.events.trigger('openInstaller');
     };
 
     var notification_pending = Promise.resolve();
