@@ -4,6 +4,7 @@
 
 ;(function () {
     'use strict';
+    window.Whisper = window.Whisper || {};
 
     var lastTime;
     var interval = 1000;
@@ -16,7 +17,7 @@
       lastTime = currentTime;
     }
 
-    window.WallClockListener = {
+    Whisper.WallClockListener = {
       init: function() {
           lastTime = Date.now();
           setInterval(checkTime, 1000);

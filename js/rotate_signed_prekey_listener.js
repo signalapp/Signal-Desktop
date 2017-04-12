@@ -4,6 +4,7 @@
 
 ;(function () {
     'use strict';
+    window.Whisper = window.Whisper || {};
     var ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
     var timeout;
 
@@ -44,7 +45,7 @@
         timeout = setTimeout(runWhenOnline, waitTime);
     }
 
-    window.RotateSignedPreKeyListener = {
+    Whisper.RotateSignedPreKeyListener = {
         init: function() {
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();

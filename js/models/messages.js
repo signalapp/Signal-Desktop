@@ -481,7 +481,7 @@
                 var delta = this.get('expireTimer') * 1000;
                 var expires_at = start + delta;
                 this.save('expires_at', expires_at);
-                ExpiringMessagesListener.update();
+                Whisper.ExpiringMessagesListener.update();
                 console.log('message', this.get('sent_at'), 'expires at', expires_at);
             }
         }

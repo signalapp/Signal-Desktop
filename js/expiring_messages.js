@@ -36,7 +36,7 @@
         expiring.fetchNextExpiring();
     }
 
-    window.ExpiringMessagesListener = {
+    Whisper.ExpiringMessagesListener = {
         init: function() {
             checkExpiringMessages();
             window.events.on('timetravel', checkExpiringMessages);
