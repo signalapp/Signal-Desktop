@@ -46,15 +46,15 @@
     }
 
     Whisper.RotateSignedPreKeyListener = {
-        init: function() {
+        init: function(events) {
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();
             }
-            window.events.on('registration_done', function() {
+            events.on('registration_done', function() {
                 scheduleNextRotation();
                 setTimeoutForNextRun();
             });
-            window.events.on('timetravel', function() {
+            events.on('timetravel', function() {
                 if (Whisper.Registration.isDone()) {
                     setTimeoutForNextRun();
                 }

@@ -86,9 +86,9 @@
             openInbox();
         }
 
-        Whisper.WallClockListener.init();
-        Whisper.RotateSignedPreKeyListener.init();
-        Whisper.ExpiringMessagesListener.init();
+        Whisper.WallClockListener.init(events);
+        Whisper.RotateSignedPreKeyListener.init(events);
+        Whisper.ExpiringMessagesListener.init(events);
     });
 
     window.getSyncRequest = function() {

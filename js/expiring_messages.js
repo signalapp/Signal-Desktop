@@ -37,9 +37,9 @@
     }
 
     Whisper.ExpiringMessagesListener = {
-        init: function() {
+        init: function(events) {
             checkExpiringMessages();
-            window.events.on('timetravel', checkExpiringMessages);
+            events.on('timetravel', checkExpiringMessages);
         },
         update: checkExpiringMessages
     };
