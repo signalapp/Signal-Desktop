@@ -43,7 +43,7 @@
             return -1;
         }
     };
-    window.events = _.clone(Backbone.Events);
+    Whisper.events = _.clone(Backbone.Events);
     var accountManager;
     window.getAccountManager = function() {
         if (!accountManager) {
@@ -58,7 +58,7 @@
                 }
                 Whisper.Registration.markDone();
                 console.log("dispatching registration event");
-                events.trigger('registration_done');
+                Whisper.events.trigger('registration_done');
             });
         }
         return accountManager;
@@ -76,7 +76,7 @@
         }
 
         console.log("listening for registration events");
-        events.on('registration_done', function() {
+        Whisper.events.on('registration_done', function() {
             console.log("handling registration event");
             extension.keepAwake();
             init(true);
@@ -86,9 +86,9 @@
             openInbox();
         }
 
-        Whisper.WallClockListener.init(events);
-        Whisper.RotateSignedPreKeyListener.init(events);
-        Whisper.ExpiringMessagesListener.init(events);
+        Whisper.WallClockListener.init(Whisper.events);
+        Whisper.RotateSignedPreKeyListener.init(Whisper.events);
+        Whisper.ExpiringMessagesListener.init(Whisper.events);
     });
 
     window.getSyncRequest = function() {
