@@ -221,6 +221,7 @@
 
         if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
             Whisper.Registration.remove();
+            Whisper.events.trigger('unauthorized');
             extension.install();
             return;
         }
@@ -231,9 +232,7 @@
                 console.log('retrying in 1 minute');
                 setTimeout(init, 60000);
 
-                if (owsDesktopApp.inboxView) {
-                    owsDesktopApp.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-                }
+                Whisper.events.trigger('reconnectTimer');
             } else {
                 console.log('offline');
                 messageReceiver.close();
