@@ -501,6 +501,11 @@
       {{ attemptingReconnectionMessage }}
     </div>
     {{/reconnectDurationAsSeconds }}
+    {{ #action }}
+      <div class="action">
+        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
+      </div>
+    {{/action }}
   </script>
 
   <script type='text/javascript' src='js/components.js'></script>

@@ -49,6 +49,16 @@
         padding: 0.5em 0;
       }
     }
+    .action {
+      button {
+        border-radius: $border-radius;
+        border: solid 1px #ccc;
+        cursor: pointer;
+        font-family: inherit;
+        color: white;
+        background: $blue;
+      }
+    }
   }
 }
 

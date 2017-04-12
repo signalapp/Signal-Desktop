@@ -23,6 +23,9 @@
             this.model = new Backbone.Model();
             this.listenTo(this.model, 'change', this.onChange);
         },
+        events: {
+            'click .openInstaller': extension.install
+        },
         finishConnectingGracePeriod: function() {
             this.withinConnectingGracePeriod = false;
         },
@@ -36,6 +39,8 @@
             var message = '';
             var instructions = '';
             var hasInterruption = false;
+            var action = null;
+            var buttonClass = null;
 
             var socketStatus = this.getSocketStatus();
             switch(socketStatus) {
@@ -68,12 +73,20 @@
                 hasInterruption = true;
                 message = i18n('offline');
                 instructions = i18n('checkNetworkConnection');
+            } else if (!Whisper.Registration.isDone()) {
+                hasInterruption = true;
+                message = i18n('Unlinked');
+                instructions = i18n('unlinkedWarning');
+                action = i18n('relink');
+                buttonClass = 'openInstaller';
             }
 
             return {
                 message: message,
                 instructions: instructions,
-                hasInterruption: hasInterruption
+                hasInterruption: hasInterruption,
+                action: action,
+                buttonClass: buttonClass
             };
         },
         update: function() {

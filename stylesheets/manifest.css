@@ -763,6 +763,13 @@ img.emoji {
     display: inline-block;
     font-size: 12px;
     padding: 0.5em 0; }
+  .network-status-container .network-status .action button {
+    border-radius: 5px;
+    border: solid 1px #ccc;
+    cursor: pointer;
+    font-family: inherit;
+    color: white;
+    background: #2090ea; }
 
 .conversation-stack {
   padding-left: 300px; }
