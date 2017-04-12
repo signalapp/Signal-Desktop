@@ -8,6 +8,7 @@ const autoUpdater = require('electron-updater').autoUpdater
 const autoUpdaterInterval = 60 * 60 * 1000;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
+const shell = electron.shell;
 
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
@@ -76,6 +77,14 @@ function createWindow () {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
   }
+
+  mainWindow.webContents.on('new-window', (e, url) => {
+      e.preventDefault();
+      const protocol = require('url').parse(url).protocol
+      if (protocol === 'http:' || protocol === 'https:') {
+            shell.openExternal(url)
+      }
+  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
