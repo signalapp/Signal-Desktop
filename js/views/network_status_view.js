@@ -5,10 +5,11 @@
 
     Whisper.NetworkStatusView = Whisper.View.extend({
         className: 'network-status',
+        templateName: 'networkStatus',
         initialize: function() {
             this.$el.hide();
 
-            var renderIntervalHandle = setInterval(this.render.bind(this), 5000);
+            var renderIntervalHandle = setInterval(this.update.bind(this), 5000);
             extension.windows.onClosed(function () { clearInterval(renderIntervalHandle); });
 
             setTimeout(this.finishConnectingGracePeriod.bind(this), 5000);
@@ -16,8 +17,11 @@
             this.withinConnectingGracePeriod = true;
             this.setSocketReconnectInterval(null);
 
-            window.addEventListener('online', this.render.bind(this));
-            window.addEventListener('offline', this.render.bind(this));
+            window.addEventListener('online', this.update.bind(this));
+            window.addEventListener('offline', this.update.bind(this));
+
+            this.model = new Backbone.Model();
+            this.listenTo(this.model, 'change', this.onChange);
         },
         finishConnectingGracePeriod: function() {
             this.withinConnectingGracePeriod = false;
@@ -72,18 +76,21 @@
                 hasInterruption: hasInterruption
             };
         },
-        render: function() {
+        update: function() {
             var status = this.getNetworkStatus();
-
-            if (status.hasInterruption) {
+            this.model.set(status);
+        },
+        render_attributes: function() {
+            return this.model.attributes;
+        },
+        onChange: function() {
+            this.render();
+            if (this.model.attributes.hasInterruption) {
                 this.$el.slideDown();
             }
             else {
                 this.$el.hide();
             }
-            var template = Whisper.View.Templates['networkStatus'];
-            this.$el.html(Mustache.render(template, status, Whisper.View.Templates));
-            return this;
         }
     });
 
