@@ -27,7 +27,7 @@ if (shouldQuit) {
 }
 
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
-process.env.NODE_ENV = process.env.NODE_ENV || package_json.environment || 'development';
+process.env.NODE_ENV = package_json.environment || process.env.NODE_ENV || 'development';
 process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
 const config = require('config');
 
