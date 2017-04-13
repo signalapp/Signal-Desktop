@@ -255,6 +255,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
-  grunt.registerTask('default', ['concat', 'sass', 'copy_dist']);
+  grunt.registerTask('default', ['concat', 'sass', 'date']);
 
 };
