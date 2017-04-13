@@ -1,4 +1,5 @@
 {
   "disableAutoUpdate": false,
-  "openDevTools": false
+  "openDevTools": false,
+  "buildExpiration": 0
 }
