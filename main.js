@@ -68,7 +68,7 @@ function createWindow () {
     query: {
       locale: locale,
       version: package_json.version,
-      SERVER_URL: config.get('SERVER_URL'),
+      serverUrl: config.get('serverUrl'),
       NODE_ENV: process.env.NODE_ENV
     }
   }))
