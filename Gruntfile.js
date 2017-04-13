@@ -242,10 +242,19 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('getExpireTime', function() {
+      var gitinfo = grunt.config.get('gitinfo');
+      var commited = gitinfo.local.branch.current.lastCommitTime;
+      var time = Date.parse(commited) + 1000 * 60 * 60 * 24 * 90;
+      grunt.file.write('config/local-production.json',
+        JSON.stringify({ buildExpiration: time }) + '\n');
+  });
+
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
+  grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', ['concat', 'sass', 'copy_dist']);
 
 };
