@@ -45,6 +45,7 @@ window.assert = chai.assert;
 window.Whisper          = window.Whisper          || {};
 window.Whisper.Database = window.Whisper.Database || {};
 Whisper.Database.id = 'test';
+Whisper.events = _.clone(Backbone.Events);
 
 /*
  * global helpers for tests

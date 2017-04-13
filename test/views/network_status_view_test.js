@@ -11,6 +11,7 @@ describe('NetworkStatusView', function() {
         before(function() {
             oldGetSocketStatus = window.getSocketStatus;
             /* chrome i18n support is missing in 'regular' webpages */
+            window.chrome = window.chrome || {};
             window.chrome.i18n = { getMessage: function(message, args) {
                 // translationMessageName-arg1-arg2
                 return _([message, args]).chain().flatten().compact().value().join('-');
@@ -41,13 +42,13 @@ describe('NetworkStatusView', function() {
                 networkStatusView.navigatorOnLine = function() { return false; };
             });
             it('should be interrupted', function() {
-                networkStatusView.render();
+                networkStatusView.update();
                 var status = networkStatusView.getNetworkStatus();
                 assert(status.hasInterruption);
                 assert.equal(status.instructions, "checkNetworkConnection");
             });
             it('should display an offline message', function() {
-                networkStatusView.render();
+                networkStatusView.update();
                 assert.match(networkStatusView.$el.text(), /offline/);
             });
             it('should override socket status', function() {
@@ -56,15 +57,51 @@ describe('NetworkStatusView', function() {
                    WebSocket.CLOSING,
                    WebSocket.CLOSED]).map(function(socketStatusVal) {
                     socketStatus = socketStatusVal;
-                    networkStatusView.render();
+                    networkStatusView.update();
                     assert.match(networkStatusView.$el.text(), /offline/);
                 });
+            });
+            it('should override registration status', function() {
+                Whisper.Registration.remove();
+                networkStatusView.update();
+                assert.match(networkStatusView.$el.text(), /offline/);
+            });
+        });
+        describe('network status when registration is not done', function() {
+            beforeEach(function() {
+                Whisper.Registration.remove();
+            });
+            it('should display an unlinked message', function() {
+                networkStatusView.update();
+                assert.match(networkStatusView.$el.text(), /unlinked/);
+            });
+            it('should override socket status', function() {
+                _([WebSocket.CONNECTING,
+                   WebSocket.OPEN,
+                   WebSocket.CLOSING,
+                   WebSocket.CLOSED]).map(function(socketStatusVal) {
+                    socketStatus = socketStatusVal;
+                    networkStatusView.update();
+                    assert.match(networkStatusView.$el.text(), /unlinked/);
+                });
+            });
+        });
+        describe('network status when registration is done', function() {
+            beforeEach(function() {
+                networkStatusView.navigatorOnLine = function() { return true; };
+                Whisper.Registration.markDone();
+                networkStatusView.update();
+            });
+            it('should not display an unlinked message', function() {
+                networkStatusView.update();
+                assert.notMatch(networkStatusView.$el.text(), /unlinked/);
             });
         });
         describe('network status when socket is connecting', function() {
             beforeEach(function() {
+                Whisper.Registration.markDone();
                 socketStatus = WebSocket.CONNECTING;
-                networkStatusView.render();
+                networkStatusView.update();
             });
             it('it should display a connecting string if connecting and not in the connecting grace period', function() {
                 networkStatusView.withinConnectingGracePeriod = false;
@@ -100,7 +137,7 @@ describe('NetworkStatusView', function() {
             _([WebSocket.CLOSED, WebSocket.CLOSING]).map(function(socketStatusVal) {
                 it('should be interrupted', function() {
                     socketStatus = socketStatusVal;
-                    networkStatusView.render();
+                    networkStatusView.update();
                     var status = networkStatusView.getNetworkStatus();
                     assert(status.hasInterruption);
                 });
@@ -111,7 +148,7 @@ describe('NetworkStatusView', function() {
             beforeEach(function() {
                 socketStatus = WebSocket.CLOSED;
                 networkStatusView.setSocketReconnectInterval(61000);
-                networkStatusView.render();
+                networkStatusView.update();
             });
             it('should format the message based on the socketReconnectWaitDuration property', function() {
                 assert.equal(networkStatusView.socketReconnectWaitDuration.asSeconds(), 61);

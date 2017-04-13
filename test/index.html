@@ -487,8 +487,8 @@
 
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
-    <div class='network-status-message' style='{{^instructions}}margin-top:3px;{{/instructions}}{{#instructions}}margin-top:-6px{{/instructions}}'>
-      <h3 style='{{^instructions}}font-size:17px;{{/instructions}}'>{{ message }}</h3>
+    <div class='network-status-message'>
+      <h3>{{ message }}</h3>
       <span>{{ instructions }}</span>
     </div>
     {{ #reconnectDurationAsSeconds }}
@@ -496,14 +496,21 @@
       {{ attemptingReconnectionMessage }}
     </div>
     {{/reconnectDurationAsSeconds }}
+    {{ #action }}
+      <div class="action">
+        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
+      </div>
+    {{/action }}
   </script>
 
+
+  <script type="text/javascript" src="../js/components.js"></script>
   <script type="text/javascript" src="test.js"></script>
   <script type="text/javascript" src="blanket_mocha.js"></script>
 
+  <script type='text/javascript' src='../js/registration.js'></script>
   <script type="text/javascript" src="../js/expire.js"></script>
   <script type="text/javascript" src="../js/chromium.js"></script>
-  <script type="text/javascript" src="../js/components.js"></script>
   <script type="text/javascript" src="../js/database.js"></script>
   <script type="text/javascript" src="../js/storage.js"></script>
   <script type="text/javascript" src="../js/signal_protocol_store.js"></script>
@@ -542,7 +549,6 @@
   <script type='text/javascript' src='../js/views/conversation_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/conversation_search_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/network_status_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
