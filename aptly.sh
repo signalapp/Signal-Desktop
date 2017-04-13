@@ -9,7 +9,7 @@
 REPO=signal-desktop
 DISTRO=xenial
 ENDPOINT=signal-desktop-apt # Matches endpoint name in .aptly.conf
-DEB_PATH=pack
+DEB_PATH=dist
 SNAPSHOT=signal-desktop_v$VERSION
 GPG_KEYID=57F6FB06
 aptly repo add $REPO $DEB_PATH/$REPO\_$VERSION\_*.deb
