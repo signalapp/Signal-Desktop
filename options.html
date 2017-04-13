@@ -8,94 +8,6 @@
 </head>
 <body>
   <div id='install' class='main'>
-    <script type='text/x-tmpl-mustache' id='install_flow_template'>
-      <div id='step1' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <img id='signal-icon' src='/images/icon_250.png'/>
-            <h1>{{ installWelcome }}</h1>
-            <p>{{ installTagline }}</p>
-          </div>
-          <div class='nav'>
-            <div> <a class='button step2'>{{ installGetStartedButton }}</a> </div>
-            <span class='dot step1 selected'></span>
-            <span class='dot step2'></span>
-            <span class='dot step3'></span>
-          </div>
-        </div>
-      </div>
-
-      <div id='step2' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <img id='signal-phone' src='/images/signal-phone.png'>
-            <p>{{{ installSignalLink }}}</p>
-          </div>
-          <div class='nav'>
-            <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
-            <span class='dot step1'></span>
-            <span class='dot step2 selected'></span>
-            <span class='dot step3'></span>
-          </div>
-        </div>
-      </div>
-
-      <div id='step3' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <div id="qr"></div>
-            <p>{{ installAndroidInstructions }}</p>
-          </div>
-          <div class='nav'>
-            <span class='dot step1'></span>
-            <span class='dot step2'></span>
-            <span class='dot step3 selected'></span>
-          </div>
-        </div>
-      </div>
-
-      <form id='step4' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <p>{{ installLinkingWithNumber }}</p>
-            <h2 class='number'></h2>
-            <img id='signal-computer' src='/images/signal-laptop.png'>
-            <p>{{ installComputerName }}</p>
-            <div>
-              <input type='text' id='device-name' spellcheck='false' maxlength='50' />
-            </div>
-          </div>
-          <div class='nav'>
-            <div>
-              <input type='submit' class='button' id='sync' value='{{ installFinalButton }}' />
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div id='step5' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <img id='signal-icon' src='/images/icon_250.png'/>
-            <div class='progress-dialog'>
-              <p class='status'></p>
-              <div class='bar-container'><div class='bar progress-bar'></div></div>
-            </div>
-          </div>
-          <div class='nav'>
-          </div>
-        </div>
-      </div>
-
-      <div id='stepTooManyDevices' class='step'>
-        <div class='inner error-dialog clearfix'>
-          <div class='panel step-body'>{{ installTooManyDevices }}</div>
-          <div class='nav'>
-            <button class='ok step3'>{{ ok }}</button>
-          </div>
-        </div>
-      </div>
-    </script>
   </div>
 
   <script type="text/javascript" src="js/components.js"></script>
@@ -106,9 +18,6 @@
   <script type="text/javascript" src="js/models/conversations.js"></script>
 
   <script type="text/javascript" src="js/chromium.js"></script>
-  <script type="text/javascript" src="js/views/whisper_view.js"></script>
-  <script type="text/javascript" src="js/views/phone-input-view.js"></script>
-  <script type="text/javascript" src="js/views/install_view.js"></script>
   <script type="text/javascript" src="js/options.js"></script>
 </body>
 </html>

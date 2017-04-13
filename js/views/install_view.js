@@ -7,6 +7,8 @@
 
     Whisper.InstallView = Whisper.View.extend({
         templateName: 'install_flow_template',
+        id: 'install',
+        className: 'main',
         render_attributes: function() {
             var playStoreHref = 'https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms';
             var appStoreHref = 'https://itunes.apple.com/us/app/signal-private-messenger/id874139669';
@@ -31,11 +33,53 @@
 
             this.render();
 
-            this.$('#device-name').val(options.deviceName);
+            var deviceName = textsecure.storage.user.getDeviceName();
+            if (!deviceName) {
+                deviceName = 'Chrome';
+                if (navigator.userAgent.match('Mac OS')) {
+                    deviceName += ' on Mac';
+                } else if (navigator.userAgent.match('Linux')) {
+                    deviceName += ' on Linux';
+                } else if (navigator.userAgent.match('Windows')) {
+                    deviceName += ' on Windows';
+                }
+            }
+
+            this.$('#device-name').val(deviceName);
             this.$('#step1').show();
+            this.connect();
+            this.on('disconnected', this.reconnect);
+            this.listenTo(Whisper.events, 'contactsync:begin', this.showSync);
+            this.listenTo(Whisper.events, 'contactsync', this.close);
+        },
+        connect: function() {
+            this.clearQR();
+            var accountManager = getAccountManager();
+            accountManager.registerSecondDevice(
+                this.setProvisioningUrl.bind(this),
+                this.confirmNumber.bind(this),
+                this.incrementCounter.bind(this)
+            ).catch(this.handleDisconnect.bind(this));
+        },
+        handleDisconnect: function(e) {
+            if (e.message === 'websocket closed') {
+                this.showConnectionError();
+                this.trigger('disconnected');
+            } else if (e.name === 'HTTPError' && e.code == 411) {
+                this.showTooManyDevices();
+            } else {
+                throw e;
+            }
+        },
+        reconnect: function() {
+            setTimeout(this.connect.bind(this), 10000);
+        },
+        close: function() {
+            this.remove();
         },
         events: function() {
             return {
+                'click .error-dialog .ok': 'connect',
                 'click .step1': this.selectStep.bind(this, 1),
                 'click .step2': this.selectStep.bind(this, 2),
                 'click .step3': this.selectStep.bind(this, 3)
@@ -94,6 +138,9 @@
         },
         showConnectionError: function() {
             this.$('#qr').text(i18n("installConnectionFailed"));
+        },
+        hideDots: function() {
+            this.$('#step3 .nav .dot').hide();
         }
     });
 })();

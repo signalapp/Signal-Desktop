@@ -126,14 +126,15 @@
                 storage.put('theme-setting', 'ios');
             }
             var syncRequest = new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
+            Whisper.events.trigger('contactsync:begin');
             syncRequest.addEventListener('success', function() {
                 console.log('sync successful');
                 storage.put('synced_at', Date.now());
-                window.dispatchEvent(new Event('textsecure:contactsync'));
+                Whisper.events.trigger('contactsync');
             });
             syncRequest.addEventListener('timeout', function() {
                 console.log('sync timed out');
-                window.dispatchEvent(new Event('textsecure:contactsync'));
+                Whisper.events.trigger('contactsync');
             });
         }
     }
