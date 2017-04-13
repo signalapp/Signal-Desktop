@@ -68,10 +68,26 @@ mobile, **you must build a mobile client that targets the staging server**
 
 You should now be able to use the extension.
 
-## Chrome profiles
+## Storage profiles
 
-Don't have any friends to help you test the extension? Make a couple of Chrome
-profiles. Each one will need its own Google account and Google Voice number.
+To facilitate registration of multiple clients from one machine/user for
+development purposes, you can configure multiple storage profiles and switch
+between them using the NODE_APP_INSTANCE environment variable.
+
+```
+// config/local-alice.json
+{
+  "storageProfile": "aliceProfile"
+}
+
+> NODE_APP_INSTANCE=alice npm start
+```
+
+This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
+directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
+
+Each profile can be independently linked or registered as standalone.
+Each one will need its own Google account and Google Voice number.
 Each one will have to repeat the setup process documented above, including
 re-accepting the staging server cert under each profile. This is a tedious
 process, but once you are done you will be able to send messages back and forth
