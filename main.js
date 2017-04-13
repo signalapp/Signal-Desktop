@@ -103,6 +103,7 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
+  console.log('app ready');
   if (!config.get('disableAutoUpdate')) {
     autoUpdater.addListener('update-downloaded', function() {
       autoUpdater.quitAndInstall()
