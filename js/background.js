@@ -12,13 +12,7 @@
     console.log('NODE_ENV', window.env.NODE_ENV);
     extension.notification.init();
 
-    // Close and reopen existing windows
-    var open = false;
     var initialLoadComplete = false;
-    extension.windows.getAll().forEach(function(appWindow) {
-        open = true;
-        appWindow.close();
-    });
 
     // start a background worker for ecc
     textsecure.startWorker('js/libsignal-protocol-worker.js');
@@ -72,12 +66,6 @@
         });
 
         var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body'), events: Whisper.events});
-
-        if (open) {
-            openInbox({
-                initialLoadComplete: initialLoadComplete
-            });
-        }
 
         Whisper.WallClockListener.init(Whisper.events);
         Whisper.RotateSignedPreKeyListener.init(Whisper.events);
