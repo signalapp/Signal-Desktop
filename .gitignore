@@ -5,4 +5,5 @@ stylesheets/*.css.map
 dist
 .tx
 .DS_Store
+config/local.json
 config/local-*.json
