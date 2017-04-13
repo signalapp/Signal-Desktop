@@ -3,7 +3,7 @@
  */
 ;(function() {
     'use strict';
-    var json = window.env.locale_json;
+    var json = window.config.locale_json;
     window.i18n = function (message, substitutions) {
       if (!json[message]) {
         return;
@@ -20,6 +20,6 @@
     };
 
     i18n.getLocale = function() {
-      return window.env.locale;
+      return window.config.locale;
     };
 })();
