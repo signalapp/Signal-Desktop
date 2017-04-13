@@ -9,7 +9,7 @@
     };
 
     console.log('background page reloaded');
-    console.log('NODE_ENV', window.env.NODE_ENV);
+    console.log('NODE_ENV', window.config.NODE_ENV);
     extension.notification.init();
 
     var initialLoadComplete = false;
@@ -21,7 +21,7 @@
         getAccountManager().refreshPreKeys();
     });
 
-    var SERVER_URL = env.SERVER_URL;
+    var SERVER_URL = window.config.serverUrl;
     var SERVER_PORTS = [80, 4433, 8443];
     var messageReceiver;
     window.getSocketStatus = function() {
