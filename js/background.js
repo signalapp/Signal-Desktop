@@ -9,7 +9,7 @@
     };
 
     console.log('background page reloaded');
-    console.log('NODE_ENV', window.config.NODE_ENV);
+    console.log('environment:', window.config.environment);
     extension.notification.init();
 
     var initialLoadComplete = false;
