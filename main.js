@@ -27,7 +27,10 @@ if (shouldQuit) {
 }
 
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
-process.env.NODE_ENV = package_json.environment || process.env.NODE_ENV || 'development';
+const environment = package_json.environment || process.env.NODE_ENV || 'development';
+
+// Set environment vars to configure node-config before requiring it
+process.env.NODE_ENV = environment;
 process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
 const config = require('config');
 
@@ -70,7 +73,7 @@ function createWindow () {
       version: package_json.version,
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
-      NODE_ENV: process.env.NODE_ENV
+      environment: environment
     }
   }))
 
