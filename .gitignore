@@ -4,4 +4,5 @@ build/curve25519_compiled.js
 stylesheets/*.css.map
 dist
 .DS_Store
+config/local.json
 config/local-*.json
