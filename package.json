@@ -40,7 +40,7 @@
     "pack-prod": "NODE_ENV=production npm run pack",
     "dist-prod": "NODE_ENV=production npm run dist",
     "dist-prod-all": "NODE_ENV=production npm run dist -- -mwl",
-    "release": "npm run dist-prod-all",
+    "release": "grunt && NODE_ENV=production build --em.environment=production -mwl",
     "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build"
   },
   "build": {
