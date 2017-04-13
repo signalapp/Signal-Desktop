@@ -57,7 +57,7 @@
         };
         console.get = function() {
             return window.navigator.userAgent +
-                ' Signal-Desktop/' + window.env.version +
+                ' Signal-Desktop/' + window.config.version +
                 '\n' + log.print();
         };
         console.post = function(log) {
