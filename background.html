@@ -4,9 +4,20 @@
   <meta charset='utf-8'>
   <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Signal</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            connect-src 'self' wss: https:;
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' blob: data:;
+            font-src 'self';
+            media-src 'self' blob:;
+            child-src 'self';
+            object-src 'none'"
+  >
+  <title>Signal</title>
   <link href='images/icon_128.png' rel='shortcut icon'>
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
   <script type='text/x-tmpl-mustache' id='app-migration-screen'>
