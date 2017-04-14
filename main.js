@@ -57,8 +57,9 @@ const config = require('config');
 
 // use a separate data directory for development
 if (config.has('storageProfile')) {
-  app.setPath('userData', path.join(app.getPath('appData'),
-        'Signal-' + config.get('storageProfile')));
+  var userData = path.join(app.getPath('appData'), 'Signal-' + config.get('storageProfile'));
+  app.setPath('userData', userData);
+  console.log('userData ' + userData);
 }
 
 // Keep a global reference of the window object, if you don't, the window will
