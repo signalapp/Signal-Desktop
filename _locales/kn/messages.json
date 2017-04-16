@@ -7,6 +7,16 @@
         "message": "ಕಳೆದ ಆಮದು",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "ಬೆಂಬಲವಿಲ್ಲದ ಲಗತ್ತಿನ ಪ್ರಕಾರ. ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸಿದಾಗ, ಸೂಚನೆಗಳಲ್ಲಿ ಇದನ್ನು ಬಹಿರಂಗಪಡಿಸಲಾಗುತ್ತದೆ:",
@@ -175,6 +193,10 @@
         "message": "ಈ ಸಂವಾದವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುವುದೇ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "ಈ ದಾಖಲೆಯನ್ನು ಕೊಡುಗೆದಾರರ ವೀಕ್ಷಣೆಗೆ ಬಹಿರಂಗ ಅಂತರಜಾಲಕ್ಕೆ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವು ಇದನ್ನು ಪರೀಕ್ಷಿಸಬಹುದು ಮತ್ತು ಸಲ್ಲಿಸುವ ಮೊದಲು ಪರಿಷ್ಕರಿಸಬಹುದು.",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "ಆಮದು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್ ಮತ್ತು ನಿಮ್ಮ ಫೋನ್ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಹೊಂದಿರುವ ಬಗ್ಗೆ ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "ಐ.ಒ.ಎಸ್ ಬಹು ಸಾಧನ ಬೆಂಬಲ ಬಗ್ಗೆ  ತಿಳಿಯಲು <a $a_params$>ನಮ್ಮನ್ನು ಹಿಂಬಾಲಿಸು</a>",
@@ -397,12 +423,20 @@
         "message": "\nನನ್ನ ಆಂಡ್ರ್ಯಾಡ್‌ನಲ್ಲಿ ಸಿಗ್ನಲ್ ಇದೆ",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "ಸುರಕ್ಷಿತ ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "ಪ್ರಾರಂಭಿಸಿ",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

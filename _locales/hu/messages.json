@@ -7,6 +7,16 @@
         "message": "Utolsó importálás:",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nem támogatott csatolmánytípus. Mentéshez kattints ide.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Üdvözlünk a Signal-ban",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Amikor üzenet érkezik, az értesítőn látszódjon:",
@@ -175,6 +193,10 @@
         "message": "Véglegesen törölni szeretnéd ezt a beszélgetést?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Ez a napló publikusan elérhető lesz az interneten, hogy a hozzájárulók megtekinthessék. Ellenőrizheted és szerkesztheted a tartalmát küldés előtt.",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Az importálás sikertelen volt. Győződj meg róla, hogy a számítógéped és a telefonod csatlakozik-e az internetre.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Kövess minket</a>, ha érdekelnek a hírek az iOS több eszközös támogatásáról.",
@@ -397,12 +423,20 @@
         "message": "Már van Androidos Signal-om",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Munkamenet biztonságos visszaállítása",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Kezdés",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

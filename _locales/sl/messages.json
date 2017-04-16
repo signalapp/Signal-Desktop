@@ -7,6 +7,16 @@
         "message": "Nazadnje uvoženo: ",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Ponastavi sejo",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Ni povezave na internet",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Dobrodošli v aplikaciji Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Preverite svojo internetno povezavo",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Ko prispe sporočilo v obvestilu, razkrij:",
@@ -175,6 +193,10 @@
         "message": "Ali res želite nepovratno izbrisati ta pogovor?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Za nadaljevanje komunikacije ponovno povežite aplikacijo Signal Desktop s svojo mobilno napravo.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Uvoz ni bil uspešen. Preverite, če sta vaša računalnik in mobilna naprava povezana z internetom.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Nepovezan",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Spremljajte nas</a> v zvezi s podporo za več naprav za iOS.",
@@ -397,12 +423,20 @@
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Povezujem",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Varna ponastavitev seje",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Začnimo",
+        "description": ""
+    },
+    "relink": {
+        "message": "Poveži",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

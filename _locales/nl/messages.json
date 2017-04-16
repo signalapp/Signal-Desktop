@@ -7,6 +7,16 @@
         "message": "Laatst geïmporteerd op",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Poging tot opnieuw verbinden binnen $reconnect_duration_in_seconds$ seconden",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Sessie opnieuw instellen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Welkom bij Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Controleer je netwerkverbinding.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Toon wanneer een bericht ontvangen wordt meldingen die het volgende weergeven:",
@@ -175,6 +193,10 @@
         "message": "Dit gesprek voorgoed verwijderen?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Herkoppel Signal Desktop met je mobiel apparaat om verder te kunnen chatten.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Deze log zal online publiek beschikbaar gemaakt worden voor de ontwikkelaars. Controleer en wijzig deze zo nodig voor het verzenden.",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Importeren mislukt. Zorg ervoor dat je computer en je telefoon met het internet verbonden zijn.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Ontkoppeld",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Volg ons</a> voor updates over apparaten koppelen met iOS.",
@@ -397,12 +423,20 @@
         "message": "Ik heb Signal voor Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Aan het verbinden",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Beveiligde sessie opnieuw ingesteld",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Aan de slag",
+        "description": ""
+    },
+    "relink": {
+        "message": "Herkoppelen",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

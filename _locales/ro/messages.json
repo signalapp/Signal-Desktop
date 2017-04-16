@@ -7,6 +7,16 @@
         "message": "Ultima importare la",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Se încearcă reconectarea în $reconnect_duration_in_seconds$ secunde",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Resetează sesiunea",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Deconectat",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Bun venit la Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Verifică-ți conexiunea la rețea.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Când sosesc mesajele, afişează notificările care arată:",
@@ -175,6 +193,10 @@
         "message": "Şterg permanent acestă conversație?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Reconectează Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Acest log v-a fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi să-l editezi înainte să fie publicat. ",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Importare eșuată. Verifică dacă calculatorul și telefonul sunt conectate la internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Deconectat",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Urmează-ne</a> pentru actualizări despre suportul multi-dispozitiv iOS.",
@@ -397,12 +423,20 @@
         "message": "Am Signal pentru Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Se conectează",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Sesiune securizată resetată",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Începe",
+        "description": ""
+    },
+    "relink": {
+        "message": "Conectează din nou",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

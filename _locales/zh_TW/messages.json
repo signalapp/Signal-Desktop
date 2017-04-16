@@ -1,22 +1,32 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "上一次匯入在",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "嘗試在 $reconnect_duration_in_seconds$ 秒內重新連線",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "不支援的附加檔案類型。點擊儲存。",
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "驗證安全碼",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "你將定時器設為 $time$。 ",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -26,11 +36,11 @@
         }
     },
     "settings": {
-        "message": "Settings",
+        "message": "設定",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "收到使用新安全碼的訊息。按此顯示細節並執行。",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -38,11 +48,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "這個電腦的名稱會是",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 分鐘",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -50,11 +60,11 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "自動銷毀訊息",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Details",
+        "message": "細節",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
@@ -66,19 +76,27 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "正在產生金鑰",
         "description": ""
     },
     "resetSession": {
         "message": "重設對話",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "離線",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "歡迎來到 Signal",
         "description": ""
     },
+    "checkNetworkConnection": {
+        "message": "檢查你的網路連線。",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "當訊息抵達時，通知會顯示：",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -86,15 +104,15 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 小時",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "關閉",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "從你的行動裝置，匯入 Signal 群組和聯絡人。",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -106,7 +124,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "處理傳入訊息的錯誤。",
         "description": ""
     },
     "selectAContact": {
@@ -114,11 +132,11 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "正在連線中...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "你也許希望 $tag_start$驗證$tag_end$與這個聯絡人的安全碼。",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -134,7 +152,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ 將定時器設為 $time$。",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -148,15 +166,15 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "現在",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 天",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "回報問題",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -164,7 +182,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "只有傳送者的名稱",
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
@@ -172,15 +190,19 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "永久刪除對話？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "重新連結 Signal 桌面到你的行動裝置來持續發送訊息。",
+        "description": ""
+    },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "這個紀錄將被公開張貼在線上給貢獻者瀏覽。在送出前，你可以檢視及修改。",
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "輸入電話號碼來加入聯絡人",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -188,19 +210,23 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "沒有名稱與訊息",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "現在匯入",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "匯入失敗。確認你的電腦與電話都連線到網路。",
         "description": "Informational text displayed if a sync operation times out."
     },
+    "unlinked": {
+        "message": "未連結的",
+        "description": ""
+    },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>追蹤我們</a>了解有關 iOS 多裝置的支援。",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -210,19 +236,19 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "了解更多關於驗證安全碼",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "安全碼允許",
         "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "抱歉，你已經有太多連結的裝置。試著移除一些。",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "首先，安裝 Signal 在你的 <a $play_store$>Android</a> 或 <a $app_store$>iPhone</a>。<br /> 我們將會連結你的裝置並保持訊息同步。",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -236,7 +262,7 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "正在同步群組及聯絡人",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
@@ -244,7 +270,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (暗色)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -252,11 +278,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "升級",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "你與 $name$ 的安全碼",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -266,23 +292,23 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "隱藏細節",
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "主題",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "新的安全碼",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "隱私是有可能的。Signal 讓隱私更簡單。",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "播放通知音效",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -290,7 +316,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "正在匯入...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -310,7 +336,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "號碼尚未註冊",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
@@ -318,15 +344,15 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "聯絡人",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 週",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "了解",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -334,7 +360,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -342,15 +368,15 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "媒體訊息",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Signal 桌面版的版本已經過期。請更新到最新版來傳送訊息。",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "你與這個聯絡人的安全碼已經變更。按此顯示細節並執行。",
         "description": ""
     },
     "fileSizeWarning": {
@@ -358,27 +384,27 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "關閉",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "開啟手機上的 Signal 後，到「設定」>「已連結的裝置」。輕觸按鈕來新增一個新裝置，並掃描上方的條碼。",
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "無效號碼",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "歡迎來到 Signal 桌面版",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "無法連線到伺服器。",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "訊息尚未送出。",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
@@ -390,19 +416,27 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "解鎖聯絡人來傳送訊息。",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
-        "message": "I have Signal for Android",
+        "message": "我有 Signal 的 Android 版本",
         "description": "Button for the user to confirm that they have Signal for Android"
+    },
+    "connecting": {
+        "message": "連線中",
+        "description": ""
     },
     "sessionEnded": {
         "message": "安全對話重設",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Get started",
+        "message": "開始使用",
+        "description": ""
+    },
+    "relink": {
+        "message": "重新連結",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -410,11 +444,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "首先，安裝<a $a_params$>Signal</a>到你的 Android 手機上。<br />我們將會連結你的裝置，並保持訊息同步。",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -424,7 +458,7 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "正在連結",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "newMessages": {
@@ -432,11 +466,11 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "點擊建立新聯絡人",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "你尚未與這個聯絡人交換訊息。你與他們的安全碼將會在初次送出訊息後生效。",
         "description": ""
     },
     "submit": {
@@ -444,7 +478,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "你與 $name$ 的安全碼已經變更。",
         "description": "",
         "placeholders": {
             "name": {
@@ -454,7 +488,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "當安全碼變更時，需要被允許",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -466,7 +500,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "看起來不錯",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -482,7 +516,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "傳送者與訊息",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -494,7 +528,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "你與這個聯絡人的安全碼產生變動。這有可能是有不明人士試圖攔截您的通訊，或是，只因為這個聯絡人重新安裝 Signal。你能驗證下方新的安全碼。",
         "description": ""
     },
     "submitDebugLog": {
@@ -506,7 +540,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "計時器設定為 $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {

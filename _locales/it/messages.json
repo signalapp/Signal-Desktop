@@ -7,6 +7,16 @@
         "message": "Ultima importazione il",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Tipo di allegato non supportato. Clicca per salvare.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Resetta sessione",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Benvenuto in Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "All'arrivo dei messaggi mostra notifiche che rivelano:",
@@ -175,6 +193,10 @@
         "message": "Rimuovere definitivamente la conversazione?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo. ",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Importazione fallita. Assicurati che il tuo computer ed il tuo telefono siano connessi ad Internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Seguici</a> per aggiornamenti sulle funzionalità multi dispositivo per iOS.",
@@ -397,12 +423,20 @@
         "message": "Ho Signal per Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Resetta la sessione sicura",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Cominciamo",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

@@ -7,6 +7,16 @@
         "message": "Letzter Import am",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Versuch zum Neuverbinden in $reconnect_duration_in_seconds$ Sekunden",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nicht unterstützter Anhangstyp. Zum Speichern anklicken.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Verschlüsselung neu starten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Nicht verbunden",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Willkommen bei Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Überprüfe deine Netzwerkverbindung.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Beim Eingang von Nachrichten Benachrichtigungen mit folgendem Inhalt anzeigen:",
@@ -175,6 +193,10 @@
         "message": "Soll diese Unterhaltung unwiderruflich gelöscht werden?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal untersuchen und bearbeiten.",
         "description": ""
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Importieren gescheitert. Stelle sicher, dass dein Computer und dein Mobilgerät mit dem Internet verbunden sind.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Verknüpfung aufgehoben",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Folge uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
@@ -397,12 +423,20 @@
         "message": "Ich habe Signal für Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Verbindung wird hergestellt …",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Verschlüsselung neu gestartet",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Loslegen",
+        "description": ""
+    },
+    "relink": {
+        "message": "Erneut verknüpfen",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

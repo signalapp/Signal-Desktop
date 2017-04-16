@@ -7,6 +7,16 @@
         "message": "Poslední import",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nepodporovaný typ přílohy. Klikněte pro uložení.",
         "description": "Displayed for incoming unsupported attachment"
@@ -73,9 +83,17 @@
         "message": "Resetovat sezení",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Vítejte v Signalu",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "V oznámeních o nově přijatých zprávách ukázat:",
@@ -175,12 +193,16 @@
         "message": "Trvale smazat tuto konverzaci?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Tento záznam bude přispěvatelům veřejně zpřístupněn k prohlížení. Můžete si jej před odesláním zkontrolovat a upravit.",
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Zadejte telefonní číslo přidat kontakt.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -198,6 +220,10 @@
     "syncFailed": {
         "message": "Import selhal. Zkontrolujte, zda jsou počítač i telefon připojeny k internetu.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "Pro novinky o podpoře více zařízení na iOS <a $a_params$>nás sledujte</a>.",
@@ -282,7 +308,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Přehrát zvukové upozornění",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -366,7 +392,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Neplatné číslo",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -397,12 +423,20 @@
         "message": "Mám aplikaci Signal pro Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Bezpečné sezení resetováno",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Začněte",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -432,7 +466,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Kliknutím vytvoříte nový kontakt",
         "description": ""
     },
     "theirIdentityUnknown": {
