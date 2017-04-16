@@ -20,7 +20,7 @@
             bg.owsDesktopApp.getAppView(window).then(function(appView) {
                 var bodyEl = document.getElementById('signal-container');
                 bodyEl.innerHTML = "";
-                bodyEl.append(appView.el);
+                bodyEl.appendChild(appView.el);
             });
         });
     }
