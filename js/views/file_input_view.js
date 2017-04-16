@@ -142,7 +142,7 @@
                     case 'image':
                         limitKb = 6000; break;
                     case 'gif':
-                        limitKb = 6000; break;
+                        limitKb = 25000; break;
                     case 'audio':
                         limitKb = 100000; break;
                     case 'video':
