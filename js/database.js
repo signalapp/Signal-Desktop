@@ -2,7 +2,7 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-(function () {
+;(function () {
     'use strict';
     window.Whisper             = window.Whisper             || {};
     window.Whisper.Database    = window.Whisper.Database    || {};
