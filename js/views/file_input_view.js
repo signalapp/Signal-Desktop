@@ -229,7 +229,8 @@
                     resolve({
                       data: e.target.result,
                       contentType: file.type,
-                      fileName: file.name
+                      fileName: file.name,
+                      size: file.size
                     });
                 };
                 FR.onerror = reject;

@@ -38538,6 +38538,9 @@ MessageReceiver.prototype.extend({
     handleAttachment: function(attachment) {
         attachment.id = attachment.id.toString();
         attachment.key = attachment.key.toArrayBuffer();
+        if (attachment.size) {
+            attachment.size = attachment.size.toNumber();
+        }
         if (attachment.digest) {
           attachment.digest = attachment.digest.toArrayBuffer();
         }
@@ -39051,6 +39054,9 @@ MessageSender.prototype = {
                 proto.digest = result.digest;
                 if (attachment.fileName) {
                     proto.fileName = attachment.fileName;
+                }
+                if (attachment.size) {
+                    proto.size = attachment.size;
                 }
                 return proto;
             });

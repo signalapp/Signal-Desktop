@@ -344,6 +344,9 @@ MessageReceiver.prototype.extend({
     handleAttachment: function(attachment) {
         attachment.id = attachment.id.toString();
         attachment.key = attachment.key.toArrayBuffer();
+        if (attachment.size) {
+            attachment.size = attachment.size.toNumber();
+        }
         if (attachment.digest) {
           attachment.digest = attachment.digest.toArrayBuffer();
         }
