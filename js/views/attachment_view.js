@@ -91,6 +91,10 @@
         }
     },
     suggestedName: function() {
+        if (this.model.fileName) {
+            return this.model.fileName;
+        }
+
         var suggestion = 'signal';
         if (this.timestamp) {
             suggestion += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');

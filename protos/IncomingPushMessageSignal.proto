@@ -123,6 +123,7 @@ message AttachmentPointer {
   optional uint32  size        = 4;
   optional bytes   thumbnail   = 5;
   optional bytes   digest      = 6;
+  optional string  fileName    = 7;
 }
 
 message GroupContext {
