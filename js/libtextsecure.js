@@ -36748,7 +36748,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac, 32).then(function() {
-                if (theirDigest !== undefined) {
+                if (theirDigest !== null) {
                   return verifyDigest(encryptedBin, theirDigest);
                 }
             }).then(function() {
@@ -38536,12 +38536,16 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
     },
     handleAttachment: function(attachment) {
-        var digest = attachment.digest ? attachment.digest.toArrayBuffer() : undefined;
+        attachment.id = attachment.id.toString();
+        attachment.key = attachment.key.toArrayBuffer();
+        if (attachment.digest) {
+          attachment.digest = attachment.digest.toArrayBuffer();
+        }
         function decryptAttachment(encrypted) {
             return textsecure.crypto.decryptAttachment(
                 encrypted,
-                attachment.key.toArrayBuffer(),
-                digest
+                attachment.key,
+                attachment.digest
             );
         }
 
@@ -38549,7 +38553,7 @@ MessageReceiver.prototype.extend({
             attachment.data = data;
         }
 
-        return this.server.getAttachment(attachment.id.toString()).
+        return this.server.getAttachment(attachment.id).
         then(decryptAttachment).
         then(updateAttachment);
     },

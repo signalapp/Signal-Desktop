@@ -73,7 +73,7 @@
             var mac = encryptedBin.slice(encryptedBin.byteLength - 32, encryptedBin.byteLength);
 
             return verifyMAC(ivAndCiphertext, mac_key, mac, 32).then(function() {
-                if (theirDigest !== undefined) {
+                if (theirDigest !== null) {
                   return verifyDigest(encryptedBin, theirDigest);
                 }
             }).then(function() {
