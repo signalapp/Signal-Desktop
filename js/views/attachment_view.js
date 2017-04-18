@@ -95,7 +95,7 @@
 
             case 'video':
                 if (this.view instanceof MediaView) {
-                    return;
+                    break;
                 }
             default:
                 this.saveFile();
