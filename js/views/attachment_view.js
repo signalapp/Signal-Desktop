@@ -93,11 +93,10 @@
                 view.$el.trigger('show');
                 break;
 
-            case 'video':
-                if (this.view instanceof MediaView) {
-                    break;
-                }
             default:
+                if (this.view instanceof MediaView) {
+                    return;
+                }
                 this.saveFile();
         }
     },
