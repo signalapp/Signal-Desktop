@@ -128,11 +128,7 @@
                     this.addThumb(this.oUrl);
                     break;
                 default:
-                    var toast = new Whisper.UnsupportedFileTypeToast();
-                    toast.$el.insertAfter(this.$el);
-                    toast.render();
-                    this.deleteFiles();
-                    return;
+                    this.addThumb('/images/file.svg'); break;
             }
 
             this.autoScale(file).then(function(blob) {
