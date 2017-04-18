@@ -465,6 +465,39 @@ li.entry .error-icon-container {
       cursor: pointer;
     }
 
+    .fileView {
+      position: relative;
+      padding: 5px;
+      padding-right: 10px;
+      background-color: #fafafa;
+      border: 1px solid $grey_l2;
+      border-radius: $border-radius;
+      cursor: pointer;
+      color: $grey_d;
+
+      .icon, .fileName {
+        opacity: 0.75;
+      }
+
+      &:hover {
+        .icon, .fileName {
+          opacity: 1.0;
+        }
+      }
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        &:before {
+          content: '';
+          display: inline-block;
+          width: $button-height;
+          height: $button-height;
+          @include color-svg('/images/file.svg', black);
+        }
+      }
+    }
+
   }
 
   .outgoing .avatar {

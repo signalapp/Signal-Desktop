@@ -4,16 +4,15 @@
 (function () {
   'use strict';
 
-  var FileView = Backbone.View.extend({
-      tagName: 'a',
-      initialize: function(dataUrl) {
-          this.dataUrl = dataUrl;
-          this.$el.text(i18n('unsupportedAttachment'));
-      },
-      render: function() {
-        this.$el.attr('href', this.dataUrl);
-        this.trigger('update');
-        return this;
+  var FileView = Whisper.View.extend({
+      tagName: 'div',
+      className: 'fileView',
+      templateName: 'file-view',
+      render_attributes: function() {
+        return {
+            fileName : this.model.fileName,
+            altText  : i18n('unsupportedAttachment')
+        };
       }
   });
 
@@ -58,6 +57,12 @@
   var AudioView = MediaView.extend({ tagName: 'audio' });
   var VideoView = MediaView.extend({ tagName: 'video' });
 
+  // Blacklist common file types known to be unsupported in Chrome
+  var UnsupportedFileTypes = [
+    'audio/aiff',
+    'video/quicktime'
+  ];
+
   Whisper.AttachmentView = Backbone.View.extend({
     tagName: 'span',
     className: 'attachment',
@@ -76,9 +81,6 @@
     },
     onclick: function(e) {
         switch (this.contentType) {
-            case 'audio':
-            case 'video':
-                return;
             case 'image':
                 var view = new Whisper.LightboxView({ model: this });
                 view.render();
@@ -86,6 +88,10 @@
                 view.$el.trigger('show');
                 break;
 
+            case 'video':
+                if (this.view instanceof MediaView) {
+                    return;
+                }
             default:
                 this.saveFile();
         }
@@ -126,18 +132,39 @@
         var View;
         switch(this.contentType) {
             case 'image': View = ImageView; break;
-            case 'audio': View = AudioView; break;
             case 'video': View = VideoView; break;
-            default     : View = FileView; break;
+            case 'audio': View = AudioView; break;
         }
+
+        if (!View || _.contains(UnsupportedFileTypes, this.model.contentType)) {
+            return this.renderFileView();
+        }
+
         if (!this.objectUrl) {
             this.objectUrl = window.URL.createObjectURL(this.blob);
         }
-        var view = new View(this.objectUrl, this.model.contentType);
-        view.$el.appendTo(this.$el);
-        view.on('update', this.trigger.bind(this, 'update'));
-        view.render();
+        this.view = new View(this.objectUrl, this.model.contentType);
+        this.view.$el.appendTo(this.$el);
+        this.listenTo(this.view, 'update', this.update);
+        this.view.render();
+        this.timeout = setTimeout(this.onTimeout.bind(this), 3000);
         return this;
+    },
+    onTimeout: function() {
+        // Image or media element failed to load. Fall back to FileView.
+        this.stopListening(this.view);
+        this.renderFileView();
+    },
+    renderFileView: function() {
+        this.view = new FileView({model: {fileName: this.suggestedName()}});
+        this.view.$el.appendTo(this.$el.empty());
+        this.view.render();
+        this.update();
+        return this;
+    },
+    update: function() {
+        clearTimeout(this.timeout);
+        this.trigger('update');
     }
   });
 

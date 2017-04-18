@@ -151,6 +151,10 @@
         <img src='{{ source }}' class='preview' />
         <a class='x close' alt='remove attachment' href='#'></a>
   </script>
+  <script type='text/x-tmpl-mustache' id='file-view'>
+    <span class='icon'></span>
+    <span class='fileName' alt='{{ fileName }}' title='{{ altText }}'>{{ fileName }}</a>
+  </script>
   <script type='text/x-tmpl-mustache' id='hasRetry'>
     {{ messageNotSent }}
     <span href='#' class='retry'>{{ resend }}</span>

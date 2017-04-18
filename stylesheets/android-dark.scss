@@ -83,7 +83,7 @@ $text-dark: #CCCCCC;
     display: inline-block;
     @include color-svg('/images/double-check.svg', white);
   }
-  .paperclip:before {
+  .file-input .paperclip:before {
     content: '';
     display: inline-block;
     width: $button-height;
