@@ -71,13 +71,18 @@
 
         var parts = this.model.contentType.split('/');
         this.contentType = parts[0];
-        this.fileType = parts[1];
         if (options.timestamp) {
           this.timestamp = options.timestamp;
         }
     },
     events: {
         'click': 'onclick'
+    },
+    getFileType: function() {
+        switch(this.model.contentType) {
+            case 'video/quicktime': return 'mov';
+            default: return this.model.contentType.split('/')[1];
+        }
     },
     onclick: function(e) {
         switch (this.contentType) {
@@ -105,8 +110,9 @@
         if (this.timestamp) {
             suggestion += moment(this.timestamp).format('-YYYY-MM-DD-HHmmss');
         }
-        if (this.fileType) {
-            suggestion += '.' + this.fileType;
+        var fileType = this.getFileType();
+        if (fileType) {
+            suggestion += '.' + fileType;
         }
         return suggestion;
     },
