@@ -507,17 +507,17 @@ li.entry .error-icon-container {
           display: inline-block;
           width: $button-height * 2;
           height: $button-height * 2;
-          @include color-svg('/images/file.svg', $grey_d);
+          @include color-svg('../images/file.svg', $grey_d);
         }
 
         &.audio:before {
-          @include color-svg('/images/audio.svg', $grey_d);
+          @include color-svg('../images/audio.svg', $grey_d);
         }
         &.video:before {
-          @include color-svg('/images/video.svg', $grey_d);
+          @include color-svg('../images/video.svg', $grey_d);
         }
         &.voice:before {
-          @include color-svg('/images/voice.svg', $grey_d);
+          @include color-svg('../images/voice.svg', $grey_d);
         }
       }
     }
