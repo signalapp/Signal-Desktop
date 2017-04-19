@@ -25,7 +25,7 @@
         var expiring = new Whisper.MessageCollection();
         expiring.once('add', function(next) {
             var expires_at = next.get('expires_at');
-            console.log('next message expires', new Date(expires_at));
+            console.log('next message expires', new Date(expires_at).toISOString());
 
             var wait = expires_at - Date.now();
             if (wait < 0) { wait = 0; }
