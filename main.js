@@ -95,7 +95,8 @@ function createWindow () {
       version: package_json.version,
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
-      environment: environment
+      environment: environment,
+      node_version: process.versions.node
     }
   }))
 
