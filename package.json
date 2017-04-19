@@ -81,6 +81,7 @@
       "js/**",
       "stylesheets/*.css",
       "!js/register.js",
+      "!js/views/standalone_registration_view.js",
       "preload.js",
       "main.js",
       "menu.js",
