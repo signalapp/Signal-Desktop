@@ -73,7 +73,7 @@ function createWindow () {
     height: 610,
     webPreferences: {
       nodeIntegration: false,
-      sandbox: true,
+      //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
