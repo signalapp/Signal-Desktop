@@ -91,6 +91,9 @@ $text-dark: #CCCCCC;
     @include color-svg('/images/paperclip.svg', white);
     transform: rotateZ(-45deg);
   }
+  .capture-audio .microphone:before {
+      @include color-svg('/images/microphone.svg', white);
+  }
   .conversations {
     background-color: $grey-dark_l2;
     .conversation-list-item {

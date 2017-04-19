@@ -1860,6 +1860,10 @@ li.entry .error-icon-container {
     -webkit-mask-size: 100%;
     background-color: white;
     transform: rotateZ(-45deg); }
+  .android-dark .capture-audio .microphone:before {
+    -webkit-mask: url("/images/microphone.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
   .android-dark .conversations {
     background-color: #292929; }
     .android-dark .conversations .conversation-list-item {
