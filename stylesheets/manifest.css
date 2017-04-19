@@ -1427,22 +1427,22 @@ li.entry .error-icon-container {
         display: inline-block;
         width: 48px;
         height: 48px;
-        -webkit-mask: url("/images/file.svg") no-repeat center;
+        -webkit-mask: url("../images/file.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.audio:before,
       .message-list .attachments .fileView .icon.audio:before {
-        -webkit-mask: url("/images/audio.svg") no-repeat center;
+        -webkit-mask: url("../images/audio.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.video:before,
       .message-list .attachments .fileView .icon.video:before {
-        -webkit-mask: url("/images/video.svg") no-repeat center;
+        -webkit-mask: url("../images/video.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.voice:before,
       .message-list .attachments .fileView .icon.voice:before {
-        -webkit-mask: url("/images/voice.svg") no-repeat center;
+        -webkit-mask: url("../images/voice.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
   .message-container .outgoing .avatar,
