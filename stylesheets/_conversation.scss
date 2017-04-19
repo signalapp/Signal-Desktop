@@ -572,16 +572,16 @@ li.entry .error-icon-container {
         vertical-align: middle;
         width: $button-height * 2;
         height: $button-height * 2;
-        @include color-svg('/images/file.svg', $grey_d);
+        @include color-svg('../images/file.svg', $grey_d);
 
         &.audio {
-          @include color-svg('/images/audio.svg', $grey_d);
+          @include color-svg('../images/audio.svg', $grey_d);
         }
         &.video {
-          @include color-svg('/images/video.svg', $grey_d);
+          @include color-svg('../images/video.svg', $grey_d);
         }
         &.voice {
-          @include color-svg('/images/voice.svg', $grey_d);
+          @include color-svg('../images/voice.svg', $grey_d);
         }
       }
     }
