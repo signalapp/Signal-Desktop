@@ -1558,22 +1558,22 @@ li.entry .error-icon-container {
       vertical-align: middle;
       width: 48px;
       height: 48px;
-      -webkit-mask: url("/images/file.svg") no-repeat center;
+      -webkit-mask: url("../images/file.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #454545; }
       .message-container .attachments .fileView .icon.audio,
       .message-list .attachments .fileView .icon.audio {
-        -webkit-mask: url("/images/audio.svg") no-repeat center;
+        -webkit-mask: url("../images/audio.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.video,
       .message-list .attachments .fileView .icon.video {
-        -webkit-mask: url("/images/video.svg") no-repeat center;
+        -webkit-mask: url("../images/video.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.voice,
       .message-list .attachments .fileView .icon.voice {
-        -webkit-mask: url("/images/voice.svg") no-repeat center;
+        -webkit-mask: url("../images/voice.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
   .message-container .outgoing .avatar,
