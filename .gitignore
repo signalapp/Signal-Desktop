@@ -6,3 +6,4 @@ dist
 .DS_Store
 config/local.json
 config/local-*.json
+.DS_Store
