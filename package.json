@@ -98,6 +98,8 @@
   },
   "dependencies": {
     "config": "^1.25.1",
+    "electron-editor-context-menu": "^1.1.1",
+    "electron-spell-check-provider": "^1.1.0",
     "electron-updater": "^1.11.2"
   }
 }
