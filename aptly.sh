@@ -3,8 +3,7 @@
 #   aptly repo create signal-desktop
 #
 # Release:
-#   aptly repo add signal-desktop path/to/signal-desktop_X.X.X_amd64.deb
-#   VERSION=vX.X.X ./aptly.sh
+#   VERSION=X.X.X ./aptly.sh
 
 REPO=signal-desktop
 DISTRO=xenial
