@@ -152,7 +152,9 @@
         this.view.$el.appendTo(this.$el);
         this.listenTo(this.view, 'update', this.update);
         this.view.render();
-        this.timeout = setTimeout(this.onTimeout.bind(this), 3000);
+        if (View !== ImageView) {
+          this.timeout = setTimeout(this.onTimeout.bind(this), 5000);
+        }
         return this;
     },
     onTimeout: function() {
