@@ -76,7 +76,7 @@
         openConversation: function(conversation) {
           if (conversation) {
             this.openInbox().then(function() {
-              this.inboxView.openConversation(conversation);
+              this.inboxView.openConversation(null, conversation);
             }.bind(this));
           }
         },
