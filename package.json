@@ -11,6 +11,7 @@
   },
   "main": "main.js",
   "devDependencies": {
+    "asar": "^0.13.0",
     "bower": "^1.3.12",
     "electron": "^1.6.1",
     "electron-builder": "^17.0.1",
@@ -41,7 +42,8 @@
     "dist-prod": "NODE_ENV=production npm run dist",
     "dist-prod-all": "NODE_ENV=production npm run dist -- -mwl",
     "release": "grunt && NODE_ENV=production build --em.environment=production -mwl",
-    "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build"
+    "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build",
+    "asarl": "asar l dist/mac/Signal.app/Contents/Resources/app.asar"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
