@@ -1,6 +1,7 @@
 node_modules
 .sass-cache
 build/curve25519_compiled.js
+build/icons/*
 stylesheets/*.css.map
 dist
 .tx
