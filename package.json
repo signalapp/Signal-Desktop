@@ -13,7 +13,7 @@
   "devDependencies": {
     "bower": "^1.3.12",
     "electron": "^1.6.1",
-    "electron-builder": "^16.4.2",
+    "electron-builder": "^17.0.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-concat": "^1.0.1",
