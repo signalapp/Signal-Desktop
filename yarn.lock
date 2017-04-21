@@ -1546,7 +1546,7 @@ i@0.3.x:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/i/-/i-0.3.5.tgz#1d2b854158ec8169113c6cb7f6b6801e99e211d5"
 
-icon-gen@^1.0.7, icon-gen@^1.1.2:
+icon-gen@^1.0.7:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/icon-gen/-/icon-gen-1.1.2.tgz#8a15b5de737b825e16c2b3655487a3051baf8313"
   dependencies:
@@ -1967,11 +1967,11 @@ lodash@^3.10.1, lodash@^3.5.0, lodash@^3.7.0, lodash@~3.10.0, lodash@~3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@~4.13.1:
+lodash@^4.0.0, lodash@^4.13.1, lodash@~4.13.1:
   version "4.13.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.13.1.tgz#83e4b10913f48496d4d16fec4a560af2ee744b68"
 
-lodash@^4.13.1, lodash@~4.16.4:
+lodash@~4.16.4:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
 
