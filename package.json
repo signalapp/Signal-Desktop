@@ -15,6 +15,7 @@
     "bower": "^1.3.12",
     "electron": "^1.6.1",
     "electron-builder": "^17.0.1",
+    "electron-icon-maker": "^0.0.3",
     "electron-publisher-s3": "^17.0.2",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
@@ -34,21 +35,22 @@
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
-    "dist": "grunt && build --em.environment=$NODE_ENV",
+    "dist": "npm run icon-gen && grunt && build --em.environment=$NODE_ENV",
     "pack": "npm run dist -- --dir",
     "pack-staging": "NODE_ENV=staging npm run pack",
     "dist-staging": "NODE_ENV=staging npm run dist",
     "pack-prod": "NODE_ENV=production npm run pack",
     "dist-prod": "NODE_ENV=production npm run dist",
     "dist-prod-all": "NODE_ENV=production npm run dist -- -mwl",
-    "release": "grunt && NODE_ENV=production build --em.environment=production -mwl",
-    "icon-gen": "icon-gen -r -t png -m 'ico,icns' -n 'ico=icon,icns=icon' -i ./build/icons -o ./build",
+    "release": "npm run icon-gen && grunt && NODE_ENV=production build --em.environment=production -mwl",
+    "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "asarl": "asar l dist/mac/Signal.app/Contents/Resources/app.asar"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
       "category": "public.app-category.social-networking",
+      "icon": "build/icons/mac/icon.icns",
       "publish": {
         "provider": "s3",
         "region": "us-east-1",
@@ -59,6 +61,7 @@
     },
     "win": {
       "artifactName": "${productName}-Setup_${version}.${ext}",
+      "icon": "build/icons/win/icon.ico",
       "publish": {
         "provider": "s3",
         "region": "us-east-1",
