@@ -646,9 +646,9 @@ electron-builder-util@16.8.3, electron-builder-util@~16.8.3:
     stat-mode "^0.2.2"
     tunnel-agent "^0.6.0"
 
-electron-builder@^16.4.2:
-  version "16.8.4"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-16.8.4.tgz#6b0389653465926846ed4abecbece1624d91c519"
+electron-builder@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-17.0.1.tgz#2308ec32edc304aef5b0b21f93941577972fdfb2"
   dependencies:
     "7zip-bin" "^2.0.4"
     ajv "^5.0.4-beta.2"
@@ -664,7 +664,7 @@ electron-builder@^16.4.2:
     electron-osx-sign "0.4.4"
     electron-publish "16.8.3"
     fs-extra-p "^4.1.0"
-    hosted-git-info "^2.4.1"
+    hosted-git-info "^2.4.2"
     is-ci "^1.0.10"
     isbinaryfile "^3.0.2"
     js-yaml "^3.8.3"
@@ -677,7 +677,7 @@ electron-builder@^16.4.2:
     semver "^5.3.0"
     update-notifier "^2.1.0"
     uuid-1345 "^0.99.6"
-    yargs "^7.0.2"
+    yargs "^7.1.0"
 
 electron-download-tf@4.2.1:
   version "4.2.1"
@@ -1299,7 +1299,7 @@ hooker@^0.2.3, hooker@~0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/hooker/-/hooker-0.2.3.tgz#b834f723cc4a242aa65963459df6d984c5d3d959"
 
-hosted-git-info@^2.1.4, hosted-git-info@^2.4.1:
+hosted-git-info@^2.1.4, hosted-git-info@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.2.tgz#0076b9f46a270506ddbaaea56496897460612a67"
 
@@ -1823,13 +1823,13 @@ minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
-mkdirp@0.5.0, mkdirp@0.x.x, mkdirp@^0.5.0:
+mkdirp@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.0.tgz#1d73076a6df986cd9344e15e71fcc05a4c9abf12"
   dependencies:
     minimist "0.0.8"
 
-mkdirp@^0.5.1:
+mkdirp@0.x.x, mkdirp@^0.5.0, mkdirp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -2965,7 +2965,7 @@ yargs@^6.5.0:
     y18n "^3.2.1"
     yargs-parser "^4.2.0"
 
-yargs@^7.0.2:
+yargs@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-7.1.0.tgz#6ba318eb16961727f5d284f8ea003e8d6154d0c8"
   dependencies:
