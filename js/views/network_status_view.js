@@ -19,8 +19,6 @@
 
             window.addEventListener('online', this.update.bind(this));
             window.addEventListener('offline', this.update.bind(this));
-            Whisper.events.on('unauthorized', this.update, this);
-            Whisper.events.on('reconnectTimer', this.onReconnectTimer, this);
 
             this.model = new Backbone.Model();
             this.listenTo(this.model, 'change', this.onChange);

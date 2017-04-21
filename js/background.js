@@ -324,5 +324,16 @@
         }
     };
 
+    Whisper.events.on('unauthorized', function() {
+        if (owsDesktopApp.inboxView) {
+            owsDesktopApp.inboxView.networkStatusView.update();
+        }
+    });
+    Whisper.events.on('reconnectTimer', function() {
+        if (owsDesktopApp.inboxView) {
+            owsDesktopApp.inboxView.networkStatusView.setSocketReconnectInterval(60000);
+        }
+    });
+
 
 })();

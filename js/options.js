@@ -15,7 +15,9 @@
                     installView.hideDots();
                 }
                 installView.$el.show();
+                Whisper.events.on('contactsync:begin', installView.showSync, installView);
                 Whisper.events.on('contactsync', function() {
+                  installView.close();
                   bg.openInbox();
                   window.close();
                 });

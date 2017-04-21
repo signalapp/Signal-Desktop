@@ -49,8 +49,6 @@
             this.$('#step1').show();
             this.connect();
             this.on('disconnected', this.reconnect);
-            this.listenTo(Whisper.events, 'contactsync:begin', this.showSync);
-            this.listenTo(Whisper.events, 'contactsync', this.close);
         },
         connect: function() {
             this.clearQR();
