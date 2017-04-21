@@ -25,7 +25,6 @@
     "grunt-exec": "^0.4.6",
     "grunt-gitinfo": "^0.1.7",
     "grunt-jscs": "^1.1.0",
-    "grunt-preen": "^1.0.0",
     "grunt-saucelabs": "^8.3.3",
     "icon-gen": "^1.0.7"
   },
