@@ -113,6 +113,13 @@ function createWindow () {
       }
   })
 
+  // Emitted when the window is about to be closed.
+  mainWindow.on('close', function (e) {
+    if (!shouldQuit) {
+      e.preventDefault();
+      mainWindow.hide();
+    }
+  });
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -142,6 +149,9 @@ app.on('ready', function() {
   createWindow();
 })
 
+app.on('before-quit', function() {
+  shouldQuit = true;
+});
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
@@ -155,7 +165,9 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    createWindow();
+  } else {
+    mainWindow.show();
   }
 })
 
