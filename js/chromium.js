@@ -169,10 +169,6 @@
       };
     }
 
-    extension.install = function() {
-        Whisper.events.trigger('openInstaller');
-    };
-
     var notification_pending = Promise.resolve();
     extension.notification = {
         init: function() {
