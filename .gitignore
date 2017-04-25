@@ -8,3 +8,4 @@ dist
 config/local.json
 config/local-*.json
 .DS_Store
+*.provisionprofile
