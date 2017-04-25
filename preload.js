@@ -8,6 +8,9 @@
   const ipc = electron.ipcRenderer
   window.config.locale_json = ipc.sendSync('locale-data');
 
+  window.setBadgeCount = function(count) {
+    ipc.send('set-badge-count', count);
+  };
   /**
   * Enables spell-checking and the right-click context menu in text editors.
   * Electron (`webFrame.setSpellCheckProvider`) only underlines misspelled words;
