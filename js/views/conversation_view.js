@@ -164,7 +164,13 @@
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'verify-identity': 'verifyIdentity'
+            'verify-identity': 'verifyIdentity',
+            'dragover': 'sendToFileInput',
+            'drop': 'sendToFileInput',
+            'dragleave': 'sendToFileInput'
+        },
+        sendToFileInput: function(e) {
+            this.fileInput.$el.trigger(e);
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
