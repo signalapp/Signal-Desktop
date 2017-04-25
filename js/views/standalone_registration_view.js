@@ -32,8 +32,8 @@
             var verificationCode = $('#code').val().replace(/\D+/g, "");
 
             this.accountManager.registerSingleDevice(number, verificationCode).then(function() {
-                Whisper.events.trigger('openInbox');
-            }).catch(this.log.bind(this));
+                this.$el.trigger('openInbox');
+            }.bind(this)).catch(this.log.bind(this));
         },
         log: function (s) {
             console.log(s);
