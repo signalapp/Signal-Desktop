@@ -71,10 +71,6 @@
         reconnect: function() {
             setTimeout(this.connect.bind(this), 10000);
         },
-        close: function() {
-            this.remove();
-            Whisper.events.trigger('openInbox');
-        },
         events: function() {
             return {
                 'click .error-dialog .ok': 'connect',
