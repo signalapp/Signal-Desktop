@@ -56,7 +56,8 @@
         "bucket": "updates.signal.org",
         "path": "desktop",
         "acl": "public-read"
-      }
+      },
+      "target": "mas"
     },
     "win": {
       "artifactName": "${productName}-Setup_${version}.${ext}",
