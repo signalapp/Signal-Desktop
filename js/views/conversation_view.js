@@ -176,7 +176,6 @@
             'click .show-identity': 'showSafetyNumber',
             'click .show-members': 'showMembers',
             'click .conversation-menu .hamburger': 'toggleMenu',
-            'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
@@ -532,10 +531,6 @@
         },
         updateMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
-        },
-
-        openInbox: function() {
-            openInbox();
         },
 
         onClick: function(e) {
