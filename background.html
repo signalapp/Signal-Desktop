@@ -666,6 +666,9 @@
           <p>{{ installAndroidInstructions }}</p>
         </div>
         <div class='nav'>
+          {{ #development }}
+            <div> <a class='button openStandalone'>Standalone</a> </div>
+          {{ /development }}
           <span class='dot step1'></span>
           <span class='dot step2'></span>
           <span class='dot step3 selected'></span>
@@ -749,6 +752,7 @@
             <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
             <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
             <div id='error' class='collapse'></div>
+            <div> <a class='button openInstaller'>Link to phone</a> </div>
           </form>
           <div id=status></div>
         </div>
