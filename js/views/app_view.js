@@ -7,15 +7,15 @@
         initialize: function(options) {
           this.inboxView = null;
           this.installView = null;
-          this.events = options.events;
-          this.events.on('openStandalone', this.openStandaloneInstaller, this);
-          this.events.on('openConversation', this.openConversation, this);
-          this.events.on('openInstaller', this.openInstaller, this);
-          this.events.on('openInbox', this.openInbox, this);
+        },
+        events: {
+            'openInstaller': 'openInstaller',
+            'openInbox': 'openInbox',
         },
         openView: function(view) {
           this.el.innerHTML = "";
           this.el.append(view.el);
+          this.delegateEvents();
         },
         openInstaller: function() {
           this.closeInstaller();
@@ -26,10 +26,12 @@
           }
           this.openView(this.installView);
         },
-        openStandaloneInstaller: function() {
-          this.closeInstaller();
-          this.installView = new Whisper.StandaloneRegistrationView();
-          this.openView(this.installView);
+        openStandalone: function() {
+          if (window.config.environment !== 'production') {
+            this.closeInstaller();
+            this.installView = new Whisper.StandaloneRegistrationView();
+            this.openView(this.installView);
+          }
         },
         closeInstaller: function() {
           if (this.installView) {
