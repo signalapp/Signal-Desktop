@@ -65,7 +65,7 @@
             init(true);
         });
 
-        var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body'), events: Whisper.events});
+        var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body')});
 
         Whisper.WallClockListener.init(Whisper.events);
         Whisper.RotateSignedPreKeyListener.init(Whisper.events);
@@ -87,6 +87,14 @@
             appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
         });
 
+        [
+          'openInbox',
+          'openInstaller',
+          'openConversation',
+          'openStandalone'
+        ].forEach(function(eventName) {
+          appView.listenTo(Whisper.events, eventName, appView[eventName]);
+        });
     });
 
     window.getSyncRequest = function() {
