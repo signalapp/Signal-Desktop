@@ -13,11 +13,6 @@
         return true;
     };
 
-    window.drawAttention = function() {
-        if (isOpen() && !isFocused()) {
-            extension.windows.drawAttention(inboxWindowId);
-        }
-    };
     window.clearAttention = function() {
         extension.windows.clearAttention(inboxWindowId);
     };

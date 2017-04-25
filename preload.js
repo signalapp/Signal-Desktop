@@ -11,6 +11,10 @@
   window.setBadgeCount = function(count) {
     ipc.send('set-badge-count', count);
   };
+  window.drawAttention = function() {
+    console.log('draw attention');
+    ipc.send('draw-attention');
+  };
   /**
   * Enables spell-checking and the right-click context menu in text editors.
   * Electron (`webFrame.setSpellCheckProvider`) only underlines misspelled words;
