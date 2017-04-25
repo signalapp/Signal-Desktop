@@ -26,6 +26,7 @@
                 installFinalButton: i18n('installFinalButton'),
                 installTooManyDevices: i18n('installTooManyDevices'),
                 ok: i18n('ok'),
+                development: window.config.environment === 'development'
             };
         },
         initialize: function(options) {
