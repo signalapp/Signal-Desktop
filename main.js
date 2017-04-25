@@ -117,7 +117,10 @@ function createWindow () {
       if (protocol === 'http:' || protocol === 'https:') {
             shell.openExternal(url)
       }
-  })
+  });
+  mainWindow.webContents.on('will-navigate', function(e) {
+    e.preventDefault();
+  });
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
