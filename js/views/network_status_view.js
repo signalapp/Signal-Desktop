@@ -29,7 +29,7 @@
             'click .openInstaller': 'openInstaller'
         },
         openInstaller: function() {
-            Whisper.events.trigger('openInstaller');
+            this.$el.trigger('openInstaller');
         },
         onReconnectTimer: function() {
           this.setSocketReconnectInterval(60000);
