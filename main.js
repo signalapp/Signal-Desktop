@@ -12,22 +12,24 @@ const shell = electron.shell;
 
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
-var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
-  // Someone tried to run a second instance, we should focus our window
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore();
-    mainWindow.focus();
-  }
-  return true;
-});
-
-if (shouldQuit) {
-  app.quit();
-  return;
-}
-
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
 const environment = package_json.environment || process.env.NODE_ENV || 'development';
+
+if (environment === 'production') {
+  var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
+    // Someone tried to run a second instance, we should focus our window
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+    return true;
+  });
+
+  if (shouldQuit) {
+    app.quit();
+    return;
+  }
+}
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;
