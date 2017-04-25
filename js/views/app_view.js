@@ -9,6 +9,8 @@
           this.installView = null;
         },
         events: {
+            'click .openInstaller': 'openInstaller',
+            'click .openStandalone': 'openStandalone',
             'openInstaller': 'openInstaller',
             'openInbox': 'openInbox',
         },
