@@ -76,7 +76,11 @@ function createWindow () {
       //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
     }
-  })
+  });
+
+  mainWindow.on('focus', function() {
+    mainWindow.flashFrame(false);
+  });
 
   // Load locale
   const locale = 'en'; // FIXME
@@ -176,4 +180,14 @@ app.on('activate', function () {
 
 ipc.on('set-badge-count', function(event, count) {
   app.setBadgeCount(count);
+});
+ipc.on('draw-attention', function(event, count) {
+  if (process.platform === 'darwin') {
+    app.dock.bounce();
+  } else if (process.platform == 'win32') {
+    mainWindow.flashFrame(true);
+    setTimeout(function() {
+      mainWindow.flashFrame(false);
+    }, 1000);
+  }
 });
