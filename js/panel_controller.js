@@ -24,10 +24,6 @@
     };
     var inboxWindowId = 'inbox';
 
-    window.openInbox = function(options) {
-        Whisper.events.trigger('openInbox', options);
-    };
-
     window.setUnreadCount = function(count) {
         if (count > 0) {
             window.setBadgeCount(count);
@@ -36,10 +32,6 @@
             window.setBadgeCount(0);
             window.document.title = "Signal";
         }
-    };
-
-    window.openConversation = function(conversation) {
-        Whisper.events.trigger('openConversation', conversation);
     };
 
 })();
