@@ -20,15 +20,14 @@
             this.on('remove', this.onRemove);
         },
         onclick: function() {
+            var conversation;
             var last = this.last();
-            if (!last) {
-                openInbox();
-                return;
+            if (last) {
+              conversation = ConversationController.create({
+                  id: last.get('conversationId')
+              });
             }
-            var conversation = ConversationController.create({
-                id: last.get('conversationId')
-            });
-            openConversation(conversation);
+            this.trigger('click', conversation);
             this.clear();
         },
         update: function() {
