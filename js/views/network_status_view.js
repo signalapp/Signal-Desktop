@@ -25,12 +25,6 @@
             this.model = new Backbone.Model();
             this.listenTo(this.model, 'change', this.onChange);
         },
-        events: {
-            'click .openInstaller': 'openInstaller'
-        },
-        openInstaller: function() {
-            this.$el.trigger('openInstaller');
-        },
         onReconnectTimer: function() {
           this.setSocketReconnectInterval(60000);
         },
