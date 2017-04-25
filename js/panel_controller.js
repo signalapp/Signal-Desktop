@@ -13,15 +13,6 @@
         return true;
     };
 
-    window.drawAttention = function() {
-        if (isOpen() && !isFocused()) {
-            if (window.keepClear) {
-                clearInterval(window.keepClear);
-                delete window.keepClear;
-            }
-            extension.windows.drawAttention(inboxWindowId);
-        }
-    };
     window.clearAttention = function() {
         if (window.keepClear) {
             clearInterval(window.keepClear);
