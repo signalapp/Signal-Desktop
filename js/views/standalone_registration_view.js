@@ -18,6 +18,7 @@
             }
             this.render();
             this.phoneView = new Whisper.PhoneInputView({el: this.$('#phone-number-input')});
+            this.$('#error').hide();
         },
         events: {
             'submit #form': 'submit',
