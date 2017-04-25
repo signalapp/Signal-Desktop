@@ -29,10 +29,10 @@
 
     window.setUnreadCount = function(count) {
         if (count > 0) {
-            extension.navigator.setBadgeText(count);
+            window.setBadgeCount(count);
             window.document.title = "Signal (" + count + ")";
         } else {
-            extension.navigator.setBadgeText("");
+            window.setBadgeCount(0);
             window.document.title = "Signal";
         }
     };
