@@ -11,7 +11,6 @@
         events: {
             'click .openInstaller': 'openInstaller',
             'click .openStandalone': 'openStandalone',
-            'openInstaller': 'openInstaller',
             'openInbox': 'openInbox',
         },
         openView: function(view) {
