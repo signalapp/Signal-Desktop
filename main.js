@@ -148,7 +148,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   console.log('app ready');
-  if (!config.get('disableAutoUpdate')) {
+  if (!process.mas && !config.get('disableAutoUpdate')) {
     autoUpdater.addListener('update-downloaded', function() {
       autoUpdater.quitAndInstall()
     });
