@@ -84,6 +84,16 @@
         Whisper.events.on('reconnectTimer', function() {
             appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
         });
+        Whisper.events.on('contactsync', function() {
+          if (appView.installView) {
+              appView.openInbox();
+          }
+        });
+        Whisper.events.on('contactsync:begin', function() {
+          if (appView.installView && appView.installView.showSync) {
+              appView.installView.showSync();
+          }
+        });
 
         Whisper.Notifications.on('click', function(conversation) {
             if (conversation) {
