@@ -15,7 +15,8 @@ app.setAppUserModelId('org.whispersystems.signal-desktop')
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
 const environment = package_json.environment || process.env.NODE_ENV || 'development';
 
-if (environment === 'production') {
+if (environment === 'production' && !process.mas) {
+  console.log('making app single instance');
   var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
     // Someone tried to run a second instance, we should focus our window
     if (mainWindow) {
