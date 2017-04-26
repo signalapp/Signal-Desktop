@@ -10,8 +10,10 @@ const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 
+console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
+console.log('reading package.json');
 const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
 const environment = package_json.environment || process.env.NODE_ENV || 'development';
 
@@ -27,11 +29,13 @@ if (environment === 'production' && !process.mas) {
   });
 
   if (shouldQuit) {
+    console.log('quitting');
     app.quit();
     return;
   }
 }
 
+console.log('configuring');
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;
 process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
