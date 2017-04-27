@@ -138,6 +138,9 @@ if (process.platform === 'darwin') {
       role: 'zoom'
     },
     {
+      label: 'Show',
+    },
+    {
       type: 'separator'
     },
     {
