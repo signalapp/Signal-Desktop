@@ -157,11 +157,15 @@ app.on('ready', function() {
     setInterval(function() { autoUpdater.checkForUpdates(); }, autoUpdaterInterval);
   }
 
-  let template = require('./menu.js');
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
-
   createWindow();
+
+  let template = require('./menu.js');
+  template[3].submenu[3].click = function() {
+    mainWindow.show();
+  };
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+
 })
 
 app.on('before-quit', function() {
