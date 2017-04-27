@@ -43,7 +43,7 @@
     "dist-prod-all": "NODE_ENV=production npm run dist -- -mwl",
     "release": "npm run icon-gen && grunt && NODE_ENV=production build --em.environment=production -mwl",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
-    "asarl": "asar l dist/mac/Signal.app/Contents/Resources/app.asar"
+    "asarl": "asar l dist/mas/Signal.app/Contents/Resources/app.asar"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
