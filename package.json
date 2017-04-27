@@ -57,7 +57,8 @@
         "path": "desktop",
         "acl": "public-read"
       },
-      "target": "mas"
+      "target": "mas",
+      "bundleVersion": "2"
     },
     "win": {
       "artifactName": "${productName}-Setup_${version}.${ext}",
