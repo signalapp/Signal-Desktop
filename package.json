@@ -74,7 +74,8 @@
     "linux": {
       "target": [
         "deb"
-      ]
+      ],
+      "icon": "build/icons/png"
     },
     "files": [
       "package.json",
