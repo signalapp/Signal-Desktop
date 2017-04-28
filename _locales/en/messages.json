@@ -446,8 +446,8 @@
         "message": "Get started"
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
           "a_params": {
             "content": "$1",
