@@ -44,42 +44,36 @@
                 return;
             }
 
-            var iconUrl = 'images/icon_128.png';
-            var title = [
+            var title;
+            var message;
+            var iconUrl;
+
+            var newMessageCount = [
                 this.length,
                 this.length === 1 ? i18n('newMessage') : i18n('newMessages')
             ].join(' ');
 
-            if (setting === SETTINGS.COUNT) {
-                extension.notification.update({
-                    type     : 'basic',
-                    title    : title,
-                    iconUrl  : iconUrl
-                });
-                return;
-            }
-
-            var m = this.last();
-            var type = 'basic';
-            var message = i18n('newMessage');
-            var imageUrl;
-            if (this.showMessage()) {
-                message = m.get('message');
-                if (m.get('imageUrl')) {
-                    type = 'image';
-                    imageUrl = m.get('imageUrl');
-                }
-            }
-            if (this.showSender()) {
-                title = m.get('title');
-                iconUrl = m.get('iconUrl');
+            var last = this.last();
+            switch (this.getSetting()) {
+              case SETTINGS.COUNT:
+                title = 'Signal';
+                message = newMessageCount;
+                break;
+              case SETTINGS.NAME:
+                title = newMessageCount;
+                message = 'Most recent from ' + last.get('title');
+                iconUrl = last.get('iconUrl');
+                break;
+              case SETTINGS.MESSAGE:
+                title = last.get('title');
+                message = last.get('message');
+                iconUrl = last.get('iconUrl');
+                break;
             }
             extension.notification.update({
-                type     : type,
                 title    : title,
                 message  : message,
-                iconUrl  : iconUrl,
-                imageUrl : imageUrl
+                iconUrl  : iconUrl
             });
         },
         getSetting: function() {
