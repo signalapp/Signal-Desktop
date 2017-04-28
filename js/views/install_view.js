@@ -10,14 +10,13 @@
         id: 'install',
         className: 'main',
         render_attributes: function() {
-            var playStoreHref = 'https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms';
-            var appStoreHref = 'https://itunes.apple.com/us/app/signal-private-messenger/id874139669';
             var twitterHref = 'https://twitter.com/whispersystems';
+            var signalHref = 'https://signal.org/install';
             return {
                 installWelcome: i18n('installWelcome'),
                 installTagline: i18n('installTagline'),
                 installGetStartedButton: i18n('installGetStartedButton'),
-                installSignalLink: this.i18n_with_links('installSignalLinks', playStoreHref, appStoreHref),
+                installSignalLink: this.i18n_with_links('installSignalLink', signalHref),
                 installIHaveSignalButton: i18n('installGotIt'),
                 installFollowUs: this.i18n_with_links('installFollowUs', twitterHref),
                 installAndroidInstructions: i18n('installAndroidInstructions'),
