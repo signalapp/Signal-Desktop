@@ -15,6 +15,10 @@
     console.log('draw attention');
     ipc.send('draw-attention');
   };
+  window.showWindow = function() {
+    console.log('show window');
+    ipc.send('show-window');
+  };
   /**
   * Enables spell-checking and the right-click context menu in text editors.
   * Electron (`webFrame.setSpellCheckProvider`) only underlines misspelled words;
