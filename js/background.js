@@ -96,6 +96,7 @@
         });
 
         Whisper.Notifications.on('click', function(conversation) {
+            showWindow();
             if (conversation) {
                 appView.openConversation(conversation);
             } else {
