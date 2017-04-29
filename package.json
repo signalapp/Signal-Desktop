@@ -58,7 +58,7 @@
         "acl": "public-read"
       },
       "target": "mas",
-      "bundleVersion": "3"
+      "bundleVersion": "4"
     },
     "win": {
       "artifactName": "${productName}-Setup_${version}.${ext}",
