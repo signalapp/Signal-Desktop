@@ -1,14 +1,14 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "Задње увежено",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Поновно повезивање за $reconnect_duration_in_seconds$ секунде/и",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -18,15 +18,15 @@
         }
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "Тип уграђеног садржаја није подржан. Притисните да би преузели.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "Верификуј шифру преписке",
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Подесили сте рок важења на $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -36,23 +36,23 @@
         }
     },
     "settings": {
-        "message": "Settings",
+        "message": "Подешавања",
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Ова порука је шифрована новом шифром. Притисните за обраду.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "Назив овог уређаја гласиће",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 минут",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -60,43 +60,43 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Самонестајуће поруке",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Details",
+        "message": "Опширније",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 мин",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
-        "message": "Unsupported file type",
+        "message": "Недозвољен тип датотеке",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "Креирам Кључеве",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Обнови везу",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Ван мреже",
         "description": ""
     },
     "welcomeToSignal": {
-        "message": "Welcome to Signal",
+        "message": "Добродошли у Сигнал",
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Проверите вашу везу са мрежом.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "За новопристигле поруке, прикажи обавештења са:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -104,39 +104,39 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 час",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "искљ.",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "Увезите све групе Сигнал-а и особе са вашег мобилног уређаја.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "Поново покрени Сигнал",
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Уклони пошиљке",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "Грешка у обради поруке.",
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "Започните преписку одабиром дописника или групе.",
         "description": ""
     },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "Повезивање у току...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Можда желите да $tag_start$ верификујете $tag_end$ шифру за овог дописника.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -152,7 +152,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ је подесио/ла рок важења на $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -166,67 +166,67 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "сада",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 дан",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "Пријавите проблем",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "Нова порука",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "Име дописника",
         "description": "Label for setting notifications to display sender name only"
     },
     "from": {
-        "message": "From",
+        "message": "Од",
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "Неопозиво уклонити преписку?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Да би наставили дописивање, поново повежите Сигнал за десктоп са мобилним уређајем.",
         "description": ""
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "Овај извештај ће бити објављен и видљив пројектантима. Можете га прегледати и изменити пре објаве.",
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Упишите број телефона за нову особу.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
-        "message": "Search...",
+        "message": "Нађи...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "Ништа",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "Увези сад",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "Увоз неуспешан. Оба уређаја треба да буду повезана на интернет.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Развезано",
         "description": ""
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>Пратите</a> новости о подршци за више уређаја на iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -236,19 +236,19 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Више о верификацији шифара преписки",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
-        "message": "Safety numbers approval",
+        "message": "Одобрење шифара за преписке",
         "description": "Header for safety numbers setting"
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "Жао нам је, повезали сте превише уређаја. Развежите неке од њих.",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Претходно поставите Сигнал на ваш <a $play_store$>Андроид</a> или <a $app_store$>Ајфон</a>.<br /> Повезаћемо ваше уређаје и усаглашаваћемо поруке.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -262,27 +262,27 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "Усаглашавам групе и дописнике",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 мин",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Андроид стил (тамно)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 мин",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "Ажурирај",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Шифра преписки за $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -292,31 +292,31 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "Основно",
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Стил",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Нова шифра преписке",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "Приватност је достижна. Сигнал вам то олакшава.",
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Звучно обавештење",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
-        "message": "Disconnected",
+        "message": "Прекинуто",
         "description": ""
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "Увозим...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -324,35 +324,35 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "Корисник није регистрован",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 д",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Дописници",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 недеља",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "Важи",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -360,7 +360,7 @@
         "description": "Label for the time a message was received"
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -368,47 +368,47 @@
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "Без текста",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "Ваша верзија Сигнал-а за десктоп је застарела. Да би сте наставили дописивање, молимо вас да ажурирате програм.",
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Ваша шифра за овог дописника је промењена. Притисните за обраду.",
         "description": ""
     },
     "fileSizeWarning": {
-        "message": "Sorry, the selected file exceeds message size restrictions.",
+        "message": "Жао нам је, ваша датотека превазилази ограничење величине.",
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "искључено",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "Покрените Сигнал на телефону и пронађите Подешавања > Повезани уређаји. Тапните дугме за додавање новог уређаја, затим скенирајте бар-код изнад.",
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Неисправан број",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Welcome to Signal Desktop",
+        "message": "Добродошли у Сигнал Десктоп",
         "description": "Welcome title on the install page"
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "Неуспешно повезивање са сервером.",
         "description": "Displayed when we can't connect to the server."
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "Порука није послата.",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "Искључи обавештења",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -416,7 +416,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Одблокирајте дописника да би послали поруку.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -424,7 +424,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "Повезујем се",
         "description": ""
     },
     "sessionEnded": {
@@ -436,19 +436,19 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Поново вежи",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 нед",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 секунди",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Претходно наместите <a $a_params$>Сигнал</a> на вашем Андроид уређају.<br />Повезаћемо ваше уређаје и поруке ће бити синхронизоване.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -458,19 +458,19 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "Везивање са",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "Нове поруке",
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Притисните за унос у адресар",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Морате разменити бар једну преписку са овим дописником. Шифра за дописивање ће се створити након прве преписке.",
         "description": ""
     },
     "submit": {
@@ -478,7 +478,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "Шифра преписки са $name$ је другачија.",
         "description": "",
         "placeholders": {
             "name": {
@@ -488,19 +488,19 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "Захтевај акцију када се промене шифре преписки",
         "description": "Description for safety numbers setting"
     },
     "to": {
-        "message": "To",
+        "message": "За",
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 ч",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Looking good",
+        "message": "Готови сте",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -512,15 +512,15 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "Име и порука",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "Неким дописницима није послато. Проверите статус мреже.",
         "description": ""
     },
     "ok": {
@@ -528,11 +528,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Шифра преписке са овим дописником је другачија. Ово значи или да неко пресреће вашу преписку, или је овај дописник једноставно извршио поновну инсталацију Сигнал-а. Можда желите да верификујете приказану шифру.",
         "description": ""
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Објави програмерски извештај",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -540,7 +540,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Рок постављен на $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -550,11 +550,11 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 сек",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "Обавештења",
         "description": "Header for notification settings"
     },
     "resend": {

@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Försöker återansluta om $reconnect_duration_in_seconds$  sekunder",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -84,7 +84,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Ej ansluten",
         "description": ""
     },
     "welcomeToSignal": {
@@ -92,7 +92,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Kontrollera din nätverksanslutning",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -194,7 +194,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Återkoppla Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -222,7 +222,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Olänkad",
         "description": ""
     },
     "installFollowUs": {
@@ -424,7 +424,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "Ansluter",
         "description": ""
     },
     "sessionEnded": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Återkoppla",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {

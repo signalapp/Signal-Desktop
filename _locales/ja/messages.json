@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "$reconnect_duration_in_seconds$ 秒後に再接続を行います。",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -84,7 +84,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "オフライン",
         "description": ""
     },
     "welcomeToSignal": {
@@ -92,7 +92,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "ネットワーク接続をご確認ください。",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -104,7 +104,7 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1時間前",
+        "message": "1時間",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
@@ -194,7 +194,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "メッセージを継続するために携帯端末と再接続する。",
         "description": ""
     },
     "debugLogExplanation": {
@@ -222,7 +222,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "未接続",
         "description": ""
     },
     "installFollowUs": {
@@ -424,7 +424,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "接続完了",
         "description": ""
     },
     "sessionEnded": {
@@ -436,7 +436,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "再接続",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
