@@ -84,7 +84,7 @@
 
             inboxCollection.on('messageError', function() {
                 this.networkStatusView.render();
-            });
+            }.bind(this));
 
             this.inboxListView = new Whisper.ConversationListView({
                 el         : this.$('.inbox'),
