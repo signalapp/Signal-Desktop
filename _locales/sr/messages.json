@@ -4,7 +4,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "Задње увежено",
+        "message": "Задњи пут увежено",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
@@ -96,7 +96,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
-        "message": "За новопристигле поруке, прикажи обавештења са:",
+        "message": "Садржај обавештења за новопристигле поруке:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -210,7 +210,7 @@
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
-        "message": "Ништа",
+        "message": "Скривено",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
@@ -388,7 +388,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Покрените Сигнал на телефону и пронађите Подешавања > Повезани уређаји. Тапните дугме за додавање новог уређаја, затим скенирајте бар-код изнад.",
+        "message": "Покрените Сигнал на телефону и пронађите Подешавања > Повезани уређаји. Тапните дугме за додавање уређаја, затим скенирајте бар-код изнад.",
         "description": ""
     },
     "invalidNumberError": {
@@ -432,7 +432,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
-        "message": "Почните",
+        "message": "Припрема",
         "description": ""
     },
     "relink": {
@@ -448,7 +448,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "Претходно наместите <a $a_params$>Сигнал</a> на вашем Андроид уређају.<br />Повезаћемо ваше уређаје и поруке ће бити синхронизоване.",
+        "message": "Претходно наместите <a $a_params$>Сигнал</a> на вашем Андроид уређају.<br />Повезаћемо ваше уређаје и поруке ће бити усаглашене.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -470,7 +470,7 @@
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "Морате разменити бар једну преписку са овим дописником. Шифра за дописивање ће се створити након прве преписке.",
+        "message": "Морате разменити бар једну поруку са овим дописником. Шифра за дописивање ће се створити након прве преписке.",
         "description": ""
     },
     "submit": {
@@ -500,7 +500,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "Готови сте",
+        "message": "Потврђујем",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -516,7 +516,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Име и порука",
+        "message": "Име дописника и порука",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -558,7 +558,7 @@
         "description": "Header for notification settings"
     },
     "resend": {
-        "message": "Пошаљи поново",
+        "message": "Пошаљи опет",
         "description": ""
     }
 }
