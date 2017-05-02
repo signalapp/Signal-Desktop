@@ -237,6 +237,7 @@
             if (body.length > 0) {
                 var escaped = body.html();
                 body.html(escaped.replace(/\n/g, '<br>').replace(URL_REGEX, "$1<a href='$2' target='_blank'>$2</a>"));
+                body.html(mdRender.render(body.html()));
             }
 
             this.renderSent();

@@ -64,7 +64,6 @@
         return accountManager;
     };
 
-
     storage.fetch();
     storage.onready(function() {
         window.dispatchEvent(new Event('storage_ready'));

@@ -83,4 +83,14 @@ describe('MessageView', function() {
     assert.strictEqual(img.attr('title'), ':heart:');
     assert.strictEqual(img.attr('class'), 'emoji');
   });
+
+  it('supports markdown', function() {
+    message.set('body', '~~Go Away~~, _I\'m sorry_');
+    var view = new Whisper.MessageView({model: message});
+    view.render();
+    var body = view.$el.find('.body');
+    console.log('body', body.html());
+    // var strike = body.$el('s');
+    assert.strictEqual(body.html(), '<p><s>Go Away</s>, <em>I\'m sorry</em></p>\n');
+  });
 });
