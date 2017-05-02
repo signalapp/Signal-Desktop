@@ -50,7 +50,7 @@
                 this.openView(this.inboxView);
             }.bind(this));
           } else {
-            if (!$.contains(this.$el, this.inboxView.$el)) {
+            if (!$.contains(this.el, this.inboxView.el)) {
                 this.openView(this.inboxView);
             }
             window.focus(); // FIXME
