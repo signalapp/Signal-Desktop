@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'intlTelInput';
+@import '../components/intl-tel-input/build/css/intlTelInput.css';
 @import 'progress';
 .iti-flag {
   // override intlTelInput's flags image location

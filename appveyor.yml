@@ -8,7 +8,6 @@ cache:
 install:
   - set PATH=C:\Ruby23-x64\bin;%PATH%
   - ps: Install-Product node 6 x64
-  - gem install sass
   - yarn install
 
 test_script:
