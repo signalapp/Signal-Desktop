@@ -6,7 +6,6 @@ os:
   - osx
 dist: trusty
 install:
-  - gem install sass
   - yarn install
 script:
   - yarn test
