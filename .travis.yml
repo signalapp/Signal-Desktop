@@ -8,6 +8,7 @@ dist: trusty
 install:
   - yarn install
 script:
+  - export NODE_ENV=production
   - yarn test
   - yarn travis-build
 env:
