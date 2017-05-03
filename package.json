@@ -23,12 +23,13 @@
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-exec": "^2.0.0",
     "grunt-gitinfo": "^0.1.7",
     "grunt-jscs": "^3.0.1",
-    "grunt-saucelabs": "^9.0.0"
+    "grunt-sass": "^2.0.0",
+    "grunt-saucelabs": "^9.0.0",
+    "node-sass-import-once": "^1.2.0"
   },
   "scripts": {
     "test": "grunt test",
