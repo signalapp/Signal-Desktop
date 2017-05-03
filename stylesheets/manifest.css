@@ -2,17 +2,21 @@
 @font-face {
   font-family: 'Roboto-Light';
   src: url("../fonts/Roboto-Light.ttf") format("truetype"); }
+
 @font-face {
   font-family: 'Roboto';
   src: url("../fonts/Roboto-Regular.ttf") format("truetype"); }
+
 @font-face {
   font-family: 'Roboto';
   src: url("../fonts/Roboto-Italic.ttf") format("truetype");
   font-style: italic; }
+
 @font-face {
   font-family: 'Roboto';
   src: url("../fonts/Roboto-Bold.ttf") format("truetype");
   font-weight: bold; }
+
 * {
   box-sizing: border-box; }
 
@@ -282,6 +286,7 @@ button.hamburger {
 .group-member-list .summary,
 .new-group-update .summary {
   margin: 10px; }
+
 .group-member-list .members .contact,
 .new-group-update .members .contact {
   box-shadow: none;
@@ -364,7 +369,7 @@ button.hamburger {
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 8px;
-  width: calc(100% - 44px - 8px - 0.28571em);
+  width: calc(100% - 44px - 8px - 0.2857142857em);
   text-align: left;
   cursor: pointer; }
   .contact-details p {
@@ -379,7 +384,7 @@ button.hamburger {
     text-align: left; }
   .contact-details .number {
     color: #616161;
-    font-size: 0.92857em; }
+    font-size: 0.9285714286em; }
   .contact-details.not-clickable {
     cursor: default; }
   .contact-details .verified-icon {
@@ -446,9 +451,11 @@ button.hamburger {
     border: solid 3px;
     border-color: #a2d2f4 #a2d2f4 #f3f3f3 #f3f3f3 !important;
     animation: rotate 1s linear infinite; }
+
 @keyframes rotate {
   to {
     transform: rotate(360deg); } }
+
 .x {
   display: inline-block;
   float: right;
@@ -542,6 +549,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background-position: 40px 0; }
   to {
     background-position: 0 0; } }
+
 .progress-bar-striped {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
@@ -598,6 +606,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       width: 100%;
       resize: none;
       min-height: 100px; }
+
 .debug-log .result {
   text-align: center; }
   .debug-log .result .input-group {
@@ -736,6 +745,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     float: right;
     line-height: 36px;
     padding: 0 10px; }
+
 @keyframes pulse {
   0% {
     opacity: 0; }
@@ -834,19 +844,23 @@ img.emoji.jumbo {
     margin: 0 auto;
     width: 100%;
     max-width: 500px; }
+
 .settings hr {
   margin: 10px 0; }
+
 .settings .syncSettings button {
   float: right;
   line-height: 36px;
   padding: 0 20px;
   margin: 0 0 20px 20px; }
+
 .settings .syncSettings .synced_at {
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: #616161; }
+
 .settings .syncSettings .sync_failed {
   display: none;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: red; }
 
 .conversation-stack,
@@ -986,7 +1000,7 @@ input.search {
     font-style: italic;
     padding-right: 8px; }
   .new-contact.valid {
-    opacity: 1; }
+    opacity: 1.0; }
 
 .index {
   color: #454545; }
@@ -995,7 +1009,7 @@ input.search {
     padding: 0.5em; }
   .index .last-message {
     margin: 6px 0 0;
-    font-size: 0.92857em;
+    font-size: 0.9285714286em;
     font-weight: 300; }
   .index .gutter .timestamp {
     position: absolute;
@@ -1167,7 +1181,8 @@ input.search {
 .key-verification label {
   display: block;
   margin: 10px 0;
-  font-size: 0.92857em; }
+  font-size: 0.9285714286em; }
+
 .key-verification .icon {
   height: 1.25em;
   width: 1.25em;
@@ -1181,9 +1196,11 @@ input.search {
     -webkit-mask: url("/images/shield.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
+
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
   -webkit-user-select: text; }
+
 .key-verification .key {
   font-family: monospace;
   padding: 10px;
@@ -1192,8 +1209,10 @@ input.search {
   background: #f3f3f3;
   border: solid 1px #d9d9d9;
   border-radius: 5px; }
+
 .key-verification .placeholder {
   font-weight: bold; }
+
 .key-verification .qr {
   border-radius: 200px;
   border: solid 1px #d9d9d9;
@@ -1207,11 +1226,14 @@ input.search {
   .key-verification .qr img {
     display: inline-block;
     max-width: 100%; }
+
 .key-verification .summary {
   margin: 30px 0 10px;
   text-align: center; }
+
 .key-verification div.verify {
   text-align: center; }
+
 .key-verification button.verify {
   border-radius: 5px;
   font-weight: bold;
@@ -1221,11 +1243,14 @@ input.search {
 .identity-key-send-error button {
   margin-top: 0px;
   margin-bottom: 0px; }
+
 .identity-key-send-error .explanation {
   margin-top: 20px; }
+
 .identity-key-send-error .safety-number {
   margin-top: 30px;
   text-align: center; }
+
 .identity-key-send-error .actions {
   margin-top: 30px;
   text-align: center; }
@@ -1273,7 +1298,7 @@ input.search {
         background-color: white; }
     .message-detail .contacts .contact-detail .error-message {
       margin: 6px 0 0;
-      font-size: 0.92857em;
+      font-size: 0.9285714286em;
       font-weight: bold;
       color: red; }
   .message-detail h3 {
@@ -1291,6 +1316,7 @@ input.search {
 
 .message-list .error-icon {
   cursor: pointer; }
+
 .message-list .advisory {
   text-align: center; }
   .message-list .advisory .content {
@@ -1480,6 +1506,7 @@ li.entry .error-icon-container {
   .message-container .outgoing .bubble,
   .message-list .outgoing .bubble {
     clear: left; }
+
 @keyframes shake {
   0% {
     transform: translateX(0px); }
@@ -1655,7 +1682,7 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: 5px;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   z-index: 100; }
 
 .confirmation-dialog .content {
@@ -1771,6 +1798,7 @@ li.entry .error-icon-container {
   color: #454545; }
   .ios #header h1 {
     display: none; }
+
 .ios .gutter {
   border-right: 1px solid rgba(0, 0, 0, 0.1); }
   .ios .gutter .content {
@@ -1784,11 +1812,14 @@ li.entry .error-icon-container {
       color: white; }
       .ios .gutter .contact.selected .last-timestamp {
         color: white; }
+
 .ios .banner {
   top: 15px; }
+
 .ios .tool-bar {
   float: left;
   padding: 15px; }
+
 .ios input[type=text]:active,
 .ios input[type=text]:focus,
 .ios input[type=search]:active,
@@ -1797,6 +1828,7 @@ li.entry .error-icon-container {
 .ios form.active {
   outline-offset: 0;
   outline: -webkit-focus-ring-color auto 5px; }
+
 .ios input.search {
   border-radius: 5px;
   width: 220px;
@@ -1806,6 +1838,7 @@ li.entry .error-icon-container {
   background-color: #dddddd; }
   .ios input.search.active.rtl {
     background-position: left 30px center; }
+
 .ios .conversation-header {
   background-color: #f3f3f3;
   color: #454545;
@@ -1819,9 +1852,11 @@ li.entry .error-icon-container {
       background-color: #454545; }
   .ios .conversation-header .avatar {
     display: none; }
+
 .ios .settings h3,
 .ios .menu-list li {
   text-transform: capitalize; }
+
 .ios .bottom-bar {
   padding: 15px;
   min-height: 30px;
@@ -1829,9 +1864,11 @@ li.entry .error-icon-container {
   .ios .bottom-bar form.send {
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.1); }
+
 .ios .error-message.content,
 .ios .control .content {
   padding: 10px; }
+
 .ios .attachments .bubbled {
   border-radius: 15px;
   margin-bottom: 0.25em;
@@ -1854,6 +1891,7 @@ li.entry .error-icon-container {
     right: -6px;
     bottom: -3px;
     background: #eee; }
+
 .ios .bubble .content {
   margin-bottom: 5px; }
   .ios .bubble .content .body {
@@ -1878,12 +1916,16 @@ li.entry .error-icon-container {
       right: -6px;
       bottom: -3px;
       background: #eee; }
+
 .ios .bubble .content, .ios .bubble .attachments img {
   border-radius: 15px; }
+
 .ios .bubble .attachments img {
   background-color: white; }
+
 .ios .bubble .meta {
   clear: both; }
+
 .ios .incoming .bubbled {
   background-color: white;
   color: black;
@@ -1894,6 +1936,7 @@ li.entry .error-icon-container {
     background-color: white; }
   .ios .incoming .bubbled:after {
     left: -6px; }
+
 .ios .incoming .content {
   background-color: white;
   color: black;
@@ -1903,6 +1946,7 @@ li.entry .error-icon-container {
     background-color: white; }
   .ios .incoming .content .body:after {
     left: -6px; }
+
 .ios .outgoing .content, .ios .outgoing .attachments .bubbled {
   background-color: #2090ea;
   max-width: 100%;
@@ -1912,6 +1956,7 @@ li.entry .error-icon-container {
     .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection, .ios .outgoing .attachments .bubbled::selection, .ios .outgoing .attachments .bubbled .body::selection, .ios .outgoing .attachments .bubbled a::selection {
       background: white;
       color: #454545; }
+
 .ios .outgoing .attachments .fileView .icon {
   -webkit-mask: url("/images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -1928,10 +1973,12 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/voice.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .ios .attachment {
   margin-bottom: 1px; }
   .ios .attachment a {
     border-radius: 15px; }
+
 .ios .hourglass {
   display: inline-block;
   position: relative;
@@ -1962,52 +2009,75 @@ li.entry .error-icon-container {
   .android #header.inactive {
     background-color: #f3f3f3;
     color: #454545; }
+
 .android .contact-details .name {
   font-weight: 400; }
+
 .android .conversation.placeholder .conversation-header {
   display: none; }
+
 .android .conversation-header.red, .android .bubble.red {
   background-color: #EF5350; }
+
 .android .conversation-header.pink, .android .bubble.pink {
   background-color: #EC407A; }
+
 .android .conversation-header.purple, .android .bubble.purple {
   background-color: #AB47BC; }
+
 .android .conversation-header.deep_purple, .android .bubble.deep_purple {
   background-color: #7E57C2; }
+
 .android .conversation-header.indigo, .android .bubble.indigo {
   background-color: #5C6BC0; }
+
 .android .conversation-header.blue, .android .bubble.blue {
   background-color: #2196F3; }
+
 .android .conversation-header.light_blue, .android .bubble.light_blue {
   background-color: #03A9F4; }
+
 .android .conversation-header.cyan, .android .bubble.cyan {
   background-color: #00BCD4; }
+
 .android .conversation-header.teal, .android .bubble.teal {
   background-color: #009688; }
+
 .android .conversation-header.green, .android .bubble.green {
   background-color: #4CAF50; }
+
 .android .conversation-header.light_green, .android .bubble.light_green {
   background-color: #7CB342; }
+
 .android .conversation-header.orange, .android .bubble.orange {
   background-color: #FF9800; }
+
 .android .conversation-header.deep_orange, .android .bubble.deep_orange {
   background-color: #FF5722; }
+
 .android .conversation-header.amber, .android .bubble.amber {
   background-color: #FFB300; }
+
 .android .conversation-header.blue_grey, .android .bubble.blue_grey {
   background-color: #607D8B; }
+
 .android .conversation-header.grey, .android .bubble.grey {
   background-color: #999999; }
+
 .android .conversation-header.default, .android .bubble.default {
   background-color: #2090ea; }
+
 .android .bottom-bar {
   min-height: 10px; }
+
 .android .bubble {
   padding: 9px 12px;
   border-radius: 5px;
   box-shadow: 0 3px 3px -4px black; }
+
 .android .outgoing .bubble {
   background-color: white; }
+
 .android .outgoing .hourglass {
   display: inline-block;
   position: relative;
@@ -2030,6 +2100,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
+
 .android .incoming .hourglass {
   display: inline-block;
   position: relative;
@@ -2052,17 +2123,21 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #fff; }
+
 .android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a, .android .incoming .bubble .fileView {
   color: white; }
   .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .fileView::selection {
     background: white;
     color: #454545; }
+
 .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
+
 .android .incoming .bubble .fileView .icon {
   -webkit-mask: url("/images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
 .android button.clock {
   -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2071,6 +2146,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.clock {
   -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2079,6 +2155,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+
 .android button.hamburger {
   -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2087,6 +2164,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.hamburger {
   -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2095,6 +2173,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+
 .android button.back {
   -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2103,6 +2182,7 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.back {
   -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2176,11 +2256,11 @@ li.entry .error-icon-container {
   .android-dark .contact-details .name {
     font-weight: 400; }
   .android-dark .contact-details .number {
-    color: gray; }
+    color: #807f7f; }
     .android-dark .contact-details .number .verified-icon {
       -webkit-mask: url("/images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
-      background-color: gray; }
+      background-color: #807f7f; }
   .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
     background-color: #171717;
     border-color: #333333; }
@@ -2438,20 +2518,6 @@ li.entry .error-icon-container {
   .android-dark .capture-audio button:hover {
     background-color: #333333; }
 
-@font-face {
-  font-family: 'Roboto-Light';
-  src: url("../fonts/Roboto-Light.ttf") format("truetype"); }
-@font-face {
-  font-family: 'Roboto';
-  src: url("../fonts/Roboto-Regular.ttf") format("truetype"); }
-@font-face {
-  font-family: 'Roboto';
-  src: url("../fonts/Roboto-Italic.ttf") format("truetype");
-  font-style: italic; }
-@font-face {
-  font-family: 'Roboto';
-  src: url("../fonts/Roboto-Bold.ttf") format("truetype");
-  font-weight: bold; }
 .iti-flag {
   width: 16px;
   height: 11px;
@@ -3247,33 +3313,6 @@ li.entry .error-icon-container {
 
 .intl-tel-input .country-list .iti-flag, .intl-tel-input .country-list .country-name {
   margin-right: 6px; }
-
-@keyframes progress-bar-stripes {
-  from {
-    background-position: 40px 0; }
-  to {
-    background-position: 0 0; } }
-.progress-bar-striped {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
-  -webkit-background-size: 40px 40px;
-  background-size: 40px 40px; }
-
-.progress-bar-striped {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent); }
-
-.progress-bar.active {
-  -webkit-animation: progress-bar-stripes 2s linear infinite;
-  -o-animation: progress-bar-stripes 2s linear infinite;
-  animation: progress-bar-stripes 2s linear infinite; }
-
-.bar-container {
-  background: #a2d2f4; }
-  .bar-container .progress-bar {
-    height: 100%; }
 
 .iti-flag {
   background: url("../images/flags.png"); }
