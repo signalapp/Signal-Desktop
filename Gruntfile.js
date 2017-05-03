@@ -13,6 +13,9 @@ module.exports = function(grunt) {
     libtextsecurecomponents.push('components/' + bower.concat.libtextsecure[i] + '/**/*.js');
   }
 
+  var importOnce = require("node-sass-import-once");
+  grunt.loadNpmTasks("grunt-sass");
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
@@ -77,11 +80,15 @@ module.exports = function(grunt) {
       }
     },
     sass: {
-        stylesheets: {
-            files: {
-                'stylesheets/manifest.css': 'stylesheets/manifest.scss'
-            }
+      options: {
+        sourceMap: true,
+        importer: importOnce
+      },
+      dev: {
+        files: {
+          "stylesheets/manifest.css": "stylesheets/manifest.scss"
         }
+      }
     },
     jshint: {
       files: [
