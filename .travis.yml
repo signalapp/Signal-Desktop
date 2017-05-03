@@ -1,12 +1,25 @@
 language: node_js
 node_js:
-  - '0.10'
+  - 'node'
+os:
+  - linux
+  - osx
+dist: trusty
 install:
-  - npm install
+  - gem install sass
+  - yarn install
 script:
-  - npm test
+  - yarn test
+  - yarn travis-build
 env:
   global:
     - secure: LeXDynRSyeHXR9KdmhYuP/zsc8uFsnYoOWI3fqg8x5SLOilfDyQ766idkT9NTRrdSR8WY7wP4DPs3hrBWGmcVq7BhytI9Q34YSgGS/Sds0jlm5AzSpYfAHpSQ+9ufQXNKN6lgxTkupdsWlc2Em20wUd5EfluDSOoeWVMlqHmKrw=
     - secure: WzXjaiy6BmEyKI3uXeanjbAlmzadlwIWxJbC7Mff2duIl/nsaOTK6ElYu23IfeBCvK1DxXV8DVUfTIZXkeFeqHKPtgq2t3HcS12YiNnb7ToGpgOpzElYY4wAOPxRbqPE/ZcthbSxo1x/thgDeWNWxqK1X4XJ3qEIRoE+tPsGKG8=
 sudo: false
+addons:
+  artifacts:
+    paths:
+      - $(ls ./dist/*.dmg | tr "\n" ":")
+      - $(ls ./dist/*.zip | tr "\n" ":")
+      - $(ls ./dist/*.deb | tr "\n" ":")
+      - $(ls ./dist/*.rpm | tr "\n" ":")
