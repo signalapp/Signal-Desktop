@@ -251,7 +251,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
-  grunt.registerTask('test', ['jshint', 'jscs', 'connect', 'saucelabs-mocha']);
+  grunt.registerTask('test', ['jshint', 'jscs' ]);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('default', ['concat', 'sass', 'date']);
