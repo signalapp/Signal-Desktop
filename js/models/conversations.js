@@ -809,7 +809,7 @@
         if (!message.isIncoming()) {
             return;
         }
-        if (window.isOpen() && window.isFocused()) {
+        if (window.isFocused()) {
             return;
         }
         window.drawAttention();
