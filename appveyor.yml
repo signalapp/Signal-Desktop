@@ -16,3 +16,10 @@ test_script:
 build_script:
   - set NODE_ENV=production
   - yarn ci-build
+
+artifacts:
+  - path: dist/*.exe
+
+deploy:
+  provider: Environment
+  name: signal-desktop-builds
