@@ -11,18 +11,4 @@
             window.addEventListener('beforeunload', callback);
         }
     };
-
-    extension.notification = {
-        update: function(options) {
-            var notification = new Notification(options.title, {
-                body : options.message,
-                icon : options.iconUrl,
-                tag  : 'signal'
-            });
-            notification.onclick = function() {
-                Whisper.Notifications.onclick();
-            };
-        }
-    };
-
 }());
