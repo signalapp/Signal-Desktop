@@ -74,6 +74,12 @@
                 message  : message,
                 iconUrl  : iconUrl
             });
+            var notification = new Notification(title, {
+                body : message,
+                icon : iconUrl,
+                tag  : 'signal'
+            });
+            notification.onclick = this.onclick.bind(this);
         },
         getSetting: function() {
             return storage.get('notification-setting') || 'message';
