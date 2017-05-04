@@ -21,7 +21,4 @@ notifications:
 addons:
   artifacts:
     paths:
-      - $(ls ./dist/*.dmg | tr "\n" ":")
       - $(ls ./dist/*.zip | tr "\n" ":")
-      - $(ls ./dist/*.deb | tr "\n" ":")
-      - $(ls ./dist/*.rpm | tr "\n" ":")
