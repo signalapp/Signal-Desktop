@@ -68,9 +68,6 @@
                 window.setBadgeCount(0);
                 window.document.title = "Signal";
             }
-            if (newUnreadCount === 0) {
-                window.clearAttention();
-            }
         }
     }))();
 

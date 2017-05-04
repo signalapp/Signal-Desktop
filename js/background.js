@@ -10,7 +10,6 @@
 
     console.log('background page reloaded');
     console.log('environment:', window.config.environment);
-    extension.notification.init();
 
     // start a background worker for ecc
     textsecure.startWorker('js/libsignal-protocol-worker.js');
@@ -54,7 +53,6 @@
         console.log("listening for registration events");
         Whisper.events.on('registration_done', function() {
             console.log("handling registration event");
-            extension.keepAwake();
             init(true);
         });
 
