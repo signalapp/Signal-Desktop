@@ -30,7 +30,6 @@
         },
         update: function() {
             console.log('updating notifications', this.length);
-            extension.notification.clear();
             if (this.length === 0) {
                 return;
             }
@@ -89,7 +88,6 @@
         onRemove: function() {
             console.log('remove notification');
             if (this.length === 0) {
-                extension.notification.clear();
                 return;
             }
         },
