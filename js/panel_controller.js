@@ -18,14 +18,4 @@
     };
     var inboxWindowId = 'inbox';
 
-    window.setUnreadCount = function(count) {
-        if (count > 0) {
-            window.setBadgeCount(count);
-            window.document.title = "Signal (" + count + ")";
-        } else {
-            window.setBadgeCount(0);
-            window.document.title = "Signal";
-        }
-    };
-
 })();
