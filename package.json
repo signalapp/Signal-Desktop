@@ -35,7 +35,7 @@
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
-    "travis-build": "npm run icon-gen && grunt && build --em.environment=$NODE_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER'",
+    "ci-build": "npm run icon-gen && grunt && build --em.environment=$NODE_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER'",
     "dist": "npm run icon-gen && grunt && build --em.environment=$NODE_ENV",
     "pack": "npm run dist -- --dir",
     "pack-staging": "NODE_ENV=staging npm run pack",
