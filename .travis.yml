@@ -10,7 +10,7 @@ install:
 script:
   - export NODE_ENV=production
   - yarn test
-  - yarn travis-build
+  - yarn ci-build
 env:
   global:
     - secure: LeXDynRSyeHXR9KdmhYuP/zsc8uFsnYoOWI3fqg8x5SLOilfDyQ766idkT9NTRrdSR8WY7wP4DPs3hrBWGmcVq7BhytI9Q34YSgGS/Sds0jlm5AzSpYfAHpSQ+9ufQXNKN6lgxTkupdsWlc2Em20wUd5EfluDSOoeWVMlqHmKrw=
