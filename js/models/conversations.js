@@ -817,7 +817,7 @@
         if (!message.isIncoming()) {
             return Promise.resolve();
         }
-        if (window.isOpen() && window.isFocused()) {
+        if (window.isFocused()) {
             return Promise.resolve();
         }
 

@@ -69,9 +69,6 @@
                 window.setBadgeCount(0);
                 window.document.title = "Signal";
             }
-            if (newUnreadCount === 0) {
-                window.clearAttention();
-            }
         },
         startPruning: function() {
             var halfHour = 30 * 60 * 1000;
