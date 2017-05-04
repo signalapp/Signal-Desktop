@@ -15,4 +15,4 @@ test_script:
 
 build_script:
   - set NODE_ENV=production
-  - yarn travis-build
+  - yarn ci-build
