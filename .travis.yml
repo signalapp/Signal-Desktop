@@ -8,8 +8,10 @@ dist: trusty
 install:
   - yarn install
 script:
+  - yarn run generate
+  - ./node_modules/.bin/build --em.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
+  - grunt test-release:$TRAVIS_OS_NAME
   - yarn test
-  - yarn ci-build
 env:
   global:
     - SIGNAL_ENV: production
@@ -21,4 +23,4 @@ notifications:
 addons:
   artifacts:
     paths:
-      - $(ls ./dist/*.zip | tr "\n" ":")
+      - $(ls ./dist/*.* | tr "\n" ":")
