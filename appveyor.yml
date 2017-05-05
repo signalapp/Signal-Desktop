@@ -14,11 +14,13 @@ test_script:
   - yarn test
 
 build_script:
-  - set NODE_ENV=production
   - yarn ci-build
 
 artifacts:
   - path: dist/*.zip
+
+environment:
+  SIGNAL_ENV: production
 
 deploy:
   provider: Environment
