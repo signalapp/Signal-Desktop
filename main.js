@@ -164,9 +164,11 @@ app.on('ready', function() {
   createWindow();
 
   let template = require('./menu.js');
-  template[3].submenu[3].click = function() {
-    mainWindow.show();
-  };
+  if (process.platform === 'darwin') {
+    template[3].submenu[3].click = function() {
+      mainWindow.show();
+    };
+  }
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
