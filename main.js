@@ -130,7 +130,7 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (!shouldQuit) {
+    if (process.platform === 'darwin' && !shouldQuit) {
       e.preventDefault();
       mainWindow.hide();
     }
