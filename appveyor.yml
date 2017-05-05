@@ -10,14 +10,16 @@ install:
   - ps: Install-Product node 6 x64
   - yarn install
 
+build_script:
+  - yarn run generate
+  - ./node_modules/.bin/build --em.environment=%SIGNAL_ENV% --publish=never
+
 test_script:
+  - ./node_modules/.bin/grunt test-release:win
   - yarn test
 
-build_script:
-  - yarn ci-build
-
 artifacts:
-  - path: dist/*.zip
+  - path: dist/*.*
 
 environment:
   SIGNAL_ENV: production
