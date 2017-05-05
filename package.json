@@ -65,7 +65,7 @@
         "zip"
       ],
       "artifactName": "${productName}-${version}.${ext}",
-      "bundleVersion": "4"
+      "bundleVersion": "1"
     },
     "win": {
       "artifactName": "${productName}-Setup_${version}.${ext}",
