@@ -217,8 +217,8 @@ module.exports = function(grunt) {
         cmd: 'tx pull'
       }
     },
-    release: {
-      mac: {
+    'test-release': {
+      osx: {
         archive: 'mac/Signal.app/Contents/Resources/app.asar',
       },
       mas: {
