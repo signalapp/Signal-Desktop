@@ -39,7 +39,6 @@
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "npm run icon-gen && grunt",
     "build": "build --em.environment=$SIGNAL_ENV",
-    "ci-build": "npm run generate && npm run build -- --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --config.mac.target=zip --config.win.target=zip --config.linux.target=zip --publish=never",
     "dist": "npm run generate && npm run build",
     "pack": "npm run dist -- --dir",
     "pack-prod": "SIGNAL_ENV=production npm run pack",
@@ -72,6 +71,10 @@
         "zip"
       ],
       "artifactName": "${productName}-${version}.${ext}",
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "bundleVersion": "1"
     },
     "win": {
@@ -83,11 +86,16 @@
         "bucket": "updates.signal.org",
         "path": "desktop",
         "acl": "public-read"
-      }
+      },
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "linux": {
       "target": [
-        "deb"
+        "deb",
+        "zip"
       ],
       "icon": "build/icons/png"
     },
