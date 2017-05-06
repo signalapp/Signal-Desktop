@@ -220,15 +220,19 @@ module.exports = function(grunt) {
     'test-release': {
       osx: {
         archive: 'mac/Signal.app/Contents/Resources/app.asar',
+        exe: 'mac/Signal.app/Contents/MacOS/Signal'
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
+        exe: 'mas/Signal.app/Contents/MacOS/Signal'
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',
+        exe: 'linux-unpacked/signal-desktop'
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
+        exe: 'win-unpacked/Signal.exe'
       }
     },
     gitinfo: {} // to be populated by grunt gitinfo
@@ -363,6 +367,38 @@ module.exports = function(grunt) {
           throw new Error("Missing file " + fileName);
         }
       });
+
+      var done = this.async();
+      // A simple test to verify a visible window is opened with a title
+      var Application = require('spectron').Application;
+      var assert = require('assert');
+
+      var app = new Application({
+        path: [dir, config.exe].join('/')
+      });
+
+      app.start().then(function () {
+        return app.client.getWindowCount();
+      }).then(function (count) {
+        assert.equal(count, 1);
+        console.log('window opened');
+      }).then(function () {
+        // Get the window's title
+        return app.client.getTitle();
+      }).then(function (title) {
+        // Verify the window's title
+        assert.equal(title, 'Signal');
+        console.log('title ok');
+      }).then(function () {
+        assert(app.chromeDriver.logLines.indexOf('NODE_ENV ' + environment) > -1);
+        console.log('environment ok');
+      }).catch(function (error) {
+        // Log any failures
+        console.log('Test failed', error.message);
+      }).then(function () {
+        // Stop the application
+        return app.stop();
+      }).then(done);
 
       // todo: verify package.json has `environment: <environment>`
   });
