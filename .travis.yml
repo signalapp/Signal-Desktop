@@ -10,7 +10,7 @@ install:
 script:
   - yarn run generate
   - ./node_modules/.bin/build --em.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
-  - grunt test-release:$TRAVIS_OS_NAME
+  - ./travis.sh
   - yarn test
 env:
   global:
