@@ -79,4 +79,5 @@
       menu.popup(remote.getCurrentWindow());
     }, 30);
   });
+
 })();
