@@ -168,7 +168,7 @@
             'click .showSettings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
-            'click .restart-signal': 'reloadBackgroundPage',
+            'click .restart-signal': window.restart,
             'show .lightbox': 'showLightbox'
         },
         startConnectionListener: function() {
