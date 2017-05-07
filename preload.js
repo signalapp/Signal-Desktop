@@ -19,6 +19,10 @@
     console.log('show window');
     ipc.send('show-window');
   };
+  window.restart = function() {
+    console.log('restart');
+    ipc.send('restart');
+  };
   /**
   * Enables spell-checking and the right-click context menu in text editors.
   * Electron (`webFrame.setSpellCheckProvider`) only underlines misspelled words;
