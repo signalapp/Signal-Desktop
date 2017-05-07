@@ -69,11 +69,6 @@
                 iconUrl = last.get('iconUrl');
                 break;
             }
-            extension.notification.update({
-                title    : title,
-                message  : message,
-                iconUrl  : iconUrl
-            });
             var notification = new Notification(title, {
                 body : message,
                 icon : iconUrl,
