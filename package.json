@@ -71,7 +71,6 @@
         "dmg",
         "zip"
       ],
-      "artifactName": "${productName}-${version}.${ext}",
       "target": [
         "dmg",
         "zip"
