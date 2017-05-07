@@ -212,3 +212,7 @@ ipc.on('draw-attention', function(event, count) {
     }, 1000);
   }
 });
+ipc.on('restart', function(event) {
+  app.relaunch();
+  app.quit();
+});
