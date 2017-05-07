@@ -46,13 +46,6 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
-        this.fetchContacts().then(function() {
-            this.contactCollection.each(function(contact) {
-                textsecure.storage.protocol.on('keychange:' + contact.id, function() {
-                    this.addKeyChange(contact.id);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
     },
 
     addKeyChange: function(id) {
@@ -631,4 +624,21 @@
   });
 
   Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
+
+  // Special collection for fetching all the groups a certain number appears in
+  Whisper.GroupCollection = Backbone.Collection.extend({
+    database: Whisper.Database,
+    storeName: 'conversations',
+    model: Whisper.Conversation,
+    fetchGroups: function(number) {
+        return new Promise(function(resolve) {
+            this.fetch({
+                index: {
+                    name: 'group',
+                    only: number
+                }
+            }).always(resolve);
+        }.bind(this));
+    }
+  });
 })();

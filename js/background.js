@@ -20,6 +20,7 @@
 
     // start a background worker for ecc
     textsecure.startWorker('/js/libsignal-protocol-worker.js');
+    Whisper.KeyChangeListener.init(textsecure.storage.protocol);
 
     extension.onLaunched(function() {
         console.log('extension launched');

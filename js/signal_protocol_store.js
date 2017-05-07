@@ -297,7 +297,7 @@
                         this.removeIdentityKey(identifier).then(function() {
                             this.saveIdentity(identifier, publicKey).then(function() {
                                 console.log('Key changed for', identifier);
-                                this.trigger('keychange:' + identifier);
+                                this.trigger('keychange', identifier);
                                 resolve(true);
                             }.bind(this));
                         }.bind(this));
