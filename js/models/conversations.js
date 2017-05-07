@@ -46,7 +46,6 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
-        this.on('read', this.onReadMessage);
         this.fetchContacts().then(function() {
             this.contactCollection.each(function(contact) {
                 textsecure.storage.protocol.on('keychange:' + contact.id, function() {
