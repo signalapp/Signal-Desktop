@@ -49,7 +49,7 @@
     "build-mas-release": "npm run build-release -- -m --config.mac.target=mas",
     "build-mas-dev": "npm run build-release -- -m --config.mac.target=mas --config.type=development",
     "prep-mac-release": "npm run build-release -- -m --dir",
-    "prep-release": "grunt clean-release && npm run generate && npm run prep-mac-release && npm run build-mas-release && grunt prep-release",
+    "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
     "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal.app --publish=always",
     "release-win": "npm run build-release -- -w --prepackaged release/win-unpacked --publish=always",
     "release-lin": "npm run build-release -- -l --prepackaged release/linux-unpacked && VERSION=$npm_package_version ./aptly.sh",
