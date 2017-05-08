@@ -407,7 +407,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['jshint', 'jscs' ]);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
-  grunt.registerTask('prep-release', ['gitinfo', 'fetch-release', 'test-release']);
+  grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
   grunt.registerTask('default', ['concat', 'sass', 'date']);
 
 };
