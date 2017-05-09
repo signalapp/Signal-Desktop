@@ -466,21 +466,30 @@ li.entry .error-icon-container {
     }
 
     .fileView {
+      display: flex;
+      align-items: center;
+
       position: relative;
       padding: 5px;
       padding-right: 10px;
+
       background-color: #fafafa;
       border: 1px solid $grey_l2;
       border-radius: $border-radius;
       cursor: pointer;
       color: $grey_d;
 
-      .icon, .fileName {
+      .fileName {
+        font-weight: bold;
+        margin-bottom: 0.25em;
+      }
+
+      .icon, .text {
         opacity: 0.75;
       }
 
       &:hover {
-        .icon, .fileName {
+        .icon, .text {
           opacity: 1.0;
         }
       }
@@ -491,8 +500,8 @@ li.entry .error-icon-container {
         &:before {
           content: '';
           display: inline-block;
-          width: $button-height;
-          height: $button-height;
+          width: $button-height * 2;
+          height: $button-height * 2;
           @include color-svg('/images/file.svg', black);
         }
       }
