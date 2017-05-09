@@ -21,7 +21,8 @@
     "emojidata": "https://github.com/iamcal/emoji-data.git",
     "autosize": "~3.0.6",
     "webaudiorecorder": "https://github.com/higuma/web-audio-recorder-js.git",
-    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git"
+    "mp3lameencoder": "https://github.com/higuma/mp3-lame-encoder-js.git",
+    "filesize": "https://github.com/avoidwork/filesize.js.git"
   },
   "devDependencies": {
     "mocha": "~2.0.1",
@@ -99,6 +100,9 @@
     ],
     "mp3lameencoder": [
       "lib/Mp3LameEncoder.js"
+    ],
+    "filesize": [
+      "lib/filesize.js"
     ]
   },
   "concat": {
@@ -119,7 +123,8 @@
       "blueimp-load-image",
       "blueimp-canvas-to-blob",
       "emojijs",
-      "autosize"
+      "autosize",
+      "filesize"
     ],
     "libtextsecure": [
       "long",
