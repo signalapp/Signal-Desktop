@@ -1320,11 +1320,7 @@ li.entry .error-icon-container {
     position: relative;
     padding: 5px;
     padding-right: 10px;
-    background-color: #fafafa;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #454545; }
+    cursor: pointer; }
     .message-container .attachments .fileView .fileName,
     .message-list .attachments .fileView .fileName {
       font-weight: bold;
@@ -1532,6 +1528,28 @@ li.entry .error-icon-container {
 .ios .error-message.content,
 .ios .control .content {
   padding: 10px; }
+.ios .message-list .attachments .fileView {
+  border-radius: 15px;
+  margin-bottom: 0.25em;
+  padding: 10px;
+  position: relative; }
+  .ios .message-list .attachments .fileView:before, .ios .message-list .attachments .fileView:after {
+    content: '';
+    display: block;
+    border-radius: 20px;
+    position: absolute;
+    width: 10px; }
+  .ios .message-list .attachments .fileView:before {
+    right: -1px;
+    bottom: -3px;
+    height: 10px;
+    border-radius: 20px;
+    background: #2090ea; }
+  .ios .message-list .attachments .fileView:after {
+    height: 11px;
+    right: -6px;
+    bottom: -3px;
+    background: white; }
 .ios .bubble .content {
   margin-bottom: 5px; }
   .ios .bubble .content .body {
@@ -1562,6 +1580,15 @@ li.entry .error-icon-container {
   border: 1px solid rgba(0, 0, 0, 0.1); }
 .ios .bubble .meta {
   clear: both; }
+.ios .message-list .incoming .attachment .fileView {
+  background-color: #e6e5ea;
+  color: black;
+  float: left; }
+  .ios .message-list .incoming .attachment .fileView:before {
+    left: -1px;
+    background-color: #e6e5ea; }
+  .ios .message-list .incoming .attachment .fileView:after {
+    left: -6px; }
 .ios .incoming .content {
   background-color: #e6e5ea;
   color: black;
@@ -1571,14 +1598,18 @@ li.entry .error-icon-container {
     background-color: #e6e5ea; }
   .ios .incoming .content .body:after {
     left: -6px; }
-.ios .outgoing .content {
+.ios .outgoing .content, .ios .outgoing .attachments .fileView {
   background-color: #2090ea;
   float: right; }
-  .ios .outgoing .content, .ios .outgoing .content .body, .ios .outgoing .content a {
+  .ios .outgoing .content, .ios .outgoing .content .body, .ios .outgoing .content a, .ios .outgoing .attachments .fileView, .ios .outgoing .attachments .fileView .body, .ios .outgoing .attachments .fileView a {
     color: white; }
-    .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection {
+    .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection, .ios .outgoing .attachments .fileView::selection, .ios .outgoing .attachments .fileView .body::selection, .ios .outgoing .attachments .fileView a::selection {
       background: white;
       color: #454545; }
+.ios .outgoing .attachments .fileView .icon::before {
+  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
 .ios .attachment {
   margin-bottom: 1px; }
   .ios .attachment a {

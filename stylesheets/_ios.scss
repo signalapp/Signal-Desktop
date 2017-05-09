@@ -85,6 +85,37 @@ $ios-border-color: rgba(0,0,0,0.1);
   .control .content {
     padding: 10px;
   }
+
+
+  .message-list .attachments .fileView {
+    border-radius: 15px;
+    margin-bottom: 0.25em;
+
+    padding: 10px;
+    position: relative;
+
+    &:before, &:after {
+      content: '';
+      display: block;
+      border-radius: 20px;
+      position: absolute;
+      width: 10px;
+    }
+    &:before {
+      right: -1px;
+      bottom: -3px;
+      height: 10px;
+      border-radius: 20px;
+      background: $blue;
+    }
+    &:after {
+      height: 11px;
+      right: -6px;
+      bottom: -3px;
+      background: white;
+    }
+  }
+
   .bubble {
     .content {
       margin-bottom: 5px;
@@ -126,6 +157,21 @@ $ios-border-color: rgba(0,0,0,0.1);
       clear: both;
     }
   }
+
+  .message-list .incoming .attachment .fileView {
+    background-color: #e6e5ea;
+    color: black;
+    float: left;
+
+    &:before {
+      left: -1px;
+      background-color: #e6e5ea;
+    }
+    &:after {
+      left: -6px;
+    }
+  }
+
   .incoming .content {
     background-color: #e6e5ea;
     color: black;
@@ -141,7 +187,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
   .outgoing {
-    .content {
+    .content, .attachments .fileView {
       background-color: $blue;
       &, .body, a {
         @include invert-text-color;
@@ -149,6 +195,11 @@ $ios-border-color: rgba(0,0,0,0.1);
       float: right;
     }
   }
+
+  .outgoing .attachments .fileView .icon::before {
+    @include color-svg('/images/file.svg', white);
+  }
+
   .attachment {
     a {
       border-radius: 15px;
