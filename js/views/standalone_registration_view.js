@@ -12,11 +12,12 @@
         initialize: function() {
             this.accountManager = getAccountManager();
 
+            this.render();
+
             var number = textsecure.storage.user.getNumber();
             if (number) {
-                $('input.number').val(number);
+                this.$('input.number').val(number);
             }
-            this.render();
             this.phoneView = new Whisper.PhoneInputView({el: this.$('#phone-number-input')});
             this.$('#error').hide();
         },
