@@ -2,14 +2,29 @@ describe('AttachmentView', function() {
 
   describe('with arbitrary files', function() {
       it('should render a file view', function() {
-        var attachment = { contentType: 'arbitrary/content' };
+        var attachment = {
+          contentType: 'unused',
+          size: 1232
+        };
         var view = new Whisper.AttachmentView({model: attachment}).render();
         assert.match(view.el.innerHTML, /fileView/);
       });
       it('should display the filename if present', function() {
-        var attachment = { contentType: 'arbitrary/content', fileName: 'foo.txt' };
+        var attachment = {
+          fileName: 'foo.txt',
+          contentType: 'unused',
+          size: 1232,
+        };
         var view = new Whisper.AttachmentView({model: attachment}).render();
         assert.match(view.el.innerHTML, /foo.txt/);
+      });
+      it('should render a file size', function() {
+        var attachment = {
+          size: 1232,
+          contentType: 'unused'
+        };
+        var view = new Whisper.AttachmentView({model: attachment}).render();
+        assert.match(view.el.innerHTML, /1.2 KB/);
       });
   });
   it('should render an image for images', function() {
