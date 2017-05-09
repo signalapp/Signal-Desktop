@@ -37,12 +37,8 @@
     @include hourglass(#fff);
   }
 
-  .attachments .fileView {
-    margin-bottom: 0.5em;
-  }
-
   .incoming .bubble {
-    .sender, .content, .body, .meta, a {
+    .sender, .content, .body, .meta, a, .fileView {
       @include invert-text-color;
     }
     .attachments, .content {
@@ -51,6 +47,11 @@
       }
     }
   }
+
+  .incoming .bubble .fileView .icon::before {
+    @include color-svg('/images/file.svg', white);
+  }
+
   button.clock {
     @include header-icon-white('/images/clock.svg');
   }

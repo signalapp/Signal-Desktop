@@ -138,20 +138,25 @@ $text-dark: #CCCCCC;
     @include hourglass(#fff);
   }
 
-  .attachments .fileView {
-    margin-bottom: 0.5em;
-  }
-
   .incoming .bubble {
-    .sender, .content, .body, .meta, a {
+    .sender, .content, .body, .meta, a, .fileView {
       @include invert-text-color;
     }
-    .attachments, .content {
+    .content {
       a {
         color: $grey_l;
       }
     }
   }
+
+  .incoming .bubble .fileView .icon::before {
+    @include color-svg('/images/file.svg', white);
+  }
+
+  .outgoing .bubble .fileView .icon::before {
+    @include color-svg('/images/file.svg', #CCCCCC);
+  }
+
   button.clock {
     @include header-icon-white('/images/clock.svg');
   }
