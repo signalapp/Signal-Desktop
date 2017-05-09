@@ -138,6 +138,10 @@ $text-dark: #CCCCCC;
     @include hourglass(#fff);
   }
 
+  .attachments .fileView {
+    margin-bottom: 0.5em;
+  }
+
   .incoming .bubble {
     .sender, .content, .body, .meta, a {
       @include invert-text-color;
