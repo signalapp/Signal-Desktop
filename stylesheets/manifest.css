@@ -1735,15 +1735,17 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #fff; }
-.android .attachments .fileView {
-  margin-bottom: 0.5em; }
-.android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a {
+.android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a, .android .incoming .bubble .fileView {
   color: white; }
-  .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection {
+  .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .fileView::selection {
     background: white;
     color: #454545; }
 .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
+.android .incoming .bubble .fileView .icon::before {
+  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
 .android button.clock {
   -webkit-mask: url("/images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -1981,15 +1983,21 @@ li.entry .error-icon-container {
       -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #fff; }
-  .android-dark .attachments .fileView {
-    margin-bottom: 0.5em; }
-  .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a {
+  .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a, .android-dark .incoming .bubble .fileView {
     color: white; }
-    .android-dark .incoming .bubble .sender::selection, .android-dark .incoming .bubble .content::selection, .android-dark .incoming .bubble .body::selection, .android-dark .incoming .bubble .meta::selection, .android-dark .incoming .bubble a::selection {
+    .android-dark .incoming .bubble .sender::selection, .android-dark .incoming .bubble .content::selection, .android-dark .incoming .bubble .body::selection, .android-dark .incoming .bubble .meta::selection, .android-dark .incoming .bubble a::selection, .android-dark .incoming .bubble .fileView::selection {
       background: white;
       color: #454545; }
-  .android-dark .incoming .bubble .attachments a, .android-dark .incoming .bubble .content a {
+  .android-dark .incoming .bubble .content a {
     color: #f3f3f3; }
+  .android-dark .incoming .bubble .fileView .icon::before {
+    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android-dark .outgoing .bubble .fileView .icon::before {
+    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
   .android-dark button.clock {
     -webkit-mask: url("/images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
