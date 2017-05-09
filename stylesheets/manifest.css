@@ -1315,6 +1315,8 @@ li.entry .error-icon-container {
     cursor: pointer; }
   .message-container .attachments .fileView,
   .message-list .attachments .fileView {
+    display: flex;
+    align-items: center;
     position: relative;
     padding: 5px;
     padding-right: 10px;
@@ -1323,13 +1325,17 @@ li.entry .error-icon-container {
     border-radius: 5px;
     cursor: pointer;
     color: #454545; }
-    .message-container .attachments .fileView .icon, .message-container .attachments .fileView .fileName,
-    .message-list .attachments .fileView .icon,
+    .message-container .attachments .fileView .fileName,
     .message-list .attachments .fileView .fileName {
+      font-weight: bold;
+      margin-bottom: 0.25em; }
+    .message-container .attachments .fileView .icon, .message-container .attachments .fileView .text,
+    .message-list .attachments .fileView .icon,
+    .message-list .attachments .fileView .text {
       opacity: 0.75; }
-    .message-container .attachments .fileView:hover .icon, .message-container .attachments .fileView:hover .fileName,
+    .message-container .attachments .fileView:hover .icon, .message-container .attachments .fileView:hover .text,
     .message-list .attachments .fileView:hover .icon,
-    .message-list .attachments .fileView:hover .fileName {
+    .message-list .attachments .fileView:hover .text {
       opacity: 1.0; }
     .message-container .attachments .fileView .icon,
     .message-list .attachments .fileView .icon {
@@ -1339,8 +1345,8 @@ li.entry .error-icon-container {
       .message-list .attachments .fileView .icon:before {
         content: '';
         display: inline-block;
-        width: 24px;
-        height: 24px;
+        width: 48px;
+        height: 48px;
         -webkit-mask: url("/images/file.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: black; }

@@ -9,10 +9,7 @@
       className: 'fileView',
       templateName: 'file-view',
       render_attributes: function() {
-        return {
-            fileName : this.model.fileName,
-            altText  : i18n('unsupportedAttachment')
-        };
+        return this.model;
       }
   });
 
@@ -163,7 +160,14 @@
         this.renderFileView();
     },
     renderFileView: function() {
-        this.view = new FileView({model: {fileName: this.suggestedName()}});
+        this.view = new FileView({
+          model: {
+            fileName: this.suggestedName(),
+            fileSize: window.filesize(this.model.size),
+            altText: i18n('unsupportedAttachment')
+          }
+        });
+
         this.view.$el.appendTo(this.$el.empty());
         this.view.render();
         this.update();
