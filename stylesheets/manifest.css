@@ -1335,6 +1335,7 @@ li.entry .error-icon-container {
       opacity: 1.0; }
     .message-container .attachments .fileView .icon,
     .message-list .attachments .fileView .icon {
+      margin-left: -0.5em;
       display: inline-block;
       vertical-align: middle; }
       .message-container .attachments .fileView .icon:before,
