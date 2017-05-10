@@ -180,7 +180,16 @@
         getFile: function(file) {
             file = file || this.file || this.$input.prop('files')[0];
             if (file === undefined) { return Promise.resolve(); }
-            return this.autoScale(file).then(this.readFile);
+            var flags;
+            if (this.isVoiceNote) {
+              flags = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
+            }
+            return this.autoScale(file).then(this.readFile).then(function(attachment) {
+              if (flags) {
+                attachment.flags = flags;
+              }
+              return attachment;
+            }.bind(this));
         },
 
         getThumbnail: function() {
@@ -252,6 +261,7 @@
             this.$input.unwrap();
             this.file = null;
             this.$input.trigger('change');
+            this.isVoiceNote = false;
         },
 
         openDropped: function(e) {
