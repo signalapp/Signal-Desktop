@@ -2044,5 +2044,7 @@ li.entry .error-icon-container {
       background: rgba(255, 255, 255, 0.25); }
   .android-dark ::-webkit-scrollbar-track {
     background-color: #292929; }
+  .android-dark .recorder {
+    background: #292929; }
 
 /*# sourceMappingURL=manifest.css.map */
