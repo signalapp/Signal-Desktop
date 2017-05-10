@@ -26,7 +26,7 @@ describe('KeyChangeListener', function() {
     var convo = new Whisper.Conversation({ id: phone_number_with_keychange, type: 'private'});
     before(function() {
       ConversationController.add(convo);
-      return new Promise(function(resolve) { convo.save().then(resolve); });
+      return convo.save();
     });
 
     after(function() {
