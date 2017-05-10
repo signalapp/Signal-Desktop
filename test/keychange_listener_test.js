@@ -1,7 +1,7 @@
 describe('KeyChangeListener', function() {
-  var phone_number_with_keychange = '+13016886524';  // nsa
-  var oldkey = libsignal.crypto.getRandomBytes(33);
-  var newkey = libsignal.crypto.getRandomBytes(33);
+  var phoneNumberWithKeyChange = '+13016886524';  // nsa
+  var oldKey = libsignal.crypto.getRandomBytes(33);
+  var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
 
   before(function() {
@@ -15,15 +15,15 @@ describe('KeyChangeListener', function() {
   beforeEach(function() {
     store = new SignalProtocolStore();
     Whisper.KeyChangeListener.init(store);
-    return store.saveIdentity(phone_number_with_keychange, oldkey);
+    return store.saveIdentity(phoneNumberWithKeyChange, oldKey);
   });
 
   afterEach(function() {
-    return store.removeIdentityKey(phone_number_with_keychange);
+    return store.removeIdentityKey(phoneNumberWithKeyChange);
   });
 
   describe('When we have a conversation with this contact', function() {
-    var convo = new Whisper.Conversation({ id: phone_number_with_keychange, type: 'private'});
+    var convo = new Whisper.Conversation({ id: phoneNumberWithKeyChange, type: 'private'});
     before(function() {
       ConversationController.add(convo);
       return convo.save();
@@ -42,13 +42,13 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.isTrustedIdentity(phone_number_with_keychange, newkey);
+      return store.isTrustedIdentity(phoneNumberWithKeyChange, newKey);
     });
   });
 
 
   describe('When we have a group with this contact', function() {
-    var convo = new Whisper.Conversation({ id: 'groupId', type: 'group', members: [phone_number_with_keychange] });
+    var convo = new Whisper.Conversation({ id: 'groupId', type: 'group', members: [phoneNumberWithKeyChange] });
     before(function() {
       ConversationController.add(convo);
       return convo.save();
@@ -66,7 +66,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.isTrustedIdentity(phone_number_with_keychange, newkey);
+      return store.isTrustedIdentity(phoneNumberWithKeyChange, newKey);
     });
 
   });
