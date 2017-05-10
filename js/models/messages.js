@@ -394,14 +394,6 @@
                             });
                         }
                         attributes.active_at = now;
-                        if (type === 'incoming') {
-                            // experimental
-                            if (Whisper.ReadReceipts.forMessage(message) || message.isExpirationTimerUpdate()) {
-                                message.unset('unread');
-                            } else {
-                                attributes.unreadCount = conversation.get('unreadCount') + 1;
-                            }
-                        }
                         conversation.set(attributes);
 
                         if (message.isExpirationTimerUpdate()) {
@@ -426,6 +418,19 @@
                             } else if (conversation.get('expireTimer')) {
                                 conversation.updateExpirationTimer(null, source,
                                     message.get('received_at'));
+                            }
+                        }
+                        if (type === 'incoming') {
+                            var readReceipt = Whisper.ReadReceipts.forMessage(message);
+                            if (readReceipt) {
+                                if (message.get('expireTimer') && !message.get('expirationStartTimestamp')) {
+                                    message.set('expirationStartTimestamp', readReceipt.get('read_at'));
+                                }
+                            }
+                            if (readReceipt || message.isExpirationTimerUpdate()) {
+                                message.unset('unread');
+                            } else {
+                                conversation.set('unreadCount', conversation.get('unreadCount') + 1);
                             }
                         }
 
