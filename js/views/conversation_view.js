@@ -180,6 +180,7 @@
         },
         handleAudioCapture: function(blob) {
             this.fileInput.file = blob;
+            this.fileInput.isVoiceNote = true;
             this.fileInput.previewImages();
             this.$('.bottom-bar form').submit();
         },

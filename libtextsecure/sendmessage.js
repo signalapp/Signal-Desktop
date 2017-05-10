@@ -130,6 +130,9 @@ MessageSender.prototype = {
                 if (attachment.size) {
                     proto.size = attachment.size;
                 }
+                if (attachment.flags) {
+                    proto.flags = attachment.flags;
+                }
                 return proto;
             });
         }.bind(this));
