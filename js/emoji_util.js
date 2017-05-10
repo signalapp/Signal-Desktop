@@ -21,6 +21,10 @@
         var match = regex.exec(str);
         var count = 0;
 
+        if (!regex.global) {
+            return match ? 1 : 0;
+        }
+
         while (match) {
             count += 1;
             match = regex.exec(str);

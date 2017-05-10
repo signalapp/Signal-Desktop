@@ -20,6 +20,18 @@ describe('EmojiUtil', function() {
             var actual = emoji.getCountOfAllMatches(str, r);
             assert.equal(actual, 2);
         });
+        it('returns zero for no match with non-global regular expression', function() {
+            var r = /s/g;
+            var str = 'no match';
+            var actual = emoji.getCountOfAllMatches(str, r);
+            assert.equal(actual, 0);
+        });
+        it('returns 1 for match with non-global regular expression', function() {
+            var r = /s/;
+            var str = 's + s';
+            var actual = emoji.getCountOfAllMatches(str, r);
+            assert.equal(actual, 1);
+        });
     });
 
     describe('hasNormalCharacters', function() {
