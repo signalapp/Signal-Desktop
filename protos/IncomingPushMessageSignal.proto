@@ -117,6 +117,9 @@ message SyncMessage {
 }
 
 message AttachmentPointer {
+  enum Flags {
+    VOICE_MESSAGE = 1;
+  }
   optional fixed64 id          = 1;
   optional string  contentType = 2;
   optional bytes   key         = 3;
@@ -124,6 +127,7 @@ message AttachmentPointer {
   optional bytes   thumbnail   = 5;
   optional bytes   digest      = 6;
   optional string  fileName    = 7;
+  optional uint32  flags       = 8;
 }
 
 message GroupContext {
