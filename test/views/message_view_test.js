@@ -77,7 +77,7 @@ describe('MessageView', function() {
     view.render();
     var img = view.$el.find('.content img');
     assert.strictEqual(img.length, 1);
-    assert.strictEqual(img.attr('src'), '/images/emoji/apple/2764.png');
+    assert.strictEqual(img.attr('src'), 'images/emoji/apple/2764.png');
     assert.strictEqual(img.attr('title'), ':heart:');
     assert.strictEqual(img.attr('class'), 'emoji');
   });
