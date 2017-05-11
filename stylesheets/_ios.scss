@@ -87,11 +87,12 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
 
-  .message-list .attachments .fileView {
+  .message-list .attachments .bubbled {
     border-radius: 15px;
     margin-bottom: 0.25em;
 
     padding: 10px;
+
     position: relative;
 
     &:before, &:after {
@@ -158,7 +159,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .message-list .incoming .attachment .fileView {
+  .message-list .incoming .bubbled {
     background-color: #e6e5ea;
     color: black;
     float: left;
@@ -187,7 +188,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
   .outgoing {
-    .content, .attachments .fileView {
+    .content, .attachments .bubbled {
       background-color: $blue;
       &, .body, a {
         @include invert-text-color;
@@ -196,8 +197,19 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .outgoing .attachments .fileView .icon::before {
-    @include color-svg('/images/file.svg', white);
+  .outgoing .attachments .fileView .icon {
+    &::before {
+      @include color-svg('/images/file.svg', white);
+    }
+    &.audio:before {
+      @include color-svg('/images/audio.svg', white);
+    }
+    &.video:before {
+      @include color-svg('/images/video.svg', white);
+    }
+    &.voice:before {
+      @include color-svg('/images/voice.svg', white);
+    }
   }
 
   .attachment {

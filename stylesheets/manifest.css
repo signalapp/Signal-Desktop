@@ -1352,6 +1352,7 @@ li.entry .error-icon-container {
     .message-container .attachments .fileView .icon,
     .message-list .attachments .fileView .icon {
       margin-left: -0.5em;
+      margin-right: 0.5em;
       display: inline-block;
       vertical-align: middle; }
       .message-container .attachments .fileView .icon:before,
@@ -1362,7 +1363,22 @@ li.entry .error-icon-container {
         height: 48px;
         -webkit-mask: url("/images/file.svg") no-repeat center;
         -webkit-mask-size: 100%;
-        background-color: black; }
+        background-color: #454545; }
+      .message-container .attachments .fileView .icon.audio:before,
+      .message-list .attachments .fileView .icon.audio:before {
+        -webkit-mask: url("/images/audio.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: #454545; }
+      .message-container .attachments .fileView .icon.video:before,
+      .message-list .attachments .fileView .icon.video:before {
+        -webkit-mask: url("/images/video.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: #454545; }
+      .message-container .attachments .fileView .icon.voice:before,
+      .message-list .attachments .fileView .icon.voice:before {
+        -webkit-mask: url("/images/voice.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: #454545; }
   .message-container .outgoing .avatar,
   .message-list .outgoing .avatar {
     display: none; }
@@ -1545,24 +1561,24 @@ li.entry .error-icon-container {
 .ios .error-message.content,
 .ios .control .content {
   padding: 10px; }
-.ios .message-list .attachments .fileView {
+.ios .message-list .attachments .bubbled {
   border-radius: 15px;
   margin-bottom: 0.25em;
   padding: 10px;
   position: relative; }
-  .ios .message-list .attachments .fileView:before, .ios .message-list .attachments .fileView:after {
+  .ios .message-list .attachments .bubbled:before, .ios .message-list .attachments .bubbled:after {
     content: '';
     display: block;
     border-radius: 20px;
     position: absolute;
     width: 10px; }
-  .ios .message-list .attachments .fileView:before {
+  .ios .message-list .attachments .bubbled:before {
     right: -1px;
     bottom: -3px;
     height: 10px;
     border-radius: 20px;
     background: #2090ea; }
-  .ios .message-list .attachments .fileView:after {
+  .ios .message-list .attachments .bubbled:after {
     height: 11px;
     right: -6px;
     bottom: -3px;
@@ -1597,14 +1613,14 @@ li.entry .error-icon-container {
   border: 1px solid rgba(0, 0, 0, 0.1); }
 .ios .bubble .meta {
   clear: both; }
-.ios .message-list .incoming .attachment .fileView {
+.ios .message-list .incoming .bubbled {
   background-color: #e6e5ea;
   color: black;
   float: left; }
-  .ios .message-list .incoming .attachment .fileView:before {
+  .ios .message-list .incoming .bubbled:before {
     left: -1px;
     background-color: #e6e5ea; }
-  .ios .message-list .incoming .attachment .fileView:after {
+  .ios .message-list .incoming .bubbled:after {
     left: -6px; }
 .ios .incoming .content {
   background-color: #e6e5ea;
@@ -1615,16 +1631,28 @@ li.entry .error-icon-container {
     background-color: #e6e5ea; }
   .ios .incoming .content .body:after {
     left: -6px; }
-.ios .outgoing .content, .ios .outgoing .attachments .fileView {
+.ios .outgoing .content, .ios .outgoing .attachments .bubbled {
   background-color: #2090ea;
   float: right; }
-  .ios .outgoing .content, .ios .outgoing .content .body, .ios .outgoing .content a, .ios .outgoing .attachments .fileView, .ios .outgoing .attachments .fileView .body, .ios .outgoing .attachments .fileView a {
+  .ios .outgoing .content, .ios .outgoing .content .body, .ios .outgoing .content a, .ios .outgoing .attachments .bubbled, .ios .outgoing .attachments .bubbled .body, .ios .outgoing .attachments .bubbled a {
     color: white; }
-    .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection, .ios .outgoing .attachments .fileView::selection, .ios .outgoing .attachments .fileView .body::selection, .ios .outgoing .attachments .fileView a::selection {
+    .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection, .ios .outgoing .attachments .bubbled::selection, .ios .outgoing .attachments .bubbled .body::selection, .ios .outgoing .attachments .bubbled a::selection {
       background: white;
       color: #454545; }
 .ios .outgoing .attachments .fileView .icon::before {
   -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+.ios .outgoing .attachments .fileView .icon.audio:before {
+  -webkit-mask: url("/images/audio.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+.ios .outgoing .attachments .fileView .icon.video:before {
+  -webkit-mask: url("/images/video.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+.ios .outgoing .attachments .fileView .icon.voice:before {
+  -webkit-mask: url("/images/voice.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
 .ios .attachment {
@@ -2010,8 +2038,32 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/file.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+  .android-dark .incoming .bubble .fileView .icon.audio:before {
+    -webkit-mask: url("/images/audio.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android-dark .incoming .bubble .fileView .icon.video:before {
+    -webkit-mask: url("/images/video.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android-dark .incoming .bubble .fileView .icon.voice:before {
+    -webkit-mask: url("/images/voice.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
   .android-dark .outgoing .bubble .fileView .icon::before {
     -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
+  .android-dark .outgoing .bubble .fileView .icon.audio:before {
+    -webkit-mask: url("/images/audio.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
+  .android-dark .outgoing .bubble .fileView .icon.video:before {
+    -webkit-mask: url("/images/video.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
+  .android-dark .outgoing .bubble .fileView .icon.voice:before {
+    -webkit-mask: url("/images/voice.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark button.clock {

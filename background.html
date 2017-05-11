@@ -152,9 +152,11 @@
         <a class='x close' alt='remove attachment' href='#'></a>
   </script>
   <script type='text/x-tmpl-mustache' id='file-view'>
-    <div class='icon'></div>
+    <div class='icon {{ mediaType }}'></div>
     <div class='text'>
-      <div class='fileName' alt='{{ fileName }}' title='{{ altText }}'>{{ fileName }}</div>
+      <div class='fileName' title='{{ altText }}'>
+        {{ fileName }}
+      </div>
       <div class='fileSize'>{{ fileSize }}</div>
     </div>
   </script>
