@@ -52,6 +52,18 @@
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
     },
+    "clickToSave": {
+      "message": "Click to save",
+      "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+      "message": "Unnamed File",
+      "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+      "message": "Voice Message",
+      "description": "Name for a voice message attachment"
+    },
     "unsupportedFileType": {
       "message": "Unsupported file type",
       "description": "Displayed for outgoing unsupported attachment"
