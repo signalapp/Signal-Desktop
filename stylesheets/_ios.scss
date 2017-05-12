@@ -205,16 +205,16 @@ $ios-border-color: rgba(0,0,0,0.1);
 
   .outgoing .attachments .fileView .icon {
     &::before {
-      @include color-svg('/images/file.svg', white);
+      @include color-svg('../images/file.svg', white);
     }
     &.audio:before {
-      @include color-svg('/images/audio.svg', white);
+      @include color-svg('../images/audio.svg', white);
     }
     &.video:before {
-      @include color-svg('/images/video.svg', white);
+      @include color-svg('../images/video.svg', white);
     }
     &.voice:before {
-      @include color-svg('/images/voice.svg', white);
+      @include color-svg('../images/voice.svg', white);
     }
   }
 
