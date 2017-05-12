@@ -131,7 +131,7 @@
                     this.addThumb(this.oUrl);
                     break;
                 default:
-                    this.addThumb('/images/file.svg'); break;
+                    this.addThumb('../images/file.svg'); break;
             }
 
             this.autoScale(file).then(function(blob) {
