@@ -15,6 +15,11 @@
             return { toastMessage: i18n('unblockToSend') };
         }
     });
+    Whisper.LeftGroupToast = Whisper.ToastView.extend({
+        render_attributes: function() {
+            return { toastMessage: i18n('youLeftTheGroup') };
+        }
+    });
 
     var MenuView = Whisper.View.extend({
         toggleMenu: function() {
@@ -343,12 +348,15 @@
             var toast;
             if (extension.expired()) {
                 toast = new Whisper.ExpiredToast();
-                toast.$el.insertAfter(this.$el);
-                toast.render();
-                return;
             }
             if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
                 toast = new Whisper.BlockedToast();
+            }
+            if (!this.model.isPrivate() && this.model.get('left')) {
+                toast = new Whisper.LeftGroupToast();
+            }
+
+            if (toast) {
                 toast.$el.insertAfter(this.$el);
                 toast.render();
                 return;

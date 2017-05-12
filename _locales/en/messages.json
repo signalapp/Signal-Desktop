@@ -1,4 +1,8 @@
 {
+    "youLeftTheGroup": {
+      "message": "You left the group",
+      "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },
