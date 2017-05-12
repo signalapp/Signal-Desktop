@@ -184,28 +184,28 @@ $text-dark_l2: darken($text-dark, 30%);
   }
 
   .incoming .bubble .fileView .icon{
-    @include color-svg('/images/file.svg', white);
+    @include color-svg('../images/file.svg', white);
     &.audio {
-      @include color-svg('/images/audio.svg', white);
+      @include color-svg('../images/audio.svg', white);
     }
     &.video {
-      @include color-svg('/images/video.svg', white);
+      @include color-svg('../images/video.svg', white);
     }
     &.voice {
-      @include color-svg('/images/voice.svg', white);
+      @include color-svg('../images/voice.svg', white);
     }
   }
 
   .outgoing .bubble .fileView .icon {
-    @include color-svg('/images/file.svg', #CCCCCC);
+    @include color-svg('../images/file.svg', #CCCCCC);
     &.audio {
-      @include color-svg('/images/audio.svg', #CCCCCC);
+      @include color-svg('../images/audio.svg', #CCCCCC);
     }
     &.video {
-      @include color-svg('/images/video.svg', #CCCCCC);
+      @include color-svg('../images/video.svg', #CCCCCC);
     }
     &.voice {
-      @include color-svg('/images/voice.svg', #CCCCCC);
+      @include color-svg('../images/voice.svg', #CCCCCC);
     }
   }
 
