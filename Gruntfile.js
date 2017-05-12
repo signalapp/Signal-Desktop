@@ -290,7 +290,7 @@ module.exports = function(grunt) {
     var https = require('https');
 
     var urlBase = "https://s3-us-west-1.amazonaws.com/signal-desktop-builds";
-    var keyBase = 'liliakai/textsecure-chrome';
+    var keyBase = 'WhisperSystems/Signal-Desktop';
     var sha = gitinfo.local.branch.current.SHA;
     var files = [
       'signal-desktop-' + package_json.version + '.zip',
