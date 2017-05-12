@@ -366,6 +366,7 @@
                             }
                             else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
                                 if (source == textsecure.storage.user.getNumber()) {
+                                    attributes.left = true;
                                     group_update = { left: "You" };
                                 } else {
                                     group_update = { left: source };
