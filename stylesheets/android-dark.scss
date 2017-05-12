@@ -151,31 +151,31 @@ $text-dark: #CCCCCC;
 
   .incoming .bubble .fileView .icon{
     &::before {
-      @include color-svg('/images/file.svg', white);
+      @include color-svg('../images/file.svg', white);
     }
     &.audio:before {
-      @include color-svg('/images/audio.svg', white);
+      @include color-svg('../images/audio.svg', white);
     }
     &.video:before {
-      @include color-svg('/images/video.svg', white);
+      @include color-svg('../images/video.svg', white);
     }
     &.voice:before {
-      @include color-svg('/images/voice.svg', white);
+      @include color-svg('../images/voice.svg', white);
     }
   }
 
   .outgoing .bubble .fileView .icon {
     &::before {
-      @include color-svg('/images/file.svg', #CCCCCC);
+      @include color-svg('../images/file.svg', #CCCCCC);
     }
     &.audio:before {
-      @include color-svg('/images/audio.svg', #CCCCCC);
+      @include color-svg('../images/audio.svg', #CCCCCC);
     }
     &.video:before {
-      @include color-svg('/images/video.svg', #CCCCCC);
+      @include color-svg('../images/video.svg', #CCCCCC);
     }
     &.voice:before {
-      @include color-svg('/images/voice.svg', #CCCCCC);
+      @include color-svg('../images/voice.svg', #CCCCCC);
     }
   }
 
