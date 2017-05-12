@@ -1867,19 +1867,19 @@ li.entry .error-icon-container {
       color: #454545; }
 
 .ios .outgoing .attachments .fileView .icon {
-  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask: url("../images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
   .ios .outgoing .attachments .fileView .icon.audio {
-    -webkit-mask: url("/images/audio.svg") no-repeat center;
+    -webkit-mask: url("../images/audio.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .ios .outgoing .attachments .fileView .icon.video {
-    -webkit-mask: url("/images/video.svg") no-repeat center;
+    -webkit-mask: url("../images/video.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .ios .outgoing .attachments .fileView .icon.voice {
-    -webkit-mask: url("/images/voice.svg") no-repeat center;
+    -webkit-mask: url("../images/voice.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 
@@ -2043,7 +2043,7 @@ li.entry .error-icon-container {
   color: #f3f3f3; }
 
 .android .incoming .bubble .fileView .icon {
-  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask: url("../images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
 
@@ -2331,35 +2331,35 @@ li.entry .error-icon-container {
   .android-dark .incoming .bubble .content a {
     color: #f3f3f3; }
   .android-dark .incoming .bubble .fileView .icon {
-    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask: url("../images/file.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
     .android-dark .incoming .bubble .fileView .icon.audio {
-      -webkit-mask: url("/images/audio.svg") no-repeat center;
+      -webkit-mask: url("../images/audio.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
     .android-dark .incoming .bubble .fileView .icon.video {
-      -webkit-mask: url("/images/video.svg") no-repeat center;
+      -webkit-mask: url("../images/video.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
     .android-dark .incoming .bubble .fileView .icon.voice {
-      -webkit-mask: url("/images/voice.svg") no-repeat center;
+      -webkit-mask: url("../images/voice.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark .outgoing .bubble .fileView .icon {
-    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask: url("../images/file.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
     .android-dark .outgoing .bubble .fileView .icon.audio {
-      -webkit-mask: url("/images/audio.svg") no-repeat center;
+      -webkit-mask: url("../images/audio.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
     .android-dark .outgoing .bubble .fileView .icon.video {
-      -webkit-mask: url("/images/video.svg") no-repeat center;
+      -webkit-mask: url("../images/video.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
     .android-dark .outgoing .bubble .fileView .icon.voice {
-      -webkit-mask: url("/images/voice.svg") no-repeat center;
+      -webkit-mask: url("../images/voice.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
   .android-dark button.clock {
