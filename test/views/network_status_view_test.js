@@ -4,24 +4,24 @@ describe('NetworkStatusView', function() {
         var networkStatusView;
         var socketStatus = WebSocket.OPEN;
 
-        var oldGetMessage;
+        var oldI18n;
         var oldGetSocketStatus;
 
         /* BEGIN stubbing globals */
         before(function() {
             oldGetSocketStatus = window.getSocketStatus;
-            /* chrome i18n support is missing in 'regular' webpages */
-            window.chrome = window.chrome || {};
-            window.chrome.i18n = { getMessage: function(message, args) {
-                // translationMessageName-arg1-arg2
+            oldI18n = window.i18n;
+
+            // translationMessageName-arg1-arg2
+            window.i18n = function(message, args) {
                 return _([message, args]).chain().flatten().compact().value().join('-');
-            }
             };
             window.getSocketStatus = function() { return socketStatus; };
         });
 
         after(function() {
             window.getSocketStatus = oldGetSocketStatus;
+            window.i18n = oldI18n;
         });
         /* END stubbing globals */
 
