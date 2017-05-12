@@ -37025,26 +37025,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
 
                 return textsecure.storage.groups.addNumbers(groupId, added);
             });
-        },
-
-        needUpdateByDeviceRegistrationId: function(groupId, number, encodedNumber, registrationId) {
-            return textsecure.storage.protocol.getGroup(groupId).then(function(group) {
-                if (group === undefined)
-                    throw new Error("Unknown group for device registration id");
-
-                if (group.numberRegistrationIds[number] === undefined)
-                    throw new Error("Unknown number in group for device registration id");
-
-                if (group.numberRegistrationIds[number][encodedNumber] == registrationId)
-                    return false;
-
-                var needUpdate = group.numberRegistrationIds[number][encodedNumber] !== undefined;
-                group.numberRegistrationIds[number][encodedNumber] = registrationId;
-                return textsecure.storage.protocol.putGroup(groupId, group).then(function() {
-                    return needUpdate;
-                });
-            });
-        },
+        }
     };
 })();
 
