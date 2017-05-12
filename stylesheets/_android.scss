@@ -49,7 +49,7 @@
   }
 
   .incoming .bubble .fileView .icon::before {
-    @include color-svg('/images/file.svg', white);
+    @include color-svg('../images/file.svg', white);
   }
 
   button.clock {
