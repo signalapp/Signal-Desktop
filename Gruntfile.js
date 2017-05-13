@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -341,6 +343,66 @@ module.exports = function(grunt) {
       });
       done();
     });
+  });
+
+  grunt.registerTask('unit-tests', 'Run unit tests inside Electron', function() {
+      var environment = grunt.option('env') || 'test';
+      var done = this.async();
+      var failure;
+
+      var Application = require('spectron').Application;
+      var app = new Application({
+        path: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+        args: [path.join(__dirname, 'main.js')],
+        env: {
+          NODE_ENV: environment,
+          HIDE_DEV_TOOLS: true
+        }
+      });
+
+      function getMochaResults() {
+        return window.mochaResults;
+      }
+
+      app.start().then(function() {
+        return app.client.waitUntil(function() {
+          return app.client.execute(getMochaResults).then(function(data) {
+            return Boolean(data.value);
+          });
+        }, 5000, 'Expected to find window.mochaResults set!');
+      }).then(function() {
+        return app.client.execute(getMochaResults);
+      }).then(function(data) {
+        var results = data.value;
+        if (results.failures > 0) {
+          console.error(results.reports);
+          failure = function() {
+            grunt.fail.fatal('Found ' + results.failures + ' failing unit tests.');
+          }
+        } else {
+          console.log(results.passes + ' tests passed.');
+        }
+      }).catch(function (error) {
+        failure = function() {
+          grunt.fail.fatal('Something went wrong: ' + error.stack);
+        }
+      }).then(function () {
+        // We need to use the failure variable and this early stop to clean up before
+        // shutting down. Grunt's fail methods are the only way to set the return value,
+        // but they shut the process down immediately!
+        return app.stop();
+      }).then(function() {
+        if (failure) {
+          failure();
+        }
+        done();
+      }).catch(function (error) {
+        console.error('Second-level error:', error.stack);
+        if (failure) {
+          failure();
+        }
+        done();
+      });
   });
 
   grunt.registerMultiTask('test-release', 'Test packaged releases', function() {
