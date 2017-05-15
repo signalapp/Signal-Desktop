@@ -378,14 +378,14 @@ module.exports = function(grunt) {
           console.error(results.reports);
           failure = function() {
             grunt.fail.fatal('Found ' + results.failures + ' failing unit tests.');
-          }
+          };
         } else {
-          console.log(results.passes + ' tests passed.');
+          grunt.log.ok(results.passes + ' tests passed.');
         }
       }).catch(function (error) {
         failure = function() {
           grunt.fail.fatal('Something went wrong: ' + error.stack);
-        }
+        };
       }).then(function () {
         // We need to use the failure variable and this early stop to clean up before
         // shutting down. Grunt's fail methods are the only way to set the return value,
@@ -467,7 +467,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
-  grunt.registerTask('test', ['jshint', 'jscs' ]);
+  grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
