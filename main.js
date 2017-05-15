@@ -165,7 +165,7 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !shouldQuit) {
+    if (process.platform === 'darwin' && !shouldQuit && process.env.NODE_ENV !== 'test') {
       e.preventDefault();
       mainWindow.hide();
     }
@@ -216,7 +216,7 @@ app.on('before-quit', function() {
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin' || process.env.NODE_ENV === 'test') {
     app.quit()
   }
 })
