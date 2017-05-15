@@ -3,12 +3,16 @@
  */
 ;(function() {
     'use strict';
-    var json = window.config.locale_json;
+
+    // preload.js loads this, pulling it from main.js (where it was loaded from disk)
+    var messages = window.config.localeMessages;
+    var locale = window.config.locale;
+
     window.i18n = function (message, substitutions) {
-      if (!json[message]) {
+      if (!messages[message]) {
         return;
       }
-      var s = json[message].message;
+      var s = messages[message].message;
       if (substitutions instanceof Array) {
         substitutions.forEach(function(sub) {
           s = s.replace(/\$.+?\$/, sub);
@@ -20,6 +24,6 @@
     };
 
     i18n.getLocale = function() {
-      return window.config.locale;
+      return locale;
     };
 })();
