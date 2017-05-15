@@ -6,7 +6,7 @@
   window.config = require('url').parse(window.location.toString(), true).query;
 
   const ipc = electron.ipcRenderer
-  window.config.locale_json = ipc.sendSync('locale-data');
+  window.config.localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = function(count) {
     ipc.send('set-badge-count', count);
