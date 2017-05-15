@@ -8,7 +8,7 @@ describe('i18n', function() {
     });
     it('returns message with single substitution', function() {
       const actual = i18n('attemptingReconnection', 5);
-      assert.equal(actual, 'Attempting reconnect in 5 seconds')
+      assert.equal(actual, 'Attempting reconnect in 5 seconds');
     });
     it('returns message with multiple substitutions', function() {
       const actual = i18n('verifyContact', ['<strong>', '</strong>']);
