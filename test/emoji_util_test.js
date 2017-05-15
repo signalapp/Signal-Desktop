@@ -88,25 +88,25 @@ describe('EmojiUtil', function() {
     describe('replacement', function() {
         it('returns an <img> tag', function() {
             var actual = emoji.replacement('1f525');
-            assert.equal(actual, '<img src="/images/emoji/apple/1f525.png" class="emoji" title="fire"/>');
+            assert.equal(actual, '<img src="images/emoji/apple/1f525.png" class="emoji" title="fire"/>');
         });
         it('returns an <img> tag with provided sizeClass', function() {
             var actual = emoji.replacement('1f525', 'large');
-            assert.equal(actual, '<img src="/images/emoji/apple/1f525.png" class="emoji large" title="fire"/>');
+            assert.equal(actual, '<img src="images/emoji/apple/1f525.png" class="emoji large" title="fire"/>');
         });
     });
 
     describe('replace_unified', function() {
         it('returns images for every emoji', function() {
             var actual = emoji.replace_unified('🏠 🔥');
-            var expected = '<img src="/images/emoji/apple/1f3e0.png" class="emoji jumbo" title=":house:"/>'
-                + ' <img src="/images/emoji/apple/1f525.png" class="emoji jumbo" title=":fire:"/>';
+            var expected = '<img src="images/emoji/apple/1f3e0.png" class="emoji jumbo" title=":house:"/>'
+                + ' <img src="images/emoji/apple/1f525.png" class="emoji jumbo" title=":fire:"/>';
 
             assert.equal(expected, actual);
         });
         it('properly hyphenates a variation', function() {
             var actual = emoji.replace_unified('💪🏿'); // muscle with dark skin tone modifier
-            var expected = '<img src="/images/emoji/apple/1f4aa-1f3ff.png" class="emoji jumbo" title="muscle"/>';
+            var expected = '<img src="images/emoji/apple/1f4aa-1f3ff.png" class="emoji jumbo" title="muscle"/>';
 
             assert.equal(expected, actual);
         });
