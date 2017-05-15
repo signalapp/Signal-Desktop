@@ -89,11 +89,39 @@ function createWindow () {
     mainWindow.flashFrame(false);
   });
 
-  // Load locale
-  const locale = 'en'; // FIXME
-  const localeData = JSON.parse(fs.readFileSync(path.join(__dirname, '_locales', locale, 'messages.json'), 'utf-8'))
+  function loadLocale() {
+    // possible locales: https://github.com/electron/electron/blob/master/docs/api/locales.md
+    const locale = app.getLocale();
+
+    if (/^en-/.test(locale)) {
+      return 'en';
+    }
+
+    return locale;
+  }
+
+  function loadLocaleMessages(locale) {
+    const onDiskLocale = locale.replace('-', '_');
+    const targetFile = path.join(__dirname, '_locales', onDiskLocale, 'messages.json');
+
+    return JSON.parse(fs.readFileSync(targetFile, 'utf-8'))
+  }
+
+  // Load locale - if we can't load messages for the current locale, we default to 'en'
+  var locale = loadLocale();
+  var messages;
+  try {
+    messages = loadLocaleMessages(locale);
+  }
+  catch (e) {
+    console.log('Problem loading messages for locale ', locale, e.stack);
+    locale = 'en';
+    messages = loadLocaleMessages(locale);
+  }
+
+  // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', function(event, arg) {
-    event.returnValue = localeData;
+    event.returnValue = messages;
   });
 
   function prepareURL(pathSegments) {
