@@ -96,20 +96,27 @@ function createWindow () {
     event.returnValue = localeData;
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'background.html'),
-    protocol: 'file:',
-    slashes: true,
-    query: {
-      locale: locale,
-      version: package_json.version,
-      buildExpiration: config.get('buildExpiration'),
-      serverUrl: config.get('serverUrl'),
-      environment: environment,
-      node_version: process.versions.node
-    }
-  }))
+  function prepareURL(pathSegments) {
+    return url.format({
+      pathname: path.join.apply(null, pathSegments),
+      protocol: 'file:',
+      slashes: true,
+      query: {
+        locale: locale,
+        version: package_json.version,
+        buildExpiration: config.get('buildExpiration'),
+        serverUrl: config.get('serverUrl'),
+        environment: environment,
+        node_version: process.versions.node
+      }
+    })
+  }
+
+  if (process.env.NODE_ENV === 'test') {
+    mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
+  } else {
+    mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
+  }
 
   if (config.get('openDevTools')) {
     // Open the DevTools.
