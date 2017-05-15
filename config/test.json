@@ -1,5 +1,5 @@
 {
-  "storageProfile": "staging",
+  "storageProfile": "test",
   "disableAutoUpdate": true,
   "openDevTools": true
 }
