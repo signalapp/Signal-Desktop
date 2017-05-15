@@ -1,5 +1,4 @@
 {
-  "serverUrl": "https://textsecure-service-staging.whispersystems.org",
   "storageProfile": "development",
   "disableAutoUpdate": true,
   "openDevTools": true
