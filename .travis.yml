@@ -11,7 +11,6 @@ script:
   - yarn run generate
   - ./node_modules/.bin/build --em.environment=$SIGNAL_ENV --config.mac.bundleVersion='$TRAVIS_BUILD_NUMBER' --publish=never
   - ./travis.sh
-  - yarn test
 env:
   global:
     - SIGNAL_ENV: production
