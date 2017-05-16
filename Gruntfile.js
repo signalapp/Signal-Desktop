@@ -354,8 +354,7 @@ module.exports = function(grunt) {
         path: path.join(__dirname, 'node_modules', '.bin', 'electron'),
         args: [path.join(__dirname, 'main.js')],
         env: {
-          NODE_ENV: environment,
-          HIDE_DEV_TOOLS: true
+          NODE_ENV: environment
         }
       });
 
