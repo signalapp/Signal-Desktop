@@ -146,7 +146,7 @@ function createWindow () {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
   }
 
-  if (config.get('openDevTools') && !process.env.HIDE_DEV_TOOLS) {
+  if (config.get('openDevTools')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
   }
