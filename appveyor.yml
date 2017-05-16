@@ -12,11 +12,11 @@ install:
 
 build_script:
   - yarn run generate
-  - ./node_modules/.bin/build --em.environment=%SIGNAL_ENV% --publish=never
+  - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
 test_script:
-  - ./node_modules/.bin/grunt test-release:win
-  - yarn test
+  - node_modules\.bin\grunt test-release:win
+  - node_modules\.bin\grunt test
 
 artifacts:
   - path: dist/*.*
