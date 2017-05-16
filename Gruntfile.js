@@ -351,8 +351,9 @@ module.exports = function(grunt) {
       var failure;
 
       var Application = require('spectron').Application;
+      var electronBinary = process.platform === 'win32' ? 'electron.cmd' : 'electron';
       var app = new Application({
-        path: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+        path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
         args: [path.join(__dirname, 'main.js')],
         env: {
           NODE_ENV: environment
