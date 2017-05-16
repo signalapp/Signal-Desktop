@@ -369,7 +369,7 @@ module.exports = function(grunt) {
           return app.client.execute(getMochaResults).then(function(data) {
             return Boolean(data.value);
           });
-        }, 5000, 'Expected to find window.mochaResults set!');
+        }, 10000, 'Expected to find window.mochaResults set!');
       }).then(function() {
         return app.client.execute(getMochaResults);
       }).then(function(data) {
@@ -384,7 +384,7 @@ module.exports = function(grunt) {
         }
       }).catch(function (error) {
         failure = function() {
-          grunt.fail.fatal('Something went wrong: ' + error.stack);
+          grunt.fail.fatal('Something went wrong: ' + error.message + ' ' + error.stack);
         };
       }).then(function () {
         // We need to use the failure variable and this early stop to clean up before
@@ -397,7 +397,7 @@ module.exports = function(grunt) {
         }
         done();
       }).catch(function (error) {
-        console.error('Second-level error:', error.stack);
+        console.error('Second-level error:', error.message, error.stack);
         if (failure) {
           failure();
         }
