@@ -75,6 +75,10 @@
         "message": "Desteklenmeyen dosya türü",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Anahtarlar oluşturuluyor",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Android cihazımda Signal yüklü",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Bağlanıyor",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Bu kişiyle henüz mesaj alışverişi yapmadınız. Onlarla olan güvenlik numaranız ilk mesajdan sonra geçerli olacak.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Gönder",

@@ -75,6 +75,10 @@
         "message": "Không hỗ trợ loại tập tin",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Tạo mã khóa",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Tôi đã có Signal cho Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Connecting",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này.  Số an toàn của bạn sẽ có sau tin nhắn đầu tiên.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Gửi",

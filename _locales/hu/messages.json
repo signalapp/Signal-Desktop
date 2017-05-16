@@ -75,6 +75,10 @@
         "message": "Nem támogatott fájltípus",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Kulcsok létrehozása",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Már van Androidos Signal-om",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Connecting",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Küldés",

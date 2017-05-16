@@ -75,6 +75,10 @@
         "message": "Nicht unterstützter Dateityp",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Zum Speichern anklicken",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Schlüssel werden erzeugt …",
         "description": ""
@@ -120,7 +124,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Nachrichten löschen",
+        "message": "Unterhaltung löschen",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -423,6 +427,10 @@
         "message": "Ich habe Signal für Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unbenannte Datei",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Verbindung wird hergestellt …",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Sprachnachricht",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Übermitteln",

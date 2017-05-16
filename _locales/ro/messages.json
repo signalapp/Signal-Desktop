@@ -75,6 +75,10 @@
         "message": "Tipul fişierului nu este suportat",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Apasă pentru a salva",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Se generează cheile",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Am Signal pentru Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Fișier fără nume",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Se conectează",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Nu ai schimbat până acum nici un mesaj cu acest contact.  Numărul de siguranță va fi disponibil după primul mesaj.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Mesaj vocal",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Trimite",

@@ -75,6 +75,10 @@
         "message": "不支援的檔案類型",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "點擊儲存",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "正在產生金鑰",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "我有 Signal 的 Android 版本",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "未命名的檔案",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "連線中",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "你尚未與這個聯絡人交換訊息。你與他們的安全碼將會在初次送出訊息後生效。",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "語音訊息",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "送出",

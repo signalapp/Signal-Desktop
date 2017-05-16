@@ -75,6 +75,10 @@
         "message": "Niet-ondersteund bestandstype",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Klik om op te slaan",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Sleutels aan het genereren",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Ik heb Signal voor Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Naamloos bestand",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Aan het verbinden",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met dit contact. Je veiligheidsnummer met hen zal beschikbaar zijn na het eerste bericht.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Audiobericht",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Verzenden",

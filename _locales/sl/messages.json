@@ -75,6 +75,10 @@
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Shrani",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Generiram ključe ...",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Neimenovana datoteka",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Povezujem",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvi izmenjavi.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Glasovno sporočilo",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Objavi",

@@ -75,6 +75,10 @@
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Tallenna napsauttamalla",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Luodaan avaimia",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Minulla on Signal Androidille",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Nimeämätön tiedosto",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Yhdistetään",
         "description": ""
@@ -466,12 +474,16 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Luo uusi yhteystieto klikkaamalla",
+        "message": "Luo uusi yhteystieto napsauttamalla",
         "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Ääniviesti",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Lähetä",

@@ -75,6 +75,10 @@
         "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Spustelkite, norėdami įrašyti",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Kuriami raktai",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Aš turiu programą Signal, skirtą Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Bevardis failas",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Jungiamasi",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Balso žinutė",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Pateikti",

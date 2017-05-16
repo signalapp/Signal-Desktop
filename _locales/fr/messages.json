@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Tentative de reconnexion $reconnect_duration_in_seconds$ secondes",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -75,6 +75,10 @@
         "message": "Type de fichier non géré",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Cliquer pour sauvegarder",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Génération des clés",
         "description": ""
@@ -84,7 +88,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Déconnecté",
         "description": ""
     },
     "welcomeToSignal": {
@@ -92,7 +96,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Vérifiez votre connexion réseau.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -194,7 +198,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Re-connecter Signal Desktop sur votre appareil mobile pour continuer la messagerie.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -222,7 +226,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Déconnecté",
         "description": ""
     },
     "installFollowUs": {
@@ -423,8 +427,12 @@
         "message": "J'ai Signal pour Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Fichier sans nom",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
-        "message": "Connecting",
+        "message": "Connexion en cours...",
         "description": ""
     },
     "sessionEnded": {
@@ -436,7 +444,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Re-connecter",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Vous n'avez pas encore échangé de messages avec ce contact. Votre numéro de sécurité sera disponible après le premier message.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Message Vocal",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Envoyer",

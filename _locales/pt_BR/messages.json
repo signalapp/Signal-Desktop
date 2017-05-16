@@ -75,6 +75,10 @@
         "message": "Tipo de arquivo incompatível",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Clicar para salvar",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Gerando Chaves",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Eu tenho Signal para Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Arquivo sem nome",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Conectando…",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Você ainda não trocou nenhuma mensagem com a pessoa deste contato. O seu número de segurança com ela será disponível após a primeira mensagem.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Mensagem de Voz",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Enviar",

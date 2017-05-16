@@ -75,6 +75,10 @@
         "message": "Недозвољен тип датотеке",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Креирам Кључеве",
         "description": ""
@@ -423,6 +427,10 @@
         "message": "Имам Сигнал за Андроид",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
     "connecting": {
         "message": "Повезујем се",
         "description": ""
@@ -472,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Морате разменити бар једну поруку са овим дописником. Шифра за дописивање ће се створити након прве преписке.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Пошаљи",
