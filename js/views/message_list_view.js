@@ -11,7 +11,6 @@
         itemView: Whisper.MessageView,
         events: {
             'scroll': 'onScroll',
-            'reset-scroll': 'resetScrollPosition'
         },
         onScroll: function() {
             this.measureScrollPosition();
