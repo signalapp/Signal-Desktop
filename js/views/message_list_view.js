@@ -33,11 +33,7 @@
             }
         },
         resetScrollPosition: function() {
-            var scrollPosition = this.scrollPosition;
-            if (this.scrollHeight !== this.el.scrollHeight) {
-               scrollPosition = this.el.scrollHeight * this.scrollPosition / this.scrollHeight;
-            }
-            this.$el.scrollTop(scrollPosition - this.$el.outerHeight());
+            this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
             if (this.bottomOffset === 0) {
