@@ -123,6 +123,10 @@
         "message": "Signal herstarten",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Je hebt de groep verlaten",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Berichten verwijderen",
         "description": "Menu item for deleting messages, title case."

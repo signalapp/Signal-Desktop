@@ -123,6 +123,10 @@
         "message": "Käynnistä Signal uudelleen",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Olet poistunut ryhmästä.",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Poista viestit",
         "description": "Menu item for deleting messages, title case."

@@ -26,7 +26,7 @@
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "Ustawiłeś czas na $time$",
+        "message": "Czas ustawiony na $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -112,7 +112,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "Wyłączone",
+        "message": "wyłączony",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -123,8 +123,12 @@
         "message": "Uruchom ponownie",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Opuściłeś grupę",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
-        "message": "Usuń wiadomości",
+        "message": "Usuń konwersację",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -194,7 +198,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Usunąć permanentnie tę konwersację?",
+        "message": "Usunąć trwale tę konwersację?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
@@ -388,7 +392,7 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "Wyłącz",
+        "message": "wyłącz",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {

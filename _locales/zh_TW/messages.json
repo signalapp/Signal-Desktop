@@ -123,6 +123,10 @@
         "message": "從新開啟Signal",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "你已離開此群組",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "刪除訊息",
         "description": "Menu item for deleting messages, title case."
