@@ -202,4 +202,9 @@ $text-dark: #CCCCCC;
   .recorder {
     background: $grey-dark_l2;
   }
+
+  .message-list .last-seen-indicator-view .text {
+    margin-top: 2em;
+    background-color: $grey-dark_l2;
+  }
 }

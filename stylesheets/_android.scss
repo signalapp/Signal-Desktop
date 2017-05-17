@@ -70,4 +70,8 @@
   .inactive button.back {
     @include header-icon-black('/images/back.svg');
   }
+
+  .message-list .last-seen-indicator-view .text {
+    margin-top: 2em;
+  }
 }

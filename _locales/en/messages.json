@@ -3,6 +3,20 @@
       "message": "You left the group",
       "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "unreadMessage": {
+      "message": "1 unread message",
+      "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+      "message": "$count$ unread messages",
+      "description": "Text for unread message separator, with count",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    },
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },

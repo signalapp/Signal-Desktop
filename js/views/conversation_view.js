@@ -201,11 +201,45 @@
             this.$('.bottom-bar form').addClass('active');
         },
 
+        updateUnread: function() {
+            this.updateLastSeenIndicator();
+            this.model.markRead();
+        },
+
         onOpened: function() {
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
             this.focusMessageField();
-            this.model.markRead();
+
+            if (this.inProgressFetch) {
+                this.inProgressFetch.then(this.updateUnread.bind(this));
+            } else {
+                this.updateUnread();
+            }
+        },
+
+        removeLastSeenIndicator: function() {
+            if (this.lastSeenIndicator) {
+                this.lastSeenIndicator.remove();
+                this.lastSeenIndicator = null;
+            }
+        },
+
+        updateLastSeenIndicator: function() {
+            this.removeLastSeenIndicator();
+
+            var oldestUnread = this.model.messageCollection.find(function(model) {
+                return model.get('unread');
+            });
+
+            if (oldestUnread) {
+                var unreadCount = this.model.get('unreadCount');
+                this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
+                var unreadEl = this.lastSeenIndicator.render().$el;
+
+                unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
+                var position = unreadEl[0].scrollIntoView(true);
+            }
         },
 
         focusMessageField: function() {
@@ -215,15 +249,18 @@
         fetchMessages: function() {
             console.log('fetchMessages');
             this.$('.bar-container').show();
-            return this.model.fetchContacts().then(function() {
+            this.inProgressFetch = this.model.fetchContacts().then(function() {
                 return this.model.fetchMessages().then(function() {
                     this.$('.bar-container').hide();
                     this.model.messageCollection.where({unread: 1}).forEach(function(m) {
                         m.fetch();
                     });
+                    this.inProgressFetch = null;
                 }.bind(this));
             }.bind(this));
             // TODO catch?
+
+            return this.inProgressFetch;
         },
 
         onExpired: function(message) {
@@ -240,6 +277,10 @@
         addMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
+
+            if (this.lastSeenIndicator) {
+                this.lastSeenIndicator.increment(1);
+            }
 
             if (!this.isHidden() && window.isFocused()) {
                 this.markRead();
@@ -345,6 +386,8 @@
         },
 
         sendMessage: function(e) {
+            this.removeLastSeenIndicator();
+
             var toast;
             if (extension.expired()) {
                 toast = new Whisper.ExpiredToast();
