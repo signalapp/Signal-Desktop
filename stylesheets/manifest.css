@@ -1496,6 +1496,16 @@ li.entry .error-icon-container {
     color: #454545;
     border-radius: 5px; }
 
+.message-list .last-seen-indicator-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .message-list .last-seen-indicator-view .text {
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 1em;
+    background-color: #d9d9d9; }
+
 .ios #header {
   height: 64px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -1838,6 +1848,8 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+.android .message-list .last-seen-indicator-view .text {
+  margin-top: 2em; }
 
 .android-dark {
   color: #CCCCCC; }
@@ -2098,5 +2110,8 @@ li.entry .error-icon-container {
     background-color: #292929; }
   .android-dark .recorder {
     background: #292929; }
+  .android-dark .message-list .last-seen-indicator-view .text {
+    margin-top: 2em;
+    background-color: #292929; }
 
 /*# sourceMappingURL=manifest.css.map */
