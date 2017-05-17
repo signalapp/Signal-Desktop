@@ -40,7 +40,10 @@
             this.$el.scrollTop(scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
-            this.$el.scrollTop(this.el.scrollHeight - this.bottomOffset);
+            if (this.bottomOffset === 0) {
+                this.$el.scrollTop(this.el.scrollHeight);
+                this.measureScrollPosition();
+            }
         },
         addOne: function(model) {
             var view;
@@ -53,21 +56,17 @@
                 this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);
                 this.listenTo(view, 'afterChangeHeight', this.scrollToBottomIfNeeded);
             }
+
             var index = this.collection.indexOf(model);
+            this.measureScrollPosition();
             if (index === this.collection.length - 1) {
                 // add to the bottom.
                 this.$el.append(view.el);
-                this.$el.scrollTop(this.el.scrollHeight); // TODO: Avoid scrolling if user has manually scrolled up?
-                this.measureScrollPosition();
             } else if (index === 0) {
                 // add to top
-                this.measureScrollPosition();
                 this.$el.prepend(view.el);
-                this.scrollToBottomIfNeeded();
             } else {
                 // insert
-                this.measureScrollPosition();
-
                 var next = this.$('#' + this.collection.at(index + 1).id);
                 var prev = this.$('#' + this.collection.at(index - 1).id);
                 if (next.length > 0) {
@@ -90,8 +89,8 @@
                         this.$el.append(view.el);
                     }
                 }
-                this.scrollToBottomIfNeeded();
             }
+            this.scrollToBottomIfNeeded();
         },
     });
 })();
