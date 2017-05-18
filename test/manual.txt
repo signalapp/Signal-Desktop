@@ -1,0 +1,19 @@
+Manual test script
+
+Some things are very difficult to test programmatically. Also, if you don't have adequate test coverage, a good first step is a comprehensive manual test script! https://blog.scottnonnenberg.com/web-application-test-strategy/
+
+Conversation view:
+  Last seen indicator:
+    - Make window small, switch away from conversation, receive messages that would more than fill up the window, switch back to conversation: the 'N unread messages' text should be at the top of the window, most recent message should be off-screen
+    - Receive more messages while this is showing - the number should increment, and the window should not scroll
+    - Scroll to the bottom of the window, receive more messages - each message should scroll the window down, so the latest message stays at the bottom of the window.
+    - Increase the size of the window so that the 'N unread messages' text is showing. It should reflect the total count of messages below it
+    - Send a message, and the 'N unread messages' text should disappear
+    - Switch conversations, receive messages while not displaying conversation
+    - Switch back to conversation, and the 'N unread messages' text should show
+    - Switch away from conversation and back, the scroll position should be the same but the 'N unread messages' text should not be showing
+    - Receive message while showing conversation - no 'N unread messages' text should appear
+
+  Scrolling:
+    - If scrolled to bottom of a conversation, should stay there when a new message comes in
+    - If scrolled to the middle of a conversation, should stay there when a new message comes in
