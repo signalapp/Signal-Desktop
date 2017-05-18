@@ -1849,7 +1849,7 @@ li.entry .error-icon-container {
     -webkit-mask-size: 100%;
     background-color: black; }
 .android .message-list .last-seen-indicator-view .text {
-  margin-top: 2em; }
+  margin: 2em; }
 
 .android-dark {
   color: #CCCCCC; }
@@ -2111,7 +2111,7 @@ li.entry .error-icon-container {
   .android-dark .recorder {
     background: #292929; }
   .android-dark .message-list .last-seen-indicator-view .text {
-    margin-top: 2em;
+    margin: 2em;
     background-color: #292929; }
 
 /*# sourceMappingURL=manifest.css.map */
