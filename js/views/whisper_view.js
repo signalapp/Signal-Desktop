@@ -54,7 +54,7 @@
                     resolve: resolve,
                     reject: reject
                 });
-                this.$el.closest('body').append(dialog.el);
+                this.$el.append(dialog.el);
             }.bind(this));
         },
         i18n_with_links: function() {
