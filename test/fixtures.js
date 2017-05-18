@@ -61,7 +61,8 @@ Whisper.Fixtures = (function() {
             active_at: now - 1,
             timestamp: now - 1,
             id: MASHA_ID, // gchq
-            lastMessage: "I can't wait to try it!"
+            lastMessage: "I can't wait to try it!",
+            unreadCount: 1
         },
         {
             id: MICHEL_ID,
