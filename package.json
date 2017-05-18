@@ -116,6 +116,7 @@
       "images/**",
       "fonts/*",
       "node_modules/**",
+      "!node_modules/spellchecker/vendor/hunspell/**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
       "!**/node_modules/.bin",
       "!**/node_modules/*/build/**",
