@@ -9,8 +9,10 @@
         initialize: function() {
             this.$el.hide();
 
-            var renderIntervalHandle = setInterval(this.update.bind(this), 5000);
-            extension.windows.onClosed(function () { clearInterval(renderIntervalHandle); });
+            this.renderIntervalHandle = setInterval(this.update.bind(this), 5000);
+            extension.windows.onClosed(function () {
+                clearInterval(this.renderIntervalHandle);
+            }.bind(this));
 
             setTimeout(this.finishConnectingGracePeriod.bind(this), 5000);
 

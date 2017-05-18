@@ -25,13 +25,16 @@ describe('NetworkStatusView', function() {
         });
         /* END stubbing globals */
 
-        beforeEach(function(done) {
-
+        beforeEach(function() {
             networkStatusView = new Whisper.NetworkStatusView();
             $('.network-status-container').append(networkStatusView.el);
-            // stubbing global
-            done();
         });
+        afterEach(function() {
+            // prevents huge number of errors on console after running tests
+            clearInterval(networkStatusView.renderIntervalHandle);
+            networkStatusView = null;
+        });
+
         describe('initialization', function() {
             it('should have an empty interval', function() {
                 assert.equal(networkStatusView.socketReconnectWaitDuration.asSeconds(), 0);
