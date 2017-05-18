@@ -3,6 +3,7 @@
   console.log('preload');
   const electron = require('electron')
 
+  window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
 
   const ipc = electron.ipcRenderer
