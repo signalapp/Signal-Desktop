@@ -16,6 +16,11 @@
   </div>
   <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
+  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
+    <div class='text'>
+      {{ unreadMessages }}
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
         <div class='network-status-container'></div>
@@ -525,11 +530,13 @@
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
   <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
+  <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../js/conversation_controller.js" data-cover></script>
   <script type="text/javascript" src="../js/panel_controller.js"></script>
   <script type='text/javascript' src='../js/emoji_util.js'></script>
   <script type="text/javascript" src="../js/keychange_listener.js"></script>
   <script type='text/javascript' src='../js/expiring_messages.js'></script>
+  <script type='text/javascript' src='../js/notifications.js'></script>
 
   <script type="text/javascript" src="../js/chromium.js"></script>
 
@@ -562,6 +569,7 @@
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/settings_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
 
   <script type="text/javascript" src="libphonenumber_util_test.js"></script>
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
@@ -572,6 +580,7 @@
   <script type="text/javascript" src="views/list_view_test.js"></script>
   <script type="text/javascript" src="views/conversation_search_view_test.js"></script>
   <script type="text/javascript" src="views/network_status_view_test.js"></script>
+  <script type="text/javascript" src="views/last_seen_indicator_view_test.js"></script>
   <script type="text/javascript" src="models/conversations_test.js"></script>
   <script type="text/javascript" src="models/messages_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
