@@ -41,7 +41,7 @@
     });
 
     var MAX_MESSAGES = 1000;
-    var PHONE_REGEX = /\+\d{7,12}(\d{3})/g;
+    var PHONE_REGEX = /\+\d{7,12}(\d{2})/g;
     var log = new DebugLog();
     if (window.console) {
         console._log = console.log;
