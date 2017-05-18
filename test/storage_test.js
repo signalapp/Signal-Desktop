@@ -91,8 +91,20 @@ describe("SignalProtocolStore", function() {
         });
     });
     describe('removePreKey', function() {
+        var oldGetAccountManager;
         before(function(done) {
+            oldGetAccountManager = window.getAccountManager;
+            window.getAccountManager = function() {
+                return {
+                    refreshPreKeys: function() {
+                        return Promise.resolve();
+                    }
+                };
+            };
             store.storePreKey(2, testKey).then(done);
+        });
+        after(function() {
+            window.getAccountManager = oldGetAccountManager;
         });
         it('deletes prekeys', function(done) {
             store.removePreKey(2, testKey).then(function() {
