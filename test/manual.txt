@@ -5,6 +5,7 @@ Some things are very difficult to test programmatically. Also, if you don't have
 Conversation view:
   Last seen indicator:
     - Make window small, switch away from conversation, receive messages that would more than fill up the window, switch back to conversation: the 'N unread messages' text should be at the top of the window, most recent message should be off-screen
+      (do this with conversation already loaded and with conversation not previously loaded )
     - Receive more messages while this is showing - the number should increment, and the window should not scroll
     - Scroll to the bottom of the window, receive more messages - each message should scroll the window down, so the latest message stays at the bottom of the window.
     - Increase the size of the window so that the 'N unread messages' text is showing. It should reflect the total count of messages below it
