@@ -379,8 +379,15 @@ module.exports = function(grunt) {
           failure = function() {
             grunt.fail.fatal('Found ' + results.failures + ' failing unit tests.');
           };
+          return app.client.log('browser');
         } else {
           grunt.log.ok(results.passes + ' tests passed.');
+        }
+      }).then(function(logs) {
+        if (logs) {
+          console.error();
+          console.error('Because tests failed, printing browser logs:');
+          console.error(logs);
         }
       }).catch(function (error) {
         failure = function() {
