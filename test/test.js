@@ -12215,6 +12215,7 @@ Library.prototype.test = function(obj, type) {
  */
 mocha.setup("bdd");
 window.assert = chai.assert;
+window.PROTO_ROOT = '../protos';
 
 (function() {
   var OriginalReporter = mocha._reporter;
