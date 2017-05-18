@@ -74,6 +74,7 @@
       "bundleVersion": "1"
     },
     "win": {
+      "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "artifactName": "${productName}-Setup_${version}.${ext}",
       "icon": "build/icons/win/icon.ico",
       "publish": {
@@ -89,6 +90,7 @@
       ]
     },
     "linux": {
+      "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
         "deb",
         "zip"
