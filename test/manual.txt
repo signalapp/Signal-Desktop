@@ -44,3 +44,8 @@ Conversation view:
     - If a new message comes in while it is already showing, it turns blue
     - If a new message comes in while not at the bottom of the conversation (but button is not already showing), it should appear, already blue.
     - If you've scrolled up higher than the last seen indicator, then clicking the scroll down button should take you to the last seen indicator. Once there, clicking the button will take you to the bottom of the conversation, at which point the button will disappear.
+
+Electron window locations
+  - Load app, move and resize window, close app. Start app. Window should be in the same place, with the same size.
+  - (OSX) Load app, full-screen window, close app. Start app. Window should be full screen.
+  - (Windows) Load app, maximize window, close app. Start app. Window should be maximized.
