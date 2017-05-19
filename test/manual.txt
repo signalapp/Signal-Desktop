@@ -14,6 +14,7 @@ Conversation view:
     - Switch back to conversation, and the 'N unread messages' text should show
     - Switch away from conversation and back, the scroll position should be the same but the 'N unread messages' text should not be showing
     - Receive message while showing conversation - no 'N unread messages' text should appear
+    - ADVANCED: Set fetch limit to a low number, like 3. Load the application, and don't select the conversation. Receive more than four new messages in that conversation. Select the conversation. The last seen indicator should reflect the total number of new messages and all of them should be visible.
 
   Scrolling:
     - If scrolled to bottom of a conversation, should stay there when a new message comes in
