@@ -3,6 +3,18 @@
       "message": "You left the group",
       "description": "Displayed when a user can't send a message because they have left the group"
     },
+    "scrollDown": {
+      "message": "Scroll to bottom of conversation",
+      "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
+    "messageBelow": {
+      "message": "New message below",
+      "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+      "message": "New messages below",
+      "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "unreadMessage": {
       "message": "1 unread message",
       "description": "Text for unread message separator, just one message"

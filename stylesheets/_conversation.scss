@@ -696,3 +696,31 @@ li.entry .error-icon-container {
     background-color: $grey_l2;
   }
 }
+
+.discussion-container .scroll-down-button-view {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    text-align: center;
+    background-color: $grey_l;
+    border: none;
+
+    .icon {
+      @include color-svg('/images/down.svg', $grey_l3);
+      height: 100%;
+      width: 100%;
+    }
+
+    &.new-messages  {
+      background-color: $grey_l4;
+      .icon {
+        @include color-svg('/images/down.svg', black);
+      }
+    }
+  }
+}

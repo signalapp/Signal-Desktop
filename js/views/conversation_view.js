@@ -26,6 +26,7 @@
             this.$('.menu-list').toggle();
         }
     });
+
     var TimerMenuView = MenuView.extend({
         initialize: function() {
             this.render();
@@ -151,10 +152,14 @@
             'click .back': 'resetPanel',
             'click .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
+            'click .scroll-down-button-view': 'scrollToBottom',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
             'loadMore .message-list': 'fetchMessages',
+            'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
+            'atBottom .message-list': 'hideScrollDownButton',
+            'farFromBottom .message-list': 'addScrollDownButton',
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
@@ -218,11 +223,44 @@
             }
         },
 
+        addScrollDownButtonWithCount: function() {
+            this.updateScrollDownButton(1);
+        },
+
+        addScrollDownButton: function() {
+            if (!this.scrollDownButton) {
+                this.updateScrollDownButton();
+            }
+        },
+
+        updateScrollDownButton: function(count) {
+            if (this.scrollDownButton) {
+                this.scrollDownButton.increment(count);
+            } else {
+                this.scrollDownButton = new Whisper.ScrollDownButtonView({count: count});
+                this.scrollDownButton.render();
+                var container = this.$('.discussion-container');
+                console.log('showscrollDownButton', container);
+                container.append(this.scrollDownButton.el);
+            }
+        },
+
+        hideScrollDownButton: function() {
+            if (this.scrollDownButton) {
+                this.scrollDownButton.remove();
+                this.scrollDownButton = null;
+            }
+        },
+
         removeLastSeenIndicator: function() {
             if (this.lastSeenIndicator) {
                 this.lastSeenIndicator.remove();
                 this.lastSeenIndicator = null;
             }
+        },
+
+        scrollToBottom: function() {
+            this.view.scrollToBottom();
         },
 
         updateLastSeenIndicator: function() {
@@ -239,6 +277,10 @@
 
                 unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
                 var position = unreadEl[0].scrollIntoView(true);
+
+                if (this.view.bottomOffset === 0) {
+                    this.addScrollDownButtonWithCount(unreadCount);
+                }
             }
         },
 

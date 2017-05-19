@@ -1506,6 +1506,30 @@ li.entry .error-icon-container {
     margin: 1em;
     background-color: #d9d9d9; }
 
+.discussion-container .scroll-down-button-view {
+  position: absolute;
+  right: 20px;
+  bottom: 10px; }
+  .discussion-container .scroll-down-button-view button {
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    text-align: center;
+    background-color: #f3f3f3;
+    border: none; }
+    .discussion-container .scroll-down-button-view button .icon {
+      -webkit-mask: url("/images/down.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: silver;
+      height: 100%;
+      width: 100%; }
+    .discussion-container .scroll-down-button-view button.new-messages {
+      background-color: #8d8d8d; }
+      .discussion-container .scroll-down-button-view button.new-messages .icon {
+        -webkit-mask: url("/images/down.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: black; }
+
 .ios #header {
   height: 64px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -2113,5 +2137,17 @@ li.entry .error-icon-container {
   .android-dark .message-list .last-seen-indicator-view .text {
     margin: 2em;
     background-color: #292929; }
+  .android-dark .discussion-container .scroll-down-button-view button {
+    background-color: #8d8d8d; }
+    .android-dark .discussion-container .scroll-down-button-view button .icon {
+      -webkit-mask: url("/images/down.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: black; }
+    .android-dark .discussion-container .scroll-down-button-view button.new-messages {
+      background-color: #d9d9d9; }
+      .android-dark .discussion-container .scroll-down-button-view button.new-messages .icon {
+        -webkit-mask: url("/images/down.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: #8d8d8d; }
 
 /*# sourceMappingURL=manifest.css.map */
