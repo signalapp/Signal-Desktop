@@ -9,6 +9,8 @@ const autoUpdaterInterval = 60 * 60 * 1000;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
+const ElectronConfig = require('electron-config');
+const userConfig = new ElectronConfig();
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -72,10 +74,10 @@ console.log('userData ' + app.getPath('userData'));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let windowConfig = userConfig.get('window');
 
 function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
+  const windowOptions = Object.assign({
     width: 800,
     height: 610,
     webPreferences: {
@@ -83,7 +85,30 @@ function createWindow () {
       //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
     }
-  });
+  }, windowConfig);
+
+  // Create the browser window.
+  mainWindow = new BrowserWindow(windowOptions);
+
+  function captureAndSaveWindowStats() {
+    const size = mainWindow.getSize();
+    const position = mainWindow.getPosition();
+
+    // so if we need to recreate the window, we have the most recent settings
+    windowConfig = {
+      maximized: mainWindow.isMaximized(),
+      fullscreen: mainWindow.isFullScreen(),
+      width: size[0],
+      height: size[1],
+      x: position[0],
+      y: position[1]
+    };
+
+    userConfig.set('window', windowConfig);
+  }
+
+  mainWindow.on('resize', captureAndSaveWindowStats);
+  mainWindow.on('move', captureAndSaveWindowStats);
 
   mainWindow.on('focus', function() {
     mainWindow.flashFrame(false);
