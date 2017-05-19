@@ -17,18 +17,24 @@
             if (this.$el.scrollTop() === 0) {
                 this.$el.trigger('loadMore');
             }
+            if (this.bottomOffset === 0) {
+                this.$el.trigger('atBottom');
+            } else if (this.bottomOffset > this.outerHeight) {
+                this.$el.trigger('farFromBottom');
+            }
         },
         measureScrollPosition: function() {
             if (this.el.scrollHeight === 0) { // hidden
                 return;
             }
-            this.scrollPosition = this.$el.scrollTop() + this.$el.outerHeight();
+            this.outerHeight = this.$el.outerHeight();
+            this.scrollPosition = this.$el.scrollTop() + this.outerHeight;
             this.scrollHeight = this.el.scrollHeight;
             this.shouldStickToBottom = this.scrollPosition === this.scrollHeight;
             if (this.shouldStickToBottom) {
                 this.bottomOffset = 0;
             } else {
-                this.bottomOffset = this.scrollHeight - this.$el.scrollTop();
+                this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.$el.outerHeight();
             }
         },
         resetScrollPosition: function() {
@@ -36,9 +42,12 @@
         },
         scrollToBottomIfNeeded: function() {
             if (this.bottomOffset === 0) {
-                this.$el.scrollTop(this.el.scrollHeight);
-                this.measureScrollPosition();
+                this.scrollToBottom();
             }
+        },
+        scrollToBottom: function() {
+            this.$el.scrollTop(this.el.scrollHeight);
+            this.measureScrollPosition();
         },
         addOne: function(model) {
             var view;
@@ -54,6 +63,10 @@
 
             var index = this.collection.indexOf(model);
             this.measureScrollPosition();
+            if (model.get('unread') && this.bottomOffset > 0) {
+                this.$el.trigger('newOffscreenMessage');
+            }
+
             if (index === this.collection.length - 1) {
                 // add to the bottom.
                 this.$el.append(view.el);

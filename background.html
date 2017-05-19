@@ -42,6 +42,11 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
+    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
+      <div class='icon'></div>
+    </button>
+  </script>
   <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
     <div class='text'>
       {{ unreadMessages }}
@@ -636,6 +641,7 @@
 
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
   <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
+  <script type='text/javascript' src='js/views/scroll_down_button_view.js'></script>
   <script type='text/javascript' src='js/views/debug_log_view.js'></script>
   <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/attachment_preview_view.js'></script>

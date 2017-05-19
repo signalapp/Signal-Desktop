@@ -207,4 +207,21 @@ $text-dark: #CCCCCC;
     margin: 2em;
     background-color: $grey-dark_l2;
   }
+
+  .discussion-container .scroll-down-button-view {
+    button {
+      background-color: $grey_l4;
+
+      .icon {
+        @include color-svg('/images/down.svg', black);
+      }
+
+      &.new-messages  {
+        background-color: $grey_l2;
+        .icon {
+          @include color-svg('/images/down.svg', $grey_l4);
+        }
+      }
+    }
+  }
 }
