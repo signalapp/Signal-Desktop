@@ -50,6 +50,15 @@
 
   .incoming .bubble .fileView .icon {
     @include color-svg('../images/file.svg', white);
+    &.audio {
+      @include color-svg('../images/audio.svg', white);
+    }
+    &.video {
+      @include color-svg('../images/video.svg', white);
+    }
+    &.voice {
+      @include color-svg('../images/voice.svg', white);
+    }
   }
 
   button.clock {
