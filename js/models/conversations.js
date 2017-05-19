@@ -320,7 +320,7 @@
 
     fetchMessages: function() {
         if (!this.id) { return false; }
-        return this.messageCollection.fetchConversation(this.id);
+        return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
     },
 
     fetchContacts: function(options) {
