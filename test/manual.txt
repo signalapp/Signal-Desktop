@@ -1,0 +1,6 @@
+Manual test script
+
+Electron window locations
+  - Load app, move and resize window, close app. Start app. Window should be in the same place, with the same size.
+  - (OSX) Load app, full-screen window, close app. Start app. Window should be full screen.
+  - (Windows) Load app, maximize window, close app. Start app. Window should be maximized.
