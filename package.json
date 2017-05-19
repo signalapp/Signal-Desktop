@@ -71,10 +71,6 @@
         "dmg",
         "zip"
       ],
-      "target": [
-        "dmg",
-        "zip"
-      ],
       "bundleVersion": "1"
     },
     "win": {
