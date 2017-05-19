@@ -2133,6 +2133,18 @@ li.entry .error-icon-container {
   -webkit-mask: url("../images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+  .android .incoming .bubble .fileView .icon.audio {
+    -webkit-mask: url("../images/audio.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android .incoming .bubble .fileView .icon.video {
+    -webkit-mask: url("../images/video.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android .incoming .bubble .fileView .icon.voice {
+    -webkit-mask: url("../images/voice.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
 
 .android button.clock {
   -webkit-mask: url("../images/clock.svg") no-repeat center;
