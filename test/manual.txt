@@ -4,7 +4,7 @@ Some things are very difficult to test programmatically. Also, if you don't have
 
 Conversation view:
   Last seen indicator:
-    - Make window small, switch away from conversation, receive messages that would more than fill up the window, switch back to conversation: the 'N unread messages' text should be at the top of the window, most recent message should be off-screen
+    - Make window small, switch away from conversation, receive messages that would more than fill up the window, switch back to conversation: the 'N unread messages' text should be at the top of the window, most recent message should be off-screen. You should see a highlighted scroll down button in the bottom-right.
       (do this with conversation already loaded and with conversation not previously loaded )
     - Receive more messages while this is showing - the number should increment, and the window should not scroll
     - Scroll to the bottom of the window, receive more messages - each message should scroll the window down, so the latest message stays at the bottom of the window.
@@ -18,3 +18,9 @@ Conversation view:
   Scrolling:
     - If scrolled to bottom of a conversation, should stay there when a new message comes in
     - If scrolled to the middle of a conversation, should stay there when a new message comes in
+    - When you've scrolled up an entire screen's worth, a scroll down button in the bottom right should appear`
+
+  Scroll-down button:
+    - Clicking it takes you to the bottom of the conversation, makes the button disappear
+    - If a new message comes in while it is already showing, it highlights (darker in light them, lighter in dark theme)
+    - If a new message comes in while not at the bottom of the converstation (but buttin is not already showing), it should appear in highlighted form
