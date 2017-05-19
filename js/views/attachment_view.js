@@ -127,11 +127,11 @@
         }
     },
     displayName: function() {
-        if (this.model.fileName) {
-            return this.model.fileName;
-        }
         if (this.isVoiceMessage()) {
             return i18n('voiceMessage');
+        }
+        if (this.model.fileName) {
+            return this.model.fileName;
         }
         if (this.isAudio() || this.isVideo()) {
             return i18n('mediaMssage');
