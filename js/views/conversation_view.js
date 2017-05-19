@@ -278,7 +278,7 @@
                 unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
                 var position = unreadEl[0].scrollIntoView(true);
 
-                if (this.view.bottomOffset === 0) {
+                if (this.view.bottomOffset > 0) {
                     this.addScrollDownButtonWithCount(unreadCount);
                 }
             }
