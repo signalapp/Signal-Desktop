@@ -5,7 +5,7 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var URL_REGEX = /(^|[\s\n]|<br\/?>)((?:https?|ftp):\/\/[\-A-Z0-9\u00A0-\uD7FF\uE000-\uFDCF\uFDF0-\uFFFD+\u0026\u2019@#\/%?=()~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~()_|])/gi;
+    var URL_REGEX = /(^|[\s\n]|<br\/?>)[-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/gi;
 
     var ErrorIconView = Whisper.View.extend({
         templateName: 'error-icon',
