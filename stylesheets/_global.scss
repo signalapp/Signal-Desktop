@@ -15,6 +15,10 @@ body {
   font-size: 14px;
 }
 
+form, input, textarea {
+    font-family: $roboto;
+}
+
 .clearfix:before,
 .clearfix:after {
   display: table;
