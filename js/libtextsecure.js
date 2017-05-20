@@ -37676,9 +37676,6 @@ var TextSecureServer = (function() {
                 case 413:
                     message = "Rate limit exceeded, please try again later.";
                     break;
-                case 403:
-                    message = "Invalid code, please try again.";
-                    break;
                 case 417:
                     // TODO: This shouldn't be a thing?, but its in the API doc?
                     message = "Number already registered.";
