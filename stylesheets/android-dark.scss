@@ -112,10 +112,6 @@ $text-dark: #CCCCCC;
     background-color: $grey-dark_l3;
     border-color: $grey-dark_l2;
     @include invert-text-color;
-    &::-webkit-search-cancel-button {
-      background: url('/images/x_white.svg') no-repeat center;
-      background-size: cover;
-    }
     &.active.ltr, &.active.rtl {
       background-image: url('/images/x_white.svg');
     }

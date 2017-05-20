@@ -855,9 +855,7 @@ input.search {
     -webkit-appearance: none;
     display: block;
     width: 16px;
-    height: 16px;
-    background: url("/images/x.svg") no-repeat center;
-    background-size: cover; }
+    height: 16px; }
   input.search::-webkit-search-cancel-button:hover {
     cursor: pointer; }
 
@@ -2004,9 +2002,6 @@ li.entry .error-icon-container {
     .android-dark .search::selection {
       background: white;
       color: #454545; }
-    .android-dark .search::-webkit-search-cancel-button {
-      background: url("/images/x_white.svg") no-repeat center;
-      background-size: cover; }
     .android-dark .search.active.ltr, .android-dark .search.active.rtl {
       background-image: url("/images/x_white.svg"); }
   .android-dark .bubble {
