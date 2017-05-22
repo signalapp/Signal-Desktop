@@ -4,11 +4,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
-        "message": "آخرین واردسازی ",
+        "message": "آخرین همگام سازی ",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "تلاش برای برقراری ارتباط در $reconnect_duration_in_seconds$ ثانیه",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -76,7 +76,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "برای ذخیره کردن کلیک کنید",
         "description": "Hover text for attachment filenames"
     },
     "installGeneratingKeys": {
@@ -88,7 +88,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "آفلاین",
         "description": ""
     },
     "welcomeToSignal": {
@@ -206,7 +206,7 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "برای افزودن مخاطب یک شماره تلفن وارد کنید",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -396,7 +396,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "شماره معتبر نمی باشد",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -432,7 +432,7 @@
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "در حال برقراری ارتباط",
         "description": ""
     },
     "sessionEnded": {
@@ -474,7 +474,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "برای ایجاد مخاطب جدید کلیک کنید",
         "description": ""
     },
     "theirIdentityUnknown": {
@@ -482,7 +482,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "پیام صوتی",
         "description": "Name for a voice message attachment"
     },
     "submit": {
