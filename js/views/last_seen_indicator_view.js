@@ -13,11 +13,6 @@
           this.count = options.count || 0;
         },
 
-        increment: function(count) {
-            this.count += count;
-            this.render();
-        },
-
         render_attributes: function() {
             var unreadMessages = this.count === 1 ? i18n('unreadMessage')
               : i18n('unreadMessages', [this.count]);
