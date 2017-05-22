@@ -76,13 +76,16 @@
       "message": "Sorry, the selected file exceeds message size restrictions."
     },
     "disconnected": {
-      "message": "Disconnected"
+      "message": "Disconnected",
+      "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-      "message": "Connecting"
+      "message": "Connecting",
+      "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
-      "message": "Offline"
+      "message": "Offline",
+      "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
       "message": "Check your network connection.",
