@@ -116,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.markRead();
+                    this.updateUnread();
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
@@ -324,11 +324,8 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
-            if (this.lastSeenIndicator) {
-                this.lastSeenIndicator.increment(1);
-            }
-
             if (!this.isHidden() && window.isFocused()) {
+                this.removeLastSeenIndicator();
                 this.markRead();
             }
         },

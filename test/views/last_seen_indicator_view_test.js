@@ -9,10 +9,4 @@ describe('LastSeenIndicatorView', function() {
         assert.equal(view.count, 10);
     });
 
-    it('increments count', function() {
-        var view = new Whisper.LastSeenIndicatorView({count: 4});
-        assert.equal(view.count, 4);
-        view.increment(3);
-        assert.equal(view.count, 7);
-    });
 });
