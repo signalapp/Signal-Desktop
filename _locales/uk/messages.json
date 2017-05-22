@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Спроба перепідключення через $reconnect_duration_in_seconds$ секунд",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -22,7 +22,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "verifySafetyNumbers": {
-        "message": "Verify safety number",
+        "message": "Підтвердити код безпеки",
         "description": ""
     },
     "youChangedTheTimer": {
@@ -40,7 +40,7 @@
         "description": "Menu item and header for global settings"
     },
     "incomingKeyConflict": {
-        "message": "Received message with a new safety number. Click to process and display.",
+        "message": "Отримано повідомлення з новим кодом безпеки. Натисніть, щоб обробити і відобразити.",
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
@@ -76,7 +76,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Натисніть, щоб зберегти",
         "description": "Hover text for attachment filenames"
     },
     "installGeneratingKeys": {
@@ -88,7 +88,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Оффлайн",
         "description": ""
     },
     "welcomeToSignal": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Перевірте з'єднання",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -123,6 +123,10 @@
         "message": "Перезапустити Signal",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Ви покинули групу",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Видалити повідомлення",
         "description": "Menu item for deleting messages, title case."
@@ -140,7 +144,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "Можливо, ви хочете $tag_start$ підтвердити код безпеки $tag_end$ для цього контакту.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -198,7 +202,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Прив'яжіть Signal Desktop до вашого мобільного пристрою для продовження спілкування.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -206,7 +210,7 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Введіть номер телефону щоб додати контакт.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -226,7 +230,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Відв'язан",
         "description": ""
     },
     "installFollowUs": {
@@ -240,7 +244,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Дізнатися більше про підтвердження кодів безпеки",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "safetyNumbersSettingHeader": {
@@ -274,7 +278,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (темна)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -286,7 +290,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Ваш код безпеки з $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -304,7 +308,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Новий код безпеки",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -312,7 +316,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Звукові повідомлення",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -380,7 +384,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "outgoingKeyConflict": {
-        "message": "Your safety number with this contact has changed. Click to process and display.",
+        "message": "Код безпеки даного контакту змінився. Натисніть, щоб обробити і відобразити.",
         "description": ""
     },
     "fileSizeWarning": {
@@ -396,7 +400,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Невірний номер",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -428,11 +432,11 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Безіменний файл",
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "З'єднання",
         "description": ""
     },
     "sessionEnded": {
@@ -444,7 +448,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Прив'язати",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -474,15 +478,15 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Натисніть, щоб створити новий контакт",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Ви ще не обмінювалися повідомленнями з даними співрозмовником. Код безпеки стане доступний після першого надсилання повідомлення.",
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Голосове повідомлення",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +494,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "Ваш код безпеки c користувачем $name$ змінився.",
         "description": "",
         "placeholders": {
             "name": {
@@ -500,7 +504,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "Вимагати підтвердження кодів безпеки при їх зміні",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -540,7 +544,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "Ваш код безпеки з контактом змінився. Це може означати, що хтось намагається перехопити ваші повідомлення, або співрозмовник просто перевстановив Signal. Ви можете підтвердити новий код безпеки вказаний нижче.",
         "description": ""
     },
     "submitDebugLog": {

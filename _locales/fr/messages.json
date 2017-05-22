@@ -123,6 +123,10 @@
         "message": "Redémarrer Signal",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Vous avez quitté le groupe",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Supprimer les messages",
         "description": "Menu item for deleting messages, title case."

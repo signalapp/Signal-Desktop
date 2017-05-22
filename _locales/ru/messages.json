@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Попытка переподключения через $reconnect_duration_in_seconds$ секунд",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -76,7 +76,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Нажмите, чтобы сохранить",
         "description": "Hover text for attachment filenames"
     },
     "installGeneratingKeys": {
@@ -88,7 +88,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Оффлайн",
         "description": ""
     },
     "welcomeToSignal": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Проверьте сетевое соединение.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -122,6 +122,10 @@
     "restartSignal": {
         "message": "Перезапустить Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Вы покинули группу",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Удалить сообщения",
@@ -198,7 +202,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Привяжите Signal Desktop к вашему мобильному устройству для продолжения общения.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -226,7 +230,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Отвязан",
         "description": ""
     },
     "installFollowUs": {
@@ -428,11 +432,11 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Безымянный файл",
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "Соединение",
         "description": ""
     },
     "sessionEnded": {
@@ -444,7 +448,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Привязать",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -482,7 +486,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Голосовое сообщение",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +494,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ваш код безопасности и пользователем $name$ изменился.",
+        "message": "Ваш код безопасности c пользователем $name$ изменился.",
         "description": "",
         "placeholders": {
             "name": {
@@ -540,7 +544,7 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Код безопасности данного контакта изменился. Что это значит? Либо кто пытается перехватить ваши сообщения, либо собеседник переустановил Signal. Возможно, вы хотите подтвердить новый код безопасности собеседника указанный ниже.",
+        "message": "Ваш код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или собеседник попросту переустановил Signal. Вы можете подтвердить новый код безопасности указанный ниже.",
         "description": ""
     },
     "submitDebugLog": {

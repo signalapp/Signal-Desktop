@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Tentativa de ligação em $reconnect_duration_in_seconds$ segundos",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -76,7 +76,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Clique para guardar",
         "description": "Hover text for attachment filenames"
     },
     "installGeneratingKeys": {
@@ -88,7 +88,7 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "Desligado",
         "description": ""
     },
     "welcomeToSignal": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Verifique a sua ligação de rede.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -122,6 +122,10 @@
     "restartSignal": {
         "message": "Reiniciar",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Saiu do grupo",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Apagar mensagens",
@@ -432,7 +436,7 @@
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "A ligar",
         "description": ""
     },
     "sessionEnded": {
@@ -482,7 +486,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Mensagem de voz",
         "description": "Name for a voice message attachment"
     },
     "submit": {
