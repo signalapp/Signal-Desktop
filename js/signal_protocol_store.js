@@ -136,16 +136,13 @@
         removePreKey: function(keyId) {
             var prekey = new PreKey({id: keyId});
 
-            return Promise.all([
-                new Promise(function(resolve) {
-                    getAccountManager().refreshPreKeys().then(resolve);
-                }),
-                new Promise(function(resolve) {
-                    prekey.destroy().then(function() {
-                        resolve();
-                    });
-                })
-            ]);
+            this.trigger('removePreKey');
+
+            return new Promise(function(resolve) {
+                prekey.destroy().then(function() {
+                    resolve();
+                });
+            });
         },
 
         /* Returns a signed keypair object or undefined */
