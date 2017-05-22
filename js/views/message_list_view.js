@@ -34,7 +34,7 @@
             if (this.shouldStickToBottom) {
                 this.bottomOffset = 0;
             } else {
-                this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.$el.outerHeight();
+                this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.outerHeight;
             }
         },
         resetScrollPosition: function() {
