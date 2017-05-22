@@ -10,7 +10,6 @@ const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 const ElectronConfig = require('electron-config');
-const userConfig = new ElectronConfig();
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -70,6 +69,9 @@ if (config.has('storageProfile')) {
   app.setPath('userData', userData);
 }
 console.log('userData ' + app.getPath('userData'));
+
+// this needs to be below our update to the appData path
+const userConfig = new ElectronConfig();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
