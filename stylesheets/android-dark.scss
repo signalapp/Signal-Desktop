@@ -217,9 +217,9 @@ $text-dark: #CCCCCC;
       }
 
       &.new-messages  {
-        background-color: $grey_l2;
+        background-color: $blue;
         .icon {
-          @include color-svg('/images/down.svg', $grey_l4);
+          @include color-svg('/images/down.svg', white);
         }
       }
     }
