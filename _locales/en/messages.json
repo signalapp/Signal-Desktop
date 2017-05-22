@@ -16,11 +16,11 @@
       "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-      "message": "1 unread message",
+      "message": "1 Unread Message",
       "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-      "message": "$count$ unread messages",
+      "message": "$count$ Unread Messages",
       "description": "Text for unread message separator, with count",
       "placeholders": {
         "count": {
