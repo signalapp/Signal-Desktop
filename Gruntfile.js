@@ -222,10 +222,12 @@ module.exports = function(grunt) {
     'test-release': {
       osx: {
         archive: 'mac/Signal.app/Contents/Resources/app.asar',
+        appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
         exe: 'mac/Signal.app/Contents/MacOS/Signal'
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
+        appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
         exe: 'mas/Signal.app/Contents/MacOS/Signal'
       },
       linux: {
@@ -234,6 +236,7 @@ module.exports = function(grunt) {
       },
       win: {
         archive: 'win-unpacked/resources/app.asar',
+        appUpdateYML: 'win-unpacked/resources/app-update.yml',
         exe: 'win-unpacked/Signal.exe'
       }
     },
@@ -436,6 +439,15 @@ module.exports = function(grunt) {
           throw new Error("Missing file " + fileName);
         }
       });
+
+      if (config.appUpdateYML) {
+        var appUpdateYML = [dir, config.appUpdateYML].join('/');
+        if (require('fs').existsSync(appUpdateYML)) {
+          console.log("auto update ok");
+        } else {
+          throw new Error("Missing auto update config " + appUpdateYML);
+        }
+      }
 
       var done = this.async();
       // A simple test to verify a visible window is opened with a title
