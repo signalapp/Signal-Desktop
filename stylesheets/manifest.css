@@ -1011,10 +1011,10 @@ input.search {
   padding: 0 1em;
   -webkit-user-select: text; }
 .key-verification .key {
-  display: inline-block;
   font-family: monospace;
   padding: 10px;
-  margin-bottom: 20px;
+  margin: 20px auto 20px auto;
+  width: 16em;
   background: #f3f3f3;
   border: solid 1px #d9d9d9;
   border-radius: 5px; }
@@ -1490,6 +1490,7 @@ li.entry .error-icon-container {
 .message-list li.keychange {
   text-align: center; }
   .message-list li.keychange .content {
+    cursor: pointer;
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
