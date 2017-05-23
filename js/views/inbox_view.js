@@ -105,6 +105,7 @@
             this.listenTo(this.searchView, 'hide', function() {
                 this.searchView.$el.hide();
                 this.inboxListView.$el.show();
+                this.$('.clear-search').hide();
             });
             this.listenTo(this.searchView, 'show', function() {
                 this.searchView.$el.show();
@@ -144,7 +145,8 @@
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
-            'show .lightbox': 'showLightbox'
+            'show .lightbox': 'showLightbox',
+            'click .clear-search' : 'resetTypeahead',
         },
         focusConversation: function(e) {
             if (e && this.$(e.target).closest('.placeholder').length) {
@@ -170,8 +172,10 @@
         filterContacts: function(e) {
             this.searchView.filterContacts(e);
             var input = this.$('input.search');
+            var closeButton = this.$('.clear-search');
             if (input.val().length > 0) {
                 input.addClass('active');
+                closeButton.show();
                 var textDir = window.getComputedStyle(input[0]).direction;
                 if (textDir === 'ltr') {
                     input.removeClass('rtl').addClass('ltr');
@@ -180,6 +184,7 @@
                 }
             } else {
                 input.removeClass('active');
+                closeButton.hide();
             }
         },
         openConversation: function(e, conversation) {
@@ -190,6 +195,9 @@
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();
+        },
+        resetTypeahead: function() {
+            this.searchView.reset();
         },
         showDebugLog: function() {
             this.$('.debug-log').remove();

@@ -35,6 +35,11 @@ $ios-border-color: rgba(0,0,0,0.1);
   .tool-bar {
     float: left;
     padding: 15px;
+
+    .clear-search {
+        background-color: #000;
+    }
+
   }
   input[type=text]:active,
   input[type=text]:focus,
@@ -52,9 +57,6 @@ $ios-border-color: rgba(0,0,0,0.1);
     padding-left: $search-padding-left-ios;
     line-height: 34px;
     background-color: #dddddd;
-    &.active.rtl {
-      background-position : left $search-padding-left-ios center;
-    }
   }
   .conversation-header {
     background-color: $grey_l;
