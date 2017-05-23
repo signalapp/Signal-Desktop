@@ -689,10 +689,12 @@ li.entry .error-icon-container {
   align-items: center;
   border-bottom: 2px solid #2090ea;
   margin-bottom: 15px;
-  margin-top: 2em;
 
   .text {
     padding: 5px 10px;
+    // this margin-top needs to be here (not on parent) because scrollIntoView uses the
+    //   top of the element, not counting its margin
+    margin-top: 2em;
     margin-bottom: -12px;
     background-color: white;
   }
