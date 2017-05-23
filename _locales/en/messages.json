@@ -530,7 +530,7 @@
       "description": "Description for safety numbers setting"
     },
     "keychanged": {
-      "message": "Your safety number with $name$ has changed.",
+      "message": "Your safety number with $name$ has changed. Click to verify.",
       "description": "",
       "placeholders": {
         "name": {
@@ -540,7 +540,7 @@
       }
     },
     "yourSafetyNumberWith": {
-      "message": "Your safety number with $name$",
+      "message": "Your safety number with $name$:",
       "description": "Heading for safety number view",
       "placeholders": {
         "name": {
