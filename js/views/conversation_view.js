@@ -269,9 +269,9 @@
             var oldestUnread = this.model.messageCollection.find(function(model) {
                 return model.get('unread');
             });
+            var unreadCount = this.model.get('unreadCount');
 
-            if (oldestUnread) {
-                var unreadCount = this.model.get('unreadCount');
+            if (oldestUnread && unreadCount > 0) {
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
                 var unreadEl = this.lastSeenIndicator.render().$el;
 
