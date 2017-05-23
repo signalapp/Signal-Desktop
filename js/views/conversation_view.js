@@ -327,7 +327,10 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
-            if (!this.isHidden() && window.isFocused()) {
+            if (!this.isHidden() && !window.isFocused()) {
+                this.updateLastSeenIndicator();
+            }
+            else if (!this.isHidden() && window.isFocused()) {
                 this.removeLastSeenIndicator();
                 this.markRead();
             }
