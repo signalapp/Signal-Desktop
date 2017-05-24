@@ -2,6 +2,7 @@ $grey-dark: #333333;
 $grey-dark_l2: darken($grey-dark, 4%);
 $grey-dark_l3: darken($grey-dark_l2, 7%);
 $grey-dark_l4: darken($grey-dark_l3, 8%);
+$button-dark: #ccc;
 $text-dark: #CCCCCC;
 
 .android-dark {
@@ -21,6 +22,10 @@ $text-dark: #CCCCCC;
       background-color: $grey-dark;
       color: $text-dark;
     }
+  }
+  button, .confirmation-dialog .content .buttons button {
+    background-color: $button-dark;
+    border: 1px solid $grey-dark_l2;
   }
   .message-detail, .message-container, .conversation,
   .discussion-container {
