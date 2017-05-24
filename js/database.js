@@ -217,6 +217,44 @@
                 });
                 next();
             }
+        },
+        {
+            version: "13.0",
+            migrate: function(transaction, next) {
+                console.log('migration 13.0');
+                console.log('Adding fields to identity keys');
+                var identityKeys = transaction.objectStore('identityKeys');
+                var request = identityKeys.openCursor();
+                var promises = [];
+                request.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                    var attributes = cursor.value;
+                    attributes.timestamp = 0;
+                    attributes.firstUse = false;
+                    attributes.blockingApproval = true;
+                    attributes.nonblockingApproval = false;
+                    attributes.seen = 0;
+                    promises.push(new Promise(function(resolve, reject) {
+                      var putRequest = identityKeys.put(attributes, attributes.id);
+                      putRequest.onsuccess = resolve;
+                      putRequest.onerror = function(e) {
+                        console.log(e);
+                        reject(e);
+                      };
+                    }));
+                    cursor.continue();
+                  } else {
+                    // no more results
+                    Promise.all(promises).then(function() {
+                      next();
+                    });
+                  }
+                };
+                request.onerror = function(event) {
+                  console.log(event);
+                };
+            }
         }
     ];
 }());
