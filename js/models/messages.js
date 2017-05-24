@@ -48,6 +48,7 @@
         // overriding this to allow for this.unset('unread'), save to db, then fetch()
         // to propagate. We don't want the unset key in the db so our unread index stays
         // small.
+        // jscs:disable
         fetch: function(options) {
             options = options ? _.clone(options) : {};
             if (options.parse === void 0) options.parse = true;
@@ -66,6 +67,7 @@
             };
             return this.sync('read', this, options);
         },
+        // jscs:enable
         getDescription: function() {
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
