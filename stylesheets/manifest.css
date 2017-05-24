@@ -1854,6 +1854,9 @@ li.entry .error-icon-container {
     .android-dark #header.inactive {
       background-color: #333333;
       color: #CCCCCC; }
+  .android-dark button, .android-dark .confirmation-dialog .content .buttons button {
+    background-color: #ccc;
+    border: 1px solid #292929; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
   .android-dark .discussion-container {
     background-color: #171717; }
