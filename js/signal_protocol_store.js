@@ -4,6 +4,10 @@
 ;(function() {
     'use strict';
     var TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
+    var Direction = {
+      SENDING: 1,
+      RECEIVING: 2,
+    };
 
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
@@ -281,28 +285,50 @@
             });
 
         },
-        isTrustedIdentity: function(identifier, publicKey) {
+        isTrustedIdentity: function(identifier, publicKey, direction) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to get identity key for undefined/null key");
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
+            var isOurNumber = number === textsecure.storage.user.getNumber();
+            var identityKey = new IdentityKey({id: number});
             return new Promise(function(resolve) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    var oldpublicKey = identityKey.get('publicKey');
-                    if (!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey)) {
-                        resolve(true);
-                    } else if (!storage.get('safety-numbers-approval', true)) {
-                        this.saveIdentity(identifier, publicKey).then(function() {
-                            console.log('Key changed for', identifier);
-                            this.trigger('keychange', identifier);
-                            resolve(true);
-                        }.bind(this));
-                    } else {
-                        resolve(false);
-                    }
-                }.bind(this));
+                identityKey.fetch().always(resolve);
+            }).then(function() {
+                var existing = identityKey.get('publicKey');
+
+                if (isOurNumber) {
+                    return equalArrayBuffers(existing, publicKey);
+                }
+
+                switch(direction) {
+                    case Direction.SENDING:   return this.isTrustedForSending(publicKey, identityKey);
+                    case Direction.RECEIVING: return true;
+                    default:        throw new Error("Unknown direction: " + direction);
+                }
             }.bind(this));
+        },
+        isTrustedForSending: function(publicKey, identityKey) {
+            var existing = identityKey.get('publicKey');
+
+            if (!existing) {
+                console.log("isTrustedForSending: Nothing here, returning true...");
+                return true;
+            }
+            if (!equalArrayBuffers(existing, publicKey)) {
+                console.log("isTrustedForSending: Identity keys don't match...");
+                return false;
+            }
+            if (this.isBlockingApprovalRequired(identityKey)) {
+                console.log("isTrustedForSending: Needs blocking approval!");
+                return false;
+            }
+            if (this.isNonBlockingApprovalRequired(identityKey)) {
+                console.log("isTrustedForSending: Needs non-blocking approval!");
+                return false;
+            }
+
+            return true;
         },
         loadIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined) {
@@ -424,4 +450,5 @@
     _.extend(SignalProtocolStore.prototype, Backbone.Events);
 
     window.SignalProtocolStore = SignalProtocolStore;
+    window.SignalProtocolStore.prototype.Direction = Direction;
 })();
