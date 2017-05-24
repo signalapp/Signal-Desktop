@@ -504,7 +504,7 @@
             throw 'No conflicts to resolve';
         }
 
-        return textsecure.storage.protocol.saveIdentity(number, identityKey).then(function() {
+        return textsecure.storage.protocol.saveIdentity(number, identityKey, true, true).then(function() {
             var promise = Promise.resolve();
             var conflicts = this.messageCollection.filter(function(message) {
                 return message.hasKeyConflict(number);
