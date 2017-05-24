@@ -541,6 +541,7 @@
             if (typeof unreadCount !== 'number') {
                 unreadCount = 0;
             }
+            var startingLoadedUnread = this.getLoadedUnreadCount();
             return new Promise(function(resolve) {
                 var upper;
                 if (this.length === 0) {
@@ -563,6 +564,10 @@
                 this.fetch(options).then(resolve);
             }.bind(this)).then(function() {
                 var loadedUnread = this.getLoadedUnreadCount();
+                if (startingLoadedUnread === loadedUnread) {
+                    // that fetch didn't get us any more unread. stop fetching more.
+                    return;
+                }
                 if (loadedUnread < unreadCount) {
                     return this.fetchConversation(conversationId, limit, unreadCount);
                 }
