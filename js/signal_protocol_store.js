@@ -318,7 +318,7 @@
                 });
             });
         },
-        saveIdentity: function(identifier, publicKey) {
+        saveIdentity: function(identifier, publicKey, blockingApproval, nonblockingApproval) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to put identity key for undefined/null key");
             }
@@ -332,17 +332,41 @@
                     var oldpublicKey = identityKey.get('publicKey');
                     if (!oldpublicKey) {
                         // Lookup failed, or the current key was removed, so save this one.
-                        identityKey.save({publicKey: publicKey}).then(resolve);
+                        console.log("Saving new identity...");
+                        identityKey.save({
+                            publicKey           : publicKey,
+                            firstUse            : true,
+                            timestamp           : Date.now(),
+                            blockingApproval    : blockingApproval,
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            resolve(false);
+                        });
+                    } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
+                        console.log("Replacing existing identity...");
+                        identityKey.save({
+                            publicKey           : publicKey,
+                            firstUse            : false,
+                            timestamp           : Date.now(),
+                            blockingApproval    : blockingApproval,
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            this.trigger('keychange', identifier);
+                            resolve(true);
+                        }.bind(this));
+                    } else if (this.isBlockingApprovalRequired(identityKey) || this.isNonBlockingApprovalRequired(identityKey)) {
+                        console.log("Setting approval status...");
+                        identityKey.save({
+                            blockingApproval    : blockingApproval,
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            resolve(false);
+                        });
                     } else {
-                        // Key exists, if it matches do nothing, else throw
-                        if (equalArrayBuffers(oldpublicKey, publicKey)) {
-                            resolve();
-                        } else {
-                            reject(new Error("Attempted to overwrite a different identity key"));
-                        }
+                        resolve(false);
                     }
-                });
-            });
+                }.bind(this));
+            }.bind(this));
         },
         isBlockingApprovalRequired: function(identityKey) {
             return (!identityKey.get('firstUse')
