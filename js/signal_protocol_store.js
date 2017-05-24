@@ -293,12 +293,10 @@
                     if (!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey)) {
                         resolve(true);
                     } else if (!storage.get('safety-numbers-approval', true)) {
-                        this.removeIdentityKey(identifier).then(function() {
-                            this.saveIdentity(identifier, publicKey).then(function() {
-                                console.log('Key changed for', identifier);
-                                this.trigger('keychange', identifier);
-                                resolve(true);
-                            }.bind(this));
+                        this.saveIdentity(identifier, publicKey).then(function() {
+                            console.log('Key changed for', identifier);
+                            this.trigger('keychange', identifier);
+                            resolve(true);
                         }.bind(this));
                     } else {
                         resolve(false);
