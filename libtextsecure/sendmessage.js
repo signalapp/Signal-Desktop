@@ -254,6 +254,16 @@ MessageSender.prototype = {
         return this.sendIndividualProto(myNumber, contentMessage, Date.now());
     },
 
+    getProfile: function(number) {
+        return this.server.getProfile(number).then(function(profile) {
+            var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey).toArrayBuffer();
+
+            return textsecure.storage.protocol.isTrusted(number, identityKey).then(function(trusted) {
+
+            });
+        });
+    },
+
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -544,6 +554,7 @@ textsecure.MessageSender = function(url, ports, username, password) {
     this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
     this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
+    this.getProfile                        = sender.getProfile                       .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
 };
 
