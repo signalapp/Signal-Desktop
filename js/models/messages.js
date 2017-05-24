@@ -45,6 +45,27 @@
         isUnread: function() {
             return !!this.get('unread');
         },
+        // overriding this to allow for this.unset('unread'), save to db, then fetch()
+        // to propagate. We don't want the unset key in the db so our unread index stays
+        // small.
+        fetch: function(options) {
+            options = options ? _.clone(options) : {};
+            if (options.parse === void 0) options.parse = true;
+            var model = this;
+            var success = options.success;
+            options.success = function(resp) {
+                model.attributes = {}; // this is the only changed line
+                if (!model.set(model.parse(resp, options), options)) return false;
+                if (success) success(model, resp, options);
+                model.trigger('sync', model, resp, options);
+            };
+            var error = options.error;
+                options.error = function(resp) {
+                if (error) error(model, resp, options);
+                model.trigger('error', model, resp, options);
+            };
+            return this.sync('read', this, options);
+        },
         getDescription: function() {
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
