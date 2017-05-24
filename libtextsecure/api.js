@@ -136,7 +136,8 @@ var TextSecureServer = (function() {
         keys       : "v2/keys",
         signed     : "v2/keys/signed",
         messages   : "v1/messages",
-        attachment : "v1/attachments"
+        attachment : "v1/attachments",
+        profile    : "v1/profile"
     };
 
     function TextSecureServer(url, ports, username, password) {
@@ -202,6 +203,13 @@ var TextSecureServer = (function() {
                 }
                 e.message = message
                 throw e;
+            });
+        },
+        getProfile: function(number) {
+            return this.ajax({
+                call                : 'profile',
+                httpType            : 'GET',
+                urlParameters       : '/' + number,
             });
         },
         requestVerificationSMS: function(number) {
