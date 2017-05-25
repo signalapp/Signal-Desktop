@@ -564,7 +564,11 @@
             if (typeof unreadCount !== 'number') {
                 unreadCount = 0;
             }
-            var startingLoadedUnread = this.getLoadedUnreadCount();
+
+            var startingLoadedUnread = 0;
+            if (unreadCount > 0) {
+                startingLoadedUnread = this.getLoadedUnreadCount();
+            }
             return new Promise(function(resolve) {
                 var upper;
                 if (this.length === 0) {
@@ -586,12 +590,17 @@
                 };
                 this.fetch(options).then(resolve);
             }.bind(this)).then(function() {
-                var loadedUnread = this.getLoadedUnreadCount();
-                if (startingLoadedUnread === loadedUnread) {
-                    // that fetch didn't get us any more unread. stop fetching more.
-                    return;
-                }
-                if (loadedUnread < unreadCount) {
+                if (unreadCount > 0) {
+                    if (unreadCount <= startingLoadedUnread) {
+                        return;
+                    }
+
+                    var loadedUnread = this.getLoadedUnreadCount();
+                    if (startingLoadedUnread === loadedUnread) {
+                        // that fetch didn't get us any more unread. stop fetching more.
+                        return;
+                    }
+
                     return this.fetchConversation(conversationId, limit, unreadCount);
                 }
             }.bind(this));
