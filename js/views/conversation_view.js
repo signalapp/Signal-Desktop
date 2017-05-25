@@ -116,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.markRead();
+                    this.updateUnread();
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
