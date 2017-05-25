@@ -251,8 +251,11 @@
             }
         },
 
-        removeLastSeenIndicator: function() {
-            if (this.lastSeenIndicator) {
+        removeLastSeenIndicator: function(options) {
+            options = options || {};
+            _.defaults(options, {force: false});
+
+            if (this.lastSeenIndicator && (options.force || this.lastSeenIndicator.isOldEnough())) {
                 this.lastSeenIndicator.remove();
                 this.lastSeenIndicator = null;
             }
@@ -275,7 +278,7 @@
             options = options || {};
             _.defaults(options, {scroll: true});
 
-            this.removeLastSeenIndicator();
+            this.removeLastSeenIndicator({force: true});
 
             var oldestUnread = this.model.messageCollection.find(function(model) {
                 return model.get('unread');
@@ -340,6 +343,12 @@
         addMessage: function(message) {
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
+
+            // if the last seen indicator is old enough, it will go away.
+            // if it isn't, we want to make sure it's up to date
+            if (this.lastSeenIndicator) {
+                this.lastSeenIndicator.increment(1);
+            }
 
             if (!this.isHidden() && !window.isFocused()) {
                 this.updateLastSeenIndicator({scroll: false});
