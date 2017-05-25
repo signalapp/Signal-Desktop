@@ -116,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.updateUnread();
+                    this.markRead();
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
@@ -240,7 +240,6 @@
                 this.scrollDownButton = new Whisper.ScrollDownButtonView({count: count});
                 this.scrollDownButton.render();
                 var container = this.$('.discussion-container');
-                console.log('showscrollDownButton', container);
                 container.append(this.scrollDownButton.el);
             }
         },
@@ -260,10 +259,22 @@
         },
 
         scrollToBottom: function() {
+            // If we're above the last seen indicator, we should scroll there instead
+            // Note: if we don't end up at the bottom of the conversation, button will not go away!
+            if (this.lastSeenIndicator) {
+                var location = this.lastSeenIndicator.$el.position().top;
+                if (location > 0) {
+                    this.lastSeenIndicator.el.scrollIntoView();
+                    return;
+                }
+            }
             this.view.scrollToBottom();
         },
 
-        updateLastSeenIndicator: function() {
+        updateLastSeenIndicator: function(options) {
+            options = options || {};
+            _.defaults(options, {scroll: true});
+
             this.removeLastSeenIndicator();
 
             var oldestUnread = this.model.messageCollection.find(function(model) {
@@ -276,7 +287,10 @@
                 var unreadEl = this.lastSeenIndicator.render().$el;
 
                 unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
-                var position = unreadEl[0].scrollIntoView(true);
+
+                if (this.view.bottomOffset === 0 || options.scroll) {
+                    var position = unreadEl[0].scrollIntoView(true);
+                }
 
                 // scrollIntoView is an async operation, but we have no way to listen for
                 // completion of the resultant scroll.
@@ -328,7 +342,7 @@
             message.setToExpire();
 
             if (!this.isHidden() && !window.isFocused()) {
-                this.updateLastSeenIndicator();
+                this.updateLastSeenIndicator({scroll: false});
             }
             else if (!this.isHidden() && window.isFocused()) {
                 this.removeLastSeenIndicator();
