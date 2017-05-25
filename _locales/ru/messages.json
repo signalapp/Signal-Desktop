@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Перейти в конец беседы",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -79,6 +83,10 @@
         "message": "Нажмите, чтобы сохранить",
         "description": "Hover text for attachment filenames"
     },
+    "messagesBelow": {
+        "message": "Новые сообщения ниже",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "installGeneratingKeys": {
         "message": "Создание ключей",
         "description": ""
@@ -89,7 +97,7 @@
     },
     "offline": {
         "message": "Оффлайн",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Добро пожаловать в Signal",
@@ -251,6 +259,16 @@
         "message": "Подтверждение кодов безопасности",
         "description": "Header for safety numbers setting"
     },
+    "unreadMessages": {
+        "message": "$count$ непрочитанных сообщений",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "installTooManyDevices": {
         "message": "Извините, вы привязали слишком много устройств. Попробуйте удалить неиспользуемые устройства.",
         "description": ""
@@ -290,7 +308,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Ваш код безопасности с $name$",
+        "message": "Ваш код безопасности c $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -321,7 +339,7 @@
     },
     "disconnected": {
         "message": "Соединение разорвано",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Импортирую...",
@@ -379,6 +397,10 @@
         "message": "Медиа-сообщение",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 непрочитанное сообщение",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Данная версия приложения устарела. Пожалуйста, обновите Signal Desktop до последней версии для дальнейшей отправки сообщений.",
         "description": "Warning notification that this version of the app has expired"
@@ -406,6 +428,10 @@
     "installWelcome": {
         "message": "Добро пожаловать в Signal Desktop",
         "description": "Welcome title on the install page"
+    },
+    "messageBelow": {
+        "message": "Новое сообщение ниже",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "installConnectionFailed": {
         "message": "Не удалось подключиться к серверу.",
@@ -437,7 +463,7 @@
     },
     "connecting": {
         "message": "Соединение",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Защищённая сессия перезапущена",
@@ -494,7 +520,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ваш код безопасности c пользователем $name$ изменился.",
+        "message": "Ваш код безопасности c пользователем $name$ изменился. Нажмите, чтобы подтвердить.",
         "description": "",
         "placeholders": {
             "name": {
