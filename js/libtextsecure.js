@@ -35950,7 +35950,7 @@ SessionBuilder.prototype = {
   processPreKey: function(device) {
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
       return this.storage.isTrustedIdentity(
-          this.remoteAddress.getName(), device.identityKey
+          this.remoteAddress.getName(), device.identityKey, this.storage.Direction.SENDING
       ).then(function(trusted) {
         if (!trusted) {
           throw new Error('Identity key changed');
@@ -36003,7 +36003,7 @@ SessionBuilder.prototype = {
   processV3: function(record, message) {
     var preKeyPair, signedPreKeyPair, session;
     return this.storage.isTrustedIdentity(
-        this.remoteAddress.getName(), message.identityKey.toArrayBuffer()
+        this.remoteAddress.getName(), message.identityKey.toArrayBuffer(), this.storage.Direction.RECEIVING
     ).then(function(trusted) {
         if (!trusted) {
             var e = new Error('Unknown identity key');
@@ -36247,10 +36247,20 @@ SessionCipher.prototype = {
                   result.set(new Uint8Array(encodedMsg), 1);
                   result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
-                  record.updateSessionState(session);
-                  return this.storage.storeSession(address, record.serialize()).then(function() {
-                      return result;
-                  });
+                  return this.storage.isTrustedIdentity(
+                      this.remoteAddress.getName(), util.toArrayBuffer(session.indexInfo.remoteIdentityKey), this.storage.Direction.SENDING
+                  ).then(function(trusted) {
+                      if (!trusted) {
+                          throw new Error('Identity key changed');
+                      }
+                  }).then(function() {
+                      return this.storage.saveIdentity(this.remoteAddress.getName(), session.indexInfo.remoteIdentityKey);
+                  }.bind(this)).then(function() {
+                      record.updateSessionState(session);
+                      return this.storage.storeSession(address, record.serialize()).then(function() {
+                          return result;
+                      });
+                  }.bind(this));
               }.bind(this));
           }.bind(this));
       }.bind(this)).then(function(message) {
@@ -36318,10 +36328,21 @@ SessionCipher.prototype = {
                       record.archiveCurrentState();
                       record.promoteState(result.session);
                     }
-                    record.updateSessionState(result.session);
-                    return this.storage.storeSession(address, record.serialize()).then(function() {
-                        return result.plaintext;
-                    });
+
+                    return this.storage.isTrustedIdentity(
+                        this.remoteAddress.getName(), util.toArrayBuffer(result.session.indexInfo.remoteIdentityKey), this.storage.Direction.SENDING
+                    ).then(function(trusted) {
+                        if (!trusted) {
+                            throw new Error('Identity key changed');
+                        }
+                    }).then(function() {
+                        return this.storage.saveIdentity(this.remoteAddress.getName(), result.session.indexInfo.remoteIdentityKey);
+                    }.bind(this)).then(function() {
+                        record.updateSessionState(result.session);
+                        return this.storage.storeSession(address, record.serialize()).then(function() {
+                            return result.plaintext;
+                        });
+                    }.bind(this));
                 }.bind(this));
             }.bind(this));
         }.bind(this));
@@ -36346,6 +36367,7 @@ SessionCipher.prototype = {
                   );
               }
               var builder = new SessionBuilder(this.storage, this.remoteAddress);
+              // isTrustedIdentity is called within processV3, no need to call it here
               return builder.processV3(record, preKeyProto).then(function(preKeyId) {
                   var session = record.getSessionByBaseKey(preKeyProto.baseKey);
                   return this.doDecryptWhisperMessage(
@@ -38101,7 +38123,7 @@ var TextSecureServer = (function() {
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
                     var putIdentity = textsecure.storage.protocol.saveIdentity.bind(
-                        null, number, identityKeyPair.pubKey
+                        null, number, identityKeyPair.pubKey, true, true
                     );
                     textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);
 
