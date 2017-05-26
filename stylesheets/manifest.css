@@ -1678,7 +1678,7 @@ li.entry .error-icon-container {
     border: none;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
     .discussion-container .scroll-down-button-view button .icon {
-      -webkit-mask: url("/images/down.svg") no-repeat center;
+      -webkit-mask: url("../images/down.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: silver;
       height: 100%;
@@ -1688,7 +1688,7 @@ li.entry .error-icon-container {
     .discussion-container .scroll-down-button-view button.new-messages {
       background-color: #2090ea; }
       .discussion-container .scroll-down-button-view button.new-messages .icon {
-        -webkit-mask: url("/images/down.svg") no-repeat center;
+        -webkit-mask: url("../images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
       .discussion-container .scroll-down-button-view button.new-messages:hover {
