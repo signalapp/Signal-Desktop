@@ -346,6 +346,8 @@ module.exports = function(grunt) {
       });
       done();
     });
+
+    // TODO: chmod u+r win-unpacked/**/*
   });
 
   grunt.registerTask('unit-tests', 'Run unit tests inside Electron', function() {
