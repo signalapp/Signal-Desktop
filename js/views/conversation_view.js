@@ -116,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.updateUnread();
+                    this.updateUnread({scroll: false});
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
@@ -206,8 +206,8 @@
             this.$('.bottom-bar form').addClass('active');
         },
 
-        updateUnread: function() {
-            this.updateLastSeenIndicator();
+        updateUnread: function(options) {
+            this.updateLastSeenIndicator(options);
             this.model.markRead();
         },
 
