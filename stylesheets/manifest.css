@@ -1446,6 +1446,9 @@ li.entry .error-icon-container {
   .bottom-bar .capture-audio {
     float: right;
     height: 36px; }
+  .bottom-bar .android-length-warning {
+    padding: 10px;
+    max-width: 150px; }
 
 .toast {
   position: absolute;
