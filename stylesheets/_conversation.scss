@@ -823,7 +823,7 @@ li.entry .error-icon-container {
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
 
     .icon {
-      @include color-svg('/images/down.svg', $grey_l3);
+      @include color-svg('../images/down.svg', $grey_l3);
       height: 100%;
       width: 100%;
     }
@@ -834,7 +834,7 @@ li.entry .error-icon-container {
     &.new-messages  {
       background-color: $blue;
       .icon {
-        @include color-svg('/images/down.svg', white);
+        @include color-svg('../images/down.svg', white);
       }
 
       &:hover {
