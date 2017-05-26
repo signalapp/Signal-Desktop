@@ -278,14 +278,14 @@
             options = options || {};
             _.defaults(options, {scroll: true});
 
-            this.removeLastSeenIndicator({force: true});
-
             var oldestUnread = this.model.messageCollection.find(function(model) {
                 return model.get('unread');
             });
             var unreadCount = this.model.get('unreadCount');
 
             if (oldestUnread && unreadCount > 0) {
+                this.removeLastSeenIndicator({force: true});
+
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
                 var unreadEl = this.lastSeenIndicator.render().$el;
 
@@ -302,6 +302,9 @@
                         this.addScrollDownButtonWithCount(unreadCount);
                     }
                 }.bind(this), 1);
+            }
+            else {
+                this.removeLastSeenIndicator({force: false});
             }
         },
 
