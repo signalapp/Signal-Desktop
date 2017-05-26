@@ -78,6 +78,7 @@
                 'destroy'         : i18n('deleteMessages'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),
+                'android-length-warning': i18n('androidMessageLengthWarning'),
                 timer_options     : Whisper.ExpirationTimerOptions.models
             };
         },
@@ -178,6 +179,13 @@
                 this.$('.capture-audio').hide();
             } else {
                 this.$('.capture-audio').show();
+            }
+        },
+        toggleLenghtWarning: function() {
+            if (this.$('.send-message').val().length > 2000 || this.fileInput.hasFiles()) {
+                this.$('.android-length-warning').show();
+            } else {
+                this.$('.android-length-warning').hide();
             }
         },
         captureAudio: function(e) {
@@ -630,6 +638,7 @@
                 return this.$('.bottom-bar form').submit();
             }
             this.toggleMicrophone();
+            this.toggleLenghtWarning();
 
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);

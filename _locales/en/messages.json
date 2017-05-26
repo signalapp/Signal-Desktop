@@ -351,6 +351,10 @@
         "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
         "description": "Warning notification that this version of the app has expired"
     },
+    "androidMessageLengthWarning": {
+        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "description": "Warning that long messages could not get received completely by Android clients."
+    },
     "upgrade": {
         "message": "Upgrade",
         "description": "Label text for button to upgrade the app to the latest version"
