@@ -303,6 +303,9 @@
                 var read = unreadMessages.map(function(m) {
                     if (this.messageCollection.get(m.id)) {
                         m = this.messageCollection.get(m.id);
+                    } else {
+                        console.log('Marked a message as read in the database, but ' +
+                                    'it was not in messageCollection.');
                     }
                     m.markRead();
                     return {

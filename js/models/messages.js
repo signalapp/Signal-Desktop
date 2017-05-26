@@ -468,10 +468,23 @@
                         message.save().then(function() {
                             conversation.save().then(function() {
                                 conversation.trigger('newmessage', message);
-                                if (message.get('unread')) {
-                                    conversation.notify(message);
-                                }
-                                resolve();
+                                // We fetch() here because, between the message.save() above and the previous
+                                //   line's trigger() call, we might have marked all messages unread in the
+                                //   database. This message might already be read!
+                                var previousUnread = message.get('unread');
+                                message.fetch().then(function() {
+                                    if (previousUnread !== message.get('unread')) {
+                                        console.log('Caught race condition on new message read state! ' +
+                                                    'Manually starting timers.');
+                                        // We call markRead() even though the message is already marked read
+                                        //   because we need to start expiration timers, etc.
+                                        message.markRead();
+                                    }
+                                    if (message.get('unread')) {
+                                        conversation.notify(message);
+                                    }
+                                    resolve();
+                                });
                             });
                         });
                     });
