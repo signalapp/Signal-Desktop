@@ -3,6 +3,7 @@
  */
 ;(function() {
     'use strict';
+    var TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
@@ -342,6 +343,16 @@
                     }
                 });
             });
+        },
+        isBlockingApprovalRequired: function(identityKey) {
+            return (!identityKey.get('firstUse')
+                    && storage.get('safety-numbers-approval', true)
+                    && !identityKey.get('blockingApproval'));
+        },
+        isNonBlockingApprovalRequired: function(identityKey) {
+          return (!identityKey.get('firstUse')
+                  && Date.now() - identityKey.get('timestamp') < TIMESTAMP_THRESHOLD
+                  && !identityKey.get('nonblockingApproval'));
         },
         removeIdentityKey: function(number) {
             return new Promise(function(resolve, reject) {
