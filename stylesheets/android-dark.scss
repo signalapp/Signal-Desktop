@@ -26,6 +26,9 @@ $text-dark: #CCCCCC;
   button, .confirmation-dialog .content .buttons button {
     background-color: $button-dark;
     border: 1px solid $grey-dark_l2;
+    &:hover {
+      background-color: darken($button-dark, 8%);
+    }
   }
   .message-detail, .message-container, .conversation,
   .discussion-container {

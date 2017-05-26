@@ -1902,6 +1902,8 @@ li.entry .error-icon-container {
   .android-dark button, .android-dark .confirmation-dialog .content .buttons button {
     background-color: #ccc;
     border: 1px solid #292929; }
+    .android-dark button:hover, .android-dark .confirmation-dialog .content .buttons button:hover {
+      background-color: #b8b8b8; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
   .android-dark .discussion-container {
     background-color: #171717; }
