@@ -42,7 +42,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.isTrustedIdentity(phoneNumberWithKeyChange, newKey);
+      return store.saveIdentity(phoneNumberWithKeyChange, newKey);
     });
   });
 
@@ -66,7 +66,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.isTrustedIdentity(phoneNumberWithKeyChange, newKey);
+      return store.saveIdentity(phoneNumberWithKeyChange, newKey);
     });
 
   });
