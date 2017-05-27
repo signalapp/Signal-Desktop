@@ -291,14 +291,14 @@
 
                 unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
 
-                if (this.view.bottomOffset === 0 || options.scroll) {
+                if (this.view.atBottom() || options.scroll) {
                     var position = unreadEl[0].scrollIntoView(true);
                 }
 
                 // scrollIntoView is an async operation, but we have no way to listen for
                 // completion of the resultant scroll.
                 setTimeout(function() {
-                    if (this.view.bottomOffset > 0) {
+                    if (!this.view.atBottom()) {
                         this.addScrollDownButtonWithCount(unreadCount);
                     }
                 }.bind(this), 1);

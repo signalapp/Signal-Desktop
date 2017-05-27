@@ -17,11 +17,14 @@
             if (this.$el.scrollTop() === 0) {
                 this.$el.trigger('loadMore');
             }
-            if (this.bottomOffset === 0) {
+            if (this.atBottom()) {
                 this.$el.trigger('atBottom');
             } else if (this.bottomOffset > this.outerHeight) {
                 this.$el.trigger('farFromBottom');
             }
+        },
+        atBottom: function() {
+            return this.bottomOffset < 20;
         },
         measureScrollPosition: function() {
             if (this.el.scrollHeight === 0) { // hidden
@@ -30,18 +33,13 @@
             this.outerHeight = this.$el.outerHeight();
             this.scrollPosition = this.$el.scrollTop() + this.outerHeight;
             this.scrollHeight = this.el.scrollHeight;
-            this.shouldStickToBottom = this.scrollPosition === this.scrollHeight;
-            if (this.shouldStickToBottom) {
-                this.bottomOffset = 0;
-            } else {
-                this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.outerHeight;
-            }
+            this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.outerHeight;
         },
         resetScrollPosition: function() {
             this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
-            if (this.bottomOffset === 0) {
+            if (this.atBottom()) {
                 this.scrollToBottom();
             }
         },
@@ -63,7 +61,8 @@
 
             var index = this.collection.indexOf(model);
             this.measureScrollPosition();
-            if (model.get('unread') && this.bottomOffset > 0) {
+
+            if (model.get('unread') && !this.atBottom()) {
                 this.$el.trigger('newOffscreenMessage');
             }
 
