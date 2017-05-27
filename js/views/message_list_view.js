@@ -24,7 +24,7 @@
             }
         },
         atBottom: function() {
-            return this.bottomOffset < 20;
+            return this.bottomOffset < 30;
         },
         measureScrollPosition: function() {
             if (this.el.scrollHeight === 0) { // hidden
