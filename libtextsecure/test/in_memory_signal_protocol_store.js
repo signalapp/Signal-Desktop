@@ -3,6 +3,7 @@ function SignalProtocolStore() {
 }
 
 SignalProtocolStore.prototype = {
+  Direction: { SENDING: 1, RECEIVING: 2},
 	getIdentityKeyPair: function() {
 		return Promise.resolve(this.get('identityKey'));
 	},
@@ -53,7 +54,13 @@ SignalProtocolStore.prototype = {
 		if (identifier === null || identifier === undefined)
 			throw new Error("Tried to put identity key for undefined/null key");
 		return new Promise(function(resolve) {
-			resolve(this.put('identityKey' + identifier, identityKey));
+      var existing = this.get('identityKey' + identifier);
+			this.put('identityKey' + identifier, identityKey);
+      if (existing && existing !== identityKey) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
 		}.bind(this));
 	},
 
