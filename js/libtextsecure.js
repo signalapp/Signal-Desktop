@@ -39191,13 +39191,7 @@ MessageSender.prototype = {
     },
 
     getProfile: function(number) {
-        return this.server.getProfile(number).then(function(profile) {
-            var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey).toArrayBuffer();
-
-            return textsecure.storage.protocol.isTrusted(number, identityKey).then(function(trusted) {
-
-            });
-        });
+        return this.server.getProfile(number);
     },
 
     sendRequestGroupSyncMessage: function() {
