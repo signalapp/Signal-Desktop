@@ -14,7 +14,9 @@ describe('Protocol Wrapper', function() {
         localStorage.clear();
         libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKey) {
             return textsecure.storage.protocol.saveIdentity(identifier, identityKey);
-        }).then(done);
+            }).then(function() {
+              done();
+            });
     });
     describe('processPreKey', function() {
         it('rejects if the identity key changes', function(done) {

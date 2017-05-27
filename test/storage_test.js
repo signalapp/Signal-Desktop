@@ -56,7 +56,7 @@ describe("SignalProtocolStore", function() {
     describe('isTrustedIdentity', function() {
         it('returns true if a key is trusted', function(done) {
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                store.isTrustedIdentity(identifier, testKey.pubKey).then(function(trusted) {
+                store.isTrustedIdentity(identifier, testKey.pubKey, store.Direction.RECEIVING).then(function(trusted) {
                     if (trusted) {
                         done();
                     } else {
@@ -68,7 +68,7 @@ describe("SignalProtocolStore", function() {
         it('returns false if a key is untrusted', function(done) {
             var newIdentity = libsignal.crypto.getRandomBytes(33);
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                store.isTrustedIdentity(identifier, newIdentity).then(function(trusted) {
+                store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
                     if (trusted) {
                         done(new Error('Allowed to overwrite identity key'));
                     } else {
