@@ -230,6 +230,8 @@
         },
 
         onOpened: function() {
+            this.model.getProfiles();
+
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
             this.focusMessageField();
