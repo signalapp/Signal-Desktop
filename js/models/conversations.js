@@ -339,6 +339,27 @@
         }.bind(this));
     },
 
+    getProfiles: function() {
+        // request all conversation members' keys
+        var ids = [];
+        if (this.isPrivate()) {
+            ids = [this.id];
+        } else {
+            ids = this.get('members');
+        }
+        ids.forEach(this.getProfile);
+    },
+
+    getProfile: function(id) {
+        return textsecure.messaging.getProfile(id).then(function(profile) {
+            var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
+
+            return textsecure.storage.protocol.saveIdentity(
+              id, identityKey, storage.get('safety-numbers-approval', true), false
+            );
+        });
+    },
+
     fetchMessages: function() {
         if (!this.id) { return false; }
         return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
