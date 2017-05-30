@@ -386,6 +386,10 @@
                                 if (difference.length > 0) {
                                     group_update.joined = difference;
                                 }
+                                if (conversation.get('left')) {
+                                  console.log('re-added to a left group');
+                                  attributes.left = false;
+                                }
                             }
                             else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
                                 if (source == textsecure.storage.user.getNumber()) {
