@@ -13,14 +13,6 @@
         initialize: function(options) {
           options = options || {};
           this.count = options.count || 0;
-          this.start = Date.now();
-        },
-
-        isOldEnough: function() {
-          var now = Date.now();
-          if (now - this.start > FIVE_SECONDS) {
-            return true;
-          }
         },
 
         increment: function(count) {
