@@ -116,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.updateUnread({scroll: false});
+                    this.markRead();
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
@@ -206,8 +206,8 @@
             this.$('.bottom-bar form').addClass('active');
         },
 
-        updateUnread: function(options) {
-            this.updateLastSeenIndicator(options);
+        updateUnread: function() {
+            this.updateLastSeenIndicator();
             this.model.markRead();
         },
 
@@ -251,11 +251,8 @@
             }
         },
 
-        removeLastSeenIndicator: function(options) {
-            options = options || {};
-            _.defaults(options, {force: false});
-
-            if (this.lastSeenIndicator && (options.force || this.lastSeenIndicator.isOldEnough())) {
+        removeLastSeenIndicator: function() {
+            if (this.lastSeenIndicator) {
                 this.lastSeenIndicator.remove();
                 this.lastSeenIndicator = null;
             }
@@ -283,9 +280,9 @@
             });
             var unreadCount = this.model.get('unreadCount');
 
-            if (oldestUnread && unreadCount > 0) {
-                this.removeLastSeenIndicator({force: true});
+            this.removeLastSeenIndicator();
 
+            if (oldestUnread && unreadCount > 0) {
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
                 var unreadEl = this.lastSeenIndicator.render().$el;
 
@@ -302,9 +299,6 @@
                         this.addScrollDownButtonWithCount(unreadCount);
                     }
                 }.bind(this), 1);
-            }
-            else {
-                this.removeLastSeenIndicator({force: false});
             }
         },
 
@@ -368,18 +362,24 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
-            // if the last seen indicator is old enough, it will go away.
+            // If the last seen indicator is old enough, it will go away.
             // if it isn't, we want to make sure it's up to date
             if (this.lastSeenIndicator) {
                 this.lastSeenIndicator.increment(1);
             }
 
             if (!this.isHidden() && !window.isFocused()) {
+                // The conversation is visible, but window is not focused
                 this.updateLastSeenIndicator({scroll: false});
             }
             else if (!this.isHidden() && window.isFocused()) {
-                this.removeLastSeenIndicator();
-                this.markRead();
+                // The conversation is visible and in focus
+
+                if (this.view.atBottom()) {
+                    this.markRead();
+                } else {
+                    this.updateLastSeenIndicator({scroll: false});
+                }
             }
         },
         updateMessage: function(message) {
