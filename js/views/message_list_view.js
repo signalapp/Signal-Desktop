@@ -33,7 +33,7 @@
             this.outerHeight = this.$el.outerHeight();
             this.scrollPosition = this.$el.scrollTop() + this.outerHeight;
             this.scrollHeight = this.el.scrollHeight;
-            this.bottomOffset = this.scrollHeight - this.$el.scrollTop() - this.outerHeight;
+            this.bottomOffset = this.scrollHeight - this.scrollPosition;
         },
         resetScrollPosition: function() {
             this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
