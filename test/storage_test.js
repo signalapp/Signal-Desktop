@@ -54,29 +54,100 @@ describe("SignalProtocolStore", function() {
         });
     });
     describe('isTrustedIdentity', function() {
-        it('returns true if a key is trusted', function(done) {
+      describe('When invalid direction is given', function(done) {
+        it('should fail', function(done) {
+          store.isTrustedIdentity(identifier, testKey.pubKey).then(function() {
+            done(new Error('isTrustedIdentity should have failed'));
+          }).catch(function(e) {
+            done();
+          });
+        });
+      });
+      describe('When direction is RECEIVING', function() {
+        it('always returns true', function(done) {
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                store.isTrustedIdentity(identifier, testKey.pubKey, store.Direction.RECEIVING).then(function(trusted) {
+                store.isTrustedIdentity(identifier, newIdentity, store.Direction.RECEIVING).then(function(trusted) {
                     if (trusted) {
                         done();
                     } else {
-                        done(new Error('Allowed to overwrite identity key'));
+                        done(new Error('isTrusted returned false when receiving'));
                     }
                 }).catch(done);
             });
         });
-        it('returns false if a key is untrusted', function(done) {
+      });
+      describe('When direction is SENDING', function() {
+        it('returns true if no key exists', function(done) {
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
+            store.removeIdentityKey(identifier).then(function() {
+                store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                    if (trusted) {
+                        done();
+                    } else {
+                        done(new Error('isTrusted returned false on first use'));
+                    }
+                }).catch(done);
+            });
+        });
+        it('returns false if a different key exists', function(done) {
             var newIdentity = libsignal.crypto.getRandomBytes(33);
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
                 store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
                     if (trusted) {
-                        done(new Error('Allowed to overwrite identity key'));
+                        done(new Error('isTrusted returned true on untrusted key'));
                     } else {
                         done();
                     }
                 }).catch(done);
             });
         });
+        it('returns false if keys match but blocking approval is required', function(done) {
+            storage.put('safety-numbers-approval', true);
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
+              store.saveIdentity(identifier, newIdentity).then(function() {
+                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                    if (trusted) {
+                        done(new Error('isTrusted returned true on untrusted key'));
+                    } else {
+                        done();
+                    }
+                  }).catch(done);
+              });
+            });
+        });
+        it('returns false if keys match but nonblocking approval is required', function(done) {
+            storage.put('safety-numbers-approval', false);
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
+              store.saveIdentity(identifier, newIdentity).then(function() {
+                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                    if (trusted) {
+                        done(new Error('isTrusted returned true on untrusted key'));
+                    } else {
+                        done();
+                    }
+                  }).catch(done);
+              });
+            });
+        });
+        it('returns true if neither blocking nor nonblocking approval is required', function(done) {
+            storage.put('safety-numbers-approval', false);
+            var newIdentity = libsignal.crypto.getRandomBytes(33);
+            store.saveIdentity(identifier, testKey.pubKey).then(function() {
+              store.saveIdentity(identifier, newIdentity, true, true).then(function() {
+                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                    if (trusted) {
+                        done();
+                    } else {
+                        done(new Error('isTrusted returned false on an approved key'));
+                    }
+                  }).catch(done);
+              });
+            });
+        });
+      });
     });
     describe('storePreKey', function() {
         it('stores prekeys', function(done) {
