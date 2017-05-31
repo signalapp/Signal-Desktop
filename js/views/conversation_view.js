@@ -208,7 +208,10 @@
         },
 
         onLazyScroll: function() {
-            if (!this.isHidden() && window.isFocused()) {
+            // The in-progress fetch check is important, because while that happens, lots
+            //   of messages are added to the DOM, one by one, changing window size and
+            //   generating scroll events.
+            if (!this.isHidden() && window.isFocused() && !this.inProgressFetch) {
                 this.markRead();
             }
         },
