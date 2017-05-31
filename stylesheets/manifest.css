@@ -1536,8 +1536,8 @@ li.entry .error-icon-container {
       background-color: silver;
       height: 100%;
       width: 100%; }
-  	.discussion-container .scroll-down-button-view button .icon:hover {
-    		background-color: #616161; }
+    .discussion-container .scroll-down-button-view button .icon:hover {
+      background-color: #616161; }
     .discussion-container .scroll-down-button-view button.new-messages {
       background-color: #2090ea; }
       .discussion-container .scroll-down-button-view button.new-messages .icon {
