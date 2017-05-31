@@ -181,7 +181,7 @@
                 this.$('.capture-audio').show();
             }
         },
-        toggleLenghtWarning: function() {
+        toggleLengthWarning: function() {
             if (this.$('.send-message').val().length > 2000 || this.fileInput.hasFiles()) {
                 this.$('.android-length-warning').show();
             } else {
@@ -638,7 +638,7 @@
                 return this.$('.bottom-bar form').submit();
             }
             this.toggleMicrophone();
-            this.toggleLenghtWarning();
+            this.toggleLengthWarning();
 
             this.view.measureScrollPosition();
             window.autosize(this.$messageField);
