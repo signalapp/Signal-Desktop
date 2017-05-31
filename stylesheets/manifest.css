@@ -105,8 +105,7 @@ button.hamburger {
     background-color: black; }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  z-index: 1000; }
+  width: 10px; }
 
 ::-webkit-scrollbar-track {
   background: transparent; }
@@ -316,7 +315,6 @@ button.hamburger {
   border-left: 4px solid #2090ea; }
 
 .contact {
-  position: relative;
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
@@ -765,7 +763,7 @@ img.emoji.jumbo {
   .gutter .content {
     background-color: #f3f3f3;
     flex-grow: 1;
-    overflow-y: auto; }
+    overflow-y: overlay; }
 
 .network-status-container .network-status {
   background: url("/images/error_red.svg") no-repeat left 10px center;
