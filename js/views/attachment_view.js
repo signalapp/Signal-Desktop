@@ -134,7 +134,7 @@
             return this.model.fileName;
         }
         if (this.isAudio() || this.isVideo()) {
-            return i18n('mediaMssage');
+            return i18n('mediaMessage');
         }
 
         return i18n('unnamedFile');
