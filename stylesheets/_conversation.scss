@@ -16,7 +16,7 @@
 }
 
 .conversation {
-  background-color: #ffffff;
+  background-color: white;
   height: 100%;
 
   .panel {
@@ -51,11 +51,15 @@
         height: 100%;
         width: 100%;
         margin: 0;
-        padding: 2em 20px 0;
-        overflow-y: auto;
+        padding: 0;
+        overflow-y: overlay;
       }
     }
   }
+}
+
+.discussion-container {
+  background-color: #eee;
 }
 
 .key-verification {
@@ -295,6 +299,9 @@ li.entry .error-icon-container {
   li {
     max-width: 800px;
     margin: 0 auto 10px;
+    padding-left: 1em;
+    // we need more padding on right side because scroll bar overlaps
+    padding-right: 1.5em;
 
     &::after {
       visibility: hidden;
@@ -685,19 +692,27 @@ li.entry .error-icon-container {
 }
 
 .message-list .last-seen-indicator-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-bottom: 2px solid #2090ea;
-  margin-bottom: 15px;
+  // We need this extra layer of DOM nodes because scrollIntoView() doesn't honor margins
+  padding-bottom: 2em;
+  padding-top: 2em;
+
+  .bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 6px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 
   .text {
-    padding: 5px 10px;
-    // this margin-top needs to be here (not on parent) because scrollIntoView uses the
-    //   top of the element, not counting its margin
-    margin-top: 2em;
-    margin-bottom: -12px;
     background-color: white;
+    border-radius: 1.5em;
+    padding: .75em 1.25em .75em 1.25em;
   }
 }
 
@@ -711,7 +726,7 @@ li.entry .error-icon-container {
     width: 44px;
     border-radius: 22px;
     text-align: center;
-    background-color: $grey_l;
+    background-color: white;
     border: none;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
 

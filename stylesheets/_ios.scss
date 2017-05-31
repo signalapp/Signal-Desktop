@@ -28,9 +28,6 @@ $ios-border-color: rgba(0,0,0,0.1);
         }
       }
     }
-    ::-webkit-scrollbar-track {
-      background: $grey_l;
-    }
   }
   .tool-bar {
     float: left;
@@ -144,7 +141,7 @@ $ios-border-color: rgba(0,0,0,0.1);
           height: 11px;
           right: -6px;
           bottom: -3px;
-          background: white;
+          background: #eee;
         }
       }
     }
@@ -152,7 +149,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       border-radius: 15px;
     }
     .attachments img {
-      border: 1px solid $ios-border-color;
+      background-color: white;
     }
     .meta {
       clear: both;
@@ -160,13 +157,13 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .message-list .incoming .bubbled {
-    background-color: #e6e5ea;
+    background-color: white;
     color: black;
     float: left;
 
     &:before {
       left: -1px;
-      background-color: #e6e5ea;
+      background-color: white;
     }
     &:after {
       left: -6px;
@@ -174,13 +171,13 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .incoming .content {
-    background-color: #e6e5ea;
+    background-color: white;
     color: black;
     float: left;
     .body {
       &:before {
         left: -1px;
-        background-color: #e6e5ea;
+        background-color: white;
       }
       &:after {
         left: -6px;

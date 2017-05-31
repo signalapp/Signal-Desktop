@@ -28,7 +28,7 @@
   }
 
   .outgoing .bubble {
-    background-color: $grey_l;
+    background-color: white;
   }
   .outgoing .hourglass {
     @include hourglass(#999);
