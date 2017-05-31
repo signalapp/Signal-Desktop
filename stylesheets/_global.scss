@@ -91,9 +91,11 @@ button.hamburger {
 
 ::-webkit-scrollbar {
     width: 10px;
+    z-index: 1000;
 }
 
 ::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -193,14 +193,23 @@ $text-dark: #CCCCCC;
     }
   }
   ::-webkit-scrollbar-track {
-    background-color: $grey-dark_l2;
+    background-color: transparent;
   }
   .recorder {
     background: $grey-dark_l2;
   }
 
-  .message-list .last-seen-indicator-view .text {
-    background-color: $grey-dark_l3;
+  .message-list .last-seen-indicator-view {
+    .bar {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .text {
+      background-color: $grey-dark_l3;
+    }
   }
 
   .discussion-container .scroll-down-button-view {
