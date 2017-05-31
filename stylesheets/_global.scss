@@ -91,7 +91,6 @@ button.hamburger {
 
 ::-webkit-scrollbar {
     width: 10px;
-    z-index: 1000;
 }
 
 ::-webkit-scrollbar-track {
@@ -317,7 +316,6 @@ $avatar-size: 44px;
   border-left: 4px solid $blue;
 }
 .contact {
-  position: relative;
   padding: 12px;
   white-space: nowrap;
   overflow: hidden;
