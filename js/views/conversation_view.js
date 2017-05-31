@@ -15,12 +15,18 @@
             return { toastMessage: i18n('unblockToSend') };
         }
     });
+    Whisper.LeftGroupToast = Whisper.ToastView.extend({
+        render_attributes: function() {
+            return { toastMessage: i18n('youLeftTheGroup') };
+        }
+    });
 
     var MenuView = Whisper.View.extend({
         toggleMenu: function() {
             this.$('.menu-list').toggle();
         }
     });
+
     var TimerMenuView = MenuView.extend({
         initialize: function() {
             this.render();
@@ -110,7 +116,7 @@
 
             var onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
-                    this.markRead();
+                    this.updateUnread({scroll: false});
                 }
             }.bind(this);
             this.window.addEventListener('focus', onFocus);
@@ -146,10 +152,14 @@
             'click .back': 'resetPanel',
             'click .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
+            'click .scroll-down-button-view': 'scrollToBottom',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
             'loadMore .message-list': 'fetchMessages',
+            'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
+            'atBottom .message-list': 'hideScrollDownButton',
+            'farFromBottom .message-list': 'addScrollDownButton',
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
@@ -180,6 +190,7 @@
         },
         handleAudioCapture: function(blob) {
             this.fileInput.file = blob;
+            this.fileInput.isVoiceNote = true;
             this.fileInput.previewImages();
             this.$('.bottom-bar form').submit();
         },
@@ -195,11 +206,106 @@
             this.$('.bottom-bar form').addClass('active');
         },
 
+        updateUnread: function(options) {
+            this.updateLastSeenIndicator(options);
+            this.model.markRead();
+        },
+
         onOpened: function() {
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
             this.focusMessageField();
-            this.model.markRead();
+
+            if (this.inProgressFetch) {
+                this.inProgressFetch.then(this.updateUnread.bind(this));
+            } else {
+                this.updateUnread();
+            }
+        },
+
+        addScrollDownButtonWithCount: function() {
+            this.updateScrollDownButton(1);
+        },
+
+        addScrollDownButton: function() {
+            if (!this.scrollDownButton) {
+                this.updateScrollDownButton();
+            }
+        },
+
+        updateScrollDownButton: function(count) {
+            if (this.scrollDownButton) {
+                this.scrollDownButton.increment(count);
+            } else {
+                this.scrollDownButton = new Whisper.ScrollDownButtonView({count: count});
+                this.scrollDownButton.render();
+                var container = this.$('.discussion-container');
+                container.append(this.scrollDownButton.el);
+            }
+        },
+
+        hideScrollDownButton: function() {
+            if (this.scrollDownButton) {
+                this.scrollDownButton.remove();
+                this.scrollDownButton = null;
+            }
+        },
+
+        removeLastSeenIndicator: function(options) {
+            options = options || {};
+            _.defaults(options, {force: false});
+
+            if (this.lastSeenIndicator && (options.force || this.lastSeenIndicator.isOldEnough())) {
+                this.lastSeenIndicator.remove();
+                this.lastSeenIndicator = null;
+            }
+        },
+
+        scrollToBottom: function() {
+            // If we're above the last seen indicator, we should scroll there instead
+            // Note: if we don't end up at the bottom of the conversation, button will not go away!
+            if (this.lastSeenIndicator) {
+                var location = this.lastSeenIndicator.$el.position().top;
+                if (location > 0) {
+                    this.lastSeenIndicator.el.scrollIntoView();
+                    return;
+                }
+            }
+            this.view.scrollToBottom();
+        },
+
+        updateLastSeenIndicator: function(options) {
+            options = options || {};
+            _.defaults(options, {scroll: true});
+
+            var oldestUnread = this.model.messageCollection.find(function(model) {
+                return model.get('unread');
+            });
+            var unreadCount = this.model.get('unreadCount');
+
+            if (oldestUnread && unreadCount > 0) {
+                this.removeLastSeenIndicator({force: true});
+
+                this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
+                var unreadEl = this.lastSeenIndicator.render().$el;
+
+                unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
+
+                if (this.view.atBottom() || options.scroll) {
+                    var position = unreadEl[0].scrollIntoView(true);
+                }
+
+                // scrollIntoView is an async operation, but we have no way to listen for
+                // completion of the resultant scroll.
+                setTimeout(function() {
+                    if (!this.view.atBottom()) {
+                        this.addScrollDownButtonWithCount(unreadCount);
+                    }
+                }.bind(this), 1);
+            }
+            else {
+                this.removeLastSeenIndicator({force: false});
+            }
         },
 
         focusMessageField: function() {
@@ -209,15 +315,21 @@
         fetchMessages: function() {
             console.log('fetchMessages');
             this.$('.bar-container').show();
-            return this.model.fetchContacts().then(function() {
+            if (this.inProgressFetch) {
+              console.log('Multiple fetchMessage calls!');
+            }
+            this.inProgressFetch = this.model.fetchContacts().then(function() {
                 return this.model.fetchMessages().then(function() {
                     this.$('.bar-container').hide();
                     this.model.messageCollection.where({unread: 1}).forEach(function(m) {
                         m.fetch();
                     });
+                    this.inProgressFetch = null;
                 }.bind(this));
             }.bind(this));
             // TODO catch?
+
+            return this.inProgressFetch;
         },
 
         onExpired: function(message) {
@@ -235,7 +347,17 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
-            if (!this.isHidden() && window.isFocused()) {
+            // if the last seen indicator is old enough, it will go away.
+            // if it isn't, we want to make sure it's up to date
+            if (this.lastSeenIndicator) {
+                this.lastSeenIndicator.increment(1);
+            }
+
+            if (!this.isHidden() && !window.isFocused()) {
+                this.updateLastSeenIndicator({scroll: false});
+            }
+            else if (!this.isHidden() && window.isFocused()) {
+                this.removeLastSeenIndicator();
                 this.markRead();
             }
         },
@@ -339,15 +461,20 @@
         },
 
         sendMessage: function(e) {
+            this.removeLastSeenIndicator();
+
             var toast;
             if (extension.expired()) {
                 toast = new Whisper.ExpiredToast();
-                toast.$el.insertAfter(this.$el);
-                toast.render();
-                return;
             }
             if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
                 toast = new Whisper.BlockedToast();
+            }
+            if (!this.model.isPrivate() && this.model.get('left')) {
+                toast = new Whisper.LeftGroupToast();
+            }
+
+            if (toast) {
                 toast.$el.insertAfter(this.$el);
                 toast.render();
                 return;

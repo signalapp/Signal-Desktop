@@ -7,6 +7,16 @@
         "message": "آخر تحميل في",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "نمط المرفق غير مدعوم. اضغط للحفظ",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "نمط الملف غير مدعوم",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "توليد مفاتيح",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "تصفير الجلسة",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "مرحبا الى سيجنال Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "عند وصول الرسائل، أظهر إشعارات تتضمن:",
@@ -175,6 +197,10 @@
         "message": "حذف المحادثة بصفة نهائية ؟",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "هذه السجلاّت سيتم نشرها علنا ليتمكن المساهمون من معاينتها. ربما ترغب فى تعديلها أو التحقق منها قبل إرسالها. ",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "خطأ في التحميل، تأكد أن الكمبيوتر و هاتفك متصلان بالإنترنت",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$> تابعنا </a> لمعرفة آخر الأخبار عن دعم عدة أجهزة على آي أو إس iOS.",
@@ -397,12 +427,24 @@
         "message": "لدي تطبيق سيجنال Signal على الأندرويد",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "تجديد جلسة آمنة",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "لنبدأ",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "إرسال",

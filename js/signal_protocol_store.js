@@ -136,9 +136,7 @@
         removePreKey: function(keyId) {
             var prekey = new PreKey({id: keyId});
 
-            new Promise(function(resolve) {
-                getAccountManager().refreshPreKeys().then(resolve);
-            });
+            this.trigger('removePreKey');
 
             return new Promise(function(resolve) {
                 prekey.destroy().then(function() {
@@ -158,7 +156,10 @@
                         created_at : prekey.get('created_at'),
                         keyId      : prekey.get('id')
                     });
-                }).fail(resolve);
+                }).fail(function() {
+                    console.log("Failed to load signed prekey:", keyId);
+                    resolve();
+                });
             });
         },
         loadSignedPreKeys: function() {
@@ -294,7 +295,7 @@
                         this.removeIdentityKey(identifier).then(function() {
                             this.saveIdentity(identifier, publicKey).then(function() {
                                 console.log('Key changed for', identifier);
-                                this.trigger('keychange:' + identifier);
+                                this.trigger('keychange', identifier);
                                 resolve(true);
                             }.bind(this));
                         }.bind(this));

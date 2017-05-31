@@ -35,7 +35,7 @@
 
                         if (conversation) {
                             // notify frontend listeners
-                            conversation.trigger('read', message);
+                            conversation.onReadMessage(message);
                         }
                     });
                 } else {

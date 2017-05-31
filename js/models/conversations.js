@@ -32,25 +32,24 @@
       return { unreadCount : 0 };
     },
 
+    handleMessageError: function(message, errors) {
+        this.trigger('messageError', message, errors);
+    },
+
     initialize: function() {
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
         });
 
+        this.messageCollection.on('change:errors', this.handleMessageError, this);
+
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
-        this.on('read', this.onReadMessage);
-        this.fetchContacts().then(function() {
-            this.contactCollection.each(function(contact) {
-                textsecure.storage.protocol.on('keychange:' + contact.id, function() {
-                    this.addKeyChange(contact.id);
-                }.bind(this));
-            }.bind(this));
-        }.bind(this));
     },
 
     addKeyChange: function(id) {
+        console.log('adding key change advisory for', this.id, this.get('timestamp'));
         var timestamp = Date.now();
         var message = new Whisper.Message({
             conversationId : this.id,
@@ -304,6 +303,9 @@
                 var read = unreadMessages.map(function(m) {
                     if (this.messageCollection.get(m.id)) {
                         m = this.messageCollection.get(m.id);
+                    } else {
+                        console.log('Marked a message as read in the database, but ' +
+                                    'it was not in messageCollection.');
                     }
                     m.markRead();
                     return {
@@ -321,7 +323,7 @@
 
     fetchMessages: function() {
         if (!this.id) { return false; }
-        return this.messageCollection.fetchConversation(this.id);
+        return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
     },
 
     fetchContacts: function(options) {
@@ -625,4 +627,21 @@
   });
 
   Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
+
+  // Special collection for fetching all the groups a certain number appears in
+  Whisper.GroupCollection = Backbone.Collection.extend({
+    database: Whisper.Database,
+    storeName: 'conversations',
+    model: Whisper.Conversation,
+    fetchGroups: function(number) {
+        return new Promise(function(resolve) {
+            this.fetch({
+                index: {
+                    name: 'group',
+                    only: number
+                }
+            }).always(resolve);
+        }.bind(this));
+    }
+  });
 })();

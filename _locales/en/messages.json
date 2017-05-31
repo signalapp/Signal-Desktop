@@ -1,4 +1,34 @@
 {
+    "youLeftTheGroup": {
+      "message": "You left the group",
+      "description": "Displayed when a user can't send a message because they have left the group"
+    },
+    "scrollDown": {
+      "message": "Scroll to bottom of conversation",
+      "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
+    "messageBelow": {
+      "message": "New message below",
+      "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "messagesBelow": {
+      "message": "New messages below",
+      "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
+    "unreadMessage": {
+      "message": "1 Unread Message",
+      "description": "Text for unread message separator, just one message"
+    },
+    "unreadMessages": {
+      "message": "$count$ Unread Messages",
+      "description": "Text for unread message separator, with count",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    },
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },
@@ -52,6 +82,18 @@
       "message": "Unsupported attachment type. Click to save.",
       "description": "Displayed for incoming unsupported attachment"
     },
+    "clickToSave": {
+      "message": "Click to save",
+      "description": "Hover text for attachment filenames"
+    },
+    "unnamedFile": {
+      "message": "Unnamed File",
+      "description": "Hover text for attachment filenames"
+    },
+    "voiceMessage": {
+      "message": "Voice Message",
+      "description": "Name for a voice message attachment"
+    },
     "unsupportedFileType": {
       "message": "Unsupported file type",
       "description": "Displayed for outgoing unsupported attachment"
@@ -60,7 +102,29 @@
       "message": "Sorry, the selected file exceeds message size restrictions."
     },
     "disconnected": {
-      "message": "Disconnected"
+      "message": "Disconnected",
+      "description": "Displayed when the desktop client cannot connect to the server."
+    },
+    "connecting": {
+      "message": "Connecting",
+      "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "offline": {
+      "message": "Offline",
+      "description": "Displayed when the desktop client has no network connection."
+    },
+    "checkNetworkConnection": {
+      "message": "Check your network connection.",
+      "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
+    "attemptingReconnection": {
+      "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+      "placeholders": {
+        "reconnect_duration_in_seconds": {
+          "content": "$1",
+          "example": "10"
+        }
+      }
     },
     "submitDebugLog": {
       "message": "Submit debug log",
@@ -466,7 +530,7 @@
       "description": "Description for safety numbers setting"
     },
     "keychanged": {
-      "message": "Your safety number with $name$ has changed.",
+      "message": "Your safety number with $name$ has changed. Click to verify.",
       "description": "",
       "placeholders": {
         "name": {
@@ -476,7 +540,7 @@
       }
     },
     "yourSafetyNumberWith": {
-      "message": "Your safety number with $name$",
+      "message": "Your safety number with $name$:",
       "description": "Heading for safety number view",
       "placeholders": {
         "name": {
@@ -500,5 +564,14 @@
     "invalidNumberError": {
       "message": "Invalid number",
       "description": "When a person inputs a number that is invalid"
+    },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging."
+    },
+    "unlinked": {
+        "message": "Unlinked"
+    },
+    "relink": {
+        "message": "Relink"
     }
 }

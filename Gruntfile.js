@@ -110,7 +110,7 @@ module.exports = function(grunt) {
       ],
       res: [
         'audio/**',
-        'images/**',
+        'images/**/*',
         'fonts/*',
       ]
     },

@@ -7,6 +7,16 @@
         "message": "Last import at",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Unsupported attachment type. Click to save.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "Unsupported file type",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Generating Keys",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Offline",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Welcome to Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "When messages arrive, display notifications that reveal:",
@@ -175,6 +197,10 @@
         "message": "Permanently delete this conversation?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
@@ -397,12 +427,24 @@
         "message": "I have Signal for Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Secure session reset",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Get started",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Submit",

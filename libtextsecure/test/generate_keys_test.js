@@ -163,10 +163,5 @@ describe("Key generation", function() {
             assert.instanceOf(result.signedPreKey.signature, ArrayBuffer);
             validateResultSignedKey(result.signedPreKey).then(done,done);
         });
-        it('deletes signed key 1', function() {
-            textsecure.storage.protocol.loadSignedPreKey(1).then(function(keyPair) {
-                assert.isUndefined(keyPair);
-            });
-        });
     });
 });

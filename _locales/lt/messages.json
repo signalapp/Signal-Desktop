@@ -7,6 +7,16 @@
         "message": "Paskutinis importavimas ties",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Bandoma jungtis iš naujo po $reconnect_duration_in_seconds$ sekundžių",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nepalaikomas priedo tipas. Spustelėkite, kad įrašytumėte.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Spustelkite, norėdami įrašyti",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Kuriami raktai",
         "description": ""
@@ -73,16 +87,24 @@
         "message": "Atstatyti seansą",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Atsijungta",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Sveiki atvykę į Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Patikrinkite savo tinklo ryšį.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Kai gaunamos žinutės, rodyti pranešimus, kuriuose atskleidžiama:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
-        "message": "Nariai",
+        "message": "Dalyviai",
         "description": ""
     },
     "timestamp_h": {
@@ -175,6 +197,10 @@
         "message": "Ar ištrinti šį pokalbį visiems laikams?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Norėdami tęsti susirašinėjimą, iš naujo susiekite Signal darbalaukiui su savo mobiliuoju įrenginiu.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Šis žurnalas bus viešai paskelbtas internete talkininkams peržiūrėti. Jūs galite jį išnagrinėti ir prieš pateikdami paredaguoti.",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Importavimas nepavyko. Įsitikinkite, kad jūsų kompiuteris ir telefonas yra prijungti prie interneto.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Atsietas",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Sekite mus</a>, norėdami sužinoti apie atnaujinimus, susijusius su kelių įrenginių palaikymu, skirtu iOS.",
@@ -397,12 +427,24 @@
         "message": "Aš turiu programą Signal, skirtą Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Bevardis failas",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Jungiamasi",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Saugusis seansas atstatytas",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Darbo pradžia",
+        "description": ""
+    },
+    "relink": {
+        "message": "Susieti iš naujo",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Jūs su šiuo kontaktu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Balso žinutė",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Pateikti",

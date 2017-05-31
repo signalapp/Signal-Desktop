@@ -7,6 +7,16 @@
         "message": "Viimeksi tuotu",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Yritetään uudelleen yhteyttä $reconnect_duration_in_seconds$ sekunnissa",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Liitetiedoston tyyppiä ei tueta. Tallenna napsauttamalla.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "Tiedostotyyppiä ei tueta",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Tallenna napsauttamalla",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Luodaan avaimia",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "Alusta istunto",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Ei yhteyttä",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Tervetuloa Signaliin",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Tarkista vekkoyhteytesi",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Näytä saapuneiden viestien ilmoituksissa:",
@@ -100,6 +122,10 @@
     "restartSignal": {
         "message": "Käynnistä Signal uudelleen",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Olet poistunut ryhmästä.",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Poista viestit",
@@ -175,6 +201,10 @@
         "message": "Poistetaanko tämä keskustelu pysyvästi?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Jotta voit jatkaa viestittelyä, yhdistä Signal Desktop uudelleen mobiililaitteeseesi.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Tämä loki tullaan julkaisemaan verkossa, jotta kehittäjät ja muut voivat tarkastella sitä. Voit esikatsella ja muokata lokia vielä ennen kuin lähetät sen.",
         "description": ""
@@ -198,6 +228,10 @@
     "syncFailed": {
         "message": "Tuonti epäonnistui. Varmista, että tietokoneesi ja puhelimesi ovat kytketty Internettiin.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Ei yhdistetty",
+        "description": ""
     },
     "installFollowUs": {
         "message": "Jos haluat saada uutisia ja tietoja usean laitteen tuesta iOS:lle voit <a $a_params$>seurata meitä</a>.",
@@ -397,12 +431,24 @@
         "message": "Minulla on Signal Androidille",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Nimeämätön tiedosto",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Yhdistetään",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Suojattu istunto alustettu",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Aloita",
+        "description": ""
+    },
+    "relink": {
+        "message": "Yhdistä uudelleen",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -432,12 +478,16 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Luo uusi yhteystieto klikkaamalla",
+        "message": "Luo uusi yhteystieto napsauttamalla",
         "description": ""
     },
     "theirIdentityUnknown": {
         "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Ääniviesti",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Lähetä",

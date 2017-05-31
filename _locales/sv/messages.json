@@ -7,6 +7,16 @@
         "message": "Senaste import",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Försöker återansluta om $reconnect_duration_in_seconds$  sekunder",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Okänd filtyp på bilaga. Klicka för att spara.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "Filtypen stöds ej",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Genererar nycklar",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "Återställ session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Ej ansluten",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Välkommen till Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Kontrollera din nätverksanslutning",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "När du får meddelanden, visa aviseringar som visar:",
@@ -175,6 +197,10 @@
         "message": "Vill du radera denna konversation för alltid?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Återkoppla Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och ändra på den innan du skickar in den.",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Importen misslyckades. Kontrollera att din dator och din telefon har en fungerande internetuppkoppling.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Olänkad",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Följ oss</a> för uppdateringar om iOS stöd för fler enheter.",
@@ -397,12 +427,24 @@
         "message": "Jag har Signal för Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Ansluter",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Återställning av säkerhetssession",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Komma igång",
+        "description": ""
+    },
+    "relink": {
+        "message": "Återkoppla",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängliga efter det första meddelandet.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Skicka",

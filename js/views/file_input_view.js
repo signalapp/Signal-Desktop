@@ -128,11 +128,7 @@
                     this.addThumb(this.oUrl);
                     break;
                 default:
-                    var toast = new Whisper.UnsupportedFileTypeToast();
-                    toast.$el.insertAfter(this.$el);
-                    toast.render();
-                    this.deleteFiles();
-                    return;
+                    this.addThumb('/images/file.svg'); break;
             }
 
             this.autoScale(file).then(function(blob) {
@@ -142,7 +138,7 @@
                     case 'image':
                         limitKb = 6000; break;
                     case 'gif':
-                        limitKb = 6000; break;
+                        limitKb = 25000; break;
                     case 'audio':
                         limitKb = 100000; break;
                     case 'video':
@@ -184,7 +180,16 @@
         getFile: function(file) {
             file = file || this.file || this.$input.prop('files')[0];
             if (file === undefined) { return Promise.resolve(); }
-            return this.autoScale(file).then(this.readFile);
+            var flags;
+            if (this.isVoiceNote) {
+              flags = textsecure.protobuf.AttachmentPointer.Flags.VOICE_MESSAGE;
+            }
+            return this.autoScale(file).then(this.readFile).then(function(attachment) {
+              if (flags) {
+                attachment.flags = flags;
+              }
+              return attachment;
+            }.bind(this));
         },
 
         getThumbnail: function() {
@@ -223,12 +228,18 @@
         },
 
         readFile: function(file) {
-            var contentType = file.type;
             return new Promise(function(resolve, reject) {
                 var FR = new FileReader();
                 FR.onload = function(e) {
-                    resolve({data: e.target.result, contentType: contentType});
+                    resolve({
+                      data: e.target.result,
+                      contentType: file.type,
+                      fileName: file.name,
+                      size: file.size
+                    });
                 };
+                FR.onerror = reject;
+                FR.onabort = reject;
                 FR.readAsArrayBuffer(file);
             });
         },
@@ -250,6 +261,7 @@
             this.$input.unwrap();
             this.file = null;
             this.$input.trigger('change');
+            this.isVoiceNote = false;
         },
 
         openDropped: function(e) {

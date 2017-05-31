@@ -4,6 +4,7 @@
 
 ;(function () {
     'use strict';
+    window.Whisper = window.Whisper || {};
     var ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
     var timeout;
 
@@ -44,16 +45,16 @@
         timeout = setTimeout(runWhenOnline, waitTime);
     }
 
-    window.RotateSignedPreKeyListener = {
-        init: function() {
+    Whisper.RotateSignedPreKeyListener = {
+        init: function(events) {
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();
             }
-            window.events.on('registration_done', function() {
+            events.on('registration_done', function() {
                 scheduleNextRotation();
                 setTimeoutForNextRun();
             });
-            window.events.on('timetravel', function() {
+            events.on('timetravel', function() {
                 if (Whisper.Registration.isDone()) {
                     setTimeoutForNextRun();
                 }

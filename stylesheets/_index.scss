@@ -18,35 +18,47 @@
   color: $grey_d;
   float: left;
   width: 300px;
+  display: flex;
+  flex-direction: column;
+
   .content {
     background-color: $grey_l;
-    height: calc(100% - #{$header-height} - #{$search-height});
-  }
-
-  .conversations {
-    overflow-y: scroll;
-    height: 100%;
-    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
   }
 }
+.network-status-container {
+  .network-status {
+    background: url('/images/error_red.svg') no-repeat left 10px center;
+    background-size: 25px 25px;
+    background-color: #fcd156;
+    padding: 10px;
+    padding-left: 2 * $button-height;
+    display: none;
 
-.socket-status {
-  float: right;
-  line-height: $button-height;
-
-  * {
-    display: inline;
-    padding-left: 20px;
-    vertical-align: middle;
-  }
-  .connecting .icon {
-    background-color: $blue;
-  }
-  .closing {
-    background-color: $blue_l;
-  }
-  .closed {
-    background: url('/images/error_red.png') no-repeat left center;
+    .network-status-message{
+      h3 {
+        padding: 0px;
+        margin: 0px;
+        margin-bottom: 2px;
+        font-size: 14px;
+      }
+      span {
+        display: inline-block;
+        font-size: 12px;
+        padding: 0.5em 0;
+      }
+    }
+    .action {
+      button {
+        border-radius: $border-radius;
+        border: solid 1px #ccc;
+        cursor: pointer;
+        font-family: inherit;
+        color: white;
+        background: $blue;
+      }
+    }
   }
 }
 
@@ -104,7 +116,7 @@
 
 input.search {
   border: none;
-  padding: 0 10px 0 65px;
+  padding: 0 $search-padding-right 0 $search-padding-left;
   margin: 0;
   outline: 0;
   height: $search-height;
@@ -117,15 +129,24 @@ input.search {
 
   &.active {
     outline: solid 1px $blue;
+    background-image: url('/images/x.svg');
+    background-repeat: no-repeat;
+    background-size: $search-x-size;
+
+    &.ltr {
+      background-position : right $search-padding-right center;
+    }
+
+    &.rtl {
+      background-position : left $search-padding-left center;
+    }
   }
 
   &::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: block;
-    width: 16px;
-    height: 16px;
-    background: url('/images/x.svg') no-repeat center;
-    background-size: cover;
+    width: $search-x-size;
+    height: $search-x-size;
   }
 
   &::-webkit-search-cancel-button:hover {

@@ -5,22 +5,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    var GroupCollection = Backbone.Collection.extend({
-      database: Whisper.Database,
-      storeName: 'conversations',
-      model: Backbone.Model,
-      fetchGroups: function(number) {
-          return new Promise(function(resolve) {
-              this.fetch({
-                  index: {
-                      name: 'group',
-                      only: number
-                  }
-              }).always(resolve);
-          }.bind(this));
-      }
-    });
-
     Whisper.DeliveryReceipts = new (Backbone.Collection.extend({
         initialize: function() {
             this.on('add', this.onReceipt);
@@ -48,7 +32,7 @@
                 });
                 if (message) { return message; }
 
-                var groups    = new GroupCollection();
+                var groups = new Whisper.GroupCollection();
                 return groups.fetchGroups(receipt.get('source')).then(function() {
                     var ids = groups.pluck('id');
                     ids.push(receipt.get('source'));

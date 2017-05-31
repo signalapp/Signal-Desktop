@@ -44,3 +44,20 @@ img.emoji {
 	width: 1em;
 	height: 1em;
 }
+
+img.emoji.small {
+	width: 1.25em;
+	height: 1.25em;
+}
+img.emoji.medium {
+	width: 1.5em;
+	height: 1.5em;
+}
+img.emoji.large {
+	width: 1.75em;
+	height: 1.75em;
+}
+img.emoji.jumbo {
+	width: 2em;
+	height: 2em;
+}

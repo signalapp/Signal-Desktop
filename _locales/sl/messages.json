@@ -7,6 +7,16 @@
         "message": "Nazadnje uvoženo: ",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Naslednji poskus povezave: $reconnect_duration_in_seconds$ s",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
@@ -34,7 +44,7 @@
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -58,27 +68,39 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Shrani",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
-        "message": "Generiram ključe...",
+        "message": "Generiram ključe ...",
         "description": ""
     },
     "resetSession": {
         "message": "Ponastavi sejo",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Ni povezave na internet",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Dobrodošli v aplikaciji Signal",
         "description": ""
     },
+    "checkNetworkConnection": {
+        "message": "Preverite svojo internetno povezavo",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
+    },
     "notificationSettingsDialog": {
-        "message": "Ko prispe sporočilo v obvestilu razkrij:",
+        "message": "Ko prispe sporočilo v obvestilu, razkrij:",
         "description": "Explain the purpose of the notification settings"
     },
     "members": {
@@ -114,7 +136,7 @@
         "description": ""
     },
     "installConnecting": {
-        "message": "Povezujem...",
+        "message": "Povezujem ...",
         "description": "Displayed when waiting for the QR Code"
     },
     "verifyContact": {
@@ -175,6 +197,10 @@
         "message": "Ali res želite nepovratno izbrisati ta pogovor?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Za nadaljevanje komunikacije ponovno povežite aplikacijo Signal Desktop s svojo mobilno napravo.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Ta sistemska zabeležba bo javno objavljena na spletu za razvijalce aplikacije. Pred objavo jo lahko pregledate.",
         "description": ""
@@ -184,7 +210,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
-        "message": "Išči...",
+        "message": "Išči ...",
         "description": "Placeholder text in the search input"
     },
     "noNameOrMessage": {
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Uvoz ni bil uspešen. Preverite, če sta vaša računalnik in mobilna naprava povezana z internetom.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Nepovezan",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Spremljajte nas</a> v zvezi s podporo za več naprav za iOS.",
@@ -236,11 +266,11 @@
         }
     },
     "installSyncingGroupsAndContacts": {
-        "message": "Usklajujem skupine in stike...",
+        "message": "Usklajujem skupine in stike ...",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -248,7 +278,7 @@
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -290,7 +320,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Uvažam...",
+        "message": "Uvažam ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -298,7 +328,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -306,7 +336,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -314,7 +344,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -362,7 +392,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Odprite aplikacijo Signal na vašem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
+        "message": "Odprite aplikacijo Signal na svojem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
         "description": ""
     },
     "invalidNumberError": {
@@ -397,6 +427,14 @@
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Neimenovana datoteka",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Povezujem",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Varna ponastavitev seje",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
@@ -405,8 +443,12 @@
         "message": "Začnimo",
         "description": ""
     },
+    "relink": {
+        "message": "Poveži",
+        "description": ""
+    },
     "timerOption_1_week_abbreviated": {
-        "message": "1t",
+        "message": "1 t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -414,7 +456,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
-        "message": "Najprej namestite <a $a_params$>Signal</a> na vaš Androidni telefon.<br /> Nato bomo povezali in uskladili obe napravi.",
+        "message": "Najprej namestite <a $a_params$>Signal</a> na svoj Androidni telefon.<br /> Nato bomo povezali in uskladili obe napravi.",
         "description": "Prompt the user to install Signal on Android before linking",
         "placeholders": {
             "a_params": {
@@ -439,6 +481,10 @@
         "message": "S to osebo še niste izmenjali sporočil. Vajino varnostno število bo na voljo po prvi izmenjavi.",
         "description": ""
     },
+    "voiceMessage": {
+        "message": "Glasovno sporočilo",
+        "description": "Name for a voice message attachment"
+    },
     "submit": {
         "message": "Objavi",
         "description": ""
@@ -462,7 +508,7 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 h",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -478,7 +524,7 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
@@ -516,7 +562,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {

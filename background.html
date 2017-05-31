@@ -4,6 +4,7 @@
   <meta charset='utf-8'>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
+        <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
           <div class='header-buttons right'>
             <div class='vertical-align'>
@@ -15,7 +16,6 @@
                     <li class='restart-signal'>{{ restartSignal }}</li>
                 </ul>
               </div>
-              <span class='socket-status'></span>
             </div>
           </div>
           <h1>Signal</h1>
@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class='content'>
-          <div class='conversations scrollable inbox'></div>
-          <div class='conversations scrollable search-results hide'>
+          <div class='conversations inbox'></div>
+          <div class='conversations search-results hide'>
             <div class='new-contact contact hide'></div>
           </div>
         </div>
@@ -40,6 +40,16 @@
           <p>{{ selectAContact }}</p>
         </div>
       </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
+    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
+      <div class='icon'></div>
+    </button>
+  </script>
+  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
+    <div class='text'>
+      {{ unreadMessages }}
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='expired_alert'>
@@ -116,7 +126,7 @@
                 </div>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
                 <div class='capture-audio'>
-                    <!--<button class='microphone'></button>-->
+                    <button class='microphone'></button>
                 </div>
 
               </div>
@@ -150,6 +160,15 @@
   <script type='text/x-tmpl-mustache' id='attachment-preview'>
         <img src='{{ source }}' class='preview' />
         <a class='x close' alt='remove attachment' href='#'></a>
+  </script>
+  <script type='text/x-tmpl-mustache' id='file-view'>
+    <div class='icon {{ mediaType }}'></div>
+    <div class='text'>
+      <div class='fileName' title='{{ altText }}'>
+        {{ fileName }}
+      </div>
+      <div class='fileSize'>{{ fileSize }}</div>
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='hasRetry'>
     {{ messageNotSent }}
@@ -490,6 +509,113 @@
         </p>
       </div>
   </script>
+
+  <script type='text/x-tmpl-mustache' id='networkStatus'>
+    <div class='network-status-message'>
+      <h3>{{ message }}</h3>
+      <span>{{ instructions }}</span>
+    </div>
+    {{ #reconnectDurationAsSeconds }}
+    <div class="network-status-message">
+      {{ attemptingReconnectionMessage }}
+    </div>
+    {{/reconnectDurationAsSeconds }}
+    {{ #action }}
+      <div class="action">
+        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
+      </div>
+    {{/action }}
+  </script>
+
+  <script type='text/x-tmpl-mustache' id='install_flow_template'>
+    <div id='step1' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img id='signal-icon' src='/images/icon_250.png'/>
+          <h1>{{ installWelcome }}</h1>
+          <p>{{ installTagline }}</p>
+        </div>
+        <div class='nav'>
+          <div> <a class='button step2'>{{ installGetStartedButton }}</a> </div>
+          <span class='dot step1 selected'></span>
+          <span class='dot step2'></span>
+          <span class='dot step3'></span>
+        </div>
+      </div>
+    </div>
+
+    <div id='step2' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img id='signal-phone' src='/images/signal-phone.png'>
+          <p>{{{ installSignalLink }}}</p>
+        </div>
+        <div class='nav'>
+          <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
+          <span class='dot step1'></span>
+          <span class='dot step2 selected'></span>
+          <span class='dot step3'></span>
+        </div>
+      </div>
+    </div>
+
+    <div id='step3' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <div id="qr"></div>
+          <p>{{ installAndroidInstructions }}</p>
+        </div>
+        <div class='nav'>
+          <span class='dot step1'></span>
+          <span class='dot step2'></span>
+          <span class='dot step3 selected'></span>
+        </div>
+      </div>
+    </div>
+
+    <form id='step4' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <p>{{ installLinkingWithNumber }}</p>
+          <h2 class='number'></h2>
+          <img id='signal-computer' src='/images/signal-laptop.png'>
+          <p>{{ installComputerName }}</p>
+          <div>
+            <input type='text' id='device-name' spellcheck='false' maxlength='50' />
+          </div>
+        </div>
+        <div class='nav'>
+          <div>
+            <input type='submit' class='button' id='sync' value='{{ installFinalButton }}' />
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div id='step5' class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img id='signal-icon' src='/images/icon_250.png'/>
+          <div class='progress-dialog'>
+            <p class='status'></p>
+            <div class='bar-container'><div class='bar progress-bar'></div></div>
+          </div>
+        </div>
+        <div class='nav'>
+        </div>
+      </div>
+    </div>
+
+    <div id='stepTooManyDevices' class='step'>
+      <div class='inner error-dialog clearfix'>
+        <div class='panel step-body'>{{ installTooManyDevices }}</div>
+        <div class='nav'>
+          <button class='ok step3'>{{ ok }}</button>
+        </div>
+      </div>
+    </div>
+  </script>
+
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/debugLog.js'></script>
@@ -514,6 +640,8 @@
   <script type='text/javascript' src='js/emoji_util.js'></script>
 
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
+  <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
+  <script type='text/javascript' src='js/views/scroll_down_button_view.js'></script>
   <script type='text/javascript' src='js/views/debug_log_view.js'></script>
   <script type='text/javascript' src='js/views/toast_view.js'></script>
   <script type='text/javascript' src='js/views/attachment_preview_view.js'></script>
@@ -537,12 +665,15 @@
   <script type='text/javascript' src='js/views/conversation_search_view.js'></script>
   <script type='text/javascript' src='js/views/hint_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
+  <script type='text/javascript' src='js/views/network_status_view.js'></script>
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>
+  <script type="text/javascript" src="js/views/install_view.js"></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
+  <script type='text/javascript' src='js/keychange_listener.js'></script>
   <script type='text/javascript' src='js/background.js'></script>
 </head>
 <body>

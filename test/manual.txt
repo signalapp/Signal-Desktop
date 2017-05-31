@@ -1,0 +1,36 @@
+Manual test script
+
+Some things are very difficult to test programmatically. Also, if you don't have adequate test coverage, a good first step is a comprehensive manual test script! https://blog.scottnonnenberg.com/web-application-test-strategy/
+
+Conversation view:
+  Last seen indicator:
+    (dismissed three ways: 1. sending a message 2. receiving new message while visible and focused 3. switching away from conversation and back again)
+
+    - Switch away from Signal app, but keep it visible
+    - Receive messages to conversation out of focus, and the last seen indicator should move up the screen with each new message. When the number of new messages can no longer fit on the screen, the last seen indicator should stay at the top of the screen, and new messages will appear below. The scroll down button will turn blue to indicate new messages out of view.
+    - Switch back to Signal app, and the last seen indicator and scroll down button should stay where they are
+    - Click the scroll down button to go to the bottom of the window, and it should disappear
+    - Send a message, then scroll up. The last seen indicator should be gone.  Note: if it has been less than five seconds since the last seen indicator was shown, then it will stay despite your sent message.
+
+    - Switch to a different conversation, then receive messages on original conversation
+    - Switch back to original conversation, and the last seen indicator should be visible
+    - Receive another message on that conversation while it has focus, and the last seen indicator should disappear. Note: if it has been less than five seconds since the last seen indicator was shown, then it will stay despite the new message.
+
+    - Switch to a different conversation, then receive messages on original conversation
+    - Switch back to original conversation, and the last seen indicator should be visible
+    - Switch away from conversation and back. The last seen indicator should be gone.
+
+    - Scroll up on a conversation then switch to another application, keeping the conversation visible. Receive new messages. Switch back to application. The scroll down button should be blue, and the conversation scroll location should stay where it was.
+
+    - ADVANCED: Set fetch limit to a low number, like 3 (in models/messages.js, fetchConversation function). Load the application, and don't select the conversation. Receive more than four new messages in that conversation. Select the conversation. The last seen indicator should reflect the total number of new messages and all of them should be visible.
+
+  Scrolling:
+    - If scrolled to bottom of a conversation, should stay there when a new message comes in
+    - If scrolled to the middle of a conversation, should stay there when a new message comes in
+    - When you've scrolled up an entire screen's worth, a scroll down button in the bottom right should appear.
+
+  Scroll-down button:
+    - Clicking it takes you to the bottom of the conversation, makes the button disappear
+    - If a new message comes in while it is already showing, it turns blue
+    - If a new message comes in while not at the bottom of the conversation (but button is not already showing), it should appear, already blue.
+    - If you've scrolled up higher than the last seen indicator, then clicking the scroll down button should take you to the last seen indicator. Once there, clicking the button will take you to the bottom of the conversation, at which point the button will disappear.

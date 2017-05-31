@@ -35718,32 +35718,14 @@ Internal.SessionRecord = function() {
         archiveCurrentState: function() {
             var open_session = this.getOpenSession();
             if (open_session !== undefined) {
-                this.closeSession(open_session);
+                console.log('closing session');
+                open_session.indexInfo.closed = Date.now();
                 this.updateSessionState(open_session);
             }
         },
-        closeSession: function(session) {
-            if (session.indexInfo.closed > -1) {
-                return;
-            }
-            console.log('closing session', session.indexInfo.baseKey);
-
-            // After this has run, we can still receive messages on ratchet chains which
-            // were already open (unless we know we dont need them),
-            // but we cannot send messages or step the ratchet
-
-            // Delete current sending ratchet
-            delete session[util.toString(session.currentRatchet.ephemeralKeyPair.pubKey)];
-            // Move all receive ratchets to the oldRatchetList to mark them for deletion
-            for (var i in session) {
-                if (session[i].chainKey !== undefined && session[i].chainKey.key !== undefined) {
-                    session.oldRatchetList[session.oldRatchetList.length] = {
-                        added: Date.now(), ephemeralKey: i
-                    };
-                }
-            }
-            session.indexInfo.closed = Date.now();
-            this.removeOldChains(session);
+        promoteState: function(session) {
+            console.log('promoting session');
+            session.indexInfo.closed = -1;
         },
         removeOldChains: function(session) {
             // Sending ratchets are always removed when we step because we never need them again
@@ -36176,6 +36158,10 @@ SessionCipher.prototype = {
     return this.doDecryptWhisperMessage(buffer, session).then(function(plaintext) {
         return { plaintext: plaintext, session: session };
     }).catch(function(e) {
+        if (e.name === 'MessageCounterError') {
+            return Promise.reject(e);
+        }
+
         errors.push(e);
         return this.decryptWithSessionList(buffer, sessionList, errors);
     }.bind(this));
@@ -36191,6 +36177,10 @@ SessionCipher.prototype = {
             var errors = [];
             return this.decryptWithSessionList(buffer, record.getSessions(), errors).then(function(result) {
                 return this.getRecord(address).then(function(record) {
+                    if (result.session.indexInfo.baseKey !== record.getOpenSession().indexInfo.baseKey) {
+                      record.archiveCurrentState();
+                      record.promoteState(result.session);
+                    }
                     record.updateSessionState(result.session);
                     return this.storage.storeSession(address, record.serialize()).then(function() {
                         return result.plaintext;

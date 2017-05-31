@@ -16,8 +16,19 @@
   </div>
   <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
+  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
+    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
+      <div class='icon'></div>
+    </button>
+  </script>
+  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
+    <div class='text'>
+      {{ unreadMessages }}
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
+        <div class='network-status-container'></div>
         <div class='title-bar active' id='header'>
           <div class='header-buttons right'>
             <div class='vertical-align'>
@@ -29,7 +40,6 @@
                     <li class='restart-signal'>{{ restartSignal }}</li>
                 </ul>
               </div>
-              <span class='socket-status'></span>
             </div>
           </div>
           <h1>Signal</h1>
@@ -485,12 +495,38 @@
       </div>
   </script>
 
-  <script type="text/javascript" src="test.js"></script>
-  <script type="text/javascript" src="blanket_mocha.js"></script>
 
+  <script type='text/x-tmpl-mustache' id='networkStatus'>
+    <div class='network-status-message'>
+      <h3>{{ message }}</h3>
+      <span>{{ instructions }}</span>
+    </div>
+    {{ #reconnectDurationAsSeconds }}
+    <div class="network-status-message">
+      {{ attemptingReconnectionMessage }}
+    </div>
+    {{/reconnectDurationAsSeconds }}
+    {{ #action }}
+      <div class="action">
+        <button class='small blue {{ buttonClass }}'>{{ action }}</button>
+      </div>
+    {{/action }}
+  </script>
+  <script type='text/x-tmpl-mustache' id='file-view'>
+    <div class='icon'></div>
+    <div class='text'>
+      <div class='fileName' alt='{{ fileName }}' title='{{ altText }}'>{{ fileName }}</div>
+      <div class='fileSize'>{{ fileSize }}</div>
+    </div>
+  </script>
+
+
+  <script type="text/javascript" src="../js/components.js"></script>
+  <script type="text/javascript" src="test.js"></script>
+
+  <script type='text/javascript' src='../js/registration.js'></script>
   <script type="text/javascript" src="../js/expire.js"></script>
   <script type="text/javascript" src="../js/chromium.js"></script>
-  <script type="text/javascript" src="../js/components.js"></script>
   <script type="text/javascript" src="../js/database.js"></script>
   <script type="text/javascript" src="../js/storage.js"></script>
   <script type="text/javascript" src="../js/signal_protocol_store.js"></script>
@@ -499,9 +535,13 @@
   <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
   <script type="text/javascript" src="../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../js/models/conversations.js" data-cover></script>
+  <script type="text/javascript" src="../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../js/conversation_controller.js" data-cover></script>
   <script type="text/javascript" src="../js/panel_controller.js"></script>
   <script type='text/javascript' src='../js/emoji_util.js'></script>
+  <script type="text/javascript" src="../js/keychange_listener.js"></script>
+  <script type='text/javascript' src='../js/expiring_messages.js'></script>
+  <script type='text/javascript' src='../js/notifications.js'></script>
 
   <script type="text/javascript" src="../js/chromium.js"></script>
 
@@ -530,11 +570,13 @@
   <script type='text/javascript' src='../js/views/conversation_search_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/hint_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/inbox_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/network_status_view.js'></script>
   <script type='text/javascript' src='../js/views/confirmation_dialog_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/identicon_svg_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/settings_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
 
-  <script type="text/javascript" src="libphonenumber_util_test.js"></script>
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/group_update_view_test.js"></script>
   <script type="text/javascript" src="views/message_view_test.js"></script>
@@ -542,11 +584,27 @@
   <script type="text/javascript" src="views/timestamp_view_test.js"></script>
   <script type="text/javascript" src="views/list_view_test.js"></script>
   <script type="text/javascript" src="views/conversation_search_view_test.js"></script>
+  <script type="text/javascript" src="views/network_status_view_test.js"></script>
+  <script type="text/javascript" src="views/last_seen_indicator_view_test.js"></script>
+  <script type='text/javascript' src='views/scroll_down_button_view_test.js'></script>
+
   <script type="text/javascript" src="models/conversations_test.js"></script>
   <script type="text/javascript" src="models/messages_test.js"></script>
+
+  <script type="text/javascript" src="libphonenumber_util_test.js"></script>
   <script type="text/javascript" src="storage_test.js"></script>
+  <script type="text/javascript" src="keychange_listener_test.js"></script>
+  <script type="text/javascript" src="emoji_util_test.js"></script>
 
   <script type="text/javascript" src="fixtures.js"></script>
   <script type="text/javascript" src="fixtures_test.js"></script>
+
+  <!-- Comment out to turn off code coverage. Useful for getting real callstacks. -->
+  <!-- <script type="text/javascript" src="blanket_mocha.js"></script> -->
+
+  <!-- Uncomment to start tests without code coverage enabled -->
+  <script type="text/javascript">
+    mocha.run();
+  </script>
 </body>
 </html>

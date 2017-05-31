@@ -49,9 +49,12 @@ $ios-border-color: rgba(0,0,0,0.1);
     border-radius: 5px;
     width: 220px;
     height: 34px;
-    padding-left: 30px;
+    padding-left: $search-padding-left-ios;
     line-height: 34px;
     background-color: #dddddd;
+    &.active.rtl {
+      background-position : left $search-padding-left-ios center;
+    }
   }
   .conversation-header {
     background-color: $grey_l;
@@ -82,6 +85,38 @@ $ios-border-color: rgba(0,0,0,0.1);
   .control .content {
     padding: 10px;
   }
+
+
+  .message-list .attachments .bubbled {
+    border-radius: 15px;
+    margin-bottom: 0.25em;
+
+    padding: 10px;
+
+    position: relative;
+
+    &:before, &:after {
+      content: '';
+      display: block;
+      border-radius: 20px;
+      position: absolute;
+      width: 10px;
+    }
+    &:before {
+      right: -1px;
+      bottom: -3px;
+      height: 10px;
+      border-radius: 20px;
+      background: $blue;
+    }
+    &:after {
+      height: 11px;
+      right: -6px;
+      bottom: -3px;
+      background: white;
+    }
+  }
+
   .bubble {
     .content {
       margin-bottom: 5px;
@@ -123,6 +158,21 @@ $ios-border-color: rgba(0,0,0,0.1);
       clear: both;
     }
   }
+
+  .message-list .incoming .bubbled {
+    background-color: #e6e5ea;
+    color: black;
+    float: left;
+
+    &:before {
+      left: -1px;
+      background-color: #e6e5ea;
+    }
+    &:after {
+      left: -6px;
+    }
+  }
+
   .incoming .content {
     background-color: #e6e5ea;
     color: black;
@@ -138,7 +188,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
   .outgoing {
-    .content {
+    .content, .attachments .bubbled {
       background-color: $blue;
       &, .body, a {
         @include invert-text-color;
@@ -146,6 +196,22 @@ $ios-border-color: rgba(0,0,0,0.1);
       float: right;
     }
   }
+
+  .outgoing .attachments .fileView .icon {
+    &::before {
+      @include color-svg('/images/file.svg', white);
+    }
+    &.audio:before {
+      @include color-svg('/images/audio.svg', white);
+    }
+    &.video:before {
+      @include color-svg('/images/video.svg', white);
+    }
+    &.voice:before {
+      @include color-svg('/images/voice.svg', white);
+    }
+  }
+
   .attachment {
     a {
       border-radius: 15px;
@@ -154,11 +220,5 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
   .hourglass {
     @include hourglass(#999);
-  }
-  .socket-status {
-    position: absolute;
-    padding-top:-3px;
-    top:0;
-    right:5px;
   }
 }

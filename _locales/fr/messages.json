@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Faites défiler jusqu'au bas de la conversation",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 secondes",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -6,6 +10,16 @@
     "lastSynced": {
         "message": "Dernière importation à",
         "description": "Label for date and time of last sync operation"
+    },
+    "attemptingReconnection": {
+        "message": "Tentative de reconnexion $reconnect_duration_in_seconds$ secondes",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "unsupportedAttachment": {
         "message": "Pièce jointe non gérée. Cliquer pour l'enregistrer.",
@@ -65,6 +79,14 @@
         "message": "Type de fichier non géré",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Cliquer pour sauvegarder",
+        "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "Nouveaux messages ci-dessous",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "installGeneratingKeys": {
         "message": "Génération des clés",
         "description": ""
@@ -73,9 +95,17 @@
         "message": "Réinitialiser la session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Déconnecté",
+        "description": "Displayed when the desktop client has no network connection."
+    },
     "welcomeToSignal": {
         "message": "Bienvenue sur Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Vérifiez votre connexion réseau.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Lors de la réception de messages, afficher les notifications révélant : ",
@@ -100,6 +130,10 @@
     "restartSignal": {
         "message": "Redémarrer Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Vous avez quitté le groupe",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Supprimer les messages",
@@ -175,6 +209,10 @@
         "message": "Supprimer définitivement cette conversation ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Re-connecter Signal Desktop sur votre appareil mobile pour continuer la messagerie.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Ce journal d'événements sera visible en ligne publiquement afin que les contributeurs puissent le consulter. Vous pouvez l'analyser et l'éditer avant de l'envoyer.",
         "description": ""
@@ -199,6 +237,10 @@
         "message": "Importation échouée. Vérifiez que votre ordinateur et votre téléphone sont connectés à internet",
         "description": "Informational text displayed if a sync operation times out."
     },
+    "unlinked": {
+        "message": "Déconnecté",
+        "description": ""
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Suivez nous</a> pour être informés du support multi-appareils pour iOS.",
         "description": "",
@@ -216,6 +258,16 @@
     "safetyNumbersSettingHeader": {
         "message": "Approbation des numéros de sécurité",
         "description": "Header for safety numbers setting"
+    },
+    "unreadMessages": {
+        "message": "$count$ Messages non-lus",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Nombre maximal d'appareils liés atteint. Supprimez-en d'abord.",
@@ -256,7 +308,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Votre numéro de sécurité avec $name$",
+        "message": "Votre numéro de sécurité avec $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -287,7 +339,7 @@
     },
     "disconnected": {
         "message": "Déconnecté",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Importation en cours",
@@ -345,6 +397,10 @@
         "message": "Message média",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 message non-lu",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Cette version de Signal pour bureau a expiré. Veuillez effectuer la mise à jour afin de continuer à envoyer des messages.",
         "description": "Warning notification that this version of the app has expired"
@@ -373,6 +429,10 @@
         "message": "Bienvenue sur Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "Nouveau message ci-dessous",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
     "installConnectionFailed": {
         "message": "La connexion au serveur a échoué.",
         "description": "Displayed when we can't connect to the server."
@@ -397,12 +457,24 @@
         "message": "J'ai Signal pour Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Fichier sans nom",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Connexion en cours...",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
     "sessionEnded": {
         "message": "Session sécurisée réinitialisée",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Pour commencer",
+        "description": ""
+    },
+    "relink": {
+        "message": "Re-connecter",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -439,12 +511,16 @@
         "message": "Vous n'avez pas encore échangé de messages avec ce contact. Votre numéro de sécurité sera disponible après le premier message.",
         "description": ""
     },
+    "voiceMessage": {
+        "message": "Message Vocal",
+        "description": "Name for a voice message attachment"
+    },
     "submit": {
         "message": "Envoyer",
         "description": ""
     },
     "keychanged": {
-        "message": "Votre numéro de sécurité avec $name$ a changé.",
+        "message": "Votre numéro de sécurité avec $name$ a changé. Cliquez pour vérifier.",
         "description": "",
         "placeholders": {
             "name": {

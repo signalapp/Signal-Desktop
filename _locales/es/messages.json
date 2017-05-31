@@ -7,6 +7,16 @@
         "message": "Ultima importación a ",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Intentar volver a conectar en $reconnect_duration_in_seconds$ segundos.",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Tipo de archivo adjunto no admitido. Haga clic para guardarlo.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "Tipo de archivo no admitido",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Haga clic para guardalo",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Generando claves",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "Reiniciar la sesión",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Desconectado",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Bienvenido a Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Compruebe su conexión de red.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Cuando llegan mensajes, se muestran notificaciones que revelan:",
@@ -100,6 +122,10 @@
     "restartSignal": {
         "message": "Reiniciar Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Ha dejado el grupo",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Eliminar mensajes",
@@ -175,6 +201,10 @@
         "message": "Eliminar permanentemente esta conversación?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Volver a vincular Signal Desktop a su dispositivo móvil para continuar intercambiando mensajes.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Este registro se publicará en línea públicamente para contribuyentes para ver. Puede examinar y editarlo antes de enviarlo.",
         "description": ""
@@ -198,6 +228,10 @@
     "syncFailed": {
         "message": "Importación falló. Asegúrese de que su ordinador y teléfono estan conectados a internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Desvinculado",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$> Síguenos </a> para obtener noticias sobre soporte multi-dispositivo para iOS.\n",
@@ -397,12 +431,24 @@
         "message": "Tengo Signal para Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Fichero Sin Nombre",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Conectando",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Reinicio de sesión segura",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Comience",
+        "description": ""
+    },
+    "relink": {
+        "message": "Vincular de nuevo",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +484,10 @@
     "theirIdentityUnknown": {
         "message": "Todavía no ha intercambiado ningún mensaje con este contacto.  El número de seguridad entre ustedes estará disponible después del primer mensaje.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Mensaje de Voz",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Enviar",

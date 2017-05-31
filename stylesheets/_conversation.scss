@@ -70,10 +70,10 @@
     -webkit-user-select: text;
   }
   .key {
-    display: inline-block;
     font-family: monospace;
     padding: 10px;
-    margin-bottom: 20px;
+    margin: 20px auto 20px auto;
+    width: 16em;
     background: $grey_l;
     border: solid 1px $grey_l2;
     border-radius: $border-radius;
@@ -465,6 +465,56 @@ li.entry .error-icon-container {
       cursor: pointer;
     }
 
+    .fileView {
+      display: flex;
+      align-items: center;
+
+      position: relative;
+      padding: 5px;
+      padding-right: 10px;
+
+      cursor: pointer;
+
+      .fileName {
+        font-weight: bold;
+        margin-bottom: 0.25em;
+      }
+
+      .icon, .text {
+        opacity: 0.75;
+      }
+
+      &:hover {
+        .icon, .text {
+          opacity: 1.0;
+        }
+      }
+
+      .icon {
+        margin-left: -0.5em;
+        margin-right: 0.5em;
+        display: inline-block;
+        vertical-align: middle;
+        &:before {
+          content: '';
+          display: inline-block;
+          width: $button-height * 2;
+          height: $button-height * 2;
+          @include color-svg('/images/file.svg', $grey_d);
+        }
+
+        &.audio:before {
+          @include color-svg('/images/audio.svg', $grey_d);
+        }
+        &.video:before {
+          @include color-svg('/images/video.svg', $grey_d);
+        }
+        &.voice:before {
+          @include color-svg('/images/voice.svg', $grey_d);
+        }
+      }
+    }
+
   }
 
   .outgoing .avatar {
@@ -592,7 +642,7 @@ li.entry .error-icon-container {
     background: white;
     border-radius: $border-radius;
     overflow: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
 
     .message {
       text-align: center;
@@ -625,10 +675,57 @@ li.entry .error-icon-container {
 .message-list li.keychange {
   text-align: center;
   .content {
+    cursor: pointer;
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
     color: $grey_d;
     border-radius: $border-radius;
+  }
+}
+
+.message-list .last-seen-indicator-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 2px solid #2090ea;
+  margin-bottom: 15px;
+
+  .text {
+    padding: 5px 10px;
+    // this margin-top needs to be here (not on parent) because scrollIntoView uses the
+    //   top of the element, not counting its margin
+    margin-top: 2em;
+    margin-bottom: -12px;
+    background-color: white;
+  }
+}
+
+.discussion-container .scroll-down-button-view {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+
+  button {
+    height: 44px;
+    width: 44px;
+    border-radius: 22px;
+    text-align: center;
+    background-color: $grey_l;
+    border: none;
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
+
+    .icon {
+      @include color-svg('/images/down.svg', $grey_l3);
+      height: 100%;
+      width: 100%;
+    }
+
+    &.new-messages  {
+      background-color: $blue;
+      .icon {
+        @include color-svg('/images/down.svg', white);
+      }
+    }
   }
 }

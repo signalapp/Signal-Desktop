@@ -7,6 +7,16 @@
         "message": "最近の取り込みは",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "$reconnect_duration_in_seconds$ 秒後に再接続を行います。",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "サポートされていない種類の添付ファイルです。クリックして保存してください。",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,6 +75,10 @@
         "message": "サポートされていない種類のファイル",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "キーを生成",
         "description": ""
@@ -73,9 +87,17 @@
         "message": "接触を再設定",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "オフライン",
+        "description": ""
+    },
     "welcomeToSignal": {
         "message": "Signalにようこそ",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "ネットワーク接続をご確認ください。",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "新着メッセージの通知で表示する項目：",
@@ -86,7 +108,7 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1時間前",
+        "message": "1時間",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
@@ -175,6 +197,10 @@
         "message": "この会話を完全に消去しますが，よろしいですか？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "メッセージを継続するために携帯端末と再接続する。",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "取り込みに失敗しました。パソコンと携帯端末がインターネットに接続されているか確認してください。",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "未接続",
+        "description": ""
     },
     "installFollowUs": {
         "message": "iOS端末の複数使用に関する最新情報は<a $a_params$>こちら</a>",
@@ -397,12 +427,24 @@
         "message": "Signal for Androidをインストール済みです",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "接続完了",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "安全なセッションがリセットされました",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "始めましょう",
+        "description": ""
+    },
+    "relink": {
+        "message": "再接続",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "このコンタクトとまだメッセージを交換していません。最初のメッセージから安全番号は交換します。",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "提出",

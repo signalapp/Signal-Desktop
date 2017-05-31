@@ -25,7 +25,7 @@
         var expiring = new Whisper.MessageCollection();
         expiring.once('add', function(next) {
             var expires_at = next.get('expires_at');
-            console.log('next message expires', new Date(expires_at));
+            console.log('next message expires', new Date(expires_at).toISOString());
 
             var wait = expires_at - Date.now();
             if (wait < 0) { wait = 0; }
@@ -36,10 +36,10 @@
         expiring.fetchNextExpiring();
     }
 
-    window.ExpiringMessagesListener = {
-        init: function() {
+    Whisper.ExpiringMessagesListener = {
+        init: function(events) {
             checkExpiringMessages();
-            window.events.on('timetravel', checkExpiringMessages);
+            events.on('timetravel', checkExpiringMessages);
         },
         update: checkExpiringMessages
     };

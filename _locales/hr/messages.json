@@ -7,6 +7,16 @@
         "message": "Posljednji uvoz",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Nepodržana vrsta privitka. Kliknite za spremanje.",
         "description": "Displayed for incoming unsupported attachment"
@@ -65,17 +75,29 @@
         "message": "Nepodržana vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Stvaranje ključeva",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Resetuj sesiju",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "offline": {
+        "message": "Offline",
+        "description": ""
     },
     "welcomeToSignal": {
         "message": "Dobrodošli u Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Kad poruka dođe, prikaži obavijesti koje otkrivaju:",
@@ -102,7 +124,7 @@
         "description": "Menu item for restarting the program."
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "Izbriši poruku",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -175,6 +197,10 @@
         "message": "Trajno obrisati ovaj razgovor?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Ovaj će zapis biti objavljen javno na internetu, doprinositeljima na uvid. Možete ga provjeriti i urediti prije slanja.",
         "description": ""
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Uvoz nije uspio. Provjerite jesu li Vaše računalo i mobitel spojeni na internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Pratite nas</a> za novosti o podršci za više uređaja na iOS-u.",
@@ -397,12 +427,24 @@
         "message": "Imam Signal za Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Ponovno pokretanje sigurne sesije",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Započnite",
+        "description": ""
+    },
+    "relink": {
+        "message": "Relink",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -438,6 +480,10 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Predaj",

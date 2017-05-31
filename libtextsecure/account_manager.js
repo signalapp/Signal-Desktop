@@ -50,10 +50,13 @@
                 return new Promise(function(resolve, reject) {
                     var socket = getSocket();
                     socket.onclose = function(e) {
-                        console.log('websocket closed', e.code);
+                        console.log('provisioning socket closed', e.code);
                         if (!gotProvisionEnvelope) {
                             reject(new Error('websocket closed'));
                         }
+                    };
+                    socket.onopen = function(e) {
+                        console.log('provisioning socket open');
                     };
                     var wsr = new WebSocketResource(socket, {
                         keepalive: { path: '/v1/keepalive/provisioning' },

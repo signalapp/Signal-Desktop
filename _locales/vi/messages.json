@@ -7,6 +7,16 @@
         "message": "Lần nhập cuối cùng lúc",
         "description": "Label for date and time of last sync operation"
     },
+    "attemptingReconnection": {
+        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
     "unsupportedAttachment": {
         "message": "Không hỗ trợ loại đính kèm. Bấm để lưu.",
         "description": "Displayed for incoming unsupported attachment"
@@ -16,7 +26,7 @@
         "description": ""
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Bạn thiết lập thời gian đến $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -34,7 +44,7 @@
         "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 giây",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
@@ -58,24 +68,36 @@
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 phút",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
         "message": "Không hỗ trợ loại tập tin",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Click to save",
+        "description": "Hover text for attachment filenames"
+    },
     "installGeneratingKeys": {
         "message": "Tạo mã khóa",
         "description": ""
     },
     "resetSession": {
-        "message": "Reset session",
+        "message": "Đăng nhập lại",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
+    },
+    "offline": {
+        "message": "Offline",
+        "description": ""
     },
     "welcomeToSignal": {
         "message": "Chào mừng đến với Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Check your network connection.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
@@ -134,7 +156,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$ thiết lập thời gian đến $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -175,12 +197,16 @@
         "message": "Xóa cuộc trò chuyện này vĩnh viễn?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Bản ghi này sẽ được đăng trực tuyến một cách công khai để những người đóng góp theo dõi. Bạn có thể kiểm tra và sửa đổi nó trước khi gửi đi.",
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "Nhập số điện thoại để thêm một liên hệ",
         "description": "Placeholder for adding a new number to a contact"
     },
     "searchForPeopleOrGroups": {
@@ -198,6 +224,10 @@
     "syncFailed": {
         "message": "Nhập thất bại. Chắc chắn rằng máy tính và điện thoại của bạn đã kết nối internet.",
         "description": "Informational text displayed if a sync operation times out."
+    },
+    "unlinked": {
+        "message": "Unlinked",
+        "description": ""
     },
     "installFollowUs": {
         "message": "<a $a_params$>Theo dõi chúng tôi</a> để cập nhật về hỗ trợ đa thiết bị cho iOS.",
@@ -222,7 +252,7 @@
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "Đầu tiên, cài đặt Signal trên máy <a $play_store$>Android</a> hoặc <a $app_store$>iPhone</a>.<br/>Chúng tôi sẽ liên kết thiết bị và đồng bộ tin nhắn của bạn.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -240,15 +270,15 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 phút",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (tối)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 phút",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "upgrade": {
@@ -256,7 +286,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$",
+        "message": "Số-an-toàn của bạn với $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -270,7 +300,7 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Chủ đề",
         "description": "Header for theme settings"
     },
     "newIdentity": {
@@ -282,7 +312,7 @@
         "description": "Tagline displayed under installWelcome on the install page"
     },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "Phát thông báo nhạc hiệu",
         "description": "Description for audio notification setting"
     },
     "disconnected": {
@@ -290,7 +320,7 @@
         "description": ""
     },
     "syncing": {
-        "message": "Đang nhập",
+        "message": "Đăng nhập",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "acceptNewKey": {
@@ -298,7 +328,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 giờ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -306,7 +336,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 giờ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -314,7 +344,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 ngày",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -326,7 +356,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "Cài xong!",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -366,7 +396,7 @@
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "Số không chính xác",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -397,6 +427,14 @@
         "message": "Tôi đã có Signal cho Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unnamed File",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Connecting",
+        "description": ""
+    },
     "sessionEnded": {
         "message": "Khởi tạo lại phiên làm việc bảo mật",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
@@ -405,8 +443,12 @@
         "message": "Bắt đầu",
         "description": ""
     },
+    "relink": {
+        "message": "Relink",
+        "description": ""
+    },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 tuần",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -432,19 +474,23 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Bấm để tạo một liên hệ",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này.  Số an toàn của bạn sẽ có sau tin nhắn đầu tiên.",
         "description": ""
+    },
+    "voiceMessage": {
+        "message": "Voice Message",
+        "description": "Name for a voice message attachment"
     },
     "submit": {
         "message": "Gửi",
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed.",
+        "message": "Số-an-toàn của bạn với $name$ đã được thay đổi.",
         "description": "",
         "placeholders": {
             "name": {
@@ -454,7 +500,7 @@
         }
     },
     "safetyNumbersSettingDescription": {
-        "message": "Require approval of new safety numbers when they change",
+        "message": "Bắt buộc xác nhận số-an-toàn mới khi chúng thay đổi",
         "description": "Description for safety numbers setting"
     },
     "to": {
@@ -462,7 +508,7 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 giờ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
@@ -478,7 +524,7 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 giây",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
@@ -506,7 +552,7 @@
         "description": ""
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Thời gian thiết lập đến $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -516,7 +562,7 @@
         }
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 giây",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "notifications": {

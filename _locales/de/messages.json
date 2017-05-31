@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Zum Ende der Unterhaltung scrollen",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 Sekunden",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -6,6 +10,16 @@
     "lastSynced": {
         "message": "Letzter Import am",
         "description": "Label for date and time of last sync operation"
+    },
+    "attemptingReconnection": {
+        "message": "Versuch zum Neuverbinden in $reconnect_duration_in_seconds$ Sekunden",
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "unsupportedAttachment": {
         "message": "Nicht unterstützter Anhangstyp. Zum Speichern anklicken.",
@@ -65,6 +79,14 @@
         "message": "Nicht unterstützter Dateityp",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "clickToSave": {
+        "message": "Zum Speichern anklicken",
+        "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "Neue Nachrichten unten",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "installGeneratingKeys": {
         "message": "Schlüssel werden erzeugt …",
         "description": ""
@@ -73,9 +95,17 @@
         "message": "Verschlüsselung neu starten",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
+    "offline": {
+        "message": "Nicht verbunden",
+        "description": "Displayed when the desktop client has no network connection."
+    },
     "welcomeToSignal": {
         "message": "Willkommen bei Signal",
         "description": ""
+    },
+    "checkNetworkConnection": {
+        "message": "Überprüfe deine Netzwerkverbindung.",
+        "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Beim Eingang von Nachrichten Benachrichtigungen mit folgendem Inhalt anzeigen:",
@@ -101,8 +131,12 @@
         "message": "Signal neu starten",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Du hast die Gruppe verlassen",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
-        "message": "Nachrichten löschen",
+        "message": "Unterhaltung löschen",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
@@ -175,6 +209,10 @@
         "message": "Soll diese Unterhaltung unwiderruflich gelöscht werden?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "unlinkedWarning": {
+        "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
+        "description": ""
+    },
     "debugLogExplanation": {
         "message": "Dieses Diagnoseprotokoll wird online veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal untersuchen und bearbeiten.",
         "description": ""
@@ -199,6 +237,10 @@
         "message": "Importieren gescheitert. Stelle sicher, dass dein Computer und dein Mobilgerät mit dem Internet verbunden sind.",
         "description": "Informational text displayed if a sync operation times out."
     },
+    "unlinked": {
+        "message": "Verknüpfung aufgehoben",
+        "description": ""
+    },
     "installFollowUs": {
         "message": "<a $a_params$>Folge uns</a> für Neuigkeiten zur Unterstützung mehrerer Geräte für iOS.",
         "description": "",
@@ -216,6 +258,16 @@
     "safetyNumbersSettingHeader": {
         "message": "Zustimmung für Sicherheitsnummern",
         "description": "Header for safety numbers setting"
+    },
+    "unreadMessages": {
+        "message": "$count$ ungelesene Nachrichten",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Es sind bereits zu viele Geräte verknüpft. Versuche, einige zu entfernen.",
@@ -256,7 +308,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Deine Sicherheitsnummer mit $name$",
+        "message": "Deine Sicherheitsnummer mit $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -287,7 +339,7 @@
     },
     "disconnected": {
         "message": "Nicht verbunden",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Import wird durchgeführt …",
@@ -345,6 +397,10 @@
         "message": "Nachricht mit Medieninhalten",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 ungelesene Nachricht",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Diese Version von Signal Desktop ist veraltet. Bitte führe eine Aktualisierung auf die aktuellste Version durch, um weiterhin Nachrichten austauschen zu können.",
         "description": "Warning notification that this version of the app has expired"
@@ -373,6 +429,10 @@
         "message": "Willkommen bei Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "Neue Nachricht unten",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
     "installConnectionFailed": {
         "message": "Verbindung zum Server gescheitert.",
         "description": "Displayed when we can't connect to the server."
@@ -397,12 +457,24 @@
         "message": "Ich habe Signal für Android",
         "description": "Button for the user to confirm that they have Signal for Android"
     },
+    "unnamedFile": {
+        "message": "Unbenannte Datei",
+        "description": "Hover text for attachment filenames"
+    },
+    "connecting": {
+        "message": "Verbindung wird hergestellt …",
+        "description": "Displayed when the desktop client is currently connecting to the server."
+    },
     "sessionEnded": {
         "message": "Verschlüsselung neu gestartet",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
         "message": "Loslegen",
+        "description": ""
+    },
+    "relink": {
+        "message": "Erneut verknüpfen",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -439,12 +511,16 @@
         "message": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein.",
         "description": ""
     },
+    "voiceMessage": {
+        "message": "Sprachnachricht",
+        "description": "Name for a voice message attachment"
+    },
     "submit": {
         "message": "Übermitteln",
         "description": ""
     },
     "keychanged": {
-        "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert",
+        "message": "Deine Sicherheitsnummer mit $name$ hat sich geändert. Zum Überprüfen anklicken.",
         "description": "",
         "placeholders": {
             "name": {

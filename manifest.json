@@ -4,7 +4,7 @@
     "name": "Signal Private Messenger",
     "short_name": "Signal",
     "description": "__MSG_installTagline__",
-    "version": "0.33.0",
+    "version": "0.40.0",
     "offline_enabled": false,
     "minimum_chrome_version": "37",
     "default_locale": "en",
@@ -30,5 +30,15 @@
       "background": {
           "page": "background.html"
       }
+    },
+
+    "commands": {
+      "show_signal": {
+        "suggested_key": {
+          "default": "Alt+S"
+        },
+        "description": "Show the Signal inbox."
+      }
     }
+
 }

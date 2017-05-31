@@ -21,7 +21,6 @@ MessageReceiver.prototype.extend({
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
         }
-        console.log('opening websocket');
         // initialize the socket and start listening for messages
         this.socket = this.server.getMessageSocket();
         this.socket.onclose = this.onclose.bind(this);
@@ -62,8 +61,13 @@ MessageReceiver.prototype.extend({
         // We do the message decryption here, instead of in the ordered pending queue,
         // to avoid exposing the time it took us to process messages through the time-to-ack.
 
-        // TODO: handle different types of requests. for now we blindly assume
-        // PUT /messages <encrypted Envelope>
+        // TODO: handle different types of requests.
+        if (request.path !== '/api/v1/message') {
+            console.log('got request', request.verb, request.path);
+            request.respond(200, 'OK');
+            return;
+        }
+
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
@@ -338,12 +342,16 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
     },
     handleAttachment: function(attachment) {
-        var digest = attachment.digest ? attachment.digest.toArrayBuffer() : undefined;
+        attachment.id = attachment.id.toString();
+        attachment.key = attachment.key.toArrayBuffer();
+        if (attachment.digest) {
+          attachment.digest = attachment.digest.toArrayBuffer();
+        }
         function decryptAttachment(encrypted) {
             return textsecure.crypto.decryptAttachment(
                 encrypted,
-                attachment.key.toArrayBuffer(),
-                digest
+                attachment.key,
+                attachment.digest
             );
         }
 
@@ -351,7 +359,7 @@ MessageReceiver.prototype.extend({
             attachment.data = data;
         }
 
-        return this.server.getAttachment(attachment.id.toString()).
+        return this.server.getAttachment(attachment.id).
         then(decryptAttachment).
         then(updateAttachment);
     },

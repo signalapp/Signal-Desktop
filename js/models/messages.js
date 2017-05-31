@@ -45,6 +45,29 @@
         isUnread: function() {
             return !!this.get('unread');
         },
+        // overriding this to allow for this.unset('unread'), save to db, then fetch()
+        // to propagate. We don't want the unset key in the db so our unread index stays
+        // small.
+        // jscs:disable
+        fetch: function(options) {
+            options = options ? _.clone(options) : {};
+            if (options.parse === void 0) options.parse = true;
+            var model = this;
+            var success = options.success;
+            options.success = function(resp) {
+                model.attributes = {}; // this is the only changed line
+                if (!model.set(model.parse(resp, options), options)) return false;
+                if (success) success(model, resp, options);
+                model.trigger('sync', model, resp, options);
+            };
+            var error = options.error;
+                options.error = function(resp) {
+                if (error) error(model, resp, options);
+                model.trigger('error', model, resp, options);
+            };
+            return this.sync('read', this, options);
+        },
+        // jscs:enable
         getDescription: function() {
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
@@ -363,9 +386,14 @@
                                 if (difference.length > 0) {
                                     group_update.joined = difference;
                                 }
+                                if (conversation.get('left')) {
+                                  console.log('re-added to a left group');
+                                  attributes.left = false;
+                                }
                             }
                             else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
                                 if (source == textsecure.storage.user.getNumber()) {
+                                    attributes.left = true;
                                     group_update = { left: "You" };
                                 } else {
                                     group_update = { left: source };
@@ -394,14 +422,6 @@
                             });
                         }
                         attributes.active_at = now;
-                        if (type === 'incoming') {
-                            // experimental
-                            if (Whisper.ReadReceipts.forMessage(message) || message.isExpirationTimerUpdate()) {
-                                message.unset('unread');
-                            } else {
-                                attributes.unreadCount = conversation.get('unreadCount') + 1;
-                            }
-                        }
                         conversation.set(attributes);
 
                         if (message.isExpirationTimerUpdate()) {
@@ -428,6 +448,19 @@
                                     message.get('received_at'));
                             }
                         }
+                        if (type === 'incoming') {
+                            var readReceipt = Whisper.ReadReceipts.forMessage(message);
+                            if (readReceipt) {
+                                if (message.get('expireTimer') && !message.get('expirationStartTimestamp')) {
+                                    message.set('expirationStartTimestamp', readReceipt.get('read_at'));
+                                }
+                            }
+                            if (readReceipt || message.isExpirationTimerUpdate()) {
+                                message.unset('unread');
+                            } else {
+                                conversation.set('unreadCount', conversation.get('unreadCount') + 1);
+                            }
+                        }
 
                         var conversation_timestamp = conversation.get('timestamp');
                         if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
@@ -439,10 +472,23 @@
                         message.save().then(function() {
                             conversation.save().then(function() {
                                 conversation.trigger('newmessage', message);
-                                if (message.get('unread')) {
-                                    conversation.notify(message);
-                                }
-                                resolve();
+                                // We fetch() here because, between the message.save() above and the previous
+                                //   line's trigger() call, we might have marked all messages unread in the
+                                //   database. This message might already be read!
+                                var previousUnread = message.get('unread');
+                                message.fetch().then(function() {
+                                    if (previousUnread !== message.get('unread')) {
+                                        console.log('Caught race condition on new message read state! ' +
+                                                    'Manually starting timers.');
+                                        // We call markRead() even though the message is already marked read
+                                        //   because we need to start expiration timers, etc.
+                                        message.markRead();
+                                    }
+                                    if (message.get('unread')) {
+                                        conversation.notify(message);
+                                    }
+                                    resolve();
+                                });
                             });
                         });
                     });
@@ -481,7 +527,7 @@
                 var delta = this.get('expireTimer') * 1000;
                 var expires_at = start + delta;
                 this.save('expires_at', expires_at);
-                ExpiringMessagesListener.update();
+                Whisper.ExpiringMessagesListener.update();
                 console.log('message', this.get('sent_at'), 'expires at', expires_at);
             }
         }
@@ -518,9 +564,27 @@
             }.bind(this));
         },
 
-        fetchConversation: function(conversationId, limit) {
+        getLoadedUnreadCount: function() {
+            return this.models.reduce(function(total, model) {
+                var count = model.get('unread');
+                if (count === undefined) {
+                    count = 0;
+                }
+                return total + count;
+            }, 0);
+        },
+
+        fetchConversation: function(conversationId, limit, unreadCount) {
             if (typeof limit !== 'number') {
                 limit = 100;
+            }
+            if (typeof unreadCount !== 'number') {
+                unreadCount = 0;
+            }
+
+            var startingLoadedUnread = 0;
+            if (unreadCount > 0) {
+                startingLoadedUnread = this.getLoadedUnreadCount();
             }
             return new Promise(function(resolve) {
                 var upper;
@@ -542,6 +606,20 @@
                     // received_at DESC
                 };
                 this.fetch(options).then(resolve);
+            }.bind(this)).then(function() {
+                if (unreadCount > 0) {
+                    if (unreadCount <= startingLoadedUnread) {
+                        return;
+                    }
+
+                    var loadedUnread = this.getLoadedUnreadCount();
+                    if (startingLoadedUnread === loadedUnread) {
+                        // that fetch didn't get us any more unread. stop fetching more.
+                        return;
+                    }
+
+                    return this.fetchConversation(conversationId, limit, unreadCount);
+                }
             }.bind(this));
         },
 

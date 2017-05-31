@@ -869,13 +869,29 @@ input, button, select, textarea {
   line-height: inherit; }
 
 #install {
-  display: none; }
+  display: none;
+  height: 100%; }
+  @media screen and (max-height: 665px) {
+    #install {
+      height: 666px; } }
 
 .main {
-  padding: 70px 0 10em; }
+  padding: 70px 0 50px; }
 
 .step {
-  display: none; }
+  display: none;
+  height: 100%; }
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%; }
+  .inner .step-body {
+    margin-top: auto;
+    width: 100%;
+    max-width: 600px; }
 
 #signal-computer,
 #signal-phone {
@@ -907,9 +923,8 @@ a {
 
 .nav {
   width: 100%;
-  position: fixed;
   bottom: 50px;
-  margin-top: 2em;
+  margin-top: auto;
   padding: 0 20px; }
   .nav .button {
     margin-bottom: 3em; }
@@ -942,9 +957,6 @@ h1 {
   font-size: 30pt;
   font-weight: normal;
   padding-bottom: 10px; }
-
-#signal-icon {
-  margin-top: 20px; }
 
 h3.step {
   margin-top: 0;
@@ -1077,6 +1089,7 @@ ul.country-list {
 .progress-dialog {
   text-align: center;
   padding: 1em;
+  width: 100%;
   max-width: 600px;
   margin: auto; }
   .progress-dialog .status {
