@@ -160,6 +160,7 @@
             'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
             'atBottom .message-list': 'hideScrollDownButton',
             'farFromBottom .message-list': 'addScrollDownButton',
+            'lazyScroll .message-list': 'onLazyScroll',
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
@@ -206,9 +207,14 @@
             this.$('.bottom-bar form').addClass('active');
         },
 
+        onLazyScroll: function() {
+            if (!this.isHidden() && window.isFocused()) {
+                this.markRead();
+            }
+        },
         updateUnread: function() {
             this.updateLastSeenIndicator();
-            this.model.markRead();
+            this.markRead();
         },
 
         onOpened: function() {
@@ -266,6 +272,8 @@
                 if (location > 0) {
                     this.lastSeenIndicator.el.scrollIntoView();
                     return;
+                } else {
+                    this.removeLastSeenIndicator();
                 }
             }
             this.view.scrollToBottom();
@@ -362,8 +370,6 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
-            // If the last seen indicator is old enough, it will go away.
-            // if it isn't, we want to make sure it's up to date
             if (this.lastSeenIndicator) {
                 this.lastSeenIndicator.increment(1);
             }
@@ -374,10 +380,11 @@
             }
             else if (!this.isHidden() && window.isFocused()) {
                 // The conversation is visible and in focus
+                this.markRead();
 
-                if (this.view.atBottom()) {
-                    this.markRead();
-                } else {
+                // When we're scrolled up and we don't already have a last seen indicator
+                //   we add a new one.
+                if (!this.view.atBottom() && !this.lastSeenIndicator) {
                     this.updateLastSeenIndicator({scroll: false});
                 }
             }
@@ -402,8 +409,58 @@
             this.markRead(e);
         },
 
+        findNewestVisibleUnread: function() {
+            var collection = this.model.messageCollection;
+            var length = collection.length;
+            var viewportBottom = this.view.outerHeight;
+            var unreadCount = this.model.get('unreadCount');
+
+            if (unreadCount < 1) {
+                return;
+            }
+
+            // Start with the most recent message, search backwards in time
+            var foundUnread = 0;
+            for (var i = length - 1; i >= 0; i -= 1) {
+                // We don't want to search through all messages, so we stop after we've
+                //   hit all unread messages. The unread should be relatively recent.
+                if (foundUnread >= unreadCount) {
+                    return;
+                }
+
+                var message = collection.at(i);
+                if (!message.get('unread')) {
+                    continue;
+                }
+
+                foundUnread += 1;
+
+                var el = this.$('#' + message.id);
+                var position = el.position();
+                var top = position.top;
+
+                // We're fully below the viewport, continue searching up.
+                if (top > viewportBottom) {
+                    continue;
+                }
+
+                // If the bottom fits on screen, we'll call it visible. Even if the
+                //   message is really tall.
+                var height = el.height();
+                var bottom = top + height;
+                if (bottom <= viewportBottom) {
+                    return message;
+                }
+
+                // Continue searching up.
+            }
+        },
+
         markRead: function(e) {
-            this.model.markRead();
+            var unread = this.findNewestVisibleUnread();
+            if (unread) {
+                this.model.markRead(unread.get('received_at'));
+            }
         },
 
         verifyIdentity: function(ev, model) {
