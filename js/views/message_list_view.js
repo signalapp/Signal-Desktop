@@ -12,6 +12,13 @@
         events: {
             'scroll': 'onScroll',
         },
+        initialize: function() {
+            Whisper.ListView.prototype.initialize.call(this);
+
+            this.triggerLazyScroll = _.debounce(function() {
+                this.$el.trigger('lazyScroll');
+            }.bind(this), 500);
+        },
         onScroll: function() {
             this.measureScrollPosition();
             if (this.$el.scrollTop() === 0) {
@@ -22,6 +29,8 @@
             } else if (this.bottomOffset > this.outerHeight) {
                 this.$el.trigger('farFromBottom');
             }
+
+            this.triggerLazyScroll();
         },
         atBottom: function() {
             return this.bottomOffset < 30;
