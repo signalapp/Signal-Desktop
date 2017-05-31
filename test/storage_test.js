@@ -36,22 +36,129 @@ describe("SignalProtocolStore", function() {
         });
     });
     describe('saveIdentity', function() {
-        it('stores identity keys', function(done) {
+      var IdentityKeyRecord = Backbone.Model.extend({
+        database: Whisper.Database,
+        storeName: 'identityKeys'
+      });
+      var record = new IdentityKeyRecord({id: identifier});
+
+      it('stores identity keys', function(done) {
+          store.saveIdentity(identifier, testKey.pubKey).then(function() {
+              return store.loadIdentityKey(identifier).then(function(key) {
+                  assertEqualArrayBuffers(key, testKey.pubKey);
+              });
+          }).then(done,done);
+      });
+      it('allows key changes', function(done) {
+          var newIdentity = libsignal.crypto.getRandomBytes(33);
+          store.saveIdentity(identifier, testKey.pubKey).then(function() {
+              store.saveIdentity(identifier, newIdentity).then(function() {
+                  done();
+              });
+          }).catch(done);
+      });
+
+      describe('When there is no existing key (first use)', function() {
+        before(function(done) {
+          store.removeIdentityKey(identifier).then(function() {
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                return store.loadIdentityKey(identifier).then(function(key) {
-                    assertEqualArrayBuffers(key, testKey.pubKey);
-                });
-            }).then(done,done);
+              record.fetch().then(function() { done(); });
+            });
+          });
         });
-        it('returns true on key change', function(done) {
-            var newIdentity = libsignal.crypto.getRandomBytes(33);
-            store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                store.saveIdentity(identifier, newIdentity).then(function(changed) {
-                    assert.isTrue(changed);
-                    done();
-                });
-            }).catch(done);
+        it('marks the key firstUse', function() {
+          assert(record.get('firstUse'));
         });
+        it('sets the timestamp', function() {
+          assert(record.get('timestamp'));
+        });
+      });
+      describe('When there is a different existing key (non first use)', function() {
+        var newIdentity = libsignal.crypto.getRandomBytes(33);
+        var oldTimestamp = Date.now();
+        before(function(done) {
+          record.save({
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : oldTimestamp,
+              blockingApproval    : false,
+              nonblockingApproval : false,
+          }).then(function() {
+            store.saveIdentity(identifier, newIdentity).then(function() {
+              record.fetch().then(function() { done(); });
+            });
+          });
+        });
+        it('marks the key not firstUse', function() {
+          assert(!record.get('firstUse'));
+        });
+        it('updates the timestamp', function() {
+          assert.notEqual(record.get('timestamp'), oldTimestamp);
+        });
+      });
+      describe('When the key has not changed', function() {
+        var oldTimestamp = Date.now();
+        before(function(done) {
+          record.save({
+              publicKey           : testKey.pubKey,
+              timestamp           : oldTimestamp,
+              blockingApproval    : false,
+              nonblockingApproval : false,
+          }).then(function() { done(); });
+        });
+        describe('If it is marked firstUse', function() {
+          before(function(done) {
+            record.save({ firstUse: true }).then(function() { done(); });
+          });
+          it('nothing changes', function(done) {
+            store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
+              record.fetch().then(function() {
+                assert(!record.get('blockingApproval'));
+                assert(!record.get('nonblockingApproval'));
+                assert.strictEqual(record.get('timestamp'), oldTimestamp);
+                done();
+              });
+            });
+          });
+        });
+        describe('If it is not marked firstUse', function() {
+          before(function(done) {
+            record.save({ firstUse: false }).then(function() { done(); });
+          });
+          describe('If blocking approval is required', function() {
+            before(function() {
+              storage.put('safety-numbers-approval', true);
+            });
+            it('updates blocking and non-blocking approval', function(done) {
+              store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
+                record.fetch().then(function() {
+                  assert(record.get('blockingApproval'));
+                  assert(record.get('nonblockingApproval'));
+                  assert.strictEqual(record.get('timestamp'), oldTimestamp);
+                  assert.strictEqual(record.get('firstUse'), false);
+                  done();
+                });
+              });
+            });
+          });
+          describe('If nonblocking approval is required', function() {
+            before(function() {
+              storage.put('safety-numbers-approval', false);
+            });
+            it('updates blocking and non-blocking approval', function(done) {
+              store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
+                record.fetch().then(function() {
+                  assert(record.get('blockingApproval'));
+                  assert(record.get('nonblockingApproval'));
+                  assert.strictEqual(record.get('timestamp'), oldTimestamp);
+                  assert.strictEqual(record.get('firstUse'), false);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
     });
     describe('isTrustedIdentity', function() {
       describe('When invalid direction is given', function(done) {
@@ -78,76 +185,83 @@ describe("SignalProtocolStore", function() {
         });
       });
       describe('When direction is SENDING', function() {
-        it('returns true if no key exists', function(done) {
-            var newIdentity = libsignal.crypto.getRandomBytes(33);
+        describe('When there is no existing key (first use)', function() {
+          before(function(done) {
             store.removeIdentityKey(identifier).then(function() {
-                store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-                    if (trusted) {
-                        done();
-                    } else {
-                        done(new Error('isTrusted returned false on first use'));
-                    }
-                }).catch(done);
+              done();
             });
-        });
-        it('returns false if a different key exists', function(done) {
+          });
+          it('returns true', function(done) {
             var newIdentity = libsignal.crypto.getRandomBytes(33);
+            store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                if (trusted) {
+                    done();
+                } else {
+                    done(new Error('isTrusted returned false on first use'));
+                }
+            }).catch(done);
+          });
+        });
+        describe('When there is an existing key', function() {
+          before(function(done) {
             store.saveIdentity(identifier, testKey.pubKey).then(function() {
-                store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-                    if (trusted) {
-                        done(new Error('isTrusted returned true on untrusted key'));
-                    } else {
-                        done();
-                    }
-                }).catch(done);
+              done();
             });
-        });
-        it('returns false if keys match but blocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', true);
+          });
+          describe('When the existing key is different', function() {
+            it('returns false', function(done) {
+              var newIdentity = libsignal.crypto.getRandomBytes(33);
+              store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                  if (trusted) {
+                      done(new Error('isTrusted returned true on untrusted key'));
+                  } else {
+                      done();
+                  }
+              }).catch(done);
+            });
+          });
+          describe('When the existing key matches the new key', function() {
             var newIdentity = libsignal.crypto.getRandomBytes(33);
-            store.saveIdentity(identifier, testKey.pubKey).then(function() {
+            before(function(done) {
               store.saveIdentity(identifier, newIdentity).then(function() {
-                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-                    if (trusted) {
-                        done(new Error('isTrusted returned true on untrusted key'));
-                    } else {
-                        done();
-                    }
-                  }).catch(done);
+                done();
               });
             });
-        });
-        it('returns false if keys match but nonblocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', false);
-            var newIdentity = libsignal.crypto.getRandomBytes(33);
-            store.saveIdentity(identifier, testKey.pubKey).then(function() {
-              store.saveIdentity(identifier, newIdentity).then(function() {
-                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-                    if (trusted) {
-                        done(new Error('isTrusted returned true on untrusted key'));
-                    } else {
-                        done();
-                    }
-                  }).catch(done);
+            it('returns false if blocking approval is required', function(done) {
+              storage.put('safety-numbers-approval', true);
+              store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                if (trusted) {
+                    done(new Error('isTrusted returned true on untrusted key'));
+                } else {
+                    done();
+                }
+              }).catch(done);
+            });
+            it('returns false if keys match but nonblocking approval is required', function(done) {
+              storage.put('safety-numbers-approval', false);
+              store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                if (trusted) {
+                    done(new Error('isTrusted returned true on untrusted key'));
+                } else {
+                    done();
+                }
+              }).catch(done);
+            });
+            it('returns true if neither blocking nor nonblocking approval is required', function(done) {
+                storage.put('safety-numbers-approval', false);
+                store.saveIdentity(identifier, newIdentity, true, true).then(function() {
+                    store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
+                      if (trusted) {
+                          done();
+                      } else {
+                          done(new Error('isTrusted returned false on an approved key'));
+                      }
+                    }).catch(done);
+                });
               });
             });
+          });
         });
-        it('returns true if neither blocking nor nonblocking approval is required', function(done) {
-            storage.put('safety-numbers-approval', false);
-            var newIdentity = libsignal.crypto.getRandomBytes(33);
-            store.saveIdentity(identifier, testKey.pubKey).then(function() {
-              store.saveIdentity(identifier, newIdentity, true, true).then(function() {
-                  store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
-                    if (trusted) {
-                        done();
-                    } else {
-                        done(new Error('isTrusted returned false on an approved key'));
-                    }
-                  }).catch(done);
-              });
-            });
-        });
-      });
     });
     describe('storePreKey', function() {
         it('stores prekeys', function(done) {
