@@ -720,7 +720,9 @@ li.entry .error-icon-container {
       height: 100%;
       width: 100%;
     }
-
+    .icon:hover {
+      background-color: #616161;
+    }
     &.new-messages  {
       background-color: $blue;
       .icon {
