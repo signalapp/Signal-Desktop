@@ -261,6 +261,11 @@
             this.$('.avatar').replaceWith(avatarView.render().$('.avatar'));
         },
         loadAttachments: function() {
+            if (this.loadedAttachments) {
+                return;
+            }
+            this.loadedAttachments = [];
+
             this.model.get('attachments').forEach(function(attachment) {
                 var view = new Whisper.AttachmentView({
                   model: attachment,
@@ -274,6 +279,7 @@
                     }
                 });
                 view.render();
+                this.loadedAttachments.push(view);
             }.bind(this));
         }
     });
