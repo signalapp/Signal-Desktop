@@ -156,7 +156,7 @@
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
-            'loadMore .message-list': 'fetchMessages',
+            'loadMore .message-list': 'loadMoreMessages',
             'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
             'atBottom .message-list': 'hideScrollDownButton',
             'farFromBottom .message-list': 'addScrollDownButton',
@@ -310,6 +310,27 @@
 
         focusMessageField: function() {
             this.$messageField.focus();
+        },
+
+        loadMoreMessages: function() {
+            if (this.inProgressFetch) {
+                return;
+            }
+
+            this.view.measureScrollPosition();
+            var startingHeight = this.view.scrollHeight;
+
+            this.fetchMessages().then(function() {
+                // We delay this work to let scrolling/layout settle down first
+                setTimeout(function() {
+                    this.view.measureScrollPosition();
+                    var endingHeight = this.view.scrollHeight;
+                    var delta = endingHeight - startingHeight;
+
+                    var newScrollPosition = this.view.scrollPosition + delta - this.view.
+                    this.view.$el.scrollTop(newScrollPosition);
+                }.bind(this), 1);
+            }.bind(this));
         },
 
         fetchMessages: function() {
