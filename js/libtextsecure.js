@@ -36330,7 +36330,7 @@ SessionCipher.prototype = {
                     }
 
                     return this.storage.isTrustedIdentity(
-                        this.remoteAddress.getName(), util.toArrayBuffer(result.session.indexInfo.remoteIdentityKey), this.storage.Direction.SENDING
+                        this.remoteAddress.getName(), util.toArrayBuffer(result.session.indexInfo.remoteIdentityKey), this.storage.Direction.RECEIVING
                     ).then(function(trusted) {
                         if (!trusted) {
                             throw new Error('Identity key changed');
