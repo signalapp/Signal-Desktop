@@ -227,6 +227,9 @@ $text-dark: #CCCCCC;
       .icon {
         @include color-svg('/images/down.svg', black);
       }
+      .icon:hover {
+	background-color: white;
+      }
 
       &.new-messages  {
         background-color: $blue;
