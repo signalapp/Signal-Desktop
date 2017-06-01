@@ -261,10 +261,13 @@
             this.$('.avatar').replaceWith(avatarView.render().$('.avatar'));
         },
         loadAttachments: function() {
-            if (this.loadedAttachments) {
+            this.loadedAttachments = this.loadedAttachments || [];
+
+            // Messages can go from no attachments to some attachments (via key approval),
+            //   but they can't go from some attachments to a different set of them.
+            if (this.loadedAttachments.length) {
                 return;
             }
-            this.loadedAttachments = [];
 
             this.model.get('attachments').forEach(function(attachment) {
                 var view = new Whisper.AttachmentView({
