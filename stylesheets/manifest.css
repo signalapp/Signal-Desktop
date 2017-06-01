@@ -2141,6 +2141,8 @@ li.entry .error-icon-container {
       -webkit-mask: url("/images/down.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: black; }
+    .android-dark .discussion-container .scroll-down-button-view button .icon:hover {
+      background-color: white; }
     .android-dark .discussion-container .scroll-down-button-view button.new-messages {
       background-color: #2090ea; }
       .android-dark .discussion-container .scroll-down-button-view button.new-messages .icon {
