@@ -427,7 +427,7 @@
             var viewportBottom = this.view.outerHeight;
             var unreadCount = this.model.get('unreadCount');
 
-            if (unreadCount < 1) {
+            if (!unreadCount || unreadCount < 1) {
                 return;
             }
 
