@@ -382,7 +382,12 @@
                 if (!this.lastSeenIndicator) {
                     this.resetLastSeenIndicator({scroll: false});
                 } else if (this.view.atBottom() && this.model.get('unreadCount') === this.lastSeenIndicator.getCount()) {
-                    this.lastSeenIndicator.el.scrollIntoView();
+                    // The count check ensures that the last seen indicator is still in
+                    //   sync with the real number of unread, so we can scroll to it.
+                    //   We only do this if we're at the bottom, because that signals that
+                    //   the user is okay with us changing scroll around so they see the
+                    //   right unseen message first.
+                    this.resetLastSeenIndicator({scroll: true});
                 }
             }
             else if (!this.isHidden() && window.isFocused()) {
