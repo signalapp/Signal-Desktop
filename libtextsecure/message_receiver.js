@@ -149,6 +149,16 @@ MessageReceiver.prototype.extend({
                 promise = Promise.reject(new Error("Unknown message type"));
         }
         return promise.catch(function(error) {
+            if (error.message === 'Unknown identity key') {
+                // create an error that the UI will pick up and ask the
+                // user if they want to re-negotiate
+                var buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
+                error = new textsecure.IncomingIdentityKeyError(
+                    address.toString(),
+                    buffer.toArrayBuffer(),
+                    error.identityKey
+                );
+            }
             var ev = new Event('error');
             ev.error = error;
             ev.proto = envelope;
