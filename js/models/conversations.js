@@ -71,7 +71,7 @@
         }.bind(this));
     },
 
-    getUnread: function(newestUnreadDate) {
+    getUnread: function() {
         var conversationId = this.id;
         var unreadMessages = new Whisper.MessageCollection();
         return new Promise(function(resolve) {
@@ -83,15 +83,7 @@
                     upper : [conversationId, Number.MAX_VALUE],
                 }
             }).always(function() {
-                if (!newestUnreadDate) {
-                    return resolve(unreadMessages);
-                }
-
-                // TODO: look into an index which would allow us to efficiently get the
-                // set of unread messages before a certain date.
-                resolve(unreadMessages.filter(function(message) {
-                    return message.get('received_at') <= newestUnreadDate;
-                }));
+                resolve(unreadMessages);
             });
         });
 
@@ -306,8 +298,12 @@
                 conversationId: conversationId
             }));
 
-            this.getUnread(newestUnreadDate).then(function(unreadMessages) {
-                var read = unreadMessages.map(function(m) {
+            this.getUnread().then(function(unreadMessages) {
+                var oldUnread = unreadMessages.filter(function(message) {
+                    return message.get('received_at') <= newestUnreadDate;
+                });
+
+                var read = _.map(oldUnread, function(m) {
                     if (this.messageCollection.get(m.id)) {
                         m = this.messageCollection.get(m.id);
                     } else {
@@ -322,12 +318,7 @@
                 }.bind(this));
 
                 if (read.length > 0) {
-                    var unreadCount = this.get('unreadCount');
-                    unreadCount = unreadCount - read.length;
-                    if (unreadCount < 0) {
-                        console.log('conversation unreadCount went below zero!');
-                        unreadCount = 0;
-                    }
+                    var unreadCount = unreadMessages.length - read.length;
                     this.save({ unreadCount: unreadCount });
 
                     console.log('Sending', read.length, 'read receipts');
