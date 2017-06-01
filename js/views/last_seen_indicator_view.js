@@ -20,6 +20,10 @@
             this.render();
         },
 
+        getCount: function() {
+            return this.count;
+        },
+
         render_attributes: function() {
             var unreadMessages = this.count === 1 ? i18n('unreadMessage')
               : i18n('unreadMessages', [this.count]);

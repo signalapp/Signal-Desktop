@@ -158,7 +158,7 @@
             'blur .send-message': 'unfocusBottomBar',
             'loadMore .message-list': 'loadMoreMessages',
             'newOffscreenMessage .message-list': 'addScrollDownButtonWithCount',
-            'atBottom .message-list': 'hideScrollDownButton',
+            'atBottom .message-list': 'removeScrollDownButton',
             'farFromBottom .message-list': 'addScrollDownButton',
             'lazyScroll .message-list': 'onLazyScroll',
             'close .menu': 'closeMenu',
@@ -216,7 +216,7 @@
             }
         },
         updateUnread: function() {
-            this.updateLastSeenIndicator();
+            this.resetLastSeenIndicator();
             this.markRead();
         },
 
@@ -253,7 +253,7 @@
             }
         },
 
-        hideScrollDownButton: function() {
+        removeScrollDownButton: function() {
             if (this.scrollDownButton) {
                 this.scrollDownButton.remove();
                 this.scrollDownButton = null;
@@ -282,7 +282,7 @@
             this.view.scrollToBottom();
         },
 
-        updateLastSeenIndicator: function(options) {
+        resetLastSeenIndicator: function(options) {
             options = options || {};
             _.defaults(options, {scroll: true});
 
@@ -379,7 +379,11 @@
 
             if (!this.isHidden() && !window.isFocused()) {
                 // The conversation is visible, but window is not focused
-                this.updateLastSeenIndicator({scroll: false});
+                if (!this.lastSeenIndicator) {
+                    this.resetLastSeenIndicator({scroll: false});
+                } else if (this.view.atBottom() && this.model.get('unreadCount') === this.lastSeenIndicator.getCount()) {
+                    this.lastSeenIndicator.el.scrollIntoView();
+                }
             }
             else if (!this.isHidden() && window.isFocused()) {
                 // The conversation is visible and in focus
@@ -388,7 +392,7 @@
                 // When we're scrolled up and we don't already have a last seen indicator
                 //   we add a new one.
                 if (!this.view.atBottom() && !this.lastSeenIndicator) {
-                    this.updateLastSeenIndicator({scroll: false});
+                    this.resetLastSeenIndicator({scroll: false});
                 }
             }
         },
