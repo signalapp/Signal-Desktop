@@ -1533,6 +1533,8 @@ li.entry .error-icon-container {
         -webkit-mask: url("/images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
+      .discussion-container .scroll-down-button-view button.new-messages.new-messages:hover {
+        background-color: #1472bd; }
 
 .ios #header {
   height: 64px;
