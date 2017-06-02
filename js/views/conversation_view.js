@@ -332,7 +332,7 @@
                     var endingHeight = this.view.scrollHeight;
                     var delta = endingHeight - startingHeight;
 
-                    var newScrollPosition = this.view.scrollPosition + delta - this.view.
+                    var newScrollPosition = this.view.scrollPosition + delta - this.view.outerHeight;
                     this.view.$el.scrollTop(newScrollPosition);
                 }.bind(this), 1);
             }.bind(this));
