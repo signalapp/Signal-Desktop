@@ -181,7 +181,7 @@
             }
         },
         toggleLengthWarning: function() {
-            if (this.$('.send-message').val().length > 2000 || this.fileInput.hasFiles()) {
+            if (this.$('.send-message').val().length > 2000) {
                 this.$('.android-length-warning').show();
             } else {
                 this.$('.android-length-warning').hide();
