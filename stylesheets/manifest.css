@@ -1544,7 +1544,7 @@ li.entry .error-icon-container {
         -webkit-mask: url("/images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
-      .discussion-container .scroll-down-button-view button.new-messages.new-messages:hover {
+      .discussion-container .scroll-down-button-view button.new-messages:hover {
         background-color: #1472bd; }
 
 .ios #header {
@@ -2169,5 +2169,7 @@ li.entry .error-icon-container {
         -webkit-mask: url("/images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
+      .android-dark .discussion-container .scroll-down-button-view button.new-messages:hover {
+        background-color: #1472bd; }
 
 /*# sourceMappingURL=manifest.css.map */
