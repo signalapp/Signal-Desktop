@@ -27,10 +27,6 @@
     });
     var TimerView = Whisper.View.extend({
         templateName: 'hourglass',
-        className: 'timer',
-        initialize: function() {
-            this.update();
-        },
         update: function() {
             if (this.timeout) {
               clearTimeout(this.timeout);
