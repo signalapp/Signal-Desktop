@@ -508,6 +508,9 @@
         isExpiring: function() {
             return this.get('expireTimer') && this.get('expirationStartTimestamp');
         },
+        isExpired: function() {
+            return this.msTilExpire() <= 0;
+        },
         msTilExpire: function() {
               if (!this.isExpiring()) {
                 return Infinity;

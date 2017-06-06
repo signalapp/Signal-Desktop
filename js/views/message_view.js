@@ -36,6 +36,9 @@
               clearTimeout(this.timeout);
               this.timeout = null;
             }
+            if (this.model.isExpired()) {
+                return this;
+            }
             if (this.model.isExpiring()) {
                 this.render();
                 var totalTime = this.model.get('expireTimer') * 1000;
