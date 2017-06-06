@@ -41,8 +41,8 @@
                 var remainingTime = this.model.msTilExpire();
                 var elapsed = (totalTime - remainingTime) / totalTime;
                 this.$('.sand').css('transform', 'translateY(' + elapsed*100 + '%)');
-                this.timeout = setTimeout(this.update.bind(this), totalTime / 100);
                 this.$el.css('display', 'inline-block');
+                this.timeout = setTimeout(this.update.bind(this), Math.max(totalTime / 100, 500));
             }
             return this;
         }
