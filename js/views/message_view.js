@@ -210,8 +210,9 @@
         },
         renderExpiring: function() {
             if (!this.timerView) {
-              this.timerView = new TimerView({ model: this.model, el: this.$('.timer') });
+              this.timerView = new TimerView({ model: this.model });
             }
+            this.timerView.setElement(this.$('.timer'));
             this.timerView.update();
         },
         render: function() {
