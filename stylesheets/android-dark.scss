@@ -227,11 +227,17 @@ $text-dark: #CCCCCC;
       .icon {
         @include color-svg('/images/down.svg', black);
       }
+      .icon:hover {
+	background-color: white;
+      }
 
       &.new-messages  {
         background-color: $blue;
         .icon {
           @include color-svg('/images/down.svg', white);
+        }
+        &:hover {
+          background-color: #1472bd;
         }
       }
     }
