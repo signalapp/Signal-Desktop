@@ -29,19 +29,21 @@
                 if (message) {
                     this.remove(receipt);
                     message.markRead(receipt.get('read_at')).then(function() {
-                        var conversation = ConversationController.get({
-                            id: message.get('conversationId')
-                        });
-
-                        if (conversation) {
-                            // notify frontend listeners
-                            conversation.onReadMessage(message);
-                        }
-                    });
+                        this.notifyConversation(message);
+                    }.bind(this));
                 } else {
                     console.log('No message for read receipt');
                 }
             }.bind(this));
-        }
+        },
+        notifyConversation: function(message) {
+            var conversation = ConversationController.get({
+                id: message.get('conversationId')
+            });
+
+            if (conversation) {
+                conversation.onReadMessage(message);
+            }
+        },
     }))();
 })();
