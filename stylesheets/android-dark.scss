@@ -236,7 +236,7 @@ $text-dark: #CCCCCC;
         .icon {
           @include color-svg('/images/down.svg', white);
         }
-	:hover {
+	&:hover {
 	  background-color: #1472bd;
 	}
       }
