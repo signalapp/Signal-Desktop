@@ -745,7 +745,7 @@ li.entry .error-icon-container {
         @include color-svg('/images/down.svg', white);
       }
 
-      :hover {
+      &:hover {
         background-color: #1472bd;
       }
     }
