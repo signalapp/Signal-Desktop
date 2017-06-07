@@ -104,6 +104,9 @@
 }
 
 .message-detail {
+  .destroy-message {
+    background-color: red;
+  }
   .key-conflict-dialogue {
     border-radius: $border-radius;
     margin: 20px 0;

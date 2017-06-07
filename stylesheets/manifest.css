@@ -1037,6 +1037,8 @@ input.search {
     display: inline-block;
     max-width: 100%; }
 
+.message-detail .destroy-message {
+  background-color: red; }
 .message-detail .key-conflict-dialogue {
   border-radius: 5px;
   margin: 20px 0; }

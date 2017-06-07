@@ -37,6 +37,9 @@
 
             this.listenTo(this.model, 'change', this.render);
         },
+        events: {
+          'click .destroy-message': 'destroy',
+        },
         contacts: function() {
             if (this.model.isIncoming()) {
                 var number = this.model.get('source');
@@ -65,6 +68,10 @@
             });
             this.$('.conflicts').append(view.el);
         },
+        destroy: function (e) {
+          this.model.destroy()
+          this.trigger('back')
+        },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
             var unknownErrors = this.errors['undefined'];
@@ -78,6 +85,7 @@
                 received_at : this.model.isIncoming() ? moment(this.model.get('received_at')).format('LLLL') : null,
                 tofrom      : this.model.isIncoming() ? i18n('from') : i18n('to'),
                 errors      : unknownErrors,
+                'destroy-message' : i18n('deleteMessage'),
                 title       : i18n('messageDetail'),
                 sent        : i18n('sent'),
                 received    : i18n('received'),
