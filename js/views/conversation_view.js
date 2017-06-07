@@ -217,7 +217,8 @@
         },
         updateUnread: function() {
             this.resetLastSeenIndicator();
-            this.markRead();
+            // Waiting for scrolling caused by resetLastSeenIndicator to settle down
+            setTimeout(this.markRead.bind(this), 1);
         },
 
         onOpened: function() {
@@ -418,7 +419,7 @@
 
         onClick: function(e) {
             this.closeMenu(e);
-            this.markRead(e);
+            this.markRead();
         },
 
         findNewestVisibleUnread: function() {
@@ -468,8 +469,15 @@
             }
         },
 
-        markRead: function(e) {
-            var unread = this.findNewestVisibleUnread();
+        markRead: function() {
+            var unread;
+
+            if (this.view.atBottom()) {
+                unread = this.model.messageCollection.last();
+            } else {
+                unread = this.findNewestVisibleUnread();
+            }
+
             if (unread) {
                 this.model.markRead(unread.get('received_at'));
             }
