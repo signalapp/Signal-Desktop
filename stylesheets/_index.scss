@@ -134,11 +134,11 @@ input.search {
     background-size: $search-x-size;
 
     &.ltr {
-      background-position : right $search-padding-right center;
+      background-position : right $search-padding-right + 3px center;
     }
 
     &.rtl {
-      background-position : left $search-padding-left center;
+      background-position : left $search-padding-left + 3px center;
     }
   }
 

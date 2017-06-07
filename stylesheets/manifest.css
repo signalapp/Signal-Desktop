@@ -850,9 +850,9 @@ input.search {
     background-repeat: no-repeat;
     background-size: 16px; }
     input.search.active.ltr {
-      background-position: right 10px center; }
+      background-position: right 13px center; }
     input.search.active.rtl {
-      background-position: left 65px center; }
+      background-position: left 68px center; }
   input.search::-webkit-search-cancel-button {
     -webkit-appearance: none;
     display: block;
