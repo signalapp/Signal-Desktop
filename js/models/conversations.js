@@ -165,7 +165,6 @@
             message.save();
 
             this.save({
-                unreadCount : 0,
                 active_at   : now,
                 timestamp   : now,
                 lastMessage : message.getNotificationText()
