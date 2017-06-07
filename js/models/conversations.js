@@ -71,7 +71,15 @@
         //   the desktop app, so the desktop app only gets read receipts, we can very
         //   easily end up with messages never marked as read (our previous early read
         //   receipt handling, read receipts never sent because app was offline)
-        return this.markRead(message.get('received_at'));
+
+        // We queue it because we often get a whole lot of read receipts at once, and
+        //   their markRead calls could very easily overlap given the async pull from DB.
+
+        // Lastly, we don't send read receipts for any message marked read due to a read
+        //   receipt. That's a notification explosion we don't need.
+        this.queueJob(function() {
+            return this.markRead(message.get('received_at'), {sendReadReceipts: false});
+        }.bind(this));
     },
 
     getUnread: function() {
@@ -294,7 +302,10 @@
         }
     },
 
-    markRead: function(newestUnreadDate) {
+    markRead: function(newestUnreadDate, options) {
+        options = options || {};
+        _.defaults(options, {sendReadReceipts: true});
+
         if (this.get('unreadCount') > 0) {
             var conversationId = this.id;
             Whisper.Notifications.remove(Whisper.Notifications.where({
@@ -324,8 +335,10 @@
                     var unreadCount = unreadMessages.length - read.length;
                     this.save({ unreadCount: unreadCount });
 
-                    console.log('Sending', read.length, 'read receipts');
-                    textsecure.messaging.syncReadMessages(read);
+                    if (options.sendReadReceipts) {
+                        console.log('Sending', read.length, 'read receipts');
+                        textsecure.messaging.syncReadMessages(read);
+                    }
                 }
             }.bind(this));
         }
