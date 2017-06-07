@@ -310,7 +310,7 @@
             conversationId: conversationId
         }));
 
-        this.getUnread().then(function(unreadMessages) {
+        return this.getUnread().then(function(unreadMessages) {
             var oldUnread = unreadMessages.filter(function(message) {
                 return message.get('received_at') <= newestUnreadDate;
             });
