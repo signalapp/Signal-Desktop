@@ -66,9 +66,12 @@
             this.messageCollection.get(message.id).fetch();
         }
 
-        return this.getUnread().then(function(unreadMessages) {
-            this.save({unreadCount: unreadMessages.length});
-        }.bind(this));
+        // We mark as read everything older than this message - to clean up old stuff
+        //   still marked unread in the database. If the user generally doesn't read in
+        //   the desktop app, so the desktop app only gets read receipts, we can very
+        //   easily end up with messages never marked as read (our previous early read
+        //   receipt handling, read receipts never sent because app was offline)
+        return this.markRead(message.get('received_at'));
     },
 
     getUnread: function() {
