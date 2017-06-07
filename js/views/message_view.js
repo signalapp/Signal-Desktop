@@ -260,12 +260,32 @@
             }))();
             this.$('.avatar').replaceWith(avatarView.render().$('.avatar'));
         },
+        appendAttachmentView: function(view) {
+            // We check for a truthy 'updated' here to ensure that a race condition in a
+            //   multi-fetch() scenario doesn't add an AttachmentView to the DOM before
+            //   its 'update' event is triggered.
+            var parent = this.$('.attachments')[0];
+            if (view.updated && parent !== view.el.parentNode) {
+                if (view.el.parentNode) {
+                    parent.removeChild(view.el);
+                }
+
+                this.trigger('beforeChangeHeight');
+                this.$('.attachments').append(view.el);
+                this.trigger('afterChangeHeight');
+            }
+        },
         loadAttachments: function() {
             this.loadedAttachments = this.loadedAttachments || [];
 
-            // Messages can go from no attachments to some attachments (via key approval),
-            //   but they can't go from some attachments to a different set of them.
+            // If we're called a second time, render() has replaced the DOM out from under
+            //   us with $el.html(). We'll need to reattach our AttachmentViews to the new
+            //   parent DOM nodes if the 'update' event has already fired.
             if (this.loadedAttachments.length) {
+                for (var i = 0, max = this.loadedAttachments.length; i < max; i += 1) {
+                    var view = this.loadedAttachments[i];
+                    this.appendAttachmentView(view);
+                }
                 return;
             }
 
@@ -274,15 +294,13 @@
                   model: attachment,
                   timestamp: this.model.get('sent_at')
                 });
-                this.listenTo(view, 'update', function() {
-                    if (!view.el.parentNode) {
-                        this.trigger('beforeChangeHeight');
-                        this.$('.attachments').append(view.el);
-                        this.trigger('afterChangeHeight');
-                    }
-                });
                 view.render();
                 this.loadedAttachments.push(view);
+
+                this.listenTo(view, 'update', function() {
+                    view.updated = true;
+                    this.appendAttachmentView(view);
+                });
             }.bind(this));
         }
     });
