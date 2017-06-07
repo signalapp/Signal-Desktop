@@ -1,6 +1,6 @@
 {
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekundi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "lastSynced": {
@@ -8,7 +8,7 @@
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Pokušat ću se ponovno spojiti za $reconnect_duration_in_seconds$ sekundi",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -48,11 +48,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
-        "message": "Ime ovog računala bit će",
+        "message": "Ime ovog računala biti će",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 minuta",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -64,7 +64,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "showMore": {
-        "message": "Detalji",
+        "message": "Prikazuje detalje razmjene ključeva",
         "description": "Displays the details of a key change"
     },
     "timerOption_5_minutes_abbreviated": {
@@ -96,7 +96,7 @@
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Provjerite vašu internetsku vezu.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -274,7 +274,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "Android (tamno)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -300,11 +300,11 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Novi sigurnosni broj",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -352,7 +352,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 tjedan",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -428,7 +428,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Bezimena datoteka",
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
@@ -452,7 +452,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekundi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installSignalLink": {
@@ -474,7 +474,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "Kliknite za stvaranje novog kontakta",
         "description": ""
     },
     "theirIdentityUnknown": {
@@ -482,7 +482,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Glasovna poruka",
         "description": "Name for a voice message attachment"
     },
     "submit": {
