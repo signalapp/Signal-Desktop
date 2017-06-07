@@ -305,42 +305,38 @@
         options = options || {};
         _.defaults(options, {sendReadReceipts: true});
 
-        if (this.get('unreadCount') > 0) {
-            var conversationId = this.id;
-            Whisper.Notifications.remove(Whisper.Notifications.where({
-                conversationId: conversationId
-            }));
+        var conversationId = this.id;
+        Whisper.Notifications.remove(Whisper.Notifications.where({
+            conversationId: conversationId
+        }));
 
-            this.getUnread().then(function(unreadMessages) {
-                var oldUnread = unreadMessages.filter(function(message) {
-                    return message.get('received_at') <= newestUnreadDate;
-                });
+        this.getUnread().then(function(unreadMessages) {
+            var oldUnread = unreadMessages.filter(function(message) {
+                return message.get('received_at') <= newestUnreadDate;
+            });
 
-                var read = _.map(oldUnread, function(m) {
-                    if (this.messageCollection.get(m.id)) {
-                        m = this.messageCollection.get(m.id);
-                    } else {
-                        console.log('Marked a message as read in the database, but ' +
-                                    'it was not in messageCollection.');
-                    }
-                    m.markRead();
-                    return {
-                        sender    : m.get('source'),
-                        timestamp : m.get('sent_at')
-                    };
-                }.bind(this));
-
-                if (read.length > 0) {
-                    var unreadCount = unreadMessages.length - read.length;
-                    this.save({ unreadCount: unreadCount });
-
-                    if (options.sendReadReceipts) {
-                        console.log('Sending', read.length, 'read receipts');
-                        textsecure.messaging.syncReadMessages(read);
-                    }
+            var read = _.map(oldUnread, function(m) {
+                if (this.messageCollection.get(m.id)) {
+                    m = this.messageCollection.get(m.id);
+                } else {
+                    console.log('Marked a message as read in the database, but ' +
+                                'it was not in messageCollection.');
                 }
+                m.markRead();
+                return {
+                    sender    : m.get('source'),
+                    timestamp : m.get('sent_at')
+                };
             }.bind(this));
-        }
+
+            var unreadCount = unreadMessages.length - read.length;
+            this.save({ unreadCount: unreadCount });
+
+            if (read.length && options.sendReadReceipts) {
+                console.log('Sending', read.length, 'read receipts');
+                textsecure.messaging.syncReadMessages(read);
+            }
+        }.bind(this));
     },
 
     fetchMessages: function() {
