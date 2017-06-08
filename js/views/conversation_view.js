@@ -304,12 +304,12 @@
 
             if (oldestUnread && unreadCount > 0) {
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
-                var unreadEl = this.lastSeenIndicator.render().$el;
+                var lastSeenEl = this.lastSeenIndicator.render().$el;
 
-                unreadEl.insertBefore(this.$('#' + oldestUnread.get('id')));
+                lastSeenEl.insertBefore(this.$('#' + oldestUnread.get('id')));
 
                 if (this.view.atBottom() || options.scroll) {
-                    var position = unreadEl[0].scrollIntoView(true);
+                    lastSeenEl[0].scrollIntoView();
                 }
 
                 // scrollIntoView is an async operation, but we have no way to listen for
