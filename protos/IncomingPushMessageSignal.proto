@@ -84,6 +84,7 @@ message SyncMessage {
 
   message Contacts {
     optional AttachmentPointer blob = 1;
+    optional bool              isComplete = 2 [default = false];
   }
 
   message Groups {
