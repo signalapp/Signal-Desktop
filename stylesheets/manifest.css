@@ -1506,8 +1506,8 @@ li.entry .error-icon-container {
     border-radius: 5px; }
 
 .message-list .last-seen-indicator-view {
-  padding-bottom: 2em;
-  padding-top: 2em; }
+  padding-top: 25px;
+  padding-bottom: 35px; }
   .message-list .last-seen-indicator-view .bar {
     display: flex;
     flex-direction: column;

@@ -696,9 +696,12 @@ li.entry .error-icon-container {
 }
 
 .message-list .last-seen-indicator-view {
-  // We need this extra layer of DOM nodes because scrollIntoView() doesn't honor margins
-  padding-bottom: 2em;
-  padding-top: 2em;
+  // This padding is large so we clear the avatar circle extending into the conversation
+  // window.scrollIntoView() doesn't honor margins, so we're using padding
+  // padding-top is less to account for the 10px margin at the bottom of messages
+  padding-top: 25px;
+  padding-bottom: 35px;
+
 
   .bar {
     display: flex;
