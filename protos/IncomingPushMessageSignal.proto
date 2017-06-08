@@ -76,10 +76,10 @@ message DataMessage {
 
 message SyncMessage {
   message Sent {
-    optional string  destination = 1;
-    optional uint64  timestamp   = 2;
-    optional DataMessage message = 3;
-    optional uint64  expirationStartTimestamp = 4;
+    optional string      destination              = 1;
+    optional uint64      timestamp                = 2;
+    optional DataMessage message                  = 3;
+    optional uint64      expirationStartTimestamp = 4;
   }
 
   message Contacts {
@@ -96,13 +96,15 @@ message SyncMessage {
 
   message Request {
     enum Type {
-      UNKNOWN     = 0;
-      CONTACTS    = 1;
-      GROUPS      = 2;
-      BLOCKED     = 3;
+      UNKNOWN  = 0;
+      CONTACTS = 1;
+      GROUPS   = 2;
+      BLOCKED  = 3;
     }
+
     optional Type type = 1;
   }
+
   message Read {
     optional string sender    = 1;
     optional uint64 timestamp = 2;
@@ -120,6 +122,7 @@ message AttachmentPointer {
   enum Flags {
     VOICE_MESSAGE = 1;
   }
+
   optional fixed64 id          = 1;
   optional string  contentType = 2;
   optional bytes   key         = 3;
@@ -150,16 +153,16 @@ message Avatar {
 }
 
 message GroupDetails {
-  optional bytes  id      = 1;
-  optional string name    = 2;
-  repeated string members = 3;
-  optional Avatar avatar  = 4;
-  optional bool   active  = 5 [default = true];
+  optional bytes  id       = 1;
+  optional string name     = 2;
+  repeated string members  = 3;
+  optional Avatar avatar   = 4;
+  optional bool   active   = 5 [default = true];
 }
 
 message ContactDetails {
-  optional string number = 1;
-  optional string name   = 2;
-  optional Avatar avatar = 3;
-  optional string color  = 4;
+  optional string number  = 1;
+  optional string name    = 2;
+  optional Avatar avatar  = 3;
+  optional string color   = 4;
 }
