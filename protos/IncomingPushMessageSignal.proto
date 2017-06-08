@@ -136,10 +136,11 @@ message AttachmentPointer {
 
 message GroupContext {
   enum Type {
-    UNKNOWN = 0;
-    UPDATE  = 1;
-    DELIVER = 2;
-    QUIT    = 3;
+    UNKNOWN      = 0;
+    UPDATE       = 1;
+    DELIVER      = 2;
+    QUIT         = 3;
+    REQUEST_INFO = 4;
   }
   optional bytes             id      = 1;
   optional Type              type    = 2;
