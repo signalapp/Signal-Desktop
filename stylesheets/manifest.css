@@ -1512,14 +1512,18 @@ li.entry .error-icon-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 6px;
-    border-top: 1px solid rgba(255, 255, 255, 0.75);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+    padding: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
     background-color: rgba(0, 0, 0, 0.05); }
   .message-list .last-seen-indicator-view .text {
+    font-family: "Helvetica Neue";
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .045em;
     background-color: white;
     border-radius: 1.5em;
-    padding: .75em 1.25em .75em 1.25em; }
+    padding: 10px 21px 9px 21px; }
 
 .discussion-container .scroll-down-button-view {
   position: absolute;
@@ -2153,8 +2157,8 @@ li.entry .error-icon-container {
   .android-dark .recorder {
     background: #292929; }
   .android-dark .message-list .last-seen-indicator-view .bar {
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.0625);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     background-color: rgba(255, 255, 255, 0.1); }
   .android-dark .message-list .last-seen-indicator-view .text {
     background-color: #171717; }

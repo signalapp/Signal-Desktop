@@ -705,18 +705,22 @@ li.entry .error-icon-container {
     flex-direction: column;
     align-items: center;
 
-    padding: 6px;
+    padding: 5px;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.75);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
 
     background-color: rgba(0, 0, 0, 0.05);
   }
 
   .text {
+    font-family: "Helvetica Neue";
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .045em;
     background-color: white;
     border-radius: 1.5em;
-    padding: .75em 1.25em .75em 1.25em;
+    padding: 10px 21px 9px 21px;
   }
 }
 
