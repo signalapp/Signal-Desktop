@@ -750,5 +750,20 @@
     },
     "relink": {
         "message": "Relink"
+    },
+    "autoUpdateNewVersionTitle": {
+      "message": "Signal update available"
+    },
+    "autoUpdateNewVersionMessage": {
+      "message": "There is a new version of Signal available."
+    },
+    "autoUpdateNewVersionInstructions": {
+      "message": "Press Restart to apply the updates."
+    },
+    "autoUpdateRestartButtonLabel": {
+      "message": "Restart"
+    },
+    "autoUpdateLaterButtonLabel": {
+      "message": "Later"
     }
 }
