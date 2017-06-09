@@ -4,12 +4,13 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const autoUpdater = require('electron-updater').autoUpdater
-const autoUpdaterInterval = 60 * 60 * 1000;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 const ElectronConfig = require('electron-config');
+
+const autoupdate = require('./autoupdate');
+const locale = require('./locale');
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -78,6 +79,24 @@ const userConfig = new ElectronConfig();
 let mainWindow
 let windowConfig = userConfig.get('window');
 
+
+// Load locale - if we can't load messages for the current locale, we
+// default to 'en'
+//
+// possible locales:
+// https://github.com/electron/electron/blob/master/docs/api/locales.md
+let localeName = locale.normalizeLocaleName(app.getLocale());
+let messages;
+
+try {
+  messages = locale.getLocaleMessages(localeName);
+} catch (e) {
+  console.log('Problem loading messages for locale ', localeName, e.stack);
+
+  localeName = 'en';
+  messages = locale.getLocaleMessages(localeName);
+}
+
 function createWindow () {
   const windowOptions = Object.assign({
     width: 800,
@@ -118,36 +137,6 @@ function createWindow () {
     mainWindow.flashFrame(false);
   });
 
-  function loadLocale() {
-    // possible locales: https://github.com/electron/electron/blob/master/docs/api/locales.md
-    const locale = app.getLocale();
-
-    if (/^en-/.test(locale)) {
-      return 'en';
-    }
-
-    return locale;
-  }
-
-  function loadLocaleMessages(locale) {
-    const onDiskLocale = locale.replace('-', '_');
-    const targetFile = path.join(__dirname, '_locales', onDiskLocale, 'messages.json');
-
-    return JSON.parse(fs.readFileSync(targetFile, 'utf-8'))
-  }
-
-  // Load locale - if we can't load messages for the current locale, we default to 'en'
-  var locale = loadLocale();
-  var messages;
-  try {
-    messages = loadLocaleMessages(locale);
-  }
-  catch (e) {
-    console.log('Problem loading messages for locale ', locale, e.stack);
-    locale = 'en';
-    messages = loadLocaleMessages(locale);
-  }
-
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', function(event, arg) {
     event.returnValue = messages;
@@ -159,7 +148,7 @@ function createWindow () {
       protocol: 'file:',
       slashes: true,
       query: {
-        locale: locale,
+        locale: localeName,
         version: package_json.version,
         buildExpiration: config.get('buildExpiration'),
         serverUrl: config.get('serverUrl'),
@@ -217,13 +206,8 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   console.log('app ready');
-  if (!process.mas && !config.get('disableAutoUpdate')) {
-    autoUpdater.addListener('update-downloaded', function() {
-      autoUpdater.quitAndInstall()
-    });
-    autoUpdater.checkForUpdates();
-    setInterval(function() { autoUpdater.checkForUpdates(); }, autoUpdaterInterval);
-  }
+
+  autoupdate.initializeAutoUpdater(config, messages);
 
   createWindow();
 
