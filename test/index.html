@@ -264,12 +264,6 @@
   </script>
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='container'>
-      {{ #hasConflict }}
-        <div class='hasConflict clearfix'>
-          <div class='conflicts'>
-          </div>
-        </div>
-      {{ /hasConflict }}
       <div class='message-container'></div>
       <div class='info'>
         <table>
@@ -299,33 +293,20 @@
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'></div>
   </script>
-  <script type='text/x-tmpl-mustache' id='key_verification_panel'>
+  <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='container'>
-      {{> key_verification }}
-      <p> {{> link_to_support }} </p>
-    </div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='key_verification'>
-      <label> {{theirIdentity}} </label>
-      {{ ^their_key }}
+      {{ ^has_their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
-      {{ /their_key }}
+      {{ /has_their_key }}
       {{ #has_their_key }}
+        <label> {{ yourSafetyNumberWith }} </label>
+        <!--<div class='qr'></div>-->
         <div class='key'>
-          {{ #their_key }} <span>{{ . }}</span> {{ /their_key }}
+          {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
         </div>
       {{ /has_their_key }}
-      <label> {{yourIdentity}} </label>
-      <div class='key'>
-        {{ #your_key  }} <span>{{ . }}</span> {{ /your_key  }}
-      </div>
-      <div class='securityNumber'></div>
-  </script>
-  <script type='text/x-tmpl-mustache' id='security_number'>
-      <label> Security number </label>
-      <div class='key'>
-        {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
-      </div>
+      <p> {{> link_to_support }} </p>
+    </div>
   </script>
   <!-- index -->
   <script type='text/x-tmpl-mustache' id='group_info_input'>
@@ -393,24 +374,6 @@
     <a href='http://support.whispersystems.org/hc/articles/213134107' target='_blank'>
       {{ learnMore }}
     </a>
-  </script>
-  <script type='text/x-tmpl-mustache' id='key-conflict-dialogue'>
-    <h3 class='header'>{{ newIdentity }}</h3>
-    <div class='content clearfix'>
-      <div class='clearfix'>
-        {{> avatar }}
-        <span class='name'>{{ name }}</span>
-        <button class='resolve'>{{ resolve }}</button>
-        <a href='#' class='hideKeys hide'> {{ hideKeys }} </a>
-        <a href='#' class='showKeys'> {{ showKeys }} </a>
-      </div>
-      <div class='keys hide'>
-        <p>
-          {{ message }}
-          {{> link_to_support }}
-        </p>
-      </div>
-    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='debug-log'>
     <div class='content'>
@@ -559,7 +522,6 @@
   <script type='text/javascript' src='../js/views/new_group_update_view.js' data-cover></script>
   <script type="text/javascript" src="../js/views/group_update_view.js"></script>
   <script type='text/javascript' src='../js/views/attachment_view.js' data-cover></script>
-  <script type='text/javascript' src='../js/views/key_conflict_dialogue_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/error_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/timestamp_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/message_view.js' data-cover></script>

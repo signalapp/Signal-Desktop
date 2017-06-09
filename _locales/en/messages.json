@@ -69,12 +69,6 @@
     "identityChanged": {
       "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
     },
-    "outgoingKeyConflict": {
-      "message": "Your safety number with this contact has changed. Click to process and display."
-    },
-    "incomingKeyConflict": {
-      "message": "Received message with a new safety number. Click to process and display."
-    },
     "incomingError": {
       "message": "Error handling incoming message."
     },

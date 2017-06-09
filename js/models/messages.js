@@ -88,9 +88,6 @@
             if (this.isEndSession()) {
                 return i18n('sessionEnded');
             }
-            if (this.isIncoming() && this.hasKeyConflicts()) {
-                return i18n('incomingKeyConflict');
-            }
             if (this.isIncoming() && this.hasErrors()) {
                 return i18n('incomingError');
             }
@@ -191,26 +188,6 @@
         hasErrors: function() {
             return _.size(this.get('errors')) > 0;
         },
-        hasKeyConflicts: function() {
-            return _.any(this.get('errors'), function(e) {
-                return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError');
-            });
-        },
-        hasKeyConflict: function(number) {
-            return _.any(this.get('errors'), function(e) {
-                return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError') &&
-                        e.number === number;
-            });
-        },
-        getKeyConflict: function(number) {
-            return _.find(this.get('errors'), function(e) {
-                return (e.name === 'IncomingIdentityKeyError' ||
-                        e.name === 'OutgoingIdentityKeyError') &&
-                        e.number === number;
-            });
-        },
 
         send: function(promise) {
             this.trigger('pending');
@@ -281,15 +258,6 @@
             return this.save({errors : errors});
         },
 
-        removeConflictFor: function(number) {
-            var errors = _.reject(this.get('errors'), function(e) {
-                return e.number === number &&
-                    (e.name === 'IncomingIdentityKeyError' ||
-                     e.name === 'OutgoingIdentityKeyError');
-            });
-            this.set({errors: errors});
-        },
-
         hasNetworkError: function(number) {
             var error = _.find(this.get('errors'), function(e) {
                 return (e.name === 'MessageError' ||
@@ -325,30 +293,6 @@
             }
         },
 
-        resolveConflict: function(number) {
-            var error = this.getKeyConflict(number);
-            if (error) {
-                this.removeConflictFor(number);
-                var promise = new textsecure.ReplayableError(error).replay();
-                if (this.isIncoming()) {
-                    promise = promise.then(function(dataMessage) {
-                        this.removeConflictFor(number);
-                        this.handleDataMessage(dataMessage);
-                    }.bind(this));
-                } else {
-                    promise = this.send(promise).then(function() {
-                        this.removeConflictFor(number);
-                        this.save();
-                    }.bind(this));
-                }
-                promise.catch(function(e) {
-                    this.removeConflictFor(number);
-                    this.saveErrors(e);
-                }.bind(this));
-
-                return promise;
-            }
-        },
         handleDataMessage: function(dataMessage) {
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an
@@ -640,10 +584,6 @@
                 conditions: { expires_at: { $lte: Date.now() } },
                 addIndividually: true
             });
-        },
-
-        hasKeyConflicts: function() {
-            return this.any(function(m) { return m.hasKeyConflicts(); });
         }
     });
 })();

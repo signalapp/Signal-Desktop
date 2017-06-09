@@ -136,27 +136,11 @@
             assert.ok(message.isGroupUpdate());
         });
 
-        it('checks if there are any key conflicts', function() {
-            var messages = new Whisper.MessageCollection();
-            var message = messages.add(attributes);
-            assert.notOk(message.hasKeyConflicts());
-
-            message = messages.add({errors: [{name: 'OutgoingIdentityKeyError'}]});
-            assert.ok(message.hasKeyConflicts());
-        });
-
-        it('returns a description of key conflicts', function() {
-            var messages = new Whisper.MessageCollection();
-            var message = messages.add({errors: [{name: 'IncomingIdentityKeyError'}]});
-
-            assert.deepEqual(message.getKeyConflict(), {name: 'IncomingIdentityKeyError'});
-        });
-
         it('returns an accurate description', function() {
             var messages = new Whisper.MessageCollection();
             var message = messages.add(attributes);
 
-            assert.equal(message.getDescription(), 'hi', 'If no group updates, key conflicts, or end session flags, return message body.');
+            assert.equal(message.getDescription(), 'hi', 'If no group updates or end session flags, return message body.');
 
             message = messages.add({group_update: {left: 'Alice'}});
             assert.equal(message.getDescription(), 'Alice left the group.', 'Notes one person leaving the group.');
@@ -175,10 +159,6 @@
 
             message = messages.add({flags: true});
             assert.equal(message.getDescription(), i18n('sessionEnded'));
-
-            message = messages.add({type: 'incoming', errors: [{name: 'OutgoingIdentityKeyError'}]});
-            assert.equal(message.getDescription(), i18n('incomingKeyConflict'));
-
         });
 
         it('checks if it is end of the session', function() {
