@@ -179,8 +179,8 @@
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
-    "verifySafetyNumbers": {
-        "message": "Verify safety number"
+    "showSafetyNumber": {
+        "message": "Show safety number"
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
@@ -203,7 +203,7 @@
     },
     "installTagline": {
         "message": "Privacy is possible. Signal makes it easy.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "installGetStartedButton": {
         "message": "Get started"

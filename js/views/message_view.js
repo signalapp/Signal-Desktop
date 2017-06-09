@@ -86,15 +86,15 @@
             this.listenTo(this.conversation, 'change', this.render);
         },
         events: {
-            'click .content': 'verifyIdentity'
+            'click .content': 'showIdentity'
         },
         render_attributes: function() {
             return {
               content: this.model.getNotificationText()
             };
         },
-        verifyIdentity: function() {
-            this.$el.trigger('verify-identity', this.conversation);
+        showIdentity: function() {
+            this.$el.trigger('show-identity', this.conversation);
         }
     });
 

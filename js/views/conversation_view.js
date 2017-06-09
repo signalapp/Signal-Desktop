@@ -74,7 +74,7 @@
                 expireTimer: this.model.get('expireTimer'),
                 'view-members'    : i18n('members'),
                 'end-session'     : i18n('resetSession'),
-                'verify-identity' : i18n('verifySafetyNumbers'),
+                'show-identity' : i18n('showSafetyNumber'),
                 'destroy'         : i18n('deleteMessages'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),
@@ -144,7 +144,7 @@
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
             'click .update-group': 'newGroupUpdate',
-            'click .verify-identity': 'verifyIdentity',
+            'click .show-identity': 'showIdentity',
             'click .view-members': 'viewMembers',
             'click .conversation-menu .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
@@ -165,7 +165,7 @@
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'verify-identity': 'verifyIdentity'
+            'show-identity': 'showIdentity'
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
@@ -493,7 +493,7 @@
             }
         },
 
-        verifyIdentity: function(ev, model) {
+        showIdentity: function(ev, model) {
             if (!model && this.model.isPrivate()) {
                 model = this.model;
             }
