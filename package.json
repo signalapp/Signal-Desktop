@@ -14,9 +14,9 @@
     "asar": "^0.13.0",
     "bower": "^1.3.12",
     "electron": "^1.6.1",
-    "electron-builder": "^17.0.1",
+    "electron-builder": "^18.8.1",
     "electron-icon-maker": "^0.0.3",
-    "electron-publisher-s3": "^17.0.2",
+    "electron-publisher-s3": "^19.0.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-concat": "^1.0.1",
@@ -110,6 +110,8 @@
       "!js/register.js",
       "!js/views/standalone_registration_view.js",
       "preload.js",
+      "autoupdate.js",
+      "locale.js",
       "main.js",
       "menu.js",
       "audio/**",
@@ -131,6 +133,6 @@
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
     "electron-spell-check-provider": "^1.1.0",
-    "electron-updater": "^1.11.2"
+    "electron-updater": "^2.1.2"
   }
 }
