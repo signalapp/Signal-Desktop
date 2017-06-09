@@ -9,7 +9,6 @@
         className: 'contact-detail',
         templateName: 'contact-detail',
         initialize: function(options) {
-            this.conflict = options.conflict;
             this.errors = _.reject(options.errors, function(e) {
                 return (e.name === 'IncomingIdentityKeyError' ||
                         e.name === 'OutgoingIdentityKeyError' ||
@@ -51,19 +50,6 @@
                 errors: this.errors[contact.id]
             }).render();
             this.$('.contacts').append(view.el);
-
-            var conflict = this.model.getKeyConflict(contact.id);
-            if (conflict) {
-                this.renderConflict(contact, conflict);
-            }
-        },
-        renderConflict: function(contact, conflict) {
-            var view = new Whisper.KeyConflictDialogueView({
-                model: conflict,
-                contact: contact,
-                conversation: this.conversation
-            });
-            this.$('.conflicts').append(view.el);
         },
         render: function() {
             this.errors = _.groupBy(this.model.get('errors'), 'number');
@@ -81,8 +67,7 @@
                 title       : i18n('messageDetail'),
                 sent        : i18n('sent'),
                 received    : i18n('received'),
-                errorLabel  : i18n('error'),
-                hasConflict : this.model.hasKeyConflicts()
+                errorLabel  : i18n('error')
             }));
             this.view.$el.prependTo(this.$('.message-container'));
 

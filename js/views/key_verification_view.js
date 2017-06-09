@@ -5,9 +5,11 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    // TODO; find all uses of that removed panel
+    // Add the Verify functionality to this view
     Whisper.KeyVerificationView = Whisper.View.extend({
-        className: 'key-verification',
-        templateName: 'key_verification',
+        className: 'key-verification panel',
+        templateName: 'key-verification',
         initialize: function(options) {
             this.our_number = textsecure.storage.user.getNumber();
             if (options.newKey) {
@@ -21,6 +23,8 @@
               //.then(this.makeQRCode.bind(this));
         },
         makeQRCode: function() {
+            // Per Lilia: We can't turn this on until it geneates a Latin1 string, as is
+            //   required by the mobile clients.
             new QRCode(this.$('.qr')[0]).makeCode(
                 dcodeIO.ByteBuffer.wrap(this.our_key).toString('base64')
             );
@@ -71,9 +75,5 @@
                 chunks               : chunks,
             };
         }
-    });
-    Whisper.KeyVerificationPanelView = Whisper.KeyVerificationView.extend({
-        className: 'key-verification panel',
-        templateName: 'key_verification_panel',
     });
 })();
