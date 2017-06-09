@@ -106,40 +106,6 @@
 .message-detail {
   background-color: #eee;
 
-  .key-conflict-dialogue {
-    border-radius: $border-radius;
-    margin: 20px 0;
-
-    .header {
-      border-radius: $border-radius $border-radius 0 0;
-      background: #F3F3A7;
-      margin: 0;
-      padding: 10px 20px
-    }
-    .content {
-      padding: 20px;
-      border: 2px solid #F3F3A7;
-    }
-
-    button.resolve {
-      outline: none;
-      border: none;
-      border-radius: $border-radius;
-      color: white;
-      font-weight: bold;
-      line-height: 36px;
-      padding: 0 20px;
-      float: right;
-      background: $blue;
-      margin-left: 20px;
-    }
-
-    .hideKeys, .showKeys {
-      float: right;
-      line-height: 36px;
-    }
-  }
-
   .message-container {
     padding: 20px 0;
 
@@ -192,10 +158,6 @@
     padding: 5px;
   }
 
-  button.conflict {
-    float: right;
-    background: #d00;
-  }
   button.cancel {
     float: right;
     color: $grey_d;
@@ -533,19 +495,10 @@ li.entry .error-icon-container {
     cursor: pointer;
     font-style: italic;
   }
-
-  .key-conflict {
-    padding: 15px 10px;
-
-    button {
-      margin-top: 5px;
-    }
-  }
 }
 
 .message-list,
-.message-container,
-.key-conflict-dialogue {
+.message-container {
   .avatar {
     height: 36px;
     width: 36px;

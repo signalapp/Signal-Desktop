@@ -512,39 +512,6 @@
         }.bind(this));
     },
 
-    resolveConflicts: function(conflict) {
-        var number = conflict.number;
-        var identityKey = conflict.identityKey;
-        if (this.isPrivate()) {
-            number = this.id;
-        } else if (!_.include(this.get('members'), number)) {
-            throw 'Tried to resolve conflicts for a unknown group member';
-        }
-
-        if (!this.messageCollection.hasKeyConflicts()) {
-            throw 'No conflicts to resolve';
-        }
-
-        return textsecure.storage.protocol.saveIdentity(number, identityKey, true).then(function() {
-            var promise = Promise.resolve();
-            var conflicts = this.messageCollection.filter(function(message) {
-                return message.hasKeyConflict(number);
-            });
-            // group incoming & outgoing
-            conflicts = _.groupBy(conflicts, function(m) { return m.get('type'); });
-            // sort each group by date and concatenate outgoing after incoming
-            conflicts = _.flatten([
-                _.sortBy(conflicts.incoming, function(m) { return m.get('received_at'); }),
-                _.sortBy(conflicts.outgoing, function(m) { return m.get('received_at'); }),
-            ]).forEach(function(message) {
-                var resolveConflict = function() {
-                    return message.resolveConflict(number);
-                };
-                promise = promise.then(resolveConflict, resolveConflict);
-            });
-            return promise;
-        }.bind(this));
-    },
     notify: function(message) {
         if (!message.isIncoming()) {
             return;

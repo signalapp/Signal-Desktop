@@ -5,6 +5,11 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    // This needs to make each member link to their verification view - except for yourself
+    // Do we update the display of each user to add Verified to their name if verified?
+    // What about the case where we're brought here because there are multiple users in the no-longer-verified state?
+        // We probably want to display some sort of helper text in that case at the least
+        // Or do we show only the problematic users in that case?
     Whisper.GroupMemberList = Whisper.View.extend({
         className: 'group-member-list panel',
         templateName: 'group-member-list',
