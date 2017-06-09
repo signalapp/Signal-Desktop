@@ -7,7 +7,7 @@
 
     // TODO; find all uses of that removed panel
     // Add the Verify functionality to this view
-    Whisper.KeyVerificationView = Whisper.View.extend({
+    Whisper.KeyVerificationPanelView = Whisper.View.extend({
         className: 'key-verification panel',
         templateName: 'key-verification',
         initialize: function(options) {
