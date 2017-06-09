@@ -163,12 +163,12 @@ message GroupContext {
   optional AttachmentPointer avatar  = 5;
 }
 
-message Avatar {
-  optional string contentType = 1;
-  optional uint32 length      = 2;
-}
-
 message GroupDetails {
+  message Avatar {
+    optional string contentType = 1;
+    optional uint32 length      = 2;
+  }
+
   optional bytes  id       = 1;
   optional string name     = 2;
   repeated string members  = 3;
@@ -177,6 +177,11 @@ message GroupDetails {
 }
 
 message ContactDetails {
+  message Avatar {
+    optional string contentType = 1;
+    optional uint32 length      = 2;
+  }
+
   optional string number  = 1;
   optional string name    = 2;
   optional Avatar avatar  = 3;
