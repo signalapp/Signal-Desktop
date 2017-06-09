@@ -267,7 +267,7 @@
             var parent = this.$('.attachments')[0];
             if (view.updated && parent !== view.el.parentNode) {
                 if (view.el.parentNode) {
-                    parent.removeChild(view.el);
+                    view.el.parentNode.removeChild(view.el);
                 }
 
                 this.trigger('beforeChangeHeight');
