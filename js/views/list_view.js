@@ -13,13 +13,15 @@
         tagName: 'ul',
         itemView: Backbone.View,
         initialize: function(options) {
+            this.options = options || {};
             this.listenTo(this.collection, 'add', this.addOne);
             this.listenTo(this.collection, 'reset', this.addAll);
         },
 
         addOne: function(model) {
             if (this.itemView) {
-                var view = new this.itemView({model: model});
+                var options = Object.assign({}, this.options.toInclude, {model: model});
+                var view = new this.itemView(options);
                 this.$el.append(view.render().el);
                 this.$el.trigger('add');
             }

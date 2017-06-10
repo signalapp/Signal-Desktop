@@ -332,7 +332,8 @@ button.hamburger {
   display: inline-block;
   margin: 0 0 0 8px;
   width: calc(100% - 44px - 8px - 0.28571em);
-  text-align: left; }
+  text-align: left;
+  cursor: pointer; }
   .contact-details p {
     overflow-x: hidden;
     text-overflow: ellipsis; }
@@ -346,6 +347,8 @@ button.hamburger {
   .contact-details .number {
     color: #616161;
     font-size: 0.92857em; }
+  .contact-details.not-clickable {
+    cursor: default; }
 
 .recipients-input {
   position: relative; }
@@ -988,6 +991,11 @@ input.search {
   font-weight: bold;
   padding: 0 5px 0 4px; }
 
+.conversation-title .verified:before {
+  content: "\00b7";
+  font-weight: bold;
+  padding: 0 5px 0 4px; }
+
 .conversation {
   background-color: white;
   height: 100%; }
@@ -1052,6 +1060,12 @@ input.search {
   .key-verification .qr img {
     display: inline-block;
     max-width: 100%; }
+.key-verification div.verify {
+  text-align: center; }
+.key-verification button.verify {
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 10px; }
 
 .message-detail {
   background-color: #eee; }

@@ -5,25 +5,30 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    // TODO; find all uses of that removed panel
-    // Add the Verify functionality to this view
     Whisper.KeyVerificationPanelView = Whisper.View.extend({
         className: 'key-verification panel',
         templateName: 'key-verification',
+        events: {
+            'click button.verify': 'toggleVerified',
+        },
         initialize: function(options) {
             this.our_number = textsecure.storage.user.getNumber();
             if (options.newKey) {
               this.their_key = options.newKey;
             }
+
             Promise.all([
                 this.loadTheirKey(),
                 this.loadOurKey(),
             ]).then(this.generateSecurityNumber.bind(this))
+              .then(function() {
+                this.listenTo(this.model, 'change', this.render);
+              }.bind(this))
               .then(this.render.bind(this));
               //.then(this.makeQRCode.bind(this));
         },
         makeQRCode: function() {
-            // Per Lilia: We can't turn this on until it geneates a Latin1 string, as is
+            // Per Lilia: We can't turn this on until it generates a Latin1 string, as is
             //   required by the mobile clients.
             new QRCode(this.$('.qr')[0]).makeCode(
                 dcodeIO.ByteBuffer.wrap(this.our_key).toString('base64')
@@ -58,6 +63,9 @@
                 this.securityNumber = securityNumber;
             }.bind(this));
         },
+        toggleVerified: function() {
+            this.model.toggleVerified();
+        },
         render_attributes: function() {
             var s = this.securityNumber;
             var chunks = [];
@@ -67,10 +75,15 @@
             var yourSafetyNumberWith = i18n(
                 'yourSafetyNumberWith', this.model.getTitle()
             );
+            console.log('this.model',this.model);
+            var verifyButton = this.model.isVerified() ? i18n('markAsNotVerified') : i18n('verify');
+
             return {
                 learnMore            : i18n('learnMore'),
                 their_key_unknown    : i18n('theirIdentityUnknown'),
                 yourSafetyNumberWith : i18n('yourSafetyNumberWith', this.model.getTitle()),
+                verifyHelp           : i18n('verifyHelp', this.model.getTitle()),
+                verifyButton         : verifyButton,
                 has_their_key        : this.their_key !== undefined,
                 chunks               : chunks,
             };

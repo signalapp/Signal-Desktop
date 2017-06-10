@@ -92,14 +92,15 @@
             <div class='conversation-menu menu'>
               <button class='hamburger' alt='conversation menu'></button>
               <ul class='menu-list'>
+                  <li class='disappearing-messages'>{{ disappearing-messages }}</li>
                   {{#group}}
-                      <li class='view-members'>{{ view-members }}</li>
+                      <li class='show-members'>{{ show-members }}</li>
                       <!-- <li class='update-group'>Update group</li> -->
                       <!-- <li class='leave-group'>Leave group</li> -->
                   {{/group}}
                   {{^group}}
-                      <li class='end-session'>{{ end-session }}</li>
                       <li class='show-identity'>{{ show-identity }}</li>
+                      <li class='end-session'>{{ end-session }}</li>
                   {{/group}}
                   <li class='destroy'>{{ destroy }}</li>
               </ul>

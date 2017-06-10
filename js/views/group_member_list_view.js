@@ -13,17 +13,22 @@
     Whisper.GroupMemberList = Whisper.View.extend({
         className: 'group-member-list panel',
         templateName: 'group-member-list',
-        initialize: function() {
+        initialize: function(options) {
             this.render();
+            console.log('GroupMemberList', options);
+
             this.member_list_view = new Whisper.ContactListView({
                 collection: this.model.contactCollection,
-                className: 'members'
+                className: 'members',
+                toInclude: {
+                    listenBack: options.listenBack
+                }
             });
             this.member_list_view.render();
             this.$('.container').append(this.member_list_view.el);
         },
         render_attributes: {
-            members: i18n('members')
+            members: i18n('groupMembers')
         }
     });
 })();
