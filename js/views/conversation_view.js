@@ -57,6 +57,17 @@
         }
     });
 
+    Whisper.ConversationTitleView = Whisper.View.extend({
+        templateName: 'conversation-title',
+        render_attributes: function() {
+            return {
+                verified: this.model.isVerified(),
+                name: this.model.getName(),
+                number: this.model.getNumber(),
+            };
+        }
+    });
+
     Whisper.ConversationView = Whisper.View.extend({
         className: function() {
             return [ 'conversation', this.model.get('type') ].join(' ');
@@ -68,13 +79,11 @@
         render_attributes: function() {
             return {
                 group: this.model.get('type') === 'group',
-                name: this.model.getName(),
-                number: this.model.getNumber(),
                 avatar: this.model.getAvatar(),
                 expireTimer: this.model.get('expireTimer'),
-                'view-members'    : i18n('members'),
+                'show-members'    : i18n('showMembers'),
                 'end-session'     : i18n('resetSession'),
-                'show-identity' : i18n('showSafetyNumber'),
+                'show-identity'   : i18n('showSafetyNumber'),
                 'destroy'         : i18n('deleteMessages'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),
@@ -84,6 +93,7 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
+            this.listenTo(this.model, 'change', this.updateTitle);
             this.listenTo(this.model, 'change:color', this.updateColor);
             this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
@@ -102,6 +112,13 @@
                 el: this.$('form.send'),
                 window: this.window
             });
+
+            this.titleView = new Whisper.ConversationTitleView({
+                el: this.$('.conversation-title'),
+                model: this.model
+            });
+            this.titleView.render();
+            this.titleView.render();
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection,
@@ -145,7 +162,7 @@
             'click .leave-group': 'leaveGroup',
             'click .update-group': 'newGroupUpdate',
             'click .show-identity': 'showIdentity',
-            'click .view-members': 'viewMembers',
+            'click .show-members': 'showMembers',
             'click .conversation-menu .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
             'click' : 'onClick',
@@ -166,6 +183,10 @@
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
             'show-identity': 'showIdentity'
+        },
+
+        updateTitle: function() {
+            this.titleView.render();
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
@@ -416,9 +437,12 @@
             this.model.messageCollection.add(message, {merge: true});
         },
 
-        viewMembers: function() {
+        showMembers: function() {
             return this.model.fetchContacts().then(function() {
-                var view = new Whisper.GroupMemberList({ model: this.model });
+                var view = new Whisper.GroupMemberList({
+                    model: this.model,
+                    listenBack: this.listenBack.bind(this)
+                });
                 this.listenBack(view);
             }.bind(this));
         },
@@ -515,16 +539,25 @@
         },
 
         listenBack: function(view) {
-            this.panel = view;
-            this.$('.main.panel, .header-buttons.right').hide();
-            this.$('.back').show();
-            view.$el.insertBefore(this.$('.panel'));
+            this.panels = this.panels || [];
+            this.panels.unshift(view);
+
+            if (this.panels.length === 1) {
+                this.$('.main.panel, .header-buttons.right').hide();
+                this.$('.back').show();
+            }
+
+            view.$el.insertBefore(this.$('.panel').first());
         },
         resetPanel: function() {
-            this.panel.remove();
-            this.$('.main.panel, .header-buttons.right').show();
-            this.$('.back').hide();
-            this.$el.trigger('force-resize');
+            var view = this.panels.shift();
+            view.remove();
+
+            if (this.panels.length === 0) {
+                this.$('.main.panel, .header-buttons.right').show();
+                this.$('.back').hide();
+                this.$el.trigger('force-resize');
+            }
         },
 
         closeMenu: function(e) {
@@ -612,10 +645,6 @@
                     return m;
                 }
             });
-        },
-
-        updateTitle: function() {
-            this.$('.conversation-title').text(this.model.getTitle());
         },
 
         updateColor: function(model, color) {

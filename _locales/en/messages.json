@@ -1,4 +1,8 @@
 {
+    "me": {
+      "message": "Me",
+      "description": "The label for yourself when shown in a group member list"
+    },
     "youLeftTheGroup": {
       "message": "You left the group",
       "description": "Displayed when a user can't send a message because they have left the group"
@@ -172,15 +176,40 @@
         "message": "Send a message",
         "description": "Placeholder text in the message entry field"
     },
-    "members": {
-      "message": "Members"
+    "groupMembers": {
+      "message": "Group members"
+    },
+    "showMembers": {
+      "message": "Show members"
     },
     "resetSession": {
         "message": "Reset session",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Show safety number"
+      "message": "Show safety number"
+    },
+    "markAsNotVerified": {
+      "message": "Mark as not verified"
+    },
+    "verifyHelp": {
+      "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
+    },
+    "isVerified": {
+      "message": "$name$ is verified",
+      "description": "If the user has manually marked a contact's safety number as verified, this string is shown on the 'Show Safety Number' screen",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "John"
+        }
+      }
     },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."

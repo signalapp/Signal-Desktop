@@ -66,6 +66,17 @@
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
   </script>
+  <script type='text/x-tmpl-mustache' id='conversation-title'>
+    {{ #name }}
+      <span class='conversation-name' dir='auto'>{{ name }}</span>
+    {{ /name }}
+    {{ #number }}
+      <span class='conversation-number'>{{ number }}</span>
+    {{ /number }}
+    {{ #verified }}
+      <span class='verified'>✓ Verified</span>
+    {{ /verified }}
+  </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
         <div class='header-buttons left'>
@@ -78,16 +89,16 @@
             <div class='conversation-menu menu'>
               <button class='hamburger' alt='conversation menu'></button>
               <ul class='menu-list'>
+                  <li class='disappearing-messages'>{{ disappearing-messages }}</li>
                   {{#group}}
-                      <li class='view-members'>{{ view-members }}</li>
+                      <li class='show-members'>{{ show-members }}</li>
                       <!-- <li class='update-group'>Update group</li> -->
                       <!-- <li class='leave-group'>Leave group</li> -->
                   {{/group}}
                   {{^group}}
-                      <li class='end-session'>{{ end-session }}</li>
                       <li class='show-identity'>{{ show-identity }}</li>
+                      <li class='end-session'>{{ end-session }}</li>
                   {{/group}}
-                  <li class='disappearing-messages'>{{ disappearing-messages }}</li>
                   <li class='destroy'>{{ destroy }}</li>
               </ul>
             </div>
@@ -101,14 +112,7 @@
             </div>
           </div>
         </div>
-        <span class='conversation-title'>
-          {{ #name }}
-            <span class='conversation-name' dir='auto'>{{ name }}</span>
-          {{ /name }}
-          {{ #number }}
-            <span class='conversation-number'>{{ number }}</span>
-          {{ /number }}
-        </span>
+        <span class='conversation-title'></span>
         {{> avatar }}
     </div>
     <div class='main panel'>
@@ -239,11 +243,11 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
       <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ number }}</div>
+      <div class='number'>{{ #verified }}✓ Verified &middot;{{ /verified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}
-      <div class='contact-details'> {{> contact_name_and_number }} </div>
+      <div class='contact-details {{ class }}'> {{> contact_name_and_number }} </div>
   </script>
   <script type='text/x-tmpl-mustache' id='new-contact'>
       {{> avatar }}
@@ -321,7 +325,13 @@
           {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
         </div>
       {{ /has_their_key }}
+      {{ verifyHelp }}
       <p> {{> link_to_support }} </p>
+      <div class='verify'>
+        <button class='verify'>
+          {{ verifyButton }}
+        </button>
+      </div>
     </div>
   </script>
   <!-- index -->
