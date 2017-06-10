@@ -37,6 +37,8 @@
     },
 
     initialize: function() {
+        this.ourNumber = textsecure.storage.user.getNumber();
+
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
@@ -46,6 +48,84 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
+    },
+
+    updateVerified: function() {
+        // TODO: replace this with the real call
+        function checkTrustStore() {
+            return Promise.resolve('default');
+        }
+
+        if (this.isPrivate()) {
+            return Promise.all([
+                checkTrustStore(this.id),
+                this.fetch()
+            ]).then(function(results) {
+                var trust = results[0];
+                return this.save({verified: trust});
+            });
+        } else {
+            return this.fetchContacts().then(function() {
+                return Promise.all(this.contactCollection.map(function(contact) {
+                    if (contact.id !== this.myNumber) {
+                        return contact.updateVerified();
+                    }
+                }.bind(this)));
+            }.bind(this));
+        }
+    },
+
+    isVerified: function() {
+        if (this.isPrivate()) {
+            return this.get('verified') === 'verified';
+        } else {
+            return this.contactCollection.every(function(contact) {
+                if (contact.id === this.myNumber) {
+                    return true;
+                } else {
+                    return contact.isVerified();
+                }
+            }.bind(this));
+        }
+    },
+    isConflict: function() {
+        if (this.isPrivate()) {
+            var verified = this.get('verified');
+            return verified !== 'verified' && verified !== 'default';
+        } else {
+            return Boolean(this.getConflicts().length);
+        }
+    },
+    getConflicts: function() {
+        if (this.isPrivate()) {
+            return this.isConflict() ? [this] : [];
+        } else {
+            return this.contactCollection.filter(function(contact) {
+                if (contact.id === this.myNumber) {
+                    return false;
+                } else {
+                    return contact.isConflict();
+                }
+            }.bind(this));
+        }
+    },
+    onMemberVerifiedChange: function() {
+        // If the verified state of a member changes, our aggregate state changes.
+        // We trigger both events to replicate the behavior of Backbone.Model.set()
+        this.trigger('change:verified');
+        this.trigger('change');
+    },
+    toggleVerified: function() {
+        if (!this.isPrivate()) {
+            throw new Error('You cannot verify a group conversation. ' +
+                            'You must verify individual contacts.');
+        }
+
+        if (this.isVerified()) {
+            this.save({verified: 'default'});
+        } else {
+            this.save({verified: 'verified'});
+        }
     },
 
     addKeyChange: function(id) {
@@ -373,12 +453,14 @@
             } else {
                 var promises = [];
                 var members = this.get('members') || [];
+
                 this.contactCollection.reset(
                     members.map(function(number) {
                         var c = ConversationController.create({
                             id   : number,
                             type : 'private'
                         });
+                        this.listenTo(c, 'change:verified', this.onMemberVerifiedChange);
                         promises.push(new Promise(function(resolve) {
                             c.fetch().always(resolve);
                         }));
