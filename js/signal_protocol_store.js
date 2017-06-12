@@ -319,10 +319,6 @@
                 console.log("isTrustedForSending: Identity keys don't match...");
                 return false;
             }
-            if (this.isBlockingApprovalRequired(identityKey)) {
-                console.log("isTrustedForSending: Needs blocking approval!");
-                return false;
-            }
             if (this.isNonBlockingApprovalRequired(identityKey)) {
                 console.log("isTrustedForSending: Needs non-blocking approval!");
                 return false;
@@ -342,7 +338,7 @@
                 });
             });
         },
-        saveIdentity: function(identifier, publicKey, blockingApproval, nonblockingApproval) {
+        saveIdentity: function(identifier, publicKey, nonblockingApproval) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to put identity key for undefined/null key");
             }
@@ -361,7 +357,6 @@
                             publicKey           : publicKey,
                             firstUse            : true,
                             timestamp           : Date.now(),
-                            blockingApproval    : blockingApproval,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
@@ -372,16 +367,14 @@
                             publicKey           : publicKey,
                             firstUse            : false,
                             timestamp           : Date.now(),
-                            blockingApproval    : blockingApproval,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             this.trigger('keychange', identifier);
                             resolve(true);
                         }.bind(this));
-                    } else if (this.isBlockingApprovalRequired(identityKey) || this.isNonBlockingApprovalRequired(identityKey)) {
+                    } else if (this.isNonBlockingApprovalRequired(identityKey)) {
                         console.log("Setting approval status...");
                         identityKey.save({
-                            blockingApproval    : blockingApproval,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
@@ -391,11 +384,6 @@
                     }
                 }.bind(this));
             }.bind(this));
-        },
-        isBlockingApprovalRequired: function(identityKey) {
-            return (!identityKey.get('firstUse')
-                    && storage.get('safety-numbers-approval', true)
-                    && !identityKey.get('blockingApproval'));
         },
         isNonBlockingApprovalRequired: function(identityKey) {
           return (!identityKey.get('firstUse')
