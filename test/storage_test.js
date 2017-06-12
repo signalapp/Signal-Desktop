@@ -81,7 +81,6 @@ describe("SignalProtocolStore", function() {
               publicKey           : testKey.pubKey,
               firstUse            : true,
               timestamp           : oldTimestamp,
-              blockingApproval    : false,
               nonblockingApproval : false,
           }).then(function() {
             store.saveIdentity(identifier, newIdentity).then(function() {
@@ -102,7 +101,6 @@ describe("SignalProtocolStore", function() {
           record.save({
               publicKey           : testKey.pubKey,
               timestamp           : oldTimestamp,
-              blockingApproval    : false,
               nonblockingApproval : false,
           }).then(function() { done(); });
         });
@@ -111,9 +109,8 @@ describe("SignalProtocolStore", function() {
             record.save({ firstUse: true }).then(function() { done(); });
           });
           it('nothing changes', function(done) {
-            store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
+            store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
               record.fetch().then(function() {
-                assert(!record.get('blockingApproval'));
                 assert(!record.get('nonblockingApproval'));
                 assert.strictEqual(record.get('timestamp'), oldTimestamp);
                 done();
@@ -125,30 +122,10 @@ describe("SignalProtocolStore", function() {
           before(function(done) {
             record.save({ firstUse: false }).then(function() { done(); });
           });
-          describe('If blocking approval is required', function() {
-            before(function() {
-              storage.put('safety-numbers-approval', true);
-            });
-            it('updates blocking and non-blocking approval', function(done) {
-              store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
-                record.fetch().then(function() {
-                  assert(record.get('blockingApproval'));
-                  assert(record.get('nonblockingApproval'));
-                  assert.strictEqual(record.get('timestamp'), oldTimestamp);
-                  assert.strictEqual(record.get('firstUse'), false);
-                  done();
-                });
-              });
-            });
-          });
           describe('If nonblocking approval is required', function() {
-            before(function() {
-              storage.put('safety-numbers-approval', false);
-            });
-            it('updates blocking and non-blocking approval', function(done) {
-              store.saveIdentity(identifier, testKey.pubKey, true, true).then(function() {
+            it('updates non-blocking approval', function(done) {
+              store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
                 record.fetch().then(function() {
-                  assert(record.get('blockingApproval'));
                   assert(record.get('nonblockingApproval'));
                   assert.strictEqual(record.get('timestamp'), oldTimestamp);
                   assert.strictEqual(record.get('firstUse'), false);
@@ -249,7 +226,7 @@ describe("SignalProtocolStore", function() {
             });
             it('returns true if neither blocking nor nonblocking approval is required', function(done) {
                 storage.put('safety-numbers-approval', false);
-                store.saveIdentity(identifier, newIdentity, true, true).then(function() {
+                store.saveIdentity(identifier, newIdentity, true).then(function() {
                     store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
                       if (trusted) {
                           done();

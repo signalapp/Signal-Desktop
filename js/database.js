@@ -232,7 +232,6 @@
                     var attributes = cursor.value;
                     attributes.timestamp = 0;
                     attributes.firstUse = false;
-                    attributes.blockingApproval = true;
                     attributes.nonblockingApproval = false;
                     attributes.seen = 0;
                     promises.push(new Promise(function(resolve, reject) {
