@@ -9,6 +9,12 @@
       RECEIVING: 2,
     };
 
+    var VerifiedStatus = {
+      DEFAULT: 0,
+      VERIFIED: 1,
+      UNVERIFIED: 2,
+    };
+
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
     var StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -319,6 +325,10 @@
                 console.log("isTrustedForSending: Identity keys don't match...");
                 return false;
             }
+            if (identityKey.get('verified') === VerifiedStatus.UNVERIFIED) {
+               console.log("Needs unverified approval!");
+               return false;
+            }
             if (this.isNonBlockingApprovalRequired(identityKey)) {
                 console.log("isTrustedForSending: Needs non-blocking approval!");
                 return false;
@@ -357,16 +367,24 @@
                             publicKey           : publicKey,
                             firstUse            : true,
                             timestamp           : Date.now(),
+                            verified            : VerifiedStatus.DEFAULT,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
                         });
                     } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
                         console.log("Replacing existing identity...");
+                        var verifiedStatus;
+                        if (identityKey.get('verified') === VerifiedStatus.VERIFIED) {
+                            verifiedStatus = VerifiedStatus.UNVERIFIED;
+                        } else {
+                            verifiedStatus = VerifiedStatus.DEFAULT;
+                        }
                         identityKey.save({
                             publicKey           : publicKey,
                             firstUse            : false,
                             timestamp           : Date.now(),
+                            verified            : verifiedStatus,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             this.trigger('keychange', identifier);
@@ -439,4 +457,5 @@
 
     window.SignalProtocolStore = SignalProtocolStore;
     window.SignalProtocolStore.prototype.Direction = Direction;
+    window.SignalProtocolStore.prototype.VerifiedStatus = VerifiedStatus;
 })();
