@@ -409,6 +409,9 @@
             if (!(publicKey instanceof ArrayBuffer)) {
                 publicKey = convertToArrayBuffer(publicKey);
             }
+            if (typeof nonblockingApproval !== 'boolean') {
+              nonblockingApproval = false;
+            }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve, reject) {
                 var identityKey = new IdentityKey({id: number});
