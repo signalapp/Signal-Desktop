@@ -562,7 +562,7 @@
             return new Promise(function(resolve, reject) {
                 var identityKey = new IdentityKey({id: number});
                 identityKey.fetch().then(function() {
-                    identityKey.save({publicKey: undefined});
+                    identityKey.destroy();
                 }).fail(function() {
                     reject(new Error("Tried to remove identity for unknown number"));
                 });
