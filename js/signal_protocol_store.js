@@ -462,6 +462,99 @@
                   && Date.now() - identityKey.get('timestamp') < TIMESTAMP_THRESHOLD
                   && !identityKey.get('nonblockingApproval'));
         },
+        saveIdentityWithAttributes: function(identifier, attributes) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to put identity key for undefined/null key");
+            }
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return new Promise(function(resolve, reject) {
+                var identityKey = new IdentityKey({id: number});
+                identityKey.set(attributes);
+                if (identityKey.isValid()) { // false if invalid attributes
+                    identityKey.save().then(resolve);
+                } else {
+                    reject(identityKey.validationError);
+                }
+            });
+        },
+        setApproval: function(identifier, nonblockingApproval) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set approval for undefined/null identifier");
+            }
+            if (typeof nonblockingApproval !== 'boolean') {
+                throw new Error("Invalid approval status");
+            }
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return new Promise(function(resolve, reject) {
+                var identityKey = new IdentityKey({id: number});
+                identityKey.fetch().then(function() {
+                    identityKey.save({
+                        nonblockingApproval: nonblockingApproval
+                    }).then(function() {
+                        resolve();
+                    }, function() { // catch
+                        reject(new Error("No identity record for " + number));
+                    });
+                });
+            });
+        },
+        setVerified: function(identifier, verifiedStatus) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            if (!validateVerifiedStatus(verifiedStatus)) {
+                throw new Error("Invalid verified status");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityKey = new IdentityKey({id: identifier});
+                identityKey.fetch().always(function() {
+                    identityKey.save({
+                        verified: verifiedStatus
+                    }).then(function() {
+                        resolve();
+                    }, function() { // catch
+                        reject(new Error("No identity record for " + identifier));
+                    });
+                });
+            });
+        },
+        getVerified: function(identifier) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityKey = new IdentityKey({id: identifier});
+                identityKey.fetch().then(function() {
+                    var verifiedStatus = identityKey.get('verified');
+                    if (validateVerifiedStatus(verifiedStatus)) {
+                        resolve(verifiedStatus);
+                    }
+                    else {
+                        resolve(VerifiedStatus.DEFAULT);
+                    }
+                }, function() { // catch
+                    reject(new Error("No identity record for " + identifier));
+                });
+            });
+        },
+        isUntrusted: function(identifier) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityKey = new IdentityKey({id: identifier});
+                identityKey.fetch().then(function() {
+                    if (Date.now() - identityKey.get('timestamp') < TIMESTAMP_THRESHOLD
+                        && !identityKey.get('nonblockingApproval')) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                }, function() { // catch
+                    reject(new Error("No identity record for " + identifier));
+                });
+            });
+        },
         removeIdentityKey: function(number) {
             return new Promise(function(resolve, reject) {
                 var identityKey = new IdentityKey({id: number});
