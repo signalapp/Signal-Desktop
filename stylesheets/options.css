@@ -1131,4 +1131,7 @@ ul.country-list {
       margin: 0;
       text-align: left; }
 
+.intl-tel-input .country-list .country .country-name {
+  color: #000; }
+
 /*# sourceMappingURL=options.css.map */
