@@ -31,11 +31,14 @@ describe("SignalProtocolStore", function() {
       }).then(done,done);
     });
   });
+
+
+
+  var IdentityKeyRecord = Backbone.Model.extend({
+    database: Whisper.Database,
+    storeName: 'identityKeys'
+  });
   describe('saveIdentity', function() {
-    var IdentityKeyRecord = Backbone.Model.extend({
-      database: Whisper.Database,
-        storeName: 'identityKeys'
-    });
     var record = new IdentityKeyRecord({id: identifier});
 
     it('stores identity keys', function(done) {
@@ -68,6 +71,9 @@ describe("SignalProtocolStore", function() {
       it('sets the timestamp', function() {
         assert(record.get('timestamp'));
       });
+      it('sets the verified status to DEFAULT', function() {
+        assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
+      });
     });
     describe('When there is a different existing key (non first use)', function() {
       var newIdentity = libsignal.crypto.getRandomBytes(33);
@@ -78,6 +84,7 @@ describe("SignalProtocolStore", function() {
           firstUse            : true,
           timestamp           : oldTimestamp,
           nonblockingApproval : false,
+          verified            : store.VerifiedStatus.DEFAULT
         }).then(function() {
           store.saveIdentity(identifier, newIdentity).then(function() {
             record.fetch().then(function() { done(); });
@@ -90,6 +97,61 @@ describe("SignalProtocolStore", function() {
       it('updates the timestamp', function() {
         assert.notEqual(record.get('timestamp'), oldTimestamp);
       });
+
+      describe('The previous verified status was DEFAULT', function() {
+        before(function(done) {
+          record.save({
+            publicKey           : testKey.pubKey,
+            firstUse            : true,
+            timestamp           : oldTimestamp,
+            nonblockingApproval : false,
+            verified            : store.VerifiedStatus.DEFAULT
+          }).then(function() {
+            store.saveIdentity(identifier, newIdentity).then(function() {
+              record.fetch().then(function() { done(); });
+            });
+          });
+        });
+        it('sets the new key to unverified', function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
+        });
+      });
+      describe('The previous verified status was VERIFIED', function() {
+        before(function(done) {
+          record.save({
+            publicKey           : testKey.pubKey,
+            firstUse            : true,
+            timestamp           : oldTimestamp,
+            nonblockingApproval : false,
+            verified            : store.VerifiedStatus.VERIFIED
+          }).then(function() {
+            store.saveIdentity(identifier, newIdentity).then(function() {
+              record.fetch().then(function() { done(); });
+            });
+          });
+        });
+        it('sets the new key to unverified', function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+        });
+      });
+      describe('The previous verified status was UNVERIFIED', function() {
+        before(function(done) {
+          record.save({
+            publicKey           : testKey.pubKey,
+            firstUse            : true,
+            timestamp           : oldTimestamp,
+            nonblockingApproval : false,
+            verified            : store.VerifiedStatus.UNVERIFIED
+          }).then(function() {
+            store.saveIdentity(identifier, newIdentity).then(function() {
+              record.fetch().then(function() { done(); });
+            });
+          });
+        });
+        it('sets the new key to unverified', function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+        });
+      });
     });
     describe('When the key has not changed', function() {
       var oldTimestamp = Date.now();
@@ -98,6 +160,7 @@ describe("SignalProtocolStore", function() {
           publicKey           : testKey.pubKey,
           timestamp           : oldTimestamp,
           nonblockingApproval : false,
+          verified            : store.VerifiedStatus.DEFAULT
         }).then(function() { done(); });
       });
       describe('If it is marked firstUse', function() {
@@ -119,10 +182,10 @@ describe("SignalProtocolStore", function() {
           record.save({ firstUse: false }).then(function() { done(); });
         });
         describe('If nonblocking approval is required', function() {
-          it('updates non-blocking approval', function(done) {
+          it('sets non-blocking approval', function(done) {
             store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
               record.fetch().then(function() {
-                assert(record.get('nonblockingApproval'));
+                assert.strictEqual(record.get('nonblockingApproval'), true);
                 assert.strictEqual(record.get('timestamp'), oldTimestamp);
                 assert.strictEqual(record.get('firstUse'), false);
                 done();
@@ -131,6 +194,116 @@ describe("SignalProtocolStore", function() {
           });
         });
       });
+    });
+  });
+  describe('saveIdentityWithAttributes', function() {
+    var now = Date.now();
+    var record = new IdentityKeyRecord({id: identifier});
+    var validAttributes = {
+      publicKey           : testKey.pubKey,
+      firstUse            : true,
+      timestamp           : now,
+      verified            : store.VerifiedStatus.VERIFIED,
+      nonblockingApproval : false
+    };
+    before(function(done) {
+      store.removeIdentityKey(identifier).then(function() { done(); });
+    });
+    describe('with valid attributes', function() {
+      before(function(done) {
+        store.saveIdentityWithAttributes(identifier, validAttributes).then(function() {
+          return new Promise(function(resolve) {
+            record.fetch().then(resolve);
+          });
+        }).then(done, done);
+      });
+
+      it('publicKey is saved', function() {
+          assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+      });
+      it('firstUse is saved', function() {
+          assert.strictEqual(record.get('firstUse'), true);
+      });
+      it('timestamp is saved', function() {
+          assert.strictEqual(record.get('timestamp'), now);
+      });
+      it('verified is saved', function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
+      });
+      it('nonblockingApproval is saved', function() {
+          assert.strictEqual(record.get('nonblockingApproval'), false);
+      });
+    });
+    describe('with invalid attributes', function() {
+      var attributes;
+      beforeEach(function() {
+        attributes = _.clone(validAttributes);
+      });
+
+      function testInvalidAttributes(done) {
+        store.saveIdentityWithAttributes(identifier, attributes).then(function() {
+          done(new Error("saveIdentityWithAttributes should have failed"));
+        }, function() {
+          done(); // good. we expect to fail with invalid attributes.
+        });
+      }
+
+      it('rejects an invalid publicKey', function(done) {
+        attributes.publicKey = 'a string';
+        testInvalidAttributes(done);
+      });
+      it('rejects invalid firstUse', function(done) {
+        attributes.firstUse = 0;
+        testInvalidAttributes(done);
+      });
+      it('rejects invalid timestamp', function(done) {
+        attributes.timestamp = NaN;
+        testInvalidAttributes(done);
+      });
+      it('rejects invalid verified', function(done) {
+        attributes.verified = null;
+        testInvalidAttributes(done);
+      });
+      it('rejects invalid nonblockingApproval', function(done) {
+        attributes.nonblockingApproval = 0;
+        testInvalidAttributes(done);
+      });
+    });
+  });
+  describe('setApproval', function() {
+    var record = new IdentityKeyRecord({id: identifier});
+    function fetchRecord() {
+      return new Promise(function(resolve) {
+        record.fetch().then(resolve);
+      });
+    }
+    it ('sets nonblockingApproval', function(done) {
+      store.setApproval(identifier, true).then(fetchRecord).then(function() {
+        assert.strictEqual(record.get('nonblockingApproval'), true);
+      }).then(done, done);
+    });
+  });
+  describe('setVerified', function() {
+    var record = new IdentityKeyRecord({id: identifier});
+    function fetchRecord() {
+      return new Promise(function(resolve) {
+        record.fetch().then(resolve);
+      });
+    }
+    it ('updates the verified status', function(done) {
+      store.setVerified(identifier, store.VerifiedStatus.UNVERIFIED).then(fetchRecord).then(function() {
+        assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+      }).then(done, done);
+    });
+  });
+  describe('getVerified', function() {
+    before(function(done) {
+      store.setVerified(identifier, store.VerifiedStatus.VERIFIED).then(done, done);
+    });
+    it ('resolves to the verified status', function(done) {
+      store.getVerified(identifier).then(function(result) {
+        assert.strictEqual(result, store.VerifiedStatus.VERIFIED);
+      }).then(done, done);
     });
   });
   describe('isTrustedIdentity', function() {
