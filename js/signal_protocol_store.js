@@ -15,6 +15,15 @@
       UNVERIFIED: 2,
     };
 
+    function validateVerifiedStatus(status) {
+      if ( status === VerifiedStatus.DEFAULT
+        || status === VerifiedStatus.VERIFIED
+        || status === VerifiedStatus.UNVERIFIED) {
+        return true;
+      }
+      return false;
+    }
+
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
     var StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -95,7 +104,52 @@
             return this.fetch({range: [number + '.1', number + '.' + ':']});
         }
     });
-    var IdentityKey = Model.extend({ storeName: 'identityKeys' });
+    var IdentityKey = Model.extend({
+      storeName: 'identityKeys',
+      validAttributes: [
+          'id',
+          'publicKey',
+          'firstUse',
+          'timestamp',
+          'verified',
+          'nonblockingApproval'
+      ],
+      validate: function(attrs, options) {
+          var attributeNames = _.keys(attrs);
+          var validAttributes = this.validAttributes;
+          var allValid = _.all(attributeNames, function(attributeName) {
+              return _.contains(validAttributes, attributeName);
+          });
+          if (!allValid) {
+              return new Error("Invalid identity key attribute names");
+          }
+          var allPresent = _.all(validAttributes, function(attributeName) {
+              return _.contains(attributeNames, attributeName);
+          });
+          if (!allPresent) {
+              return new Error("Missing identity key attributes");
+          }
+
+          if (typeof attrs.id !== 'string') {
+              return new Error("Invalid identity key id");
+          }
+          if (!(attrs.publicKey instanceof ArrayBuffer)) {
+              return new Error("Invalid identity key publicKey");
+          }
+          if (typeof attrs.firstUse !== 'boolean') {
+              return new Error("Invalid identity key firstUse");
+          }
+          if (typeof attrs.timestamp !== 'number' || !(attrs.timestamp >= 0)) {
+              return new Error("Invalid identity key timestamp");
+          }
+          if (!validateVerifiedStatus(attrs.verified)) {
+              return new Error("Invalid identity key verified");
+          }
+          if (typeof attrs.nonblockingApproval !== 'boolean') {
+              return new Error("Invalid identity key nonblockingApproval");
+          }
+      }
+    });
     var Group = Model.extend({ storeName: 'groups' });
     var Item = Model.extend({ storeName: 'items' });
 
