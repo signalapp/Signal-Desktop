@@ -327,6 +327,24 @@ button.hamburger {
   .contact:last-child::after {
     display: none; }
 
+.banner {
+  background-color: orange;
+  color: black;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  left: 30px;
+  padding: 5px 25px 5px 10px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer; }
+  .banner .dismiss {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    height: 20px;
+    width: 20px; }
+
 .contact-details {
   vertical-align: middle;
   display: inline-block;
@@ -1570,6 +1588,8 @@ li.entry .error-icon-container {
       color: white; }
       .ios .gutter .contact.selected .last-timestamp {
         color: white; }
+.ios .banner {
+  top: 15px; }
 .ios .tool-bar {
   float: left;
   padding: 15px; }

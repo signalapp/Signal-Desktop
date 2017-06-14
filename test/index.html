@@ -16,18 +16,6 @@
   </div>
   <div id="render-ios" class='index' style="width: 800; height: 500; margin:10px; border: solid 1px black;">
   </div>
-  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
-    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
-      <div class='icon'></div>
-    </button>
-  </script>
-  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
-    <div class='bar'>
-      <div class='text'>
-        {{ unreadMessages }}
-      </div>
-    </div>
-  </script>
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
         <div class='network-status-container'></div>
@@ -68,11 +56,29 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='scroll-down-button-view'>
+    <button class='text {{ cssClass }}' alt='{{ moreBelow }}'>
+      <div class='icon'></div>
+    </button>
+  </script>
+  <script type='text/x-tmpl-mustache' id='last-seen-indicator-view'>
+    <div class='bar'>
+      <div class='text'>
+        {{ unreadMessages }}
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='expired_alert'>
     <a target='_blank' href='https://chrome.google.com/webstore/detail/bikioccmkafdpakkkcpdbppfkghcmihk'>
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
     {{ expiredWarning }}
+  </script>
+  <script type='text/x-tmpl-mustache' id='banner'>
+    <div class='body'>
+      {{ message }}
+      <img class='dismiss' src='/images/x.svg' />
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='toast'>
     {{ toastMessage }}
@@ -541,6 +547,7 @@
   <script type='text/javascript' src='../js/views/settings_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
+  <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/group_update_view_test.js"></script>

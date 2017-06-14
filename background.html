@@ -60,6 +60,12 @@
     </a>
     {{ expiredWarning }}
   </script>
+  <script type='text/x-tmpl-mustache' id='banner'>
+    <div class='body'>
+      {{ message }}
+      <img class='dismiss' src='/images/x.svg' />
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='toast'>
     {{ toastMessage }}
   </script>
@@ -656,6 +662,7 @@
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>
   <script type="text/javascript" src="js/views/install_view.js"></script>
+  <script type="text/javascript" src="js/views/banner_view.js"></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
