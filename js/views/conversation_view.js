@@ -689,10 +689,12 @@
                     this.checkUnverifiedSendMessage(e, {force: true});
                 }.bind(this),
                 reject: function() {
-                    // do nothing
-                }
+                    this.focusMessageField();
+                }.bind(this)
             });
+
             this.$el.prepend(dialog.el);
+            dialog.focusCancel();
         },
 
         checkUnverifiedSendMessage: function(e, options) {
@@ -749,6 +751,8 @@
             var input = this.$messageField;
             var message = this.replace_colons(input.val()).trim();
             var convo = this.model;
+
+            this.focusMessageField();
 
             if (message.length > 0 || this.fileInput.hasFiles()) {
                 this.fileInput.getFiles().then(function(attachments) {

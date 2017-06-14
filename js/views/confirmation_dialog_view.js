@@ -20,8 +20,9 @@
             this.render();
         },
         events: {
-          'click .ok': 'ok',
-          'click .cancel': 'cancel',
+            'keyup': 'onKeyup',
+            'click .ok': 'ok',
+            'click .cancel': 'cancel',
         },
         render_attributes: function() {
             return {
@@ -31,12 +32,21 @@
             };
         },
         ok: function() {
-          this.remove();
-          this.resolve();
+            this.remove();
+            this.resolve();
         },
         cancel: function() {
-          this.remove();
-          this.reject();
+            this.remove();
+            this.reject();
+        },
+        onKeyup: function(event) {
+            console.log('ConfirmationDialogView onKeyup', event);
+            if (event.key === 'Escape' || event.key === 'Esc') {
+                this.cancel();
+            }
+        },
+        focusCancel: function() {
+            this.$('.cancel').focus();
         }
     });
 })();
