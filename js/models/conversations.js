@@ -38,6 +38,12 @@
 
     initialize: function() {
         this.ourNumber = textsecure.storage.user.getNumber();
+        // this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
+        this.verifiedEnum = {
+            DEFAULT: 0,
+            VERIFIED: 1,
+            UNVERIFIED: 2,
+        };
 
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
@@ -51,36 +57,71 @@
     },
 
     updateVerified: function() {
-        // TODO: replace this with the real call
-        function checkTrustStore() {
-            return Promise.resolve('default');
+        function checkTrustStore(value) {
+            return Promise.resolve(value);
         }
 
         if (this.isPrivate()) {
             return Promise.all([
-                checkTrustStore(this.id),
+                //textsecure.storage.protocol.getVerified(this.id),
+                checkTrustStore(this.verifiedEnum.UNVERIFIED),
                 this.fetch()
             ]).then(function(results) {
                 var trust = results[0];
                 return this.save({verified: trust});
-            });
+            }.bind(this));
         } else {
             return this.fetchContacts().then(function() {
                 return Promise.all(this.contactCollection.map(function(contact) {
-                    if (contact.id !== this.myNumber) {
+                    if (contact.id !== this.ourNumber) {
                         return contact.updateVerified();
                     }
                 }.bind(this)));
-            }.bind(this));
+            }.bind(this)).then(this.onMemberVerifiedChange.bind(this));
         }
     },
+    setVerifiedDefault: function() {
+        function updateTrustStore() {
+            return Promise.resolve();
+        }
 
+        if (!this.isPrivate()) {
+            throw new Error('You cannot verify a group conversation. ' +
+                            'You must verify individual contacts.');
+        }
+        var DEFAULT = this.verifiedEnum.DEFAULT;
+
+        // return textsecure.storage.protocol.setVerified(this.id, DEFAULT).then(function() {
+        return updateTrustStore(this.id, DEFAULT).then(function() {
+            return this.save({verified: DEFAULT});
+        }.bind(this));
+    },
+    setVerified: function() {
+        function updateTrustStore() {
+            return Promise.resolve();
+        }
+        var VERIFIED = this.verifiedEnum.VERIFIED;
+
+        if (!this.isPrivate()) {
+            throw new Error('You cannot verify a group conversation. ' +
+                            'You must verify individual contacts.');
+        }
+
+        // return textsecure.storage.protocol.setVerified(this.id, VERIFIED).then(function() {
+        return updateTrustStore(this.id, VERIFIED).then(function() {
+            return this.save({verified: VERIFIED});
+        }.bind(this));
+    },
     isVerified: function() {
         if (this.isPrivate()) {
-            return this.get('verified') === 'verified';
+            return this.get('verified') === this.verifiedEnum.VERIFIED;
         } else {
+            if (!this.contactCollection.length) {
+                return false;
+            }
+
             return this.contactCollection.every(function(contact) {
-                if (contact.id === this.myNumber) {
+                if (contact.id === this.ourNumber) {
                     return true;
                 } else {
                     return contact.isVerified();
@@ -88,24 +129,90 @@
             }.bind(this));
         }
     },
-    isConflict: function() {
+    isUnverified: function() {
         if (this.isPrivate()) {
             var verified = this.get('verified');
-            return verified !== 'verified' && verified !== 'default';
+            return verified !== this.verifiedEnum.VERIFIED && verified !== this.verifiedEnum.DEFAULT;
         } else {
-            return Boolean(this.getConflicts().length);
-        }
-    },
-    getConflicts: function() {
-        if (this.isPrivate()) {
-            return this.isConflict() ? [this] : [];
-        } else {
-            return this.contactCollection.filter(function(contact) {
-                if (contact.id === this.myNumber) {
+            if (!this.contactCollection.length) {
+                return true;
+            }
+
+            return this.contactCollection.any(function(contact) {
+                if (contact.id === this.ourNumber) {
                     return false;
                 } else {
-                    return contact.isConflict();
+                    return contact.isUnverified();
                 }
+            }.bind(this));
+        }
+    },
+    getUnverified: function() {
+        if (this.isPrivate()) {
+            return this.isUnverified() ? new Backbone.Collection([this]) : new Backbone.Collection();
+        } else {
+            return new Backbone.Collection(this.contactCollection.filter(function(contact) {
+                if (contact.id === this.ourNumber) {
+                    return false;
+                } else {
+                    return contact.isUnverified();
+                }
+            }.bind(this)));
+        }
+    },
+    isUntrusted: function() {
+        function getFromTrustStore() {
+            return Promise.resolve(true);
+        }
+
+        if (this.isPrivate()) {
+            // return textsecure.storage.protocol.isUntrusted(this.id);
+            return getFromTrustStore(this.id);
+        } else {
+            if (!this.contactCollection.length) {
+                return Promise.resolve(false);
+            }
+
+            return Promise.all(this.contactCollection.map(function(contact) {
+                if (contact.id === this.ourNumber) {
+                    return false;
+                } else {
+                    return contact.isUntrusted();
+                }
+            }.bind(this))).then(function(results) {
+                return _.any(results, function(result) {
+                    return result;
+                });
+            });
+        }
+    },
+    getUntrusted: function() {
+        // This is a bit ugly because isUntrusted() is async. Could do the work to cache
+        //   it locally, but we really only need it for this call.
+        if (this.isPrivate()) {
+            return this.isUntrusted().then(function(untrusted) {
+                if (untrusted) {
+                    return new Backbone.Collection([this]);
+                }
+
+                return new Backbone.Collection();
+            }.bind(this));
+        } else {
+            return Promise.all(this.contactCollection.map(function(contact) {
+                if (contact.id === this.ourNumber) {
+                    return [false, contact];
+                } else {
+                    return Promise.all([this.isUntrusted(), contact]);
+                }
+            }.bind(this))).then(function(results) {
+                results = _.filter(results, function(result) {
+                    var untrusted = result[0];
+                    return untrusted;
+                });
+                return new Backbone.Collection(_.map(results, function(result) {
+                    var contact = result[1];
+                    return contact;
+                }));
             }.bind(this));
         }
     },
@@ -116,15 +223,10 @@
         this.trigger('change');
     },
     toggleVerified: function() {
-        if (!this.isPrivate()) {
-            throw new Error('You cannot verify a group conversation. ' +
-                            'You must verify individual contacts.');
-        }
-
         if (this.isVerified()) {
-            this.save({verified: 'default'});
+            return this.setVerifiedDefault();
         } else {
-            this.save({verified: 'verified'});
+            return this.setVerified();
         }
     },
 

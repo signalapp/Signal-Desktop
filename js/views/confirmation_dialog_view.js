@@ -10,8 +10,13 @@
         templateName: 'confirmation-dialog',
         initialize: function(options) {
             this.message = options.message;
+
             this.resolve = options.resolve;
+            this.okText = options.okText || i18n('ok');
+
             this.reject = options.reject;
+            this.cancelText = options.cancelText || i18n('cancel');
+
             this.render();
         },
         events: {
@@ -21,8 +26,8 @@
         render_attributes: function() {
             return {
                 message: this.message,
-                cancel: i18n('cancel'),
-                ok: i18n('ok')
+                cancel: this.cancelText,
+                ok: this.okText
             };
         },
         ok: function() {

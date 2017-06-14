@@ -15,16 +15,16 @@
         templateName: 'group-member-list',
         initialize: function(options) {
             this.render();
-            console.log('GroupMemberList', options);
 
             this.member_list_view = new Whisper.ContactListView({
-                collection: this.model.contactCollection,
+                collection: this.model,
                 className: 'members',
                 toInclude: {
                     listenBack: options.listenBack
                 }
             });
             this.member_list_view.render();
+
             this.$('.container').append(this.member_list_view.el);
         },
         render_attributes: {
