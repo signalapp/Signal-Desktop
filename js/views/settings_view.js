@@ -64,11 +64,6 @@
                 defaultValue: false,
                 name: 'audio-notification'
             });
-            new CheckboxView({
-                el: this.$('.safety-numbers-settings'),
-                defaultValue: true,
-                name: 'safety-numbers-approval'
-            });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
                 this.$('.content').append(syncView.el);
@@ -87,8 +82,6 @@
               nameAndMessage: i18n('nameAndMessage'),
               noNameOrMessage: i18n('noNameOrMessage'),
               nameOnly: i18n('nameOnly'),
-              safetyNumbersSettingDescription: i18n('safetyNumbersSettingDescription'),
-              safetyNumbersSettingHeader: i18n('safetyNumbersSettingHeader'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
             };

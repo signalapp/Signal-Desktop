@@ -422,7 +422,7 @@
         </div>
         <div>
           <input type='radio' name='theme' id='theme-setting-android-dark' value='android-dark'>
-          <label for='theme-setting-android-dark'>{{ themeAndroidDark }} </label>
+          <label for='theme-setting-android-dark'>{{ themeAndroidDark }}</label>
         </div>
         <div>
           <input type='radio' name='theme' id='theme-setting-ios'  value='ios'/>
@@ -449,6 +449,11 @@
           <input type='radio' name='notifications' id='notification-setting-off' value='off'/>
           <label for='notification-setting-off'>{{ disableNotifications }} </label>
         </div>
+      </div>
+      <br />
+      <div class='audio-notification-setting'>
+        <input type='checkbox' name='audio-notification' id='audio-notification'/>
+        <label for='audio-notification'>{{ audioNotificationDescription }}</label>
       </div>
     </div>
   </script>
