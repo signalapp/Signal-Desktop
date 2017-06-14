@@ -3,6 +3,7 @@ platform:
 
 cache:
   - '%LOCALAPPDATA%\electron\Cache'
+  - node_modules -> package.json
 
 install:
   - set PATH=C:\Ruby23-x64\bin;%PATH%
