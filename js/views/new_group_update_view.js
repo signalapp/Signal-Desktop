@@ -5,7 +5,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
-    // When is this used?
     Whisper.NewGroupUpdateView = Whisper.View.extend({
         tagName:   "div",
         className: 'new-group-update',
