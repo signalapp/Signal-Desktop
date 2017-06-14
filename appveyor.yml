@@ -2,7 +2,6 @@ platform:
   - x64
 
 cache:
-  - node_modules
   - '%LOCALAPPDATA%\electron\Cache'
 
 install:
