@@ -82,6 +82,8 @@ function createWindow () {
   const windowOptions = Object.assign({
     width: 800,
     height: 610,
+    minWidth: 700,
+    minHeight: 360,
     webPreferences: {
       nodeIntegration: false,
       //sandbox: true,
