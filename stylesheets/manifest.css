@@ -366,6 +366,14 @@ button.hamburger {
     font-size: 0.92857em; }
   .contact-details.not-clickable {
     cursor: default; }
+  .contact-details .verified-icon {
+    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #616161;
+    display: inline-block;
+    width: 1.25em;
+    height: 1.25em;
+    vertical-align: text-bottom; }
 
 .recipients-input {
   position: relative; }
@@ -852,6 +860,10 @@ img.emoji.jumbo {
   background-color: #f3f3f3 !important;
   color: #454545;
   border-color: rgba(0, 0, 0, 0.05); }
+  .inactive .conversation-header .verified-icon {
+    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #454545; }
 
 .tool-bar {
   position: relative; }
@@ -1012,6 +1024,15 @@ input.search {
   content: "\00b7";
   font-weight: bold;
   padding: 0 5px 0 4px; }
+
+.conversation-title .verified-icon {
+  -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white;
+  display: inline-block;
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: text-bottom; }
 
 .conversation {
   background-color: white;
@@ -1613,6 +1634,10 @@ li.entry .error-icon-container {
   text-align: left; }
   .ios .conversation-header .conversation-title {
     line-height: 64px; }
+    .ios .conversation-header .conversation-title .verified-icon {
+      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #454545; }
   .ios .conversation-header .avatar {
     display: none; }
 .ios .settings h3,
@@ -1955,6 +1980,12 @@ li.entry .error-icon-container {
       color: #CCCCCC; }
   .android-dark .contact-details .name {
     font-weight: 400; }
+  .android-dark .contact-details .number {
+    color: gray; }
+    .android-dark .contact-details .number .verified-icon {
+      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: gray; }
   .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
     background-color: #171717;
     border-color: #333333; }
@@ -1999,6 +2030,10 @@ li.entry .error-icon-container {
   .android-dark .inactive .conversation-header {
     background-color: #333333 !important;
     color: #CCCCCC; }
+    .android-dark .inactive .conversation-header .verified-icon {
+      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #CCCCCC; }
   .android-dark .sent .status {
     display: inline-block;
     -webkit-mask: url("/images/check.svg") no-repeat center;

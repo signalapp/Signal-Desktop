@@ -65,7 +65,12 @@ $ios-border-color: rgba(0,0,0,0.1);
 
     .conversation-title {
       line-height: $header-height;
+
+      .verified-icon {
+        @include color-svg('/images/verified-check.svg', #454545);
+      }
     }
+
     .avatar { display: none; }
   }
   .settings h3,
