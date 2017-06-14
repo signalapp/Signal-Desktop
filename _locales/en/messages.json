@@ -33,6 +33,52 @@
         }
       }
     },
+    "changedSinceVerifiedMultiple": {
+      "message": "Your safety numbers with multiple group members have changed since you last verified.",
+      "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedSinceVerified": {
+      "message": "Your safety number with $name$ has changed since you last verified.",
+      "description": "Shown on confirmation dialog when user attempts to send a message",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "changedRecentlyMultiple": {
+      "message": "Your safety numbers with multiple group members have changed in the last five seconds.",
+      "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "changedRecently": {
+      "message": "Your safety number with $name$ has changed in the last five seconds.",
+      "description": "Shown on confirmation dialog when user attempts to send a message",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "sendAnyway": {
+      "message": "Send Anyway",
+      "description": "Used on a warning dialog to specifiy "
+    },
+    "noLongerVerified": {
+      "message": "$name$ is no longer verified. Click to verify.",
+      "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "multipleNoLongerVerified": {
+      "message": "More than one member of this group is no longer verified. Click to verify.",
+      "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    },
     "debugLogExplanation": {
       "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
     },

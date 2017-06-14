@@ -75,7 +75,6 @@
             var yourSafetyNumberWith = i18n(
                 'yourSafetyNumberWith', this.model.getTitle()
             );
-            console.log('this.model',this.model);
             var verifyButton = this.model.isVerified() ? i18n('markAsNotVerified') : i18n('verify');
 
             return {

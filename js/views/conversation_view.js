@@ -59,6 +59,9 @@
 
     Whisper.ConversationTitleView = Whisper.View.extend({
         templateName: 'conversation-title',
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
+        },
         render_attributes: function() {
             return {
                 verified: this.model.isVerified(),
@@ -93,9 +96,8 @@
         },
         initialize: function(options) {
             this.listenTo(this.model, 'destroy', this.stopListening);
-            this.listenTo(this.model, 'change', this.updateTitle);
+            this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
             this.listenTo(this.model, 'change:color', this.updateColor);
-            this.listenTo(this.model, 'change:name', this.updateTitle);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'delivered', this.updateMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
@@ -154,14 +156,14 @@
         },
 
         events: {
-            'submit .send': 'sendMessage',
+            'submit .send': 'checkUnverifiedSendMessage',
             'input .send-message': 'updateMessageFieldSize',
             'keydown .send-message': 'updateMessageFieldSize',
             'click .destroy': 'destroyMessages',
             'click .end-session': 'endSession',
             'click .leave-group': 'leaveGroup',
             'click .update-group': 'newGroupUpdate',
-            'click .show-identity': 'showIdentity',
+            'click .show-identity': 'showSafetyNumber',
             'click .show-members': 'showMembers',
             'click .conversation-menu .hamburger': 'toggleMenu',
             'click .openInbox' : 'openInbox',
@@ -185,9 +187,59 @@
             'show-identity': 'showIdentity'
         },
 
-        updateTitle: function() {
-            this.titleView.render();
+
+        markAllAsVerifiedDefault: function(unverified) {
+            return Promise.all(unverified.map(function(contact) {
+                return contact.setVerifiedDefault();
+            }));
         },
+
+        openSafetyNumberScreens: function(unverified) {
+            if (unverified.length === 1) {
+                this.showSafetyNumber(null, unverified.at(0));
+                return;
+            }
+
+            // TODO: need to be able to specify string to override group list header
+            this.showMembers(null, unverified);
+        },
+
+        onVerifiedChange: function() {
+            if (this.model.isUnverified()) {
+                var unverified = this.model.getUnverified();
+                var message;
+                if (unverified.length > 1) {
+                    message = i18n('multipleNoLongerVerified');
+                } else {
+                    message = i18n('noLongerVerified', unverified.at(0).getTitle());
+                }
+
+                // Need to re-add, since unverified set may have changed
+                if (this.banner) {
+                    this.banner.remove();
+                    this.banner = null;
+                }
+
+                this.banner = new Whisper.BannerView({
+                    message: message,
+                    onDismiss: function() {
+                        this.markAllAsVerifiedDefault(unverified);
+                    }.bind(this),
+                    onClick: function() {
+                        this.openSafetyNumberScreens(unverified);
+                    }.bind(this)
+                });
+
+                var container = this.$('.discussion-container');
+                container.append(this.banner.el);
+            } else if (this.banner) {
+                this.banner.remove();
+                this.banner = null;
+
+                // TODO: Is there anything else we should do here? make messages re-send-able?
+            }
+        },
+
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
                 this.model.updateExpirationTimer(
@@ -256,6 +308,15 @@
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
             this.focusMessageField();
+
+            // TODO: do a fetch of all profiles to get the latest identity keys, then:
+            // We have a number of async things happening here:
+            //   1. we need to get contacts before we do anything with groups
+            //   2. we need to get profile information for each contact
+            //   3. we need to get all messages for conversation
+            //   4. we need to get updated verified information for each contact
+            //   5. we perhaps need to throw up the banner if in unverified state
+            this.model.updateVerified().then(this.onVerifiedChange.bind(this));
 
             if (this.inProgressFetch) {
                 this.inProgressFetch.then(this.updateUnread.bind(this));
@@ -437,16 +498,6 @@
             this.model.messageCollection.add(message, {merge: true});
         },
 
-        showMembers: function() {
-            return this.model.fetchContacts().then(function() {
-                var view = new Whisper.GroupMemberList({
-                    model: this.model,
-                    listenBack: this.listenBack.bind(this)
-                });
-                this.listenBack(view);
-            }.bind(this));
-        },
-
         openInbox: function() {
             openInbox();
         },
@@ -517,7 +568,19 @@
             }
         },
 
-        showIdentity: function(ev, model) {
+        showMembers: function(e, members) {
+            members = members || this.model.contactCollection;
+
+            var view = new Whisper.GroupMemberList({
+                model: members,
+                // we pass this in to allow nexted panels
+                listenBack: this.listenBack.bind(this)
+            });
+
+            this.listenBack(view);
+        },
+
+        showSafetyNumber: function(e, model) {
             if (!model && this.model.isPrivate()) {
                 model = this.model;
             }
@@ -599,6 +662,68 @@
                 // clicked cancel, nothing to do.
             });
             this.$('.menu-list').hide();
+        },
+
+        showSendConfirmationDialog: function(e, contacts) {
+            var message;
+            var isUnverified = this.model.isUnverified();
+
+            if (contacts.length > 1) {
+                if (isUnverified) {
+                    message = i18n('changedSinceVerifiedMultiple');
+                } else {
+                    message = i18n('changedRecentlyMultiple');
+                }
+            } else {
+                if (isUnverified) {
+                    message = i18n('changedSinceVerified', this.model.getTitle());
+                } else {
+                    message = i18n('changedRecently', this.model.getTitle());
+                }
+            }
+
+            var dialog = new Whisper.ConfirmationDialogView({
+                message: message,
+                okText: i18n('sendAnyway'),
+                resolve: function() {
+                    this.checkUnverifiedSendMessage(e, {force: true});
+                }.bind(this),
+                reject: function() {
+                    // do nothing
+                }
+            });
+            this.$el.prepend(dialog.el);
+        },
+
+        checkUnverifiedSendMessage: function(e, options) {
+            options = options || {};
+            _.defaults(options, {force: false});
+
+            var contacts = this.model.getUnverified();
+            if (!contacts.length) {
+                return this.checkUntrustedSendMessage(e, options);
+            }
+
+            if (options.force) {
+                return this.markAllAsVerifiedDefault(contacts).then(function() {
+                    this.checkUnverifiedSendMessage(e, options);
+                }.bind(this));
+            }
+
+            this.showSendConfirmationDialog(e, contacts);
+        },
+
+        checkUntrustedSendMessage: function(e, options) {
+            options = options || {};
+            _.defaults(options, {force: false});
+
+            this.model.getUntrusted().then(function(contacts) {
+                if (!contacts.length || options.force) {
+                    return this.sendMessage(e);
+                }
+
+                this.showSendConfirmationDialog(e, contacts);
+            }.bind(this));
         },
 
         sendMessage: function(e) {

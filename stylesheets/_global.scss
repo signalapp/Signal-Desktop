@@ -334,6 +334,35 @@ $avatar-size: 44px;
     display: none;
   }
 }
+
+.banner {
+  // maybe make the top offset smaller here, or smaller in the iOS theme?
+  // what's the right color?
+  background-color: orange;
+  color: black;
+
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  left: 30px;
+
+  padding: 5px 25px 5px 10px;
+
+  text-align: center;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  .dismiss {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+
+    height: 20px;
+    width: 20px;
+  }
+}
+
 .contact-details {
   $left-margin: 8px;
 
