@@ -9,17 +9,13 @@
         tagName: 'div',
         className: 'phone-input',
         templateName: 'phone-number',
-        render: function() {
-            this.$el.html($(Mustache.render(this.template)));
+        initialize: function() {
             this.$('input.number').intlTelInput();
-            return this;
         },
-
         events: {
             'change': 'validateNumber',
             'keyup': 'validateNumber'
         },
-
         validateNumber: function() {
             var input = this.$('input.number');
             var regionCode = this.$('li.active').attr('data-country-code').toUpperCase();

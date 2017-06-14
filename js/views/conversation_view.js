@@ -147,7 +147,6 @@
             'click .verify-identity': 'verifyIdentity',
             'click .view-members': 'viewMembers',
             'click .conversation-menu .hamburger': 'toggleMenu',
-            'click .openInbox' : 'openInbox',
             'click' : 'onClick',
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
@@ -165,7 +164,13 @@
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'verify-identity': 'verifyIdentity'
+            'verify-identity': 'verifyIdentity',
+            'dragover': 'sendToFileInput',
+            'drop': 'sendToFileInput',
+            'dragleave': 'sendToFileInput'
+        },
+        sendToFileInput: function(e) {
+            this.fileInput.$el.trigger(e);
         },
         enableDisappearingMessages: function() {
             if (!this.model.get('expireTimer')) {
@@ -419,10 +424,6 @@
                 var view = new Whisper.GroupMemberList({ model: this.model });
                 this.listenBack(view);
             }.bind(this));
-        },
-
-        openInbox: function() {
-            openInbox();
         },
 
         onClick: function(e) {

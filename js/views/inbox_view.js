@@ -62,7 +62,7 @@
 
     Whisper.InboxView = Whisper.View.extend({
         templateName: 'two-column',
-        className: 'inbox',
+        className: 'inbox index',
         applyTheme: function() {
             var theme = storage.get('theme-setting') || 'android';
             this.$el.removeClass('ios')
@@ -143,7 +143,7 @@
             'click .showSettings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
-            'click .restart-signal': 'reloadBackgroundPage',
+            'click .restart-signal': window.restart,
             'show .lightbox': 'showLightbox'
         },
         focusConversation: function(e) {
@@ -160,7 +160,7 @@
             this.$('.conversation:first .menu').trigger('close');
         },
         reloadBackgroundPage: function() {
-            chrome.runtime.reload();
+            window.location.reload();
         },
         showSettings: function() {
             var view = new Whisper.SettingsView();

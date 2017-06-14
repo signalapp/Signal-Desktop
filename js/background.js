@@ -9,35 +9,16 @@
     };
 
     console.log('background page reloaded');
-    extension.notification.init();
-
-    // Close and reopen existing windows
-    var open = false;
-    extension.windows.getAll().forEach(function(appWindow) {
-        open = true;
-        appWindow.close();
-    });
+    console.log('environment:', window.config.environment);
 
     // start a background worker for ecc
-    textsecure.startWorker('/js/libsignal-protocol-worker.js');
+    textsecure.startWorker('js/libsignal-protocol-worker.js');
     Whisper.KeyChangeListener.init(textsecure.storage.protocol);
     textsecure.storage.protocol.on('removePreKey', function() {
         getAccountManager().refreshPreKeys();
     });
 
-    extension.onLaunched(function() {
-        console.log('extension launched');
-        storage.onready(function() {
-            if (Whisper.Registration.everDone()) {
-                openInbox();
-            }
-            if (!Whisper.Registration.isDone()) {
-                extension.install();
-            }
-        });
-    });
-
-    var SERVER_URL = 'https://textsecure-service-staging.whispersystems.org';
+    var SERVER_URL = window.config.serverUrl;
     var SERVER_PORTS = [80, 4433, 8443];
     var messageReceiver;
     window.getSocketStatus = function() {
@@ -68,31 +49,54 @@
         return accountManager;
     };
 
-
     storage.fetch();
     storage.onready(function() {
         window.dispatchEvent(new Event('storage_ready'));
-        setUnreadCount(storage.get("unreadCount", 0));
-
-        if (Whisper.Registration.isDone()) {
-            extension.keepAwake();
-            init();
-        }
 
         console.log("listening for registration events");
         Whisper.events.on('registration_done', function() {
             console.log("handling registration event");
-            extension.keepAwake();
             init(true);
         });
 
-        if (open) {
-            openInbox();
-        }
+        var appView = new Whisper.AppView({el: $('body') });
 
         Whisper.WallClockListener.init(Whisper.events);
         Whisper.RotateSignedPreKeyListener.init(Whisper.events);
         Whisper.ExpiringMessagesListener.init(Whisper.events);
+
+        if (Whisper.Registration.everDone()) {
+            init();
+            appView.openInbox();
+        } else {
+            appView.openInstaller();
+        }
+
+        Whisper.events.on('unauthorized', function() {
+            appView.inboxView.networkStatusView.update();
+        });
+        Whisper.events.on('reconnectTimer', function() {
+            appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
+        });
+        Whisper.events.on('contactsync', function() {
+          if (appView.installView) {
+              appView.openInbox();
+          }
+        });
+        Whisper.events.on('contactsync:begin', function() {
+          if (appView.installView && appView.installView.showSync) {
+              appView.installView.showSync();
+          }
+        });
+
+        Whisper.Notifications.on('click', function(conversation) {
+            showWindow();
+            if (conversation) {
+              appView.openConversation(conversation);
+            } else {
+              appView.openInbox();
+            }
+        });
     });
 
     window.getSyncRequest = function() {
@@ -101,7 +105,6 @@
 
     function init(firstRun) {
         window.removeEventListener('online', init);
-        if (!Whisper.Registration.isDone()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
 
@@ -227,7 +230,6 @@
         if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
             Whisper.Registration.remove();
             Whisper.events.trigger('unauthorized');
-            extension.install();
             return;
         }
 
@@ -302,47 +304,5 @@
             timestamp: timestamp, source: pushMessage.source
         });
     }
-
-    window.owsDesktopApp = {
-        getAppView: function(destWindow) {
-
-            var self = this;
-
-            return ConversationController.updateInbox().then(function() {
-                try {
-                    if (self.inboxView) { self.inboxView.remove(); }
-                    self.inboxView = new Whisper.InboxView({model: self, window: destWindow});
-                    self.openConversation(getOpenConversation());
-
-                    return self.inboxView;
-
-                } catch (e) {
-                    console.log(e);
-                }
-            });
-        },
-        openConversation: function(conversation) {
-            if (this.inboxView && conversation) {
-                this.inboxView.openConversation(null, conversation);
-            }
-        }
-    };
-
-    Whisper.events.on('unauthorized', function() {
-        if (owsDesktopApp.inboxView) {
-            owsDesktopApp.inboxView.networkStatusView.update();
-        }
-    });
-    Whisper.events.on('reconnectTimer', function() {
-        if (owsDesktopApp.inboxView) {
-            owsDesktopApp.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-        }
-    });
-
-    chrome.commands.onCommand.addListener(function(command) {
-        if (command === 'show_signal') {
-            openInbox();
-        }
-    });
 
 })();

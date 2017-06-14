@@ -48,27 +48,38 @@
     }
   }
 
-  .incoming .bubble .fileView .icon::before {
-    @include color-svg('/images/file.svg', white);
+  .incoming .bubble .fileView .icon{
+    &::before {
+      @include color-svg('../images/file.svg', white);
+    }
+    &.audio:before {
+      @include color-svg('../images/audio.svg', white);
+    }
+    &.video:before {
+      @include color-svg('../images/video.svg', white);
+    }
+    &.voice:before {
+      @include color-svg('../images/voice.svg', white);
+    }
   }
 
   button.clock {
-    @include header-icon-white('/images/clock.svg');
+    @include header-icon-white('../images/clock.svg');
   }
   .inactive button.clock {
-    @include header-icon-black('/images/clock.svg');
+    @include header-icon-black('../images/clock.svg');
   }
   button.hamburger {
-    @include header-icon-white('/images/menu.svg');
+    @include header-icon-white('../images/menu.svg');
   }
   .inactive button.hamburger {
-    @include header-icon-black('/images/menu.svg');
+    @include header-icon-black('../images/menu.svg');
   }
   button.back {
-    @include header-icon-white('/images/back.svg');
+    @include header-icon-white('../images/back.svg');
   }
   .inactive button.back {
-    @include header-icon-black('/images/back.svg');
+    @include header-icon-black('../images/back.svg');
   }
 
 }

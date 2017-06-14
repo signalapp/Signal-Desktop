@@ -16,16 +16,21 @@ If you start working on an issue, leave a comment to let others know. It is
 also a good idea to outline your approach to the problem in order to get
 feedback.
 
-## Installation
-
-* Clone the repo
-* Open Chrome
-* Go to chrome://extensions/
-* Enable developer mode (checkbox on the top right)
-* Click "Load unpacked extension..."
-* Point to the repo directory
-
 ## Developer Setup
+``
+npm install            # install dependencies
+npm start              # run
+``
+
+Some features, such as native notifications, will not work locally until you
+package for your platform:
+
+```
+npm run pack-staging   # build a packaged app dir in ./dist
+```
+```
+npm run dist-staging   # build installer (.dmg, .exe, or .deb)
+```
 
 For development, you should always be using the staging server.
 Registrations on the staging server are completely partitioned from the
@@ -33,8 +38,7 @@ production server that the mobile apps use. A production app from the Play
 store or iTunes is hard-coded to connect to the production server. If you wish
 to pair your phone and computer, or test sending between the browser and
 mobile, **you must build a mobile client that targets the staging server**
-(see below, under
-[Linking](#linking)).
+(see below, under [Linking](#linking)).
 
 ## Linking
 
@@ -42,7 +46,6 @@ mobile, **you must build a mobile client that targets the staging server**
 0. Build Signal for Android or iOS from source, and point its TextSecure service URL to `textsecure-service-staging.whispersystems.org`:
   - **on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/WhisperSystems/Signal-Android/blob/master/build.gradle)
   - **on iOS:** Replace the `textSecureServerURL` value in `TSConstants.h`(located in the SignalServiceKit pod)
-  
     This task is 1% search and replace, 99% setting up your build environment. Instructions are available for both
    the [Android](https://github.com/WhisperSystems/Signal-Android/blob/master/BUILDING.md)
    and [iOS](https://github.com/WhisperSystems/Signal-iOS/blob/master/BUILDING.md) projects.
@@ -65,10 +68,26 @@ mobile, **you must build a mobile client that targets the staging server**
 
 You should now be able to use the extension.
 
-## Chrome profiles
+## Storage profiles
 
-Don't have any friends to help you test the extension? Make a couple of Chrome
-profiles. Each one will need its own Google account and Google Voice number.
+To facilitate registration of multiple clients from one machine/user for
+development purposes, you can configure multiple storage profiles and switch
+between them using the NODE_APP_INSTANCE environment variable.
+
+```
+// config/local-alice.json
+{
+  "storageProfile": "aliceProfile"
+}
+
+> NODE_APP_INSTANCE=alice npm start
+```
+
+This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
+directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
+
+Each profile can be independently linked or registered as standalone.
+Each one will need its own Google account and Google Voice number.
 Each one will have to repeat the setup process documented above, including
 re-accepting the staging server cert under each profile. This is a tedious
 process, but once you are done you will be able to send messages back and forth

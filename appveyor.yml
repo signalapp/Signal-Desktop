@@ -1,0 +1,29 @@
+platform:
+  - x64
+
+cache:
+  - node_modules
+  - '%LOCALAPPDATA%\electron\Cache'
+
+install:
+  - set PATH=C:\Ruby23-x64\bin;%PATH%
+  - ps: Install-Product node 6 x64
+  - yarn install
+
+build_script:
+  - yarn run generate
+  - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
+
+test_script:
+  - node_modules\.bin\grunt test-release:win
+  - node_modules\.bin\grunt test
+
+artifacts:
+  - path: dist/*.*
+
+environment:
+  SIGNAL_ENV: production
+
+deploy:
+  provider: Environment
+  name: signal-desktop-builds

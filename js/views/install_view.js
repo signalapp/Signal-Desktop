@@ -10,14 +10,13 @@
         id: 'install',
         className: 'main',
         render_attributes: function() {
-            var playStoreHref = 'https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms';
-            var appStoreHref = 'https://itunes.apple.com/us/app/signal-private-messenger/id874139669';
             var twitterHref = 'https://twitter.com/whispersystems';
+            var signalHref = 'https://signal.org/install';
             return {
                 installWelcome: i18n('installWelcome'),
                 installTagline: i18n('installTagline'),
                 installGetStartedButton: i18n('installGetStartedButton'),
-                installSignalLink: this.i18n_with_links('installSignalLinks', playStoreHref, appStoreHref),
+                installSignalLink: this.i18n_with_links('installSignalLink', signalHref),
                 installIHaveSignalButton: i18n('installGotIt'),
                 installFollowUs: this.i18n_with_links('installFollowUs', twitterHref),
                 installAndroidInstructions: i18n('installAndroidInstructions'),
@@ -26,6 +25,7 @@
                 installFinalButton: i18n('installFinalButton'),
                 installTooManyDevices: i18n('installTooManyDevices'),
                 ok: i18n('ok'),
+                development: window.config.environment === 'development'
             };
         },
         initialize: function(options) {
@@ -35,13 +35,12 @@
 
             var deviceName = textsecure.storage.user.getDeviceName();
             if (!deviceName) {
-                deviceName = 'Chrome';
                 if (navigator.userAgent.match('Mac OS')) {
-                    deviceName += ' on Mac';
+                    deviceName = 'Mac';
                 } else if (navigator.userAgent.match('Linux')) {
-                    deviceName += ' on Linux';
+                    deviceName = 'Linux';
                 } else if (navigator.userAgent.match('Windows')) {
-                    deviceName += ' on Windows';
+                    deviceName = 'Windows';
                 }
             }
 
@@ -72,9 +71,6 @@
         reconnect: function() {
             setTimeout(this.connect.bind(this), 10000);
         },
-        close: function() {
-            this.remove();
-        },
         events: function() {
             return {
                 'click .error-dialog .ok': 'connect',
@@ -92,9 +88,6 @@
         },
         confirmNumber: function(number) {
             var parsed = libphonenumber.parse(number);
-            if (!libphonenumber.isValidNumber(parsed)) {
-                throw new Error('Invalid number ' + number);
-            }
             this.$('#step4 .number').text(libphonenumber.format(
                 parsed,
                 libphonenumber.PhoneNumberFormat.INTERNATIONAL

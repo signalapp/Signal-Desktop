@@ -259,7 +259,7 @@ li.entry .error-icon-container {
   width: $error-icon-size;
   height: $error-icon-size;
   position: relative;
-  @include color-svg('/images/warning.svg', red);
+  @include color-svg('../images/warning.svg', red);
 
 }
 
@@ -382,11 +382,11 @@ li.entry .error-icon-container {
   }
   .sent .status {
     display: inline-block;
-    @include color-svg('/images/check.svg', black);
+    @include color-svg('../images/check.svg', black);
   }
   .delivered .status {
     display: inline-block;
-    @include color-svg('/images/double-check.svg', black);
+    @include color-svg('../images/double-check.svg', black);
   }
   .pending .status {
     display: inline-block;
@@ -507,17 +507,17 @@ li.entry .error-icon-container {
           display: inline-block;
           width: $button-height * 2;
           height: $button-height * 2;
-          @include color-svg('/images/file.svg', $grey_d);
+          @include color-svg('../images/file.svg', $grey_d);
         }
 
         &.audio:before {
-          @include color-svg('/images/audio.svg', $grey_d);
+          @include color-svg('../images/audio.svg', $grey_d);
         }
         &.video:before {
-          @include color-svg('/images/video.svg', $grey_d);
+          @include color-svg('../images/video.svg', $grey_d);
         }
         &.voice:before {
-          @include color-svg('/images/voice.svg', $grey_d);
+          @include color-svg('../images/voice.svg', $grey_d);
         }
       }
     }
@@ -741,7 +741,7 @@ li.entry .error-icon-container {
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.2);
 
     .icon {
-      @include color-svg('/images/down.svg', $grey_l3);
+      @include color-svg('../images/down.svg', $grey_l3);
       height: 100%;
       width: 100%;
     }
@@ -752,7 +752,7 @@ li.entry .error-icon-container {
     &.new-messages  {
       background-color: $blue;
       .icon {
-        @include color-svg('/images/down.svg', white);
+        @include color-svg('../images/down.svg', white);
       }
 
       &:hover {

@@ -25,9 +25,6 @@
             this.model = new Backbone.Model();
             this.listenTo(this.model, 'change', this.onChange);
         },
-        events: {
-            'click .openInstaller': extension.install
-        },
         onReconnectTimer: function() {
           this.setSocketReconnectInterval(60000);
         },

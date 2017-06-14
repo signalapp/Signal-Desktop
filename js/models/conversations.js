@@ -476,7 +476,7 @@
                 content: title ? title.trim()[0] : '#'
             };
         } else {
-            return { url: '/images/group_default.png', color: color };
+            return { url: 'images/group_default.png', color: color };
         }
     },
 
@@ -530,7 +530,7 @@
         if (!message.isIncoming()) {
             return;
         }
-        if (window.isOpen() && window.isFocused()) {
+        if (window.isFocused()) {
             return;
         }
         window.drawAttention();

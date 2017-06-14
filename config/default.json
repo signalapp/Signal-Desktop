@@ -1,0 +1,6 @@
+{
+  "serverUrl": "https://textsecure-service-staging.whispersystems.org",
+  "disableAutoUpdate": false,
+  "openDevTools": false,
+  "buildExpiration": 0
+}

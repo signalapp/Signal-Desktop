@@ -1,7 +1,13 @@
 node_modules
 .sass-cache
 build/curve25519_compiled.js
+build/icons/*
 stylesheets/*.css.map
 dist
 .tx
 .DS_Store
+config/local.json
+config/local-*.json
+.DS_Store
+*.provisionprofile
+release/

@@ -10,7 +10,7 @@
   @import 'debugLog';
   @import 'lightbox';
   @import 'recorder';
-  @import 'emoji';
+  @import '../components/emojijs/demo/emoji.css';
   @import 'settings';
 
 // Build the main view
@@ -19,3 +19,6 @@
   @import 'ios';
   @import 'android';
   @import 'android-dark';
+
+// Installer
+  @import 'options';

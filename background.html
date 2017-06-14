@@ -2,6 +2,24 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <meta content='width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0' name='viewport'>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none';
+            connect-src 'self' wss: https:;
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' blob: data:;
+            font-src 'self';
+            media-src 'self' blob:;
+            child-src 'self';
+            object-src 'none'"
+  >
+  <title>Signal</title>
+  <link href='images/icon_128.png' rel='shortcut icon'>
+  <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
         <div class='network-status-container'></div>
@@ -35,7 +53,7 @@
       <div class='conversation placeholder'>
         <div class='conversation-header'></div>
         <div class='content'>
-          <img src='/images/icon_128.png' />
+          <img src='images/icon_128.png' />
           <h3>{{ welcomeToSignal }}</h3>
           <p>{{ selectAContact }}</p>
         </div>
@@ -535,7 +553,7 @@
     <div id='step1' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-icon' src='/images/icon_250.png'/>
+          <img id='signal-icon' src='images/icon_250.png'/>
           <h1>{{ installWelcome }}</h1>
           <p>{{ installTagline }}</p>
         </div>
@@ -551,7 +569,7 @@
     <div id='step2' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-phone' src='/images/signal-phone.png'>
+          <img id='signal-phone' src='images/signal-phone.png'>
           <p>{{{ installSignalLink }}}</p>
         </div>
         <div class='nav'>
@@ -570,6 +588,9 @@
           <p>{{ installAndroidInstructions }}</p>
         </div>
         <div class='nav'>
+          {{ #development }}
+            <div> <a class='button openStandalone'>Standalone</a> </div>
+          {{ /development }}
           <span class='dot step1'></span>
           <span class='dot step2'></span>
           <span class='dot step3 selected'></span>
@@ -582,7 +603,7 @@
         <div class='step-body'>
           <p>{{ installLinkingWithNumber }}</p>
           <h2 class='number'></h2>
-          <img id='signal-computer' src='/images/signal-laptop.png'>
+          <img id='signal-computer' src='images/signal-laptop.png'>
           <p>{{ installComputerName }}</p>
           <div>
             <input type='text' id='device-name' spellcheck='false' maxlength='50' />
@@ -599,7 +620,7 @@
     <div id='step5' class='step'>
       <div class='inner'>
         <div class='step-body'>
-          <img id='signal-icon' src='/images/icon_250.png'/>
+          <img id='signal-icon' src='images/icon_250.png'/>
           <div class='progress-dialog'>
             <p class='status'></p>
             <div class='bar-container'><div class='bar progress-bar'></div></div>
@@ -620,6 +641,46 @@
     </div>
   </script>
 
+  <script type='text/x-tmpl-mustache' id='standalone'>
+    <header>
+      <div class='container'>
+        <div class='row'>
+          <div class='col-xs-2 col-md-1'>
+            <img id='textsecure-icon' src='images/icon_250.png'/>
+          </div>
+          <div class='col-xs-10 col-md-11'>
+            <h1>Create your Signal Account</h1>
+            <h4 class='tagline'>Private messaging from your web browser.</h4>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class='container'>
+      <div class='col-xs-offset-1 col-md-6'>
+        <div class='narrow'>
+          <div id="phone-number-input">
+            <div class="phone-input-form">
+                <div id="number-container" class="number-container">
+                  <input type="tel" class="number" placeholder="Phone Number" />
+                </div>
+            </div>
+          </div>
+          <div class='clearfix'>
+            <button id="request-sms" class="btn btn-info">Send SMS</button>
+            <button id="request-voice" class="btn btn-info" tabindex=-1>Call</button>
+          </div>
+          <form id='form'>
+            <h2></h2>
+            <input class='form-control' type="text" pattern="\s*[0-9]{3}-?[0-9]{3}\s*" title="Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one" id="code" placeholder="Verification Code" autocomplete='off'>
+            <button id="verifyCode" class="btn btn-info" data-loading-text="Please wait...">Register</button>
+            <div id='error' class='collapse'></div>
+            <div> <a class='button openInstaller'>Link to phone</a> </div>
+          </form>
+          <div id=status></div>
+        </div>
+      </div>
+    </div>
+  </script>
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/debugLog.js'></script>
@@ -627,6 +688,7 @@
   <script type='text/javascript' src='js/signal_protocol_store.js'></script>
   <script type='text/javascript' src='js/libtextsecure.js'></script>
 
+  <script type='text/javascript' src='js/focus_listener.js'></script>
   <script type='text/javascript' src='js/notifications.js'></script>
   <script type='text/javascript' src='js/delivery_receipts.js'></script>
   <script type='text/javascript' src='js/read_receipts.js'></script>
@@ -640,8 +702,8 @@
   <script type='text/javascript' src='js/registration.js'></script>
   <script type='text/javascript' src='js/expire.js'></script>
   <script type='text/javascript' src='js/conversation_controller.js'></script>
-  <script type='text/javascript' src='js/panel_controller.js'></script>
   <script type='text/javascript' src='js/emoji_util.js'></script>
+  <script type='text/javascript' src='js/i18n.js'></script>
 
   <script type='text/javascript' src='js/views/whisper_view.js'></script>
   <script type='text/javascript' src='js/views/last_seen_indicator_view.js'></script>
@@ -673,7 +735,10 @@
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>
-  <script type="text/javascript" src="js/views/install_view.js"></script>
+  <script type="text/javascript" src="js/views/phone-input-view.js"></script>
+  <script type='text/javascript' src='js/views/install_view.js'></script>
+  <script type='text/javascript' src='js/views/standalone_registration_view.js'></script>
+  <script type='text/javascript' src='js/views/app_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>

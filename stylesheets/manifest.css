@@ -1,17 +1,22 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'Roboto-Light';
-  src: url("/fonts/Roboto-Light.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Light.ttf") format("truetype"); }
+
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype"); }
+  src: url("../fonts/Roboto-Regular.ttf") format("truetype"); }
+
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Italic.ttf") format("truetype");
+  src: url("../fonts/Roboto-Italic.ttf") format("truetype");
   font-style: italic; }
+
 @font-face {
   font-family: 'Roboto';
-  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+  src: url("../fonts/Roboto-Bold.ttf") format("truetype");
   font-weight: bold; }
+
 * {
   box-sizing: border-box; }
 
@@ -78,29 +83,29 @@ a {
   color: #2090ea; }
 
 button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.back:focus, button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
 button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.clock:focus, button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
 button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   button.hamburger:focus, button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
@@ -186,7 +191,7 @@ button.hamburger {
       display: inline-block;
       width: 24px;
       height: 24px;
-      -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+      -webkit-mask: url("../images/paperclip.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #616161;
       transform: rotateZ(-45deg); }
@@ -331,7 +336,7 @@ button.hamburger {
   vertical-align: middle;
   display: inline-block;
   margin: 0 0 0 8px;
-  width: calc(100% - 44px - 8px - 0.28571em);
+  width: calc(100% - 44px - 8px - 0.2857142857em);
   text-align: left; }
   .contact-details p {
     overflow-x: hidden;
@@ -345,7 +350,7 @@ button.hamburger {
     text-align: left; }
   .contact-details .number {
     color: #616161;
-    font-size: 0.92857em; }
+    font-size: 0.9285714286em; }
 
 .recipients-input {
   position: relative; }
@@ -402,9 +407,11 @@ button.hamburger {
     border: solid 3px;
     border-color: #a2d2f4 #a2d2f4 #f3f3f3 #f3f3f3 !important;
     animation: rotate 1s linear infinite; }
+
 @keyframes rotate {
   to {
     transform: rotate(360deg); } }
+
 .x {
   display: inline-block;
   float: right;
@@ -419,7 +426,7 @@ button.hamburger {
     display: block;
     width: 100%;
     height: 100%;
-    -webkit-mask: url("/images/x.svg") no-repeat center;
+    -webkit-mask: url("../images/x.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 
@@ -452,6 +459,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background-position: 40px 0; }
   to {
     background-position: 0 0; } }
+
 .progress-bar-striped {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.75) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.75) 75%, transparent 75%, transparent);
@@ -508,6 +516,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       width: 100%;
       resize: none;
       min-height: 100px; }
+
 .debug-log .result {
   text-align: center; }
   .debug-log .result .input-group {
@@ -529,11 +538,11 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       display: block;
       width: 24px;
       height: 24px;
-      -webkit-mask: url("/images/open_link.svg") no-repeat center;
+      -webkit-mask: url("../images/open_link.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: rgba(0, 0, 0, 0.5); }
       .debug-log .result .open:before:focus, .debug-log .result .open:before:hover {
-        -webkit-mask: url("/images/open_link.svg") no-repeat center;
+        -webkit-mask: url("../images/open_link.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: black; }
   .debug-log .result .link {
@@ -585,7 +594,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     .lightbox.modal a:hover {
       background: #616161; }
   .lightbox.modal .save:before {
-    -webkit-mask: url("/images/save.svg") no-repeat center;
+    -webkit-mask: url("../images/save.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
 
@@ -606,7 +615,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       display: inline-block;
       height: 24px;
       width: 24px;
-      -webkit-mask: url("/images/microphone.svg") no-repeat center;
+      -webkit-mask: url("../images/microphone.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #616161; }
 
@@ -631,14 +640,14 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background: #9ae99a;
     border: 1px solid #47D647; }
     .recorder .finish .icon {
-      -webkit-mask: url("/images/check.svg") no-repeat center;
+      -webkit-mask: url("../images/check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #47D647; }
   .recorder .close {
     background: #fbe3e3;
     border: 1px solid #EF8989; }
     .recorder .close .icon {
-      -webkit-mask: url("/images/x.svg") no-repeat center;
+      -webkit-mask: url("../images/x.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #EF8989; }
   .recorder .time {
@@ -646,6 +655,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     float: right;
     line-height: 36px;
     padding: 0 10px; }
+
 @keyframes pulse {
   0% {
     opacity: 0; }
@@ -728,19 +738,23 @@ img.emoji.jumbo {
     margin: 0 auto;
     width: 100%;
     max-width: 500px; }
+
 .settings hr {
   margin: 10px 0; }
+
 .settings .syncSettings button {
   float: right;
   line-height: 36px;
   padding: 0 20px;
   margin: 0 0 20px 20px; }
+
 .settings .syncSettings .synced_at {
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: #616161; }
+
 .settings .syncSettings .sync_failed {
   display: none;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   color: red; }
 
 .conversation-stack,
@@ -766,7 +780,7 @@ img.emoji.jumbo {
     overflow-y: overlay; }
 
 .network-status-container .network-status {
-  background: url("/images/error_red.svg") no-repeat left 10px center;
+  background: url("../images/error_red.svg") no-repeat left 10px center;
   background-size: 25px 25px;
   background-color: #fcd156;
   padding: 10px;
@@ -825,7 +839,7 @@ img.emoji.jumbo {
     float: left;
     width: 24px;
     height: 100%;
-    -webkit-mask: url("/images/search.svg") no-repeat left center;
+    -webkit-mask: url("../images/search.svg") no-repeat left center;
     -webkit-mask-size: 100%;
     background-color: #ccc;
     position: absolute;
@@ -846,7 +860,7 @@ input.search {
   position: relative; }
   input.search.active {
     outline: solid 1px #2090ea;
-    background-image: url("/images/x.svg");
+    background-image: url("../images/x.svg");
     background-repeat: no-repeat;
     background-size: 16px; }
     input.search.active.ltr {
@@ -876,7 +890,7 @@ input.search {
     font-style: italic;
     padding-right: 8px; }
   .new-contact.valid {
-    opacity: 1; }
+    opacity: 1.0; }
 
 .index {
   color: #454545; }
@@ -885,7 +899,7 @@ input.search {
     padding: 0.5em; }
   .index .last-message {
     margin: 6px 0 0;
-    font-size: 0.92857em;
+    font-size: 0.9285714286em;
     font-weight: 300; }
   .index .gutter .timestamp {
     position: absolute;
@@ -1009,10 +1023,12 @@ input.search {
 .key-verification label {
   display: block;
   margin: 10px 0;
-  font-size: 0.92857em; }
+  font-size: 0.9285714286em; }
+
 .key-verification .key, .key-verification .placeholder {
   padding: 0 1em;
   -webkit-user-select: text; }
+
 .key-verification .key {
   font-family: monospace;
   padding: 10px;
@@ -1021,8 +1037,10 @@ input.search {
   background: #f3f3f3;
   border: solid 1px #d9d9d9;
   border-radius: 5px; }
+
 .key-verification .placeholder {
   font-weight: bold; }
+
 .key-verification .qr {
   border-radius: 200px;
   border: solid 1px #d9d9d9;
@@ -1062,11 +1080,13 @@ input.search {
   .message-detail .key-conflict-dialogue .hideKeys, .message-detail .key-conflict-dialogue .showKeys {
     float: right;
     line-height: 36px; }
+
 .message-detail .message-container {
   background: white;
   padding: 20px 0; }
   .message-detail .message-container .sender {
     display: none; }
+
 .message-detail .info {
   padding: 1em; }
   .message-detail .info .label {
@@ -1081,6 +1101,7 @@ input.search {
     font-weight: bold; }
     .message-detail .info button span {
       vertical-align: middle; }
+
 .message-detail .contacts .contact-detail {
   padding: 0 36px;
   margin-bottom: 5px; }
@@ -1088,15 +1109,18 @@ input.search {
     float: right; }
   .message-detail .contacts .contact-detail .error-message {
     margin: 6px 0 0;
-    font-size: 0.92857em;
+    font-size: 0.9285714286em;
     font-weight: bold;
     color: red; }
+
 .message-detail h3 {
   font-size: 1em;
   padding: 5px; }
+
 .message-detail button.conflict {
   float: right;
   background: #d00; }
+
 .message-detail button.cancel {
   float: right;
   color: #454545;
@@ -1104,6 +1128,7 @@ input.search {
 
 .message-list .error-icon {
   cursor: pointer; }
+
 .message-list .advisory {
   text-align: center; }
   .message-list .advisory .content {
@@ -1148,7 +1173,7 @@ li.entry .error-icon-container {
   width: 24px;
   height: 24px;
   position: relative;
-  -webkit-mask: url("/images/warning.svg") no-repeat center;
+  -webkit-mask: url("../images/warning.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: red; }
 
@@ -1253,13 +1278,13 @@ li.entry .error-icon-container {
   .message-container .sent .status,
   .message-list .sent .status {
     display: inline-block;
-    -webkit-mask: url("/images/check.svg") no-repeat center;
+    -webkit-mask: url("../images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
   .message-container .delivered .status,
   .message-list .delivered .status {
     display: inline-block;
-    -webkit-mask: url("/images/double-check.svg") no-repeat center;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
   .message-container .pending .status,
@@ -1287,6 +1312,7 @@ li.entry .error-icon-container {
   .message-container .outgoing .bubble,
   .message-list .outgoing .bubble {
     clear: left; }
+
 @keyframes shake {
   0% {
     transform: translateX(0px); }
@@ -1366,22 +1392,22 @@ li.entry .error-icon-container {
         display: inline-block;
         width: 48px;
         height: 48px;
-        -webkit-mask: url("/images/file.svg") no-repeat center;
+        -webkit-mask: url("../images/file.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.audio:before,
       .message-list .attachments .fileView .icon.audio:before {
-        -webkit-mask: url("/images/audio.svg") no-repeat center;
+        -webkit-mask: url("../images/audio.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.video:before,
       .message-list .attachments .fileView .icon.video:before {
-        -webkit-mask: url("/images/video.svg") no-repeat center;
+        -webkit-mask: url("../images/video.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
       .message-container .attachments .fileView .icon.voice:before,
       .message-list .attachments .fileView .icon.voice:before {
-        -webkit-mask: url("/images/voice.svg") no-repeat center;
+        -webkit-mask: url("../images/voice.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: #454545; }
   .message-container .outgoing .avatar,
@@ -1466,7 +1492,7 @@ li.entry .error-icon-container {
   color: white;
   box-shadow: 0 0 5px 0 black;
   border-radius: 5px;
-  font-size: 0.92857em;
+  font-size: 0.9285714286em;
   z-index: 100; }
 
 .confirmation-dialog .content {
@@ -1537,7 +1563,7 @@ li.entry .error-icon-container {
     border: none;
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2); }
     .discussion-container .scroll-down-button-view button .icon {
-      -webkit-mask: url("/images/down.svg") no-repeat center;
+      -webkit-mask: url("../images/down.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: silver;
       height: 100%;
@@ -1547,7 +1573,7 @@ li.entry .error-icon-container {
     .discussion-container .scroll-down-button-view button.new-messages {
       background-color: #2090ea; }
       .discussion-container .scroll-down-button-view button.new-messages .icon {
-        -webkit-mask: url("/images/down.svg") no-repeat center;
+        -webkit-mask: url("../images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
       .discussion-container .scroll-down-button-view button.new-messages:hover {
@@ -1561,6 +1587,7 @@ li.entry .error-icon-container {
   color: #454545; }
   .ios #header h1 {
     display: none; }
+
 .ios .gutter {
   border-right: 1px solid rgba(0, 0, 0, 0.1); }
   .ios .gutter .content {
@@ -1574,9 +1601,11 @@ li.entry .error-icon-container {
       color: white; }
       .ios .gutter .contact.selected .last-timestamp {
         color: white; }
+
 .ios .tool-bar {
   float: left;
   padding: 15px; }
+
 .ios input[type=text]:active,
 .ios input[type=text]:focus,
 .ios input[type=search]:active,
@@ -1585,6 +1614,7 @@ li.entry .error-icon-container {
 .ios form.active {
   outline-offset: 0;
   outline: -webkit-focus-ring-color auto 5px; }
+
 .ios input.search {
   border-radius: 5px;
   width: 220px;
@@ -1594,6 +1624,7 @@ li.entry .error-icon-container {
   background-color: #dddddd; }
   .ios input.search.active.rtl {
     background-position: left 30px center; }
+
 .ios .conversation-header {
   background-color: #f3f3f3;
   color: #454545;
@@ -1603,9 +1634,11 @@ li.entry .error-icon-container {
     line-height: 64px; }
   .ios .conversation-header .avatar {
     display: none; }
+
 .ios .settings h3,
 .ios .menu-list li {
   text-transform: capitalize; }
+
 .ios .bottom-bar {
   padding: 15px;
   min-height: 30px;
@@ -1613,9 +1646,11 @@ li.entry .error-icon-container {
   .ios .bottom-bar form.send {
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.1); }
+
 .ios .error-message.content,
 .ios .control .content {
   padding: 10px; }
+
 .ios .message-list .attachments .bubbled {
   border-radius: 15px;
   margin-bottom: 0.25em;
@@ -1638,6 +1673,7 @@ li.entry .error-icon-container {
     right: -6px;
     bottom: -3px;
     background: white; }
+
 .ios .bubble .content {
   margin-bottom: 5px; }
   .ios .bubble .content .body {
@@ -1662,12 +1698,16 @@ li.entry .error-icon-container {
       right: -6px;
       bottom: -3px;
       background: #eee; }
+
 .ios .bubble .content, .ios .bubble .attachments img {
   border-radius: 15px; }
+
 .ios .bubble .attachments img {
   background-color: white; }
+
 .ios .bubble .meta {
   clear: both; }
+
 .ios .message-list .incoming .bubbled {
   background-color: white;
   color: black;
@@ -1677,6 +1717,7 @@ li.entry .error-icon-container {
     background-color: white; }
   .ios .message-list .incoming .bubbled:after {
     left: -6px; }
+
 .ios .incoming .content {
   background-color: white;
   color: black;
@@ -1686,6 +1727,7 @@ li.entry .error-icon-container {
     background-color: white; }
   .ios .incoming .content .body:after {
     left: -6px; }
+
 .ios .outgoing .content, .ios .outgoing .attachments .bubbled {
   background-color: #2090ea;
   float: right; }
@@ -1694,30 +1736,36 @@ li.entry .error-icon-container {
     .ios .outgoing .content::selection, .ios .outgoing .content .body::selection, .ios .outgoing .content a::selection, .ios .outgoing .attachments .bubbled::selection, .ios .outgoing .attachments .bubbled .body::selection, .ios .outgoing .attachments .bubbled a::selection {
       background: white;
       color: #454545; }
+
 .ios .outgoing .attachments .fileView .icon::before {
-  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask: url("../images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
 .ios .outgoing .attachments .fileView .icon.audio:before {
-  -webkit-mask: url("/images/audio.svg") no-repeat center;
+  -webkit-mask: url("../images/audio.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
 .ios .outgoing .attachments .fileView .icon.video:before {
-  -webkit-mask: url("/images/video.svg") no-repeat center;
+  -webkit-mask: url("../images/video.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
 .ios .outgoing .attachments .fileView .icon.voice:before {
-  -webkit-mask: url("/images/voice.svg") no-repeat center;
+  -webkit-mask: url("../images/voice.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
 .ios .attachment {
   margin-bottom: 1px; }
   .ios .attachment a {
     border-radius: 15px; }
+
 .ios .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -1733,7 +1781,7 @@ li.entry .error-icon-container {
   .ios .hourglass .sand {
     background: #999; }
   .ios .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
 
@@ -1744,56 +1792,79 @@ li.entry .error-icon-container {
   .android #header.inactive {
     background-color: #f3f3f3;
     color: #454545; }
+
 .android .contact-details .name {
   font-weight: 400; }
+
 .android .conversation.placeholder .conversation-header {
   display: none; }
+
 .android .conversation-header.red, .android .bubble.red {
   background-color: #EF5350; }
+
 .android .conversation-header.pink, .android .bubble.pink {
   background-color: #EC407A; }
+
 .android .conversation-header.purple, .android .bubble.purple {
   background-color: #AB47BC; }
+
 .android .conversation-header.deep_purple, .android .bubble.deep_purple {
   background-color: #7E57C2; }
+
 .android .conversation-header.indigo, .android .bubble.indigo {
   background-color: #5C6BC0; }
+
 .android .conversation-header.blue, .android .bubble.blue {
   background-color: #2196F3; }
+
 .android .conversation-header.light_blue, .android .bubble.light_blue {
   background-color: #03A9F4; }
+
 .android .conversation-header.cyan, .android .bubble.cyan {
   background-color: #00BCD4; }
+
 .android .conversation-header.teal, .android .bubble.teal {
   background-color: #009688; }
+
 .android .conversation-header.green, .android .bubble.green {
   background-color: #4CAF50; }
+
 .android .conversation-header.light_green, .android .bubble.light_green {
   background-color: #7CB342; }
+
 .android .conversation-header.orange, .android .bubble.orange {
   background-color: #FF9800; }
+
 .android .conversation-header.deep_orange, .android .bubble.deep_orange {
   background-color: #FF5722; }
+
 .android .conversation-header.amber, .android .bubble.amber {
   background-color: #FFB300; }
+
 .android .conversation-header.blue_grey, .android .bubble.blue_grey {
   background-color: #607D8B; }
+
 .android .conversation-header.grey, .android .bubble.grey {
   background-color: #999999; }
+
 .android .conversation-header.default, .android .bubble.default {
   background-color: #2090ea; }
+
 .android .bottom-bar {
   min-height: 10px; }
+
 .android .bubble {
   padding: 9px 12px;
   border-radius: 5px;
   box-shadow: 0 3px 3px -4px black; }
+
 .android .outgoing .bubble {
   background-color: white; }
+
 .android .outgoing .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -1809,13 +1880,14 @@ li.entry .error-icon-container {
   .android .outgoing .hourglass .sand {
     background: #999; }
   .android .outgoing .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #999; }
+
 .android .incoming .hourglass {
   display: inline-block;
   position: relative;
-  -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+  -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: transparent;
   background-size: 100%; }
@@ -1831,66 +1903,90 @@ li.entry .error-icon-container {
   .android .incoming .hourglass .sand {
     background: #fff; }
   .android .incoming .hourglass:after {
-    -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #fff; }
+
 .android .incoming .bubble .sender, .android .incoming .bubble .content, .android .incoming .bubble .body, .android .incoming .bubble .meta, .android .incoming .bubble a, .android .incoming .bubble .fileView {
   color: white; }
   .android .incoming .bubble .sender::selection, .android .incoming .bubble .content::selection, .android .incoming .bubble .body::selection, .android .incoming .bubble .meta::selection, .android .incoming .bubble a::selection, .android .incoming .bubble .fileView::selection {
     background: white;
     color: #454545; }
+
 .android .incoming .bubble .attachments a, .android .incoming .bubble .content a {
   color: #f3f3f3; }
+
 .android .incoming .bubble .fileView .icon::before {
-  -webkit-mask: url("/images/file.svg") no-repeat center;
+  -webkit-mask: url("../images/file.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white; }
+
+.android .incoming .bubble .fileView .icon.audio:before {
+  -webkit-mask: url("../images/audio.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+
+.android .incoming .bubble .fileView .icon.video:before {
+  -webkit-mask: url("../images/video.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+
+.android .incoming .bubble .fileView .icon.voice:before {
+  -webkit-mask: url("../images/voice.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: white; }
+
 .android button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.clock:focus, .android button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.clock {
-  -webkit-mask: url("/images/clock.svg") no-repeat center;
+  -webkit-mask: url("../images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.clock:focus, .android .inactive button.clock:hover {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+
 .android button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.hamburger:focus, .android button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.hamburger {
-  -webkit-mask: url("/images/menu.svg") no-repeat center;
+  -webkit-mask: url("../images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.hamburger:focus, .android .inactive button.hamburger:hover {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+
 .android button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(255, 255, 255, 0.8); }
   .android button.back:focus, .android button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+
 .android .inactive button.back {
-  -webkit-mask: url("/images/back.svg") no-repeat center;
+  -webkit-mask: url("../images/back.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: rgba(0, 0, 0, 0.5); }
   .android .inactive button.back:focus, .android .inactive button.back:hover {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
@@ -1989,12 +2085,12 @@ li.entry .error-icon-container {
     color: #CCCCCC; }
   .android-dark .sent .status {
     display: inline-block;
-    -webkit-mask: url("/images/check.svg") no-repeat center;
+    -webkit-mask: url("../images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .delivered .status {
     display: inline-block;
-    -webkit-mask: url("/images/double-check.svg") no-repeat center;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .file-input .paperclip:before {
@@ -2002,7 +2098,7 @@ li.entry .error-icon-container {
     display: inline-block;
     width: 24px;
     height: 24px;
-    -webkit-mask: url("/images/paperclip.svg") no-repeat center;
+    -webkit-mask: url("../images/paperclip.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white;
     transform: rotateZ(-45deg); }
@@ -2028,7 +2124,7 @@ li.entry .error-icon-container {
       background: white;
       color: #454545; }
     .android-dark .search.active.ltr, .android-dark .search.active.rtl {
-      background-image: url("/images/x_white.svg"); }
+      background-image: url("../images/x_white.svg"); }
   .android-dark .bubble {
     padding: 9px 12px;
     border-radius: 5px;
@@ -2043,7 +2139,7 @@ li.entry .error-icon-container {
   .android-dark .outgoing .hourglass {
     display: inline-block;
     position: relative;
-    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
@@ -2059,13 +2155,13 @@ li.entry .error-icon-container {
     .android-dark .outgoing .hourglass .sand {
       background: #999; }
     .android-dark .outgoing .hourglass:after {
-      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #999; }
   .android-dark .incoming .hourglass {
     display: inline-block;
     position: relative;
-    -webkit-mask: url("/images/hourglass_full.svg") no-repeat center;
+    -webkit-mask: url("../images/hourglass_full.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: transparent;
     background-size: 100%; }
@@ -2081,7 +2177,7 @@ li.entry .error-icon-container {
     .android-dark .incoming .hourglass .sand {
       background: #fff; }
     .android-dark .incoming .hourglass:after {
-      -webkit-mask: url("/images/hourglass_empty.svg") no-repeat center;
+      -webkit-mask: url("../images/hourglass_empty.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #fff; }
   .android-dark .incoming .bubble .sender, .android-dark .incoming .bubble .content, .android-dark .incoming .bubble .body, .android-dark .incoming .bubble .meta, .android-dark .incoming .bubble a, .android-dark .incoming .bubble .fileView {
@@ -2092,59 +2188,59 @@ li.entry .error-icon-container {
   .android-dark .incoming .bubble .content a {
     color: #f3f3f3; }
   .android-dark .incoming .bubble .fileView .icon::before {
-    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask: url("../images/file.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .incoming .bubble .fileView .icon.audio:before {
-    -webkit-mask: url("/images/audio.svg") no-repeat center;
+    -webkit-mask: url("../images/audio.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .incoming .bubble .fileView .icon.video:before {
-    -webkit-mask: url("/images/video.svg") no-repeat center;
+    -webkit-mask: url("../images/video.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .incoming .bubble .fileView .icon.voice:before {
-    -webkit-mask: url("/images/voice.svg") no-repeat center;
+    -webkit-mask: url("../images/voice.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .outgoing .bubble .fileView .icon::before {
-    -webkit-mask: url("/images/file.svg") no-repeat center;
+    -webkit-mask: url("../images/file.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .outgoing .bubble .fileView .icon.audio:before {
-    -webkit-mask: url("/images/audio.svg") no-repeat center;
+    -webkit-mask: url("../images/audio.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .outgoing .bubble .fileView .icon.video:before {
-    -webkit-mask: url("/images/video.svg") no-repeat center;
+    -webkit-mask: url("../images/video.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .outgoing .bubble .fileView .icon.voice:before {
-    -webkit-mask: url("/images/voice.svg") no-repeat center;
+    -webkit-mask: url("../images/voice.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark button.clock {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.clock:focus, .android-dark button.clock:hover {
-      -webkit-mask: url("/images/clock.svg") no-repeat center;
+      -webkit-mask: url("../images/clock.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark button.hamburger {
-    -webkit-mask: url("/images/menu.svg") no-repeat center;
+    -webkit-mask: url("../images/menu.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.hamburger:focus, .android-dark button.hamburger:hover {
-      -webkit-mask: url("/images/menu.svg") no-repeat center;
+      -webkit-mask: url("../images/menu.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark button.back {
-    -webkit-mask: url("/images/back.svg") no-repeat center;
+    -webkit-mask: url("../images/back.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.back:focus, .android-dark button.back:hover {
-      -webkit-mask: url("/images/back.svg") no-repeat center;
+      -webkit-mask: url("../images/back.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark ::-webkit-scrollbar-thumb {
@@ -2177,5 +2273,1037 @@ li.entry .error-icon-container {
         background-color: white; }
       .android-dark .discussion-container .scroll-down-button-view button.new-messages:hover {
         background-color: #1472bd; }
+
+.iti-flag {
+  width: 16px;
+  height: 11px;
+  background: url("../img/flags.png"); }
+
+.iti-flag.ad {
+  background-position: -16px 0; }
+
+.iti-flag.ae {
+  background-position: -32px 0; }
+
+.iti-flag.af {
+  background-position: -48px 0; }
+
+.iti-flag.ag {
+  background-position: -64px 0; }
+
+.iti-flag.ai {
+  background-position: -80px 0; }
+
+.iti-flag.al {
+  background-position: -96px 0; }
+
+.iti-flag.am {
+  background-position: -112px 0; }
+
+.iti-flag.ao {
+  background-position: -128px 0; }
+
+.iti-flag.ar {
+  background-position: -144px 0; }
+
+.iti-flag.as {
+  background-position: -160px 0; }
+
+.iti-flag.at {
+  background-position: -176px 0; }
+
+.iti-flag.au {
+  background-position: -192px 0; }
+
+.iti-flag.aw {
+  background-position: -208px 0; }
+
+.iti-flag.az {
+  background-position: -224px 0; }
+
+.iti-flag.ba {
+  background-position: -240px 0; }
+
+.iti-flag.bb {
+  background-position: 0 -11px; }
+
+.iti-flag.bd {
+  background-position: -16px -11px; }
+
+.iti-flag.be {
+  background-position: -32px -11px; }
+
+.iti-flag.bf {
+  background-position: -48px -11px; }
+
+.iti-flag.bg {
+  background-position: -64px -11px; }
+
+.iti-flag.bh {
+  background-position: -80px -11px; }
+
+.iti-flag.bi {
+  background-position: -96px -11px; }
+
+.iti-flag.bj {
+  background-position: -112px -11px; }
+
+.iti-flag.bm {
+  background-position: -128px -11px; }
+
+.iti-flag.bn {
+  background-position: -144px -11px; }
+
+.iti-flag.bo {
+  background-position: -160px -11px; }
+
+.iti-flag.br {
+  background-position: -176px -11px; }
+
+.iti-flag.bs {
+  background-position: -192px -11px; }
+
+.iti-flag.bt {
+  background-position: -208px -11px; }
+
+.iti-flag.bw {
+  background-position: -224px -11px; }
+
+.iti-flag.by {
+  background-position: -240px -11px; }
+
+.iti-flag.bz {
+  background-position: 0 -22px; }
+
+.iti-flag.ca {
+  background-position: -16px -22px; }
+
+.iti-flag.cd {
+  background-position: -32px -22px; }
+
+.iti-flag.cf {
+  background-position: -48px -22px; }
+
+.iti-flag.cg {
+  background-position: -64px -22px; }
+
+.iti-flag.ch {
+  background-position: -80px -22px; }
+
+.iti-flag.ci {
+  background-position: -96px -22px; }
+
+.iti-flag.ck {
+  background-position: -112px -22px; }
+
+.iti-flag.cl {
+  background-position: -128px -22px; }
+
+.iti-flag.cm {
+  background-position: -144px -22px; }
+
+.iti-flag.cn {
+  background-position: -160px -22px; }
+
+.iti-flag.co {
+  background-position: -176px -22px; }
+
+.iti-flag.cr {
+  background-position: -192px -22px; }
+
+.iti-flag.cu {
+  background-position: -208px -22px; }
+
+.iti-flag.cv {
+  background-position: -224px -22px; }
+
+.iti-flag.cw {
+  background-position: -240px -22px; }
+
+.iti-flag.cy {
+  background-position: 0 -33px; }
+
+.iti-flag.cz {
+  background-position: -16px -33px; }
+
+.iti-flag.de {
+  background-position: -32px -33px; }
+
+.iti-flag.dj {
+  background-position: -48px -33px; }
+
+.iti-flag.dk {
+  background-position: -64px -33px; }
+
+.iti-flag.dm {
+  background-position: -80px -33px; }
+
+.iti-flag.do {
+  background-position: -96px -33px; }
+
+.iti-flag.dz {
+  background-position: -112px -33px; }
+
+.iti-flag.ec {
+  background-position: -128px -33px; }
+
+.iti-flag.ee {
+  background-position: -144px -33px; }
+
+.iti-flag.eg {
+  background-position: -160px -33px; }
+
+.iti-flag.er {
+  background-position: -176px -33px; }
+
+.iti-flag.es {
+  background-position: -192px -33px; }
+
+.iti-flag.et {
+  background-position: -208px -33px; }
+
+.iti-flag.fi {
+  background-position: -224px -33px; }
+
+.iti-flag.fj {
+  background-position: -240px -33px; }
+
+.iti-flag.fk {
+  background-position: 0 -44px; }
+
+.iti-flag.fm {
+  background-position: -16px -44px; }
+
+.iti-flag.fo {
+  background-position: -32px -44px; }
+
+.iti-flag.fr, .iti-flag.bl, .iti-flag.mf {
+  background-position: -48px -44px; }
+
+.iti-flag.ga {
+  background-position: -64px -44px; }
+
+.iti-flag.gb {
+  background-position: -80px -44px; }
+
+.iti-flag.gd {
+  background-position: -96px -44px; }
+
+.iti-flag.ge {
+  background-position: -112px -44px; }
+
+.iti-flag.gf {
+  background-position: -128px -44px; }
+
+.iti-flag.gh {
+  background-position: -144px -44px; }
+
+.iti-flag.gi {
+  background-position: -160px -44px; }
+
+.iti-flag.gl {
+  background-position: -176px -44px; }
+
+.iti-flag.gm {
+  background-position: -192px -44px; }
+
+.iti-flag.gn {
+  background-position: -208px -44px; }
+
+.iti-flag.gp {
+  background-position: -224px -44px; }
+
+.iti-flag.gq {
+  background-position: -240px -44px; }
+
+.iti-flag.gr {
+  background-position: 0 -55px; }
+
+.iti-flag.gt {
+  background-position: -16px -55px; }
+
+.iti-flag.gu {
+  background-position: -32px -55px; }
+
+.iti-flag.gw {
+  background-position: -48px -55px; }
+
+.iti-flag.gy {
+  background-position: -64px -55px; }
+
+.iti-flag.hk {
+  background-position: -80px -55px; }
+
+.iti-flag.hn {
+  background-position: -96px -55px; }
+
+.iti-flag.hr {
+  background-position: -112px -55px; }
+
+.iti-flag.ht {
+  background-position: -128px -55px; }
+
+.iti-flag.hu {
+  background-position: -144px -55px; }
+
+.iti-flag.id {
+  background-position: -160px -55px; }
+
+.iti-flag.ie {
+  background-position: -176px -55px; }
+
+.iti-flag.il {
+  background-position: -192px -55px; }
+
+.iti-flag.in {
+  background-position: -208px -55px; }
+
+.iti-flag.io {
+  background-position: -224px -55px; }
+
+.iti-flag.iq {
+  background-position: -240px -55px; }
+
+.iti-flag.ir {
+  background-position: 0 -66px; }
+
+.iti-flag.is {
+  background-position: -16px -66px; }
+
+.iti-flag.it {
+  background-position: -32px -66px; }
+
+.iti-flag.jm {
+  background-position: -48px -66px; }
+
+.iti-flag.jo {
+  background-position: -64px -66px; }
+
+.iti-flag.jp {
+  background-position: -80px -66px; }
+
+.iti-flag.ke {
+  background-position: -96px -66px; }
+
+.iti-flag.kg {
+  background-position: -112px -66px; }
+
+.iti-flag.kh {
+  background-position: -128px -66px; }
+
+.iti-flag.ki {
+  background-position: -144px -66px; }
+
+.iti-flag.km {
+  background-position: -160px -66px; }
+
+.iti-flag.kn {
+  background-position: -176px -66px; }
+
+.iti-flag.kp {
+  background-position: -192px -66px; }
+
+.iti-flag.kr {
+  background-position: -208px -66px; }
+
+.iti-flag.kw {
+  background-position: -224px -66px; }
+
+.iti-flag.ky {
+  background-position: -240px -66px; }
+
+.iti-flag.kz {
+  background-position: 0 -77px; }
+
+.iti-flag.la {
+  background-position: -16px -77px; }
+
+.iti-flag.lb {
+  background-position: -32px -77px; }
+
+.iti-flag.lc {
+  background-position: -48px -77px; }
+
+.iti-flag.li {
+  background-position: -64px -77px; }
+
+.iti-flag.lk {
+  background-position: -80px -77px; }
+
+.iti-flag.lr {
+  background-position: -96px -77px; }
+
+.iti-flag.ls {
+  background-position: -112px -77px; }
+
+.iti-flag.lt {
+  background-position: -128px -77px; }
+
+.iti-flag.lu {
+  background-position: -144px -77px; }
+
+.iti-flag.lv {
+  background-position: -160px -77px; }
+
+.iti-flag.ly {
+  background-position: -176px -77px; }
+
+.iti-flag.ma {
+  background-position: -192px -77px; }
+
+.iti-flag.mc {
+  background-position: -208px -77px; }
+
+.iti-flag.md {
+  background-position: -224px -77px; }
+
+.iti-flag.me {
+  background-position: -112px -154px;
+  height: 12px; }
+
+.iti-flag.mg {
+  background-position: 0 -88px; }
+
+.iti-flag.mh {
+  background-position: -16px -88px; }
+
+.iti-flag.mk {
+  background-position: -32px -88px; }
+
+.iti-flag.ml {
+  background-position: -48px -88px; }
+
+.iti-flag.mm {
+  background-position: -64px -88px; }
+
+.iti-flag.mn {
+  background-position: -80px -88px; }
+
+.iti-flag.mo {
+  background-position: -96px -88px; }
+
+.iti-flag.mp {
+  background-position: -112px -88px; }
+
+.iti-flag.mq {
+  background-position: -128px -88px; }
+
+.iti-flag.mr {
+  background-position: -144px -88px; }
+
+.iti-flag.ms {
+  background-position: -160px -88px; }
+
+.iti-flag.mt {
+  background-position: -176px -88px; }
+
+.iti-flag.mu {
+  background-position: -192px -88px; }
+
+.iti-flag.mv {
+  background-position: -208px -88px; }
+
+.iti-flag.mw {
+  background-position: -224px -88px; }
+
+.iti-flag.mx {
+  background-position: -240px -88px; }
+
+.iti-flag.my {
+  background-position: 0 -99px; }
+
+.iti-flag.mz {
+  background-position: -16px -99px; }
+
+.iti-flag.na {
+  background-position: -32px -99px; }
+
+.iti-flag.nc {
+  background-position: -48px -99px; }
+
+.iti-flag.ne {
+  background-position: -64px -99px; }
+
+.iti-flag.nf {
+  background-position: -80px -99px; }
+
+.iti-flag.ng {
+  background-position: -96px -99px; }
+
+.iti-flag.ni {
+  background-position: -112px -99px; }
+
+.iti-flag.nl, .iti-flag.bq {
+  background-position: -128px -99px; }
+
+.iti-flag.no {
+  background-position: -144px -99px; }
+
+.iti-flag.np {
+  background-position: -160px -99px; }
+
+.iti-flag.nr {
+  background-position: -176px -99px; }
+
+.iti-flag.nu {
+  background-position: -192px -99px; }
+
+.iti-flag.nz {
+  background-position: -208px -99px; }
+
+.iti-flag.om {
+  background-position: -224px -99px; }
+
+.iti-flag.pa {
+  background-position: -240px -99px; }
+
+.iti-flag.pe {
+  background-position: 0 -110px; }
+
+.iti-flag.pf {
+  background-position: -16px -110px; }
+
+.iti-flag.pg {
+  background-position: -32px -110px; }
+
+.iti-flag.ph {
+  background-position: -48px -110px; }
+
+.iti-flag.pk {
+  background-position: -64px -110px; }
+
+.iti-flag.pl {
+  background-position: -80px -110px; }
+
+.iti-flag.pm {
+  background-position: -96px -110px; }
+
+.iti-flag.pr {
+  background-position: -112px -110px; }
+
+.iti-flag.ps {
+  background-position: -128px -110px; }
+
+.iti-flag.pt {
+  background-position: -144px -110px; }
+
+.iti-flag.pw {
+  background-position: -160px -110px; }
+
+.iti-flag.py {
+  background-position: -176px -110px; }
+
+.iti-flag.qa {
+  background-position: -192px -110px; }
+
+.iti-flag.re {
+  background-position: -208px -110px; }
+
+.iti-flag.ro {
+  background-position: -224px -110px; }
+
+.iti-flag.rs {
+  background-position: -240px -110px; }
+
+.iti-flag.ru {
+  background-position: 0 -121px; }
+
+.iti-flag.rw {
+  background-position: -16px -121px; }
+
+.iti-flag.sa {
+  background-position: -32px -121px; }
+
+.iti-flag.sb {
+  background-position: -48px -121px; }
+
+.iti-flag.sc {
+  background-position: -64px -121px; }
+
+.iti-flag.sd {
+  background-position: -80px -121px; }
+
+.iti-flag.se {
+  background-position: -96px -121px; }
+
+.iti-flag.sg {
+  background-position: -112px -121px; }
+
+.iti-flag.sh {
+  background-position: -128px -121px; }
+
+.iti-flag.si {
+  background-position: -144px -121px; }
+
+.iti-flag.sk {
+  background-position: -160px -121px; }
+
+.iti-flag.sl {
+  background-position: -176px -121px; }
+
+.iti-flag.sm {
+  background-position: -192px -121px; }
+
+.iti-flag.sn {
+  background-position: -208px -121px; }
+
+.iti-flag.so {
+  background-position: -224px -121px; }
+
+.iti-flag.sr {
+  background-position: -240px -121px; }
+
+.iti-flag.ss {
+  background-position: 0 -132px; }
+
+.iti-flag.st {
+  background-position: -16px -132px; }
+
+.iti-flag.sv {
+  background-position: -32px -132px; }
+
+.iti-flag.sx {
+  background-position: -48px -132px; }
+
+.iti-flag.sy {
+  background-position: -64px -132px; }
+
+.iti-flag.sz {
+  background-position: -80px -132px; }
+
+.iti-flag.tc {
+  background-position: -96px -132px; }
+
+.iti-flag.td {
+  background-position: -112px -132px; }
+
+.iti-flag.tg {
+  background-position: -128px -132px; }
+
+.iti-flag.th {
+  background-position: -144px -132px; }
+
+.iti-flag.tj {
+  background-position: -160px -132px; }
+
+.iti-flag.tk {
+  background-position: -176px -132px; }
+
+.iti-flag.tl {
+  background-position: -192px -132px; }
+
+.iti-flag.tm {
+  background-position: -208px -132px; }
+
+.iti-flag.tn {
+  background-position: -224px -132px; }
+
+.iti-flag.to {
+  background-position: -240px -132px; }
+
+.iti-flag.tr {
+  background-position: 0 -143px; }
+
+.iti-flag.tt {
+  background-position: -16px -143px; }
+
+.iti-flag.tv {
+  background-position: -32px -143px; }
+
+.iti-flag.tw {
+  background-position: -48px -143px; }
+
+.iti-flag.tz {
+  background-position: -64px -143px; }
+
+.iti-flag.ua {
+  background-position: -80px -143px; }
+
+.iti-flag.ug {
+  background-position: -96px -143px; }
+
+.iti-flag.us {
+  background-position: -112px -143px; }
+
+.iti-flag.uy {
+  background-position: -128px -143px; }
+
+.iti-flag.uz {
+  background-position: -144px -143px; }
+
+.iti-flag.va {
+  background-position: -160px -143px; }
+
+.iti-flag.vc {
+  background-position: -176px -143px; }
+
+.iti-flag.ve {
+  background-position: -192px -143px; }
+
+.iti-flag.vg {
+  background-position: -208px -143px; }
+
+.iti-flag.vi {
+  background-position: -224px -143px; }
+
+.iti-flag.vn {
+  background-position: -240px -143px; }
+
+.iti-flag.vu {
+  background-position: 0 -154px; }
+
+.iti-flag.wf {
+  background-position: -16px -154px; }
+
+.iti-flag.ws {
+  background-position: -32px -154px; }
+
+.iti-flag.ye {
+  background-position: -48px -154px; }
+
+.iti-flag.za {
+  background-position: -64px -154px; }
+
+.iti-flag.zm {
+  background-position: -80px -154px; }
+
+.iti-flag.zw {
+  background-position: -96px -154px; }
+
+.intl-tel-input {
+  position: relative;
+  display: inline-block; }
+
+.intl-tel-input * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; }
+
+.intl-tel-input .hide {
+  display: none; }
+
+.intl-tel-input .v-hide {
+  visibility: hidden; }
+
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  position: relative;
+  z-index: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-left: 44px;
+  margin-left: 0; }
+
+.intl-tel-input .flag-dropdown {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 1px; }
+
+.intl-tel-input .flag-dropdown:hover {
+  cursor: pointer; }
+
+.intl-tel-input .flag-dropdown:hover .selected-flag {
+  background-color: rgba(0, 0, 0, 0.05); }
+
+.intl-tel-input input[disabled] + .flag-dropdown:hover, .intl-tel-input input[readonly] + .flag-dropdown:hover {
+  cursor: default; }
+
+.intl-tel-input input[disabled] + .flag-dropdown:hover .selected-flag, .intl-tel-input input[readonly] + .flag-dropdown:hover .selected-flag {
+  background-color: transparent; }
+
+.intl-tel-input .selected-flag {
+  z-index: 1;
+  position: relative;
+  width: 38px;
+  height: 100%;
+  padding: 0 0 0 8px; }
+
+.intl-tel-input .selected-flag .iti-flag {
+  position: absolute;
+  top: 50%;
+  margin-top: -5px; }
+
+.intl-tel-input .selected-flag .arrow {
+  position: relative;
+  top: 50%;
+  margin-top: -2px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 4px solid #555; }
+
+.intl-tel-input .selected-flag .arrow.up {
+  border-top: none;
+  border-bottom: 4px solid #555; }
+
+.intl-tel-input .country-list {
+  list-style: none;
+  position: absolute;
+  z-index: 2;
+  padding: 0;
+  margin: 0 0 0 -1px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border: 1px solid #CCC;
+  width: 430px;
+  max-height: 200px;
+  overflow-y: scroll; }
+
+.intl-tel-input .country-list .iti-flag {
+  display: inline-block; }
+
+.intl-tel-input .country-list .divider {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #CCC; }
+
+.intl-tel-input .country-list .country {
+  padding: 5px 10px; }
+
+.intl-tel-input .country-list .country .dial-code {
+  color: #999; }
+
+.intl-tel-input .country-list .country.highlight {
+  background-color: rgba(0, 0, 0, 0.05); }
+
+.intl-tel-input .country-list .iti-flag, .intl-tel-input .country-list .country-name {
+  margin-right: 6px; }
+
+.iti-flag {
+  background: url("../images/flags.png"); }
+
+#install {
+  height: 100%;
+  background: #2090ea;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  overflow: auto; }
+  #install input, #install button, #install select, #install textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit; }
+  #install .main {
+    padding: 70px 0 50px; }
+  #install .step {
+    display: none;
+    height: 100%; }
+  #install .inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%; }
+    #install .inner .step-body {
+      margin-top: auto;
+      width: 100%;
+      max-width: 600px; }
+  #install #signal-computer,
+  #install #signal-phone {
+    max-width: 50%;
+    max-height: 250px; }
+  #install p {
+    max-width: 35em;
+    margin: 1em auto;
+    padding: 0 1em;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    font-weight: bold; }
+  #install a {
+    cursor: pointer; }
+    #install a, #install a:visited, #install a:hover {
+      text-decoration: none; }
+  #install .button {
+    display: inline-block;
+    text-transform: uppercase;
+    border: none;
+    font-weight: bold;
+    min-width: 300px;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    background: white;
+    color: #2090ea; }
+  #install .nav {
+    width: 100%;
+    bottom: 50px;
+    margin-top: auto;
+    padding: 20px; }
+    #install .nav .button {
+      margin-bottom: 3em; }
+    #install .nav .dot {
+      display: inline-block;
+      cursor: pointer;
+      margin: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: white;
+      border: solid 5px #2090ea; }
+      #install .nav .dot.selected {
+        background: #a2d2f4; }
+  #install .link:hover, #install .link:focus {
+    background: rgba(255, 255, 255, 0.3);
+    outline: none; }
+  #install .link, #install .link:visited, #install .link:hover {
+    padding: 0 3px;
+    color: white;
+    font-weight: bold;
+    border-bottom: dashed 2px white;
+    text-decoration: none; }
+  #install .container {
+    min-width: 650px; }
+  #install h1 {
+    font-size: 30pt;
+    font-weight: normal;
+    padding-bottom: 10px; }
+  #install h3.step {
+    margin-top: 0;
+    font-weight: bold; }
+  #install .help {
+    border-top: 2px solid #f3f3f3;
+    padding: 1.5em 0.1em; }
+  #install .install {
+    display: inline-block;
+    margin-top: 90px; }
+  #install #qr {
+    display: inline-block;
+    min-height: 266px; }
+    #install #qr img {
+      border: 5px solid white; }
+    #install #qr canvas {
+      display: none; }
+  #install #device-name {
+    border: none;
+    border-bottom: 1px solid white;
+    padding: 8px;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+    text-align: center; }
+    #install #device-name::selection, #install #device-name a::selection {
+      color: #454545;
+      background: white; }
+    #install #device-name::-moz-selection, #install #device-name a::-moz-selection {
+      color: #454545;
+      background: white; }
+    #install #device-name:focus {
+      outline: none; }
+    #install #device-name:hover, #install #device-name:focus {
+      background: rgba(255, 255, 255, 0.1); }
+  #install #verifyCode,
+  #install #code,
+  #install #number {
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5em;
+    text-align: center; }
+  #install #request-voice,
+  #install #request-sms {
+    box-sizing: border-box; }
+  #install #request-sms {
+    width: 57%;
+    float: right; }
+  #install #request-voice {
+    width: 40%;
+    float: left; }
+  #install .number-container {
+    position: relative;
+    margin-bottom: 0.5em; }
+  #install .number-container .intl-tel-input,
+  #install .number-container .number {
+    width: 100%; }
+  #install .number-container::after {
+    visibility: hidden;
+    content: ' ';
+    display: inline-block;
+    border-radius: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin: 3px 8px;
+    text-align: center; }
+  #install .number-container.valid::after {
+    visibility: visible;
+    content: '✓';
+    background-color: #0f9d58;
+    color: #ffffff; }
+  #install .number-container.invalid::after {
+    visibility: visible;
+    content: '!';
+    background-color: #f44336;
+    color: #ffffff; }
+  #install #error {
+    color: white;
+    font-weight: bold;
+    padding: 0.5em;
+    text-align: center; }
+  #install #error {
+    background-color: #f44336; }
+  #install #error:before {
+    content: '\26a0';
+    padding-right: 0.5em; }
+  #install .narrow {
+    margin: auto;
+    box-sizing: border-box;
+    width: 275px;
+    max-width: 100%; }
+  #install ul.country-list {
+    min-width: 197px !important; }
+  #install .confirmation-dialog, #install .progress-dialog, #install .error-dialog {
+    padding: 1em;
+    text-align: left; }
+  #install .number {
+    text-align: center; }
+  #install .confirmation-dialog button, #install .error-dialog button {
+    float: right;
+    margin-left: 10px; }
+  #install .progress-dialog {
+    text-align: center;
+    padding: 1em;
+    width: 100%;
+    max-width: 600px;
+    margin: auto; }
+    #install .progress-dialog .status {
+      padding: 1em; }
+    #install .progress-dialog .bar-container {
+      height: 1em;
+      background-color: #f3f3f3;
+      border: solid 1px white; }
+    #install .progress-dialog .bar {
+      width: 0;
+      height: 100%;
+      background-color: #a2d2f4;
+      transition: width 0.25s; }
+  #install .error-dialog {
+    display: none; }
+  #install .modal-container {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    top: 0;
+    padding-top: 10em;
+    text-align: center; }
+    #install .modal-container .modal-main {
+      display: inline-block;
+      width: 80%;
+      max-width: 500px;
+      border: solid 2px #2090ea;
+      background: white;
+      margin: 10% auto;
+      box-shadow: 0 0 5px 3px rgba(10, 62, 103, 0.2); }
+      #install .modal-container .modal-main h4 {
+        background-color: #2090ea;
+        color: white;
+        padding: 1em;
+        margin: 0;
+        text-align: left; }
 
 /*# sourceMappingURL=manifest.css.map */
