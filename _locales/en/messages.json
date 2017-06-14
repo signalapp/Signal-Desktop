@@ -594,14 +594,6 @@
       "message": "Play audio notification",
       "description": "Description for audio notification setting"
     },
-    "safetyNumbersSettingHeader": {
-      "message": "Safety numbers approval",
-      "description": "Header for safety numbers setting"
-    },
-    "safetyNumbersSettingDescription": {
-      "message": "Require approval of new safety numbers when they change",
-      "description": "Description for safety numbers setting"
-    },
     "keychanged": {
       "message": "Your safety number with $name$ has changed. Click to verify.",
       "description": "",
