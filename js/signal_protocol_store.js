@@ -104,7 +104,7 @@
             return this.fetch({range: [number + '.1', number + '.' + ':']});
         }
     });
-    var IdentityKey = Model.extend({
+    var IdentityRecord = Model.extend({
       storeName: 'identityKeys',
       validAttributes: [
           'id',
@@ -351,25 +351,25 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             var isOurNumber = number === textsecure.storage.user.getNumber();
-            var identityKey = new IdentityKey({id: number});
+            var identityRecord = new IdentityRecord({id: number});
             return new Promise(function(resolve) {
-                identityKey.fetch().always(resolve);
+                identityRecord.fetch().always(resolve);
             }).then(function() {
-                var existing = identityKey.get('publicKey');
+                var existing = identityRecord.get('publicKey');
 
                 if (isOurNumber) {
                     return equalArrayBuffers(existing, publicKey);
                 }
 
                 switch(direction) {
-                    case Direction.SENDING:   return this.isTrustedForSending(publicKey, identityKey);
+                    case Direction.SENDING:   return this.isTrustedForSending(publicKey, identityRecord);
                     case Direction.RECEIVING: return true;
                     default:        throw new Error("Unknown direction: " + direction);
                 }
             }.bind(this));
         },
-        isTrustedForSending: function(publicKey, identityKey) {
-            var existing = identityKey.get('publicKey');
+        isTrustedForSending: function(publicKey, identityRecord) {
+            var existing = identityRecord.get('publicKey');
 
             if (!existing) {
                 console.log("isTrustedForSending: Nothing here, returning true...");
@@ -379,11 +379,11 @@
                 console.log("isTrustedForSending: Identity keys don't match...");
                 return false;
             }
-            if (identityKey.get('verified') === VerifiedStatus.UNVERIFIED) {
+            if (identityRecord.get('verified') === VerifiedStatus.UNVERIFIED) {
                console.log("Needs unverified approval!");
                return false;
             }
-            if (this.isNonBlockingApprovalRequired(identityKey)) {
+            if (this.isNonBlockingApprovalRequired(identityRecord)) {
                 console.log("isTrustedForSending: Needs non-blocking approval!");
                 return false;
             }
@@ -396,9 +396,9 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    resolve(identityKey.get('publicKey'));
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().always(function() {
+                    resolve(identityRecord.get('publicKey'));
                 });
             });
         },
@@ -414,13 +414,13 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    var oldpublicKey = identityKey.get('publicKey');
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().always(function() {
+                    var oldpublicKey = identityRecord.get('publicKey');
                     if (!oldpublicKey) {
                         // Lookup failed, or the current key was removed, so save this one.
                         console.log("Saving new identity...");
-                        identityKey.save({
+                        identityRecord.save({
                             publicKey           : publicKey,
                             firstUse            : true,
                             timestamp           : Date.now(),
@@ -431,7 +431,7 @@
                         });
                     } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
                         console.log("Replacing existing identity...");
-                        var previousStatus = identityKey.get('verified');
+                        var previousStatus = identityRecord.get('verified');
                         var verifiedStatus;
                         if (previousStatus === VerifiedStatus.VERIFIED
                             || previousStatus === VerifiedStatus.UNVERIFIED) {
@@ -439,7 +439,7 @@
                         } else {
                             verifiedStatus = VerifiedStatus.DEFAULT;
                         }
-                        identityKey.save({
+                        identityRecord.save({
                             publicKey           : publicKey,
                             firstUse            : false,
                             timestamp           : Date.now(),
@@ -449,9 +449,9 @@
                             this.trigger('keychange', identifier);
                             resolve(true);
                         }.bind(this));
-                    } else if (this.isNonBlockingApprovalRequired(identityKey)) {
+                    } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
                         console.log("Setting approval status...");
-                        identityKey.save({
+                        identityRecord.save({
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
@@ -462,10 +462,10 @@
                 }.bind(this));
             }.bind(this));
         },
-        isNonBlockingApprovalRequired: function(identityKey) {
-          return (!identityKey.get('firstUse')
-                  && Date.now() - identityKey.get('timestamp') < TIMESTAMP_THRESHOLD
-                  && !identityKey.get('nonblockingApproval'));
+        isNonBlockingApprovalRequired: function(identityRecord) {
+          return (!identityRecord.get('firstUse')
+                  && Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD
+                  && !identityRecord.get('nonblockingApproval'));
         },
         saveIdentityWithAttributes: function(identifier, attributes) {
             if (identifier === null || identifier === undefined) {
@@ -473,12 +473,12 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.set(attributes);
-                if (identityKey.isValid()) { // false if invalid attributes
-                    identityKey.save().then(resolve);
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.set(attributes);
+                if (identityRecord.isValid()) { // false if invalid attributes
+                    identityRecord.save().then(resolve);
                 } else {
-                    reject(identityKey.validationError);
+                    reject(identityRecord.validationError);
                 }
             });
         },
@@ -491,9 +491,9 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().then(function() {
-                    identityKey.save({
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().then(function() {
+                    identityRecord.save({
                         nonblockingApproval: nonblockingApproval
                     }).then(function() {
                         resolve();
@@ -511,9 +511,9 @@
                 throw new Error("Invalid verified status");
             }
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: identifier});
-                identityKey.fetch().always(function() {
-                    identityKey.save({
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().always(function() {
+                    identityRecord.save({
                         verified: verifiedStatus
                     }).then(function() {
                         resolve();
@@ -528,9 +528,9 @@
                 throw new Error("Tried to set verified for undefined/null key");
             }
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: identifier});
-                identityKey.fetch().then(function() {
-                    var verifiedStatus = identityKey.get('verified');
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().then(function() {
+                    var verifiedStatus = identityRecord.get('verified');
                     if (validateVerifiedStatus(verifiedStatus)) {
                         resolve(verifiedStatus);
                     }
@@ -547,10 +547,10 @@
                 throw new Error("Tried to set verified for undefined/null key");
             }
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: identifier});
-                identityKey.fetch().then(function() {
-                    if (Date.now() - identityKey.get('timestamp') < TIMESTAMP_THRESHOLD
-                        && !identityKey.get('nonblockingApproval')) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().then(function() {
+                    if (Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD
+                        && !identityRecord.get('nonblockingApproval')) {
                         resolve(true);
                     } else {
                         resolve(false);
@@ -562,9 +562,9 @@
         },
         removeIdentityKey: function(number) {
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().then(function() {
-                    identityKey.destroy();
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().then(function() {
+                    identityRecord.destroy();
                 }).fail(function() {
                     reject(new Error("Tried to remove identity for unknown number"));
                 });
