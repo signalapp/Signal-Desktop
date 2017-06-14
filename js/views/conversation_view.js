@@ -82,6 +82,7 @@
         render_attributes: function() {
             return {
                 group: this.model.get('type') === 'group',
+                isMe: this.model.isMe(),
                 avatar: this.model.getAvatar(),
                 expireTimer: this.model.get('expireTimer'),
                 'show-members'    : i18n('showMembers'),
