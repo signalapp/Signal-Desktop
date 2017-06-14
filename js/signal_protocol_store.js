@@ -431,8 +431,10 @@
                         });
                     } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
                         console.log("Replacing existing identity...");
+                        var previousStatus = identityKey.get('verified');
                         var verifiedStatus;
-                        if (identityKey.get('verified') === VerifiedStatus.VERIFIED) {
+                        if (previousStatus === VerifiedStatus.VERIFIED
+                            || previousStatus === VerifiedStatus.UNVERIFIED) {
                             verifiedStatus = VerifiedStatus.UNVERIFIED;
                         } else {
                             verifiedStatus = VerifiedStatus.DEFAULT;
