@@ -79,9 +79,9 @@
     {{ #number }}
       <span class='conversation-number'>{{ number }}</span>
     {{ /number }}
-    {{ #verified }}
-      <span class='verified'>✓ Verified</span>
-    {{ /verified }}
+    {{ #isVerified }}
+      <span class='verified'>✓ {{ verified }}</span>
+    {{ /isVerified }}
   </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
@@ -251,7 +251,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
       <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ #verified }}✓ Verified &middot;{{ /verified }} {{ number }}</div>
+      <div class='number'>{{ #isVerified }}✓ {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}

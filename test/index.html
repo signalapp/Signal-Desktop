@@ -86,6 +86,17 @@
   <script type='text/x-tmpl-mustache' id='hint'>
     <p> {{ content }}</p>
   </script>
+  <script type='text/x-tmpl-mustache' id='conversation-title'>
+    {{ #name }}
+      <span class='conversation-name' dir='auto'>{{ name }}</span>
+    {{ /name }}
+    {{ #number }}
+      <span class='conversation-number'>{{ number }}</span>
+    {{ /number }}
+    {{ #isVerified }}
+      <span class='verified'>✓ {{ verified }}</span>
+    {{ /isVerified }}
+  </script>
   <script type='text/x-tmpl-mustache' id='conversation'>
     <div class='conversation-header {{ avatar.color }}'>
         <div class='header-buttons left'>
@@ -115,14 +126,7 @@
             </div>
           </div>
         </div>
-        <span class='conversation-title'>
-          {{ #name }}
-            <span class='conversation-name' dir='auto'>{{ name }}</span>
-          {{ /name }}
-          {{ #number }}
-            <span class='conversation-number'>{{ number }}</span>
-          {{ /number }}
-        </span>
+        <span class='conversation-title'></span>
         {{> avatar }}
     </div>
     <div class='main panel'>
@@ -232,7 +236,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
       <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ number }}</div>
+      <div class='number'>{{ #isVerified }}✓ {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}

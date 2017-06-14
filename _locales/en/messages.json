@@ -112,6 +112,9 @@
     "verify": {
       "message": "Verify"
     },
+    "verified": {
+      "message": "Verified"
+    },
     "newIdentity": {
       "message": "New safety number",
       "description": "Header for a key change dialog"

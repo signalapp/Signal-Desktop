@@ -64,7 +64,8 @@
         },
         render_attributes: function() {
             return {
-                verified: this.model.isVerified(),
+                isVerified: this.model.isVerified(),
+                verified: i18n('verified'),
                 name: this.model.getName(),
                 number: this.model.getNumber(),
             };
