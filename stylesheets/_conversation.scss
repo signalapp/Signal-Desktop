@@ -637,13 +637,8 @@ li.entry .error-icon-container {
         margin-left: 10px;
         background-color: $grey_l;
         border-radius: $border-radius;
-        outline: none;
         padding: 5px 8px;
         border: 1px solid $grey_l2;
-
-        &:focus {
-          border-color: $grey_l4;
-        }
 
         &:hover {
           background-color: $grey_l2;
