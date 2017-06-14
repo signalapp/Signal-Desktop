@@ -120,7 +120,6 @@
                 model: this.model
             });
             this.titleView.render();
-            this.titleView.render();
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection,
@@ -573,7 +572,7 @@
 
             var view = new Whisper.GroupMemberList({
                 model: members,
-                // we pass this in to allow nexted panels
+                // we pass this in to allow nested panels
                 listenBack: this.listenBack.bind(this)
             });
 
