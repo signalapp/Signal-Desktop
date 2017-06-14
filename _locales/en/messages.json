@@ -247,16 +247,6 @@
         }
       }
     },
-    "isVerified": {
-      "message": "$name$ is verified",
-      "description": "If the user has manually marked a contact's safety number as verified, this string is shown on the 'Show Safety Number' screen",
-      "placeholders": {
-        "name": {
-          "content": "$1",
-          "example": "John"
-        }
-      }
-    },
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
     },
