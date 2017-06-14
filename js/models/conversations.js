@@ -56,6 +56,10 @@
         this.on('destroy', this.revokeAvatarUrl);
     },
 
+    isMe: function() {
+        return this.id === this.ourNumber;
+    },
+
     updateVerified: function() {
         function checkTrustStore(value) {
             return Promise.resolve(value);
@@ -73,7 +77,7 @@
         } else {
             return this.fetchContacts().then(function() {
                 return Promise.all(this.contactCollection.map(function(contact) {
-                    if (contact.id !== this.ourNumber) {
+                    if (!contact.isMe()) {
                         return contact.updateVerified();
                     }
                 }.bind(this)));
@@ -121,7 +125,7 @@
             }
 
             return this.contactCollection.every(function(contact) {
-                if (contact.id === this.ourNumber) {
+                if (contact.isMe()) {
                     return true;
                 } else {
                     return contact.isVerified();
@@ -139,7 +143,7 @@
             }
 
             return this.contactCollection.any(function(contact) {
-                if (contact.id === this.ourNumber) {
+                if (contact.isMe()) {
                     return false;
                 } else {
                     return contact.isUnverified();
@@ -152,7 +156,7 @@
             return this.isUnverified() ? new Backbone.Collection([this]) : new Backbone.Collection();
         } else {
             return new Backbone.Collection(this.contactCollection.filter(function(contact) {
-                if (contact.id === this.ourNumber) {
+                if (contact.isMe()) {
                     return false;
                 } else {
                     return contact.isUnverified();
@@ -174,7 +178,7 @@
             }
 
             return Promise.all(this.contactCollection.map(function(contact) {
-                if (contact.id === this.ourNumber) {
+                if (contact.isMe()) {
                     return false;
                 } else {
                     return contact.isUntrusted();
@@ -199,7 +203,7 @@
             }.bind(this));
         } else {
             return Promise.all(this.contactCollection.map(function(contact) {
-                if (contact.id === this.ourNumber) {
+                if (contact.isMe()) {
                     return [false, contact];
                 } else {
                     return Promise.all([this.isUntrusted(), contact]);

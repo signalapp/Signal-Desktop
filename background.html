@@ -102,7 +102,9 @@
                       <!-- <li class='leave-group'>Leave group</li> -->
                   {{/group}}
                   {{^group}}
-                      <li class='show-identity'>{{ show-identity }}</li>
+                      {{ ^isMe }}
+                        <li class='show-identity'>{{ show-identity }}</li>
+                      {{ /isMe }}
                       <li class='end-session'>{{ end-session }}</li>
                   {{/group}}
                   <li class='destroy'>{{ destroy }}</li>
