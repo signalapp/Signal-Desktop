@@ -119,7 +119,7 @@
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('read', onReadReceipt);
-        messageReceiver.addEventListener('verification', onVerify);
+        messageReceiver.addEventListener('verification', onVerification);
         messageReceiver.addEventListener('error', onError);
 
 
@@ -291,23 +291,33 @@
         });
     }
 
-    var VERIFIED_ENUM = textsecure.storage.protocol.VerifiedStatus;
-
-    function onVerify(ev) {
+    function onVerification(ev) {
         var number   = ev.destination;
         var key      = ev.identityKey;
-        var verified = ev.state;
+        var state;
 
-        console.log('verification sync message', number, verified);
+        console.log('got verification sync for', number, state);
+
+        switch(ev.state) {
+          case textsecure.protobuf.Verification.State.DEFAULT:
+            state = 'DEFAULT';
+            break;
+          case textsecure.protobuf.Verification.State.VERIFIED:
+            state = 'VERIFIED';
+            break;
+          case textsecure.protobuf.Verification.State.NO_LONGER_VERIFIED:
+            state = 'UNVERIFIED';
+            break;
+        }
 
         var contact = ConversationController.get(number);
         if (!contact) {
             return;
         }
 
-        if (verified === VERIFIED_ENUM.DEFAULT) {
+        if (state === 'DEFAULT') {
             contact.setVerifiedDefault({viaSyncMessage: true, key: key});
-        } else if (verified === VERIFIED_ENUM.VERIFIED) {
+        } else if (state === 'VERIFIED') {
             contact.setVerified({viaSyncMessage: true, key: key});
         }
     }

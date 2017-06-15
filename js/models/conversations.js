@@ -38,12 +38,7 @@
 
     initialize: function() {
         this.ourNumber = textsecure.storage.user.getNumber();
-        // this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
-        this.verifiedEnum = {
-            DEFAULT: 0,
-            VERIFIED: 1,
-            UNVERIFIED: 2,
-        };
+        this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
 
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
@@ -61,14 +56,9 @@
     },
 
     updateVerified: function() {
-        function checkTrustStore(value) {
-            return Promise.resolve(value);
-        }
-
         if (this.isPrivate()) {
             return Promise.all([
-                //textsecure.storage.protocol.getVerified(this.id),
-                checkTrustStore(this.verifiedEnum.UNVERIFIED),
+                textsecure.storage.protocol.getVerified(this.id),
                 this.fetch()
             ]).then(function(results) {
                 var trust = results[0];
@@ -94,11 +84,7 @@
         }
         var DEFAULT = this.verifiedEnum.DEFAULT;
 
-        // return textsecure.storage.protocol.setVerified(this.id, DEFAULT, options.key).then(function() {
-        function updateTrustStore() {
-            return Promise.resolve();
-        }
-        return updateTrustStore(this.id, DEFAULT, options.key).then(function() {
+        return textsecure.storage.protocol.setVerified(this.id, DEFAULT, options.key).then(function() {
             return this.save({verified: DEFAULT});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, false);
@@ -118,11 +104,7 @@
                             'You must verify individual contacts.');
         }
 
-        // return textsecure.storage.protocol.setVerified(this.id, VERIFIED, options.key).then(function() {
-        function updateTrustStore() {
-            return Promise.resolve();
-        }
-        return updateTrustStore(this.id, VERIFIED, options.key).then(function() {
+        return textsecure.storage.protocol.setVerified(this.id, VERIFIED, options.key).then(function() {
             return this.save({verified: VERIFIED});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, true);
@@ -132,9 +114,9 @@
         }.bind(this));
     },
     sendVerifySyncMessage: function(number, state) {
-        // textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
-        //     textsecure.storage.protocol.sendVerifySync(number, state, key);
-        // });
+        textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
+            textsecure.storage.protocol.syncVerification(number, state, key);
+        });
     },
     isVerified: function() {
         if (this.isPrivate()) {
@@ -186,11 +168,7 @@
     },
     isUntrusted: function() {
         if (this.isPrivate()) {
-            // return textsecure.storage.protocol.isUntrusted(this.id);
-            function getFromTrustStore() {
-                return Promise.resolve(true);
-            }
-            return getFromTrustStore(this.id);
+            return textsecure.storage.protocol.isUntrusted(this.id);
         } else {
             if (!this.contactCollection.length) {
                 return Promise.resolve(false);
