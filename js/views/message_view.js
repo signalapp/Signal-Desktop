@@ -272,6 +272,7 @@
 
                 this.trigger('beforeChangeHeight');
                 this.$('.attachments').append(view.el);
+                view.setElement(view.el);
                 this.trigger('afterChangeHeight');
             }
         },
