@@ -305,6 +305,24 @@ MessageSender.prototype = {
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     },
+    syncVerification: function(state, destination, identityKey) {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var verification = new textsecure.protobuf.SyncMessage.Verification();
+            verification.state = state;
+            verification.destination = destination;
+            verification.identityKey = identityKey;
+
+            var syncMessage = new textsecure.protobuf.SyncMessage();
+            syncMessage.verification = verification;
+
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+    },
 
     sendGroupProto: function(numbers, proto, timestamp) {
         timestamp = timestamp || Date.now();
@@ -550,6 +568,7 @@ textsecure.MessageSender = function(url, ports, username, password) {
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
     this.getProfile                        = sender.getProfile                       .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
+    this.syncVerification                  = sender.syncReadMessages                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
