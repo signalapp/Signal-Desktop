@@ -199,6 +199,15 @@
                 }
                 this.save({sent: true, expirationStartTimestamp: now});
                 this.sendSyncMessage();
+
+                // var error = new Error('OutgoingIdentityKeyError');
+                // error.name = 'OutgoingIdentityKeyError';
+                // error.number = result.successfulNumbers[0];
+                // throw error;
+
+                // var error = new Error('OutgoingMessageError');
+                // error.name = 'OutgoingMessageError';
+                // throw error;
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
                 this.trigger('done');
@@ -273,7 +282,8 @@
                     (e.name === 'MessageError' ||
                      e.name === 'OutgoingMessageError' ||
                      e.name === 'SendMessageNetworkError' ||
-                     e.name === 'SignedPreKeyRotationError');
+                     e.name === 'SignedPreKeyRotationError' ||
+                     e.name === 'OutgoingIdentityKeyError');
             });
             this.set({errors: errors[1]});
             return errors[0][0];
@@ -282,9 +292,9 @@
             return (e.name === 'MessageError' ||
                     e.name === 'OutgoingMessageError' ||
                     e.name === 'SendMessageNetworkError' ||
-                    e.name === 'SignedPreKeyRotationError');
+                    e.name === 'SignedPreKeyRotationError' ||
+                    e.name === 'OutgoingIdentityKeyError');
         },
-
         resend: function(number) {
             var error = this.removeOutgoingErrors(number);
             if (error) {
@@ -292,7 +302,6 @@
                 this.send(promise);
             }
         },
-
         handleDataMessage: function(dataMessage) {
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an

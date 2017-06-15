@@ -293,6 +293,14 @@
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='container'>
       <div class='message-container'></div>
+      {{ #allowRetry }}
+        <div class='retries'>
+          <div>{{ retryDescription }}</div>
+          {{ #retryTargets }}
+            <button class='retry gray' data-number='{{ number }}'>{{ title }}</button>
+          {{ /retryTargets }}
+        </div>
+      {{ /allowRetry }}
       <div class='info'>
         <table>
           {{ #errors }}
