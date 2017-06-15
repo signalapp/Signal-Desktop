@@ -98,6 +98,37 @@
         }
     });
 
+    Whisper.VerifiedChangeView = Whisper.View.extend({
+        tagName:   'li',
+        className: 'verified-change',
+        templateName: 'verified-change',
+        id: function() {
+            return this.model.id;
+        },
+        initialize: function() {
+            this.conversation = this.model.getModelForVerifiedChange();
+        },
+        events: {
+            'click .content': 'showIdentity'
+        },
+        render_attributes: function() {
+            if (this.model.get('verified')) {
+                return {
+                    icon: 'verified',
+                    content: i18n('youMarkedAsVerified', this.conversation.getTitle())
+                };
+            }
+
+            return {
+                icon: 'shield',
+                content: i18n('youMarkedAsNotVerified', this.conversation.getTitle())
+            };
+        },
+        showIdentity: function() {
+            this.$el.trigger('show-identity', this.conversation);
+        }
+    });
+
     Whisper.MessageView = Whisper.View.extend({
         tagName:   'li',
         templateName: 'message',

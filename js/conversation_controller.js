@@ -103,6 +103,11 @@
                 });
             });
         },
+        getAllGroupsInvolvingId: function(id) {
+            return conversations.filter(function(conversation) {
+                return !conversation.isPrivate() && conversation.hasMember(id);
+            });
+        },
         updateInbox: function() {
             return conversations.fetchActive();
         }

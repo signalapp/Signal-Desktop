@@ -674,6 +674,32 @@ li.entry .error-icon-container {
   }
 }
 
+.message-list li.verified-change {
+  text-align: center;
+  .icon {
+    height: 1.25em;
+    width: 1.25em;
+    vertical-align: text-bottom;
+    display: inline-block;
+
+    &.verified {
+      @include color-svg('/images/verified-check.svg', $grey_d);
+    }
+    &.shield {
+      @include color-svg('/images/shield.svg', $grey_d);
+    }
+  }
+
+  .content {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #fff5c4;
+    color: $grey_d;
+    border-radius: $border-radius;
+  }
+}
+
 .message-list .last-seen-indicator-view {
   // This padding is large so we clear the avatar circle extending into the conversation
   // window.scrollIntoView() doesn't honor margins, so we're using padding

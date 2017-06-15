@@ -98,6 +98,9 @@
         // return textsecure.storage.protocol.setVerified(this.id, DEFAULT).then(function() {
         return updateTrustStore(this.id, DEFAULT).then(function() {
             return this.save({verified: DEFAULT});
+        }.bind(this)).then(function() {
+            // TODO: send sync message? add a parameter to tell us if this is via a sync message?
+            this.addVerifiedChange(this.id, false);
         }.bind(this));
     },
     setVerified: function() {
@@ -114,6 +117,9 @@
         // return textsecure.storage.protocol.setVerified(this.id, VERIFIED).then(function() {
         return updateTrustStore(this.id, VERIFIED).then(function() {
             return this.save({verified: VERIFIED});
+        }.bind(this)).then(function() {
+            // TODO: send sync message? add a parameter to tell us if this is via a sync message?
+            this.addVerifiedChange(this.id, true);
         }.bind(this));
     },
     isVerified: function() {
@@ -235,7 +241,7 @@
     },
 
     addKeyChange: function(id) {
-        console.log('adding key change advisory for', this.id, this.get('timestamp'));
+        console.log('adding key change advisory for', this.id, id, this.get('timestamp'));
         var timestamp = Date.now();
         var message = new Whisper.Message({
             conversationId : this.id,
@@ -245,6 +251,27 @@
             key_changed    : id
         });
         message.save().then(this.trigger.bind(this,'newmessage', message));
+    },
+    addVerifiedChange: function(id, verified) {
+        console.log('adding verified change advisory for', this.id, id, this.get('timestamp'));
+        var timestamp = Date.now();
+        var message = new Whisper.Message({
+            conversationId  : this.id,
+            type            : 'verified-change',
+            // why is sent_at set to this.get('timestamp?')
+            sent_at         : this.get('timestamp'),
+            received_at     : timestamp,
+            verifiedChanged : id,
+            verified        : verified
+        });
+        message.save().then(this.trigger.bind(this,'newmessage', message));
+
+        if (this.isPrivate()) {
+            var groups = ConversationController.getAllGroupsInvolvingId(id);
+            _.forEach(groups, function(group) {
+                group.addVerifiedChange(id, verified);
+            });
+        }
     },
 
     onReadMessage: function(message) {
@@ -382,6 +409,9 @@
         var collection = new Whisper.MessageCollection();
         return collection.fetchConversation(this.id, 1).then(function() {
             var lastMessage = collection.at(0);
+            if (lastMessage.get('type') === 'verified-change') {
+                return;
+            }
             if (lastMessage) {
               this.set({
                 lastMessage : lastMessage.getNotificationText(),
@@ -551,6 +581,9 @@
         return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
     },
 
+    hasMember: function(number) {
+        return _.contains(this.get('members'), number);
+    },
     fetchContacts: function(options) {
         return new Promise(function(resolve) {
             if (this.isPrivate()) {

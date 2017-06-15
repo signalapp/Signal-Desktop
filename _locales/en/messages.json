@@ -33,6 +33,26 @@
         }
       }
     },
+    "youMarkedAsVerified": {
+      "message": "You marked $name$ as verified.",
+      "description": "Shown in the conversation history when the user marks a contact as verified.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "youMarkedAsNotVerified": {
+      "message": "You marked $name$ as not verified.",
+      "description": "Shown in the conversation history when the user marks a contact as verified, whether on the safety number screen or by dismissing a banner or dialog.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
     "changedSinceVerifiedMultiple": {
       "message": "Your safety numbers with multiple group members have changed since you last verified.",
       "description": "Shown on confirmation dialog when user attempts to send a message"
