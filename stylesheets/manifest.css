@@ -1125,6 +1125,10 @@ input.search {
       font-weight: bold; }
       .message-detail .info button span {
         vertical-align: middle; }
+  .message-detail .retries {
+    padding: 1em; }
+  .message-detail button.retry {
+    margin: 0.5em; }
   .message-detail .contacts .contact-detail {
     padding: 0 36px;
     margin-bottom: 5px; }
