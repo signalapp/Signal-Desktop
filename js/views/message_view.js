@@ -107,6 +107,7 @@
         },
         initialize: function() {
             this.conversation = this.model.getModelForVerifiedChange();
+            this.listenTo(this.conversation, 'change', this.render);
         },
         events: {
             'click .content': 'showIdentity'
