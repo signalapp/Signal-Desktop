@@ -409,16 +409,16 @@
         var collection = new Whisper.MessageCollection();
         return collection.fetchConversation(this.id, 1).then(function() {
             var lastMessage = collection.at(0);
-            if (lastMessage.get('type') === 'verified-change') {
-                return;
-            }
             if (lastMessage) {
-              this.set({
-                lastMessage : lastMessage.getNotificationText(),
-                timestamp   : lastMessage.get('sent_at')
-              });
+                if (lastMessage.get('type') === 'verified-change') {
+                    return;
+                }
+                this.set({
+                   lastMessage : lastMessage.getNotificationText(),
+                   timestamp   : lastMessage.get('sent_at')
+                });
             } else {
-              this.set({ lastMessage: '', timestamp: null });
+                this.set({ lastMessage: '', timestamp: null });
             }
             if (this.hasChanged('lastMessage') || this.hasChanged('timestamp')) {
                 this.save();
