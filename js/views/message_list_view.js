@@ -62,6 +62,8 @@
                 view = new Whisper.ExpirationTimerUpdateView({model: model}).render();
             } else if (model.get('type') === 'keychange') {
                 view = new Whisper.KeyChangeView({model: model}).render();
+            } else if (model.get('type') === 'verified-change') {
+                view = new Whisper.VerifiedChangeView({model: model}).render();
             } else {
                 view = new this.itemView({model: model}).render();
                 this.listenTo(view, 'beforeChangeHeight', this.measureScrollPosition);

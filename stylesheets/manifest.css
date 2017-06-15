@@ -1540,6 +1540,29 @@ li.entry .error-icon-container {
     color: #454545;
     border-radius: 5px; }
 
+.message-list li.verified-change {
+  text-align: center; }
+  .message-list li.verified-change .icon {
+    height: 1.25em;
+    width: 1.25em;
+    vertical-align: text-bottom;
+    display: inline-block; }
+    .message-list li.verified-change .icon.verified {
+      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #454545; }
+    .message-list li.verified-change .icon.shield {
+      -webkit-mask: url("/images/shield.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #454545; }
+  .message-list li.verified-change .content {
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #fff5c4;
+    color: #454545;
+    border-radius: 5px; }
+
 .message-list .last-seen-indicator-view {
   padding-top: 25px;
   padding-bottom: 35px; }

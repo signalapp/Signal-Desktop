@@ -185,14 +185,16 @@
             'close .menu': 'closeMenu',
             'select .message-list .entry': 'messageDetail',
             'force-resize': 'forceUpdateMessageFieldSize',
-            'show-identity': 'showIdentity'
+            'show-identity': 'showSafetyNumber'
         },
 
 
         markAllAsVerifiedDefault: function(unverified) {
             return Promise.all(unverified.map(function(contact) {
-                return contact.setVerifiedDefault();
-            }));
+                if (contact.isUnverified()) {
+                    return contact.setVerifiedDefault();
+                }
+            }.bind(this)));
         },
 
         openSafetyNumberScreens: function(unverified) {

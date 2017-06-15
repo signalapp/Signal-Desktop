@@ -185,6 +185,12 @@
     {{ messageNotSent }}
     <span href='#' class='retry'>{{ resend }}</span>
   </script>
+  <script type='text/x-tmpl-mustache' id='keychange'>
+      <span class='content' dir='auto'>{{ content }}</span>
+  </script>
+  <script type='text/x-tmpl-mustache' id='verified-change'>
+      <span class='content' dir='auto'><span class='{{ icon }} icon'></span> {{ content }}</span>
+  </script>
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble {{ avatar.color }}'>
