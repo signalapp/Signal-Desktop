@@ -70,7 +70,7 @@
       "description": "Used on a warning dialog to specifiy "
     },
     "noLongerVerified": {
-      "message": "$name$ is no longer verified. Click to verify.",
+      "message": "$name$ is no longer verified. Click to show.",
       "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
       "placeholders": {
         "name": {
@@ -80,7 +80,7 @@
       }
     },
     "multipleNoLongerVerified": {
-      "message": "More than one member of this group is no longer verified. Click to verify.",
+      "message": "More than one member of this group is no longer verified. Click to show.",
       "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -592,7 +592,7 @@
       "description": "Description for audio notification setting"
     },
     "keychanged": {
-      "message": "Your safety number with $name$ has changed. Click to verify.",
+      "message": "Your safety number with $name$ has changed. Click to show.",
       "description": "",
       "placeholders": {
         "name": {
