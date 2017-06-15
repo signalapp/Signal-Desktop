@@ -182,6 +182,18 @@
             }
             return this.modelForKeyChange;
         },
+        getModelForVerifiedChange: function() {
+            var id = this.get('verifiedChanged');
+            if (!this.modelForVerifiedChange) {
+              var c = ConversationController.get(id);
+              if (!c) {
+                  c = ConversationController.create({ id: id, type: 'private' });
+                  c.fetch();
+              }
+              this.modelForVerifiedChange = c;
+            }
+            return this.modelForVerifiedChange;
+        },
         isOutgoing: function() {
             return this.get('type') === 'outgoing';
         },
