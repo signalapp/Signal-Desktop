@@ -119,7 +119,7 @@
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('read', onReadReceipt);
-        // messageReceiver.addEventListener('verify', onVerify);
+        messageReceiver.addEventListener('verification', onVerify);
         messageReceiver.addEventListener('error', onError);
 
 
@@ -324,6 +324,29 @@
         Whisper.DeliveryReceipts.add({
             timestamp: timestamp, source: pushMessage.source
         });
+    }
+
+    function onVerification(ev) {
+        var state;
+        switch(ev.state) {
+          case textsecure.protobuf.Verification.State.DEFAULT:
+            state = 'DEFAULT';
+            break;
+          case textsecure.protobuf.Verification.State.VERIFIED:
+            state = 'VERIFIED';
+            break;
+          case textsecure.protobuf.Verification.State.NO_LONGER_VERIFIED:
+            state = 'UNVERIFIED';
+            break;
+        }
+        console.log('got verification sync for', ev.destination, state);
+        /* TODO
+        processVerifiedMessage(
+          textsecure.storage.protocol.VerifiedStatus[state],
+          ev.destination,
+          ev.identityKey
+        );
+        */
     }
 
     window.owsDesktopApp = {
