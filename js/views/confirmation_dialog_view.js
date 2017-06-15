@@ -40,7 +40,6 @@
             this.reject();
         },
         onKeyup: function(event) {
-            console.log('ConfirmationDialogView onKeyup', event);
             if (event.key === 'Escape' || event.key === 'Esc') {
                 this.cancel();
             }
