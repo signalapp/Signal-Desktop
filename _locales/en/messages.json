@@ -61,6 +61,10 @@
         }
       }
     },
+    "retryDescription": {
+      "message": "You can retry sending this message to each of the failed recipients with these buttons:",
+      "description": "Shows on the message details view when it's a message error which can be retried."
+    },
     "sendAnyway": {
       "message": "Send Anyway",
       "description": "Used on a warning dialog to specifiy "
