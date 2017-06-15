@@ -119,7 +119,9 @@
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('read', onReadReceipt);
+        // messageReceiver.addEventListener('verify', onVerify);
         messageReceiver.addEventListener('error', onError);
+
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
@@ -287,6 +289,27 @@
             timestamp : timestamp,
             read_at   : read_at
         });
+    }
+
+    var VERIFIED_ENUM = textsecure.storage.protocol.VerifiedStatus;
+
+    function onVerify(ev) {
+        var number   = ev.destination;
+        var key      = ev.identityKey;
+        var verified = ev.state;
+
+        console.log('verification sync message', number, verified);
+
+        var contact = ConversationController.get(number);
+        if (!contact) {
+            return;
+        }
+
+        if (verified === VERIFIED_ENUM.DEFAULT) {
+            contact.setVerifiedDefault({viaSyncMessage: true, key: key});
+        } else if (verified === VERIFIED_ENUM.VERIFIED) {
+            contact.setVerified({viaSyncMessage: true, key: key});
+        }
     }
 
     function onDeliveryReceipt(ev) {

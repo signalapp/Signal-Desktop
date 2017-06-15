@@ -84,10 +84,9 @@
             }.bind(this)).then(this.onMemberVerifiedChange.bind(this));
         }
     },
-    setVerifiedDefault: function() {
-        function updateTrustStore() {
-            return Promise.resolve();
-        }
+    setVerifiedDefault: function(options) {
+        options = options || {};
+        _.defaults(options, {viaSyncMessage: false, key: null});
 
         if (!this.isPrivate()) {
             throw new Error('You cannot verify a group conversation. ' +
@@ -95,18 +94,23 @@
         }
         var DEFAULT = this.verifiedEnum.DEFAULT;
 
-        // return textsecure.storage.protocol.setVerified(this.id, DEFAULT).then(function() {
-        return updateTrustStore(this.id, DEFAULT).then(function() {
-            return this.save({verified: DEFAULT});
-        }.bind(this)).then(function() {
-            // TODO: send sync message? add a parameter to tell us if this is via a sync message?
-            this.addVerifiedChange(this.id, false);
-        }.bind(this));
-    },
-    setVerified: function() {
+        // return textsecure.storage.protocol.setVerified(this.id, DEFAULT, options.key).then(function() {
         function updateTrustStore() {
             return Promise.resolve();
         }
+        return updateTrustStore(this.id, DEFAULT, options.key).then(function() {
+            return this.save({verified: DEFAULT});
+        }.bind(this)).then(function() {
+            this.addVerifiedChange(this.id, false);
+            if (!options.viaSyncMessage) {
+                this.sendVerifySyncMessage(this.id, DEFAULT);
+            }
+        }.bind(this));
+    },
+    setVerified: function(options) {
+        options = options || {};
+        _.defaults(options, {viaSyncMessage: false, key: null});
+
         var VERIFIED = this.verifiedEnum.VERIFIED;
 
         if (!this.isPrivate()) {
@@ -114,13 +118,23 @@
                             'You must verify individual contacts.');
         }
 
-        // return textsecure.storage.protocol.setVerified(this.id, VERIFIED).then(function() {
-        return updateTrustStore(this.id, VERIFIED).then(function() {
+        // return textsecure.storage.protocol.setVerified(this.id, VERIFIED, options.key).then(function() {
+        function updateTrustStore() {
+            return Promise.resolve();
+        }
+        return updateTrustStore(this.id, VERIFIED, options.key).then(function() {
             return this.save({verified: VERIFIED});
         }.bind(this)).then(function() {
-            // TODO: send sync message? add a parameter to tell us if this is via a sync message?
             this.addVerifiedChange(this.id, true);
+            if (!options.viaSyncMessage) {
+                this.sendVerifySyncMessage(this.id, VERIFIED);
+            }
         }.bind(this));
+    },
+    sendVerifySyncMessage: function(number, state) {
+        // textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
+        //     textsecure.storage.protocol.sendVerifySync(number, state, key);
+        // });
     },
     isVerified: function() {
         if (this.isPrivate()) {
@@ -171,12 +185,11 @@
         }
     },
     isUntrusted: function() {
-        function getFromTrustStore() {
-            return Promise.resolve(true);
-        }
-
         if (this.isPrivate()) {
             // return textsecure.storage.protocol.isUntrusted(this.id);
+            function getFromTrustStore() {
+                return Promise.resolve(true);
+            }
             return getFromTrustStore(this.id);
         } else {
             if (!this.contactCollection.length) {
