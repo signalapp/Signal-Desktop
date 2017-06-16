@@ -104,6 +104,8 @@
 }
 
 .message-detail {
+  background-color: #eee;
+
   .key-conflict-dialogue {
     border-radius: $border-radius;
     margin: 20px 0;
@@ -139,7 +141,6 @@
   }
 
   .message-container {
-    background: white;
     padding: 20px 0;
 
     .sender {
