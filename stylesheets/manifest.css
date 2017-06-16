@@ -1542,31 +1542,35 @@ li.entry .error-icon-container {
         background-color: #d9d9d9;
         border-color: silver; }
 
-.message-list li.keychange {
+.advisory .icon {
+  height: 1.25em;
+  width: 1.25em;
+  vertical-align: text-bottom;
+  display: inline-block; }
+  .advisory .icon.verified {
+    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #454545; }
+  .advisory .icon.shield {
+    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #454545; }
+  .advisory .icon.clock {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #454545; }
+
+.keychange {
   text-align: center; }
-  .message-list li.keychange .content {
+  .keychange .content {
     cursor: pointer;
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
-    color: #454545;
     border-radius: 5px; }
 
 .verified-change {
   text-align: center; }
-  .verified-change .icon {
-    height: 1.25em;
-    width: 1.25em;
-    vertical-align: text-bottom;
-    display: inline-block; }
-    .verified-change .icon.verified {
-      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #454545; }
-    .verified-change .icon.shield {
-      -webkit-mask: url("/images/shield.svg") no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #454545; }
   .verified-change .content {
     cursor: pointer;
     display: inline-block;
@@ -2071,6 +2075,10 @@ li.entry .error-icon-container {
     background-color: #CCCCCC; }
   .android-dark .message-list .advisory .verified {
     -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
+  .android-dark .message-list .advisory .clock {
+    -webkit-mask: url("/images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .inactive .conversation-header {

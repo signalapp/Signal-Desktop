@@ -93,6 +93,9 @@ $text-dark_l2: darken($text-dark, 30%);
     .verified {
       @include color-svg('/images/verified-check.svg', $text-dark);
     }
+    .clock {
+      @include color-svg('/images/clock.svg', $text-dark);
+    }
   }
 
   .inactive .conversation-header {
