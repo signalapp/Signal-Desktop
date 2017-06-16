@@ -559,7 +559,7 @@
         } else {
             ids = this.get('members');
         }
-        ids.forEach(this.getProfile);
+        return Promise.all(_.map(ids, this.getProfile));
     },
 
     getProfile: function(id) {
