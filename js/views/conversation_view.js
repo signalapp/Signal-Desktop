@@ -306,20 +306,21 @@
         },
 
         onOpened: function() {
-            this.model.getProfiles();
+            // TODO: we may want to show a loading dialog until this status fetch
+            //       and potentially the below message fetch are complete. In the near
+            //       term, just a send block if this statusFetch is incomplete might be
+            //       a good idea.
+            this.statusFetch = this.model.getProfiles().then(function() {
+                this.model.updateVerified().then(function() {
+                    this.onVerifiedChange.bind(this);
+                    this.statusFetch = null;
+                    console.log('done with status fetch');
+                }.bind(this));
+            }.bind(this));
 
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
             this.focusMessageField();
-
-            // TODO: do a fetch of all profiles to get the latest identity keys, then:
-            // We have a number of async things happening here:
-            //   1. we need to get contacts before we do anything with groups
-            //   2. we need to get profile information for each contact
-            //   3. we need to get all messages for conversation
-            //   4. we need to get updated verified information for each contact
-            //   5. we perhaps need to throw up the banner if in unverified state
-            this.model.updateVerified().then(this.onVerifiedChange.bind(this));
 
             if (this.inProgressFetch) {
                 this.inProgressFetch.then(this.updateUnread.bind(this));
