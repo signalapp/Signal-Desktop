@@ -705,18 +705,22 @@
             options = options || {};
             _.defaults(options, {force: false});
 
-            var contacts = this.model.getUnverified();
-            if (!contacts.length) {
-                return this.checkUntrustedSendMessage(e, options);
-            }
+            // This will go to the trust store for the latest identity key information,
+            //   and may result in the display of a new banner for this conversation.
+            this.model.updateVerified().then(function() {
+                var contacts = this.model.getUnverified();
+                if (!contacts.length) {
+                    return this.checkUntrustedSendMessage(e, options);
+                }
 
-            if (options.force) {
-                return this.markAllAsVerifiedDefault(contacts).then(function() {
-                    this.checkUnverifiedSendMessage(e, options);
-                }.bind(this));
-            }
+                if (options.force) {
+                    return this.markAllAsVerifiedDefault(contacts).then(function() {
+                        this.checkUnverifiedSendMessage(e, options);
+                    }.bind(this));
+                }
 
-            this.showSendConfirmationDialog(e, contacts);
+                this.showSendConfirmationDialog(e, contacts);
+            }.bind(this));
         },
 
         checkUntrustedSendMessage: function(e, options) {
