@@ -203,7 +203,7 @@
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    textsecure.storage.protocol.saveIdentityWithAttributes({
+                    textsecure.storage.protocol.saveIdentityWithAttributes(number, {
                         id                  : number,
                         publicKey           : identityKeyPair.pubKey,
                         firstUse            : true,

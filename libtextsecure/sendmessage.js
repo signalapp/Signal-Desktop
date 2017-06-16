@@ -305,7 +305,7 @@ MessageSender.prototype = {
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
     },
-    syncVerification: function(state, destination, identityKey) {
+    syncVerification: function(destination, state, identityKey) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
@@ -568,7 +568,7 @@ textsecure.MessageSender = function(url, ports, username, password) {
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
     this.getProfile                        = sender.getProfile                       .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
-    this.syncVerification                  = sender.syncReadMessages                 .bind(sender);
+    this.syncVerification                  = sender.syncVerification                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

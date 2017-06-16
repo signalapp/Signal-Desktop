@@ -292,20 +292,20 @@
     }
 
     function onVerification(ev) {
-        var number   = ev.destination;
-        var key      = ev.identityKey;
+        var number   = ev.verification.destination;
+        var key      = ev.verification.identityKey;
         var state;
 
         console.log('got verification sync for', number, state);
 
-        switch(ev.state) {
-          case textsecure.protobuf.Verification.State.DEFAULT:
+        switch(ev.verification.state) {
+          case textsecure.protobuf.SyncMessage.Verification.State.DEFAULT:
             state = 'DEFAULT';
             break;
-          case textsecure.protobuf.Verification.State.VERIFIED:
+          case textsecure.protobuf.SyncMessage.Verification.State.VERIFIED:
             state = 'VERIFIED';
             break;
-          case textsecure.protobuf.Verification.State.NO_LONGER_VERIFIED:
+          case textsecure.protobuf.SyncMessage.Verification.State.NO_LONGER_VERIFIED:
             state = 'UNVERIFIED';
             break;
         }
@@ -334,29 +334,6 @@
         Whisper.DeliveryReceipts.add({
             timestamp: timestamp, source: pushMessage.source
         });
-    }
-
-    function onVerification(ev) {
-        var state;
-        switch(ev.state) {
-          case textsecure.protobuf.Verification.State.DEFAULT:
-            state = 'DEFAULT';
-            break;
-          case textsecure.protobuf.Verification.State.VERIFIED:
-            state = 'VERIFIED';
-            break;
-          case textsecure.protobuf.Verification.State.NO_LONGER_VERIFIED:
-            state = 'UNVERIFIED';
-            break;
-        }
-        console.log('got verification sync for', ev.destination, state);
-        /* TODO
-        processVerifiedMessage(
-          textsecure.storage.protocol.VerifiedStatus[state],
-          ev.destination,
-          ev.identityKey
-        );
-        */
     }
 
     window.owsDesktopApp = {

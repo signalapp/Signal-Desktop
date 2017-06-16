@@ -78,13 +78,16 @@
         options = options || {};
         _.defaults(options, {viaSyncMessage: false, key: null});
 
+        var DEFAULT = this.verifiedEnum.DEFAULT;
+
         if (!this.isPrivate()) {
             throw new Error('You cannot verify a group conversation. ' +
                             'You must verify individual contacts.');
         }
-        var DEFAULT = this.verifiedEnum.DEFAULT;
 
-        return textsecure.storage.protocol.setVerified(this.id, DEFAULT, options.key).then(function() {
+        // TODO: handle the incoming key from the sync messages - need different behavior
+        //       if that key doesn't match the current key
+        return textsecure.storage.protocol.setVerified(this.id, DEFAULT).then(function() {
             return this.save({verified: DEFAULT});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, false);
@@ -104,7 +107,9 @@
                             'You must verify individual contacts.');
         }
 
-        return textsecure.storage.protocol.setVerified(this.id, VERIFIED, options.key).then(function() {
+        // TODO: handle the incoming key from the sync messages - need different behavior
+        //       if that key doesn't match the current key
+        return textsecure.storage.protocol.setVerified(this.id, VERIFIED).then(function() {
             return this.save({verified: VERIFIED});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, true);
@@ -115,7 +120,7 @@
     },
     sendVerifySyncMessage: function(number, state) {
         textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
-            textsecure.storage.protocol.syncVerification(number, state, key);
+            textsecure.messaging.syncVerification(number, state, key);
         });
     },
     isVerified: function() {

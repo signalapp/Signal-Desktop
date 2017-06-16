@@ -234,7 +234,6 @@
                     attributes.firstUse = false;
                     attributes.nonblockingApproval = false;
                     attributes.verified = 0;
-                    attributes.seen = 0;
                     promises.push(new Promise(function(resolve, reject) {
                       var putRequest = identityKeys.put(attributes, attributes.id);
                       putRequest.onsuccess = resolve;
