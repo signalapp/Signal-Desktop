@@ -100,7 +100,7 @@
 
     Whisper.VerifiedChangeView = Whisper.View.extend({
         tagName:   'li',
-        className: 'verified-change',
+        className: 'verified-change advisory',
         templateName: 'verified-change',
         id: function() {
             return this.model.id;

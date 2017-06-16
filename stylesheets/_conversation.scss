@@ -674,7 +674,7 @@ li.entry .error-icon-container {
   }
 }
 
-.message-list li.verified-change {
+.verified-change {
   text-align: center;
   .icon {
     height: 1.25em;
@@ -695,7 +695,6 @@ li.entry .error-icon-container {
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
-    color: $grey_d;
     border-radius: $border-radius;
   }
 }

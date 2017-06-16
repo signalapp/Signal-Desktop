@@ -336,8 +336,9 @@ $avatar-size: 44px;
 
 .banner {
   // what's the right color?
-  background-color: orange;
+  background-color: $blue_l;
   color: black;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
 
   position: absolute;
   top: 25px;
@@ -351,13 +352,22 @@ $avatar-size: 44px;
 
   cursor: pointer;
 
+  .warning {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    @include color-svg('/images/warning.svg', black);
+  }
+
   .dismiss {
     position: absolute;
     right: 3px;
     top: 3px;
 
-    height: 20px;
-    width: 20px;
+    height: 23px;
+    width: 23px;
+    @include color-svg('/images/x.svg', black);
   }
 }
 
