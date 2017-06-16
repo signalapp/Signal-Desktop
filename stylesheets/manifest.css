@@ -1616,28 +1616,28 @@ li.entry .error-icon-container {
 .ios .error-message.content,
 .ios .control .content {
   padding: 10px; }
-.ios .message-list .attachments .bubbled {
+.ios .attachments .bubbled {
   border-radius: 15px;
   margin-bottom: 0.25em;
   padding: 10px;
   position: relative; }
-  .ios .message-list .attachments .bubbled:before, .ios .message-list .attachments .bubbled:after {
+  .ios .attachments .bubbled:before, .ios .attachments .bubbled:after {
     content: '';
     display: block;
     border-radius: 20px;
     position: absolute;
     width: 10px; }
-  .ios .message-list .attachments .bubbled:before {
+  .ios .attachments .bubbled:before {
     right: -1px;
     bottom: -3px;
     height: 10px;
     border-radius: 20px;
     background: #2090ea; }
-  .ios .message-list .attachments .bubbled:after {
+  .ios .attachments .bubbled:after {
     height: 11px;
     right: -6px;
     bottom: -3px;
-    background: white; }
+    background: #eee; }
 .ios .bubble .content {
   margin-bottom: 5px; }
   .ios .bubble .content .body {
@@ -1668,14 +1668,14 @@ li.entry .error-icon-container {
   background-color: white; }
 .ios .bubble .meta {
   clear: both; }
-.ios .message-list .incoming .bubbled {
+.ios .incoming .bubbled {
   background-color: white;
   color: black;
   float: left; }
-  .ios .message-list .incoming .bubbled:before {
+  .ios .incoming .bubbled:before {
     left: -1px;
     background-color: white; }
-  .ios .message-list .incoming .bubbled:after {
+  .ios .incoming .bubbled:after {
     left: -6px; }
 .ios .incoming .content {
   background-color: white;
