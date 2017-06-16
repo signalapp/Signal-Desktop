@@ -84,7 +84,7 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
 
-  .message-list .attachments .bubbled {
+  .attachments .bubbled {
     border-radius: 15px;
     margin-bottom: 0.25em;
 
@@ -110,7 +110,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       height: 11px;
       right: -6px;
       bottom: -3px;
-      background: white;
+      background: #eee;
     }
   }
 
@@ -156,7 +156,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     }
   }
 
-  .message-list .incoming .bubbled {
+  .incoming .bubbled {
     background-color: white;
     color: black;
     float: left;
