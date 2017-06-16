@@ -34,9 +34,6 @@
 
     "commands": {
       "show_signal": {
-        "suggested_key": {
-          "default": "Alt+S"
-        },
         "description": "Show the Signal inbox."
       }
     }
