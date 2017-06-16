@@ -83,9 +83,18 @@ $text-dark_l2: darken($text-dark, 30%);
   .avatar, .conversation-header, .bubble {
     @include dark-avatar-colors;
   }
-  .message-list .advisory .content {
-    background-color: $grey-dark;
+  .message-list .advisory {
+    .content {
+      background-color: $grey-dark;
+    }
+    .shield {
+      @include color-svg('/images/shield.svg', $text-dark);
+    }
+    .verified {
+      @include color-svg('/images/verified-check.svg', $text-dark);
+    }
   }
+
   .inactive .conversation-header {
     background-color: $grey-dark !important;
     color: $text-dark;
