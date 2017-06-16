@@ -327,8 +327,9 @@ button.hamburger {
     display: none; }
 
 .banner {
-  background-color: orange;
+  background-color: #a2d2f4;
   color: black;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 25px;
   right: 30px;
@@ -337,12 +338,23 @@ button.hamburger {
   text-align: center;
   border-radius: 10px;
   cursor: pointer; }
+  .banner .warning {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    -webkit-mask: url("/images/warning.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
   .banner .dismiss {
     position: absolute;
     right: 3px;
     top: 3px;
-    height: 20px;
-    width: 20px; }
+    height: 23px;
+    width: 23px;
+    -webkit-mask: url("/images/x.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 
 .contact-details {
   vertical-align: middle;
@@ -1540,27 +1552,26 @@ li.entry .error-icon-container {
     color: #454545;
     border-radius: 5px; }
 
-.message-list li.verified-change {
+.verified-change {
   text-align: center; }
-  .message-list li.verified-change .icon {
+  .verified-change .icon {
     height: 1.25em;
     width: 1.25em;
     vertical-align: text-bottom;
     display: inline-block; }
-    .message-list li.verified-change .icon.verified {
+    .verified-change .icon.verified {
       -webkit-mask: url("/images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #454545; }
-    .message-list li.verified-change .icon.shield {
+    .verified-change .icon.shield {
       -webkit-mask: url("/images/shield.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #454545; }
-  .message-list li.verified-change .content {
+  .verified-change .content {
     cursor: pointer;
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
-    color: #454545;
     border-radius: 5px; }
 
 .message-list .last-seen-indicator-view {
@@ -2054,6 +2065,14 @@ li.entry .error-icon-container {
     background-color: #2090ea; }
   .android-dark .message-list .advisory .content {
     background-color: #333333; }
+  .android-dark .message-list .advisory .shield {
+    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
+  .android-dark .message-list .advisory .verified {
+    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #CCCCCC; }
   .android-dark .inactive .conversation-header {
     background-color: #333333 !important;
     color: #CCCCCC; }
