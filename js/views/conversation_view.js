@@ -106,6 +106,8 @@
             this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
 
+            this.lazyUpdateVerified = _.debounce(this.model.updateVerified, 1000);
+
             this.render();
             new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
 
@@ -467,6 +469,9 @@
         },
 
         addMessage: function(message) {
+            // This is debounced, so it won't hit the database too often.
+            this.lazyUpdateVerified();
+
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
