@@ -53,6 +53,10 @@
         }
       }
     },
+    "membersNeedingVerification": {
+      "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+      "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    },
     "changedSinceVerifiedMultiple": {
       "message": "Your safety numbers with multiple group members have changed since you last verified.",
       "description": "Shown on confirmation dialog when user attempts to send a message"
