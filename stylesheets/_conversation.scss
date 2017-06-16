@@ -662,33 +662,36 @@ li.entry .error-icon-container {
     }
   }
 }
-.message-list li.keychange {
+.advisory .icon {
+  height: 1.25em;
+  width: 1.25em;
+  vertical-align: text-bottom;
+  display: inline-block;
+
+  &.verified {
+    @include color-svg('/images/verified-check.svg', $grey_d);
+  }
+  &.shield {
+    @include color-svg('/images/shield.svg', $grey_d);
+  }
+  &.clock {
+    @include color-svg('/images/clock.svg', $grey_d);
+  }
+}
+
+.keychange {
   text-align: center;
   .content {
     cursor: pointer;
     display: inline-block;
     padding: 5px 10px;
     background: #fff5c4;
-    color: $grey_d;
     border-radius: $border-radius;
   }
 }
 
 .verified-change {
   text-align: center;
-  .icon {
-    height: 1.25em;
-    width: 1.25em;
-    vertical-align: text-bottom;
-    display: inline-block;
-
-    &.verified {
-      @include color-svg('/images/verified-check.svg', $grey_d);
-    }
-    &.shield {
-      @include color-svg('/images/shield.svg', $grey_d);
-    }
-  }
 
   .content {
     cursor: pointer;

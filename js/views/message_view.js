@@ -76,7 +76,7 @@
 
     Whisper.KeyChangeView = Whisper.View.extend({
         tagName:   'li',
-        className: 'keychange',
+        className: 'keychange advisory',
         templateName: 'keychange',
         id: function() {
             return this.model.id;
