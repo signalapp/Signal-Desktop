@@ -10,6 +10,8 @@
         className: 'group-member-list panel',
         templateName: 'group-member-list',
         initialize: function(options) {
+            this.needVerify = options.needVerify;
+
             this.render();
 
             this.member_list_view = new Whisper.ContactListView({
@@ -23,8 +25,16 @@
 
             this.$('.container').append(this.member_list_view.el);
         },
-        render_attributes: {
-            members: i18n('groupMembers')
+        render_attributes: function() {
+            var summary;
+            if (this.needVerify) {
+                summary = i18n('membersNeedingVerification');
+            }
+
+            return {
+                members: i18n('groupMembers'),
+                summary: summary
+            };
         }
     });
 })();

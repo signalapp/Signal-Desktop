@@ -208,8 +208,7 @@
                 return;
             }
 
-            // TODO: need to be able to specify string to override group list header
-            this.showMembers(null, unverified);
+            this.showMembers(null, unverified, {needVerify: true});
         },
 
         onVerifiedChange: function() {
@@ -578,13 +577,17 @@
             }
         },
 
-        showMembers: function(e, members) {
+        showMembers: function(e, members, options) {
+            options = options || {};
+            _.defaults(options, {needVerify: false});
+
             members = members || this.model.contactCollection;
 
             var view = new Whisper.GroupMemberList({
                 model: members,
                 // we pass this in to allow nested panels
-                listenBack: this.listenBack.bind(this)
+                listenBack: this.listenBack.bind(this),
+                needVerify: options.needVerify
             });
 
             this.listenBack(view);
