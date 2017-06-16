@@ -295,13 +295,14 @@
                   model: attachment,
                   timestamp: this.model.get('sent_at')
                 });
-                view.render();
                 this.loadedAttachments.push(view);
 
                 this.listenTo(view, 'update', function() {
                     view.updated = true;
                     this.appendAttachmentView(view);
                 });
+
+                view.render();
             }.bind(this));
         }
     });

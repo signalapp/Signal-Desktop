@@ -208,7 +208,7 @@
         this.update();
     },
     renderFileView: function() {
-        this.view = new FileView({
+        this.fileView = new FileView({
           model: {
             mediaType: this.mediaType(),
             fileName: this.displayName(),
@@ -217,8 +217,8 @@
           }
         });
 
-        this.view.$el.appendTo(this.$el.empty());
-        this.view.render();
+        this.fileView.$el.appendTo(this.$el.empty());
+        this.fileView.render();
         return this;
     },
     update: function() {
