@@ -106,7 +106,10 @@
             this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
 
-            this.lazyUpdateVerified = _.debounce(this.model.updateVerified, 1000);
+            this.lazyUpdateVerified = _.debounce(
+                this.model.updateVerified.bind(this.model),
+                1000
+            );
 
             this.render();
             new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
@@ -309,12 +312,10 @@
 
         onOpened: function() {
             // TODO: we may want to show a loading dialog until this status fetch
-            //       and potentially the below message fetch are complete. In the near
-            //       term, just a send block if this statusFetch is incomplete might be
-            //       a good idea.
+            //       and potentially the below message fetch are complete.
             this.statusFetch = this.model.getProfiles().then(function() {
                 this.model.updateVerified().then(function() {
-                    this.onVerifiedChange.bind(this);
+                    this.onVerifiedChange();
                     this.statusFetch = null;
                     console.log('done with status fetch');
                 }.bind(this));
