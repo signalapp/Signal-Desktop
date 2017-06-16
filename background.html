@@ -335,6 +335,15 @@
   </script>
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='container'>
+      <div class='summary'>
+        {{ #isVerified }}
+          <span class='icon verified'></span>
+        {{ /isVerified }}
+        {{ ^isVerified }}
+          <span class='icon shield'></span>
+        {{ /isVerified }}
+        {{ verifiedStatus }}
+      </div>
       {{ ^has_their_key }}
         <div class='placeholder'>{{ their_key_unknown }}</div>
       {{ /has_their_key }}

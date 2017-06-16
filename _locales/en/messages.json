@@ -87,7 +87,7 @@
     },
     "sendAnyway": {
       "message": "Send Anyway",
-      "description": "Used on a warning dialog to specifiy "
+      "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
       "message": "$name$ is no longer verified. Click to show.",
@@ -135,6 +135,26 @@
     },
     "verify": {
       "message": "Verify"
+    },
+    "isVerified": {
+      "message": "$name$ is verified.",
+      "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "isNotVerified": {
+      "message": "$name$ is not verified.",
+      "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
     },
     "verified": {
       "message": "Verified"

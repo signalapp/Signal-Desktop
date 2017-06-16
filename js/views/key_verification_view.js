@@ -72,10 +72,11 @@
             for (var i = 0; i < s.length; i += 5) {
                 chunks.push(s.substring(i, i+5));
             }
-            var yourSafetyNumberWith = i18n(
-                'yourSafetyNumberWith', this.model.getTitle()
-            );
-            var verifyButton = this.model.isVerified() ? i18n('markAsNotVerified') : i18n('verify');
+            var name = this.model.getTitle();
+            var yourSafetyNumberWith = i18n('yourSafetyNumberWith', name);
+            var isVerified = this.model.isVerified();
+            var verifyButton = isVerified ? i18n('markAsNotVerified') : i18n('verify');
+            var verifiedStatus = isVerified ? i18n('isVerified', name) : i18n('isNotVerified', name);
 
             return {
                 learnMore            : i18n('learnMore'),
@@ -85,6 +86,8 @@
                 verifyButton         : verifyButton,
                 has_their_key        : this.their_key !== undefined,
                 chunks               : chunks,
+                isVerified           : isVerified,
+                verifiedStatus       : verifiedStatus
             };
         }
     });
