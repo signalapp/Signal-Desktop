@@ -10,11 +10,11 @@ describe("SignalProtocolStore", function() {
   var identifier = '+5558675309';
   var identityKey = {
     pubKey: libsignal.crypto.getRandomBytes(33),
-  privKey: libsignal.crypto.getRandomBytes(32),
+    privKey: libsignal.crypto.getRandomBytes(32),
   };
   var testKey = {
     pubKey: libsignal.crypto.getRandomBytes(33),
-  privKey: libsignal.crypto.getRandomBytes(32),
+    privKey: libsignal.crypto.getRandomBytes(32),
   };
   describe('getLocalRegistrationId', function() {
     it('retrieves my registration id', function(done) {
