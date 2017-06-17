@@ -249,7 +249,7 @@
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
       <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /
+      <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}
