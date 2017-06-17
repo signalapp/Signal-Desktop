@@ -94,7 +94,7 @@
       "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-      "message": "$name$ is no longer verified. Click to show.",
+      "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
       "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
       "placeholders": {
         "name": {
@@ -104,7 +104,7 @@
       }
     },
     "multipleNoLongerVerified": {
-      "message": "More than one member of this group is no longer verified. Click to show.",
+      "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
       "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
