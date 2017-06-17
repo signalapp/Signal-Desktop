@@ -284,16 +284,58 @@ describe("SignalProtocolStore", function() {
     });
   });
   describe('setVerified', function() {
-    var record = new IdentityKeyRecord({id: identifier});
-    function fetchRecord() {
-      return new Promise(function(resolve) {
-        record.fetch().then(resolve);
+    var record;
+    function saveRecordDefault() {
+      record = new IdentityKeyRecord({
+        id                  : identifier,
+        publicKey           : testKey.pubKey,
+        firstUse            : true,
+        timestamp           : Date.now(),
+        verified            : store.VerifiedStatus.DEFAULT,
+        nonblockingApproval : false
+      });
+      return new Promise(function(resolve, reject) {
+        record.save().then(resolve, reject);
       });
     }
-    it ('updates the verified status', function(done) {
-      store.setVerified(identifier, store.VerifiedStatus.UNVERIFIED).then(fetchRecord).then(function() {
-        assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
-      }).then(done, done);
+    function fetchRecord() {
+      return new Promise(function(resolve, reject) {
+        record.fetch().then(resolve, reject);
+      });
+    }
+    describe('with no public key argument', function() {
+      before(saveRecordDefault);
+      it ('updates the verified status', function() {
+        return store.setVerified(
+          identifier, store.VerifiedStatus.VERIFIED
+        ).then(fetchRecord).then(function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
+          assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+        });
+      });
+    });
+    describe('with the current public key', function() {
+      before(saveRecordDefault);
+      it ('updates the verified status', function() {
+        return store.setVerified(
+          identifier, store.VerifiedStatus.VERIFIED, testKey.pubKey
+        ).then(fetchRecord).then(function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
+          assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+        });
+      });
+    });
+    describe('with a mismatching public key', function() {
+      var newIdentity = libsignal.crypto.getRandomBytes(33);
+      before(saveRecordDefault);
+      it ('does not change the record.', function() {
+        return store.setVerified(
+          identifier, store.VerifiedStatus.VERIFIED, newIdentity
+        ).then(fetchRecord).then(function() {
+          assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
+          assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+        });
+      });
     });
   });
   describe('getVerified', function() {
