@@ -278,6 +278,9 @@ button.hamburger {
     border-width: 0 0 1px 0;
     width: calc(100% - 84px); }
 
+.group-member-list .summary,
+.new-group-update .summary {
+  margin: 10px; }
 .group-member-list .members .contact,
 .new-group-update .members .contact {
   box-shadow: none;
@@ -1543,8 +1546,6 @@ li.entry .error-icon-container {
   border-radius: 5px;
   overflow: auto;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3); }
-  .confirmation-dialog .content .message {
-    text-align: center; }
   .confirmation-dialog .content .buttons {
     margin-top: 10px; }
     .confirmation-dialog .content .buttons button {
