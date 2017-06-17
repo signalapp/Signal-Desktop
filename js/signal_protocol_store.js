@@ -555,6 +555,56 @@
                 });
             });
         },
+        processVerifiedMessage: function(identifier, verifiedStatus, publicKey) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            if (!validateVerifiedStatus(verifiedStatus)) {
+                throw new Error("Invalid verified status");
+            }
+            if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
+                throw new Error("Invalid public key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                var isPresent = false;
+                var isEqual = false;
+                identityRecord.fetch().then(function() {
+                    isPresent = true;
+                    if (publicKey) {
+                      isEqual = equalArrayBuffers(publicKey, identityRecord.get('publicKey'));
+                    }
+                }).always(function() {
+                    if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
+                        console.log('No existing record for default status');
+                        resolve();
+                    }
+
+                    if (isPresent && isEqual
+                        && identityRecord.get('verified') !== VerifiedStatus.DEFAULT
+                        && verifiedStatus === VerifiedStatus.DEFAULT) {
+
+                        textsecure.storage.protocol.setVerified(
+                          identifier, verifiedStatus, publicKey
+                        ).then(resolve, reject);
+                    }
+
+                    if (verifiedStatus === VerifiedStatus.VERIFIED
+                        && (!isPresent
+                            || (isPresent && !isEqual)
+                            || (isPresent && identityRecord.get('verified') !== VerifiedStatus.VERIFIED))) {
+
+                        textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
+                            publicKey           : publicKey,
+                            verified            : verifiedStatus,
+                            firstUse            : false,
+                            timestamp           : Date.now(),
+                            nonblockingApproval : true
+                        }).then(resolve, reject);
+                    }
+                });
+            });
+        },
         isUntrusted: function(identifier) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to set verified for undefined/null key");
