@@ -85,9 +85,20 @@
                             'You must verify individual contacts.');
         }
 
-        // TODO: handle the incoming key from the sync messages - need different behavior
-        //       if that key doesn't match the current key
-        return textsecure.storage.protocol.setVerified(this.id, DEFAULT).then(function() {
+        var promise;
+        if (options.viaSyncMessage) {
+            // handle the incoming key from the sync messages - need different
+            // behavior if that key doesn't match the current key
+            promise = textsecure.storage.protocol.processVerifiedMessage(
+                this.id, DEFAULT, options.key
+            );
+        } else {
+            promise = textsecure.storage.protocol.setVerified(
+                this.id, DEFAULT
+            );
+        }
+
+        return promise.then(function() {
             return this.save({verified: DEFAULT});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, false);
@@ -107,9 +118,20 @@
                             'You must verify individual contacts.');
         }
 
-        // TODO: handle the incoming key from the sync messages - need different behavior
-        //       if that key doesn't match the current key
-        return textsecure.storage.protocol.setVerified(this.id, VERIFIED).then(function() {
+        var promise;
+        if (options.viaSyncMessage) {
+            // handle the incoming key from the sync messages - need different
+            // behavior if that key doesn't match the current key
+            promise = textsecure.storage.protocol.processVerifiedMessage(
+                this.id, VERIFIED, options.key
+            );
+        } else {
+            promise = textsecure.storage.protocol.setVerified(
+                this.id, VERIFIED
+            );
+        }
+
+        return promise.then(function() {
             return this.save({verified: VERIFIED});
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, true);
