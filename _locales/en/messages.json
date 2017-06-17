@@ -58,11 +58,11 @@
       "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-      "message": "Your safety numbers with multiple group members have changed since you last verified.",
+      "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
       "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-      "message": "Your safety number with $name$ has changed since you last verified.",
+      "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
       "description": "Shown on confirmation dialog when user attempts to send a message",
       "placeholders": {
         "name": {
@@ -72,11 +72,11 @@
       }
     },
     "changedRecentlyMultiple": {
-      "message": "Your safety numbers with multiple group members have changed in the last five seconds.",
+      "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
       "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-      "message": "Your safety number with $name$ has changed in the last five seconds.",
+      "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
       "description": "Shown on confirmation dialog when user attempts to send a message",
       "placeholders": {
         "name": {

@@ -275,6 +275,10 @@ $avatar-size: 44px;
 
 .group-member-list,
 .new-group-update {
+  .summary {
+    margin: 10px;
+  }
+
   .members .contact {
     box-shadow: none;
     border-bottom: 1px solid #eee;
