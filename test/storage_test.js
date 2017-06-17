@@ -182,11 +182,15 @@ describe("SignalProtocolStore", function() {
           record.save({ firstUse: false }).then(function() { done(); });
         });
         describe('If nonblocking approval is required', function() {
+          var now = Date.now();
+          before(function(done) {
+            record.save({ timestamp: now }).then(function() { done(); });
+          });
           it('sets non-blocking approval', function(done) {
             store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
               record.fetch().then(function() {
                 assert.strictEqual(record.get('nonblockingApproval'), true);
-                assert.strictEqual(record.get('timestamp'), oldTimestamp);
+                assert.strictEqual(record.get('timestamp'), now);
                 assert.strictEqual(record.get('firstUse'), false);
                 done();
               });
