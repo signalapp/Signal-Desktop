@@ -503,23 +503,36 @@
                 });
             });
         },
-        setVerified: function(identifier, verifiedStatus) {
+        setVerified: function(identifier, verifiedStatus, publicKey) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to set verified for undefined/null key");
             }
             if (!validateVerifiedStatus(verifiedStatus)) {
                 throw new Error("Invalid verified status");
             }
+            if (arguments.length > 2 && !(publicKey instanceof ArrayBuffer)) {
+                throw new Error("Invalid public key");
+            }
             return new Promise(function(resolve, reject) {
                 var identityRecord = new IdentityRecord({id: identifier});
-                identityRecord.fetch().always(function() {
-                    identityRecord.save({
-                        verified: verifiedStatus
-                    }).then(function() {
+                identityRecord.fetch().then(function() {
+                    if (!publicKey || equalArrayBuffers(identityRecord.get('publicKey'), publicKey)) {
+                        identityRecord.set({ verified: verifiedStatus });
+
+                        if (identityRecord.isValid()) {
+                            identityRecord.save({
+                            }).then(function() {
+                                resolve();
+                            });
+                        } else {
+                            reject(identityRecord.validationError);
+                        }
+                    } else {
+                        console.log("No identity record for specified publicKey");
                         resolve();
-                    }, function() { // catch
-                        reject(new Error("No identity record for " + identifier));
-                    });
+                    }
+                }, function() { // catch
+                    reject(new Error("No identity record for " + identifier));
                 });
             });
         },
