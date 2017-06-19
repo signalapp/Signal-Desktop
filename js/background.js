@@ -119,7 +119,7 @@
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('read', onReadReceipt);
-        messageReceiver.addEventListener('verification', onVerification);
+        messageReceiver.addEventListener('verified', onVerified);
         messageReceiver.addEventListener('error', onError);
 
 
@@ -291,21 +291,21 @@
         });
     }
 
-    function onVerification(ev) {
-        var number   = ev.verification.destination;
-        var key      = ev.verification.identityKey;
+    function onVerified(ev) {
+        var number   = ev.verified.destination;
+        var key      = ev.verified.identityKey;
         var state;
 
-        console.log('got verification sync for', number, state);
+        console.log('got verified sync for', number, state);
 
-        switch(ev.verification.state) {
-          case textsecure.protobuf.SyncMessage.Verification.State.DEFAULT:
+        switch(ev.verified.state) {
+          case textsecure.protobuf.SyncMessage.Verified.State.DEFAULT:
             state = 'DEFAULT';
             break;
-          case textsecure.protobuf.SyncMessage.Verification.State.VERIFIED:
+          case textsecure.protobuf.SyncMessage.Verified.State.VERIFIED:
             state = 'VERIFIED';
             break;
-          case textsecure.protobuf.SyncMessage.Verification.State.NO_LONGER_VERIFIED:
+          case textsecure.protobuf.SyncMessage.Verified.State.UNVERIFIED:
             state = 'UNVERIFIED';
             break;
         }
