@@ -172,6 +172,10 @@ OutgoingMessage.prototype = {
                             this.registerError(number, "Failed to reload device keys", error);
                         }.bind(this));
                 }.bind(this));
+            } else if (error.message === "Identity key changed") {
+                error = new textsecure.OutgoingIdentityKeyError(
+                    number, this.message.toArrayBuffer(), this.timestamp);
+                this.registerError(number, "Identity key changed", error);
             } else {
                 this.registerError(number, "Failed to create or send message", error);
             }
