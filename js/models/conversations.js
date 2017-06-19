@@ -75,39 +75,14 @@
         }
     },
     setVerifiedDefault: function(options) {
-        options = options || {};
-        _.defaults(options, {viaSyncMessage: false, key: null});
-
         var DEFAULT = this.verifiedEnum.DEFAULT;
-
-        if (!this.isPrivate()) {
-            throw new Error('You cannot verify a group conversation. ' +
-                            'You must verify individual contacts.');
-        }
-
-        var promise;
-        if (options.viaSyncMessage) {
-            // handle the incoming key from the sync messages - need different
-            // behavior if that key doesn't match the current key
-            promise = textsecure.storage.protocol.processVerifiedMessage(
-                this.id, DEFAULT, options.key
-            );
-        } else {
-            promise = textsecure.storage.protocol.setVerified(
-                this.id, DEFAULT
-            );
-        }
-
-        return promise.then(function() {
-            return this.save({verified: DEFAULT});
-        }.bind(this)).then(function() {
-            this.addVerifiedChange(this.id, false, {local: !options.viaSyncMessage});
-            if (!options.viaSyncMessage) {
-                this.sendVerifySyncMessage(this.id, DEFAULT);
-            }
-        }.bind(this));
+        return this._setVerified(DEFAULT, options);
     },
     setVerified: function(options) {
+        var VERIFIED = this.verifiedEnum.VERIFIED;
+        return this._setVerified(VERIFIED, options);
+    },
+    _setVerified: function(verified, options) {
         options = options || {};
         _.defaults(options, {viaSyncMessage: false, key: null});
 
@@ -123,20 +98,20 @@
             // handle the incoming key from the sync messages - need different
             // behavior if that key doesn't match the current key
             promise = textsecure.storage.protocol.processVerifiedMessage(
-                this.id, VERIFIED, options.key
+                this.id, verified, options.key
             );
         } else {
             promise = textsecure.storage.protocol.setVerified(
-                this.id, VERIFIED
+                this.id, verified
             );
         }
 
         return promise.then(function() {
-            return this.save({verified: VERIFIED});
+            return this.save({verified: verified});
         }.bind(this)).then(function() {
-            this.addVerifiedChange(this.id, true, {local: !options.viaSyncMessage});
+            this.addVerifiedChange(this.id, verified === VERIFIED, {local: !options.viaSyncMessage});
             if (!options.viaSyncMessage) {
-                this.sendVerifySyncMessage(this.id, VERIFIED);
+                this.sendVerifySyncMessage(this.id, verified);
             }
         }.bind(this));
     },
