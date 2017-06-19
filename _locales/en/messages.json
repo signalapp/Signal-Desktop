@@ -45,7 +45,27 @@
     },
     "youMarkedAsNotVerified": {
       "message": "You marked $name$ as not verified.",
-      "description": "Shown in the conversation history when the user marks a contact as verified, whether on the safety number screen or by dismissing a banner or dialog.",
+      "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+      "message": "You marked $name$ as verified on another device.",
+      "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+      "message": "You marked $name$ as not verified on anther device.",
+      "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
       "placeholders": {
         "name": {
           "content": "$1",
