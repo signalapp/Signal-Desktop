@@ -457,7 +457,9 @@
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             this.trigger('keychange', identifier);
-                            resolve(true);
+                            this.archiveAllSessions(identifier).then(function() {
+                                resolve(true);
+                            }, reject);
                         }.bind(this));
                     } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
                         console.log("Setting approval status...");
