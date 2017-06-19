@@ -569,11 +569,7 @@
 
             return textsecure.storage.protocol.saveIdentity(
                 id, identityKey, false
-            ).then(function(isIdentityChange) {
-                if (isIdentityChange) {
-                    return textsecure.storage.protocol.archiveAllSessions(id);
-                }
-            });
+            );
         });
     },
 
