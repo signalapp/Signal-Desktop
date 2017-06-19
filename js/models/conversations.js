@@ -589,8 +589,12 @@
             var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
 
             return textsecure.storage.protocol.saveIdentity(
-              id, identityKey, false
-            );
+                id, identityKey, false
+            ).then(function(isIdentityChange) {
+                if (isIdentityChange) {
+                    return textsecure.storage.protocol.archiveAllSessions(id);
+                }
+            });
         });
     },
 
