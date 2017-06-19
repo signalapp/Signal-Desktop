@@ -361,7 +361,7 @@ $avatar-size: 44px;
     height: 18px;
     display: inline-block;
     vertical-align: text-bottom;
-    @include color-svg('/images/warning.svg', black);
+    @include color-svg('../images/warning.svg', black);
   }
 
   .dismiss {
@@ -371,7 +371,7 @@ $avatar-size: 44px;
 
     height: 23px;
     width: 23px;
-    @include color-svg('/images/x.svg', black);
+    @include color-svg('../images/x.svg', black);
   }
 }
 
@@ -409,7 +409,7 @@ $avatar-size: 44px;
   }
 
   .verified-icon {
-      @include color-svg('/images/verified-check.svg', $grey);
+      @include color-svg('../images/verified-check.svg', $grey);
       display: inline-block;
       width: 1.25em;
       height: 1.25em;
