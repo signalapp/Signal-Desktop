@@ -67,7 +67,7 @@ $ios-border-color: rgba(0,0,0,0.1);
       line-height: $header-height;
 
       .verified-icon {
-        @include color-svg('/images/verified-check.svg', #454545);
+        @include color-svg('../images/verified-check.svg', #454545);
       }
     }
 
