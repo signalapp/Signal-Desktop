@@ -604,6 +604,10 @@
                             || (isPresent && !isEqual)
                             || (isPresent && identityRecord.get('verified') !== VerifiedStatus.VERIFIED))) {
 
+                        if (!isPresent || !isEqual) {
+                            this.trigger('keychange', identifier);
+                        }
+
                         textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
                             publicKey           : publicKey,
                             verified            : verifiedStatus,
@@ -612,8 +616,8 @@
                             nonblockingApproval : true
                         }).then(resolve, reject);
                     }
-                });
-            });
+                }.bind(this));
+            }.bind(this));
         },
         isUntrusted: function(identifier) {
             if (identifier === null || identifier === undefined) {
