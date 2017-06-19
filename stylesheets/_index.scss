@@ -96,7 +96,7 @@
   color: $grey_d;
   border-color: rgba(0,0,0,0.05);
   .verified-icon {
-    @include color-svg('/images/verified-check.svg', $grey_d);
+    @include color-svg('../images/verified-check.svg', $grey_d);
   }
 }
 

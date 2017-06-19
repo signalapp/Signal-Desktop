@@ -22,7 +22,7 @@
   }
 }
 .conversation-title .verified-icon {
-  @include color-svg('/images/verified-check.svg', white);
+  @include color-svg('../images/verified-check.svg', white);
   display: inline-block;
   width: 1.25em;
   height: 1.25em;
@@ -90,10 +90,10 @@
     display: inline-block;
 
     &.verified {
-      @include color-svg('/images/verified-check.svg', $grey_d);
+      @include color-svg('../images/verified-check.svg', $grey_d);
     }
     &.shield {
-      @include color-svg('/images/shield.svg', $grey_d);
+      @include color-svg('../images/shield.svg', $grey_d);
     }
   }
 
@@ -736,13 +736,13 @@ li.entry .error-icon-container {
   display: inline-block;
 
   &.verified {
-    @include color-svg('/images/verified-check.svg', $grey_d);
+    @include color-svg('../images/verified-check.svg', $grey_d);
   }
   &.shield {
-    @include color-svg('/images/shield.svg', $grey_d);
+    @include color-svg('../images/shield.svg', $grey_d);
   }
   &.clock {
-    @include color-svg('/images/clock.svg', $grey_d);
+    @include color-svg('../images/clock.svg', $grey_d);
   }
 }
 
