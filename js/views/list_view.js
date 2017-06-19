@@ -20,7 +20,7 @@
 
         addOne: function(model) {
             if (this.itemView) {
-                var options = Object.assign({}, this.options.toInclude, {model: model});
+                var options = _.extend({}, this.options.toInclude, {model: model});
                 var view = new this.itemView(options);
                 this.$el.append(view.render().el);
                 this.$el.trigger('add');
