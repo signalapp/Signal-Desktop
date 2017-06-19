@@ -352,7 +352,7 @@ button.hamburger {
     height: 18px;
     display: inline-block;
     vertical-align: text-bottom;
-    -webkit-mask: url("/images/warning.svg") no-repeat center;
+    -webkit-mask: url("../images/warning.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
   .banner .dismiss {
@@ -361,7 +361,7 @@ button.hamburger {
     top: 3px;
     height: 23px;
     width: 23px;
-    -webkit-mask: url("/images/x.svg") no-repeat center;
+    -webkit-mask: url("../images/x.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
 
@@ -388,7 +388,7 @@ button.hamburger {
   .contact-details.not-clickable {
     cursor: default; }
   .contact-details .verified-icon {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #616161;
     display: inline-block;
@@ -937,7 +937,7 @@ img.emoji.jumbo {
   color: #454545;
   border-color: rgba(0, 0, 0, 0.05); }
   .inactive .conversation-header .verified-icon {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
 
@@ -1102,7 +1102,7 @@ input.search {
   padding: 0 5px 0 4px; }
 
 .conversation-title .verified-icon {
-  -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+  -webkit-mask: url("../images/verified-check.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: white;
   display: inline-block;
@@ -1189,11 +1189,11 @@ input.search {
   vertical-align: text-bottom;
   display: inline-block; }
   .key-verification .icon.verified {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
   .key-verification .icon.shield {
-    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask: url("../images/shield.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
 
@@ -1712,15 +1712,15 @@ li.entry .error-icon-container {
   vertical-align: text-bottom;
   display: inline-block; }
   .advisory .icon.verified {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
   .advisory .icon.shield {
-    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask: url("../images/shield.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
   .advisory .icon.clock {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #454545; }
 
@@ -1847,7 +1847,7 @@ li.entry .error-icon-container {
   .ios .conversation-header .conversation-title {
     line-height: 64px; }
     .ios .conversation-header .conversation-title .verified-icon {
-      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask: url("../images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #454545; }
   .ios .conversation-header .avatar {
@@ -2237,11 +2237,11 @@ li.entry .error-icon-container {
     background-color: #030303;
     border-color: #292929; }
   .android-dark .key-verification .icon.verified {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .key-verification .icon.shield {
-    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask: url("../images/shield.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .menu-list {
@@ -2266,7 +2266,7 @@ li.entry .error-icon-container {
   .android-dark .contact-details .number {
     color: #807f7f; }
     .android-dark .contact-details .number .verified-icon {
-      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask: url("../images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #807f7f; }
   .android-dark .group-member-list .members .contact, .android-dark .new-group-update .members .contact, .android-dark .attachment-previews img {
@@ -2313,22 +2313,22 @@ li.entry .error-icon-container {
   .android-dark .message-list .advisory .content {
     background-color: #333333; }
   .android-dark .message-list .advisory .shield {
-    -webkit-mask: url("/images/shield.svg") no-repeat center;
+    -webkit-mask: url("../images/shield.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .message-list .advisory .verified {
-    -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+    -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .message-list .advisory .clock {
-    -webkit-mask: url("/images/clock.svg") no-repeat center;
+    -webkit-mask: url("../images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
   .android-dark .inactive .conversation-header {
     background-color: #333333 !important;
     color: #CCCCCC; }
     .android-dark .inactive .conversation-header .verified-icon {
-      -webkit-mask: url("/images/verified-check.svg") no-repeat center;
+      -webkit-mask: url("../images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
   .android-dark .sent .status {
@@ -2351,7 +2351,7 @@ li.entry .error-icon-container {
     background-color: white;
     transform: rotateZ(-45deg); }
   .android-dark .capture-audio .microphone:before {
-    -webkit-mask: url("/images/microphone.svg") no-repeat center;
+    -webkit-mask: url("../images/microphone.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
   .android-dark .conversations {
@@ -2508,7 +2508,7 @@ li.entry .error-icon-container {
   .android-dark .discussion-container .scroll-down-button-view button {
     background-color: #8d8d8d; }
     .android-dark .discussion-container .scroll-down-button-view button .icon {
-      -webkit-mask: url("/images/down.svg") no-repeat center;
+      -webkit-mask: url("../images/down.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: black; }
     .android-dark .discussion-container .scroll-down-button-view button .icon:hover {
@@ -2516,7 +2516,7 @@ li.entry .error-icon-container {
     .android-dark .discussion-container .scroll-down-button-view button.new-messages {
       background-color: #2090ea; }
       .android-dark .discussion-container .scroll-down-button-view button.new-messages .icon {
-        -webkit-mask: url("/images/down.svg") no-repeat center;
+        -webkit-mask: url("../images/down.svg") no-repeat center;
         -webkit-mask-size: 100%;
         background-color: white; }
       .android-dark .discussion-container .scroll-down-button-view button.new-messages:hover {
