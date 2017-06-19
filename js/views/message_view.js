@@ -113,16 +113,29 @@
             'click .content': 'showIdentity'
         },
         render_attributes: function() {
+            var key;
+
             if (this.model.get('verified')) {
+                if (this.model.get('local')) {
+                    key = 'youMarkedAsVerified';
+                } else {
+                    key = 'youMarkedAsVerifiedOtherDevice';
+                }
                 return {
                     icon: 'verified',
-                    content: i18n('youMarkedAsVerified', this.conversation.getTitle())
+                    content: i18n(key, this.conversation.getTitle())
                 };
+            }
+
+            if (this.model.get('local')) {
+                key = 'youMarkedAsNotVerified';
+            } else {
+                key = 'youMarkedAsNotVerifiedOtherDevice';
             }
 
             return {
                 icon: 'shield',
-                content: i18n('youMarkedAsNotVerified', this.conversation.getTitle())
+                content: i18n(key, this.conversation.getTitle())
             };
         },
         showIdentity: function() {

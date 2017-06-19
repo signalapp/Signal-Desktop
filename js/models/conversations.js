@@ -101,7 +101,7 @@
         return promise.then(function() {
             return this.save({verified: DEFAULT});
         }.bind(this)).then(function() {
-            this.addVerifiedChange(this.id, false);
+            this.addVerifiedChange(this.id, false, {local: !options.viaSyncMessage});
             if (!options.viaSyncMessage) {
                 this.sendVerifySyncMessage(this.id, DEFAULT);
             }
@@ -134,7 +134,7 @@
         return promise.then(function() {
             return this.save({verified: VERIFIED});
         }.bind(this)).then(function() {
-            this.addVerifiedChange(this.id, true);
+            this.addVerifiedChange(this.id, true, {local: !options.viaSyncMessage});
             if (!options.viaSyncMessage) {
                 this.sendVerifySyncMessage(this.id, VERIFIED);
             }
@@ -270,7 +270,10 @@
         });
         message.save().then(this.trigger.bind(this,'newmessage', message));
     },
-    addVerifiedChange: function(id, verified) {
+    addVerifiedChange: function(id, verified, options) {
+        options = options || {};
+        _.defaults(options, {local: true});
+
         console.log('adding verified change advisory for', this.id, id, this.get('timestamp'));
         var timestamp = Date.now();
         var message = new Whisper.Message({
@@ -280,7 +283,8 @@
             sent_at         : this.get('timestamp'),
             received_at     : timestamp,
             verifiedChanged : id,
-            verified        : verified
+            verified        : verified,
+            local           : options.local
         });
         message.save().then(this.trigger.bind(this,'newmessage', message));
 
