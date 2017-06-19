@@ -272,19 +272,19 @@ MessageReceiver.prototype.extend({
             console.log('read messages',
                     'from', envelope.source + '.' + envelope.sourceDevice);
             this.handleRead(syncMessage.read, envelope.timestamp);
-        } else if (syncMessage.verification) {
-            this.handleVerification(syncMessage.verification);
+        } else if (syncMessage.verified) {
+            this.handleVerified(syncMessage.verified);
         } else {
             throw new Error('Got empty SyncMessage');
         }
     },
-    handleVerification: function(verification) {
-        for (var i = 0; i < verification.length; ++i) {
-            var ev = new Event('verification');
-            ev.verification = {
-                state: verification[i].state,
-                destination: verification[i].destination,
-                identityKey: verification[i].identityKey.toArrayBuffer()
+    handleVerified: function(verified) {
+        for (var i = 0; i < verified.length; ++i) {
+            var ev = new Event('verified');
+            ev.verified = {
+                state: verified[i].state,
+                destination: verified[i].destination,
+                identityKey: verified[i].identityKey.toArrayBuffer()
             };
             this.dispatchEvent(ev);
         }

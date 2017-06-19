@@ -111,26 +111,26 @@ message SyncMessage {
     optional uint64 timestamp = 2;
   }
 
-  message Verification {
+  message Verified {
     enum State {
-      DEFAULT            = 0;
-      VERIFIED           = 1;
-      NO_LONGER_VERIFIED = 2;
+      DEFAULT    = 0;
+      VERIFIED   = 1;
+      UNVERIFIED = 2;
     }
 
-    optional State  state       = 1;
-    // The e164 phone number of the user.
-    optional string destination = 2;
-    optional bytes  identityKey = 3;
+    optional string destination = 1;
+    optional bytes  identityKey = 2;
+    optional State  state       = 3;
   }
 
-  optional Sent     sent             = 1;
-  optional Contacts contacts         = 2;
-  optional Groups   groups           = 3;
-  optional Request  request          = 4;
-  repeated Read     read             = 5;
-  optional Blocked  blocked          = 6;
-  repeated Verification verification = 7;
+  optional Sent     sent     = 1;
+  optional Contacts contacts = 2;
+  optional Groups   groups   = 3;
+  optional Request  request  = 4;
+  repeated Read     read     = 5;
+  optional Blocked  blocked  = 6;
+  repeated Verified verified = 7;
+  optional bytes    padding  = 8;
 }
 
 message AttachmentPointer {
