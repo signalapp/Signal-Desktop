@@ -606,17 +606,20 @@
                             || (isPresent && !isEqual)
                             || (isPresent && identityRecord.get('verified') !== VerifiedStatus.VERIFIED))) {
 
-                        if (!isPresent || !isEqual) {
-                            this.trigger('keychange', identifier);
-                        }
-
                         textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
                             publicKey           : publicKey,
                             verified            : verifiedStatus,
                             firstUse            : false,
                             timestamp           : Date.now(),
                             nonblockingApproval : true
-                        }).then(resolve, reject);
+                        }).then(function() {
+                            if (!isPresent || !isEqual) {
+                                this.trigger('keychange', identifier);
+                                return this.archiveAllSessions(identifier).then(resolve, reject);
+                            }
+
+                            return resolve();
+                        }.bind(this), reject);
                     }
                 }.bind(this));
             }.bind(this));
