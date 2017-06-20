@@ -111,13 +111,13 @@
         }.bind(this)).then(function() {
             this.addVerifiedChange(this.id, verified === VERIFIED, {local: !options.viaSyncMessage});
             if (!options.viaSyncMessage) {
-                this.sendVerifySyncMessage(this.id, verified);
+                return this.sendVerifySyncMessage(this.id, verified);
             }
         }.bind(this));
     },
     sendVerifySyncMessage: function(number, state) {
         textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
-            textsecure.messaging.syncVerification(number, state, key);
+            return textsecure.messaging.syncVerification(number, state, key);
         });
     },
     isVerified: function() {
