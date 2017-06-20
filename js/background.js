@@ -296,8 +296,6 @@
         var key      = ev.verified.identityKey;
         var state;
 
-        console.log('got verified sync for', number, state);
-
         switch(ev.verified.state) {
           case textsecure.protobuf.SyncMessage.Verified.State.DEFAULT:
             state = 'DEFAULT';
@@ -309,6 +307,8 @@
             state = 'UNVERIFIED';
             break;
         }
+
+        console.log('got verified sync for', number, state);
 
         var contact = ConversationController.get(number);
         if (!contact) {
