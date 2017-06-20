@@ -3,7 +3,6 @@ node_js:
   - 'node'
 os:
   - linux
-  - osx
 dist: trusty
 install:
   - yarn install
