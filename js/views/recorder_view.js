@@ -34,7 +34,9 @@
             if (this.interval) {
               clearInterval(this.interval);
             }
-            this.source.disconnect();
+            if (this.source) {
+              this.source.disconnect();
+            }
             if (this.context) {
               this.context.close().then(function() {
                   console.log('audio context closed');
@@ -64,11 +66,12 @@
             navigator.webkitGetUserMedia({ audio: true }, function(stream) {
                 this.source = this.context.createMediaStreamSource(stream);
                 this.source.connect(this.input);
-            }.bind(this), this.onError);
+            }.bind(this), this.onError.bind(this));
             this.recorder.startRecording();
         },
         onError: function(error) {
             console.log(error);
+            this.close();
         }
     });
 })();
