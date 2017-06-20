@@ -156,7 +156,7 @@
         });
         var error;
         if ((error = c.validateNumber())) {
-          console.log(error);
+          console.log(error.stack);
           return;
         }
 

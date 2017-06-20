@@ -70,7 +70,7 @@
             this.recorder.startRecording();
         },
         onError: function(error) {
-            console.log(error);
+            console.log(error.stack);
             this.close();
         }
     });
