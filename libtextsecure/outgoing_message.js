@@ -12,8 +12,6 @@ function OutgoingMessage(server, timestamp, numbers, message, callback) {
     this.numbers = numbers;
     this.message = message; // ContentMessage proto
     this.callback = callback;
-    this.legacy = (message instanceof textsecure.protobuf.DataMessage);
-
 
     this.numbersCompleted = 0;
     this.errors = [];
