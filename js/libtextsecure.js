@@ -39192,6 +39192,19 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
+    createSyncMessage: function() {
+        var syncMessage = new textsecure.protobuf.SyncMessage();
+
+        // Generate a random int from 1 and 512
+        var buffer = libsignal.crypto.getRandomBytes(1);
+        var paddingLength = (new Uint8Array(buffer)[0] & 0x1ff) + 1;
+
+        // Generate a random padding buffer of the chosen size
+        syncMessage.padding = libsignal.crypto.getRandomBytes(paddingLength);
+
+        return syncMessage;
+    },
+
     sendSyncMessage: function(encodedDataMessage, timestamp, destination, expirationStartTimestamp) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -39209,7 +39222,7 @@ MessageSender.prototype = {
         if (expirationStartTimestamp) {
             sentMessage.expirationStartTimestamp = expirationStartTimestamp;
         }
-        var syncMessage = new textsecure.protobuf.SyncMessage();
+        var syncMessage = this.createSyncMessage();
         syncMessage.sent = sentMessage;
         var contentMessage = new textsecure.protobuf.Content();
         contentMessage.syncMessage = syncMessage;
@@ -39226,7 +39239,7 @@ MessageSender.prototype = {
         if (myDevice != 1) {
             var request = new textsecure.protobuf.SyncMessage.Request();
             request.type = textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
-            var syncMessage = new textsecure.protobuf.SyncMessage();
+            var syncMessage = this.createSyncMessage();
             syncMessage.request = request;
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
@@ -39241,7 +39254,7 @@ MessageSender.prototype = {
         if (myDevice != 1) {
             var request = new textsecure.protobuf.SyncMessage.Request();
             request.type = textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
-            var syncMessage = new textsecure.protobuf.SyncMessage();
+            var syncMessage = this.createSyncMessage();
             syncMessage.request = request;
             var contentMessage = new textsecure.protobuf.Content();
             contentMessage.syncMessage = syncMessage;
@@ -39253,7 +39266,7 @@ MessageSender.prototype = {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
-            var syncMessage = new textsecure.protobuf.SyncMessage();
+            var syncMessage = this.createSyncMessage();
             syncMessage.read = [];
             for (var i = 0; i < reads.length; ++i) {
                 var read = new textsecure.protobuf.SyncMessage.Read();
@@ -39276,7 +39289,7 @@ MessageSender.prototype = {
             verified.destination = destination;
             verified.identityKey = identityKey;
 
-            var syncMessage = new textsecure.protobuf.SyncMessage();
+            var syncMessage = this.createSyncMessage();
             syncMessage.verified = verified;
 
             var contentMessage = new textsecure.protobuf.Content();
