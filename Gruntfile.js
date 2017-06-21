@@ -299,7 +299,7 @@ module.exports = function(grunt) {
     var sha = gitinfo.local.branch.current.SHA;
     var files = [
       'signal-desktop-' + package_json.version + '.zip',
-      'Signal-' + package_json.version + '-win.zip'
+      'Signal-Setup_' + package_json.version + '.zip'
     ];
 
     var extract = require('extract-zip');
