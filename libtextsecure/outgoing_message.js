@@ -119,20 +119,27 @@ OutgoingMessage.prototype = {
         return messagePartCount * 160;
     },
 
+    getPlaintext: function() {
+        if (!this.plaintext) {
+            var messageBuffer = this.message.toArrayBuffer();
+            this.plaintext = new Uint8Array(
+                this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+            );
+            this.plaintext.set(new Uint8Array(messageBuffer));
+            this.plaintext[messageBuffer.byteLength] = 0x80;
+        }
+        return this.plaintext;
+    },
+
     doSendMessage: function(number, deviceIds, recurse) {
         var ciphers = {};
-        var plaintext = this.message.toArrayBuffer();
-        var paddedPlaintext = new Uint8Array(
-            this.getPaddedMessageLength(plaintext.byteLength + 1) - 1
-        );
-        paddedPlaintext.set(new Uint8Array(plaintext));
-        paddedPlaintext[plaintext.byteLength] = 0x80;
+        var plaintext = this.getPlaintext();
 
         return Promise.all(deviceIds.map(function(deviceId) {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
-            var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
+            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
             ciphers[address.getDeviceId()] = sessionCipher;
-            return sessionCipher.encrypt(paddedPlaintext).then(function(ciphertext) {
+            return sessionCipher.encrypt(plaintext).then(function(ciphertext) {
                 return {
                     type                      : ciphertext.type,
                     destinationDeviceId       : address.getDeviceId(),
