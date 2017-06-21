@@ -80,6 +80,9 @@ a { color: $blue; }
 button.back {
   @include header-icon-black('/images/back.svg');
 }
+button.do-not-disturb {
+  @include header-icon-black('/images/do_not_disturb.svg');
+}
 button.clock {
   @include header-icon-black('/images/clock.svg');
 }

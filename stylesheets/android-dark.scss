@@ -220,6 +220,9 @@ $text-dark_l2: darken($text-dark, 30%);
   button.clock {
     @include header-icon-white('/images/clock.svg');
   }
+  button.do-not-disturb {
+    @include header-icon-white('/images/do_not_disturb.svg');
+  }
   button.hamburger {
     @include header-icon-white('/images/menu.svg');
   }

@@ -85,6 +85,15 @@ button.back {
     -webkit-mask-size: 100%;
     background-color: black; }
 
+button.do-not-disturb {
+  -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  button.do-not-disturb:focus, button.do-not-disturb:hover {
+    -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
+
 button.clock {
   -webkit-mask: url("/images/clock.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2087,6 +2096,22 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+.android button.do-not-disturb {
+  -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(255, 255, 255, 0.8); }
+  .android button.do-not-disturb:focus, .android button.do-not-disturb:hover {
+    -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+.android .inactive button.do-not-disturb {
+  -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .android .inactive button.do-not-disturb:focus, .android .inactive button.do-not-disturb:hover {
+    -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: black; }
 .android button.hamburger {
   -webkit-mask: url("/images/menu.svg") no-repeat center;
   -webkit-mask-size: 100%;
@@ -2391,6 +2416,14 @@ li.entry .error-icon-container {
     background-color: rgba(255, 255, 255, 0.8); }
     .android-dark button.clock:focus, .android-dark button.clock:hover {
       -webkit-mask: url("/images/clock.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: white; }
+  .android-dark button.do-not-disturb {
+    -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: rgba(255, 255, 255, 0.8); }
+    .android-dark button.do-not-disturb:focus, .android-dark button.do-not-disturb:hover {
+      -webkit-mask: url("/images/do_not_disturb.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: white; }
   .android-dark button.hamburger {
