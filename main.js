@@ -150,7 +150,7 @@ function createWindow () {
       slashes: true,
       query: {
         locale: localeName,
-        version: package_json.version,
+        version: app.getVersion(),
         buildExpiration: config.get('buildExpiration'),
         serverUrl: config.get('serverUrl'),
         environment: environment,
