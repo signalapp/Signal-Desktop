@@ -38811,7 +38811,14 @@ OutgoingMessage.prototype = {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
             var sessionCipher =  new libsignal.SessionCipher(textsecure.storage.protocol, address);
             ciphers[address.getDeviceId()] = sessionCipher;
-            return this.encryptToDevice(address, paddedPlaintext, sessionCipher);
+            return sessionCipher.encrypt(paddedPlaintext).then(function(ciphertext) {
+                return {
+                    type                      : ciphertext.type,
+                    destinationDeviceId       : address.getDeviceId(),
+                    destinationRegistrationId : ciphertext.registrationId,
+                    content                   : btoa(ciphertext.body)
+                };
+            });
         }.bind(this))).then(function(jsonData) {
             return this.transmitMessage(number, jsonData, this.timestamp).then(function() {
                 this.successfulNumbers[this.successfulNumbers.length] = number;
@@ -38843,25 +38850,6 @@ OutgoingMessage.prototype = {
                 this.registerError(number, "Failed to create or send message", error);
             }
         }.bind(this));
-    },
-
-    encryptToDevice: function(address, plaintext, sessionCipher) {
-        return sessionCipher.encrypt(plaintext).then(function(ciphertext) {
-            return this.toJSON(address, ciphertext);
-        }.bind(this));
-    },
-
-    toJSON: function(address, encryptedMsg) {
-        var json = {
-            type                      : encryptedMsg.type,
-            destinationDeviceId       : address.getDeviceId(),
-            destinationRegistrationId : encryptedMsg.registrationId
-        };
-
-        var content = btoa(encryptedMsg.body);
-        json.content = content;
-
-        return json;
     },
 
     getStaleDeviceIdsForNumber: function(number) {
