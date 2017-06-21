@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "滚动到对话的底部",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10秒",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -20,6 +24,10 @@
     "unsupportedAttachment": {
         "message": "不支持的附件类型，点击保存。",
         "description": "Displayed for incoming unsupported attachment"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Android客户端仅能接收此消息的前2000个字符",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "verifySafetyNumbers": {
         "message": "验证安全代码",
@@ -76,8 +84,12 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "单击保存",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "下面的新消息",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "正在生成密钥",
@@ -89,7 +101,7 @@
     },
     "offline": {
         "message": "离线",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "欢迎来到Signal",
@@ -122,6 +134,10 @@
     "restartSignal": {
         "message": "重启Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "你已经离开了群组",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "删除消息",
@@ -247,6 +263,16 @@
         "message": "安全代码批准",
         "description": "Header for safety numbers setting"
     },
+    "unreadMessages": {
+        "message": "$count$ Unread Messages",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "installTooManyDevices": {
         "message": "很抱歉，您已连接过多的设备，请删除一些然后重试。",
         "description": ""
@@ -286,7 +312,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "您与 $name$ 的安全代码",
+        "message": "Your safety number with $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -317,7 +343,7 @@
     },
     "disconnected": {
         "message": "已断开连接",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "导入中...",
@@ -368,12 +394,16 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
-        "message": "发送信息",
+        "message": "发送一条消息",
         "description": "Placeholder text in the message entry field"
     },
     "mediaMessage": {
         "message": "附件信息",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unreadMessage": {
+        "message": "1条未读消息",
+        "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
         "message": "此桌面版Signal已过期，请升级到最新版本以继续发送消息。",
@@ -403,6 +433,10 @@
         "message": "欢迎来到Signal桌面版",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "下面的新消息",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
     "installConnectionFailed": {
         "message": "连接服务器失败",
         "description": "Displayed when we can't connect to the server."
@@ -428,12 +462,12 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "未命名的文件",
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
         "message": "正在连接",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "安全会话已重置",
@@ -482,7 +516,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "语音消息",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +524,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "您与 $name$ 的安全代码已更改。",
+        "message": "Your safety number with $name$ has changed. Click to verify.",
         "description": "",
         "placeholders": {
             "name": {

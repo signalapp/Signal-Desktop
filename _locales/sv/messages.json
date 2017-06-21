@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Rulla till botten av konversationen",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 sekunder",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -20,6 +24,10 @@
     "unsupportedAttachment": {
         "message": "Okänd filtyp på bilaga. Klicka för att spara.",
         "description": "Displayed for incoming unsupported attachment"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Androidklienter kommer bara ta emot de första 2000 tecknen av detta meddelande.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "verifySafetyNumbers": {
         "message": "Verifiera säkerhetsnummer",
@@ -76,8 +84,12 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Klicka för att spara",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "Nya meddelanden nedanför",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "Genererar nycklar",
@@ -89,7 +101,7 @@
     },
     "offline": {
         "message": "Ej ansluten",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Välkommen till Signal",
@@ -122,6 +134,10 @@
     "restartSignal": {
         "message": "Starta om Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Du lämnade gruppen",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Radera meddelanden",
@@ -247,6 +263,16 @@
         "message": "Godkännande av säkerhetssiffror",
         "description": "Header for safety numbers setting"
     },
+    "unreadMessages": {
+        "message": "$count$ olästa meddelanden",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "installTooManyDevices": {
         "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
         "description": ""
@@ -286,7 +312,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Ditt säkerhetsnummer med $name$",
+        "message": "Ditt säkerhetsnummer med $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -317,7 +343,7 @@
     },
     "disconnected": {
         "message": "Frånkopplad",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Importerar...",
@@ -375,6 +401,10 @@
         "message": "Mediameddelande",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 oläst meddelande",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Den här versionen av Signal-Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
@@ -403,6 +433,10 @@
         "message": "Välkommen till Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "Nytt meddelande nedanför",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
     "installConnectionFailed": {
         "message": "Kunde inte kontakta servern.",
         "description": "Displayed when we can't connect to the server."
@@ -428,12 +462,12 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Namnlös fil",
         "description": "Hover text for attachment filenames"
     },
     "connecting": {
         "message": "Ansluter",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Återställning av säkerhetssession",
@@ -482,7 +516,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Röstmeddelande",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +524,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Klicka för att verifiera.",
         "description": "",
         "placeholders": {
             "name": {

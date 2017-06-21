@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Przewiń na koniec konwersacji",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -20,6 +24,10 @@
     "unsupportedAttachment": {
         "message": "Nieobsługiwany typ załącznika. Kliknij, aby zapisać.",
         "description": "Displayed for incoming unsupported attachment"
+    },
+    "androidMessageLengthWarning": {
+        "message": "W aplikacji na Androida widoczne będzie tylko pierwsze 2000 znaków z tej wiadomości.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "verifySafetyNumbers": {
         "message": "Zweryfikuj numer bezpieczeństwa",
@@ -79,6 +87,10 @@
         "message": "Kliknij, aby zapisać",
         "description": "Hover text for attachment filenames"
     },
+    "messagesBelow": {
+        "message": "Nowe wiadomości poniżej",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "installGeneratingKeys": {
         "message": "Trwa generowanie kluczy",
         "description": ""
@@ -89,7 +101,7 @@
     },
     "offline": {
         "message": "Rozłączony",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Witamy w Signal",
@@ -251,6 +263,16 @@
         "message": "Zatwierdzanie numerów bezpieczeństwa",
         "description": "Header for safety numbers setting"
     },
+    "unreadMessages": {
+        "message": "Nieprzeczytane wiadomości: $count$",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
     "installTooManyDevices": {
         "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj usunąć kilka.",
         "description": ""
@@ -290,7 +312,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Twój numer bezpieczeństwa z $name$",
+        "message": "Twój numer bezpieczeństwa z $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -321,7 +343,7 @@
     },
     "disconnected": {
         "message": "Odłączony",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Importowanie...",
@@ -379,6 +401,10 @@
         "message": "Wiadomość multimedialna",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 nieprzeczytana wiadomość",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Ta wersja Signal Desktop jest przestarzała. Aby nadal wysyłać wiadomości, wykonaj aktualizację.",
         "description": "Warning notification that this version of the app has expired"
@@ -406,6 +432,10 @@
     "installWelcome": {
         "message": "Witamy w Signal Desktop",
         "description": "Welcome title on the install page"
+    },
+    "messageBelow": {
+        "message": "Nowa wiadomość poniżej",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "installConnectionFailed": {
         "message": "Nie można połączyć się z serwerem.",
@@ -437,7 +467,7 @@
     },
     "connecting": {
         "message": "Trwa łączenie",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Reset bezpiecznej sesji",
@@ -494,7 +524,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Twój numer bezpieczeństwa z $name$ zmienił się.",
+        "message": "Twój numer bezpieczeństwa z $name$ zmienił się. Kliknij, aby zweryfikować.",
         "description": "",
         "placeholders": {
             "name": {

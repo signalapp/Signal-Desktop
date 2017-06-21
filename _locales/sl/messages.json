@@ -1,4 +1,8 @@
 {
+    "scrollDown": {
+        "message": "Pomaknite se na dno pogovora",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -20,6 +24,10 @@
     "unsupportedAttachment": {
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
+    },
+    "androidMessageLengthWarning": {
+        "message": "Odjemalec za Android bo prejel le prvih 2000 znakov tega sporočila.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "verifySafetyNumbers": {
         "message": "Preglej varnostno število",
@@ -79,6 +87,10 @@
         "message": "Shrani",
         "description": "Hover text for attachment filenames"
     },
+    "messagesBelow": {
+        "message": "Nova sporočila spodaj",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    },
     "installGeneratingKeys": {
         "message": "Generiram ključe ...",
         "description": ""
@@ -89,7 +101,7 @@
     },
     "offline": {
         "message": "Ni povezave na internet",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Dobrodošli v aplikaciji Signal",
@@ -108,7 +120,7 @@
         "description": ""
     },
     "timestamp_h": {
-        "message": "1 ura",
+        "message": "1 uro",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
@@ -122,6 +134,10 @@
     "restartSignal": {
         "message": "Ponovno zaženi Signal",
         "description": "Menu item for restarting the program."
+    },
+    "youLeftTheGroup": {
+        "message": "Zapustili ste skupino",
+        "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
         "message": "Izbriši sporočila",
@@ -222,7 +238,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Uvoz ni bil uspešen. Preverite, če sta vaša računalnik in mobilna naprava povezana z internetom.",
+        "message": "Uvoz ni bil uspešen. Preverite, da sta vaša računalnik in mobilna naprava povezana z internetom.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
@@ -246,6 +262,16 @@
     "safetyNumbersSettingHeader": {
         "message": "Preverjanje istovetnosti",
         "description": "Header for safety numbers setting"
+    },
+    "unreadMessages": {
+        "message": "$count$ Neprebrana sporočila",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
@@ -286,7 +312,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Vaše varnostno število z osebo $name$",
+        "message": "Vaše varnostno število z osebo $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -317,7 +343,7 @@
     },
     "disconnected": {
         "message": "Povezava je prekinjena",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Uvažam ...",
@@ -332,7 +358,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
@@ -375,6 +401,10 @@
         "message": "Multimedijsko sporočilo",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
+    "unreadMessage": {
+        "message": "1 novo sporočilo",
+        "description": "Text for unread message separator, just one message"
+    },
     "expiredWarning": {
         "message": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
         "description": "Warning notification that this version of the app has expired"
@@ -402,6 +432,10 @@
     "installWelcome": {
         "message": "Dobrodošli v aplikaciji Signal Desktop",
         "description": "Welcome title on the install page"
+    },
+    "messageBelow": {
+        "message": "Novo sporočilo spodaj",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "installConnectionFailed": {
         "message": "Ne morem se povezati s strežnikom.",
@@ -433,7 +467,7 @@
     },
     "connecting": {
         "message": "Povezujem",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Varna ponastavitev seje",
@@ -490,7 +524,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Vaše varnostno število z osebo $name$ je bilo spremenjeno.",
+        "message": "Vaše varnostno število z osebo $name$ je bilo spremenjeno. Kliknite za pregled in potrditev.",
         "description": "",
         "placeholders": {
             "name": {
