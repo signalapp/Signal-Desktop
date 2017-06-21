@@ -17,10 +17,12 @@ also a good idea to outline your approach to the problem in order to get
 feedback.
 
 ## Developer Setup
-``
+```
+git clone https://github.com/WhisperSystems/Signal-Desktop.git
+cd Signal-Desktop
 npm install            # install dependencies
 npm start              # run
-``
+```
 
 Some features, such as native notifications, will not work locally until you
 package for your platform:
