@@ -10,3 +10,4 @@ config/local-*.json
 .DS_Store
 *.provisionprofile
 release/
+/dev-app-update.yml
