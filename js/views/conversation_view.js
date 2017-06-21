@@ -86,6 +86,13 @@
         },
         template: $('#conversation').html(),
         render_attributes: function() {
+            var muted;
+            if (this.model.get('muted')) {
+                muted = i18n('unmuteConversation');
+            } else {
+                muted = i18n('muteConversation');
+            }
+
             return {
                 group: this.model.get('type') === 'group',
                 isMe: this.model.isMe(),
@@ -94,7 +101,7 @@
                 'show-members'    : i18n('showMembers'),
                 'end-session'     : i18n('resetSession'),
                 'show-identity'   : i18n('showSafetyNumber'),
-                'muted'           : i18n('muteConversation'),
+                'muted'           : muted,
                 'destroy'         : i18n('deleteMessages'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),

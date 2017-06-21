@@ -752,7 +752,11 @@
         "message": "Relink"
     },
     "muteConversation": {
-      "message": "Mute/Unmute",
-      "description": "Mute/unmute current conversation"
+      "message": "Mute conversation",
+      "description": "Disable notifications for the current conversation"
+    },
+    "unmuteConversation": {
+      "message": "Unmute conversation",
+      "description": "Reenable notifications for the current conversation"
     }
 }
