@@ -92,6 +92,7 @@ try {
   messages = locale.getLocaleMessages(localeName);
 } catch (e) {
   console.log('Problem loading messages for locale ', localeName, e.stack);
+  console.log('Falling back to en locale');
 
   localeName = 'en';
   messages = locale.getLocaleMessages(localeName);
