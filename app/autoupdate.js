@@ -1,5 +1,6 @@
 const autoUpdater = require('electron-updater').autoUpdater
 const { dialog } = require('electron');
+const config = require('./config');
 
 const windowState = require('./window_state');
 
@@ -9,7 +10,7 @@ const autoUpdaterInterval = hour * 1000;
 const RESTART_BUTTON = 0;
 const LATER_BUTTON = 1;
 
-function autoUpdateDisabled(config) {
+function autoUpdateDisabled() {
   return process.mas || config.get('disableAutoUpdate');
 }
 
@@ -45,8 +46,8 @@ function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initializeAutoUpdater(config, localeMessages) {
-  if (autoUpdateDisabled(config)) {
+function initializeAutoUpdater(localeMessages) {
+  if (autoUpdateDisabled()) {
     return;
   }
 
