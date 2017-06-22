@@ -163,6 +163,10 @@
         }
 
         ConversationController.create(c).save();
+
+        if (contactDetails.verified) {
+            onVerified(contactDetails);
+        }
     }
 
     function onGroupReceived(ev) {
