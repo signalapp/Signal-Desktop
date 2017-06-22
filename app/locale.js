@@ -21,7 +21,7 @@ function getLocaleMessages(locale) {
     'messages.json'
   );
 
-  return JSON.parse(fs.readFileSync(targetFile, 'utf-8'))
+  return JSON.parse(fs.readFileSync(targetFile, 'utf-8'));
 }
 
 // Load locale - if we can't load messages for the current locale, we
