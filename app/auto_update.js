@@ -45,7 +45,7 @@ function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initializeAutoUpdater() {
+function initialize() {
   if (autoUpdateDisabled()) {
     return;
   }
@@ -59,5 +59,5 @@ function initializeAutoUpdater() {
 }
 
 module.exports = {
-  initializeAutoUpdater
+  initialize
 };
