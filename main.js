@@ -9,9 +9,9 @@ const Menu = electron.Menu;
 const shell = electron.shell;
 const ElectronConfig = require('electron-config');
 
-const autoupdate = require('./autoupdate');
-const locale = require('./locale');
-const windowState = require('./window_state');
+const autoupdate = require('./app/autoupdate');
+const locale = require('./app/locale');
+const windowState = require('./app/window_state');
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -213,7 +213,7 @@ app.on('ready', function() {
 
   createWindow();
 
-  let template = require('./menu.js');
+  let template = require('./app/menu.js');
   if (process.platform === 'darwin') {
     template[3].submenu[3].click = function() {
       mainWindow.show();
