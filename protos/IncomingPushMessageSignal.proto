@@ -25,6 +25,24 @@ message Content {
   optional DataMessage dataMessage = 1;
   optional SyncMessage syncMessage = 2;
   optional CallMessage callMessage = 3;
+  optional NullMessage nullMessage = 4;
+}
+
+message NullMessage {
+  optional bytes padding = 1;
+}
+
+message Verified {
+  enum State {
+    DEFAULT    = 0;
+    VERIFIED   = 1;
+    UNVERIFIED = 2;
+  }
+
+  optional string destination = 1;
+  optional bytes  identityKey = 2;
+  optional State  state       = 3;
+  optional bytes  nullMessage = 4;
 }
 
 message CallMessage {
@@ -111,18 +129,6 @@ message SyncMessage {
     optional uint64 timestamp = 2;
   }
 
-  message Verified {
-    enum State {
-      DEFAULT    = 0;
-      VERIFIED   = 1;
-      UNVERIFIED = 2;
-    }
-
-    optional string destination = 1;
-    optional bytes  identityKey = 2;
-    optional State  state       = 3;
-  }
-
   optional Sent     sent     = 1;
   optional Contacts contacts = 2;
   optional Groups   groups   = 3;
@@ -169,10 +175,11 @@ message ContactDetails {
     optional uint32 length      = 2;
   }
 
-  optional string number  = 1;
-  optional string name    = 2;
-  optional Avatar avatar  = 3;
-  optional string color   = 4;
+  optional string number     = 1;
+  optional string name       = 2;
+  optional Avatar avatar     = 3;
+  optional string color      = 4;
+  optional Verified verified = 5;
 }
 
 message GroupDetails {
