@@ -59,10 +59,12 @@
         if (this.isPrivate()) {
             return Promise.all([
                 textsecure.storage.protocol.getVerified(this.id),
-                this.fetch()
+                // new Promise necessary because a fetch will fail if convo not in db yet
+                new Promise(function(resolve) { this.fetch().always(resolve); }.bind(this))
             ]).then(function(results) {
                 var trust = results[0];
-                return this.save({verified: trust});
+                // we don't return here because we don't need to wait for this to finish
+                this.save({verified: trust});
             }.bind(this));
         } else {
             return this.fetchContacts().then(function() {
@@ -597,6 +599,7 @@
                             type : 'private'
                         });
                         this.listenTo(c, 'change:verified', this.onMemberVerifiedChange);
+                        // new Promise necessary because a fetch will fail if convo not in db yet
                         promises.push(new Promise(function(resolve) {
                             c.fetch().always(resolve);
                         }));
