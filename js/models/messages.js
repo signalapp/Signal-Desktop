@@ -211,15 +211,6 @@
                 }
                 this.save({sent: true, expirationStartTimestamp: now});
                 this.sendSyncMessage();
-
-                // var error = new Error('OutgoingIdentityKeyError');
-                // error.name = 'OutgoingIdentityKeyError';
-                // error.number = result.successfulNumbers[0];
-                // throw error;
-
-                // var error = new Error('OutgoingMessageError');
-                // error.name = 'OutgoingMessageError';
-                // throw error;
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
                 this.trigger('done');
@@ -227,19 +218,36 @@
                     this.set({dataMessage: result.dataMessage});
                 }
 
+                var promises = [];
+
                 if (result instanceof Error) {
                     this.saveErrors(result);
                     if (result.name === 'SignedPreKeyRotationError') {
-                        getAccountManager().rotateSignedPreKey();
+                        return getAccountManager().rotateSignedPreKey();
+                    }
+                    else if (result.name === 'OutgoingIdentityKeyError') {
+                        promises.push(textsecure.storage.protocol.saveIdentity(
+                            result.number, result.identityKey, false
+                        ));
                     }
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
                         this.set({sent: true, expirationStartTimestamp: now});
-                        this.sendSyncMessage();
+                        promises.push(this.sendSyncMessage());
                     }
+                    promises = promises.concat(_.map(result.errors, function(error) {
+                        if (error.name === 'OutgoingIdentityKeyError') {
+                            return textsecure.storage.protocol.saveIdentity(
+                                error.number, error.identityKey, false
+                            );
+                        }
+                    }));
                 }
 
+                return Promise.all(promises).then(function() {
+                    this.trigger('send-error', this.get('errors'));
+                }.bind(this));
             }.bind(this));
         },
 

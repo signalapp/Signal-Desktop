@@ -46,6 +46,7 @@
         });
 
         this.messageCollection.on('change:errors', this.handleMessageError, this);
+        this.messageCollection.on('send-error', this.onMessageError, this);
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
@@ -55,6 +56,9 @@
         return this.id === this.ourNumber;
     },
 
+    onMessageError: function() {
+        this.updateVerified();
+    },
     updateVerified: function() {
         if (this.isPrivate()) {
             return Promise.all([
