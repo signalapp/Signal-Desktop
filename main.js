@@ -7,7 +7,7 @@ const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 
-const autoupdate = require('./app/autoupdate');
+const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
 console.log('setting AUMID');
@@ -154,7 +154,7 @@ function createWindow () {
 app.on('ready', function() {
   console.log('app ready');
 
-  autoupdate.initializeAutoUpdater();
+  autoUpdate.initialize();
 
   createWindow();
 
