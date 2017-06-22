@@ -38444,10 +38444,16 @@ MessageReceiver.prototype.extend({
                 return this.handleSyncMessage(envelope, content.syncMessage);
             } else if (content.dataMessage) {
                 return this.handleDataMessage(envelope, content.dataMessage);
+            } else if (content.nullMessage) {
+                return this.handleNullMessage(envelope, content.nullMessage);
             } else {
-                throw new Error('Got Content message with no dataMessage and no syncMessage');
+                throw new Error('Unsupported content message');
             }
         }.bind(this));
+    },
+    handleNullMessage: function(envelope, nullMessage) {
+        var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
+        console.log('null message from', encodedNumber, envelope.timestamp.toNumber());
     },
     handleSyncMessage: function(envelope, syncMessage) {
         if (envelope.source !== this.number) {
