@@ -1,7 +1,8 @@
 const autoUpdater = require('electron-updater').autoUpdater
 const { dialog } = require('electron');
-const config = require('./config');
 
+const config = require('./config');
+const locale = require('./locale');
 const windowState = require('./window_state');
 
 const hour = 60 * 60;
@@ -18,42 +19,38 @@ function checkForUpdates() {
   autoUpdater.checkForUpdates();
 }
 
-function showUpdateDialog(localeMessages) {
-  return function() {
-    const options = {
-      type: 'info',
-      buttons: [
-        localeMessages.autoUpdateRestartButtonLabel.message,
-        localeMessages.autoUpdateLaterButtonLabel.message
-      ],
-      title: localeMessages.autoUpdateNewVersionTitle.message,
-      message: localeMessages.autoUpdateNewVersionMessage.message,
-      detail: localeMessages.autoUpdateNewVersionInstructions.message,
-      defaultId: RESTART_BUTTON,
-      cancelId: LATER_BUTTON
-    }
-
-    dialog.showMessageBox(options, function(response) {
-      if (response == RESTART_BUTTON) {
-        windowState.markShouldQuit();
-        autoUpdater.quitAndInstall();
-      }
-    });
+function showUpdateDialog() {
+  const options = {
+    type: 'info',
+    buttons: [
+      locale.messages.autoUpdateRestartButtonLabel.message,
+      locale.messages.autoUpdateLaterButtonLabel.message
+    ],
+    title: locale.messages.autoUpdateNewVersionTitle.message,
+    message: locale.messages.autoUpdateNewVersionMessage.message,
+    detail: locale.messages.autoUpdateNewVersionInstructions.message,
+    defaultId: RESTART_BUTTON,
+    cancelId: LATER_BUTTON
   }
+
+  dialog.showMessageBox(options, function(response) {
+    if (response == RESTART_BUTTON) {
+      windowState.markShouldQuit();
+      autoUpdater.quitAndInstall();
+    }
+  });
 }
 
 function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initializeAutoUpdater(localeMessages) {
+function initializeAutoUpdater() {
   if (autoUpdateDisabled()) {
     return;
   }
 
-  const onUpdateDownloaded = showUpdateDialog(localeMessages);
-
-  autoUpdater.addListener('update-downloaded', onUpdateDownloaded);
+  autoUpdater.addListener('update-downloaded', showUpdateDialog);
   autoUpdater.addListener('error', onError);
 
   checkForUpdates();
