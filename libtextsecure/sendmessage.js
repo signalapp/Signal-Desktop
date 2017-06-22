@@ -322,18 +322,34 @@ MessageSender.prototype = {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
         if (myDevice != 1) {
-            var verified = new textsecure.protobuf.Verified();
-            verified.state = state;
-            verified.destination = destination;
-            verified.identityKey = identityKey;
+            // First send a null message to mask the sync message.
+            var nullMessage = new textsecure.protobuf.NullMessage();
 
-            var syncMessage = this.createSyncMessage();
-            syncMessage.verified = verified;
+            // Generate a random int from 1 and 512
+            var buffer = libsignal.crypto.getRandomBytes(1);
+            var paddingLength = (new Uint8Array(buffer)[0] & 0x1ff) + 1;
+
+            // Generate a random padding buffer of the chosen size
+            nullMessage.padding = libsignal.crypto.getRandomBytes(paddingLength);
 
             var contentMessage = new textsecure.protobuf.Content();
-            contentMessage.syncMessage = syncMessage;
+            contentMessage.nullMessage = nullMessage;
 
-            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            return this.sendIndividualProto(destination, contentMessage, Date.now()).then(function() {
+                var verified = new textsecure.protobuf.Verified();
+                verified.state = state;
+                verified.destination = destination;
+                verified.identityKey = identityKey;
+                verified.nullMessage = nullMessage.padding;
+
+                var syncMessage = this.createSyncMessage();
+                syncMessage.verified = verified;
+
+                var contentMessage = new textsecure.protobuf.Content();
+                contentMessage.syncMessage = syncMessage;
+
+                return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+            }.bind(this));
         }
     },
 
