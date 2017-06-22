@@ -110,6 +110,7 @@
       "!js/register.js",
       "!js/views/standalone_registration_view.js",
       "preload.js",
+      "window_state.js",
       "autoupdate.js",
       "locale.js",
       "main.js",
