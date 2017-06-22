@@ -11,6 +11,7 @@ const ElectronConfig = require('electron-config');
 
 const autoupdate = require('./autoupdate');
 const locale = require('./locale');
+const windowState = require('./window_state');
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -184,7 +185,7 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !shouldQuit && environment !== 'test') {
+    if (process.platform === 'darwin' && !windowState.shouldQuit() && environment !== 'test') {
       e.preventDefault();
       mainWindow.hide();
     }
@@ -224,8 +225,9 @@ app.on('ready', function() {
 })
 
 app.on('before-quit', function() {
-  shouldQuit = true;
+  windowState.markShouldQuit();
 });
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
