@@ -8,7 +8,6 @@ const Menu = electron.Menu;
 const shell = electron.shell;
 
 const autoupdate = require('./app/autoupdate');
-const locale = require('./app/locale');
 const windowState = require('./app/window_state');
 
 console.log('setting AUMID');
@@ -39,26 +38,9 @@ if (config.environment === 'production' && !process.mas) {
 }
 
 const userConfig = require('./app/user_config');
-
 let windowConfig = userConfig.get('window');
 
-// Load locale - if we can't load messages for the current locale, we
-// default to 'en'
-//
-// possible locales:
-// https://github.com/electron/electron/blob/master/docs/api/locales.md
-let localeName = locale.normalizeLocaleName(app.getLocale());
-let messages;
-
-try {
-  messages = locale.getLocaleMessages(localeName);
-} catch (e) {
-  console.log('Problem loading messages for locale ', localeName, e.stack);
-  console.log('Falling back to en locale');
-
-  localeName = 'en';
-  messages = locale.getLocaleMessages(localeName);
-}
+const locale = require('./app/locale');
 
 function createWindow () {
   const windowOptions = Object.assign({
@@ -102,7 +84,7 @@ function createWindow () {
 
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', function(event, arg) {
-    event.returnValue = messages;
+    event.returnValue = locale.messages;
   });
 
   function prepareURL(pathSegments) {
@@ -111,7 +93,7 @@ function createWindow () {
       protocol: 'file:',
       slashes: true,
       query: {
-        locale: localeName,
+        locale: locale.name,
         version: app.getVersion(),
         buildExpiration: config.get('buildExpiration'),
         serverUrl: config.get('serverUrl'),
@@ -172,11 +154,12 @@ function createWindow () {
 app.on('ready', function() {
   console.log('app ready');
 
-  autoupdate.initializeAutoUpdater(messages);
+  autoupdate.initializeAutoUpdater();
 
   createWindow();
 
   let template = require('./app/menu.js');
+
   if (process.platform === 'darwin') {
     template[3].submenu[3].click = function() {
       mainWindow.show();
