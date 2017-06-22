@@ -3,11 +3,9 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
-const fs = require('fs')
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
-const ElectronConfig = require('electron-config');
 
 const autoupdate = require('./app/autoupdate');
 const locale = require('./app/locale');
@@ -16,11 +14,13 @@ const windowState = require('./app/window_state');
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
 
-console.log('reading package.json');
-const package_json = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'))
-const environment = package_json.environment || process.env.NODE_ENV || 'development';
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow
 
-if (environment === 'production' && !process.mas) {
+const config = require("./app/config");
+
+if (config.environment === 'production' && !process.mas) {
   console.log('making app single instance');
   var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
     // Someone tried to run a second instance, we should focus our window
@@ -38,48 +38,9 @@ if (environment === 'production' && !process.mas) {
   }
 }
 
-console.log('configuring');
-// Set environment vars to configure node-config before requiring it
-process.env.NODE_ENV = environment;
-process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
-if (environment === 'production') {
-  // harden production config against the local env
-  process.env.NODE_CONFIG = '';
-  process.env.NODE_CONFIG_STRICT_MODE = true;
-  process.env.HOSTNAME = '';
-  process.env.NODE_APP_INSTANCE = '';
-  process.env.ALLOW_CONFIG_MUTATIONS = '';
-  process.env.SUPPRESS_NO_CONFIG_WARNING = '';
-}
-const config = require('config');
-// Log resulting env vars in use by config
-[
-  'NODE_ENV',
-  'NODE_CONFIG_DIR',
-  'NODE_CONFIG',
-  'ALLOW_CONFIG_MUTATIONS',
-  'HOSTNAME',
-  'NODE_APP_INSTANCE',
-  'SUPPRESS_NO_CONFIG_WARNING'
-].forEach(function(s) {
-  console.log(s + ' ' + config.util.getEnv(s));
-});
+const userConfig = require('./app/user_config');
 
-// use a separate data directory for development
-if (config.has('storageProfile')) {
-  var userData = path.join(app.getPath('appData'), 'Signal-' + config.get('storageProfile'));
-  app.setPath('userData', userData);
-}
-console.log('userData ' + app.getPath('userData'));
-
-// this needs to be below our update to the appData path
-const userConfig = new ElectronConfig();
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
 let windowConfig = userConfig.get('window');
-
 
 // Load locale - if we can't load messages for the current locale, we
 // default to 'en'
@@ -154,13 +115,13 @@ function createWindow () {
         version: app.getVersion(),
         buildExpiration: config.get('buildExpiration'),
         serverUrl: config.get('serverUrl'),
-        environment: environment,
+        environment: config.environment,
         node_version: process.versions.node
       }
     })
   }
 
-  if (environment === 'test') {
+  if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
@@ -178,6 +139,7 @@ function createWindow () {
             shell.openExternal(url)
       }
   });
+
   mainWindow.webContents.on('will-navigate', function(e) {
     console.log('will-navigate');
     e.preventDefault();
@@ -185,11 +147,12 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !windowState.shouldQuit() && environment !== 'test') {
+    if (process.platform === 'darwin' && !windowState.shouldQuit() && config.environment !== 'test') {
       e.preventDefault();
       mainWindow.hide();
     }
   });
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -209,7 +172,7 @@ function createWindow () {
 app.on('ready', function() {
   console.log('app ready');
 
-  autoupdate.initializeAutoUpdater(config, messages);
+  autoupdate.initializeAutoUpdater(messages);
 
   createWindow();
 
@@ -219,9 +182,9 @@ app.on('ready', function() {
       mainWindow.show();
     };
   }
+
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-
 })
 
 app.on('before-quit', function() {
@@ -232,7 +195,7 @@ app.on('before-quit', function() {
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' || environment === 'test') {
+  if (process.platform !== 'darwin' || config.environment === 'test') {
     app.quit()
   }
 })
@@ -253,6 +216,7 @@ app.on('activate', function () {
 ipc.on('set-badge-count', function(event, count) {
   app.setBadgeCount(count);
 });
+
 ipc.on('draw-attention', function(event, count) {
   if (process.platform === 'darwin') {
     app.dock.bounce();
@@ -263,6 +227,7 @@ ipc.on('draw-attention', function(event, count) {
     }, 1000);
   }
 });
+
 ipc.on('restart', function(event) {
   app.relaunch();
   app.quit();
