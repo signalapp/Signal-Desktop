@@ -1,6 +1,8 @@
 const autoUpdater = require('electron-updater').autoUpdater
 const { dialog } = require('electron');
 
+const windowState = require('./window_state');
+
 const hour = 60 * 60;
 const autoUpdaterInterval = hour * 1000;
 
@@ -32,6 +34,7 @@ function showUpdateDialog(localeMessages) {
 
     dialog.showMessageBox(options, function(response) {
       if (response == RESTART_BUTTON) {
+        windowState.markShouldQuit();
         autoUpdater.quitAndInstall();
       }
     });
