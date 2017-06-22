@@ -11,7 +11,14 @@ function normalizeLocaleName(locale) {
 
 function getLocaleMessages(locale) {
   const onDiskLocale = locale.replace('-', '_');
-  const targetFile = path.join(__dirname, '_locales', onDiskLocale, 'messages.json');
+
+  const targetFile = path.join(
+    __dirname,
+    '..',
+    '_locales',
+    onDiskLocale,
+    'messages.json'
+  );
 
   return JSON.parse(fs.readFileSync(targetFile, 'utf-8'))
 }
