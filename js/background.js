@@ -297,13 +297,13 @@
         var state;
 
         switch(ev.verified.state) {
-          case textsecure.protobuf.SyncMessage.Verified.State.DEFAULT:
+          case textsecure.protobuf.Verified.State.DEFAULT:
             state = 'DEFAULT';
             break;
-          case textsecure.protobuf.SyncMessage.Verified.State.VERIFIED:
+          case textsecure.protobuf.Verified.State.VERIFIED:
             state = 'VERIFIED';
             break;
-          case textsecure.protobuf.SyncMessage.Verified.State.UNVERIFIED:
+          case textsecure.protobuf.Verified.State.UNVERIFIED:
             state = 'UNVERIFIED';
             break;
         }
