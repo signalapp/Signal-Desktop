@@ -59,10 +59,9 @@ OutgoingMessage.prototype = {
                     }
                     return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
-                            error = new textsecure.OutgoingIdentityKeyError(
-                                number, this.message.toArrayBuffer(),
-                                this.timestamp, device.identityKey);
-                            this.registerError(number, "Identity key changed", error);
+                            error.timestamp = device.timestamp;
+                            error.originalMessage = this.message.toArrayBuffer();
+                            error.identityKey = device.identityKey;
                         }
                         throw error;
                     }.bind(this));
@@ -173,9 +172,12 @@ OutgoingMessage.prototype = {
                         }.bind(this));
                 }.bind(this));
             } else if (error.message === "Identity key changed") {
-                error = new textsecure.OutgoingIdentityKeyError(
-                    number, this.message.toArrayBuffer(), this.timestamp);
-                this.registerError(number, "Identity key changed", error);
+                error.timestamp = this.timestamp;
+                error.originalMessage = this.message.toArrayBuffer();
+                // looks like this is an error - we don't have the identity key in this situation!
+                // but we need it to update the identity key when we get a OutgoingIdentityKeyError
+                // error.identityKey = ????;
+                throw error;
             } else {
                 this.registerError(number, "Failed to create or send message", error);
             }
@@ -218,7 +220,16 @@ OutgoingMessage.prototype = {
             return this.getKeysForNumber(number, updateDevices)
                 .then(this.reloadDevicesAndSend(number, true))
                 .catch(function(error) {
-                    this.registerError(number, "Failed to retreive new device keys for number " + number, error);
+                    if (error.message === "Identity key changed") {
+                        error = new textsecure.OutgoingIdentityKeyError(
+                            number, error.originalMessage, error.timestamp, error.identityKey
+                        );
+                        this.registerError(number, "Identity key changed", error);
+                    } else {
+                        this.registerError(
+                            number, "Failed to retrieve new device keys for number " + number, error
+                        );
+                    }
                 }.bind(this));
         }.bind(this));
     }
