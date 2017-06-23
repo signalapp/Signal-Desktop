@@ -14,6 +14,10 @@ describe('i18n', function() {
       const actual = i18n('verifyContact', ['<strong>', '</strong>']);
       assert.equal(actual, 'You may wish to <strong> verify </strong> your safety number with this contact.');
     });
+    it('handles duplicates of the same substitution', function() {
+      const actual = i18n('changedSinceVerified', 'Someone');
+      assert.equal(actual, 'Your safety number with Someone has changed since you last verified. This could mean that someone is trying to intercept your communication or that Someone has simply reinstalled Signal.');
+    });
   });
 
   describe('getLocale', function() {
