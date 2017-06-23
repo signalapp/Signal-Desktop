@@ -135,7 +135,7 @@ message SyncMessage {
   optional Request  request  = 4;
   repeated Read     read     = 5;
   optional Blocked  blocked  = 6;
-  repeated Verified verified = 7;
+  optional Verified verified = 7;
   optional bytes    padding  = 8;
 }
 
