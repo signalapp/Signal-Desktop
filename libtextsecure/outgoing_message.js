@@ -169,9 +169,7 @@ OutgoingMessage.prototype = {
                 return p.then(function() {
                     var resetDevices = ((error.code == 410) ? error.response.staleDevices : error.response.missingDevices);
                     return this.getKeysForNumber(number, resetDevices)
-                        .then(function() {
-                            return this.reloadDevicesAndSend(number, error.code == 409);
-                        }.bind(this));
+                        .then(this.reloadDevicesAndSend(number, error.code == 409));
                 }.bind(this));
             } else if (error.message === "Identity key changed") {
                 error.timestamp = this.timestamp;
