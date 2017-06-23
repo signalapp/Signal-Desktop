@@ -237,10 +237,9 @@
             } else {
                 this.$('.error-icon-container').remove();
             }
+            this.$('.meta .hasRetry').remove();
             if (this.model.hasNetworkError()) {
                 this.$('.meta').prepend(new NetworkErrorView().render().el);
-            } else {
-                this.$('.meta .hasRetry').remove();
             }
         },
         renderControl: function() {
