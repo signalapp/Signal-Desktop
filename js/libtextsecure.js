@@ -38804,7 +38804,7 @@ OutgoingMessage.prototype = {
                     }
                     return builder.processPreKey(device).catch(function(error) {
                         if (error.message === "Identity key changed") {
-                            error.timestamp = device.timestamp;
+                            error.timestamp = this.timestamp;
                             error.originalMessage = this.message.toArrayBuffer();
                             error.identityKey = device.identityKey;
                         }
