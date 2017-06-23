@@ -317,10 +317,15 @@ MessageReceiver.prototype.extend({
                 var ev = new Event('contact');
                 ev.contactDetails = contactDetails;
                 eventTarget.dispatchEvent(ev);
+
+                if (contactDetails.verified) {
+                    this.handleVerified([contactDetails.verified]);
+                }
+
                 contactDetails = contactBuffer.next();
             }
             eventTarget.dispatchEvent(new Event('contactsync'));
-        });
+        }.bind(this));
     },
     handleGroups: function(groups) {
         console.log('group sync');
