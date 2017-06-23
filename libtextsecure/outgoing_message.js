@@ -176,9 +176,7 @@ OutgoingMessage.prototype = {
             } else if (error.message === "Identity key changed") {
                 error.timestamp = this.timestamp;
                 error.originalMessage = this.message.toArrayBuffer();
-                // looks like this is an error - we don't have the identity key in this situation!
-                // but we need it to update the identity key when we get a OutgoingIdentityKeyError
-                // error.identityKey = ????;
+                console.log('Got "key changed" error from encrypt - no identityKey for application layer', number, deviceIds)
                 throw error;
             } else {
                 this.registerError(number, "Failed to create or send message", error);
