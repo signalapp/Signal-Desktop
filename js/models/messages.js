@@ -223,7 +223,7 @@
                 if (result instanceof Error) {
                     this.saveErrors(result);
                     if (result.name === 'SignedPreKeyRotationError') {
-                        return getAccountManager().rotateSignedPreKey();
+                        promises.push(getAccountManager().rotateSignedPreKey());
                     }
                     else if (result.name === 'OutgoingIdentityKeyError' && result.identityKey) {
                         promises.push(textsecure.storage.protocol.saveIdentity(
