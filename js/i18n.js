@@ -8,19 +8,33 @@
     var messages = window.config.localeMessages;
     var locale = window.config.locale;
 
-    window.i18n = function (message, substitutions) {
-      if (!messages[message]) {
+    window.i18n = function (key, values) {
+      var data = messages[key];
+      if (!data) {
         return;
       }
-      var s = messages[message].message;
-      if (substitutions instanceof Array) {
-        substitutions.forEach(function(sub) {
-          s = s.replace(/\$.+?\$/, sub);
-        });
-      } else if (substitutions) {
-        s = s.replace(/\$.+?\$/, substitutions);
+
+      var message = data.message;
+      var placeholders = data.placeholders;
+      if (!values || !placeholders) {
+        return message;
       }
-      return s;
+
+      if (!(values instanceof Array)) {
+        values = [values];
+      }
+
+      var names = Object.keys(placeholders);
+      for (var i = 0, max = names.length; i < max; i += 1) {
+        var name = names[i];
+        var value = values[i]
+
+        var r = new RegExp('\\$' + name + '\\$', 'g');
+
+        message = message.replace(r, value);
+      }
+
+      return message;
     };
 
     i18n.getLocale = function() {
