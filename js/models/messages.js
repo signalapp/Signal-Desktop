@@ -225,7 +225,7 @@
                     if (result.name === 'SignedPreKeyRotationError') {
                         return getAccountManager().rotateSignedPreKey();
                     }
-                    else if (result.name === 'OutgoingIdentityKeyError') {
+                    else if (result.name === 'OutgoingIdentityKeyError' && result.identityKey) {
                         promises.push(textsecure.storage.protocol.saveIdentity(
                             result.number, result.identityKey, false
                         ));
@@ -237,7 +237,7 @@
                         promises.push(this.sendSyncMessage());
                     }
                     promises = promises.concat(_.map(result.errors, function(error) {
-                        if (error.name === 'OutgoingIdentityKeyError') {
+                        if (error.name === 'OutgoingIdentityKeyError' && error.identityKey) {
                             return textsecure.storage.protocol.saveIdentity(
                                 error.number, error.identityKey, false
                             );
