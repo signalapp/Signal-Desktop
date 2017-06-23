@@ -215,6 +215,9 @@
             if (this.model.isUnverified()) {
                 var unverified = this.model.getUnverified();
                 var message;
+                if (!unverified.length) {
+                    return;
+                }
                 if (unverified.length > 1) {
                     message = i18n('multipleNoLongerVerified');
                 } else {
