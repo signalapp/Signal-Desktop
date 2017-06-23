@@ -77,8 +77,11 @@ OutgoingMessage.prototype = {
                 promise = promise.then(function() {
                     return this.server.getKeysForNumber(number, device).then(handleResult).catch(function(e) {
                         if (e.name === 'HTTPError' && e.code === 404) {
-                            if (device !== 1) return this.removeDeviceIdsForNumber(number, [device]);
-                            else throw new textsecure.UnregisteredUserError(number, e);
+                            if (device !== 1) {
+                                return this.removeDeviceIdsForNumber(number, [device]);
+                            } else {
+                                throw new textsecure.UnregisteredUserError(number, e);
+                            }
                         } else {
                             throw e;
                         }
@@ -166,9 +169,8 @@ OutgoingMessage.prototype = {
                 return p.then(function() {
                     var resetDevices = ((error.code == 410) ? error.response.staleDevices : error.response.missingDevices);
                     return this.getKeysForNumber(number, resetDevices)
-                        .then(this.reloadDevicesAndSend(number, (error.code == 409)))
-                        .catch(function(error) {
-                            this.registerError(number, "Failed to reload device keys", error);
+                        .then(function() {
+                            return this.reloadDevicesAndSend(number, error.code == 409);
                         }.bind(this));
                 }.bind(this));
             } else if (error.message === "Identity key changed") {
