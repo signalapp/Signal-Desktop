@@ -285,15 +285,13 @@ MessageReceiver.prototype.extend({
         }
     },
     handleVerified: function(verified) {
-        for (var i = 0; i < verified.length; ++i) {
-            var ev = new Event('verified');
-            ev.verified = {
-                state: verified[i].state,
-                destination: verified[i].destination,
-                identityKey: verified[i].identityKey.toArrayBuffer()
-            };
-            this.dispatchEvent(ev);
-        }
+        var ev = new Event('verified');
+        ev.verified = {
+            state: verified.state,
+            destination: verified.destination,
+            identityKey: verified.identityKey.toArrayBuffer()
+        };
+        this.dispatchEvent(ev);
     },
     handleRead: function(read, timestamp) {
         for (var i = 0; i < read.length; ++i) {
@@ -319,7 +317,7 @@ MessageReceiver.prototype.extend({
                 eventTarget.dispatchEvent(ev);
 
                 if (contactDetails.verified) {
-                    this.handleVerified([contactDetails.verified]);
+                    this.handleVerified(contactDetails.verified);
                 }
 
                 contactDetails = contactBuffer.next();
