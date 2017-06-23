@@ -690,9 +690,9 @@
                 }
             } else {
                 if (isUnverified) {
-                    message = i18n('changedSinceVerified', this.model.getTitle());
+                    message = i18n('changedSinceVerified', [this.model.getTitle(), this.model.getTitle()]);
                 } else {
-                    message = i18n('changedRecently', this.model.getTitle());
+                    message = i18n('changedRecently', [this.model.getTitle(), this.model.getTitle()]);
                 }
             }
 
