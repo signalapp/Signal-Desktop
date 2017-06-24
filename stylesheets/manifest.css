@@ -2178,5 +2178,9 @@ li.entry .error-icon-container {
         background-color: white; }
       .android-dark .discussion-container .scroll-down-button-view button.new-messages:hover {
         background-color: #1472bd; }
+  .android-dark .choose-file button:hover {
+    background-color: #333333; }
+  .android-dark .capture-audio button:hover {
+    background-color: #333333; }
 
 /*# sourceMappingURL=manifest.css.map */

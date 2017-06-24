@@ -242,4 +242,10 @@ $text-dark: #CCCCCC;
       }
     }
   }
+  .choose-file button:hover {
+    background-color: $grey-dark;
+  }
+  .capture-audio button:hover {
+    background-color: $grey-dark;
+  }
 }
