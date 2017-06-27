@@ -122,7 +122,7 @@
         }.bind(this));
     },
     sendVerifySyncMessage: function(number, state) {
-        textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
+        return textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
             return textsecure.messaging.syncVerification(number, state, key);
         });
     },
