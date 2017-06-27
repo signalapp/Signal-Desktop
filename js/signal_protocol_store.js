@@ -338,6 +338,18 @@
                 });
             });
         },
+        archiveSiblingSessions: function(identifier) {
+            var address = libsignal.SignalProtocolAddress.fromString(identifier);
+            return this.getDeviceIds(address.getName()).then(function(deviceIds) {
+                var deviceIds = _.without(deviceIds, address.getDeviceId());
+                return Promise.all(deviceIds.map(function(deviceId) {
+                    var sibling = new libsignal.SignalProtocolAddress(address.getName(), deviceId);
+                    console.log('closing session for', sibling.toString());
+                    var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, sibling);
+                    return sessionCipher.closeOpenSessionForDevice();
+                }));
+            });
+        },
         archiveAllSessions: function(number) {
             return this.getDeviceIds(number).then(function(deviceIds) {
                 return Promise.all(deviceIds.map(function(deviceId) {
