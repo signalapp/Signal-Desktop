@@ -331,10 +331,10 @@
                     var promises = [];
                     while (sessions.length > 0) {
                         promises.push(new Promise(function(res) {
-                            sessions.pop().destroy().then(res);
+                            sessions.pop().destroy().then(res, res);
                         }));
                     }
-                    Promise.all(promises).then(resolve);
+                    Promise.all(promises).then(resolve, resolve);
                 });
             });
         },
@@ -472,7 +472,7 @@
                             this.archiveSiblingSessions(identifier).then(function() {
                                 resolve(true);
                             }, reject);
-                        }.bind(this));
+                        }.bind(this), reject);
                     } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
                         console.log("Setting approval status...");
                         identityRecord.save({
@@ -547,7 +547,7 @@
                             identityRecord.save({
                             }).then(function() {
                                 resolve();
-                            });
+                            }, reject);
                         } else {
                             reject(identityRecord.validationError);
                         }
