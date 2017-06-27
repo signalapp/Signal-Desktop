@@ -61,3 +61,21 @@ img.emoji.jumbo {
 	width: 2em;
 	height: 2em;
 }
+
+// we need these, or we'll make conversation items too big in the left-nav
+.conversations img.emoji.small {
+	width: 1em;
+	height: 1em;
+}
+.conversations img.emoji.medium {
+	width: 1em;
+	height: 1em;
+}
+.conversations img.emoji.large {
+	width: 1em;
+	height: 1em;
+}
+.conversations img.emoji.jumbo {
+	width: 1em;
+	height: 1em;
+}
