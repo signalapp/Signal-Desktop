@@ -468,8 +468,8 @@
                             verified            : verifiedStatus,
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
-                            this.trigger('keychange', identifier);
-                            this.archiveAllSessions(identifier).then(function() {
+                            this.trigger('keychange', number);
+                            this.archiveSiblingSessions(identifier).then(function() {
                                 resolve(true);
                             }, reject);
                         }.bind(this));
