@@ -735,7 +735,7 @@ img.emoji.jumbo {
   height: 1em; }
 
 .conversations img.emoji.jumbo {
-  width: 1	em;
+  width: 1em;
   height: 1em; }
 
 .settings.modal {
@@ -1620,9 +1620,6 @@ li.entry .error-icon-container {
     line-height: 64px; }
   .ios .conversation-header .avatar {
     display: none; }
-.ios .settings h3,
-.ios .menu-list li {
-  text-transform: capitalize; }
 .ios .bottom-bar {
   padding: 15px;
   min-height: 30px;
