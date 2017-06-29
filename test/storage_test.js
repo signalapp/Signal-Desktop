@@ -1,21 +1,27 @@
 'use strict';
 
 describe("SignalProtocolStore", function() {
+  var identifier = '+5558675309';
+  var store;
+  var identityKey;
+  var testKey;
+
   before(function(done) {
+    store = textsecure.storage.protocol;
+    identityKey = {
+      pubKey: libsignal.crypto.getRandomBytes(33),
+      privKey: libsignal.crypto.getRandomBytes(32),
+    };
+    testKey = {
+      pubKey: libsignal.crypto.getRandomBytes(33),
+      privKey: libsignal.crypto.getRandomBytes(32),
+    };
+
     storage.put('registrationId', 1337);
     storage.put('identityKey', identityKey);
     storage.fetch().then(done, done);
   });
-  var store = textsecure.storage.protocol;
-  var identifier = '+5558675309';
-  var identityKey = {
-    pubKey: libsignal.crypto.getRandomBytes(33),
-    privKey: libsignal.crypto.getRandomBytes(32),
-  };
-  var testKey = {
-    pubKey: libsignal.crypto.getRandomBytes(33),
-    privKey: libsignal.crypto.getRandomBytes(32),
-  };
+
   describe('getLocalRegistrationId', function() {
     it('retrieves my registration id', function(done) {
       store.getLocalRegistrationId().then(function(reg) {
@@ -202,16 +208,21 @@ describe("SignalProtocolStore", function() {
     });
   });
   describe('saveIdentityWithAttributes', function() {
-    var now = Date.now();
-    var record = new IdentityKeyRecord({id: identifier});
-    var validAttributes = {
-      publicKey           : testKey.pubKey,
-      firstUse            : true,
-      timestamp           : now,
-      verified            : store.VerifiedStatus.VERIFIED,
-      nonblockingApproval : false
-    };
+    var now;
+    var record;
+    var validAttributes;
+
     before(function(done) {
+      now = Date.now();
+      record = new IdentityKeyRecord({id: identifier});
+      validAttributes = {
+        publicKey           : testKey.pubKey,
+        firstUse            : true,
+        timestamp           : now,
+        verified            : store.VerifiedStatus.VERIFIED,
+        nonblockingApproval : false
+      };
+
       store.removeIdentityKey(identifier).then(function() { done(); });
     });
     describe('with valid attributes', function() {
@@ -346,27 +357,32 @@ describe("SignalProtocolStore", function() {
   describe('processVerifiedMessage', function() {
     var record;
     var newIdentity = libsignal.crypto.getRandomBytes(33);
-    function fetchRecord() {
+    var keychangeTriggered;
+
+    function wrapDeferred(deferred) {
       return new Promise(function(resolve, reject) {
-        record.fetch().then(resolve, reject);
+        return deferred.then(resolve, reject);
       });
     }
+    function fetchRecord() {
+      return wrapDeferred(record.fetch());
+    }
+
+    beforeEach(function() {
+      keychangeTriggered = 0;
+      store.bind('keychange', function() {
+        keychangeTriggered++;
+      });
+    });
+    afterEach(function() {
+      store.unbind('keychange');
+    });
+
     describe('when the new verified status is DEFAULT', function() {
       describe('when there is no existing record', function() {
-        var keychangeTriggered;
-
         before(function() {
-          keychangeTriggered = 0;
-          store.bind('keychange', function() {
-            keychangeTriggered++;
-          });
           record = new IdentityKeyRecord({ id: identifier });
-          return new Promise(function(resolve, reject) {
-            record.destroy().then(resolve, reject);
-          });
-        });
-        after(function() {
-          store.unbind('keychange');
+          return wrapDeferred(record.destroy());
         });
 
         it ('does nothing', function() {
@@ -378,62 +394,173 @@ describe("SignalProtocolStore", function() {
             throw new Error("processVerifiedMessage should not save new records");
           }, function() {
             assert.strictEqual(keychangeTriggered, 0);
-            return;
           });
         });
       });
-      describe('when the record exists and is not DEFAULT and the key matches', function() {
-        var keychangeTriggered;
+      describe('when the record exists', function() {
+        describe('when the existing key is different', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.VERIFIED,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
 
+          it ('saves the new identity and marks it DEFAULT', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.DEFAULT, newIdentity
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
+              assertEqualArrayBuffers(record.get('publicKey'), newIdentity);
+              assert.strictEqual(keychangeTriggered, 1);
+            });
+          });
+        });
+        describe('when the existing key is the same but VERIFIED', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.VERIFIED,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('updates the verified status', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.DEFAULT, testKey.pubKey
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
+              assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+              assert.strictEqual(keychangeTriggered, 0);
+            });
+          });
+        });
+        describe('when the existing key is the same and already DEFAULT', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.DEFAULT,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('does not hang', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.DEFAULT, testKey.pubKey
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(keychangeTriggered, 0);
+            });
+          });
+        });
+      });
+    });
+    describe('when the new verified status is UNVERIFIED', function() {
+      describe('when there is no existing record', function() {
         before(function() {
-          keychangeTriggered = 0;
-          store.bind('keychange', function() {
-            keychangeTriggered++;
-          });
-          record = new IdentityKeyRecord({
-            id                  : identifier,
-            publicKey           : testKey.pubKey,
-            firstUse            : true,
-            timestamp           : Date.now(),
-            verified            : store.VerifiedStatus.VERIFIED,
-            nonblockingApproval : false
-          });
-          return new Promise(function(resolve, reject) {
-            record.save().then(resolve, reject);
-          });
-        });
-        after(function() {
-          store.unbind('keychange');
+          record = new IdentityKeyRecord({ id: identifier });
+          return wrapDeferred(record.destroy());
         });
 
-        it ('updates the verified status', function() {
+        it ('saves the new identity and marks it verified', function() {
           return store.processVerifiedMessage(
-            identifier, store.VerifiedStatus.DEFAULT, testKey.pubKey
+            identifier, store.VerifiedStatus.UNVERIFIED, newIdentity
           ).then(fetchRecord).then(function() {
-            assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
-            assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+            assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+            assertEqualArrayBuffers(record.get('publicKey'), newIdentity);
             assert.strictEqual(keychangeTriggered, 0);
+          });
+        });
+      });
+      describe('when the record exists', function() {
+        describe('when the existing key is different', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.VERIFIED,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('saves the new identity and marks it UNVERIFIED', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.UNVERIFIED, newIdentity
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+              assertEqualArrayBuffers(record.get('publicKey'), newIdentity);
+              assert.strictEqual(keychangeTriggered, 1);
+            });
+          });
+        });
+        describe('when the key exists and is DEFAULT', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.DEFAULT,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('updates the verified status', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.UNVERIFIED, testKey.pubKey
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
+              assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+              assert.strictEqual(keychangeTriggered, 0);
+            });
+          });
+        });
+        describe('when the key exists and is already UNVERIFIED', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.UNVERIFIED,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('does not hang', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.UNVERIFIED, testKey.pubKey
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(keychangeTriggered, 0);
+            });
           });
         });
       });
     });
     describe('when the new verified status is VERIFIED', function() {
       describe('when there is no existing record', function() {
-        var keychangeTriggered;
-
         before(function() {
-          keychangeTriggered = 0;
-          store.bind('keychange', function() {
-            keychangeTriggered++;
-          });
-
           record = new IdentityKeyRecord({ id: identifier });
           return new Promise(function(resolve, reject) {
             record.destroy().then(resolve, reject);
           });
-        });
-        after(function() {
-          store.unbind('keychange');
         });
 
         it ('saves the new identity and marks it verified', function() {
@@ -448,14 +575,7 @@ describe("SignalProtocolStore", function() {
       });
       describe('when the record exists', function() {
         describe('when the existing key is different', function() {
-          var keychangeTriggered;
-
           before(function() {
-            keychangeTriggered = 0;
-            store.bind('keychange', function() {
-              keychangeTriggered++;
-            });
-
             record = new IdentityKeyRecord({
               id                  : identifier,
               publicKey           : testKey.pubKey,
@@ -464,15 +584,10 @@ describe("SignalProtocolStore", function() {
               verified            : store.VerifiedStatus.VERIFIED,
               nonblockingApproval : false
             });
-            return new Promise(function(resolve, reject) {
-              record.save().then(resolve, reject);
-            });
-          });
-          after(function() {
-            store.unbind('keychange');
+            return wrapDeferred(record.save());
           });
 
-          it ('saves the new identity and marks it verified', function() {
+          it ('saves the new identity and marks it VERIFIED', function() {
             return store.processVerifiedMessage(
               identifier, store.VerifiedStatus.VERIFIED, newIdentity
             ).then(fetchRecord).then(function() {
@@ -482,15 +597,8 @@ describe("SignalProtocolStore", function() {
             });
           });
         });
-        describe('when the existing key is the same and not verified', function() {
-          var keychangeTriggered;
-
+        describe('when the existing key is the same but UNVERIFIED', function() {
           before(function() {
-            keychangeTriggered = 0;
-            store.bind('keychange', function() {
-              keychangeTriggered++;
-            });
-
             record = new IdentityKeyRecord({
               id                  : identifier,
               publicKey           : testKey.pubKey,
@@ -499,12 +607,7 @@ describe("SignalProtocolStore", function() {
               verified            : store.VerifiedStatus.UNVERIFIED,
               nonblockingApproval : false
             });
-            return new Promise(function(resolve, reject) {
-              record.save().then(resolve, reject);
-            });
-          });
-          after(function() {
-            store.unbind('keychange');
+            return wrapDeferred(record.save());
           });
 
           it ('saves the identity and marks it verified', function() {
@@ -517,8 +620,30 @@ describe("SignalProtocolStore", function() {
             });
           });
         });
+        describe('when the existing key is the same and already VERIFIED', function() {
+          before(function() {
+            record = new IdentityKeyRecord({
+              id                  : identifier,
+              publicKey           : testKey.pubKey,
+              firstUse            : true,
+              timestamp           : Date.now(),
+              verified            : store.VerifiedStatus.VERIFIED,
+              nonblockingApproval : false
+            });
+            return wrapDeferred(record.save());
+          });
+
+          it ('does not hang', function() {
+            return store.processVerifiedMessage(
+              identifier, store.VerifiedStatus.VERIFIED, testKey.pubKey
+            ).then(fetchRecord).then(function() {
+              assert.strictEqual(keychangeTriggered, 0);
+            });
+          });
+        });
       });
     });
+
   });
   describe('getVerified', function() {
     before(function(done) {
