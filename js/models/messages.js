@@ -225,10 +225,9 @@
                     if (result.name === 'SignedPreKeyRotationError') {
                         promises.push(getAccountManager().rotateSignedPreKey());
                     }
-                    else if (result.name === 'OutgoingIdentityKeyError' && result.identityKey) {
-                        promises.push(textsecure.storage.protocol.saveIdentity(
-                            result.number, result.identityKey, false
-                        ));
+                    else if (result.name === 'OutgoingIdentityKeyError') {
+                        var c = ConversationController.get(result.number);
+                        promises.push(c.getProfiles());
                     }
                 } else {
                     this.saveErrors(result.errors);
@@ -237,10 +236,9 @@
                         promises.push(this.sendSyncMessage());
                     }
                     promises = promises.concat(_.map(result.errors, function(error) {
-                        if (error.name === 'OutgoingIdentityKeyError' && error.identityKey) {
-                            return textsecure.storage.protocol.saveIdentity(
-                                error.number, error.identityKey, false
-                            );
+                        if (error.name === 'OutgoingIdentityKeyError') {
+                            var c = ConversationController.get(error.number);
+                            promises.push(c.getProfiles());
                         }
                     }));
                 }
