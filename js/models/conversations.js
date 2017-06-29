@@ -92,12 +92,19 @@
             return this._setVerified(VERIFIED, options);
         }.bind(this));
     },
+    setUnverified: function(options) {
+        var UNVERIFIED = this.verifiedEnum.UNVERIFIED;
+        return this.queueJob(function() {
+            return this._setVerified(UNVERIFIED, options);
+        }.bind(this));
+    },
     _setVerified: function(verified, options) {
         options = options || {};
         _.defaults(options, {viaSyncMessage: false, viaContactSync: false, key: null});
 
-        var VERIFIED = this.verifiedEnum.VERIFIED;
         var DEFAULT = this.verifiedEnum.DEFAULT;
+        var VERIFIED = this.verifiedEnum.VERIFIED;
+        var UNVERIFIED = this.verifiedEnum.UNVERIFIED;
 
         if (!this.isPrivate()) {
             throw new Error('You cannot verify a group conversation. ' +
@@ -127,12 +134,13 @@
             //   1) The message came from an explicit verification in another client (not
             //      a contact sync)
             //   2) The verification value received by the contact sync is different
-            //      from what we have on record
-            //   3) Our local verification status is not DEFAULT and it hasn't changed,
-            //      but the key did change (say from Key1/Verified to Key2/Verified)
+            //      from what we have on record (and it's not a transition to UNVERIFIED)
+            //   3) Our local verification status is VERIFIED and it hasn't changed,
+            //      but the key did change (Key1/VERIFIED to Key2/VERIFIED - but we don't
+            //      want to show DEFAULT->DEFAULT or UNVERIFIED->UNVERIFIED)
             if (!options.viaContactSync
-                || beginningVerified !== verified
-                || (keychange && verified !== DEFAULT)) {
+                || (beginningVerified !== verified && verified !== UNVERIFIED)
+                || (keychange && verified === VERIFIED)) {
 
                 var local = !options.viaSyncMessage && !options.viaContactSync;
                 this.addVerifiedChange(this.id, verified === VERIFIED, {local: local});

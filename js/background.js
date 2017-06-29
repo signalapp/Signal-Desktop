@@ -321,10 +321,12 @@
             key: key
         };
 
-        if (state === 'DEFAULT') {
-            contact.setVerifiedDefault(options);
-        } else if (state === 'VERIFIED') {
+        if (state === 'VERIFIED') {
             contact.setVerified(options);
+        } else if (state === 'DEFAULT') {
+            contact.setVerifiedDefault(options);
+        } else {
+            contact.setUnverified(options);
         }
     }
 
