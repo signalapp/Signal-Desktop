@@ -583,8 +583,17 @@
             var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
 
             return textsecure.storage.protocol.saveIdentity(
-                id, identityKey, false
-            );
+                id + '.1', identityKey, false
+            ).then(function(changed) {
+              if (changed) {
+                  // save identity will close all sessions except for .1, so we
+                  // must close that one manually.
+                  var address = new libsignal.SignalProtocolAddress(id, 1);
+                  console.log('closing session for', address.toString());
+                  var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+                  return sessionCipher.closeOpenSessionForDevice();
+              }
+            });
         });
     },
 
