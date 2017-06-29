@@ -1,5 +1,6 @@
 describe('KeyChangeListener', function() {
   var phoneNumberWithKeyChange = '+13016886524';  // nsa
+  var address = new libsignal.SignalProtocolAddress(identifier, 1);
   var oldKey = libsignal.crypto.getRandomBytes(33);
   var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
@@ -15,7 +16,7 @@ describe('KeyChangeListener', function() {
   beforeEach(function() {
     store = new SignalProtocolStore();
     Whisper.KeyChangeListener.init(store);
-    return store.saveIdentity(phoneNumberWithKeyChange, oldKey);
+    return store.saveIdentity(address.toString(), oldKey);
   });
 
   afterEach(function() {
@@ -42,7 +43,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.saveIdentity(phoneNumberWithKeyChange, newKey);
+      return store.saveIdentity(address.toString(), newKey);
     });
   });
 
@@ -66,7 +67,7 @@ describe('KeyChangeListener', function() {
           done();
         });
       });
-      return store.saveIdentity(phoneNumberWithKeyChange, newKey);
+      return store.saveIdentity(address.toString(), newKey);
     });
 
   });
