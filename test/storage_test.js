@@ -40,9 +40,10 @@ describe("SignalProtocolStore", function() {
   });
   describe('saveIdentity', function() {
     var record = new IdentityKeyRecord({id: identifier});
+    var address = new libsignal.SignalProtocolAddress(identifier, 1);
 
     it('stores identity keys', function(done) {
-      store.saveIdentity(identifier, testKey.pubKey).then(function() {
+      store.saveIdentity(address.toString(), testKey.pubKey).then(function() {
         return store.loadIdentityKey(identifier).then(function(key) {
           assertEqualArrayBuffers(key, testKey.pubKey);
         });
@@ -50,8 +51,8 @@ describe("SignalProtocolStore", function() {
     });
     it('allows key changes', function(done) {
       var newIdentity = libsignal.crypto.getRandomBytes(33);
-      store.saveIdentity(identifier, testKey.pubKey).then(function() {
-        store.saveIdentity(identifier, newIdentity).then(function() {
+      store.saveIdentity(address.toString(), testKey.pubKey).then(function() {
+        store.saveIdentity(address.toString(), newIdentity).then(function() {
           done();
         });
       }).catch(done);
@@ -60,7 +61,7 @@ describe("SignalProtocolStore", function() {
     describe('When there is no existing key (first use)', function() {
       before(function(done) {
         store.removeIdentityKey(identifier).then(function() {
-          store.saveIdentity(identifier, testKey.pubKey).then(function() {
+          store.saveIdentity(address.toString(), testKey.pubKey).then(function() {
             record.fetch().then(function() { done(); });
           });
         });
@@ -86,7 +87,7 @@ describe("SignalProtocolStore", function() {
           nonblockingApproval : false,
           verified            : store.VerifiedStatus.DEFAULT
         }).then(function() {
-          store.saveIdentity(identifier, newIdentity).then(function() {
+          store.saveIdentity(address.toString(), newIdentity).then(function() {
             record.fetch().then(function() { done(); });
           });
         });
@@ -107,7 +108,7 @@ describe("SignalProtocolStore", function() {
             nonblockingApproval : false,
             verified            : store.VerifiedStatus.DEFAULT
           }).then(function() {
-            store.saveIdentity(identifier, newIdentity).then(function() {
+            store.saveIdentity(address.toString(), newIdentity).then(function() {
               record.fetch().then(function() { done(); });
             });
           });
@@ -125,7 +126,7 @@ describe("SignalProtocolStore", function() {
             nonblockingApproval : false,
             verified            : store.VerifiedStatus.VERIFIED
           }).then(function() {
-            store.saveIdentity(identifier, newIdentity).then(function() {
+            store.saveIdentity(address.toString(), newIdentity).then(function() {
               record.fetch().then(function() { done(); });
             });
           });
@@ -143,7 +144,7 @@ describe("SignalProtocolStore", function() {
             nonblockingApproval : false,
             verified            : store.VerifiedStatus.UNVERIFIED
           }).then(function() {
-            store.saveIdentity(identifier, newIdentity).then(function() {
+            store.saveIdentity(address.toString(), newIdentity).then(function() {
               record.fetch().then(function() { done(); });
             });
           });
@@ -168,7 +169,7 @@ describe("SignalProtocolStore", function() {
           record.save({ firstUse: true }).then(function() { done(); });
         });
         it('nothing changes', function(done) {
-          store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
+          store.saveIdentity(address.toString(), testKey.pubKey, true).then(function() {
             record.fetch().then(function() {
               assert(!record.get('nonblockingApproval'));
               assert.strictEqual(record.get('timestamp'), oldTimestamp);
@@ -187,7 +188,7 @@ describe("SignalProtocolStore", function() {
             record.save({ timestamp: now }).then(function() { done(); });
           });
           it('sets non-blocking approval', function(done) {
-            store.saveIdentity(identifier, testKey.pubKey, true).then(function() {
+            store.saveIdentity(address.toString(), testKey.pubKey, true).then(function() {
               record.fetch().then(function() {
                 assert.strictEqual(record.get('nonblockingApproval'), true);
                 assert.strictEqual(record.get('timestamp'), now);
@@ -530,6 +531,7 @@ describe("SignalProtocolStore", function() {
     });
   });
   describe('isTrustedIdentity', function() {
+    var address = new libsignal.SignalProtocolAddress(identifier, 1);
     describe('When invalid direction is given', function(done) {
       it('should fail', function(done) {
         store.isTrustedIdentity(identifier, testKey.pubKey).then(function() {
@@ -542,7 +544,7 @@ describe("SignalProtocolStore", function() {
     describe('When direction is RECEIVING', function() {
       it('always returns true', function(done) {
         var newIdentity = libsignal.crypto.getRandomBytes(33);
-        store.saveIdentity(identifier, testKey.pubKey).then(function() {
+        store.saveIdentity(address.toString(), testKey.pubKey).then(function() {
           store.isTrustedIdentity(identifier, newIdentity, store.Direction.RECEIVING).then(function(trusted) {
             if (trusted) {
               done();
@@ -573,7 +575,7 @@ describe("SignalProtocolStore", function() {
       });
       describe('When there is an existing key', function() {
         before(function(done) {
-          store.saveIdentity(identifier, testKey.pubKey).then(function() {
+          store.saveIdentity(address.toString(), testKey.pubKey).then(function() {
             done();
           });
         });
@@ -592,7 +594,7 @@ describe("SignalProtocolStore", function() {
         describe('When the existing key matches the new key', function() {
           var newIdentity = libsignal.crypto.getRandomBytes(33);
           before(function(done) {
-            store.saveIdentity(identifier, newIdentity).then(function() {
+            store.saveIdentity(address.toString(), newIdentity).then(function() {
               done();
             });
           });
@@ -618,7 +620,7 @@ describe("SignalProtocolStore", function() {
           });
           it('returns true if neither blocking nor nonblocking approval is required', function(done) {
             storage.put('safety-numbers-approval', false);
-            store.saveIdentity(identifier, newIdentity, true).then(function() {
+            store.saveIdentity(address.toString(), newIdentity, true).then(function() {
               store.isTrustedIdentity(identifier, newIdentity, store.Direction.SENDING).then(function(trusted) {
                 if (trusted) {
                   done();
