@@ -579,6 +579,7 @@
                 });
             });
         },
+        // Resolves to true if a new identity key was saved
         processVerifiedMessage: function(identifier, verifiedStatus, publicKey) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to set verified for undefined/null key");
@@ -599,26 +600,37 @@
                       isEqual = equalArrayBuffers(publicKey, identityRecord.get('publicKey'));
                     }
                 }).always(function() {
+                    // Because new keys always start as DEFAULT, we don't need to create new record here
                     if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
                         console.log('No existing record for default status');
-                        resolve();
+                        return resolve();
                     }
 
+                    // If we had a key before and it's the same, and we're not changing to
+                    //   VERIFIED, then it's a simple update of the verified flag.
                     if (isPresent && isEqual
-                        && identityRecord.get('verified') !== VerifiedStatus.DEFAULT
-                        && verifiedStatus === VerifiedStatus.DEFAULT) {
+                        && identityRecord.get('verified') !== verifiedStatus
+                        && verifiedStatus !== VerifiedStatus.VERIFIED) {
 
-                        textsecure.storage.protocol.setVerified(
+                        return textsecure.storage.protocol.setVerified(
                           identifier, verifiedStatus, publicKey
                         ).then(resolve, reject);
                     }
 
-                    if (verifiedStatus === VerifiedStatus.VERIFIED
-                        && (!isPresent
-                            || (isPresent && !isEqual)
-                            || (isPresent && identityRecord.get('verified') !== VerifiedStatus.VERIFIED))) {
+                    // We need to create a new record in three cases:
+                    //   1. We had no key previously (checks above ensure that this is
+                    //      either VERIFIED/UNVERIFIED)
+                    //   2. We had a key before, but we got a new key
+                    //      (no matter the VERIFIED state)
+                    //   3. It's the same key, but we weren't VERIFIED before and are now
+                    //      (checks above handle the situation when 'state != VERIFIED')
+                    if (!isPresent
+                        || (isPresent && !isEqual)
+                        || (isPresent
+                            && identityRecord.get('verified') !== verifiedStatus
+                            && verifiedStatus === VerifiedStatus.VERIFIED)) {
 
-                        textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
+                        return textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
                             publicKey           : publicKey,
                             verified            : verifiedStatus,
                             firstUse            : false,
@@ -636,6 +648,12 @@
                             return resolve();
                         }.bind(this), reject);
                     }
+
+                    // The situation which could get us here is:
+                    //   1. had a previous key
+                    //   2. new key is the same
+                    //   3. desired new status is same as what we had before
+                    return resolve();
                 }.bind(this));
             }.bind(this));
         },
