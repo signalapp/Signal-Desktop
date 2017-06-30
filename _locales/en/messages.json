@@ -191,9 +191,9 @@
     "theirIdentityUnknown": {
         "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
     },
-    "deleteMessages": {
-        "message": "Delete messages",
-        "description": "Menu item for deleting messages, title case."
+    "deleteConversation": {
+        "message": "Delete conversation",
+        "description": "Menu item for deleting converrsation."
     },
     "deleteConversationConfirmation": {
         "message": "Permanently delete this conversation?",

@@ -75,7 +75,7 @@
                 'view-members'    : i18n('members'),
                 'end-session'     : i18n('resetSession'),
                 'verify-identity' : i18n('verifySafetyNumbers'),
-                'destroy'         : i18n('deleteMessages'),
+                'destroy'         : i18n('deleteConversation'),
                 'send-message'    : i18n('sendMessage'),
                 'disappearing-messages': i18n('disappearingMessages'),
                 'android-length-warning': i18n('androidMessageLengthWarning'),
