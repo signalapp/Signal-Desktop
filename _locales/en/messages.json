@@ -34,7 +34,7 @@
       }
     },
     "youMarkedAsVerified": {
-      "message": "You marked $name$ as verified.",
+      "message": "You marked your safety number with $name$ as verified.",
       "description": "Shown in the conversation history when the user marks a contact as verified.",
       "placeholders": {
         "name": {
@@ -44,7 +44,7 @@
       }
     },
     "youMarkedAsNotVerified": {
-      "message": "You marked $name$ as not verified.",
+      "message": "You marked your safety number with $name$ as unverified.",
       "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
       "placeholders": {
         "name": {
@@ -54,7 +54,7 @@
       }
     },
     "youMarkedAsVerifiedOtherDevice": {
-      "message": "You marked $name$ as verified on another device.",
+      "message": "You marked your safety number with $name$ as verified from another device.",
       "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
       "placeholders": {
         "name": {
@@ -64,7 +64,7 @@
       }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-      "message": "You marked $name$ as not verified on anther device.",
+      "message": "You marked your safety number with $name$ as not verified from another device.",
       "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
       "placeholders": {
         "name": {
@@ -158,10 +158,13 @@
       "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-      "message": "Verify"
+      "message": "Mark as verified"
+    },
+    "unverify": {
+      "message": "Clear verification"
     },
     "isVerified": {
-      "message": "$name$ is verified.",
+      "message": "You have verified your safety number with $name$.",
       "description": "Summary state shown at top of the safety number screen if user has verified contact.",
       "placeholders": {
         "name": {
@@ -171,7 +174,7 @@
       }
     },
     "isNotVerified": {
-      "message": "$name$ is not verified.",
+      "message": "You have not verified your safety number with $name$.",
       "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
       "placeholders": {
         "name": {
@@ -305,9 +308,6 @@
     },
     "showSafetyNumber": {
       "message": "Show safety number"
-    },
-    "markAsNotVerified": {
-      "message": "Mark as not verified"
     },
     "verifyHelp": {
       "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",

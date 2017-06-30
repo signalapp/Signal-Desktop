@@ -75,7 +75,7 @@
             var name = this.model.getTitle();
             var yourSafetyNumberWith = i18n('yourSafetyNumberWith', name);
             var isVerified = this.model.isVerified();
-            var verifyButton = isVerified ? i18n('markAsNotVerified') : i18n('verify');
+            var verifyButton = isVerified ? i18n('unverify') : i18n('verify');
             var verifiedStatus = isVerified ? i18n('isVerified', name) : i18n('isNotVerified', name);
 
             return {

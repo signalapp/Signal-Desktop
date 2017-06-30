@@ -1083,13 +1083,12 @@ input.search {
 .discussion-container {
   background-color: #eee; }
 
+.key-verification .container {
+  max-width: 750px; }
 .key-verification label {
   display: block;
   margin: 10px 0;
   font-size: 0.92857em; }
-.key-verification .summary {
-  margin: 10px 0;
-  text-align: center; }
 .key-verification .icon {
   height: 1.25em;
   width: 1.25em;
@@ -1129,12 +1128,16 @@ input.search {
   .key-verification .qr img {
     display: inline-block;
     max-width: 100%; }
+.key-verification .summary {
+  margin: 30px 0 10px;
+  text-align: center; }
 .key-verification div.verify {
   text-align: center; }
 .key-verification button.verify {
   border-radius: 5px;
   font-weight: bold;
-  padding: 10px; }
+  padding: 10px;
+  margin: 0; }
 
 .message-detail {
   background-color: #eee; }
