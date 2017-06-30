@@ -77,15 +77,14 @@
 }
 
 .key-verification {
+  .container {
+    max-width: 750px;
+  }
+
   label {
     display: block;
     margin: 10px 0;
     font-size: $font-size-small;
-  }
-
-  .summary {
-    margin: 10px 0;
-    text-align: center;
   }
 
   .icon {
@@ -135,6 +134,11 @@
     }
   }
 
+  .summary {
+    margin: 30px 0 10px;
+    text-align: center;
+  }
+
   div.verify {
     text-align: center;
   }
@@ -142,9 +146,8 @@
     border-radius: 5px;
     font-weight: bold;
     padding: 10px;
+    margin: 0;
   }
-
-
 }
 
 .message-detail {
