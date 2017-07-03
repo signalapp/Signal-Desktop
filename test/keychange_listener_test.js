@@ -1,6 +1,6 @@
 describe('KeyChangeListener', function() {
   var phoneNumberWithKeyChange = '+13016886524';  // nsa
-  var address = new libsignal.SignalProtocolAddress(identifier, 1);
+  var address = new libsignal.SignalProtocolAddress(phoneNumberWithKeyChange, 1);
   var oldKey = libsignal.crypto.getRandomBytes(33);
   var newKey = libsignal.crypto.getRandomBytes(33);
   var store;
