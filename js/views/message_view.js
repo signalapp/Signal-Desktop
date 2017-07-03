@@ -25,6 +25,14 @@
             resend: i18n('resend')
         }
     });
+    var SomeFailedView = Whisper.View.extend({
+        tagName: 'span',
+        className: 'some-failed',
+        templateName: 'some-failed',
+        render_attributes: {
+            someFailed: i18n('someRecipientsFailed')
+        }
+    });
     var TimerView = Whisper.View.extend({
         templateName: 'hourglass',
         update: function() {
@@ -172,6 +180,7 @@
             'click .error-icon': 'select',
             'click .timestamp': 'select',
             'click .status': 'select',
+            'click .some-failed': 'select',
             'click .error-message': 'select'
         },
         retryMessage: function() {
@@ -240,6 +249,10 @@
             this.$('.meta .hasRetry').remove();
             if (this.model.hasNetworkError()) {
                 this.$('.meta').prepend(new NetworkErrorView().render().el);
+            }
+            this.$('.meta .some-failed').remove();
+            if (this.model.someRecipientsFailed()) {
+                this.$('.meta').prepend(new SomeFailedView().render().el);
             }
         },
         renderControl: function() {

@@ -249,6 +249,25 @@
             }.bind(this));
         },
 
+        someRecipientsFailed: function() {
+            var c = this.getConversation();
+            if (c.isPrivate()) {
+                return false;
+            }
+
+            var recipients = c.contactCollection.length - 1;
+            var errors = this.get('errors');
+            if (!errors) {
+                return false;
+            }
+
+            if (errors.length > 0 && recipients > 0 && errors.length < recipients) {
+                return true;
+            }
+
+            return false;
+        },
+
         sendSyncMessage: function() {
             this.syncPromise = this.syncPromise || Promise.resolve();
             this.syncPromise = this.syncPromise.then(function() {
