@@ -1057,7 +1057,7 @@ input.search {
     overflow-y: scroll; }
     .conversation .panel .container {
       padding-top: 20px;
-      max-width: 950px;
+      max-width: 750px;
       margin: 0 auto;
       padding: 20px; }
   .conversation .main.panel {
@@ -1083,8 +1083,6 @@ input.search {
 .discussion-container {
   background-color: #eee; }
 
-.key-verification .container {
-  max-width: 750px; }
 .key-verification label {
   display: block;
   margin: 10px 0;
@@ -1139,6 +1137,18 @@ input.search {
   padding: 10px;
   margin: 0; }
 
+.identity-key-send-error button {
+  margin-top: 0px;
+  margin-bottom: 0px; }
+.identity-key-send-error .explanation {
+  margin-top: 20px; }
+.identity-key-send-error .safety-number {
+  margin-top: 30px;
+  text-align: center; }
+.identity-key-send-error .actions {
+  margin-top: 30px;
+  text-align: center; }
+
 .message-detail {
   background-color: #eee; }
   .message-detail .message-container {
@@ -1168,6 +1178,18 @@ input.search {
     margin-bottom: 5px; }
     .message-detail .contacts .contact-detail .error-icon-container {
       float: right; }
+    .message-detail .contacts .contact-detail button.error {
+      background-color: red;
+      color: white; }
+      .message-detail .contacts .contact-detail button.error span.icon.error {
+        display: inline-block;
+        width: 1.25em;
+        height: 1.25em;
+        position: relative;
+        vertical-align: middle;
+        -webkit-mask: url("/images/warning.svg") no-repeat center;
+        -webkit-mask-size: 100%;
+        background-color: white; }
     .message-detail .contacts .contact-detail .error-message {
       margin: 6px 0 0;
       font-size: 0.92857em;

@@ -39,7 +39,7 @@
 
     .container {
       padding-top: 20px;
-      max-width: 950px;
+      max-width: 750px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -77,10 +77,6 @@
 }
 
 .key-verification {
-  .container {
-    max-width: 750px;
-  }
-
   label {
     display: block;
     margin: 10px 0;
@@ -150,6 +146,24 @@
   }
 }
 
+.identity-key-send-error {
+  button {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .explanation {
+    margin-top: 20px;
+  }
+  .safety-number {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .actions {
+    margin-top: 30px;
+    text-align: center;
+  }
+}
+
 .message-detail {
   background-color: #eee;
 
@@ -196,6 +210,20 @@
 
     .error-icon-container {
       float: right;
+    }
+
+    button.error {
+      background-color: red;
+      color: white;
+
+      span.icon.error {
+        display: inline-block;
+        width: 1.25em;
+        height: 1.25em;
+        position: relative;
+        vertical-align: middle;
+        @include color-svg('/images/warning.svg', white);
+      }
     }
 
     .error-message {

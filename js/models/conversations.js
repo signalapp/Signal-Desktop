@@ -202,6 +202,14 @@
             }.bind(this)));
         }
     },
+    setTrusted: function() {
+        if (!this.isPrivate()) {
+            throw new Error('You cannot set a group conversation as trusted. ' +
+                            'You must set individual contacts as trusted.');
+        }
+
+        return textsecure.storage.protocol.setApproval(this.id, true);
+    },
     isUntrusted: function() {
         if (this.isPrivate()) {
             return textsecure.storage.protocol.isUntrusted(this.id);
