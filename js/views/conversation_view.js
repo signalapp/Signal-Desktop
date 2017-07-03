@@ -202,6 +202,13 @@
             }.bind(this)));
         },
 
+
+        markAllAsApproved: function(untrusted) {
+            return Promise.all(untrusted.map(function(contact) {
+                return contact.setApproved();
+            }.bind(this)));
+        },
+
         openSafetyNumberScreens: function(unverified) {
             if (unverified.length === 1) {
                 this.showSafetyNumber(null, unverified.at(0));
@@ -620,7 +627,10 @@
         messageDetail: function(e, data) {
             var view = new Whisper.MessageDetailView({
                 model: data.message,
-                conversation: this.model
+                conversation: this.model,
+                // we pass these in to allow nested panels
+                listenBack: this.listenBack.bind(this),
+                resetPanel: this.resetPanel.bind(this)
             });
             this.listenBack(view);
             view.render();
@@ -749,8 +759,15 @@
             _.defaults(options, {force: false});
 
             this.model.getUntrusted().then(function(contacts) {
-                if (!contacts.length || options.force) {
+
+                if (!contacts.length) {
                     return this.sendMessage(e);
+                }
+
+                if (options.force) {
+                    return this.markAllAsApproved(contacts).then(function() {
+                        this.sendMessage(e);
+                    }.bind(this));
                 }
 
                 this.showSendConfirmationDialog(e, contacts);

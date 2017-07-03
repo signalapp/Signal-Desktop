@@ -3,6 +3,10 @@
       "message": "Me",
       "description": "The label for yourself when shown in a group member list"
     },
+    "view": {
+      "message": "View",
+      "description": "Used as a label on a button allowing user to see more information"
+    },
     "youLeftTheGroup": {
       "message": "You left the group",
       "description": "Displayed when a user can't send a message because they have left the group"
@@ -105,9 +109,15 @@
         }
       }
     },
-    "retryDescription": {
-      "message": "You can retry sending this message to each of the failed recipients with these buttons:",
-      "description": "Shows on the message details view when it's a message error which can be retried."
+    "identityKeyErrorOnSend": {
+      "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+      "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
     },
     "sendAnyway": {
       "message": "Send Anyway",

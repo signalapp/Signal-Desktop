@@ -297,14 +297,6 @@
   <script type='text/x-tmpl-mustache' id='message-detail'>
     <div class='container'>
       <div class='message-container'></div>
-      {{ #allowRetry }}
-        <div class='retries'>
-          <div>{{ retryDescription }}</div>
-          {{ #retryTargets }}
-            <button class='retry gray' data-number='{{ number }}'>{{ title }}</button>
-          {{ /retryTargets }}
-        </div>
-      {{ /allowRetry }}
       <div class='info'>
         <table>
           {{ #errors }}
@@ -327,6 +319,20 @@
         </table>
         <div class='contacts'>
         </div>
+      </div>
+    </div>
+  </script>
+  <script type='text/x-tmpl-mustache' id='identity-key-send-error'>
+    <div class='container'>
+      <div class='explanation'>
+        {{ errorExplanation }}
+      </div>
+      <div class='safety-number'>
+        <button class='show-safety-number grey'>{{ showSafetyNumber }}</button>
+      </div>
+      <div class='actions'>
+        <button class='send-anyway grey'>{{ sendAnyway }}</button>
+        <button class='cancel grey'>{{ cancel }}</button>
       </div>
     </div>
   </script>
@@ -415,7 +421,15 @@
         <div class='contact-details'>
           {{ #errors }}
               <div class='error-icon-container'>
-                <span class='error-icon'></span>
+                {{ #showErrorButton }}
+                  <button class='error'>
+                    <span class='icon error'></span>
+                    {{ errorButtonLabel }}
+                  </button>
+                {{ /showErrorButton }}
+                {{ ^showErrorButton }}
+                  <span class='error-icon'></span>
+                {{ /showErrorButton }}
               </div>
           {{ /errors }}
           <span class='name' dir='auto'>{{ name }}</span>
@@ -680,8 +694,9 @@
   <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/settings_view.js'></script>
-  <script type="text/javascript" src="js/views/install_view.js"></script>
-  <script type="text/javascript" src="js/views/banner_view.js"></script>
+  <script type='text/javascript' src='js/views/install_view.js'></script>
+  <script type='text/javascript' src='js/views/banner_view.js'></script>
+  <script type='text/javascript' src='js/views/identity_key_send_error_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
