@@ -316,6 +316,20 @@
       </div>
     </div>
   </script>
+  <script type='text/x-tmpl-mustache' id='identity-key-send-error'>
+    <div class='container'>
+      <div class='explanation'>
+        {{ errorExplanation }}
+      </div>
+      <div class='safety-number'>
+        <button class='show-safety-number grey'>{{ showSafetyNumber }}</button>
+      </div>
+      <div class='actions'>
+        <button class='send-anyway grey'>{{ sendAnyway }}</button>
+        <button class='cancel grey'>{{ cancel }}</button>
+      </div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container'>
       {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
@@ -588,6 +602,7 @@
   <script type='text/javascript' src='../js/views/last_seen_indicator_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/scroll_down_button_view.js' data-cover></script>
   <script type='text/javascript' src='../js/views/banner_view.js' data-cover></script>
+  <script type="text/javascript" src='../js/views/identity_key_send_error_view.js' data-cover></script>
 
   <script type="text/javascript" src="views/whisper_view_test.js"></script>
   <script type="text/javascript" src="views/group_update_view_test.js"></script>
