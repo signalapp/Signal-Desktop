@@ -475,6 +475,10 @@
         "message": "Message not sent.",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "someRecipientsFailed": {
+        "message": "Some recipients failed",
+        "description": "Informational label, for messages where some recipients succeeded, others failed"
+    },
     "showMore": {
         "message": "Details",
         "description": "Displays the details of a key change"
