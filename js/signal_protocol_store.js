@@ -625,9 +625,12 @@
                             timestamp           : Date.now(),
                             nonblockingApproval : true
                         }).then(function() {
-                            if (!isPresent || !isEqual) {
+                            if (isPresent && !isEqual) {
                                 this.trigger('keychange', identifier);
-                                return this.archiveAllSessions(identifier).then(resolve, reject);
+                                return this.archiveAllSessions(identifier).then(function() {
+                                    // true signifies that we overwrote a previous key with a new one
+                                    return resolve(true);
+                                }, reject);
                             }
 
                             return resolve();

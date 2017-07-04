@@ -442,7 +442,7 @@ describe("SignalProtocolStore", function() {
           ).then(fetchRecord).then(function() {
             assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
             assertEqualArrayBuffers(record.get('publicKey'), newIdentity);
-            assert.strictEqual(keychangeTriggered, 1);
+            assert.strictEqual(keychangeTriggered, 0);
           });
         });
       });

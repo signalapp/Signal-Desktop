@@ -284,13 +284,17 @@ MessageReceiver.prototype.extend({
             throw new Error('Got empty SyncMessage');
         }
     },
-    handleVerified: function(verified) {
+    handleVerified: function(verified, options) {
+        options = options || {};
+        _.defaults(options, {viaContactSync: false});
+
         var ev = new Event('verified');
         ev.verified = {
             state: verified.state,
             destination: verified.destination,
             identityKey: verified.identityKey.toArrayBuffer()
         };
+        ev.viaContactSync = options.viaContactSync;
         this.dispatchEvent(ev);
     },
     handleRead: function(read, timestamp) {
@@ -317,7 +321,7 @@ MessageReceiver.prototype.extend({
                 eventTarget.dispatchEvent(ev);
 
                 if (contactDetails.verified) {
-                    this.handleVerified(contactDetails.verified);
+                    this.handleVerified(contactDetails.verified, {viaContactSync: true});
                 }
 
                 contactDetails = contactBuffer.next();
