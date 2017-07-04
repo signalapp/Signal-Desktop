@@ -315,10 +315,16 @@
             return;
         }
 
+        var options = {
+            viaSyncMessage: true,
+            viaContactSync: ev.viaContactSync,
+            key: key
+        };
+
         if (state === 'DEFAULT') {
-            contact.setVerifiedDefault({viaSyncMessage: true, key: key});
+            contact.setVerifiedDefault(options);
         } else if (state === 'VERIFIED') {
-            contact.setVerified({viaSyncMessage: true, key: key});
+            contact.setVerified(options);
         }
     }
 

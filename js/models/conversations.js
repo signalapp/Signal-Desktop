@@ -82,23 +82,29 @@
     },
     setVerifiedDefault: function(options) {
         var DEFAULT = this.verifiedEnum.DEFAULT;
-        return this._setVerified(DEFAULT, options);
+        return this.queueJob(function() {
+            return this._setVerified(DEFAULT, options);
+        }.bind(this));
     },
     setVerified: function(options) {
         var VERIFIED = this.verifiedEnum.VERIFIED;
-        return this._setVerified(VERIFIED, options);
+        return this.queueJob(function() {
+            return this._setVerified(VERIFIED, options);
+        }.bind(this));
     },
     _setVerified: function(verified, options) {
         options = options || {};
-        _.defaults(options, {viaSyncMessage: false, key: null});
+        _.defaults(options, {viaSyncMessage: false, viaContactSync: false, key: null});
 
         var VERIFIED = this.verifiedEnum.VERIFIED;
+        var DEFAULT = this.verifiedEnum.DEFAULT;
 
         if (!this.isPrivate()) {
             throw new Error('You cannot verify a group conversation. ' +
                             'You must verify individual contacts.');
         }
 
+        var beginningVerified = this.get('verified');
         var promise;
         if (options.viaSyncMessage) {
             // handle the incoming key from the sync messages - need different
@@ -112,10 +118,25 @@
             );
         }
 
-        return promise.then(function() {
+        var keychange;
+        return promise.then(function(updatedKey) {
+            keychange = updatedKey;
             return this.save({verified: verified});
         }.bind(this)).then(function() {
-            this.addVerifiedChange(this.id, verified === VERIFIED, {local: !options.viaSyncMessage});
+            // Three situations result in a verification notice in the conversation:
+            //   1) The message came from an explicit verification in another client (not
+            //      a contact sync)
+            //   2) The verification value received by the contact sync is different
+            //      from what we have on record
+            //   3) Our local verification status is not DEFAULT and it hasn't changed,
+            //      but the key did change (say from Key1/Verified to Key2/Verified)
+            if (!options.viaContactSync
+                || beginningVerified !== verified
+                || (keychange && verified !== DEFAULT)) {
+
+                var local = !options.viaSyncMessage && !options.viaContactSync;
+                this.addVerifiedChange(this.id, verified === VERIFIED, {local: local});
+            }
             if (!options.viaSyncMessage) {
                 return this.sendVerifySyncMessage(this.id, verified);
             }
