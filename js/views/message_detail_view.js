@@ -38,9 +38,10 @@
                 this.listenTo(view, 'send-anyway', this.onSendAnyway);
 
                 view.render();
+
                 this.listenBack(view);
+                view.$('.cancel').focus();
             }
-            // TODO: is there anything we might want to do here? Pop a confirmation dialog? Ideally it would always have error-specific help.
         },
         forceSend: function() {
             this.model.updateVerified().then(function() {
