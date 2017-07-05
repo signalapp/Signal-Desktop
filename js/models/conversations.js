@@ -247,7 +247,8 @@
             type           : 'keychange',
             sent_at        : this.get('timestamp'),
             received_at    : timestamp,
-            key_changed    : id
+            key_changed    : id,
+            unread         : 1
         });
         message.save().then(this.trigger.bind(this,'newmessage', message));
     },
@@ -265,7 +266,8 @@
             received_at     : timestamp,
             verifiedChanged : id,
             verified        : verified,
-            local           : options.local
+            local           : options.local,
+            unread          : 1
         });
         message.save().then(this.trigger.bind(this,'newmessage', message));
 
@@ -547,6 +549,14 @@
                     timestamp : m.get('sent_at')
                 };
             }.bind(this));
+
+            // Some messages we're marking read are local notifications with no sender
+            read = _.filter(read, function(m) {
+                return Boolean(m.sender);
+            });
+            unreadMessages = unreadMessages.filter(function(m) {
+                return Boolean(m.get('sender'));
+            });
 
             var unreadCount = unreadMessages.length - read.length;
             this.save({ unreadCount: unreadCount });
