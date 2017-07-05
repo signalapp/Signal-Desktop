@@ -388,14 +388,25 @@
             options = options || {};
             _.defaults(options, {scroll: true});
 
-            var oldestUnread = this.model.messageCollection.find(function(model) {
-                return model.get('unread');
+            var unreadCount = 0;
+            var oldestUnread = null;
+
+            // We need to iterate here because unseen non-messages do not contribute to
+            //   the badge number, but should be reflected in the indicator's count.
+            this.model.messageCollection.forEach(function(model) {
+                if (!model.get('unread')) {
+                    return;
+                }
+
+                unreadCount += 1;
+                if (!oldestUnread) {
+                    oldestUnread = model;
+                }
             });
-            var unreadCount = this.model.get('unreadCount');
 
             this.removeLastSeenIndicator();
 
-            if (oldestUnread && unreadCount > 0) {
+            if (oldestUnread) {
                 this.lastSeenIndicator = new Whisper.LastSeenIndicatorView({count: unreadCount});
                 var lastSeenEl = this.lastSeenIndicator.render().$el;
 
@@ -406,7 +417,7 @@
                 }
 
                 // scrollIntoView is an async operation, but we have no way to listen for
-                // completion of the resultant scroll.
+                //   completion of the resultant scroll.
                 setTimeout(function() {
                     if (!this.view.atBottom()) {
                         this.addScrollDownButtonWithCount(unreadCount);
@@ -523,18 +534,16 @@
             var collection = this.model.messageCollection;
             var length = collection.length;
             var viewportBottom = this.view.outerHeight;
-            var unreadCount = this.model.get('unreadCount');
-
-            if (!unreadCount || unreadCount < 1) {
-                return;
-            }
+            var unreadCount = this.model.get('unreadCount') || 0;
 
             // Start with the most recent message, search backwards in time
             var foundUnread = 0;
             for (var i = length - 1; i >= 0; i -= 1) {
-                // We don't want to search through all messages, so we stop after we've
-                //   hit all unread messages. The unread should be relatively recent.
-                if (foundUnread >= unreadCount) {
+                // Search the latest 30, then stop if we believe we've covered all known
+                //   unread messages. The unread should be relatively recent.
+                // Why? local notifications can be unread but won't be reflected the
+                //   conversation's unread count.
+                if (i > 30 && foundUnread >= unreadCount) {
                     return;
                 }
 
