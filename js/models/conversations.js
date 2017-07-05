@@ -261,7 +261,6 @@
         var message = new Whisper.Message({
             conversationId  : this.id,
             type            : 'verified-change',
-            // why is sent_at set to this.get('timestamp?')
             sent_at         : this.get('timestamp'),
             received_at     : timestamp,
             verifiedChanged : id,
@@ -555,7 +554,7 @@
                 return Boolean(m.sender);
             });
             unreadMessages = unreadMessages.filter(function(m) {
-                return Boolean(m.get('sender'));
+                return Boolean(m.isIncoming());
             });
 
             var unreadCount = unreadMessages.length - read.length;

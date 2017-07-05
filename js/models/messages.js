@@ -546,11 +546,8 @@
 
         getLoadedUnreadCount: function() {
             return this.models.reduce(function(total, model) {
-                var count = model.get('unread');
-                if (count === undefined) {
-                    count = 0;
-                }
-                return total + count;
+                var unread = model.get('unread') && model.isIncoming();
+                return total + (unread ? 1 : 0);
             }, 0);
         },
 
