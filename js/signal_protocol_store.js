@@ -325,16 +325,16 @@
             if (number === null || number === undefined) {
                 throw new Error("Tried to remove sessions for undefined/null number");
             }
-            return new Promise(function(resolve) {
+            return new Promise(function(resolve, reject) {
                 var sessions = new SessionCollection();
                 sessions.fetchSessionsForNumber(number).always(function() {
                     var promises = [];
                     while (sessions.length > 0) {
-                        promises.push(new Promise(function(res) {
-                            sessions.pop().destroy().then(res, res);
+                        promises.push(new Promise(function(res, rej) {
+                            sessions.pop().destroy().then(res, rej);
                         }));
                     }
-                    Promise.all(promises).then(resolve, resolve);
+                    Promise.all(promises).then(resolve, reject);
                 });
             });
         },
