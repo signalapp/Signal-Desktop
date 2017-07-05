@@ -171,7 +171,7 @@
       "message": "Mark as verified"
     },
     "unverify": {
-      "message": "Clear verification"
+      "message": "Mark as not verified"
     },
     "isVerified": {
       "message": "You have verified your safety number with $name$.",
