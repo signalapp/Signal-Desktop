@@ -169,6 +169,7 @@ $ios-border-color: rgba(0,0,0,0.1);
     background-color: white;
     color: black;
     float: left;
+    max-width: 100%;
 
     &:before {
       left: -1px;
@@ -196,6 +197,7 @@ $ios-border-color: rgba(0,0,0,0.1);
   .outgoing {
     .content, .attachments .bubbled {
       background-color: $blue;
+      max-width: 100%;
       &, .body, a {
         @include invert-text-color;
       }
@@ -204,16 +206,14 @@ $ios-border-color: rgba(0,0,0,0.1);
   }
 
   .outgoing .attachments .fileView .icon {
-    &::before {
-      @include color-svg('/images/file.svg', white);
-    }
-    &.audio:before {
+    @include color-svg('/images/file.svg', white);
+    &.audio {
       @include color-svg('/images/audio.svg', white);
     }
-    &.video:before {
+    &.video {
       @include color-svg('/images/video.svg', white);
     }
-    &.voice:before {
+    &.voice {
       @include color-svg('/images/voice.svg', white);
     }
   }
