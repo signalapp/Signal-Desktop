@@ -202,7 +202,7 @@
             }.bind(this)));
         }
     },
-    setTrusted: function() {
+    setApproved: function() {
         if (!this.isPrivate()) {
             throw new Error('You cannot set a group conversation as trusted. ' +
                             'You must set individual contacts as trusted.');

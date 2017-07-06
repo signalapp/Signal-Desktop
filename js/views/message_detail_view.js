@@ -52,7 +52,7 @@
                 return this.model.isUntrusted();
             }.bind(this)).then(function(untrusted) {
                 if (untrusted) {
-                    return this.model.setTrusted();
+                    return this.model.setApproved();
                 }
             }.bind(this)).then(function() {
                 this.message.resend(this.outgoingKeyError.number);
