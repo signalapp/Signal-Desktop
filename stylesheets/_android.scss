@@ -48,7 +48,7 @@
     }
   }
 
-  .incoming .bubble .fileView .icon::before {
+  .incoming .bubble .fileView .icon {
     @include color-svg('/images/file.svg', white);
   }
 
