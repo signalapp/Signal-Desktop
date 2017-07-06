@@ -3,6 +3,26 @@
  */
 ;(function() {
     'use strict';
+    var TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
+    var Direction = {
+      SENDING: 1,
+      RECEIVING: 2,
+    };
+
+    var VerifiedStatus = {
+      DEFAULT: 0,
+      VERIFIED: 1,
+      UNVERIFIED: 2,
+    };
+
+    function validateVerifiedStatus(status) {
+      if ( status === VerifiedStatus.DEFAULT
+        || status === VerifiedStatus.VERIFIED
+        || status === VerifiedStatus.UNVERIFIED) {
+        return true;
+      }
+      return false;
+    }
 
     var StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
@@ -84,7 +104,52 @@
             return this.fetch({range: [number + '.1', number + '.' + ':']});
         }
     });
-    var IdentityKey = Model.extend({ storeName: 'identityKeys' });
+    var IdentityRecord = Model.extend({
+      storeName: 'identityKeys',
+      validAttributes: [
+          'id',
+          'publicKey',
+          'firstUse',
+          'timestamp',
+          'verified',
+          'nonblockingApproval'
+      ],
+      validate: function(attrs, options) {
+          var attributeNames = _.keys(attrs);
+          var validAttributes = this.validAttributes;
+          var allValid = _.all(attributeNames, function(attributeName) {
+              return _.contains(validAttributes, attributeName);
+          });
+          if (!allValid) {
+              return new Error("Invalid identity key attribute names");
+          }
+          var allPresent = _.all(validAttributes, function(attributeName) {
+              return _.contains(attributeNames, attributeName);
+          });
+          if (!allPresent) {
+              return new Error("Missing identity key attributes");
+          }
+
+          if (typeof attrs.id !== 'string') {
+              return new Error("Invalid identity key id");
+          }
+          if (!(attrs.publicKey instanceof ArrayBuffer)) {
+              return new Error("Invalid identity key publicKey");
+          }
+          if (typeof attrs.firstUse !== 'boolean') {
+              return new Error("Invalid identity key firstUse");
+          }
+          if (typeof attrs.timestamp !== 'number' || !(attrs.timestamp >= 0)) {
+              return new Error("Invalid identity key timestamp");
+          }
+          if (!validateVerifiedStatus(attrs.verified)) {
+              return new Error("Invalid identity key verified");
+          }
+          if (typeof attrs.nonblockingApproval !== 'boolean') {
+              return new Error("Invalid identity key nonblockingApproval");
+          }
+      }
+    });
     var Group = Model.extend({ storeName: 'groups' });
     var Item = Model.extend({ storeName: 'items' });
 
@@ -280,30 +345,50 @@
             });
 
         },
-        isTrustedIdentity: function(identifier, publicKey) {
+        isTrustedIdentity: function(identifier, publicKey, direction) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to get identity key for undefined/null key");
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
+            var isOurNumber = number === textsecure.storage.user.getNumber();
+            var identityRecord = new IdentityRecord({id: number});
             return new Promise(function(resolve) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    var oldpublicKey = identityKey.get('publicKey');
-                    if (!oldpublicKey || equalArrayBuffers(oldpublicKey, publicKey)) {
-                        resolve(true);
-                    } else if (!storage.get('safety-numbers-approval', true)) {
-                        this.removeIdentityKey(identifier).then(function() {
-                            this.saveIdentity(identifier, publicKey).then(function() {
-                                console.log('Key changed for', identifier);
-                                this.trigger('keychange', identifier);
-                                resolve(true);
-                            }.bind(this));
-                        }.bind(this));
-                    } else {
-                        resolve(false);
-                    }
-                }.bind(this));
+                identityRecord.fetch().always(resolve);
+            }).then(function() {
+                var existing = identityRecord.get('publicKey');
+
+                if (isOurNumber) {
+                    return equalArrayBuffers(existing, publicKey);
+                }
+
+                switch(direction) {
+                    case Direction.SENDING:   return this.isTrustedForSending(publicKey, identityRecord);
+                    case Direction.RECEIVING: return true;
+                    default:        throw new Error("Unknown direction: " + direction);
+                }
             }.bind(this));
+        },
+        isTrustedForSending: function(publicKey, identityRecord) {
+            var existing = identityRecord.get('publicKey');
+
+            if (!existing) {
+                console.log("isTrustedForSending: Nothing here, returning true...");
+                return true;
+            }
+            if (!equalArrayBuffers(existing, publicKey)) {
+                console.log("isTrustedForSending: Identity keys don't match...");
+                return false;
+            }
+            if (identityRecord.get('verified') === VerifiedStatus.UNVERIFIED) {
+               console.log("Needs unverified approval!");
+               return false;
+            }
+            if (this.isNonBlockingApprovalRequired(identityRecord)) {
+                console.log("isTrustedForSending: Needs non-blocking approval!");
+                return false;
+            }
+
+            return true;
         },
         loadIdentityKey: function(identifier) {
             if (identifier === null || identifier === undefined) {
@@ -311,43 +396,175 @@
             }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    resolve(identityKey.get('publicKey'));
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().always(function() {
+                    resolve(identityRecord.get('publicKey'));
                 });
             });
         },
-        saveIdentity: function(identifier, publicKey) {
+        saveIdentity: function(identifier, publicKey, nonblockingApproval) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to put identity key for undefined/null key");
             }
             if (!(publicKey instanceof ArrayBuffer)) {
                 publicKey = convertToArrayBuffer(publicKey);
             }
+            if (typeof nonblockingApproval !== 'boolean') {
+              nonblockingApproval = false;
+            }
             var number = textsecure.utils.unencodeNumber(identifier)[0];
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().always(function() {
-                    var oldpublicKey = identityKey.get('publicKey');
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().always(function() {
+                    var oldpublicKey = identityRecord.get('publicKey');
                     if (!oldpublicKey) {
                         // Lookup failed, or the current key was removed, so save this one.
-                        identityKey.save({publicKey: publicKey}).then(resolve);
-                    } else {
-                        // Key exists, if it matches do nothing, else throw
-                        if (equalArrayBuffers(oldpublicKey, publicKey)) {
-                            resolve();
+                        console.log("Saving new identity...");
+                        identityRecord.save({
+                            publicKey           : publicKey,
+                            firstUse            : true,
+                            timestamp           : Date.now(),
+                            verified            : VerifiedStatus.DEFAULT,
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            resolve(false);
+                        });
+                    } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
+                        console.log("Replacing existing identity...");
+                        var previousStatus = identityRecord.get('verified');
+                        var verifiedStatus;
+                        if (previousStatus === VerifiedStatus.VERIFIED
+                            || previousStatus === VerifiedStatus.UNVERIFIED) {
+                            verifiedStatus = VerifiedStatus.UNVERIFIED;
                         } else {
-                            reject(new Error("Attempted to overwrite a different identity key"));
+                            verifiedStatus = VerifiedStatus.DEFAULT;
                         }
+                        identityRecord.save({
+                            publicKey           : publicKey,
+                            firstUse            : false,
+                            timestamp           : Date.now(),
+                            verified            : verifiedStatus,
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            this.trigger('keychange', identifier);
+                            resolve(true);
+                        }.bind(this));
+                    } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
+                        console.log("Setting approval status...");
+                        identityRecord.save({
+                            nonblockingApproval : nonblockingApproval,
+                        }).then(function() {
+                            resolve(false);
+                        });
+                    } else {
+                        resolve(false);
                     }
+                }.bind(this));
+            }.bind(this));
+        },
+        isNonBlockingApprovalRequired: function(identityRecord) {
+          return (!identityRecord.get('firstUse')
+                  && Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD
+                  && !identityRecord.get('nonblockingApproval'));
+        },
+        saveIdentityWithAttributes: function(identifier, attributes) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to put identity key for undefined/null key");
+            }
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.set(attributes);
+                if (identityRecord.isValid()) { // false if invalid attributes
+                    identityRecord.save().then(resolve);
+                } else {
+                    reject(identityRecord.validationError);
+                }
+            });
+        },
+        setApproval: function(identifier, nonblockingApproval) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set approval for undefined/null identifier");
+            }
+            if (typeof nonblockingApproval !== 'boolean') {
+                throw new Error("Invalid approval status");
+            }
+            var number = textsecure.utils.unencodeNumber(identifier)[0];
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().then(function() {
+                    identityRecord.save({
+                        nonblockingApproval: nonblockingApproval
+                    }).then(function() {
+                        resolve();
+                    }, function() { // catch
+                        reject(new Error("No identity record for " + number));
+                    });
+                });
+            });
+        },
+        setVerified: function(identifier, verifiedStatus) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            if (!validateVerifiedStatus(verifiedStatus)) {
+                throw new Error("Invalid verified status");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().always(function() {
+                    identityRecord.save({
+                        verified: verifiedStatus
+                    }).then(function() {
+                        resolve();
+                    }, function() { // catch
+                        reject(new Error("No identity record for " + identifier));
+                    });
+                });
+            });
+        },
+        getVerified: function(identifier) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().then(function() {
+                    var verifiedStatus = identityRecord.get('verified');
+                    if (validateVerifiedStatus(verifiedStatus)) {
+                        resolve(verifiedStatus);
+                    }
+                    else {
+                        resolve(VerifiedStatus.DEFAULT);
+                    }
+                }, function() { // catch
+                    reject(new Error("No identity record for " + identifier));
+                });
+            });
+        },
+        isUntrusted: function(identifier) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                identityRecord.fetch().then(function() {
+                    if (Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD
+                        && !identityRecord.get('nonblockingApproval')) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                }, function() { // catch
+                    reject(new Error("No identity record for " + identifier));
                 });
             });
         },
         removeIdentityKey: function(number) {
             return new Promise(function(resolve, reject) {
-                var identityKey = new IdentityKey({id: number});
-                identityKey.fetch().then(function() {
-                    identityKey.save({publicKey: undefined});
+                var identityRecord = new IdentityRecord({id: number});
+                identityRecord.fetch().then(function() {
+                    identityRecord.destroy();
                 }).fail(function() {
                     reject(new Error("Tried to remove identity for unknown number"));
                 });
@@ -391,4 +608,6 @@
     _.extend(SignalProtocolStore.prototype, Backbone.Events);
 
     window.SignalProtocolStore = SignalProtocolStore;
+    window.SignalProtocolStore.prototype.Direction = Direction;
+    window.SignalProtocolStore.prototype.VerifiedStatus = VerifiedStatus;
 })();

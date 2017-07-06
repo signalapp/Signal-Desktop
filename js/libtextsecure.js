@@ -35950,7 +35950,7 @@ SessionBuilder.prototype = {
   processPreKey: function(device) {
     return Internal.SessionLock.queueJobForNumber(this.remoteAddress.toString(), function() {
       return this.storage.isTrustedIdentity(
-          this.remoteAddress.getName(), device.identityKey
+          this.remoteAddress.getName(), device.identityKey, this.storage.Direction.SENDING
       ).then(function(trusted) {
         if (!trusted) {
           throw new Error('Identity key changed');
@@ -36003,7 +36003,7 @@ SessionBuilder.prototype = {
   processV3: function(record, message) {
     var preKeyPair, signedPreKeyPair, session;
     return this.storage.isTrustedIdentity(
-        this.remoteAddress.getName(), message.identityKey.toArrayBuffer()
+        this.remoteAddress.getName(), message.identityKey.toArrayBuffer(), this.storage.Direction.RECEIVING
     ).then(function(trusted) {
         if (!trusted) {
             var e = new Error('Unknown identity key');
@@ -36247,10 +36247,20 @@ SessionCipher.prototype = {
                   result.set(new Uint8Array(encodedMsg), 1);
                   result.set(new Uint8Array(mac, 0, 8), encodedMsg.byteLength + 1);
 
-                  record.updateSessionState(session);
-                  return this.storage.storeSession(address, record.serialize()).then(function() {
-                      return result;
-                  });
+                  return this.storage.isTrustedIdentity(
+                      this.remoteAddress.getName(), util.toArrayBuffer(session.indexInfo.remoteIdentityKey), this.storage.Direction.SENDING
+                  ).then(function(trusted) {
+                      if (!trusted) {
+                          throw new Error('Identity key changed');
+                      }
+                  }).then(function() {
+                      return this.storage.saveIdentity(this.remoteAddress.getName(), session.indexInfo.remoteIdentityKey);
+                  }.bind(this)).then(function() {
+                      record.updateSessionState(session);
+                      return this.storage.storeSession(address, record.serialize()).then(function() {
+                          return result;
+                      });
+                  }.bind(this));
               }.bind(this));
           }.bind(this));
       }.bind(this)).then(function(message) {
@@ -36318,10 +36328,21 @@ SessionCipher.prototype = {
                       record.archiveCurrentState();
                       record.promoteState(result.session);
                     }
-                    record.updateSessionState(result.session);
-                    return this.storage.storeSession(address, record.serialize()).then(function() {
-                        return result.plaintext;
-                    });
+
+                    return this.storage.isTrustedIdentity(
+                        this.remoteAddress.getName(), util.toArrayBuffer(result.session.indexInfo.remoteIdentityKey), this.storage.Direction.RECEIVING
+                    ).then(function(trusted) {
+                        if (!trusted) {
+                            throw new Error('Identity key changed');
+                        }
+                    }).then(function() {
+                        return this.storage.saveIdentity(this.remoteAddress.getName(), result.session.indexInfo.remoteIdentityKey);
+                    }.bind(this)).then(function() {
+                        record.updateSessionState(result.session);
+                        return this.storage.storeSession(address, record.serialize()).then(function() {
+                            return result.plaintext;
+                        });
+                    }.bind(this));
                 }.bind(this));
             }.bind(this));
         }.bind(this));
@@ -36346,6 +36367,7 @@ SessionCipher.prototype = {
                   );
               }
               var builder = new SessionBuilder(this.storage, this.remoteAddress);
+              // isTrustedIdentity is called within processV3, no need to call it here
               return builder.processV3(record, preKeyProto).then(function(preKeyId) {
                   var session = record.getSessionByBaseKey(preKeyProto.baseKey);
                   return this.doDecryptWhisperMessage(
@@ -37628,7 +37650,8 @@ var TextSecureServer = (function() {
         keys       : "v2/keys",
         signed     : "v2/keys/signed",
         messages   : "v1/messages",
-        attachment : "v1/attachments"
+        attachment : "v1/attachments",
+        profile    : "v1/profile"
     };
 
     function TextSecureServer(url, ports, username, password) {
@@ -37694,6 +37717,13 @@ var TextSecureServer = (function() {
                 }
                 e.message = message
                 throw e;
+            });
+        },
+        getProfile: function(number) {
+            return this.ajax({
+                call                : 'profile',
+                httpType            : 'GET',
+                urlParameters       : '/' + number,
             });
         },
         requestVerificationSMS: function(number) {
@@ -38092,10 +38122,14 @@ var TextSecureServer = (function() {
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
-                    var putIdentity = textsecure.storage.protocol.saveIdentity.bind(
-                        null, number, identityKeyPair.pubKey
-                    );
-                    textsecure.storage.protocol.removeIdentityKey(number).then(putIdentity, putIdentity);
+                    textsecure.storage.protocol.saveIdentityWithAttributes({
+                        id                  : number,
+                        publicKey           : identityKeyPair.pubKey,
+                        firstUse            : true,
+                        timestamp           : Date.now(),
+                        verified            : textsecure.storage.protocol.VerifiedStatus.VERIFIED,
+                        nonblockingApproval : true
+                    });
 
                     textsecure.storage.put('identityKey', identityKeyPair);
                     textsecure.storage.put('signaling_key', signalingKey);
@@ -38324,6 +38358,16 @@ MessageReceiver.prototype.extend({
                 promise = Promise.reject(new Error("Unknown message type"));
         }
         return promise.catch(function(error) {
+            if (error.message === 'Unknown identity key') {
+                // create an error that the UI will pick up and ask the
+                // user if they want to re-negotiate
+                var buffer = dcodeIO.ByteBuffer.wrap(ciphertext);
+                error = new textsecure.IncomingIdentityKeyError(
+                    address.toString(),
+                    buffer.toArrayBuffer(),
+                    error.identityKey
+                );
+            }
             var ev = new Event('error');
             ev.error = error;
             ev.proto = envelope;
@@ -39155,6 +39199,10 @@ MessageSender.prototype = {
         return this.sendIndividualProto(myNumber, contentMessage, Date.now());
     },
 
+    getProfile: function(number) {
+        return this.server.getProfile(number);
+    },
+
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -39445,6 +39493,7 @@ textsecure.MessageSender = function(url, ports, username, password) {
     this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
     this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
+    this.getProfile                        = sender.getProfile                       .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
 };
 

@@ -339,6 +339,27 @@
         }.bind(this));
     },
 
+    getProfiles: function() {
+        // request all conversation members' keys
+        var ids = [];
+        if (this.isPrivate()) {
+            ids = [this.id];
+        } else {
+            ids = this.get('members');
+        }
+        ids.forEach(this.getProfile);
+    },
+
+    getProfile: function(id) {
+        return textsecure.messaging.getProfile(id).then(function(profile) {
+            var identityKey = dcodeIO.ByteBuffer.wrap(profile.identityKey, 'base64').toArrayBuffer();
+
+            return textsecure.storage.protocol.saveIdentity(
+              id, identityKey, false
+            );
+        });
+    },
+
     fetchMessages: function() {
         if (!this.id) { return false; }
         return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
@@ -504,26 +525,24 @@
             throw 'No conflicts to resolve';
         }
 
-        return textsecure.storage.protocol.removeIdentityKey(number).then(function() {
-            return textsecure.storage.protocol.saveIdentity(number, identityKey).then(function() {
-                var promise = Promise.resolve();
-                var conflicts = this.messageCollection.filter(function(message) {
-                    return message.hasKeyConflict(number);
-                });
-                // group incoming & outgoing
-                conflicts = _.groupBy(conflicts, function(m) { return m.get('type'); });
-                // sort each group by date and concatenate outgoing after incoming
-                conflicts = _.flatten([
-                    _.sortBy(conflicts.incoming, function(m) { return m.get('received_at'); }),
-                    _.sortBy(conflicts.outgoing, function(m) { return m.get('received_at'); }),
-                ]).forEach(function(message) {
-                    var resolveConflict = function() {
-                        return message.resolveConflict(number);
-                    };
-                    promise = promise.then(resolveConflict, resolveConflict);
-                });
-                return promise;
-            }.bind(this));
+        return textsecure.storage.protocol.saveIdentity(number, identityKey, true).then(function() {
+            var promise = Promise.resolve();
+            var conflicts = this.messageCollection.filter(function(message) {
+                return message.hasKeyConflict(number);
+            });
+            // group incoming & outgoing
+            conflicts = _.groupBy(conflicts, function(m) { return m.get('type'); });
+            // sort each group by date and concatenate outgoing after incoming
+            conflicts = _.flatten([
+                _.sortBy(conflicts.incoming, function(m) { return m.get('received_at'); }),
+                _.sortBy(conflicts.outgoing, function(m) { return m.get('received_at'); }),
+            ]).forEach(function(message) {
+                var resolveConflict = function() {
+                    return message.resolveConflict(number);
+                };
+                promise = promise.then(resolveConflict, resolveConflict);
+            });
+            return promise;
         }.bind(this));
     },
     notify: function(message) {
