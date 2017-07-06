@@ -184,31 +184,27 @@ $text-dark_l2: darken($text-dark, 30%);
   }
 
   .incoming .bubble .fileView .icon{
-    &::before {
-      @include color-svg('/images/file.svg', white);
-    }
-    &.audio:before {
+    @include color-svg('/images/file.svg', white);
+    &.audio {
       @include color-svg('/images/audio.svg', white);
     }
-    &.video:before {
+    &.video {
       @include color-svg('/images/video.svg', white);
     }
-    &.voice:before {
+    &.voice {
       @include color-svg('/images/voice.svg', white);
     }
   }
 
   .outgoing .bubble .fileView .icon {
-    &::before {
-      @include color-svg('/images/file.svg', #CCCCCC);
-    }
-    &.audio:before {
+    @include color-svg('/images/file.svg', #CCCCCC);
+    &.audio {
       @include color-svg('/images/audio.svg', #CCCCCC);
     }
-    &.video:before {
+    &.video {
       @include color-svg('/images/video.svg', #CCCCCC);
     }
-    &.voice:before {
+    &.voice {
       @include color-svg('/images/voice.svg', #CCCCCC);
     }
   }

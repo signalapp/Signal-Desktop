@@ -488,6 +488,7 @@ li.entry .error-icon-container {
     .fileView {
       display: flex;
       align-items: center;
+      overflow: hidden;
 
       position: relative;
       padding: 5px;
@@ -498,6 +499,13 @@ li.entry .error-icon-container {
       .fileName {
         font-weight: bold;
         margin-bottom: 0.25em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .text {
+        overflow: hidden;
       }
 
       .icon, .text {
@@ -515,21 +523,17 @@ li.entry .error-icon-container {
         margin-right: 0.5em;
         display: inline-block;
         vertical-align: middle;
-        &:before {
-          content: '';
-          display: inline-block;
-          width: $button-height * 2;
-          height: $button-height * 2;
-          @include color-svg('/images/file.svg', $grey_d);
-        }
+        width: $button-height * 2;
+        height: $button-height * 2;
+        @include color-svg('/images/file.svg', $grey_d);
 
-        &.audio:before {
+        &.audio {
           @include color-svg('/images/audio.svg', $grey_d);
         }
-        &.video:before {
+        &.video {
           @include color-svg('/images/video.svg', $grey_d);
         }
-        &.voice:before {
+        &.voice {
           @include color-svg('/images/voice.svg', $grey_d);
         }
       }
