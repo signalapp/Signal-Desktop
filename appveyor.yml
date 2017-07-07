@@ -6,9 +6,11 @@ cache:
   - node_modules -> package.json
 
 install:
+  - systeminfo | findstr /C:"OS"
   - set PATH=C:\Ruby23-x64\bin;%PATH%
   - ps: Install-Product node 6 x64
   - yarn install
+  - type node_modules\.bin\grunt.cmd
 
 build_script:
   - yarn run icon-gen
