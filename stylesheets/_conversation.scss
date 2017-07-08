@@ -267,7 +267,7 @@
         height: 1.25em;
         position: relative;
         vertical-align: middle;
-        @include color-svg('/images/warning.svg', white);
+        @include color-svg('../images/warning.svg', white);
       }
     }
 
