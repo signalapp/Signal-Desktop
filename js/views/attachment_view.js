@@ -71,7 +71,9 @@
     },
     initialize: function(options) {
         this.blob = new Blob([this.model.data], {type: this.model.contentType});
-
+        if (!this.model.size) {
+          this.model.size = this.model.data.byteLength;
+        }
         if (options.timestamp) {
           this.timestamp = options.timestamp;
         }
