@@ -717,9 +717,9 @@
                 }
             } else {
                 if (isUnverified) {
-                    message = i18n('changedSinceVerified', this.model.getTitle());
+                    message = i18n('changedSinceVerified', contacts.at(0).getTitle());
                 } else {
-                    message = i18n('changedRecently', this.model.getTitle());
+                    message = i18n('changedRecently', contacts.at(0).getTitle());
                 }
             }
 
