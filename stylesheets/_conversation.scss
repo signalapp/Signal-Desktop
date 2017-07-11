@@ -410,13 +410,14 @@ li.entry .error-icon-container {
       float: left;
       margin-left: 6px;
       margin-right: 6px;
+      cursor: pointer;
     }
 
     .hasRetry, .timestamp, .status, .timer {
       float: left;
     }
 
-    .timestamp, .status, .some-failed {
+    .timestamp, .status {
       cursor: pointer;
       opacity: 0.5;
 
