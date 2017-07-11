@@ -20,9 +20,17 @@
         tagName: 'span',
         className: 'hasRetry',
         templateName: 'hasRetry',
-        render_attributes: {
-            messageNotSent: i18n('messageNotSent'),
-            resend: i18n('resend')
+        render_attributes: function() {
+            var messageNotSent;
+
+            if (!this.model.someRecipientsFailed()) {
+                messageNotSent = i18n('messageNotSent');
+            }
+
+            return {
+                messageNotSent: messageNotSent,
+                resend: i18n('resend')
+            };
         }
     });
     var SomeFailedView = Whisper.View.extend({
@@ -248,11 +256,13 @@
             }
             this.$('.meta .hasRetry').remove();
             if (this.model.hasNetworkError()) {
-                this.$('.meta').prepend(new NetworkErrorView().render().el);
+                var networkErrorView = new NetworkErrorView({model: this.model});
+                this.$('.meta').prepend(networkErrorView.render().el);
             }
             this.$('.meta .some-failed').remove();
             if (this.model.someRecipientsFailed()) {
-                this.$('.meta').prepend(new SomeFailedView().render().el);
+                var someFailedView = new SomeFailedView();
+                this.$('.meta').prepend(someFailedView.render().el);
             }
         },
         renderControl: function() {
