@@ -1336,23 +1336,22 @@ li.entry .error-icon-container {
     .message-list .meta .some-failed {
       float: left;
       margin-left: 6px;
-      margin-right: 6px; }
+      margin-right: 6px;
+      cursor: pointer; }
     .message-container .meta .hasRetry, .message-container .meta .timestamp, .message-container .meta .status, .message-container .meta .timer,
     .message-list .meta .hasRetry,
     .message-list .meta .timestamp,
     .message-list .meta .status,
     .message-list .meta .timer {
       float: left; }
-    .message-container .meta .timestamp, .message-container .meta .status, .message-container .meta .some-failed,
+    .message-container .meta .timestamp, .message-container .meta .status,
     .message-list .meta .timestamp,
-    .message-list .meta .status,
-    .message-list .meta .some-failed {
+    .message-list .meta .status {
       cursor: pointer;
       opacity: 0.5; }
-      .message-container .meta .timestamp:hover, .message-container .meta .status:hover, .message-container .meta .some-failed:hover,
+      .message-container .meta .timestamp:hover, .message-container .meta .status:hover,
       .message-list .meta .timestamp:hover,
-      .message-list .meta .status:hover,
-      .message-list .meta .some-failed:hover {
+      .message-list .meta .status:hover {
         opacity: 1.0; }
   .message-container .status,
   .message-list .status {
