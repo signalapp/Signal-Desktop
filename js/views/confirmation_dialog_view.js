@@ -27,6 +27,7 @@
         render_attributes: function() {
             return {
                 message: this.message,
+                showCancel: Boolean(this.reject),
                 cancel: this.cancelText,
                 ok: this.okText
             };
