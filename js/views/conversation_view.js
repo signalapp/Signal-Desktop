@@ -252,8 +252,6 @@
             } else if (this.banner) {
                 this.banner.remove();
                 this.banner = null;
-
-                // TODO: Is there anything else we should do here? make messages re-send-able?
             }
         },
 
@@ -533,8 +531,11 @@
         },
 
         onClick: function(e) {
-            this.closeMenu(e);
-            this.markRead();
+            // If there are sub-panels open, we don't want to respond to clicks
+            if (!this.panels || !this.panels.length) {
+                this.closeMenu(e);
+                this.markRead();
+            }
         },
 
         findNewestVisibleUnread: function() {
