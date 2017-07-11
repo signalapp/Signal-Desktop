@@ -308,7 +308,8 @@
             break;
         }
 
-        console.log('got verified sync for', number, state);
+        console.log('got verified sync for', number, state,
+            ev.viaContactSync ? 'via contact sync' : '');
 
         var contact = ConversationController.get(number);
         if (!contact) {
