@@ -169,7 +169,9 @@
     <div class="content">
       <div class='message'>{{ message }}</div>
       <div class='buttons'>
-        <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        {{ #showCancel }}
+          <button class='cancel' tabindex='2'>{{ cancel }}</button>
+        {{ /showCancel }}
         <button class='ok' tabindex='1'>{{ ok }}</button>
       </div>
     </div>
@@ -346,16 +348,16 @@
   </script>
   <script type='text/x-tmpl-mustache' id='key-verification'>
     <div class='container'>
-      {{ ^has_their_key }}
-        <div class='placeholder'>{{ their_key_unknown }}</div>
-      {{ /has_their_key }}
-      {{ #has_their_key }}
+      {{ ^hasTheirKey }}
+        <div class='placeholder'>{{ theirKeyUnknown }}</div>
+      {{ /hasTheirKey }}
+      {{ #hasTheirKey }}
         <label> {{ yourSafetyNumberWith }} </label>
         <!--<div class='qr'></div>-->
         <div class='key'>
           {{ #chunks }} <span>{{ . }}</span> {{ /chunks }}
         </div>
-      {{ /has_their_key }}
+      {{ /hasTheirKey }}
       {{ verifyHelp }}
       <p> {{> link_to_support }} </p>
       <div class='summary'>
