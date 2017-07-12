@@ -296,6 +296,15 @@
     "messageDetail": {
         "message": "Message Detail"
     },
+    "delete": {
+      "message": "Delete"
+    },
+    "deleteWarning": {
+      "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device."
+    },
+    "deleteMessage": {
+      "message": "Delete this message"
+    },
     "from": {
         "message": "From",
         "description": "Label for the sender of a message"

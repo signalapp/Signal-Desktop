@@ -245,6 +245,15 @@
     color: $grey_d;
     border: solid 1px #ccc;
   }
+
+  .delete-container {
+    text-align: center;
+
+    button.delete {
+      background-color: red;
+      color: white;
+    }
+  }
 }
 .message-list {
   .error-icon {
