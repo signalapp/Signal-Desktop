@@ -65,28 +65,26 @@
                 return this.withinFiveMinutes(right, left);
             }
         },
-        isTargetTypeForTimeHeader: function(model) {
-            return model.get('type') === 'keychange' || model.get('type') === 'verified-change';
-        },
         addTimeHeader: function(model, index) {
             var prev = this.collection.at(index - 1);
             var next = this.collection.at(index + 1);
             var currentTime = model.get('received_at');
 
+            if (model.get('type') === 'time-header') {
+                return;
+            }
+
             // we put a message above if it's not the right type, or if it's too far away
             if (prev
-                && this.isTargetTypeForTimeHeader(model)
-                && prev.get('type') !== 'timer-header'
-                && (!this.isTargetTypeForTimeHeader(prev)
-                    || !this.withinFiveMinutes(currentTime, prev.get('received_at')))) {
+                && prev.get('type') !== 'time-header'
+                && !this.withinFiveMinutes(currentTime, prev.get('received_at'))) {
 
                 this.conversation.addTimeHeader(model);
             }
 
             // We don't want to put a time header between us and a normal message below
             if (next
-                && this.isTargetTypeForTimeHeader(next)
-                && next.get('type') !== 'timer-header'
+                && next.get('type') !== 'time-header'
                 && !this.withinFiveMinutes(currentTime, next.get('received_at'))) {
 
                 this.conversation.addTimeHeader(next);
@@ -97,7 +95,7 @@
 
             if (model.isExpirationTimerUpdate()) {
                 view = new Whisper.ExpirationTimerUpdateView({model: model}).render();
-            } else if (model.get('type') === 'timer-header') {
+            } else if (model.get('type') === 'time-header') {
                 view = new Whisper.TimeHeaderView({model: model}).render();
             } else if (model.get('type') === 'keychange') {
                 view = new Whisper.KeyChangeView({model: model}).render();
