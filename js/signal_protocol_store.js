@@ -580,12 +580,19 @@
             });
         },
         // Resolves to true if a new identity key was saved
-        processVerifiedMessage: function(identifier, verifiedStatus, publicKey) {
+        processContactSyncVerificationState: function(identifier, verifiedStatus, publicKey) {
+            if (verifiedStatus === VerifiedStatus.UNVERIFIED) {
+                return this.processUnverifiedMessage(identifier, verifiedStatus, publicKey);
+            } else {
+                return this.processVerifiedMessage(identifier, verifiedStatus, publicKey);
+            }
+        },
+        // This function encapsulates the non-Java behavior, since the mobile apps don't
+        //   currently receive contact syncs and therefore will see a verify sync with
+        //   UNVERIFIED status
+        processUnverifiedMessage: function(identifier, verifiedStatus, publicKey) {
             if (identifier === null || identifier === undefined) {
                 throw new Error("Tried to set verified for undefined/null key");
-            }
-            if (!validateVerifiedStatus(verifiedStatus)) {
-                throw new Error("Invalid verified status");
             }
             if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
                 throw new Error("Invalid public key");
@@ -600,36 +607,16 @@
                       isEqual = equalArrayBuffers(publicKey, identityRecord.get('publicKey'));
                     }
                 }).always(function() {
-                    // Because new keys always start as DEFAULT, we don't need to create new record here
-                    if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
-                        console.log('No existing record for default status');
-                        return resolve();
-                    }
-
-                    // If we had a key before and it's the same, and we're not changing to
-                    //   VERIFIED, then it's a simple update of the verified flag.
-                    if (isPresent && isEqual
-                        && identityRecord.get('verified') !== verifiedStatus
-                        && verifiedStatus !== VerifiedStatus.VERIFIED) {
+                    if (isPresent
+                        && isEqual
+                        && identityRecord.get('verified') !== VerifiedStatus.UNVERIFIED) {
 
                         return textsecure.storage.protocol.setVerified(
                           identifier, verifiedStatus, publicKey
                         ).then(resolve, reject);
                     }
 
-                    // We need to create a new record in three cases:
-                    //   1. We had no key previously (checks above ensure that this is
-                    //      either VERIFIED/UNVERIFIED)
-                    //   2. We had a key before, but we got a new key
-                    //      (no matter the VERIFIED state)
-                    //   3. It's the same key, but we weren't VERIFIED before and are now
-                    //      (checks above handle the situation when 'state != VERIFIED')
-                    if (!isPresent
-                        || (isPresent && !isEqual)
-                        || (isPresent
-                            && identityRecord.get('verified') !== verifiedStatus
-                            && verifiedStatus === VerifiedStatus.VERIFIED)) {
-
+                    if (!isPresent || !isEqual) {
                         return textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
                             publicKey           : publicKey,
                             verified            : verifiedStatus,
@@ -653,6 +640,73 @@
                     //   1. had a previous key
                     //   2. new key is the same
                     //   3. desired new status is same as what we had before
+                    return resolve();
+                }.bind(this));
+            }.bind(this));
+        },
+        // This matches the Java method as of
+        //   https://github.com/WhisperSystems/Signal-Android/blob/d0bb68e1378f689e4d10ac6a46014164992ca4e4/src/org/thoughtcrime/securesms/util/IdentityUtil.java#L188
+        processVerifiedMessage: function(identifier, verifiedStatus, publicKey) {
+            if (identifier === null || identifier === undefined) {
+                throw new Error("Tried to set verified for undefined/null key");
+            }
+            if (!validateVerifiedStatus(verifiedStatus)) {
+                throw new Error("Invalid verified status");
+            }
+            if (publicKey !== undefined && !(publicKey instanceof ArrayBuffer)) {
+                throw new Error("Invalid public key");
+            }
+            return new Promise(function(resolve, reject) {
+                var identityRecord = new IdentityRecord({id: identifier});
+                var isPresent = false;
+                var isEqual = false;
+                identityRecord.fetch().then(function() {
+                    isPresent = true;
+                    if (publicKey) {
+                      isEqual = equalArrayBuffers(publicKey, identityRecord.get('publicKey'));
+                    }
+                }).always(function() {
+                    if (!isPresent && verifiedStatus === VerifiedStatus.DEFAULT) {
+                        console.log('No existing record for default status');
+                        return resolve();
+                    }
+
+                    if (isPresent && isEqual
+                        && identityRecord.get('verified') !== VerifiedStatus.DEFAULT
+                        && verifiedStatus === VerifiedStatus.DEFAULT) {
+
+                        return textsecure.storage.protocol.setVerified(
+                          identifier, verifiedStatus, publicKey
+                        ).then(resolve, reject);
+                    }
+
+                    if (verifiedStatus === VerifiedStatus.VERIFIED
+                        && (!isPresent
+                            || (isPresent && !isEqual)
+                            || (isPresent && identityRecord.get('verified') !== VerifiedStatus.VERIFIED))) {
+
+                        return textsecure.storage.protocol.saveIdentityWithAttributes(identifier, {
+                            publicKey           : publicKey,
+                            verified            : verifiedStatus,
+                            firstUse            : false,
+                            timestamp           : Date.now(),
+                            nonblockingApproval : true
+                        }).then(function() {
+                            if (isPresent && !isEqual) {
+                                this.trigger('keychange', identifier);
+                                return this.archiveAllSessions(identifier).then(function() {
+                                    // true signifies that we overwrote a previous key with a new one
+                                    return resolve(true);
+                                }, reject);
+                            }
+
+                            return resolve();
+                        }.bind(this), reject);
+                    }
+
+                    // We get here if we got a new key and the status is DEFAULT. If the
+                    //   message is out of date, we don't want to lose whatever more-secure
+                    //   state we had before.
                     return resolve();
                 }.bind(this));
             }.bind(this));
