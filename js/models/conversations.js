@@ -327,7 +327,7 @@
             });
         }
     },
-    addTimeHeader: function(model) {
+    addTimeHeaderBefore: function(model) {
         var timestamp = model.get('received_at') - 1;
         var message = new Whisper.Message({
             // need to generate id here, since we don't save these to the database
