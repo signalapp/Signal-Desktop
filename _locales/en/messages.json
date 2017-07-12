@@ -486,7 +486,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed",
+        "message": "Some recipients failed.",
         "description": "Informational label, for messages where some recipients succeeded, others failed"
     },
     "showMore": {
