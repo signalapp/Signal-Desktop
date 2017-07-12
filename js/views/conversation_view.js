@@ -134,6 +134,7 @@
 
             this.view = new Whisper.MessageListView({
                 collection: this.model.messageCollection,
+                conversation: this.model,
                 window: this.window
             });
             this.$('.discussion-container').append(this.view.el);

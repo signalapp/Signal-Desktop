@@ -12,7 +12,9 @@
         events: {
             'scroll': 'onScroll',
         },
-        initialize: function() {
+        initialize: function(options) {
+            this.conversation = options.conversation;
+
             Whisper.ListView.prototype.initialize.call(this);
 
             this.triggerLazyScroll = _.debounce(function() {
@@ -56,10 +58,47 @@
             this.$el.scrollTop(this.el.scrollHeight);
             this.measureScrollPosition();
         },
+        withinFiveMinutes: function(left, right) {
+            if (left >= right) {
+                return right >= (left - 1000 * 60 * 5);
+            } else {
+                return this.withinFiveMinutes(right, left);
+            }
+        },
+        isTargetTypeForTimeHeader: function(model) {
+            return model.get('type') === 'keychange' || model.get('type') === 'verified-change';
+        },
+        addTimeHeader: function(model, index) {
+            var prev = this.collection.at(index - 1);
+            var next = this.collection.at(index + 1);
+            var currentTime = model.get('received_at');
+
+            // we put a message above if it's not the right type, or if it's too far away
+            if (prev
+                && this.isTargetTypeForTimeHeader(model)
+                && prev.get('type') !== 'timer-header'
+                && (!this.isTargetTypeForTimeHeader(prev)
+                    || !this.withinFiveMinutes(currentTime, prev.get('received_at')))) {
+
+                this.conversation.addTimeHeader(model);
+            }
+
+            // We don't want to put a time header between us and a normal message below
+            if (next
+                && this.isTargetTypeForTimeHeader(next)
+                && next.get('type') !== 'timer-header'
+                && !this.withinFiveMinutes(currentTime, next.get('received_at'))) {
+
+                this.conversation.addTimeHeader(next);
+            }
+        },
         addOne: function(model) {
             var view;
+
             if (model.isExpirationTimerUpdate()) {
                 view = new Whisper.ExpirationTimerUpdateView({model: model}).render();
+            } else if (model.get('type') === 'timer-header') {
+                view = new Whisper.TimeHeaderView({model: model}).render();
             } else if (model.get('type') === 'keychange') {
                 view = new Whisper.KeyChangeView({model: model}).render();
             } else if (model.get('type') === 'verified-change') {
@@ -109,6 +148,8 @@
                 }
             }
             this.scrollToBottomIfNeeded();
+
+            this.addTimeHeader(model, index);
         },
     });
 })();
