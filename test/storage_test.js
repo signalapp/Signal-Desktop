@@ -355,7 +355,7 @@ describe("SignalProtocolStore", function() {
       });
     });
   });
-  describe('processVerifiedMessage', function() {
+  describe('processContactSyncVerificationState', function() {
     var record;
     var newIdentity = libsignal.crypto.getRandomBytes(33);
     var keychangeTriggered;
@@ -387,12 +387,12 @@ describe("SignalProtocolStore", function() {
         });
 
         it ('does nothing', function() {
-          return store.processVerifiedMessage(
+          return store.processContactSyncVerificationState(
             identifier, store.VerifiedStatus.DEFAULT, newIdentity
           ).then(fetchRecord).then(function() {
             // fetchRecord resolved so there is a record.
             // Bad.
-            throw new Error("processVerifiedMessage should not save new records");
+            throw new Error("processContactSyncVerificationState should not save new records");
           }, function() {
             assert.strictEqual(keychangeTriggered, 0);
           });
@@ -412,13 +412,13 @@ describe("SignalProtocolStore", function() {
             return wrapDeferred(record.save());
           });
 
-          it ('saves the new identity and marks it DEFAULT', function() {
-            return store.processVerifiedMessage(
+          it ('does not save the new identity (because this is a less secure state)', function() {
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.DEFAULT, newIdentity
             ).then(fetchRecord).then(function() {
-              assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
-              assertEqualArrayBuffers(record.get('publicKey'), newIdentity);
-              assert.strictEqual(keychangeTriggered, 1);
+              assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
+              assertEqualArrayBuffers(record.get('publicKey'), testKey.pubKey);
+              assert.strictEqual(keychangeTriggered, 0);
             });
           });
         });
@@ -436,7 +436,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('updates the verified status', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.DEFAULT, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(record.get('verified'), store.VerifiedStatus.DEFAULT);
@@ -459,7 +459,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('does not hang', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.DEFAULT, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(keychangeTriggered, 0);
@@ -476,7 +476,7 @@ describe("SignalProtocolStore", function() {
         });
 
         it ('saves the new identity and marks it verified', function() {
-          return store.processVerifiedMessage(
+          return store.processContactSyncVerificationState(
             identifier, store.VerifiedStatus.UNVERIFIED, newIdentity
           ).then(fetchRecord).then(function() {
             assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
@@ -500,7 +500,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('saves the new identity and marks it UNVERIFIED', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.UNVERIFIED, newIdentity
             ).then(fetchRecord).then(function() {
               assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
@@ -523,7 +523,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('updates the verified status', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.UNVERIFIED, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(record.get('verified'), store.VerifiedStatus.UNVERIFIED);
@@ -546,7 +546,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('does not hang', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.UNVERIFIED, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(keychangeTriggered, 0);
@@ -565,7 +565,7 @@ describe("SignalProtocolStore", function() {
         });
 
         it ('saves the new identity and marks it verified', function() {
-          return store.processVerifiedMessage(
+          return store.processContactSyncVerificationState(
             identifier, store.VerifiedStatus.VERIFIED, newIdentity
           ).then(fetchRecord).then(function() {
             assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
@@ -589,7 +589,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('saves the new identity and marks it VERIFIED', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.VERIFIED, newIdentity
             ).then(fetchRecord).then(function() {
               assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
@@ -612,7 +612,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('saves the identity and marks it verified', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.VERIFIED, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(record.get('verified'), store.VerifiedStatus.VERIFIED);
@@ -635,7 +635,7 @@ describe("SignalProtocolStore", function() {
           });
 
           it ('does not hang', function() {
-            return store.processVerifiedMessage(
+            return store.processContactSyncVerificationState(
               identifier, store.VerifiedStatus.VERIFIED, testKey.pubKey
             ).then(fetchRecord).then(function() {
               assert.strictEqual(keychangeTriggered, 0);
