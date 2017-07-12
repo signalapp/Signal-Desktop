@@ -108,7 +108,11 @@
 
             this.lazyUpdateVerified = _.debounce(
                 this.model.updateVerified.bind(this.model),
-                1000
+                1000 // one second
+            );
+            this.throttledGetProfiles = _.throttle(
+                this.model.getProfiles.bind(this.model),
+                1000 * 60 * 5 // five minutes
             );
 
             this.render();
@@ -320,7 +324,7 @@
         onOpened: function() {
             // TODO: we may want to show a loading dialog until this status fetch
             //       and potentially the below message fetch are complete.
-            this.statusFetch = this.model.getProfiles().then(function() {
+            this.statusFetch = this.throttledGetProfiles().then(function() {
                 this.model.updateVerified().then(function() {
                     this.onVerifiedChange();
                     this.statusFetch = null;
