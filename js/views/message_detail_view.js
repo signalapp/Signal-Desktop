@@ -89,6 +89,23 @@
 
             this.listenTo(this.model, 'change', this.render);
         },
+        events: {
+            'click button.delete': 'onDelete'
+        },
+        onDelete: function() {
+            var dialog = new Whisper.ConfirmationDialogView({
+                message: i18n('deleteWarning'),
+                okText: i18n('delete'),
+                resolve: function() {
+                    this.model.destroy();
+                    this.resetPanel();
+                }.bind(this),
+                reject: function() {}
+            });
+
+            this.$el.prepend(dialog.el);
+            dialog.focusCancel();
+        },
         getContact: function(number) {
             var c = ConversationController.get(number);
             return {
@@ -128,6 +145,7 @@
                 sent            : i18n('sent'),
                 received        : i18n('received'),
                 errorLabel      : i18n('error'),
+                deleteLabel     : i18n('deleteMessage'),
                 retryDescription: i18n('retryDescription')
             }));
             this.view.$el.prependTo(this.$('.message-container'));

@@ -1202,6 +1202,11 @@ input.search {
     float: right;
     color: #454545;
     border: solid 1px #ccc; }
+  .message-detail .delete-container {
+    text-align: center; }
+    .message-detail .delete-container button.delete {
+      background-color: red;
+      color: white; }
 
 .message-list .error-icon {
   cursor: pointer; }
