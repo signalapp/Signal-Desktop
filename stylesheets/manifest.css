@@ -1293,6 +1293,11 @@ input.search {
     padding: 5px 10px;
     background: #fff5c4;
     border-radius: 5px; }
+.message-list .time-header {
+  text-align: center;
+  margin: 25px 0 10px; }
+  .message-list .time-header .content {
+    color: #616161; }
 
 li.entry .error-icon-container {
   position: absolute;

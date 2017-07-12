@@ -314,6 +314,14 @@
       border-radius: $border-radius;
     }
   }
+
+  .time-header {
+    text-align: center;
+    margin: 25px 0 10px;
+    .content {
+      color: $grey;
+    }
+  }
 }
 li.entry .error-icon-container {
   position: absolute;

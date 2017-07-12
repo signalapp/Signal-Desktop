@@ -94,6 +94,20 @@
         }
     });
 
+    Whisper.TimeHeaderView = Whisper.View.extend({
+        tagName:   'li',
+        className: 'time-header',
+        templateName: 'time-header',
+        id: function() {
+            return this.model.id;
+        },
+        render_attributes: function() {
+            return {
+              content: moment(this.model.get('received_at')).format('LLLL')
+            };
+        }
+    });
+
     Whisper.KeyChangeView = Whisper.View.extend({
         tagName:   'li',
         className: 'keychange advisory',
