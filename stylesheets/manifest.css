@@ -1717,7 +1717,7 @@ li.entry .error-icon-container {
 
 .message-list .last-seen-indicator-view {
   padding-top: 25px;
-  padding-bottom: 35px; }
+  margin-bottom: 35px; }
   .message-list .last-seen-indicator-view .bar {
     display: flex;
     flex-direction: column;
