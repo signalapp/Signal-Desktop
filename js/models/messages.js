@@ -351,10 +351,14 @@
             if (dataMessage.group) {
                 conversationId = dataMessage.group.id;
             }
+            console.log('queuing handleDataMessage', source, timestamp);
+
             var conversation = ConversationController.create({id: conversationId});
             conversation.queueJob(function() {
                 return new Promise(function(resolve) {
                     conversation.fetch().always(function() {
+                        console.log('starting handleDataMessage', source, timestamp);
+
                         var now = new Date().getTime();
                         var attributes = { type: 'private' };
                         if (dataMessage.group) {
@@ -463,28 +467,49 @@
                                 timestamp: message.get('sent_at')
                             });
                         }
+
+                        console.log('beginning saves in handleDataMessage', source, timestamp);
+
+                        var handleError = function(error) {
+                            error = error && error.stack ? error.stack : error;
+                            console.log('handleDataMessage', source, timestamp, 'error:', error);
+                            return resolve();
+                        };
+
                         message.save().then(function() {
                             conversation.save().then(function() {
-                                conversation.trigger('newmessage', message);
+                                try {
+                                    conversation.trigger('newmessage', message);
+                                }
+                                catch (e) {
+                                    return handleError(e);
+                                }
                                 // We fetch() here because, between the message.save() above and the previous
                                 //   line's trigger() call, we might have marked all messages unread in the
                                 //   database. This message might already be read!
                                 var previousUnread = message.get('unread');
                                 message.fetch().then(function() {
-                                    if (previousUnread !== message.get('unread')) {
-                                        console.log('Caught race condition on new message read state! ' +
-                                                    'Manually starting timers.');
-                                        // We call markRead() even though the message is already marked read
-                                        //   because we need to start expiration timers, etc.
-                                        message.markRead();
+                                    try {
+                                        if (previousUnread !== message.get('unread')) {
+                                            console.log('Caught race condition on new message read state! ' +
+                                                        'Manually starting timers.');
+                                            // We call markRead() even though the message is already marked read
+                                            //   because we need to start expiration timers, etc.
+                                            message.markRead();
+                                        }
+                                        if (message.get('unread')) {
+                                            conversation.notify(message);
+                                        }
+
+                                        console.log('done with handleDataMessage', source, timestamp);
+                                        return resolve();
                                     }
-                                    if (message.get('unread')) {
-                                        conversation.notify(message);
+                                    catch (e) {
+                                        handleError(e);
                                     }
-                                    resolve();
-                                });
-                            });
-                        });
+                                }, handleError);
+                            }, handleError);
+                        }, handleError);
                     });
                 });
             });
