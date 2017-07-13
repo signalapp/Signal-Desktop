@@ -128,7 +128,9 @@
         var keychange;
         return promise.then(function(updatedKey) {
             keychange = updatedKey;
-            return this.save({verified: verified});
+            return new Promise(function(resolve) {
+                return this.save({verified: verified}).always(resolve);
+            }.bind(this));
         }.bind(this)).then(function() {
             // Three situations result in a verification notice in the conversation:
             //   1) The message came from an explicit verification in another client (not
