@@ -1297,7 +1297,7 @@ input.search {
   text-align: center;
   margin: 25px 0 10px; }
   .message-list .time-header .content {
-    color: #616161; }
+    color: #a7a7a7; }
 
 li.entry .error-icon-container {
   position: absolute;
@@ -2230,6 +2230,8 @@ li.entry .error-icon-container {
     -webkit-mask: url("/images/clock.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: #CCCCCC; }
+  .android-dark .message-list .time-header .content {
+    color: #616161; }
   .android-dark .inactive .conversation-header {
     background-color: #333333 !important;
     color: #CCCCCC; }
