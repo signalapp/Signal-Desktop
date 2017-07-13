@@ -10,6 +10,7 @@
         templateName: 'confirmation-dialog',
         initialize: function(options) {
             this.message = options.message;
+            this.hideCancel = options.hideCancel;
 
             this.resolve = options.resolve;
             this.okText = options.okText || i18n('ok');
@@ -27,18 +28,22 @@
         render_attributes: function() {
             return {
                 message: this.message,
-                showCancel: Boolean(this.reject),
+                showCancel: !this.hideCancel,
                 cancel: this.cancelText,
                 ok: this.okText
             };
         },
         ok: function() {
             this.remove();
-            this.resolve();
+            if (this.resolve) {
+                this.resolve();
+            }
         },
         cancel: function() {
             this.remove();
-            this.reject();
+            if (this.reject) {
+                this.reject();
+            }
         },
         onKeyup: function(event) {
             if (event.key === 'Escape' || event.key === 'Esc') {
