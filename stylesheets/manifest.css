@@ -1295,7 +1295,7 @@ input.search {
     border-radius: 5px; }
 .message-list .time-header {
   text-align: center;
-  margin: 25px 0 10px; }
+  margin: 25px auto 10px; }
   .message-list .time-header .content {
     color: #a7a7a7; }
 
