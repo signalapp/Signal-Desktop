@@ -96,11 +96,11 @@
             var dialog = new Whisper.ConfirmationDialogView({
                 message: i18n('deleteWarning'),
                 okText: i18n('delete'),
+                hideCancel: true,
                 resolve: function() {
                     this.model.destroy();
                     this.resetPanel();
-                }.bind(this),
-                reject: function() {}
+                }.bind(this)
             });
 
             this.$el.prepend(dialog.el);
