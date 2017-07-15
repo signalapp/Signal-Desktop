@@ -474,8 +474,10 @@
                     });
                     this.inProgressFetch = null;
                 }.bind(this));
+            }.bind(this)).catch(function(error) {
+                console.log('fetchMessages error:', error && error.stack ? error.stack : error);
+                this.inProgressFetch = null;
             }.bind(this));
-            // TODO catch?
 
             return this.inProgressFetch;
         },
