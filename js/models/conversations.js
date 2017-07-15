@@ -636,7 +636,9 @@
     },
 
     fetchMessages: function() {
-        if (!this.id) { return false; }
+        if (!this.id) {
+            return Promise.reject('This conversation has no id!');
+        }
         return this.messageCollection.fetchConversation(this.id, null, this.get('unreadCount'));
     },
 
