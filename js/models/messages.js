@@ -624,7 +624,7 @@
                     // SELECT messages WHERE conversationId = this.id ORDER
                     // received_at DESC
                 };
-                this.fetch(options).then(resolve);
+                this.fetch(options).always(resolve);
             }.bind(this)).then(function() {
                 if (unreadCount > 0) {
                     if (unreadCount <= startingLoadedUnread) {
@@ -637,6 +637,7 @@
                         return;
                     }
 
+                    console.log('fetchConversation: doing another fetch to get all unread');
                     return this.fetchConversation(conversationId, limit, unreadCount);
                 }
             }.bind(this));
