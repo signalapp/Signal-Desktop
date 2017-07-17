@@ -874,4 +874,60 @@ describe("SignalProtocolStore", function() {
       }).then(done,done);
     });
   });
+
+  describe('Not yet processed messages', function() {
+    beforeEach(function() {
+      return store.getAllUnprocessed().then(function(items) {
+        return Promise.all(_.map(items, function(item) {
+          return store.removeUnprocessed(item.id);
+        }));
+      }).then(function() {
+        return store.getAllUnprocessed();
+      }).then(function(items) {
+        assert.strictEqual(items.length, 0);
+      });
+    });
+
+    it('adds two and gets them back', function() {
+      return Promise.all([
+        store.addUnprocessed({id: 2, name: 'second', timestamp: 2}),
+        store.addUnprocessed({id: 3, name: 'third', timestamp: 3}),
+        store.addUnprocessed({id: 1, name: 'first', timestamp: 1})
+      ]).then(function() {
+        return store.getAllUnprocessed();
+      }).then(function(items) {
+        assert.strictEqual(items.length, 3);
+
+        // they are in the proper order because the collection comparator is 'timestamp'
+        assert.strictEqual(items[0].name, 'first');
+        assert.strictEqual(items[1].name, 'second');
+        assert.strictEqual(items[2].name, 'third');
+      });
+    });
+
+    it('updateUnprocessed successfully updates only part of itme', function() {
+      var id = 1;
+      return store.addUnprocessed({id: id, name: 'first', timestamp: 1}).then(function() {
+        return store.updateUnprocessed(id, {name: 'updated'});
+      }).then(function() {
+        return store.getAllUnprocessed();
+      }).then(function(items) {
+        assert.strictEqual(items.length, 1);
+        assert.strictEqual(items[0].name, 'updated');
+        assert.strictEqual(items[0].timestamp, 1);
+      });
+    });
+
+    it('removeUnprocessed successfully deletes item', function() {
+      var id = 1;
+      return store.addUnprocessed({id: id, name: 'first', timestamp: 1}).then(function() {
+        return store.removeUnprocessed(id);
+      }).then(function() {
+        return store.getAllUnprocessed();
+      }).then(function(items) {
+        assert.strictEqual(items.length, 0);
+      });
+    });
+  });
+
 });
