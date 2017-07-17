@@ -27,9 +27,9 @@
                             message.get('source') === receipt.get('sender'));
                 });
                 if (message) {
-                    this.remove(receipt);
                     message.markRead(receipt.get('read_at')).then(function() {
                         this.notifyConversation(message);
+                        this.remove(receipt);
                     }.bind(this));
                 } else {
                     console.log('No message for read receipt');

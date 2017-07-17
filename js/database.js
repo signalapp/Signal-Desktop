@@ -254,6 +254,26 @@
                   console.log(event);
                 };
             }
+        },
+        {
+            version: "14.0",
+            migrate: function(transaction, next) {
+                console.log('migration 14.0');
+                console.log('Adding unprocessed message store');
+                var unprocessed = transaction.db.createObjectStore('unprocessed');
+                unprocessed.createIndex('received', 'timestamp', { unique: false });
+                next();
+            }
+        },
+        {
+            version: "15.0",
+            migrate: function(transaction, next) {
+                console.log('migration 15.0');
+                console.log('Adding messages index for de-duplication');
+                var messages = transaction.objectStore('messages');
+                messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], { unique: true });
+                next();
+            }
         }
     ];
 }());

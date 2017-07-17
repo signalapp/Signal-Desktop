@@ -43,7 +43,6 @@
                 });
             }).then(function(message) {
                 if (message) {
-                    this.remove(receipt);
                     var deliveries = message.get('delivered') || 0;
                     message.save({
                         delivered: deliveries + 1
@@ -55,7 +54,9 @@
                         if (conversation) {
                             conversation.trigger('delivered', message);
                         }
-                    });
+
+                        this.remove(receipt);
+                    }.bind(this));
                     // TODO: consider keeping a list of numbers we've
                     // successfully delivered to?
                 }
