@@ -104,6 +104,13 @@
             return this.fetch({range: [number + '.1', number + '.' + ':']});
         }
     });
+    var Unprocessed = Model.extend({ storeName : 'unprocessed' });
+    var UnprocessedCollection = Backbone.Collection.extend({
+        storeName  : 'unprocessed',
+        database   : Whisper.Database,
+        model      : Unprocessed,
+        comparator : 'timestamp'
+    });
     var IdentityRecord = Model.extend({
       storeName: 'identityKeys',
       validAttributes: [
@@ -740,6 +747,8 @@
                 resolve(textsecure.storage.protocol.removeAllSessions(number));
             });
         },
+
+        // Groups
         getGroup: function(groupId) {
             if (groupId === null || groupId === undefined) {
                 throw new Error("Tried to get group for undefined/null id");
@@ -773,6 +782,41 @@
             });
         },
 
+        // Not yet processed messages - for resiliency
+        getAllUnprocessed: function() {
+            var collection;
+            return new Promise(function(resolve, reject) {
+                collection = new UnprocessedCollection();
+                return collection.fetch().then(resolve, reject);
+            }).then(function() {
+                // Return a plain array of plain objects
+                return collection.map('attributes');
+            });
+        },
+        addUnprocessed: function(data) {
+            return new Promise(function(resolve, reject) {
+                var unprocessed = new Unprocessed(data);
+                return unprocessed.save().then(resolve, reject);
+            });
+        },
+        updateUnprocessed: function(id, updates) {
+            return new Promise(function(resolve, reject) {
+                var unprocessed = new Unprocessed({
+                    id: id
+                });
+                return unprocessed.fetch().then(function() {
+                    return unprocessed.save(updates).then(resolve, reject);
+                }, reject);
+            }.bind(this));
+        },
+        removeUnprocessed: function(id) {
+            return new Promise(function(resolve, reject) {
+                var unprocessed = new Unprocessed({
+                    id: id
+                });
+                return unprocessed.destroy().then(resolve, reject);
+            }.bind(this));
+        },
     };
     _.extend(SignalProtocolStore.prototype, Backbone.Events);
 

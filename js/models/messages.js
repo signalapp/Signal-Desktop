@@ -15,7 +15,10 @@
             this.on('change:expireTimer', this.setToExpire);
             this.setToExpire();
         },
-        defaults  : function() {
+        idForLogging: function() {
+            return this.get('source') + '.' + this.get('sourceDevice') + ' ' + this.get('sent_at');
+        },
+        defaults: function() {
             return {
                 timestamp: new Date().getTime(),
                 attachments: []
@@ -339,7 +342,7 @@
                 this.send(promise);
             }
         },
-        handleDataMessage: function(dataMessage) {
+        handleDataMessage: function(dataMessage, confirm) {
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an
             // identity key change.
@@ -351,13 +354,13 @@
             if (dataMessage.group) {
                 conversationId = dataMessage.group.id;
             }
-            console.log('queuing handleDataMessage', source, timestamp);
+            console.log('queuing handleDataMessage', message.idForLogging());
 
             var conversation = ConversationController.create({id: conversationId});
             conversation.queueJob(function() {
                 return new Promise(function(resolve) {
                     conversation.fetch().always(function() {
-                        console.log('starting handleDataMessage', source, timestamp);
+                        console.log('starting handleDataMessage', message.idForLogging());
 
                         var now = new Date().getTime();
                         var attributes = { type: 'private' };
@@ -468,15 +471,18 @@
                             });
                         }
 
-                        console.log('beginning saves in handleDataMessage', source, timestamp);
+                        console.log('beginning saves in handleDataMessage', message.idForLogging());
 
                         var handleError = function(error) {
                             error = error && error.stack ? error.stack : error;
-                            console.log('handleDataMessage', source, timestamp, 'error:', error);
+                            console.log('handleDataMessage', message.idForLogging(), 'error:', error);
                             return resolve();
                         };
 
                         message.save().then(function() {
+
+                            // throw new Error('Something went wrong!');
+
                             conversation.save().then(function() {
                                 try {
                                     conversation.trigger('newmessage', message);
@@ -501,7 +507,11 @@
                                             conversation.notify(message);
                                         }
 
-                                        console.log('done with handleDataMessage', source, timestamp);
+                                        console.log('done with handleDataMessage', message.idForLogging());
+
+                                        if (confirm) {
+                                            confirm();
+                                        }
                                         return resolve();
                                     }
                                     catch (e) {

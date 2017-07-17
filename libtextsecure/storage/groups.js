@@ -2,9 +2,9 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-'use strict';
-
 ;(function() {
+    'use strict';
+
     /*********************
      *** Group Storage ***
      *********************/
