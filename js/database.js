@@ -254,6 +254,16 @@
                   console.log(event);
                 };
             }
+        },
+        {
+            version: "14.0",
+            migrate: function(transaction, next) {
+                console.log('migration 14.0');
+                console.log('Adding unprocessed message store');
+                var unprocessed = transaction.db.createObjectStore('unprocessed');
+                unprocessed.createIndex('received', ['timestamp'], { unique: false });
+                next();
+            }
         }
     ];
 }());

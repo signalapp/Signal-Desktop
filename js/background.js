@@ -162,7 +162,7 @@
           return;
         }
 
-        ConversationController.create(c).save();
+        ConversationController.create(c).save().then(ev.confirm);
     }
 
     function onGroupReceived(ev) {
@@ -179,14 +179,15 @@
         } else {
             attributes.left = true;
         }
+
         var conversation = ConversationController.create(attributes);
-        conversation.save();
+        conversation.save().then(ev.confirm);
     }
 
     function onMessageReceived(ev) {
         var data = ev.data;
         var message = initIncomingMessage(data.source, data.timestamp);
-        message.handleDataMessage(data.message);
+        message.handleDataMessage(data.message, ev.confirm);
     }
 
     function onSentMessage(ev) {
@@ -203,7 +204,7 @@
             expirationStartTimestamp: data.expirationStartTimestamp,
         });
 
-        message.handleDataMessage(data.message);
+        message.handleDataMessage(data.message, ev.confirm);
     }
 
     function initIncomingMessage(source, timestamp) {
@@ -287,7 +288,8 @@
         Whisper.ReadReceipts.add({
             sender    : sender,
             timestamp : timestamp,
-            read_at   : read_at
+            read_at   : read_at,
+            confirm   : ev.confirm
         });
     }
 
@@ -323,11 +325,11 @@
         };
 
         if (state === 'VERIFIED') {
-            contact.setVerified(options);
+            contact.setVerified(options).then(ev.confirm);
         } else if (state === 'DEFAULT') {
-            contact.setVerifiedDefault(options);
+            contact.setVerifiedDefault(options).then(ev.confirm);
         } else {
-            contact.setUnverified(options);
+            contact.setUnverified(options).then(ev.confirm);
         }
     }
 
@@ -341,7 +343,9 @@
         );
 
         Whisper.DeliveryReceipts.add({
-            timestamp: timestamp, source: pushMessage.source
+            timestamp: timestamp,
+            source: pushMessage.source,
+            confirm: ev.confirm
         });
     }
 

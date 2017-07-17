@@ -16,6 +16,10 @@
             if (receipt) {
                 console.log('Found early read receipt for message');
                 this.remove(receipt);
+                var confirm = receipt.get('confirm');
+                if (confirm) {
+                    confirm();
+                }
                 return receipt;
             }
         },
@@ -30,6 +34,10 @@
                     this.remove(receipt);
                     message.markRead(receipt.get('read_at')).then(function() {
                         this.notifyConversation(message);
+                        var confirm = receipt.get('confirm');
+                        if (confirm) {
+                            confirm();
+                        }
                     }.bind(this));
                 } else {
                     console.log('No message for read receipt');

@@ -339,7 +339,7 @@
                 this.send(promise);
             }
         },
-        handleDataMessage: function(dataMessage) {
+        handleDataMessage: function(dataMessage, confirm) {
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an
             // identity key change.
@@ -502,6 +502,10 @@
                                         }
 
                                         console.log('done with handleDataMessage', source, timestamp);
+
+                                        if (confirm) {
+                                            confirm();
+                                        }
                                         return resolve();
                                     }
                                     catch (e) {
