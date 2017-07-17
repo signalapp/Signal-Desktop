@@ -162,7 +162,7 @@
           return;
         }
 
-        ConversationController.create(c).save();
+        ConversationController.create(c).save().then(ev.confirm);
     }
 
     function onGroupReceived(ev) {
@@ -179,14 +179,24 @@
         } else {
             attributes.left = true;
         }
+
         var conversation = ConversationController.create(attributes);
-        conversation.save();
+        conversation.save().then(ev.confirm);
     }
 
     function onMessageReceived(ev) {
         var data = ev.data;
-        var message = initIncomingMessage(data.source, data.timestamp);
-        message.handleDataMessage(data.message);
+        var message = initIncomingMessage(data);
+
+        isMessageDuplicate(message).then(function(isDuplicate) {
+            if (isDuplicate) {
+                console.log('Received duplicate message', message.idForLogging());
+                ev.confirm();
+                return;
+            }
+
+            message.handleDataMessage(data.message, ev.confirm);
+        });
     }
 
     function onSentMessage(ev) {
@@ -195,6 +205,7 @@
 
         var message = new Whisper.Message({
             source         : textsecure.storage.user.getNumber(),
+            sourceDevice   : data.device,
             sent_at        : data.timestamp,
             received_at    : now,
             conversationId : data.destination,
@@ -203,17 +214,53 @@
             expirationStartTimestamp: data.expirationStartTimestamp,
         });
 
-        message.handleDataMessage(data.message);
+        isMessageDuplicate(message).then(function(isDuplicate) {
+            if (isDuplicate) {
+                console.log('Received duplicate message', message.idForLogging());
+                ev.confirm();
+                return;
+            }
+
+            message.handleDataMessage(data.message, ev.confirm);
+        });
     }
 
-    function initIncomingMessage(source, timestamp) {
+    function isMessageDuplicate(message) {
+        return new Promise(function(resolve) {
+            var fetcher = new Whisper.Message();
+            var options = {
+                index: {
+                    name: 'unique',
+                    value: [
+                        message.get('source'),
+                        message.get('sourceDevice'),
+                        message.get('sent_at')
+                    ]
+                }
+            };
+
+            fetcher.fetch(options).always(function() {
+                if (fetcher.get('id')) {
+                    return resolve(true);
+                }
+
+                return resolve(false);
+            });
+        }).catch(function(error) {
+            console.log('isMessageDuplicate error:', error && error.stack ? error.stack : error);
+            return false;
+        });
+    }
+
+    function initIncomingMessage(data) {
         var now = new Date().getTime();
 
         var message = new Whisper.Message({
-            source         : source,
-            sent_at        : timestamp,
+            source         : data.source,
+            sourceDevice   : data.sourceDevice,
+            sent_at        : data.timestamp,
             received_at    : now,
-            conversationId : source,
+            conversationId : data.source,
             type           : 'incoming',
             unread         : 1
         });
@@ -284,11 +331,12 @@
         var timestamp = ev.read.timestamp;
         var sender    = ev.read.sender;
         console.log('read receipt ', sender, timestamp);
-        Whisper.ReadReceipts.add({
+        var receipt = Whisper.ReadReceipts.add({
             sender    : sender,
             timestamp : timestamp,
             read_at   : read_at
         });
+        receipt.on('remove', ev.confirm);
     }
 
     function onVerified(ev) {
@@ -323,11 +371,11 @@
         };
 
         if (state === 'VERIFIED') {
-            contact.setVerified(options);
+            contact.setVerified(options).then(ev.confirm);
         } else if (state === 'DEFAULT') {
-            contact.setVerifiedDefault(options);
+            contact.setVerifiedDefault(options).then(ev.confirm);
         } else {
-            contact.setUnverified(options);
+            contact.setUnverified(options).then(ev.confirm);
         }
     }
 
@@ -340,9 +388,11 @@
             timestamp
         );
 
-        Whisper.DeliveryReceipts.add({
-            timestamp: timestamp, source: pushMessage.source
+        var receipt = Whisper.DeliveryReceipts.add({
+            timestamp: timestamp,
+            source: pushMessage.source
         });
+        receipt.on('remove', ev.confirm);
     }
 
     window.owsDesktopApp = {
