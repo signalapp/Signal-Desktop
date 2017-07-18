@@ -110,12 +110,22 @@ MessageReceiver.prototype.extend({
         }).then(function() {
             console.log('loadAllUnprocessed, loaded', collection.length, 'saved envelopes');
             return collection.map(function(unprocessed) {
+                var attempts = 1 + (unprocessed.get('attempts') || 0);
+                if (attempts >= 5) {
+                    unprocessed.destroy();
+                } else {
+                    unprocessed.save({attempts: attempts});
+                }
+
                 var plaintext = this.stringToArrayBuffer(unprocessed.get('contents'));
+                var envelope = textsecure.protobuf.Envelope.decode(plaintext);
 
-                var attempts = unprocessed.get('attempts') || 0;
-                unprocessed.save({attempts: attempts + 1});
+                // This is post-decode to ensure that we don't try infinitely on an error
+                if (attempts >= 5) {
+                    console.log('loadAllUnprocessed, final attempt for envelope', this.getEnvelopeId(envelope));
+                }
 
-                return textsecure.protobuf.Envelope.decode(plaintext);
+                return envelope;
             }.bind(this));
         }.bind(this));
     },
