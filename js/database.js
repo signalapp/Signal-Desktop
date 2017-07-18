@@ -264,6 +264,16 @@
                 unprocessed.createIndex('received', ['timestamp'], { unique: false });
                 next();
             }
+        },
+        {
+            version: "15.0",
+            migrate: function(transaction, next) {
+                console.log('migration 15.0');
+                console.log('Adding messages index for de-duplication');
+                var messages = transaction.objectStore('messages');
+                messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], { unique: true });
+                next();
+            }
         }
     ];
 }());

@@ -349,9 +349,10 @@ MessageReceiver.prototype.extend({
                 var ev = new Event('message');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.data = {
-                    source    : envelope.source,
-                    timestamp : envelope.timestamp.toNumber(),
-                    message   : message
+                    source       : envelope.source,
+                    sourceDevice : envelope.sourceDevice,
+                    timestamp    : envelope.timestamp.toNumber(),
+                    message      : message
                 };
                 this.dispatchEvent(ev);
             }.bind(this));

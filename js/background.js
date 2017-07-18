@@ -186,8 +186,18 @@
 
     function onMessageReceived(ev) {
         var data = ev.data;
-        var message = initIncomingMessage(data.source, data.timestamp);
-        message.handleDataMessage(data.message, ev.confirm);
+        var message = initIncomingMessage(data);
+
+        isMessageDuplicate(message).then(function(isDuplicate) {
+            if (isDuplicate) {
+                console.log('Received duplicate message', message.get('source')
+                    + '.' + message.get('sourceDevice') + ' ' + message.get('sent_at'));
+                ev.confirm();
+                return;
+            }
+
+            message.handleDataMessage(data.message, ev.confirm);
+        });
     }
 
     function onSentMessage(ev) {
@@ -207,14 +217,39 @@
         message.handleDataMessage(data.message, ev.confirm);
     }
 
-    function initIncomingMessage(source, timestamp) {
+    function isMessageDuplicate(message) {
+        return new Promise(function(resolve) {
+            var fetcher = new Whisper.Message();
+            var options = {
+                index: {
+                    name: 'unique',
+                    value: [
+                        message.get('source'),
+                        message.get('sourceDevice'),
+                        message.get('sent_at')
+                    ]
+                }
+            };
+
+            fetcher.fetch(options).always(function() {
+                if (fetcher.get('id')) {
+                    return resolve(true);
+                }
+
+                return resolve(false);
+            });
+        });
+    }
+
+    function initIncomingMessage(data) {
         var now = new Date().getTime();
 
         var message = new Whisper.Message({
-            source         : source,
-            sent_at        : timestamp,
+            source         : data.source,
+            sourceDevice   : data.sourceDevice,
+            sent_at        : data.timestamp,
             received_at    : now,
-            conversationId : source,
+            conversationId : data.source,
             type           : 'incoming',
             unread         : 1
         });
