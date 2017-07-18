@@ -38290,7 +38290,7 @@ MessageReceiver.prototype.extend({
                 return request.respond(200, 'OK');
             }
 
-            this.addToUnprocessed(envelope, plaintext).then(function() {
+            this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
                 this.queueEnvelope(envelope);
             }.bind(this));
@@ -38363,8 +38363,8 @@ MessageReceiver.prototype.extend({
     stringToArrayBuffer: function(string) {
         return new dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
     },
-    addToUnprocessed: function(envelope, plaintext) {
-        console.log('addToUnprocessed', this.getEnvelopeId(envelope));
+    addToCache: function(envelope, plaintext) {
+        console.log('addToCache', this.getEnvelopeId(envelope));
         return new Promise(function(resolve, reject) {
             var id = this.getEnvelopeId(envelope);
             var string = this.arrayBufferToString(plaintext);
@@ -38377,8 +38377,8 @@ MessageReceiver.prototype.extend({
             return unprocessed.save().then(resolve, reject);
         }.bind(this));
     },
-    updateUnprocessed: function(envelope, plaintext) {
-        console.log('updateUnprocessed', this.getEnvelopeId(envelope));
+    updateCached: function(envelope, plaintext) {
+        console.log('updateCached', this.getEnvelopeId(envelope));
         return new Promise(function(resolve, reject) {
             var id = this.getEnvelopeId(envelope);
             var string = this.arrayBufferToString(plaintext);
@@ -38390,8 +38390,8 @@ MessageReceiver.prototype.extend({
             }, reject)
         }.bind(this));
     },
-    removeFromUnprocessed: function(envelope) {
-        console.log('removeFromUnprocessed', this.getEnvelopeId(envelope));
+    removeFromCache: function(envelope) {
+        console.log('removeFromCache', this.getEnvelopeId(envelope));
         return new Promise(function(resolve, reject) {
             var id = this.getEnvelopeId(envelope);
             var unprocessed = new Whisper.Unprocessed({
@@ -38421,7 +38421,7 @@ MessageReceiver.prototype.extend({
         } else if (envelope.legacyMessage) {
             return this.innerHandleLegacyMessage(envelope, plaintext);
         } else {
-            this.removeFromUnprocessed(envelope);
+            this.removeFromCache(envelope);
             throw new Error('Received message with no content and no legacyMessage');
         }
     },
@@ -38435,7 +38435,7 @@ MessageReceiver.prototype.extend({
         } else if (envelope.legacyMessage) {
             return this.handleLegacyMessage(envelope);
         } else {
-            this.removeFromUnprocessed(envelope);
+            this.removeFromCache(envelope);
             throw new Error('Received message with no content and no legacyMessage');
         }
     },
@@ -38449,7 +38449,7 @@ MessageReceiver.prototype.extend({
     onDeliveryReceipt: function (envelope) {
         return new Promise(function(resolve) {
             var ev = new Event('receipt');
-            ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+            ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.proto = envelope;
             this.dispatchEvent(ev);
             return resolve();
@@ -38488,7 +38488,7 @@ MessageReceiver.prototype.extend({
                 promise = Promise.reject(new Error("Unknown message type"));
         }
         return promise.then(function(plaintext) {
-            this.updateUnprocessed(envelope, plaintext);
+            this.updateCached(envelope, plaintext);
             return plaintext;
         }.bind(this)).catch(function(error) {
             if (error.message === 'Unknown identity key') {
@@ -38532,7 +38532,7 @@ MessageReceiver.prototype.extend({
         return p.then(function() {
             return this.processDecrypted(message, this.number).then(function(message) {
                 var ev = new Event('sent');
-                ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+                ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.data = {
                     destination              : destination,
                     timestamp                : timestamp.toNumber(),
@@ -38556,7 +38556,7 @@ MessageReceiver.prototype.extend({
         return p.then(function() {
             return this.processDecrypted(message, envelope.source).then(function(message) {
                 var ev = new Event('message');
-                ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+                ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.data = {
                     source    : envelope.source,
                     timestamp : envelope.timestamp.toNumber(),
@@ -38589,14 +38589,14 @@ MessageReceiver.prototype.extend({
         } else if (content.nullMessage) {
             return this.handleNullMessage(envelope, content.nullMessage);
         } else {
-            this.removeFromUnprocessed(envelope);
+            this.removeFromCache(envelope);
             throw new Error('Unsupported content message');
         }
     },
     handleNullMessage: function(envelope, nullMessage) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
         console.log('null message from', encodedNumber, envelope.timestamp.toNumber());
-        this.removeFromUnprocessed(envelope);
+        this.removeFromCache(envelope);
     },
     handleSyncMessage: function(envelope, syncMessage) {
         if (envelope.source !== this.number) {
@@ -38627,7 +38627,7 @@ MessageReceiver.prototype.extend({
             this.handleBlocked(envelope, syncMessage.blocked);
         } else if (syncMessage.request) {
             console.log('Got SyncMessage Request');
-            this.removeFromUnprocessed(envelope);
+            this.removeFromCache(envelope);
         } else if (syncMessage.read && syncMessage.read.length) {
             console.log('read messages',
                     'from', envelope.source + '.' + envelope.sourceDevice);
@@ -38643,7 +38643,7 @@ MessageReceiver.prototype.extend({
         _.defaults(options, {viaContactSync: false});
 
         var ev = new Event('verified');
-        ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+        ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.verified = {
             state: verified.state,
             destination: verified.destination,
@@ -38655,7 +38655,7 @@ MessageReceiver.prototype.extend({
     handleRead: function(envelope, read) {
         for (var i = 0; i < read.length; ++i) {
             var ev = new Event('read');
-            ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+            ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.timestamp = envelope.timestamp.toNumber();
             ev.read = {
               timestamp : read[i].timestamp.toNumber(),
@@ -38673,7 +38673,7 @@ MessageReceiver.prototype.extend({
             var contactDetails = contactBuffer.next();
             while (contactDetails !== undefined) {
                 var ev = new Event('contact');
-                ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+                ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.contactDetails = contactDetails;
                 eventTarget.dispatchEvent(ev);
 
@@ -38685,7 +38685,7 @@ MessageReceiver.prototype.extend({
             }
 
             var ev = new Event('contactsync');
-            ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+            ev.confirm = this.removeFromCache.bind(this, envelope);
             eventTarget.dispatchEvent(ev);
         }.bind(this));
     },
@@ -38718,7 +38718,7 @@ MessageReceiver.prototype.extend({
                     }
                 })(groupDetails).then(function(groupDetails) {
                     var ev = new Event('group');
-                    ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+                    ev.confirm = this.removeFromCache.bind(this, envelope);
                     ev.groupDetails = groupDetails;
                     eventTarget.dispatchEvent(ev);
                 }).catch(function(e) {
@@ -38730,7 +38730,7 @@ MessageReceiver.prototype.extend({
 
             Promise.all(promises).then(function() {
                 var ev = new Event('groupsync');
-                ev.confirm = this.removeFromUnprocessed.bind(this, envelope);
+                ev.confirm = this.removeFromCache.bind(this, envelope);
                 eventTarget.dispatchEvent(ev);
             }.bind(this));
         }.bind(this));
