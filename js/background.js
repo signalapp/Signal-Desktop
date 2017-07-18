@@ -190,8 +190,7 @@
 
         isMessageDuplicate(message).then(function(isDuplicate) {
             if (isDuplicate) {
-                console.log('Received duplicate message', message.get('source')
-                    + '.' + message.get('sourceDevice') + ' ' + message.get('sent_at'));
+                console.log('Received duplicate message', message.idForLogging());
                 ev.confirm();
                 return;
             }
