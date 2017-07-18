@@ -100,7 +100,7 @@ MessageReceiver.prototype.extend({
 
                 if (item.unprocessed.get('decrypted')) {
                     var plaintext = this.stringToArrayBuffer(item.unprocessed.get('decrypted'));
-                    this.handleDecryptedEnvelope(item.envelope, plaintext);
+                    this.queueDecryptedEnvelope(item.envelope, plaintext);
                 } else {
                     this.queueEnvelope(item.envelope);
                 }
@@ -190,6 +190,15 @@ MessageReceiver.prototype.extend({
             });
             return unprocessed.destroy().then(resolve, reject);
         }.bind(this));
+    },
+    queueDecryptedEnvelope: function(envelope, plaintext) {
+        console.log('queueing decrypted envelope', this.getEnvelopeId(envelope));
+        var handleDecryptedEnvelope = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
+        this.pending = this.pending.then(handleDecryptedEnvelope, handleDecryptedEnvelope);
+
+        return this.pending.catch(function(error) {
+            console.log('queueDecryptedEnvelope error:', error && error.stack ? error.stack : error);
+        });
     },
     queueEnvelope: function(envelope) {
         console.log('queueing envelope', this.getEnvelopeId(envelope));
