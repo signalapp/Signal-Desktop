@@ -366,15 +366,17 @@
 
         removeScrollDownButton: function() {
             if (this.scrollDownButton) {
-                this.scrollDownButton.remove();
+                var button = this.scrollDownButton;
                 this.scrollDownButton = null;
+                button.remove();
             }
         },
 
         removeLastSeenIndicator: function() {
             if (this.lastSeenIndicator) {
-                this.lastSeenIndicator.remove();
+                var indicator = this.lastSeenIndicator;
                 this.lastSeenIndicator = null;
+                indicator.remove();
             }
         },
 
