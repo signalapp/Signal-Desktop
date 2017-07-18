@@ -38303,10 +38303,16 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     queueAllUnprocessed: function() {
-        this.loadAllUnprocessed().then(function(envelopes) {
-            for (var i = 0, max = envelopes.length; i < max; i += 1) {
-                var envelope = envelopes[i];
-                this.queueEnvelope(envelope);
+        this.loadAllUnprocessed().then(function(items) {
+            for (var i = 0, max = items.length; i < max; i += 1) {
+                var item = items[i];
+
+                if (item.unprocessed.get('decrypted')) {
+                    var plaintext = this.stringToArrayBuffer(item.unprocessed.get('decrypted'));
+                    this.handleDecryptedEnvelope(item.envelope, plaintext);
+                } else {
+                    this.queueEnvelope(item.envelope);
+                }
             }
         }.bind(this));
     },
@@ -38318,7 +38324,12 @@ MessageReceiver.prototype.extend({
             return collection.fetch().then(resolve, reject);
         }).then(function() {
             console.log('loadAllUnprocessed, loaded', collection.length, 'saved envelopes');
-            return collection.map(function(unprocessed) {
+
+            // Using a separate array since we might be destroying models, which will
+            //   cause iteration to go wacky.
+            var all = collection.map(_.identity);
+
+            var items = _.map(all, function(unprocessed) {
                 var attempts = 1 + (unprocessed.get('attempts') || 0);
                 if (attempts >= 5) {
                     unprocessed.destroy();
@@ -38326,7 +38337,7 @@ MessageReceiver.prototype.extend({
                     unprocessed.save({attempts: attempts});
                 }
 
-                var plaintext = this.stringToArrayBuffer(unprocessed.get('contents'));
+                var plaintext = this.stringToArrayBuffer(unprocessed.get('envelope'));
                 var envelope = textsecure.protobuf.Envelope.decode(plaintext);
 
                 // This is post-decode to ensure that we don't try infinitely on an error
@@ -38334,8 +38345,13 @@ MessageReceiver.prototype.extend({
                     console.log('loadAllUnprocessed, final attempt for envelope', this.getEnvelopeId(envelope));
                 }
 
-                return envelope;
+                return {
+                    envelope: envelope,
+                    unprocessed: unprocessed
+                };
             }.bind(this));
+
+            return items;
         }.bind(this));
     },
     getEnvelopeId: function(envelope) {
@@ -38351,14 +38367,27 @@ MessageReceiver.prototype.extend({
         console.log('addToUnprocessed', this.getEnvelopeId(envelope));
         return new Promise(function(resolve, reject) {
             var id = this.getEnvelopeId(envelope);
-            var contents = this.arrayBufferToString(plaintext);
+            var string = this.arrayBufferToString(plaintext);
             var unprocessed = new Whisper.Unprocessed({
                 id: id,
-                contents: contents,
+                envelope: string,
                 timestamp: Date.now(),
                 attempts: 1
             });
             return unprocessed.save().then(resolve, reject);
+        }.bind(this));
+    },
+    updateUnprocessed: function(envelope, plaintext) {
+        console.log('updateUnprocessed', this.getEnvelopeId(envelope));
+        return new Promise(function(resolve, reject) {
+            var id = this.getEnvelopeId(envelope);
+            var string = this.arrayBufferToString(plaintext);
+            var unprocessed = new Whisper.Unprocessed({
+                id: id
+            });
+            return unprocessed.fetch().then(function() {
+                return unprocessed.save({decrypted: string}).then(resolve, reject);
+            }, reject)
         }.bind(this));
     },
     removeFromUnprocessed: function(envelope) {
@@ -38380,6 +38409,22 @@ MessageReceiver.prototype.extend({
             console.log('queueEnvelope error:', error && error.stack ? error.stack : error);
         });
     },
+    // Same as handleEnvelope, just without the decryption step. Necessary for handling
+    //   messages which were successfully decrypted, but application logic didn't finish
+    //   processing.
+    handleDecryptedEnvelope: function(envelope, plaintext) {
+        // No decryption is required for delivery receipts, so the decrypted field of
+        //   the Unprocessed model will never be set
+
+        if (envelope.content) {
+            return this.innerHandleContentMessage(envelope, plaintext);
+        } else if (envelope.legacyMessage) {
+            return this.innerHandleLegacyMessage(envelope, plaintext);
+        } else {
+            this.removeFromUnprocessed(envelope);
+            throw new Error('Received message with no content and no legacyMessage');
+        }
+    },
     handleEnvelope: function(envelope) {
         if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
             return this.onDeliveryReceipt(envelope);
@@ -38390,6 +38435,7 @@ MessageReceiver.prototype.extend({
         } else if (envelope.legacyMessage) {
             return this.handleLegacyMessage(envelope);
         } else {
+            this.removeFromUnprocessed(envelope);
             throw new Error('Received message with no content and no legacyMessage');
         }
     },
@@ -38441,7 +38487,10 @@ MessageReceiver.prototype.extend({
             default:
                 promise = Promise.reject(new Error("Unknown message type"));
         }
-        return promise.catch(function(error) {
+        return promise.then(function(plaintext) {
+            this.updateUnprocessed(envelope, plaintext);
+            return plaintext;
+        }.bind(this)).catch(function(error) {
             if (error.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the
                 // user if they want to re-negotiate
@@ -38519,23 +38568,30 @@ MessageReceiver.prototype.extend({
     },
     handleLegacyMessage: function (envelope) {
         return this.decrypt(envelope, envelope.legacyMessage).then(function(plaintext) {
-            var message = textsecure.protobuf.DataMessage.decode(plaintext);
-            return this.handleDataMessage(envelope, message);
+            return this.innerHandleLegacyMessage(envelope, plaintext);
         }.bind(this));
+    },
+    innerHandleLegacyMessage: function (envelope, plaintext) {
+        var message = textsecure.protobuf.DataMessage.decode(plaintext);
+        return this.handleDataMessage(envelope, message);
     },
     handleContentMessage: function (envelope) {
         return this.decrypt(envelope, envelope.content).then(function(plaintext) {
-            var content = textsecure.protobuf.Content.decode(plaintext);
-            if (content.syncMessage) {
-                return this.handleSyncMessage(envelope, content.syncMessage);
-            } else if (content.dataMessage) {
-                return this.handleDataMessage(envelope, content.dataMessage);
-            } else if (content.nullMessage) {
-                return this.handleNullMessage(envelope, content.nullMessage);
-            } else {
-                throw new Error('Unsupported content message');
-            }
+            this.innerHandleContentMessage(envelope, plaintext);
         }.bind(this));
+    },
+    innerHandleContentMessage: function(envelope, plaintext) {
+        var content = textsecure.protobuf.Content.decode(plaintext);
+        if (content.syncMessage) {
+            return this.handleSyncMessage(envelope, content.syncMessage);
+        } else if (content.dataMessage) {
+            return this.handleDataMessage(envelope, content.dataMessage);
+        } else if (content.nullMessage) {
+            return this.handleNullMessage(envelope, content.nullMessage);
+        } else {
+            this.removeFromUnprocessed(envelope);
+            throw new Error('Unsupported content message');
+        }
     },
     handleNullMessage: function(envelope, nullMessage) {
         var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
