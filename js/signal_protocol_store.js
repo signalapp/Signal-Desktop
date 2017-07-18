@@ -450,7 +450,7 @@
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
-                        });
+                        }, reject);
                     } else if (!equalArrayBuffers(oldpublicKey, publicKey)) {
                         console.log("Replacing existing identity...");
                         var previousStatus = identityRecord.get('verified');
@@ -479,7 +479,7 @@
                             nonblockingApproval : nonblockingApproval,
                         }).then(function() {
                             resolve(false);
-                        });
+                        }, reject);
                     } else {
                         resolve(false);
                     }
