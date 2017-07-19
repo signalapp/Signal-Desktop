@@ -38369,17 +38369,21 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.unprocessed.getAll().then(function(items) {
             console.log('getAllFromCache loaded', items.length, 'saved envelopes');
 
-            _.forEach(items, function(item) {
+            return Promise.all(_.map(items, function(item) {
                 var attempts = 1 + (item.attempts || 0);
                 if (attempts >= 5) {
                     console.log('getAllFromCache final attempt for envelope', item.id);
-                    textsecure.storage.unprocessed.remove(item.id);
+                    return textsecure.storage.unprocessed.remove(item.id);
                 } else {
-                    textsecure.storage.unprocessed.update(item.id, {attempts: attempts});
+                    return textsecure.storage.unprocessed.update(item.id, {attempts: attempts});
                 }
-            }.bind(this));
-
-            return items;
+            }.bind(this))).catch(function(error) {
+                console.log(
+                    'getAllFromCache error updating items after load:',
+                    error && error.stack ? error.stack : error
+                );
+                return items;
+            });
         }.bind(this));
     },
     addToCache: function(envelope, plaintext) {
@@ -38505,8 +38509,15 @@ MessageReceiver.prototype.extend({
                 promise = Promise.reject(new Error("Unknown message type"));
         }
         return promise.then(function(plaintext) {
-            this.updateCache(envelope, plaintext);
-            return plaintext;
+            return this.updateCache(envelope, plaintext).then(function() {
+                return plaintext;
+            }, function(error) {
+                console.log(
+                    'decrypt failed to save decrypted message contents to cache:',
+                    error && error.stack ? error.stack : error
+                );
+                return plaintext;
+            });
         }.bind(this)).catch(function(error) {
             if (error.message === 'Unknown identity key') {
                 // create an error that the UI will pick up and ask the

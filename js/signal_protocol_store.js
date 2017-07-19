@@ -790,9 +790,7 @@
                 return collection.fetch().then(resolve, reject);
             }).then(function() {
                 // Return a plain array of plain objects
-                return collection.map(function(unprocessed) {
-                    return unprocessed.attributes;
-                });
+                return collection.map('attributes');
             });
         },
         addUnprocessed: function(data) {
