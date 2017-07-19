@@ -38242,7 +38242,7 @@ MessageReceiver.prototype.extend({
 
         this.pending = Promise.resolve();
 
-        this.queueAllUnprocessed();
+        this.queueAllCached();
     },
     close: function() {
         this.socket.close(3000, 'called close');
@@ -38302,56 +38302,64 @@ MessageReceiver.prototype.extend({
             this.dispatchEvent(ev);
         }.bind(this));
     },
-    queueAllUnprocessed: function() {
-        this.loadAllUnprocessed().then(function(items) {
+    queueAllCached: function() {
+        this.getAllFromCache().then(function(items) {
             for (var i = 0, max = items.length; i < max; i += 1) {
-                var item = items[i];
-
-                if (item.unprocessed.get('decrypted')) {
-                    var plaintext = this.stringToArrayBuffer(item.unprocessed.get('decrypted'));
-                    this.queueDecryptedEnvelope(item.envelope, plaintext);
-                } else {
-                    this.queueEnvelope(item.envelope);
-                }
+                this.queueCached(items[i]);
             }
         }.bind(this));
     },
-    loadAllUnprocessed: function() {
-        console.log('loadAllUnprocessed');
+    queueCached: function(item) {
+        try {
+            var envelopePlaintext = this.stringToArrayBuffer(item.envelope);
+            var envelope = textsecure.protobuf.Envelope.decode(envelopePlaintext);
+
+            var decrypted = item.decrypted;
+            if (decrypted) {
+                var payloadPlaintext = this.stringToArrayBuffer(decrypted);
+                this.queueDecryptedEnvelope(envelope, payloadPlaintext);
+            } else {
+                this.queueEnvelope(envelope);
+            }
+        }
+        catch (error) {
+            console.log('queueCached error handling item', item.id);
+        }
+    },
+    _getAllFromCache: function() {
         var collection;
         return new Promise(function(resolve, reject) {
             collection = new Whisper.UnprocessedCollection();
             return collection.fetch().then(resolve, reject);
         }).then(function() {
-            console.log('loadAllUnprocessed, loaded', collection.length, 'saved envelopes');
-
-            // Using a separate array since we might be destroying models, which will
-            //   cause iteration to go wacky.
-            var all = collection.map(_.identity);
-
-            var items = _.map(all, function(unprocessed) {
-                var attempts = 1 + (unprocessed.get('attempts') || 0);
-                if (attempts >= 5) {
-                    unprocessed.destroy();
-                } else {
-                    unprocessed.save({attempts: attempts});
-                }
-
-                var plaintext = this.stringToArrayBuffer(unprocessed.get('envelope'));
-                var envelope = textsecure.protobuf.Envelope.decode(plaintext);
-
-                // This is post-decode to ensure that we don't try infinitely on an error
-                if (attempts >= 5) {
-                    console.log('loadAllUnprocessed, final attempt for envelope', this.getEnvelopeId(envelope));
-                }
-
-                return {
-                    envelope: envelope,
-                    unprocessed: unprocessed
-                };
-            }.bind(this));
-
-            return items;
+            // Return a plain array of plain objects
+            return collection.map(function(unprocessed) {
+                return unprocessed.attributes;
+            });
+        });
+    },
+    _addToCache: function(data) {
+        return new Promise(function(resolve, reject) {
+            var unprocessed = new Whisper.Unprocessed(data);
+            return unprocessed.save().then(resolve, reject);
+        });
+    },
+    _updateCache: function(id, updates) {
+        return new Promise(function(resolve, reject) {
+            var unprocessed = new Whisper.Unprocessed({
+                id: id
+            });
+            return unprocessed.fetch().then(function() {
+                return unprocessed.save(updates).then(resolve, reject);
+            }, reject)
+        }.bind(this));
+    },
+    _removeFromCache: function(id) {
+        return new Promise(function(resolve, reject) {
+            var unprocessed = new Whisper.Unprocessed({
+                id: id
+            });
+            return unprocessed.destroy().then(resolve, reject);
         }.bind(this));
     },
     getEnvelopeId: function(envelope) {
@@ -38363,42 +38371,49 @@ MessageReceiver.prototype.extend({
     stringToArrayBuffer: function(string) {
         return new dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
     },
-    addToCache: function(envelope, plaintext) {
-        console.log('addToCache', this.getEnvelopeId(envelope));
-        return new Promise(function(resolve, reject) {
-            var id = this.getEnvelopeId(envelope);
-            var string = this.arrayBufferToString(plaintext);
-            var unprocessed = new Whisper.Unprocessed({
-                id: id,
-                envelope: string,
-                timestamp: Date.now(),
-                attempts: 1
-            });
-            return unprocessed.save().then(resolve, reject);
+    getAllFromCache: function() {
+        console.log('getAllFromCache');
+        return this._getAllFromCache().then(function(items) {
+            console.log('getAllFromCache loaded', items.length, 'saved envelopes');
+
+            _.forEach(items, function(item) {
+                var attempts = 1 + (item.attempts || 0);
+                if (attempts >= 5) {
+                    console.log('getAllFromCache final attempt for envelope', item.id);
+                    this._removeFromCache(item.id);
+                } else {
+                    this._updateCache(item.id, {attempts: attempts});
+                }
+            }.bind(this));
+
+            return items;
         }.bind(this));
     },
-    updateCached: function(envelope, plaintext) {
-        console.log('updateCached', this.getEnvelopeId(envelope));
-        return new Promise(function(resolve, reject) {
-            var id = this.getEnvelopeId(envelope);
-            var string = this.arrayBufferToString(plaintext);
-            var unprocessed = new Whisper.Unprocessed({
-                id: id
-            });
-            return unprocessed.fetch().then(function() {
-                return unprocessed.save({decrypted: string}).then(resolve, reject);
-            }, reject)
-        }.bind(this));
+    addToCache: function(envelope, plaintext) {
+        var id = this.getEnvelopeId(envelope);
+        console.log('addToCache', id);
+        var string = this.arrayBufferToString(plaintext);
+        var data = {
+            id: id,
+            envelope: string,
+            timestamp: Date.now(),
+            attempts: 1
+        };
+        return this._addToCache(data);
+    },
+    updateCache: function(envelope, plaintext) {
+        var id = this.getEnvelopeId(envelope);
+        console.log('updateCache', id);
+        var string = this.arrayBufferToString(plaintext);
+        var data = {
+            decrypted: string
+        };
+        return this._updateCache(id, data);
     },
     removeFromCache: function(envelope) {
-        console.log('removeFromCache', this.getEnvelopeId(envelope));
-        return new Promise(function(resolve, reject) {
-            var id = this.getEnvelopeId(envelope);
-            var unprocessed = new Whisper.Unprocessed({
-                id: id
-            });
-            return unprocessed.destroy().then(resolve, reject);
-        }.bind(this));
+        var id = this.getEnvelopeId(envelope);
+        console.log('removeFromCache', id);
+        return this._removeFromCache(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
         console.log('queueing decrypted envelope', this.getEnvelopeId(envelope));
@@ -38497,7 +38512,7 @@ MessageReceiver.prototype.extend({
                 promise = Promise.reject(new Error("Unknown message type"));
         }
         return promise.then(function(plaintext) {
-            this.updateCached(envelope, plaintext);
+            this.updateCache(envelope, plaintext);
             return plaintext;
         }.bind(this)).catch(function(error) {
             if (error.message === 'Unknown identity key') {
