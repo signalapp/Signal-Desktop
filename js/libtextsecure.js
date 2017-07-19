@@ -40026,7 +40026,7 @@ libsignal.ProvisioningCipher = function() {
                     }
                 };
 
-                var success = function() {
+                var success = function(result) {
                     clearTimer();
                     complete = true;
                     return resolve();
@@ -40041,7 +40041,7 @@ libsignal.ProvisioningCipher = function() {
                 if (!promise || !promise.then) {
                     clearTimer();
                     complete = true;
-                    return resolve();
+                    return resolve(promise);
                 }
 
                 return promise.then(success, failure);

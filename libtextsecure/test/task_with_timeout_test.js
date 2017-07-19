@@ -3,11 +3,13 @@
 describe('createTaskWithTimeout', function() {
     it('resolves when promise resolves', function() {
         var task = function() {
-            return Promise.resolve();
+            return Promise.resolve('hi!');
         };
         var taskWithTimeout = textsecure.createTaskWithTimeout(task);
 
-        return taskWithTimeout();
+        return taskWithTimeout().then(function(result) {
+            assert.strictEqual(result, 'hi!')
+        });
     });
     it('flows error from promise back', function() {
         var error = new Error('original');
@@ -42,15 +44,17 @@ describe('createTaskWithTimeout', function() {
         });
     });
     it('resolves if task returns something falsey', function() {
-      var task = function() {};
-      var taskWithTimeout = textsecure.createTaskWithTimeout(task);
-      return taskWithTimeout();
+        var task = function() {};
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task);
+        return taskWithTimeout();
     });
     it('resolves if task returns a non-promise', function() {
-      var task = function() {
-          return 'hi!';
-      };
-      var taskWithTimeout = textsecure.createTaskWithTimeout(task);
-      return taskWithTimeout();
+        var task = function() {
+            return 'hi!';
+        };
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task);
+        return taskWithTimeout().then(function(result) {
+            assert.strictEqual(result, 'hi!')
+        });
     });
 });

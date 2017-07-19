@@ -40,10 +40,10 @@
                     }
                 };
 
-                var success = function() {
+                var success = function(result) {
                     clearTimer();
                     complete = true;
-                    return resolve();
+                    return resolve(result);
                 };
                 var failure = function(error) {
                     clearTimer();
@@ -55,7 +55,7 @@
                 if (!promise || !promise.then) {
                     clearTimer();
                     complete = true;
-                    return resolve();
+                    return resolve(promise);
                 }
 
                 return promise.then(success, failure);
