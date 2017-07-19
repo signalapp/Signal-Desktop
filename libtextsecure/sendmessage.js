@@ -149,8 +149,10 @@ MessageSender.prototype = {
     },
 
     queueJobForNumber: function(number, runJob) {
+        var taskWithTimeout = textsecure.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
+
         var runPrevious = this.pendingMessages[number] || Promise.resolve();
-        var runCurrent = this.pendingMessages[number] = runPrevious.then(runJob, runJob);
+        var runCurrent = this.pendingMessages[number] = runPrevious.then(taskWithTimeout, taskWithTimeout);
         runCurrent.then(function() {
             if (this.pendingMessages[number] === runCurrent) {
                 delete this.pendingMessages[number];

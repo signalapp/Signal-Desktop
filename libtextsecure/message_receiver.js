@@ -182,21 +182,29 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
-        console.log('queueing decrypted envelope', this.getEnvelopeId(envelope));
-        var handleDecryptedEnvelope = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-        this.pending = this.pending.then(handleDecryptedEnvelope, handleDecryptedEnvelope);
+        var id = this.getEnvelopeId(envelope);
+        console.log('queueing decrypted envelope', id);
+
+        var task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
+
+        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
         return this.pending.catch(function(error) {
-            console.log('queueDecryptedEnvelope error:', error && error.stack ? error.stack : error);
+            console.log('queueDecryptedEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     queueEnvelope: function(envelope) {
-        console.log('queueing envelope', this.getEnvelopeId(envelope));
-        var handleEnvelope = this.handleEnvelope.bind(this, envelope);
-        this.pending = this.pending.then(handleEnvelope, handleEnvelope);
+        var id = this.getEnvelopeId(envelope);
+        console.log('queueing envelope', id);
+
+        var task = this.handleEnvelope.bind(this, envelope);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEnvelope ' + id);
+
+        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
         return this.pending.catch(function(error) {
-            console.log('queueEnvelope error:', error && error.stack ? error.stack : error);
+            console.log('queueEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     // Same as handleEnvelope, just without the decryption step. Necessary for handling
