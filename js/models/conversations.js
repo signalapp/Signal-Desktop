@@ -411,7 +411,10 @@
 
     queueJob: function(callback) {
         var previous = this.pending || Promise.resolve();
-        var current = this.pending = previous.then(callback, callback);
+
+        var taskWithTimeout = textsecure.createTaskWithTimeout(callback, 'conversation ' + this.id);
+
+        var current = this.pending = previous.then(taskWithTimeout, taskWithTimeout);
 
         current.then(function() {
             if (this.pending === current) {
