@@ -149,7 +149,7 @@ MessageSender.prototype = {
     },
 
     queueJobForNumber: function(number, runJob) {
-        var taskWithTimeout = Whisper.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
 
         var runPrevious = this.pendingMessages[number] || Promise.resolve();
         var runCurrent = this.pendingMessages[number] = runPrevious.then(taskWithTimeout, taskWithTimeout);

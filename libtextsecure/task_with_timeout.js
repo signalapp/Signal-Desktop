@@ -2,9 +2,9 @@
  * vim: ts=4:sw=4:expandtab
  */
 (function () {
-    window.Whisper = window.Whisper || {};
+    window.textsecure = window.textsecure || {};
 
-    Whisper.createTaskWithTimeout = function(task, id, options) {
+    window.textsecure.createTaskWithTimeout = function(task, id, options) {
         options = options || {};
         options.timeout = options.timeout || (1000 * 60 * 2); // two minutes
 

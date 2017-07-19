@@ -146,7 +146,7 @@
             }.bind(this));
         },
         queueTask: function(task) {
-            var taskWithTimeout = Whisper.createTaskWithTimeout(task);
+            var taskWithTimeout = textsecure.createTaskWithTimeout(task);
             return this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
         },
         cleanSignedPreKeys: function() {

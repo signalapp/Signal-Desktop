@@ -38094,7 +38094,7 @@ var TextSecureServer = (function() {
             }.bind(this));
         },
         queueTask: function(task) {
-            var taskWithTimeout = Whisper.createTaskWithTimeout(task);
+            var taskWithTimeout = textsecure.createTaskWithTimeout(task);
             return this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
         },
         cleanSignedPreKeys: function() {
@@ -38423,7 +38423,7 @@ MessageReceiver.prototype.extend({
         console.log('queueing decrypted envelope', id);
 
         var task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-        var taskWithTimeout = Whisper.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
@@ -38436,7 +38436,7 @@ MessageReceiver.prototype.extend({
         console.log('queueing envelope', id);
 
         var task = this.handleEnvelope.bind(this, envelope);
-        var taskWithTimeout = Whisper.createTaskWithTimeout(task, 'queueEnvelope ' + id);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEnvelope ' + id);
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
@@ -39337,7 +39337,7 @@ MessageSender.prototype = {
     },
 
     queueJobForNumber: function(number, runJob) {
-        var taskWithTimeout = Whisper.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
 
         var runPrevious = this.pendingMessages[number] || Promise.resolve();
         var runCurrent = this.pendingMessages[number] = runPrevious.then(taskWithTimeout, taskWithTimeout);
@@ -39982,5 +39982,71 @@ libsignal.ProvisioningCipher = function() {
     this.getPublicKey = cipher.getPublicKey.bind(cipher);
 };
 
+})();
+
+/*
+ * vim: ts=4:sw=4:expandtab
+ */
+(function () {
+    window.textsecure = window.textsecure || {};
+
+    window.textsecure.createTaskWithTimeout = function(task, id, options) {
+        options = options || {};
+        options.timeout = options.timeout || (1000 * 60 * 2); // two minutes
+
+        var errorForStack = new Error('for stack');
+        return function() {
+            return new Promise(function(resolve, reject) {
+                var complete = false;
+                var timer = setTimeout(function() {
+                    if (!complete) {
+                        var message =
+                            (id || '')
+                            + ' task did not complete in time. Calling stack: '
+                            + errorForStack.stack;
+
+                        console.log(message);
+                        return reject(new Error(message));
+                    }
+                }.bind(this), options.timeout);
+                var clearTimer = function() {
+                    try {
+                        var localTimer = timer;
+                        if (localTimer) {
+                            timer = null;
+                            clearTimeout(localTimer);
+                        }
+                    }
+                    catch (error) {
+                        console.log(
+                            id || '',
+                            'task ran into problem canceling timer. Calling stack:',
+                            errorForStack.stack
+                        );
+                    }
+                };
+
+                var success = function() {
+                    clearTimer();
+                    complete = true;
+                    return resolve();
+                };
+                var failure = function(error) {
+                    clearTimer();
+                    complete = true;
+                    return reject(error);
+                };
+
+                var promise = task();
+                if (!promise || !promise.then) {
+                    clearTimer();
+                    complete = true;
+                    return resolve();
+                }
+
+                return promise.then(success, failure);
+            });
+        };
+    };
 })();
 })();

@@ -184,7 +184,7 @@ MessageReceiver.prototype.extend({
         console.log('queueing decrypted envelope', id);
 
         var task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-        var taskWithTimeout = Whisper.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
@@ -197,7 +197,7 @@ MessageReceiver.prototype.extend({
         console.log('queueing envelope', id);
 
         var task = this.handleEnvelope.bind(this, envelope);
-        var taskWithTimeout = Whisper.createTaskWithTimeout(task, 'queueEnvelope ' + id);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEnvelope ' + id);
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
