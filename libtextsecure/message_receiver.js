@@ -336,6 +336,7 @@ MessageReceiver.prototype.extend({
                 ev.data = {
                     destination              : destination,
                     timestamp                : timestamp.toNumber(),
+                    device                   : envelope.sourceDevice,
                     message                  : message
                 };
                 if (expirationStartTimestamp) {

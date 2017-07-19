@@ -205,6 +205,7 @@
 
         var message = new Whisper.Message({
             source         : textsecure.storage.user.getNumber(),
+            sourceDevice   : data.device,
             sent_at        : data.timestamp,
             received_at    : now,
             conversationId : data.destination,
@@ -213,7 +214,15 @@
             expirationStartTimestamp: data.expirationStartTimestamp,
         });
 
-        message.handleDataMessage(data.message, ev.confirm);
+        isMessageDuplicate(message).then(function(isDuplicate) {
+            if (isDuplicate) {
+                console.log('Received duplicate message', message.idForLogging());
+                ev.confirm();
+                return;
+            }
+
+            message.handleDataMessage(data.message, ev.confirm);
+        });
     }
 
     function isMessageDuplicate(message) {
@@ -237,6 +246,9 @@
 
                 return resolve(false);
             });
+        }).catch(function(error) {
+            console.log('isMessageDuplicate error:', error && error.stack ? error.stack : error);
+            return false;
         });
     }
 
