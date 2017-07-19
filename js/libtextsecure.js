@@ -38094,7 +38094,8 @@ var TextSecureServer = (function() {
             }.bind(this));
         },
         queueTask: function(task) {
-            return this.pending = this.pending.then(task, task);
+            var taskWithTimeout = textsecure.createTaskWithTimeout(task);
+            return this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
         },
         cleanSignedPreKeys: function() {
             var nextSignedKeyId = textsecure.storage.get('signedKeyId');
@@ -38420,21 +38421,29 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
-        console.log('queueing decrypted envelope', this.getEnvelopeId(envelope));
-        var handleDecryptedEnvelope = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
-        this.pending = this.pending.then(handleDecryptedEnvelope, handleDecryptedEnvelope);
+        var id = this.getEnvelopeId(envelope);
+        console.log('queueing decrypted envelope', id);
+
+        var task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
+
+        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
         return this.pending.catch(function(error) {
-            console.log('queueDecryptedEnvelope error:', error && error.stack ? error.stack : error);
+            console.log('queueDecryptedEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     queueEnvelope: function(envelope) {
-        console.log('queueing envelope', this.getEnvelopeId(envelope));
-        var handleEnvelope = this.handleEnvelope.bind(this, envelope);
-        this.pending = this.pending.then(handleEnvelope, handleEnvelope);
+        var id = this.getEnvelopeId(envelope);
+        console.log('queueing envelope', id);
+
+        var task = this.handleEnvelope.bind(this, envelope);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEnvelope ' + id);
+
+        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
         return this.pending.catch(function(error) {
-            console.log('queueEnvelope error:', error && error.stack ? error.stack : error);
+            console.log('queueEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     // Same as handleEnvelope, just without the decryption step. Necessary for handling
@@ -39325,8 +39334,10 @@ MessageSender.prototype = {
     },
 
     queueJobForNumber: function(number, runJob) {
+        var taskWithTimeout = textsecure.createTaskWithTimeout(runJob, 'queueJobForNumber ' + number);
+
         var runPrevious = this.pendingMessages[number] || Promise.resolve();
-        var runCurrent = this.pendingMessages[number] = runPrevious.then(runJob, runJob);
+        var runCurrent = this.pendingMessages[number] = runPrevious.then(taskWithTimeout, taskWithTimeout);
         runCurrent.then(function() {
             if (this.pendingMessages[number] === runCurrent) {
                 delete this.pendingMessages[number];
@@ -39968,5 +39979,71 @@ libsignal.ProvisioningCipher = function() {
     this.getPublicKey = cipher.getPublicKey.bind(cipher);
 };
 
+})();
+
+/*
+ * vim: ts=4:sw=4:expandtab
+ */
+(function () {
+    window.textsecure = window.textsecure || {};
+
+    window.textsecure.createTaskWithTimeout = function(task, id, options) {
+        options = options || {};
+        options.timeout = options.timeout || (1000 * 60 * 2); // two minutes
+
+        var errorForStack = new Error('for stack');
+        return function() {
+            return new Promise(function(resolve, reject) {
+                var complete = false;
+                var timer = setTimeout(function() {
+                    if (!complete) {
+                        var message =
+                            (id || '')
+                            + ' task did not complete in time. Calling stack: '
+                            + errorForStack.stack;
+
+                        console.log(message);
+                        return reject(new Error(message));
+                    }
+                }.bind(this), options.timeout);
+                var clearTimer = function() {
+                    try {
+                        var localTimer = timer;
+                        if (localTimer) {
+                            timer = null;
+                            clearTimeout(localTimer);
+                        }
+                    }
+                    catch (error) {
+                        console.log(
+                            id || '',
+                            'task ran into problem canceling timer. Calling stack:',
+                            errorForStack.stack
+                        );
+                    }
+                };
+
+                var success = function(result) {
+                    clearTimer();
+                    complete = true;
+                    return resolve(result);
+                };
+                var failure = function(error) {
+                    clearTimer();
+                    complete = true;
+                    return reject(error);
+                };
+
+                var promise = task();
+                if (!promise || !promise.then) {
+                    clearTimer();
+                    complete = true;
+                    return resolve(promise);
+                }
+
+                return promise.then(success, failure);
+            });
+        };
+    };
 })();
 })();
