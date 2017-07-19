@@ -480,9 +480,6 @@
                         };
 
                         message.save().then(function() {
-
-                            // throw new Error('Something went wrong!');
-
                             conversation.save().then(function() {
                                 try {
                                     conversation.trigger('newmessage', message);

@@ -61,6 +61,7 @@ module.exports = function(grunt) {
           'libtextsecure/sync_request.js',
           'libtextsecure/contacts_parser.js',
           'libtextsecure/ProvisioningCipher.js',
+          'libtextsecure/task_with_timeout.js',
         ],
         dest: 'js/libtextsecure.js',
       },

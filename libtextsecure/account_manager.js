@@ -146,7 +146,8 @@
             }.bind(this));
         },
         queueTask: function(task) {
-            return this.pending = this.pending.then(task, task);
+            var taskWithTimeout = textsecure.createTaskWithTimeout(task);
+            return this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
         },
         cleanSignedPreKeys: function() {
             var nextSignedKeyId = textsecure.storage.get('signedKeyId');
