@@ -261,7 +261,7 @@
                 console.log('migration 14.0');
                 console.log('Adding unprocessed message store');
                 var unprocessed = transaction.db.createObjectStore('unprocessed');
-                unprocessed.createIndex('received', ['timestamp'], { unique: false });
+                unprocessed.createIndex('received', 'timestamp', { unique: false });
                 next();
             }
         },
