@@ -20,12 +20,6 @@
                 return (receipt.get('timestamp') === message.get('sent_at')) &&
                     (recipients.indexOf(receipt.get('source')) > -1);
             });
-            _.forEach(receipts, function(receipt) {
-                var confirm = receipt.get('confirm');
-                if (confirm) {
-                    confirm();
-                }
-            });
             this.remove(receipts);
             return receipts;
         },
@@ -60,11 +54,6 @@
                         );
                         if (conversation) {
                             conversation.trigger('delivered', message);
-                        }
-
-                        var confirm = receipt.get('confirm');
-                        if (confirm) {
-                            confirm();
                         }
                     });
                     // TODO: consider keeping a list of numbers we've

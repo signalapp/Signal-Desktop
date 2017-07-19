@@ -331,12 +331,12 @@
         var timestamp = ev.read.timestamp;
         var sender    = ev.read.sender;
         console.log('read receipt ', sender, timestamp);
-        Whisper.ReadReceipts.add({
+        var receipt = Whisper.ReadReceipts.add({
             sender    : sender,
             timestamp : timestamp,
-            read_at   : read_at,
-            confirm   : ev.confirm
+            read_at   : read_at
         });
+        receipt.on('remove', ev.confirm);
     }
 
     function onVerified(ev) {
@@ -388,11 +388,11 @@
             timestamp
         );
 
-        Whisper.DeliveryReceipts.add({
+        var receipt = Whisper.DeliveryReceipts.add({
             timestamp: timestamp,
-            source: pushMessage.source,
-            confirm: ev.confirm
+            source: pushMessage.source
         });
+        receipt.on('remove', ev.confirm);
     }
 
     window.owsDesktopApp = {
