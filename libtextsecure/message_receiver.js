@@ -81,7 +81,7 @@ MessageReceiver.prototype.extend({
                 return request.respond(200, 'OK');
             }
 
-            this.addToCache(envelope, plaintext).then(function() {
+            return this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
                 this.queueEnvelope(envelope);
             }.bind(this));
@@ -117,42 +117,6 @@ MessageReceiver.prototype.extend({
             console.log('queueCached error handling item', item.id);
         }
     },
-    _getAllFromCache: function() {
-        var collection;
-        return new Promise(function(resolve, reject) {
-            collection = new Whisper.UnprocessedCollection();
-            return collection.fetch().then(resolve, reject);
-        }).then(function() {
-            // Return a plain array of plain objects
-            return collection.map(function(unprocessed) {
-                return unprocessed.attributes;
-            });
-        });
-    },
-    _addToCache: function(data) {
-        return new Promise(function(resolve, reject) {
-            var unprocessed = new Whisper.Unprocessed(data);
-            return unprocessed.save().then(resolve, reject);
-        });
-    },
-    _updateCache: function(id, updates) {
-        return new Promise(function(resolve, reject) {
-            var unprocessed = new Whisper.Unprocessed({
-                id: id
-            });
-            return unprocessed.fetch().then(function() {
-                return unprocessed.save(updates).then(resolve, reject);
-            }, reject)
-        }.bind(this));
-    },
-    _removeFromCache: function(id) {
-        return new Promise(function(resolve, reject) {
-            var unprocessed = new Whisper.Unprocessed({
-                id: id
-            });
-            return unprocessed.destroy().then(resolve, reject);
-        }.bind(this));
-    },
     getEnvelopeId: function(envelope) {
         return envelope.source + '.' + envelope.sourceDevice + ' ' + envelope.timestamp.toNumber();
     },
@@ -164,16 +128,16 @@ MessageReceiver.prototype.extend({
     },
     getAllFromCache: function() {
         console.log('getAllFromCache');
-        return this._getAllFromCache().then(function(items) {
+        return textsecure.storage.unprocessed.getAll().then(function(items) {
             console.log('getAllFromCache loaded', items.length, 'saved envelopes');
 
             _.forEach(items, function(item) {
                 var attempts = 1 + (item.attempts || 0);
                 if (attempts >= 5) {
                     console.log('getAllFromCache final attempt for envelope', item.id);
-                    this._removeFromCache(item.id);
+                    textsecure.storage.unprocessed.remove(item.id);
                 } else {
-                    this._updateCache(item.id, {attempts: attempts});
+                    textsecure.storage.unprocessed.update(item.id, {attempts: attempts});
                 }
             }.bind(this));
 
@@ -190,7 +154,7 @@ MessageReceiver.prototype.extend({
             timestamp: Date.now(),
             attempts: 1
         };
-        return this._addToCache(data);
+        return textsecure.storage.unprocessed.add(data);
     },
     updateCache: function(envelope, plaintext) {
         var id = this.getEnvelopeId(envelope);
@@ -199,12 +163,12 @@ MessageReceiver.prototype.extend({
         var data = {
             decrypted: string
         };
-        return this._updateCache(id, data);
+        return textsecure.storage.unprocessed.update(id, data);
     },
     removeFromCache: function(envelope) {
         var id = this.getEnvelopeId(envelope);
         console.log('removeFromCache', id);
-        return this._removeFromCache(id);
+        return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
         console.log('queueing decrypted envelope', this.getEnvelopeId(envelope));
