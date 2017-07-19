@@ -14,12 +14,13 @@
                 var complete = false;
                 var timer = setTimeout(function() {
                     if (!complete) {
-                        console.log(
-                            id || '',
-                            'task did not complete after five seconds. Calling stack:',
-                            errorForStack.stack
-                        );
-                        return resolve();
+                        var message =
+                            (id || '')
+                            + ' task did not complete after five seconds. Calling stack: '
+                            + errorForStack.stack;
+
+                        console.log(message);
+                        return reject(new Error(message));
                     }
                 }.bind(this), options.timeout);
                 var clearTimer = function() {
