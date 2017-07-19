@@ -6,7 +6,7 @@
 
     Whisper.createTaskWithTimeout = function(task, id, options) {
         options = options || {};
-        options.timeout = options.timeout || 5000;
+        options.timeout = options.timeout || (1000 * 60 * 2); // two minutes
 
         var errorForStack = new Error('for stack');
         return function() {
@@ -16,7 +16,7 @@
                     if (!complete) {
                         var message =
                             (id || '')
-                            + ' task did not complete after five seconds. Calling stack: '
+                            + ' task did not complete in time. Calling stack: '
                             + errorForStack.stack;
 
                         console.log(message);
