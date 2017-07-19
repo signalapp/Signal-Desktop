@@ -74,17 +74,22 @@ MessageReceiver.prototype.extend({
         textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
-            // fault, and we should handle them gracefully and tell the
-            // user they received an invalid message
+            //   fault, and we should handle them gracefully and tell the
+            //   user they received an invalid message
 
             if (this.isBlocked(envelope.source)) {
                 return request.respond(200, 'OK');
             }
 
-            return this.addToCache(envelope, plaintext).then(function() {
+            this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
                 this.queueEnvelope(envelope);
-            }.bind(this));
+            }.bind(this), function(error) {
+                console.log(
+                    'handleRequest error trying to add message to cache:',
+                    error && error.stack ? error.stack : error
+                );
+            });
         }.bind(this)).catch(function(e) {
             request.respond(500, 'Bad encrypted websocket message');
             console.log("Error handling incoming message:", e && e.stack ? e.stack : e);
