@@ -29,7 +29,10 @@
     database: Whisper.Database,
     storeName: 'conversations',
     defaults: function() {
-      return { unreadCount : 0 };
+        return {
+            unreadCount: 0,
+            verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT
+        };
     },
 
     handleMessageError: function(message, errors) {
@@ -63,8 +66,7 @@
         if (this.isPrivate()) {
             return Promise.all([
                 textsecure.storage.protocol.getVerified(this.id),
-                // new Promise necessary because a fetch will fail if convo not in db yet
-                new Promise(function(resolve) { this.fetch().always(resolve); }.bind(this))
+                this.safeFetch()
             ]).then(function(results) {
                 var trust = results[0];
                 // we don't return here because we don't need to wait for this to finish
@@ -80,22 +82,26 @@
             }.bind(this)).then(this.onMemberVerifiedChange.bind(this));
         }
     },
+    safeFetch: function() {
+        // new Promise necessary because a fetch will fail if convo not in db yet
+        return new Promise(function(resolve) { this.fetch().always(resolve); }.bind(this));
+    },
     setVerifiedDefault: function(options) {
         var DEFAULT = this.verifiedEnum.DEFAULT;
         return this.queueJob(function() {
-            return this._setVerified(DEFAULT, options);
+            return this.safeFetch().then(this._setVerified.bind(this, DEFAULT, options));
         }.bind(this));
     },
     setVerified: function(options) {
         var VERIFIED = this.verifiedEnum.VERIFIED;
         return this.queueJob(function() {
-            return this._setVerified(VERIFIED, options);
+            return this.safeFetch().then(this._setVerified.bind(this, VERIFIED, options));
         }.bind(this));
     },
     setUnverified: function(options) {
         var UNVERIFIED = this.verifiedEnum.UNVERIFIED;
         return this.queueJob(function() {
-            return this._setVerified(UNVERIFIED, options);
+            return this.safeFetch().then(this._setVerified.bind(this, UNVERIFIED, options));
         }.bind(this));
     },
     _setVerified: function(verified, options) {
@@ -294,12 +300,15 @@
         options = options || {};
         _.defaults(options, {local: true});
 
-        console.log('adding verified change advisory for', this.id, id, this.get('timestamp'));
+        var lastMessage = this.get('timestamp') || Date.now();
+
+        console.log('adding verified change advisory for', this.id, id, lastMessage);
+
         var timestamp = Date.now();
         var message = new Whisper.Message({
             conversationId  : this.id,
             type            : 'verified-change',
-            sent_at         : this.get('timestamp'),
+            sent_at         : lastMessage,
             received_at     : timestamp,
             verifiedChanged : id,
             verified        : verified,
@@ -661,10 +670,7 @@
                             type : 'private'
                         });
                         this.listenTo(c, 'change:verified', this.onMemberVerifiedChange);
-                        // new Promise necessary because a fetch will fail if convo not in db yet
-                        promises.push(new Promise(function(resolve) {
-                            c.fetch().always(resolve);
-                        }));
+                        promises.push(c.safeFetch());
                         return c;
                     }.bind(this))
                 );
