@@ -40,9 +40,14 @@ if (config.environment === 'production' && !process.mas) {
 const userConfig = require('./app/user_config');
 let windowConfig = userConfig.get('window');
 
-const locale = require('./app/locale');
+const loadLocale = require('./app/locale').load;
+let locale;
 
 function createWindow () {
+  if (!locale) {
+    locale = loadLocale();
+  }
+
   const windowOptions = Object.assign({
     width: 800,
     height: 610,
