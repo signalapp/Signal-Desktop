@@ -33,8 +33,14 @@
                 entry.save();
             }
 
-            while (this.length > MAX_MESSAGES) {
-                this.at(0).destroy();
+            // Two separate iterations to deal with removal eventing wonkiness
+            var toDrop = this.length - MAX_MESSAGES;
+            var entries = [];
+            for (var i = 0; i < toDrop; i += 1) {
+                entries.push(this.at(i));
+            }
+            for (var j = 0, max = entries.length; j < max; j += 1) {
+                entries[i].destroy();
             }
         },
         print: function() {
