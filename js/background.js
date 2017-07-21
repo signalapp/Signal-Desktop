@@ -146,42 +146,50 @@
     }
 
     function onContactReceived(ev) {
-        var contactDetails = ev.contactDetails;
+        var details = ev.contactDetails;
 
+        var id = details.number;
         var c = new Whisper.Conversation({
-            name: contactDetails.name,
-            id: contactDetails.number,
-            avatar: contactDetails.avatar,
-            color: contactDetails.color,
-            type: 'private',
-            active_at: Date.now()
+            id: id
         });
-        var error;
-        if ((error = c.validateNumber())) {
-          console.log(error);
-          return;
+        var error = c.validateNumber();
+        if (error) {
+            console.log('Invalid contact received', error && error.stack ? error.stack : error);
+            return;
         }
 
-        ConversationController.create(c).save().then(ev.confirm);
+        ConversationController.findOrCreatePrivateById(id).then(function(conversation) {
+            return new Promise(function(resolve, reject) {
+                conversation.save({
+                    name: details.name,
+                    avatar: details.avatar,
+                    color: details.color,
+                    active_at: conversation.get('active_at') || Date.now(),
+                }).then(resolve, reject);
+            });
+        }).then(ev.confirm);
     }
 
     function onGroupReceived(ev) {
-        var groupDetails = ev.groupDetails;
-        var attributes = {
-            id: groupDetails.id,
-            name: groupDetails.name,
-            members: groupDetails.members,
-            avatar: groupDetails.avatar,
-            type: 'group',
-        };
-        if (groupDetails.active) {
-            attributes.active_at = Date.now();
-        } else {
-            attributes.left = true;
-        }
+        var details = ev.groupDetails;
+        var id = details.id;
 
-        var conversation = ConversationController.create(attributes);
-        conversation.save().then(ev.confirm);
+        return ConversationController.findOrCreateById(id).then(function(conversation) {
+            var updates = {
+                name: details.name,
+                members: details.members,
+                avatar: details.avatar,
+                type: 'group',
+            };
+            if (details.active) {
+                updates.active_at = Date.now();
+            } else {
+                updates.left = true;
+            }
+            return new Promise(function(resolve, reject) {
+                conversation.save(updates).then(resolve, reject);
+            }).then(ev.confirm);
+        });
     }
 
     function onMessageReceived(ev) {
@@ -344,39 +352,48 @@
         var key      = ev.verified.identityKey;
         var state;
 
+        var c = new Whisper.Conversation({
+            id: number
+        });
+        var error = c.validateNumber();
+        if (error) {
+            console.log(
+                'Invalid verified sync received',
+                error && error.stack ? error.stack : error
+            );
+            return;
+        }
+
         switch(ev.verified.state) {
-          case textsecure.protobuf.Verified.State.DEFAULT:
-            state = 'DEFAULT';
-            break;
-          case textsecure.protobuf.Verified.State.VERIFIED:
-            state = 'VERIFIED';
-            break;
-          case textsecure.protobuf.Verified.State.UNVERIFIED:
-            state = 'UNVERIFIED';
-            break;
+            case textsecure.protobuf.Verified.State.DEFAULT:
+                state = 'DEFAULT';
+                break;
+            case textsecure.protobuf.Verified.State.VERIFIED:
+                state = 'VERIFIED';
+                break;
+            case textsecure.protobuf.Verified.State.UNVERIFIED:
+                state = 'UNVERIFIED';
+                break;
         }
 
         console.log('got verified sync for', number, state,
             ev.viaContactSync ? 'via contact sync' : '');
 
-        var contact = ConversationController.get(number);
-        if (!contact) {
-            return;
-        }
+        return ConversationController.findOrCreatePrivateById(number).then(function(contact) {
+            var options = {
+                viaSyncMessage: true,
+                viaContactSync: ev.viaContactSync,
+                key: key
+            };
 
-        var options = {
-            viaSyncMessage: true,
-            viaContactSync: ev.viaContactSync,
-            key: key
-        };
-
-        if (state === 'VERIFIED') {
-            contact.setVerified(options).then(ev.confirm);
-        } else if (state === 'DEFAULT') {
-            contact.setVerifiedDefault(options).then(ev.confirm);
-        } else {
-            contact.setUnverified(options).then(ev.confirm);
-        }
+            if (state === 'VERIFIED') {
+                return contact.setVerified(options).then(ev.confirm);
+            } else if (state === 'DEFAULT') {
+                return contact.setVerifiedDefault(options).then(ev.confirm);
+            } else {
+                return contact.setUnverified(options).then(ev.confirm);
+            }
+        });
     }
 
     function onDeliveryReceipt(ev) {

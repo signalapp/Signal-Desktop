@@ -87,19 +87,31 @@
             return conversation;
         },
         findOrCreatePrivateById: function(id) {
-            var conversation = conversations.add({ id: id, type: 'private' });
+            var conversation = conversations.add({
+                id: id,
+                type: 'private'
+            });
             return new Promise(function(resolve, reject) {
                 conversation.fetch().then(function() {
                     resolve(conversation);
-                }).fail(function() {
-                    var saved = conversation.save(); // false or indexedDBRequest
-                    if (saved) {
-                        saved.then(function() {
-                            resolve(conversation);
-                        }).fail(reject);
-                    } else {
-                        reject();
-                    }
+                }, function() {
+                    conversation.save().then(function() {
+                        resolve(conversation);
+                    }, reject);
+                });
+            });
+        },
+        findOrCreateById: function(id) {
+            var conversation = conversations.add({
+                id: id
+            });
+            return new Promise(function(resolve, reject) {
+                conversation.fetch().then(function() {
+                    resolve(conversation);
+                }, function() {
+                    conversation.save().then(function() {
+                        resolve(conversation);
+                    }, reject);
                 });
             });
         },
