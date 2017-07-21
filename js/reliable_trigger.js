@@ -111,7 +111,7 @@
   // passed the same arguments as `trigger` is, apart from the event name
   // (unless you're listening on `"all"`, which will cause your callback to
   // receive the true name of the event as the first argument).
-  Backbone.Model.prototype.trigger = Backbone.View.prototype.trigger = Backbone.Events.trigger = function(name) {
+  function trigger(name) {
     if (!this._events) return this;
     var args = slice.call(arguments, 1);
     if (!eventsApi(this, 'trigger', name, args)) return this;
@@ -120,6 +120,12 @@
     if (events) triggerEvents(events, name, args);
     if (allEvents) triggerEvents(allEvents, name, arguments);
     return this;
-  };
+  }
+
+  Backbone.Model.prototype.trigger
+    = Backbone.View.prototype.trigger
+    = Backbone.Collection.prototype.trigger
+    = Backbone.Events.trigger
+    = trigger;
 })();
 
