@@ -158,7 +158,7 @@
             return;
         }
 
-        ConversationController.findOrCreatePrivateById(id).then(function(conversation) {
+        return ConversationController.findOrCreatePrivateById(id).then(function(conversation) {
             return new Promise(function(resolve, reject) {
                 conversation.save({
                     name: details.name,
