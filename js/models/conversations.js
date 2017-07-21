@@ -320,9 +320,10 @@
         message.save().then(this.trigger.bind(this,'newmessage', message));
 
         if (this.isPrivate()) {
-            var groups = ConversationController.getAllGroupsInvolvingId(id);
-            _.forEach(groups, function(group) {
-                group.addVerifiedChange(id, verified, options);
+            ConversationController.getAllGroupsInvolvingId(id).then(function(groups) {
+                _.forEach(groups, function(group) {
+                    group.addVerifiedChange(id, verified, options);
+                });
             });
         }
     },
