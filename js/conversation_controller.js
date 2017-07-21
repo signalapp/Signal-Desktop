@@ -116,8 +116,11 @@
             });
         },
         getAllGroupsInvolvingId: function(id) {
-            return conversations.filter(function(conversation) {
-                return !conversation.isPrivate() && conversation.hasMember(id);
+            var groups = new Whisper.GroupCollection();
+            return groups.fetchGroups(id).then(function() {
+                return groups.map(function(group) {
+                    return conversations.add(group);
+                });
             });
         },
         updateInbox: function() {
