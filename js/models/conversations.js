@@ -84,24 +84,26 @@
     },
     safeFetch: function() {
         // new Promise necessary because a fetch will fail if convo not in db yet
-        return new Promise(function(resolve) { this.fetch().always(resolve); }.bind(this));
+        return new Promise(function(resolve) {
+            this.fetch().always(resolve);
+        }.bind(this));
     },
     setVerifiedDefault: function(options) {
         var DEFAULT = this.verifiedEnum.DEFAULT;
         return this.queueJob(function() {
-            return this.safeFetch().then(this._setVerified.bind(this, DEFAULT, options));
+            return this._setVerified(DEFAULT, options);
         }.bind(this));
     },
     setVerified: function(options) {
         var VERIFIED = this.verifiedEnum.VERIFIED;
         return this.queueJob(function() {
-            return this.safeFetch().then(this._setVerified.bind(this, VERIFIED, options));
+            return this._setVerified(VERIFIED, options);
         }.bind(this));
     },
     setUnverified: function(options) {
         var UNVERIFIED = this.verifiedEnum.UNVERIFIED;
         return this.queueJob(function() {
-            return this.safeFetch().then(this._setVerified.bind(this, UNVERIFIED, options));
+            return this._setVerified(UNVERIFIED, options);
         }.bind(this));
     },
     _setVerified: function(verified, options) {
