@@ -17,11 +17,9 @@
           conversation.fetch().then(function() {
             conversation.addKeyChange(id);
           });
-          var groups = new Whisper.GroupCollection();
-          return groups.fetchGroups(id).then(function() {
-            groups.each(function(conversation) {
-              conversation = ConversationController.add(conversation);
-              conversation.addKeyChange(id);
+          ConversationController.getAllGroupsInvolvingId(id).then(function(groups) {
+            _.forEach(groups, function(group) {
+              group.addKeyChange(id);
             });
           });
         });
