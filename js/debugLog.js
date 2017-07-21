@@ -25,7 +25,9 @@
         model: LogEntry,
         comparator: 'time',
         initialize: function() {
-            this.fetch({remove: false});
+            this.fetch({remove: false}).then(function() {
+                console.log('Debug log: after fetch have', this.length, 'entries');
+            }.bind(this));
         },
         log: function(str) {
             var entry = this.add({time: Date.now(), value: str});
