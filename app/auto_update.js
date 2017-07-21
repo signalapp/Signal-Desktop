@@ -19,7 +19,13 @@ function checkForUpdates() {
   autoUpdater.checkForUpdates();
 }
 
+var showingDialog = false;
 function showUpdateDialog() {
+  if (showingDialog) {
+    return;
+  }
+  showingDialog = true;
+
   const options = {
     type: 'info',
     buttons: [
@@ -38,6 +44,8 @@ function showUpdateDialog() {
       windowState.markShouldQuit();
       autoUpdater.quitAndInstall();
     }
+
+    showingDialog = false;
   });
 }
 
