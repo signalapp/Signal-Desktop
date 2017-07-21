@@ -39,8 +39,9 @@
             for (var i = 0; i < toDrop; i += 1) {
                 entries.push(this.at(i));
             }
+            this.remove(entries);
             for (var j = 0, max = entries.length; j < max; j += 1) {
-                entries[i].destroy();
+                entries[j].destroy();
             }
         },
         print: function() {
