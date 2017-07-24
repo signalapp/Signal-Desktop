@@ -465,8 +465,8 @@ MessageReceiver.prototype.extend({
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.timestamp = envelope.timestamp.toNumber();
             ev.read = {
-              timestamp : read[i].timestamp.toNumber(),
-              sender    : read[i].sender
+                timestamp : read[i].timestamp.toNumber(),
+                sender    : read[i].sender
             }
             this.dispatchEvent(ev);
         }

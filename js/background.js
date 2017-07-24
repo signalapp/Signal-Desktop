@@ -338,7 +338,7 @@
         var read_at   = ev.timestamp;
         var timestamp = ev.read.timestamp;
         var sender    = ev.read.sender;
-        console.log('read receipt ', sender, timestamp);
+        console.log('read receipt', sender, timestamp);
         var receipt = Whisper.ReadReceipts.add({
             sender    : sender,
             timestamp : timestamp,
