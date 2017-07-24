@@ -76,6 +76,9 @@
             appView.openInstaller();
         }
 
+        Whisper.events.on('showDebugLog', function() {
+            appView.inboxView.showDebugLog();
+        });
         Whisper.events.on('unauthorized', function() {
             appView.inboxView.networkStatusView.update();
         });
