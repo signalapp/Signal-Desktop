@@ -18,6 +18,17 @@
           this.el.append(view.el);
           this.delegateEvents();
         },
+        openDebugLog: function() {
+            this.closeDebugLog();
+            this.debugLogView = new Whisper.DebugLogView();
+            this.debugLogView.$el.appendTo(this.el);
+        },
+        closeDebugLog: function() {
+          if (this.debugLogView) {
+            this.debugLogView.remove();
+            this.debugLogView = null;
+          }
+        },
         openInstaller: function() {
           this.closeInstaller();
           this.installView = new Whisper.InstallView();
