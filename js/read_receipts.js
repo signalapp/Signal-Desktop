@@ -32,7 +32,10 @@
                         this.remove(receipt);
                     }.bind(this));
                 } else {
-                    console.log('No message for read receipt');
+                    console.log(
+                        'No message for read receipt',
+                        receipt.get('sender'), receipt.get('timestamp')
+                    );
                 }
             }.bind(this));
         },
