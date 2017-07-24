@@ -173,7 +173,6 @@
             'click #header': 'focusHeader',
             'click .conversation': 'focusConversation',
             'click .global-menu .hamburger': 'toggleMenu',
-            'click .show-debug-log': 'showDebugLog',
             'click .showSettings': 'showSettings',
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
@@ -269,10 +268,6 @@
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();
-        },
-        showDebugLog: function() {
-            this.$('.debug-log').remove();
-            new Whisper.DebugLogView().$el.appendTo(this.el);
         },
         showLightbox: function(e) {
             this.$el.append(e.target);
