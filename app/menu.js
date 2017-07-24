@@ -37,6 +37,12 @@ const template = [
     label: 'View',
     submenu: [
       {
+        label: 'Debug Log'
+      },
+      {
+        type: 'separator'
+      },
+      {
         role: 'reload'
       },
       {
