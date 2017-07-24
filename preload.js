@@ -24,6 +24,9 @@
     console.log('restart');
     ipc.send('restart');
   };
+  ipc.on('debug-log', function() {
+    Whisper.events.trigger('showDebugLog');
+  });
   /**
   * Enables spell-checking and the right-click context menu in text editors.
   * Electron (`webFrame.setSpellCheckProvider`) only underlines misspelled words;
