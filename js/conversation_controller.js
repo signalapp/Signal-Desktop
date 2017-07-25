@@ -86,24 +86,10 @@
             var conversation = conversations.add(attrs, {merge: true});
             return conversation;
         },
-        findOrCreatePrivateById: function(id) {
+        findOrCreateById: function(id, type) {
             var conversation = conversations.add({
                 id: id,
-                type: 'private'
-            });
-            return new Promise(function(resolve, reject) {
-                conversation.fetch().then(function() {
-                    resolve(conversation);
-                }, function() {
-                    conversation.save().then(function() {
-                        resolve(conversation);
-                    }, reject);
-                });
-            });
-        },
-        findOrCreateById: function(id) {
-            var conversation = conversations.add({
-                id: id
+                type: type
             });
             return new Promise(function(resolve, reject) {
                 conversation.fetch().then(function() {
