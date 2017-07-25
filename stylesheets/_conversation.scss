@@ -32,6 +32,51 @@
 .conversation {
   background-color: white;
   height: 100%;
+  position: relative;
+
+  .conversation-loading-screen {
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container {
+      position: absolute;
+      left: 50%;
+      width: 78px;
+      transform: translate(-50%, 0);
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border: 3px solid $blue;
+      border-radius: 50%;
+      float: left;
+      margin: 0 6px;
+      transform: scale(0);
+
+      animation: loading 1500ms ease infinite 0ms;
+      &:nth-child(2) {
+        animation: loading 1500ms ease infinite 333ms;
+      }
+      &:nth-child(3) {
+        animation: loading 1500ms ease infinite 666ms;
+      }
+    }
+  }
 
   .panel {
     height: calc(100% - #{$header-height});

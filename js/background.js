@@ -13,6 +13,7 @@
 
     // Close and reopen existing windows
     var open = false;
+    var initialLoadComplete = false;
     extension.windows.getAll().forEach(function(appWindow) {
         open = true;
         appWindow.close();
@@ -121,7 +122,7 @@
         messageReceiver.addEventListener('read', onReadReceipt);
         messageReceiver.addEventListener('verified', onVerified);
         messageReceiver.addEventListener('error', onError);
-
+        messageReceiver.addEventListener('empty', onEmpty);
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
@@ -143,6 +144,19 @@
                 Whisper.events.trigger('contactsync');
             });
         }
+    }
+
+    function onEmpty() {
+        initialLoadComplete = true;
+
+        var interval = setInterval(function() {
+            var view = window.owsDesktopApp.inboxView;
+            if (view) {
+                clearInterval(interval);
+                interval = null;
+                view.onEmpty();
+            }
+        }, 500);
     }
 
     function onContactReceived(ev) {
@@ -196,14 +210,16 @@
         var data = ev.data;
         var message = initIncomingMessage(data);
 
-        isMessageDuplicate(message).then(function(isDuplicate) {
+        return isMessageDuplicate(message).then(function(isDuplicate) {
             if (isDuplicate) {
                 console.log('Received duplicate message', message.idForLogging());
                 ev.confirm();
                 return;
             }
 
-            message.handleDataMessage(data.message, ev.confirm);
+            return message.handleDataMessage(data.message, ev.confirm, {
+                initialLoadComplete: initialLoadComplete
+            });
         });
     }
 
@@ -222,14 +238,16 @@
             expirationStartTimestamp: data.expirationStartTimestamp,
         });
 
-        isMessageDuplicate(message).then(function(isDuplicate) {
+        return isMessageDuplicate(message).then(function(isDuplicate) {
             if (isDuplicate) {
                 console.log('Received duplicate message', message.idForLogging());
                 ev.confirm();
                 return;
             }
 
-            message.handleDataMessage(data.message, ev.confirm);
+            return message.handleDataMessage(data.message, ev.confirm, {
+                initialLoadComplete: initialLoadComplete
+            });
         });
     }
 
@@ -312,9 +330,9 @@
             var envelope = ev.proto;
             var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
 
-            message.saveErrors(e).then(function() {
+            return message.saveErrors(e).then(function() {
                 var id = message.get('conversationId');
-                ConversationController.findOrCreateById(id, 'private').then(function(conversation) {
+                return ConversationController.findOrCreateById(id, 'private').then(function(conversation) {
                     conversation.set({
                         active_at: Date.now(),
                         unreadCount: conversation.get('unreadCount') + 1
@@ -327,10 +345,11 @@
                     }
                     conversation.save();
                     conversation.trigger('newmessage', message);
-                    conversation.notify(message);
+                    if (initialLoadComplete) {
+                        conversation.notify(message);
+                    }
                 });
             });
-            return;
         }
 
         throw e;
@@ -341,11 +360,13 @@
         var timestamp = ev.read.timestamp;
         var sender    = ev.read.sender;
         console.log('read receipt', sender, timestamp);
+
         var receipt = Whisper.ReadReceipts.add({
             sender    : sender,
             timestamp : timestamp,
             read_at   : read_at
         });
+
         receipt.on('remove', ev.confirm);
     }
 
@@ -411,12 +432,12 @@
             timestamp: timestamp,
             source: pushMessage.source
         });
+
         receipt.on('remove', ev.confirm);
     }
 
     window.owsDesktopApp = {
         getAppView: function(destWindow) {
-
             var self = this;
 
             return ConversationController.updateInbox().then(function() {

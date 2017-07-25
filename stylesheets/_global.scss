@@ -539,6 +539,64 @@ input[type=text], input[type=search], textarea {
   }
 }
 
+.inbox {
+  position: relative;
+}
+
+@keyframes loading {
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.app-loading-screen {
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+  align-items: center;
+
+  .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 78px;
+  }
+
+  .dot {
+    width: 14px;
+    height: 14px;
+    border: 3px solid $blue;
+    border-radius: 50%;
+    float: left;
+    margin: 0 6px;
+    transform: scale(0);
+
+    animation: loading 1500ms ease infinite 0ms;
+    &:nth-child(2) {
+      animation: loading 1500ms ease infinite 333ms;
+    }
+    &:nth-child(3) {
+      animation: loading 1500ms ease infinite 666ms;
+    }
+  }
+}
+
 //yellow border fix
 .inbox:focus {
     outline: none;

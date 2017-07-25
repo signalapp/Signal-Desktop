@@ -23,13 +23,16 @@
                 this.listeners = {};
             }
             var listeners = this.listeners[ev.type];
+            var results = [];
             if (typeof listeners === 'object') {
-                for (var i=0; i < listeners.length; ++i) {
-                    if (typeof listeners[i] === 'function') {
-                        listeners[i].call(null, ev);
+                for (var i = 0, max = listeners.length; i < max; i += 1) {
+                    var listener = listeners[i];
+                    if (typeof listener === 'function') {
+                        results.push(listener.call(null, ev));
                     }
                 }
             }
+            return results;
         },
         addEventListener: function(eventName, callback) {
             if (typeof eventName !== 'string') {

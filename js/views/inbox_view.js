@@ -60,6 +60,15 @@
         }
     });
 
+
+    Whisper.AppLoadingScreen = Whisper.View.extend({
+        templateName: 'app-loading-screen',
+        className: 'app-loading-screen',
+        render_attributes: {
+            loading: i18n('loading')
+        }
+    });
+
     Whisper.InboxView = Whisper.View.extend({
         templateName: 'two-column',
         className: 'inbox',
@@ -71,6 +80,7 @@
                     .addClass(theme);
         },
         initialize: function (options) {
+            this.ready = false;
             this.render();
             this.applyTheme();
             this.$el.attr('tabindex', '1');
@@ -79,6 +89,10 @@
                 el: this.$('.conversation-stack'),
                 model: { window: options.window }
             });
+
+            this.appLoadingScreen = new Whisper.AppLoadingScreen();
+            this.appLoadingScreen.render();
+            this.appLoadingScreen.$el.prependTo(this.el);
 
             var inboxCollection = getInboxCollection();
 
@@ -145,6 +159,13 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox'
+        },
+        onEmpty: function() {
+            var view = this.appLoadingScreen;
+            if (view) {
+                this.appLoadingScreen = null;
+                view.remove();
+            }
         },
         focusConversation: function(e) {
             if (e && this.$(e.target).closest('.placeholder').length) {

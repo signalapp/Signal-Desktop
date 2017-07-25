@@ -57,6 +57,14 @@
         }
     });
 
+    Whisper.ConversationLoadingScreen = Whisper.View.extend({
+        templateName: 'conversation-loading-screen',
+        className: 'conversation-loading-screen',
+        render_attributes: {
+            loading: i18n('loading')
+        }
+    });
+
     Whisper.ConversationTitleView = Whisper.View.extend({
         templateName: 'conversation-title',
         initialize: function() {
@@ -116,6 +124,11 @@
             );
 
             this.render();
+
+            this.loadingScreen = new Whisper.ConversationLoadingScreen();
+            this.loadingScreen.render();
+            this.loadingScreen.$el.prependTo(this.el);
+
             new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
 
             emoji_util.parse(this.$('.conversation-name'));
@@ -321,9 +334,15 @@
             setTimeout(this.markRead.bind(this), 1);
         },
 
+        onLoaded: function () {
+            var view = this.loadingScreen;
+            if (view) {
+                this.loadingScreen = null;
+                view.remove();
+            }
+        },
+
         onOpened: function() {
-            // TODO: we may want to show a loading dialog until this status fetch
-            //       and potentially the below message fetch are complete.
             this.statusFetch = this.throttledGetProfiles().then(function() {
                 this.model.updateVerified().then(function() {
                     this.onVerifiedChange();
@@ -331,6 +350,9 @@
                     console.log('done with status fetch');
                 }.bind(this));
             }.bind(this));
+
+            Promise.all([this.statusFetch, this.inProgressFetch])
+                .then(this.onLoaded.bind(this), this.onLoaded.bind(this));
 
             this.view.resetScrollPosition();
             this.$el.trigger('force-resize');
