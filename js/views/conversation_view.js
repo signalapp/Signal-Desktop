@@ -59,10 +59,7 @@
 
     Whisper.ConversationLoadingScreen = Whisper.View.extend({
         templateName: 'conversation-loading-screen',
-        className: 'conversation-loading-screen',
-        render_attributes: {
-            loading: i18n('loading')
-        }
+        className: 'conversation-loading-screen'
     });
 
     Whisper.ConversationTitleView = Whisper.View.extend({
