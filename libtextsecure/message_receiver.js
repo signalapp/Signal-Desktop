@@ -107,6 +107,24 @@ MessageReceiver.prototype.extend({
             return this.dispatchAndWait(ev);
         }.bind(this)));
     },
+    addToQueue: function(task) {
+        var count = this.count += 1;
+        var current = this.pending = this.pending.then(task, task);
+
+        var cleanup = function() {
+            this.updateProgress(count);
+            // We want to clear out the promise chain whenever possible because it could
+            //   lead to large memory usage over time:
+            //   https://github.com/nodejs/node/issues/6673#issuecomment-244331609
+            if (this.pending === current) {
+                this.pending = Promise.resolve();
+            }
+        }.bind(this);
+
+        current.then(cleanup, cleanup);
+
+        return current;
+    },
     onEmpty: function() {
         var incoming = this.incoming;
         this.incoming = [];
@@ -120,7 +138,7 @@ MessageReceiver.prototype.extend({
             // resetting count to zero so everything queued after this starts over again
             this.count = 0;
 
-            this.pending = this.pending.then(dispatchEmpty, dispatchEmpty);
+            this.addToQueue(dispatchEmpty);
         }.bind(this);
 
         Promise.all(incoming).then(scheduleDispatch, scheduleDispatch);
@@ -218,34 +236,26 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
-        var count = this.count += 1;
         var id = this.getEnvelopeId(envelope);
         console.log('queueing decrypted envelope', id);
 
         var task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
         var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEncryptedEnvelope ' + id);
+        var promise = this.addToQueue(taskWithTimeout);
 
-        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
-
-        return this.pending.then(function() {
-            this.updateProgress(count);
-        }.bind(this), function(error) {
+        return promise.catch(function(error) {
             console.log('queueDecryptedEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     queueEnvelope: function(envelope) {
-        var count = this.count += 1;
         var id = this.getEnvelopeId(envelope);
         console.log('queueing envelope', id);
 
         var task = this.handleEnvelope.bind(this, envelope);
         var taskWithTimeout = textsecure.createTaskWithTimeout(task, 'queueEnvelope ' + id);
+        var promise = this.addToQueue(taskWithTimeout);
 
-        this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
-
-        return this.pending.then(function() {
-            this.updateProgress(count);
-        }.bind(this), function(error) {
+        return promise.catch(function(error) {
             console.log('queueEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
