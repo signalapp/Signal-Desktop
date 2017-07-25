@@ -565,17 +565,15 @@ input[type=text], input[type=search], textarea {
   align-items: center;
 
   .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
-
   .container {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
+    margin-left: auto;
+    margin-right: auto;
     width: 78px;
+    height: 22px;
   }
 
   .dot {

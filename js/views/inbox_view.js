@@ -64,8 +64,14 @@
     Whisper.AppLoadingScreen = Whisper.View.extend({
         templateName: 'app-loading-screen',
         className: 'app-loading-screen',
+        updateProgress: function(count) {
+            if (count > 0) {
+                var message = i18n('loadingMessages', count.toString());
+                this.$('.message').text(message);
+            }
+        },
         render_attributes: {
-            loading: i18n('loading')
+            message: i18n('loading')
         }
     });
 
@@ -169,6 +175,12 @@
             if (view) {
                 this.appLoadingScreen = null;
                 view.remove();
+            }
+        },
+        onProgress: function(count) {
+            var view = this.appLoadingScreen;
+            if (view) {
+                view.updateProgress(count);
             }
         },
         focusConversation: function(e) {

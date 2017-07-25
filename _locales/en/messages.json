@@ -1,4 +1,22 @@
 {
+    "loading": {
+      "message": "Loading...",
+      "description": "Message shown on the loading screen before we've loaded any messages"
+    },
+    "upgradingDatabase": {
+      "message": "Upgrading database. This may take some time...",
+      "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
+    "loadingMessages": {
+      "message": "Loading messages. $count$ so far...",
+      "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+      "placeholders": {
+        "count": {
+          "content": "$1",
+          "example": "5"
+        }
+      }
+    },
     "me": {
       "message": "Me",
       "description": "The label for yourself when shown in a group member list"

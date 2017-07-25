@@ -123,6 +123,7 @@
         messageReceiver.addEventListener('verified', onVerified);
         messageReceiver.addEventListener('error', onError);
         messageReceiver.addEventListener('empty', onEmpty);
+        messageReceiver.addEventListener('progress', onProgress);
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
@@ -157,6 +158,14 @@
                 view.onEmpty();
             }
         }, 500);
+    }
+    function onProgress(ev) {
+        var count = ev.count;
+
+        var view = window.owsDesktopApp.inboxView;
+        if (view) {
+            view.onProgress(count);
+        }
     }
 
     function onContactReceived(ev) {
