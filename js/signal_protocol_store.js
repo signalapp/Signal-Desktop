@@ -726,7 +726,8 @@
                 var identityRecord = new IdentityRecord({id: identifier});
                 identityRecord.fetch().then(function() {
                     if (Date.now() - identityRecord.get('timestamp') < TIMESTAMP_THRESHOLD
-                        && !identityRecord.get('nonblockingApproval')) {
+                        && !identityRecord.get('nonblockingApproval')
+                        && !identityRecord.get('firstUse')) {
                         resolve(true);
                     } else {
                         resolve(false);
