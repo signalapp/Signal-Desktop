@@ -2,7 +2,6 @@ const autoUpdater = require('electron-updater').autoUpdater
 const { dialog } = require('electron');
 
 const config = require('./config');
-const locale = require('./locale');
 const windowState = require('./window_state');
 
 const hour = 60 * 60;
@@ -20,7 +19,7 @@ function checkForUpdates() {
 }
 
 var showingDialog = false;
-function showUpdateDialog() {
+function showUpdateDialog(messages) {
   if (showingDialog) {
     return;
   }
@@ -29,12 +28,12 @@ function showUpdateDialog() {
   const options = {
     type: 'info',
     buttons: [
-      locale.messages.autoUpdateRestartButtonLabel.message,
-      locale.messages.autoUpdateLaterButtonLabel.message
+      messages.autoUpdateRestartButtonLabel.message,
+      messages.autoUpdateLaterButtonLabel.message
     ],
-    title: locale.messages.autoUpdateNewVersionTitle.message,
-    message: locale.messages.autoUpdateNewVersionMessage.message,
-    detail: locale.messages.autoUpdateNewVersionInstructions.message,
+    title: messages.autoUpdateNewVersionTitle.message,
+    message: messages.autoUpdateNewVersionMessage.message,
+    detail: messages.autoUpdateNewVersionInstructions.message,
     defaultId: RESTART_BUTTON,
     cancelId: LATER_BUTTON
   }
@@ -53,12 +52,18 @@ function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initialize() {
+function initialize(messages) {
+  if (!messages) {
+    throw new Error('auto-update initialize needs localized messages');
+  }
+
   if (autoUpdateDisabled()) {
     return;
   }
 
-  autoUpdater.addListener('update-downloaded', showUpdateDialog);
+  autoUpdater.addListener('update-downloaded', function() {
+    showUpdateDialog(messages);
+  });
   autoUpdater.addListener('error', onError);
 
   checkForUpdates();
