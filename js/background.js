@@ -443,7 +443,11 @@
             return ConversationController.updateInbox().then(function() {
                 try {
                     if (self.inboxView) { self.inboxView.remove(); }
-                    self.inboxView = new Whisper.InboxView({model: self, window: destWindow});
+                    self.inboxView = new Whisper.InboxView({
+                        model: self,
+                        window: destWindow,
+                        initialLoadComplete: initialLoadComplete
+                    });
                     self.openConversation(getOpenConversation());
 
                     return self.inboxView;
