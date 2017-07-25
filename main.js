@@ -44,10 +44,6 @@ const loadLocale = require('./app/locale').load;
 let locale;
 
 function createWindow () {
-  if (!locale) {
-    locale = loadLocale();
-  }
-
   const windowOptions = Object.assign({
     width: 800,
     height: 610,
@@ -159,7 +155,11 @@ function createWindow () {
 app.on('ready', function() {
   console.log('app ready');
 
-  autoUpdate.initialize();
+  if (!locale) {
+    locale = loadLocale();
+  }
+
+  autoUpdate.initialize(locale.messages);
 
   createWindow();
 
