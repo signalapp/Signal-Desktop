@@ -343,11 +343,15 @@
                     if (!conversation_timestamp || message_timestamp > conversation_timestamp) {
                         conversation.set({ timestamp: message.get('sent_at') });
                     }
-                    conversation.save();
+
                     conversation.trigger('newmessage', message);
                     if (initialLoadComplete) {
                         conversation.notify(message);
                     }
+
+                    return new Promise(function(resolve, reject) {
+                        conversation.save().then(resolve, reject);
+                    });
                 });
             });
         }
