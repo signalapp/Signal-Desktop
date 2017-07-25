@@ -6,6 +6,12 @@ describe("SignalProtocolStore", function() {
   var identityKey;
   var testKey;
 
+  function wrapDeferred(deferred) {
+    return new Promise(function(resolve, reject) {
+      return deferred.then(resolve, reject);
+    });
+  }
+
   before(function(done) {
     store = textsecure.storage.protocol;
     identityKey = {
@@ -360,11 +366,6 @@ describe("SignalProtocolStore", function() {
     var newIdentity = libsignal.crypto.getRandomBytes(33);
     var keychangeTriggered;
 
-    function wrapDeferred(deferred) {
-      return new Promise(function(resolve, reject) {
-        return deferred.then(resolve, reject);
-      });
-    }
     function fetchRecord() {
       return wrapDeferred(record.fetch());
     }
@@ -646,6 +647,73 @@ describe("SignalProtocolStore", function() {
     });
 
   });
+
+  describe('isUntrusted', function() {
+    it('returns false if identity key old enough', function() {
+      var record = new IdentityKeyRecord({
+        id                  : identifier,
+        publicKey           : testKey.pubKey,
+        timestamp           : Date.now() - 10 * 1000 * 60,
+        verified            : store.VerifiedStatus.DEFAULT,
+        firstUse            : false,
+        nonblockingApproval : false
+      });
+      return wrapDeferred(record.save()).then(function() {
+        return store.isUntrusted(identifier);
+      }).then(function(untrusted) {
+        assert.strictEqual(untrusted, false);
+      });
+    });
+
+    it('returns false if new but nonblockingApproval is true', function() {
+      var record = new IdentityKeyRecord({
+        id                  : identifier,
+        publicKey           : testKey.pubKey,
+        timestamp           : Date.now(),
+        verified            : store.VerifiedStatus.DEFAULT,
+        firstUse            : false,
+        nonblockingApproval : true
+      });
+      return wrapDeferred(record.save()).then(function() {
+        return store.isUntrusted(identifier);
+      }).then(function(untrusted) {
+        assert.strictEqual(untrusted, false);
+      });
+    });
+
+    it('returns false if new but firstUse is true', function() {
+      var record = new IdentityKeyRecord({
+        id                  : identifier,
+        publicKey           : testKey.pubKey,
+        timestamp           : Date.now(),
+        verified            : store.VerifiedStatus.DEFAULT,
+        firstUse            : true,
+        nonblockingApproval : false
+      });
+      return wrapDeferred(record.save()).then(function() {
+        return store.isUntrusted(identifier);
+      }).then(function(untrusted) {
+        assert.strictEqual(untrusted, false);
+      });
+    });
+
+    it('returns true if new, and no flags are set', function() {
+      var record = new IdentityKeyRecord({
+        id                  : identifier,
+        publicKey           : testKey.pubKey,
+        timestamp           : Date.now(),
+        verified            : store.VerifiedStatus.DEFAULT,
+        firstUse            : false,
+        nonblockingApproval : false
+      });
+      return wrapDeferred(record.save()).then(function() {
+        return store.isUntrusted(identifier);
+      }).then(function(untrusted) {
+        assert.strictEqual(untrusted, true);
+      });
+    });
+  });
+
   describe('getVerified', function() {
     before(function(done) {
       store.setVerified(identifier, store.VerifiedStatus.VERIFIED).then(done, done);
