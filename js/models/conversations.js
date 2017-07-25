@@ -344,7 +344,7 @@
 
         // Lastly, we don't send read receipts for any message marked read due to a read
         //   receipt. That's a notification explosion we don't need.
-        this.queueJob(function() {
+        return this.queueJob(function() {
             return this.markRead(message.get('received_at'), {sendReadReceipts: false});
         }.bind(this));
     },

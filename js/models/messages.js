@@ -342,7 +342,10 @@
                 this.send(promise);
             }
         },
-        handleDataMessage: function(dataMessage, confirm) {
+        handleDataMessage: function(dataMessage, confirm, options) {
+            options = options || {};
+            _.defaults(options, {initialLoadComplete: true});
+
             // This function can be called from the background script on an
             // incoming message or from the frontend after the user accepts an
             // identity key change.
@@ -357,7 +360,7 @@
             console.log('queuing handleDataMessage', message.idForLogging());
 
             var conversation = ConversationController.create({id: conversationId});
-            conversation.queueJob(function() {
+            return conversation.queueJob(function() {
                 return new Promise(function(resolve) {
                     conversation.fetch().always(function() {
                         console.log('starting handleDataMessage', message.idForLogging());
@@ -500,7 +503,7 @@
                                             //   because we need to start expiration timers, etc.
                                             message.markRead();
                                         }
-                                        if (message.get('unread')) {
+                                        if (message.get('unread') && options.initialLoadComplete) {
                                             conversation.notify(message);
                                         }
 
