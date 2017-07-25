@@ -484,6 +484,49 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     background: #2090ea;
     margin-left: 20px; }
 
+.inbox {
+  position: relative; }
+
+@keyframes loading {
+  50% {
+    transform: scale(1);
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+.app-loading-screen {
+  z-index: 1000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+  align-items: center; }
+  .app-loading-screen .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+  .app-loading-screen .container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 78px; }
+  .app-loading-screen .dot {
+    width: 14px;
+    height: 14px;
+    border: 3px solid #2090ea;
+    border-radius: 50%;
+    float: left;
+    margin: 0 6px;
+    transform: scale(0);
+    animation: loading 1500ms ease infinite 0ms; }
+    .app-loading-screen .dot:nth-child(2) {
+      animation: loading 1500ms ease infinite 333ms; }
+    .app-loading-screen .dot:nth-child(3) {
+      animation: loading 1500ms ease infinite 666ms; }
+
 .inbox:focus {
   outline: none; }
 
@@ -1051,7 +1094,41 @@ input.search {
 
 .conversation {
   background-color: white;
-  height: 100%; }
+  height: 100%;
+  position: relative; }
+  .conversation .conversation-loading-screen {
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #eee;
+    display: flex;
+    align-items: center; }
+    .conversation .conversation-loading-screen .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+    .conversation .conversation-loading-screen .container {
+      position: absolute;
+      left: 50%;
+      width: 78px;
+      transform: translate(-50%, 0); }
+    .conversation .conversation-loading-screen .dot {
+      width: 14px;
+      height: 14px;
+      border: 3px solid #2090ea;
+      border-radius: 50%;
+      float: left;
+      margin: 0 6px;
+      transform: scale(0);
+      animation: loading 1500ms ease infinite 0ms; }
+      .conversation .conversation-loading-screen .dot:nth-child(2) {
+        animation: loading 1500ms ease infinite 333ms; }
+      .conversation .conversation-loading-screen .dot:nth-child(3) {
+        animation: loading 1500ms ease infinite 666ms; }
   .conversation .panel {
     height: calc(100% - 64px);
     overflow-y: scroll; }
@@ -2099,6 +2176,8 @@ li.entry .error-icon-container {
     border-color: #333333; }
   .android-dark .conversation.placeholder .conversation-header {
     display: none; }
+  .android-dark .conversation .conversation-loading-screen {
+    background-color: #171717; }
   .android-dark .avatar.red, .android-dark .conversation-header.red, .android-dark .bubble.red {
     background-color: #D32F2F; }
   .android-dark .avatar.pink, .android-dark .conversation-header.pink, .android-dark .bubble.pink {
