@@ -80,6 +80,8 @@
                     .addClass(theme);
         },
         initialize: function (options) {
+            options = options || {};
+
             this.ready = false;
             this.render();
             this.applyTheme();
@@ -90,9 +92,11 @@
                 model: { window: options.window }
             });
 
-            this.appLoadingScreen = new Whisper.AppLoadingScreen();
-            this.appLoadingScreen.render();
-            this.appLoadingScreen.$el.prependTo(this.el);
+            if (!options.initialLoadComplete) {
+                this.appLoadingScreen = new Whisper.AppLoadingScreen();
+                this.appLoadingScreen.render();
+                this.appLoadingScreen.$el.prependTo(this.el);
+            }
 
             var inboxCollection = getInboxCollection();
 
