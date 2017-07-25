@@ -97,8 +97,9 @@
         createConversation: function() {
             var conversation = this.new_contact_view.model;
             if (this.new_contact_view.model.isValid()) {
-                ConversationController.findOrCreatePrivateById(
-                    this.new_contact_view.model.id
+                ConversationController.findOrCreateById(
+                    this.new_contact_view.model.id,
+                    'private'
                 ).then(function(conversation) {
                     this.trigger('open', conversation);
                     this.initNewContact();
