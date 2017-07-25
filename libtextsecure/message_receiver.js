@@ -3,6 +3,8 @@
  */
 
 function MessageReceiver(url, ports, username, password, signalingKey) {
+    this.count = 0;
+
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
@@ -115,10 +117,22 @@ MessageReceiver.prototype.extend({
         }.bind(this);
 
         var scheduleDispatch = function() {
+            // resetting count to zero so everything queued after this starts over again
+            this.count = 0;
+
             this.pending = this.pending.then(dispatchEmpty, dispatchEmpty);
         }.bind(this);
 
         Promise.all(incoming).then(scheduleDispatch, scheduleDispatch);
+    },
+    updateProgress: function(count) {
+        // count by 10s
+        if (count % 10 !== 0) {
+            return;
+        }
+        var ev = new Event('progress');
+        ev.count = count;
+        this.dispatchEvent(ev);
     },
     queueAllCached: function() {
         this.getAllFromCache().then(function(items) {
@@ -204,6 +218,7 @@ MessageReceiver.prototype.extend({
         return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
+        var count = this.count += 1;
         var id = this.getEnvelopeId(envelope);
         console.log('queueing decrypted envelope', id);
 
@@ -212,11 +227,14 @@ MessageReceiver.prototype.extend({
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
-        return this.pending.catch(function(error) {
+        return this.pending.then(function() {
+            this.updateProgress(count);
+        }.bind(this), function(error) {
             console.log('queueDecryptedEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
     queueEnvelope: function(envelope) {
+        var count = this.count += 1;
         var id = this.getEnvelopeId(envelope);
         console.log('queueing envelope', id);
 
@@ -225,7 +243,9 @@ MessageReceiver.prototype.extend({
 
         this.pending = this.pending.then(taskWithTimeout, taskWithTimeout);
 
-        return this.pending.catch(function(error) {
+        return this.pending.then(function() {
+            this.updateProgress(count);
+        }.bind(this), function(error) {
             console.log('queueEnvelope error handling envelope', id, ':', error && error.stack ? error.stack : error);
         });
     },
