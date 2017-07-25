@@ -37484,13 +37484,16 @@ window.textsecure.utils = function() {
                 this.listeners = {};
             }
             var listeners = this.listeners[ev.type];
+            var results = [];
             if (typeof listeners === 'object') {
-                for (var i=0; i < listeners.length; ++i) {
-                    if (typeof listeners[i] === 'function') {
-                        listeners[i].call(null, ev);
+                for (var i = 0, max = listeners.length; i < max; i += 1) {
+                    var listener = listeners[i];
+                    if (typeof listener === 'function') {
+                        results.push(listener.call(null, ev));
                     }
                 }
             }
+            return results;
         },
         addEventListener: function(eventName, callback) {
             if (typeof eventName !== 'string') {
@@ -38284,22 +38287,25 @@ MessageReceiver.prototype.extend({
     onerror: function(error) {
         console.log('websocket error');
     },
+    dispatchAndWait: function(event) {
+        return Promise.all(this.dispatchEvent(event));
+    },
     onclose: function(ev) {
         console.log('websocket closed', ev.code, ev.reason || '');
         if (ev.code === 3000) {
             return;
         }
-        var eventTarget = this;
         // possible 403 or network issue. Make an request to confirm
-        this.server.getDevices(this.number).
-            then(this.connect.bind(this)). // No HTTP error? Reconnect
-            catch(function(e) {
+        this.server.getDevices(this.number)
+            .then(this.connect.bind(this)) // No HTTP error? Reconnect
+            .catch(function(e) {
                 var ev = new Event('error');
                 ev.error = e;
-                eventTarget.dispatchEvent(ev);
-            });
+                this.dispatchAndWait(ev);
+            }.bind(this));
     },
     handleRequest: function(request) {
+        this.incoming = this.incoming || [];
         // We do the message decryption here, instead of in the ordered pending queue,
         // to avoid exposing the time it took us to process messages through the time-to-ack.
 
@@ -38307,10 +38313,14 @@ MessageReceiver.prototype.extend({
         if (request.path !== '/api/v1/message') {
             console.log('got request', request.verb, request.path);
             request.respond(200, 'OK');
+
+            if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
+                this.onEmpty();
+            }
             return;
         }
 
-        textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
+        this.incoming.push(textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
             // After this point, decoding errors are not the server's
             //   fault, and we should handle them gracefully and tell the
@@ -38320,7 +38330,7 @@ MessageReceiver.prototype.extend({
                 return request.respond(200, 'OK');
             }
 
-            this.addToCache(envelope, plaintext).then(function() {
+            return this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
                 this.queueEnvelope(envelope);
             }.bind(this), function(error) {
@@ -38334,8 +38344,23 @@ MessageReceiver.prototype.extend({
             console.log("Error handling incoming message:", e && e.stack ? e.stack : e);
             var ev = new Event('error');
             ev.error = e;
-            this.dispatchEvent(ev);
-        }.bind(this));
+            return this.dispatchAndWait(ev);
+        }.bind(this)));
+    },
+    onEmpty: function() {
+        var incoming = this.incoming;
+        this.incoming = [];
+
+        var dispatchEmpty = function() {
+            var ev = new Event('empty');
+            return this.dispatchAndWait(ev);
+        }.bind(this);
+
+        var scheduleDispatch = function() {
+            this.pending = this.pending.then(dispatchEmpty, dispatchEmpty);
+        }.bind(this);
+
+        Promise.all(incoming).then(scheduleDispatch, scheduleDispatch);
     },
     queueAllCached: function() {
         this.getAllFromCache().then(function(items) {
@@ -38484,12 +38509,11 @@ MessageReceiver.prototype.extend({
         }
     },
     onDeliveryReceipt: function (envelope) {
-        return new Promise(function(resolve) {
+        return new Promise(function(resolve, reject) {
             var ev = new Event('receipt');
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.proto = envelope;
-            this.dispatchEvent(ev);
-            return resolve();
+            this.dispatchAndWait(ev).then(resolve, reject);
         }.bind(this));
     },
     unpad: function(paddedPlaintext) {
@@ -38548,8 +38572,11 @@ MessageReceiver.prototype.extend({
             var ev = new Event('error');
             ev.error = error;
             ev.proto = envelope;
-            this.dispatchEvent(ev);
-            return Promise.reject(error);
+
+            var returnError = function() {
+                return Promise.reject(error);
+            };
+            this.dispatchAndWait(ev).then(returnError, returnError);
         }.bind(this));
     },
     decryptPreKeyWhisperMessage: function(ciphertext, sessionCipher, address) {
@@ -38586,7 +38613,7 @@ MessageReceiver.prototype.extend({
                 if (expirationStartTimestamp) {
                   ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
                 }
-                this.dispatchEvent(ev);
+                return this.dispatchAndWait(ev);
             }.bind(this));
         }.bind(this));
     },
@@ -38608,7 +38635,7 @@ MessageReceiver.prototype.extend({
                     timestamp    : envelope.timestamp.toNumber(),
                     message      : message
                 };
-                this.dispatchEvent(ev);
+                return this.dispatchAndWait(ev);
             }.bind(this));
         }.bind(this));
     },
@@ -38696,9 +38723,10 @@ MessageReceiver.prototype.extend({
             identityKey: verified.identityKey.toArrayBuffer()
         };
         ev.viaContactSync = options.viaContactSync;
-        this.dispatchEvent(ev);
+        return this.dispatchAndWait(ev);
     },
     handleRead: function(envelope, read) {
+        var results = [];
         for (var i = 0; i < read.length; ++i) {
             var ev = new Event('read');
             ev.confirm = this.removeFromCache.bind(this, envelope);
@@ -38707,24 +38735,30 @@ MessageReceiver.prototype.extend({
                 timestamp : read[i].timestamp.toNumber(),
                 sender    : read[i].sender
             }
-            this.dispatchEvent(ev);
+            results.push(this.dispatchAndWait(ev));
         }
+        return Promise.all(results);
     },
     handleContacts: function(envelope, contacts) {
         console.log('contact sync');
         var eventTarget = this;
         var attachmentPointer = contacts.blob;
         return this.handleAttachment(attachmentPointer).then(function() {
+            var results = [];
             var contactBuffer = new ContactBuffer(attachmentPointer.data);
             var contactDetails = contactBuffer.next();
             while (contactDetails !== undefined) {
                 var ev = new Event('contact');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.contactDetails = contactDetails;
-                eventTarget.dispatchEvent(ev);
+                results.push(eventTarget.dispatchAndWait(ev));
 
                 if (contactDetails.verified) {
-                    this.handleVerified(envelope, contactDetails.verified, {viaContactSync: true});
+                    results.push(this.handleVerified(
+                        envelope,
+                        contactDetails.verified,
+                        {viaContactSync: true}
+                    ));
                 }
 
                 contactDetails = contactBuffer.next();
@@ -38732,12 +38766,13 @@ MessageReceiver.prototype.extend({
 
             var ev = new Event('contactsync');
             ev.confirm = this.removeFromCache.bind(this, envelope);
-            eventTarget.dispatchEvent(ev);
+            results.push(eventTarget.dispatchAndWait(ev));
+
+            return Promise.all(results);
         }.bind(this));
     },
     handleGroups: function(envelope, groups) {
         console.log('group sync');
-        var eventTarget = this;
         var attachmentPointer = groups.blob;
         return this.handleAttachment(attachmentPointer).then(function() {
             var groupBuffer = new GroupBuffer(attachmentPointer.data);
@@ -38766,7 +38801,7 @@ MessageReceiver.prototype.extend({
                     var ev = new Event('group');
                     ev.confirm = this.removeFromCache.bind(this, envelope);
                     ev.groupDetails = groupDetails;
-                    eventTarget.dispatchEvent(ev);
+                    return this.dispatchAndWait(ev);
                 }.bind(this)).catch(function(e) {
                     console.log('error processing group', e);
                 });
@@ -38777,7 +38812,7 @@ MessageReceiver.prototype.extend({
             Promise.all(promises).then(function() {
                 var ev = new Event('groupsync');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
-                eventTarget.dispatchEvent(ev);
+                return this.dispatchAndWait(ev);
             }.bind(this));
         }.bind(this));
     },
@@ -38805,9 +38840,9 @@ MessageReceiver.prototype.extend({
             attachment.data = data;
         }
 
-        return this.server.getAttachment(attachment.id).
-        then(decryptAttachment).
-        then(updateAttachment);
+        return this.server.getAttachment(attachment.id)
+            .then(decryptAttachment)
+            .then(updateAttachment);
     },
     tryMessageAgain: function(from, ciphertext) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
