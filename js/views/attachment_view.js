@@ -81,6 +81,21 @@
     events: {
         'click': 'onclick'
     },
+    unload: function() {
+        this.blob = null;
+
+        if (this.lightBoxView) {
+            this.lightBoxView.remove();
+        }
+        if (this.fileView) {
+            this.fileView.remove();
+        }
+        if (this.view) {
+            this.view.remove();
+        }
+
+        this.remove();
+    },
     getFileType: function() {
         switch(this.model.contentType) {
             case 'video/quicktime': return 'mov';
@@ -89,10 +104,10 @@
     },
     onclick: function(e) {
         if (this.isImage()) {
-            var view = new Whisper.LightboxView({ model: this });
-            view.render();
-            view.$el.appendTo(this.el);
-            view.$el.trigger('show');
+            this.lightBoxView = new Whisper.LightboxView({ model: this });
+            this.lightBoxView.render();
+            this.lightBoxView.$el.appendTo(this.el);
+            this.lightBoxView.$el.trigger('show');
 
         } else {
             this.saveFile();
