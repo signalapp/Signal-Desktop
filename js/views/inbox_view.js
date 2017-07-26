@@ -102,6 +102,7 @@
                 this.appLoadingScreen = new Whisper.AppLoadingScreen();
                 this.appLoadingScreen.render();
                 this.appLoadingScreen.$el.prependTo(this.el);
+                this.startConnectionListener();
             }
 
             var inboxCollection = getInboxCollection();
@@ -169,6 +170,27 @@
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
             'show .lightbox': 'showLightbox'
+        },
+        startConnectionListener: function() {
+            this.interval = setInterval(function() {
+                var status = window.getSocketStatus();
+                switch(status) {
+                    case WebSocket.CONNECTING:
+                        break;
+                    case WebSocket.OPEN:
+                        clearInterval(this.interval);
+                        // if we've connected, we can wait for real empty event
+                        this.interval = null;
+                        break;
+                    case WebSocket.CLOSING:
+                    case WebSocket.CLOSED:
+                        clearInterval(this.interval);
+                        this.interval = null;
+                        // if we failed to connect, we pretend we got an empty event
+                        this.onEmpty();
+                        break;
+                }
+            }.bind(this), 1000);
         },
         onEmpty: function() {
             var view = this.appLoadingScreen;
