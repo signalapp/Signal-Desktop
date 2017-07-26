@@ -19,6 +19,7 @@
             this.on('add remove change:unreadCount',
                 _.debounce(this.updateUnreadCount.bind(this), 1000)
             );
+            this.startPruning();
         },
         comparator: function(m1, m2) {
             var timestamp1 = m1.get('timestamp');
@@ -65,6 +66,14 @@
             if (newUnreadCount === 0) {
                 window.clearAttention();
             }
+        },
+        startPruning: function() {
+            var halfHour = 30 * 60 * 1000;
+            this.interval = setInterval(function() {
+                this.forEach(function(conversation) {
+                    conversation.trigger('prune');
+                });
+            }.bind(this), halfHour);
         }
     }))();
 

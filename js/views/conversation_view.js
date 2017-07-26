@@ -109,6 +109,7 @@
             this.listenTo(this.model, 'delivered', this.updateMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
             this.listenTo(this.model, 'expired', this.onExpired);
+            this.listenTo(this.model, 'prune', this.onPrune);
             this.listenTo(this.model.messageCollection, 'expired', this.onExpiredCollection);
 
             this.lazyUpdateVerified = _.debounce(
@@ -126,7 +127,7 @@
             this.loadingScreen.render();
             this.loadingScreen.$el.prependTo(this.el);
 
-            new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
+            this.timerMenu = new TimerMenuView({ el: this.$('.timer-menu'), model: this.model });
 
             emoji_util.parse(this.$('.conversation-name'));
 
@@ -151,15 +152,15 @@
 
             this.$messageField = this.$('.send-message');
 
-            var onResize = this.forceUpdateMessageFieldSize.bind(this);
-            this.window.addEventListener('resize', onResize);
+            this.onResize = this.forceUpdateMessageFieldSize.bind(this);
+            this.window.addEventListener('resize', this.onResize);
 
-            var onFocus = function() {
+            this.onFocus = function() {
                 if (this.$el.css('display') !== 'none') {
                     this.markRead();
                 }
             }.bind(this);
-            this.window.addEventListener('focus', onFocus);
+            this.window.addEventListener('focus', this.onFocus);
 
             extension.windows.onClosed(function () {
                 this.window.removeEventListener('resize', onResize);
@@ -207,6 +208,83 @@
             'show-identity': 'showSafetyNumber'
         },
 
+        onPrune: function() {
+            if (!this.model.messageCollection.length || !this.lastActivity) {
+                return;
+            }
+
+            var oneHourAgo = Date.now() - 60 * 60 * 1000;
+            if (this.isHidden() && this.lastActivity < oneHourAgo) {
+                this.unload();
+            } else if (this.view.atBottom()) {
+                this.trim();
+            }
+        },
+
+        unload: function() {
+            console.log('unloading conversation', this.model.id, 'due to inactivity');
+
+            this.timerMenu.remove();
+            this.fileInput.remove();
+            this.titleView.remove();
+
+            if (this.captureAudioView) {
+                this.captureAudioView.remove();
+            }
+            if (this.banner) {
+                this.banner.remove();
+            }
+            if (this.lastSeenIndicator) {
+                this.lastSeenIndicator.remove();
+            }
+            if (this.scrollDownButton) {
+                this.scrollDownButton.remove();
+            }
+            if (this.panels && this.panels.length) {
+                for (var i = 0, max = this.panels.length; i < max; i += 1) {
+                    var panel = this.panels[i];
+                    panel.remove();
+                }
+            }
+
+            this.window.removeEventListener('resize', this.onResize);
+            this.window.removeEventListener('focus', this.onFocus);
+
+            this.view.remove();
+
+            this.remove();
+
+            this.model.messageCollection.forEach(function(model) {
+                model.trigger('unload');
+            });
+            this.model.messageCollection.reset([]);
+            this.model.revokeAvatarUrl();
+        },
+
+        trim: function() {
+            var MAX = 100;
+            var toRemove = this.model.messageCollection.length - MAX;
+            if (toRemove <= 0) {
+                return;
+            }
+
+            var models = [];
+            for (var i = 0; i < toRemove; i += 1) {
+                var model = this.model.messageCollection.at(i);
+                models.push(model);
+            }
+
+            if (!models.length) {
+                return;
+            }
+
+            console.log('trimming conversation', this.model.id, 'of', models.length, 'old messages');
+
+            this.model.messageCollection.remove(models);
+            _.forEach(models, function(model) {
+                model.trigger('unload');
+            });
+        },
 
         markAllAsVerifiedDefault: function(unverified) {
             return Promise.all(unverified.map(function(contact) {
@@ -292,10 +370,18 @@
         },
         captureAudio: function(e) {
             e.preventDefault();
-            var view = new Whisper.RecorderView().render();
+
+            if (this.captureAudioView) {
+                this.captureAudioView.remove();
+                this.captureAudioView = null;
+            }
+
+            var view = this.captureAudioView = new Whisper.RecorderView();
+            view.render();
             view.on('send', this.handleAudioCapture.bind(this));
             view.on('closed', this.endCaptureAudio.bind(this));
             view.$el.appendTo(this.$('.capture-audio'));
+
             this.$('.send-message').attr('disabled','disabled');
             this.$('.microphone').hide();
         },
@@ -308,6 +394,7 @@
         endCaptureAudio: function() {
             this.$('.send-message').removeAttr('disabled');
             this.$('.microphone').show();
+            this.captureAudioView = null;
         },
 
         unfocusBottomBar: function() {
@@ -322,6 +409,7 @@
             //   of messages are added to the DOM, one by one, changing window size and
             //   generating scroll events.
             if (!this.isHidden() && window.isFocused() && !this.inProgressFetch) {
+                this.lastActivity = Date.now();
                 this.markRead();
             }
         },
@@ -340,6 +428,8 @@
         },
 
         onOpened: function() {
+            this.lastActivity = Date.now();
+
             this.statusFetch = this.throttledGetProfiles().then(function() {
                 this.model.updateVerified().then(function() {
                     this.onVerifiedChange();
@@ -664,6 +754,16 @@
             view.render();
         },
 
+        // not currently in use
+        newGroupUpdate: function() {
+            var view = new Whisper.NewGroupUpdateView({
+                model: this.model,
+                window: this.window
+            });
+            view.render();
+            this.listenBack(view);
+        },
+
         listenBack: function(view) {
             this.panels = this.panels || [];
             if (this.panels.length > 0) {
@@ -713,14 +813,6 @@
 
         toggleMenu: function() {
             this.$('.conversation-menu .menu-list').toggle();
-        },
-
-        newGroupUpdate: function() {
-            this.newGroupUpdateView = new Whisper.NewGroupUpdateView({
-                model: this.model,
-                window: this.window
-            });
-            this.listenBack(this.newGroupUpdateView);
         },
 
         destroyMessages: function(e) {

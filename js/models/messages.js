@@ -13,6 +13,7 @@
             this.on('destroy', this.revokeImageUrl);
             this.on('change:expirationStartTimestamp', this.setToExpire);
             this.on('change:expireTimer', this.setToExpire);
+            this.on('unload', this.revokeImageUrl);
             this.setToExpire();
         },
         idForLogging: function() {
