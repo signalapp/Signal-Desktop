@@ -364,7 +364,7 @@ MessageReceiver.prototype.extend({
             var returnError = function() {
                 return Promise.reject(error);
             };
-            this.dispatchAndWait(ev).then(returnError, returnError);
+            return this.dispatchAndWait(ev).then(returnError, returnError);
         }.bind(this));
     },
     decryptPreKeyWhisperMessage: function(ciphertext, sessionCipher, address) {
