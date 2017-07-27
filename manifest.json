@@ -12,7 +12,7 @@
     "permissions": [
       "unlimitedStorage",
       "notifications",
-      {"fileSystem": ["write"]},
+      {"fileSystem": ["write", "directory"]},
       "alarms",
       "fullscreen",
       "audioCapture"
