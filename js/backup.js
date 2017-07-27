@@ -63,63 +63,89 @@
     };
   }
 
+  function exportNonMessages(idb_db, parent) {
+    return createFileAndWriter(parent, 'db.json').then(function(writer) {
+      return exportToJsonFile(idb_db, writer);
+    });
+  }
+
   /**
   * Export all data from an IndexedDB database
   * @param {IDBDatabase} idb_db
   */
   function exportToJsonFile(idb_db, fileWriter) {
-    var storeNames = idb_db.objectStoreNames;
-    storeNames = _.without(storeNames, 'messages');
-    var exportedStoreNames = [];
-    console.log('Exporting', storeNames.join(', '));
-    if (storeNames.length === 0) {
-      throw new Error('No stores to export');
-    }
+    return new Promise(function(resolve, reject) {
+      var storeNames = idb_db.objectStoreNames;
+      storeNames = _.without(storeNames, 'messages');
+      var exportedStoreNames = [];
+      if (storeNames.length === 0) {
+        throw new Error('No stores to export');
+      }
+      console.log('Exporting from these stores:', storeNames.join(', '));
 
-    var stream = createOutputStream(fileWriter);
+      var stream = createOutputStream(fileWriter);
 
-    stream.write('{');
+      stream.write('{');
 
-    _.each(storeNames, function(storeName) {
-      var transaction = idb_db.transaction(storeNames, "readwrite");
-      transaction.onerror = function(e) { console.log(e); };
-      transaction.oncomplete = function() { console.log('complete'); };
+      _.each(storeNames, function(storeName) {
+        var transaction = idb_db.transaction(storeNames, "readwrite");
+        transaction.onerror = function(error) {
+          console.log(
+            'exportToJsonFile: transaction error',
+            error && error.stack ? error.stack : error
+          );
+          reject(error);
+        };
+        transaction.oncomplete = function() {
+          console.log('transaction complete');
+        };
 
-      var store = transaction.objectStore(storeName);
-      var request = store.openCursor();
-      var count = 0;
-      request.onerror = function(e) { console.log(e); };
-      request.onsuccess = function(event) {
-        if (count === 0) {
-          console.log('cursor opened');
-          stream.write('"' + storeName + '": [');
-        }
-
-        var cursor = event.target.result;
-        if (cursor) {
-          if (count > 0) {
-            stream.write(',');
+        var store = transaction.objectStore(storeName);
+        var request = store.openCursor();
+        var count = 0;
+        request.onerror = function(e) {
+          console.log('Error attempting to export store', storeName);
+          reject(e);
+        };
+        request.onsuccess = function(event) {
+          if (count === 0) {
+            console.log('cursor opened');
+            stream.write('"' + storeName + '": [');
           }
-          var jsonString = JSON.stringify(stringify(cursor.value));
-          stream.write(jsonString);
-          cursor.continue();
-          count++;
-        } else {
-          // no more
-          stream.write(']');
-          console.log('Exported', count, storeName);
 
-          exportedStoreNames.push(storeName);
-          if (exportedStoreNames.length < storeNames.length) {
-            stream.write(',');
+          var cursor = event.target.result;
+          if (cursor) {
+            if (count > 0) {
+              stream.write(',');
+            }
+            var jsonString = JSON.stringify(stringify(cursor.value));
+            stream.write(jsonString);
+            cursor.continue();
+            count++;
           } else {
-            console.log('Exported all stores');
-            stream.write('}').then(function() {
-              console.log('finished writing');
-            });
+            // no more
+            stream.write(']');
+            console.log('Exported', count, 'items from store', storeName);
+
+            exportedStoreNames.push(storeName);
+            if (exportedStoreNames.length < storeNames.length) {
+              stream.write(',');
+            } else {
+              console.log('Exported all stores');
+              stream.write('}').then(function() {
+                console.log('Finished writing all stores to disk');
+                resolve();
+              });
+            }
           }
-        }
-      };
+        };
+      });
+    });
+  }
+
+  function importNonMessages(idb_db, parent) {
+    return readFileAsText(parent, 'db.json').then(function(string) {
+      return importFromJsonString(idb_db, string);
     });
   }
 
@@ -131,34 +157,42 @@
   * @param {string} jsonString - data to import, one key per object store
   */
   function importFromJsonString(idb_db, jsonString) {
-    console.log('Beginning import');
     return new Promise(function(resolve, reject) {
-      var transaction = idb_db.transaction(idb_db.objectStoreNames, "readwrite");
-      transaction.onerror = reject;
       var importObject = JSON.parse(jsonString);
-      _.each(idb_db.objectStoreNames, function(storeName) {
-          console.log('Importing', storeName);
+      var storeNames = _.keys(importObject);
+
+      console.log('Importing to these stores:', storeNames);
+
+      var transaction = idb_db.transaction(storeNames, "readwrite");
+      transaction.onerror = reject;
+
+      _.each(storeNames, function(storeName) {
+          console.log('Importing items for store', storeName);
           var count = 0;
           _.each(importObject[storeName], function(toAdd) {
               toAdd = unstringify(toAdd);
-              console.log('Importing', toAdd);
               var request = transaction.objectStore(storeName).put(toAdd, toAdd.id);
               request.onsuccess = function(event) {
                 count++;
-                console.log(count);
                 if (count == importObject[storeName].length) {
                   // added all objects for this store
                   delete importObject[storeName];
+                  console.log('Done importing to store', storeName);
                   if (_.keys(importObject).length === 0) {
                     // added all object stores
-                    console.log('Import complete');
+                    console.log('DB import complete');
                     resolve();
                   }
                 }
               };
-              request.onerror = function(event) {
-                console.log('Error adding object to store');
-                console.log(event.target.error);
+              request.onerror = function(error) {
+                console.log(
+                  'Error adding object to store',
+                  storeName,
+                  ':',
+                  toAdd
+                );
+                reject(error);
               };
           });
       });
@@ -183,51 +217,6 @@
       // been created before, or a new version number has been
       // submitted via the window.indexedDB.open line above
       DBOpenRequest.onupgradeneeded = reject;
-    });
-  }
-
-  function chooseFile(type) {
-    return new Promise(function(resolve, reject) {
-      type = type || 'openFile';
-      var w = extension.windows.getViews()[0];
-      if (w && w.chrome && w.chrome.fileSystem) {
-        w.chrome.fileSystem.chooseEntry({
-          type: type, suggestedName: 'signal-desktop-backup.json'
-        }, function(entry) {
-          if (!entry) {
-            reject();
-          } else {
-            resolve(entry);
-          }
-        });
-      }
-    });
-  }
-
-  function getFileWriter() {
-    console.log('Selecting location to save backup file');
-    return chooseFile('saveFile').then(function(entry) {
-      return new Promise(function(resolve, reject) {
-        entry.createWriter(function(fileWriter) {
-          resolve(fileWriter);
-        }, reject);
-      });
-    });
-  }
-
-  function getFileString() {
-    return chooseFile().then(function(entry) {
-      return new Promise(function(resolve, reject) {
-        var file = entry.file(function(file) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            resolve(e.target.result);
-          };
-          reader.onerror = reject;
-          reader.onabort = reject;
-          reader.readAsText(file);
-        }, reject);
-      });
     });
   }
 
@@ -293,7 +282,7 @@
       parent.getDirectory(attachmentDir, {create: false, exclusive: true}, function(dir) {
         return readFileAsArrayBuffer(dir, sanitized ).then(function(contents) {
           attachment.data = contents;
-          return resolve()
+          return resolve();
         }, reject);
       }, reject);
     });
@@ -303,19 +292,16 @@
     var filename = getAttachmentFileName(attachment);
     return createFileAndWriter(dir, filename).then(function(writer) {
       var stream = createOutputStream(writer);
-      stream.write(attachment.data);
+      return stream.write(attachment.data);
     });
   }
 
   function writeAttachments(parentDir, name, messageId, attachments) {
-    console.log('writeAttachments: starting conversation', name);
     return createDirectory(parentDir, messageId).then(function(dir) {
       return Promise.all(_.map(attachments, function(attachment) {
         return writeAttachment(dir, attachment);
       }));
-    }).then(function() {
-      console.log('writeAttachments: done exporting conversation', name);
-    }, function(error) {
+    }).catch(function(error) {
       console.log(
         'writeAttachments: error exporting conversation',
         name,
@@ -326,14 +312,6 @@
     });
   }
 
-  function arrayBufferToString(arrayBuffer) {
-      return new dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('binary');
-  }
-
-  function stringToArrayBuffer(string) {
-      return new dcodeIO.ByteBuffer.wrap(string, 'binary').toArrayBuffer();
-  }
-
   function sanitizeFileName(filename) {
     return filename.toString().replace(/[^a-z0-9.:+()'"#\- ]/gi, '_');
   }
@@ -342,7 +320,6 @@
     console.log('exporting conversation', name);
     return createFileAndWriter(dir, 'messages.json').then(function(writer) {
       return new Promise(function(resolve, reject) {
-
         var transaction = idb_db.transaction('messages', "readwrite");
         transaction.onerror = function(e) {
           console.log(
@@ -359,7 +336,6 @@
 
         var store = transaction.objectStore('messages');
         var index = store.index('conversation');
-
         var range = IDBKeyRange.bound([conversation.id, 0], [conversation.id, Number.MAX_VALUE]);
 
         var promiseChain = Promise.resolve();
@@ -406,9 +382,11 @@
             count += 1;
             cursor.continue();
           } else {
-            stream.write(']}');
+            var promise = stream.write(']}');
+            promiseChain = promiseChain.then(promise);
+
             return promiseChain.then(function() {
-              console.log('exportConversation: done exporting conversation', name);
+              console.log('done exporting conversation', name);
               return resolve();
             }, function(error) {
               console.log(
@@ -452,7 +430,7 @@
         return reject(e);
       };
       transaction.oncomplete = function() {
-        console.log('done scheduling conversation exports');
+        console.log('Done scheduling conversation exports');
       };
 
       var promiseChain = Promise.resolve();
@@ -476,8 +454,7 @@
             return createDirectory(parentDir, dir).then(function(dir) {
               return exportConversation(idb_db, name, conversation, dir);
             });
-          }
-          console.log('scheduling conversation', name);
+          };
 
           promiseChain = promiseChain.then(process);
           cursor.continue();
@@ -533,22 +510,36 @@
     }));
   }
 
-  function saveAllMessages(store, messages) {
+  function saveAllMessages(idb_db, messages) {
     if (!messages.length) {
       return Promise.resolve();
     }
 
     return new Promise(function(resolve, reject) {
+      var transaction = idb_db.transaction('messages', "readwrite");
+      transaction.onerror = function(e) {
+        console.log(
+          'importConversations transaction error:',
+          e && e.stack ? e.stack : e
+        );
+        return reject(e);
+      };
+
+      var store = transaction.objectStore('messages');
       var conversationId = messages[0].conversationId;
-      console.log('saving', messages.length, 'messages for conversation', conversationId);
       var count = 0;
 
-      _.forEach(messages, function() {
+      _.forEach(messages, function(message) {
         var request = store.put(message, message.id);
         request.onsuccess = function(event) {
           count += 1;
           if (count === messages.length) {
-            console.log('Done saving messages for conversation', conversationId);
+            console.log(
+              'Done importing',
+              messages.length,
+              'messages for conversation',
+              conversationId
+            );
             resolve();
           }
         };
@@ -560,7 +551,7 @@
     });
   }
 
-  function importConversation(store, dir) {
+  function importConversation(idb_db, dir) {
     return readFileAsText(dir, 'messages.json').then(function(contents) {
       var promiseChain = Promise.resolve();
 
@@ -572,29 +563,20 @@
         if (message.attachments && message.attachments.length) {
           var process = function() {
             return loadAttachments(dir, message);
-          }
+          };
 
           promiseChain = promiseChain.then(process);
         }
       });
 
       return promiseChain.then(function() {
-        return saveAllMessages(store, messages);
+        return saveAllMessages(idb_db, messages);
       });
     });
   }
 
   function importConversations(idb_db, dir) {
     return getDirContents(dir).then(function(contents) {
-      var transaction = idb_db.transaction('messages', "readwrite");
-      transaction.onerror = function(e) {
-        console.log(
-          'importConversations transaction error:',
-          e && e.stack ? e.stack : e
-        );
-        return reject(e);
-      };
-      var store = transaction.objectStore('messages');
       var promiseChain = Promise.resolve();
 
       _.forEach(contents, function(conversationDir) {
@@ -603,7 +585,7 @@
         }
 
         var process = function() {
-          return importConversation(store, conversationDir);
+          return importConversation(idb_db, conversationDir);
         };
 
         promiseChain = promiseChain.then(process);
@@ -614,50 +596,40 @@
   }
 
   Whisper.Backup = {
-    backupMessages: function() {
+    backupToDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
         return openDatabase().then(function(idb_db) {
-          return exportConversations(idb_db, directoryEntry);
+          return Promise.all([
+            exportConversations(idb_db, directoryEntry),
+            exportNonMessages(idb_db, directoryEntry),
+          ]);
         });
       }).then(function() {
-        console.log('done backing up all messages and attachments');
+        console.log('done backing up!');
       }, function(error) {
         console.log(
-          'the whole thing went wrong',
+          'the backup went wrong:',
           error && error.stack ? error.stack : error
         );
+        return Promise.reject(error);
       });
     },
-    importMessages: function() {
+    importFromDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
         return openDatabase().then(function(idb_db) {
-          return importConversations(idb_db, directoryEntry);
+          return Promise.all([
+            importConversations(idb_db, directoryEntry),
+            importNonMessages(idb_db, directoryEntry),
+          ]);
         });
       }).then(function() {
-        console.log('done restoring all messages and attachments');
+        console.log('done restoring from backup!');
       }, function(error) {
         console.log(
-          'the whole thing went wrong',
+          'the import went wrong:',
           error && error.stack ? error.stack : error
         );
-      });
-    },
-    createBackupFile: function() {
-      return getFileWriter().then(function(fileWriter) {
-        return openDatabase().then(function(db) {
-          return exportToJsonFile(db, fileWriter);
-        });
-      }).catch(function(error) {
-        console.log(error);
-      });
-    },
-    restoreFromBackupFile: function() {
-      return getFileString().then(function(jsonString) {
-        return openDatabase().then(function(db) {
-          return importFromJsonString(db, jsonString);
-        });
-      }).catch(function(error) {
-        console.log(error);
+        return Promise.reject(error);
       });
     }
   };
