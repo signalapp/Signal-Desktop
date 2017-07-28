@@ -557,7 +557,7 @@ input[type=text], input[type=search], textarea {
 }
 
 .app-loading-screen {
-  z-index: 1000;
+  z-index: 99;
   position: absolute;
   left: 0;
   right: 0;
