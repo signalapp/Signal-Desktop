@@ -2,6 +2,17 @@
 <html>
 <head>
   <meta charset='utf-8'>
+  <script type='text/x-tmpl-mustache' id='app-migration-screen'>
+    <div class='content'>
+      <img src='/images/icon_128.png'>
+      <div class='container'>
+        <span class='dot'></span>
+        <span class='dot'></span>
+        <span class='dot'></span>
+      </div>
+      <div class='message'>{{ message }}</div>
+    </div>
+  </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
     <div class='content'>
       <img src='/images/icon_128.png'>
@@ -80,6 +91,10 @@
       <button class='upgrade'>{{ upgrade }}</button>
     </a>
     {{ expiredWarning }}
+  </script>
+  <script type='text/x-tmpl-mustache' id='migration_alert'>
+    <button class='migrate'>{{ migrate }}</button>
+    {{ migrationWarning }}
   </script>
   <script type='text/x-tmpl-mustache' id='banner'>
     <div class='body'>
@@ -727,6 +742,7 @@
   <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
   <script type='text/javascript' src='js/views/identity_key_send_error_view.js'></script>
+  <script type='text/javascript' src='js/views/migration_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>

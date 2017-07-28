@@ -41,7 +41,7 @@ MessageReceiver.prototype.extend({
     },
     close: function() {
         this.socket.close(3000, 'called close');
-        delete this.listeners;
+        return this.drain();
     },
     onopen: function() {
         console.log('websocket open');
@@ -148,6 +148,24 @@ MessageReceiver.prototype.extend({
         //   then we add a task to emit the 'empty' event to the queue, so all message
         //   processing is complete by the time it runs.
         Promise.all(incoming).then(queueDispatch, queueDispatch);
+    },
+    drain: function() {
+        var incoming = this.incoming;
+        this.incoming = [];
+
+        var queueDispatch = function() {
+            // resetting count to zero so everything queued after this starts over again
+            this.count = 0;
+
+            return this.addToQueue(function() {
+              console.log('drained');
+            });
+        }.bind(this);
+
+        // We first wait for all recently-received messages (this.incoming) to be queued,
+        //   then we add a task to emit the 'empty' event to the queue, so all message
+        //   processing is complete by the time it runs.
+        return Promise.all(incoming).then(queueDispatch, queueDispatch);
     },
     updateProgress: function(count) {
         // count by 10s
