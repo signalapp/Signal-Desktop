@@ -502,8 +502,9 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     opacity: 1; }
   100% {
     opacity: 0; } }
+
 .app-loading-screen {
-  z-index: 1000;
+  z-index: 99;
   position: absolute;
   left: 0;
   right: 0;
@@ -3561,5 +3562,11 @@ li.entry .error-icon-container {
         padding: 1em;
         margin: 0;
         text-align: left; }
+
+.intl-tel-input .country-list {
+  text-align: left; }
+
+.intl-tel-input .country-list .country .country-name {
+  color: #000; }
 
 /*# sourceMappingURL=manifest.css.map */
