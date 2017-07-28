@@ -533,7 +533,9 @@
             Whisper.Notifications.remove(Whisper.Notifications.where({
                 messageId: this.id
             }));
-            return this.save();
+            return new Promise(function(resolve, reject) {
+                this.save().then(resolve, reject);
+            }.bind(this));
         },
         isExpiring: function() {
             return this.get('expireTimer') && this.get('expirationStartTimestamp');
