@@ -163,11 +163,7 @@
             this.window.addEventListener('focus', this.onFocus);
 
             extension.windows.onClosed(function () {
-                this.window.removeEventListener('resize', onResize);
-                this.window.removeEventListener('focus', onFocus);
-                window.autosize.destroy(this.$messageField);
-                this.remove();
-                this.model.messageCollection.reset([]);
+                this.unload();
             }.bind(this));
 
             this.fetchMessages();
@@ -249,6 +245,8 @@
 
             this.window.removeEventListener('resize', this.onResize);
             this.window.removeEventListener('focus', this.onFocus);
+
+            window.autosize.destroy(this.$messageField);
 
             this.view.remove();
 
