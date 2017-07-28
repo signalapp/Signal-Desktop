@@ -584,6 +584,7 @@
         }));
 
         return this.getUnread().then(function(unreadMessages) {
+            var promises = [];
             var oldUnread = unreadMessages.filter(function(message) {
                 return message.get('received_at') <= newestUnreadDate;
             });
@@ -595,7 +596,7 @@
                     console.log('Marked a message as read in the database, but ' +
                                 'it was not in messageCollection.');
                 }
-                m.markRead();
+                promises.push(m.markRead());
                 return {
                     sender    : m.get('source'),
                     timestamp : m.get('sent_at')
@@ -611,12 +612,17 @@
             });
 
             var unreadCount = unreadMessages.length - read.length;
-            this.save({ unreadCount: unreadCount });
+            var promise = new Promise(function(resolve, reject) {
+                this.save({ unreadCount: unreadCount }).then(resolve, reject);
+            }.bind(this));
+            promises.push(promise);
 
             if (read.length && options.sendReadReceipts) {
                 console.log('Sending', read.length, 'read receipts');
-                textsecure.messaging.syncReadMessages(read);
+                promises.push(textsecure.messaging.syncReadMessages(read));
             }
+
+            return Promise.all(promises);
         }.bind(this));
     },
 
