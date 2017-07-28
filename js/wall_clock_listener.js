@@ -7,12 +7,11 @@
     window.Whisper = window.Whisper || {};
 
     var lastTime;
-    var interval = 1000;
+    var interval = 5000;
     var events;
     function checkTime() {
       var currentTime = Date.now();
       if (currentTime > (lastTime + interval * 2)) {
-          console.log('time travel detected!');
           events.trigger('timetravel');
       }
       lastTime = currentTime;
@@ -22,7 +21,7 @@
       init: function(_events) {
           events = _events;
           lastTime = Date.now();
-          setInterval(checkTime, 1000);
+          setInterval(checkTime, interval);
       }
     };
 }());
