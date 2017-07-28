@@ -597,7 +597,7 @@
         },
 
         getLoadedUnreadCount: function() {
-            return this.models.reduce(function(total, model) {
+            return this.reduce(function(total, model) {
                 var unread = model.get('unread') && model.isIncoming();
                 return total + (unread ? 1 : 0);
             }, 0);
@@ -637,11 +637,11 @@
                 this.fetch(options).always(resolve);
             }.bind(this)).then(function() {
                 if (unreadCount > 0) {
-                    if (unreadCount <= startingLoadedUnread) {
+                    var loadedUnread = this.getLoadedUnreadCount();
+                    if (loadedUnread >= unreadCount) {
                         return;
                     }
 
-                    var loadedUnread = this.getLoadedUnreadCount();
                     if (startingLoadedUnread === loadedUnread) {
                         // that fetch didn't get us any more unread. stop fetching more.
                         return;
