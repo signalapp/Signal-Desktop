@@ -100,9 +100,21 @@
         return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
     };
 
+    Whisper.events.on('shutdown', function() {
+      if (messageReceiver) {
+        messageReceiver.close().then(function() {
+          messageReceiver = null;
+          Whisper.events.trigger('shutdown-complete');
+        });
+      } else {
+        Whisper.events.trigger('shutdown-complete');
+      }
+    });
+
     function init(firstRun) {
         window.removeEventListener('online', init);
         if (!Whisper.Registration.isDone()) { return; }
+        if (Whisper.Migration.inProgress()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
 

@@ -3,6 +3,30 @@
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "migrationWarning": {
+      "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+      "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+      "message": "Migrate",
+      "description": "Button label to begin migrating this client to Electron"
+    },
+    "confirmMigration": {
+      "message": "Begin migration? You will not be able to send or receive messages from this computer while the migration is in progress",
+      "description": "Confirmation dialogue when beginning migration"
+    },
+    "migrationDisconnecting": {
+      "message": "Disconnecting",
+      "description": "Displayed while we wait for pending incoming messages to process"
+    },
+    "exporting": {
+      "message": "Please wait while we export your data from Chrome. You can still use Signal on your phone and other devices during this time.",
+      "description": "Message shown on the migration screen while we export data"
+    },
+    "exportComplete": {
+      "message": "Your data has been exported. To complete the migration, install the Signal-Desktop for your OS and import the backup file.",
+      "description": "Message shown on the migration screen when we are done exporting data"
+    },
     "upgradingDatabase": {
       "message": "Upgrading database. This may take some time...",
       "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
