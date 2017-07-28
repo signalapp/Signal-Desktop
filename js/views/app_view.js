@@ -63,7 +63,7 @@
                 this.inboxView = new Whisper.InboxView({
                   model: self,
                   window: window,
-                  initialLoadComplete: initialLoadComplete
+                  initialLoadComplete: options.initialLoadComplete
                 });
                 this.openView(this.inboxView);
             }.bind(this));
