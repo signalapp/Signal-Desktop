@@ -38298,12 +38298,12 @@ MessageReceiver.prototype.extend({
             return;
         }
         // possible 403 or network issue. Make an request to confirm
-        this.server.getDevices(this.number)
+        return this.server.getDevices(this.number)
             .then(this.connect.bind(this)) // No HTTP error? Reconnect
             .catch(function(e) {
                 var ev = new Event('error');
                 ev.error = e;
-                this.dispatchAndWait(ev);
+                return this.dispatchAndWait(ev);
             }.bind(this));
     },
     handleRequest: function(request) {
@@ -38376,14 +38376,17 @@ MessageReceiver.prototype.extend({
             return this.dispatchAndWait(ev);
         }.bind(this);
 
-        var scheduleDispatch = function() {
+        var queueDispatch = function() {
             // resetting count to zero so everything queued after this starts over again
             this.count = 0;
 
             this.addToQueue(dispatchEmpty);
         }.bind(this);
 
-        Promise.all(incoming).then(scheduleDispatch, scheduleDispatch);
+        // We first wait for all recently-received messages (this.incoming) to be queued,
+        //   then we add a task to emit the 'empty' event to the queue, so all message
+        //   processing is complete by the time it runs.
+        Promise.all(incoming).then(queueDispatch, queueDispatch);
     },
     updateProgress: function(count) {
         // count by 10s
@@ -38771,7 +38774,6 @@ MessageReceiver.prototype.extend({
     },
     handleContacts: function(envelope, contacts) {
         console.log('contact sync');
-        var eventTarget = this;
         var attachmentPointer = contacts.blob;
         return this.handleAttachment(attachmentPointer).then(function() {
             var results = [];
@@ -38781,7 +38783,7 @@ MessageReceiver.prototype.extend({
                 var ev = new Event('contact');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.contactDetails = contactDetails;
-                results.push(eventTarget.dispatchAndWait(ev));
+                results.push(this.dispatchAndWait(ev));
 
                 if (contactDetails.verified) {
                     results.push(this.handleVerified(
@@ -38796,7 +38798,7 @@ MessageReceiver.prototype.extend({
 
             var ev = new Event('contactsync');
             ev.confirm = this.removeFromCache.bind(this, envelope);
-            results.push(eventTarget.dispatchAndWait(ev));
+            results.push(this.dispatchAndWait(ev));
 
             return Promise.all(results);
         }.bind(this));
