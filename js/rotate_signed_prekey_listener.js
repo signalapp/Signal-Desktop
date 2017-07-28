@@ -7,6 +7,7 @@
     window.Whisper = window.Whisper || {};
     var ROTATION_INTERVAL = 48 * 60 * 60 * 1000;
     var timeout;
+    var scheduledTime;
 
     function scheduleNextRotation() {
         var now = Date.now();
@@ -35,14 +36,20 @@
 
     function setTimeoutForNextRun() {
         var now = Date.now();
-        var scheduledTime = storage.get('nextSignedKeyRotationTime', now);
-        console.log('Next signed key rotation scheduled for', new Date(scheduledTime));
-        var waitTime = scheduledTime - now;
-        if (waitTime < 0) {
-            waitTime = 0;
+        var time = storage.get('nextSignedKeyRotationTime', now);
+
+        if (scheduledTime !== time || !timeout) {
+            scheduledTime = time;
+
+            console.log('Next signed key rotation scheduled for', new Date(time));
+            var waitTime = time - now;
+            if (waitTime < 0) {
+                waitTime = 0;
+            }
+
+            clearTimeout(timeout);
+            timeout = setTimeout(runWhenOnline, waitTime);
         }
-        clearTimeout(timeout);
-        timeout = setTimeout(runWhenOnline, waitTime);
     }
 
     Whisper.RotateSignedPreKeyListener = {
