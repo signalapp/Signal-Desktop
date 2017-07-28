@@ -12,6 +12,7 @@
     console.log('environment:', window.config.environment);
 
     var initialLoadComplete = false;
+    window.owsDesktopApp = {};
 
     // start a background worker for ecc
     textsecure.startWorker('js/libsignal-protocol-worker.js');
