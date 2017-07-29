@@ -59,12 +59,14 @@
           this.closeInstaller();
 
           if (!this.inboxView) {
+            // We create the inbox immediately to make sure we're ready to receive the
+            //   empty event after getting down to zero messages in the queue.
+            this.inboxView = new Whisper.InboxView({
+              model: self,
+              window: window,
+              initialLoadComplete: options.initialLoadComplete
+            });
             return ConversationController.updateInbox().then(function() {
-                this.inboxView = new Whisper.InboxView({
-                  model: self,
-                  window: window,
-                  initialLoadComplete: options.initialLoadComplete
-                });
                 this.openView(this.inboxView);
             }.bind(this));
           } else {
