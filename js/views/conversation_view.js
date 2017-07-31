@@ -163,7 +163,7 @@
             this.window.addEventListener('focus', this.onFocus);
 
             extension.windows.onClosed(function () {
-                this.unload();
+                this.unload('windows closed');
             }.bind(this));
 
             this.fetchMessages();
@@ -211,14 +211,14 @@
 
             var oneHourAgo = Date.now() - 60 * 60 * 1000;
             if (this.isHidden() && this.lastActivity < oneHourAgo) {
-                this.unload();
+                this.unload('inactivity');
             } else if (this.view.atBottom()) {
                 this.trim();
             }
         },
 
-        unload: function() {
-            console.log('unloading conversation', this.model.id, 'due to inactivity');
+        unload: function(reason) {
+            console.log('unloading conversation', this.model.id, 'due to:', reason);
 
             this.timerMenu.remove();
             this.fileInput.remove();
