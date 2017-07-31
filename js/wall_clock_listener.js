@@ -7,7 +7,7 @@
     window.Whisper = window.Whisper || {};
 
     var lastTime;
-    var interval = 5000;
+    var interval = 1000;
     var events;
     function checkTime() {
       var currentTime = Date.now();
