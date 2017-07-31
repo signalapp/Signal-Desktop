@@ -39,17 +39,17 @@
         var time = storage.get('nextSignedKeyRotationTime', now);
 
         if (scheduledTime !== time || !timeout) {
-            scheduledTime = time;
-
             console.log('Next signed key rotation scheduled for', new Date(time));
-            var waitTime = time - now;
-            if (waitTime < 0) {
-                waitTime = 0;
-            }
-
-            clearTimeout(timeout);
-            timeout = setTimeout(runWhenOnline, waitTime);
         }
+
+        scheduledTime = time;
+        var waitTime = time - now;
+        if (waitTime < 0) {
+            waitTime = 0;
+        }
+
+        clearTimeout(timeout);
+        timeout = setTimeout(runWhenOnline, waitTime);
     }
 
     Whisper.RotateSignedPreKeyListener = {
