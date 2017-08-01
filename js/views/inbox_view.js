@@ -149,7 +149,9 @@
                 var banner = new Whisper.ExpiredAlertBanner().render();
                 banner.$el.prependTo(this.$el);
                 this.$el.addClass('expired');
-            } else if (storage.get('migrationState') > 0) {
+            } else if (Whisper.Migration.inProgress()) {
+                this.appLoadingScreen.remove();
+                this.appLoadingScreen = null;
                 this.showMigrationScreen();
             } else {
                 var migrationBanner = new Whisper.MigrationAlertBanner().render();
@@ -178,7 +180,7 @@
             'click .migrate': 'confirmMigration'
         },
         confirmMigration: function() {
-            this.confirm(i18n('confirmMigration')).then(this.showMigrationScreen.bind(this));
+            this.confirm(i18n('confirmMigration'), i18n('migrate')).then(this.showMigrationScreen.bind(this));
         },
         showMigrationScreen: function() {
             this.migrationScreen = new Whisper.MigrationView();

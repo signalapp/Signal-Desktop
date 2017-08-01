@@ -7,12 +7,28 @@
       "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
       "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
+    "exportInstructions": {
+      "message": "The first step is to choose a directory to store this application's exported data. Please select an empty directory with enough free space.",
+      "description": "Description of the export process"
+    },
     "migrate": {
       "message": "Migrate",
       "description": "Button label to begin migrating this client to Electron"
     },
+    "export": {
+      "message": "Choose directory",
+      "description": "Button to allow the user to export all data from app as part of migration process"
+    },
+    "exportAgain": {
+      "message": "Export again",
+      "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
+    "exportError": {
+      "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+      "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "confirmMigration": {
-      "message": "Begin migration? You will not be able to send or receive messages from this computer while the migration is in progress",
+      "message": "Start migration process? You will not be able to send or receive messages from this computer while the migration is in progress",
       "description": "Confirmation dialogue when beginning migration"
     },
     "migrationDisconnecting": {
@@ -24,8 +40,18 @@
       "description": "Message shown on the migration screen while we export data"
     },
     "exportComplete": {
-      "message": "Your data has been exported. To complete the migration, install the Signal-Desktop for your OS and import the backup file.",
-      "description": "Message shown on the migration screen when we are done exporting data"
+      "message": "Your data has been exported to <b>$location$</b>. To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal-Desktop</a> and import this data.",
+      "description": "Message shown on the migration screen when we are done exporting data",
+      "placeholders": {
+        "location": {
+          "content": "$1",
+          "example": "/Users/someone/somewhere"
+        }
+      }
+    },
+    "selectedLocation": {
+      "message": "your selected location",
+      "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
       "message": "Upgrading database. This may take some time...",
