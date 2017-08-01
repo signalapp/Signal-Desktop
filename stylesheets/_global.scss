@@ -524,7 +524,6 @@ input[type=text], input[type=search], textarea {
 .expiredAlert {
   background: #F3F3A7;
   padding: 10px;
-  line-height: 36px;
 
   button {
     float: right;
@@ -536,6 +535,10 @@ input[type=text], input[type=search], textarea {
     padding: 0 20px;
     background: $blue;
     margin-left: 20px;
+  }
+
+  .message {
+    padding: 10px 0;
   }
 }
 
@@ -574,6 +577,9 @@ input[type=text], input[type=search], textarea {
     margin-right: auto;
     width: 78px;
     height: 22px;
+  }
+  .message {
+    max-width: 35em;
   }
 
   .dot {
