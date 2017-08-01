@@ -32,7 +32,7 @@
       "description": "Confirmation dialogue when beginning migration"
     },
     "migrationDisconnecting": {
-      "message": "Disconnecting",
+      "message": "Disconnecting...",
       "description": "Displayed while we wait for pending incoming messages to process"
     },
     "exporting": {
