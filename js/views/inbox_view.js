@@ -153,7 +153,7 @@
                 this.appLoadingScreen.remove();
                 this.appLoadingScreen = null;
                 this.showMigrationScreen();
-            } else {
+            } else if (storage.get('migrationEnabled')) {
                 var migrationBanner = new Whisper.MigrationAlertBanner().render();
                 migrationBanner.$el.prependTo(this.$el);
             }
