@@ -5,12 +5,22 @@
   <script type='text/x-tmpl-mustache' id='app-migration-screen'>
     <div class='content'>
       <img src='/images/icon_128.png'>
-      <div class='container'>
-        <span class='dot'></span>
-        <span class='dot'></span>
-        <span class='dot'></span>
+      {{ ^hideProgress }}
+        <div class='container'>
+          <span class='dot'></span>
+          <span class='dot'></span>
+          <span class='dot'></span>
+        </div>
+      {{ /hideProgress }}
+      <div class='message'>{{& message }}</div>
+      <div>
+        {{ #exportButton }}
+          <button class='export grey'>{{ exportButton }}</button>
+        {{ /exportButton }}
+        {{ #debugLogButton }}
+          <button class='debug-log grey'>{{ debugLogButton }}</button>
+        {{ /debugLogButton }}
       </div>
-      <div class='message'>{{ message }}</div>
     </div>
   </script>
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
@@ -94,7 +104,9 @@
   </script>
   <script type='text/x-tmpl-mustache' id='migration_alert'>
     <button class='migrate'>{{ migrate }}</button>
-    {{ migrationWarning }}
+    <div class='message'>
+      {{ migrationWarning }}
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='banner'>
     <div class='body'>
