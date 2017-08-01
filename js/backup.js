@@ -430,7 +430,7 @@
         return reject(e);
       };
       transaction.oncomplete = function() {
-        console.log('Done scheduling conversation exports');
+        // not really very useful - fires at unexpected times
       };
 
       var promiseChain = Promise.resolve();
@@ -456,9 +456,11 @@
             });
           };
 
+          console.log('scheduling export for conversation', name);
           promiseChain = promiseChain.then(process);
           cursor.continue();
         } else {
+          console.log('Done scheduling conversation exports');
           return promiseChain.then(resolve, reject);
         }
       };
@@ -473,7 +475,9 @@
           type: 'openDirectory'
         }, function(entry) {
           if (!entry) {
-            reject();
+            var error = new Error('Error choosing directory');
+            error.name = 'ChooseError';
+            reject(error);
           } else {
             resolve(entry);
           }
@@ -572,6 +576,8 @@
       return promiseChain.then(function() {
         return saveAllMessages(idb_db, messages);
       });
+    }, function() {
+      console.log('Warning: could not access messages.json in directory: ' + dir.fullPath);
     });
   }
 
@@ -595,17 +601,29 @@
     });
   }
 
+  function getDisplayPath(entry) {
+    return new Promise(function(resolve) {
+      chrome.fileSystem.getDisplayPath(entry, function(path) {
+        return resolve(path);
+      });
+    });
+  }
+
   Whisper.Backup = {
     backupToDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
+        var idb;
         return openDatabase().then(function(idb_db) {
-          return Promise.all([
-            exportConversations(idb_db, directoryEntry),
-            exportNonMessages(idb_db, directoryEntry),
-          ]);
+          idb = idb_db;
+          return exportNonMessages(idb_db, directoryEntry);
+        }).then(function() {
+          return exportConversations(idb, directoryEntry);
+        }).then(function() {
+          return getDisplayPath(directoryEntry);
         });
-      }).then(function() {
+      }).then(function(path) {
         console.log('done backing up!');
+        return path;
       }, function(error) {
         console.log(
           'the backup went wrong:',
@@ -616,14 +634,18 @@
     },
     importFromDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
+        var idb;
         return openDatabase().then(function(idb_db) {
-          return Promise.all([
-            importConversations(idb_db, directoryEntry),
-            importNonMessages(idb_db, directoryEntry),
-          ]);
+          idb = idb_db;
+          return importNonMessages(idb_db, directoryEntry);
+        }).then(function() {
+          return importConversations(idb, directoryEntry);
+        }).then(function() {
+          return displayPath(directoryEntry);
         });
-      }).then(function() {
+      }).then(function(path) {
         console.log('done restoring from backup!');
+        return path;
       }, function(error) {
         console.log(
           'the import went wrong:',

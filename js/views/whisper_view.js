@@ -47,10 +47,11 @@
             this.$el.html(Mustache.render(template, attrs, partials));
             return this;
         },
-        confirm: function(message) {
+        confirm: function(message, okText) {
             return new Promise(function(resolve, reject) {
                 var dialog = new Whisper.ConfirmationDialogView({
                     message: message,
+                    okText: okText,
                     resolve: resolve,
                     reject: reject
                 });
