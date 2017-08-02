@@ -44,7 +44,7 @@
             }
 
             this.$('#device-name').val(deviceName);
-            this.$('#step1').show();
+            this.$('#step2').show();
             this.connect();
             this.on('disconnected', this.reconnect);
 
@@ -63,6 +63,10 @@
             ).catch(this.handleDisconnect.bind(this));
         },
         handleDisconnect: function(e) {
+            if (this.canceled) {
+                return;
+            }
+
             if (e.message === 'websocket closed') {
                 this.showConnectionError();
                 this.trigger('disconnected');
@@ -78,10 +82,14 @@
         events: function() {
             return {
                 'click .error-dialog .ok': 'connect',
-                'click .step1': this.selectStep.bind(this, 1),
+                'click .step1': 'onCancel',
                 'click .step2': this.selectStep.bind(this, 2),
                 'click .step3': this.selectStep.bind(this, 3)
             };
+        },
+        onCancel: function() {
+            this.canceled = true;
+            this.trigger('cancel');
         },
         clearQR: function() {
             this.$('#qr').text(i18n("installConnecting"));
