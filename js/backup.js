@@ -56,9 +56,6 @@
           });
         });
         return wait;
-      },
-      wait: function() {
-        return wait;
       }
     };
   }
@@ -470,19 +467,19 @@
   function getDirectory() {
     return new Promise(function(resolve, reject) {
       var w = extension.windows.getViews()[0];
-      if (w && w.chrome && w.chrome.fileSystem) {
-        w.chrome.fileSystem.chooseEntry({
-          type: 'openDirectory'
-        }, function(entry) {
-          if (!entry) {
-            var error = new Error('Error choosing directory');
-            error.name = 'ChooseError';
-            reject(error);
-          } else {
-            resolve(entry);
-          }
-        });
+      if (!w || !w.chrome || !w.chrome.fileSystem) {
+        return reject(new Error('Ran into problem accessing Chrome filesystem API'));
       }
+
+      w.chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(entry) {
+        if (!entry) {
+          var error = new Error('Error choosing directory');
+          error.name = 'ChooseError';
+          return reject(error);
+        }
+
+        return resolve(entry);
+      });
     });
   }
 
@@ -610,7 +607,7 @@
   }
 
   function getTimestamp() {
-    return moment().format('YYYY MMM Do [at] h.mm.ss a')
+    return moment().format('YYYY MMM Do [at] h.mm.ss a');
   }
 
   Whisper.Backup = {

@@ -31,7 +31,7 @@
     },
     init: function() {
       storage.put('migrationState', State.DISCONNECTING);
-      Whisper.events.trigger('shutdown');
+      Whisper.events.trigger('start-shutdown');
     },
     everComplete: function() {
       return Boolean(storage.get('migrationEverCompleted'));
