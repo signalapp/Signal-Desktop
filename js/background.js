@@ -100,7 +100,7 @@
         return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
     };
 
-    Whisper.events.on('shutdown', function() {
+    Whisper.events.on('start-shutdown', function() {
       if (messageReceiver) {
         messageReceiver.close().then(function() {
           messageReceiver = null;
