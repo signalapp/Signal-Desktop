@@ -84,6 +84,7 @@
           var location = Whisper.Migration.getExportLocation() || i18n('selectedLocation');
           message = i18n('exportComplete', location);
           exportButton = i18n('exportAgain');
+          debugLogButton = null;
           break;
         case State.EXPORTING:
           message = i18n('exporting');
