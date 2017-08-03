@@ -38405,17 +38405,12 @@ MessageReceiver.prototype.extend({
         this.incoming = [];
 
         var queueDispatch = function() {
-            // resetting count to zero so everything queued after this starts over again
-            this.count = 0;
-
             return this.addToQueue(function() {
               console.log('drained');
             });
         }.bind(this);
 
-        // We first wait for all recently-received messages (this.incoming) to be queued,
-        //   then we add a task to emit the 'empty' event to the queue, so all message
-        //   processing is complete by the time it runs.
+        // This promise will resolve when there are no more messages to be processed.
         return Promise.all(incoming).then(queueDispatch, queueDispatch);
     },
     updateProgress: function(count) {
