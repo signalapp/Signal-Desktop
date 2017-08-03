@@ -8,7 +8,7 @@
       "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "exportInstructions": {
-      "message": "The first step is to choose a directory to store this application's exported data. Please select an empty directory with enough free space.",
+      "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
       "description": "Description of the export process"
     },
     "migrate": {
@@ -28,7 +28,7 @@
       "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "confirmMigration": {
-      "message": "Start migration process? You will not be able to send or receive messages from this computer while the migration is in progress",
+      "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
       "description": "Confirmation dialogue when beginning migration"
     },
     "migrationDisconnecting": {
@@ -36,11 +36,11 @@
       "description": "Displayed while we wait for pending incoming messages to process"
     },
     "exporting": {
-      "message": "Please wait while we export your data from Chrome. You can still use Signal on your phone and other devices during this time.",
+      "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
       "description": "Message shown on the migration screen while we export data"
     },
     "exportComplete": {
-      "message": "Your data has been exported to <b>$location$</b>. To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal-Desktop</a> and import this data.",
+      "message": "Your data has been exported to <b>$location$</b>. To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
       "description": "Message shown on the migration screen when we are done exporting data",
       "placeholders": {
         "location": {
