@@ -313,7 +313,7 @@
   }
 
   function sanitizeFileName(filename) {
-    return filename.toString().replace(/[^a-z0-9.:+()'"#\- ]/gi, '_');
+    return filename.toString().replace(/[^a-z0-9.,+()'"#\- ]/gi, '_');
   }
 
   function exportConversation(idb_db, name, conversation, dir) {
@@ -609,17 +609,26 @@
     });
   }
 
+  function getTimestamp() {
+    return moment().format('YYYY MMM Do [at] h.mm.ss a')
+  }
+
   Whisper.Backup = {
     backupToDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
         var idb;
+        var dir;
         return openDatabase().then(function(idb_db) {
           idb = idb_db;
-          return exportNonMessages(idb_db, directoryEntry);
+          var name = 'Signal Export ' + getTimestamp();
+          return createDirectory(directoryEntry, name);
+        }).then(function(directory) {
+          dir = directory;
+          return exportNonMessages(idb, dir);
         }).then(function() {
-          return exportConversations(idb, directoryEntry);
+          return exportConversations(idb, dir);
         }).then(function() {
-          return getDisplayPath(directoryEntry);
+          return getDisplayPath(dir);
         });
       }).then(function(path) {
         console.log('done backing up!');
