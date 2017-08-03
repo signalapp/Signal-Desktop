@@ -514,6 +514,7 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
     width: 78px;
     height: 22px; }
   .app-loading-screen .message {
+    -webkit-user-select: text;
     max-width: 35em; }
   .app-loading-screen .dot {
     width: 14px;
