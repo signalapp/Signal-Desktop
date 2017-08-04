@@ -139,7 +139,6 @@ OutgoingMessage.prototype = {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
 
             var ourNumber = textsecure.storage.user.getNumber();
-            var number = address.toString().split('.')[0];
             var options = {};
 
             // No limit on message keys if we're communicating with our other devices
