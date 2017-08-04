@@ -456,8 +456,7 @@ MessageReceiver.prototype.extend({
         }
     },
     handleNullMessage: function(envelope, nullMessage) {
-        var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
-        console.log('null message from', encodedNumber, envelope.timestamp.toNumber());
+        console.log('null message from', encodedNumber, this.getEnvelopeId(envelope));
         this.removeFromCache(envelope);
     },
     handleSyncMessage: function(envelope, syncMessage) {
@@ -472,7 +471,8 @@ MessageReceiver.prototype.extend({
             console.log('sent message to',
                     sentMessage.destination,
                     sentMessage.timestamp.toNumber(),
-                    'from', envelope.source + '.' + envelope.sourceDevice
+                    'from',
+                    this.getEnvelopeId(envelope)
             );
             return this.handleSentMessage(
                     envelope,
