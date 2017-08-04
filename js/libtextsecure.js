@@ -36169,7 +36169,14 @@ libsignal.SessionBuilder = function (storage, remoteAddress) {
   this.processV3 = builder.processV3.bind(builder);
 };
 
-function SessionCipher(storage, remoteAddress) {
+function SessionCipher(storage, remoteAddress, options) {
+  options = options || {};
+
+  if (typeof options.messageKeysLimit === 'undefined') {
+    options.messageKeysLimit = 1000;
+  }
+
+  this.messageKeysLimit = options.messageKeysLimit;
   this.remoteAddress = remoteAddress;
   this.storage = storage;
 }
@@ -36442,7 +36449,7 @@ SessionCipher.prototype = {
     });
   },
   fillMessageKeys: function(chain, counter) {
-      if (Object.keys(chain.messageKeys).length >= 1000) {
+      if (this.messageKeysLimit && Object.keys(chain.messageKeys).length >= this.messageKeysLimit) {
           console.log("Too many message keys for chain");
           return Promise.resolve(); // Stalker, much?
       }
@@ -36565,8 +36572,8 @@ SessionCipher.prototype = {
   }
 };
 
-libsignal.SessionCipher = function(storage, remoteAddress) {
-    var cipher = new SessionCipher(storage, remoteAddress);
+libsignal.SessionCipher = function(storage, remoteAddress, options) {
+    var cipher = new SessionCipher(storage, remoteAddress, options);
 
     // returns a Promise that resolves to a ciphertext object
     this.encrypt = cipher.encrypt.bind(cipher);
@@ -38567,7 +38574,17 @@ MessageReceiver.prototype.extend({
     decrypt: function(envelope, ciphertext) {
         var promise;
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
-        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+        var ourNumber = textsecure.storage.user.getNumber();
+        var number = address.toString().split('.')[0];
+        var options = {};
+
+        // No limit on message keys if we're communicating with our other devices
+        if (ourNumber === number) {
+            options.messageKeysLimit = false;
+        }
+
+        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
                 console.log('message from', this.getEnvelopeId(envelope));
@@ -38877,7 +38894,17 @@ MessageReceiver.prototype.extend({
     },
     tryMessageAgain: function(from, ciphertext) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
-        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+        var ourNumber = textsecure.storage.user.getNumber();
+        var number = address.toString().split('.')[0];
+        var options = {};
+
+        // No limit on message keys if we're communicating with our other devices
+        if (ourNumber === number) {
+            options.messageKeysLimit = false;
+        }
+
+        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
         console.log('retrying prekey whisper message');
         return this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address).then(function(plaintext) {
             var finalMessage = textsecure.protobuf.DataMessage.decode(plaintext);
@@ -39153,7 +39180,17 @@ OutgoingMessage.prototype = {
 
         return Promise.all(deviceIds.map(function(deviceId) {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
-            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+            var ourNumber = textsecure.storage.user.getNumber();
+            var number = address.toString().split('.')[0];
+            var options = {};
+
+            // No limit on message keys if we're communicating with our other devices
+            if (ourNumber === number) {
+                options.messageKeysLimit = false;
+            }
+
+            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
             ciphers[address.getDeviceId()] = sessionCipher;
             return sessionCipher.encrypt(plaintext).then(function(ciphertext) {
                 return {

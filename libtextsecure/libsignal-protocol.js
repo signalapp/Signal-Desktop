@@ -36032,7 +36032,14 @@ libsignal.SessionBuilder = function (storage, remoteAddress) {
   this.processV3 = builder.processV3.bind(builder);
 };
 
-function SessionCipher(storage, remoteAddress) {
+function SessionCipher(storage, remoteAddress, options) {
+  options = options || {};
+
+  if (typeof options.messageKeysLimit === 'undefined') {
+    options.messageKeysLimit = 1000;
+  }
+
+  this.messageKeysLimit = options.messageKeysLimit;
   this.remoteAddress = remoteAddress;
   this.storage = storage;
 }
@@ -36305,7 +36312,7 @@ SessionCipher.prototype = {
     });
   },
   fillMessageKeys: function(chain, counter) {
-      if (Object.keys(chain.messageKeys).length >= 1000) {
+      if (this.messageKeysLimit && Object.keys(chain.messageKeys).length >= this.messageKeysLimit) {
           console.log("Too many message keys for chain");
           return Promise.resolve(); // Stalker, much?
       }
@@ -36428,8 +36435,8 @@ SessionCipher.prototype = {
   }
 };
 
-libsignal.SessionCipher = function(storage, remoteAddress) {
-    var cipher = new SessionCipher(storage, remoteAddress);
+libsignal.SessionCipher = function(storage, remoteAddress, options) {
+    var cipher = new SessionCipher(storage, remoteAddress, options);
 
     // returns a Promise that resolves to a ciphertext object
     this.encrypt = cipher.encrypt.bind(cipher);

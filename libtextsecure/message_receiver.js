@@ -325,7 +325,17 @@ MessageReceiver.prototype.extend({
     decrypt: function(envelope, ciphertext) {
         var promise;
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
-        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+        var ourNumber = textsecure.storage.user.getNumber();
+        var number = address.toString().split('.')[0];
+        var options = {};
+
+        // No limit on message keys if we're communicating with our other devices
+        if (ourNumber === number) {
+            options.messageKeysLimit = false;
+        }
+
+        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
         switch(envelope.type) {
             case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
                 console.log('message from', this.getEnvelopeId(envelope));
@@ -635,7 +645,17 @@ MessageReceiver.prototype.extend({
     },
     tryMessageAgain: function(from, ciphertext) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
-        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+        var ourNumber = textsecure.storage.user.getNumber();
+        var number = address.toString().split('.')[0];
+        var options = {};
+
+        // No limit on message keys if we're communicating with our other devices
+        if (ourNumber === number) {
+            options.messageKeysLimit = false;
+        }
+
+        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
         console.log('retrying prekey whisper message');
         return this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address).then(function(plaintext) {
             var finalMessage = textsecure.protobuf.DataMessage.decode(plaintext);
