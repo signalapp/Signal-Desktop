@@ -381,6 +381,9 @@
         });
 
         receipt.on('remove', ev.confirm);
+
+        // Calling this directly so we can wait for completion
+        return Whisper.ReadReceipts.onReceipt(receipt);
     }
 
     function onVerified(ev) {
@@ -447,6 +450,9 @@
         });
 
         receipt.on('remove', ev.confirm);
+
+        // Calling this directly so we can wait for completion
+        return Whisper.DeliveryReceipts.onReceipt(receipt);
     }
 
     window.owsDesktopApp = {
