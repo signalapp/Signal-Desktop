@@ -12,6 +12,9 @@
         expired.on('add', function(message) {
             console.log('message', message.get('sent_at'), 'expired');
             message.getConversation().trigger('expired', message);
+
+            // We delete after the trigger to allow the conversation time to process
+            //   the expiration before the message is removed from the database.
             message.destroy();
         });
         expired.on('reset', checkExpiringMessages);
