@@ -137,7 +137,17 @@ OutgoingMessage.prototype = {
 
         return Promise.all(deviceIds.map(function(deviceId) {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
-            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
+
+            var ourNumber = textsecure.storage.user.getNumber();
+            var theirNumber = address.toString().split('.')[0];
+            var options = {};
+
+            // No limit on message keys if we're communicating with our other devices
+            if (ourNumber === theirNumber) {
+                options.messageKeysLimit = false;
+            }
+
+            var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
             ciphers[address.getDeviceId()] = sessionCipher;
             return sessionCipher.encrypt(plaintext).then(function(ciphertext) {
                 return {
