@@ -6,9 +6,6 @@
     window.Whisper = window.Whisper || {};
 
     Whisper.DeliveryReceipts = new (Backbone.Collection.extend({
-        initialize: function() {
-            this.on('add', this.onReceipt);
-        },
         forMessage: function(conversation, message) {
             var recipients;
             if (conversation.isPrivate()) {
@@ -25,7 +22,7 @@
         },
         onReceipt: function(receipt) {
             var messages  = new Whisper.MessageCollection();
-            messages.fetchSentAt(receipt.get('timestamp')).then(function() {
+            return messages.fetchSentAt(receipt.get('timestamp')).then(function() {
                 if (messages.length === 0) { return; }
                 var message = messages.find(function(message) {
                     return (!message.isIncoming() && receipt.get('source') === message.get('conversationId'));
@@ -44,18 +41,21 @@
             }).then(function(message) {
                 if (message) {
                     var deliveries = message.get('delivered') || 0;
-                    message.save({
-                        delivered: deliveries + 1
-                    }).then(function() {
-                        // notify frontend listeners
-                        var conversation = ConversationController.get(
-                            message.get('conversationId')
-                        );
-                        if (conversation) {
-                            conversation.trigger('delivered', message);
-                        }
+                    return new Promise(function(resolve, reject) {
+                        message.save({
+                            delivered: deliveries + 1
+                        }).then(function() {
+                            // notify frontend listeners
+                            var conversation = ConversationController.get(
+                                message.get('conversationId')
+                            );
+                            if (conversation) {
+                                conversation.trigger('delivered', message);
+                            }
 
-                        this.remove(receipt);
+                            this.remove(receipt);
+                            resolve();
+                        }.bind(this), reject);
                     }.bind(this));
                     // TODO: consider keeping a list of numbers we've
                     // successfully delivered to?

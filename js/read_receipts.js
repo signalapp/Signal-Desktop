@@ -5,9 +5,6 @@
     'use strict';
     window.Whisper = window.Whisper || {};
     Whisper.ReadReceipts = new (Backbone.Collection.extend({
-        initialize: function() {
-            this.on('add', this.onReceipt);
-        },
         forMessage: function(message) {
             var receipt = this.findWhere({
                 sender: message.get('source'),
@@ -21,13 +18,13 @@
         },
         onReceipt: function(receipt) {
             var messages  = new Whisper.MessageCollection();
-            messages.fetchSentAt(receipt.get('timestamp')).then(function() {
+            return messages.fetchSentAt(receipt.get('timestamp')).then(function() {
                 var message = messages.find(function(message) {
                     return (message.isIncoming() && message.isUnread() &&
                             message.get('source') === receipt.get('sender'));
                 });
                 if (message) {
-                    message.markRead(receipt.get('read_at')).then(function() {
+                    return message.markRead(receipt.get('read_at')).then(function() {
                         this.notifyConversation(message);
                         this.remove(receipt);
                     }.bind(this));
