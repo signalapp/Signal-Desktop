@@ -815,28 +815,34 @@
 
     notify: function(message) {
         if (!message.isIncoming()) {
-            return;
+            return Promise.resolve();
         }
         if (window.isOpen() && window.isFocused()) {
-            return;
+            return Promise.resolve();
         }
+
         window.drawAttention();
         var sender = ConversationController.create({
             id: message.get('source'), type: 'private'
         });
         var conversationId = this.id;
-        sender.fetch().then(function() {
-            sender.getNotificationIcon().then(function(iconUrl) {
-                console.log('adding notification');
-                Whisper.Notifications.add({
-                    title          : sender.getTitle(),
-                    message        : message.getNotificationText(),
-                    iconUrl        : iconUrl,
-                    imageUrl       : message.getImageUrl(),
-                    conversationId : conversationId,
-                    messageId      : message.id
-                });
-            });
+
+        return new Promise(function(resolve, reject) {
+            sender.fetch().then(function() {
+                sender.getNotificationIcon().then(function(iconUrl) {
+                    console.log('adding notification');
+                    Whisper.Notifications.add({
+                        title          : sender.getTitle(),
+                        message        : message.getNotificationText(),
+                        iconUrl        : iconUrl,
+                        imageUrl       : message.getImageUrl(),
+                        conversationId : conversationId,
+                        messageId      : message.id
+                    });
+
+                    return resolve();
+                }, reject);
+            }, reject);
         });
     },
     hashCode: function() {
