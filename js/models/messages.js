@@ -510,22 +510,22 @@
 
                                         console.log('done with handleDataMessage', message.idForLogging());
 
-                                        if (confirm) {
-                                            confirm();
-                                        }
+                                        confirm();
                                         return resolve();
                                     }
                                     catch (e) {
                                         handleError(e);
                                     }
                                 }, function(error) {
-                                    console.log('handleDataMessage: Message', message.idForLogging(), 'was deleted');
+                                    try {
+                                        console.log('handleDataMessage: Message', message.idForLogging(), 'was deleted');
 
-                                    if (confirm) {
                                         confirm();
+                                        return resolve();
                                     }
-
-                                    return resolve();
+                                    catch (e) {
+                                        handleError(e);
+                                    }
                                 });
                             }, handleError);
                         }, handleError);
