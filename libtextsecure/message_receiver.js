@@ -128,6 +128,7 @@ MessageReceiver.prototype.extend({
         this.incoming = [];
 
         var dispatchEmpty = function() {
+            console.log('MessageReceiver: emitting \'empty\' event');
             var ev = new Event('empty');
             return this.dispatchAndWait(ev);
         }.bind(this);
@@ -439,7 +440,7 @@ MessageReceiver.prototype.extend({
     },
     handleContentMessage: function (envelope) {
         return this.decrypt(envelope, envelope.content).then(function(plaintext) {
-            this.innerHandleContentMessage(envelope, plaintext);
+            return this.innerHandleContentMessage(envelope, plaintext);
         }.bind(this));
     },
     innerHandleContentMessage: function(envelope, plaintext) {
