@@ -38275,9 +38275,7 @@ MessageReceiver.prototype.extend({
             keepalive: { path: '/v1/keepalive', disconnect: true }
         });
 
-        this.pending = Promise.resolve();
-
-        this.queueAllCached();
+        this.pending = this.queueAllCached();
     },
     close: function() {
         this.socket.close(3000, 'called close');
@@ -38398,7 +38396,7 @@ MessageReceiver.prototype.extend({
         this.dispatchEvent(ev);
     },
     queueAllCached: function() {
-        this.getAllFromCache().then(function(items) {
+        return this.getAllFromCache().then(function(items) {
             for (var i = 0, max = items.length; i < max; i += 1) {
                 this.queueCached(items[i]);
             }
