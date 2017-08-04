@@ -38576,11 +38576,11 @@ MessageReceiver.prototype.extend({
         var address = new libsignal.SignalProtocolAddress(envelope.source, envelope.sourceDevice);
 
         var ourNumber = textsecure.storage.user.getNumber();
-        var theirNumber = address.toString().split('.')[0];
+        var number = address.toString().split('.')[0];
         var options = {};
 
         // No limit on message keys if we're communicating with our other devices
-        if (ourNumber === theirNumber) {
+        if (ourNumber === number) {
             options.messageKeysLimit = false;
         }
 
@@ -38896,11 +38896,11 @@ MessageReceiver.prototype.extend({
         var address = libsignal.SignalProtocolAddress.fromString(from);
 
         var ourNumber = textsecure.storage.user.getNumber();
-        var theirNumber = address.toString().split('.')[0];
+        var number = address.toString().split('.')[0];
         var options = {};
 
         // No limit on message keys if we're communicating with our other devices
-        if (ourNumber === theirNumber) {
+        if (ourNumber === number) {
             options.messageKeysLimit = false;
         }
 
@@ -39182,11 +39182,11 @@ OutgoingMessage.prototype = {
             var address = new libsignal.SignalProtocolAddress(number, deviceId);
 
             var ourNumber = textsecure.storage.user.getNumber();
-            var theirNumber = address.toString().split('.')[0];
+            var number = address.toString().split('.')[0];
             var options = {};
 
             // No limit on message keys if we're communicating with our other devices
-            if (ourNumber === theirNumber) {
+            if (ourNumber === number) {
                 options.messageKeysLimit = false;
             }
 
