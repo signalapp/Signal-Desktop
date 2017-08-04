@@ -518,7 +518,15 @@
                                     catch (e) {
                                         handleError(e);
                                     }
-                                }, handleError);
+                                }, function(error) {
+                                    console.log('handleDataMessage: Message', message.idForLogging(), 'was deleted');
+
+                                    if (confirm) {
+                                        confirm();
+                                    }
+
+                                    return resolve();
+                                });
                             }, handleError);
                         }, handleError);
                     });
