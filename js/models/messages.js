@@ -569,7 +569,15 @@
                 var start = this.get('expirationStartTimestamp');
                 var delta = this.get('expireTimer') * 1000;
                 var expires_at = start + delta;
-                this.save('expires_at', expires_at);
+
+                // This method can be called due to the expiration-related .set() calls in
+                //   handleDataMessage(), but the .save() here would conflict with the
+                //   same call at the end of handleDataMessage(). So we only call .save()
+                //   here if we've previously saved this model.
+                if (!this.isNew()) {
+                    this.save('expires_at', expires_at);
+                }
+
                 Whisper.ExpiringMessagesListener.update();
                 console.log('message', this.get('sent_at'), 'expires at', expires_at);
             }
