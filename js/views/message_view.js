@@ -281,40 +281,38 @@
         renderErrors: function() {
             var errors = this.model.get('errors');
 
+
+            this.$('.error-icon-container').remove();
+            if (this.errorIconView) {
+                this.errorIconView.remove();
+                this.errorIconView = null;
+            }
             if (_.size(errors) > 0) {
                 if (this.model.isIncoming()) {
                     this.$('.content').text(this.model.getDescription()).addClass('error-message');
                 }
                 this.errorIconView = new ErrorIconView({ model: errors[0] });
                 this.errorIconView.render().$el.appendTo(this.$('.bubble'));
-            } else {
-                this.$('.error-icon-container').remove();
-                if (this.errorIconView) {
-                    this.errorIconView.remove();
-                    this.errorIconView = null;
-                }
             }
 
+            this.$('.meta .hasRetry').remove();
+            if (this.networkErrorView) {
+                this.networkErrorView.remove();
+                this.networkErrorView = null;
+            }
             if (this.model.hasNetworkError()) {
                 this.networkErrorView = new NetworkErrorView({model: this.model});
                 this.$('.meta').prepend(this.networkErrorView.render().el);
-            } else {
-                this.$('.meta .hasRetry').remove();
-                if (this.networkErrorView) {
-                    this.networkErrorView.remove();
-                    this.networkErrorView = null;
-                }
             }
 
+            this.$('.meta .some-failed').remove();
+            if (this.someFailedView) {
+                this.someFailedView.remove();
+                this.someFailedView = null;
+            }
             if (this.model.someRecipientsFailed()) {
                 this.someFailedView = new SomeFailedView();
                 this.$('.meta').prepend(this.someFailedView.render().el);
-            } else {
-                this.$('.meta .some-failed').remove();
-                if (this.someFailedView) {
-                    this.someFailedView.remove();
-                    this.someFailedView = null;
-                }
             }
         },
         renderControl: function() {
