@@ -38667,8 +38667,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleDataMessage: function(envelope, message) {
-        var encodedNumber = envelope.source + '.' + envelope.sourceDevice;
-        console.log('data message from', encodedNumber, envelope.timestamp.toNumber());
+        console.log('data message from', this.getEnvelopeId(envelope));
         var p = Promise.resolve();
         if ((message.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) ==
                 textsecure.protobuf.DataMessage.Flags.END_SESSION ) {
@@ -38716,7 +38715,7 @@ MessageReceiver.prototype.extend({
         }
     },
     handleNullMessage: function(envelope, nullMessage) {
-        console.log('null message from', encodedNumber, this.getEnvelopeId(envelope));
+        console.log('null message from', this.getEnvelopeId(envelope));
         this.removeFromCache(envelope);
     },
     handleSyncMessage: function(envelope, syncMessage) {
