@@ -38283,6 +38283,10 @@ MessageReceiver.prototype.extend({
         });
 
         this.pending = this.queueAllCached();
+
+        // Ensures that an immediate 'empty' event from the websocket will fire only after
+        //   all cached envelopes are processed.
+        this.incoming = [this.pending];
     },
     close: function() {
         this.socket.close(3000, 'called close');
