@@ -62,7 +62,7 @@
 
             var dialog = new Whisper.ConfirmationDialogView({
                 message: i18n('changedRightAfterVerify', this.model.getTitle(), this.model.getTitle()),
-                resolve: function() {},
+                hideCancel: true
             });
 
             dialog.$el.insertBefore(this.el);
