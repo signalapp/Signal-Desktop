@@ -2109,6 +2109,8 @@ li.entry .error-icon-container {
 
 .android-dark {
   color: #CCCCCC; }
+  .android-dark .app-loading-screen {
+    background-color: #333333; }
   .android-dark .gutter .content {
     background-color: #333333; }
   .android-dark a {
