@@ -144,7 +144,7 @@ MessageSender.prototype = {
     },
 
     tryMessageAgain: function(number, encodedMessage, timestamp) {
-        var proto = textsecure.protobuf.DataMessage.decode(encodedMessage);
+        var proto = textsecure.protobuf.Content.decode(encodedMessage);
         return this.sendIndividualProto(number, proto, timestamp);
     },
 
