@@ -337,7 +337,7 @@
                 return;
             }
             var envelope = ev.proto;
-            var message = initIncomingMessage(envelope.source, envelope.timestamp.toNumber());
+            var message = initIncomingMessage(envelope);
 
             return message.saveErrors(e).then(function() {
                 var id = message.get('conversationId');
