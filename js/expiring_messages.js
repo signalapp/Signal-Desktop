@@ -17,7 +17,7 @@
             //   the expiration before the message is removed from the database.
             message.destroy();
         });
-        expired.on('reset', checkExpiringMessages);
+        expired.on('reset', throttledCheckExpiringMessages);
 
         expired.fetchExpired();
     }
@@ -38,13 +38,14 @@
         });
         expiring.fetchNextExpiring();
     }
+    var throttledCheckExpiringMessages = _.throttle(checkExpiringMessages, 1000);
 
     Whisper.ExpiringMessagesListener = {
         init: function(events) {
             checkExpiringMessages();
-            events.on('timetravel', checkExpiringMessages);
+            events.on('timetravel', throttledCheckExpiringMessages);
         },
-        update: checkExpiringMessages
+        update: throttledCheckExpiringMessages
     };
 
     var TimerOption = Backbone.Model.extend({
