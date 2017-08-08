@@ -7,8 +7,7 @@
 
     Whisper.StandaloneRegistrationView = Whisper.View.extend({
         templateName: 'standalone',
-        id: 'install',
-        className: 'main',
+        className: 'install main',
         initialize: function() {
             this.accountManager = getAccountManager();
 
