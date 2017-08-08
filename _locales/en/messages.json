@@ -514,7 +514,7 @@
     },
     "someRecipientsFailed": {
         "message": "Some recipients failed.",
-        "description": "Informational label, for messages where some recipients succeeded, others failed"
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "showMore": {
         "message": "Details",
