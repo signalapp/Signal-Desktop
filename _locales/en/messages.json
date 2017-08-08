@@ -54,7 +54,7 @@
       "description": "Title of the popup window used to select data previously exported"
     },
     "importError": {
-      "message": "Unfortunately, something went wrong during the import. First, make sure all of the originally exported files are available. Then, please submit a debug log so we can help you get migrated!",
+      "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
       "description": "Message shown if the import went wrong."
     },
     "tryAgain": {
