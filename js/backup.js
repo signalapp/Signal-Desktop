@@ -669,32 +669,34 @@
     return moment().format('YYYY MMM Do [at] h.mm.ss a');
   }
 
+  // directories returned and taken by backup/import are all string paths
   Whisper.Backup = {
     clearDatabase: function() {
       return openDatabase().then(function(idb_db) {
         return clearAllStores(idb_db);
       });
     },
-    backupToDirectory: function() {
+    getDirectoryForExport: function() {
       var options = {
         title: i18n('exportChooserTitle'),
         buttonLabel: i18n('exportButton'),
       };
-      return getDirectory(options).then(function(directory) {
-        var idb;
-        var dir;
-        return openDatabase().then(function(idb_db) {
-          idb = idb_db;
-          var name = 'Signal Export ' + getTimestamp();
-          return createDirectory(directory, name);
-        }).then(function(created) {
-          dir = created;
-          return exportNonMessages(idb, dir);
-        }).then(function() {
-          return exportConversations(idb, dir);
-        }).then(function() {
-          return dir;
-        });
+      return getDirectory(options);
+    },
+    backupToDirectory: function(directory) {
+      var dir;
+      var idb;
+      return openDatabase().then(function(idb_db) {
+        idb = idb_db;
+        var name = 'Signal Export ' + getTimestamp();
+        return createDirectory(directory, name);
+      }).then(function(created) {
+        dir = created;
+        return exportNonMessages(idb, dir);
+      }).then(function() {
+        return exportConversations(idb, dir);
+      }).then(function() {
+        return dir;
       }).then(function(path) {
         console.log('done backing up!');
         return path;
@@ -706,21 +708,22 @@
         return Promise.reject(error);
       });
     },
-    importFromDirectory: function() {
+    getDirectoryForImport: function() {
       var options = {
         title: i18n('importChooserTitle'),
         buttonLabel: i18n('importButton'),
       };
-      return getDirectory(options).then(function(directory) {
-        var idb;
-        return openDatabase().then(function(idb_db) {
-          idb = idb_db;
-          return importNonMessages(idb_db, directory);
-        }).then(function() {
-          return importConversations(idb, directory);
-        }).then(function() {
-          return directory;
-        });
+      return getDirectory(options);
+    },
+    importFromDirectory: function(directory) {
+      var idb;
+      return openDatabase().then(function(idb_db) {
+        idb = idb_db;
+        return importNonMessages(idb_db, directory);
+      }).then(function() {
+        return importConversations(idb, directory);
+      }).then(function() {
+        return directory;
       }).then(function(path) {
         console.log('done restoring from backup!');
         return path;
