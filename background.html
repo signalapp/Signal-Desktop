@@ -22,7 +22,7 @@
   <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
   <script type='text/x-tmpl-mustache' id='app-migration-screen'>
     <div class='content'>
-      <img src='/images/icon_128.png'>
+      <img src='images/icon_128.png'>
       {{ ^hideProgress }}
         <div class='container'>
           <span class='dot'></span>
@@ -32,15 +32,15 @@
       {{ /hideProgress }}
       <div class='message'>{{& message }}</div>
       <div>
-        {{ #installButton }}
-          <button class='install grey'>{{ installButton }}</button>
-        {{ /installButton }}
-        {{ #exportButton }}
-          <button class='export grey'>{{ exportButton }}</button>
-        {{ /exportButton }}
-        {{ #debugLogButton }}
-          <button class='debug-log grey'>{{ debugLogButton }}</button>
-        {{ /debugLogButton }}
+        {{ #importButton }}
+          <button class='import grey'>{{ importButton }}</button>
+        {{ /importButton }}
+        {{ #restartButton }}
+          <button class='restart grey'>{{ restartButton }}</button>
+        {{ /restartButton }}
+        {{ #cancelButton }}
+          <button class='cancel grey'>{{ cancelButton }}</button>
+        {{ /cancelButton }}
       </div>
     </div>
   </script>
@@ -629,8 +629,24 @@
     {{/action }}
   </script>
 
+  <script type='text/x-tmpl-mustache' id='install-choice'>
+    <div class='step'>
+      <div class='inner'>
+        <div class='step-body'>
+          <img id='signal-icon' src='images/icon_250.png'/>
+          <h1>{{ installWelcome }}</h1>
+          <p>{{ installTagline }}</p>
+        </div>
+        <div class='nav'>
+          <div> <a class='button new'>{{ installNew }}</a> </div>
+          <div> <a class='button import'>{{ installImport }}</a> </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
   <script type='text/x-tmpl-mustache' id='install_flow_template'>
-    <div id='step1' class='step'>
+    <div id='step1' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
           <img id='signal-icon' src='images/icon_250.png'/>
@@ -639,14 +655,16 @@
         </div>
         <div class='nav'>
           <div> <a class='button step2'>{{ installGetStartedButton }}</a> </div>
-          <span class='dot step1 selected'></span>
-          <span class='dot step2'></span>
-          <span class='dot step3'></span>
+          <div class='dot-container'>
+            <span class='dot step1 selected'></span>
+            <span class='dot step2'></span>
+            <span class='dot step3'></span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id='step2' class='step'>
+    <div id='step2' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
           <img id='signal-phone' src='images/signal-phone.png'>
@@ -654,14 +672,16 @@
         </div>
         <div class='nav'>
           <div> <a class='button step3'>{{ installIHaveSignalButton }}</a> </div>
-          <span class='dot step1'></span>
-          <span class='dot step2 selected'></span>
-          <span class='dot step3'></span>
+          <div class='dot-container'>
+            <span class='dot step1'></span>
+            <span class='dot step2 selected'></span>
+            <span class='dot step3'></span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id='step3' class='step'>
+    <div id='step3' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
           <div id="qr"></div>
@@ -671,14 +691,16 @@
           {{ #development }}
             <div> <a class='button openStandalone'>Standalone</a> </div>
           {{ /development }}
-          <span class='dot step1'></span>
-          <span class='dot step2'></span>
-          <span class='dot step3 selected'></span>
+          <div class='dot-container'>
+            <span class='dot step1'></span>
+            <span class='dot step2'></span>
+            <span class='dot step3 selected'></span>
+          </div>
         </div>
       </div>
     </div>
 
-    <form id='step4' class='step'>
+    <form id='step4' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
           <p>{{ installLinkingWithNumber }}</p>
@@ -697,7 +719,7 @@
       </div>
     </form>
 
-    <div id='step5' class='step'>
+    <div id='step5' class='step hidden'>
       <div class='inner'>
         <div class='step-body'>
           <img id='signal-icon' src='images/icon_250.png'/>
@@ -711,7 +733,7 @@
       </div>
     </div>
 
-    <div id='stepTooManyDevices' class='step'>
+    <div id='stepTooManyDevices' class='step hidden'>
       <div class='inner error-dialog clearfix'>
         <div class='panel step-body'>{{ installTooManyDevices }}</div>
         <div class='nav'>
@@ -822,11 +844,12 @@
   <script type="text/javascript" src="js/views/phone-input-view.js"></script>
   <script type='text/javascript' src='js/views/standalone_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>
+  <script type='text/javascript' src='js/views/install_choice_view.js'></script>
+  <script type='text/javascript' src='js/views/import_view.js'></script>
 
   <script type='text/javascript' src='js/wall_clock_listener.js'></script>
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>
-  <script type='text/javascript' src='js/backup.js'></script>
   <script type='text/javascript' src='js/background.js'></script>
 </head>
 <body>

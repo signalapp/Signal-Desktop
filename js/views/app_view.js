@@ -29,26 +29,52 @@
             this.debugLogView = null;
           }
         },
+        openInstallChoice: function() {
+          this.closeInstallChoice();
+          var installChoice = this.installChoice = new Whisper.InstallChoiceView();
+
+          this.listenTo(installChoice, 'install-new', this.openInstaller.bind(this));
+          this.listenTo(installChoice, 'install-import', this.openImporter.bind(this));
+
+          this.openView(this.installChoice);
+        },
+        closeInstallChoice: function() {
+          if (this.installChoice) {
+            this.installChoice.remove();
+            this.installChoice = null;
+          }
+        },
+        openImporter: function() {
+          this.closeImporter();
+          this.closeInstallChoice();
+          var importView = this.importView = new Whisper.ImportView();
+          this.listenTo(importView, 'cancel', this.openInstallChoice.bind(this));
+          this.openView(this.importView);
+        },
+        closeImporter: function() {
+          if (this.importView) {
+            this.importView.remove();
+            this.importView = null;
+          }
+        },
         openInstaller: function() {
           this.closeInstaller();
-          this.installView = new Whisper.InstallView();
-          if (Whisper.Registration.everDone()) {
-              this.installView.selectStep(3);
-              this.installView.hideDots();
-          }
+          this.closeInstallChoice();
+          var installView = this.installView = new Whisper.InstallView();
+          this.listenTo(installView, 'cancel', this.openInstallChoice.bind(this));
           this.openView(this.installView);
+        },
+        closeInstaller: function() {
+          if (this.installView) {
+            this.installView.remove();
+            this.installView = null;
+          }
         },
         openStandalone: function() {
           if (window.config.environment !== 'production') {
             this.closeInstaller();
             this.installView = new Whisper.StandaloneRegistrationView();
             this.openView(this.installView);
-          }
-        },
-        closeInstaller: function() {
-          if (this.installView) {
-            this.installView.remove();
-            this.installView = null;
           }
         },
         openInbox: function(options) {

@@ -6,7 +6,7 @@
   background: url("../images/flags.png");
 }
 
-#install {
+.install {
   height: 100%;
   background: #2090ea;
   color: white;
@@ -23,8 +23,10 @@
   .main {
     padding: 70px 0 50px;
   }
-  .step {
+  .hidden {
     display: none;
+  }
+  .step {
     height: 100%;
   }
   .inner {
@@ -81,8 +83,8 @@
     margin-top: auto;
     padding: 20px;
 
-    .button {
-      margin-bottom: 3em;
+    .dot-container {
+      margin-top: 3em;
     }
 
     .dot {
@@ -99,6 +101,11 @@
         background: $blue_l;
       }
     }
+  }
+
+  &.install-choice .nav {
+    top: 20px;
+    margin-bottom: auto;
   }
 
   .link {

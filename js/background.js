@@ -53,7 +53,35 @@
     };
 
     storage.fetch();
+
+    // We need this 'first' check because we don't want to start the app up any other time
+    //   than the first time. And storage.fetch() will cause onready() to fire.
+    var first = true;
     storage.onready(function() {
+        if (!first) {
+            return;
+        }
+        first = false;
+
+        start();
+    });
+
+    window.getSyncRequest = function() {
+        return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
+    };
+
+    Whisper.events.on('shutdown', function() {
+      if (messageReceiver) {
+        messageReceiver.close().then(function() {
+          messageReceiver = null;
+          Whisper.events.trigger('shutdown-complete');
+        });
+      } else {
+        Whisper.events.trigger('shutdown-complete');
+      }
+    });
+
+    function start() {
         ConversationController.load();
 
         window.dispatchEvent(new Event('storage_ready'));
@@ -61,7 +89,7 @@
         console.log("listening for registration events");
         Whisper.events.on('registration_done', function() {
             console.log("handling registration event");
-            init(true);
+            connect(true);
         });
 
         var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body')});
@@ -70,13 +98,16 @@
         Whisper.RotateSignedPreKeyListener.init(Whisper.events);
         Whisper.ExpiringMessagesListener.init(Whisper.events);
 
-        if (Whisper.Registration.everDone()) {
-            init();
+        if (Whisper.Import.isIncomplete()) {
+            console.log('Import was interrupted, showing import error screen');
+            appView.openImporter();
+        } else if (Whisper.Registration.everDone()) {
+            connect();
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
             });
         } else {
-            appView.openInstaller();
+            appView.openInstallChoice();
         }
 
         Whisper.events.on('showDebugLog', function() {
@@ -109,7 +140,7 @@
                 });
             }
         });
-    });
+    }
 
     window.getSyncRequest = function() {
         return new textsecure.SyncRequest(textsecure.messaging, messageReceiver);
@@ -126,11 +157,12 @@
       }
     });
 
-    function init(firstRun) {
-        window.removeEventListener('online', init);
+    function connect(firstRun) {
+        window.removeEventListener('online', connect);
 
         if (!Whisper.Registration.isDone()) { return; }
         if (Whisper.Migration.inProgress()) { return; }
+        if (Whisper.Import.isIncomplete()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
 
@@ -398,13 +430,13 @@
             // Failed to connect to server
             if (navigator.onLine) {
                 console.log('retrying in 1 minute');
-                setTimeout(init, 60000);
+                setTimeout(connect, 60000);
 
                 Whisper.events.trigger('reconnectTimer');
             } else {
                 console.log('offline');
                 if (messageReceiver) { messageReceiver.close(); }
-                window.addEventListener('online', init);
+                window.addEventListener('online', connect);
             }
             return;
         }

@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+
   console.log('preload');
   const electron = require('electron')
 
@@ -87,5 +88,8 @@
       menu.popup(remote.getCurrentWindow());
     }, 30);
   });
+
+  // we have to pull this in this way because it references node APIs
+  require('./js/backup');
 
 })();
