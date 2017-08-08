@@ -38745,20 +38745,20 @@ MessageReceiver.prototype.extend({
                     sentMessage.expirationStartTimestamp
             );
         } else if (syncMessage.contacts) {
-            this.handleContacts(envelope, syncMessage.contacts);
+            return this.handleContacts(envelope, syncMessage.contacts);
         } else if (syncMessage.groups) {
-            this.handleGroups(envelope, syncMessage.groups);
+            return this.handleGroups(envelope, syncMessage.groups);
         } else if (syncMessage.blocked) {
-            this.handleBlocked(envelope, syncMessage.blocked);
+            return this.handleBlocked(envelope, syncMessage.blocked);
         } else if (syncMessage.request) {
             console.log('Got SyncMessage Request');
-            this.removeFromCache(envelope);
+            return this.removeFromCache(envelope);
         } else if (syncMessage.read && syncMessage.read.length) {
             console.log('read messages',
                     'from', envelope.source + '.' + envelope.sourceDevice);
-            this.handleRead(envelope, syncMessage.read);
+            return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
-            this.handleVerified(envelope, syncMessage.verified);
+            return this.handleVerified(envelope, syncMessage.verified);
         } else {
             throw new Error('Got empty SyncMessage');
         }
