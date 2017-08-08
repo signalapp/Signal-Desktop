@@ -159,7 +159,6 @@
         window.removeEventListener('online', connect);
 
         if (!Whisper.Registration.isDone()) { return; }
-        if (Whisper.Migration.inProgress()) { return; }
         if (Whisper.Import.isIncomplete()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
