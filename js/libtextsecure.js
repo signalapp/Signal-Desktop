@@ -37095,11 +37095,15 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
     function loadProtoBufs(filename) {
         return dcodeIO.ProtoBuf.loadProtoFile({root: window.PROTO_ROOT, file: filename}, function(error, result) {
             if (error) {
+                var text = 'Error loading protos from ' + filename + ' (root: ' + window.PROTO_ROOT + ') '
+                    + (error && error.stack ? error.stack : error);
+                console.log(text);
                 throw error;
             }
             var protos = result.build('textsecure');
             if (!protos) {
                 var text = 'Error loading protos from ' + filename + ' (root: ' + window.PROTO_ROOT + ')';
+                console.log(text);
                 throw new Error(text);
             }
             for (var protoName in protos) {
