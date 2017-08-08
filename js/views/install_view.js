@@ -5,6 +5,14 @@
     'use strict';
     window.Whisper = window.Whisper || {};
 
+    var Steps = {
+        INSTALL_SIGNAL: 2,
+        SCAN_QR_CODE: 3,
+        ENTER_NAME: 4,
+        PROGRESS_BAR: 5,
+        TOO_MANY_DEVICES: 'TooManyDevices',
+    };
+
     Whisper.InstallView = Whisper.View.extend({
         templateName: 'install_flow_template',
         className: 'main install',
@@ -44,12 +52,12 @@
             }
 
             this.$('#device-name').val(deviceName);
-            this.$('#step2').show();
+            this.selectStep(Steps.INSTALL_SIGNAL);
             this.connect();
             this.on('disconnected', this.reconnect);
 
             if (Whisper.Registration.everDone()) {
-                this.installView.selectStep(3);
+                this.installView.selectStep(Steps.SCAN_QR_CODE);
                 this.installView.hideDots();
             }
         },
@@ -83,8 +91,8 @@
             return {
                 'click .error-dialog .ok': 'connect',
                 'click .step1': 'onCancel',
-                'click .step2': this.selectStep.bind(this, 2),
-                'click .step3': this.selectStep.bind(this, 3)
+                'click .step2': this.selectStep.bind(this, Steps.INSTALL_SIGNAL),
+                'click .step3': this.selectStep.bind(this, Steps.SCAN_QR_CODE)
             };
         },
         onCancel: function() {
@@ -100,17 +108,18 @@
         },
         confirmNumber: function(number) {
             var parsed = libphonenumber.parse(number);
-            this.$('#step4 .number').text(libphonenumber.format(
+            var stepId = '#step' + Steps.ENTER_NAME;
+            this.$(stepId + ' .number').text(libphonenumber.format(
                 parsed,
                 libphonenumber.PhoneNumberFormat.INTERNATIONAL
             ));
-            this.selectStep(4);
+            this.selectStep(Steps.ENTER_NAME);
             this.$('#device-name').focus();
             return new Promise(function(resolve, reject) {
-                this.$('#step4 .cancel').click(function(e) {
+                this.$(stepId + ' .cancel').click(function(e) {
                     reject();
                 });
-                this.$('#step4').submit(function(e) {
+                this.$(stepId).submit(function(e) {
                     e.stopPropagation();
                     e.preventDefault();
                     var name = this.$('#device-name').val();
@@ -120,7 +129,7 @@
                         return;
                     }
                     this.$('.progress-dialog .status').text(i18n('installGeneratingKeys'));
-                    this.selectStep(5);
+                    this.selectStep(Steps.PROGRESS_BAR);
                     resolve(name);
                 }.bind(this));
             }.bind(this));
@@ -137,13 +146,13 @@
             this.$('.progress-dialog .bar').addClass('progress-bar-striped active');
         },
         showTooManyDevices: function() {
-            this.selectStep('TooManyDevices');
+            this.selectStep(Steps.TOO_MANY_DEVICES);
         },
         showConnectionError: function() {
             this.$('#qr').text(i18n("installConnectionFailed"));
         },
         hideDots: function() {
-            this.$('#step3 .nav .dot').hide();
+            this.$('#step' + Steps.SCAN_QR_CODE + ' .nav .dot').hide();
         }
     });
 })();
