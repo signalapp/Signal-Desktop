@@ -99,12 +99,19 @@
       this.trigger('cancel');
     },
     onImport: function() {
+      Whisper.Backup.getDirectoryForImport().then(function(directory) {
+        this.doImport(directory);
+      }.bind(this), function(error) {
+        if (error.name !== 'ChooseError') {
+          console.log('Error choosing directory:', error && error.stack ? error.stack : error);
+        }
+      });
+    },
+    doImport: function(directory) {
       this.error = null;
 
       this.state = State.IMPORTING;
       this.render();
-
-      var importLocation;
 
       // Wait for prior database interaction to complete
       this.pending = this.pending.then(function() {
@@ -112,41 +119,32 @@
         return Whisper.Backup.clearDatabase();
       }).then(function() {
         Whisper.Import.start();
-        return Whisper.Backup.importFromDirectory();
-      }).then(function(directory) {
-        importLocation = directory;
-
+        return Whisper.Backup.importFromDirectory(directory);
+      }).then(function() {
         // Catching in-memory cache up with what's in indexeddb now...
         // NOTE: this fires storage.onready, listened to across the app. We'll restart
         //   to complete the install to start up cleanly with everything now in the DB.
         return storage.fetch();
       }).then(function() {
-        // Clearing any migration-related state inherited from the Chome App
+        // Clearing any migration-related state inherited from the Chrome App
         storage.remove('migrationState');
         storage.remove('migrationEnabled');
         storage.remove('migrationEverCompleted');
         storage.remove('migrationStorageLocation');
 
-        if (importLocation) {
-          Whisper.Import.saveLocation(importLocation);
-        }
-
+        Whisper.Import.saveLocation(directory);
         Whisper.Import.complete();
 
         this.state = State.COMPLETE;
         this.render();
       }.bind(this)).catch(function(error) {
-        if (error.name !== 'ChooseError') {
-          this.error = error.message;
-          console.log('Error importing:', error && error.stack ? error.stack : error);
-        }
+        console.log('Error importing:', error && error.stack ? error.stack : error);
 
+        this.error = error.message;
         this.state = null;
         this.render();
 
-        if (this.error) {
-          return Whisper.Backup.clearDatabase();
-        }
+        return Whisper.Backup.clearDatabase();
       }.bind(this));
     }
   });
