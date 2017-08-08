@@ -7,8 +7,7 @@
 
     Whisper.InstallView = Whisper.View.extend({
         templateName: 'install_flow_template',
-        id: 'install',
-        className: 'main',
+        className: 'main install',
         render_attributes: function() {
             var twitterHref = 'https://twitter.com/whispersystems';
             var signalHref = 'https://signal.org/install';
@@ -48,6 +47,11 @@
             this.$('#step1').show();
             this.connect();
             this.on('disconnected', this.reconnect);
+
+            if (Whisper.Registration.everDone()) {
+                this.installView.selectStep(3);
+                this.installView.hideDots();
+            }
         },
         connect: function() {
             this.clearQR();
