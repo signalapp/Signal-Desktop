@@ -79,14 +79,27 @@
         },
         openInbox: function(options) {
           options = options || {};
-          _.defaults(options, {initialLoadComplete: false});
+          // The inbox can be created before the 'empty' event fires or afterwards. If
+          //   before, it's straightforward: the onEmpty() handler below updates the
+          //   view directly, and we're in good shape. If we create the inbox late, we
+          //   need to be sure that the current value of initialLoadComplete is provided
+          //   so its loading screen doesn't stick around forever.
+
+          // Two primary techniques at play for this situation:
+          //   - background.js has two openInbox() calls, and passes initalLoadComplete
+          //     directly via the options parameter.
+          //   - in other situations openInbox() will be called with no options. So this
+          //     view keeps track of whether onEmpty() has ever been called with
+          //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
+          _.defaults(options, {initialLoadComplete: this.initialLoadComplete});
 
           console.log('open inbox');
           this.closeInstaller();
 
           if (!this.inboxView) {
-            // We create the inbox immediately to make sure we're ready to receive the
-            //   empty event after getting down to zero messages in the queue.
+            // We create the inbox immediately so we don't miss an update to
+            //   this.initialLoadComplete between the start of this method and the
+            //   creation of inboxView.
             this.inboxView = new Whisper.InboxView({
               model: self,
               window: window,
@@ -105,6 +118,8 @@
         },
         onEmpty: function() {
           var view = this.inboxView;
+
+          this.initialLoadComplete = true;
           if (view) {
             view.onEmpty();
           }
