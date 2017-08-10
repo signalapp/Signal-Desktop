@@ -875,7 +875,12 @@
                 }
 
                 this.showSendConfirmationDialog(e, contacts);
-            }.bind(this));
+            }.bind(this)).catch(function(error) {
+                console.log(
+                    'checkUnverifiedSendMessage error:',
+                    error && error.stack ? error.stack : error
+                );
+            });
         },
 
         checkUntrustedSendMessage: function(e, options) {
@@ -883,7 +888,6 @@
             _.defaults(options, {force: false});
 
             this.model.getUntrusted().then(function(contacts) {
-
                 if (!contacts.length) {
                     return this.sendMessage(e);
                 }
@@ -895,7 +899,12 @@
                 }
 
                 this.showSendConfirmationDialog(e, contacts);
-            }.bind(this));
+            }.bind(this)).catch(function(error) {
+                console.log(
+                    'checkUntrustedSendMessage error:',
+                    error && error.stack ? error.stack : error
+                );
+            });
         },
 
         sendMessage: function(e) {

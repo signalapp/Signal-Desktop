@@ -62,10 +62,15 @@
     onMessageError: function() {
         this.updateVerified();
     },
+    safeGetVerified: function() {
+        return textsecure.storage.protocol.getVerified(this.id).catch(function() {
+            return textsecure.storage.protocol.VerifiedStatus.DEFAULT;
+        });
+    },
     updateVerified: function() {
         if (this.isPrivate()) {
             return Promise.all([
-                textsecure.storage.protocol.getVerified(this.id),
+                this.safeGetVerified(),
                 this.safeFetch()
             ]).then(function(results) {
                 var trust = results[0];
@@ -220,9 +225,14 @@
 
         return textsecure.storage.protocol.setApproval(this.id, true);
     },
+    safeIsUntrusted: function() {
+        return textsecure.storage.protocol.isUntrusted(this.id).catch(function() {
+            return false;
+        });
+    },
     isUntrusted: function() {
         if (this.isPrivate()) {
-            return textsecure.storage.protocol.isUntrusted(this.id);
+            return this.safeIsUntrusted();
         } else {
             if (!this.contactCollection.length) {
                 return Promise.resolve(false);
@@ -232,7 +242,7 @@
                 if (contact.isMe()) {
                     return false;
                 } else {
-                    return contact.isUntrusted();
+                    return contact.safeIsUntrusted();
                 }
             }.bind(this))).then(function(results) {
                 return _.any(results, function(result) {
@@ -257,7 +267,7 @@
                 if (contact.isMe()) {
                     return [false, contact];
                 } else {
-                    return Promise.all([this.isUntrusted(), contact]);
+                    return Promise.all([contact.isUntrusted(), contact]);
                 }
             }.bind(this))).then(function(results) {
                 results = _.filter(results, function(result) {
@@ -653,6 +663,11 @@
                   return sessionCipher.closeOpenSessionForDevice();
               }
             });
+        }).catch(function(error) {
+            console.log(
+                'getProfile error:',
+                error && error.stack ? error.stack : error
+            );
         });
     },
 
