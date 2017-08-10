@@ -31,7 +31,12 @@
             console.log('next message expires', new Date(expires_at).toISOString());
 
             var wait = expires_at - Date.now();
+
+            // In the past
             if (wait < 0) { wait = 0; }
+
+            // Too far in the future, since it's limited to a 32-bit value
+            if (wait > 2147483647) { wait = 2147483647; }
 
             clearTimeout(timeout);
             timeout = setTimeout(destroyExpiredMessages, wait);
