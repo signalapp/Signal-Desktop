@@ -545,6 +545,7 @@
         },
 
         focusMessageField: function() {
+            this.$messageField.prop('disabled', false);
             this.$messageField.focus();
         },
 
@@ -857,6 +858,9 @@
         },
 
         checkUnverifiedSendMessage: function(e, options) {
+            e.preventDefault();
+            this.$messageField.prop('disabled', true);
+
             options = options || {};
             _.defaults(options, {force: false});
 
@@ -876,11 +880,12 @@
 
                 this.showSendConfirmationDialog(e, contacts);
             }.bind(this)).catch(function(error) {
+                this.focusMessageField();
                 console.log(
                     'checkUnverifiedSendMessage error:',
                     error && error.stack ? error.stack : error
                 );
-            });
+            }.bind(this));
         },
 
         checkUntrustedSendMessage: function(e, options) {
@@ -900,11 +905,12 @@
 
                 this.showSendConfirmationDialog(e, contacts);
             }.bind(this)).catch(function(error) {
+                this.focusMessageField();
                 console.log(
                     'checkUntrustedSendMessage error:',
                     error && error.stack ? error.stack : error
                 );
-            });
+            }.bind(this));
         },
 
         sendMessage: function(e) {
@@ -924,22 +930,24 @@
             if (toast) {
                 toast.$el.insertAfter(this.$el);
                 toast.render();
+                this.focusMessageField();
                 return;
             }
-            e.preventDefault();
+
             var input = this.$messageField;
             var message = this.replace_colons(input.val()).trim();
-            var convo = this.model;
-
-            this.focusMessageField();
 
             if (message.length > 0 || this.fileInput.hasFiles()) {
                 this.fileInput.getFiles().then(function(attachments) {
-                    convo.sendMessage(message, attachments);
-                });
-                input.val("");
-                this.forceUpdateMessageFieldSize(e);
-                this.fileInput.deleteFiles();
+                    this.model.sendMessage(message, attachments);
+                    input.val("");
+                    this.focusMessageField();
+                    this.forceUpdateMessageFieldSize(e);
+                    this.fileInput.deleteFiles();
+                }.bind(this)).catch(function() {
+                    console.log('Error pulling attached files before send');
+                    this.focusMessageField();
+                }.bind(this));
             }
         },
 
