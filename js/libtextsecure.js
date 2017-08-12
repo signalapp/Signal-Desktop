@@ -38332,6 +38332,7 @@ MessageReceiver.prototype.extend({
             }
             return;
         }
+        var receivedAt = Date.now();
 
         this.incoming.push(textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
@@ -38342,6 +38343,8 @@ MessageReceiver.prototype.extend({
             if (this.isBlocked(envelope.source)) {
                 return request.respond(200, 'OK');
             }
+
+            envelope.receivedAt = receivedAt;
 
             return this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
@@ -38687,6 +38690,7 @@ MessageReceiver.prototype.extend({
                     source       : envelope.source,
                     sourceDevice : envelope.sourceDevice,
                     timestamp    : envelope.timestamp.toNumber(),
+                    receivedAt   : envelope.receivedAt,
                     message      : message
                 };
                 return this.dispatchAndWait(ev);
@@ -38923,6 +38927,7 @@ MessageReceiver.prototype.extend({
     tryMessageAgain: function(from, ciphertext, message) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
         var sentAt = message.sent_at || Date.now();
+        var receivedAt = message.received_at || Date.now();
 
         var ourNumber = textsecure.storage.user.getNumber();
         var number = address.getName();
@@ -38940,6 +38945,7 @@ MessageReceiver.prototype.extend({
             var envelope = {
                 source: number,
                 sourceDevice: device,
+                receivedAt: receivedAt,
                 timestamp: {
                     toNumber: function() {
                         return sentAt;

@@ -288,13 +288,11 @@
     }
 
     function initIncomingMessage(data) {
-        var now = new Date().getTime();
-
         var message = new Whisper.Message({
             source         : data.source,
             sourceDevice   : data.sourceDevice,
             sent_at        : data.timestamp,
-            received_at    : now,
+            received_at    : data.receivedAt || Date.now(),
             conversationId : data.source,
             type           : 'incoming',
             unread         : 1
