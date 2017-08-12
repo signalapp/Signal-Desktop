@@ -429,14 +429,22 @@
             this.lastActivity = Date.now();
 
             this.statusFetch = this.throttledGetProfiles().then(function() {
-                this.model.updateVerified().then(function() {
+                return this.model.updateVerified().then(function() {
                     this.onVerifiedChange();
                     this.statusFetch = null;
                     console.log('done with status fetch');
                 }.bind(this));
             }.bind(this));
 
-            Promise.all([this.statusFetch, this.inProgressFetch])
+            // We schedule our catch-up decrypt right after any in-progress fetch of
+            //   messages from the database, then ensure that the loading screen is only
+            //   dismissed when that is complete.
+            var messagesLoaded = this.inProgressFetch || Promise.resolve();
+            messagesLoaded = messagesLoaded.then(function() {
+                return this.model.decryptOldIncomingKeyErrors();
+            }.bind(this));
+
+            Promise.all([this.statusFetch, messagesLoaded])
                 .then(this.onLoaded.bind(this), this.onLoaded.bind(this));
 
             this.view.resetScrollPosition();

@@ -7,7 +7,7 @@
 
    // TODO: Factor out private and group subclasses of Conversation
 
-   var COLORS = [
+    var COLORS = [
         'red',
         'pink',
         'purple',
@@ -24,6 +24,22 @@
         'amber',
         'blue_grey',
     ];
+
+    function constantTimeEqualArrayBuffers(ab1, ab2) {
+        if (!(ab1 instanceof ArrayBuffer && ab2 instanceof ArrayBuffer)) {
+            return false;
+        }
+        if (ab1.byteLength !== ab2.byteLength) {
+            return false;
+        }
+        var result = true;
+        var ta1 = new Uint8Array(ab1);
+        var ta2 = new Uint8Array(ab2);
+        for (var i = 0; i < ab1.byteLength; ++i) {
+            if (ta1[i] !== ta2[i]) { result = false; }
+        }
+        return result;
+    }
 
   Whisper.Conversation = Backbone.Model.extend({
     database: Whisper.Database,
@@ -168,6 +184,108 @@
         return textsecure.storage.protocol.loadIdentityKey(number).then(function(key) {
             return textsecure.messaging.syncVerification(number, state, key);
         });
+    },
+    getIdentityKeys: function() {
+        var lookup = {};
+
+        if (this.isPrivate()) {
+            return textsecure.storage.protocol.loadIdentityKey(this.id).then(function(key) {
+                lookup[this.id] = key;
+                return lookup;
+            }.bind(this)).catch(function(error) {
+                console.log(
+                    'getIdentityKeys error for conversation',
+                    this.id,
+                    error && error.stack ? error.stack : error
+                );
+                return lookup;
+            }.bind(this));
+        } else {
+            return Promise.all(this.contactCollection.map(function(contact) {
+                return textsecure.storage.protocol.loadIdentityKey(contact.id).then(function(key) {
+                    lookup[contact.id] = key;
+                }).catch(function(error) {
+                    console.log(
+                        'getIdentityKeys error for group member',
+                        contact.id,
+                        error && error.stack ? error.stack : error
+                    );
+                });
+            })).then(function() {
+                return lookup;
+            });
+        }
+    },
+    replay: function(error, message) {
+        var replayable = new textsecure.ReplayableError(error);
+        return replayable.replay(message.attributes).catch(function(error) {
+            console.log(
+                'replay error:',
+                error && error.stack ? error.stack : error
+            );
+        });
+    },
+    decryptOldIncomingKeyErrors: function() {
+        // We want to run just once per conversation
+        if (this.get('decryptedOldIncomingKeyErrors')) {
+            return Promise.resolve();
+        }
+        console.log('decryptOldIncomingKeyErrors start');
+
+        var messages = this.messageCollection.filter(function(message) {
+            var errors = message.get('errors');
+            if (!errors || !errors[0]) {
+                return false;
+            }
+            var error = _.find(errors, function(error) {
+                return error.name === 'IncomingIdentityKeyError';
+            });
+
+            return Boolean(error);
+        });
+
+        var markComplete = function() {
+            console.log('decryptOldIncomingKeyErrors complete');
+            return new Promise(function(resolve) {
+                this.save({decryptedOldIncomingKeyErrors: true}).always(resolve);
+            }.bind(this));
+        }.bind(this);
+
+        if (!messages.length) {
+            return markComplete();
+        }
+
+        console.log('decryptOldIncomingKeyErrors found', messages.length, 'messages to process');
+        var safeDelete = function(message) {
+            return new Promise(function(resolve) {
+                message.destroy().always(resolve);
+            });
+        };
+
+        return this.getIdentityKeys().then(function(lookup) {
+            return Promise.all(_.map(messages, function(message) {
+                var source = message.get('source');
+                var error = _.find(message.get('errors'), function(error) {
+                    return error.name === 'IncomingIdentityKeyError';
+                });
+
+                var key = lookup[source];
+                if (!key) {
+                    return;
+                }
+
+                if (constantTimeEqualArrayBuffers(key, error.identityKey)) {
+                    return this.replay(error, message).then(function() {
+                        return safeDelete(message);
+                    });
+                }
+            }.bind(this)));
+        }.bind(this)).catch(function(error) {
+            console.log(
+                'decryptOldIncomingKeyErrors error:',
+                error && error.stack ? error.stack : error
+            );
+        }).then(markComplete);
     },
     isVerified: function() {
         if (this.isPrivate()) {
