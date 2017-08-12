@@ -30,7 +30,9 @@
     ReplayableError.prototype.constructor = ReplayableError;
 
     ReplayableError.prototype.replay = function() {
-        return registeredFunctions[this.functionCode].apply(window, this.args);
+        var argumentsAsArray = Array.prototype.slice.call(arguments, 0);
+        var args = this.args.concat(argumentsAsArray);
+        return registeredFunctions[this.functionCode].apply(window, args);
     };
 
     function IncomingIdentityKeyError(number, message, key) {

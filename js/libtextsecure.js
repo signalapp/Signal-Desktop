@@ -31,7 +31,9 @@
     ReplayableError.prototype.constructor = ReplayableError;
 
     ReplayableError.prototype.replay = function() {
-        return registeredFunctions[this.functionCode].apply(window, this.args);
+        var argumentsAsArray = Array.prototype.slice.call(arguments, 0);
+        var args = this.args.concat(argumentsAsArray);
+        return registeredFunctions[this.functionCode].apply(window, args);
     };
 
     function IncomingIdentityKeyError(number, message, key) {
@@ -38895,11 +38897,36 @@ MessageReceiver.prototype.extend({
             .then(decryptAttachment)
             .then(updateAttachment);
     },
-    tryMessageAgain: function(from, ciphertext) {
+    validateRetryContentMessage: function(content) {
+        // Today this is only called for incoming identity key errors. So it can't be a sync message.
+        if (content.syncMessage) {
+            return false;
+        }
+
+        // We want at least one field set, but not more than one
+        var count = 0;
+        count += content.dataMessage ? 1 : 0;
+        count += content.callMessage ? 1 : 0;
+        count += content.nullMessage ? 1 : 0;
+        if (count !== 1) {
+            return false;
+        }
+
+        // It's most likely that dataMessage will be populated, so we look at it in detail
+        var data = content.dataMessage;
+        if (data && !data.attachments.length && !data.body && !data.expireTimer && !data.flags && !data.group) {
+            return false;
+        }
+
+        return true;
+    },
+    tryMessageAgain: function(from, ciphertext, message) {
         var address = libsignal.SignalProtocolAddress.fromString(from);
+        var sentAt = message.sent_at || Date.now();
 
         var ourNumber = textsecure.storage.user.getNumber();
-        var number = address.toString().split('.')[0];
+        var number = address.getName();
+        var device = address.getDeviceId();
         var options = {};
 
         // No limit on message keys if we're communicating with our other devices
@@ -38910,19 +38937,42 @@ MessageReceiver.prototype.extend({
         var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address, options);
         console.log('retrying prekey whisper message');
         return this.decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address).then(function(plaintext) {
-            var finalMessage = textsecure.protobuf.DataMessage.decode(plaintext);
+            var envelope = {
+                source: number,
+                sourceDevice: device,
+                timestamp: {
+                    toNumber: function() {
+                        return sentAt;
+                    }
+                }
+            };
 
-            var p = Promise.resolve();
-            if ((finalMessage.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION)
-                    == textsecure.protobuf.DataMessage.Flags.END_SESSION &&
-                    finalMessage.sync !== null) {
-                    var number = address.getName();
-                    p = this.handleEndSession(number);
+            // Before June, all incoming messages were still DataMessage:
+            //   - iOS: Michael Kirk says that they were sending Legacy messages until June
+            //   - Desktop: https://github.com/WhisperSystems/Signal-Desktop/commit/e8548879db405d9bcd78b82a456ad8d655592c0f
+            //   - Android: https://github.com/WhisperSystems/libsignal-service-java/commit/61a75d023fba950ff9b4c75a249d1a3408e12958
+            //
+            // var d = new Date('2017-06-01T07:00:00.000Z');
+            // d.getTime();
+            var startOfJune = 1496300400000;
+            if (sentAt < startOfJune) {
+                return this.innerHandleLegacyMessage(envelope, plaintext);
             }
 
-            return p.then(function() {
-                return this.processDecrypted(finalMessage);
-            }.bind(this));
+            // This is ugly. But we don't know what kind of proto we need to decode...
+            try {
+                // Simply decoding as a Content message may throw
+                var content = textsecure.protobuf.Content.decode(plaintext);
+
+                // But it might also result in an invalid object, so we try to detect that
+                if (this.validateRetryContentMessage(content)) {
+                    return this.innerHandleContentMessage(envelope, plaintext);
+                }
+            } catch(e) {
+                return this.innerHandleLegacyMessage(envelope, plaintext);
+            }
+
+            return this.innerHandleLegacyMessage(envelope, plaintext);
         }.bind(this));
     },
     handleEndSession: function(number) {
@@ -39433,8 +39483,55 @@ MessageSender.prototype = {
         return outgoing.transmitMessage(number, jsonData, timestamp);
     },
 
+    validateRetryContentMessage: function(content) {
+        // We want at least one field set, but not more than one
+        var count = 0;
+        count += content.syncMessage ? 1 : 0;
+        count += content.dataMessage ? 1 : 0;
+        count += content.callMessage ? 1 : 0;
+        count += content.nullMessage ? 1 : 0;
+        if (count !== 1) {
+            return false;
+        }
+
+        // It's most likely that dataMessage will be populated, so we look at it in detail
+        var data = content.dataMessage;
+        if (data && !data.attachments.length && !data.body && !data.expireTimer && !data.flags && !data.group) {
+            return false;
+        }
+
+        return true;
+    },
+
+    getRetryProto: function(message, timestamp) {
+        // If message was sent before v0.41.3 was released on Aug 7, then it was most certainly a DataMessage
+        //
+        // var d = new Date('2017-08-07T07:00:00.000Z');
+        // d.getTime();
+        var august7 = 1502089200000;
+        if (timestamp < august7) {
+            return textsecure.protobuf.DataMessage.decode(message);
+        }
+
+        // This is ugly. But we don't know what kind of proto we need to decode...
+        try {
+            // Simply decoding as a Content message may throw
+            var proto = textsecure.protobuf.Content.decode(message);
+
+            // But it might also result in an invalid object, so we try to detect that
+            if (this.validateRetryContentMessage(proto)) {
+                return proto;
+            }
+
+            return textsecure.protobuf.DataMessage.decode(message);
+        } catch(e) {
+            // If this call throws, something has really gone wrong, we'll fail to send
+            return textsecure.protobuf.DataMessage.decode(message);
+        }
+    },
+
     tryMessageAgain: function(number, encodedMessage, timestamp) {
-        var proto = textsecure.protobuf.Content.decode(encodedMessage);
+        var proto = this.getRetryProto(encodedMessage, timestamp);
         return this.sendIndividualProto(number, proto, timestamp);
     },
 

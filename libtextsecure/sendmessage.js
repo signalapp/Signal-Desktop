@@ -143,8 +143,55 @@ MessageSender.prototype = {
         return outgoing.transmitMessage(number, jsonData, timestamp);
     },
 
+    validateRetryContentMessage: function(content) {
+        // We want at least one field set, but not more than one
+        var count = 0;
+        count += content.syncMessage ? 1 : 0;
+        count += content.dataMessage ? 1 : 0;
+        count += content.callMessage ? 1 : 0;
+        count += content.nullMessage ? 1 : 0;
+        if (count !== 1) {
+            return false;
+        }
+
+        // It's most likely that dataMessage will be populated, so we look at it in detail
+        var data = content.dataMessage;
+        if (data && !data.attachments.length && !data.body && !data.expireTimer && !data.flags && !data.group) {
+            return false;
+        }
+
+        return true;
+    },
+
+    getRetryProto: function(message, timestamp) {
+        // If message was sent before v0.41.3 was released on Aug 7, then it was most certainly a DataMessage
+        //
+        // var d = new Date('2017-08-07T07:00:00.000Z');
+        // d.getTime();
+        var august7 = 1502089200000;
+        if (timestamp < august7) {
+            return textsecure.protobuf.DataMessage.decode(message);
+        }
+
+        // This is ugly. But we don't know what kind of proto we need to decode...
+        try {
+            // Simply decoding as a Content message may throw
+            var proto = textsecure.protobuf.Content.decode(message);
+
+            // But it might also result in an invalid object, so we try to detect that
+            if (this.validateRetryContentMessage(proto)) {
+                return proto;
+            }
+
+            return textsecure.protobuf.DataMessage.decode(message);
+        } catch(e) {
+            // If this call throws, something has really gone wrong, we'll fail to send
+            return textsecure.protobuf.DataMessage.decode(message);
+        }
+    },
+
     tryMessageAgain: function(number, encodedMessage, timestamp) {
-        var proto = textsecure.protobuf.Content.decode(encodedMessage);
+        var proto = this.getRetryProto(encodedMessage, timestamp);
         return this.sendIndividualProto(number, proto, timestamp);
     },
 
