@@ -589,7 +589,13 @@
         model      : Message,
         database   : Whisper.Database,
         storeName  : 'messages',
-        comparator : 'received_at',
+        comparator : function(left, right) {
+            if (left.get('received_at') === right.get('received_at')) {
+                return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
+            }
+
+            return (left.get('received_at') || 0) - (right.get('received_at') || 0);
+        },
         initialize : function(models, options) {
             if (options) {
                 this.conversation = options.conversation;
