@@ -38332,7 +38332,6 @@ MessageReceiver.prototype.extend({
             }
             return;
         }
-        var receivedAt = Date.now();
 
         this.incoming.push(textsecure.crypto.decryptWebsocketMessage(request.body, this.signalingKey).then(function(plaintext) {
             var envelope = textsecure.protobuf.Envelope.decode(plaintext);
@@ -38343,8 +38342,6 @@ MessageReceiver.prototype.extend({
             if (this.isBlocked(envelope.source)) {
                 return request.respond(200, 'OK');
             }
-
-            envelope.receivedAt = receivedAt;
 
             return this.addToCache(envelope, plaintext).then(function() {
                 request.respond(200, 'OK');
