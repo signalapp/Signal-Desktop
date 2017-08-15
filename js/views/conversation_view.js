@@ -256,7 +256,6 @@
                 model.trigger('unload');
             });
             this.model.messageCollection.reset([]);
-            this.model.revokeAvatarUrl();
         },
 
         trim: function() {
