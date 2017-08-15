@@ -233,14 +233,13 @@
     }
 
     function onSentMessage(ev) {
-        var now = new Date().getTime();
         var data = ev.data;
 
         var message = new Whisper.Message({
             source         : textsecure.storage.user.getNumber(),
             sourceDevice   : data.device,
             sent_at        : data.timestamp,
-            received_at    : now,
+            received_at    : data.receivedAt || Date.now(),
             conversationId : data.destination,
             type           : 'outgoing',
             sent           : true,
