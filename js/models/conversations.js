@@ -230,7 +230,7 @@
         if (this.get('decryptedOldIncomingKeyErrors')) {
             return Promise.resolve();
         }
-        console.log('decryptOldIncomingKeyErrors start');
+        console.log('decryptOldIncomingKeyErrors start for', this.id);
 
         var messages = this.messageCollection.filter(function(message) {
             var errors = message.get('errors');
@@ -245,7 +245,7 @@
         });
 
         var markComplete = function() {
-            console.log('decryptOldIncomingKeyErrors complete');
+            console.log('decryptOldIncomingKeyErrors complete for', this.id);
             return new Promise(function(resolve) {
                 this.save({decryptedOldIncomingKeyErrors: true}).always(resolve);
             }.bind(this));
@@ -559,6 +559,7 @@
     sendMessage: function(body, attachments) {
         this.queueJob(function() {
             var now = Date.now();
+            console.log('Sending message to conversation', this.id, 'with timestamp', now);
             var message = this.messageCollection.add({
                 body           : body,
                 conversationId : this.id,
