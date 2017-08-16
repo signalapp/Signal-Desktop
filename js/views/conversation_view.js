@@ -419,12 +419,15 @@
         onLoaded: function () {
             var view = this.loadingScreen;
             if (view) {
+                var openDelta = Date.now() - this.openStart;
+                console.log('Conversation', this.model.id, 'took', openDelta, 'milliseconds to load');
                 this.loadingScreen = null;
                 view.remove();
             }
         },
 
         onOpened: function() {
+            this.openStart = Date.now();
             this.lastActivity = Date.now();
 
             this.statusFetch = this.throttledGetProfiles().then(function() {
@@ -866,6 +869,7 @@
 
         checkUnverifiedSendMessage: function(e, options) {
             e.preventDefault();
+            this.sendStart = Date.now();
             this.$messageField.prop('disabled', true);
 
             options = options || {};
@@ -946,6 +950,8 @@
 
             if (message.length > 0 || this.fileInput.hasFiles()) {
                 this.fileInput.getFiles().then(function(attachments) {
+                    var sendDelta = Date.now() - this.sendStart;
+                    console.log('Send pre-checks took', sendDelta, 'milliseconds');
                     this.model.sendMessage(message, attachments);
                     input.val("");
                     this.focusMessageField();
