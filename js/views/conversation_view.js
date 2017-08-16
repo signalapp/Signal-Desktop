@@ -961,6 +961,8 @@
                     console.log('Error pulling attached files before send');
                     this.focusMessageField();
                 }.bind(this));
+            } else {
+                this.focusMessageField();
             }
         },
 
