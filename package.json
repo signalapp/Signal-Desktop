@@ -116,7 +116,6 @@
       "images/**",
       "fonts/*",
       "node_modules/**",
-      "!node_modules/spellchecker/vendor/hunspell/**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
       "!**/node_modules/.bin",
       "!**/node_modules/*/build/**",
@@ -130,7 +129,8 @@
     "config": "^1.25.1",
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
-    "electron-spell-check-provider": "^1.1.0",
-    "electron-updater": "^2.1.2"
+    "electron-updater": "^2.1.2",
+    "semver": "^5.4.1",
+    "spellchecker": "^3.4.1"
   }
 }
