@@ -85,7 +85,7 @@ function createWindow () {
 
   // Ingested in preload.js via a sendSync call
   ipc.on('locale-data', function(event, arg) {
-    event.returnValue = locale.messages;
+    event.returnValue = locale;
   });
 
   function prepareURL(pathSegments) {
@@ -165,7 +165,7 @@ app.on('ready', function() {
     locale = loadLocale();
   }
 
-  autoUpdate.initialize(locale.messages);
+  autoUpdate.initialize(locale.messages, locale.failover);
 
   createWindow();
 

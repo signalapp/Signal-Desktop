@@ -25,11 +25,12 @@ function getLocaleMessages(locale) {
 }
 
 function load() {
-  // Load locale - if we can't load messages for the current locale, we
-  // default to 'en'
-  //
-  // possible locales:
-  // https://github.com/electron/electron/blob/master/docs/api/locales.md
+  // We always load 'en' because it will serve as our failover in case the primary
+  //   language is missing a string.
+  const failover = getLocaleMessages('en');
+
+  // Possible locales returned by app.getLocale():
+  //   https://github.com/electron/electron/blob/master/docs/api/locales.md
   let localeName = normalizeLocaleName(app.getLocale());
   let messages;
 
@@ -40,12 +41,13 @@ function load() {
     console.log('Falling back to en locale');
 
     localeName = 'en';
-    messages = getLocaleMessages(localeName);
+    messages = failover;
   }
 
   return {
     name: localeName,
-    messages
+    messages: messages,
+    failover: failover
   };
 }
 

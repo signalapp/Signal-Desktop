@@ -57,6 +57,8 @@
     }
   }
 
+  // We load locale this way and not via app.getLocale() because this call returns
+  //   'es_ES' and not just 'es.' And hunspell requires the fully-qualified locale.
   var locale = osLocale.sync().replace('-', '_');
 
   // The LANG environment variable is how node spellchecker finds its default language:
