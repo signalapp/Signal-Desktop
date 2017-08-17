@@ -333,6 +333,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
 
     sendRequestContactSyncMessage: function() {
@@ -348,6 +350,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -366,6 +370,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
     syncVerification: function(destination, state, identityKey) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -400,6 +406,8 @@ MessageSender.prototype = {
                 return this.sendIndividualProto(myNumber, contentMessage, Date.now());
             }.bind(this));
         }
+
+        return Promise.resolve();
     },
 
     sendGroupProto: function(numbers, proto, timestamp) {

@@ -39676,6 +39676,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
 
     sendRequestContactSyncMessage: function() {
@@ -39691,6 +39693,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -39709,6 +39713,8 @@ MessageSender.prototype = {
 
             return this.sendIndividualProto(myNumber, contentMessage, Date.now());
         }
+
+        return Promise.resolve();
     },
     syncVerification: function(destination, state, identityKey) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -39743,6 +39749,8 @@ MessageSender.prototype = {
                 return this.sendIndividualProto(myNumber, contentMessage, Date.now());
             }.bind(this));
         }
+
+        return Promise.resolve();
     },
 
     sendGroupProto: function(numbers, proto, timestamp) {
@@ -40017,8 +40025,15 @@ textsecure.MessageSender.prototype = {
         this.ongroup = this.onGroupSyncComplete.bind(this);
         receiver.addEventListener('groupsync', this.ongroup);
 
+        console.log('SyncRequest created. Sending contact sync message...');
         sender.sendRequestContactSyncMessage().then(function() {
-            sender.sendRequestGroupSyncMessage();
+            console.log('SyncRequest now sending group sync messsage...');
+            return sender.sendRequestGroupSyncMessage();
+        }).catch(function(error) {
+            console.log(
+                'SyncRequest error:',
+                error && error.stack ? error.stack : error
+            );
         });
         this.timeout = setTimeout(this.onTimeout.bind(this), 60000);
     }
