@@ -57,8 +57,8 @@
             this.on('disconnected', this.reconnect);
 
             if (Whisper.Registration.everDone()) {
-                this.installView.selectStep(Steps.SCAN_QR_CODE);
-                this.installView.hideDots();
+                this.selectStep(Steps.SCAN_QR_CODE);
+                this.hideDots();
             }
         },
         connect: function() {
