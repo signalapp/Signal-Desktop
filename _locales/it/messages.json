@@ -21,7 +21,13 @@
     },
     "attemptingReconnection": {
         "message": "Tentativo di riconessione tra $reconnect_duration_in_seconds$ secondi.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "reconnect_duration_in_seconds": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
     },
     "unsupportedAttachment": {
         "message": "Tipo di allegato non supportato. Clicca per salvare.",
@@ -37,7 +43,13 @@
     },
     "youChangedTheTimer": {
         "message": "Hai settato il timer a $time$.",
-        "description": "Message displayed when you change the message expiration timer in a conversation."
+        "description": "Message displayed when you change the message expiration timer in a conversation.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
     },
     "settings": {
         "message": "Impostazioni",
@@ -73,7 +85,13 @@
     },
     "verifyHelp": {
         "message": "Se desideri verificare la sicurezza della tua codifica end-to-end con $name$, confronta i numeri precedenti con quelli del suo dispositivo.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "membersNeedingVerification": {
         "message": "Dall'ultima verifica è cambiato il codice di sicurezza con questi membri del gruppo. Fai click su uno di essi per vedere il suo nuovo codice di sicurezza.",
@@ -165,11 +183,25 @@
     },
     "verifyContact": {
         "message": "Dovresti $tag_start$ verificare $tag_end$ il codice di sicurezza con questo contatto.",
-        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code."
+        "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
+        "placeholders": {
+            "tag_start": {
+                "content": "<a class='verify' href='#'>"
+            },
+            "tag_end": {
+                "content": "</a>"
+            }
+        }
     },
     "changedRecently": {
         "message": "Di recente il codice di sicurezza con $name$ è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "sent": {
         "message": "Inviato",
@@ -177,7 +209,17 @@
     },
     "theyChangedTheTimer": {
         "message": "$name$ ha settato il timer a $time$.",
-        "description": "Message displayed when someone else changes the message expiration timer in a conversation."
+        "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "time": {
+                "content": "$2",
+                "example": "10m"
+            }
+        }
     },
     "timestamp_s": {
         "message": "ora",
@@ -225,7 +267,13 @@
     },
     "noLongerVerified": {
         "message": "Il tuo codice di sicurezza con $name$è cambiato e non è più verificato. Clicca per visualizzarlo. ",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified."
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "searchForPeopleOrGroups": {
         "message": "Cerca...",
@@ -253,7 +301,13 @@
     },
     "installFollowUs": {
         "message": "<a $a_params$>Seguici</a> per aggiornamenti sulle funzionalità multi dispositivo per iOS.",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
     },
     "learnMore": {
         "message": "Impara di più sulla verifica dei codice di sicurezza",
@@ -261,7 +315,13 @@
     },
     "unreadMessages": {
         "message": "$count$ messaggi non letti",
-        "description": "Text for unread message separator, with count"
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Spiacente, hai troppi dispositivi collegati. Prova a rimuoverne qualcuno.",
@@ -269,7 +329,17 @@
     },
     "installSignalLinks": {
         "message": "Per iniziare installa Signal sul tuo <a $play_store$>Android</a> od <a $app_store$>iPhone</a>.<br /> Noi collegheremo i tuoi dispositivi e terremo i tuoi messaggi sincronizzati.",
-        "description": "Prompt the user to install Signal on their phone before linking"
+        "description": "Prompt the user to install Signal on their phone before linking",
+        "placeholders": {
+            "play_store": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            },
+            "app_store": {
+                "content": "$2",
+                "example": "href='http://example.com'"
+            }
+        }
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizzazione gruppi e contatti in corso",
@@ -289,11 +359,23 @@
     },
     "loadingMessages": {
         "message": "Caricamento messaggi. Finora $count$...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "changedSinceVerified": {
         "message": "Il codice di sicurezza con $name$ è cambiato dall'ultima verifica. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "upgrade": {
         "message": "Aggiorna",
@@ -301,7 +383,13 @@
     },
     "yourSafetyNumberWith": {
         "message": "Il tuo codice di sicurezza con $name$:",
-        "description": "Heading for safety number view"
+        "description": "Heading for safety number view",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "showLess": {
         "message": "Nascondi dettagli",
@@ -325,7 +413,13 @@
     },
     "isNotVerified": {
         "message": "Non hai verificato il codice di sicurezza con $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has not verified contact."
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "disconnected": {
         "message": "Sconnesso",
@@ -381,11 +475,23 @@
     },
     "youMarkedAsNotVerified": {
         "message": "Hai segnato il codice di sicurezza con $name$ come non verificato.",
-        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog."
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "isVerified": {
         "message": "Hai verificato il codice di sicurezza con $name$.",
-        "description": "Summary state shown at top of the safety number screen if user has verified contact."
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerOption_30_seconds": {
         "message": "30 secondi",
@@ -477,7 +583,13 @@
     },
     "youMarkedAsVerified": {
         "message": "Hai segnato il codice di sicurezza con $name$ come verificato.",
-        "description": "Shown in the conversation history when the user marks a contact as verified."
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "connecting": {
         "message": "In collegamento",
@@ -509,11 +621,23 @@
     },
     "youMarkedAsNotVerifiedOtherDevice": {
         "message": "Su un altro dispositivo hai segnato il codice di sicurezza con $name$ come non verificato.",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "installSignalLink": {
         "message": "Per iniziare installa <a $a_params$>Signal</a> sul tuo smartphone Android.<br /> Noi collegheremo i tuoi dispositivi e terremo i tuoi messaggi sincronizzati.",
-        "description": "Prompt the user to install Signal on Android before linking"
+        "description": "Prompt the user to install Signal on Android before linking",
+        "placeholders": {
+            "a_params": {
+                "content": "$1",
+                "example": "href='http://example.com'"
+            }
+        }
     },
     "installLinkingWithNumber": {
         "message": "Collegamento con",
@@ -549,11 +673,23 @@
     },
     "keychanged": {
         "message": "Il tuo codice di sicurezza con $name$ è cambiato. Clicca per visualizzarlo. ",
-        "description": ""
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "Il codice di sicurezza con $name$ è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il $name$ ha semplicemente reinstallato Signal.",
-        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "A",
@@ -609,11 +745,23 @@
     },
     "changedRightAfterVerify": {
         "message": "Il codice di sicurezza che stai cercando di verificare è cambiato. Si prega di ri-verificarlo con $name$. Ricorda che questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
-        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Timer settato a $time$",
-        "description": "Displayed in the conversation list when the timer is updated."
+        "description": "Displayed in the conversation list when the timer is updated.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "1w"
+            }
+        }
     },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
@@ -629,6 +777,12 @@
     },
     "youMarkedAsVerifiedOtherDevice": {
         "message": "Su un altro dispositivo hai segnato il codice di sicurezza di $name$come verificato.",
-        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }
