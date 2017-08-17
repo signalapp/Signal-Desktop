@@ -18,8 +18,18 @@ function checkForUpdates() {
   autoUpdater.checkForUpdates();
 }
 
+function i18n(key, messages, failover) {
+  var string = messages[key];
+
+  if (!string) {
+    string = failover[key];
+  }
+
+  return string.message;
+}
+
 var showingDialog = false;
-function showUpdateDialog(messages) {
+function showUpdateDialog(messages, failover) {
   if (showingDialog) {
     return;
   }
@@ -28,12 +38,12 @@ function showUpdateDialog(messages) {
   const options = {
     type: 'info',
     buttons: [
-      messages.autoUpdateRestartButtonLabel.message,
-      messages.autoUpdateLaterButtonLabel.message
+      i18n('autoUpdateRestartButtonLabel', messages, failover),
+      i18n('autoUpdateLaterButtonLabel', messages, failover),
     ],
-    title: messages.autoUpdateNewVersionTitle.message,
-    message: messages.autoUpdateNewVersionMessage.message,
-    detail: messages.autoUpdateNewVersionInstructions.message,
+    title: i18n('autoUpdateNewVersionTitle', messages, failover),
+    message: i18n('autoUpdateNewVersionMessage', messages, failover),
+    detail: i18n('autoUpdateNewVersionInstructions', messages, failover),
     defaultId: RESTART_BUTTON,
     cancelId: LATER_BUTTON
   }
@@ -52,8 +62,8 @@ function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initialize(messages) {
-  if (!messages) {
+function initialize(messages, failover) {
+  if (!messages || !failover) {
     throw new Error('auto-update initialize needs localized messages');
   }
 
@@ -62,7 +72,7 @@ function initialize(messages) {
   }
 
   autoUpdater.addListener('update-downloaded', function() {
-    showUpdateDialog(messages);
+    showUpdateDialog(messages, failover);
   });
   autoUpdater.addListener('error', onError);
 
