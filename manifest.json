@@ -4,7 +4,7 @@
     "name": "Signal Private Messenger",
     "short_name": "Signal",
     "description": "__MSG_installTagline__",
-    "version": "0.42.5",
+    "version": "0.42.6",
     "offline_enabled": false,
     "minimum_chrome_version": "37",
     "default_locale": "en",
