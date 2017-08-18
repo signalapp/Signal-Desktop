@@ -10,6 +10,10 @@
     var calculateMAC = libsignal.crypto.calculateMAC;
     var verifyMAC    = libsignal.crypto.verifyMAC;
 
+    var PROFILE_IV_LENGTH = 12;   // bytes
+    var PROFILE_KEY_LENGTH = 32;  // bytes
+    var PROFILE_TAG_LENGTH = 128; // bits
+
     function verifyDigest(data, theirDigest) {
         return crypto.subtle.digest({name: 'SHA-256'}, data).then(function(ourDigest) {
             var a = new Uint8Array(ourDigest);
@@ -106,6 +110,40 @@
                 });
             });
         },
+        encryptProfile: function(data, key) {
+          var iv = libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
+          if (key.byteLength != PROFILE_KEY_LENGTH) {
+              throw new Error("Got invalid length profile key");
+          }
+          if (iv.byteLength != PROFILE_IV_LENGTH) {
+              throw new Error("Got invalid length profile iv");
+          }
+          return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['encrypt']).then(function(key) {
+            return crypto.subtle.encrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, data).then(function(ciphertext) {
+              var ivAndCiphertext = new Uint8Array(PROFILE_IV_LENGTH + ciphertext.byteLength);
+              ivAndCiphertext.set(new Uint8Array(iv));
+              ivAndCiphertext.set(new Uint8Array(ciphertext), PROFILE_IV_LENGTH);
+              return ivAndCiphertext.buffer;
+            });
+          });
+        },
+        decryptProfile: function(data, key) {
+          if (data.byteLength < 12 + 16 + 1) {
+              throw new Error("Got too short input: " + data.byteLength);
+          }
+          var iv = data.slice(0, PROFILE_IV_LENGTH);
+          var ciphertext = data.slice(PROFILE_IV_LENGTH, data.byteLength);
+          if (key.byteLength != PROFILE_KEY_LENGTH) {
+              throw new Error("Got invalid length profile key");
+          }
+          if (iv.byteLength != PROFILE_IV_LENGTH) {
+              throw new Error("Got invalid length profile iv");
+          }
+          return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['decrypt']).then(function(key) {
+            return crypto.subtle.decrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, ciphertext);
+          });
+        },
+
 
         getRandomBytes: function(size) {
             return libsignal.crypto.getRandomBytes(size);
