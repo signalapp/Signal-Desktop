@@ -59,8 +59,19 @@
                     }.bind(this));
                     // TODO: consider keeping a list of numbers we've
                     // successfully delivered to?
+                } else {
+                    console.log(
+                        'No message for delivery receipt',
+                        receipt.get('source'),
+                        receipt.get('timestamp')
+                    );
                 }
-            }.bind(this));
+            }.bind(this)).catch(function(error) {
+                console.log(
+                    'DeliveryReceipts.onReceipt error:',
+                    error && error.stack ? error.stack : error
+                );
+            });
         }
     }))();
 })();
