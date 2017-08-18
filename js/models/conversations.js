@@ -779,13 +779,43 @@
                   var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
                   return sessionCipher.closeOpenSessionForDevice();
               }
-            });
-        }).catch(function(error) {
+            }).then(function() {
+              var c = ConversationController.get(id);
+              return c.setProfileName(profile.name);
+            }.bind(this));
+        }.bind(this)).catch(function(error) {
             console.log(
                 'getProfile error:',
                 error && error.stack ? error.stack : error
             );
         });
+    },
+    setProfileName: function(encryptedProfileName) {
+      var key = this.get('profileKey');
+      if (!key) { return; }
+
+      var data = dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();
+      return textsecure.crypto.decryptProfile(data, key).then(function(decrypted) {
+
+        // unpad
+        var paddedPlaintext = new Uint8Array(decrypted);
+        var plaintext;
+        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
+            if (paddedPlaintext[i] !== 0x00) {
+                plaintext = new Uint8Array(i+1);
+                plaintext.set(paddedPlaintext.subarray(0, i+1));
+                plaintext = plaintext.buffer;
+                break;
+            }
+        }
+
+        if (plaintext) {
+          var name = dcodeIO.ByteBuffer.wrap(plaintext).toString('utf8');
+          this.save({profileName: name});
+        } else {
+          this.save({profileName: ''});
+        }
+      }.bind(this));
     },
     setProfileKey: function(key) {
       return new Promise(function(resolve, reject) {
