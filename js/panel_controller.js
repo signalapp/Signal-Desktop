@@ -19,11 +19,19 @@
 
     window.drawAttention = function() {
         if (inboxOpened && !inboxFocused) {
+            if( window.keepClear ) {
+                clearInterval( window.keepClear );
+                delete window.keeClear;
+            }
             extension.windows.drawAttention(inboxWindowId);
         }
     };
     window.clearAttention = function() {
-        extension.windows.clearAttention(inboxWindowId);
+        if( window.keepClear ) {
+            clearInterval( window.keepClear );
+            delete window.keeClear;
+        }
+        window.keepClear = setInterval( () => extension.windows.clearAttention(inboxWindowId), 100 );
     };
 
     /* Inbox window controller */
@@ -108,4 +116,4 @@
         open = null;
         return o;
     };
-})();
+})(); 
