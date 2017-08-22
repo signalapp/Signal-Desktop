@@ -21,7 +21,7 @@
         if (inboxOpened && !inboxFocused) {
             if( window.keepClear ) {
                 clearInterval( window.keepClear );
-                delete window.keeClear;
+                delete window.keepClear;
             }
             extension.windows.drawAttention(inboxWindowId);
         }
@@ -29,7 +29,7 @@
     window.clearAttention = function() {
         if( window.keepClear ) {
             clearInterval( window.keepClear );
-            delete window.keeClear;
+            delete window.keepClear;
         }
         window.keepClear = setInterval( () => extension.windows.clearAttention(inboxWindowId), 100 );
     };
