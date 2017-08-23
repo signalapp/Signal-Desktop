@@ -787,6 +787,15 @@
             );
         });
     },
+    setProfileKey: function(key) {
+      return new Promise(function(resolve, reject) {
+        if (!constantTimeEqualArrayBuffers(this.get('profileKey'), key)) {
+          this.save({profileKey: key}).then(resolve, reject);
+        } else {
+          resolve();
+        }
+      }.bind(this));
+    },
 
     fetchMessages: function() {
         if (!this.id) {
