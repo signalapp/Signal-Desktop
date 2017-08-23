@@ -330,6 +330,9 @@
 
         if (ev.proto) {
             if (e.name === 'MessageCounterError') {
+                if (e.confirm) {
+                    e.confirm();
+                }
                 // Ignore this message. It is likely a duplicate delivery
                 // because the server lost our ack the first time.
                 return;
@@ -354,6 +357,10 @@
                     conversation.trigger('newmessage', message);
                     if (initialLoadComplete) {
                         conversation.notify(message);
+                    }
+
+                    if (e.confirm) {
+                        e.confirm();
                     }
 
                     return new Promise(function(resolve, reject) {
