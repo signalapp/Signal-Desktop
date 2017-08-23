@@ -781,7 +781,19 @@
               }
             }).then(function() {
               var c = ConversationController.get(id);
-              return c.setProfileName(profile.name);
+              return Promise.all([
+                c.setProfileName(profile.name),
+                c.setProfileAvatar(profile.avatar)
+              ]).then(function() {
+                // success
+                c.save();
+              }, function(e) {
+                // fail
+                if (e.name === 'ProfileDecryptError') {
+                  // probably the profile key has changed.
+                  console.log('decryptProfile error:', e);
+                }
+              });
             }.bind(this));
         }.bind(this)).catch(function(error) {
             console.log(
@@ -803,8 +815,26 @@
         // encode
         var name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
 
-        // save
-        this.save({profileName: name});
+        // set
+        this.set({profileName: name});
+      }.bind(this));
+    },
+    setProfileAvatar: function(avatarPath) {
+      if (!avatarPath) { return; }
+      return textsecure.messaging.getAvatar(avatarPath).then(function(avatar) {
+        var key = this.get('profileKey');
+        if (!key) { return; }
+        // decrypt
+        return textsecure.crypto.decryptProfile(avatar, key).then(function(decrypted) {
+          // set
+          this.set({
+            profileAvatar: {
+              data: decrypted,
+              contentType: 'image/jpeg',
+              size: decrypted.byteLength
+            }
+          });
+        }.bind(this));
       }.bind(this));
     },
     setProfileKey: function(key) {
