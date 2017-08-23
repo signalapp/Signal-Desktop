@@ -118,4 +118,4 @@
         open = null;
         return o;
     };
-})(); 
+})();
