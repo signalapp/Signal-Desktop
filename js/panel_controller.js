@@ -19,19 +19,21 @@
 
     window.drawAttention = function() {
         if (inboxOpened && !inboxFocused) {
-            if( window.keepClear ) {
-                clearInterval( window.keepClear );
+            if(window.keepClear) {
+                clearInterval(window.keepClear);
                 delete window.keepClear;
             }
             extension.windows.drawAttention(inboxWindowId);
         }
     };
     window.clearAttention = function() {
-        if( window.keepClear ) {
-            clearInterval( window.keepClear );
+        if(window.keepClear) {
+            clearInterval(window.keepClear);
             delete window.keepClear;
         }
-        window.keepClear = setInterval( () => extension.windows.clearAttention(inboxWindowId), 100 );
+        window.keepClear = setInterval(function() { 
+            extension.windows.clearAttention(inboxWindowId) 
+        }, 2000);
     };
 
     /* Inbox window controller */
