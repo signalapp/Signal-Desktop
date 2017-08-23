@@ -36719,6 +36719,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
     var PROFILE_IV_LENGTH = 12;   // bytes
     var PROFILE_KEY_LENGTH = 32;  // bytes
     var PROFILE_TAG_LENGTH = 128; // bits
+    var PROFILE_NAME_PADDED_LENGTH = 26; // bytes
 
     function verifyDigest(data, theirDigest) {
         return crypto.subtle.digest({name: 'SHA-256'}, data).then(function(ourDigest) {
@@ -36847,6 +36848,26 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
           }
           return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['decrypt']).then(function(key) {
             return crypto.subtle.decrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, ciphertext);
+          });
+        },
+        encryptProfileName: function(name, key) {
+          var padded = new Uint8Array(PROFILE_NAME_PADDED_LENGTH);
+          padded.set(new Uint8Array(name));
+          return textsecure.crypto.encryptProfile(padded.buffer, key);
+        },
+        decryptProfileName: function(encryptedProfileName, key) {
+          var data = dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();
+          return textsecure.crypto.decryptProfile(data, key).then(function(decrypted) {
+            // unpad
+            var name = '';
+            var padded = new Uint8Array(decrypted);
+            for (var i = padded.length; i > 0; i--) {
+              if (padded[i-1] !== 0x00) {
+                break;
+              }
+            }
+
+            return dcodeIO.ByteBuffer.wrap(padded).slice(0, i).toArrayBuffer();
           });
         },
 

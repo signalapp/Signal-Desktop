@@ -790,31 +790,21 @@
             );
         });
     },
-    setProfileName: function(encryptedProfileName) {
+    setProfileName: function(encryptedName) {
       var key = this.get('profileKey');
       if (!key) { return; }
 
-      var data = dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();
-      return textsecure.crypto.decryptProfile(data, key).then(function(decrypted) {
+      // decode
+      var data = dcodeIO.ByteBuffer.wrap(encryptedName, 'base64').toArrayBuffer();
 
-        // unpad
-        var paddedPlaintext = new Uint8Array(decrypted);
-        var plaintext;
-        for (var i = paddedPlaintext.length - 1; i >= 0; i--) {
-            if (paddedPlaintext[i] !== 0x00) {
-                plaintext = new Uint8Array(i+1);
-                plaintext.set(paddedPlaintext.subarray(0, i+1));
-                plaintext = plaintext.buffer;
-                break;
-            }
-        }
+      // decrypt
+      return textsecure.crypto.decryptProfileName(data, key).then(function(decrypted) {
 
-        if (plaintext) {
-          var name = dcodeIO.ByteBuffer.wrap(plaintext).toString('utf8');
-          this.save({profileName: name});
-        } else {
-          this.save({profileName: ''});
-        }
+        // encode
+        var name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
+
+        // save
+        this.save({profileName: name});
       }.bind(this));
     },
     setProfileKey: function(key) {
