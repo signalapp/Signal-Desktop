@@ -22,6 +22,7 @@
     });
 
     var SERVER_URL = window.config.serverUrl;
+    var CDN_URL = 'https://cdn-staging.signal.org';
     var messageReceiver;
     window.getSocketStatus = function() {
         if (messageReceiver) {
@@ -184,7 +185,7 @@
         messageReceiver.addEventListener('progress', onProgress);
 
         window.textsecure.messaging = new textsecure.MessageSender(
-            SERVER_URL, USERNAME, PASSWORD
+            SERVER_URL, USERNAME, PASSWORD, CDN_URL
         );
 
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {

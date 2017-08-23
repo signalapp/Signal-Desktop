@@ -104,8 +104,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+function MessageSender(url, username, password, cdn_url) {
+    this.server = new TextSecureServer(url, username, password, cdn_url);
     this.pendingMessages = {};
 }
 
@@ -318,6 +318,9 @@ MessageSender.prototype = {
 
     getProfile: function(number) {
         return this.server.getProfile(number);
+    },
+    getAvatar: function(path) {
+        return this.server.getAvatar(path);
     },
 
     sendRequestGroupSyncMessage: function() {
@@ -631,8 +634,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, username, password) {
-    var sender = new MessageSender(url, username, password);
+textsecure.MessageSender = function(url, username, password, cdn_url) {
+    var sender = new MessageSender(url, username, password, cdn_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
@@ -653,6 +656,7 @@ textsecure.MessageSender = function(url, username, password) {
     this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
     this.getProfile                        = sender.getProfile                       .bind(sender);
+    this.getAvatar                         = sender.getAvatar                        .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
     this.syncVerification                  = sender.syncVerification                 .bind(sender);
 };

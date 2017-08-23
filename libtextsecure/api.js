@@ -135,11 +135,12 @@ var TextSecureServer = (function() {
         profile    : "v1/profile"
     };
 
-    function TextSecureServer(url, username, password) {
+    function TextSecureServer(url, username, password, cdn_url) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
         this.url = url;
+        this.cdn_url = cdn_url;
         this.username = username;
         this.password = password;
     }
@@ -201,6 +202,14 @@ var TextSecureServer = (function() {
                 call                : 'profile',
                 httpType            : 'GET',
                 urlParameters       : '/' + number,
+            });
+        },
+        getAvatar: function(path) {
+            return ajax(this.cdn_url + '/' + path, {
+                type        : "GET",
+                responseType: "arraybuffer",
+                contentType : "application/octet-stream",
+                certificateAuthorities: window.config.certificateAuthorities
             });
         },
         requestVerificationSMS: function(number) {
