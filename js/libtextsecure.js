@@ -36846,8 +36846,16 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
           if (iv.byteLength != PROFILE_IV_LENGTH) {
               throw new Error("Got invalid length profile iv");
           }
+          var error = new Error(); // save stack
           return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['decrypt']).then(function(key) {
-            return crypto.subtle.decrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, ciphertext);
+            return crypto.subtle.decrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, ciphertext).catch(function(e) {
+              if (e.name === 'OperationError') {
+                // bad mac, basically.
+                error.message = 'Failed to decrypt profile data. Most likely the profile key has changed.';
+                error.name = 'ProfileDecryptError';
+                throw error;
+              }
+            });
           });
         },
         encryptProfileName: function(name, key) {

@@ -38,5 +38,17 @@ describe('encrypting and decrypting profile data', function() {
         });
       });
     });
+    it('throws when decrypting with the wrong key', function() {
+      var buffer = dcodeIO.ByteBuffer.wrap('This is an avatar').toArrayBuffer();
+      var key = libsignal.crypto.getRandomBytes(32);
+      var bad_key = libsignal.crypto.getRandomBytes(32);
+
+      return textsecure.crypto.encryptProfile(buffer, key).then(function(encrypted) {
+        assert(encrypted.byteLength === buffer.byteLength + 16 + 12);
+        return textsecure.crypto.decryptProfile(encrypted, bad_key).catch(function(error) {
+          assert.strictEqual(error.name, 'ProfileDecryptError');
+        });
+      });
+    });
   });
 });
