@@ -19,7 +19,7 @@
 
     window.drawAttention = function() {
         if (inboxOpened && !inboxFocused) {
-            if(window.keepClear) {
+            if (window.keepClear) {
                 clearInterval(window.keepClear);
                 delete window.keepClear;
             }
@@ -27,7 +27,7 @@
         }
     };
     window.clearAttention = function() {
-        if(window.keepClear) {
+        if (window.keepClear) {
             clearInterval(window.keepClear);
             delete window.keepClear;
         }
