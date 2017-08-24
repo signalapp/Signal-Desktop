@@ -37625,6 +37625,9 @@ var TextSecureServer = (function() {
             }
             xhr.setRequestHeader( 'X-Signal-Agent', 'OWD' );
 
+            if (options.certificateAuthorities) {
+              xhr.setCertificateAuthorities(options.certificateAuthorities);
+            }
 
             xhr.onload = function() {
                 var result = xhr.response;
@@ -37735,7 +37738,8 @@ var TextSecureServer = (function() {
                     dataType    : 'json',
                     user        : this.username,
                     password    : this.password,
-                    validateResponse: param.validateResponse
+                    validateResponse: param.validateResponse,
+                    certificateAuthorities: window.config.certificateAuthorities
             }).catch(function(e) {
                 var code = e.code;
                 if (code === 200) {

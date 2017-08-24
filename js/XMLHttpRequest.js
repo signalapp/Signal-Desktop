@@ -44,6 +44,7 @@ exports.XMLHttpRequest = function() {
 
   var headers = {};
   var headersCase = {};
+  var certificateAuthorities;
 
   // These headers are not user setable.
   // The following are allowed but banned in the spec:
@@ -111,7 +112,7 @@ exports.XMLHttpRequest = function() {
   this.responseXML = "";
   this.status = null;
   this.statusText = null;
-  
+
   // Whether cross-site Access-Control requests should be made using
   // credentials such as cookies or authorization headers
   this.withCredentials = false;
@@ -203,6 +204,10 @@ exports.XMLHttpRequest = function() {
     header = headersCase[header.toLowerCase()] || header;
     headersCase[header.toLowerCase()] = header;
     headers[header] = headers[header] ? headers[header] + ', ' + value : value;
+  };
+
+  this.setCertificateAuthorities = function(list) {
+    certificateAuthorities = list;
   };
 
   /**
@@ -377,7 +382,7 @@ exports.XMLHttpRequest = function() {
       path: uri,
       method: settings.method,
       headers: headers,
-      agent: false,
+      agent: new https.Agent({ ca: certificateAuthorities }),
       withCredentials: self.withCredentials
     };
 
@@ -464,7 +469,7 @@ exports.XMLHttpRequest = function() {
 
       // Node 0.4 and later won't accept empty data. Make sure it's needed.
       if (data) {
-        request.write(data);
+        request.write(Buffer.from(data));
       }
 
       request.end();
