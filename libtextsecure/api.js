@@ -38,11 +38,14 @@ var TextSecureServer = (function() {
         return true;
     }
 
+    var XMLHttpRequest = nodeXMLHttpRequest;
+    window.setImmediate = nodeSetImmediate;
+
     // Promise-based async xhr routine
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
             if (!url) {
-                url = options.host + ':' + options.port + '/' + options.path;
+                url = options.host +  '/' + options.path;
             }
             console.log(options.type, url);
             var xhr = new XMLHttpRequest();
@@ -97,9 +100,6 @@ var TextSecureServer = (function() {
     function retry_ajax(url, options, limit, count) {
         count = count || 0;
         limit = limit || 3;
-        if (options.ports) {
-            options.port = options.ports[count % options.ports.length];
-        }
         count++;
         return promise_ajax(url, options).catch(function(e) {
             if (e.name === 'HTTPError' && e.code === -1 && count < limit) {
@@ -164,7 +164,6 @@ var TextSecureServer = (function() {
             }
             return ajax(null, {
                     host        : this.url,
-                    ports       : this.portManager.ports,
                     path        : URL_CALLS[param.call] + param.urlParameters,
                     type        : param.httpType,
                     data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
