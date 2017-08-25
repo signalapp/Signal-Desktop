@@ -38,6 +38,11 @@ var TextSecureServer = (function() {
         return true;
     }
 
+    function createSocket(url) {
+      var requestOptions = { ca: window.config.certificateAuthorities };
+      return new nodeWebSocket(url, null, null, null, requestOptions);
+    }
+
     var XMLHttpRequest = nodeXMLHttpRequest;
     window.setImmediate = nodeSetImmediate;
 
@@ -385,22 +390,16 @@ var TextSecureServer = (function() {
             }.bind(this));
         },
         getMessageSocket: function() {
-            var url = this.getUrl();
-            console.log('opening message socket', url);
-            return new WebSocket(
-                url.replace('https://', 'wss://').replace('http://', 'ws://')
+            console.log('opening message socket', this.url);
+            return createSocket(this.url.replace('https://', 'wss://').replace('http://', 'ws://')
                     + '/v1/websocket/?login=' + encodeURIComponent(this.username)
                     + '&password=' + encodeURIComponent(this.password)
-                    + '&agent=OWD'
-            );
+                    + '&agent=OWD');
         },
         getProvisioningSocket: function () {
-            var url = this.getUrl();
-            console.log('opening provisioning socket', url);
-            return new WebSocket(
-                url.replace('https://', 'wss://').replace('http://', 'ws://')
-                    + '/v1/websocket/provisioning/?agent=OWD'
-            );
+            console.log('opening provisioning socket', this.url);
+            return createSocket(this.url.replace('https://', 'wss://').replace('http://', 'ws://')
+                    + '/v1/websocket/provisioning/?agent=OWD');
         }
     };
 
