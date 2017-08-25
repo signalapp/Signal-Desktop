@@ -302,18 +302,18 @@
     }
 
     function onError(ev) {
-        var e = ev.error;
-        console.log(e);
-        console.log(e.stack);
+        var error = ev.error;
+        console.log(error);
+        console.log(error.stack);
 
-        if (e.name === 'HTTPError' && (e.code == 401 || e.code == 403)) {
+        if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
             Whisper.Registration.remove();
             Whisper.events.trigger('unauthorized');
             extension.install();
             return;
         }
 
-        if (e.name === 'HTTPError' && e.code == -1) {
+        if (error.name === 'HTTPError' && error.code == -1) {
             // Failed to connect to server
             if (navigator.onLine) {
                 console.log('retrying in 1 minute');
@@ -329,9 +329,9 @@
         }
 
         if (ev.proto) {
-            if (e.name === 'MessageCounterError') {
-                if (e.confirm) {
-                    e.confirm();
+            if (error.name === 'MessageCounterError') {
+                if (ev.confirm) {
+                    ev.confirm();
                 }
                 // Ignore this message. It is likely a duplicate delivery
                 // because the server lost our ack the first time.
@@ -340,7 +340,7 @@
             var envelope = ev.proto;
             var message = initIncomingMessage(envelope);
 
-            return message.saveErrors(e).then(function() {
+            return message.saveErrors(error).then(function() {
                 var id = message.get('conversationId');
                 return ConversationController.findOrCreateById(id, 'private').then(function(conversation) {
                     conversation.set({
@@ -359,8 +359,8 @@
                         conversation.notify(message);
                     }
 
-                    if (e.confirm) {
-                        e.confirm();
+                    if (ev.confirm) {
+                        ev.confirm();
                     }
 
                     return new Promise(function(resolve, reject) {
@@ -370,7 +370,7 @@
             });
         }
 
-        throw e;
+        throw error;
     }
 
     function onReadReceipt(ev) {
