@@ -423,7 +423,7 @@ MessageReceiver.prototype.extend({
             p = this.handleEndSession(destination);
         }
         return p.then(function() {
-            return this.processDecrypted(message, this.number).then(function(message) {
+            return this.processDecrypted(envelope, message, this.number).then(function(message) {
                 var ev = new Event('sent');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.data = {
@@ -447,7 +447,7 @@ MessageReceiver.prototype.extend({
             p = this.handleEndSession(envelope.source);
         }
         return p.then(function() {
-            return this.processDecrypted(message, envelope.source).then(function(message) {
+            return this.processDecrypted(envelope, message, envelope.source).then(function(message) {
                 var ev = new Event('message');
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.data = {
@@ -757,7 +757,7 @@ MessageReceiver.prototype.extend({
             }));
         });
     },
-    processDecrypted: function(decrypted, source) {
+    processDecrypted: function(envelope, decrypted, source) {
         // Now that its decrypted, validate the message and clean it up for consumer processing
         // Note that messages may (generally) only perform one action and we ignore remaining fields
         // after the first action.
@@ -831,6 +831,7 @@ MessageReceiver.prototype.extend({
 
                         break;
                     default:
+                        this.removeFromCache(envelope);
                         throw new Error("Unknown group message type");
                     }
                 }
