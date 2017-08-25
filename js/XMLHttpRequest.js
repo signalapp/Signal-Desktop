@@ -45,6 +45,7 @@ exports.XMLHttpRequest = function() {
   var headers = {};
   var headersCase = {};
   var certificateAuthorities;
+  var responseOffset;
 
   // These headers are not user setable.
   // The following are allowed but banned in the spec:
@@ -430,7 +431,12 @@ exports.XMLHttpRequest = function() {
           return;
         }
 
-        response.setEncoding("utf8");
+        if (self.responseType === "arraybuffer") {
+          self.response = new ArrayBuffer(response.headers['content-length']);
+          responseOffset = 0;
+        } else {
+          response.setEncoding("utf8");
+        }
 
         setState(self.HEADERS_RECEIVED);
         self.status = response.statusCode;
@@ -438,7 +444,12 @@ exports.XMLHttpRequest = function() {
         response.on("data", function(chunk) {
           // Make sure there's some data
           if (chunk) {
-            self.responseText += chunk;
+            if (self.responseType === "arraybuffer") {
+              chunk.copy(new Uint8Array(self.response), responseOffset);
+              responseOffset += chunk.length;
+            } else {
+              self.responseText += chunk; // chunk is a string
+            }
           }
           // Don't emit state changes if the connection has been aborted.
           if (sendFlag) {
@@ -449,6 +460,7 @@ exports.XMLHttpRequest = function() {
         response.on("end", function() {
           if (sendFlag) {
             // Discard the end event if the connection has been aborted
+
             setState(self.DONE);
             sendFlag = false;
           }
