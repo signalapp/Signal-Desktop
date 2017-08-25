@@ -31,8 +31,8 @@
             clearInterval(window.keepClear);
             delete window.keepClear;
         }
-        window.keepClear = setInterval(function() { 
-            extension.windows.clearAttention(inboxWindowId) 
+        window.keepClear = setInterval(function() {
+            extension.windows.clearAttention(inboxWindowId);
         }, 2000);
     };
 
