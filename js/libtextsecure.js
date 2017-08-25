@@ -37576,20 +37576,6 @@ window.textsecure.utils = function() {
  * vim: ts=4:sw=4:expandtab
  */
 
-function PortManager(ports) {
-    this.ports = ports;
-    this.idx = 0;
-}
-
-PortManager.prototype = {
-    constructor: PortManager,
-    getPort: function() {
-        var port = this.ports[this.idx];
-        this.idx = (this.idx + 1) % this.ports.length;
-        return port;
-    }
-};
-
 var TextSecureServer = (function() {
     'use strict';
 
@@ -37723,11 +37709,10 @@ var TextSecureServer = (function() {
         profile    : "v1/profile"
     };
 
-    function TextSecureServer(url, ports, username, password) {
+    function TextSecureServer(url, username, password) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
-        this.portManager = new PortManager(ports);
         this.url = url;
         this.username = username;
         this.password = password;
@@ -37735,9 +37720,6 @@ var TextSecureServer = (function() {
 
     TextSecureServer.prototype = {
         constructor: TextSecureServer,
-        getUrl: function() {
-            return this.url + ':' + this.portManager.getPort();
-        },
         ajax: function(param) {
             if (!param.urlParameters) {
                 param.urlParameters = '';
@@ -37991,8 +37973,8 @@ var TextSecureServer = (function() {
 
     var ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
-    function AccountManager(url, ports, username, password) {
-        this.server = new TextSecureServer(url, ports, username, password);
+    function AccountManager(url, username, password) {
+        this.server = new TextSecureServer(url, username, password);
         this.pending = Promise.resolve();
     }
 
@@ -38275,14 +38257,14 @@ var TextSecureServer = (function() {
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, ports, username, password, signalingKey) {
+function MessageReceiver(url, username, password, signalingKey) {
     this.count = 0;
 
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
     this.password = password;
-    this.server = new TextSecureServer(url, ports, username, password);
+    this.server = new TextSecureServer(url, username, password);
 
     var address = libsignal.SignalProtocolAddress.fromString(username);
     this.number = address.getName();
@@ -39121,8 +39103,8 @@ MessageReceiver.prototype.extend({
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, ports, username, password, signalingKey) {
-    var messageReceiver = new MessageReceiver(url, ports, username, password, signalingKey);
+textsecure.MessageReceiver = function(url, username, password, signalingKey) {
+    var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
@@ -39487,8 +39469,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, ports, username, password) {
-    this.server = new TextSecureServer(url, ports, username, password);
+function MessageSender(url, username, password) {
+    this.server = new TextSecureServer(url, username, password);
     this.pendingMessages = {};
 }
 
@@ -40014,8 +39996,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, ports, username, password) {
-    var sender = new MessageSender(url, ports, username, password);
+textsecure.MessageSender = function(url, username, password) {
+    var sender = new MessageSender(url, username, password);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);

@@ -2,20 +2,6 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-function PortManager(ports) {
-    this.ports = ports;
-    this.idx = 0;
-}
-
-PortManager.prototype = {
-    constructor: PortManager,
-    getPort: function() {
-        var port = this.ports[this.idx];
-        this.idx = (this.idx + 1) % this.ports.length;
-        return port;
-    }
-};
-
 var TextSecureServer = (function() {
     'use strict';
 
@@ -149,11 +135,10 @@ var TextSecureServer = (function() {
         profile    : "v1/profile"
     };
 
-    function TextSecureServer(url, ports, username, password) {
+    function TextSecureServer(url, username, password) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
-        this.portManager = new PortManager(ports);
         this.url = url;
         this.username = username;
         this.password = password;
@@ -161,9 +146,6 @@ var TextSecureServer = (function() {
 
     TextSecureServer.prototype = {
         constructor: TextSecureServer,
-        getUrl: function() {
-            return this.url + ':' + this.portManager.getPort();
-        },
         ajax: function(param) {
             if (!param.urlParameters) {
                 param.urlParameters = '';
