@@ -37657,7 +37657,8 @@ var TextSecureServer = (function() {
             };
             xhr.onerror = function() {
                 console.log(options.type, url, xhr.status, 'Error');
-                reject(HTTPError(xhr.status, null, options.stack));
+                console.log(xhr.statusText);
+                reject(HTTPError(xhr.status, xhr.statusText, options.stack));
             };
             xhr.send( options.data || null );
         });
