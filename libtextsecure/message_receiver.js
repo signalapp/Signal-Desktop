@@ -380,6 +380,7 @@ MessageReceiver.prototype.extend({
             var ev = new Event('error');
             ev.error = error;
             ev.proto = envelope;
+            ev.confirm = this.removeFromCache.bind(this, envelope);
 
             var returnError = function() {
                 return Promise.reject(error);
