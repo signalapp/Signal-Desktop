@@ -142,11 +142,7 @@
       this.render();
     },
     beginMigration: function() {
-      // tells MessageReceiver to disconnect and drain its queue, will fire
-      //   'shutdown-complete' event when that is done.
-      Whisper.Migration.init();
-
-      Whisper.events.on('shutdown-complete', function() {
+      Whisper.events.once('shutdown-complete', function() {
         Whisper.Migration.beginExport()
           .then(this.completeMigration.bind(this))
           .catch(this.onError.bind(this));
@@ -154,6 +150,11 @@
         // Rendering because we're now in the 'exporting' state
         this.render();
       }.bind(this));
+
+      // tells MessageReceiver to disconnect and drain its queue, will fire
+      //   'shutdown-complete' event when that is done. Might result in a synchronous
+      //   event, so call it after we register our callback.
+      Whisper.Migration.init();
 
       // Rendering because we're now in the 'disconnected' state
       this.render();
