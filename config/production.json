@@ -1,3 +1,4 @@
 {
-  "serverUrl": "https://textsecure-service.whispersystems.org"
+  "serverUrl": "https://textsecure-service.whispersystems.org",
+  "cdnUrl": "https://cdn.signal.org"
 }

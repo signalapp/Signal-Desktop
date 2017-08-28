@@ -22,7 +22,7 @@
     });
 
     var SERVER_URL = window.config.serverUrl;
-    var CDN_URL = 'https://cdn-staging.signal.org';
+    var CDN_URL = window.config.cdnUrl;
     var messageReceiver;
     window.getSocketStatus = function() {
         if (messageReceiver) {
