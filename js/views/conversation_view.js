@@ -73,6 +73,7 @@
                 verified: i18n('verified'),
                 name: this.model.getName(),
                 number: this.model.getNumber(),
+                profileName: this.model.getProfileName()
             };
         }
     });
