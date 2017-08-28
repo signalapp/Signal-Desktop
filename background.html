@@ -270,7 +270,12 @@
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble {{ avatar.color }}'>
-          <div class='sender' dir='auto'>{{ sender }}</div>
+          <div class='sender' dir='auto'>
+            {{ sender }}
+            {{ #profileName }}
+              <span class='profileName'>{{ profileName }} </span>
+            {{ /profileName }}
+          </div>
           <div class='attachments'></div>
           <p class='content' dir='auto'>
             {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}

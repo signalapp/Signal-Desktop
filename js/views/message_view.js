@@ -340,6 +340,7 @@
                     timestamp: this.model.get('sent_at'),
                     sender: (contact && contact.getTitle()) || '',
                     avatar: (contact && contact.getAvatar()),
+                    profileName: (contact && contact.getProfileName()),
                 }, this.render_partials())
             );
             this.timeStampView.setElement(this.$('.timestamp'));
