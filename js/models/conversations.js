@@ -72,6 +72,7 @@
         this.messageCollection.on('send-error', this.onMessageError, this);
 
         this.on('change:avatar', this.updateAvatarUrl);
+        this.on('change:profileAvatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
     },
 
@@ -940,7 +941,7 @@
 
     updateAvatarUrl: function(silent) {
         this.revokeAvatarUrl();
-        var avatar = this.get('avatar');
+        var avatar = this.get('avatar') || this.get('profileAvatar');
         if (avatar) {
             this.avatarUrl = URL.createObjectURL(
                 new Blob([avatar.data], {type: avatar.contentType})
