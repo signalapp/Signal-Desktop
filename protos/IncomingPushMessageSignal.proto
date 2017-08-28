@@ -181,6 +181,7 @@ message ContactDetails {
   optional Avatar avatar     = 3;
   optional string color      = 4;
   optional Verified verified = 5;
+  optional bytes profileKey  = 6;
 }
 
 message GroupDetails {
