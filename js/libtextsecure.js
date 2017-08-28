@@ -38292,7 +38292,7 @@ MessageReceiver.prototype.extend({
     },
     close: function() {
         this.socket.close(3000, 'called close');
-        delete this.listeners;
+        return this.drain();
     },
     onopen: function() {
         console.log('websocket open');
@@ -38399,6 +38399,19 @@ MessageReceiver.prototype.extend({
         //   then we add a task to emit the 'empty' event to the queue, so all message
         //   processing is complete by the time it runs.
         Promise.all(incoming).then(queueDispatch, queueDispatch);
+    },
+    drain: function() {
+        var incoming = this.incoming;
+        this.incoming = [];
+
+        var queueDispatch = function() {
+            return this.addToQueue(function() {
+              console.log('drained');
+            });
+        }.bind(this);
+
+        // This promise will resolve when there are no more messages to be processed.
+        return Promise.all(incoming).then(queueDispatch, queueDispatch);
     },
     updateProgress: function(count) {
         // count by 10s

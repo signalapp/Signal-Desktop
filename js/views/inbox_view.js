@@ -149,6 +149,13 @@
                 var banner = new Whisper.ExpiredAlertBanner().render();
                 banner.$el.prependTo(this.$el);
                 this.$el.addClass('expired');
+            } else if (Whisper.Migration.inProgress()) {
+                this.appLoadingScreen.remove();
+                this.appLoadingScreen = null;
+                this.showMigrationScreen();
+            } else if (storage.get('migrationEnabled')) {
+                var migrationBanner = new Whisper.MigrationAlertBanner().render();
+                migrationBanner.$el.prependTo(this.$el);
             }
         },
         render_attributes: {
@@ -169,7 +176,16 @@
             'select .gutter .conversation-list-item': 'openConversation',
             'input input.search': 'filterContacts',
             'click .restart-signal': 'reloadBackgroundPage',
-            'show .lightbox': 'showLightbox'
+            'show .lightbox': 'showLightbox',
+            'click .migrate': 'confirmMigration'
+        },
+        confirmMigration: function() {
+            this.confirm(i18n('confirmMigration'), i18n('migrate')).then(this.showMigrationScreen.bind(this));
+        },
+        showMigrationScreen: function() {
+            this.migrationScreen = new Whisper.MigrationView();
+            this.migrationScreen.render();
+            this.migrationScreen.$el.prependTo(this.el);
         },
         startConnectionListener: function() {
             this.interval = setInterval(function() {
@@ -287,4 +303,14 @@
         }
     });
 
+    Whisper.MigrationAlertBanner = Whisper.View.extend({
+        templateName: 'migration_alert',
+        className: 'expiredAlert clearfix',
+        render_attributes: function() {
+            return {
+                migrationWarning: i18n('migrationWarning'),
+                migrate: i18n('migrate'),
+            };
+        }
+    });
 })();
