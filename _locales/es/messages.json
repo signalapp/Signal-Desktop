@@ -126,7 +126,7 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
-        "message": "Bienvenid@ a Signal",
+        "message": "Bienvenido a Signal",
         "description": ""
     },
     "checkNetworkConnection": {
@@ -538,7 +538,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
-        "message": "Bienvenid@ a Signal Desktop",
+        "message": "Bienvenido a Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
@@ -692,7 +692,7 @@
         }
     },
     "to": {
-        "message": "Para",
+        "message": "A",
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {

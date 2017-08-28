@@ -1,7 +1,19 @@
 {
+    "scrollDown": {
+        "message": "一番下までスクロール",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10秒",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "view": {
+        "message": "見る",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "データベースを更新しています。しばらく掛かるかも知れません。",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
         "message": "最近の取り込みは",
@@ -21,9 +33,13 @@
         "message": "サポートされていない種類の添付ファイルです。クリックして保存してください。",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "安全番号を確認",
+    "showSafetyNumber": {
+        "message": "安全番号を表示する",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Android端末ではこのメッセージの最初の2000字しか受信されません",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "タイマーを$time$に設定しました",
@@ -38,10 +54,6 @@
     "settings": {
         "message": "設定",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "新たな安全番号が付いたメッセージを受け取りました。表示・処理を行うにはクリックしてください。",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5秒",
@@ -63,9 +75,27 @@
         "message": "消えるメッセージ",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "本当ですか？「削除する」をクリックすると，このメッセージが端末から完全に消去されます。",
+        "description": ""
+    },
     "showMore": {
         "message": "詳細",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "$name$との端末間暗号の安全性を検証するには，上記の番号が相手端末上の番号と同じか確認してください。",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "このメンバーとの安全番号に変更があります。メンバーをクリックして新しい安全番号を見て下さい。",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5分",
@@ -76,8 +106,12 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "クリックして保存",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "新着メッセージ",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "キーを生成",
@@ -89,7 +123,7 @@
     },
     "offline": {
         "message": "オフライン",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Signalにようこそ",
@@ -102,10 +136,6 @@
     "notificationSettingsDialog": {
         "message": "新着メッセージの通知で表示する項目：",
         "description": "Explain the purpose of the notification settings"
-    },
-    "members": {
-        "message": "メンバー",
-        "description": ""
     },
     "timestamp_h": {
         "message": "1時間",
@@ -123,12 +153,24 @@
         "message": "Signalを再起動",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "グループを退出しました。",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "メッセージを削除",
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
         "message": "受信中にエラー",
+        "description": ""
+    },
+    "delete": {
+        "message": "削除する",
+        "description": ""
+    },
+    "verified": {
+        "message": "検証済み",
         "description": ""
     },
     "selectAContact": {
@@ -148,6 +190,16 @@
             },
             "tag_end": {
                 "content": "</a>"
+            }
+        }
+    },
+    "changedRecently": {
+        "message": "$name$との安全番号が最近変わりました。誰かが通信を傍受しているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
             }
         }
     },
@@ -172,6 +224,10 @@
     "timestamp_s": {
         "message": "１分以内",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "changedRecentlyMultiple": {
+        "message": "安全番号の変更が複数のメンバーで最近ありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
         "message": "1日",
@@ -209,9 +265,23 @@
         "message": "電話番号を入力して連絡先を追加する",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "$name$との安全番号に変更があり，未検証です。クリックして表示してください。",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "検索",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "何人かの受取人には届きませんでした",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "なし",
@@ -243,9 +313,15 @@
         "message": "安全番号を確認することについて",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "safetyNumbersSettingHeader": {
-        "message": "安全番号が承認されました",
-        "description": "Header for safety numbers setting"
+    "unreadMessages": {
+        "message": "$count$ 件の未読メッセージ",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
@@ -281,6 +357,26 @@
         "message": "1分",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "メッセージを読み込んでいます。今のところ$count$通です。",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "$name$との安全番号に変更があります。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "アップデート",
         "description": "Label text for button to upgrade the app to the latest version"
@@ -309,19 +405,33 @@
     },
     "installTagline": {
         "message": "プライバシーは守れます。Signalを使えば簡単に。",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "音声通知を有効にする",
         "description": "Description for audio notification setting"
     },
+    "isNotVerified": {
+        "message": "$name$との安全番号が未検証です",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "disconnected": {
         "message": "接続オフ",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "取り込み中……",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "複数のメンバーとの安全番号に変更があり，未検証です。クリックして表示してください。",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "受け入れる",
@@ -363,6 +473,26 @@
         "message": "受信",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "$name$との安全番号を未検証にしました",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "$name$との安全番号を検証しました",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30秒",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -371,20 +501,28 @@
         "message": "メッセージ",
         "description": "Placeholder text in the message entry field"
     },
+    "me": {
+        "message": "自分",
+        "description": "The label for yourself when shown in a group member list"
+    },
     "mediaMessage": {
         "message": "メディアメッセージ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unreadMessage": {
+        "message": "1 件の未読メッセージ",
+        "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
         "message": "アプリのバージョンが古すぎます。最新版にアップデートしてください。",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "このコンタクトとの安全番号が変わりました。クリックして処理と表示を行ってください。",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "選択したファイルが大きすぎます",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "このメッセージを削除する",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -403,9 +541,17 @@
         "message": "Signal Desktopにようこそ",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "新着メッセージ",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
     "installConnectionFailed": {
         "message": "サーバーに接続できませんでした",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "未検証にする",
+        "description": ""
     },
     "messageNotSent": {
         "message": "送信失敗",
@@ -428,12 +574,26 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "無名のファイル",
         "description": "Hover text for attachment filenames"
+    },
+    "sendAnyway": {
+        "message": "とにかく送信する",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "$name$との安全番号を検証済みにしました",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "connecting": {
         "message": "接続完了",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "安全なセッションがリセットされました",
@@ -455,6 +615,20 @@
         "message": "5秒",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "メンバーを表示する",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "$name$との安全番号を他の端末で未検証にしました",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "まず<a $a_params$>Signal</a>をAndroid携帯電話にインストールしてください。<br />そうするとお使いの端末は結び付けられ，メッセージは同期されます。",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -469,6 +643,14 @@
         "message": "接続先の番号",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "groupMembers": {
+        "message": "グループのメンバー",
+        "description": ""
+    },
+    "loading": {
+        "message": "読み込んでいます",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
     "newMessages": {
         "message": "新着メッセージ",
         "description": "Displayed in notifications for multiple messages"
@@ -482,7 +664,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "音声メッセージ",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +672,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "$name$ との安全番号が変わりました。",
+        "message": "$name$との安全番号が変わりました。クリックすると表示されます。",
         "description": "",
         "placeholders": {
             "name": {
@@ -499,9 +681,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "安全番号が変わると確認することが必要となる",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。この相手との安全番号を検証することをお勧めします。",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "宛先",
@@ -520,7 +708,7 @@
         "description": ""
     },
     "verify": {
-        "message": "確認する",
+        "message": "検証済みにする",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -543,6 +731,10 @@
         "message": "このコンタクトとの安全番号が変わりました。誰かがこの会話を盗聴しようとしていることか、コンタクトはただ、Signalをまたインストールしたの２つの理由となります。以下の安全番号を確認してください。",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "複数のメンバーで安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，メンバーがSignalをインストールし直しただけかも知れません。",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "submitDebugLog": {
         "message": "デバッグログを提出",
         "description": "Menu item and header text for debug log modal, title case."
@@ -550,6 +742,16 @@
     "error": {
         "message": "エラー",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "検証しようとしている安全番号に変更がありました。$name$との安全番号を再確認してください。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "タイマーが$time$に設定されました",
@@ -572,5 +774,15 @@
     "resend": {
         "message": "再送",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "$name$との安全番号を他の端末で検証済みにしました",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }

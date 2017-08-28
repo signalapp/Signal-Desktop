@@ -7,6 +7,14 @@
         "message": "10 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "view": {
+        "message": "View",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Upgrading database. This may take some time...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
     "lastSynced": {
         "message": "Последний импорт",
         "description": "Label for date and time of last sync operation"
@@ -25,9 +33,13 @@
         "message": "Неподдерживаемый формат вложения. Нажмите, чтобы сохранить.",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "Подтвердить код безопасности",
+    "showSafetyNumber": {
+        "message": "Show safety number",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Клиенты Android получат только первые 2000 символов этого сообщения.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "Вы установили таймер на $time$.",
@@ -42,10 +54,6 @@
     "settings": {
         "message": "Настройки",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Получено сообщение с новым кодом безопасности. Нажмите, чтобы продолжить.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5с",
@@ -67,9 +75,27 @@
         "message": "Исчезающие сообщения",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "description": ""
+    },
     "showMore": {
         "message": "Подробнее",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5м",
@@ -111,10 +137,6 @@
         "message": "При получении сообщения, всплывающие уведомления будут содержать:",
         "description": "Explain the purpose of the notification settings"
     },
-    "members": {
-        "message": "Участники",
-        "description": ""
-    },
     "timestamp_h": {
         "message": "1 час",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -143,6 +165,14 @@
         "message": "Ошибка обработки входящего сообщения.",
         "description": ""
     },
+    "delete": {
+        "message": "Удалить",
+        "description": ""
+    },
+    "verified": {
+        "message": "Проверено",
+        "description": ""
+    },
     "selectAContact": {
         "message": "Выберите контакт или группу для начала общения.",
         "description": ""
@@ -160,6 +190,16 @@
             },
             "tag_end": {
                 "content": "</a>"
+            }
+        }
+    },
+    "changedRecently": {
+        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
             }
         }
     },
@@ -184,6 +224,10 @@
     "timestamp_s": {
         "message": "только что",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    },
+    "changedRecentlyMultiple": {
+        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
         "message": "1 день",
@@ -221,9 +265,23 @@
         "message": "Введите номер телефона собеседника.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Поиск...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Some recipients failed.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Не показывать ни имени, ни сообщения",
@@ -254,10 +312,6 @@
     "learnMore": {
         "message": "Узнать больше о подтверждении кодов безопасности",
         "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "safetyNumbersSettingHeader": {
-        "message": "Подтверждение кодов безопасности",
-        "description": "Header for safety numbers setting"
     },
     "unreadMessages": {
         "message": "$count$ непрочитанных сообщений",
@@ -303,6 +357,26 @@
         "message": "1м",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Loading messages. $count$ so far...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Обновить",
         "description": "Label text for button to upgrade the app to the latest version"
@@ -331,11 +405,21 @@
     },
     "installTagline": {
         "message": "Приватное общение возможно. Signal помогает его упростить.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Звуковые уведомления",
         "description": "Description for audio notification setting"
+    },
+    "isNotVerified": {
+        "message": "You have not verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "disconnected": {
         "message": "Соединение разорвано",
@@ -344,6 +428,10 @@
     "syncing": {
         "message": "Импортирую...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Принять",
@@ -385,6 +473,26 @@
         "message": "Получено",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "You marked your safety number with $name$ as unverified.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "You have verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -392,6 +500,10 @@
     "sendMessage": {
         "message": "Отправить сообщение",
         "description": "Placeholder text in the message entry field"
+    },
+    "me": {
+        "message": "Мне",
+        "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
         "message": "Медиа-сообщение",
@@ -405,12 +517,12 @@
         "message": "Данная версия приложения устарела. Пожалуйста, обновите Signal Desktop до последней версии для дальнейшей отправки сообщений.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Код безопасности данного контакта изменился. Нажмите, чтобы продолжить.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Извините, размер выбранного файла превышает допустимый.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Удалить это сообщение",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -437,6 +549,10 @@
         "message": "Не удалось подключиться к серверу.",
         "description": "Displayed when we can't connect to the server."
     },
+    "unverify": {
+        "message": "Mark as not verified",
+        "description": ""
+    },
     "messageNotSent": {
         "message": "Сообщение не отправлено.",
         "description": "Informational label, appears on messages that failed to send"
@@ -461,12 +577,26 @@
         "message": "Безымянный файл",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Отправить",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "You marked your safety number with $name$ as verified.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
         "message": "Соединение",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
-        "message": "Защищённая сессия перезапущена",
+        "message": "Сбросить защищенную сессию",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -485,6 +615,20 @@
         "message": "5 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "Show members",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "Сначала установите <a $a_params$>Signal</a> на Android смартфоне.<br /> Мы свяжем ваши устройства и синхронизируем сообщения между ними.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -498,6 +642,14 @@
     "installLinkingWithNumber": {
         "message": "Связать с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "groupMembers": {
+        "message": "Group members",
+        "description": ""
+    },
+    "loading": {
+        "message": "Загрузка...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
         "message": "Новые сообщения",
@@ -520,7 +672,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ваш код безопасности c пользователем $name$ изменился. Нажмите, чтобы подтвердить.",
+        "message": "Ваш код безопасности c пользователем $name$ изменился. Нажмите, чтобы показать.",
         "description": "",
         "placeholders": {
             "name": {
@@ -529,9 +681,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Требовать подтверждение кодов безопасности при их изменении",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Кому",
@@ -550,7 +708,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Подтвердить",
+        "message": "Mark as verified",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -573,6 +731,10 @@
         "message": "Ваш код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или собеседник попросту переустановил Signal. Вы можете подтвердить новый код безопасности указанный ниже.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "submitDebugLog": {
         "message": "Отправить журнал отладки",
         "description": "Menu item and header text for debug log modal, title case."
@@ -580,6 +742,16 @@
     "error": {
         "message": "Ошибка",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Таймер установлен на $time$",
@@ -602,5 +774,15 @@
     "resend": {
         "message": "Отправить ещё раз",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }
