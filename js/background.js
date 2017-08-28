@@ -334,7 +334,7 @@
                 Whisper.events.trigger('reconnectTimer');
             } else {
                 console.log('offline');
-                messageReceiver.close();
+                if (messageReceiver) { messageReceiver.close(); }
                 window.addEventListener('online', init);
             }
             return;

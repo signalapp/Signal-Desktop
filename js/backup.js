@@ -369,7 +369,7 @@
             var jsonString = JSON.stringify(stringify(message));
             stream.write(jsonString);
 
-            if (attachments.length) {
+            if (attachments && attachments.length) {
               var process = function() {
                 return writeAttachments(dir, name, messageId, attachments);
               };
