@@ -321,8 +321,13 @@
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
-      <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
+    <h3 class='name' dir='auto'>
+      {{ title }}
+      {{ #profileName }}
+        <span class='profileName'>{{ profileName }} </span>
+      {{ /profileName }}
+    </h3>
+    <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}

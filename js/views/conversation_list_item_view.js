@@ -49,6 +49,7 @@
                     last_message_timestamp: this.model.get('timestamp'),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
+                    profileName: this.model.getProfileName(),
                     unreadCount: this.model.get('unreadCount')
                 }, this.render_partials())
             );
