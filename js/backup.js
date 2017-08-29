@@ -403,9 +403,9 @@
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
     if (conversation.type === 'private') {
-      name += ' (' + (conversation.name || conversation.id) + ')';
+      name += ' (' + (conversation.name || conversation.id).slice(0, 30) + ')';
     } else {
-      name += ' (' + conversation.name + ')';
+      name += ' (' + conversation.name.slice(0, 30) + ')';
     }
     return name;
   }
