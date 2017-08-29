@@ -1,7 +1,19 @@
 {
+    "scrollDown": {
+        "message": "Slinkti į pokalbio apačią",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 sekundžių",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "view": {
+        "message": "Rodyti",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Naujinama duomenų bazė. Tai gali šiek tiek užtrukti...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
         "message": "Paskutinis importavimas ties",
@@ -21,9 +33,13 @@
         "message": "Nepalaikomas priedo tipas. Spustelėkite, kad įrašytumėte.",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "Patvirtinti saugumo numerį",
+    "showSafetyNumber": {
+        "message": "Rodyti saugumo numerį",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Android klientai gaus tik pirmuosius 2000 šios žinutės simbolių.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "Jūs nustatėte laikmatį į $time$.",
@@ -38,10 +54,6 @@
     "settings": {
         "message": "Nustatymai",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Gauta žinutė su nauju saugumo numeriu. Spustelėkite, norėdami apdoroti ir parodyti.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5 sek.",
@@ -63,9 +75,27 @@
         "message": "Išnykstančios žinutės",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Ar tikrai? Spustelėjus \"Ištrinti\", ši žinutė visiems laikams bus pašalinta iš šio įrenginio.",
+        "description": ""
+    },
     "showMore": {
         "message": "Išsamesnė informacija",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "Jeigu norite patvirtinti savo ištisinio šifravimo su $name$ saugumą, palyginkite aukščiau esančius numerius su numeriais šio asmens įrenginyje.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Jūsų saugumo numeriai su šiais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Spustelėkite ant grupės dalyvio, norėdami pamatyti savo naują saugumo numerį su juo.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5 min.",
@@ -75,9 +105,17 @@
         "message": "Nepalaikomas failo tipas",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "exportAgain": {
+        "message": "Eksportuoti dar kartą",
+        "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
     "clickToSave": {
         "message": "Spustelkite, norėdami įrašyti",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "Naujos žinutės žemiau",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "Kuriami raktai",
@@ -89,7 +127,7 @@
     },
     "offline": {
         "message": "Atsijungta",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Sveiki atvykę į Signal",
@@ -102,10 +140,6 @@
     "notificationSettingsDialog": {
         "message": "Kai gaunamos žinutės, rodyti pranešimus, kuriuose atskleidžiama:",
         "description": "Explain the purpose of the notification settings"
-    },
-    "members": {
-        "message": "Dalyviai",
-        "description": ""
     },
     "timestamp_h": {
         "message": "1 valanda",
@@ -123,21 +157,45 @@
         "message": "Paleisti Signal iš naujo",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Jūs išėjote iš grupės",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Ištrinti žinutes",
         "description": "Menu item for deleting messages, title case."
     },
+    "confirmMigration": {
+        "message": "Pradėti perkėlimo procesą? Perkėlimo eigoje jūs negalėsite iš šios programos siųsti ar gauti Signal žinučių.",
+        "description": "Confirmation dialogue when beginning migration"
+    },
     "incomingError": {
         "message": "Klaida, apdorojant gaunamą žinutę.",
+        "description": ""
+    },
+    "delete": {
+        "message": "Ištrinti",
+        "description": ""
+    },
+    "verified": {
+        "message": "Patvirtinta(-s)",
         "description": ""
     },
     "selectAContact": {
         "message": "Pasirinkite kontaktą ar grupę, kad pradėtumėte pokalbį.",
         "description": ""
     },
+    "exportError": {
+        "message": "Deja, eksportavimo metu kažkas nutiko. Iš pradžių, dar kartą patikrinkite savo tuščią paskirties katalogą, ar turite prieigą į jį rašyti ir, ar užtenka vietos. Tuomet, pateikite derinimo žurnalą, kad mes galėtume jums padėti su perkėlimu!",
+        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "installConnecting": {
         "message": "Jungiamasi...",
         "description": "Displayed when waiting for the QR Code"
+    },
+    "selectedLocation": {
+        "message": "jūsų pasirinkta vieta",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
         "message": "Jūs, tikriausiai, norėtumėte $tag_start$ patvirtinti $tag_end$ savo saugumo numerį su šiuo kontaktu.",
@@ -151,9 +209,27 @@
             }
         }
     },
+    "changedRecently": {
+        "message": "Jūsų saugumo numeris su $name$ neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "sent": {
         "message": "Išsiųsta",
         "description": "Label for the time a message was sent"
+    },
+    "migrationWarning": {
+        "message": "Signal darbalaukiui Chrome programa buvo panaikinta. Ar norėtumėte dabar persikelti į naująją Signal programą darbalaukiui?",
+        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+        "message": "Perkelti",
+        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ nustatė laikmatį į $time$.",
@@ -173,9 +249,17 @@
         "message": "dabar",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "changedRecentlyMultiple": {
+        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal. ",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "timerOption_1_day": {
         "message": "1 diena",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "exporting": {
+        "message": "Palaukite, kol mes eksportuosime jūsų duomenis. Eksportavimo metu, jūs vis dar galite naudotis Signal savo telefone ar kituose įrenginiuose. Taip pat galite <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>įdiegti naująją Signal programą darbalaukiui</a>.",
+        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Pranešti apie klaidą",
@@ -209,9 +293,23 @@
         "message": "Įveskite kontakto, kurį norite pridėti, numerį.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė ir daugiau nebėra patvirtintas. Spustelėkite, norėdami rodyti.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Ieškoti...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Kai kurie gavėjai patyrė nesėkmę.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Nei vardas, nei žinutė",
@@ -243,9 +341,15 @@
         "message": "Sužinoti daugiau apie saugumo numerių patvirtinimą",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "safetyNumbersSettingHeader": {
-        "message": "Saugumo numerių patvirtinimas",
-        "description": "Header for safety numbers setting"
+    "unreadMessages": {
+        "message": "$count$ neskaitytų žinučių",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
@@ -281,12 +385,32 @@
         "message": "1 min.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Įkeliamos žinutės. Jau $count$ įkelta...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Jūsų saugumo numeris su $name$ nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Naujinti",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Jūsų saugumo numeris su $name$",
+        "message": "Jūsų saugumo numeris su $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -309,19 +433,33 @@
     },
     "installTagline": {
         "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Groti garso pranešimus",
         "description": "Description for audio notification setting"
     },
+    "isNotVerified": {
+        "message": "Jūs nesate patvirtinę savo saugumo numerio su $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "disconnected": {
         "message": "Atsijungta",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Importuojama...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Jūsų saugumo numeriai su keliais šios grupės dalyviais pasikeitė ir daugiau nebėra patvirtinti. Spustelėkite, norėdami rodyti.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Priimti",
@@ -363,6 +501,26 @@
         "message": "Gauta",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "Jūs patvirtinote savo saugumo numerį su $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 sekundžių",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -371,20 +529,28 @@
         "message": "Siųsti žinutę",
         "description": "Placeholder text in the message entry field"
     },
+    "me": {
+        "message": "Aš",
+        "description": "The label for yourself when shown in a group member list"
+    },
     "mediaMessage": {
         "message": "Medija žinutė",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unreadMessage": {
+        "message": "1 neskaityta žinutė",
+        "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
         "message": "Pasibaigė šios Signal darbalaukiui skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Spustelėkite, norėdami apdoroti ir parodyti.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Ištrinti šią žinutę",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -395,6 +561,10 @@
         "message": "Atverkite Signal savo telefone ir naršykite į Nustatymai > Susieti įrenginiai. Bakstelėkite mygtuką, kad pridėtumėte naują įrenginį, o tuomet nuskenuokite aukščiau esantį kodą.",
         "description": ""
     },
+    "migrationDisconnecting": {
+        "message": "Atsijungiama...",
+        "description": "Displayed while we wait for pending incoming messages to process"
+    },
     "invalidNumberError": {
         "message": "Neteisingas numeris",
         "description": "When a person inputs a number that is invalid"
@@ -403,9 +573,27 @@
         "message": "Sveiki atvykę į Signal darbalaukiui",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "Nauja žinutė žemiau",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "exportComplete": {
+        "message": "Jūsų duomenys buvo eksportuoti į: <p><b>$location$</b></p> Norėdami užbaigti perkėlimą, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>įdiekite naują Signal programą darbalaukiui</a> ir importuokite šiuos duomenis.",
+        "description": "Message shown on the migration screen when we are done exporting data",
+        "placeholders": {
+            "location": {
+                "content": "$1",
+                "example": "/Users/someone/somewhere"
+            }
+        }
+    },
     "installConnectionFailed": {
         "message": "Nepavyko prisijungti prie serverio.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "Žymėti kaip nepatvirtintą",
+        "description": ""
     },
     "messageNotSent": {
         "message": "Žinutė neišsiųsta.",
@@ -431,9 +619,23 @@
         "message": "Bevardis failas",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Vis tiek siųsti",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip patvirtintą.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
         "message": "Jungiamasi",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Saugusis seansas atstatytas",
@@ -455,6 +657,20 @@
         "message": "5 sekundės",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "Rodyti dalyvius",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip nepatvirtintą.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "Iš pradžių, įdiekite <a $a_params$>Signal</a> savo Android telefone.<br /> Mes susiesime jūsų įrenginius ir išlaikysime jūsų žinutes sinchronizuotas.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -468,6 +684,14 @@
     "installLinkingWithNumber": {
         "message": "Susiejama su",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "groupMembers": {
+        "message": "Grupės dalyviai",
+        "description": ""
+    },
+    "loading": {
+        "message": "Įkeliama...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
         "message": "Naujos žinutės",
@@ -490,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Jūsų saugumo numeris su $name$ pasikeitė.",
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Spustelėkite, norėdami rodyti.",
         "description": "",
         "placeholders": {
             "name": {
@@ -499,9 +723,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Reikalauti naujų saugumo numerių patvirtinimo, jiems pasikeitus.",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Kam",
@@ -520,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Patvirtinti",
+        "message": "Žymėti kaip patvirtintą",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -543,6 +773,14 @@
         "message": "Jūsų saugumo numeris su šiuo kontaktu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis kontaktas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "export": {
+        "message": "Pasirinkti katalogą",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "submitDebugLog": {
         "message": "Pateikti derinimo žurnalą",
         "description": "Menu item and header text for debug log modal, title case."
@@ -550,6 +788,16 @@
     "error": {
         "message": "Klaida",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "Saugumo numeris, kurį bandote patvirtinti, pasikeitė. Prašome peržiūrėti savo saugumo numerį su $name$. Atminkite, šis pokytis gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Laikmatis nustatytas į $time$",
@@ -565,6 +813,10 @@
         "message": "30 sek.",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "exportInstructions": {
+        "message": "Pirmas žingsnis - pasirinkti katalogą, kuriame bus saugomi šios programos eksportuoti duomenys. Tame kataloge bus žinučių istorija ir slaptieji šifruoti duomenys, taigi, nepamirškite jų įrašyti kokioje nors privačioje vietoje.",
+        "description": "Description of the export process"
+    },
     "notifications": {
         "message": "Pranešimai",
         "description": "Header for notification settings"
@@ -572,5 +824,15 @@
     "resend": {
         "message": "Siųsti iš naujo",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Jūs iš kito įrenginio pažymėjote savo saugumo numerį su $name$ kaip patvirtintą.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }

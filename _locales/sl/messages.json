@@ -7,6 +7,14 @@
         "message": "10 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "view": {
+        "message": "Preglej",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Posodabljam bazo podatkov. To lahko traja nekaj časa...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
     "lastSynced": {
         "message": "Nazadnje uvoženo: ",
         "description": "Label for date and time of last sync operation"
@@ -25,13 +33,13 @@
         "message": "Nepodprta vrsta priponke. Kliknite, če jo želite shraniti.",
         "description": "Displayed for incoming unsupported attachment"
     },
+    "showSafetyNumber": {
+        "message": "Prikaži varnostno število",
+        "description": ""
+    },
     "androidMessageLengthWarning": {
         "message": "Odjemalec za Android bo prejel le prvih 2000 znakov tega sporočila.",
         "description": "Warning that long messages could not get received completely by Android clients."
-    },
-    "verifySafetyNumbers": {
-        "message": "Preglej varnostno število",
-        "description": ""
     },
     "youChangedTheTimer": {
         "message": "Odštevanje ste nastavili na $time$.",
@@ -46,10 +54,6 @@
     "settings": {
         "message": "Nastavitve",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Prejeto je bilo sporočilo z novim varnostnimi številom. Kliknite za pregled in potrditev.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5 s",
@@ -71,9 +75,27 @@
         "message": "Izginjajoča sporočila",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Ste prepričani? S klikom na 'izbriši' boste nepovratno izbrisali sporočilo s te naprave.",
+        "description": ""
+    },
     "showMore": {
         "message": "Podrobnosti",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "Če želite preveriti varnost od konca do konca šifrirane komunikacije z uporabnikom $name$, primerjajte gornje število s številom na njegovi napravi.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Vaša varnostna števila s temi člani skupine, so bila spremenjena odkar ste nazadnje preverjali. Za ogled novega varnostnega števila z določenim članom skupine kliknite nanj.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5 min",
@@ -82,6 +104,10 @@
     "unsupportedFileType": {
         "message": "Nepodprta vrsta datoteke",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "exportAgain": {
+        "message": "Ponovno izvozi",
+        "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
         "message": "Shrani",
@@ -115,10 +141,6 @@
         "message": "Ko prispe sporočilo v obvestilu, razkrij:",
         "description": "Explain the purpose of the notification settings"
     },
-    "members": {
-        "message": "Člani",
-        "description": ""
-    },
     "timestamp_h": {
         "message": "1 uro",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -143,17 +165,37 @@
         "message": "Izbriši sporočila",
         "description": "Menu item for deleting messages, title case."
     },
+    "confirmMigration": {
+        "message": "Začnem s selitvijo podatkov? Med postopkom ne boste mogli prejemati ali pošiljati sporočil Signal na tej napravi.",
+        "description": "Confirmation dialogue when beginning migration"
+    },
     "incomingError": {
         "message": "Napaka pri obdelavi dohodnega sporočila.",
+        "description": ""
+    },
+    "delete": {
+        "message": "Izbriši",
+        "description": ""
+    },
+    "verified": {
+        "message": "Potrjeno",
         "description": ""
     },
     "selectAContact": {
         "message": "Izberite osebo ali skupino in začnite s pogovorom.",
         "description": ""
     },
+    "exportError": {
+        "message": "Na žalost je prišlo do nepredvidenih zapletov pri izvozu podatkov. Prosimo, da dvokliknete izbrano prazno mapo. Nato nam pošljite sistemsko zabeležbo, da vam bomo lahko pomagali pri selitvi podatkov.",
+        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "installConnecting": {
         "message": "Povezujem ...",
         "description": "Displayed when waiting for the QR Code"
+    },
+    "selectedLocation": {
+        "message": "izbrana lokacija",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
         "message": "Morda bi želeli $tag_start$ preveriti in potrditi $tag_end$ vajino varnostno število.",
@@ -167,9 +209,27 @@
             }
         }
     },
+    "changedRecently": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo nedavno spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "sent": {
         "message": "Poslano",
         "description": "Label for the time a message was sent"
+    },
+    "migrationWarning": {
+        "message": "Aplikacija Signal Desktop Chrome je opuščena. Bi se želeli preseliti na novi Signal Desktop?",
+        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+        "message": "Selitev podatkov",
+        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "Uporabnik $name$ je nastavil odštevanje na $time$.",
@@ -189,9 +249,17 @@
         "message": "ravnokar",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "changedRecentlyMultiple": {
+        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "timerOption_1_day": {
         "message": "1 dan",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "exporting": {
+        "message": "Prosimo, počakajte, dokler poteka izvoz podatkov. Med tem lahko še vedno uporabljate aplikacijo Signal na vašem telefonu in drugih napravah. V tem času lahko tudi<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>namestite novo aplikacijo Signal Desktop</a>.",
+        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Prijava napake",
@@ -225,9 +293,23 @@
         "message": "Z vnosom telefonske številke boste ustvarili nov stik",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno in ni več označeno kot potrjeno. Kliknite za prikaz.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Išči ...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Pošiljanje nekaterim prejemnikom ni bilo uspešno.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Niti imena pošiljatelja niti sporočila",
@@ -238,7 +320,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Uvoz ni bil uspešen. Preverite, da sta vaša računalnik in mobilna naprava povezana z internetom.",
+        "message": "Uvoz ni bil uspešen. Preverite, da sta vaša mobilna naprava in računalnik povezana z internetom.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
@@ -258,10 +340,6 @@
     "learnMore": {
         "message": "Več o verifikaciji varnostnih števil.",
         "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "safetyNumbersSettingHeader": {
-        "message": "Preverjanje istovetnosti",
-        "description": "Header for safety numbers setting"
     },
     "unreadMessages": {
         "message": "$count$ Neprebrana sporočila",
@@ -307,6 +385,26 @@
         "message": "1 min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Nalagam sporočila. $count$ zaenkrat...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo od zadnjega preverjanja spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Posodobi",
         "description": "Label text for button to upgrade the app to the latest version"
@@ -335,11 +433,21 @@
     },
     "installTagline": {
         "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Predvajaj zvočna obvestila",
         "description": "Description for audio notification setting"
+    },
+    "isNotVerified": {
+        "message": "Varnostnega števila z uporabnikom $name$ niste potrdili.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "disconnected": {
         "message": "Povezava je prekinjena",
@@ -348,6 +456,10 @@
     "syncing": {
         "message": "Uvažam ...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Vaša varnostna števila z večimi člani skupine so bila spremenjena in niso več označena kot potrjena. Kliknite za prikaz.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Sprejmi",
@@ -389,6 +501,26 @@
         "message": "Prejeto",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "Vaše varnostno število z uporabnikom $name$ ste označili kot nepotrjeno.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "Potrdili ste varnostno število z uporabnikom $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -396,6 +528,10 @@
     "sendMessage": {
         "message": "Pošlji sporočilo",
         "description": "Placeholder text in the message entry field"
+    },
+    "me": {
+        "message": "Jaz",
+        "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
         "message": "Multimedijsko sporočilo",
@@ -409,12 +545,12 @@
         "message": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Vaše varnostno število s to osebo je bilo spremenjeno. Kliknite za pregled in potrditev.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Izbrana datoteka presega največjo dovoljeno velikost.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Izbriši to sporočilo",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -422,8 +558,12 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
-        "message": "Odprite aplikacijo Signal na svojem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato vnesite gornjo kodo.",
+        "message": "Odprite aplikacijo Signal na svojem telefonu in pojdite na Nastavitve > Povezane naprave. Tapnite gumb za dodajanje nove naprave, nato skenirajte gornjo kodo.",
         "description": ""
+    },
+    "migrationDisconnecting": {
+        "message": "Prekinjam...",
+        "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
         "message": "Neveljavna številka",
@@ -437,9 +577,23 @@
         "message": "Novo sporočilo spodaj",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
+    "exportComplete": {
+        "message": "Vaši podatki so bili izvoženi na: <p><b>$location$</b></p> Za končanje postopka <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>namestite novo aplikacijo Signal Desktop</a> in nato uvozite podatke.",
+        "description": "Message shown on the migration screen when we are done exporting data",
+        "placeholders": {
+            "location": {
+                "content": "$1",
+                "example": "/Users/someone/somewhere"
+            }
+        }
+    },
     "installConnectionFailed": {
         "message": "Ne morem se povezati s strežnikom.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "Označi kot nepotrjeno",
+        "description": ""
     },
     "messageNotSent": {
         "message": "Sporočilo ni bilo poslano.",
@@ -465,6 +619,20 @@
         "message": "Neimenovana datoteka",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Vseeno pošlji",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "Varnostno število z osebo $name$ ste označili kot potrjeno.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
         "message": "Povezujem",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -489,6 +657,20 @@
         "message": "5 sekund",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "Prikaži člane",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot nepotrjeno.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "Najprej namestite <a $a_params$>Signal</a> na svoj Androidni telefon.<br /> Nato bomo povezali in uskladili obe napravi.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -502,6 +684,14 @@
     "installLinkingWithNumber": {
         "message": "Povezujem z",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "groupMembers": {
+        "message": "Člani skupine",
+        "description": ""
+    },
+    "loading": {
+        "message": "Nalagam...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
         "message": "Novo sporočilo",
@@ -524,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Vaše varnostno število z osebo $name$ je bilo spremenjeno. Kliknite za pregled in potrditev.",
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. Kliknite za prikaz.",
         "description": "",
         "placeholders": {
             "name": {
@@ -533,9 +723,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Zahtevaj potrditev ob spremembi varnostnih števil",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal. Morebiti bi želeli preveriti vaše varnostno število z njim.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Naslovnik",
@@ -554,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Potrdi",
+        "message": "Označi kot potrjeno.",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -577,6 +773,14 @@
         "message": "Vaše varnostno število s to osebo je bilo spremenjeno. To lahko pomeni, da poskuša nekdo prestrezati vajino komunikacijo ali pa je vaš partner zgolj na novo namestil aplikacijo Signal. Novo varnostno število lahko preverite spodaj.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Varnostna števila z večimi člani skupine so bila nedavno spremenjena. To lahko pomeni, da skuša nekdo prestrezati vašo komunikacijo ali pa, da so te osebe zgolj ponovno namestile aplikacijo Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "export": {
+        "message": "Izberi mapo",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "submitDebugLog": {
         "message": "Pošlji sistemsko zabeležbo",
         "description": "Menu item and header text for debug log modal, title case."
@@ -584,6 +788,16 @@
     "error": {
         "message": "Napaka",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "Varnostno število, ki ga potrjujete je bilo spremenjeno. Prosimo še enkrat preverite vaše novo varnostno število z uporabnikom $name$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Čas izginjanja je nastavljen na $time$",
@@ -599,6 +813,10 @@
         "message": "30 s",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "exportInstructions": {
+        "message": "Najprej morate izbrati mapo v katero bomo izvozili podatke te aplikacije. Vanjo bodo prenešena vsa vaša sporočila in podatki potrebni za šifriranje, zato je pomembno, da je ta mapa spravljena na varnem mestu.",
+        "description": "Description of the export process"
+    },
     "notifications": {
         "message": "Obvestila",
         "description": "Header for notification settings"
@@ -606,5 +824,15 @@
     "resend": {
         "message": "Ponovno pošlji",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Varnostno število z uporabnikom $name$ ste na drugi napravi označili kot potrjeno.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }
