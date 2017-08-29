@@ -412,7 +412,11 @@
 
   function getConversationLoggingName(conversation) {
     var name = conversation.active_at || 'never';
-    name += ' (' + conversation.id + ')';
+    if (conversation.type === 'private') {
+      name += ' (' + conversation.id + ')';
+    } else {
+      name += ' ([REDACTED_GROUP]' + conversation.id.slice(-3) + ')';
+    }
     return name;
   }
 
