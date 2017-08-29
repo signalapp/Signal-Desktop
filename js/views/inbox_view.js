@@ -150,8 +150,10 @@
                 banner.$el.prependTo(this.$el);
                 this.$el.addClass('expired');
             } else if (Whisper.Migration.inProgress()) {
-                this.appLoadingScreen.remove();
-                this.appLoadingScreen = null;
+                if (this.appLoadingScreen) {
+                    this.appLoadingScreen.remove();
+                    this.appLoadingScreen = null;
+                }
                 this.showMigrationScreen();
             } else if (storage.get('migrationEnabled')) {
                 var migrationBanner = new Whisper.MigrationAlertBanner().render();
