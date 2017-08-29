@@ -543,7 +543,7 @@
               'Done importing',
               messages.length,
               'messages for conversation',
-              conversationId
+              '[REDACTED]' + conversationId.slice(-3)
             );
             resolve();
           }
