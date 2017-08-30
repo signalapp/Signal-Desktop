@@ -30,7 +30,8 @@
             var registrationDone = this.registrationDone.bind(this);
             return this.queueTask(function() {
                 return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
-                    return createAccount(number, verificationCode, identityKeyPair).
+                    var profileKey = textsecure.crypto.getRandomBytes(32);
+                    return createAccount(number, verificationCode, identityKeyPair, profileKey).
                         then(generateKeys).
                         then(registerKeys).
                         then(registrationDone);
@@ -83,6 +84,7 @@
                                                 provisionMessage.number,
                                                 provisionMessage.provisioningCode,
                                                 provisionMessage.identityKeyPair,
+                                                provisionMessage.profileKey,
                                                 deviceName,
                                                 provisionMessage.userAgent
                                             ).then(generateKeys).
@@ -183,7 +185,7 @@
                 });
             });
         },
-        createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
+        createAccount: function(number, verificationCode, identityKeyPair, profileKey, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
@@ -201,6 +203,7 @@
                     textsecure.storage.remove('device_name');
                     textsecure.storage.remove('regionCode');
                     textsecure.storage.remove('userAgent');
+                    textsecure.storage.remove('profileKey');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -217,6 +220,7 @@
                     textsecure.storage.put('signaling_key', signalingKey);
                     textsecure.storage.put('password', password);
                     textsecure.storage.put('registrationId', registrationId);
+                    textsecure.storage.put('profileKey', profileKey);
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
