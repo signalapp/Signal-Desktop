@@ -7,6 +7,14 @@
         "message": "10 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "view": {
+        "message": "View",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Upgrading database. This may take some time...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    },
     "lastSynced": {
         "message": "Останній імпорт в",
         "description": "Label for date and time of last sync operation"
@@ -25,9 +33,13 @@
         "message": "Непідтримуваний формат вкладення. Клацніть щоб зберегти.",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "Підтвердити код безпеки",
+    "showSafetyNumber": {
+        "message": "Show safety number",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "Ви встановили таймер на $time$.",
@@ -42,10 +54,6 @@
     "settings": {
         "message": "Налаштування",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Отримано повідомлення з новим кодом безпеки. Натисніть, щоб обробити і відобразити.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5с",
@@ -67,9 +75,27 @@
         "message": "Зникаючі повідомлення ",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "description": ""
+    },
     "showMore": {
         "message": "Деталі",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5хв",
@@ -78,6 +104,10 @@
     "unsupportedFileType": {
         "message": "Непідтримуваний формат файлу.",
         "description": "Displayed for outgoing unsupported attachment"
+    },
+    "exportAgain": {
+        "message": "Export again",
+        "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
         "message": "Натисніть, щоб зберегти",
@@ -111,10 +141,6 @@
         "message": "При отриманні повідомлення показувати нотифікації які відображають:",
         "description": "Explain the purpose of the notification settings"
     },
-    "members": {
-        "message": "Учасники",
-        "description": ""
-    },
     "timestamp_h": {
         "message": "1 година",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
@@ -139,17 +165,37 @@
         "message": "Видалити повідомлення",
         "description": "Menu item for deleting messages, title case."
     },
+    "confirmMigration": {
+        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
+        "description": "Confirmation dialogue when beginning migration"
+    },
     "incomingError": {
         "message": "Помилка прийому вхідного повідомлення.",
+        "description": ""
+    },
+    "delete": {
+        "message": "Delete",
+        "description": ""
+    },
+    "verified": {
+        "message": "Verified",
         "description": ""
     },
     "selectAContact": {
         "message": "Оберіть контакт чи групу щоб почати спілкування.",
         "description": ""
     },
+    "exportError": {
+        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "installConnecting": {
         "message": "З'єднання...",
         "description": "Displayed when waiting for the QR Code"
+    },
+    "selectedLocation": {
+        "message": "your selected location",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
         "message": "Можливо, ви хочете $tag_start$ підтвердити код безпеки $tag_end$ для цього контакту.",
@@ -163,9 +209,27 @@
             }
         }
     },
+    "changedRecently": {
+        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "sent": {
         "message": "Надіслано",
         "description": "Label for the time a message was sent"
+    },
+    "migrationWarning": {
+        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+        "message": "Migrate",
+        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ встановив(ла) таймер на $time$.",
@@ -185,9 +249,17 @@
         "message": "зараз",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "changedRecentlyMultiple": {
+        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "timerOption_1_day": {
         "message": "1 день",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "exporting": {
+        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Повідомити про ваду",
@@ -221,9 +293,23 @@
         "message": "Введіть номер телефону щоб додати контакт.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Пошук...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Some recipients failed.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Нічого",
@@ -254,10 +340,6 @@
     "learnMore": {
         "message": "Дізнатися більше про підтвердження кодів безпеки",
         "description": "Text that links to a support article on verifying safety numbers"
-    },
-    "safetyNumbersSettingHeader": {
-        "message": "Підтвердження кодів безпеки",
-        "description": "Header for safety numbers setting"
     },
     "unreadMessages": {
         "message": "$count$ непрочитаних повідомлень ",
@@ -303,6 +385,26 @@
         "message": "1хв",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Loading messages. $count$ so far...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Оновити",
         "description": "Label text for button to upgrade the app to the latest version"
@@ -331,11 +433,21 @@
     },
     "installTagline": {
         "message": "Приватність - це можливо. Signal робить її досягнення простим.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Звукові повідомлення",
         "description": "Description for audio notification setting"
+    },
+    "isNotVerified": {
+        "message": "You have not verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "disconnected": {
         "message": "Від'єднано",
@@ -344,6 +456,10 @@
     "syncing": {
         "message": "Імпортую...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Прийняти",
@@ -385,6 +501,26 @@
         "message": "Отримано",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "You marked your safety number with $name$ as unverified.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "You have verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -392,6 +528,10 @@
     "sendMessage": {
         "message": "Надіслати повідомлення",
         "description": "Placeholder text in the message entry field"
+    },
+    "me": {
+        "message": "Me",
+        "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
         "message": "Медіа повідомлення",
@@ -405,12 +545,12 @@
         "message": "Ця версія застаріла. Оновіться до останньої версії щоб продовжити спілкування.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Код безпеки даного контакту змінився. Натисніть, щоб обробити і відобразити.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Вибачте, але розмір обраного файлу перевищує обмеження.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Delete this message",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -420,6 +560,10 @@
     "installAndroidInstructions": {
         "message": "Відкрийте Signal у своєму телефоні і перейдіть у Налаштування > Пов'язані пристрої. Торкніться кнопки додавання нового пристрою і проскануйте QR-код.",
         "description": ""
+    },
+    "migrationDisconnecting": {
+        "message": "Disconnecting...",
+        "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
         "message": "Невірний номер",
@@ -433,9 +577,23 @@
         "message": "Нове повідомлення нижче",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
+    "exportComplete": {
+        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "description": "Message shown on the migration screen when we are done exporting data",
+        "placeholders": {
+            "location": {
+                "content": "$1",
+                "example": "/Users/someone/somewhere"
+            }
+        }
+    },
     "installConnectionFailed": {
         "message": "Не вдалося підключитись до сервера.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "Mark as not verified",
+        "description": ""
     },
     "messageNotSent": {
         "message": "Повідомлення не надіслане.",
@@ -461,6 +619,20 @@
         "message": "Безіменний файл",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Send Anyway",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "You marked your safety number with $name$ as verified.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
         "message": "З'єднання",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -485,6 +657,20 @@
         "message": "5 секунд",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "Show members",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "Встановіть <a $a_params$>Signal</a> на вашому Android смартфоні.<br />\nМи пов'яжемо ваші пристрої і синхронізуємо повідомлення.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -498,6 +684,14 @@
     "installLinkingWithNumber": {
         "message": "Пов'язування з",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "groupMembers": {
+        "message": "Group members",
+        "description": ""
+    },
+    "loading": {
+        "message": "Loading...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
         "message": "Нові Повідомлення",
@@ -520,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ваш код безпеки c користувачем $name$змінився. Натисніть, щоб підтвердити. ",
+        "message": "Your safety number with $name$ has changed. Click to show.",
         "description": "",
         "placeholders": {
             "name": {
@@ -529,9 +723,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Вимагати підтвердження кодів безпеки при їх зміні",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Кому",
@@ -550,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Перевірити",
+        "message": "Mark as verified",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -573,6 +773,14 @@
         "message": "Ваш код безпеки з контактом змінився. Це може означати, що хтось намагається перехопити ваші повідомлення, або співрозмовник просто перевстановив Signal. Ви можете підтвердити новий код безпеки вказаний нижче.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "export": {
+        "message": "Choose directory",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "submitDebugLog": {
         "message": "Надіслати журнал відладки",
         "description": "Menu item and header text for debug log modal, title case."
@@ -580,6 +788,16 @@
     "error": {
         "message": "Помилка",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Таймер встановленно на $time$",
@@ -595,6 +813,10 @@
         "message": "30с",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "exportInstructions": {
+        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "description": "Description of the export process"
+    },
     "notifications": {
         "message": "Нотифікації",
         "description": "Header for notification settings"
@@ -602,5 +824,15 @@
     "resend": {
         "message": "Надіслати знову",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }

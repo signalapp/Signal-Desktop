@@ -1,14 +1,26 @@
 {
+    "scrollDown": {
+        "message": "Gulir ke bawah pembicaraan",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 detik",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "view": {
+        "message": "Lihat",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Pemutakhiran basisdata. Ini mungkin memakan waktu lama ...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
         "message": "Impor terakhir pada",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "Mencoba menyambung kembali dalam $reconnect_duration_in_seconds$ detik",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -21,9 +33,13 @@
         "message": "Jenis lampiran tidak didukung. Klik untuk menyimpan.",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "Verifikasi nomor keamanan",
+    "showSafetyNumber": {
+        "message": "Tampilkan nomor keamanan",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Klien Android hanya akan menerima 2000 karakter pertama dari pesan ini.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "Anda memasang pewaktu ke $time$",
@@ -38,10 +54,6 @@
     "settings": {
         "message": "Pengaturan",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Terima pesan dengan sebuah nomor keamanan baru. Klik untuk memproses dan tampilkan.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5d",
@@ -63,9 +75,27 @@
         "message": "Menghilangkan pesan",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Apakah kamu yakin? Mengklik 'hapus' akan menghapus pesan ini dari perangkat ini secara permanen.",
+        "description": ""
+    },
     "showMore": {
         "message": "Detail",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "Jika Anda ingin memverifikasi keamanan enkripsi end-to-end dengan $name$, bandingkan angka di atas dengan nomor di perangkat mereka.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Nomor keamanan Anda dengan anggota kelompok ini telah berubah sejak terakhir Anda diverifikasi. Klik anggota grup untuk melihat nomor keamanan baru Anda dengan mereka.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5m",
@@ -75,9 +105,17 @@
         "message": "Jenis berkas tidak didukung",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "exportAgain": {
+        "message": "Export again",
+        "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Klik untuk simpan",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "Pesan baru dibawah",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "Sedang Membuat Kunci",
@@ -88,24 +126,20 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
-        "description": ""
+        "message": "Luring",
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Selamat datang di Signal",
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "Periksa koneksi jaringan Anda.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
         "message": "Saat pesan sampai, tampilkan pemberitahun yang menampilkan:",
         "description": "Explain the purpose of the notification settings"
-    },
-    "members": {
-        "message": "Anggota",
-        "description": ""
     },
     "timestamp_h": {
         "message": "1 jam",
@@ -123,21 +157,45 @@
         "message": "Restart Signal",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "Anda telah meninggalkan group",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Hapus pesan",
         "description": "Menu item for deleting messages, title case."
     },
+    "confirmMigration": {
+        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
+        "description": "Confirmation dialogue when beginning migration"
+    },
     "incomingError": {
         "message": "Kesalahan dalam penanganan pesan baru.",
+        "description": ""
+    },
+    "delete": {
+        "message": "Hapus",
+        "description": ""
+    },
+    "verified": {
+        "message": "Terverifikasi",
         "description": ""
     },
     "selectAContact": {
         "message": "Pilih kontak atau grup untuk mulai mengobrol",
         "description": ""
     },
+    "exportError": {
+        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "installConnecting": {
         "message": "Menyambungkan...",
         "description": "Displayed when waiting for the QR Code"
+    },
+    "selectedLocation": {
+        "message": "your selected location",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
         "message": "Anda mungkin ingin nomor keamanan anda untuk $tag_start$ memverifikasi $tag_end$ dengan kontak ini.",
@@ -151,9 +209,27 @@
             }
         }
     },
+    "changedRecently": {
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "sent": {
         "message": "Terkirim",
         "description": "Label for the time a message was sent"
+    },
+    "migrationWarning": {
+        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+        "message": "Migrate",
+        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ mengubah pewaktu ke $time$.",
@@ -173,9 +249,17 @@
         "message": "sekarang",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "changedRecentlyMultiple": {
+        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah baru-baru ini. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Sinyal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "timerOption_1_day": {
         "message": "1 hari",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "exporting": {
+        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Laporkan isu",
@@ -198,7 +282,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Sambungkan kembali Signal Desktop ke perangkat mobile Anda untuk melanjutkan pesan.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -209,9 +293,23 @@
         "message": "Masukkan nomor telepon untuk menambahkan kontak.",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Cari...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Beberapa penerima gagal.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Nama atau pesan saja",
@@ -222,11 +320,11 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Impor gagal. Pastikan komputer atau perangkat anda tersambung jaringan internet.",
+        "message": "Impor gagal. Pastikan komputer dan perangkat anda tersambung ke jaringan internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "Tidak tersambung",
         "description": ""
     },
     "installFollowUs": {
@@ -243,9 +341,15 @@
         "message": "Pelajari lebih jauh tentang verifikasi nomor keamanan",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "safetyNumbersSettingHeader": {
-        "message": "Penerimaan nomor keamanan",
-        "description": "Header for safety numbers setting"
+    "unreadMessages": {
+        "message": "$count$ Pesan Belum Dibaca",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus beberapa.",
@@ -281,12 +385,32 @@
         "message": "1m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Memuat pesan $count$ sejauh ini...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah sejak Anda terakhir diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Pemutahiran",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Nomor keamanan anda dengan $name$",
+        "message": "Nomor keamanan Anda dengan $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -309,19 +433,33 @@
     },
     "installTagline": {
         "message": "Privasi itu mungkin. Signal membuatnya lebih mudah.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Mainkan suara notifikasi",
         "description": "Description for audio notification setting"
     },
+    "isNotVerified": {
+        "message": "Anda belum memverifikasi nomor keamanan Anda dengan $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "disconnected": {
         "message": "Luring",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Impor ...",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Nomor keamanan Anda dengan beberapa anggota grup ini telah berubah dan tidak lagi diverifikasi. Klik untuk menampilkan.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Terima",
@@ -363,6 +501,26 @@
         "message": "Menerima",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "Anda menandai nomor keamanan Anda dengan $name$ sebagai tidak terverifikasi.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "Anda telah memverifikasi nomor keamanan Anda dengan $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 detik",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -371,20 +529,28 @@
         "message": "Mengirim pesan",
         "description": "Placeholder text in the message entry field"
     },
+    "me": {
+        "message": "Saya",
+        "description": "The label for yourself when shown in a group member list"
+    },
     "mediaMessage": {
         "message": "Pesan berisi media",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unreadMessage": {
+        "message": "1 Pesan Belum Dibaca",
+        "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
         "message": "Versi dari Signal Desktop ini telah kadaluarsa. Mohom memutahirkan ke versi terbaru untuk melanjutkan pengiriman pesan.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Nomor keamanan anda dengan kontak ini telah berubah. Klik untuk memproses dan tampilkan.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Maaf, berkas tersebut melebihi batas ukuran pesan.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Hapus pesan ini",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -395,6 +561,10 @@
         "message": "Buka Signal di telepon anda dan arahkan ke Pengaturan -> perangkan tersambung. Tekan tombol untuk menambahkan perangkat baru, lalu pindai kode diatas.",
         "description": ""
     },
+    "migrationDisconnecting": {
+        "message": "Disconnecting...",
+        "description": "Displayed while we wait for pending incoming messages to process"
+    },
     "invalidNumberError": {
         "message": "Nomor salah",
         "description": "When a person inputs a number that is invalid"
@@ -403,9 +573,27 @@
         "message": "Selamat datang di Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "Pesan baru dibawah",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "exportComplete": {
+        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "description": "Message shown on the migration screen when we are done exporting data",
+        "placeholders": {
+            "location": {
+                "content": "$1",
+                "example": "/Users/someone/somewhere"
+            }
+        }
+    },
     "installConnectionFailed": {
         "message": "Gagal menyambungkan ke server.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "Tandai tidak terverifikasi",
+        "description": ""
     },
     "messageNotSent": {
         "message": "Pesan tidak terkirim.",
@@ -428,12 +616,26 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "File yang tidak memiliki nama",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Kirim Apapun",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "Anda menandai nomor keamanan Anda dengan $name$ sebagai yang telah diverifikasi.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
-        "message": "Connecting",
-        "description": ""
+        "message": "Menyambungi",
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Sesi aman berakhir",
@@ -444,7 +646,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "Sambungkan kembali",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -454,6 +656,20 @@
     "timerOption_5_seconds": {
         "message": "5 detik",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "showMembers": {
+        "message": "Tampilkan anggota",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "Anda menandai nomor keamanan Anda dengan $name$ yang tidak diverifikasi dari perangkat lain.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "installSignalLink": {
         "message": "Pertama, pasang <a $a_params$>Signal</a> di ponsel Android Anda.<br/> Kami akan menautkan perangkat-perangkat Anda dan menjaga pesan-pesan Anda tetap tersinkronisasi.",
@@ -469,6 +685,14 @@
         "message": "Tautkan dengan",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "groupMembers": {
+        "message": "Anggota Grup",
+        "description": ""
+    },
+    "loading": {
+        "message": "Memuat...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
+    },
     "newMessages": {
         "message": "Pesan Baru",
         "description": "Displayed in notifications for multiple messages"
@@ -482,7 +706,7 @@
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Pesan Suara",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -490,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Nomor keamanan anda dengan $name$ telah berubah.",
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah. Klik untuk menampilkan.",
         "description": "",
         "placeholders": {
             "name": {
@@ -499,9 +723,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Dibutuhkan penerimaan untuk nomor keamanan baru setelah berubah",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Nomor keamanan Anda dengan $name$ telah berubah. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya menginstal ulang Sinyal. Anda mungkin ingin memverifikasi nomor keamanan Anda dengan kontak ini.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Kepada",
@@ -520,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Verifikasi",
+        "message": "Tandai terverifikasi",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -543,6 +773,14 @@
         "message": "Nomor keamanan anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba menyadap komunikasi anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru dibawah.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Nomor keamanan Anda dengan beberapa anggota grup telah berubah sejak terakhir Anda diverifikasi. Ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa mereka hanya memasang ulang Sinyal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "export": {
+        "message": "Choose directory",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "submitDebugLog": {
         "message": "Kirim log debug",
         "description": "Menu item and header text for debug log modal, title case."
@@ -550,6 +788,16 @@
     "error": {
         "message": "Galat",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "Nomor keamanan yang ingin Anda verifikasi telah berubah. Harap tinjau nomor keamanan baru Anda dengan $name$. Ingat, perubahan ini bisa berarti seseorang mencoba mencegat komunikasi Anda atau bahwa $name$ hanya memasang ulang Sinyal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Pewaktu set ke $time$",
@@ -565,6 +813,10 @@
         "message": "30d",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "exportInstructions": {
+        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "description": "Description of the export process"
+    },
     "notifications": {
         "message": "Pemberitahuan",
         "description": "Header for notification settings"
@@ -572,5 +824,15 @@
     "resend": {
         "message": "Kirim ulang",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "Anda menandai nomor keamanan Anda dengan $name$seperti yang diverifikasi dari perangkat lain.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }

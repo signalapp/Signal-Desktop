@@ -1,7 +1,19 @@
 {
+    "scrollDown": {
+        "message": "Scroll to bottom of conversation",
+        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    },
     "timerOption_10_seconds": {
         "message": "10 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "view": {
+        "message": "View",
+        "description": "Used as a label on a button allowing user to see more information"
+    },
+    "upgradingDatabase": {
+        "message": "Upgrading database. This may take some time...",
+        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
         "message": "Lần nhập cuối cùng lúc",
@@ -21,9 +33,13 @@
         "message": "Không hỗ trợ loại đính kèm. Bấm để lưu.",
         "description": "Displayed for incoming unsupported attachment"
     },
-    "verifySafetyNumbers": {
-        "message": "Xác nhận số-an-toàn",
+    "showSafetyNumber": {
+        "message": "Show safety number",
         "description": ""
+    },
+    "androidMessageLengthWarning": {
+        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
         "message": "Bạn thiết lập thời gian đến $time$",
@@ -38,10 +54,6 @@
     "settings": {
         "message": "Các cài đặt",
         "description": "Menu item and header for global settings"
-    },
-    "incomingKeyConflict": {
-        "message": "Đã nhận tin nhắn với mộ số-an-toàn mới. Chọn để xử lý và hiển thị.",
-        "description": ""
     },
     "timerOption_5_seconds_abbreviated": {
         "message": "5 giây",
@@ -63,9 +75,27 @@
         "message": "Xóa (tự động) tin nhắn",
         "description": "Conversation menu option to enable disappearing messages"
     },
+    "deleteWarning": {
+        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "description": ""
+    },
     "showMore": {
         "message": "Chi tiết",
         "description": "Displays the details of a key change"
+    },
+    "verifyHelp": {
+        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "description": "",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
+    },
+    "membersNeedingVerification": {
+        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
         "message": "5 phút",
@@ -75,9 +105,17 @@
         "message": "Không hỗ trợ loại tập tin",
         "description": "Displayed for outgoing unsupported attachment"
     },
+    "exportAgain": {
+        "message": "Export again",
+        "description": "If user has already exported once, this button allows user to do it again if needed"
+    },
     "clickToSave": {
         "message": "Click to save",
         "description": "Hover text for attachment filenames"
+    },
+    "messagesBelow": {
+        "message": "New messages below",
+        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
         "message": "Tạo mã khóa",
@@ -89,7 +127,7 @@
     },
     "offline": {
         "message": "Offline",
-        "description": ""
+        "description": "Displayed when the desktop client has no network connection."
     },
     "welcomeToSignal": {
         "message": "Chào mừng đến với Signal",
@@ -102,10 +140,6 @@
     "notificationSettingsDialog": {
         "message": "Khi tin nhắn đến, hiện thị các thông báo thể hiện:",
         "description": "Explain the purpose of the notification settings"
-    },
-    "members": {
-        "message": "Thành viên",
-        "description": ""
     },
     "timestamp_h": {
         "message": "1 giờ",
@@ -123,21 +157,45 @@
         "message": "Khởi động lại Signal",
         "description": "Menu item for restarting the program."
     },
+    "youLeftTheGroup": {
+        "message": "You left the group",
+        "description": "Displayed when a user can't send a message because they have left the group"
+    },
     "deleteMessages": {
         "message": "Xóa tin nhắn",
         "description": "Menu item for deleting messages, title case."
     },
+    "confirmMigration": {
+        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
+        "description": "Confirmation dialogue when beginning migration"
+    },
     "incomingError": {
         "message": "Lỗi khi xử lý tin nhắn đến.",
+        "description": ""
+    },
+    "delete": {
+        "message": "Delete",
+        "description": ""
+    },
+    "verified": {
+        "message": "Verified",
         "description": ""
     },
     "selectAContact": {
         "message": "Chọn một liên hệ hoặc nhóm để bắt đầu chat.",
         "description": ""
     },
+    "exportError": {
+        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
     "installConnecting": {
         "message": "Đang kết nối...",
         "description": "Displayed when waiting for the QR Code"
+    },
+    "selectedLocation": {
+        "message": "your selected location",
+        "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
         "message": "Bạn muốn $tag_start$ để xác nhận $tag_end$ số-an-toàn của bạn với người (liên lạc) này.",
@@ -151,9 +209,27 @@
             }
         }
     },
+    "changedRecently": {
+        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "sent": {
         "message": "Đã gửi",
         "description": "Label for the time a message was sent"
+    },
+    "migrationWarning": {
+        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
+    },
+    "migrate": {
+        "message": "Migrate",
+        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ thiết lập thời gian đến $time$",
@@ -173,9 +249,17 @@
         "message": "hiện tại",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
+    "changedRecentlyMultiple": {
+        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
     "timerOption_1_day": {
         "message": "1 ngày",
         "description": "Label for a selectable option in the message expiration timer menu"
+    },
+    "exporting": {
+        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
         "message": "Báo lỗi",
@@ -209,9 +293,23 @@
         "message": "Nhập số điện thoại để thêm một liên hệ",
         "description": "Placeholder for adding a new number to a contact"
     },
+    "noLongerVerified": {
+        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "searchForPeopleOrGroups": {
         "message": "Tìm kiếm...",
         "description": "Placeholder text in the search input"
+    },
+    "someRecipientsFailed": {
+        "message": "Some recipients failed.",
+        "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
         "message": "Không hiện tên cũng như tin nhắn",
@@ -243,9 +341,15 @@
         "message": "Tìm hiểu thêm về xác nhận các số-an-toàn.",
         "description": "Text that links to a support article on verifying safety numbers"
     },
-    "safetyNumbersSettingHeader": {
-        "message": "Chấp nhận số-an-toàn",
-        "description": "Header for safety numbers setting"
+    "unreadMessages": {
+        "message": "$count$ Unread Messages",
+        "description": "Text for unread message separator, with count",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
     },
     "installTooManyDevices": {
         "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được kết nối. Thử gỡ bỏ vài thiết bị.",
@@ -281,12 +385,32 @@
         "message": "1 phút",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "loadingMessages": {
+        "message": "Loading messages. $count$ so far...",
+        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "changedSinceVerified": {
+        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "upgrade": {
         "message": "Nâng cấp",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Số-an-toàn của bạn với $name$",
+        "message": "Your safety number with $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -309,19 +433,33 @@
     },
     "installTagline": {
         "message": "Sự riêng tư là có thể. Signal khiến điều đó trở nên dễ dàng.",
-        "description": "Tagline displayed under installWelcome on the install page"
+        "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
         "message": "Phát thông báo nhạc hiệu",
         "description": "Description for audio notification setting"
     },
+    "isNotVerified": {
+        "message": "You have not verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "disconnected": {
         "message": "Đã ngắt kết nối",
-        "description": ""
+        "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
         "message": "Đăng nhập",
         "description": "Label for a disabled sync button while sync is in progress."
+    },
+    "multipleNoLongerVerified": {
+        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
         "message": "Chấp nhận",
@@ -363,6 +501,26 @@
         "message": "Đã nhận",
         "description": "Label for the time a message was received"
     },
+    "youMarkedAsNotVerified": {
+        "message": "You marked your safety number with $name$ as unverified.",
+        "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "isVerified": {
+        "message": "You have verified your safety number with $name$.",
+        "description": "Summary state shown at top of the safety number screen if user has verified contact.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "timerOption_30_seconds": {
         "message": "30 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -371,20 +529,28 @@
         "message": "Gửi tin nhắn",
         "description": "Placeholder text in the message entry field"
     },
+    "me": {
+        "message": "Me",
+        "description": "The label for yourself when shown in a group member list"
+    },
     "mediaMessage": {
         "message": "Tin nhắn đa phương tiện",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    },
+    "unreadMessage": {
+        "message": "1 Unread Message",
+        "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
         "message": "Phiên bản này của Signal Desktop đã hết hạn. Vui lòng nâng cấp lên phiên bản mới nhất để tiếp tục nhắn tin.",
         "description": "Warning notification that this version of the app has expired"
     },
-    "outgoingKeyConflict": {
-        "message": "Số-an-toàn của bạn với người (liên lạc) này đã thay đổi. Chọn để xử lý và hiển thị.",
-        "description": ""
-    },
     "fileSizeWarning": {
         "message": "Rất tiếc, các tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
+        "description": ""
+    },
+    "deleteMessage": {
+        "message": "Delete this message",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -395,6 +561,10 @@
         "message": "Mở Signal trên điện thoại và chuyển đến mục Cài đặt > Các thiết bị đã kết nối. Bấm nút để thêm thiết bị mới, sau đó quét mã trên.",
         "description": ""
     },
+    "migrationDisconnecting": {
+        "message": "Disconnecting...",
+        "description": "Displayed while we wait for pending incoming messages to process"
+    },
     "invalidNumberError": {
         "message": "Số không chính xác",
         "description": "When a person inputs a number that is invalid"
@@ -403,9 +573,27 @@
         "message": "Chào mừng đến với Signal Desktop",
         "description": "Welcome title on the install page"
     },
+    "messageBelow": {
+        "message": "New message below",
+        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    },
+    "exportComplete": {
+        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "description": "Message shown on the migration screen when we are done exporting data",
+        "placeholders": {
+            "location": {
+                "content": "$1",
+                "example": "/Users/someone/somewhere"
+            }
+        }
+    },
     "installConnectionFailed": {
         "message": "Kết nối đến máy chủ thất bại.",
         "description": "Displayed when we can't connect to the server."
+    },
+    "unverify": {
+        "message": "Mark as not verified",
+        "description": ""
     },
     "messageNotSent": {
         "message": "Tin nhắn chưa được gửi",
@@ -431,9 +619,23 @@
         "message": "Unnamed File",
         "description": "Hover text for attachment filenames"
     },
+    "sendAnyway": {
+        "message": "Send Anyway",
+        "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+    },
+    "youMarkedAsVerified": {
+        "message": "You marked your safety number with $name$ as verified.",
+        "description": "Shown in the conversation history when the user marks a contact as verified.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "connecting": {
         "message": "Connecting",
-        "description": ""
+        "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
         "message": "Khởi tạo lại phiên làm việc bảo mật",
@@ -455,6 +657,20 @@
         "message": "5 giây",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
+    "showMembers": {
+        "message": "Show members",
+        "description": ""
+    },
+    "youMarkedAsNotVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "installSignalLink": {
         "message": "Trước tiên, cài đặt <a $a_params$>Signal</a> trên điện thoại Android.<br /> Chúng tôi sẽ liên kết các thiết bị và giữ cho các tin nhắn của bạn được đồng bộ.",
         "description": "Prompt the user to install Signal on Android before linking",
@@ -468,6 +684,14 @@
     "installLinkingWithNumber": {
         "message": "Kết nối với",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "groupMembers": {
+        "message": "Group members",
+        "description": ""
+    },
+    "loading": {
+        "message": "Loading...",
+        "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
         "message": "Các tin nhắn mới",
@@ -490,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Số-an-toàn của bạn với $name$ đã được thay đổi.",
+        "message": "Your safety number with $name$ has changed. Click to show.",
         "description": "",
         "placeholders": {
             "name": {
@@ -499,9 +723,15 @@
             }
         }
     },
-    "safetyNumbersSettingDescription": {
-        "message": "Bắt buộc xác nhận số-an-toàn mới khi chúng thay đổi",
-        "description": "Description for safety numbers setting"
+    "identityKeyErrorOnSend": {
+        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "to": {
         "message": "Tới",
@@ -520,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Xác nhận",
+        "message": "Mark as verified",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -543,6 +773,14 @@
         "message": "Số-an-toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa rằng người nào đó đang xâm nhập vào liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn muốn xác nhận số-an-toàn mới bên dưới.",
         "description": ""
     },
+    "changedSinceVerifiedMultiple": {
+        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "export": {
+        "message": "Choose directory",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "submitDebugLog": {
         "message": "Gửi debug log",
         "description": "Menu item and header text for debug log modal, title case."
@@ -550,6 +788,16 @@
     "error": {
         "message": "Lỗi",
         "description": ""
+    },
+    "changedRightAfterVerify": {
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "timerSetTo": {
         "message": "Thời gian thiết lập đến $time$",
@@ -565,6 +813,10 @@
         "message": "30 giây",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
+    "exportInstructions": {
+        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "description": "Description of the export process"
+    },
     "notifications": {
         "message": "Thông báo",
         "description": "Header for notification settings"
@@ -572,5 +824,15 @@
     "resend": {
         "message": "Gửi lại",
         "description": ""
+    },
+    "youMarkedAsVerifiedOtherDevice": {
+        "message": "You marked your safety number with $name$ as verified from another device.",
+        "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     }
 }
