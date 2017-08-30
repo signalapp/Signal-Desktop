@@ -193,16 +193,24 @@
             return;
         }
 
-        return ConversationController.findOrCreateById(id, 'private').then(function(conversation) {
-            return new Promise(function(resolve, reject) {
-                conversation.save({
-                    name: details.name,
-                    avatar: details.avatar,
-                    color: details.color,
-                    active_at: conversation.get('active_at') || Date.now(),
-                }).then(resolve, reject);
+        return ConversationController.findOrCreateById(id, 'private')
+            .then(function(conversation) {
+                return new Promise(function(resolve, reject) {
+                    conversation.save({
+                        name: details.name,
+                        avatar: details.avatar,
+                        color: details.color,
+                        active_at: conversation.get('active_at') || Date.now(),
+                    }).then(resolve, reject);
+                });
+            })
+            .then(ev.confirm)
+            .catch(function(error) {
+                console.log(
+                    'onContactReceived error:',
+                    error && error.stack ? error.stack : error
+                );
             });
-        }).then(ev.confirm);
     }
 
     function onGroupReceived(ev) {

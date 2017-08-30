@@ -104,7 +104,14 @@
                 conversation.fetch().then(function() {
                     resolve(conversation);
                 }, function() {
-                    conversation.save().then(function() {
+                    var deferred = conversation.save();
+
+                    if (!deferred) {
+                        console.log('Conversation save failed! ', id, type);
+                        return reject(new Error('findOrCreateById: Conversation save failed'));
+                    }
+
+                    deferred.then(function() {
                         resolve(conversation);
                     }, reject);
                 });
