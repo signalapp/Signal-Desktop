@@ -83,6 +83,7 @@ message DataMessage {
   enum Flags {
     END_SESSION = 1;
     EXPIRATION_TIMER_UPDATE = 2;
+    PROFILE_KEY_UPDATE      = 4;
   }
 
   optional string             body        = 1;
