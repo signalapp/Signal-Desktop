@@ -40272,7 +40272,13 @@ libsignal.ProvisioningCipher = function() {
                     return reject(error);
                 };
 
-                var promise = task();
+                var promise;
+                try {
+                    promise = task();
+                } catch(error) {
+                    clearTimer();
+                    throw error;
+                }
                 if (!promise || !promise.then) {
                     clearTimer();
                     complete = true;
