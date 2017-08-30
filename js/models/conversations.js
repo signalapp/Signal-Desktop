@@ -586,7 +586,13 @@
             else {
                 sendFunc = textsecure.messaging.sendMessageToGroup;
             }
-            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer')));
+
+            var profileKey;
+            if (this.get('profileSharing')) {
+               profileKey = storage.get('profileKey');
+            }
+
+            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer'), profileKey));
         }.bind(this));
     },
 
@@ -639,7 +645,11 @@
             else {
                 sendFunc = textsecure.messaging.sendExpirationTimerUpdateToGroup;
             }
-            message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at')));
+            var profileKey;
+            if (this.get('profileSharing')) {
+               profileKey = storage.get('profileKey');
+            }
+            message.send(sendFunc(this.get('id'), this.get('expireTimer'), message.get('sent_at'), profileKey));
         }
         return message;
     },
