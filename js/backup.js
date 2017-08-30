@@ -400,16 +400,37 @@
     });
   }
 
+  // Goals for directory names:
+  //   1. Human-readable, for easy use and verification by user (names not just ids)
+  //   2. Sorted just like the list of conversations in the left-pan (active_at)
+  //   3. Disambiguated from other directories (active_at, truncated name, id)
+  function getPrivateConversationDirName(conversation) {
+    if (conversation.name) {
+      return ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
+    } else {
+      return ' (' + conversation.id + ')';
+    }
+  }
+
+  function getGroupConversationDirName(conversation) {
+    return ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
+  }
+
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
     if (conversation.type === 'private') {
-      name += ' (' + (conversation.name || conversation.id).slice(0, 30) + ')';
+      name += getPrivateConversationDirName(conversation);
     } else {
-      name += ' (' + conversation.name.slice(0, 30) + ')';
+      name += getGroupConversationDirName(conversation);
     }
     return name;
   }
 
+  // Goals for logging names:
+  //   1. Can be associated with files on disk
+  //   2. Adequately disambiguated to enable debugging flow of execution
+  //   3. Can be shared to the web without privacy concerns (there's no global redaction
+  //      logic for group ids, so we do it manually here)
   function getConversationLoggingName(conversation) {
     var name = conversation.active_at || 'never';
     if (conversation.type === 'private') {
@@ -543,6 +564,7 @@
               'Done importing',
               messages.length,
               'messages for conversation',
+              // Don't know if group or private conversation, so we blindly redact
               '[REDACTED]' + conversationId.slice(-3)
             );
             resolve();
