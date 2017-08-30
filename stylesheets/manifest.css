@@ -2121,6 +2121,10 @@ li.entry .error-icon-container {
     color: #57a5e5; }
   .android-dark hr {
     border-color: #333333; }
+  .android-dark .expiredAlert {
+    color: #333333; }
+    .android-dark .expiredAlert button {
+      color: #333333; }
   .android-dark #header {
     background-color: #292929;
     color: white;
