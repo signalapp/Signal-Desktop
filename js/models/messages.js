@@ -461,8 +461,9 @@
 
                     if (dataMessage.profileKey) {
                       var profileKey = dataMessage.profileKey.toArrayBuffer();
-
-                      if (conversation.isPrivate()) {
+                      if (source == textsecure.storage.user.getNumber()) {
+                        conversation.set({profileSharing: true});
+                      } else if (conversation.isPrivate()) {
                         conversation.set({profileKey: profileKey});
                       } else {
                         ConversationController.getOrCreateAndWait(source, 'private').then(function(sender) {
