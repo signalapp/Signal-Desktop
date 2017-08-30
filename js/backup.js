@@ -403,16 +403,20 @@
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
     if (conversation.type === 'private') {
-      name += ' (' + (conversation.name || conversation.id) + ')';
+      name += ' (' + (conversation.name || conversation.id).slice(0, 30) + ')';
     } else {
-      name += ' (' + conversation.name + ')';
+      name += ' (' + conversation.name.slice(0, 30) + ')';
     }
     return name;
   }
 
   function getConversationLoggingName(conversation) {
     var name = conversation.active_at || 'never';
-    name += ' (' + conversation.id + ')';
+    if (conversation.type === 'private') {
+      name += ' (' + conversation.id + ')';
+    } else {
+      name += ' ([REDACTED_GROUP]' + conversation.id.slice(-3) + ')';
+    }
     return name;
   }
 
@@ -539,7 +543,7 @@
               'Done importing',
               messages.length,
               'messages for conversation',
-              conversationId
+              '[REDACTED]' + conversationId.slice(-3)
             );
             resolve();
           }
