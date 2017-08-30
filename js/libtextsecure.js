@@ -38888,7 +38888,7 @@ MessageReceiver.prototype.extend({
             }.bind(this));
         }.bind(this));
     },
-    handleBlocked: function(blocked) {
+    handleBlocked: function(envelope, blocked) {
         textsecure.storage.put('blocked', blocked.numbers);
     },
     isBlocked: function(number) {
