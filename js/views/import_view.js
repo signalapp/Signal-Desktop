@@ -25,13 +25,13 @@
       return this.isStarted() && !this.isComplete();
     },
     start: function() {
-      storage.put(IMPORT_STARTED, true);
+      return storage.put(IMPORT_STARTED, true);
     },
     complete: function() {
-      storage.put(IMPORT_COMPLETE, true);
+      return storage.put(IMPORT_COMPLETE, true);
     },
     saveLocation: function(location) {
-      storage.put(IMPORT_LOCATION, location);
+      return storage.put(IMPORT_LOCATION, location);
     },
     reset: function() {
       return Whisper.Backup.clearDatabase();
@@ -103,7 +103,10 @@
         this.doImport(directory);
       }.bind(this), function(error) {
         if (error.name !== 'ChooseError') {
-          console.log('Error choosing directory:', error && error.stack ? error.stack : error);
+          console.log(
+            'Error choosing directory:',
+            error && error.stack ? error.stack : error
+          );
         }
       });
     },
@@ -115,26 +118,30 @@
 
       // Wait for prior database interaction to complete
       this.pending = this.pending.then(function() {
-        // For resilience to interruptions, clear database both before import and after
+        // For resilience to interruption, clear database both before and on failure
         return Whisper.Backup.clearDatabase();
       }).then(function() {
-        Whisper.Import.start();
-        return Whisper.Backup.importFromDirectory(directory);
+        return Promise.all([
+          Whisper.Import.start(),
+          Whisper.Backup.importFromDirectory(directory)
+        ]);
       }).then(function() {
         // Catching in-memory cache up with what's in indexeddb now...
         // NOTE: this fires storage.onready, listened to across the app. We'll restart
         //   to complete the install to start up cleanly with everything now in the DB.
         return storage.fetch();
       }).then(function() {
-        // Clearing any migration-related state inherited from the Chrome App
-        storage.remove('migrationState');
-        storage.remove('migrationEnabled');
-        storage.remove('migrationEverCompleted');
-        storage.remove('migrationStorageLocation');
+        return Promise.all([
+          // Clearing any migration-related state inherited from the Chrome App
+          storage.remove('migrationState'),
+          storage.remove('migrationEnabled'),
+          storage.remove('migrationEverCompleted'),
+          storage.remove('migrationStorageLocation'),
 
-        Whisper.Import.saveLocation(directory);
-        Whisper.Import.complete();
-
+          Whisper.Import.saveLocation(directory),
+          Whisper.Import.complete()
+        ]);
+      }).then(function() {
         this.state = State.COMPLETE;
         this.render();
       }.bind(this)).catch(function(error) {
