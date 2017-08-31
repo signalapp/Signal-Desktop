@@ -246,8 +246,19 @@
                 return;
             }
 
-            return message.handleDataMessage(data.message, ev.confirm, {
-                initialLoadComplete: initialLoadComplete
+            var type, id;
+            if (data.message.group) {
+                type = 'group';
+                id = data.message.group.id;
+            } else {
+                type = 'private';
+                id = data.source;
+            }
+
+            return ConversationController.getOrCreateAndWait(id, type).then(function() {
+                return message.handleDataMessage(data.message, ev.confirm, {
+                    initialLoadComplete: initialLoadComplete
+                });
             });
         });
     }
@@ -274,8 +285,19 @@
                 return;
             }
 
-            return message.handleDataMessage(data.message, ev.confirm, {
-                initialLoadComplete: initialLoadComplete
+            var type, id;
+            if (data.message.group) {
+                type = 'group';
+                id = data.message.group.id;
+            } else {
+                type = 'private';
+                id = data.destination;
+            }
+
+            return ConversationController.getOrCreateAndWait(id, type).then(function() {
+                return message.handleDataMessage(data.message, ev.confirm, {
+                    initialLoadComplete: initialLoadComplete
+                });
             });
         });
     }

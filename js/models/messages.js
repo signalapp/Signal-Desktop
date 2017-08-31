@@ -327,9 +327,11 @@
             options = options || {};
             _.defaults(options, {initialLoadComplete: true});
 
-            // This function can be called from the background script on an
-            // incoming message or from the frontend after the user accepts an
-            // identity key change.
+            // This function is called from the background script in a few scenarios:
+            //   1. on an incoming message
+            //   2. on a sent message sync'd from another device
+            //   3. in rare cases, an incoming message can be retried, though it will
+            //      still through one of the previous two codepaths.
             var message = this;
             var source = message.get('source');
             var type = message.get('type');
@@ -340,176 +342,174 @@
             }
             console.log('queuing handleDataMessage', message.idForLogging());
 
-            var conversation = ConversationController.create({id: conversationId});
+            var conversation = ConversationController.get(conversationId);
             return conversation.queueJob(function() {
                 return new Promise(function(resolve) {
-                    conversation.fetch().always(function() {
-                        console.log('starting handleDataMessage', message.idForLogging());
+                    console.log('starting handleDataMessage', message.idForLogging());
 
-                        var now = new Date().getTime();
-                        var attributes = { type: 'private' };
-                        if (dataMessage.group) {
-                            var group_update = null;
-                            attributes = {
-                                type: 'group',
-                                groupId: dataMessage.group.id,
-                            };
-                            if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
-                                attributes = {
-                                    type       : 'group',
-                                    groupId    : dataMessage.group.id,
-                                    name       : dataMessage.group.name,
-                                    avatar     : dataMessage.group.avatar,
-                                    members    : _.union(dataMessage.group.members, conversation.get('members')),
-                                };
-                                group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
-                                var difference = _.difference(attributes.members, conversation.get('members'));
-                                if (difference.length > 0) {
-                                    group_update.joined = difference;
-                                }
-                                if (conversation.get('left')) {
-                                  console.log('re-added to a left group');
-                                  attributes.left = false;
-                                }
-                            }
-                            else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
-                                if (source == textsecure.storage.user.getNumber()) {
-                                    attributes.left = true;
-                                    group_update = { left: "You" };
-                                } else {
-                                    group_update = { left: source };
-                                }
-                                attributes.members = _.without(conversation.get('members'), source);
-                            }
-
-                            if (group_update !== null) {
-                                message.set({group_update: group_update});
-                            }
-                        }
-                        message.set({
-                            body           : dataMessage.body,
-                            conversationId : conversation.id,
-                            attachments    : dataMessage.attachments,
-                            decrypted_at   : now,
-                            flags          : dataMessage.flags,
-                            errors         : []
-                        });
-                        if (type === 'outgoing') {
-                            var receipts = Whisper.DeliveryReceipts.forMessage(conversation, message);
-                            receipts.forEach(function(receipt) {
-                                message.set({
-                                    delivered: (message.get('delivered') || 0) + 1
-                                });
-                            });
-                        }
-                        attributes.active_at = now;
-                        conversation.set(attributes);
-
-                        if (message.isExpirationTimerUpdate()) {
-                            message.set({
-                                expirationTimerUpdate: {
-                                    source      : source,
-                                    expireTimer : dataMessage.expireTimer
-                                }
-                            });
-                            conversation.set({expireTimer: dataMessage.expireTimer});
-                        } else if (dataMessage.expireTimer) {
-                            message.set({expireTimer: dataMessage.expireTimer});
-                        }
-
-                        if (!message.isEndSession() && !message.isGroupUpdate()) {
-                            if (dataMessage.expireTimer) {
-                                if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                                  conversation.updateExpirationTimer(
-                                      dataMessage.expireTimer, source,
-                                      message.get('received_at'));
-                                }
-                            } else if (conversation.get('expireTimer')) {
-                                conversation.updateExpirationTimer(null, source,
-                                    message.get('received_at'));
-                            }
-                        }
-                        if (type === 'incoming') {
-                            var readReceipt = Whisper.ReadReceipts.forMessage(message);
-                            if (readReceipt) {
-                                if (message.get('expireTimer') && !message.get('expirationStartTimestamp')) {
-                                    message.set('expirationStartTimestamp', readReceipt.get('read_at'));
-                                }
-                            }
-                            if (readReceipt || message.isExpirationTimerUpdate()) {
-                                message.unset('unread');
-                                // This is primarily to allow the conversation to mark all older messages as
-                                //   read, as is done when we receive a read receipt for a message we already
-                                //   know about.
-                                Whisper.ReadReceipts.notifyConversation(message);
-                            } else {
-                                conversation.set('unreadCount', conversation.get('unreadCount') + 1);
-                            }
-                        }
-
-                        var conversation_timestamp = conversation.get('timestamp');
-                        if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
-                            conversation.set({
-                                lastMessage : message.getNotificationText(),
-                                timestamp: message.get('sent_at')
-                            });
-                        }
-
-                        console.log('beginning saves in handleDataMessage', message.idForLogging());
-
-                        var handleError = function(error) {
-                            error = error && error.stack ? error.stack : error;
-                            console.log('handleDataMessage', message.idForLogging(), 'error:', error);
-                            return resolve();
+                    var now = new Date().getTime();
+                    var attributes = { type: 'private' };
+                    if (dataMessage.group) {
+                        var group_update = null;
+                        attributes = {
+                            type: 'group',
+                            groupId: dataMessage.group.id,
                         };
+                        if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.UPDATE) {
+                            attributes = {
+                                type       : 'group',
+                                groupId    : dataMessage.group.id,
+                                name       : dataMessage.group.name,
+                                avatar     : dataMessage.group.avatar,
+                                members    : _.union(dataMessage.group.members, conversation.get('members')),
+                            };
+                            group_update = conversation.changedAttributes(_.pick(dataMessage.group, 'name', 'avatar')) || {};
+                            var difference = _.difference(attributes.members, conversation.get('members'));
+                            if (difference.length > 0) {
+                                group_update.joined = difference;
+                            }
+                            if (conversation.get('left')) {
+                              console.log('re-added to a left group');
+                              attributes.left = false;
+                            }
+                        }
+                        else if (dataMessage.group.type === textsecure.protobuf.GroupContext.Type.QUIT) {
+                            if (source == textsecure.storage.user.getNumber()) {
+                                attributes.left = true;
+                                group_update = { left: "You" };
+                            } else {
+                                group_update = { left: source };
+                            }
+                            attributes.members = _.without(conversation.get('members'), source);
+                        }
 
-                        message.save().then(function() {
-                            conversation.save().then(function() {
+                        if (group_update !== null) {
+                            message.set({group_update: group_update});
+                        }
+                    }
+                    message.set({
+                        body           : dataMessage.body,
+                        conversationId : conversation.id,
+                        attachments    : dataMessage.attachments,
+                        decrypted_at   : now,
+                        flags          : dataMessage.flags,
+                        errors         : []
+                    });
+                    if (type === 'outgoing') {
+                        var receipts = Whisper.DeliveryReceipts.forMessage(conversation, message);
+                        receipts.forEach(function(receipt) {
+                            message.set({
+                                delivered: (message.get('delivered') || 0) + 1
+                            });
+                        });
+                    }
+                    attributes.active_at = now;
+                    conversation.set(attributes);
+
+                    if (message.isExpirationTimerUpdate()) {
+                        message.set({
+                            expirationTimerUpdate: {
+                                source      : source,
+                                expireTimer : dataMessage.expireTimer
+                            }
+                        });
+                        conversation.set({expireTimer: dataMessage.expireTimer});
+                    } else if (dataMessage.expireTimer) {
+                        message.set({expireTimer: dataMessage.expireTimer});
+                    }
+
+                    if (!message.isEndSession() && !message.isGroupUpdate()) {
+                        if (dataMessage.expireTimer) {
+                            if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
+                              conversation.updateExpirationTimer(
+                                  dataMessage.expireTimer, source,
+                                  message.get('received_at'));
+                            }
+                        } else if (conversation.get('expireTimer')) {
+                            conversation.updateExpirationTimer(null, source,
+                                message.get('received_at'));
+                        }
+                    }
+                    if (type === 'incoming') {
+                        var readReceipt = Whisper.ReadReceipts.forMessage(message);
+                        if (readReceipt) {
+                            if (message.get('expireTimer') && !message.get('expirationStartTimestamp')) {
+                                message.set('expirationStartTimestamp', readReceipt.get('read_at'));
+                            }
+                        }
+                        if (readReceipt || message.isExpirationTimerUpdate()) {
+                            message.unset('unread');
+                            // This is primarily to allow the conversation to mark all older messages as
+                            //   read, as is done when we receive a read receipt for a message we already
+                            //   know about.
+                            Whisper.ReadReceipts.notifyConversation(message);
+                        } else {
+                            conversation.set('unreadCount', conversation.get('unreadCount') + 1);
+                        }
+                    }
+
+                    var conversation_timestamp = conversation.get('timestamp');
+                    if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
+                        conversation.set({
+                            lastMessage : message.getNotificationText(),
+                            timestamp: message.get('sent_at')
+                        });
+                    }
+
+                    console.log('beginning saves in handleDataMessage', message.idForLogging());
+
+                    var handleError = function(error) {
+                        error = error && error.stack ? error.stack : error;
+                        console.log('handleDataMessage', message.idForLogging(), 'error:', error);
+                        return resolve();
+                    };
+
+                    message.save().then(function() {
+                        conversation.save().then(function() {
+                            try {
+                                conversation.trigger('newmessage', message);
+                            }
+                            catch (e) {
+                                return handleError(e);
+                            }
+                            // We fetch() here because, between the message.save() above and the previous
+                            //   line's trigger() call, we might have marked all messages unread in the
+                            //   database. This message might already be read!
+                            var previousUnread = message.get('unread');
+                            message.fetch().then(function() {
                                 try {
-                                    conversation.trigger('newmessage', message);
+                                    if (previousUnread !== message.get('unread')) {
+                                        console.log('Caught race condition on new message read state! ' +
+                                                    'Manually starting timers.');
+                                        // We call markRead() even though the message is already marked read
+                                        //   because we need to start expiration timers, etc.
+                                        message.markRead();
+                                    }
+                                    if (message.get('unread') && options.initialLoadComplete) {
+                                        conversation.notify(message);
+                                    }
+
+                                    console.log('done with handleDataMessage', message.idForLogging());
+
+                                    confirm();
+                                    return resolve();
                                 }
                                 catch (e) {
-                                    return handleError(e);
+                                    handleError(e);
                                 }
-                                // We fetch() here because, between the message.save() above and the previous
-                                //   line's trigger() call, we might have marked all messages unread in the
-                                //   database. This message might already be read!
-                                var previousUnread = message.get('unread');
-                                message.fetch().then(function() {
-                                    try {
-                                        if (previousUnread !== message.get('unread')) {
-                                            console.log('Caught race condition on new message read state! ' +
-                                                        'Manually starting timers.');
-                                            // We call markRead() even though the message is already marked read
-                                            //   because we need to start expiration timers, etc.
-                                            message.markRead();
-                                        }
-                                        if (message.get('unread') && options.initialLoadComplete) {
-                                            conversation.notify(message);
-                                        }
+                            }, function(error) {
+                                try {
+                                    console.log('handleDataMessage: Message', message.idForLogging(), 'was deleted');
 
-                                        console.log('done with handleDataMessage', message.idForLogging());
-
-                                        confirm();
-                                        return resolve();
-                                    }
-                                    catch (e) {
-                                        handleError(e);
-                                    }
-                                }, function(error) {
-                                    try {
-                                        console.log('handleDataMessage: Message', message.idForLogging(), 'was deleted');
-
-                                        confirm();
-                                        return resolve();
-                                    }
-                                    catch (e) {
-                                        handleError(e);
-                                    }
-                                });
-                            }, handleError);
+                                    confirm();
+                                    return resolve();
+                                }
+                                catch (e) {
+                                    handleError(e);
+                                }
+                            });
                         }, handleError);
-                    });
+                    }, handleError);
                 });
             });
         },
