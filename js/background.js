@@ -202,6 +202,18 @@
                         color: details.color,
                         active_at: conversation.get('active_at') || Date.now(),
                     }).then(resolve, reject);
+                }).then(function() {
+                    if (details.verified) {
+                        var verified = details.verified;
+                        var ev = new Event('verified');
+                        ev.verified = {
+                            state: verified.state,
+                            destination: verified.destination,
+                            identityKey: verified.identityKey.toArrayBuffer(),
+                        };
+                        ev.viaContactSync = true;
+                        return onVerified(ev);
+                    }
                 });
             })
             .then(ev.confirm)
