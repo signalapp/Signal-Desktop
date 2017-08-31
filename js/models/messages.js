@@ -147,19 +147,12 @@
             return this.imageUrl;
         },
         getConversation: function() {
-            return ConversationController.add({
-                id: this.get('conversationId')
-            });
+            return ConversationController.get(this.get('conversationId'));
         },
         getExpirationTimerUpdateSource: function() {
             if (this.isExpirationTimerUpdate()) {
               var conversationId = this.get('expirationTimerUpdate').source;
-              var c = ConversationController.get(conversationId);
-              if (!c) {
-                  c = ConversationController.create({id: conversationId, type: 'private'});
-                  c.fetch();
-              }
-              return c;
+              return ConversationController.getOrCreate(conversationId, 'private');
             }
         },
         getContact: function() {
@@ -167,21 +160,12 @@
             if (!this.isIncoming()) {
                 conversationId = textsecure.storage.user.getNumber();
             }
-            var c = ConversationController.get(conversationId);
-            if (!c) {
-                c = ConversationController.create({id: conversationId, type: 'private'});
-                c.fetch();
-            }
-            return c;
+            return ConversationController.getOrCreate(conversationId, 'private');
         },
         getModelForKeyChange: function() {
             var id = this.get('key_changed');
             if (!this.modelForKeyChange) {
-              var c = ConversationController.get(id);
-              if (!c) {
-                  c = ConversationController.create({ id: id, type: 'private' });
-                  c.fetch();
-              }
+              var c = ConversationController.getOrCreate(id, 'private');
               this.modelForKeyChange = c;
             }
             return this.modelForKeyChange;
@@ -189,11 +173,7 @@
         getModelForVerifiedChange: function() {
             var id = this.get('verifiedChanged');
             if (!this.modelForVerifiedChange) {
-              var c = ConversationController.get(id);
-              if (!c) {
-                  c = ConversationController.create({ id: id, type: 'private' });
-                  c.fetch();
-              }
+              var c = ConversationController.getOrCreate(id, 'private');
               this.modelForVerifiedChange = c;
             }
             return this.modelForVerifiedChange;

@@ -193,7 +193,7 @@
             return;
         }
 
-        return ConversationController.findOrCreateById(id, 'private')
+        return ConversationController.getOrCreateAndWait(id, 'private')
             .then(function(conversation) {
                 return new Promise(function(resolve, reject) {
                     conversation.save({
@@ -217,7 +217,7 @@
         var details = ev.groupDetails;
         var id = details.id;
 
-        return ConversationController.findOrCreateById(id, 'group').then(function(conversation) {
+        return ConversationController.getOrCreateAndWait(id, 'group').then(function(conversation) {
             var updates = {
                 name: details.name,
                 members: details.members,
@@ -362,7 +362,7 @@
 
             return message.saveErrors(error).then(function() {
                 var id = message.get('conversationId');
-                return ConversationController.findOrCreateById(id, 'private').then(function(conversation) {
+                return ConversationController.getOrCreateAndWait(id, 'private').then(function(conversation) {
                     conversation.set({
                         active_at: Date.now(),
                         unreadCount: conversation.get('unreadCount') + 1
@@ -443,7 +443,7 @@
         console.log('got verified sync for', number, state,
             ev.viaContactSync ? 'via contact sync' : '');
 
-        return ConversationController.findOrCreateById(number, 'private').then(function(contact) {
+        return ConversationController.getOrCreateAndWait(number, 'private').then(function(contact) {
             var options = {
                 viaSyncMessage: true,
                 viaContactSync: ev.viaContactSync,

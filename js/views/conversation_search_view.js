@@ -88,7 +88,7 @@
             // Creates a view to display a new contact
             this.new_contact_view = new Whisper.NewContactView({
                 el: this.$new_contact,
-                model: ConversationController.create({
+                model: ConversationController.createTemporary({
                     type: 'private'
                 })
             }).render();
@@ -97,7 +97,7 @@
         createConversation: function() {
             var conversation = this.new_contact_view.model;
             if (this.new_contact_view.model.isValid()) {
-                ConversationController.findOrCreateById(
+                ConversationController.getOrCreateAndWait(
                     this.new_contact_view.model.id,
                     'private'
                 ).then(function(conversation) {

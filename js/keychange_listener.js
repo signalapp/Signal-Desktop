@@ -13,13 +13,13 @@
         }
 
         signalProtocolStore.on('keychange', function(id) {
-          var conversation = ConversationController.add({id: id});
-          conversation.fetch().then(function() {
+          ConversationController.getOrCreateAndWait(id, 'private').then(function(conversation) {
             conversation.addKeyChange(id);
-          });
-          ConversationController.getAllGroupsInvolvingId(id).then(function(groups) {
-            _.forEach(groups, function(group) {
-              group.addKeyChange(id);
+
+            ConversationController.getAllGroupsInvolvingId(id).then(function(groups) {
+              _.forEach(groups, function(group) {
+                group.addKeyChange(id);
+              });
             });
           });
         });
