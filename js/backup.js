@@ -404,24 +404,12 @@
   //   1. Human-readable, for easy use and verification by user (names not just ids)
   //   2. Sorted just like the list of conversations in the left-pan (active_at)
   //   3. Disambiguated from other directories (active_at, truncated name, id)
-  function getPrivateConversationDirName(conversation) {
+  function getConversationDirName(conversation) {
+    var name = conversation.active_at || 'never';
     if (conversation.name) {
       return ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
     } else {
       return ' (' + conversation.id + ')';
-    }
-  }
-
-  function getGroupConversationDirName(conversation) {
-    return ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
-  }
-
-  function getConversationDirName(conversation) {
-    var name = conversation.active_at || 'never';
-    if (conversation.type === 'private') {
-      name += getPrivateConversationDirName(conversation);
-    } else {
-      name += getGroupConversationDirName(conversation);
     }
     return name;
   }
