@@ -34,4 +34,7 @@
   require('./js/spell_check');
   require('./js/backup');
 
+  window.nodeSetImmediate = setImmediate;
+  window.nodeXMLHttpRequest = require("./js/XMLHttpRequest").XMLHttpRequest;
+  window.nodeWebSocket = require("websocket").w3cwebsocket;
 })();

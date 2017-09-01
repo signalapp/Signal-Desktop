@@ -9,8 +9,8 @@
 
     var ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
-    function AccountManager(url, ports, username, password) {
-        this.server = new TextSecureServer(url, ports, username, password);
+    function AccountManager(url, username, password) {
+        this.server = new TextSecureServer(url, username, password);
         this.pending = Promise.resolve();
     }
 
