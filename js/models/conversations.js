@@ -59,6 +59,10 @@
         this.ourNumber = textsecure.storage.user.getNumber();
         this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
 
+        // This may be overridden by ConversationController.getOrCreate, and signify
+        //   our first save to the database. Or first fetch from the database.
+        this.initialPromise = Promise.resolve();
+
         this.contactCollection = new Backbone.Collection();
         this.messageCollection = new Whisper.MessageCollection([], {
             conversation: this
@@ -87,7 +91,7 @@
         if (this.isPrivate()) {
             return Promise.all([
                 this.safeGetVerified(),
-                this.safeFetch()
+                this.initialPromise,
             ]).then(function(results) {
                 var trust = results[0];
                 // we don't return here because we don't need to wait for this to finish
@@ -102,12 +106,6 @@
                 }.bind(this)));
             }.bind(this)).then(this.onMemberVerifiedChange.bind(this));
         }
-    },
-    safeFetch: function() {
-        // new Promise necessary because a fetch will fail if convo not in db yet
-        return new Promise(function(resolve) {
-            this.fetch().always(resolve);
-        }.bind(this));
     },
     setVerifiedDefault: function(options) {
         var DEFAULT = this.verifiedEnum.DEFAULT;
@@ -801,28 +799,23 @@
         return _.contains(this.get('members'), number);
     },
     fetchContacts: function(options) {
-        return new Promise(function(resolve) {
-            if (this.isPrivate()) {
-                this.contactCollection.reset([this]);
-                resolve();
-            } else {
-                var promises = [];
-                var members = this.get('members') || [];
+        if (this.isPrivate()) {
+            this.contactCollection.reset([this]);
+            return Promise.resolve();
+        } else {
+            var members = this.get('members') || [];
+            var promises = members.map(function(number) {
+                return ConversationController.getOrCreateAndWait(number, 'private');
+            });
 
-                this.contactCollection.reset(
-                    members.map(function(number) {
-                        var c = ConversationController.create({
-                            id   : number,
-                            type : 'private'
-                        });
-                        this.listenTo(c, 'change:verified', this.onMemberVerifiedChange);
-                        promises.push(c.safeFetch());
-                        return c;
-                    }.bind(this))
-                );
-                resolve(Promise.all(promises));
-            }
-        }.bind(this));
+            return Promise.all(promises).then(function(contacts) {
+                _.forEach(contacts, function(contact) {
+                    this.listenTo(contact, 'change:verified', this.onMemberVerifiedChange);
+                }.bind(this));
+
+                this.contactCollection.reset(contacts);
+            }.bind(this));
+        }
     },
 
     destroyMessages: function() {
@@ -956,14 +949,11 @@
         }
 
         window.drawAttention();
-        var sender = ConversationController.create({
-            id: message.get('source'), type: 'private'
-        });
         var conversationId = this.id;
 
-        return new Promise(function(resolve, reject) {
-            sender.fetch().then(function() {
-                sender.getNotificationIcon().then(function(iconUrl) {
+        ConversationController.getOrCreateAndWait(message.get('source'), 'private')
+            .then(function(sender) {
+                return sender.getNotificationIcon().then(function(iconUrl) {
                     console.log('adding notification');
                     Whisper.Notifications.add({
                         title          : sender.getTitle(),
@@ -973,11 +963,8 @@
                         conversationId : conversationId,
                         messageId      : message.id
                     });
-
-                    return resolve();
-                }, reject);
-            }, reject);
-        });
+                });
+            });
     },
     hashCode: function() {
         if (this.hash === undefined) {
@@ -1054,20 +1041,6 @@
                 }
             }).always(resolve);
         }.bind(this));
-    },
-
-    fetchActive: function() {
-        // Ensures all active conversations are included in this collection,
-        // and updates their attributes, but removes nothing.
-        return this.fetch({
-            index: {
-                name: 'inbox', // 'inbox' index on active_at
-                order: 'desc'  // ORDER timestamp DESC
-                // TODO pagination/infinite scroll
-                // limit: 10, offset: page*10,
-            },
-            remove: false
-        });
     }
   });
 

@@ -261,9 +261,11 @@
         },
         openConversation: function(e, conversation) {
             this.searchView.hideHints();
-            conversation = ConversationController.create(conversation);
-            this.conversation_stack.open(conversation);
-            this.focusConversation();
+            if (conversation) {
+                conversation = ConversationController.get(conversation.id);
+                this.conversation_stack.open(conversation);
+                this.focusConversation();
+            }
         },
         toggleMenu: function() {
             this.$('.global-menu .menu-list').toggle();

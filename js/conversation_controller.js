@@ -85,37 +85,46 @@
         get: function(id) {
             return conversations.get(id);
         },
-        add: function(attrs) {
-            return conversations.add(attrs, {merge: true});
+        createTemporary: function(attributes) {
+            return conversations.add(attributes);
         },
-        create: function(attrs) {
-            if (typeof attrs !== 'object') {
-                throw new Error('ConversationController.create requires an object, got', attrs);
+        getOrCreate: function(id, type) {
+            var conversation = conversations.get(id);
+            if (conversation) {
+                return conversation;
             }
-            var conversation = conversations.add(attrs, {merge: true});
-            return conversation;
-        },
-        findOrCreateById: function(id, type) {
-            var conversation = conversations.add({
+
+            conversation = conversations.add({
                 id: id,
                 type: type
             });
-            return new Promise(function(resolve, reject) {
-                conversation.fetch().then(function() {
+            conversation.initialPromise = new Promise(function(resolve, reject) {
+                var deferred = conversation.save();
+
+                if (!deferred) {
+                    console.log('Conversation save failed! ', id, type);
+                    return reject(new Error('getOrCreate: Conversation save failed'));
+                }
+
+                deferred.then(function() {
                     resolve(conversation);
-                }, function() {
-                    var deferred = conversation.save();
-
-                    if (!deferred) {
-                        console.log('Conversation save failed! ', id, type);
-                        return reject(new Error('findOrCreateById: Conversation save failed'));
-                    }
-
-                    deferred.then(function() {
-                        resolve(conversation);
-                    }, reject);
-                });
+                }, reject);
             });
+
+            return conversation;
+        },
+        getOrCreateAndWait: function(id, type) {
+            var conversation = this.getOrCreate(id, type);
+
+            if (conversation) {
+                return conversation.initialPromise.then(function() {
+                    return conversation;
+                });
+            }
+
+            return Promise.reject(
+                new Error('getOrCreateAndWait: did not get conversation')
+            );
         },
         getAllGroupsInvolvingId: function(id) {
             var groups = new Whisper.GroupCollection();
@@ -126,7 +135,7 @@
             });
         },
         updateInbox: function() {
-            return conversations.fetchActive();
+            return conversations.fetch();
         }
     };
 })();

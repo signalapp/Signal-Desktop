@@ -25,9 +25,7 @@
                 openInbox();
                 return;
             }
-            var conversation = ConversationController.create({
-                id: last.get('conversationId')
-            });
+            var conversation = ConversationController.get(last.get('conversationId'));
             openConversation(conversation);
             this.clear();
         },
