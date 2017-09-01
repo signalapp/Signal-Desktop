@@ -3,7 +3,7 @@ describe('MessageView', function() {
     return storage.put('number_id', '+18088888888.1');
   });
 
-  var convo = ConversationController.addTemporary({id: 'foo'});
+  var convo = ConversationController.createTemporary({id: 'foo'});
   var message = convo.messageCollection.add({
     conversationId: convo.id,
     body: 'hello world',
