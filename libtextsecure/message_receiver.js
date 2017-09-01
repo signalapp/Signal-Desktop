@@ -533,10 +533,7 @@ MessageReceiver.prototype.extend({
             throw new Error('Got empty SyncMessage');
         }
     },
-    handleVerified: function(envelope, verified, options) {
-        options = options || {};
-        _.defaults(options, {viaContactSync: false});
-
+    handleVerified: function(envelope, verified) {
         var ev = new Event('verified');
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.verified = {
@@ -544,7 +541,6 @@ MessageReceiver.prototype.extend({
             destination: verified.destination,
             identityKey: verified.identityKey.toArrayBuffer()
         };
-        ev.viaContactSync = options.viaContactSync;
         return this.dispatchAndWait(ev);
     },
     handleRead: function(envelope, read) {
@@ -573,14 +569,6 @@ MessageReceiver.prototype.extend({
                 ev.confirm = this.removeFromCache.bind(this, envelope);
                 ev.contactDetails = contactDetails;
                 results.push(this.dispatchAndWait(ev));
-
-                if (contactDetails.verified) {
-                    results.push(this.handleVerified(
-                        envelope,
-                        contactDetails.verified,
-                        {viaContactSync: true}
-                    ));
-                }
 
                 contactDetails = contactBuffer.next();
             }
