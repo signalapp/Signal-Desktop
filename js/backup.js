@@ -310,7 +310,7 @@
   }
 
   function sanitizeFileName(filename) {
-    return filename.toString().replace(/[^a-z0-9.,+()'"#\- ]/gi, '_');
+    return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
   function exportConversation(idb_db, name, conversation, dir) {
