@@ -94,9 +94,8 @@
 
         socket.onmessage = function(socketMessage) {
             var blob = socketMessage.data;
-            var reader = new FileReader();
-            reader.onload = function() {
-                var message = textsecure.protobuf.WebSocketMessage.decode(reader.result);
+            var handleArrayBuffer = function(buffer) {
+                var message = textsecure.protobuf.WebSocketMessage.decode(buffer);
                 if (message.type === textsecure.protobuf.WebSocketMessage.Type.REQUEST ) {
                     handleRequest(
                         new IncomingWebSocketRequest({
@@ -126,7 +125,16 @@
                     }
                 }
             };
-            reader.readAsArrayBuffer(blob);
+
+            if (blob instanceof ArrayBuffer) {
+              handleArrayBuffer(blob);
+            } else {
+              var reader = new FileReader();
+              reader.onload = function() {
+                handleArrayBuffer(reader.result);
+              };
+              reader.readAsArrayBuffer(blob);
+            }
         };
 
         if (opts.keepalive) {

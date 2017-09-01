@@ -2,14 +2,14 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, ports, username, password, signalingKey) {
+function MessageReceiver(url, username, password, signalingKey) {
     this.count = 0;
 
     this.url = url;
     this.signalingKey = signalingKey;
     this.username = username;
     this.password = password;
-    this.server = new TextSecureServer(url, ports, username, password);
+    this.server = new TextSecureServer(url, username, password);
 
     var address = libsignal.SignalProtocolAddress.fromString(username);
     this.number = address.getName();
@@ -834,8 +834,8 @@ MessageReceiver.prototype.extend({
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, ports, username, password, signalingKey) {
-    var messageReceiver = new MessageReceiver(url, ports, username, password, signalingKey);
+textsecure.MessageReceiver = function(url, username, password, signalingKey) {
+    var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);
