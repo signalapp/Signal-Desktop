@@ -106,7 +106,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Exportera igen",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
@@ -166,7 +166,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "confirmMigration": {
-        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
+        "message": "Påbörja migrationsprocessen? Du kommer inte kunna skicka eller ta emot Signalmeddelanden från detta program tills migrationen är klar.",
         "description": "Confirmation dialogue when beginning migration"
     },
     "incomingError": {
@@ -186,7 +186,7 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Dessvärre gick något fel under exporten. Dubbelkolla först att du har skrivrättigheter för mappen du valde, samt att du har tillräckligt med plats. Om det fortfarande inte fungerar kan du skicka in en debuglogg så kan vi hjälpa dig migrera!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "installConnecting": {
@@ -194,7 +194,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "din valda plats",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -224,11 +224,11 @@
         "description": "Label for the time a message was sent"
     },
     "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "message": "Signals Chrome-app har blivit föråldrad. Vill du migrera till den nya Signalappen nu?",
         "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "migrate": {
-        "message": "Migrate",
+        "message": "Migrera",
         "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
@@ -396,7 +396,7 @@
         }
     },
     "changedSinceVerified": {
-        "message": "ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -562,7 +562,7 @@
         "description": ""
     },
     "migrationDisconnecting": {
-        "message": "Disconnecting...",
+        "message": "Kopplar ner...",
         "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "message": "Din data har exporterats till: <p><b>$location$</b></p> För att slutföra migrationen, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'> installera nya Signal Desktop </a> och importera denna data.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -770,15 +770,15 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation, eller att kontakten har ominstallerat Signal. Du kan verifiera det nya säkerhetsnummret nedan.",
+        "message": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation, eller att kontakten har ominstallerat Signal. Du kan verifiera det nya säkerhetsnumret nedan.",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {
-        "message": "Choose directory",
+        "message": "Välj mapp",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
@@ -814,7 +814,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "Första steget är att välja en mapp dit du vill lagra appens exporterade data. Den kommer innehålla din meddelandehistorik och känslig kryptografik data, så spara den någonstans privat.",
         "description": "Description of the export process"
     },
     "notifications": {
