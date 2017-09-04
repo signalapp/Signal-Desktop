@@ -774,7 +774,7 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Dina säkerhetsnycklar för flera gruppmedlemmar har ändrats sen du senast verifierade dem. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {

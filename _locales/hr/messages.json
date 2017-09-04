@@ -1,10 +1,10 @@
 {
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "Spusti se na dno konverzacije",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 sekundi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
@@ -34,7 +34,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "Prikaži sigurnosni broj",
         "description": ""
     },
     "androidMessageLengthWarning": {
@@ -64,7 +64,7 @@
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 minut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "gotIt": {
@@ -72,7 +72,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "Nestajuće poruke",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
@@ -106,15 +106,15 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Izvezi ponovo",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "Klikni za spremanje",
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "Nove poruke ispod",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
@@ -142,11 +142,11 @@
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 sat",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "isključi",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -158,7 +158,7 @@
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": "Napustili ste grupu",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
@@ -174,7 +174,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Obriši",
         "description": ""
     },
     "verified": {
@@ -246,7 +246,7 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "sada",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
@@ -254,7 +254,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 dan",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
@@ -338,11 +338,11 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "Saznaj više o provjeri sigurnosnih brojeva",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "unreadMessages": {
-        "message": "$count$ Unread Messages",
+        "message": "$count$nepročitanih poruka",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -374,7 +374,7 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "3m",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -424,11 +424,11 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "Novi sigurnosni broj",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -470,7 +470,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
@@ -490,11 +490,11 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 tjedan",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "Shvaćam",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -522,7 +522,7 @@
         }
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 sekundi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -538,7 +538,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 nepročitna poruka",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
@@ -550,11 +550,11 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "Obriši ovu poruku",
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "isključi",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -574,7 +574,7 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "New message below",
+        "message": "Nova poruka ispod",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
@@ -592,7 +592,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "Ukloni iz provjerenih",
         "description": ""
     },
     "messageNotSent": {
@@ -608,7 +608,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "Deblokiraj ovaj kontakt za slanje poruke.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -616,7 +616,7 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "Neimenovana datoteka",
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
@@ -634,7 +634,7 @@
         }
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "Povezivanje",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
@@ -650,15 +650,15 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1t",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 sekundi",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Prikaži članove",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
@@ -686,11 +686,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "Članovi grupe",
         "description": ""
     },
     "loading": {
-        "message": "Loading...",
+        "message": "Učitavanje...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
@@ -702,11 +702,11 @@
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "Još niste razmijienili poruke sa ovim kontaktom. Sigurnosni broj sa njim će biti dostupan nakon prve poruke.",
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "Glasovna poruka",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -750,7 +750,7 @@
         "description": ""
     },
     "verify": {
-        "message": "Mark as verified",
+        "message": "Označi provjerenim",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -778,11 +778,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {
-        "message": "Choose directory",
+        "message": "Odaberi direktorij",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
-        "message": "Submit debug log",
+        "message": "Podnesi zapis o neispravnosti",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {

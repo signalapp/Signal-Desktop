@@ -186,7 +186,7 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Infelizmente, alguma coisa deu errado durante a exportação. Primeiro, verifique se o seu diretório de destino é gravável e dispõe de espaço suficiente. ",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "installConnecting": {
@@ -224,7 +224,7 @@
         "description": "Label for the time a message was sent"
     },
     "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "message": "O app Signal Desktop Chrome tornou-se obsoleto. Você gostaria de migrar para o novo Signal Desktop agora?",
         "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "migrate": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "message": "Por favor, aguarde enquanto exportamos os seus dados. Você pode continuar a usar Signal no seu celular e em outros aparelhos durante isso. Você pode ainda<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>instalar o novo Signal Desktop</a>.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -814,7 +814,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "O primeiro passo é escolher um diretório para armazenar os dados deste applicativo que tiverem sido exportados. Nele estarão o registro das suas mensagens e dados criptográficos sensíveis. Por isso, tenha certeza de salvá-los em um local privado.",
         "description": "Description of the export process"
     },
     "notifications": {
