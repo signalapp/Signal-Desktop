@@ -267,8 +267,35 @@
     });
   }
 
+  function trimFileName(filename) {
+    var components = filename.split('.');
+    if (components.length <= 1) {
+      return filename.slice(0, 30);
+    }
+
+    var extension = components[components.length - 1];
+    var name = components.slice(0, components.length - 1);
+    if (extension.length > 5) {
+      return filename.slice(0, 30);
+    }
+
+    return name.join('.').slice(0, 24) + '.' + extension;
+  }
+
+
   function getAttachmentFileName(attachment) {
-    return attachment.fileName || (attachment.id + '.' + attachment.contentType.split('/')[1]);
+    if (attachment.fileName) {
+      return trimFileName(attachment.fileName);
+    }
+
+    var name = attachment.id;
+
+    if (attachment.contentType) {
+      var components = attachment.contentType.split('/');
+      name += '.' + (components.length > 1 ? components[1] : attachment.contentType);
+    }
+
+    return name;
   }
 
   function readAttachment(parent, message, attachment) {
@@ -407,11 +434,10 @@
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
     if (conversation.name) {
-      return ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
+      return name + ' (' + conversation.name.slice(0, 30) + ' ' + conversation.id + ')';
     } else {
-      return ' (' + conversation.id + ')';
+      return name + ' (' + conversation.id + ')';
     }
-    return name;
   }
 
   // Goals for logging names:
@@ -673,7 +699,13 @@
         );
         return Promise.reject(error);
       });
-    }
+    },
+    // for testing
+    sanitizeFileName: sanitizeFileName,
+    trimFileName: trimFileName,
+    getAttachmentFileName: getAttachmentFileName,
+    getConversationDirName: getConversationDirName,
+    getConversationLoggingName: getConversationLoggingName
   };
 
 }());
