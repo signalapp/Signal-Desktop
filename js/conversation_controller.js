@@ -83,12 +83,24 @@
 
     window.ConversationController = {
         get: function(id) {
+            if (!this._initialFetchComplete) {
+                throw new Error('ConversationController.get() needs complete initial fetch');
+            }
+
+            return conversations.get(id);
+        },
+        // Needed for some model setup which happens during the initial fetch() call below
+        getUnsafe: function(id) {
             return conversations.get(id);
         },
         createTemporary: function(attributes) {
             return conversations.add(attributes);
         },
         getOrCreate: function(id, type) {
+            if (!this._initialFetchComplete) {
+                throw new Error('ConversationController.get() needs complete initial fetch');
+            }
+
             var conversation = conversations.get(id);
             if (conversation) {
                 return conversation;
@@ -114,17 +126,19 @@
             return conversation;
         },
         getOrCreateAndWait: function(id, type) {
-            var conversation = this.getOrCreate(id, type);
+            return this._initialPromise.then(function() {
+                var conversation = this.getOrCreate(id, type);
 
-            if (conversation) {
-                return conversation.initialPromise.then(function() {
-                    return conversation;
-                });
-            }
+                if (conversation) {
+                    return conversation.initialPromise.then(function() {
+                        return conversation;
+                    });
+                }
 
-            return Promise.reject(
-                new Error('getOrCreateAndWait: did not get conversation')
-            );
+                return Promise.reject(
+                    new Error('getOrCreateAndWait: did not get conversation')
+                );
+            }.bind(this));
         },
         getAllGroupsInvolvingId: function(id) {
             var groups = new Whisper.GroupCollection();
@@ -134,8 +148,30 @@
                 });
             });
         },
-        updateInbox: function() {
-            return conversations.fetch();
+        loadPromise: function() {
+            return this._initialPromise;
+        },
+        load: function() {
+            console.log('ConversationController: starting initial fetch');
+            if (this._initialPromise) {
+                throw new Error('ConversationController.load() has already been called!');
+            }
+
+            this._initialPromise = new Promise(function(resolve, reject) {
+                conversations.fetch().then(function() {
+                    console.log('ConversationController: done with initial fetch');
+                    this._initialFetchComplete = true;
+                    resolve();
+                }.bind(this), function(error) {
+                    console.log(
+                        'ConversationController: initial fetch failed',
+                        error && error.stack ? error.stack : error
+                    );
+                    reject(error);
+                });
+            }.bind(this));
+
+            return this._initialPromise;
         }
     };
 })();

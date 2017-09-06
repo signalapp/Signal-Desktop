@@ -147,7 +147,10 @@
             return this.imageUrl;
         },
         getConversation: function() {
-            return ConversationController.get(this.get('conversationId'));
+            // This needs to be an unsafe call, because this method is called during
+            //   initial module setup. We may be in the middle of the initial fetch to
+            //   the database.
+            return ConversationController.getUnsafe(this.get('conversationId'));
         },
         getExpirationTimerUpdateSource: function() {
             if (this.isExpirationTimerUpdate()) {
@@ -235,7 +238,7 @@
 
         someRecipientsFailed: function() {
             var c = this.getConversation();
-            if (c.isPrivate()) {
+            if (!c || c.isPrivate()) {
                 return false;
             }
 
