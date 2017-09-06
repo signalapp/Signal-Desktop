@@ -365,15 +365,18 @@
 
             return this;
         },
-        updateColor: function(model, color) {
+        updateColor: function() {
             var bubble = this.$('.bubble');
-            bubble.removeClass(Whisper.Conversation.COLORS);
+
+            // this.contact is known to be non-null if we're registered for color changes
+            var color = this.contact.getColor();
             if (color) {
+                bubble.removeClass(Whisper.Conversation.COLORS);
                 bubble.addClass(color);
             }
             this.avatarView = new (Whisper.View.extend({
                 templateName: 'avatar',
-                render_attributes: { avatar: model.getAvatar() }
+                render_attributes: { avatar: this.model.getAvatar() }
             }))();
             this.$('.avatar').replaceWith(this.avatarView.render().$('.avatar'));
         },
