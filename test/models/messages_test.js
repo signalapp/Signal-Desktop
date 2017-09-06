@@ -4,11 +4,13 @@
 (function () {
     'use strict';
 
-    function clear(done) {
-        var messages = new Whisper.MessageCollection();
-        return messages.fetch().then(function() {
-            messages.destroyAll();
-            done();
+    function deleteAllMessages() {
+        return new Promise(function(resolve, reject) {
+            var messages = new Whisper.MessageCollection();
+            return messages.fetch().then(function() {
+                messages.destroyAll();
+                resolve();
+            }, reject);
         });
     }
 
@@ -21,9 +23,18 @@
     var attachment = { data: 'datasaurus',
                        contentType: 'plain/text' };
 
+    var source = '+14155555555';
+
     describe('MessageCollection', function() {
-        before(clear);
-        after(clear);
+        before(function() {
+            return Promise.all([
+                deleteAllMessages(),
+                ConversationController.load()
+            ]);
+        });
+        after(function() {
+            return deleteAllMessages();
+        });
 
         it('has no image url', function() {
             var messages = new Whisper.MessageCollection();
@@ -49,7 +60,10 @@
 
         it('gets incoming contact', function() {
             var messages = new Whisper.MessageCollection();
-            var message = messages.add({ type: 'incoming' });
+            var message = messages.add({
+                type: 'incoming',
+                source: source
+            });
             message.getContact();
         });
 
