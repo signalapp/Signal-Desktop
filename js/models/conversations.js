@@ -73,6 +73,13 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('destroy', this.revokeAvatarUrl);
+
+        this.on('change:name', function(model, value, options) {
+          if (typeof value !== 'string' || !value.length) {
+            var e = new Error(model.id + ' name changed to ' + value);
+            console.log(e.stack);
+          }
+        });
     },
 
     isMe: function() {
