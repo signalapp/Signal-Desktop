@@ -48,7 +48,7 @@
             this.$el.scrollTop(this.scrollPosition - this.$el.outerHeight());
         },
         scrollToBottomIfNeeded: function() {
-            if (this.atBottom()) {
+            if (!this.atBottom()) {
                 this.scrollToBottom();
             }
         },
