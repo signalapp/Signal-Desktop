@@ -1,15 +1,17 @@
 describe('MessageView', function() {
-  before(function() {
-    return storage.put('number_id', '+18088888888.1');
-  });
+  var convo, message;
 
-  var convo = ConversationController.createTemporary({id: 'foo'});
-  var message = convo.messageCollection.add({
-    conversationId: convo.id,
-    body: 'hello world',
-    type: 'outgoing',
-    source: '+14158675309',
-    received_at: Date.now()
+  before(function() {
+    convo = ConversationController.createTemporary({id: 'foo'});
+    message = convo.messageCollection.add({
+      conversationId: convo.id,
+      body: 'hello world',
+      type: 'outgoing',
+      source: '+14158675309',
+      received_at: Date.now()
+    });
+
+    return storage.put('number_id', '+18088888888.1');
   });
 
   it('should display the message text', function() {
