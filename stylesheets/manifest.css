@@ -868,7 +868,7 @@ img.emoji.jumbo {
   .gutter .content {
     background-color: #f3f3f3;
     flex-grow: 1;
-    overflow-y: overlay; }
+    overflow-y: auto; }
 
 .network-status-container .network-status {
   background: url("/images/error_red.svg") no-repeat left 10px center;
@@ -1158,7 +1158,7 @@ input.search {
         width: 100%;
         margin: 0;
         padding: 10px 0 0 0;
-        overflow-y: overlay; }
+        overflow-y: auto; }
 
 .discussion-container {
   background-color: #eee; }

@@ -24,7 +24,7 @@
   .content {
     background-color: $grey_l;
     flex-grow: 1;
-    overflow-y: overlay;
+    overflow-y: auto;
   }
 }
 .network-status-container {
