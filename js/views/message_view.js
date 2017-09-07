@@ -376,7 +376,7 @@
             }
             this.avatarView = new (Whisper.View.extend({
                 templateName: 'avatar',
-                render_attributes: { avatar: this.model.getAvatar() }
+                render_attributes: { avatar: this.contact.getAvatar() }
             }))();
             this.$('.avatar').replaceWith(this.avatarView.render().$('.avatar'));
         },
