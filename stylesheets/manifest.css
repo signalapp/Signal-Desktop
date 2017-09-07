@@ -1387,7 +1387,7 @@ li.entry .error-icon-container {
     max-width: 30em;
     text-align: -webkit-auto;
     -webkit-user-select: text; }
-    @media (max-width: 899px) {
+    @media (max-width: 825px) {
       .message-container .bubble,
       .message-list .bubble {
         max-width: calc(100% - 45px - 24px); } }
