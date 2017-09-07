@@ -72,6 +72,8 @@
 
     storage.fetch();
     storage.onready(function() {
+        ConversationController.load();
+
         window.dispatchEvent(new Event('storage_ready'));
         setUnreadCount(storage.get("unreadCount", 0));
 
@@ -518,7 +520,7 @@
         getAppView: function(destWindow) {
             var self = this;
 
-            return ConversationController.updateInbox().then(function() {
+            return ConversationController.loadPromise().then(function() {
                 try {
                     if (self.inboxView) { self.inboxView.remove(); }
                     self.inboxView = new Whisper.InboxView({

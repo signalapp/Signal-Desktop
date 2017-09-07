@@ -11,7 +11,10 @@
         var expired = new Whisper.MessageCollection();
         expired.on('add', function(message) {
             console.log('message', message.get('sent_at'), 'expired');
-            message.getConversation().trigger('expired', message);
+            var conversation = message.getConversation();
+            if (conversation) {
+                conversation.trigger('expired', message);
+            }
 
             // We delete after the trigger to allow the conversation time to process
             //   the expiration before the message is removed from the database.
