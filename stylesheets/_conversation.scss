@@ -422,7 +422,7 @@ li.entry .error-icon-container {
     text-align: -webkit-auto;
     -webkit-user-select: text;
 
-    @media(max-width: $big-avatar-min-width - 1px) {
+    @media(max-width: 825px) {
       max-width: calc(100% - 45px - #{$error-icon-size}); // avatar size + padding + error-icon size
     }
 
