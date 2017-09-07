@@ -157,7 +157,7 @@
     function connect(firstRun) {
         window.removeEventListener('online', connect);
 
-        if (!Whisper.Registration.isDone()) { return; }
+        if (!Whisper.Registration.everDone()) { return; }
         if (Whisper.Import.isIncomplete()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
