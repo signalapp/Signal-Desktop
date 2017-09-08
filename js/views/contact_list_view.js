@@ -34,6 +34,7 @@
                     title: this.model.getTitle(),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),
+                    profileName: this.model.getProfileName(),
                     isVerified: this.model.isVerified(),
                     verified: i18n('verified')
                 };
