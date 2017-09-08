@@ -429,6 +429,7 @@
         _.defaults(options, {local: true});
 
         if (this.isMe()) {
+            console.log('refusing to add verified change advisory for our own number');
             return;
         }
 
