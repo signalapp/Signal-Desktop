@@ -428,6 +428,10 @@
         options = options || {};
         _.defaults(options, {local: true});
 
+        if (this.isMe()) {
+            return;
+        }
+
         var lastMessage = this.get('timestamp') || Date.now();
 
         console.log('adding verified change advisory for', this.id, id, lastMessage);
