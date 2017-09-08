@@ -268,12 +268,12 @@
     min-width: 197px !important;
   }
 
-  .confirmation-dialog, .progress-dialog, .error-dialog {
+  .confirmation-dialog, .progress-dialog {
     padding: 1em;
     text-align: left;
   }
   .number { text-align: center; }
-  .confirmation-dialog, .error-dialog {
+  .confirmation-dialog {
     button {
       float: right;
       margin-left: 10px;
@@ -302,9 +302,6 @@
       &.active {
       }
     }
-  }
-  .error-dialog {
-    display: none;
   }
 
   .modal-container {
