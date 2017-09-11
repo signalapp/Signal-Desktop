@@ -238,7 +238,6 @@
             console.log('Got sync message with our own profile key');
             storage.put('profileKey', details.profileKey);
           }
-          return ev.confirm();
         }
 
         var c = new Whisper.Conversation({
