@@ -36716,6 +36716,11 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
     var calculateMAC = libsignal.crypto.calculateMAC;
     var verifyMAC    = libsignal.crypto.verifyMAC;
 
+    var PROFILE_IV_LENGTH = 12;   // bytes
+    var PROFILE_KEY_LENGTH = 32;  // bytes
+    var PROFILE_TAG_LENGTH = 128; // bits
+    var PROFILE_NAME_PADDED_LENGTH = 26; // bytes
+
     function verifyDigest(data, theirDigest) {
         return crypto.subtle.digest({name: 'SHA-256'}, data).then(function(ourDigest) {
             var a = new Uint8Array(ourDigest);
@@ -36812,6 +36817,68 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
                 });
             });
         },
+        encryptProfile: function(data, key) {
+          var iv = libsignal.crypto.getRandomBytes(PROFILE_IV_LENGTH);
+          if (key.byteLength != PROFILE_KEY_LENGTH) {
+              throw new Error("Got invalid length profile key");
+          }
+          if (iv.byteLength != PROFILE_IV_LENGTH) {
+              throw new Error("Got invalid length profile iv");
+          }
+          return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['encrypt']).then(function(key) {
+            return crypto.subtle.encrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, data).then(function(ciphertext) {
+              var ivAndCiphertext = new Uint8Array(PROFILE_IV_LENGTH + ciphertext.byteLength);
+              ivAndCiphertext.set(new Uint8Array(iv));
+              ivAndCiphertext.set(new Uint8Array(ciphertext), PROFILE_IV_LENGTH);
+              return ivAndCiphertext.buffer;
+            });
+          });
+        },
+        decryptProfile: function(data, key) {
+          if (data.byteLength < 12 + 16 + 1) {
+              throw new Error("Got too short input: " + data.byteLength);
+          }
+          var iv = data.slice(0, PROFILE_IV_LENGTH);
+          var ciphertext = data.slice(PROFILE_IV_LENGTH, data.byteLength);
+          if (key.byteLength != PROFILE_KEY_LENGTH) {
+              throw new Error("Got invalid length profile key");
+          }
+          if (iv.byteLength != PROFILE_IV_LENGTH) {
+              throw new Error("Got invalid length profile iv");
+          }
+          var error = new Error(); // save stack
+          return crypto.subtle.importKey('raw', key, {name: 'AES-GCM'}, false, ['decrypt']).then(function(key) {
+            return crypto.subtle.decrypt({name: 'AES-GCM', iv: iv, tagLength: PROFILE_TAG_LENGTH}, key, ciphertext).catch(function(e) {
+              if (e.name === 'OperationError') {
+                // bad mac, basically.
+                error.message = 'Failed to decrypt profile data. Most likely the profile key has changed.';
+                error.name = 'ProfileDecryptError';
+                throw error;
+              }
+            });
+          });
+        },
+        encryptProfileName: function(name, key) {
+          var padded = new Uint8Array(PROFILE_NAME_PADDED_LENGTH);
+          padded.set(new Uint8Array(name));
+          return textsecure.crypto.encryptProfile(padded.buffer, key);
+        },
+        decryptProfileName: function(encryptedProfileName, key) {
+          var data = dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();
+          return textsecure.crypto.decryptProfile(data, key).then(function(decrypted) {
+            // unpad
+            var name = '';
+            var padded = new Uint8Array(decrypted);
+            for (var i = padded.length; i > 0; i--) {
+              if (padded[i-1] !== 0x00) {
+                break;
+              }
+            }
+
+            return dcodeIO.ByteBuffer.wrap(padded).slice(0, i).toArrayBuffer();
+          });
+        },
+
 
         getRandomBytes: function(size) {
             return libsignal.crypto.getRandomBytes(size);
@@ -37709,11 +37776,12 @@ var TextSecureServer = (function() {
         profile    : "v1/profile"
     };
 
-    function TextSecureServer(url, username, password) {
+    function TextSecureServer(url, username, password, cdn_url) {
         if (typeof url !== 'string') {
             throw new Error('Invalid server url');
         }
         this.url = url;
+        this.cdn_url = cdn_url;
         this.username = username;
         this.password = password;
     }
@@ -37775,6 +37843,14 @@ var TextSecureServer = (function() {
                 call                : 'profile',
                 httpType            : 'GET',
                 urlParameters       : '/' + number,
+            });
+        },
+        getAvatar: function(path) {
+            return ajax(this.cdn_url + '/' + path, {
+                type        : "GET",
+                responseType: "arraybuffer",
+                contentType : "application/octet-stream",
+                certificateAuthorities: window.config.certificateAuthorities
             });
         },
         requestVerificationSMS: function(number) {
@@ -37994,7 +38070,8 @@ var TextSecureServer = (function() {
             var registrationDone = this.registrationDone.bind(this);
             return this.queueTask(function() {
                 return libsignal.KeyHelper.generateIdentityKeyPair().then(function(identityKeyPair) {
-                    return createAccount(number, verificationCode, identityKeyPair).
+                    var profileKey = textsecure.crypto.getRandomBytes(32);
+                    return createAccount(number, verificationCode, identityKeyPair, profileKey).
                         then(generateKeys).
                         then(registerKeys).
                         then(registrationDone);
@@ -38047,6 +38124,7 @@ var TextSecureServer = (function() {
                                                 provisionMessage.number,
                                                 provisionMessage.provisioningCode,
                                                 provisionMessage.identityKeyPair,
+                                                provisionMessage.profileKey,
                                                 deviceName,
                                                 provisionMessage.userAgent
                                             ).then(generateKeys).
@@ -38147,7 +38225,7 @@ var TextSecureServer = (function() {
                 });
             });
         },
-        createAccount: function(number, verificationCode, identityKeyPair, deviceName, userAgent) {
+        createAccount: function(number, verificationCode, identityKeyPair, profileKey, deviceName, userAgent) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
@@ -38165,6 +38243,7 @@ var TextSecureServer = (function() {
                     textsecure.storage.remove('device_name');
                     textsecure.storage.remove('regionCode');
                     textsecure.storage.remove('userAgent');
+                    textsecure.storage.remove('profileKey');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -38181,6 +38260,7 @@ var TextSecureServer = (function() {
                     textsecure.storage.put('signaling_key', signalingKey);
                     textsecure.storage.put('password', password);
                     textsecure.storage.put('registrationId', registrationId);
+                    textsecure.storage.put('profileKey', profileKey);
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
@@ -39020,6 +39100,9 @@ MessageReceiver.prototype.extend({
         } else if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE ) {
             decrypted.body = null;
             decrypted.attachments = [];
+        } else if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
+            decrypted.body = null;
+            decrypted.attachments = [];
         } else if (decrypted.flags != 0) {
             throw new Error("Unknown flags in message");
         }
@@ -39377,6 +39460,7 @@ function Message(options) {
     this.timestamp   = options.timestamp;
     this.needsSync   = options.needsSync;
     this.expireTimer = options.expireTimer;
+    this.profileKey  = options.profileKey;
 
     if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
         throw new Error('Invalid recipient list');
@@ -39450,6 +39534,10 @@ Message.prototype = {
             proto.expireTimer = this.expireTimer;
         }
 
+        if (this.profileKey) {
+          proto.profileKey = this.profileKey;
+        }
+
         this.dataMessage = proto;
         return proto;
     },
@@ -39458,8 +39546,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+function MessageSender(url, username, password, cdn_url) {
+    this.server = new TextSecureServer(url, username, password, cdn_url);
     this.pendingMessages = {};
 }
 
@@ -39673,6 +39761,9 @@ MessageSender.prototype = {
     getProfile: function(number) {
         return this.server.getProfile(number);
     },
+    getAvatar: function(path) {
+        return this.server.getAvatar(path);
+    },
 
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
@@ -39783,14 +39874,15 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer) {
+    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer, profileKey) {
         return this.sendMessage({
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
             attachments : attachments,
             needsSync   : true,
-            expireTimer : expireTimer
+            expireTimer : expireTimer,
+            profileKey  : profileKey
         });
     },
 
@@ -39815,7 +39907,7 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer) {
+    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer, profileKey) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -39833,6 +39925,7 @@ MessageSender.prototype = {
                 attachments : attachments,
                 needsSync   : true,
                 expireTimer : expireTimer,
+                profileKey  : profileKey,
                 group: {
                     id: groupId,
                     type: textsecure.protobuf.GroupContext.Type.DELIVER
@@ -39948,7 +40041,7 @@ MessageSender.prototype = {
             }.bind(this));
         });
     },
-    sendExpirationTimerUpdateToGroup: function(groupId, expireTimer, timestamp) {
+    sendExpirationTimerUpdateToGroup: function(groupId, expireTimer, timestamp, profileKey) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -39963,6 +40056,7 @@ MessageSender.prototype = {
                 timestamp   : timestamp,
                 needsSync   : true,
                 expireTimer : expireTimer,
+                profileKey  : profileKey,
                 flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
                 group: {
                     id: groupId,
@@ -39971,13 +40065,14 @@ MessageSender.prototype = {
             });
         }.bind(this));
     },
-    sendExpirationTimerUpdateToNumber: function(number, expireTimer, timestamp) {
+    sendExpirationTimerUpdateToNumber: function(number, expireTimer, timestamp, profileKey) {
         var proto = new textsecure.protobuf.DataMessage();
         return this.sendMessage({
             recipients  : [number],
             timestamp   : timestamp,
             needsSync   : true,
             expireTimer : expireTimer,
+            profileKey  : profileKey,
             flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
         });
     }
@@ -39985,8 +40080,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, username, password) {
-    var sender = new MessageSender(url, username, password);
+textsecure.MessageSender = function(url, username, password, cdn_url) {
+    var sender = new MessageSender(url, username, password, cdn_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
@@ -40007,6 +40102,7 @@ textsecure.MessageSender = function(url, username, password) {
     this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
     this.getProfile                        = sender.getProfile                       .bind(sender);
+    this.getAvatar                         = sender.getAvatar                        .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
     this.syncVerification                  = sender.syncVerification                 .bind(sender);
 };
@@ -40131,6 +40227,10 @@ ProtoParser.prototype = {
                 this.buffer.skip(attachmentLen);
             }
 
+            if (proto.profileKey) {
+                proto.profileKey = proto.profileKey.toArrayBuffer();
+            }
+
             return proto;
         } catch(e) {
             console.log(e);
@@ -40185,7 +40285,8 @@ ProvisioningCipher.prototype = {
                     identityKeyPair  : keyPair,
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
-                    userAgent        : provisionMessage.userAgent
+                    userAgent        : provisionMessage.userAgent,
+                    profileKey       : provisionMessage.profileKey.toArrayBuffer()
                 };
             });
         });

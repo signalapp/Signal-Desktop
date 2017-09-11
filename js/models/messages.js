@@ -459,6 +459,19 @@
                         });
                     }
 
+                    if (dataMessage.profileKey) {
+                      var profileKey = dataMessage.profileKey.toArrayBuffer();
+                      if (source == textsecure.storage.user.getNumber()) {
+                        conversation.set({profileSharing: true});
+                      } else if (conversation.isPrivate()) {
+                        conversation.set({profileKey: profileKey});
+                      } else {
+                        ConversationController.getOrCreateAndWait(source, 'private').then(function(sender) {
+                          sender.setProfileKey(profileKey);
+                        });
+                      }
+                    }
+
                     console.log('beginning saves in handleDataMessage', message.idForLogging());
 
                     var handleError = function(error) {

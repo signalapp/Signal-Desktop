@@ -287,6 +287,14 @@ $avatar-size: 44px;
     }
   }
 }
+.profileName {
+  font-size: smaller;
+
+  &:before {
+    content: '~';
+  }
+}
+
 .conversation-list-item {
   cursor: pointer;
   &:hover {

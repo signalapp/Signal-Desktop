@@ -296,6 +296,11 @@ button.hamburger {
   .new-group-update .members .contact .last-timestamp {
     display: none; }
 
+.profileName {
+  font-size: smaller; }
+  .profileName:before {
+    content: '~'; }
+
 .conversation-list-item {
   cursor: pointer; }
   .conversation-list-item:hover {

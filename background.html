@@ -142,6 +142,9 @@
     {{ #number }}
       <span class='conversation-number'>{{ number }}</span>
     {{ /number }}
+    {{ #profileName }}
+      <span class='profileName'>{{ profileName }} </span>
+    {{ /profileName }}
     {{ #isVerified }}
       <span class='verified'><span class='verified-icon'></span> {{ verified }}</span>
     {{ /isVerified }}
@@ -267,7 +270,12 @@
   <script type='text/x-tmpl-mustache' id='message'>
       {{> avatar }}
       <div class='bubble {{ avatar.color }}'>
-          <div class='sender' dir='auto'>{{ sender }}</div>
+          <div class='sender' dir='auto'>
+            {{ sender }}
+            {{ #profileName }}
+              <span class='profileName'>{{ profileName }} </span>
+            {{ /profileName }}
+          </div>
           <div class='attachments'></div>
           <p class='content' dir='auto'>
             {{ #message }}<span class='body'>{{ message }}</span>{{ /message }}
@@ -321,8 +329,13 @@
     <span>{{ name }}</span><span class='remove'>x</span>
   </script>
   <script type='text/x-tmpl-mustache' id='contact_name_and_number'>
-      <h3 class='name' dir='auto'> {{ title }} </h3>
-      <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
+    <h3 class='name' dir='auto'>
+      {{ title }}
+      {{ #profileName }}
+        <span class='profileName'>{{ profileName }} </span>
+      {{ /profileName }}
+    </h3>
+    <div class='number'>{{ #isVerified }}<span class='verified-icon'></span> {{ verified }} &middot;{{ /isVerified }} {{ number }}</div>
   </script>
   <script type='text/x-tmpl-mustache' id='contact'>
       {{> avatar }}
