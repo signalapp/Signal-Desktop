@@ -146,7 +146,15 @@ function createWindow () {
   });
 
   ipc.on('show-window', function() {
-    mainWindow.show();
+    // Using focus() instead of show() seems to be important on Windows when our window
+    //   has been docked using Aero Snap/Snap Assist. A full .show() call here will cause
+    //   the window to reposition:
+    //   https://github.com/WhisperSystems/Signal-Desktop/issues/1429
+    if (mainWindow.isVisible()) {
+      mainWindow.focus();
+    } else {
+      mainWindow.show();
+    }
   });
 }
 
