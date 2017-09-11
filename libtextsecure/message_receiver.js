@@ -762,6 +762,9 @@ MessageReceiver.prototype.extend({
         } else if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE ) {
             decrypted.body = null;
             decrypted.attachments = [];
+        } else if (decrypted.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
+            decrypted.body = null;
+            decrypted.attachments = [];
         } else if (decrypted.flags != 0) {
             throw new Error("Unknown flags in message");
         }

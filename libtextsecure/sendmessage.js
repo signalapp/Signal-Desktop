@@ -23,6 +23,7 @@ function Message(options) {
     this.timestamp   = options.timestamp;
     this.needsSync   = options.needsSync;
     this.expireTimer = options.expireTimer;
+    this.profileKey  = options.profileKey;
 
     if (!(this.recipients instanceof Array) || this.recipients.length < 1) {
         throw new Error('Invalid recipient list');
@@ -96,6 +97,10 @@ Message.prototype = {
             proto.expireTimer = this.expireTimer;
         }
 
+        if (this.profileKey) {
+          proto.profileKey = this.profileKey;
+        }
+
         this.dataMessage = proto;
         return proto;
     },
@@ -104,8 +109,8 @@ Message.prototype = {
     }
 };
 
-function MessageSender(url, username, password) {
-    this.server = new TextSecureServer(url, username, password);
+function MessageSender(url, username, password, cdn_url) {
+    this.server = new TextSecureServer(url, username, password, cdn_url);
     this.pendingMessages = {};
 }
 
@@ -319,6 +324,9 @@ MessageSender.prototype = {
     getProfile: function(number) {
         return this.server.getProfile(number);
     },
+    getAvatar: function(path) {
+        return this.server.getAvatar(path);
+    },
 
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
@@ -429,14 +437,15 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer) {
+    sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer, profileKey) {
         return this.sendMessage({
             recipients  : [number],
             body        : messageText,
             timestamp   : timestamp,
             attachments : attachments,
             needsSync   : true,
-            expireTimer : expireTimer
+            expireTimer : expireTimer,
+            profileKey  : profileKey
         });
     },
 
@@ -461,7 +470,7 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer) {
+    sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer, profileKey) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -479,6 +488,7 @@ MessageSender.prototype = {
                 attachments : attachments,
                 needsSync   : true,
                 expireTimer : expireTimer,
+                profileKey  : profileKey,
                 group: {
                     id: groupId,
                     type: textsecure.protobuf.GroupContext.Type.DELIVER
@@ -594,7 +604,7 @@ MessageSender.prototype = {
             }.bind(this));
         });
     },
-    sendExpirationTimerUpdateToGroup: function(groupId, expireTimer, timestamp) {
+    sendExpirationTimerUpdateToGroup: function(groupId, expireTimer, timestamp, profileKey) {
         return textsecure.storage.groups.getNumbers(groupId).then(function(numbers) {
             if (numbers === undefined)
                 return Promise.reject(new Error("Unknown Group"));
@@ -609,6 +619,7 @@ MessageSender.prototype = {
                 timestamp   : timestamp,
                 needsSync   : true,
                 expireTimer : expireTimer,
+                profileKey  : profileKey,
                 flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
                 group: {
                     id: groupId,
@@ -617,13 +628,14 @@ MessageSender.prototype = {
             });
         }.bind(this));
     },
-    sendExpirationTimerUpdateToNumber: function(number, expireTimer, timestamp) {
+    sendExpirationTimerUpdateToNumber: function(number, expireTimer, timestamp, profileKey) {
         var proto = new textsecure.protobuf.DataMessage();
         return this.sendMessage({
             recipients  : [number],
             timestamp   : timestamp,
             needsSync   : true,
             expireTimer : expireTimer,
+            profileKey  : profileKey,
             flags       : textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
         });
     }
@@ -631,8 +643,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function(url, username, password) {
-    var sender = new MessageSender(url, username, password);
+textsecure.MessageSender = function(url, username, password, cdn_url) {
+    var sender = new MessageSender(url, username, password, cdn_url);
     textsecure.replay.registerFunction(sender.tryMessageAgain.bind(sender), textsecure.replay.Type.ENCRYPT_MESSAGE);
     textsecure.replay.registerFunction(sender.retransmitMessage.bind(sender), textsecure.replay.Type.TRANSMIT_MESSAGE);
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
@@ -653,6 +665,7 @@ textsecure.MessageSender = function(url, username, password) {
     this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
     this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
     this.getProfile                        = sender.getProfile                       .bind(sender);
+    this.getAvatar                         = sender.getAvatar                        .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
     this.syncVerification                  = sender.syncVerification                 .bind(sender);
 };

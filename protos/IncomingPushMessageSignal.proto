@@ -83,6 +83,7 @@ message DataMessage {
   enum Flags {
     END_SESSION = 1;
     EXPIRATION_TIMER_UPDATE = 2;
+    PROFILE_KEY_UPDATE      = 4;
   }
 
   optional string             body        = 1;
@@ -90,6 +91,7 @@ message DataMessage {
   optional GroupContext       group       = 3;
   optional uint32             flags       = 4;
   optional uint32             expireTimer = 5;
+  optional bytes              profileKey  = 6;
 }
 
 message SyncMessage {
@@ -180,6 +182,7 @@ message ContactDetails {
   optional Avatar avatar     = 3;
   optional string color      = 4;
   optional Verified verified = 5;
+  optional bytes profileKey  = 6;
 }
 
 message GroupDetails {

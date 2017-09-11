@@ -1,5 +1,6 @@
 {
   "serverUrl": "https://textsecure-service-staging.whispersystems.org",
+  "cdnUrl": "https://cdn-staging.signal.org",
   "disableAutoUpdate": false,
   "openDevTools": false,
   "buildExpiration": 0,

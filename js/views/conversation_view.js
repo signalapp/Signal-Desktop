@@ -73,6 +73,7 @@
                 verified: i18n('verified'),
                 name: this.model.getName(),
                 number: this.model.getNumber(),
+                profileName: this.model.getProfileName()
             };
         }
     });
@@ -105,6 +106,7 @@
             this.listenTo(this.model, 'destroy', this.stopListening);
             this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
             this.listenTo(this.model, 'change:color', this.updateColor);
+            this.listenTo(this.model, 'change:avatar change:profileAvatar', this.updateAvatar);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'delivered', this.updateMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
@@ -986,6 +988,15 @@
             if (color) {
                 header.addClass(color);
             }
+            var avatarView = new (Whisper.View.extend({
+                templateName: 'avatar',
+                render_attributes: { avatar: this.model.getAvatar() }
+            }))();
+            header.find('.avatar').replaceWith(avatarView.render().$('.avatar'));
+        },
+
+        updateAvatar: function(model) {
+            var header = this.$('.conversation-header');
             var avatarView = new (Whisper.View.extend({
                 templateName: 'avatar',
                 render_attributes: { avatar: this.model.getAvatar() }

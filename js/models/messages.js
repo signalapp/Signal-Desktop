@@ -456,6 +456,19 @@
                         });
                     }
 
+                    if (dataMessage.profileKey) {
+                      var profileKey = dataMessage.profileKey.toArrayBuffer();
+                      if (source == textsecure.storage.user.getNumber()) {
+                        conversation.set({profileSharing: true});
+                      } else if (conversation.isPrivate()) {
+                        conversation.set({profileKey: profileKey});
+                      } else {
+                        ConversationController.getOrCreateAndWait(source, 'private').then(function(sender) {
+                          sender.setProfileKey(profileKey);
+                        });
+                      }
+                    }
+
                     var handleError = function(error) {
                         error = error && error.stack ? error.stack : error;
                         console.log('handleDataMessage', message.idForLogging(), 'error:', error);
