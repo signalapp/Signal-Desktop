@@ -73,6 +73,7 @@
 
         this.on('change:avatar', this.updateAvatarUrl);
         this.on('change:profileAvatar', this.updateAvatarUrl);
+        this.on('change:profileKey', this.onChangeProfileKey);
         this.on('destroy', this.revokeAvatarUrl);
     },
 
@@ -762,6 +763,12 @@
 
             return Promise.all(promises);
         }.bind(this));
+    },
+
+    onChangeProfileKey: function() {
+        if (this.isPrivate()) {
+            this.getProfiles();
+        }
     },
 
     getProfiles: function() {
