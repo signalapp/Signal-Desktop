@@ -804,7 +804,9 @@
                 c.setProfileAvatar(profile.avatar)
               ]).then(function() {
                 // success
-                c.save();
+                return new Promise(function(resolve, reject) {
+                  c.save().then(resolve, reject);
+                });
               }, function(e) {
                 // fail
                 if (e.name === 'ProfileDecryptError') {
