@@ -343,13 +343,10 @@
             if (dataMessage.group) {
                 conversationId = dataMessage.group.id;
             }
-            console.log('queuing handleDataMessage', message.idForLogging());
 
             var conversation = ConversationController.get(conversationId);
             return conversation.queueJob(function() {
                 return new Promise(function(resolve) {
-                    console.log('starting handleDataMessage', message.idForLogging());
-
                     var now = new Date().getTime();
                     var attributes = { type: 'private' };
                     if (dataMessage.group) {
@@ -459,8 +456,6 @@
                         });
                     }
 
-                    console.log('beginning saves in handleDataMessage', message.idForLogging());
-
                     var handleError = function(error) {
                         error = error && error.stack ? error.stack : error;
                         console.log('handleDataMessage', message.idForLogging(), 'error:', error);
@@ -491,8 +486,6 @@
                                     if (message.get('unread') && options.initialLoadComplete) {
                                         conversation.notify(message);
                                     }
-
-                                    console.log('done with handleDataMessage', message.idForLogging());
 
                                     confirm();
                                     return resolve();

@@ -38487,7 +38487,6 @@ MessageReceiver.prototype.extend({
     },
     addToCache: function(envelope, plaintext) {
         var id = this.getEnvelopeId(envelope);
-        console.log('addToCache', id);
         var data = {
             id: id,
             envelope: plaintext,
@@ -38498,7 +38497,6 @@ MessageReceiver.prototype.extend({
     },
     updateCache: function(envelope, plaintext) {
         var id = this.getEnvelopeId(envelope);
-        console.log('updateCache', id);
         var data = {
             decrypted: plaintext
         };
@@ -38506,7 +38504,6 @@ MessageReceiver.prototype.extend({
     },
     removeFromCache: function(envelope) {
         var id = this.getEnvelopeId(envelope);
-        console.log('removeFromCache', id);
         return textsecure.storage.unprocessed.remove(id);
     },
     queueDecryptedEnvelope: function(envelope, plaintext) {
