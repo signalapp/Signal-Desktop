@@ -126,6 +126,15 @@ module.exports = function(grunt) {
       ]
     },
     copy: {
+      deps: {
+        files: [{
+          src: 'components/mp3lameencoder/lib/Mp3LameEncoder.js',
+          dest: 'js/Mp3LameEncoder.min.js'
+        }, {
+          src: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
+          dest: 'js/WebAudioRecorderMp3.js'
+        }],
+      },
       res: {
         files: [{ expand: true, dest: 'dist/', src: ['<%= dist.res %>'] }],
       },
@@ -491,9 +500,9 @@ module.exports = function(grunt) {
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'connect', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests']);
-  grunt.registerTask('copy_dist', ['gitinfo', 'copy']);
+  grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);
-  grunt.registerTask('default', ['concat', 'sass', 'date']);
+  grunt.registerTask('default', ['concat', 'copy:deps', 'sass', 'date']);
 
 };
