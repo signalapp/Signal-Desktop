@@ -38392,6 +38392,9 @@ MessageReceiver.prototype.extend({
         if (ev.code === 3000) {
             return;
         }
+        if (ev.code === 3001) {
+            this.onEmpty();
+        }
         // possible 403 or network issue. Make an request to confirm
         return this.server.getDevices(this.number)
             .then(this.connect.bind(this)) // No HTTP error? Reconnect
