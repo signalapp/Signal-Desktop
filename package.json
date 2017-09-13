@@ -91,6 +91,9 @@
     },
     "linux": {
       "category": "Network",
+      "desktop": {
+        "StartupWMClass": "Signal"
+      },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
         "deb",
