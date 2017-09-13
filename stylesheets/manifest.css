@@ -3521,12 +3521,12 @@ li.entry .error-icon-container {
     max-width: 100%; }
   .install ul.country-list {
     min-width: 197px !important; }
-  .install .confirmation-dialog, .install .progress-dialog, .install .error-dialog {
+  .install .confirmation-dialog, .install .progress-dialog {
     padding: 1em;
     text-align: left; }
   .install .number {
     text-align: center; }
-  .install .confirmation-dialog button, .install .error-dialog button {
+  .install .confirmation-dialog button {
     float: right;
     margin-left: 10px; }
   .install .progress-dialog {
@@ -3546,8 +3546,6 @@ li.entry .error-icon-container {
       height: 100%;
       background-color: #a2d2f4;
       transition: width 0.25s; }
-  .install .error-dialog {
-    display: none; }
   .install .modal-container {
     display: none;
     position: absolute;

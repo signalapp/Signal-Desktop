@@ -11,6 +11,7 @@
         ENTER_NAME: 4,
         PROGRESS_BAR: 5,
         TOO_MANY_DEVICES: 'TooManyDevices',
+        NETWORK_ERROR: 'NetworkError',
     };
 
     Whisper.InstallView = Whisper.View.extend({
@@ -31,7 +32,9 @@
                 installComputerName: i18n('installComputerName'),
                 installFinalButton: i18n('installFinalButton'),
                 installTooManyDevices: i18n('installTooManyDevices'),
+                installConnectionFailed: i18n('installConnectionFailed'),
                 ok: i18n('ok'),
+                tryAgain: i18n('tryAgain'),
                 development: window.config.environment === 'development'
             };
         },
@@ -74,10 +77,13 @@
             if (this.canceled) {
                 return;
             }
+            console.log('provisioning failed', e.stack);
 
             if (e.message === 'websocket closed') {
                 this.showConnectionError();
                 this.trigger('disconnected');
+            } else if (e.name === 'HTTPError' && e.code == -1) {
+                this.selectStep(Steps.NETWORK_ERROR);
             } else if (e.name === 'HTTPError' && e.code == 411) {
                 this.showTooManyDevices();
             } else {
