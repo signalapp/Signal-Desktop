@@ -90,6 +90,7 @@
       ]
     },
     "linux": {
+      "category": "Network",
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [
         "deb",
