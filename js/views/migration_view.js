@@ -45,8 +45,9 @@
     templateName: 'app-migration-screen',
     className: 'app-loading-screen',
     events: {
+      'click .install': 'onClickInstall',
       'click .export': 'onClickExport',
-      'click .debug-log': 'onClickDebugLog'
+      'click .debug-log': 'onClickDebugLog',
     },
     initialize: function() {
       if (!Whisper.Migration.inProgress()) {
@@ -69,6 +70,7 @@
       var exportButton;
       var hideProgress = Whisper.Migration.isComplete();
       var debugLogButton = i18n('submitDebugLog');
+      var installButton = i18n('installNewSignal');
 
       if (this.error) {
         return {
@@ -91,12 +93,14 @@
           break;
         case State.DISCONNECTING:
           message = i18n('migrationDisconnecting');
+          installButton = null;
           break;
         default:
           hideProgress = true;
           message = i18n('exportInstructions');
           exportButton = i18n('export');
           debugLogButton = null;
+          installButton = null;
       }
 
       return {
@@ -104,7 +108,12 @@
         message: message,
         exportButton: exportButton,
         debugLogButton: debugLogButton,
+        installButton: installButton,
       };
+    },
+    onClickInstall: function() {
+      var url = 'https://support.whispersystems.org/hc/en-us/articles/214507138';
+      window.open(url, '_blank');
     },
     onClickDebugLog: function() {
       this.openDebugLog();

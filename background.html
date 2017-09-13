@@ -14,6 +14,9 @@
       {{ /hideProgress }}
       <div class='message'>{{& message }}</div>
       <div>
+        {{ #installButton }}
+          <button class='install grey'>{{ installButton }}</button>
+        {{ /installButton }}
         {{ #exportButton }}
           <button class='export grey'>{{ exportButton }}</button>
         {{ /exportButton }}
