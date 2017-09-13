@@ -36,11 +36,11 @@
       "description": "Displayed while we wait for pending incoming messages to process"
     },
     "exporting": {
-      "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+      "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
       "description": "Message shown on the migration screen while we export data"
     },
     "exportComplete": {
-      "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+      "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
       "description": "Message shown on the migration screen when we are done exporting data",
       "placeholders": {
         "location": {
@@ -48,6 +48,10 @@
           "example": "/Users/someone/somewhere"
         }
       }
+    },
+    "installNewSignal": {
+      "message": "Install new Signal Desktop",
+      "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "selectedLocation": {
       "message": "your selected location",
