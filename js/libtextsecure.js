@@ -38261,7 +38261,9 @@ var TextSecureServer = (function() {
                     textsecure.storage.put('signaling_key', signalingKey);
                     textsecure.storage.put('password', password);
                     textsecure.storage.put('registrationId', registrationId);
-                    textsecure.storage.put('profileKey', profileKey);
+                    if (profileKey) {
+                        textsecure.storage.put('profileKey', profileKey);
+                    }
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
@@ -40285,13 +40287,16 @@ ProvisioningCipher.prototype = {
             var privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
 
             return libsignal.Curve.async.createKeyPair(privKey).then(function(keyPair) {
-                return {
+                var ret = {
                     identityKeyPair  : keyPair,
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
                     userAgent        : provisionMessage.userAgent,
-                    profileKey       : provisionMessage.profileKey.toArrayBuffer()
                 };
+                if (provisionMessage.profileKey) {
+                  ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
+                }
+                return ret;
             });
         });
     },

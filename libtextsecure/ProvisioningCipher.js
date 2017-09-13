@@ -31,13 +31,16 @@ ProvisioningCipher.prototype = {
             var privKey = provisionMessage.identityKeyPrivate.toArrayBuffer();
 
             return libsignal.Curve.async.createKeyPair(privKey).then(function(keyPair) {
-                return {
+                var ret = {
                     identityKeyPair  : keyPair,
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
                     userAgent        : provisionMessage.userAgent,
-                    profileKey       : provisionMessage.profileKey.toArrayBuffer()
                 };
+                if (provisionMessage.profileKey) {
+                  ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
+                }
+                return ret;
             });
         });
     },
