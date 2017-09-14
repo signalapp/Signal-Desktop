@@ -143,6 +143,18 @@
             SERVER_URL, SERVER_PORTS, USERNAME, PASSWORD
         );
 
+        // Because v0.43.2 introduced a bug that lost contact details, v0.43.4 introduces
+        //   a one-time contact sync to restore all lost contact/group information. We
+        //   disable this checking if a user is first registering.
+        var key = 'chrome-contact-sync-v0.43.4';
+        if (!storage.get(key)) {
+            storage.put(key, true);
+
+            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
+                window.getSyncRequest();
+            }
+        }
+
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
