@@ -84,6 +84,14 @@
                     .removeClass('android-dark')
                     .removeClass('android')
                     .addClass(theme);
+
+            // Need to add this to <body> as well, so debug log dialog is themed.
+            //   (Can't use only this location for the theme class, because the 'index'
+            //   class on our <div> overrides it).
+            $(document.body).removeClass('ios')
+                    .removeClass('android-dark')
+                    .removeClass('android')
+                    .addClass(theme);
         },
         initialize: function (options) {
             options = options || {};
