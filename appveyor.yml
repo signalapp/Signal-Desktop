@@ -10,19 +10,18 @@ install:
   - set PATH=C:\Ruby23-x64\bin;%PATH%
   - ps: Install-Product node 6 x64
   - yarn install
-  - type node_modules\.bin\grunt.cmd
 
 build_script:
   - yarn run icon-gen
   - del /f images\emoji\apple
   - mkdir images\emoji\apple
   - xcopy /Q components\emojidata\img-apple-64 images\emoji\apple
-  - node_modules\.bin\grunt
+  - node build\grunt.js
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
 test_script:
-  - node_modules\.bin\grunt test-release:win
-  - node_modules\.bin\grunt test
+  - node build\grunt.js test-release:win
+  - node build\grunt.js test
 
 artifacts:
   - path: dist/*.*
