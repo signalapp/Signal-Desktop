@@ -80,7 +80,7 @@
         "description": ""
     },
     "showMore": {
-        "message": "Details",
+        "message": "विवरण",
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
@@ -138,7 +138,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "जब संदेश आए, सूचना दिखाए जिस्से पता चले:",
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
@@ -154,7 +154,7 @@
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "सिग्नल पुनः आरंभ करे ",
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
@@ -182,7 +182,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "लिखचित की शुरुवाद करने के लिए कॉंटॅक्ट या ग्रूप चुने ",
         "description": ""
     },
     "exportError": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -266,7 +266,7 @@
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "नया संदेश",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
@@ -286,7 +286,7 @@
         "description": ""
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "यह अभिलेख ऑनलाइन भेजा जाएगा अन्या सहयोगियो के जाँच पड़ताल के लिए. भेजने से पहेले ठीक से सनपदान कर ले",
         "description": ""
     },
     "newPhoneNumber": {
@@ -338,7 +338,7 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "सेफ्टी नंबर की सत्यता के बारे मई अधिक जानकारी प्राप्त करे ",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "unreadMessages": {
@@ -420,7 +420,7 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "विवरण छुपाए",
         "description": "Hides the details of a key change"
     },
     "theme": {
@@ -432,7 +432,7 @@
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "गोपनीयता संभव है. सिग्नल उसे आसान बनता है",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -596,11 +596,11 @@
         "description": ""
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "संधेश भेजा नही जा सका",
         "description": "Informational label, appears on messages that failed to send"
     },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "सूचनाए बंद करे ",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -638,7 +638,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "सुरक्षित सत्र पुनः स्थापित करे ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -694,7 +694,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "नए संदेश",
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
@@ -749,8 +749,12 @@
         "message": "सन्देश विवरण",
         "description": ""
     },
+    "installNewSignal": {
+        "message": "Install new Signal Desktop",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
+    },
     "verify": {
-        "message": "Mark as verified",
+        "message": "साटिपिट होने का मुहर लगा दे",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -762,7 +766,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "कुछ प्रप्टकर्ताओ को भेजना संभव नई हो पाया. कृपया अपने इंटरनेट कनेक्षन की जाँच कीजिए ",
         "description": ""
     },
     "ok": {
@@ -818,7 +822,7 @@
         "description": "Description of the export process"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "सूचनाएं",
         "description": "Header for notification settings"
     },
     "resend": {

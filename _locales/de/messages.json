@@ -84,7 +84,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellte Nummer mit der Nummer auf dem Gerät deines Kontakts.",
+        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellte Nummer mit jener auf dem Gerät deines Kontakts.",
         "description": "",
         "placeholders": {
             "name": {
@@ -186,7 +186,7 @@
         "description": ""
     },
     "exportError": {
-        "message": "Leider gab es während des Exportierens ein Problem. Überprüfe zuerst dein leeres Zielverzeichnis auf Schreibzugriff und ausreichenden Speicherplatz. Übermittle dann ein Diagnoseprotokoll, sodass wir dir bei der Migration helfen können!",
+        "message": "Leider gab es während des Exportierens ein Problem. Überprüfe zuerst dein leeres Zielverzeichnis auf Schreibzugriffsrechte und ausreichenden Speicherplatz. Übermittle dann ein Diagnoseprotokoll, sodass wir dir bei der Migration helfen können!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "installConnecting": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Bitte warte, während deine Daten exportiert werden. Während dieser Zeit kannst du Signal weiterhin auf deinem Telefon und anderen Geräten verwenden. Du kannst auch <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>das neue Signal Desktop installieren</a>.",
+        "message": "Bitte warte, während deine Daten exportiert werden. Dies kann einige Minuten dauern. Während dieser Zeit kannst du Signal weiterhin auf deinem Telefon und anderen Geräten verwenden.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Deine Daten wurden exportiert nach: <p><b>$location$</b></p> Um die Migration abzuschließen, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>installiere das neue Signal Desktop</a> und importiere diese Daten.",
+        "message": "Deine Daten wurde exportiert nach: <p><b>$location$</b></p> Du wirst diese Daten importieren können, sobald du <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>das neue Signal Desktop</a> einrichtest.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -749,8 +749,12 @@
         "message": "Nachrichtendetails",
         "description": ""
     },
+    "installNewSignal": {
+        "message": "Neues Signal Desktop installieren",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
+    },
     "verify": {
-        "message": "Verifizieren",
+        "message": "Als verifiziert markieren",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {

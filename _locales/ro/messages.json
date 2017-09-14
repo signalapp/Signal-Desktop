@@ -106,7 +106,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Exportă din nou",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
@@ -194,7 +194,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "locația ta selectată",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -228,7 +228,7 @@
         "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "migrate": {
-        "message": "Migrate",
+        "message": "Migrează",
         "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -562,7 +562,7 @@
         "description": ""
     },
     "migrationDisconnecting": {
-        "message": "Disconnecting...",
+        "message": "Se deconectează...",
         "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -749,6 +749,10 @@
         "message": "Detalii mesaj",
         "description": ""
     },
+    "installNewSignal": {
+        "message": "Install new Signal Desktop",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
+    },
     "verify": {
         "message": "Marchează ca fiind verificat",
         "description": ""
@@ -778,7 +782,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {
-        "message": "Choose directory",
+        "message": "Alege un director",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {

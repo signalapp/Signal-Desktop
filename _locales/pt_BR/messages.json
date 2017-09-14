@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Por favor, aguarde enquanto exportamos os seus dados. Você pode continuar a usar Signal no seu celular e em outros aparelhos durante isso. Você pode ainda<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>instalar o novo Signal Desktop</a>.",
+        "message": "Por favor, aguarde enquanto exportamos os seus dados, o que pode levar até alguns minutos. Durante esse tempo, você pode continuar a usar Signal no seu celular e em outros aparelhos.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Seus dados foram exportados para: <p><b>$location$</b></p>  Para completar a migração, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>instale o novo Signal Desktop</a> e importe esses dados.",
+        "message": "Seus dados foram exportados para: <p><b>$location$</b></p>  Você poderá importá-los assim que tiver instalado <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>o novo Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -748,6 +748,10 @@
     "messageDetail": {
         "message": "Detalhe da mensagem",
         "description": ""
+    },
+    "installNewSignal": {
+        "message": "Instalar o novo Signal Desktop",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {
         "message": "Marcar como verificado",

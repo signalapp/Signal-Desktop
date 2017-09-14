@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Prosimo, počakajte, dokler poteka izvoz podatkov. Med tem lahko še vedno uporabljate aplikacijo Signal na vašem telefonu in drugih napravah. V tem času lahko tudi<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>namestite novo aplikacijo Signal Desktop</a>.",
+        "message": "Prosimo, počakajte, dokler poteka izvoz podatkov. To lahko traja nekaj minut. Med tem lahko še vedno uporabljate aplikacijo Signal na vašem telefonu in drugih napravah.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Vaši podatki so bili izvoženi na: <p><b>$location$</b></p> Za končanje postopka <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>namestite novo aplikacijo Signal Desktop</a> in nato uvozite podatke.",
+        "message": "Vaši izvoženi podatki so bili shranjeni na: <p><b>$location$</b></p> Ko boste namestili <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>novo aplikacijo Signal Desktop</a> jih boste lahko uvozili vanjo.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -748,6 +748,10 @@
     "messageDetail": {
         "message": "Podrobnosti sporočila",
         "description": ""
+    },
+    "installNewSignal": {
+        "message": "Namesti novi Signal Desktop",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {
         "message": "Označi kot potrjeno.",

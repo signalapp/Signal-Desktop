@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Kérlek várj, míg az adatok exportálása elkészül. Eközben továbbra is használhatod a Signal-t telefonodon és más eszközeiden, vagy elkezdheted <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>az új Signal Desktop</a> telepítését.",
+        "message": "Kérlek várj, míg az adatok exportálása befejeződik. A művelet több percet is igénybe vehet. A folyamat során továbbra is használhatod a Signal-t telefonodon vagy egyéb eszközeiden.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Az adataid sikeresen exportálva lettek ide: <p><b>$location$</b></p> A migrálás bejezéséhez, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>telepítsd az új Signal Desktop alkalmazást</a> majd importáld a kimentett adatokat.",
+        "message": "Az adatok exportálása a következő könyvtárba megtörtént: <p><b>$location$</b></p> <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>Az új Signal telepítését követően</a> ezek az adatok importálhatóak lesznek.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -748,6 +748,10 @@
     "messageDetail": {
         "message": "Üzenet részletei",
         "description": ""
+    },
+    "installNewSignal": {
+        "message": "Új Signal Desktop telepítése",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {
         "message": "Megjelölés ellenőrzöttként",

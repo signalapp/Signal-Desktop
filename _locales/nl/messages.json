@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Even geduld, we exporteren je gegevens. Je kan tijdens de procedure Signal nog steeds gebruiken op je telefoon en andere apparaat. Je kan ook <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>de nieuwe Signal Desktop installeren</a>.",
+        "message": "Even geduld, we exporteren je gegevens. Dit kan enkele minuten duren. Je kan tijdens de procedure Signal nog steeds gebruiken op je telefoon en andere apparaten.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Je gegevens zijn geëxporteerd naar: <p><b>$location$</b></p> <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>Installeer de nieuwe Signal Desktop</a> om de migratie te voltooien en deze gegevens te importeren.",
+        "message": "Je gegevens zijn geëxporteerd naar: <p><b>$location$</b></p> Je zal deze gegevens kunnen importeren wanneer je <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>de nieuwe Signal Desktop</a> instelt.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -748,6 +748,10 @@
     "messageDetail": {
         "message": "Berichtdetails",
         "description": ""
+    },
+    "installNewSignal": {
+        "message": "Nieuwe Signal Desktop installeren",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {
         "message": "Markeren als geverifieerd",

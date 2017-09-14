@@ -8,11 +8,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "Zobacz",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "Uaktualnianie bazy danych. To może zająć chwilę...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -76,7 +76,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "message": "Na pewno? Kliknięcie 'usuń' spowoduje bezpowrotne usunięcie wiadomości z tego urządzenia.",
         "description": ""
     },
     "showMore": {
@@ -106,7 +106,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Eksportuj ponownie",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
@@ -166,7 +166,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "confirmMigration": {
-        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
+        "message": "Rozpocząć migrację? W jej trakcie nie będzie możliwości wysyłania i odbierania wiadomości Signal.",
         "description": "Confirmation dialogue when beginning migration"
     },
     "incomingError": {
@@ -178,7 +178,7 @@
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "Zweryfikowany",
         "description": ""
     },
     "selectAContact": {
@@ -186,7 +186,7 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Niestety coś poszło nie tak podczas eksportu. Najpierw upewnij się, czy pusty folder docelowy na uprawnienia do zapisu i dość wolnego miejsca.  Wówczas wyślij log debugowania, aby otrzymać pomoc przy migracji.",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "installConnecting": {
@@ -194,7 +194,7 @@
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "wybrana lokalizacja",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -210,7 +210,7 @@
         }
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Numer bezpieczeństwa $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu $name$przeinstalował Signal. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -224,11 +224,11 @@
         "description": "Label for the time a message was sent"
     },
     "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
+        "message": "Aplikacja Signal Desktop Chrome nie jest już wspierana. Chcesz zmigrować dane do nowej aplikacji Signal Desktop?",
         "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "migrate": {
-        "message": "Migrate",
+        "message": "Migruj",
         "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. You can still use Signal on your phone and other devices during this time. You can also <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a>.",
+        "message": "Proszę poczekać kiedy eksportujemy Twoje dane. Może to potrwać kilka minut. W międzyczasie możesz używać Signal na swoim telefonie komórkowym i innych urządzeniach.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -294,7 +294,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "Twój numer bezpieczeństwa z $name$zmienił się. Naciśnij, aby zobaczyć.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "Część odbiorców nie otrzymała wiadomości.",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -386,7 +386,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "Ładowanie. Załadowanych wiadomości: $count$ ",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -440,7 +440,7 @@
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "Nie zweryfikowałeś swojego numeru bezpieczeństwa z $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -458,7 +458,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Twoje numery bezpieczeństwa z kilkoma członkami grupy zmieniły się i są niezweryfikowane . Naciśnij, aby zobaczyć.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -502,7 +502,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "Oznaczyłeś numer bezpieczeństwa z $name$ jako niezweryfikowany.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -562,7 +562,7 @@
         "description": ""
     },
     "migrationDisconnecting": {
-        "message": "Disconnecting...",
+        "message": "Rozłączanie....",
         "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> To complete the migration, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138-How-do-I-install-Signal-Desktop-'>install the new Signal Desktop</a> and import this data.",
+        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -592,7 +592,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "Oznacz jako niezweryfikowany",
         "description": ""
     },
     "messageNotSent": {
@@ -620,7 +620,7 @@
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "Wyślij mimo wszystko",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
@@ -714,7 +714,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed. Click to show.",
+        "message": "Twój numer bezpieczeństwa z $name$zmienił się. Naciśnij, aby zobaczyć.",
         "description": "",
         "placeholders": {
             "name": {
@@ -724,7 +724,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Numer bezpieczeństwa z $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub, że po prostu$name$ przeinstalował Signal. Możesz zweryfikować jego nowy numer bezpieczeństwa poniżej.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -749,8 +749,12 @@
         "message": "Szczegóły wiadomości",
         "description": ""
     },
+    "installNewSignal": {
+        "message": "Zainstaluj nowy Signal Dekstop",
+        "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
+    },
     "verify": {
-        "message": "Mark as verified",
+        "message": "Oznacz jako zweryfikowany",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -778,7 +782,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {
-        "message": "Choose directory",
+        "message": "Wybierz katalog",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
@@ -790,7 +794,7 @@
         "description": ""
     },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Numer bezpieczeństwa, który próbujesz zweryfikować zmienił się. Proszę sprawdź go z $name$. Pamiętaj, że to może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub po prostu $name$przeinstalował Signal. ",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -814,7 +818,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "Pierwszy krok to wybór folderu, w którym znajdą się wyeksportowane dane aplikacji. W tej lokalizacji znajdzie się historia wiadomości i wrażliwe dane kryptograficzne, więc upewnij się, że jest bezpieczna.",
         "description": "Description of the export process"
     },
     "notifications": {
