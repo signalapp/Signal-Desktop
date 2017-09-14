@@ -3,6 +3,10 @@
         "message": "Scroll to bottom of conversation",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
+    "importChooserTitle": {
+        "message": "Choose directory with exported data",
+        "description": "Title of the popup window used to select data previously exported"
+    },
     "timerOption_10_seconds": {
         "message": "10 seconds",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -28,6 +32,10 @@
                 "example": "10"
             }
         }
+    },
+    "importInstructions": {
+        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "description": "Description of the export process"
     },
     "unsupportedAttachment": {
         "message": "Unsupported attachment type. Click to save.",
@@ -80,7 +88,7 @@
         "description": ""
     },
     "showMore": {
-        "message": "Details",
+        "message": "विवरण",
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
@@ -138,7 +146,7 @@
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
-        "message": "When messages arrive, display notifications that reveal:",
+        "message": "जब संदेश आए, सूचना दिखाए जिस्से पता चले:",
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
@@ -154,7 +162,7 @@
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "Restart Signal",
+        "message": "सिग्नल पुनः आरंभ करे ",
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
@@ -164,10 +172,6 @@
     "deleteMessages": {
         "message": "संदेश हटाएँ",
         "description": "Menu item for deleting messages, title case."
-    },
-    "confirmMigration": {
-        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
-        "description": "Confirmation dialogue when beginning migration"
     },
     "incomingError": {
         "message": "Error handling incoming message.",
@@ -182,7 +186,7 @@
         "description": ""
     },
     "selectAContact": {
-        "message": "Select a contact or group to start chatting.",
+        "message": "लिखचित की शुरुवाद करने के लिए कॉंटॅक्ट या ग्रूप चुने ",
         "description": ""
     },
     "exportError": {
@@ -223,14 +227,6 @@
         "message": "भेज दिया",
         "description": "Label for the time a message was sent"
     },
-    "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "Migrate",
-        "description": "Button label to begin migrating this client to Electron"
-    },
     "theyChangedTheTimer": {
         "message": "$name$ set the timer to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -266,12 +262,16 @@
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
-        "message": "New Message",
+        "message": "नया संदेश",
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
         "message": "Only sender name",
         "description": "Label for setting notifications to display sender name only"
+    },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Later",
+        "description": ""
     },
     "from": {
         "message": "किस से",
@@ -281,12 +281,16 @@
         "message": "Permanently delete this conversation?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
+    "installImport": {
+        "message": "Set up with Chrome App export",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
     "unlinkedWarning": {
         "message": "Relink Signal Desktop to your mobile device to continue messaging.",
         "description": ""
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+        "message": "यह अभिलेख ऑनलाइन भेजा जाएगा अन्या सहयोगियो के जाँच पड़ताल के लिए. भेजने से पहेले ठीक से सनपदान कर ले",
         "description": ""
     },
     "newPhoneNumber": {
@@ -338,8 +342,16 @@
         }
     },
     "learnMore": {
-        "message": "Learn more about verifying safety numbers",
+        "message": "सेफ्टी नंबर की सत्यता के बारे मई अधिक जानकारी प्राप्त करे ",
         "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "installNew": {
+        "message": "Set up as new install",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
+    "importing": {
+        "message": "Please wait while we import your data...",
+        "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
         "message": "$count$ Unread Messages",
@@ -420,7 +432,7 @@
         }
     },
     "showLess": {
-        "message": "Hide details",
+        "message": "विवरण छुपाए",
         "description": "Hides the details of a key change"
     },
     "theme": {
@@ -432,7 +444,7 @@
         "description": "Header for a key change dialog"
     },
     "installTagline": {
-        "message": "Privacy is possible. Signal makes it easy.",
+        "message": "गोपनीयता संभव है. सिग्नल उसे आसान बनता है",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "audioNotificationDescription": {
@@ -473,6 +485,10 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "chooseDirectory": {
+        "message": "Choose directory",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -484,6 +500,14 @@
     "timerOption_1_day_abbreviated": {
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Restart",
+        "description": ""
+    },
+    "importButton": {
+        "message": "Import",
+        "description": ""
     },
     "sync": {
         "message": "Contacts",
@@ -553,21 +577,29 @@
         "message": "Delete this message",
         "description": ""
     },
+    "autoUpdateNewVersionInstructions": {
+        "message": "Press Restart to apply the updates.",
+        "description": ""
+    },
     "timerOption_0_seconds": {
         "message": "off",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "importError": {
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
         "description": ""
     },
-    "migrationDisconnecting": {
-        "message": "Disconnecting...",
-        "description": "Displayed while we wait for pending incoming messages to process"
-    },
     "invalidNumberError": {
         "message": "Invalid number",
         "description": "When a person inputs a number that is invalid"
+    },
+    "importComplete": {
+        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "सिग्नल डेस्कटॉप में आपका स्वागत है",
@@ -596,11 +628,15 @@
         "description": ""
     },
     "messageNotSent": {
-        "message": "Message not sent.",
+        "message": "संधेश भेजा नही जा सका",
         "description": "Informational label, appears on messages that failed to send"
     },
+    "autoUpdateNewVersionMessage": {
+        "message": "There is a new version of Signal available.",
+        "description": ""
+    },
     "disableNotifications": {
-        "message": "Disable notifications",
+        "message": "सूचनाए बंद करे ",
         "description": "Label for disabling notifications"
     },
     "cancel": {
@@ -638,7 +674,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
-        "message": "Secure session reset",
+        "message": "सुरक्षित सत्र पुनः स्थापित करे ",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -672,8 +708,8 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your Android phone.<br /> We'll link your devices and keep your messages in sync.",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
                 "content": "$1",
@@ -694,7 +730,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
-        "message": "New Messages",
+        "message": "नए संदेश",
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
@@ -749,8 +785,16 @@
         "message": "सन्देश विवरण",
         "description": ""
     },
+    "exportChooserTitle": {
+        "message": "Choose target directory for data",
+        "description": "Title of the popup window used to select data storage location"
+    },
     "verify": {
-        "message": "Mark as verified",
+        "message": "साटिपिट होने का मुहर लगा दे",
+        "description": ""
+    },
+    "exportButton": {
+        "message": "Export",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -762,7 +806,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "Failed to send to some recipients. Check your network connection.",
+        "message": "कुछ प्रप्टकर्ताओ को भेजना संभव नई हो पाया. कृपया अपने इंटरनेट कनेक्षन की जाँच कीजिए ",
         "description": ""
     },
     "ok": {
@@ -776,10 +820,6 @@
     "changedSinceVerifiedMultiple": {
         "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "export": {
-        "message": "Choose directory",
-        "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
         "message": "डिबग लॉग जमा करें",
@@ -809,6 +849,10 @@
             }
         }
     },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signal update available",
+        "description": ""
+    },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -818,8 +862,12 @@
         "description": "Description of the export process"
     },
     "notifications": {
-        "message": "Notifications",
+        "message": "सूचनाएं",
         "description": "Header for notification settings"
+    },
+    "tryAgain": {
+        "message": "Try again",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "पुन: भेजें",
