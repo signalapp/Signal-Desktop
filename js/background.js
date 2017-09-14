@@ -147,13 +147,10 @@
         //   a one-time contact sync to restore all lost contact/group information. We
         //   disable this checking if a user is first registering.
         var key = 'chrome-contact-sync-v0.43.4';
-        if (firstRun) {
-            storage.put(key, true);
-        }
         if (!storage.get(key)) {
             storage.put(key, true);
 
-            if (textsecure.storage.user.getDeviceId() != '1') {
+            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
                 window.getSyncRequest();
             }
         }
