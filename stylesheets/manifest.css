@@ -29,7 +29,8 @@ body {
   width: 100%;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size: 14px; }
+  font-size: 14px;
+  color: #454545; }
 
 .clearfix:before,
 .clearfix:after {
@@ -1008,20 +1009,20 @@ input.search {
   .new-contact.valid {
     opacity: 1.0; }
 
-.index {
-  color: #454545; }
-  .index .gutter .new-group-update-form {
-    display: none;
-    padding: 0.5em; }
-  .index .last-message {
-    margin: 6px 0 0;
-    font-size: 0.9285714286em;
-    font-weight: 300; }
-  .index .gutter .timestamp {
-    position: absolute;
-    top: 14px;
-    right: 12px;
-    color: #616161; }
+.index .gutter .new-group-update-form {
+  display: none;
+  padding: 0.5em; }
+
+.index .last-message {
+  margin: 6px 0 0;
+  font-size: 0.9285714286em;
+  font-weight: 300; }
+
+.index .gutter .timestamp {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  color: #616161; }
 
 .conversations .unread .contact-details .name,
 .conversations .unread .contact-details .last-message,
