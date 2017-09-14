@@ -7,11 +7,20 @@
         initialize: function(options) {
           this.inboxView = null;
           this.installView = null;
+          this.applyTheme();
         },
         events: {
             'click .openInstaller': 'openInstaller',
             'click .openStandalone': 'openStandalone',
             'openInbox': 'openInbox',
+            'change-theme': 'applyTheme'
+        },
+        applyTheme: function() {
+            var theme = storage.get('theme-setting') || 'android';
+            this.$el.removeClass('ios')
+                    .removeClass('android-dark')
+                    .removeClass('android')
+                    .addClass(theme);
         },
         openView: function(view) {
           this.el.innerHTML = "";
