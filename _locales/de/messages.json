@@ -3,6 +3,10 @@
         "message": "Zum Ende der Unterhaltung scrollen",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
+    "importChooserTitle": {
+        "message": "Verzeichnis wählen",
+        "description": "Title of the popup window used to select data previously exported"
+    },
     "timerOption_10_seconds": {
         "message": "10 Sekunden",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -28,6 +32,10 @@
                 "example": "10"
             }
         }
+    },
+    "importInstructions": {
+        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "description": "Description of the export process"
     },
     "unsupportedAttachment": {
         "message": "Nicht unterstützter Anhangstyp. Zum Speichern anklicken.",
@@ -76,7 +84,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Bist du sicher? Das Anklicken von »Löschen« wird diese Nachricht unwiderruflich von diesem Gerät entfernen.",
+        "message": "Bist du sicher? Das Anklicken von 'Löschen' wird diese Nachricht unwiderruflich von diesem Gerät entfernen.",
         "description": ""
     },
     "showMore": {
@@ -122,7 +130,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Verschlüsselung neu starten",
+        "message": "Verschlüsselung zurücksetzen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
@@ -162,12 +170,8 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
-        "message": "Unterhaltung löschen",
+        "message": "Nachrichten löschen",
         "description": "Menu item for deleting messages, title case."
-    },
-    "confirmMigration": {
-        "message": "Migrationsprozess starten? Während die Migration durchgeführt wird, wirst du von dieser App aus keine Signal-Nachrichten senden oder empfangen können.",
-        "description": "Confirmation dialogue when beginning migration"
     },
     "incomingError": {
         "message": "Fehler bei eingehender Nachricht.",
@@ -223,16 +227,8 @@
         "message": "Gesendet",
         "description": "Label for the time a message was sent"
     },
-    "migrationWarning": {
-        "message": "Signal Desktop für Chrome wird nicht mehr unterstützt. Möchtest du jetzt auf das neue Signal Desktop migrieren?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "Migrieren",
-        "description": "Button label to begin migrating this client to Electron"
-    },
     "theyChangedTheTimer": {
-        "message": "$name$ hat die Zeitbegrenzung auf $time$ festgelegt",
+        "message": "$name$ hat die Zeitbegrenzung auf $time$ festgelegt.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -273,6 +269,10 @@
         "message": "Nur Kontaktname",
         "description": "Label for setting notifications to display sender name only"
     },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Later",
+        "description": ""
+    },
     "from": {
         "message": "Von",
         "description": "Label for the sender of a message"
@@ -280,6 +280,10 @@
     "deleteConversationConfirmation": {
         "message": "Soll diese Unterhaltung unwiderruflich gelöscht werden?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "installImport": {
+        "message": "Einrichtung mit Datenexport aus der Chrome App durchführen",
+        "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
         "message": "Verknüpfe Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
@@ -340,6 +344,14 @@
     "learnMore": {
         "message": "Erfahre mehr über das Verifizieren von Sicherheitsnummern",
         "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "installNew": {
+        "message": "Als neue Installation aufsetzen",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
+    "importing": {
+        "message": "Please wait while we import your data...",
+        "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
         "message": "$count$ ungelesene Nachrichten",
@@ -473,6 +485,10 @@
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "chooseDirectory": {
+        "message": "Verzeichnis wählen",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -484,6 +500,14 @@
     "timerOption_1_day_abbreviated": {
         "message": "1d",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Restart",
+        "description": ""
+    },
+    "importButton": {
+        "message": "Jetzt importieren",
+        "description": ""
     },
     "sync": {
         "message": "Kontakte",
@@ -553,21 +577,29 @@
         "message": "Diese Nachricht löschen",
         "description": ""
     },
+    "autoUpdateNewVersionInstructions": {
+        "message": "Press Restart to apply the updates.",
+        "description": ""
+    },
     "timerOption_0_seconds": {
         "message": "aus",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "importError": {
+        "message": "Leider ist während des Importierens etwas schief gelaufen. <p>Kontrolliere zunächst noch einmal das Zielverzeichnis. Es sollte mit 'Signal Export' beginnen.</p><p>Versuche es als nächstes mit einem neuen Export der Daten aus der Chrome App.</p> Falls es dann immer noch fehlschlägt, <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>erstelle und sende bitte ein Diagnoseprotokoll</a>, sodass wir dir bei der Migration helfen können.",
+        "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "Öffne Signal auf deinem Mobilgerät und gehe zu »Einstellungen« > »Verknüpfte Geräte«. Tippe die Schaltfläche zum Hinzufügen eines neuen Geräts an und scanne dann den oben dargestellten Code ein.",
         "description": ""
     },
-    "migrationDisconnecting": {
-        "message": "Verbindung wird getrennt …",
-        "description": "Displayed while we wait for pending incoming messages to process"
-    },
     "invalidNumberError": {
         "message": "Ungültige Rufnummer",
         "description": "When a person inputs a number that is invalid"
+    },
+    "importComplete": {
+        "message": "Deine Daten wurden erfolgreich geladen. Starte die Anwendung als nächstes bitte neu.",
+        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Willkommen bei Signal Desktop",
@@ -598,6 +630,10 @@
     "messageNotSent": {
         "message": "Nachricht nicht gesendet.",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "Eine neue Version von Signal ist verfügbar.",
+        "description": ""
     },
     "disableNotifications": {
         "message": "Benachrichtigungen deaktivieren",
@@ -638,7 +674,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
-        "message": "Verschlüsselung neu gestartet",
+        "message": "Verschlüsselung zurückgesetzt",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "installGetStartedButton": {
@@ -672,8 +708,8 @@
         }
     },
     "installSignalLink": {
-        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Android-Gerät.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten synchronisiert halten.",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "message": "Installiere zunächst <a $a_params$>Signal</a> auf deinem Android-Gerät.<br /> Wir werden deine Geräte verknüpfen und deine Nachrichten laufend synchronisieren.",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
                 "content": "$1",
@@ -753,8 +789,16 @@
         "message": "Neues Signal Desktop installieren",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
+    "exportChooserTitle": {
+        "message": "Verzeichnis wählen",
+        "description": "Title of the popup window used to select data storage location"
+    },
     "verify": {
         "message": "Als verifiziert markieren",
+        "description": ""
+    },
+    "exportButton": {
+        "message": "Export",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -781,12 +825,8 @@
         "message": "Deine Sicherheitsnummern mit mehreren Gruppenmitgliedern  haben sich seit eurer letzten Verifikation geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber die entsprechenden Mitglieder haben Signal einfach erneut installiert.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "export": {
-        "message": "Verzeichnis wählen",
-        "description": "Button to allow the user to export all data from app as part of migration process"
-    },
     "submitDebugLog": {
-        "message": "Diagnoseprotokoll übermitteln",
+        "message": "Diagnoseprotokoll senden",
         "description": "Menu item and header text for debug log modal, title case."
     },
     "error": {
@@ -813,6 +853,10 @@
             }
         }
     },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signal-Update verfügbar",
+        "description": ""
+    },
     "timerOption_30_seconds_abbreviated": {
         "message": "30s",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -824,6 +868,10 @@
     "notifications": {
         "message": "Benachrichtigungen",
         "description": "Header for notification settings"
+    },
+    "tryAgain": {
+        "message": "Erneut importieren",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Erneut senden",

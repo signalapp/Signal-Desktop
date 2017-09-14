@@ -3,6 +3,10 @@
         "message": "一番下までスクロール",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
+    "importChooserTitle": {
+        "message": "エクスポートされたデータがあるフォルダを選んで下さい。",
+        "description": "Title of the popup window used to select data previously exported"
+    },
     "timerOption_10_seconds": {
         "message": "10秒",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -28,6 +32,10 @@
                 "example": "10"
             }
         }
+    },
+    "importInstructions": {
+        "message": "エクスポートされたデータがあるフォルダを教えて下さい。フォルダ名は「Signal Export」で始まります。",
+        "description": "Description of the export process"
     },
     "unsupportedAttachment": {
         "message": "サポートされていない種類の添付ファイルです。クリックして保存してください。",
@@ -273,6 +281,10 @@
         "message": "差出人名のみ",
         "description": "Label for setting notifications to display sender name only"
     },
+    "autoUpdateLaterButtonLabel": {
+        "message": "あとで",
+        "description": ""
+    },
     "from": {
         "message": "差出人",
         "description": "Label for the sender of a message"
@@ -280,6 +292,10 @@
     "deleteConversationConfirmation": {
         "message": "この会話を完全に消去しますが，よろしいですか？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "installImport": {
+        "message": "Chromeアプリのエクスポートで設定する",
+        "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
         "message": "メッセージを継続するために携帯端末と再接続する。",
@@ -340,6 +356,14 @@
     "learnMore": {
         "message": "安全番号を確認することについて",
         "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "installNew": {
+        "message": "新規インストールとして設定する",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
+    "importing": {
+        "message": "データをインポートしますのでお待ち下さい。",
+        "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
         "message": "$count$ 件の未読メッセージ",
@@ -473,6 +497,10 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "chooseDirectory": {
+        "message": "フォルダを選んで下さい",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6時間",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -484,6 +512,14 @@
     "timerOption_1_day_abbreviated": {
         "message": "1日",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "再起動",
+        "description": ""
+    },
+    "importButton": {
+        "message": "インポートする",
+        "description": ""
     },
     "sync": {
         "message": "連絡先",
@@ -553,9 +589,17 @@
         "message": "このメッセージを削除する",
         "description": ""
     },
+    "autoUpdateNewVersionInstructions": {
+        "message": "アプリを再起動してください",
+        "description": ""
+    },
     "timerOption_0_seconds": {
         "message": "オフ",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "importError": {
+        "message": "残念ながら，インポート中に問題が発生しました。<p>まずは，データが保存してあるフォルダを正しく選択したか再確認してください。フォルダ名は「Signal Export」で始まっています。</p><p>次に，Chromeアプリからデータをエクスポートし直してください。</p>それでも駄目なら，<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>デバッグログを提出</a>してください。",
+        "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "携帯電話でSignalを起動し，「設定」>「結び付いているデバイス」に進み，デバイス追加のボタンを押して，上部のコードをスキャンしてください。",
@@ -568,6 +612,10 @@
     "invalidNumberError": {
         "message": "不正な番号です",
         "description": "When a person inputs a number that is invalid"
+    },
+    "importComplete": {
+        "message": "データの取り込みに成功しました。アプリを再起動してください。",
+        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Signal Desktopにようこそ",
@@ -598,6 +646,10 @@
     "messageNotSent": {
         "message": "送信失敗",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "新しく生まれ変わったSignalがあります",
+        "description": ""
     },
     "disableNotifications": {
         "message": "通知をオフにする",
@@ -673,7 +725,7 @@
     },
     "installSignalLink": {
         "message": "まず<a $a_params$>Signal</a>をAndroid携帯電話にインストールしてください。<br />そうするとお使いの端末は結び付けられ，メッセージは同期されます。",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
                 "content": "$1",
@@ -742,7 +794,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
-        "message": "OK",
+        "message": "もうすぐです",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
     "messageDetail": {
@@ -753,8 +805,16 @@
         "message": "新しいSignal Desktopをインストールする",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
+    "exportChooserTitle": {
+        "message": "データの移行先フォルダを選択",
+        "description": "Title of the popup window used to select data storage location"
+    },
     "verify": {
         "message": "検証済みにする",
+        "description": ""
+    },
+    "exportButton": {
+        "message": "エクスポートする",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -813,6 +873,10 @@
             }
         }
     },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signalのアップデートがあります",
+        "description": ""
+    },
     "timerOption_30_seconds_abbreviated": {
         "message": "30秒",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -824,6 +888,10 @@
     "notifications": {
         "message": "通知",
         "description": "Header for notification settings"
+    },
+    "tryAgain": {
+        "message": "再度行う",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "再送",

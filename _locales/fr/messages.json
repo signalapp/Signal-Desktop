@@ -3,6 +3,10 @@
         "message": "Faites défiler jusqu'au bas de la conversation",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
+    "importChooserTitle": {
+        "message": "Choose directory with exported data",
+        "description": "Title of the popup window used to select data previously exported"
+    },
     "timerOption_10_seconds": {
         "message": "10 secondes",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -28,6 +32,10 @@
                 "example": "10"
             }
         }
+    },
+    "importInstructions": {
+        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "description": "Description of the export process"
     },
     "unsupportedAttachment": {
         "message": "Pièce jointe non gérée. Cliquer pour l'enregistrer.",
@@ -273,6 +281,10 @@
         "message": "Seulement le nom de l'émetteur",
         "description": "Label for setting notifications to display sender name only"
     },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Later",
+        "description": ""
+    },
     "from": {
         "message": "De",
         "description": "Label for the sender of a message"
@@ -280,6 +292,10 @@
     "deleteConversationConfirmation": {
         "message": "Supprimer définitivement cette conversation ?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "installImport": {
+        "message": "Set up with Chrome App export",
+        "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
         "message": "Re-connecter Signal Desktop sur votre appareil mobile pour continuer la messagerie.",
@@ -340,6 +356,14 @@
     "learnMore": {
         "message": "En savoir plus sur la vérification des numéros de sécurité",
         "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "installNew": {
+        "message": "Set up as new install",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
+    "importing": {
+        "message": "Please wait while we import your data...",
+        "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
         "message": "$count$ Messages non-lus",
@@ -473,6 +497,10 @@
         "message": "MMM J",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "chooseDirectory": {
+        "message": "Choisir un répertoire",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6h",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -484,6 +512,14 @@
     "timerOption_1_day_abbreviated": {
         "message": "1j",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Restart",
+        "description": ""
+    },
+    "importButton": {
+        "message": "Import",
+        "description": ""
     },
     "sync": {
         "message": "Contacts",
@@ -553,9 +589,17 @@
         "message": "Effacer ce message",
         "description": ""
     },
+    "autoUpdateNewVersionInstructions": {
+        "message": "Press Restart to apply the updates.",
+        "description": ""
+    },
     "timerOption_0_seconds": {
         "message": "Désactivé",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "importError": {
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "Ouvrez Signal sur votre téléphone et rendez vous dans les Paramètres > Appareils liés. Appuyez sur le bouton pour ajouter un nouvel appareil, puis scannez le code ci-dessus.",
@@ -568,6 +612,10 @@
     "invalidNumberError": {
         "message": "Numéro invalide",
         "description": "When a person inputs a number that is invalid"
+    },
+    "importComplete": {
+        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "Bienvenue sur Signal Desktop",
@@ -598,6 +646,10 @@
     "messageNotSent": {
         "message": "Message non envoyé",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "There is a new version of Signal available.",
+        "description": ""
     },
     "disableNotifications": {
         "message": "Notifications désactivées",
@@ -672,8 +724,8 @@
         }
     },
     "installSignalLink": {
-        "message": "Commencez par installer <a $a_params$>Signal</a> sur votre téléphone Android. Nous lierons et synchroniserons vos appareils ensuite.",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
                 "content": "$1",
@@ -753,8 +805,16 @@
         "message": "Installer le nouveau Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
+    "exportChooserTitle": {
+        "message": "Choose target directory for data",
+        "description": "Title of the popup window used to select data storage location"
+    },
     "verify": {
         "message": "Marquer comme vérifié",
+        "description": ""
+    },
+    "exportButton": {
+        "message": "Export",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -813,6 +873,10 @@
             }
         }
     },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signal update available",
+        "description": ""
+    },
     "timerOption_30_seconds_abbreviated": {
         "message": "30 sec",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -824,6 +888,10 @@
     "notifications": {
         "message": "Notifications",
         "description": "Header for notification settings"
+    },
+    "tryAgain": {
+        "message": "Try again",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "Renvoyer",

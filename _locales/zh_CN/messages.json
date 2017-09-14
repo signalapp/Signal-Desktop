@@ -3,6 +3,10 @@
         "message": "滚动到对话的底部",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
+    "importChooserTitle": {
+        "message": "Choose directory with exported data",
+        "description": "Title of the popup window used to select data previously exported"
+    },
     "timerOption_10_seconds": {
         "message": "10秒",
         "description": "Label for a selectable option in the message expiration timer menu"
@@ -28,6 +32,10 @@
                 "example": "10"
             }
         }
+    },
+    "importInstructions": {
+        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "description": "Description of the export process"
     },
     "unsupportedAttachment": {
         "message": "不支持的附件类型，点击保存。",
@@ -165,10 +173,6 @@
         "message": "删除消息",
         "description": "Menu item for deleting messages, title case."
     },
-    "confirmMigration": {
-        "message": "Start migration process? You will not be able to send or receive Signal messages from this application while the migration is in progress.",
-        "description": "Confirmation dialogue when beginning migration"
-    },
     "incomingError": {
         "message": "处理传入消息时出错。",
         "description": ""
@@ -273,6 +277,10 @@
         "message": "仅显示发送者",
         "description": "Label for setting notifications to display sender name only"
     },
+    "autoUpdateLaterButtonLabel": {
+        "message": "Later",
+        "description": ""
+    },
     "from": {
         "message": "来自",
         "description": "Label for the sender of a message"
@@ -280,6 +288,10 @@
     "deleteConversationConfirmation": {
         "message": "永久删除此会话？",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "installImport": {
+        "message": "Set up with Chrome App export",
+        "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
         "message": "重新链接桌面版Signal到您的移动设备来继续。",
@@ -340,6 +352,14 @@
     "learnMore": {
         "message": "了解更多有关安全代码的信息",
         "description": "Text that links to a support article on verifying safety numbers"
+    },
+    "installNew": {
+        "message": "Set up as new install",
+        "description": "One of two choices presented on the screen shown on first launch"
+    },
+    "importing": {
+        "message": "Please wait while we import your data...",
+        "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
         "message": "$count$未读消息",
@@ -473,6 +493,10 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "chooseDirectory": {
+        "message": "选择目录",
+        "description": "Button to allow the user to export all data from app as part of migration process"
+    },
     "timerOption_6_hours_abbreviated": {
         "message": "6小时",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -484,6 +508,14 @@
     "timerOption_1_day_abbreviated": {
         "message": "1天",
         "description": "Very short format indicating current timer setting in the conversation header"
+    },
+    "autoUpdateRestartButtonLabel": {
+        "message": "Restart",
+        "description": ""
+    },
+    "importButton": {
+        "message": "Import",
+        "description": ""
     },
     "sync": {
         "message": "联系人",
@@ -553,9 +585,17 @@
         "message": "删除这条消息。",
         "description": ""
     },
+    "autoUpdateNewVersionInstructions": {
+        "message": "Press Restart to apply the updates.",
+        "description": ""
+    },
     "timerOption_0_seconds": {
         "message": "关闭",
         "description": "Label for option to turn off message expiration in the timer menu"
+    },
+    "importError": {
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "在您的手机上打开Signal，然后点击设置>已连接的设备。点击添加按钮来加入新的设备，然后扫描上面的二维码。",
@@ -568,6 +608,10 @@
     "invalidNumberError": {
         "message": "无效的号码",
         "description": "When a person inputs a number that is invalid"
+    },
+    "importComplete": {
+        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "description": "Shown when the import is complete."
     },
     "installWelcome": {
         "message": "欢迎来到Signal桌面版",
@@ -598,6 +642,10 @@
     "messageNotSent": {
         "message": "信息未发送",
         "description": "Informational label, appears on messages that failed to send"
+    },
+    "autoUpdateNewVersionMessage": {
+        "message": "There is a new version of Signal available.",
+        "description": ""
     },
     "disableNotifications": {
         "message": "关闭提醒",
@@ -672,8 +720,8 @@
         }
     },
     "installSignalLink": {
-        "message": "首先，在Android设备上安装<a $a_params$> Signal </a>。<br />我们将连接您的设备并同步您的消息。",
-        "description": "Prompt the user to install Signal on Android before linking",
+        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
                 "content": "$1",
@@ -753,8 +801,16 @@
         "message": "Install new Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
+    "exportChooserTitle": {
+        "message": "Choose target directory for data",
+        "description": "Title of the popup window used to select data storage location"
+    },
     "verify": {
         "message": "标记为已确认",
+        "description": ""
+    },
+    "exportButton": {
+        "message": "Export",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -813,6 +869,10 @@
             }
         }
     },
+    "autoUpdateNewVersionTitle": {
+        "message": "Signal update available",
+        "description": ""
+    },
     "timerOption_30_seconds_abbreviated": {
         "message": "30秒",
         "description": "Very short format indicating current timer setting in the conversation header"
@@ -824,6 +884,10 @@
     "notifications": {
         "message": "提醒",
         "description": "Header for notification settings"
+    },
+    "tryAgain": {
+        "message": "Try again",
+        "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
         "message": "重新发送",
