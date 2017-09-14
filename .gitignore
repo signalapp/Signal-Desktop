@@ -3,5 +3,4 @@ node_modules
 build/curve25519_compiled.js
 stylesheets/*.css.map
 dist
-.tx
 .DS_Store
