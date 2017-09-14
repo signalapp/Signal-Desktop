@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[signal-desktop.messagesjson-electron]
+file_filter = _locales/<lang>/messages.json
+source_file = _locales/en/messages.json
+source_lang = en
+type = CHROME
+
