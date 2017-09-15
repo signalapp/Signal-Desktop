@@ -80,6 +80,9 @@ a { color: $blue; }
 button.back {
   @include header-icon-black('/images/back.svg');
 }
+button.do-not-disturb {
+  @include header-icon-black('/images/do_not_disturb.svg');
+}
 button.clock {
   @include header-icon-black('/images/clock.svg');
 }
@@ -390,8 +393,19 @@ $avatar-size: 44px;
     text-overflow: ellipsis;
   }
 
+  .ismuted {
+    display: none;
+  }
+
+  .ismuted.muted {
+    display: inline-block;
+    @include color-svg('/images/do_not_disturb.svg', black);
+    width: 1em;
+    height: 1em;
+  }
+
   .name {
-    display: block;
+    display: inline-block;
     margin: 0;
     font-size: 1em;
     text-overflow: ellipsis;

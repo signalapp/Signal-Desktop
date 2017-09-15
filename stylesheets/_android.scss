@@ -58,6 +58,12 @@
   .inactive button.clock {
     @include header-icon-black('/images/clock.svg');
   }
+  button.do-not-disturb {
+    @include header-icon-white('/images/do_not_disturb.svg');
+  }
+  .inactive button.do-not-disturb {
+    @include header-icon-black('/images/do_not_disturb.svg');
+  }
   button.hamburger {
     @include header-icon-white('/images/menu.svg');
   }
