@@ -7,16 +7,6 @@
     window.emoji_util = window.emoji_util || {};
 
     // EmojiConverter overrides
-    EmojiConvertor.prototype.init_env = function() {
-        if (this.inits.env) {
-            return;
-        }
-        this.inits.env = 1;
-        this.include_title = true;
-        this.img_sets.apple.path = 'images/emoji/apple/';
-        this.replace_mode = 'img';
-    };
-
     EmojiConvertor.prototype.getCountOfAllMatches = function(str, regex) {
         var match = regex.exec(str);
         var count = 0;
@@ -119,6 +109,9 @@
     };
     window.emoji = new EmojiConvertor();
     emoji.init_colons();
+    emoji.img_sets.apple.path = 'node_modules/emoji-datasource-apple/img/apple/64/';
+    emoji.include_title = true;
+    emoji.replace_mode = 'img';
 
     window.emoji_util.parse = function($el) {
         if (!$el || !$el.length) {
