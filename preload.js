@@ -37,4 +37,6 @@
   window.nodeSetImmediate = setImmediate;
   window.nodeXMLHttpRequest = require("./js/XMLHttpRequest").XMLHttpRequest;
   window.nodeWebSocket = require("websocket").w3cwebsocket;
+
+  window.EmojiConvertor = require('emoji-js');
 })();

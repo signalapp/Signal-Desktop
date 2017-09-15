@@ -135,6 +135,8 @@
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
     "electron-updater": "^2.1.2",
+    "emoji-datasource-apple": "^3.0.0",
+    "emoji-js": "^3.2.2",
     "lodash": "^4.17.4",
     "os-locale": "^2.1.0",
     "semver": "^5.4.1",

@@ -13,9 +13,6 @@ install:
 
 build_script:
   - yarn run icon-gen
-  - del /f images\emoji\apple
-  - mkdir images\emoji\apple
-  - xcopy /Q components\emojidata\img-apple-64 images\emoji\apple
   - node build\grunt.js
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
 
