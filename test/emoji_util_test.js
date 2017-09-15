@@ -85,28 +85,84 @@ describe('EmojiUtil', function() {
         });
     });
 
-    describe('replacement', function() {
-        it('returns an <img> tag', function() {
-            var actual = emoji.replacement('1f525');
-            assert.equal(actual, '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png" class="emoji" title="fire"/>');
+    describe('addClass', function() {
+        it('returns original string if no emoji images', function() {
+            var start = 'no images. but there is some 🔥. <img src="random.jpg" />';
+
+            var expected = start;
+            var actual = emoji.addClass(start, 'jumbo');
+
+            assert.equal(expected, actual);
         });
-        it('returns an <img> tag with provided sizeClass', function() {
-            var actual = emoji.replacement('1f525', 'large');
-            assert.equal(actual, '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png" class="emoji large" title="fire"/>');
+
+        it('returns original string if no sizeClass provided', function() {
+            var start = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji" title="house"/> after';
+
+            var expected = start;
+            var actual = emoji.addClass(start);
+
+            assert.equal(expected, actual);
+        });
+
+        it('adds provided class to image class', function() {
+            var start = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji" title="house"/> after';
+
+            var expected = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji jumbo" title="house"/> after';
+            var actual = emoji.addClass(start, 'jumbo');
+
+            assert.equal(expected, actual);
         });
     });
 
-    describe('replace_unified', function() {
+    describe('ensureTitlesHaveColons', function() {
+        it('returns original string if no emoji images', function() {
+            var start = 'no images. but there is some 🔥. <img src="random.jpg" />';
+
+            var expected = start;
+            var actual = emoji.ensureTitlesHaveColons(start);
+
+            assert.equal(expected, actual);
+        });
+
+        it('returns original string if image title already has colons', function() {
+            var start = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji" title=":house:"/> after';
+
+            var expected = start;
+            var actual = emoji.ensureTitlesHaveColons(start);
+
+            assert.equal(expected, actual);
+        });
+
+        it('does not change title for non-emoji image', function() {
+            var start = 'before <img src="random.png" title="my random title"/> after';
+
+            var expected = start;
+            var actual = emoji.ensureTitlesHaveColons(start);
+
+            assert.equal(expected, actual);
+        });
+
+        it('adds colons to emoji image title', function() {
+            var start = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji" title="house"/> after';
+
+            var expected = 'before <img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji" title=":house:"/> after';
+            var actual = emoji.ensureTitlesHaveColons(start);
+
+            assert.equal(expected, actual);
+        });
+    });
+
+    describe('signalReplace', function() {
         it('returns images for every emoji', function() {
-            var actual = emoji.replace_unified('🏠 🔥');
-            var expected = '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji jumbo" title=":house:"/>'
-                + ' <img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png" class="emoji jumbo" title=":fire:"/>';
+            var actual = emoji.signalReplace('🏠 🔥');
+            var expected = '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f3e0.png" class="emoji jumbo" data-codepoints="1f3e0"  title=":house:"/>'
+                + ' <img src="node_modules/emoji-datasource-apple/img/apple/64/1f525.png" class="emoji jumbo" data-codepoints="1f525"  title=":fire:"/>';
 
             assert.equal(expected, actual);
         });
         it('properly hyphenates a variation', function() {
-            var actual = emoji.replace_unified('💪🏿'); // muscle with dark skin tone modifier
-            var expected = '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f4aa-1f3ff.png" class="emoji jumbo" title="muscle"/>';
+            var actual = emoji.signalReplace('💪🏿'); // muscle with dark skin tone modifier
+            var expected = '<img src="node_modules/emoji-datasource-apple/img/apple/64/1f4aa-1f3ff.png" class="emoji jumbo" data-codepoints="1f4aa-1f3ff"  title=":muscle:"/>';
 
             assert.equal(expected, actual);
         });
