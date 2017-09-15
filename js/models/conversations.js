@@ -816,7 +816,12 @@
                 // fail
                 if (e.name === 'ProfileDecryptError') {
                   // probably the profile key has changed.
-                  console.log('decryptProfile error:', e);
+                  console.log(
+                    'decryptProfile error:',
+                    id,
+                    profile,
+                    error && error.stack ? error.stack : error
+                  );
                 }
               });
             }.bind(this));
@@ -831,18 +836,23 @@
       var key = this.get('profileKey');
       if (!key) { return; }
 
-      // decode
-      var data = dcodeIO.ByteBuffer.wrap(encryptedName, 'base64').toArrayBuffer();
+      try {
+        // decode
+        var data = dcodeIO.ByteBuffer.wrap(encryptedName, 'base64').toArrayBuffer();
 
-      // decrypt
-      return textsecure.crypto.decryptProfileName(data, key).then(function(decrypted) {
+        // decrypt
+        return textsecure.crypto.decryptProfileName(data, key).then(function(decrypted) {
 
-        // encode
-        var name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
+          // encode
+          var name = dcodeIO.ByteBuffer.wrap(decrypted).toString('utf8');
 
-        // set
-        this.set({profileName: name});
-      }.bind(this));
+          // set
+          this.set({profileName: name});
+        }.bind(this));
+      }
+      catch (e) {
+        return Promise.reject(e);
+      }
     },
     setProfileAvatar: function(avatarPath) {
       if (!avatarPath) { return; }
