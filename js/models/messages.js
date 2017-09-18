@@ -445,6 +445,18 @@
                         }
                     }
 
+                    if (type === 'outgoing') {
+                        var reads = Whisper.ReadReceipts.forMessage(conversation, message);
+                        if (reads.length) {
+                            var read_by = reads.map(function(receipt) {
+                                return receipt.get('reader');
+                            });
+                            message.set({
+                                read_by: _.union(message.get('read_by'), read_by)
+                            });
+                        }
+                    }
+
                     var conversation_timestamp = conversation.get('timestamp');
                     if (!conversation_timestamp || message.get('sent_at') > conversation_timestamp) {
                         conversation.set({

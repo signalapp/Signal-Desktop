@@ -22,10 +22,21 @@ message Envelope {
 }
 
 message Content {
-  optional DataMessage dataMessage = 1;
-  optional SyncMessage syncMessage = 2;
-  optional CallMessage callMessage = 3;
-  optional NullMessage nullMessage = 4;
+  optional DataMessage dataMessage       = 1;
+  optional SyncMessage syncMessage       = 2;
+  optional CallMessage callMessage       = 3;
+  optional NullMessage nullMessage       = 4;
+  optional ReceiptMessage receiptMessage = 5;
+}
+
+message ReceiptMessage {
+  enum Type {
+    DELIVERY = 0;
+    READ     = 1;
+  }
+
+  optional Type   type        = 1;
+  repeated uint64 timestamps  = 2;
 }
 
 message NullMessage {

@@ -191,6 +191,7 @@
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
         messageReceiver.addEventListener('readSync', onReadSync);
+        messageReceiver.addEventListener('read', onReadReceipt);
         messageReceiver.addEventListener('verified', onVerified);
         messageReceiver.addEventListener('error', onError);
         messageReceiver.addEventListener('empty', onEmpty);
@@ -527,6 +528,24 @@
         }
 
         throw error;
+    }
+
+    function onReadReceipt(ev) {
+        var read_at   = ev.timestamp;
+        var timestamp = ev.read.timestamp;
+        var reader    = ev.read.reader;
+        console.log('read receipt', reader, timestamp);
+
+        var receipt = Whisper.ReadReceipts.add({
+            reader    : reader,
+            timestamp : timestamp,
+            read_at   : read_at,
+        });
+
+        receipt.on('remove', ev.confirm);
+
+        // Calling this directly so we can wait for completion
+        return Whisper.ReadReceipts.onReceipt(receipt);
     }
 
     function onReadSync(ev) {
