@@ -338,7 +338,7 @@ MessageReceiver.prototype.extend({
     },
     onDeliveryReceipt: function (envelope) {
         return new Promise(function(resolve, reject) {
-            var ev = new Event('receipt');
+            var ev = new Event('delivery');
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.deliveryReceipt = {
               timestamp    : envelope.timestamp.toNumber(),

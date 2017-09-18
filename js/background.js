@@ -186,7 +186,7 @@
             SERVER_URL, USERNAME, PASSWORD, mySignalingKey, options
         );
         messageReceiver.addEventListener('message', onMessageReceived);
-        messageReceiver.addEventListener('receipt', onDeliveryReceipt);
+        messageReceiver.addEventListener('delivery', onDeliveryReceipt);
         messageReceiver.addEventListener('contact', onContactReceived);
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
