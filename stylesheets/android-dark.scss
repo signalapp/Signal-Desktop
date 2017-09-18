@@ -133,6 +133,10 @@ $text-dark_l2: darken($text-dark, 30%);
     display: inline-block;
     @include color-svg('../images/double-check.svg', white);
   }
+  .read .status {
+    display: inline-block;
+    @include color-svg('../images/double-check.svg', $blue);
+  }
   .file-input .paperclip:before {
     content: '';
     display: inline-block;

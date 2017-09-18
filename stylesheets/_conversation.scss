@@ -493,6 +493,10 @@ li.entry .error-icon-container {
     display: inline-block;
     @include color-svg('../images/double-check.svg', black);
   }
+  .read .status {
+    display: inline-block;
+    @include color-svg('../images/double-check.svg', $blue);
+  }
   .pending .status {
     display: inline-block;
     background: none;

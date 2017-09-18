@@ -1488,6 +1488,12 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: black; }
+  .message-container .read .status,
+  .message-list .read .status {
+    display: inline-block;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #2090ea; }
   .message-container .pending .status,
   .message-list .pending .status {
     display: inline-block;
@@ -2352,6 +2358,11 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+  .android-dark .read .status {
+    display: inline-block;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #2090ea; }
   .android-dark .file-input .paperclip:before {
     content: '';
     display: inline-block;
