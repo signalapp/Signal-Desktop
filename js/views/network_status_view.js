@@ -34,6 +34,24 @@
         setSocketReconnectInterval: function(millis) {
             this.socketReconnectWaitDuration = moment.duration(millis);
         },
+        setOffline: function() {
+            if (!this.offlineStart) {
+                this.offlineStart = Date.now();
+            }
+        },
+        setOnline: function() {
+            this.offlineStart = null;
+        },
+        timeSinceOffline: function() {
+            if (!this.offlineStart) {
+                return 0;
+            }
+
+            var now = Date.now();
+            var delta = now - this.offlineStart;
+
+            return delta;
+        },
         navigatorOnLine: function() { return navigator.onLine; },
         getSocketStatus: function() { return window.getSocketStatus(); },
         getNetworkStatus: function() {
@@ -51,21 +69,32 @@
                     this.setSocketReconnectInterval(null);
                     break;
                 case WebSocket.OPEN:
+                    this.setOnline();
                     this.setSocketReconnectInterval(null);
                     break;
                 case WebSocket.CLOSING:
+                    this.setOffline();
                     message = i18n('disconnected');
                     instructions = i18n('checkNetworkConnection');
                     hasInterruption = true;
                 break;
                 case WebSocket.CLOSED:
+                    this.setOffline();
                     message = i18n('disconnected');
                     instructions = i18n('checkNetworkConnection');
                     hasInterruption = true;
                 break;
+                default:
+                    this.setOffline();
+                break;
             }
 
-            if (socketStatus == WebSocket.CONNECTING && !this.withinConnectingGracePeriod) {
+            // On a websocket-only interruption (the overall network connection is still
+            //   there), we delay a bit before showing 'Disconnected' as our status. Thus,
+            //   the user would never see an immediate reconnect.
+            if (this.timeSinceOffline() < 5000) {
+                hasInterruption = false;
+            } else if (socketStatus == WebSocket.CONNECTING && !this.withinConnectingGracePeriod) {
                 hasInterruption = true;
             }
             if (this.socketReconnectWaitDuration.asSeconds() > 0) {
@@ -88,7 +117,7 @@
                 instructions: instructions,
                 hasInterruption: hasInterruption,
                 action: action,
-                buttonClass: buttonClass
+                buttonClass: buttonClass,
             };
         },
         update: function() {
