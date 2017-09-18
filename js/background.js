@@ -533,9 +533,9 @@
         var read_at   = ev.timestamp;
         var timestamp = ev.read.timestamp;
         var sender    = ev.read.sender;
-        console.log('read receipt', sender, timestamp);
+        console.log('read sync', sender, timestamp);
 
-        var receipt = Whisper.ReadReceipts.add({
+        var receipt = Whisper.ReadSyncs.add({
             sender    : sender,
             timestamp : timestamp,
             read_at   : read_at
@@ -544,7 +544,7 @@
         receipt.on('remove', ev.confirm);
 
         // Calling this directly so we can wait for completion
-        return Whisper.ReadReceipts.onReceipt(receipt);
+        return Whisper.ReadSyncs.onReceipt(receipt);
     }
 
     function onVerified(ev) {

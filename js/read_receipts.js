@@ -4,14 +4,14 @@
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
-    Whisper.ReadReceipts = new (Backbone.Collection.extend({
+    Whisper.ReadSyncs = new (Backbone.Collection.extend({
         forMessage: function(message) {
             var receipt = this.findWhere({
                 sender: message.get('source'),
                 timestamp: message.get('sent_at')
             });
             if (receipt) {
-                console.log('Found early read receipt for message');
+                console.log('Found early read sync for message');
                 this.remove(receipt);
                 return receipt;
             }
@@ -30,7 +30,7 @@
                     }.bind(this));
                 } else {
                     console.log(
-                        'No message for read receipt',
+                        'No message for read sync',
                         receipt.get('sender'), receipt.get('timestamp')
                     );
                 }
