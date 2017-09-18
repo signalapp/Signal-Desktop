@@ -340,7 +340,11 @@ MessageReceiver.prototype.extend({
         return new Promise(function(resolve, reject) {
             var ev = new Event('receipt');
             ev.confirm = this.removeFromCache.bind(this, envelope);
-            ev.proto = envelope;
+            ev.deliveryReceipt = {
+              timestamp    : envelope.timestamp.toNumber(),
+              source       : envelope.source,
+              sourceDevice : envelope.sourceDevice
+            };
             this.dispatchAndWait(ev).then(resolve, reject);
         }.bind(this));
     },

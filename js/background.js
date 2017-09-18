@@ -597,17 +597,16 @@
     }
 
     function onDeliveryReceipt(ev) {
-        var pushMessage = ev.proto;
-        var timestamp = pushMessage.timestamp.toNumber();
+        var deliveryReceipt = ev.deliveryReceipt;
         console.log(
             'delivery receipt from',
-            pushMessage.source + '.' + pushMessage.sourceDevice,
-            timestamp
+            deliveryReceipt.source + '.' + deliveryReceipt.sourceDevice,
+            deliveryReceipt.timestamp
         );
 
         var receipt = Whisper.DeliveryReceipts.add({
-            timestamp: timestamp,
-            source: pushMessage.source
+            timestamp: deliveryReceipt.timestamp,
+            source: deliveryReceipt.source
         });
 
         receipt.on('remove', ev.confirm);
