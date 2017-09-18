@@ -51,8 +51,8 @@
     "prep-mac-release": "npm run build-release -- -m --dir",
     "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
     "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal.app --publish=always",
-    "release-win": "npm run build-release -- -w --prepackaged release/win-unpacked --publish=always",
-    "release-lin": "npm run build-release -- -l --prepackaged release/linux-unpacked && VERSION=$npm_package_version ./aptly.sh",
+    "release-win": "npm run build-release -- -w --prepackaged release/windows --publish=always",
+    "release-lin": "npm run build-release -- -l --prepackaged release/linux && VERSION=$npm_package_version ./aptly.sh",
     "release": "npm run release-mac && npm run release-win && npm run release-lin"
   },
   "build": {

@@ -1,6 +1,6 @@
 set -e
-find release/linux-unpacked -type d | xargs chmod 755
-find release/linux-unpacked -type f | xargs chmod 644
-find release/win-unpacked -type d | xargs chmod 755
-find release/win-unpacked -type f | xargs chmod 644
-chmod +x release/linux-unpacked/signal-desktop
+find release/linux -type d | xargs chmod 755
+find release/linux -type f | xargs chmod 644
+find release/windows -type d | xargs chmod 755
+find release/windows -type f | xargs chmod 644
+chmod +x release/linux/signal-desktop

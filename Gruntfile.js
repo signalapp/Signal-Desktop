@@ -308,13 +308,16 @@ module.exports = function(grunt) {
     var urlBase = "https://s3-us-west-1.amazonaws.com/signal-desktop-builds";
     var keyBase = 'WhisperSystems/Signal-Desktop';
     var sha = gitinfo.local.branch.current.SHA;
-    var files = [
-      'signal-desktop-' + package_json.version + '.zip',
-      'Signal-Setup_' + package_json.version + '.zip'
-    ];
+    var files = [{
+      zip: 'signal-desktop-' + package_json.version + '.zip',
+      extractedTo: 'linux'
+    }, {
+      zip: 'Signal-Setup_' + package_json.version + '.zip',
+      extractedTo: 'windows'
+    }];
 
     var extract = require('extract-zip');
-    var download = function(url, dest, cb) {
+    var download = function(url, dest, extractedTo, cb) {
         var file = fs.createWriteStream(dest);
         var request = https.get(url, function(response) {
           if (response.statusCode !== 200) {
@@ -323,7 +326,7 @@ module.exports = function(grunt) {
             response.pipe(file);
             file.on('finish', function() {
               file.close(function() {
-                extract(dest, {dir: 'release'}, cb);
+                extract(dest, {dir: 'release/' + extractedTo}, cb);
               });
             });
           }
@@ -333,13 +336,13 @@ module.exports = function(grunt) {
         });
     };
 
-    Promise.all(files.map(function(fileName) {
-      var key = [ keyBase, sha, 'dist', fileName].join('/');
+    Promise.all(files.map(function(item) {
+      var key = [ keyBase, sha, 'dist', item.zip].join('/');
       var url = [urlBase, key].join('/');
-      var dest = 'release/' + fileName;
+      var dest = 'release/' + item.zip;
       return new Promise(function(resolve) {
         console.log(url);
-        download(url, dest, function(err) {
+        download(url, dest, item.extractedTo, function(err) {
           if (err) {
             console.log('failed', dest, err);
             resolve(err);
@@ -357,8 +360,6 @@ module.exports = function(grunt) {
       });
       done();
     });
-
-    // TODO: chmod u+r win-unpacked/**/*
   });
 
   grunt.registerTask('unit-tests', 'Run unit tests inside Electron', function() {
