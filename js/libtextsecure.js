@@ -39873,6 +39873,16 @@ MessageSender.prototype = {
 
         return Promise.resolve();
     },
+    sendReadReceipts: function(sender, timestamps) {
+        var receiptMessage = new textsecure.protobuf.ReceiptMessage();
+        receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
+        receiptMessage.timestamps = timestamps;
+
+        var contentMessage = new textsecure.protobuf.Content();
+        contentMessage.receiptMessage = receiptMessage;
+
+        return this.sendIndividualProto(sender, contentMessage, Date.now());
+    },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -40180,6 +40190,7 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     this.getAvatar                         = sender.getAvatar                        .bind(sender);
     this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
     this.syncVerification                  = sender.syncVerification                 .bind(sender);
+    this.sendReadReceipts                  = sender.sendReadReceipts                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {

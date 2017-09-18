@@ -793,6 +793,10 @@
             if (read.length && options.sendReadReceipts) {
                 console.log('Sending', read.length, 'read receipts');
                 promises.push(textsecure.messaging.syncReadMessages(read));
+                _.each(_.groupBy(read, 'sender'), function(receipts, sender) {
+                    var timestamps = _.map(receipts, 'timestamp');
+                    promises.push(textsecure.messaging.sendReadReceipts(sender, timestamps));
+                });
             }
 
             return Promise.all(promises);
