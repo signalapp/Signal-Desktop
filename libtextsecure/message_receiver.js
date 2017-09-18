@@ -573,7 +573,7 @@ MessageReceiver.prototype.extend({
     handleRead: function(envelope, read) {
         var results = [];
         for (var i = 0; i < read.length; ++i) {
-            var ev = new Event('read');
+            var ev = new Event('readSync');
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.timestamp = envelope.timestamp.toNumber();
             ev.read = {
