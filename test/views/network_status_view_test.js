@@ -19,6 +19,7 @@ describe('NetworkStatusView', function() {
 
         beforeEach(function() {
             networkStatusView = new Whisper.NetworkStatusView();
+
             $('.network-status-container').append(networkStatusView.el);
         });
         afterEach(function() {
@@ -112,6 +113,9 @@ describe('NetworkStatusView', function() {
                 assert(!status.hasInterruption);
             });
             it('it should be interrupted if connecting grace period is over', function() {
+                // Pretend like we've been offline for a minute already
+                networkStatusView.offlineStart = Date.now() - 60 * 1000;
+
                 networkStatusView.withinConnectingGracePeriod = false;
                 var status = networkStatusView.getNetworkStatus();
 
@@ -130,13 +134,32 @@ describe('NetworkStatusView', function() {
         });
         describe('network status when socket is closed or closing', function() {
             _([WebSocket.CLOSED, WebSocket.CLOSING]).map(function(socketStatusVal) {
-                it('should be interrupted', function() {
+                it('should be interrupted if offline for 60s, state ' + socketStatusVal, function() {
+                    // Pretend like we've been offline for a minute already
+                    networkStatusView.offlineStart = Date.now() - 60 * 1000;
+
                     socketStatus = socketStatusVal;
                     networkStatusView.update();
                     var status = networkStatusView.getNetworkStatus();
                     assert(status.hasInterruption);
                 });
 
+                it('should be interrupted if offline for 5s, state ' + socketStatusVal, function() {
+                    // Pretend like we've been offline for a minute already
+                    networkStatusView.offlineStart = Date.now() - 5 * 1000;
+
+                    socketStatus = socketStatusVal;
+                    networkStatusView.update();
+                    var status = networkStatusView.getNetworkStatus();
+                    assert(status.hasInterruption);
+                });
+
+                it('should not be interrupted if newly offline, state ' + socketStatusVal, function() {
+                    socketStatus = socketStatusVal;
+                    networkStatusView.update();
+                    var status = networkStatusView.getNetworkStatus();
+                    assert(!status.hasInterruption);
+                });
             });
         });
         describe('the socket reconnect interval', function() {
@@ -150,7 +173,9 @@ describe('NetworkStatusView', function() {
                 assert.match(networkStatusView.$('.network-status-message:last').text(), /Attempting reconnect/);
             });
             it('should be reset by changing the socketStatus to CONNECTING', function() {
-
+                socketStatus = WebSocket.CONNECTING;
+                networkStatusView.update();
+                assert.equal(networkStatusView.socketReconnectWaitDuration.asSeconds(), 0);
             });
         });
     });

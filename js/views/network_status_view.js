@@ -78,14 +78,13 @@
                     instructions = i18n('checkNetworkConnection');
                     hasInterruption = true;
                 break;
+                /* jshint -W086 */
                 case WebSocket.CLOSED:
+                default:
                     this.setOffline();
                     message = i18n('disconnected');
                     instructions = i18n('checkNetworkConnection');
                     hasInterruption = true;
-                break;
-                default:
-                    this.setOffline();
                 break;
             }
 

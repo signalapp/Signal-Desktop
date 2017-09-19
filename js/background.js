@@ -117,7 +117,7 @@
             appView.inboxView.networkStatusView.update();
         });
         Whisper.events.on('reconnectTimer', function() {
-            appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
+            appView.inboxView.networkStatusView.onReconnectTimer();
         });
         Whisper.events.on('contactsync', function() {
           if (appView.installView) {
