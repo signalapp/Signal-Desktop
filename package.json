@@ -33,6 +33,7 @@
     "spectron": "^3.6.2"
   },
   "scripts": {
+    "postinstall": "electron-builder install-app-deps",
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
@@ -41,7 +42,7 @@
     "generate": "npm run icon-gen && grunt",
     "build": "build --em.environment=$SIGNAL_ENV",
     "dist": "npm run generate && npm run build",
-    "pack": "npm run dist -- --dir",
+    "pack": "npm run generate && npm run build -- --dir",
     "pack-prod": "SIGNAL_ENV=production npm run pack",
     "dist-prod": "SIGNAL_ENV=production npm run dist",
     "dist-prod-all": "SIGNAL_ENV=production npm run dist -- -mwl",
