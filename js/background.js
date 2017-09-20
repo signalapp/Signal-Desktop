@@ -536,6 +536,10 @@
         var reader    = ev.read.reader;
         console.log('read receipt', reader, timestamp);
 
+        if (!storage.get('read-receipt-setting')) {
+          return ev.confirm();
+        }
+
         var receipt = Whisper.ReadReceipts.add({
             reader    : reader,
             timestamp : timestamp,
