@@ -142,6 +142,10 @@ message SyncMessage {
     optional uint64 timestamp = 2;
   }
 
+  message Settings {
+    optional bool readReceipts = 1;
+  }
+
   optional Sent     sent     = 1;
   optional Contacts contacts = 2;
   optional Groups   groups   = 3;
@@ -150,6 +154,7 @@ message SyncMessage {
   optional Blocked  blocked  = 6;
   optional Verified verified = 7;
   optional bytes    padding  = 8;
+  optional Settings settings = 9;
 }
 
 message AttachmentPointer {

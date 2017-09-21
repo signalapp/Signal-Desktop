@@ -204,6 +204,7 @@
                     textsecure.storage.remove('regionCode');
                     textsecure.storage.remove('userAgent');
                     textsecure.storage.remove('profileKey');
+                    textsecure.storage.remove('read-receipts-setting');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -226,6 +227,12 @@
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
+                    if (provisionMessage.readReceipts) {
+                        textsecure.storage.put('read-receipt-setting', true);
+                    } else {
+                        textsecure.storage.put('read-receipt-setting', false);
+                    }
+
 
                     textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
                     textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));

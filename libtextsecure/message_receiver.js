@@ -585,9 +585,19 @@ MessageReceiver.prototype.extend({
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
+        } else if (syncMessage.settings) {
+            return this.handleSettings(envelope, syncMessage.settings);
         } else {
             throw new Error('Got empty SyncMessage');
         }
+    },
+    handleSettings: function(envelope, settings) {
+        var ev = new Event('settings');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.settings = {
+            readReceipts: settings.readReceipts
+        };
+        return this.dispatchAndWait(ev);
     },
     handleVerified: function(envelope, verified) {
         var ev = new Event('verified');

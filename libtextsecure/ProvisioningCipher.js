@@ -36,6 +36,7 @@ ProvisioningCipher.prototype = {
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
                     userAgent        : provisionMessage.userAgent,
+                    readReceipts     : provisionMessage.readReceipts
                 };
                 if (provisionMessage.profileKey) {
                   ret.profileKey = provisionMessage.profileKey.toArrayBuffer();

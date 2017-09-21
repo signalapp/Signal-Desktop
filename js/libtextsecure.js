@@ -38261,6 +38261,7 @@ var TextSecureServer = (function() {
                     textsecure.storage.remove('regionCode');
                     textsecure.storage.remove('userAgent');
                     textsecure.storage.remove('profileKey');
+                    textsecure.storage.remove('read-receipts-setting');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -38283,6 +38284,12 @@ var TextSecureServer = (function() {
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
+                    if (provisionMessage.readReceipts) {
+                        textsecure.storage.put('read-receipt-setting', true);
+                    } else {
+                        textsecure.storage.put('read-receipt-setting', false);
+                    }
+
 
                     textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
                     textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
@@ -38939,9 +38946,19 @@ MessageReceiver.prototype.extend({
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
+        } else if (syncMessage.settings) {
+            return this.handleSettings(envelope, syncMessage.settings);
         } else {
             throw new Error('Got empty SyncMessage');
         }
+    },
+    handleSettings: function(envelope, settings) {
+        var ev = new Event('settings');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.settings = {
+            readReceipts: settings.readReceipts
+        };
+        return this.dispatchAndWait(ev);
     },
     handleVerified: function(envelope, verified) {
         var ev = new Event('verified');
@@ -40372,6 +40389,7 @@ ProvisioningCipher.prototype = {
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
                     userAgent        : provisionMessage.userAgent,
+                    readReceipts     : provisionMessage.readReceipts
                 };
                 if (provisionMessage.profileKey) {
                   ret.profileKey = provisionMessage.profileKey.toArrayBuffer();
