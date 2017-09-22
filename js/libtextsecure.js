@@ -37666,8 +37666,22 @@ var TextSecureServer = (function() {
         return true;
     }
 
+    // On Linux/Electron multiple quick web requests can result in the Node.js event
+    //   loop getting wedged. Bug: https://github.com/electron/electron/issues/10570
+    //   This forces the event loop to move.
+    function scheduleHangWorkaround() {
+        setTimeout(function() {
+            setImmediate(function() {
+                // noop
+            });
+        }, 1000);
+    }
+
     function createSocket(url) {
       var requestOptions = { ca: window.config.certificateAuthorities };
+
+      scheduleHangWorkaround();
+
       return new nodeWebSocket(url, null, null, null, requestOptions);
     }
 
@@ -37728,6 +37742,8 @@ var TextSecureServer = (function() {
                 reject(HTTPError(xhr.status, xhr.statusText, options.stack));
             };
             xhr.send( options.data || null );
+
+            scheduleHangWorkaround();
         });
     }
 
