@@ -208,6 +208,9 @@
             'dragleave': 'sendToFileInput'
         },
         sendToFileInput: function(e) {
+            if (e.originalEvent.dataTransfer.types[0] != 'Files') {
+                return;
+            }
             this.fileInput.$el.trigger(e);
         },
 
