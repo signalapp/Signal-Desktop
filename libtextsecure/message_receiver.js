@@ -483,10 +483,16 @@ MessageReceiver.prototype.extend({
             return this.handleDataMessage(envelope, content.dataMessage);
         } else if (content.nullMessage) {
             return this.handleNullMessage(envelope, content.nullMessage);
+        } else if (content.callMessage) {
+            return this.handleCallMessage(envelope, content.callMessage);
         } else {
             this.removeFromCache(envelope);
             throw new Error('Unsupported content message');
         }
+    },
+    handleCallMessage: function(envelope, nullMessage) {
+        console.log('call message from', this.getEnvelopeId(envelope));
+        this.removeFromCache(envelope);
     },
     handleNullMessage: function(envelope, nullMessage) {
         console.log('null message from', this.getEnvelopeId(envelope));
