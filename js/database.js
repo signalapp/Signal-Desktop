@@ -97,6 +97,16 @@
                 messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], { unique: true });
                 next();
             }
+        },
+        {
+            version: "16.0",
+            migrate: function(transaction, next) {
+                console.log('migration 16.0');
+                console.log('Dropping log table, since we now log to disk');
+                var messages = transaction.db.deleteObjectStore('debug');
+                next();
+            }
         }
+
     ];
 }());

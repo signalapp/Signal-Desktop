@@ -22,7 +22,7 @@
         className: 'debug-log modal',
         initialize: function() {
             this.render();
-            this.$('textarea').val(console.get());
+            this.$('textarea').val(log.fetch());
         },
         events: {
             'click .submit': 'submit',
@@ -41,11 +41,11 @@
         },
         submit: function(e) {
             e.preventDefault();
-            var log = this.$('textarea').val();
-            if (log.length === 0) {
+            var text = this.$('textarea').val();
+            if (text.length === 0) {
                 return;
             }
-            console.post(log).then(function(url) {
+            log.publish(text).then(function(url) {
                 var view = new Whisper.DebugLogLinkView({
                     url: url,
                     el: this.$('.result')

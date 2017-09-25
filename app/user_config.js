@@ -14,7 +14,7 @@ if (config.has('storageProfile')) {
   app.setPath('userData', userData);
 }
 
-console.log('userData ' + app.getPath('userData'));
+console.log('userData: ' + app.getPath('userData'));
 
 // this needs to be below our update to the appData path
 const userConfig = new ElectronConfig();

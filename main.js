@@ -1,14 +1,17 @@
+const path = require('path');
+const url = require('url');
+
 const electron = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-const path = require('path')
-const url = require('url')
+
+const BrowserWindow = electron.BrowserWindow;
+const app = electron.app;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
+
 
 console.log('setting AUMID');
 app.setAppUserModelId('org.whispersystems.signal-desktop')
@@ -38,9 +41,15 @@ if (config.environment === 'production' && !process.mas) {
 }
 
 const userConfig = require('./app/user_config');
-let windowConfig = userConfig.get('window');
+const logging = require('./app/logging');
 
+// this must be after we set up appPath in user_config.js
+logging.initialize();
+const logger = logging.getLogger();
+
+let windowConfig = userConfig.get('window');
 const loadLocale = require('./app/locale').load;
+
 let locale;
 
 function createWindow () {
@@ -126,7 +135,7 @@ function createWindow () {
   });
 
   mainWindow.webContents.on('will-navigate', function(e) {
-    console.log('will-navigate');
+    logger.info('will-navigate');
     e.preventDefault();
   });
 
@@ -169,7 +178,7 @@ function showDebugLog() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
-  console.log('app ready');
+  logger.info('app ready');
 
   if (!locale) {
     locale = loadLocale();

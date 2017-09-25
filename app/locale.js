@@ -3,6 +3,8 @@ const fs = require('fs');
 const app = require('electron').app;
 const _ = require('lodash');
 
+const logger = require('./logging').getLogger();
+
 function normalizeLocaleName(locale) {
   if (/^en-/.test(locale)) {
     return 'en';
@@ -42,8 +44,8 @@ function load() {
     // We start with english, then overwrite that with anything present in locale
     messages = _.merge(english, messages);
   } catch (e) {
-    console.log('Problem loading messages for locale ', localeName, e.stack);
-    console.log('Falling back to en locale');
+    logger.error('Problem loading messages for locale ' + localeName + ' ' + e.stack);
+    logger.error('Falling back to en locale');
 
     localeName = 'en';
     messages = english;

@@ -7,7 +7,7 @@
   window.PROTO_ROOT = 'protos';
   window.config = require('url').parse(window.location.toString(), true).query;
 
-  const ipc = electron.ipcRenderer
+  const ipc = electron.ipcRenderer;
   window.config.localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = function(count) {
@@ -31,6 +31,7 @@
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
+  require('./js/logging');
   require('./js/spell_check');
   require('./js/backup');
 

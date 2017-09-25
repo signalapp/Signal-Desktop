@@ -33,7 +33,7 @@
     "spectron": "^3.6.2"
   },
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "test": "grunt test",
     "lint": "grunt jshint",
     "start": "electron .",
@@ -132,6 +132,7 @@
     ]
   },
   "dependencies": {
+    "bunyan": "^1.8.12",
     "config": "^1.26.2",
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
@@ -139,7 +140,9 @@
     "emoji-datasource-apple": "^3.0.0",
     "emoji-js": "^3.2.2",
     "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
     "os-locale": "^2.1.0",
+    "rimraf": "^2.6.2",
     "semver": "^5.4.1",
     "spellchecker": "^3.4.3",
     "websocket": "^1.0.24"
