@@ -1,5 +1,3 @@
-'use strict';
-
 const electron = require('electron');
 const bunyan = require('bunyan');
 const _ = require('lodash');
@@ -35,13 +33,13 @@ function log() {
   console._log.apply(console, consoleArgs);
 
   const str = args.join(' ').replace(PHONE_REGEX, "+[REDACTED]$1");
-  ipc.send('log-info', str)
+  ipc.send('log-info', str);
 }
 
 if (window.console) {
   console._log = console.log;
   console.log = log;
-};
+}
 
 
 // The mechanics of preparing a log for publish
@@ -69,7 +67,7 @@ function format(entries) {
 
 function fetch() {
   return getHeader() + '\n' + format(ipc.sendSync('fetch-log'));
-};
+}
 
 function publish(log) {
   log = log || fetch();
@@ -90,7 +88,7 @@ function publish(log) {
       })
       .fail(resolve);
   });
-};
+}
 
 
 // A modern logging interface for the browser
@@ -129,7 +127,7 @@ window.log = {
   trace: _.partial(logAtLevel, 'trace'),
   fetch,
   publish,
-}
+};
 
 window.onerror = function(message, script, line, col, error) {
   log.error(error.stack);
