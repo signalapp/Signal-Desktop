@@ -200,31 +200,6 @@ module.exports = function(grunt) {
         tasks: ['jscs']
       },
     },
-    connect: {
-      server: {
-        options: {
-          base: '.',
-          port: 9999
-        }
-      }
-    },
-    'saucelabs-mocha': {
-      all: {
-        options: {
-          urls: [
-            'http://127.0.0.1:9999/test/index.html',
-            'http://127.0.0.1:9999/libtextsecure/test/index.html',
-          ],
-          build: process.env.TRAVIS_JOB_ID,
-          browsers: [
-            { browserName: 'chrome', version: '41' },
-          ],
-          testname: 'TextSecure-Browser Tests',
-          'max-duration': 300,
-          statusCheckAttempts: 200
-        }
-      }
-    },
     exec: {
       'tx-pull': {
         cmd: 'tx pull'
@@ -499,7 +474,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
-  grunt.registerTask('dev', ['default', 'connect', 'watch']);
+  grunt.registerTask('dev', ['default', 'watch']);
   grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
