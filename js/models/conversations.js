@@ -51,6 +51,14 @@
         };
     },
 
+    idForLogging: function() {
+        if (this.isPrivate()) {
+            return this.id;
+        }
+
+        return 'group(' + this.id + ')';
+    },
+
     handleMessageError: function(message, errors) {
         this.trigger('messageError', message, errors);
     },
@@ -195,7 +203,7 @@
             }.bind(this)).catch(function(error) {
                 console.log(
                     'getIdentityKeys error for conversation',
-                    this.id,
+                    this.idForLogging(),
                     error && error.stack ? error.stack : error
                 );
                 return lookup;
@@ -207,7 +215,7 @@
                 }).catch(function(error) {
                     console.log(
                         'getIdentityKeys error for group member',
-                        contact.id,
+                        contact.idForLogging(),
                         error && error.stack ? error.stack : error
                     );
                 });
@@ -230,7 +238,7 @@
         if (this.get('decryptedOldIncomingKeyErrors')) {
             return Promise.resolve();
         }
-        console.log('decryptOldIncomingKeyErrors start for', this.id);
+        console.log('decryptOldIncomingKeyErrors start for', this.idForLogging());
 
         var messages = this.messageCollection.filter(function(message) {
             var errors = message.get('errors');
@@ -245,7 +253,7 @@
         });
 
         var markComplete = function() {
-            console.log('decryptOldIncomingKeyErrors complete for', this.id);
+            console.log('decryptOldIncomingKeyErrors complete for', this.idForLogging());
             return new Promise(function(resolve) {
                 this.save({decryptedOldIncomingKeyErrors: true}).always(resolve);
             }.bind(this));
@@ -414,7 +422,13 @@
     },
 
     addKeyChange: function(id) {
-        console.log('adding key change advisory for', this.id, id, this.get('timestamp'));
+        console.log(
+            'adding key change advisory for',
+            this.idForLogging(),
+            id,
+            this.get('timestamp')
+        );
+
         var timestamp = Date.now();
         var message = new Whisper.Message({
             conversationId : this.id,
@@ -437,7 +451,12 @@
 
         var lastMessage = this.get('timestamp') || Date.now();
 
-        console.log('adding verified change advisory for', this.id, id, lastMessage);
+        console.log(
+            'adding verified change advisory for',
+            this.idForLogging(),
+            id,
+            lastMessage
+        );
 
         var timestamp = Date.now();
         var message = new Whisper.Message({
@@ -548,7 +567,10 @@
     queueJob: function(callback) {
         var previous = this.pending || Promise.resolve();
 
-        var taskWithTimeout = textsecure.createTaskWithTimeout(callback, 'conversation ' + this.id);
+        var taskWithTimeout = textsecure.createTaskWithTimeout(
+            callback,
+            'conversation ' + this.idForLogging()
+        );
 
         var current = this.pending = previous.then(taskWithTimeout, taskWithTimeout);
 
@@ -564,7 +586,14 @@
     sendMessage: function(body, attachments) {
         this.queueJob(function() {
             var now = Date.now();
-            console.log('Sending message to conversation', this.id, 'with timestamp', now);
+
+            console.log(
+                'Sending message to conversation',
+                this.idForLogging(),
+                'with timestamp',
+                now
+            );
+
             var message = this.messageCollection.add({
                 body           : body,
                 conversationId : this.id,

@@ -228,7 +228,12 @@
         },
 
         unload: function(reason) {
-            console.log('unloading conversation', this.model.id, 'due to:', reason);
+            console.log(
+                'unloading conversation',
+                this.model.idForLogging(),
+                'due to:',
+                reason
+            );
 
             this.timerMenu.remove();
             this.fileInput.remove();
@@ -285,7 +290,13 @@
                 return;
             }
 
-            console.log('trimming conversation', this.model.id, 'of', models.length, 'old messages');
+            console.log(
+                'trimming conversation',
+                this.model.idForLogging(),
+                'of',
+                models.length,
+                'old messages'
+            );
 
             this.model.messageCollection.remove(models);
             _.forEach(models, function(model) {
@@ -430,7 +441,13 @@
             var view = this.loadingScreen;
             if (view) {
                 var openDelta = Date.now() - this.openStart;
-                console.log('Conversation', this.model.id, 'took', openDelta, 'milliseconds to load');
+                console.log(
+                    'Conversation',
+                    this.model.idForLogging(),
+                    'took',
+                    openDelta,
+                    'milliseconds to load'
+                );
                 this.loadingScreen = null;
                 view.remove();
             }
