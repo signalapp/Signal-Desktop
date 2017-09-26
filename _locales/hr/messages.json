@@ -42,7 +42,7 @@
         "description": "Warning that long messages could not get received completely by Android clients."
     },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "Postavili ste brojač na $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -662,7 +662,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "message": "Označili ste svoj sigurnosni broj s $name$ kao nepotvrđen s drugog uređaja.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -804,7 +804,7 @@
         }
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "Brojač postavljen na $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {

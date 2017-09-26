@@ -142,7 +142,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 time",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
@@ -174,7 +174,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Slet",
         "description": ""
     },
     "verified": {
@@ -246,7 +246,7 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "nu",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
@@ -486,7 +486,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
-        "message": "Contacts",
+        "message": "Kontakter",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
@@ -550,7 +550,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "Slet besked",
         "description": ""
     },
     "timerOption_0_seconds": {

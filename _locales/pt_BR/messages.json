@@ -84,7 +84,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "Se você desejar verificar a segurança da sua criptografia ponta-a-ponta com $name$, compare os números acima com os números no aparelho desse contato.",
+        "message": "Se você desejar verificar a segurança da sua criptografia ponta-a-ponta com $name$, compare os números acima com os números no aparelho dessa pessoa.",
         "description": "",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "Falha em alguns envios.",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -324,7 +324,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Não-religado",
+        "message": "Não religado",
         "description": ""
     },
     "installFollowUs": {
@@ -574,7 +574,7 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "Nova mensagem abaixo",
+        "message": "Nova mensagem, abaixo",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
@@ -724,7 +724,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "O seu número de segurança com $name$mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal. Recomendamos que você verifique o seu número de segurança com com esse contato.",
+        "message": "O seu número de segurança com $name$mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal. Recomendamos que você verifique o seu número de segurança com esse contato.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -778,7 +778,7 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Os seus números de segurança com varios membros mudaram desde a última vez que você os verificou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Signal.",
+        "message": "Os seus números de segurança com vários membros mudaram desde a última vez que você os verificou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "export": {
