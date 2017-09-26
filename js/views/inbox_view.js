@@ -155,7 +155,7 @@
                     this.appLoadingScreen = null;
                 }
                 this.showMigrationScreen();
-            } else if (storage.get('migrationEnabled')) {
+            } else {
                 var migrationBanner = new Whisper.MigrationAlertBanner().render();
                 migrationBanner.$el.prependTo(this.$el);
             }
