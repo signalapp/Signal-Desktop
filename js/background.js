@@ -159,6 +159,7 @@
 
     function connect(firstRun) {
         window.removeEventListener('online', connect);
+        window.addEventListener('offline', disconnect);
 
         if (!Whisper.Registration.everDone()) { return; }
         if (Whisper.Import.isIncomplete()) { return; }
@@ -439,6 +440,17 @@
         return message;
     }
 
+    function disconnect() {
+        window.removeEventListener('offline', disconnect);
+        window.addEventListener('online', connect);
+
+        console.log('offline');
+        if (messageReceiver) {
+            messageReceiver.close();
+            messageReceiver = null;
+        }
+    }
+
     function onError(ev) {
         var error = ev.error;
         console.log(error);
@@ -457,10 +469,6 @@
                 setTimeout(connect, 60000);
 
                 Whisper.events.trigger('reconnectTimer');
-            } else {
-                console.log('offline');
-                if (messageReceiver) { messageReceiver.close(); }
-                window.addEventListener('online', connect);
             }
             return;
         }
