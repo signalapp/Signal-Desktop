@@ -109,7 +109,6 @@ module.exports = function(grunt) {
     },
     dist: {
       src: [
-        'manifest.json',
         'background.html',
         'index.html',
         'options.html',
