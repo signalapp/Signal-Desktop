@@ -38394,6 +38394,7 @@ MessageReceiver.prototype.extend({
         this.incoming = [this.pending];
     },
     close: function() {
+        this.calledClose = true;
         this.socket.close(3000, 'called close');
         return this.drain();
     },
@@ -38407,7 +38408,17 @@ MessageReceiver.prototype.extend({
         return Promise.all(this.dispatchEvent(event));
     },
     onclose: function(ev) {
-        console.log('websocket closed', ev.code, ev.reason || '');
+        console.log(
+            'websocket closed',
+            ev.code,
+            ev.reason || '',
+            'calledClose:',
+            this.calledClose
+        );
+
+        if (this.calledClose) {
+            return;
+        }
         if (ev.code === 3000) {
             return;
         }
