@@ -12,11 +12,11 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "نمایش",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "در حال به‌روزرسانی پابگاه داده. ممکن است کمی طول بکشد...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -178,7 +178,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "پاک کن",
         "description": ""
     },
     "verified": {
@@ -312,7 +312,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "برخی دریافت‌ها با مشکل مواجه شد.",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -398,7 +398,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "در حال بارگذاری پیام‌ها. تاکنون $count$ ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -554,7 +554,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "من",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
@@ -574,7 +574,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "پاک کردن این پیام",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -656,7 +656,7 @@
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "به هر حال بفرست",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
@@ -694,7 +694,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "نمایش اعضا",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
@@ -722,11 +722,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "اعضای گروه",
         "description": ""
     },
     "loading": {
-        "message": "Loading...",
+        "message": "در حال بارگذاری...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
@@ -870,7 +870,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "تلاش دوباره",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
