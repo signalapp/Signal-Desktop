@@ -75,6 +75,7 @@
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "artifactName": "${productName}-Setup_${version}.${ext}",
+      "certificateSubjectName": "Signal",
       "icon": "build/icons/win/icon.ico",
       "publish": {
         "provider": "s3",
