@@ -15,6 +15,7 @@ build_script:
   - yarn run icon-gen
   - node build\grunt.js
   - node_modules\.bin\build --em.environment=%SIGNAL_ENV% --publish=never
+  - type package.json | findstr /v certificateSubjectName > package.json
 
 test_script:
   - node build\grunt.js test-release:win
