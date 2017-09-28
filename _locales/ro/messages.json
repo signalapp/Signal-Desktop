@@ -750,7 +750,7 @@
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "Instalează noul Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {

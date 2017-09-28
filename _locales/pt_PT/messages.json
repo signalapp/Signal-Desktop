@@ -186,7 +186,7 @@
         "description": ""
     },
     "exportError": {
-        "message": "Infelizmente, algo falhou durante a exportação. Primeiro, verifique que a pasta de destino tem acesso de escrita e espaço suficiente. Depois, por favor envie um debug log para que o(a) possamos ajudar a migrar!",
+        "message": "Infelizmente, algo falhou durante a exportação. Primeiro, verifique que a pasta de destino tem acesso de escrita e espaço suficiente. Depois, por favor envie um relatório de erros para que o(a) possamos ajudar a migrar!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
     "installConnecting": {
@@ -224,7 +224,7 @@
         "description": "Label for the time a message was sent"
     },
     "migrationWarning": {
-        "message": "O Signal Desktop para o Chrome foi descontinuada. Pretende migrar para o novo Signal Desktop agora?",
+        "message": "O Signal Desktop para o Chrome foi descontinuado. Pretende migrar para o novo Signal Desktop agora?",
         "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
     "migrate": {

@@ -106,7 +106,7 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "再次匯出",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "請耐心等待我們匯出你的資料，此過程將需數分鐘。你可以繼續在電話及其他裝置上使用Signal。",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -750,7 +750,7 @@
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "安裝新的Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {
