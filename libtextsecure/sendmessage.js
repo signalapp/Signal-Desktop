@@ -246,13 +246,13 @@ MessageSender.prototype = {
             }.bind(this));
         }.bind(this));
     },
-    sendMessageProto: function(timestamp, numbers, message, callback) {
+    sendMessageProto: function(timestamp, numbers, message, callback, silent) {
         var rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
         if (rejections > 5) {
             throw new textsecure.SignedPreKeyRotationError(numbers, message.toArrayBuffer(), timestamp);
         }
 
-        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
+        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, silent, callback);
 
         numbers.forEach(function(number) {
             this.queueJobForNumber(number, function() {
@@ -273,14 +273,14 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendIndividualProto: function(number, proto, timestamp) {
+    sendIndividualProto: function(number, proto, timestamp, silent) {
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.errors.length > 0)
                     reject(res);
                 else
                     resolve(res);
-            });
+            }, silent);
         }.bind(this));
     },
 
@@ -369,7 +369,7 @@ MessageSender.prototype = {
         var contentMessage = new textsecure.protobuf.Content();
         contentMessage.receiptMessage = receiptMessage;
 
-        return this.sendIndividualProto(sender, contentMessage, Date.now());
+        return this.sendIndividualProto(sender, contentMessage, Date.now(), true /*silent*/);
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
