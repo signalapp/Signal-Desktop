@@ -2,7 +2,9 @@
  * vim: ts=4:sw=4:expandtab
  */
 
-function MessageReceiver(url, username, password, signalingKey) {
+function MessageReceiver(url, username, password, signalingKey, options) {
+    options = options || {};
+
     this.count = 0;
 
     this.url = url;
@@ -14,6 +16,12 @@ function MessageReceiver(url, username, password, signalingKey) {
     var address = libsignal.SignalProtocolAddress.fromString(username);
     this.number = address.getName();
     this.deviceId = address.getDeviceId();
+
+    this.pending = Promise.resolve();
+
+    if (options.retryCached) {
+        this.pending = this.queueAllCached();
+    }
 }
 
 MessageReceiver.prototype = new textsecure.EventTarget();
@@ -32,8 +40,6 @@ MessageReceiver.prototype.extend({
             handleRequest: this.handleRequest.bind(this),
             keepalive: { path: '/v1/keepalive', disconnect: true }
         });
-
-        this.pending = this.queueAllCached();
 
         // Ensures that an immediate 'empty' event from the websocket will fire only after
         //   all cached envelopes are processed.
@@ -846,8 +852,8 @@ MessageReceiver.prototype.extend({
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageReceiver = function(url, username, password, signalingKey) {
-    var messageReceiver = new MessageReceiver(url, username, password, signalingKey);
+textsecure.MessageReceiver = function(url, username, password, signalingKey, options) {
+    var messageReceiver = new MessageReceiver(url, username, password, signalingKey, options);
     this.addEventListener    = messageReceiver.addEventListener.bind(messageReceiver);
     this.removeEventListener = messageReceiver.removeEventListener.bind(messageReceiver);
     this.getStatus           = messageReceiver.getStatus.bind(messageReceiver);

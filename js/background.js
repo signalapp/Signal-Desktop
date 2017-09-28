@@ -157,6 +157,7 @@
       }
     });
 
+    var connectCount = 0;
     function connect(firstRun) {
         window.removeEventListener('online', connect);
 
@@ -169,9 +170,14 @@
         var PASSWORD = storage.get('password');
         var mySignalingKey = storage.get('signaling_key');
 
+        connectCount += 1;
+        var options = {
+            retryCached: connectCount === 1,
+        };
+
         // initialize the socket and start listening for messages
         messageReceiver = new textsecure.MessageReceiver(
-            SERVER_URL, USERNAME, PASSWORD, mySignalingKey
+            SERVER_URL, USERNAME, PASSWORD, mySignalingKey, options
         );
         messageReceiver.addEventListener('message', onMessageReceived);
         messageReceiver.addEventListener('receipt', onDeliveryReceipt);
