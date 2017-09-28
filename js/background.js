@@ -149,9 +149,9 @@
     Whisper.events.on('start-shutdown', function() {
       if (messageReceiver) {
         messageReceiver.close().then(function() {
-          messageReceiver = null;
           Whisper.events.trigger('shutdown-complete');
         });
+        messageReceiver = null;
       } else {
         Whisper.events.trigger('shutdown-complete');
       }
@@ -159,11 +159,15 @@
 
     function connect(firstRun) {
         window.removeEventListener('online', connect);
+        window.addEventListener('offline', disconnect);
 
         if (!Whisper.Registration.everDone()) { return; }
         if (Whisper.Import.isIncomplete()) { return; }
 
-        if (messageReceiver) { messageReceiver.close(); }
+        if (messageReceiver) {
+            messageReceiver.close();
+            messageReceiver = null;
+        }
 
         var USERNAME = storage.get('number_id');
         var PASSWORD = storage.get('password');
@@ -439,6 +443,17 @@
         return message;
     }
 
+    function disconnect() {
+        window.removeEventListener('offline', disconnect);
+        window.addEventListener('online', connect);
+
+        console.log('offline');
+        if (messageReceiver) {
+            messageReceiver.close();
+            messageReceiver = null;
+        }
+    }
+
     function onError(ev) {
         var error = ev.error;
         console.log(error);
@@ -457,10 +472,6 @@
                 setTimeout(connect, 60000);
 
                 Whisper.events.trigger('reconnectTimer');
-            } else {
-                console.log('offline');
-                if (messageReceiver) { messageReceiver.close(); }
-                window.addEventListener('online', connect);
             }
             return;
         }
