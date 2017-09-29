@@ -493,12 +493,16 @@
                                         //   because we need to start expiration timers, etc.
                                         message.markRead();
                                     }
-                                    if (message.get('unread')) {
-                                        conversation.notify(message);
-                                    }
 
-                                    confirm();
-                                    return resolve();
+                                    if (message.get('unread')) {
+                                        conversation.notify(message).then(function() {
+                                            confirm();
+                                            return resolve();
+                                        }, handleError);
+                                    } else {
+                                        confirm();
+                                        return resolve();
+                                    }
                                 }
                                 catch (e) {
                                     handleError(e);
