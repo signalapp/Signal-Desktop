@@ -39,7 +39,7 @@
                 send = i18n('resend');
             }
 
-            var errorExplanation = i18n('identityKeyErrorOnSend', this.model.getTitle(), this.model.getTitle());
+            var errorExplanation = i18n('identityKeyErrorOnSend', [this.model.getTitle(), this.model.getTitle()]);
             return {
                 errorExplanation : errorExplanation,
                 showSafetyNumber : i18n('showSafetyNumber'),

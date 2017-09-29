@@ -61,7 +61,7 @@
             this.model.getProfiles().then(this.loadKeys.bind(this));
 
             var dialog = new Whisper.ConfirmationDialogView({
-                message: i18n('changedRightAfterVerify', this.model.getTitle(), this.model.getTitle()),
+                message: i18n('changedRightAfterVerify', [this.model.getTitle(), this.model.getTitle()]),
                 hideCancel: true
             });
 
