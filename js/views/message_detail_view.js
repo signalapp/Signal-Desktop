@@ -105,20 +105,22 @@
             this.$el.prepend(dialog.el);
             dialog.focusCancel();
         },
-        getContact: function(number) {
-            var c = ConversationController.get(number);
-            return {
-                number: number,
-                title: c ? c.getTitle() : number
-            };
-        },
-        contacts: function() {
+        getContacts: function() {
+            // Return the set of models to be rendered in this view
+            var ids;
             if (this.model.isIncoming()) {
-                var number = this.model.get('source');
-                return [this.conversation.contactCollection.get(number)];
-            } else {
-                return this.conversation.contactCollection.models;
+                ids = [ this.model.get('source') ];
+            } else if (this.model.isOutgoing()) {
+                ids = this.model.get('recipients');
+                if (!ids) {
+                  // older messages have no recipients field
+                  // use the current set of recipients
+                  ids = this.conversation.getRecipients();
+                }
             }
+            return Promise.all(ids.map(function(number) {
+                return ConversationController.getOrCreateAndWait(number, 'private');
+            }));
         },
         renderContact: function(contact) {
             var view = new ContactView({
@@ -150,21 +152,15 @@
             this.view.$el.prependTo(this.$('.message-container'));
 
             this.grouped = _.groupBy(this.model.get('errors'), 'number');
-            if (this.model.isOutgoing()) {
-                var contacts = this.conversation.contactCollection.reject(function(c) {
-                    return c.isMe();
-                });
 
+            this.getContacts().then(function(contacts) {
                 _.sortBy(contacts, function(c) {
                     var prefix = this.grouped[c.id] ? '0' : '1';
                     // this prefix ensures that contacts with errors are listed first;
                     //   otherwise it's alphabetical
                     return prefix + c.getTitle();
                 }.bind(this)).forEach(this.renderContact.bind(this));
-            } else {
-                var c = this.conversation.contactCollection.get(this.model.get('source'));
-                this.renderContact(c);
-            }
+            }.bind(this));
         }
     });
 
