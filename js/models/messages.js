@@ -455,6 +455,8 @@
                                 read_by: _.union(message.get('read_by'), read_by)
                             });
                         }
+
+                        message.set({recipients: conversation.getRecipients()});
                     }
 
                     var conversation_timestamp = conversation.get('timestamp');
