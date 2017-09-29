@@ -583,6 +583,15 @@
         return current;
     },
 
+    getRecipients: function() {
+        if (this.isPrivate()) {
+            return [ this.id ];
+        } else {
+            var me = textsecure.storage.user.getNumber();
+            return _.without(this.get('members'), me);
+        }
+    },
+
     sendMessage: function(body, attachments) {
         this.queueJob(function() {
             var now = Date.now();
@@ -601,7 +610,8 @@
                 attachments    : attachments,
                 sent_at        : now,
                 received_at    : now,
-                expireTimer    : this.get('expireTimer')
+                expireTimer    : this.get('expireTimer'),
+                recipients     : this.getRecipients()
             });
             if (this.isPrivate()) {
                 message.set({destination: this.id});
@@ -671,6 +681,9 @@
         if (this.isPrivate()) {
             message.set({destination: this.id});
         }
+        if (message.isOutgoing()) {
+            message.set({recipients: this.getRecipients() });
+        }
         message.save();
         if (message.isOutgoing()) { // outgoing update, send it to the number/group
             var sendFunc;
@@ -702,6 +715,7 @@
                 sent_at        : now,
                 received_at    : now,
                 destination    : this.id,
+                recipients     : this.getRecipients(),
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
             message.send(textsecure.messaging.closeSession(this.id, now));
