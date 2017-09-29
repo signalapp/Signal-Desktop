@@ -227,14 +227,6 @@
         "message": "Trimis",
         "description": "Label for the time a message was sent"
     },
-    "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "Migrează",
-        "description": "Button label to begin migrating this client to Electron"
-    },
     "theyChangedTheTimer": {
         "message": "$name$ a setat cronometrul la $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -278,7 +270,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Mai târziu",
         "description": ""
     },
     "from": {
@@ -358,7 +350,7 @@
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Te rog așteaptă cât timp importăm datele tale...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -510,11 +502,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "Repornește",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "Importă",
         "description": ""
     },
     "sync": {
@@ -600,10 +592,6 @@
     "installAndroidInstructions": {
         "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive conectate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
         "description": ""
-    },
-    "migrationDisconnecting": {
-        "message": "Se deconectează...",
-        "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
         "message": "Număr invalid",
@@ -798,7 +786,7 @@
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "Instalează noul Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
@@ -836,10 +824,6 @@
     "changedSinceVerifiedMultiple": {
         "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "export": {
-        "message": "Alege un director",
-        "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
         "message": "Trimite log-ul de depanare",
@@ -886,7 +870,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Încearcă din nou",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {

@@ -227,14 +227,6 @@
         "message": "已发送",
         "description": "Label for the time a message was sent"
     },
-    "migrationWarning": {
-        "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "迁移",
-        "description": "Button label to begin migrating this client to Electron"
-    },
     "theyChangedTheTimer": {
         "message": "$name$ 将计时器设置为 $time$ 。",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -601,10 +593,6 @@
         "message": "在您的手机上打开Signal，然后点击设置>已连接的设备。点击添加按钮来加入新的设备，然后扫描上面的二维码。",
         "description": ""
     },
-    "migrationDisconnecting": {
-        "message": "失去连接...",
-        "description": "Displayed while we wait for pending incoming messages to process"
-    },
     "invalidNumberError": {
         "message": "无效的号码",
         "description": "When a person inputs a number that is invalid"
@@ -836,10 +824,6 @@
     "changedSinceVerifiedMultiple": {
         "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "export": {
-        "message": "选择目录",
-        "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "submitDebugLog": {
         "message": "提交调试日志",

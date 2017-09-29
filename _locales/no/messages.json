@@ -12,7 +12,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "Se",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
@@ -178,7 +178,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Slett",
         "description": ""
     },
     "verified": {
@@ -554,7 +554,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "Meg",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
@@ -574,7 +574,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "Slett denne meldingen",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -656,7 +656,7 @@
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "Send allikevel",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
@@ -694,7 +694,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "Vis medlemmer",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
@@ -722,11 +722,11 @@
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
     "groupMembers": {
-        "message": "Group members",
+        "message": "Gruppemedlemmer",
         "description": ""
     },
     "loading": {
-        "message": "Loading...",
+        "message": "Laster...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
