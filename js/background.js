@@ -379,9 +379,17 @@
         var now = new Date().getTime();
         var data = ev.data;
 
+        var type, id;
+        if (data.message.group) {
+            type = 'group';
+            id = data.message.group.id;
+        } else {
+            type = 'private';
+            id = data.destination;
+        }
+
         if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            var id = data.message.group ? data.message.group.id : data.destination;
-            return ConversationController.getOrCreateAndWait(id, 'private').then(function(convo) {
+            return ConversationController.getOrCreateAndWait(id, type).then(function(convo) {
               return convo.save({profileSharing: true}).then(ev.confirm);
             });
         }
@@ -402,15 +410,6 @@
                 console.log('Received duplicate message', message.idForLogging());
                 ev.confirm();
                 return;
-            }
-
-            var type, id;
-            if (data.message.group) {
-                type = 'group';
-                id = data.message.group.id;
-            } else {
-                type = 'private';
-                id = data.destination;
             }
 
             return ConversationController.getOrCreateAndWait(id, type).then(function() {
