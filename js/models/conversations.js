@@ -1073,14 +1073,9 @@
         if (!message.isIncoming()) {
             return Promise.resolve();
         }
-        if (window.isFocused()) {
-            return Promise.resolve();
-        }
-
-        window.drawAttention();
         var conversationId = this.id;
 
-        ConversationController.getOrCreateAndWait(message.get('source'), 'private')
+        return ConversationController.getOrCreateAndWait(message.get('source'), 'private')
             .then(function(sender) {
                 return sender.getNotificationIcon().then(function(iconUrl) {
                     console.log('adding notification');

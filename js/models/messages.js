@@ -326,10 +326,7 @@
                 this.send(promise);
             }
         },
-        handleDataMessage: function(dataMessage, confirm, options) {
-            options = options || {};
-            _.defaults(options, {initialLoadComplete: true});
-
+        handleDataMessage: function(dataMessage, confirm) {
             // This function is called from the background script in a few scenarios:
             //   1. on an incoming message
             //   2. on a sent message sync'd from another device
@@ -496,7 +493,7 @@
                                         //   because we need to start expiration timers, etc.
                                         message.markRead();
                                     }
-                                    if (message.get('unread') && options.initialLoadComplete) {
+                                    if (message.get('unread')) {
                                         conversation.notify(message);
                                     }
 
