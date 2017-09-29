@@ -179,6 +179,8 @@
             retryCached: connectCount === 1,
         };
 
+        Whisper.Notifications.disable(); // avoid notification flood until empty
+
         // initialize the socket and start listening for messages
         messageReceiver = new textsecure.MessageReceiver(
             SERVER_URL, USERNAME, PASSWORD, mySignalingKey, options
@@ -239,6 +241,8 @@
                 view.onEmpty();
             }
         }, 500);
+
+        Whisper.Notifications.enable();
     }
     function onProgress(ev) {
         var count = ev.count;
@@ -509,9 +513,7 @@
                     }
 
                     conversation.trigger('newmessage', message);
-                    if (initialLoadComplete) {
-                        conversation.notify(message);
-                    }
+                    conversation.notify(message);
 
                     if (ev.confirm) {
                         ev.confirm();
