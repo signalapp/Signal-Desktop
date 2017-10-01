@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+@media print {
+    html, body {
+       display: none;  /* hide whole page */
+    }
+}
+
 html {
   height: 100%;
 }
