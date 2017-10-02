@@ -28,14 +28,19 @@ function getLocaleMessages(locale) {
 }
 
 function load() {
-  var english = getLocaleMessages('en');
+  let english = getLocaleMessages('en');
+  let appLocale = app.getLocale();
+
+  if (process.env.NODE_ENV === 'test') {
+    appLocale = 'en';
+  }
 
   // Load locale - if we can't load messages for the current locale, we
   // default to 'en'
   //
   // possible locales:
   // https://github.com/electron/electron/blob/master/docs/api/locales.md
-  let localeName = normalizeLocaleName(app.getLocale());
+  let localeName = normalizeLocaleName(appLocale);
   let messages;
 
   try {
