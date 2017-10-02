@@ -23,7 +23,6 @@
             render_attributes: function() {
                 if (this.model.id === this.ourNumber) {
                     return {
-                        class: 'not-clickable',
                         title: i18n('me'),
                         number: this.model.getNumber(),
                         avatar: this.model.getAvatar()
@@ -31,6 +30,7 @@
                 }
 
                 return {
+                    class: 'clickable',
                     title: this.model.getTitle(),
                     number: this.model.getNumber(),
                     avatar: this.model.getAvatar(),

@@ -392,7 +392,6 @@ $avatar-size: 44px;
   margin: 0 0 0 $left-margin;
   width: calc(100% - #{$avatar-size} - #{$left-margin} - #{(4/14) + em});
   text-align: left;
-  cursor: pointer;
 
   p {
     overflow-x: hidden;
@@ -413,8 +412,8 @@ $avatar-size: 44px;
     font-size: $font-size-small;
   }
 
-  &.not-clickable {
-    cursor: default;
+  &.clickable {
+    cursor: pointer;
   }
 
   .verified-icon {

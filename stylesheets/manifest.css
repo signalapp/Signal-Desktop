@@ -376,8 +376,7 @@ button.hamburger {
   display: inline-block;
   margin: 0 0 0 8px;
   width: calc(100% - 44px - 8px - 0.2857142857em);
-  text-align: left;
-  cursor: pointer; }
+  text-align: left; }
   .contact-details p {
     overflow-x: hidden;
     text-overflow: ellipsis; }
@@ -391,8 +390,8 @@ button.hamburger {
   .contact-details .number {
     color: #616161;
     font-size: 0.9285714286em; }
-  .contact-details.not-clickable {
-    cursor: default; }
+  .contact-details.clickable {
+    cursor: pointer; }
   .contact-details .verified-icon {
     -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
