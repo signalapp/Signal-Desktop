@@ -13,6 +13,7 @@
     };
 
     var enabled = false;
+    var sound = new Audio('audio/NewMessage.mp3');
 
     Whisper.Notifications = new (Backbone.Collection.extend({
         initialize: function() {
@@ -44,6 +45,9 @@
             window.drawAttention();
 
             var audioNotification = storage.get('audio-notification') || false;
+            if (audioNotification) {
+                sound.play();
+            }
 
             var setting = storage.get('notification-setting') || 'message';
             if (setting === SETTINGS.OFF) {
@@ -84,7 +88,7 @@
                 body   : message,
                 icon   : iconUrl,
                 tag    : 'signal',
-                silent : !audioNotification
+                silent : true
             });
 
             notification.onclick = this.onClick.bind(this, last.get('conversationId'));
