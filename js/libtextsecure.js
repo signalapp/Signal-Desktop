@@ -38147,7 +38147,8 @@ var TextSecureServer = (function() {
                                                 provisionMessage.identityKeyPair,
                                                 provisionMessage.profileKey,
                                                 deviceName,
-                                                provisionMessage.userAgent
+                                                provisionMessage.userAgent,
+                                                provisionMessage.readReceipts
                                             ).then(generateKeys).
                                               then(registerKeys).
                                               then(registrationDone);
@@ -38246,7 +38247,8 @@ var TextSecureServer = (function() {
                 });
             });
         },
-        createAccount: function(number, verificationCode, identityKeyPair, profileKey, deviceName, userAgent) {
+        createAccount: function(number, verificationCode, identityKeyPair,
+                           profileKey, deviceName, userAgent, readReceipts) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
@@ -38288,7 +38290,7 @@ var TextSecureServer = (function() {
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
-                    if (provisionMessage.readReceipts) {
+                    if (readReceipts) {
                         textsecure.storage.put('read-receipt-setting', true);
                     } else {
                         textsecure.storage.put('read-receipt-setting', false);
