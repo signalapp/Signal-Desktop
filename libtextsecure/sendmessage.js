@@ -328,6 +328,22 @@ MessageSender.prototype = {
         return this.server.getAvatar(path);
     },
 
+    sendRequestConfigurationSyncMessage: function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
+            var syncMessage = this.createSyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+
+        return Promise.resolve();
+    },
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();

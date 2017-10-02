@@ -128,10 +128,11 @@ message SyncMessage {
 
   message Request {
     enum Type {
-      UNKNOWN  = 0;
-      CONTACTS = 1;
-      GROUPS   = 2;
-      BLOCKED  = 3;
+      UNKNOWN       = 0;
+      CONTACTS      = 1;
+      GROUPS        = 2;
+      BLOCKED       = 3;
+      CONFIGURATION = 4;
     }
 
     optional Type type = 1;

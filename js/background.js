@@ -214,6 +214,21 @@
             }
         }
 
+        // If we've just upgraded to read receipt support on desktop, kick off a
+        // one-time configuration sync request to get the read-receipt setting
+        // from the master device.
+        var readReceiptConfigurationSync = 'read-receipt-configuration-sync';
+        if (!storage.get(readReceiptConfigurationSync)) {
+
+            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
+                textsecure.messaging.sendRequestConfigurationSyncMessage().then(function() {
+                    storage.put(readReceiptConfigurationSync, true);
+                }).catch(function(e) {
+                    console.log(e);
+                });
+            }
+        }
+
         if (firstRun === true && textsecure.storage.user.getDeviceId() != '1') {
             if (!storage.get('theme-setting') && textsecure.storage.get('userAgent') === 'OWI') {
                 storage.put('theme-setting', 'ios');
@@ -229,6 +244,12 @@
                 console.log('sync timed out');
                 Whisper.events.trigger('contactsync');
             });
+
+            if (Whisper.Import.isComplete()) {
+              textsecure.messaging.sendRequestConfigurationSyncMessage().catch(function(e) {
+                console.log(e);
+              });
+            }
         }
     }
 
