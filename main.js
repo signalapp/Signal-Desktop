@@ -69,8 +69,7 @@ function createWindow () {
     delete windowOptions.fullscreen;
   }
 
-  console.log('Initializing BrowserWindow');
-  console.log(windowOptions);
+  logger.info('Initializing BrowserWindow config: %s', JSON.stringify(windowOptions));
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
@@ -94,8 +93,7 @@ function createWindow () {
       windowConfig.fullscreen = true;
     }
 
-    console.log('Updating window config');
-    console.log(windowConfig);
+    logger.info('Updating BrowserWindow config: %s', JSON.stringify(windowConfig));
     userConfig.set('window', windowConfig);
   }
 
