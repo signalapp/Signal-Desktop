@@ -196,7 +196,12 @@
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
-                this.save({sent: true, expirationStartTimestamp: now});
+                var sent_to = this.get('sent_to') || [];
+                this.save({
+                  sent_to: _.union(sent_to, result.successfulNumbers),
+                  sent: true,
+                  expirationStartTimestamp: now
+                });
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
@@ -219,7 +224,12 @@
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
-                        this.set({sent: true, expirationStartTimestamp: now});
+                        var sent_to = this.get('sent_to') || [];
+                        this.set({
+                          sent_to: _.union(sent_to, result.successfulNumbers),
+                          sent: true,
+                          expirationStartTimestamp: now
+                        });
                         promises.push(this.sendSyncMessage());
                     }
                     promises = promises.concat(_.map(result.errors, function(error) {
