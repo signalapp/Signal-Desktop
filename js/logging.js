@@ -141,6 +141,6 @@ window.log = {
 };
 
 window.onerror = function(message, script, line, col, error) {
-  log.error(error.stack);
+  window.log.error(error.stack);
 };
 
