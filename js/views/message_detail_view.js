@@ -67,6 +67,7 @@
             var showButton = Boolean(this.outgoingKeyError);
 
             return {
+                status           : this.message.getStatus(this.model.id),
                 name             : this.model.getTitle(),
                 avatar           : this.model.getAvatar(),
                 errors           : this.errors,

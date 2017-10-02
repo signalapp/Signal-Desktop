@@ -188,6 +188,21 @@
             return _.size(this.get('errors')) > 0;
         },
 
+        getStatus: function(number) {
+            var read_by = this.get('read_by') || [];
+            if (read_by.indexOf(number) >= 0) {
+              return 'read';
+            }
+            var delivered_to = this.get('delivered_to') || [];
+            if (delivered_to.indexOf(number) >= 0) {
+              return 'delivered';
+            }
+            var sent_to = this.get('sent_to') || [];
+            if (sent_to.indexOf(number) >= 0) {
+              return 'sent';
+            }
+        },
+
         send: function(promise) {
             this.trigger('pending');
             return promise.then(function(result) {

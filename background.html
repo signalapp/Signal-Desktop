@@ -499,30 +499,37 @@
     {{ /message }}
   </script>
   <script type='text/x-tmpl-mustache' id='contact-detail'>
-      <div class='clearfix'>
-        {{> avatar }}
-        <div class='contact-details'>
-          {{ #errors }}
-              <div class='error-icon-container'>
-                {{ #showErrorButton }}
-                  <button class='error'>
-                    <span class='icon error'></span>
-                    {{ errorButtonLabel }}
-                  </button>
-                {{ /showErrorButton }}
-                {{ ^showErrorButton }}
-                  <span class='error-icon'></span>
-                {{ /showErrorButton }}
-              </div>
-          {{ /errors }}
-          <span class='name' dir='auto'>{{ name }}</span>
-          {{ #errors }}
-            {{ #message }}
-              <p class='error-message'>{{message}}</p>
-            {{ /message }}
-          {{ /errors }}
+    <div class='clearfix'>
+      {{> avatar }}
+      <div class='contact-details'>
+        {{ #errors }}
+          <div class='error-icon-container'>
+            {{ #showErrorButton }}
+              <button class='error'>
+                <span class='icon error'></span>
+                {{ errorButtonLabel }}
+              </button>
+            {{ /showErrorButton }}
+            {{ ^showErrorButton }}
+              <span class='error-icon'></span>
+            {{ /showErrorButton }}
+          </div>
+        {{ /errors }}
+
+        {{ ^errors }}
+        <div class='status-icon-container {{ status }}'>
+          <span class='status'></span>
         </div>
+        {{ /errors }}
+
+        <span class='name' dir='auto'>{{ name }}</span>
+        {{ #errors }}
+          {{ #message }}
+            <p class='error-message'>{{message}}</p>
+          {{ /message }}
+        {{ /errors }}
       </div>
+    </div>
   </script>
   <script type='text/x-tmpl-mustache' id='link_to_support'>
     <a href='http://support.whispersystems.org/hc/articles/213134107' target='_blank'>
