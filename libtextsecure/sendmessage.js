@@ -676,25 +676,26 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
     textsecure.replay.registerFunction(sender.retrySendMessageProto.bind(sender), textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO);
 
-    this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
-    this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
-    this.sendRequestGroupSyncMessage       = sender.sendRequestGroupSyncMessage      .bind(sender);
-    this.sendRequestContactSyncMessage     = sender.sendRequestContactSyncMessage    .bind(sender);
-    this.sendMessageToNumber               = sender.sendMessageToNumber              .bind(sender);
-    this.closeSession                      = sender.closeSession                     .bind(sender);
-    this.sendMessageToGroup                = sender.sendMessageToGroup               .bind(sender);
-    this.createGroup                       = sender.createGroup                      .bind(sender);
-    this.updateGroup                       = sender.updateGroup                      .bind(sender);
-    this.addNumberToGroup                  = sender.addNumberToGroup                 .bind(sender);
-    this.setGroupName                      = sender.setGroupName                     .bind(sender);
-    this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
-    this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
-    this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
-    this.getProfile                        = sender.getProfile                       .bind(sender);
-    this.getAvatar                         = sender.getAvatar                        .bind(sender);
-    this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
-    this.syncVerification                  = sender.syncVerification                 .bind(sender);
-    this.sendReadReceipts                  = sender.sendReadReceipts                 .bind(sender);
+    this.sendExpirationTimerUpdateToNumber   = sender.sendExpirationTimerUpdateToNumber.bind(sender);
+    this.sendExpirationTimerUpdateToGroup    = sender.sendExpirationTimerUpdateToGroup .bind(sender);
+    this.sendRequestGroupSyncMessage         = sender.sendRequestGroupSyncMessage      .bind(sender);
+    this.sendRequestContactSyncMessage       = sender.sendRequestContactSyncMessage    .bind(sender);
+    this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(sender);
+    this.sendMessageToNumber                 = sender.sendMessageToNumber              .bind(sender);
+    this.closeSession                        = sender.closeSession                     .bind(sender);
+    this.sendMessageToGroup                  = sender.sendMessageToGroup               .bind(sender);
+    this.createGroup                         = sender.createGroup                      .bind(sender);
+    this.updateGroup                         = sender.updateGroup                      .bind(sender);
+    this.addNumberToGroup                    = sender.addNumberToGroup                 .bind(sender);
+    this.setGroupName                        = sender.setGroupName                     .bind(sender);
+    this.setGroupAvatar                      = sender.setGroupAvatar                   .bind(sender);
+    this.leaveGroup                          = sender.leaveGroup                       .bind(sender);
+    this.sendSyncMessage                     = sender.sendSyncMessage                  .bind(sender);
+    this.getProfile                          = sender.getProfile                       .bind(sender);
+    this.getAvatar                           = sender.getAvatar                        .bind(sender);
+    this.syncReadMessages                    = sender.syncReadMessages                 .bind(sender);
+    this.syncVerification                    = sender.syncVerification                 .bind(sender);
+    this.sendReadReceipts                    = sender.sendReadReceipts                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
