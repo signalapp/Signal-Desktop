@@ -65,6 +65,12 @@ function createWindow () {
     }
   }, windowConfig);
 
+  if (windowOptions.fullscreen === false) {
+    delete windowOptions.fullscreen;
+  }
+
+  logger.info('Initializing BrowserWindow config: %s', JSON.stringify(windowOptions));
+
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
 
@@ -75,13 +81,19 @@ function createWindow () {
     // so if we need to recreate the window, we have the most recent settings
     windowConfig = {
       maximized: mainWindow.isMaximized(),
-      fullscreen: mainWindow.isFullScreen(),
       width: size[0],
       height: size[1],
       x: position[0],
       y: position[1]
     };
 
+    if (mainWindow.isFullScreen()) {
+      // Only include this property if true, because when explicitly set to
+      // false the fullscreen button will be disabled on osx
+      windowConfig.fullscreen = true;
+    }
+
+    logger.info('Updating BrowserWindow config: %s', JSON.stringify(windowConfig));
     userConfig.set('window', windowConfig);
   }
 
