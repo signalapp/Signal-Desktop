@@ -173,7 +173,7 @@
   function importFromJsonString(idb_db, jsonString) {
     return new Promise(function(resolve, reject) {
       var importObject = JSON.parse(jsonString);
-      var storeNames = _.keys(importObject);
+      var storeNames = _.without(_.keys(importObject), ['debug']);
 
       console.log('Importing to these stores:', storeNames.join(', '));
 
