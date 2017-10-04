@@ -22,7 +22,11 @@
         className: 'debug-log modal',
         initialize: function() {
             this.render();
-            this.$('textarea').val(log.fetch());
+            this.$('textarea').val(i18n('loading'));
+
+            window.log.fetch().then(function(text) {
+                this.$('textarea').val(text);
+            }.bind(this));
         },
         events: {
             'click .submit': 'submit',
