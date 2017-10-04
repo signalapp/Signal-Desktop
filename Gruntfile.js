@@ -286,7 +286,7 @@ module.exports = function(grunt) {
       zip: 'signal-desktop-' + package_json.version + '.zip',
       extractedTo: 'linux'
     }, {
-      zip: 'Signal-Setup_' + package_json.version + '.zip',
+      zip: 'Signal-win-' + package_json.version + '.zip',
       extractedTo: 'windows'
     }];
 
