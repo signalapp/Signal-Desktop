@@ -57,6 +57,7 @@
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
+      "artifactName": "${productName}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
       "publish": {
@@ -74,7 +75,7 @@
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "artifactName": "${productName}-Setup_${version}.${ext}",
+      "artifactName": "${productName}-win-${version}.${ext}",
       "certificateSubjectName": "Signal",
       "icon": "build/icons/win/icon.ico",
       "publish": {
