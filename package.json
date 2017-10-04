@@ -59,13 +59,19 @@
     "mac": {
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
-      "publish": {
-        "provider": "s3",
-        "region": "us-east-1",
-        "bucket": "updates.signal.org",
-        "path": "desktop",
-        "acl": "public-read"
-      },
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://updates.signal.org/desktop"
+        },
+        {
+          "provider": "s3",
+          "region": "us-east-1",
+          "bucket": "updates.signal.org",
+          "path": "desktop",
+          "acl": "public-read"
+        }
+      ],
       "target": [
         "dmg",
         "zip"
@@ -77,13 +83,19 @@
       "artifactName": "${productName}-Setup_${version}.${ext}",
       "certificateSubjectName": "Signal",
       "icon": "build/icons/win/icon.ico",
-      "publish": {
-        "provider": "s3",
-        "region": "us-east-1",
-        "bucket": "updates.signal.org",
-        "path": "desktop",
-        "acl": "public-read"
-      },
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "https://updates.signal.org/desktop"
+        },
+        {
+          "provider": "s3",
+          "region": "us-east-1",
+          "bucket": "updates.signal.org",
+          "path": "desktop",
+          "acl": "public-read"
+        }
+      ],
       "target": [
         "nsis",
         "zip"
