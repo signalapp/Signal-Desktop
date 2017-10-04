@@ -253,6 +253,7 @@
     padding: 0 36px;
     margin-bottom: 5px;
 
+    .status-icon-container,
     .error-icon-container {
       float: right;
     }
@@ -390,6 +391,28 @@ li.entry .error-icon-container {
   white-space: nowrap;
 }
 
+.status {
+  width: 18px;
+  height: 18px;
+}
+.sent .status {
+  display: inline-block;
+  @include color-svg('../images/check.svg', black);
+}
+.delivered .status {
+  display: inline-block;
+  @include color-svg('../images/double-check.svg', black);
+}
+.read .status {
+  display: inline-block;
+  @include color-svg('../images/double-check.svg', $blue);
+}
+.pending .status {
+  display: inline-block;
+  background: none;
+  &:before { content: '...'; }
+}
+
 .message-container,
 .message-list {
   list-style: none;
@@ -479,24 +502,6 @@ li.entry .error-icon-container {
         opacity: 1.0;
       }
     }
-  }
-
-  .status {
-    width: 18px;
-    height: 18px;
-  }
-  .sent .status {
-    display: inline-block;
-    @include color-svg('../images/check.svg', black);
-  }
-  .delivered .status {
-    display: inline-block;
-    @include color-svg('../images/double-check.svg', black);
-  }
-  .pending .status {
-    display: inline-block;
-    background: none;
-    &:before { content: '...'; }
   }
 
   .incoming {

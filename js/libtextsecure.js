@@ -37999,8 +37999,12 @@ var TextSecureServer = (function() {
                 return res;
             });
         },
-        sendMessages: function(destination, messageArray, timestamp) {
+        sendMessages: function(destination, messageArray, timestamp, silent) {
             var jsonData = { messages: messageArray, timestamp: timestamp};
+
+            if (silent) {
+              jsonData.silent = true;
+            }
 
             return this.ajax({
                 call                : 'messages',
@@ -38143,7 +38147,8 @@ var TextSecureServer = (function() {
                                                 provisionMessage.identityKeyPair,
                                                 provisionMessage.profileKey,
                                                 deviceName,
-                                                provisionMessage.userAgent
+                                                provisionMessage.userAgent,
+                                                provisionMessage.readReceipts
                                             ).then(generateKeys).
                                               then(registerKeys).
                                               then(registrationDone);
@@ -38242,7 +38247,8 @@ var TextSecureServer = (function() {
                 });
             });
         },
-        createAccount: function(number, verificationCode, identityKeyPair, profileKey, deviceName, userAgent) {
+        createAccount: function(number, verificationCode, identityKeyPair,
+                           profileKey, deviceName, userAgent, readReceipts) {
             var signalingKey = libsignal.crypto.getRandomBytes(32 + 20);
             var password = btoa(getString(libsignal.crypto.getRandomBytes(16)));
             password = password.substring(0, password.length - 2);
@@ -38261,6 +38267,7 @@ var TextSecureServer = (function() {
                     textsecure.storage.remove('regionCode');
                     textsecure.storage.remove('userAgent');
                     textsecure.storage.remove('profileKey');
+                    textsecure.storage.remove('read-receipts-setting');
 
                     // update our own identity key, which may have changed
                     // if we're relinking after a reinstall on the master device
@@ -38283,6 +38290,12 @@ var TextSecureServer = (function() {
                     if (userAgent) {
                         textsecure.storage.put('userAgent', userAgent);
                     }
+                    if (readReceipts) {
+                        textsecure.storage.put('read-receipt-setting', true);
+                    } else {
+                        textsecure.storage.put('read-receipt-setting', false);
+                    }
+
 
                     textsecure.storage.user.setNumberAndDeviceId(number, response.deviceId || 1, deviceName);
                     textsecure.storage.put('regionCode', libphonenumber.util.getRegionCodeForNumber(number));
@@ -38692,9 +38705,13 @@ MessageReceiver.prototype.extend({
     },
     onDeliveryReceipt: function (envelope) {
         return new Promise(function(resolve, reject) {
-            var ev = new Event('receipt');
+            var ev = new Event('delivery');
             ev.confirm = this.removeFromCache.bind(this, envelope);
-            ev.proto = envelope;
+            ev.deliveryReceipt = {
+              timestamp    : envelope.timestamp.toNumber(),
+              source       : envelope.source,
+              sourceDevice : envelope.sourceDevice
+            };
             this.dispatchAndWait(ev).then(resolve, reject);
         }.bind(this));
     },
@@ -38856,6 +38873,8 @@ MessageReceiver.prototype.extend({
             return this.handleNullMessage(envelope, content.nullMessage);
         } else if (content.callMessage) {
             return this.handleCallMessage(envelope, content.callMessage);
+        } else if (content.receiptMessage) {
+            return this.handleReceiptMessage(envelope, content.receiptMessage);
         } else {
             this.removeFromCache(envelope);
             throw new Error('Unsupported content message');
@@ -38864,6 +38883,33 @@ MessageReceiver.prototype.extend({
     handleCallMessage: function(envelope, nullMessage) {
         console.log('call message from', this.getEnvelopeId(envelope));
         this.removeFromCache(envelope);
+    },
+    handleReceiptMessage: function(envelope, receiptMessage) {
+        var results = [];
+        if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.DELIVERY) {
+            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+                var ev = new Event('delivery');
+                ev.confirm = this.removeFromCache.bind(this, envelope);
+                ev.deliveryReceipt = {
+                  timestamp    : receiptMessage.timestamps[i].toNumber(),
+                  source       : envelope.source,
+                  sourceDevice : envelope.sourceDevice
+                };
+                results.push(this.dispatchAndWait(ev));
+            }
+        } else if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.READ) {
+            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+                var ev = new Event('read');
+                ev.confirm = this.removeFromCache.bind(this, envelope);
+                ev.timestamp = envelope.timestamp.toNumber();
+                ev.read = {
+                    timestamp : receiptMessage.timestamps[i].toNumber(),
+                    reader    : envelope.source
+                }
+                results.push(this.dispatchAndWait(ev));
+            }
+        }
+        return Promise.all(results);
     },
     handleNullMessage: function(envelope, nullMessage) {
         console.log('null message from', this.getEnvelopeId(envelope));
@@ -38906,9 +38952,19 @@ MessageReceiver.prototype.extend({
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
+        } else if (syncMessage.settings) {
+            return this.handleSettings(envelope, syncMessage.settings);
         } else {
             throw new Error('Got empty SyncMessage');
         }
+    },
+    handleSettings: function(envelope, settings) {
+        var ev = new Event('settings');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.settings = {
+            readReceipts: settings.readReceipts
+        };
+        return this.dispatchAndWait(ev);
     },
     handleVerified: function(envelope, verified) {
         var ev = new Event('verified');
@@ -38923,7 +38979,7 @@ MessageReceiver.prototype.extend({
     handleRead: function(envelope, read) {
         var results = [];
         for (var i = 0; i < read.length; ++i) {
-            var ev = new Event('read');
+            var ev = new Event('readSync');
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.timestamp = envelope.timestamp.toNumber();
             ev.read = {
@@ -39236,7 +39292,7 @@ textsecure.MessageReceiver.prototype = {
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function OutgoingMessage(server, timestamp, numbers, message, callback) {
+function OutgoingMessage(server, timestamp, numbers, message, silent, callback) {
     if (message instanceof textsecure.protobuf.DataMessage) {
         var content = new textsecure.protobuf.Content();
         content.dataMessage = message;
@@ -39247,6 +39303,7 @@ function OutgoingMessage(server, timestamp, numbers, message, callback) {
     this.numbers = numbers;
     this.message = message; // ContentMessage proto
     this.callback = callback;
+    this.silent = silent;
 
     this.numbersCompleted = 0;
     this.errors = [];
@@ -39329,7 +39386,7 @@ OutgoingMessage.prototype = {
     },
 
     transmitMessage: function(number, jsonData, timestamp) {
-        return this.server.sendMessages(number, jsonData, timestamp).catch(function(e) {
+        return this.server.sendMessages(number, jsonData, timestamp, this.silent).catch(function(e) {
             if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
                 // 409 and 410 should bubble and be handled by doSendMessage
                 // 404 should throw UnregisteredUserError
@@ -39725,13 +39782,13 @@ MessageSender.prototype = {
             }.bind(this));
         }.bind(this));
     },
-    sendMessageProto: function(timestamp, numbers, message, callback) {
+    sendMessageProto: function(timestamp, numbers, message, callback, silent) {
         var rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
         if (rejections > 5) {
             throw new textsecure.SignedPreKeyRotationError(numbers, message.toArrayBuffer(), timestamp);
         }
 
-        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
+        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, silent, callback);
 
         numbers.forEach(function(number) {
             this.queueJobForNumber(number, function() {
@@ -39752,14 +39809,14 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendIndividualProto: function(number, proto, timestamp) {
+    sendIndividualProto: function(number, proto, timestamp, silent) {
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.errors.length > 0)
                     reject(res);
                 else
                     resolve(res);
-            });
+            }, silent);
         }.bind(this));
     },
 
@@ -39807,6 +39864,22 @@ MessageSender.prototype = {
         return this.server.getAvatar(path);
     },
 
+    sendRequestConfigurationSyncMessage: function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
+            var syncMessage = this.createSyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+
+        return Promise.resolve();
+    },
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -39839,6 +39912,16 @@ MessageSender.prototype = {
         }
 
         return Promise.resolve();
+    },
+    sendReadReceipts: function(sender, timestamps) {
+        var receiptMessage = new textsecure.protobuf.ReceiptMessage();
+        receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
+        receiptMessage.timestamps = timestamps;
+
+        var contentMessage = new textsecure.protobuf.Content();
+        contentMessage.receiptMessage = receiptMessage;
+
+        return this.sendIndividualProto(sender, contentMessage, Date.now(), true /*silent*/);
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -40129,24 +40212,26 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
     textsecure.replay.registerFunction(sender.retrySendMessageProto.bind(sender), textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO);
 
-    this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
-    this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
-    this.sendRequestGroupSyncMessage       = sender.sendRequestGroupSyncMessage      .bind(sender);
-    this.sendRequestContactSyncMessage     = sender.sendRequestContactSyncMessage    .bind(sender);
-    this.sendMessageToNumber               = sender.sendMessageToNumber              .bind(sender);
-    this.closeSession                      = sender.closeSession                     .bind(sender);
-    this.sendMessageToGroup                = sender.sendMessageToGroup               .bind(sender);
-    this.createGroup                       = sender.createGroup                      .bind(sender);
-    this.updateGroup                       = sender.updateGroup                      .bind(sender);
-    this.addNumberToGroup                  = sender.addNumberToGroup                 .bind(sender);
-    this.setGroupName                      = sender.setGroupName                     .bind(sender);
-    this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
-    this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
-    this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
-    this.getProfile                        = sender.getProfile                       .bind(sender);
-    this.getAvatar                         = sender.getAvatar                        .bind(sender);
-    this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
-    this.syncVerification                  = sender.syncVerification                 .bind(sender);
+    this.sendExpirationTimerUpdateToNumber   = sender.sendExpirationTimerUpdateToNumber.bind(sender);
+    this.sendExpirationTimerUpdateToGroup    = sender.sendExpirationTimerUpdateToGroup .bind(sender);
+    this.sendRequestGroupSyncMessage         = sender.sendRequestGroupSyncMessage      .bind(sender);
+    this.sendRequestContactSyncMessage       = sender.sendRequestContactSyncMessage    .bind(sender);
+    this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(sender);
+    this.sendMessageToNumber                 = sender.sendMessageToNumber              .bind(sender);
+    this.closeSession                        = sender.closeSession                     .bind(sender);
+    this.sendMessageToGroup                  = sender.sendMessageToGroup               .bind(sender);
+    this.createGroup                         = sender.createGroup                      .bind(sender);
+    this.updateGroup                         = sender.updateGroup                      .bind(sender);
+    this.addNumberToGroup                    = sender.addNumberToGroup                 .bind(sender);
+    this.setGroupName                        = sender.setGroupName                     .bind(sender);
+    this.setGroupAvatar                      = sender.setGroupAvatar                   .bind(sender);
+    this.leaveGroup                          = sender.leaveGroup                       .bind(sender);
+    this.sendSyncMessage                     = sender.sendSyncMessage                  .bind(sender);
+    this.getProfile                          = sender.getProfile                       .bind(sender);
+    this.getAvatar                           = sender.getAvatar                        .bind(sender);
+    this.syncReadMessages                    = sender.syncReadMessages                 .bind(sender);
+    this.syncVerification                    = sender.syncVerification                 .bind(sender);
+    this.sendReadReceipts                    = sender.sendReadReceipts                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
@@ -40328,6 +40413,7 @@ ProvisioningCipher.prototype = {
                     number           : provisionMessage.number,
                     provisioningCode : provisionMessage.provisioningCode,
                     userAgent        : provisionMessage.userAgent,
+                    readReceipts     : provisionMessage.readReceipts
                 };
                 if (provisionMessage.profileKey) {
                   ret.profileKey = provisionMessage.profileKey.toArrayBuffer();

@@ -487,15 +487,15 @@
 
         // We mark as read everything older than this message - to clean up old stuff
         //   still marked unread in the database. If the user generally doesn't read in
-        //   the desktop app, so the desktop app only gets read receipts, we can very
+        //   the desktop app, so the desktop app only gets read syncs, we can very
         //   easily end up with messages never marked as read (our previous early read
-        //   receipt handling, read receipts never sent because app was offline)
+        //   sync handling, read syncs never sent because app was offline)
 
-        // We queue it because we often get a whole lot of read receipts at once, and
+        // We queue it because we often get a whole lot of read syncs at once, and
         //   their markRead calls could very easily overlap given the async pull from DB.
 
-        // Lastly, we don't send read receipts for any message marked read due to a read
-        //   receipt. That's a notification explosion we don't need.
+        // Lastly, we don't send read syncs for any message marked read due to a read
+        //   sync. That's a notification explosion we don't need.
         return this.queueJob(function() {
             return this.markRead(message.get('received_at'), {sendReadReceipts: false});
         }.bind(this));
@@ -583,6 +583,15 @@
         return current;
     },
 
+    getRecipients: function() {
+        if (this.isPrivate()) {
+            return [ this.id ];
+        } else {
+            var me = textsecure.storage.user.getNumber();
+            return _.without(this.get('members'), me);
+        }
+    },
+
     sendMessage: function(body, attachments) {
         this.queueJob(function() {
             var now = Date.now();
@@ -601,7 +610,8 @@
                 attachments    : attachments,
                 sent_at        : now,
                 received_at    : now,
-                expireTimer    : this.get('expireTimer')
+                expireTimer    : this.get('expireTimer'),
+                recipients     : this.getRecipients()
             });
             if (this.isPrivate()) {
                 message.set({destination: this.id});
@@ -671,6 +681,9 @@
         if (this.isPrivate()) {
             message.set({destination: this.id});
         }
+        if (message.isOutgoing()) {
+            message.set({recipients: this.getRecipients() });
+        }
         message.save();
         if (message.isOutgoing()) { // outgoing update, send it to the number/group
             var sendFunc;
@@ -702,6 +715,7 @@
                 sent_at        : now,
                 received_at    : now,
                 destination    : this.id,
+                recipients     : this.getRecipients(),
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
             message.send(textsecure.messaging.closeSession(this.id, now));
@@ -793,6 +807,13 @@
             if (read.length && options.sendReadReceipts) {
                 console.log('Sending', read.length, 'read receipts');
                 promises.push(textsecure.messaging.syncReadMessages(read));
+
+                if (storage.get('read-receipt-setting')) {
+                  _.each(_.groupBy(read, 'sender'), function(receipts, sender) {
+                      var timestamps = _.map(receipts, 'timestamp');
+                      promises.push(textsecure.messaging.sendReadReceipts(sender, timestamps));
+                  });
+                }
             }
 
             return Promise.all(promises);

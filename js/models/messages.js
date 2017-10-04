@@ -188,6 +188,21 @@
             return _.size(this.get('errors')) > 0;
         },
 
+        getStatus: function(number) {
+            var read_by = this.get('read_by') || [];
+            if (read_by.indexOf(number) >= 0) {
+              return 'read';
+            }
+            var delivered_to = this.get('delivered_to') || [];
+            if (delivered_to.indexOf(number) >= 0) {
+              return 'delivered';
+            }
+            var sent_to = this.get('sent_to') || [];
+            if (sent_to.indexOf(number) >= 0) {
+              return 'sent';
+            }
+        },
+
         send: function(promise) {
             this.trigger('pending');
             return promise.then(function(result) {
@@ -196,7 +211,12 @@
                 if (result.dataMessage) {
                     this.set({dataMessage: result.dataMessage});
                 }
-                this.save({sent: true, expirationStartTimestamp: now});
+                var sent_to = this.get('sent_to') || [];
+                this.save({
+                  sent_to: _.union(sent_to, result.successfulNumbers),
+                  sent: true,
+                  expirationStartTimestamp: now
+                });
                 this.sendSyncMessage();
             }.bind(this)).catch(function(result) {
                 var now = Date.now();
@@ -219,7 +239,12 @@
                 } else {
                     this.saveErrors(result.errors);
                     if (result.successfulNumbers.length > 0) {
-                        this.set({sent: true, expirationStartTimestamp: now});
+                        var sent_to = this.get('sent_to') || [];
+                        this.set({
+                          sent_to: _.union(sent_to, result.successfulNumbers),
+                          sent: true,
+                          expirationStartTimestamp: now
+                        });
                         promises.push(this.sendSyncMessage());
                     }
                     promises = promises.concat(_.map(result.errors, function(error) {
@@ -428,21 +453,35 @@
                         }
                     }
                     if (type === 'incoming') {
-                        var readReceipt = Whisper.ReadReceipts.forMessage(message);
-                        if (readReceipt) {
+                        var readSync = Whisper.ReadSyncs.forMessage(message);
+                        if (readSync) {
                             if (message.get('expireTimer') && !message.get('expirationStartTimestamp')) {
-                                message.set('expirationStartTimestamp', readReceipt.get('read_at'));
+                                message.set('expirationStartTimestamp', readSync.get('read_at'));
                             }
                         }
-                        if (readReceipt || message.isExpirationTimerUpdate()) {
+                        if (readSync || message.isExpirationTimerUpdate()) {
                             message.unset('unread');
                             // This is primarily to allow the conversation to mark all older messages as
-                            //   read, as is done when we receive a read receipt for a message we already
+                            //   read, as is done when we receive a read sync for a message we already
                             //   know about.
-                            Whisper.ReadReceipts.notifyConversation(message);
+                            Whisper.ReadSyncs.notifyConversation(message);
                         } else {
                             conversation.set('unreadCount', conversation.get('unreadCount') + 1);
                         }
+                    }
+
+                    if (type === 'outgoing') {
+                        var reads = Whisper.ReadReceipts.forMessage(conversation, message);
+                        if (reads.length) {
+                            var read_by = reads.map(function(receipt) {
+                                return receipt.get('reader');
+                            });
+                            message.set({
+                                read_by: _.union(message.get('read_by'), read_by)
+                            });
+                        }
+
+                        message.set({recipients: conversation.getRecipients()});
                     }
 
                     var conversation_timestamp = conversation.get('timestamp');

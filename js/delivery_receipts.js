@@ -41,8 +41,10 @@
             }).then(function(message) {
                 if (message) {
                     var deliveries = message.get('delivered') || 0;
+                    var delivered_to = message.get('delivered_to') || [];
                     return new Promise(function(resolve, reject) {
                         message.save({
+                            delivered_to: _.union(delivered_to, [receipt.get('source')]),
                             delivered: deliveries + 1
                         }).then(function() {
                             // notify frontend listeners

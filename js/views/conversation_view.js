@@ -109,6 +109,7 @@
             this.listenTo(this.model, 'change:avatar change:profileAvatar', this.updateAvatar);
             this.listenTo(this.model, 'newmessage', this.addMessage);
             this.listenTo(this.model, 'delivered', this.updateMessage);
+            this.listenTo(this.model, 'read', this.updateMessage);
             this.listenTo(this.model, 'opened', this.onOpened);
             this.listenTo(this.model, 'expired', this.onExpired);
             this.listenTo(this.model, 'prune', this.onPrune);

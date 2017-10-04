@@ -1,7 +1,7 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
-function OutgoingMessage(server, timestamp, numbers, message, callback) {
+function OutgoingMessage(server, timestamp, numbers, message, silent, callback) {
     if (message instanceof textsecure.protobuf.DataMessage) {
         var content = new textsecure.protobuf.Content();
         content.dataMessage = message;
@@ -12,6 +12,7 @@ function OutgoingMessage(server, timestamp, numbers, message, callback) {
     this.numbers = numbers;
     this.message = message; // ContentMessage proto
     this.callback = callback;
+    this.silent = silent;
 
     this.numbersCompleted = 0;
     this.errors = [];
@@ -94,7 +95,7 @@ OutgoingMessage.prototype = {
     },
 
     transmitMessage: function(number, jsonData, timestamp) {
-        return this.server.sendMessages(number, jsonData, timestamp).catch(function(e) {
+        return this.server.sendMessages(number, jsonData, timestamp, this.silent).catch(function(e) {
             if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
                 // 409 and 410 should bubble and be handled by doSendMessage
                 // 404 should throw UnregisteredUserError

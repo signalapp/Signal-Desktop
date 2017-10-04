@@ -182,15 +182,17 @@
             SERVER_URL, USERNAME, PASSWORD, mySignalingKey, options
         );
         messageReceiver.addEventListener('message', onMessageReceived);
-        messageReceiver.addEventListener('receipt', onDeliveryReceipt);
+        messageReceiver.addEventListener('delivery', onDeliveryReceipt);
         messageReceiver.addEventListener('contact', onContactReceived);
         messageReceiver.addEventListener('group', onGroupReceived);
         messageReceiver.addEventListener('sent', onSentMessage);
+        messageReceiver.addEventListener('readSync', onReadSync);
         messageReceiver.addEventListener('read', onReadReceipt);
         messageReceiver.addEventListener('verified', onVerified);
         messageReceiver.addEventListener('error', onError);
         messageReceiver.addEventListener('empty', onEmpty);
         messageReceiver.addEventListener('progress', onProgress);
+        messageReceiver.addEventListener('settings', onSettings);
 
         window.textsecure.messaging = new textsecure.MessageSender(
             SERVER_URL, USERNAME, PASSWORD, CDN_URL
@@ -205,6 +207,21 @@
 
             if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
                 window.getSyncRequest();
+            }
+        }
+
+        // If we've just upgraded to read receipt support on desktop, kick off a
+        // one-time configuration sync request to get the read-receipt setting
+        // from the master device.
+        var readReceiptConfigurationSync = 'read-receipt-configuration-sync';
+        if (!storage.get(readReceiptConfigurationSync)) {
+
+            if (!firstRun && textsecure.storage.user.getDeviceId() != '1') {
+                textsecure.messaging.sendRequestConfigurationSyncMessage().then(function() {
+                    storage.put(readReceiptConfigurationSync, true);
+                }).catch(function(e) {
+                    console.log(e);
+                });
             }
         }
 
@@ -223,6 +240,12 @@
                 console.log('sync timed out');
                 Whisper.events.trigger('contactsync');
             });
+
+            if (Whisper.Import.isComplete()) {
+              textsecure.messaging.sendRequestConfigurationSyncMessage().catch(function(e) {
+                console.log(e);
+              });
+            }
         }
     }
 
@@ -246,6 +269,13 @@
         var view = window.owsDesktopApp.appView;
         if (view) {
             view.onProgress(count);
+        }
+    }
+    function onSettings(ev) {
+        if (ev.settings.readReceipts) {
+            storage.put('read-receipt-setting', true);
+        } else {
+            storage.put('read-receipt-setting', false);
         }
     }
 
@@ -366,9 +396,17 @@
         var now = new Date().getTime();
         var data = ev.data;
 
+        var type, id;
+        if (data.message.group) {
+            type = 'group';
+            id = data.message.group.id;
+        } else {
+            type = 'private';
+            id = data.destination;
+        }
+
         if (data.message.flags & textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-            var id = data.message.group ? data.message.group.id : data.destination;
-            return ConversationController.getOrCreateAndWait(id, 'private').then(function(convo) {
+            return ConversationController.getOrCreateAndWait(id, type).then(function(convo) {
               return convo.save({profileSharing: true}).then(ev.confirm);
             });
         }
@@ -389,15 +427,6 @@
                 console.log('Received duplicate message', message.idForLogging());
                 ev.confirm();
                 return;
-            }
-
-            var type, id;
-            if (data.message.group) {
-                type = 'group';
-                id = data.message.group.id;
-            } else {
-                type = 'private';
-                id = data.destination;
             }
 
             return ConversationController.getOrCreateAndWait(id, type).then(function() {
@@ -528,10 +557,32 @@
     function onReadReceipt(ev) {
         var read_at   = ev.timestamp;
         var timestamp = ev.read.timestamp;
-        var sender    = ev.read.sender;
-        console.log('read receipt', sender, timestamp);
+        var reader    = ev.read.reader;
+        console.log('read receipt', reader, timestamp);
+
+        if (!storage.get('read-receipt-setting')) {
+          return ev.confirm();
+        }
 
         var receipt = Whisper.ReadReceipts.add({
+            reader    : reader,
+            timestamp : timestamp,
+            read_at   : read_at,
+        });
+
+        receipt.on('remove', ev.confirm);
+
+        // Calling this directly so we can wait for completion
+        return Whisper.ReadReceipts.onReceipt(receipt);
+    }
+
+    function onReadSync(ev) {
+        var read_at   = ev.timestamp;
+        var timestamp = ev.read.timestamp;
+        var sender    = ev.read.sender;
+        console.log('read sync', sender, timestamp);
+
+        var receipt = Whisper.ReadSyncs.add({
             sender    : sender,
             timestamp : timestamp,
             read_at   : read_at
@@ -540,7 +591,7 @@
         receipt.on('remove', ev.confirm);
 
         // Calling this directly so we can wait for completion
-        return Whisper.ReadReceipts.onReceipt(receipt);
+        return Whisper.ReadSyncs.onReceipt(receipt);
     }
 
     function onVerified(ev) {
@@ -593,17 +644,16 @@
     }
 
     function onDeliveryReceipt(ev) {
-        var pushMessage = ev.proto;
-        var timestamp = pushMessage.timestamp.toNumber();
+        var deliveryReceipt = ev.deliveryReceipt;
         console.log(
             'delivery receipt from',
-            pushMessage.source + '.' + pushMessage.sourceDevice,
-            timestamp
+            deliveryReceipt.source + '.' + deliveryReceipt.sourceDevice,
+            deliveryReceipt.timestamp
         );
 
         var receipt = Whisper.DeliveryReceipts.add({
-            timestamp: timestamp,
-            source: pushMessage.source
+            timestamp: deliveryReceipt.timestamp,
+            source: deliveryReceipt.source
         });
 
         receipt.on('remove', ev.confirm);

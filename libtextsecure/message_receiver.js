@@ -338,9 +338,13 @@ MessageReceiver.prototype.extend({
     },
     onDeliveryReceipt: function (envelope) {
         return new Promise(function(resolve, reject) {
-            var ev = new Event('receipt');
+            var ev = new Event('delivery');
             ev.confirm = this.removeFromCache.bind(this, envelope);
-            ev.proto = envelope;
+            ev.deliveryReceipt = {
+              timestamp    : envelope.timestamp.toNumber(),
+              source       : envelope.source,
+              sourceDevice : envelope.sourceDevice
+            };
             this.dispatchAndWait(ev).then(resolve, reject);
         }.bind(this));
     },
@@ -502,6 +506,8 @@ MessageReceiver.prototype.extend({
             return this.handleNullMessage(envelope, content.nullMessage);
         } else if (content.callMessage) {
             return this.handleCallMessage(envelope, content.callMessage);
+        } else if (content.receiptMessage) {
+            return this.handleReceiptMessage(envelope, content.receiptMessage);
         } else {
             this.removeFromCache(envelope);
             throw new Error('Unsupported content message');
@@ -510,6 +516,33 @@ MessageReceiver.prototype.extend({
     handleCallMessage: function(envelope, nullMessage) {
         console.log('call message from', this.getEnvelopeId(envelope));
         this.removeFromCache(envelope);
+    },
+    handleReceiptMessage: function(envelope, receiptMessage) {
+        var results = [];
+        if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.DELIVERY) {
+            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+                var ev = new Event('delivery');
+                ev.confirm = this.removeFromCache.bind(this, envelope);
+                ev.deliveryReceipt = {
+                  timestamp    : receiptMessage.timestamps[i].toNumber(),
+                  source       : envelope.source,
+                  sourceDevice : envelope.sourceDevice
+                };
+                results.push(this.dispatchAndWait(ev));
+            }
+        } else if (receiptMessage.type === textsecure.protobuf.ReceiptMessage.Type.READ) {
+            for (var i = 0; i < receiptMessage.timestamps.length; ++i) {
+                var ev = new Event('read');
+                ev.confirm = this.removeFromCache.bind(this, envelope);
+                ev.timestamp = envelope.timestamp.toNumber();
+                ev.read = {
+                    timestamp : receiptMessage.timestamps[i].toNumber(),
+                    reader    : envelope.source
+                }
+                results.push(this.dispatchAndWait(ev));
+            }
+        }
+        return Promise.all(results);
     },
     handleNullMessage: function(envelope, nullMessage) {
         console.log('null message from', this.getEnvelopeId(envelope));
@@ -552,9 +585,19 @@ MessageReceiver.prototype.extend({
             return this.handleRead(envelope, syncMessage.read);
         } else if (syncMessage.verified) {
             return this.handleVerified(envelope, syncMessage.verified);
+        } else if (syncMessage.settings) {
+            return this.handleSettings(envelope, syncMessage.settings);
         } else {
             throw new Error('Got empty SyncMessage');
         }
+    },
+    handleSettings: function(envelope, settings) {
+        var ev = new Event('settings');
+        ev.confirm = this.removeFromCache.bind(this, envelope);
+        ev.settings = {
+            readReceipts: settings.readReceipts
+        };
+        return this.dispatchAndWait(ev);
     },
     handleVerified: function(envelope, verified) {
         var ev = new Event('verified');
@@ -569,7 +612,7 @@ MessageReceiver.prototype.extend({
     handleRead: function(envelope, read) {
         var results = [];
         for (var i = 0; i < read.length; ++i) {
-            var ev = new Event('read');
+            var ev = new Event('readSync');
             ev.confirm = this.removeFromCache.bind(this, envelope);
             ev.timestamp = envelope.timestamp.toNumber();
             ev.read = {

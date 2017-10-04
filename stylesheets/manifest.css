@@ -376,8 +376,7 @@ button.hamburger {
   display: inline-block;
   margin: 0 0 0 8px;
   width: calc(100% - 44px - 8px - 0.2857142857em);
-  text-align: left;
-  cursor: pointer; }
+  text-align: left; }
   .contact-details p {
     overflow-x: hidden;
     text-overflow: ellipsis; }
@@ -391,8 +390,8 @@ button.hamburger {
   .contact-details .number {
     color: #616161;
     font-size: 0.9285714286em; }
-  .contact-details.not-clickable {
-    cursor: default; }
+  .contact-details.clickable {
+    cursor: pointer; }
   .contact-details .verified-icon {
     -webkit-mask: url("../images/verified-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
@@ -1289,6 +1288,7 @@ input.search {
   .message-detail .contacts .contact-detail {
     padding: 0 36px;
     margin-bottom: 5px; }
+    .message-detail .contacts .contact-detail .status-icon-container,
     .message-detail .contacts .contact-detail .error-icon-container {
       float: right; }
     .message-detail .contacts .contact-detail button.error {
@@ -1393,6 +1393,34 @@ li.entry .error-icon-container {
   margin-right: 3px;
   white-space: nowrap; }
 
+.status {
+  width: 18px;
+  height: 18px; }
+
+.sent .status {
+  display: inline-block;
+  -webkit-mask: url("../images/check.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: black; }
+
+.delivered .status {
+  display: inline-block;
+  -webkit-mask: url("../images/double-check.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: black; }
+
+.read .status {
+  display: inline-block;
+  -webkit-mask: url("../images/double-check.svg") no-repeat center;
+  -webkit-mask-size: 100%;
+  background-color: #2090ea; }
+
+.pending .status {
+  display: inline-block;
+  background: none; }
+  .pending .status:before {
+    content: '...'; }
+
 .message-container,
 .message-list {
   list-style: none; }
@@ -1472,29 +1500,6 @@ li.entry .error-icon-container {
       .message-list .meta .timestamp:hover,
       .message-list .meta .status:hover {
         opacity: 1.0; }
-  .message-container .status,
-  .message-list .status {
-    width: 18px;
-    height: 18px; }
-  .message-container .sent .status,
-  .message-list .sent .status {
-    display: inline-block;
-    -webkit-mask: url("../images/check.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
-  .message-container .delivered .status,
-  .message-list .delivered .status {
-    display: inline-block;
-    -webkit-mask: url("../images/double-check.svg") no-repeat center;
-    -webkit-mask-size: 100%;
-    background-color: black; }
-  .message-container .pending .status,
-  .message-list .pending .status {
-    display: inline-block;
-    background: none; }
-    .message-container .pending .status:before,
-    .message-list .pending .status:before {
-      content: '...'; }
   .message-container .incoming .avatar, .message-container .incoming .bubble,
   .message-list .incoming .avatar,
   .message-list .incoming .bubble {
@@ -2352,6 +2357,11 @@ li.entry .error-icon-container {
     -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
+  .android-dark .read .status {
+    display: inline-block;
+    -webkit-mask: url("../images/double-check.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: #2090ea; }
   .android-dark .file-input .paperclip:before {
     content: '';
     display: inline-block;

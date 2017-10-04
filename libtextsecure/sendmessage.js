@@ -246,13 +246,13 @@ MessageSender.prototype = {
             }.bind(this));
         }.bind(this));
     },
-    sendMessageProto: function(timestamp, numbers, message, callback) {
+    sendMessageProto: function(timestamp, numbers, message, callback, silent) {
         var rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
         if (rejections > 5) {
             throw new textsecure.SignedPreKeyRotationError(numbers, message.toArrayBuffer(), timestamp);
         }
 
-        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, callback);
+        var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, silent, callback);
 
         numbers.forEach(function(number) {
             this.queueJobForNumber(number, function() {
@@ -273,14 +273,14 @@ MessageSender.prototype = {
         }.bind(this));
     },
 
-    sendIndividualProto: function(number, proto, timestamp) {
+    sendIndividualProto: function(number, proto, timestamp, silent) {
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, [number], proto, function(res) {
                 if (res.errors.length > 0)
                     reject(res);
                 else
                     resolve(res);
-            });
+            }, silent);
         }.bind(this));
     },
 
@@ -328,6 +328,22 @@ MessageSender.prototype = {
         return this.server.getAvatar(path);
     },
 
+    sendRequestConfigurationSyncMessage: function() {
+        var myNumber = textsecure.storage.user.getNumber();
+        var myDevice = textsecure.storage.user.getDeviceId();
+        if (myDevice != 1) {
+            var request = new textsecure.protobuf.SyncMessage.Request();
+            request.type = textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
+            var syncMessage = this.createSyncMessage();
+            syncMessage.request = request;
+            var contentMessage = new textsecure.protobuf.Content();
+            contentMessage.syncMessage = syncMessage;
+
+            return this.sendIndividualProto(myNumber, contentMessage, Date.now());
+        }
+
+        return Promise.resolve();
+    },
     sendRequestGroupSyncMessage: function() {
         var myNumber = textsecure.storage.user.getNumber();
         var myDevice = textsecure.storage.user.getDeviceId();
@@ -360,6 +376,16 @@ MessageSender.prototype = {
         }
 
         return Promise.resolve();
+    },
+    sendReadReceipts: function(sender, timestamps) {
+        var receiptMessage = new textsecure.protobuf.ReceiptMessage();
+        receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
+        receiptMessage.timestamps = timestamps;
+
+        var contentMessage = new textsecure.protobuf.Content();
+        contentMessage.receiptMessage = receiptMessage;
+
+        return this.sendIndividualProto(sender, contentMessage, Date.now(), true /*silent*/);
     },
     syncReadMessages: function(reads) {
         var myNumber = textsecure.storage.user.getNumber();
@@ -650,24 +676,26 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     textsecure.replay.registerFunction(sender.sendMessage.bind(sender), textsecure.replay.Type.REBUILD_MESSAGE);
     textsecure.replay.registerFunction(sender.retrySendMessageProto.bind(sender), textsecure.replay.Type.RETRY_SEND_MESSAGE_PROTO);
 
-    this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(sender);
-    this.sendExpirationTimerUpdateToGroup  = sender.sendExpirationTimerUpdateToGroup .bind(sender);
-    this.sendRequestGroupSyncMessage       = sender.sendRequestGroupSyncMessage      .bind(sender);
-    this.sendRequestContactSyncMessage     = sender.sendRequestContactSyncMessage    .bind(sender);
-    this.sendMessageToNumber               = sender.sendMessageToNumber              .bind(sender);
-    this.closeSession                      = sender.closeSession                     .bind(sender);
-    this.sendMessageToGroup                = sender.sendMessageToGroup               .bind(sender);
-    this.createGroup                       = sender.createGroup                      .bind(sender);
-    this.updateGroup                       = sender.updateGroup                      .bind(sender);
-    this.addNumberToGroup                  = sender.addNumberToGroup                 .bind(sender);
-    this.setGroupName                      = sender.setGroupName                     .bind(sender);
-    this.setGroupAvatar                    = sender.setGroupAvatar                   .bind(sender);
-    this.leaveGroup                        = sender.leaveGroup                       .bind(sender);
-    this.sendSyncMessage                   = sender.sendSyncMessage                  .bind(sender);
-    this.getProfile                        = sender.getProfile                       .bind(sender);
-    this.getAvatar                         = sender.getAvatar                        .bind(sender);
-    this.syncReadMessages                  = sender.syncReadMessages                 .bind(sender);
-    this.syncVerification                  = sender.syncVerification                 .bind(sender);
+    this.sendExpirationTimerUpdateToNumber   = sender.sendExpirationTimerUpdateToNumber.bind(sender);
+    this.sendExpirationTimerUpdateToGroup    = sender.sendExpirationTimerUpdateToGroup .bind(sender);
+    this.sendRequestGroupSyncMessage         = sender.sendRequestGroupSyncMessage      .bind(sender);
+    this.sendRequestContactSyncMessage       = sender.sendRequestContactSyncMessage    .bind(sender);
+    this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(sender);
+    this.sendMessageToNumber                 = sender.sendMessageToNumber              .bind(sender);
+    this.closeSession                        = sender.closeSession                     .bind(sender);
+    this.sendMessageToGroup                  = sender.sendMessageToGroup               .bind(sender);
+    this.createGroup                         = sender.createGroup                      .bind(sender);
+    this.updateGroup                         = sender.updateGroup                      .bind(sender);
+    this.addNumberToGroup                    = sender.addNumberToGroup                 .bind(sender);
+    this.setGroupName                        = sender.setGroupName                     .bind(sender);
+    this.setGroupAvatar                      = sender.setGroupAvatar                   .bind(sender);
+    this.leaveGroup                          = sender.leaveGroup                       .bind(sender);
+    this.sendSyncMessage                     = sender.sendSyncMessage                  .bind(sender);
+    this.getProfile                          = sender.getProfile                       .bind(sender);
+    this.getAvatar                           = sender.getAvatar                        .bind(sender);
+    this.syncReadMessages                    = sender.syncReadMessages                 .bind(sender);
+    this.syncVerification                    = sender.syncVerification                 .bind(sender);
+    this.sendReadReceipts                    = sender.sendReadReceipts                 .bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
