@@ -90,7 +90,14 @@ function format(entries) {
 }
 
 function fetch() {
-  return getHeader() + '\n' + format(ipc.sendSync('fetch-log'));
+  return new Promise(function(resolve) {
+    ipc.send('fetch-log');
+
+    ipc.on('fetched-log', function(event, text) {
+      var result = getHeader() + '\n' + format(text);
+      resolve(result);
+    });
+  });
 }
 
 function publish(log) {
