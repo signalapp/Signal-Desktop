@@ -82,6 +82,7 @@
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "artifactName": "${productName}-Setup_${version}.${ext}",
       "certificateSubjectName": "Signal",
+      "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
       "icon": "build/icons/win/icon.ico",
       "publish": [
         {
@@ -147,7 +148,7 @@
     "config": "^1.26.2",
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
-    "electron-updater": "^2.1.2",
+    "electron-updater": "^2.9.3",
     "emoji-datasource-apple": "^3.0.0",
     "emoji-js": "^3.2.2",
     "lodash": "^4.17.4",
