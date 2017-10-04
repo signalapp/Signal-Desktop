@@ -43,8 +43,21 @@ function log() {
   const consoleArgs = ['INFO ', now()].concat(args);
   console._log.apply(console, consoleArgs);
 
-  const str = redactGroup(redactPhone(args.join(' ')));
-  ipc.send('log-info', str);
+  // To avoid [Object object] in our log since console.log handles non-strings smoothly
+  const str = args.map(function(item) {
+    if (typeof item !== 'string') {
+      try {
+        return JSON.stringify(item);
+      }
+      catch (e) {
+        return item;
+      }
+    }
+
+    return item;
+  });
+  const toSend = redactGroup(redactPhone(str.join(' ')));
+  ipc.send('log-info', toSend);
 }
 
 if (window.console) {

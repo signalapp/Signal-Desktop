@@ -83,6 +83,39 @@ function fetch(logPath) {
 }
 
 
+function logAtLevel() {
+  const level = arguments[0];
+  const args = Array.prototype.slice.call(arguments, 1);
+
+  if (logger) {
+    // To avoid [Object object] in our log since console.log handles non-strings smoothly
+    const str = args.map(function(item) {
+      if (typeof item !== 'string') {
+        try {
+          return JSON.stringify(item);
+        }
+        catch (e) {
+          return item;
+        }
+      }
+
+      return item;
+    });
+    logger[level](str.join(' '));
+  } else {
+    console._log.apply(console, consoleArgs);
+  }
+}
+
+
+console._log = console.log;
+console.log = _.partial(logAtLevel, 'info');
+console._error = console.error;
+console.error = _.partial(logAtLevel, 'error');
+console._warn = console.warn;
+console.warn = _.partial(logAtLevel, 'warn');
+
+
 module.exports = {
   initialize,
   getLogger,
