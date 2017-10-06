@@ -30,6 +30,7 @@ MessageReceiver.prototype.extend({
     connect: function() {
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
+            this.wsr.close();
         }
         // initialize the socket and start listening for messages
         this.socket = this.server.getMessageSocket();
@@ -38,16 +39,45 @@ MessageReceiver.prototype.extend({
         this.socket.onopen = this.onopen.bind(this);
         this.wsr = new WebSocketResource(this.socket, {
             handleRequest: this.handleRequest.bind(this),
-            keepalive: { path: '/v1/keepalive', disconnect: true }
+            keepalive: {
+                path: '/v1/keepalive',
+                disconnect: true
+            }
         });
+
+        // Because sometimes the socket doesn't properly emit its close event
+        this._onClose = this.onclose.bind(this)
+        this.wsr.addEventListener('close', this._onClose);
 
         // Ensures that an immediate 'empty' event from the websocket will fire only after
         //   all cached envelopes are processed.
         this.incoming = [this.pending];
     },
+    shutdown: function() {
+        if (this.socket) {
+            this.socket.onclose = null;
+            this.socket.onerror = null;
+            this.socket.onopen = null;
+            this.socket = null;
+        }
+
+        if (this.wsr) {
+            this.wsr.removeEventListener('close', this._onClose);
+            this.wsr = null;
+        }
+    },
     close: function() {
+        console.log('MessageReceiver.close()');
         this.calledClose = true;
-        this.socket.close(3000, 'called close');
+
+        // Our WebSocketResource instance will close the socket and emit a 'close' event
+        //   if the socket doesn't emit one quickly enough.
+        if (this.wsr) {
+            this.wsr.close(3000, 'called close');
+        }
+
+        this.shutdown();
+
         return this.drain();
     },
     onopen: function() {
@@ -67,6 +97,8 @@ MessageReceiver.prototype.extend({
             'calledClose:',
             this.calledClose
         );
+
+        this.shutdown();
 
         if (this.calledClose) {
             return;
