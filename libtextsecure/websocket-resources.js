@@ -138,22 +138,55 @@
         };
 
         if (opts.keepalive) {
-            var keepalive = new KeepAlive(this, {
+            this.keepalive = new KeepAlive(this, {
                 path       : opts.keepalive.path,
                 disconnect : opts.keepalive.disconnect
             });
-            var resetKeepAliveTimer = keepalive.reset.bind(keepalive);
+            var resetKeepAliveTimer = this.keepalive.reset.bind(this.keepalive);
             socket.addEventListener('open', resetKeepAliveTimer);
             socket.addEventListener('message', resetKeepAliveTimer);
-            socket.addEventListener('close', keepalive.stop.bind(keepalive));
+            socket.addEventListener('close', this.keepalive.stop.bind(this.keepalive));
         }
 
-        this.close = function(code, reason) {
-            if (!code) { code = 3000; }
-            socket.close(code, reason);
-        };
+        socket.addEventListener('close', function() {
+            this.closed = true;
+        }.bind(this))
 
+        this.close = function(code, reason) {
+            if (this.closed) {
+                return;
+            }
+
+            console.log('WebSocketResource.close()');
+            if (!code) {
+                code = 3000;
+            }
+            if (this.keepalive) {
+                this.keepalive.stop();
+            }
+
+            socket.close(code, reason);
+            socket.onmessage = null;
+
+            // On linux the socket can wait a long time to emit its close event if we've
+            //   lost the internet connection. On the order of minutes. This speeds that
+            //   process up.
+            setTimeout(function() {
+                if (this.closed) {
+                    return;
+                }
+                this.closed = true;
+
+                console.log('Dispatching our own socket close event');
+                var ev = new Event('close');
+                ev.code = code;
+                ev.reason = reason;
+                this.dispatchEvent(ev);
+            }.bind(this), 10000);
+        };
     };
+    window.WebSocketResource.prototype = new textsecure.EventTarget();
+
 
     function KeepAlive(websocketResource, opts) {
         if (websocketResource instanceof WebSocketResource) {
@@ -182,12 +215,6 @@
             clearTimeout(this.keepAliveTimer);
             clearTimeout(this.disconnectTimer);
             this.keepAliveTimer = setTimeout(function() {
-                console.log('Sending a keepalive message');
-                this.wsr.sendRequest({
-                    verb: 'GET',
-                    path: this.path,
-                    success: this.reset.bind(this)
-                });
                 if (this.disconnect) {
                     // automatically disconnect if server doesn't ack
                     this.disconnectTimer = setTimeout(function() {
@@ -197,6 +224,12 @@
                 } else {
                     this.reset();
                 }
+                console.log('Sending a keepalive message');
+                this.wsr.sendRequest({
+                    verb: 'GET',
+                    path: this.path,
+                    success: this.reset.bind(this)
+                });
             }.bind(this), 55000);
         },
     };
