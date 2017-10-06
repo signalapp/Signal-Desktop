@@ -391,23 +391,24 @@ li.entry .error-icon-container {
   white-space: nowrap;
 }
 
-.status {
+// There's a p.status used in the onboarding screen, so this needs to be more specific
+span.status {
   width: 18px;
   height: 18px;
 }
-.sent .status {
+.sent span.status {
   display: inline-block;
   @include color-svg('../images/check.svg', black);
 }
-.delivered .status {
+.delivered span.status {
   display: inline-block;
   @include color-svg('../images/double-check.svg', black);
 }
-.read .status {
+.read span.status {
   display: inline-block;
   @include color-svg('../images/double-check.svg', $blue);
 }
-.pending .status {
+.pending span.status {
   display: inline-block;
   background: none;
   &:before { content: '...'; }
