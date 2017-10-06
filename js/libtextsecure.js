@@ -38428,6 +38428,8 @@ MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
     constructor: MessageReceiver,
     connect: function() {
+        this.hasConnected = true;
+
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
             this.wsr.close();
@@ -38764,6 +38766,8 @@ MessageReceiver.prototype.extend({
     getStatus: function() {
         if (this.socket) {
             return this.socket.readyState;
+        } else if (this.hasConnected) {
+            return WebSocket.CLOSED;
         } else {
             return -1;
         }
