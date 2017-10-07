@@ -1393,32 +1393,32 @@ li.entry .error-icon-container {
   margin-right: 3px;
   white-space: nowrap; }
 
-.status {
+span.status {
   width: 18px;
   height: 18px; }
 
-.sent .status {
+.sent span.status {
   display: inline-block;
   -webkit-mask: url("../images/check.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: black; }
 
-.delivered .status {
+.delivered span.status {
   display: inline-block;
   -webkit-mask: url("../images/double-check.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: black; }
 
-.read .status {
+.read span.status {
   display: inline-block;
   -webkit-mask: url("../images/double-check.svg") no-repeat center;
   -webkit-mask-size: 100%;
   background-color: #2090ea; }
 
-.pending .status {
+.pending span.status {
   display: inline-block;
   background: none; }
-  .pending .status:before {
+  .pending span.status:before {
     content: '...'; }
 
 .message-container,
@@ -2347,17 +2347,17 @@ li.entry .error-icon-container {
       -webkit-mask: url("../images/verified-check.svg") no-repeat center;
       -webkit-mask-size: 100%;
       background-color: #CCCCCC; }
-  .android-dark .sent .status {
+  .android-dark .sent span.status {
     display: inline-block;
     -webkit-mask: url("../images/check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
-  .android-dark .delivered .status {
+  .android-dark .delivered span.status {
     display: inline-block;
     -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
     background-color: white; }
-  .android-dark .read .status {
+  .android-dark .read span.status {
     display: inline-block;
     -webkit-mask: url("../images/double-check.svg") no-repeat center;
     -webkit-mask-size: 100%;
