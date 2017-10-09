@@ -76,15 +76,15 @@
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
                 if (group_update.left) {
-                    return group_update.left + ' left the group.';
+                    return i18n('leftTheGroup', group_update.left);
                 }
 
-                var messages = ['Updated the group.'];
+                var messages = [i18n('updatedTheGroup')];
                 if (group_update.name) {
-                    messages.push("Title is now '" + group_update.name + "'.");
+                    messages.push(i18n('titleIsNow', group_update.name));
                 }
                 if (group_update.joined) {
-                    messages.push(group_update.joined.join(', ') + ' joined the group.');
+                    messages.push(i18n('joinedTheGroup', group_update.joined.join(', ')));
                 }
 
                 return messages.join(' ');
