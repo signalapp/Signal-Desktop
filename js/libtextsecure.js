@@ -37512,7 +37512,7 @@ var TextSecureServer = (function() {
         }
         window.nodeFetch(url, fetchOptions).then(function(response) {
           var resultPromise;
-          if (options.dataType === 'json') {
+          if (options.responseType === 'json') {
             resultPromise = response.json();
           } else if (!options.responseType || options.responseType === 'text') {
             resultPromise = response.text();
@@ -37523,7 +37523,7 @@ var TextSecureServer = (function() {
             if (options.responseType === 'arraybuffer') {
               result = result.buffer.slice(result.byteOffset, result.byteOffset + result.byteLength);
             }
-            if (options.dataType === 'json') {
+            if (options.responseType === 'json') {
               if (options.validateResponse) {
                 if (!validateResponse(result, options.validateResponse)) {
                   console.log(options.type, url, response.status, 'Error');
@@ -37611,14 +37611,14 @@ var TextSecureServer = (function() {
                 param.urlParameters = '';
             }
             return ajax(null, {
-                    host        : this.url,
-                    path        : URL_CALLS[param.call] + param.urlParameters,
-                    type        : param.httpType,
-                    data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
-                    contentType : 'application/json; charset=utf-8',
-                    dataType    : 'json',
-                    user        : this.username,
-                    password    : this.password,
+                    host         : this.url,
+                    path         : URL_CALLS[param.call] + param.urlParameters,
+                    type         : param.httpType,
+                    data         : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
+                    contentType  : 'application/json; charset=utf-8',
+                    responseType : param.responseType,
+                    user         : this.username,
+                    password     : this.password,
                     validateResponse: param.validateResponse,
                     certificateAuthorities: window.config.certificateAuthorities
             }).catch(function(e) {
@@ -37661,6 +37661,7 @@ var TextSecureServer = (function() {
                 call                : 'profile',
                 httpType            : 'GET',
                 urlParameters       : '/' + number,
+                responseType        : 'json',
             });
         },
         getAvatar: function(path) {
@@ -37693,12 +37694,13 @@ var TextSecureServer = (function() {
                 registrationId  : registrationId,
             };
 
-            var call, urlPrefix, schema;
+            var call, urlPrefix, schema, responseType;
             if (deviceName) {
                 jsonData.name = deviceName;
                 call = 'devices';
                 urlPrefix = '/';
                 schema = { deviceId: 'number' };
+                responseType = 'json'
             } else {
                 call = 'accounts';
                 urlPrefix = '/code/';
@@ -37711,13 +37713,14 @@ var TextSecureServer = (function() {
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
                 jsonData            : jsonData,
+                responseType        : responseType,
                 validateResponse    : schema
             });
         },
         getDevices: function(number) {
             return this.ajax({
-                call     : 'devices',
-                httpType : 'GET',
+                call         : 'devices',
+                httpType     : 'GET',
             });
         },
         registerKeys: function(genKeys) {
@@ -37752,6 +37755,7 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'signed',
                 httpType            : 'PUT',
+                responseType        : 'json',
                 jsonData            : {
                     keyId: signedPreKey.keyId,
                     publicKey: btoa(getString(signedPreKey.publicKey)),
@@ -37763,6 +37767,7 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'keys',
                 httpType            : 'GET',
+                responseType        : 'json',
                 validateResponse    : {count: 'number'}
             }).then(function(res) {
                 return res.count;
@@ -37776,6 +37781,7 @@ var TextSecureServer = (function() {
                 call                : 'keys',
                 httpType            : 'GET',
                 urlParameters       : "/" + number + "/" + deviceId,
+                responseType        : 'json',
                 validateResponse    : {identityKey: 'string', devices: 'object'}
             }).then(function(res) {
                 if (res.devices.constructor !== Array) {
@@ -37812,6 +37818,7 @@ var TextSecureServer = (function() {
                 httpType            : 'PUT',
                 urlParameters       : '/' + destination,
                 jsonData            : jsonData,
+                responseType        : 'json',
             });
         },
         getAttachment: function(id) {
@@ -37819,6 +37826,7 @@ var TextSecureServer = (function() {
                 call                : 'attachment',
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
+                responseType        : 'json',
                 validateResponse    : {location: 'string'}
             }).then(function(response) {
                 return ajax(response.location, {
@@ -37830,8 +37838,9 @@ var TextSecureServer = (function() {
         },
         putAttachment: function(encryptedBin) {
             return this.ajax({
-                call     : 'attachment',
-                httpType : 'GET',
+                call         : 'attachment',
+                httpType     : 'GET',
+                responseType : 'json',
             }).then(function(response) {
                 return ajax(response.location, {
                     type        : "PUT",
