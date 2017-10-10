@@ -18,6 +18,7 @@
             var value = e.target.checked;
             storage.put(this.name, value);
             console.log(this.name, 'changed to', value);
+            this.$el.trigger('change-hide-menu');
         },
         populate: function() {
             var value = storage.get(this.name, this.defaultValue);
@@ -64,6 +65,11 @@
                 defaultValue: false,
                 name: 'audio-notification'
             });
+            new CheckboxView({
+                el: this.$('.menu-bar-setting'),
+                defaultValue: false,
+                name: 'hide-menu-bar'
+            });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
                 this.$('.content').append(syncView.el);
@@ -84,6 +90,7 @@
               nameOnly: i18n('nameOnly'),
               audioNotificationDescription: i18n('audioNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
+              hideMenuBar: i18n('hideMenuBar'),
             };
         }
     });

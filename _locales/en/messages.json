@@ -812,6 +812,10 @@
       "message": "Android (dark)",
       "description": "Label text for dark Android theme"
     },
+    "hideMenuBar": {
+      "message": "Hide menu bar",
+      "description": "Label text for menu bar visibility setting"
+    },
     "newContact": {
       "message": "Click to create new contact",
       "description": ""

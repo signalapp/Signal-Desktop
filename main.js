@@ -58,6 +58,7 @@ function createWindow () {
     height: 610,
     minWidth: 700,
     minHeight: 360,
+    autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
       //sandbox: true,
@@ -81,6 +82,7 @@ function createWindow () {
     // so if we need to recreate the window, we have the most recent settings
     windowConfig = {
       maximized: mainWindow.isMaximized(),
+      autoHideMenuBar: mainWindow.isMenuBarAutoHide(),
       width: size[0],
       height: size[1],
       x: position[0],
@@ -259,4 +261,12 @@ ipc.on('draw-attention', function(event, count) {
 ipc.on('restart', function(event) {
   app.relaunch();
   app.quit();
+});
+
+ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
+  mainWindow.setAutoHideMenuBar(autoHide);
+});
+
+ipc.on("set-menu-bar-visibility", function(event, visibility) {
+  mainWindow.setMenuBarVisibility(visibility);
 });
