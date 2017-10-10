@@ -37483,63 +37483,70 @@ var TextSecureServer = (function() {
     var XMLHttpRequest = nodeXMLHttpRequest;
     window.setImmediate = nodeSetImmediate;
 
-    // Promise-based async xhr routine
     function promise_ajax(url, options) {
-        return new Promise(function (resolve, reject) {
-            if (!url) {
-                url = options.host +  '/' + options.path;
-            }
-            console.log(options.type, url);
-            var xhr = new XMLHttpRequest();
-            xhr.open(options.type, url, true /*async*/);
+      return new Promise(function (resolve, reject) {
+        if (!url) {
+            url = options.host +  '/' + options.path;
+        }
+        console.log(options.type, url);
+        var fetchOptions = {
+          method: options.type,
+          body: options.data || null,
+          headers: { 'X-Signal-Agent': 'OWD' },
+          agent: new httpsAgent({ca: options.certificateAuthorities})
+        };
 
-            if ( options.responseType ) {
-                xhr[ 'responseType' ] = options.responseType;
-            }
-            if (options.user && options.password) {
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(options.user) + ":" + getString(options.password)));
-            }
-            if (options.contentType) {
-                xhr.setRequestHeader( "Content-Type", options.contentType );
-            }
-            xhr.setRequestHeader( 'X-Signal-Agent', 'OWD' );
+        if (fetchOptions.body instanceof ArrayBuffer) {
+          // node-fetch doesn't support ArrayBuffer, only node Buffer
+          var contentLength = fetchOptions.body.byteLength;
+          fetchOptions.body = nodeBuffer.from(fetchOptions.body);
 
-            if (options.certificateAuthorities) {
-              xhr.setCertificateAuthorities(options.certificateAuthorities);
-            }
+          // node-fetch doesn't set content-length like S3 requires
+          fetchOptions.headers["Content-Length"] = contentLength;
+        }
 
-            xhr.onload = function() {
-                var result = xhr.response;
-                if ( (!xhr.responseType || xhr.responseType === "text") &&
-                        typeof xhr.responseText === "string" ) {
-                    result = xhr.responseText;
+        if (options.user && options.password) {
+          fetchOptions.headers["Authorization"] = "Basic " + btoa(getString(options.user) + ":" + getString(options.password));
+        }
+        if (options.contentType) {
+          fetchOptions.headers["Content-Type"] = options.contentType;
+        }
+        window.nodeFetch(url, fetchOptions).then(function(response) {
+          var resultPromise;
+          if (options.dataType === 'json') {
+            resultPromise = response.json();
+          } else if (!options.responseType || options.responseType === 'text') {
+            resultPromise = response.text();
+          } else if (options.responseType === 'arraybuffer') {
+            resultPromise = response.buffer();
+          }
+          return resultPromise.then(function(result) {
+            if (options.responseType === 'arraybuffer') {
+              result = result.buffer.slice(result.byteOffset, result.byteOffset + result.byteLength);
+            }
+            if (options.dataType === 'json') {
+              if (options.validateResponse) {
+                if (!validateResponse(result, options.validateResponse)) {
+                  console.log(options.type, url, response.status, 'Error');
+                  reject(HTTPError(response.status, result, options.stack));
                 }
-                if (options.dataType === 'json') {
-                    try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
-                    if (options.validateResponse) {
-                        if (!validateResponse(result, options.validateResponse)) {
-                            console.log(options.type, url, xhr.status, 'Error');
-                            reject(HTTPError(xhr.status, result, options.stack));
-                        }
-                    }
-                }
-                if ( 0 <= xhr.status && xhr.status < 400) {
-                    console.log(options.type, url, xhr.status, 'Success');
-                    resolve(result, xhr.status);
-                } else {
-                    console.log(options.type, url, xhr.status, 'Error');
-                    reject(HTTPError(xhr.status, result, options.stack));
-                }
-            };
-            xhr.onerror = function() {
-                console.log(options.type, url, xhr.status, 'Error');
-                console.log(xhr.statusText);
-                reject(HTTPError(xhr.status, xhr.statusText, options.stack));
-            };
-            xhr.send( options.data || null );
-
-            scheduleHangWorkaround();
+              }
+            }
+            if ( 0 <= response.status && response.status < 400) {
+              console.log(options.type, url, response.status, 'Success');
+              resolve(result, response.status);
+            } else {
+              console.log(options.type, url, response.status, 'Error');
+              reject(HTTPError(response.status, result, options.stack));
+            }
+          });
+        }).catch(function(e) {
+          console.log(options.type, url, 0, 'Error');
+          console.log(e);
+          reject(HTTPError(0, e.toString(), options.stack));
         });
+        scheduleHangWorkaround();
+      });
     }
 
     function retry_ajax(url, options, limit, count) {

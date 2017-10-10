@@ -45,4 +45,7 @@
   }, 1000);
 
   window.EmojiConvertor = require('emoji-js');
+  window.nodeFetch = require('node-fetch');
+  window.httpsAgent = require('https').Agent;
+  window.nodeBuffer = Buffer;
 })();
