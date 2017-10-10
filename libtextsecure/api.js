@@ -43,7 +43,6 @@ var TextSecureServer = (function() {
       return new nodeWebSocket(url, null, null, null, requestOptions);
     }
 
-    var XMLHttpRequest = nodeXMLHttpRequest;
     window.setImmediate = nodeSetImmediate;
 
     function promise_ajax(url, options) {

@@ -36,7 +36,6 @@
   require('./js/backup');
 
   window.nodeSetImmediate = setImmediate;
-  window.nodeXMLHttpRequest = require("./js/XMLHttpRequest").XMLHttpRequest;
   window.nodeWebSocket = require("websocket").w3cwebsocket;
 
   // Linux seems to periodically let the event loop stop, so this is a global workaround

@@ -101,7 +101,6 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
-        '!js/XMLHttpRequest.js',
         '!js/signal_protocol_store.js',
         '_locales/**/*'
       ],
@@ -170,7 +169,6 @@ module.exports = function(grunt) {
         '!js/Mp3LameEncoder.min.js',
         '!js/libsignal-protocol-worker.js',
         '!js/components.js',
-        '!js/XMLHttpRequest.js',
         'test/**/*.js',
         '!test/blanket_mocha.js',
         '!test/test.js',
