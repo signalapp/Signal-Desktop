@@ -847,5 +847,39 @@
     },
     "autoUpdateLaterButtonLabel": {
       "message": "Later"
+    },
+    "leftTheGroup": {
+      "message": "$name$ left the group.",
+      "description": "Shown in the conversation history when someone leaves the group",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Bob"
+        }
+      }
+    },
+    "updatedTheGroup": {
+      "message": "Updated the group.",
+      "description": "Shown in the conversation history when someone updates the group"
+    },
+    "titleIsNow": {
+      "message": "Title is now '$name$'.",
+      "description": "Shown in the conversation history when someone changes the title of the group",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Book Club"
+        }
+      }
+    },
+    "joinedTheGroup": {
+      "message": "$names$ joined the group.",
+      "description": "Shown in the conversation history when people join the group",
+      "placeholders": {
+        "names": {
+          "content": "$1",
+          "example": "Alice, Bob"
+        }
+      }
     }
 }
