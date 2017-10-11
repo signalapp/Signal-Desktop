@@ -9,6 +9,7 @@
         initialize: function(options) {
             this.name = options.name;
             this.defaultValue = options.defaultValue;
+            this.event = options.event;
             this.populate();
         },
         events: {
@@ -18,7 +19,9 @@
             var value = e.target.checked;
             storage.put(this.name, value);
             console.log(this.name, 'changed to', value);
-            this.$el.trigger('change-hide-menu');
+            if (this.event) {
+                this.$el.trigger(this.event);
+            }
         },
         populate: function() {
             var value = storage.get(this.name, this.defaultValue);
@@ -29,6 +32,7 @@
         initialize: function(options) {
             this.name = options.name;
             this.defaultValue = options.defaultValue;
+            this.event = options.event;
             this.populate();
         },
         events: {
@@ -38,7 +42,9 @@
             var value = this.$(e.target).val();
             storage.put(this.name, value);
             console.log(this.name, 'changed to', value);
-            this.$el.trigger('change-theme');
+            if (this.event) {
+                this.$el.trigger(this.event);
+            }
         },
         populate: function() {
             var value = storage.get(this.name, this.defaultValue);
@@ -58,7 +64,8 @@
             new RadioButtonGroupView({
                 el: this.$('.theme-settings'),
                 defaultValue: 'android',
-                name: 'theme-setting'
+                name: 'theme-setting',
+                event: 'change-theme'
             });
             new CheckboxView({
                 el: this.$('.audio-notification-setting'),
@@ -68,7 +75,8 @@
             new CheckboxView({
                 el: this.$('.menu-bar-setting'),
                 defaultValue: false,
-                name: 'hide-menu-bar'
+                name: 'hide-menu-bar',
+                event: 'change-hide-menu'
             });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
