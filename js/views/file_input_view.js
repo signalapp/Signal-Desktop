@@ -146,6 +146,8 @@
                         limitKb = 100000; break;
                     case 'video':
                         limitKb = 100000; break;
+                    default:
+                        limitKb = 100000; break;
                 }
                 if ((blob.size/1024).toFixed(4) >= limitKb) {
                     var units = ['kB','MB','GB'];
