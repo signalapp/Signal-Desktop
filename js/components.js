@@ -10165,7 +10165,8 @@ return jQuery;
 
 /**
  * @license ByteBuffer.js (c) 2013-2014 Daniel Wirtz <dcode@dcode.io>
- * This version of ByteBuffer.js uses an ArrayBuffer (AB) as its backing buffer and is compatible with modern browsers.
+ * This version of ByteBuffer.js uses an ArrayBuffer as its backing buffer which is accessed through a DataView and is
+ * compatible with modern browsers.
  * Released under the Apache License, Version 2.0
  * see: https://github.com/dcodeIO/ByteBuffer.js for details
  */ //
@@ -10265,7 +10266,7 @@ return jQuery;
          * @const
          * @expose
          */
-        ByteBuffer.VERSION = "3.5.4";
+        ByteBuffer.VERSION = "3.5.5";
 
         /**
          * Little endian constant that can be used instead of its boolean value. Evaluates to `true`.
@@ -10901,6 +10902,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -10911,6 +10914,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 offset += 8;
                 var capacity6 = this.buffer.byteLength;
                 if (offset > capacity6)
@@ -10980,6 +10985,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -10990,6 +10997,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 offset += 8;
                 var capacity7 = this.buffer.byteLength;
                 if (offset > capacity7)
@@ -11386,6 +11395,8 @@ return jQuery;
             ByteBuffer.calculateVarint64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 // ref: src/google/protobuf/io/coded_stream.cc
                 var part0 = value.toInt() >>> 0,
                     part1 = value.shiftRightUnsigned(28).toInt() >>> 0,
@@ -11415,6 +11426,8 @@ return jQuery;
             ByteBuffer.zigZagEncode64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 // ref: src/google/protobuf/wire_format_lite.h
                 return value.shiftLeft(1).xor(value.shiftRight(63)).toUnsigned();
@@ -11429,6 +11442,8 @@ return jQuery;
             ByteBuffer.zigZagDecode64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 // ref: src/google/protobuf/wire_format_lite.h
                 return value.shiftRightUnsigned(1).xor(value.and(Long.ONE).toSigned().negate()).toSigned();
@@ -11448,6 +11463,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -11458,6 +11475,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 var size = ByteBuffer.calculateVarint64(value),
                     part0 = value.toInt() >>> 0,
@@ -11598,7 +11617,6 @@ return jQuery;
                 if (offset < 0 || offset + 0 > this.buffer.byteLength)
                     throw RangeError("Illegal offset: 0 <= "+offset+" (+"+0+") <= "+this.buffer.byteLength);
             }
-            var start = offset;
             // UTF8 strings do not contain zero bytes in between except for the zero character, so:
             k = utfx.calculateUTF16asUTF8(stringSource(str))[1];
             offset += k+1;
@@ -11611,7 +11629,7 @@ return jQuery;
             }.bind(this));
             this.view.setUint8(offset++, 0);
             if (relative) {
-                this.offset = offset - start;
+                this.offset = offset;
                 return this;
             }
             return k;
@@ -12050,8 +12068,8 @@ return jQuery;
         };
 
         /**
-         * Appends this ByteBuffer's contents to another ByteBuffer. This will overwrite any contents behind the specified
-         *  offset up to the length of this ByteBuffer's data.
+         * Appends this ByteBuffer's contents to another ByteBuffer. This will overwrite any contents at and after the
+            specified offset up to the length of this ByteBuffer's data.
          * @param {!ByteBuffer} target Target ByteBuffer
          * @param {number=} offset Offset to append to. Will use and increase {@link ByteBuffer#offset} by the number of bytes
          *  read if omitted.
@@ -13463,7 +13481,7 @@ return jQuery;
          * @const
          * @expose
          */
-        ProtoBuf.VERSION = "3.8.0";
+        ProtoBuf.VERSION = "3.8.2";
 
         /**
          * Wire types.
@@ -13827,7 +13845,7 @@ return jQuery;
             ID: /^(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             NEGID: /^\-?(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             WHITESPACE: /\s/,
-            STRING: /['"]([^'"\\]*(\\.[^"\\]*)*)['"]/g,
+            STRING: /(?:"([^"\\]*(?:\\.[^"\\]*)*)")|(?:'([^'\\]*(?:\\.[^'\\]*)*)')/g,
             BOOL: /^(?:true|false)$/i
         };
 
@@ -13913,7 +13931,7 @@ return jQuery;
                 Lang.STRING.lastIndex = this.index-1; // Include the open quote
                 var match;
                 if ((match = Lang.STRING.exec(this.source)) !== null) {
-                    var s = match[1];
+                    var s = typeof match[1] !== 'undefined' ? match[1] : match[2];
                     this.index = Lang.STRING.lastIndex;
                     this.stack.push(this.stringEndsWith);
                     return s;
@@ -17710,7 +17728,6 @@ return jQuery;
                 json = JSON.parse(json);
             builder["import"](json, filename);
             builder.resolveAll();
-            builder.build();
             return builder;
         };
 
@@ -23445,7 +23462,7 @@ goog.exportSymbol("libphonenumber.isValidNumber",libphonenumber.isValidNumber);g
 goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.PhoneNumberFormat.NATIONAL);goog.exportSymbol("libphonenumber.PhoneNumberFormat.RFC3966",libphonenumber.PhoneNumberFormat.RFC3966);goog.exportSymbol("libphonenumber.format",libphonenumber.format);})();
 
 //! moment.js
-//! version : 2.14.1
+//! version : 2.14.2
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -27604,7 +27621,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
     ;
 
 
-    utils_hooks__hooks.version = '2.14.1';
+    utils_hooks__hooks.version = '2.14.2';
 
     setHookCallback(local__createLocal);
 
@@ -35399,7 +35416,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
 }));
 /*
-International Telephone Input v4.0.1
+International Telephone Input v4.0.2
 https://github.com/Bluefieldscom/intl-tel-input.git
 */
 // wrap in UMD - see https://github.com/umdjs/umd/blob/master/jqueryPlugin.js
@@ -36051,14 +36068,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             var dialCode = this._getDialCode(number);
             if (dialCode) {
                 // check if one of the matching countries is already selected
-                var countryCodes = this.countryCodes[this._getNumeric(dialCode)], alreadySelected = false;
-                if (this.selectedCountryData) {
-                    for (var i = 0; i < countryCodes.length; i++) {
-                        if (countryCodes[i] == this.selectedCountryData.iso2) {
-                            alreadySelected = true;
-                        }
-                    }
-                }
+                var countryCodes = this.countryCodes[this._getNumeric(dialCode)], alreadySelected = this.selectedCountryData && $.inArray(this.selectedCountryData.iso2, countryCodes) != -1;
                 // if a matching country is not already selected (or this is an unknown NANP area code): choose the first in the list
                 if (!alreadySelected || this._isUnknownNanp(number, dialCode)) {
                     // if using onlyCountries option, countryCodes[0] may be empty, so we must find the first non-empty index
@@ -36106,9 +36116,8 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             // and the input's placeholder
             this._updatePlaceholder();
             // update the active list item
-            var listItem = this.countryListItems.children(".iti-flag." + countryCode).first().parent();
             this.countryListItems.removeClass("active");
-            listItem.addClass("active");
+            this.countryListItems.children(".iti-flag." + countryCode).first().parent().addClass("active");
         },
         // update the input placeholder to an example number from the currently selected country
         _updatePlaceholder: function() {
@@ -36405,7 +36414,6 @@ JSON.stringify(result);
         };
     }
 });
-
 /*
  * JavaScript Load Image 1.10.0
  * https://github.com/blueimp/JavaScript-Load-Image
@@ -37103,7 +37111,7 @@ JSON.stringify(result);
  *
  * @copyright 2017 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.5.9
+ * @version 3.5.10
  */
 (function (global) {
 	var b = /^(b|B)$/,
