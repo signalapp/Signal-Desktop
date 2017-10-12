@@ -8,11 +8,14 @@
     Whisper.ConversationListView = Whisper.ListView.extend({
         tagName: 'div',
         itemView: Whisper.ConversationListItemView,
-        sort: function(conversation) {
+        updateLocation: function(conversation) {
             var $el = this.$('.' + conversation.cid);
             if ($el && $el.length > 0) {
-                var index = getInboxCollection().indexOf(conversation);
-                if (index === this.$el.index($el)) {
+                var inboxCollection = getInboxCollection();
+                var index = inboxCollection.indexOf(conversation);
+                var elIndex = this.$el.index($el);
+
+                if (index === elIndex) {
                     return;
                 }
                 if (index === 0) {
@@ -20,7 +23,9 @@
                 } else if (index === this.collection.length - 1) {
                     this.$el.append($el);
                 } else {
-                    $el.insertBefore(this.$('.conversation-list-item')[index+1]);
+                    var targetConversation = inboxCollection.at(index + 1);
+                    var target = this.$('.' + targetConversation.cid);
+                    $el.insertBefore(target);
                 }
             }
         }

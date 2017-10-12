@@ -110,7 +110,7 @@
 
             this.inboxListView.listenTo(inboxCollection,
                     'add change:timestamp change:name change:number',
-                    this.inboxListView.sort);
+                    this.inboxListView.updateLocation);
 
             this.searchView = new Whisper.ConversationSearchView({
                 el    : this.$('.search-results'),
