@@ -1,11 +1,12 @@
-const {Menu} = require('electron')
+function createTemplate(options) {
+  const showDebugLog = options.showDebugLog;
+  const showWindow = options.showWindow;
 
-const template = [
-  {
+  let template = [{
     label: 'File',
     submenu: [
       {
-        role: 'exit'
+        role: 'quit',
       },
     ]
   },
@@ -13,31 +14,31 @@ const template = [
     label: 'Edit',
     submenu: [
       {
-        role: 'undo'
+        role: 'undo',
       },
       {
-        role: 'redo'
+        role: 'redo',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'cut'
+        role: 'cut',
       },
       {
-        role: 'copy'
+        role: 'copy',
       },
       {
-        role: 'paste'
+        role: 'paste',
       },
       {
-        role: 'pasteandmatchstyle'
+        role: 'pasteandmatchstyle',
       },
       {
-        role: 'delete'
+        role: 'delete',
       },
       {
-        role: 'selectall'
+        role: 'selectall',
       }
     ]
   },
@@ -45,31 +46,32 @@ const template = [
     label: 'View',
     submenu: [
       {
-        role: 'resetzoom'
+        role: 'resetzoom',
       },
       {
-        role: 'zoomin'
+        role: 'zoomin',
       },
       {
-        role: 'zoomout'
+        role: 'zoomout',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'togglefullscreen'
+        role: 'togglefullscreen',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        label: 'Debug Log'
+        label: 'Debug Log',
+        click: showDebugLog,
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'toggledevtools'
+        role: 'toggledevtools',
       },
     ]
   },
@@ -77,10 +79,7 @@ const template = [
     role: 'window',
     submenu: [
       {
-        role: 'minimize'
-      },
-      {
-        role: 'close'
+        role: 'minimize',
       }
     ]
   },
@@ -88,44 +87,45 @@ const template = [
     role: 'help',
     submenu: [
       {
-        role: 'about'
+        role: 'about',
       }
     ]
+  }];
+
+  if (process.platform !== 'darwin') {
+    return template;
   }
-]
 
-if (process.platform === 'darwin') {
-  // get rid of File menu
-  template.shift();
-
-  // get rid of Help menu
+  // Remove Help menu
   template.pop();
 
+  // Replace File menu
+  template.shift();
   template.unshift({
     submenu: [
       {
-        role: 'about'
+        role: 'about',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'hide'
+        role: 'hide',
       },
       {
-        role: 'hideothers'
+        role: 'hideothers',
       },
       {
-        role: 'unhide'
+        role: 'unhide',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'quit'
+        role: 'quit',
       }
     ]
-  })
+  });
 
   // Add to Edit menu
   template[1].submenu.push(
@@ -136,42 +136,45 @@ if (process.platform === 'darwin') {
       label: 'Speech',
       submenu: [
         {
-          role: 'startspeaking'
+          role: 'startspeaking',
         },
         {
-          role: 'stopspeaking'
+          role: 'stopspeaking',
         }
       ]
     }
-  )
+  );
 
   // Add to Window menu
   template[3].submenu = [
     {
       label: 'Close',
       accelerator: 'CmdOrCtrl+W',
-      role: 'close'
+      role: 'close',
     },
     {
       label: 'Minimize',
       accelerator: 'CmdOrCtrl+M',
-      role: 'minimize'
+      role: 'minimize',
     },
     {
       label: 'Zoom',
-      role: 'zoom'
+      role: 'zoom',
     },
     {
       label: 'Show',
+      click: showWindow,
     },
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
       label: 'Bring All to Front',
-      role: 'front'
+      role: 'front',
     }
-  ]
+  ];
+
+  return template;
 }
 
-module.exports = template;
+module.exports = createTemplate;

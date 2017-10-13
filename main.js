@@ -186,6 +186,12 @@ function showDebugLog() {
   }
 }
 
+function showWindow() {
+  if (mainWindow) {
+    mainWindow.show();
+  }
+};
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -200,16 +206,12 @@ app.on('ready', function() {
 
   createWindow();
 
-  let template = require('./app/menu.js');
-
-  if (process.platform === 'darwin') {
-    template[3].submenu[3].click = function() {
-      mainWindow.show();
-    };
-    template[2].submenu[0].click = showDebugLog;
-  } else {
-    template[1].submenu[0].click = showDebugLog;
-  }
+  const options = {
+    showDebugLog,
+    showWindow,
+  };
+  const createTemplate = require('./app/menu.js');
+  const template = createTemplate(options);
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
