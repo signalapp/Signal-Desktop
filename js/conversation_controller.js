@@ -35,7 +35,7 @@
             }
             var title1 = m1.getTitle().toLowerCase();
             var title2 = m2.getTitle().toLowerCase();
-            if (title1 ===  title2) {
+            if (title1 === title2) {
                 return 0;
             }
             if (title1 < title2) {
