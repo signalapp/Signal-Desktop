@@ -154,6 +154,10 @@
         loadPromise: function() {
             return this._initialPromise;
         },
+        reset: function() {
+            this._initialPromise = null;
+            conversations.reset([]);
+        },
         load: function() {
             console.log('ConversationController: starting initial fetch');
             if (this._initialPromise) {
