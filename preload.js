@@ -21,6 +21,12 @@
     console.log('show window');
     ipc.send('show-window');
   };
+  window.setAutoHideMenuBar = function(autoHide) {
+    ipc.send('set-auto-hide-menu-bar', autoHide);
+  };
+  window.setMenuBarVisibility = function(visibility) {
+    ipc.send('set-menu-bar-visibility', visibility);
+  };
   window.restart = function() {
     console.log('restart');
     ipc.send('restart');

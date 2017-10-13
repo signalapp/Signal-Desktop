@@ -8,12 +8,14 @@
           this.inboxView = null;
           this.installView = null;
           this.applyTheme();
+          this.applyHideMenu();
         },
         events: {
             'click .openInstaller': 'openInstaller',
             'click .openStandalone': 'openStandalone',
             'openInbox': 'openInbox',
-            'change-theme': 'applyTheme'
+            'change-theme': 'applyTheme',
+            'change-hide-menu': 'applyHideMenu',
         },
         applyTheme: function() {
             var theme = storage.get('theme-setting') || 'android';
@@ -21,6 +23,11 @@
                     .removeClass('android-dark')
                     .removeClass('android')
                     .addClass(theme);
+        },
+        applyHideMenu: function() {
+            var hideMenuBar = storage.get('hide-menu-bar', false);
+            window.setAutoHideMenuBar(hideMenuBar);
+            window.setMenuBarVisibility(!hideMenuBar);
         },
         openView: function(view) {
           this.el.innerHTML = "";
