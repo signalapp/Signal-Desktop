@@ -5,7 +5,7 @@
  *
  * @copyright 2017 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.5.9
+ * @version 3.5.10
  */
 (function (global) {
 	var b = /^(b|B)$/,

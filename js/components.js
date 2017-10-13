@@ -10165,7 +10165,8 @@ return jQuery;
 
 /**
  * @license ByteBuffer.js (c) 2013-2014 Daniel Wirtz <dcode@dcode.io>
- * This version of ByteBuffer.js uses an ArrayBuffer (AB) as its backing buffer and is compatible with modern browsers.
+ * This version of ByteBuffer.js uses an ArrayBuffer as its backing buffer which is accessed through a DataView and is
+ * compatible with modern browsers.
  * Released under the Apache License, Version 2.0
  * see: https://github.com/dcodeIO/ByteBuffer.js for details
  */ //
@@ -10265,7 +10266,7 @@ return jQuery;
          * @const
          * @expose
          */
-        ByteBuffer.VERSION = "3.5.4";
+        ByteBuffer.VERSION = "3.5.5";
 
         /**
          * Little endian constant that can be used instead of its boolean value. Evaluates to `true`.
@@ -10901,6 +10902,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -10911,6 +10914,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 offset += 8;
                 var capacity6 = this.buffer.byteLength;
                 if (offset > capacity6)
@@ -10980,6 +10985,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -10990,6 +10997,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 offset += 8;
                 var capacity7 = this.buffer.byteLength;
                 if (offset > capacity7)
@@ -11386,6 +11395,8 @@ return jQuery;
             ByteBuffer.calculateVarint64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value);
                 // ref: src/google/protobuf/io/coded_stream.cc
                 var part0 = value.toInt() >>> 0,
                     part1 = value.shiftRightUnsigned(28).toInt() >>> 0,
@@ -11415,6 +11426,8 @@ return jQuery;
             ByteBuffer.zigZagEncode64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 // ref: src/google/protobuf/wire_format_lite.h
                 return value.shiftLeft(1).xor(value.shiftRight(63)).toUnsigned();
@@ -11429,6 +11442,8 @@ return jQuery;
             ByteBuffer.zigZagDecode64 = function(value) {
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 // ref: src/google/protobuf/wire_format_lite.h
                 return value.shiftRightUnsigned(1).xor(value.and(Long.ONE).toSigned().negate()).toSigned();
@@ -11448,6 +11463,8 @@ return jQuery;
                 if (!this.noAssert) {
                     if (typeof value === 'number')
                         value = Long.fromNumber(value);
+                    else if (typeof value === 'string')
+                        value = Long.fromString(value);
                     else if (!(value && value instanceof Long))
                         throw TypeError("Illegal value: "+value+" (not an integer or Long)");
                     if (typeof offset !== 'number' || offset % 1 !== 0)
@@ -11458,6 +11475,8 @@ return jQuery;
                 }
                 if (typeof value === 'number')
                     value = Long.fromNumber(value, false);
+                else if (typeof value === 'string')
+                    value = Long.fromString(value, false);
                 else if (value.unsigned !== false) value = value.toSigned();
                 var size = ByteBuffer.calculateVarint64(value),
                     part0 = value.toInt() >>> 0,
@@ -11598,7 +11617,6 @@ return jQuery;
                 if (offset < 0 || offset + 0 > this.buffer.byteLength)
                     throw RangeError("Illegal offset: 0 <= "+offset+" (+"+0+") <= "+this.buffer.byteLength);
             }
-            var start = offset;
             // UTF8 strings do not contain zero bytes in between except for the zero character, so:
             k = utfx.calculateUTF16asUTF8(stringSource(str))[1];
             offset += k+1;
@@ -11611,7 +11629,7 @@ return jQuery;
             }.bind(this));
             this.view.setUint8(offset++, 0);
             if (relative) {
-                this.offset = offset - start;
+                this.offset = offset;
                 return this;
             }
             return k;
@@ -12050,8 +12068,8 @@ return jQuery;
         };
 
         /**
-         * Appends this ByteBuffer's contents to another ByteBuffer. This will overwrite any contents behind the specified
-         *  offset up to the length of this ByteBuffer's data.
+         * Appends this ByteBuffer's contents to another ByteBuffer. This will overwrite any contents at and after the
+            specified offset up to the length of this ByteBuffer's data.
          * @param {!ByteBuffer} target Target ByteBuffer
          * @param {number=} offset Offset to append to. Will use and increase {@link ByteBuffer#offset} by the number of bytes
          *  read if omitted.
@@ -13463,7 +13481,7 @@ return jQuery;
          * @const
          * @expose
          */
-        ProtoBuf.VERSION = "3.8.0";
+        ProtoBuf.VERSION = "3.8.2";
 
         /**
          * Wire types.
@@ -13827,7 +13845,7 @@ return jQuery;
             ID: /^(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             NEGID: /^\-?(?:[1-9][0-9]*|0|0x[0-9a-fA-F]+|0[0-7]+)$/,
             WHITESPACE: /\s/,
-            STRING: /['"]([^'"\\]*(\\.[^"\\]*)*)['"]/g,
+            STRING: /(?:"([^"\\]*(?:\\.[^"\\]*)*)")|(?:'([^'\\]*(?:\\.[^'\\]*)*)')/g,
             BOOL: /^(?:true|false)$/i
         };
 
@@ -13913,7 +13931,7 @@ return jQuery;
                 Lang.STRING.lastIndex = this.index-1; // Include the open quote
                 var match;
                 if ((match = Lang.STRING.exec(this.source)) !== null) {
-                    var s = match[1];
+                    var s = typeof match[1] !== 'undefined' ? match[1] : match[2];
                     this.index = Lang.STRING.lastIndex;
                     this.stack.push(this.stringEndsWith);
                     return s;
@@ -17710,7 +17728,6 @@ return jQuery;
                 json = JSON.parse(json);
             builder["import"](json, filename);
             builder.resolveAll();
-            builder.build();
             return builder;
         };
 
@@ -23445,7 +23462,7 @@ goog.exportSymbol("libphonenumber.isValidNumber",libphonenumber.isValidNumber);g
 goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.PhoneNumberFormat.NATIONAL);goog.exportSymbol("libphonenumber.PhoneNumberFormat.RFC3966",libphonenumber.PhoneNumberFormat.RFC3966);goog.exportSymbol("libphonenumber.format",libphonenumber.format);})();
 
 //! moment.js
-//! version : 2.14.1
+//! version : 2.14.2
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -27604,7 +27621,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
     ;
 
 
-    utils_hooks__hooks.version = '2.14.1';
+    utils_hooks__hooks.version = '2.14.2';
 
     setHookCallback(local__createLocal);
 
@@ -35399,7 +35416,7 @@ goog.exportSymbol("libphonenumber.PhoneNumberFormat.NATIONAL",libphonenumber.Pho
 
 }));
 /*
-International Telephone Input v4.0.1
+International Telephone Input v4.0.2
 https://github.com/Bluefieldscom/intl-tel-input.git
 */
 // wrap in UMD - see https://github.com/umdjs/umd/blob/master/jqueryPlugin.js
@@ -36051,14 +36068,7 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             var dialCode = this._getDialCode(number);
             if (dialCode) {
                 // check if one of the matching countries is already selected
-                var countryCodes = this.countryCodes[this._getNumeric(dialCode)], alreadySelected = false;
-                if (this.selectedCountryData) {
-                    for (var i = 0; i < countryCodes.length; i++) {
-                        if (countryCodes[i] == this.selectedCountryData.iso2) {
-                            alreadySelected = true;
-                        }
-                    }
-                }
+                var countryCodes = this.countryCodes[this._getNumeric(dialCode)], alreadySelected = this.selectedCountryData && $.inArray(this.selectedCountryData.iso2, countryCodes) != -1;
                 // if a matching country is not already selected (or this is an unknown NANP area code): choose the first in the list
                 if (!alreadySelected || this._isUnknownNanp(number, dialCode)) {
                     // if using onlyCountries option, countryCodes[0] may be empty, so we must find the first non-empty index
@@ -36106,9 +36116,8 @@ https://github.com/Bluefieldscom/intl-tel-input.git
             // and the input's placeholder
             this._updatePlaceholder();
             // update the active list item
-            var listItem = this.countryListItems.children(".iti-flag." + countryCode).first().parent();
             this.countryListItems.removeClass("active");
-            listItem.addClass("active");
+            this.countryListItems.children(".iti-flag." + countryCode).first().parent().addClass("active");
         },
         // update the input placeholder to an example number from the currently selected country
         _updatePlaceholder: function() {
@@ -36405,7 +36414,6 @@ JSON.stringify(result);
         };
     }
 });
-
 /*
  * JavaScript Load Image 1.10.0
  * https://github.com/blueimp/JavaScript-Load-Image
@@ -36805,7 +36813,7 @@ JSON.stringify(result);
 }(this));
 
 /*!
-	Autosize 3.0.5
+	Autosize 4.0.0
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -36824,18 +36832,53 @@ JSON.stringify(result);
 })(this, function (exports, module) {
 	'use strict';
 
+	var map = typeof Map === "function" ? new Map() : (function () {
+		var keys = [];
+		var values = [];
+
+		return {
+			has: function has(key) {
+				return keys.indexOf(key) > -1;
+			},
+			get: function get(key) {
+				return values[keys.indexOf(key)];
+			},
+			set: function set(key, value) {
+				if (keys.indexOf(key) === -1) {
+					keys.push(key);
+					values.push(value);
+				}
+			},
+			'delete': function _delete(key) {
+				var index = keys.indexOf(key);
+				if (index > -1) {
+					keys.splice(index, 1);
+					values.splice(index, 1);
+				}
+			}
+		};
+	})();
+
+	var createEvent = function createEvent(name) {
+		return new Event(name, { bubbles: true });
+	};
+	try {
+		new Event('test');
+	} catch (e) {
+		// IE does not support `new Event()`
+		createEvent = function (name) {
+			var evt = document.createEvent('Event');
+			evt.initEvent(name, true, false);
+			return evt;
+		};
+	}
+
 	function assign(ta) {
-		var _ref = arguments[1] === undefined ? {} : arguments[1];
-
-		var _ref$setOverflowX = _ref.setOverflowX;
-		var setOverflowX = _ref$setOverflowX === undefined ? true : _ref$setOverflowX;
-		var _ref$setOverflowY = _ref.setOverflowY;
-		var setOverflowY = _ref$setOverflowY === undefined ? true : _ref$setOverflowY;
-
-		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || ta.hasAttribute('data-autosize-on')) return;
+		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || map.has(ta)) return;
 
 		var heightOffset = null;
-		var overflowY = 'hidden';
+		var clientWidth = ta.clientWidth;
+		var cachedHeight = null;
 
 		function init() {
 			var style = window.getComputedStyle(ta, null);
@@ -36850,6 +36893,10 @@ JSON.stringify(result);
 				heightOffset = -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom));
 			} else {
 				heightOffset = parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+			}
+			// Fix when a textarea is not on document body and heightOffset is Not a Number
+			if (isNaN(heightOffset)) {
+				heightOffset = 0;
 			}
 
 			update();
@@ -36869,22 +36916,31 @@ JSON.stringify(result);
 				ta.style.width = width;
 			}
 
-			overflowY = value;
-
-			if (setOverflowY) {
-				ta.style.overflowY = value;
-			}
-
-			update();
+			ta.style.overflowY = value;
 		}
 
-		function update() {
-			var startHeight = ta.style.height;
-			var htmlTop = document.documentElement.scrollTop;
-			var bodyTop = document.body.scrollTop;
-			var originalHeight = ta.style.height;
+		function getParentOverflows(el) {
+			var arr = [];
 
-			ta.style.height = 'auto';
+			while (el && el.parentNode && el.parentNode instanceof Element) {
+				if (el.parentNode.scrollTop) {
+					arr.push({
+						node: el.parentNode,
+						scrollTop: el.parentNode.scrollTop
+					});
+				}
+				el = el.parentNode;
+			}
+
+			return arr;
+		}
+
+		function resize() {
+			var originalHeight = ta.style.height;
+			var overflows = getParentOverflows(ta);
+			var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
+
+			ta.style.height = '';
 
 			var endHeight = ta.scrollHeight + heightOffset;
 
@@ -36896,85 +36952,118 @@ JSON.stringify(result);
 
 			ta.style.height = endHeight + 'px';
 
+			// used to check if an update is actually necessary on window.resize
+			clientWidth = ta.clientWidth;
+
 			// prevents scroll-position jumping
-			document.documentElement.scrollTop = htmlTop;
-			document.body.scrollTop = bodyTop;
+			overflows.forEach(function (el) {
+				el.node.scrollTop = el.scrollTop;
+			});
 
-			var style = window.getComputedStyle(ta, null);
-
-			if (style.height !== ta.style.height) {
-				if (overflowY !== 'visible') {
-					changeOverflow('visible');
-					return;
-				}
-			} else {
-				if (overflowY !== 'hidden') {
-					changeOverflow('hidden');
-					return;
-				}
-			}
-
-			if (startHeight !== ta.style.height) {
-				var evt = document.createEvent('Event');
-				evt.initEvent('autosize:resized', true, false);
-				ta.dispatchEvent(evt);
+			if (docTop) {
+				document.documentElement.scrollTop = docTop;
 			}
 		}
 
+		function update() {
+			resize();
+
+			var styleHeight = Math.round(parseFloat(ta.style.height));
+			var computed = window.getComputedStyle(ta, null);
+
+			// Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
+			var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight;
+
+			// The actual height not matching the style height (set via the resize method) indicates that
+			// the max-height has been exceeded, in which case the overflow should be allowed.
+			if (actualHeight !== styleHeight) {
+				if (computed.overflowY === 'hidden') {
+					changeOverflow('scroll');
+					resize();
+					actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
+				}
+			} else {
+				// Normally keep overflow set to hidden, to avoid flash of scrollbar as the textarea expands.
+				if (computed.overflowY !== 'hidden') {
+					changeOverflow('hidden');
+					resize();
+					actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
+				}
+			}
+
+			if (cachedHeight !== actualHeight) {
+				cachedHeight = actualHeight;
+				var evt = createEvent('autosize:resized');
+				try {
+					ta.dispatchEvent(evt);
+				} catch (err) {
+					// Firefox will throw an error on dispatchEvent for a detached element
+					// https://bugzilla.mozilla.org/show_bug.cgi?id=889376
+				}
+			}
+		}
+
+		var pageResize = function pageResize() {
+			if (ta.clientWidth !== clientWidth) {
+				update();
+			}
+		};
+
 		var destroy = (function (style) {
-			window.removeEventListener('resize', update);
-			ta.removeEventListener('input', update);
-			ta.removeEventListener('keyup', update);
-			ta.removeAttribute('data-autosize-on');
-			ta.removeEventListener('autosize:destroy', destroy);
+			window.removeEventListener('resize', pageResize, false);
+			ta.removeEventListener('input', update, false);
+			ta.removeEventListener('keyup', update, false);
+			ta.removeEventListener('autosize:destroy', destroy, false);
+			ta.removeEventListener('autosize:update', update, false);
 
 			Object.keys(style).forEach(function (key) {
 				ta.style[key] = style[key];
 			});
+
+			map['delete'](ta);
 		}).bind(ta, {
 			height: ta.style.height,
 			resize: ta.style.resize,
 			overflowY: ta.style.overflowY,
 			overflowX: ta.style.overflowX,
-			wordWrap: ta.style.wordWrap });
+			wordWrap: ta.style.wordWrap
+		});
 
-		ta.addEventListener('autosize:destroy', destroy);
+		ta.addEventListener('autosize:destroy', destroy, false);
 
 		// IE9 does not fire onpropertychange or oninput for deletions,
 		// so binding to onkeyup to catch most of those events.
 		// There is no way that I know of to detect something like 'cut' in IE9.
 		if ('onpropertychange' in ta && 'oninput' in ta) {
-			ta.addEventListener('keyup', update);
+			ta.addEventListener('keyup', update, false);
 		}
 
-		window.addEventListener('resize', update);
-		ta.addEventListener('input', update);
-		ta.addEventListener('autosize:update', update);
-		ta.setAttribute('data-autosize-on', true);
+		window.addEventListener('resize', pageResize, false);
+		ta.addEventListener('input', update, false);
+		ta.addEventListener('autosize:update', update, false);
+		ta.style.overflowX = 'hidden';
+		ta.style.wordWrap = 'break-word';
 
-		if (setOverflowY) {
-			ta.style.overflowY = 'hidden';
-		}
-		if (setOverflowX) {
-			ta.style.overflowX = 'hidden';
-			ta.style.wordWrap = 'break-word';
-		}
+		map.set(ta, {
+			destroy: destroy,
+			update: update
+		});
 
 		init();
 	}
 
 	function destroy(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = document.createEvent('Event');
-		evt.initEvent('autosize:destroy', true, false);
-		ta.dispatchEvent(evt);
+		var methods = map.get(ta);
+		if (methods) {
+			methods.destroy();
+		}
 	}
 
 	function update(ta) {
-		if (!(ta && ta.nodeName && ta.nodeName === 'TEXTAREA')) return;
-		var evt = document.createEvent('Event');
-		evt.initEvent('autosize:update', true, false);
-		ta.dispatchEvent(evt);
+		var methods = map.get(ta);
+		if (methods) {
+			methods.update();
+		}
 	}
 
 	var autosize = null;
@@ -37022,7 +37111,7 @@ JSON.stringify(result);
  *
  * @copyright 2017 Jason Mulligan <jason.mulligan@avoidwork.com>
  * @license BSD-3-Clause
- * @version 3.5.9
+ * @version 3.5.10
  */
 (function (global) {
 	var b = /^(b|B)$/,

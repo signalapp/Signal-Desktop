@@ -3,7 +3,7 @@ node_modules
 build/curve25519_compiled.js
 build/icons/*
 stylesheets/*.css.map
-dist
+/dist
 .DS_Store
 config/local.json
 config/local-*.json
