@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  window.version = require('./package.json').version;
+  window.hostname = require('os').hostname();
+
   console.log('preload');
   const electron = require('electron');
 

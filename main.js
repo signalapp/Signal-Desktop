@@ -52,6 +52,24 @@ const loadLocale = require('./app/locale').load;
 
 let locale;
 
+function prepareURL(pathSegments) {
+  return url.format({
+    pathname: path.join.apply(null, pathSegments),
+    protocol: 'file:',
+    slashes: true,
+    query: {
+      locale: locale.name,
+      version: app.getVersion(),
+      buildExpiration: config.get('buildExpiration'),
+      serverUrl: config.get('serverUrl'),
+      cdnUrl: config.get('cdnUrl'),
+      certificateAuthorities: config.get('certificateAuthorities'),
+      environment: config.environment,
+      node_version: process.versions.node
+    }
+  })
+}
+
 function createWindow () {
   const windowOptions = Object.assign({
     width: 800,
@@ -108,24 +126,6 @@ function createWindow () {
   ipc.on('locale-data', function(event, arg) {
     event.returnValue = locale.messages;
   });
-
-  function prepareURL(pathSegments) {
-    return url.format({
-      pathname: path.join.apply(null, pathSegments),
-      protocol: 'file:',
-      slashes: true,
-      query: {
-        locale: locale.name,
-        version: app.getVersion(),
-        buildExpiration: config.get('buildExpiration'),
-        serverUrl: config.get('serverUrl'),
-        cdnUrl: config.get('cdnUrl'),
-        certificateAuthorities: config.get('certificateAuthorities'),
-        environment: config.environment,
-        node_version: process.versions.node
-      }
-    })
-  }
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
@@ -192,6 +192,27 @@ function showWindow() {
   }
 };
 
+let aboutWindow;
+function showAbout() {
+  if (!aboutWindow) {
+    const options = {
+      width: 800,
+      height: 610,
+      minWidth: 700,
+      minHeight: 360,
+      webPreferences: {
+        nodeIntegration: false,
+        //sandbox: true,
+        preload: path.join(__dirname, 'preload.js')
+      }
+    };
+
+    aboutWindow = new BrowserWindow(options);
+
+    aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
+  }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -209,6 +230,7 @@ app.on('ready', function() {
   const options = {
     showDebugLog,
     showWindow,
+    showAbout,
   };
   const createTemplate = require('./app/menu.js');
   const template = createTemplate(options);

@@ -1,6 +1,7 @@
 function createTemplate(options) {
   const showDebugLog = options.showDebugLog;
   const showWindow = options.showWindow;
+  const showAbout = options.showAbout;
 
   let template = [{
     label: 'File',
@@ -80,15 +81,16 @@ function createTemplate(options) {
     submenu: [
       {
         role: 'minimize',
-      }
+      },
     ]
   },
   {
     role: 'help',
     submenu: [
       {
-        role: 'about',
-      }
+        label: 'about',
+        click: showAbout,
+      },
     ]
   }];
 
@@ -104,7 +106,8 @@ function createTemplate(options) {
   template.unshift({
     submenu: [
       {
-        role: 'about',
+        label: 'about',
+        click: showAbout,
       },
       {
         type: 'separator',
@@ -123,7 +126,7 @@ function createTemplate(options) {
       },
       {
         role: 'quit',
-      }
+      },
     ]
   });
 
@@ -140,7 +143,7 @@ function createTemplate(options) {
         },
         {
           role: 'stopspeaking',
-        }
+        },
       ]
     }
   );
@@ -171,7 +174,7 @@ function createTemplate(options) {
     {
       label: 'Bring All to Front',
       role: 'front',
-    }
+    },
   ];
 
   return template;
