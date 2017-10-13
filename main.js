@@ -232,6 +232,7 @@ function showAbout() {
     title: locale.messages.aboutSignalDesktop.message,
     autoHideMenuBar: true,
     backgroundColor: '#2090EA',
+    show: false,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
@@ -246,6 +247,10 @@ function showAbout() {
 
   aboutWindow.on('closed', function () {
     aboutWindow = null;
+  });
+
+  aboutWindow.once('ready-to-show', function() {
+    aboutWindow.show();
   });
 }
 
