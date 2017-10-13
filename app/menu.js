@@ -2,6 +2,14 @@ const {Menu} = require('electron')
 
 const template = [
   {
+    label: 'File',
+    submenu: [
+      {
+        role: 'exit'
+      },
+    ]
+  },
+  {
     label: 'Edit',
     submenu: [
       {
@@ -37,24 +45,6 @@ const template = [
     label: 'View',
     submenu: [
       {
-        label: 'Debug Log'
-      },
-      {
-        type: 'separator'
-      },
-      {
-        role: 'reload'
-      },
-      {
-        role: 'forcereload'
-      },
-      {
-        role: 'toggledevtools'
-      },
-      {
-        type: 'separator'
-      },
-      {
         role: 'resetzoom'
       },
       {
@@ -68,7 +58,19 @@ const template = [
       },
       {
         role: 'togglefullscreen'
-      }
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Debug Log'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'toggledevtools'
+      },
     ]
   },
   {
@@ -81,10 +83,24 @@ const template = [
         role: 'close'
       }
     ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        role: 'about'
+      }
+    ]
   }
 ]
 
 if (process.platform === 'darwin') {
+  // get rid of File menu
+  template.shift();
+
+  // get rid of Help menu
+  template.pop();
+
   template.unshift({
     submenu: [
       {
@@ -110,7 +126,8 @@ if (process.platform === 'darwin') {
       }
     ]
   })
-  // Edit menu.
+
+  // Add to Edit menu
   template[1].submenu.push(
     {
       type: 'separator'
@@ -127,7 +144,8 @@ if (process.platform === 'darwin') {
       ]
     }
   )
-  // Window menu.
+
+  // Add to Window menu
   template[3].submenu = [
     {
       label: 'Close',
