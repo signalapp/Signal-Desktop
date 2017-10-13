@@ -101,6 +101,7 @@ function createWindow () {
 
   mainWindow.on('resize', captureAndSaveWindowStats);
   mainWindow.on('move', captureAndSaveWindowStats);
+  mainWindow.on('close', captureAndSaveWindowStats);
 
   mainWindow.on('focus', function() {
     mainWindow.flashFrame(false);
