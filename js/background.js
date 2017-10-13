@@ -45,7 +45,7 @@
                     storage.put('safety-numbers-approval', false);
                 }
                 Whisper.Registration.markDone();
-                console.log("dispatching registration event");
+                console.log('dispatching registration event');
                 Whisper.events.trigger('registration_done');
             });
         }
@@ -81,9 +81,9 @@
 
         window.dispatchEvent(new Event('storage_ready'));
 
-        console.log("listening for registration events");
+        console.log('listening for registration events');
         Whisper.events.on('registration_done', function() {
-            console.log("handling registration event");
+            console.log('handling registration event');
             connect(true);
         });
 
@@ -202,8 +202,14 @@
         console.log('connect');
 
         // Bootstrap our online/offline detection, only the first time we connect
-        if (connectCount === 0) {
+        if (connectCount === 0 && navigator.onLine) {
             window.addEventListener('offline', onOffline);
+        }
+        if (connectCount === 0 && !navigator.onLine) {
+            console.log('Starting up offline; will connect when we have network access');
+            window.addEventListener('online', onOnline);
+            onEmpty(); // this ensures that the loading screen is dismissed
+            return;
         }
 
         if (!Whisper.Registration.everDone()) { return; }
