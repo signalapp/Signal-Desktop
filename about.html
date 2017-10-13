@@ -1,6 +1,39 @@
-Electron!!
+<html>
+<head>
+<link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
+<style>
 
+body {
+  text-align: center;
+  background-color: #2090EA;
+  color: white;
+  font-size: 14px;
+}
+
+img {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+a {
+  color: white;
+}
+
+</style>
+</head>
+<body>
+
+<img src='images/icon_250.png'>
+
+<div>
 <script>
-  document.write('Version: ', window.version);
-  document.write('Hostname: ', window.hostname);
+  document.write('v', window.config.version);
 </script>
+</div>
+<div>
+  <a href="https://signal.org">signal.org</a>
+</div>
+
+</body>
+
+</html>

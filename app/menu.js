@@ -1,7 +1,10 @@
-function createTemplate(options) {
+function createTemplate(options, messages) {
   const showDebugLog = options.showDebugLog;
-  const showWindow = options.showWindow;
   const showAbout = options.showAbout;
+  const openReleaseNotes = options.openReleaseNotes;
+  const openNewBugForm = options.openNewBugForm;
+  const openSupportPage = options.openSupportPage;
+  const openForums = options.openForums;
 
   let template = [{
     label: 'File',
@@ -65,7 +68,7 @@ function createTemplate(options) {
         type: 'separator',
       },
       {
-        label: 'Debug Log',
+        label: messages.debugLog.message,
         click: showDebugLog,
       },
       {
@@ -88,25 +91,55 @@ function createTemplate(options) {
     role: 'help',
     submenu: [
       {
-        label: 'about',
+        label: messages.goToReleaseNotes.message,
+        click: openReleaseNotes,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.goToForums.message,
+        click: openForums,
+      },
+      {
+        label: messages.goToSupportPage.message,
+        click: openSupportPage,
+      },
+      {
+        label: messages.fileABug.message,
+        click: openNewBugForm,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.aboutSignalDesktop.message,
         click: showAbout,
       },
     ]
   }];
 
-  if (process.platform !== 'darwin') {
-    return template;
+  if (process.platform === 'darwin') {
+    return updateForMac(template, messages, options);
   }
 
-  // Remove Help menu
-  template.pop();
+  return template;
+}
+
+function updateForMac(template, messages, options) {
+  const showWindow = options.showWindow;
+  const showAbout = options.showAbout;
+
+  // Remove About item and separator from Help menu, since it's on the first menue
+  template[4].submenu.pop();
+  template[4].submenu.pop();
 
   // Replace File menu
   template.shift();
   template.unshift({
     submenu: [
       {
-        label: 'about',
+        label: messages.aboutSignalDesktop.message,
         click: showAbout,
       },
       {
@@ -136,7 +169,7 @@ function createTemplate(options) {
       type: 'separator'
     },
     {
-      label: 'Speech',
+      label: messages.speech.message,
       submenu: [
         {
           role: 'startspeaking',
@@ -151,28 +184,24 @@ function createTemplate(options) {
   // Add to Window menu
   template[3].submenu = [
     {
-      label: 'Close',
       accelerator: 'CmdOrCtrl+W',
       role: 'close',
     },
     {
-      label: 'Minimize',
       accelerator: 'CmdOrCtrl+M',
       role: 'minimize',
     },
     {
-      label: 'Zoom',
       role: 'zoom',
     },
     {
-      label: 'Show',
+      label: messages.show.message,
       click: showWindow,
     },
     {
       type: 'separator',
     },
     {
-      label: 'Bring All to Front',
       role: 'front',
     },
   ];

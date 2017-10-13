@@ -360,6 +360,38 @@
       "message": "Submit debug log",
       "description": "Menu item and header text for debug log modal, title case."
     },
+    "debugLog": {
+      "message": "Debug Log",
+      "description": "View menu item to open the debug log, capitalized"
+    },
+    "goToReleaseNotes": {
+      "message": "Go to release notes",
+      "description": ""
+    },
+    "goToForums": {
+      "message": "Go to forums",
+      "description": "Item under the Help menu, takes you to the forums"
+    },
+    "goToSupportPage": {
+      "message": "Go to support page",
+      "description": "Item under the Help menu, takes you to the support page"
+    },
+    "fileABug": {
+      "message": "File a bug",
+      "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
+    "aboutSignalDesktop": {
+      "message": "About Signal Desktop",
+      "description": "Item under the Help menu, which opens a small about window"
+    },
+    "speech": {
+      "message": "Speech",
+      "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
+    "show": {
+      "message": "Show",
+      "description": "Command under Window menu, to show the window"
+    },
     "searchForPeopleOrGroups": {
       "message": "Search...",
       "description": "Placeholder text in the search input"

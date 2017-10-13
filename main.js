@@ -1,5 +1,6 @@
 const path = require('path');
 const url = require('url');
+const os = require('os');
 
 const electron = require('electron')
 
@@ -65,9 +66,23 @@ function prepareURL(pathSegments) {
       cdnUrl: config.get('cdnUrl'),
       certificateAuthorities: config.get('certificateAuthorities'),
       environment: config.environment,
-      node_version: process.versions.node
+      node_version: process.versions.node,
+      hostname: os.hostname(),
     }
   })
+}
+
+function handleUrl(event, target) {
+  event.preventDefault();
+  const protocol = url.parse(target).protocol;
+  if (protocol === 'http:' || protocol === 'https:') {
+    shell.openExternal(target);
+  }
+}
+
+function captureClicks(window) {
+  window.webContents.on('will-navigate', handleUrl)
+  window.webContents.on('new-window', handleUrl);
 }
 
 function createWindow () {
@@ -138,13 +153,7 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.webContents.on('new-window', (e, url) => {
-      e.preventDefault();
-      const protocol = require('url').parse(url).protocol
-      if (protocol === 'http:' || protocol === 'https:') {
-            shell.openExternal(url)
-      }
-  });
+  captureClicks(mainWindow);
 
   mainWindow.webContents.on('will-navigate', function(e) {
     logger.info('will-navigate');
@@ -192,25 +201,52 @@ function showWindow() {
   }
 };
 
+function openReleaseNotes() {
+  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v' + app.getVersion());
+}
+
+function openNewBugForm() {
+  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/issues/new');
+}
+
+function openSupportPage() {
+  shell.openExternal('https://support.signal.org/hc/en-us/categories/202319038-Desktop');
+}
+
+function openForums() {
+  shell.openExternal('https://whispersystems.discoursehosting.net/');
+}
+
+
 let aboutWindow;
 function showAbout() {
-  if (!aboutWindow) {
-    const options = {
-      width: 800,
-      height: 610,
-      minWidth: 700,
-      minHeight: 360,
-      webPreferences: {
-        nodeIntegration: false,
-        //sandbox: true,
-        preload: path.join(__dirname, 'preload.js')
-      }
-    };
-
-    aboutWindow = new BrowserWindow(options);
-
-    aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
+  if (aboutWindow) {
+    aboutWindow.show();
+    return;
   }
+
+  const options = {
+    width: 500,
+    height: 400,
+    resizable: false,
+    title: locale.messages.aboutSignalDesktop.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#2090EA',
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  };
+
+  aboutWindow = new BrowserWindow(options);
+
+  captureClicks(aboutWindow);
+
+  aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
+
+  aboutWindow.on('closed', function () {
+    aboutWindow = null;
+  });
 }
 
 // This method will be called when Electron has finished
@@ -231,9 +267,13 @@ app.on('ready', function() {
     showDebugLog,
     showWindow,
     showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
   };
   const createTemplate = require('./app/menu.js');
-  const template = createTemplate(options);
+  const template = createTemplate(options, locale.messages);
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
