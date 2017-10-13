@@ -11,7 +11,8 @@ describe("Fixtures", function() {
   });
 
   it('renders', function(done) {
-    ConversationController.loadPromise().then(function() {
+    ConversationController.reset();
+    ConversationController.load().then(function() {
       var view = new Whisper.InboxView({window: window});
       view.onEmpty();
       view.$el.prependTo($('#render-android'));

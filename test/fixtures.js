@@ -50,6 +50,39 @@ Whisper.Fixtures = (function() {
         }
     ]);
 
+    var Vera = conversationCollection.get(VERA_ID);
+    Vera.messageCollection.add([
+        {
+            conversationId: VERA_ID,
+            type: 'incoming',
+            sent_at: now - 10000000,
+            received_at: now - 10000000,
+            body: "My piece for Iskra is ready!",
+        }
+    ]);
+
+    var Nestor = conversationCollection.get(NESTOR_ID);
+    Nestor.messageCollection.add([
+        {
+            conversationId: NESTOR_ID,
+            type: 'incoming',
+            sent_at: now - 1000000000,
+            received_at: now - 1000000000,
+            body: "Need a ride?",
+        }
+    ]);
+
+    var Fred = conversationCollection.get(FRED_ID);
+    Fred.messageCollection.add([
+        {
+            conversationId: FRED_ID,
+            type: 'incoming',
+            sent_at: now - 500000000,
+            received_at: now - 500000000,
+            body: "It is my ambition to say in ten sentences what everyone else says in a whole book — what everyone else does not say in a whole book.",
+        }
+    ]);
+
     var Michel = conversationCollection.get(MICHEL_ID);
     Michel.messageCollection.add([
         {
@@ -115,6 +148,7 @@ Whisper.Fixtures = (function() {
             body           : m.body,
             sent_at        : m.date,
             received_at    : m.date,
+            timestamp      : m.date,
             attachments    : m.attachments,
             unread         : m.unread,
             source         : m.source,
@@ -127,29 +161,30 @@ Whisper.Fixtures = (function() {
         active_at: now - 100000,
         timestamp: now - 100000,
         id: 'group1',
-        lastMessage: "See you all there!"
+        lastMessage: "See you all there!",
+        members: [MICHEL_ID, FRED_ID, NESTOR_ID],
     });
     group.messageCollection.add([
         {
-            date: now - 30000,
+            date: now - 60 * 1000 * 30,
             type: 'incoming',
             body: "If you knew when you began a book what you would say at the end, do you think that you would have the courage to write it?",
             source: MICHEL_ID,
         },
         {
-            date: now - 20000,
+            date: now - 60 * 1000 * 20,
             type: 'incoming',
             body: "A book which has a strange knack of seeking out its fellow-revellers and enticing them on to new secret paths and dancing-places.",
             source: FRED_ID
         },
         {
-            date: now - 4000,
+            date: now - 60 * 1000 * 4,
             type: 'incoming',
             body: "Let's meet in the library.",
             source: NESTOR_ID
         },
         {
-            date: now - 1000,
+            date: now - 60 * 1000,
             type: 'incoming',
             body: "I'll be a little late.",
             source: NESTOR_ID
@@ -157,19 +192,18 @@ Whisper.Fixtures = (function() {
         {
             date: now,
             type: 'outgoing',
-            body: "See you all there!"
+            body: "See you all there!",
+            recipients: [MICHEL_ID, FRED_ID, NESTOR_ID],
+            delivered_to: [MICHEL_ID, FRED_ID],
+            sent_to: [NESTOR_ID],
         },
     ].map(function(m) {
-        return {
+        return Object.assign({}, m, {
             conversationId : group.id,
-            source         : m.source,
-            type           : m.type,
-            body           : m.body,
             sent_at        : m.date,
             received_at    : m.date,
-            attachments    : m.attachments,
-            unread         : m.unread
-        };
+            timestamp      : m.date,
+        });
     }));
 
     function dataURItoBlob(dataURI) {
@@ -2651,3 +2685,4 @@ Whisper.Fixtures = (function() {
 
     return conversationCollection;
 })();
+
