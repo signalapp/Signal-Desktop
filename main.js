@@ -1,5 +1,6 @@
 const path = require('path');
 const url = require('url');
+const os = require('os');
 
 const electron = require('electron')
 
@@ -51,6 +52,38 @@ let windowConfig = userConfig.get('window');
 const loadLocale = require('./app/locale').load;
 
 let locale;
+
+function prepareURL(pathSegments) {
+  return url.format({
+    pathname: path.join.apply(null, pathSegments),
+    protocol: 'file:',
+    slashes: true,
+    query: {
+      locale: locale.name,
+      version: app.getVersion(),
+      buildExpiration: config.get('buildExpiration'),
+      serverUrl: config.get('serverUrl'),
+      cdnUrl: config.get('cdnUrl'),
+      certificateAuthorities: config.get('certificateAuthorities'),
+      environment: config.environment,
+      node_version: process.versions.node,
+      hostname: os.hostname(),
+    }
+  })
+}
+
+function handleUrl(event, target) {
+  event.preventDefault();
+  const protocol = url.parse(target).protocol;
+  if (protocol === 'http:' || protocol === 'https:') {
+    shell.openExternal(target);
+  }
+}
+
+function captureClicks(window) {
+  window.webContents.on('will-navigate', handleUrl)
+  window.webContents.on('new-window', handleUrl);
+}
 
 function createWindow () {
   const windowOptions = Object.assign({
@@ -112,24 +145,6 @@ function createWindow () {
     event.returnValue = locale.messages;
   });
 
-  function prepareURL(pathSegments) {
-    return url.format({
-      pathname: path.join.apply(null, pathSegments),
-      protocol: 'file:',
-      slashes: true,
-      query: {
-        locale: locale.name,
-        version: app.getVersion(),
-        buildExpiration: config.get('buildExpiration'),
-        serverUrl: config.get('serverUrl'),
-        cdnUrl: config.get('cdnUrl'),
-        certificateAuthorities: config.get('certificateAuthorities'),
-        environment: config.environment,
-        node_version: process.versions.node
-      }
-    })
-  }
-
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
   } else {
@@ -141,13 +156,7 @@ function createWindow () {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.webContents.on('new-window', (e, url) => {
-      e.preventDefault();
-      const protocol = require('url').parse(url).protocol
-      if (protocol === 'http:' || protocol === 'https:') {
-            shell.openExternal(url)
-      }
-  });
+  captureClicks(mainWindow);
 
   mainWindow.webContents.on('will-navigate', function(e) {
     logger.info('will-navigate');
@@ -189,6 +198,65 @@ function showDebugLog() {
   }
 }
 
+function showWindow() {
+  if (mainWindow) {
+    mainWindow.show();
+  }
+};
+
+function openReleaseNotes() {
+  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/releases/tag/v' + app.getVersion());
+}
+
+function openNewBugForm() {
+  shell.openExternal('https://github.com/WhisperSystems/Signal-Desktop/issues/new');
+}
+
+function openSupportPage() {
+  shell.openExternal('https://support.signal.org/hc/en-us/categories/202319038-Desktop');
+}
+
+function openForums() {
+  shell.openExternal('https://whispersystems.discoursehosting.net/');
+}
+
+
+let aboutWindow;
+function showAbout() {
+  if (aboutWindow) {
+    aboutWindow.show();
+    return;
+  }
+
+  const options = {
+    width: 500,
+    height: 400,
+    resizable: false,
+    title: locale.messages.aboutSignalDesktop.message,
+    autoHideMenuBar: true,
+    backgroundColor: '#2090EA',
+    show: false,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  };
+
+  aboutWindow = new BrowserWindow(options);
+
+  captureClicks(aboutWindow);
+
+  aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
+
+  aboutWindow.on('closed', function () {
+    aboutWindow = null;
+  });
+
+  aboutWindow.once('ready-to-show', function() {
+    aboutWindow.show();
+  });
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -203,16 +271,17 @@ app.on('ready', function() {
 
   createWindow();
 
-  let template = require('./app/menu.js');
-
-  if (process.platform === 'darwin') {
-    template[3].submenu[3].click = function() {
-      mainWindow.show();
-    };
-    template[2].submenu[0].click = showDebugLog;
-  } else {
-    template[1].submenu[0].click = showDebugLog;
-  }
+  const options = {
+    showDebugLog,
+    showWindow,
+    showAbout,
+    openReleaseNotes,
+    openNewBugForm,
+    openSupportPage,
+    openForums,
+  };
+  const createTemplate = require('./app/menu.js');
+  const template = createTemplate(options, locale.messages);
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);

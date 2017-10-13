@@ -45,13 +45,7 @@
 
             var deviceName = textsecure.storage.user.getDeviceName();
             if (!deviceName) {
-                if (navigator.userAgent.match('Mac OS')) {
-                    deviceName = 'Mac';
-                } else if (navigator.userAgent.match('Linux')) {
-                    deviceName = 'Linux';
-                } else if (navigator.userAgent.match('Windows')) {
-                    deviceName = 'Windows';
-                }
+                deviceName = window.config.hostname;
             }
 
             this.$('#device-name').val(deviceName);

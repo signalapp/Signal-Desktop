@@ -147,7 +147,6 @@
             welcomeToSignal         : i18n('welcomeToSignal'),
             selectAContact          : i18n('selectAContact'),
             searchForPeopleOrGroups : i18n('searchForPeopleOrGroups'),
-            submitDebugLog          : i18n('submitDebugLog'),
             settings                : i18n('settings'),
             restartSignal           : i18n('restartSignal'),
         },

@@ -1,35 +1,48 @@
-const {Menu} = require('electron')
+function createTemplate(options, messages) {
+  const showDebugLog = options.showDebugLog;
+  const showAbout = options.showAbout;
+  const openReleaseNotes = options.openReleaseNotes;
+  const openNewBugForm = options.openNewBugForm;
+  const openSupportPage = options.openSupportPage;
+  const openForums = options.openForums;
 
-const template = [
+  let template = [{
+    label: 'File',
+    submenu: [
+      {
+        role: 'quit',
+      },
+    ]
+  },
   {
     label: 'Edit',
     submenu: [
       {
-        role: 'undo'
+        role: 'undo',
       },
       {
-        role: 'redo'
+        role: 'redo',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'cut'
+        role: 'cut',
       },
       {
-        role: 'copy'
+        role: 'copy',
       },
       {
-        role: 'paste'
+        role: 'paste',
       },
       {
-        role: 'pasteandmatchstyle'
+        role: 'pasteandmatchstyle',
       },
       {
-        role: 'delete'
+        role: 'delete',
       },
       {
-        role: 'selectall'
+        role: 'selectall',
       }
     ]
   },
@@ -37,123 +50,163 @@ const template = [
     label: 'View',
     submenu: [
       {
-        label: 'Debug Log'
+        role: 'resetzoom',
       },
       {
-        type: 'separator'
+        role: 'zoomin',
       },
       {
-        role: 'reload'
+        role: 'zoomout',
       },
       {
-        role: 'forcereload'
+        type: 'separator',
       },
       {
-        role: 'toggledevtools'
+        role: 'togglefullscreen',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'resetzoom'
+        label: messages.debugLog.message,
+        click: showDebugLog,
       },
       {
-        role: 'zoomin'
+        type: 'separator',
       },
       {
-        role: 'zoomout'
+        role: 'toggledevtools',
       },
-      {
-        type: 'separator'
-      },
-      {
-        role: 'togglefullscreen'
-      }
     ]
   },
   {
     role: 'window',
     submenu: [
       {
-        role: 'minimize'
+        role: 'minimize',
+      },
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: messages.goToReleaseNotes.message,
+        click: openReleaseNotes,
       },
       {
-        role: 'close'
-      }
+        type: 'separator',
+      },
+      {
+        label: messages.goToForums.message,
+        click: openForums,
+      },
+      {
+        label: messages.goToSupportPage.message,
+        click: openSupportPage,
+      },
+      {
+        label: messages.fileABug.message,
+        click: openNewBugForm,
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: messages.aboutSignalDesktop.message,
+        click: showAbout,
+      },
     ]
-  }
-]
+  }];
 
-if (process.platform === 'darwin') {
+  if (process.platform === 'darwin') {
+    return updateForMac(template, messages, options);
+  }
+
+  return template;
+}
+
+function updateForMac(template, messages, options) {
+  const showWindow = options.showWindow;
+  const showAbout = options.showAbout;
+
+  // Remove About item and separator from Help menu, since it's on the first menu
+  template[4].submenu.pop();
+  template[4].submenu.pop();
+
+  // Replace File menu
+  template.shift();
   template.unshift({
     submenu: [
       {
-        role: 'about'
+        label: messages.aboutSignalDesktop.message,
+        click: showAbout,
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'hide'
+        role: 'hide',
       },
       {
-        role: 'hideothers'
+        role: 'hideothers',
       },
       {
-        role: 'unhide'
+        role: 'unhide',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'quit'
-      }
+        role: 'quit',
+      },
     ]
-  })
-  // Edit menu.
+  });
+
+  // Add to Edit menu
   template[1].submenu.push(
     {
       type: 'separator'
     },
     {
-      label: 'Speech',
+      label: messages.speech.message,
       submenu: [
         {
-          role: 'startspeaking'
+          role: 'startspeaking',
         },
         {
-          role: 'stopspeaking'
-        }
+          role: 'stopspeaking',
+        },
       ]
     }
-  )
-  // Window menu.
+  );
+
+  // Add to Window menu
   template[3].submenu = [
     {
-      label: 'Close',
       accelerator: 'CmdOrCtrl+W',
-      role: 'close'
+      role: 'close',
     },
     {
-      label: 'Minimize',
       accelerator: 'CmdOrCtrl+M',
-      role: 'minimize'
+      role: 'minimize',
     },
     {
-      label: 'Zoom',
-      role: 'zoom'
+      role: 'zoom',
     },
     {
-      label: 'Show',
+      label: messages.show.message,
+      click: showWindow,
     },
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
-      label: 'Bring All to Front',
-      role: 'front'
-    }
-  ]
+      role: 'front',
+    },
+  ];
+
+  return template;
 }
 
-module.exports = template;
+module.exports = createTemplate;
