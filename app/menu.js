@@ -130,7 +130,7 @@ function updateForMac(template, messages, options) {
   const showWindow = options.showWindow;
   const showAbout = options.showAbout;
 
-  // Remove About item and separator from Help menu, since it's on the first menue
+  // Remove About item and separator from Help menu, since it's on the first menu
   template[4].submenu.pop();
   template[4].submenu.pop();
 
