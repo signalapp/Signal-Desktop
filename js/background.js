@@ -45,7 +45,7 @@
                     storage.put('safety-numbers-approval', false);
                 }
                 Whisper.Registration.markDone();
-                console.log("dispatching registration event");
+                console.log('dispatching registration event');
                 Whisper.events.trigger('registration_done');
             });
         }
@@ -81,9 +81,9 @@
 
         window.dispatchEvent(new Event('storage_ready'));
 
-        console.log("listening for registration events");
+        console.log('listening for registration events');
         Whisper.events.on('registration_done', function() {
-            console.log("handling registration event");
+            console.log('handling registration event');
             connect(true);
         });
 
@@ -151,11 +151,66 @@
       }
     });
 
+
+    var disconnectTimer = null;
+    function onOffline() {
+        console.log('offline');
+
+        window.removeEventListener('offline', onOffline);
+        window.addEventListener('online', onOnline);
+
+        // We've received logs from Linux where we get an 'offline' event, then 30ms later
+        //   we get an online event. This waits a bit after getting an 'offline' event
+        //   before disconnecting the socket manually.
+        disconnectTimer = setTimeout(disconnect, 1000);
+    }
+
+    function onOnline() {
+        console.log('online');
+
+        window.removeEventListener('online', onOnline);
+        window.addEventListener('offline', onOffline);
+
+        if (disconnectTimer && isSocketOnline()) {
+            console.log('Already online. Had a blip in online/offline status.');
+            clearTimeout(disconnectTimer);
+            disconnectTimer = null;
+            return;
+        }
+
+        connect();
+    }
+
+    function isSocketOnline() {
+        var socketStatus = window.getSocketStatus();
+        return socketStatus === WebSocket.CONNECTING || socketStatus === WebSocket.OPEN;
+    }
+
+    function disconnect() {
+        console.log('disconnect');
+
+        // Clear timer, since we're only called when the timer is expired
+        disconnectTimer = null;
+
+        if (messageReceiver) {
+            messageReceiver.close();
+        }
+    }
+
     var connectCount = 0;
     function connect(firstRun) {
         console.log('connect');
-        window.removeEventListener('online', connect);
-        window.addEventListener('offline', disconnect);
+
+        // Bootstrap our online/offline detection, only the first time we connect
+        if (connectCount === 0 && navigator.onLine) {
+            window.addEventListener('offline', onOffline);
+        }
+        if (connectCount === 0 && !navigator.onLine) {
+            console.log('Starting up offline; will connect when we have network access');
+            window.addEventListener('online', onOnline);
+            onEmpty(); // this ensures that the loading screen is dismissed
+            return;
+        }
 
         if (!Whisper.Registration.everDone()) { return; }
         if (Whisper.Import.isIncomplete()) { return; }
@@ -474,16 +529,6 @@
         });
 
         return message;
-    }
-
-    function disconnect() {
-        window.removeEventListener('offline', disconnect);
-        window.addEventListener('online', connect);
-
-        console.log('offline');
-        if (messageReceiver) {
-            messageReceiver.close();
-        }
     }
 
     function onError(ev) {
