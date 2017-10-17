@@ -285,9 +285,6 @@ module.exports = function(grunt) {
     var files = [{
       zip: 'signal-desktop-' + package_json.version + '.zip',
       extractedTo: 'linux'
-    }, {
-      zip: 'Signal-win-' + package_json.version + '.zip',
-      extractedTo: 'windows'
     }];
 
     var extract = require('extract-zip');

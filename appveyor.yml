@@ -22,12 +22,5 @@ test_script:
   - node build\grunt.js test-release:win
   - node build\grunt.js test
 
-artifacts:
-  - path: dist/*.*
-
 environment:
   SIGNAL_ENV: production
-
-deploy:
-  provider: Environment
-  name: signal-desktop-builds
