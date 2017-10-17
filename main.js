@@ -2,6 +2,7 @@ const path = require('path');
 const url = require('url');
 const os = require('os');
 
+const _ = require('lodash');
 const electron = require('electron')
 
 const BrowserWindow = electron.BrowserWindow;
@@ -132,8 +133,9 @@ function createWindow () {
     userConfig.set('window', windowConfig);
   }
 
-  mainWindow.on('resize', captureAndSaveWindowStats);
-  mainWindow.on('move', captureAndSaveWindowStats);
+  const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
+  mainWindow.on('resize', debouncedCaptureStats);
+  mainWindow.on('move', debouncedCaptureStats);
   mainWindow.on('close', captureAndSaveWindowStats);
 
   mainWindow.on('focus', function() {
