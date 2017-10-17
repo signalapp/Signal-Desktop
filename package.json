@@ -155,6 +155,7 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "os-locale": "^2.1.0",
+    "p-limit": "^1.1.0",
     "rimraf": "^2.6.2",
     "semver": "^5.4.1",
     "spellchecker": "^3.4.3",

@@ -407,6 +407,9 @@
         loadAttachments: function() {
             this.loadedAttachments = this.loadedAttachments || [];
 
+            // TODO: think through this function in the new world of async attachments
+            //   could be okay since we know the attachment list up front, doesn't change.
+
             // If we're called a second time, render() has replaced the DOM out from under
             //   us with $el.html(). We'll need to reattach our AttachmentViews to the new
             //   parent DOM nodes if the 'update' event has already fired.
@@ -421,7 +424,8 @@
             this.model.get('attachments').forEach(function(attachment) {
                 var view = new Whisper.AttachmentView({
                   model: attachment,
-                  timestamp: this.model.get('sent_at')
+                  timestamp: this.model.get('sent_at'),
+                  message: this.model,
                 });
                 this.loadedAttachments.push(view);
 

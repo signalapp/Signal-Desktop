@@ -70,16 +70,35 @@
       }
     },
     initialize: function(options) {
-        this.blob = new Blob([this.model.data], {type: this.model.contentType});
-        if (!this.model.size) {
-          this.model.size = this.model.data.byteLength;
+        this.message = options.message;
+        this.message.attachmentDownloads = this.message.attachmentDownloads || {};
+        var downloads = this.message.attachmentDownloads;
+
+        if (this.model.data) {
+          this.start();
+        } else if (downloads[this.model.id]) {
+          downloads[this.model.id].then(function(attachment) {
+            // TODO: this is a bit ugly, not very DRY
+            this.model.data = attachment.data;
+            this.start();
+            this.render();
+          }.bind(this));
+        } else {
+          // TODO: kick of download for attachment!
         }
+
         if (options.timestamp) {
           this.timestamp = options.timestamp;
         }
     },
     events: {
         'click': 'onclick'
+    },
+    start: function() {
+        this.blob = new Blob([this.model.data], {type: this.model.contentType});
+        if (!this.model.size) {
+            this.model.size = this.model.data.byteLength;
+        }
     },
     unload: function() {
         this.blob = null;
@@ -178,6 +197,11 @@
         window.URL.revokeObjectURL(url);
     },
     render: function() {
+        if (!this.blob) {
+          // TODO: render progress dialog
+          return;
+        }
+
         if (!this.isImage()) {
           this.renderFileView();
         }
