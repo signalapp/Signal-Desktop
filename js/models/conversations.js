@@ -870,7 +870,7 @@
                     'decryptProfile error:',
                     id,
                     profile,
-                    error && error.stack ? error.stack : error
+                    e && e.stack ? e.stack : e
                   );
                 }
               });
