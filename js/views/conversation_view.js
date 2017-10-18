@@ -470,11 +470,9 @@
             //   messages from the database, then ensure that the loading screen is only
             //   dismissed when that is complete.
             var messagesLoaded = this.inProgressFetch || Promise.resolve();
-            messagesLoaded = messagesLoaded.then(function() {
-                return this.model.decryptOldIncomingKeyErrors();
-            }.bind(this));
 
-            Promise.all([this.statusFetch, messagesLoaded])
+            messagesLoaded
+                .then(this.model.decryptOldIncomingKeyErrors.bind(this))
                 .then(this.onLoaded.bind(this), this.onLoaded.bind(this));
 
             this.view.resetScrollPosition();
