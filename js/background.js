@@ -79,6 +79,14 @@
     function start() {
         ConversationController.load();
 
+        var currentVersion = window.config.version;
+        var lastVersion = storage.get('version');
+        storage.put('version', currentVersion);
+
+        if (!lastVersion || currentVersion !== lastVersion) {
+            console.log('New version detected:', currentVersion);
+        }
+
         window.dispatchEvent(new Event('storage_ready'));
 
         console.log('listening for registration events');
