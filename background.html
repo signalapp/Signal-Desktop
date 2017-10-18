@@ -205,6 +205,9 @@
                     <input type='file' class='file-input'>
                 </div>
                 <textarea class='send-message' placeholder='{{ send-message }}' rows='1' dir='auto'></textarea>
+                <div class='emoji-panel'>
+                  <button class='emoji-button'></button>
+                </div>
                 <div class='capture-audio'>
                     <button class='microphone'></button>
                 </div>
@@ -860,6 +863,12 @@
   <script type='text/javascript' src='js/rotate_signed_prekey_listener.js'></script>
   <script type='text/javascript' src='js/keychange_listener.js'></script>
   <script type='text/javascript' src='js/background.js'></script>
+
+  <link rel="stylesheet" href="components/jquery-emojiarea/jquery.emojiarea.css">
+
+  <script src="components/jquery-emojiarea/test.js"></script>
+  <script src="components/jquery-emojiarea/packs/basic/emojis.js"></script>
+
 </head>
 <body>
   <div class='app-loading-screen'>

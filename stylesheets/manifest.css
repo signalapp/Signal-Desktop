@@ -715,6 +715,27 @@ input[type=text]:active, input[type=text]:focus, input[type=search]:active, inpu
       -webkit-mask-size: 100%;
       background-color: #616161; }
 
+.emoji-panel {
+  text-align: center; }
+  .emoji-panel .emoji-button {
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    opacity: 0.5;
+    background: transparent;
+    padding: 0;
+    border: none; }
+    .emoji-panel .emoji-button:focus, .emoji-panel .emoji-button:hover {
+      opacity: 1.0; }
+    .emoji-panel .emoji-button:before {
+      content: '';
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      -webkit-mask: url("../images/emoji.svg") no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #616161; }
+
 .recorder {
   background: #f3f3f3; }
   .recorder button {
@@ -1679,6 +1700,9 @@ span.status {
     .bottom-bar .send-message[disabled=disabled] {
       background: transparent; }
   .bottom-bar .capture-audio {
+    float: right;
+    height: 36px; }
+  .bottom-bar .emoji-panel {
     float: right;
     height: 36px; }
   .bottom-bar .android-length-warning {
