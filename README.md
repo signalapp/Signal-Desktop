@@ -31,18 +31,11 @@ Please see
 for setup instructions and contributor guidelines. And don't forget to sign the
 [CLA](https://whispersystems.org/cla/).
 
-This repository is set up with [BitHub](https://whispersystems.org/blog/bithub/), so you can make money for committing to Signal. The current BitHub price for an accepted pull request is:
-
-[![Current BitHub Price](https://bithub.herokuapp.com/v1/status/payment/commit/)](https://whispersystems.org/blog/bithub/)
-
-
 ## Contributing Ideas
 Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the [community forum](https://whispersystems.discoursehosting.net)!
 
 ## Contributing Funds
-[![Donate](https://cloud.githubusercontent.com/assets/3121306/11278543/d46e03d0-8eeb-11e5-9691-0da1bf643192.png)](https://www.coinbase.com/checkouts/51dac699e660a4d773216b5ad94d6a0b)
-
-You can add funds to [BitHub](https://whispersystems.org/blog/bithub/) to directly help further development efforts.
+You can donate to Signal development through the [Freedom of the Press Foundation](https://freedom.press/crowdfunding/signal/).
 
 ## Cryptography Notice
 

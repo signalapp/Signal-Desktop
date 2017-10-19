@@ -10,7 +10,6 @@
 - [ ] My changes are rebased on the latest master branch
 - [ ] My commits are in nice logical chunks
 - [ ] I have followed the [best practices](http://chris.beams.io/posts/git-commit/) in my commit messages
-- [ ] I have made the choice whether I want the [BitHub reward](https://github.com/WhisperSystems/Signal-Android/wiki/BitHub-Rewards) or not by omitting or adding the word `FREEBIE` in my Git commit messages
 - [ ] I have tested my contribution on these platforms:
  * GNU Hurd 1.0, Chrom{e,ium} X.Y.Z
  * Amiga OS 3.1, Chrom{e,ium} Z.Y
