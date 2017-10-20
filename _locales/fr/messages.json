@@ -151,7 +151,7 @@
     },
     "timestamp_h": {
         "message": "1 heure",
-        "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+        "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
         "message": "Désactivé",
