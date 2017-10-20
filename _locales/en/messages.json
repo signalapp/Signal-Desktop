@@ -695,7 +695,7 @@
        "message": "1 minute"
     },
     "timestamp_h": {
-       "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble.",
+       "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble.",
        "message": "1 hour"
     },
     "timestampFormat_M": {
