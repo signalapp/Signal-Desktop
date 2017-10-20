@@ -154,6 +154,7 @@
             this.view.render();
 
             this.$messageField = this.$('.send-message');
+            this.$emojiMenu = new EmojiMenu(this.$('.emoji-button'), this.$('.main.panel'), this.$('.send-message'));
 
             this.onResize = this.forceUpdateMessageFieldSize.bind(this);
             this.window.addEventListener('resize', this.onResize);
@@ -190,6 +191,7 @@
             'click .bottom-bar': 'focusMessageField',
             'click .back': 'resetPanel',
             'click .microphone': 'captureAudio',
+            'click .emoji-button': 'showPanel',
             'click .disappearing-messages': 'enableDisappearingMessages',
             'click .scroll-down-button-view': 'scrollToBottom',
             'focus .send-message': 'focusBottomBar',
@@ -1055,10 +1057,21 @@
             this.view.scrollToBottomIfNeeded();
             window.autosize.update(this.$messageField);
             this.updateMessageFieldSize(event);
+            this.$emojiMenu.reposition();
         },
 
         isHidden: function() {
             return (this.$el.css('display') === 'none') || this.$('.panel').css('display') === 'none';
+        },
+
+        showPanel: function(e) {
+          e.preventDefault();
+          if (!this.$emojiMenu.visible) {
+              this.$emojiMenu.show();
+          } else {
+              this.$emojiMenu.hide();
+          }
         }
     });
+
 })();

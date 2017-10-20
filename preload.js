@@ -31,6 +31,8 @@
     console.log('restart');
     ipc.send('restart');
   };
+  window.EmojiConvertor = require('emoji-js');
+
   ipc.on('debug-log', function() {
     Whisper.events.trigger('showDebugLog');
   });
@@ -50,5 +52,4 @@
     window.nodeSetImmediate(function() {});
   }, 1000);
 
-  window.EmojiConvertor = require('emoji-js');
 })();
