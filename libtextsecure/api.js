@@ -49,6 +49,8 @@ var TextSecureServer = (function() {
     // Promise-based async xhr routine
     function promise_ajax(url, options) {
         return new Promise(function (resolve, reject) {
+            var done = false;
+
             if (!url) {
                 url = options.host +  '/' + options.path;
             }
@@ -88,18 +90,32 @@ var TextSecureServer = (function() {
                 }
                 if ( 0 <= xhr.status && xhr.status < 400) {
                     console.log(options.type, url, xhr.status, 'Success');
+                    done = true;
                     resolve(result, xhr.status);
                 } else {
                     console.log(options.type, url, xhr.status, 'Error');
+                    done = true;
                     reject(HTTPError(xhr.status, result, options.stack));
                 }
             };
             xhr.onerror = function() {
                 console.log(options.type, url, xhr.status, 'Error');
                 console.log(xhr.statusText);
+                done = true;
                 reject(HTTPError(xhr.status, xhr.statusText, options.stack));
             };
             xhr.send( options.data || null );
+
+            // We've seen situations where requests take 15 minutes to return an error
+            //   https://github.com/WhisperSystems/Signal-Desktop/issues/1075#issuecomment-333612202
+            setTimeout(function() {
+                if (done) {
+                    return;
+                }
+
+                console.log(options.type, url, 'Error: Timeout');
+                reject(HTTPError(408, 'Error timed out', options.stack))
+            }, 30 * 1000);
 
             scheduleHangWorkaround();
         });
