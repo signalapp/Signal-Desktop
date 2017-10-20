@@ -37480,66 +37480,72 @@ var TextSecureServer = (function() {
       return new nodeWebSocket(url, null, null, null, requestOptions);
     }
 
-    var XMLHttpRequest = nodeXMLHttpRequest;
     window.setImmediate = nodeSetImmediate;
 
-    // Promise-based async xhr routine
     function promise_ajax(url, options) {
-        return new Promise(function (resolve, reject) {
-            if (!url) {
-                url = options.host +  '/' + options.path;
-            }
-            console.log(options.type, url);
-            var xhr = new XMLHttpRequest();
-            xhr.open(options.type, url, true /*async*/);
+      return new Promise(function (resolve, reject) {
+        if (!url) {
+            url = options.host +  '/' + options.path;
+        }
+        console.log(options.type, url);
+        var fetchOptions = {
+          method: options.type,
+          body: options.data || null,
+          headers: { 'X-Signal-Agent': 'OWD' },
+          agent: new httpsAgent({ca: options.certificateAuthorities})
+        };
 
-            if ( options.responseType ) {
-                xhr[ 'responseType' ] = options.responseType;
-            }
-            if (options.user && options.password) {
-                xhr.setRequestHeader("Authorization", "Basic " + btoa(getString(options.user) + ":" + getString(options.password)));
-            }
-            if (options.contentType) {
-                xhr.setRequestHeader( "Content-Type", options.contentType );
-            }
-            xhr.setRequestHeader( 'X-Signal-Agent', 'OWD' );
+        if (fetchOptions.body instanceof ArrayBuffer) {
+          // node-fetch doesn't support ArrayBuffer, only node Buffer
+          var contentLength = fetchOptions.body.byteLength;
+          fetchOptions.body = nodeBuffer.from(fetchOptions.body);
 
-            if (options.certificateAuthorities) {
-              xhr.setCertificateAuthorities(options.certificateAuthorities);
-            }
+          // node-fetch doesn't set content-length like S3 requires
+          fetchOptions.headers["Content-Length"] = contentLength;
+        }
 
-            xhr.onload = function() {
-                var result = xhr.response;
-                if ( (!xhr.responseType || xhr.responseType === "text") &&
-                        typeof xhr.responseText === "string" ) {
-                    result = xhr.responseText;
+        if (options.user && options.password) {
+          fetchOptions.headers["Authorization"] = "Basic " + btoa(getString(options.user) + ":" + getString(options.password));
+        }
+        if (options.contentType) {
+          fetchOptions.headers["Content-Type"] = options.contentType;
+        }
+        window.nodeFetch(url, fetchOptions).then(function(response) {
+          var resultPromise;
+          if (options.responseType === 'json') {
+            resultPromise = response.json();
+          } else if (!options.responseType || options.responseType === 'text') {
+            resultPromise = response.text();
+          } else if (options.responseType === 'arraybuffer') {
+            resultPromise = response.buffer();
+          }
+          return resultPromise.then(function(result) {
+            if (options.responseType === 'arraybuffer') {
+              result = result.buffer.slice(result.byteOffset, result.byteOffset + result.byteLength);
+            }
+            if (options.responseType === 'json') {
+              if (options.validateResponse) {
+                if (!validateResponse(result, options.validateResponse)) {
+                  console.log(options.type, url, response.status, 'Error');
+                  reject(HTTPError(response.status, result, options.stack));
                 }
-                if (options.dataType === 'json') {
-                    try { result = JSON.parse(xhr.responseText + ''); } catch(e) {}
-                    if (options.validateResponse) {
-                        if (!validateResponse(result, options.validateResponse)) {
-                            console.log(options.type, url, xhr.status, 'Error');
-                            reject(HTTPError(xhr.status, result, options.stack));
-                        }
-                    }
-                }
-                if ( 0 <= xhr.status && xhr.status < 400) {
-                    console.log(options.type, url, xhr.status, 'Success');
-                    resolve(result, xhr.status);
-                } else {
-                    console.log(options.type, url, xhr.status, 'Error');
-                    reject(HTTPError(xhr.status, result, options.stack));
-                }
-            };
-            xhr.onerror = function() {
-                console.log(options.type, url, xhr.status, 'Error');
-                console.log(xhr.statusText);
-                reject(HTTPError(xhr.status, xhr.statusText, options.stack));
-            };
-            xhr.send( options.data || null );
-
-            scheduleHangWorkaround();
+              }
+            }
+            if ( 0 <= response.status && response.status < 400) {
+              console.log(options.type, url, response.status, 'Success');
+              resolve(result, response.status);
+            } else {
+              console.log(options.type, url, response.status, 'Error');
+              reject(HTTPError(response.status, result, options.stack));
+            }
+          });
+        }).catch(function(e) {
+          console.log(options.type, url, 0, 'Error');
+          console.log(e);
+          reject(HTTPError(0, e.toString(), options.stack));
         });
+        scheduleHangWorkaround();
+      });
     }
 
     function retry_ajax(url, options, limit, count) {
@@ -37605,14 +37611,14 @@ var TextSecureServer = (function() {
                 param.urlParameters = '';
             }
             return ajax(null, {
-                    host        : this.url,
-                    path        : URL_CALLS[param.call] + param.urlParameters,
-                    type        : param.httpType,
-                    data        : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
-                    contentType : 'application/json; charset=utf-8',
-                    dataType    : 'json',
-                    user        : this.username,
-                    password    : this.password,
+                    host         : this.url,
+                    path         : URL_CALLS[param.call] + param.urlParameters,
+                    type         : param.httpType,
+                    data         : param.jsonData && textsecure.utils.jsonThing(param.jsonData),
+                    contentType  : 'application/json; charset=utf-8',
+                    responseType : param.responseType,
+                    user         : this.username,
+                    password     : this.password,
                     validateResponse: param.validateResponse,
                     certificateAuthorities: window.config.certificateAuthorities
             }).catch(function(e) {
@@ -37655,6 +37661,7 @@ var TextSecureServer = (function() {
                 call                : 'profile',
                 httpType            : 'GET',
                 urlParameters       : '/' + number,
+                responseType        : 'json',
             });
         },
         getAvatar: function(path) {
@@ -37687,12 +37694,13 @@ var TextSecureServer = (function() {
                 registrationId  : registrationId,
             };
 
-            var call, urlPrefix, schema;
+            var call, urlPrefix, schema, responseType;
             if (deviceName) {
                 jsonData.name = deviceName;
                 call = 'devices';
                 urlPrefix = '/';
                 schema = { deviceId: 'number' };
+                responseType = 'json'
             } else {
                 call = 'accounts';
                 urlPrefix = '/code/';
@@ -37705,13 +37713,14 @@ var TextSecureServer = (function() {
                 httpType            : 'PUT',
                 urlParameters       : urlPrefix + code,
                 jsonData            : jsonData,
+                responseType        : responseType,
                 validateResponse    : schema
             });
         },
         getDevices: function(number) {
             return this.ajax({
-                call     : 'devices',
-                httpType : 'GET',
+                call         : 'devices',
+                httpType     : 'GET',
             });
         },
         registerKeys: function(genKeys) {
@@ -37746,6 +37755,7 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'signed',
                 httpType            : 'PUT',
+                responseType        : 'json',
                 jsonData            : {
                     keyId: signedPreKey.keyId,
                     publicKey: btoa(getString(signedPreKey.publicKey)),
@@ -37757,6 +37767,7 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'keys',
                 httpType            : 'GET',
+                responseType        : 'json',
                 validateResponse    : {count: 'number'}
             }).then(function(res) {
                 return res.count;
@@ -37770,6 +37781,7 @@ var TextSecureServer = (function() {
                 call                : 'keys',
                 httpType            : 'GET',
                 urlParameters       : "/" + number + "/" + deviceId,
+                responseType        : 'json',
                 validateResponse    : {identityKey: 'string', devices: 'object'}
             }).then(function(res) {
                 if (res.devices.constructor !== Array) {
@@ -37806,6 +37818,7 @@ var TextSecureServer = (function() {
                 httpType            : 'PUT',
                 urlParameters       : '/' + destination,
                 jsonData            : jsonData,
+                responseType        : 'json',
             });
         },
         getAttachment: function(id) {
@@ -37813,6 +37826,7 @@ var TextSecureServer = (function() {
                 call                : 'attachment',
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
+                responseType        : 'json',
                 validateResponse    : {location: 'string'}
             }).then(function(response) {
                 return ajax(response.location, {
@@ -37824,8 +37838,9 @@ var TextSecureServer = (function() {
         },
         putAttachment: function(encryptedBin) {
             return this.ajax({
-                call     : 'attachment',
-                httpType : 'GET',
+                call         : 'attachment',
+                httpType     : 'GET',
+                responseType : 'json',
             }).then(function(response) {
                 return ajax(response.location, {
                     type        : "PUT",

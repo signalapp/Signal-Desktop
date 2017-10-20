@@ -155,6 +155,7 @@
     "emoji-js": "^3.2.2",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
+    "node-fetch": "^1.7.3",
     "os-locale": "^2.1.0",
     "rimraf": "^2.6.2",
     "semver": "^5.4.1",
