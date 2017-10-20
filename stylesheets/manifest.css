@@ -1429,7 +1429,7 @@ span.status {
     max-width: 800px;
     margin: 0 auto 10px;
     padding-left: 1em;
-    padding-right: 1.5em; }
+    padding-right: 1em; }
     .message-container li::after,
     .message-list li::after {
       visibility: hidden;
@@ -1478,6 +1478,12 @@ span.status {
     .message-container .meta .retry,
     .message-list .meta .retry {
       text-decoration: underline;
+      cursor: pointer; }
+    .message-container .meta .send,
+    .message-list .meta .send {
+      float: left;
+      margin-left: 6px;
+      margin-right: 6px;
       cursor: pointer; }
     .message-container .meta .some-failed,
     .message-list .meta .some-failed {

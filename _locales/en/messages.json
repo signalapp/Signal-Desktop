@@ -417,6 +417,9 @@
     "resend": {
       "message": "Resend"
     },
+    "send": {
+      "message": "Send"
+    },
     "messageDetail": {
         "message": "Message Detail"
     },

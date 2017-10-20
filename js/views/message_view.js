@@ -41,6 +41,14 @@
             someFailed: i18n('someRecipientsFailed')
         }
     });
+    var SendView = Whisper.View.extend({
+        tagName: 'span',
+        className: 'send',
+        templateName: 'send',
+        render_attributes: {
+            send: i18n('send')
+        }
+    });
     var TimerView = Whisper.View.extend({
         templateName: 'hourglass',
         initialize: function() {
@@ -193,6 +201,7 @@
         },
         events: {
             'click .retry': 'retryMessage',
+            'click .send': 'sendMessage',
             'click .error-icon': 'select',
             'click .timestamp': 'select',
             'click .status': 'select',
@@ -205,6 +214,13 @@
             _.map(retrys, 'number').forEach(function(number) {
                 this.model.resend(number);
             }.bind(this));
+        },
+        sendMessage: function() {
+            // We've never sent this message before, so we don't have ReplayableErrors
+            var conversationId = this.model.get('conversationId');
+            var conversation = ConversationController.get(conversationId);
+
+            conversation.sendMessage(this.model);
         },
         onExpired: function() {
             this.$el.addClass('expired');
@@ -260,6 +276,9 @@
         },
         renderPending: function() {
             this.$el.addClass('pending');
+
+            // this means sending has started
+            this.renderSendNeeded();
         },
         renderDone: function() {
             this.$el.removeClass('pending');
@@ -284,21 +303,27 @@
                 this.renderErrors();
             }
         },
-        renderErrors: function() {
-            var errors = this.model.get('errors');
-
-
-            this.$('.error-icon-container').remove();
+        removeErrorIcon: function() {
             if (this.errorIconView) {
                 this.errorIconView.remove();
                 this.errorIconView = null;
             }
+        },
+        addErrorIcon: function(error) {
+            if (this.model.isIncoming()) {
+                this.$('.content').text(this.model.getDescription()).addClass('error-message');
+            }
+            this.errorIconView = new ErrorIconView({ model: error });
+            this.errorIconView.render().$el.appendTo(this.$('.bubble'));
+        },
+        renderErrors: function() {
+            var errors = this.model.get('errors');
+
+            this.$('.error-icon-container').remove();
+
+            this.removeErrorIcon();
             if (_.size(errors) > 0) {
-                if (this.model.isIncoming()) {
-                    this.$('.content').text(this.model.getDescription()).addClass('error-message');
-                }
-                this.errorIconView = new ErrorIconView({ model: errors[0] });
-                this.errorIconView.render().$el.appendTo(this.$('.bubble'));
+                this.addErrorIcon(errors[0]);
             }
 
             this.$('.meta .hasRetry').remove();
@@ -320,6 +345,34 @@
                 this.someFailedView = new SomeFailedView();
                 this.$('.meta').prepend(this.someFailedView.render().el);
             }
+        },
+        wasNeverSent: function() {
+            // Either sent or got an error during send
+            if (this.model.get('sent') || this.model.get('errors')) {
+                return false;
+            }
+
+            // Currently in the middle of a send
+            if (this.model.sendPromise) {
+                return false;
+            }
+
+            return true;
+        },
+        renderSendNeeded: function() {
+            this.$('.send').remove();
+            this.removeErrorIcon();
+
+            if (!this.wasNeverSent()) {
+                return;
+            }
+
+            this.sendView = new SendView();
+            this.$('.meta').prepend(this.sendView.render().el);
+
+            // ErrorIconView just checks the .name property of the passed-in error
+            var error = {};
+            this.addErrorIcon(error);
         },
         renderControl: function() {
             if (this.model.isEndSession() || this.model.isGroupUpdate()) {
@@ -368,6 +421,7 @@
             this.renderRead();
             this.renderErrors();
             this.renderExpiring();
+            this.renderSendNeeded();
 
             this.loadAttachments();
 

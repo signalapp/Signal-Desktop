@@ -592,52 +592,69 @@
         }
     },
 
-    sendMessage: function(body, attachments) {
-        this.queueJob(function() {
-            var now = Date.now();
+    prepareNewMessage: function(body, attachments) {
+        var now = Date.now();
 
-            console.log(
-                'Sending message to conversation',
-                this.idForLogging(),
-                'with timestamp',
-                now
-            );
+        console.log(
+            'Sending message to conversation',
+            this.idForLogging(),
+            'with timestamp',
+            now
+        );
 
-            var message = this.messageCollection.add({
-                body           : body,
-                conversationId : this.id,
-                type           : 'outgoing',
-                attachments    : attachments,
-                sent_at        : now,
-                received_at    : now,
-                expireTimer    : this.get('expireTimer'),
-                recipients     : this.getRecipients()
-            });
-            if (this.isPrivate()) {
-                message.set({destination: this.id});
-            }
-            message.save();
+        var message = this.messageCollection.add({
+            body           : body,
+            conversationId : this.id,
+            type           : 'outgoing',
+            attachments    : attachments,
+            sent_at        : now,
+            received_at    : now,
+            expireTimer    : this.get('expireTimer'),
+            recipients     : this.getRecipients()
+        });
+        if (this.isPrivate()) {
+            message.set({destination: this.id});
+        }
+        message.save();
 
-            this.save({
-                active_at   : now,
-                timestamp   : now,
-                lastMessage : message.getNotificationText()
-            });
+        this.save({
+            active_at   : now,
+            timestamp   : now,
+            lastMessage : message.getNotificationText()
+        });
 
-            var sendFunc;
-            if (this.get('type') == 'private') {
-                sendFunc = textsecure.messaging.sendMessageToNumber;
-            }
-            else {
-                sendFunc = textsecure.messaging.sendMessageToGroup;
-            }
+        return message;
+    },
 
+    sendNewMessage: function(body, attachments) {
+        var message = this.prepareNewMessage(body, attachments);
+        return this.sendMessage(message);
+    },
+
+    sendMessage: function(message) {
+        var sendFunc;
+        if (this.get('type') == 'private') {
+            sendFunc = textsecure.messaging.sendMessageToNumber;
+        } else {
+            sendFunc = textsecure.messaging.sendMessageToGroup;
+        }
+
+        return this.queueJob(function() {
             var profileKey;
             if (this.get('profileSharing')) {
                profileKey = storage.get('profileKey');
             }
 
-            message.send(sendFunc(this.get('id'), body, attachments, now, this.get('expireTimer'), profileKey));
+            var promise = sendFunc(
+                this.get('id'),
+                message.get('body'),
+                message.get('attachments'),
+                message.get('sent_at'),
+                this.get('expireTimer'),
+                profileKey
+            );
+
+            message.send(promise);
         }.bind(this));
     },
 
