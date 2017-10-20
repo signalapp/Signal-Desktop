@@ -210,6 +210,8 @@ MessageSender.prototype = {
                 delete this.pendingMessages[number];
             }
         }.bind(this));
+
+        return runCurrent;
     },
 
     uploadMedia: function(message) {
@@ -255,9 +257,7 @@ MessageSender.prototype = {
         var outgoing = new OutgoingMessage(this.server, timestamp, numbers, message, silent, callback);
 
         numbers.forEach(function(number) {
-            this.queueJobForNumber(number, function() {
-                return outgoing.sendToNumber(number);
-            });
+            return outgoing.sendToNumber(number);
         }.bind(this));
     },
 
@@ -464,15 +464,17 @@ MessageSender.prototype = {
     },
 
     sendMessageToNumber: function(number, messageText, attachments, timestamp, expireTimer, profileKey) {
-        return this.sendMessage({
-            recipients  : [number],
-            body        : messageText,
-            timestamp   : timestamp,
-            attachments : attachments,
-            needsSync   : true,
-            expireTimer : expireTimer,
-            profileKey  : profileKey
-        });
+        return this.queueJobForNumber(number, function() {
+            return this.sendMessage({
+                recipients  : [number],
+                body        : messageText,
+                timestamp   : timestamp,
+                attachments : attachments,
+                needsSync   : true,
+                expireTimer : expireTimer,
+                profileKey  : profileKey
+            });
+        }.bind(this));
     },
 
     closeSession: function(number, timestamp) {
