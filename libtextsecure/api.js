@@ -37,11 +37,14 @@ var TextSecureServer = (function() {
             url = options.host +  '/' + options.path;
         }
         console.log(options.type, url);
+        var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 5000;
+
         var fetchOptions = {
           method: options.type,
           body: options.data || null,
           headers: { 'X-Signal-Agent': 'OWD' },
-          agent: new httpsAgent({ca: options.certificateAuthorities})
+          agent: new httpsAgent({ca: options.certificateAuthorities}),
+          timeout: timeout
         };
 
         if (fetchOptions.body instanceof ArrayBuffer) {
@@ -80,7 +83,7 @@ var TextSecureServer = (function() {
                 }
               }
             }
-            if ( 0 <= response.status && response.status < 400) {
+            if (0 <= response.status && response.status < 400) {
               console.log(options.type, url, response.status, 'Success');
               resolve(result, response.status);
             } else {
@@ -168,7 +171,8 @@ var TextSecureServer = (function() {
                     user         : this.username,
                     password     : this.password,
                     validateResponse: param.validateResponse,
-                    certificateAuthorities: window.config.certificateAuthorities
+                    certificateAuthorities: window.config.certificateAuthorities,
+                    timeout      : param.timeout
             }).catch(function(e) {
                 var code = e.code;
                 if (code === 200) {
@@ -217,7 +221,8 @@ var TextSecureServer = (function() {
                 type        : "GET",
                 responseType: "arraybuffer",
                 contentType : "application/octet-stream",
-                certificateAuthorities: window.config.certificateAuthorities
+                certificateAuthorities: window.config.certificateAuthorities,
+                timeout: 0
             });
         },
         requestVerificationSMS: function(number) {
@@ -375,7 +380,8 @@ var TextSecureServer = (function() {
                 httpType            : 'GET',
                 urlParameters       : '/' + id,
                 responseType        : 'json',
-                validateResponse    : {location: 'string'}
+                validateResponse    : {location: 'string'},
+                timeout             : 0
             }).then(function(response) {
                 return ajax(response.location, {
                     type        : "GET",
@@ -389,6 +395,7 @@ var TextSecureServer = (function() {
                 call         : 'attachment',
                 httpType     : 'GET',
                 responseType : 'json',
+                timeout      : 0
             }).then(function(response) {
                 return ajax(response.location, {
                     type        : "PUT",
