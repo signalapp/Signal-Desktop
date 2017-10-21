@@ -69,10 +69,32 @@
         return accountManager;
     };
 
+    var HALF_HOUR = 30 * 60 * 1000;
+    function checkDeprecated() {
+        var url = 'https://updates.signal.org/desktop/chrome-deprecated.txt';
+        var matcher = /yes/i;
+
+        $.ajax(url).done(function(data) {
+            if (matcher.test(data)) {
+                console.log('Deprecation check: Now deprecated');
+                storage.put('migrationEnabled', true);
+            } else {
+                console.log('Deprecation check: Not yet deprecated. Another check in 30 minutes');
+                setTimeout(checkDeprecated, HALF_HOUR);
+            }
+        }).fail(function() {
+            console.log('Deprecation check: Request failed; another check in 30 minutes');
+            setTimeout(checkDeprecated, HALF_HOUR);
+        });
+    }
 
     storage.fetch();
     storage.onready(function() {
         ConversationController.load();
+
+        if (!storage.get('migrationEnabled')) {
+            checkDeprecated();
+        }
 
         window.dispatchEvent(new Event('storage_ready'));
         setUnreadCount(storage.get("unreadCount", 0));
