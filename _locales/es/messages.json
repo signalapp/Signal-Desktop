@@ -76,7 +76,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "¿Estás seguro? Al hacer clic en 'eliminar' se eliminará permanentemente este mensaje de este dispositivo.",
+        "message": "¿Estás seguro? Al hacer clic en «eliminar» se eliminará permanentemente este mensaje de este dispositivo.",
         "description": ""
     },
     "showMore": {
@@ -232,7 +232,7 @@
         "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ ha fijado la caducidad a $time$.",
+        "message": "$name$ ha fijado la caducidad de mensajes a $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -258,7 +258,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Por favor, espere mientras exportamos sus datos. Puede tomar varios minutos. Todavía puede utilizar Signal en su teléfono y otros dispositivos durante este tiempo.",
+        "message": "Por favor, espera mientras exportamos tus datos. Puede tomar varios minutos. Mientras tanto puedes utilizar Signal en tu teléfono y otros dispositivos.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -320,7 +320,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Fallo al importar. Asegúrate de que ordenador y teléfono estan conectados a internet.",
+        "message": "Fallo al importar. Asegúrate de que ordenador y teléfono están conectados a internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
@@ -578,7 +578,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Sus datos se han exportado a: <p><b>$location$</b></p> Podrá importar estos datos al configurar <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>el nuevo Signal Desktop</a>.",
+        "message": "Tus datos se han exportado a: <p><b>$location$</b></p> Podrás importar estos datos al configurar <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>el nuevo Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -750,7 +750,7 @@
         "description": ""
     },
     "installNewSignal": {
-        "message": "Instalar nuevo Signal Desktop",
+        "message": "Instalar el nuevo Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "verify": {

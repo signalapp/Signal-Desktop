@@ -8,7 +8,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "ತೋರಿಸು",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
@@ -34,7 +34,7 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ತೋರಿಸಿ",
         "description": ""
     },
     "androidMessageLengthWarning": {
@@ -72,7 +72,7 @@
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "ಕಣ್ಮರೆಯಾಗುವ ಸಂದೇಶಗಳು",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
@@ -98,7 +98,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 ನಿಮಿಷಗಳು",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -110,11 +110,11 @@
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
         "description": "Hover text for attachment filenames"
     },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "ಕೆಳಗೆ ಹೊಸ ಸಂದೇಶಗಳು ಇವೆ",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
@@ -146,7 +146,7 @@
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "ಆರಿಸು",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
@@ -162,7 +162,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
-        "message": "Delete messages",
+        "message": "ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ",
         "description": "Menu item for deleting messages, title case."
     },
     "confirmMigration": {
@@ -174,11 +174,11 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "ಅಳಿಸು",
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
         "description": ""
     },
     "selectAContact": {
@@ -254,7 +254,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 ದಿನ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
@@ -282,7 +282,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "ಸಂದೇಶವನ್ನು ಮುಂದುವರಿಸಲು ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್ಟಾಪ್ ಅನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನಕ್ಕೆ ರಿಲೀಂಕ್ ಮಾಡಿ.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -374,7 +374,7 @@
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 ನಿಮಿಷಗಳು",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
@@ -382,7 +382,7 @@
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 ನಿಮಿಷ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
@@ -396,7 +396,7 @@
         }
     },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "ನೀವು ಕೊನೆಯದಾಗಿ ಪರಿಶೀಲಿಸಿದ ನಂತರ $name$ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. ನಿಮ್ಮ ಸಂವಹನವನ್ನು ಯಾರಾದರೂ ತಡೆಗಟ್ಟಲು ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ ಅಥವಾ $name$ ಸಿಗ್ನಲ್ ಅನ್ನು ಪುನಃ ಸ್ಥಾಪಿಸಿದ್ದಾರೆ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -428,7 +428,7 @@
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
@@ -466,7 +466,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 ಗಂಟೆ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
@@ -474,7 +474,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 ಗಂಟೆ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
@@ -482,7 +482,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 ದಿನ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "sync": {
@@ -490,7 +490,7 @@
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "ಒಂದು ವಾರ",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
@@ -530,7 +530,7 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "ನಾನು",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
@@ -538,7 +538,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 ಓದದಿರುವ ಸಂದೇಶ",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
@@ -550,11 +550,11 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಿ",
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "ಆರಿಸು",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "installAndroidInstructions": {
@@ -566,7 +566,7 @@
         "description": "Displayed while we wait for pending incoming messages to process"
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "ತಪ್ಪಾದ ಸಂಖ್ಯೆ",
         "description": "When a person inputs a number that is invalid"
     },
     "installWelcome": {
@@ -634,7 +634,7 @@
         }
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "ಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
@@ -650,7 +650,7 @@
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 ವಾರ",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
@@ -658,7 +658,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "ಸದಸ್ಯರನ್ನು ತೋರಿಸು",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
@@ -698,15 +698,15 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "ಹೊಸ ಸಂಪರ್ಕವನ್ನು ಉಳಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "ನೀವು ಇನ್ನೂ ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಲ್ಲ. ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ.",
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "ಧ್ವನಿ ಸಂದೇಶ",
         "description": "Name for a voice message attachment"
     },
     "submit": {
