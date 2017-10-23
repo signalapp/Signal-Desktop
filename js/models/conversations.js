@@ -786,7 +786,8 @@
                 promises.push(m.markRead());
                 return {
                     sender    : m.get('source'),
-                    timestamp : m.get('sent_at')
+                    timestamp : m.get('sent_at'),
+                    hasErrors : Boolean(m.get('errors'))
                 };
             }.bind(this));
 
@@ -803,6 +804,15 @@
                 this.save({ unreadCount: unreadCount }).then(resolve, reject);
             }.bind(this));
             promises.push(promise);
+
+            // If a message has errors, we don't want to send anything out about it.
+            //   read syncs - let's wait for a client that really understands the message
+            //      to mark it read. we'll mark our local error read locally, though.
+            //   read receipts - here we can run into infinite loops, where each time the
+            //      conversation is viewed, another error message shows up for the contact
+            read = read.filter(function(item) {
+                return !item.hasErrors;
+            });
 
             if (read.length && options.sendReadReceipts) {
                 console.log('Sending', read.length, 'read receipts');
