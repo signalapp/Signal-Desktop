@@ -28,6 +28,10 @@ MessageReceiver.prototype = new textsecure.EventTarget();
 MessageReceiver.prototype.extend({
     constructor: MessageReceiver,
     connect: function() {
+        if (this.calledClose) {
+            return;
+        }
+
         this.hasConnected = true;
 
         if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
