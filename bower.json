@@ -114,7 +114,6 @@
       "backbone",
       "indexeddb-backbonejs-adapter",
       "qrcode",
-      "libphonenumber-api",
       "moment",
       "intl-tel-input",
       "backbone.typeahead",

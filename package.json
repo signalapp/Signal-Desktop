@@ -155,6 +155,7 @@
     "emoji-datasource-apple": "^3.0.0",
     "emoji-js": "^3.2.2",
     "emoji-panel": "^0.5.2",
+    "google-libphonenumber": "^3.0.7",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.3",

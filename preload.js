@@ -54,4 +54,6 @@
   window.httpsAgent = require('https').Agent;
   window.nodeBuffer = Buffer;
   window.EmojiPanel = require('emoji-panel');
+  window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+  window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 })();
