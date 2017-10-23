@@ -63,7 +63,7 @@
         }
         first = false;
 
-        start();
+        ConversationController.load().then(start, start);
     });
 
     Whisper.events.on('shutdown', function() {
@@ -77,8 +77,6 @@
     });
 
     function start() {
-        ConversationController.load();
-
         var currentVersion = window.config.version;
         var lastVersion = storage.get('version');
         storage.put('version', currentVersion);
