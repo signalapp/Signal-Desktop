@@ -11,7 +11,7 @@ const RESTART_BUTTON = 0;
 const LATER_BUTTON = 1;
 
 function autoUpdateDisabled() {
-  return process.mas || config.get('disableAutoUpdate');
+  return process.platform === 'linux' || process.mas || config.get('disableAutoUpdate');
 }
 
 function checkForUpdates() {
