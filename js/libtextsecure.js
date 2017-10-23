@@ -37745,7 +37745,6 @@ var TextSecureServer = (function() {
             return this.ajax({
                 call                : 'signed',
                 httpType            : 'PUT',
-                responseType        : 'json',
                 jsonData            : {
                     keyId: signedPreKey.keyId,
                     publicKey: btoa(getString(signedPreKey.publicKey)),
