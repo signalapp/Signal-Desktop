@@ -182,7 +182,7 @@
                 ev.code = code;
                 ev.reason = reason;
                 this.dispatchEvent(ev);
-            }.bind(this), 10000);
+            }.bind(this), 1000);
         };
     };
     window.WebSocketResource.prototype = new textsecure.EventTarget();

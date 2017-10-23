@@ -82,8 +82,6 @@ MessageReceiver.prototype.extend({
             this.wsr.close(3000, 'called close');
         }
 
-        this.shutdown();
-
         return this.drain();
     },
     onopen: function() {
