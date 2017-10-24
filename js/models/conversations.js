@@ -784,10 +784,11 @@
                                 'it was not in messageCollection.');
                 }
                 promises.push(m.markRead());
+                var errors = m.get('errors');
                 return {
                     sender    : m.get('source'),
                     timestamp : m.get('sent_at'),
-                    hasErrors : Boolean(m.get('errors'))
+                    hasErrors : Boolean(errors && errors.length)
                 };
             }.bind(this));
 
