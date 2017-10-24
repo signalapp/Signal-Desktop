@@ -64,12 +64,13 @@ var TextSecureServer = (function() {
         }
         window.nodeFetch(url, fetchOptions).then(function(response) {
           var resultPromise;
-          if (options.responseType === 'json') {
+          if (options.responseType === 'json'
+              && response.headers.get('Content-Type') === 'application/json') {
             resultPromise = response.json();
-          } else if (!options.responseType || options.responseType === 'text') {
-            resultPromise = response.text();
           } else if (options.responseType === 'arraybuffer') {
             resultPromise = response.buffer();
+          } else {
+            resultPromise = response.text();
           }
           return resultPromise.then(function(result) {
             if (options.responseType === 'arraybuffer') {
