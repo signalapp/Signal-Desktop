@@ -173,6 +173,8 @@
 
             this.$('.send-message').focus(this.focusBottomBar.bind(this));
             this.$('.send-message').blur(this.unfocusBottomBar.bind(this));
+
+            this.$emojiPanelContainer = this.$('.emoji-panel-container');
         },
 
         events: {
@@ -192,6 +194,7 @@
             'click .microphone': 'captureAudio',
             'click .disappearing-messages': 'enableDisappearingMessages',
             'click .scroll-down-button-view': 'scrollToBottom',
+            'click button.emoji': 'toggleEmojiPanel',
             'focus .send-message': 'focusBottomBar',
             'change .file-input': 'toggleMicrophone',
             'blur .send-message': 'unfocusBottomBar',
@@ -947,6 +950,34 @@
             }.bind(this));
         },
 
+        toggleEmojiPanel: function(e) {
+            e.preventDefault();
+            if (!this.emojiPanel) {
+              this.openEmojiPanel();
+            } else {
+              this.closeEmojiPanel();
+            }
+        },
+        openEmojiPanel: function(e) {
+            this.$emojiPanelContainer.outerHeight(200);
+            this.emojiPanel = new EmojiPanel(this.$emojiPanelContainer[0], {
+              onClick: this.insertEmoji.bind(this)
+            });
+            this.updateMessageFieldSize({});
+        },
+        closeEmojiPanel: function() {
+            this.$emojiPanelContainer.empty().outerHeight(0);
+            this.emojiPanel = null;
+            this.updateMessageFieldSize({});
+        },
+        insertEmoji: function(e) {
+            var name = emoji.data[e.unified.toLowerCase()][3][0];
+            this.$messageField.val(
+                [ this.$messageField.val(), ':', name, ':' ].join('')
+            );
+            this.closeEmojiPanel();
+            this.focusMessageField();
+        },
         sendMessage: function(e) {
             this.removeLastSeenIndicator();
 
@@ -1043,6 +1074,7 @@
             $bottomBar.outerHeight(
                     this.$messageField.outerHeight() +
                     $attachmentPreviews.outerHeight() +
+                    this.$emojiPanelContainer.outerHeight() +
                     parseInt($bottomBar.css('min-height')));
 
             this.view.scrollToBottomIfNeeded();
