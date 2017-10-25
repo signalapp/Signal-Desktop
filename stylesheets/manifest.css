@@ -973,3906 +973,3906 @@ button.emoji {
   min-height: 100%; }
 
 .ep {
-  min-width: 160px; }
+  min-width: 256px; }
 
 .ep-categories {
-  font-size: 20px; }
+  font-size: 32px; }
 
 .ep-c, .ep-e {
-  height: 20px; }
+  height: 32px; }
 
 .ep-e {
-  width: 20px;
-  background-image: url("../../emoji-datasource/sheet_apple_20.png"); }
+  width: 32px;
+  background-image: url("../../emoji-datasource/sheet_apple_32.png"); }
 
 .ep-slide {
   width: 12.5%; }
 
 .ep-e[data-index="831"] {
-  background-position: -520px -300px; }
+  background-position: -832px -480px; }
 
 .ep-e[data-index="875"] {
-  background-position: -540px -360px; }
+  background-position: -864px -576px; }
 
 .ep-e[data-index="832"] {
-  background-position: -520px -320px; }
+  background-position: -832px -512px; }
 
 .ep-e[data-index="833"] {
-  background-position: -520px -340px; }
+  background-position: -832px -544px; }
 
 .ep-e[data-index="834"] {
-  background-position: -520px -360px; }
+  background-position: -832px -576px; }
 
 .ep-e[data-index="835"] {
-  background-position: -520px -380px; }
+  background-position: -832px -608px; }
 
 .ep-e[data-index="836"] {
-  background-position: -520px -400px; }
+  background-position: -832px -640px; }
 
 .ep-e[data-index="837"] {
-  background-position: -520px -420px; }
+  background-position: -832px -672px; }
 
 .ep-e[data-index="838"] {
-  background-position: -520px -440px; }
+  background-position: -832px -704px; }
 
 .ep-e[data-index="840"] {
-  background-position: -520px -480px; }
+  background-position: -832px -768px; }
 
 .ep-e[data-index="841"] {
-  background-position: -520px -500px; }
+  background-position: -832px -800px; }
 
 .ep-e[data-index="897"] {
-  background-position: -540px -800px; }
+  background-position: -864px -1280px; }
 
 .ep-e[data-index="898"] {
-  background-position: -560px -0px; }
+  background-position: -896px -0px; }
 
 .ep-e[data-index="61"] {
-  background-position: -20px -500px; }
+  background-position: -32px -800px; }
 
 .ep-e[data-index="842"] {
-  background-position: -520px -520px; }
+  background-position: -832px -832px; }
 
 .ep-e[data-index="843"] {
-  background-position: -520px -540px; }
+  background-position: -832px -864px; }
 
 .ep-e[data-index="844"] {
-  background-position: -520px -560px; }
+  background-position: -832px -896px; }
 
 .ep-e[data-index="855"] {
-  background-position: -520px -780px; }
+  background-position: -832px -1248px; }
 
 .ep-e[data-index="854"] {
-  background-position: -520px -760px; }
+  background-position: -832px -1216px; }
 
 .ep-e[data-index="856"] {
-  background-position: -520px -800px; }
+  background-position: -832px -1280px; }
 
 .ep-e[data-index="857"] {
-  background-position: -540px -0px; }
+  background-position: -864px -0px; }
 
 .ep-e[data-index="859"] {
-  background-position: -540px -40px; }
+  background-position: -864px -64px; }
 
 .ep-e[data-index="860"] {
-  background-position: -540px -60px; }
+  background-position: -864px -96px; }
 
 .ep-e[data-index="858"] {
-  background-position: -540px -20px; }
+  background-position: -864px -32px; }
 
 .ep-e[data-index="999"] {
-  background-position: -640px -40px; }
+  background-position: -1024px -64px; }
 
 .ep-e[data-index="1001"] {
-  background-position: -640px -80px; }
+  background-position: -1024px -128px; }
 
 .ep-e[data-index="845"] {
-  background-position: -520px -580px; }
+  background-position: -832px -928px; }
 
 .ep-e[data-index="1005"] {
-  background-position: -640px -160px; }
+  background-position: -1024px -256px; }
 
 .ep-e[data-index="846"] {
-  background-position: -520px -600px; }
+  background-position: -832px -960px; }
 
 .ep-e[data-index="885"] {
-  background-position: -540px -560px; }
+  background-position: -864px -896px; }
 
 .ep-e[data-index="847"] {
-  background-position: -520px -620px; }
+  background-position: -832px -992px; }
 
 .ep-e[data-index="848"] {
-  background-position: -520px -640px; }
+  background-position: -832px -1024px; }
 
 .ep-e[data-index="849"] {
-  background-position: -520px -660px; }
+  background-position: -832px -1056px; }
 
 .ep-e[data-index="899"] {
-  background-position: -560px -20px; }
+  background-position: -896px -32px; }
 
 .ep-e[data-index="1002"] {
-  background-position: -640px -100px; }
+  background-position: -1024px -160px; }
 
 .ep-e[data-index="882"] {
-  background-position: -540px -500px; }
+  background-position: -864px -800px; }
 
 .ep-e[data-index="861"] {
-  background-position: -540px -80px; }
+  background-position: -864px -128px; }
 
 .ep-e[data-index="862"] {
-  background-position: -540px -100px; }
+  background-position: -864px -160px; }
 
 .ep-e[data-index="863"] {
-  background-position: -540px -120px; }
+  background-position: -864px -192px; }
 
 .ep-e[data-index="864"] {
-  background-position: -540px -140px; }
+  background-position: -864px -224px; }
 
 .ep-e[data-index="851"] {
-  background-position: -520px -700px; }
+  background-position: -832px -1120px; }
 
 .ep-e[data-index="852"] {
-  background-position: -520px -720px; }
+  background-position: -832px -1152px; }
 
 .ep-e[data-index="896"] {
-  background-position: -540px -780px; }
+  background-position: -864px -1248px; }
 
 .ep-e[data-index="60"] {
-  background-position: -20px -480px; }
+  background-position: -32px -768px; }
 
 .ep-e[data-index="866"] {
-  background-position: -540px -180px; }
+  background-position: -864px -288px; }
 
 .ep-e[data-index="853"] {
-  background-position: -520px -740px; }
+  background-position: -832px -1184px; }
 
 .ep-e[data-index="874"] {
-  background-position: -540px -340px; }
+  background-position: -864px -544px; }
 
 .ep-e[data-index="872"] {
-  background-position: -540px -300px; }
+  background-position: -864px -480px; }
 
 .ep-e[data-index="867"] {
-  background-position: -540px -200px; }
+  background-position: -864px -320px; }
 
 .ep-e[data-index="877"] {
-  background-position: -540px -400px; }
+  background-position: -864px -640px; }
 
 .ep-e[data-index="880"] {
-  background-position: -540px -460px; }
+  background-position: -864px -736px; }
 
 .ep-e[data-index="871"] {
-  background-position: -540px -280px; }
+  background-position: -864px -448px; }
 
 .ep-e[data-index="879"] {
-  background-position: -540px -440px; }
+  background-position: -864px -704px; }
 
 .ep-e[data-index="878"] {
-  background-position: -540px -420px; }
+  background-position: -864px -672px; }
 
 .ep-e[data-index="869"] {
-  background-position: -540px -240px; }
+  background-position: -864px -384px; }
 
 .ep-e[data-index="870"] {
-  background-position: -540px -260px; }
+  background-position: -864px -416px; }
 
 .ep-e[data-index="865"] {
-  background-position: -540px -160px; }
+  background-position: -864px -256px; }
 
 .ep-e[data-index="868"] {
-  background-position: -540px -220px; }
+  background-position: -864px -352px; }
 
 .ep-e[data-index="873"] {
-  background-position: -540px -320px; }
+  background-position: -864px -512px; }
 
 .ep-e[data-index="850"] {
-  background-position: -520px -680px; }
+  background-position: -832px -1088px; }
 
 .ep-e[data-index="876"] {
-  background-position: -540px -380px; }
+  background-position: -864px -608px; }
 
 .ep-e[data-index="884"] {
-  background-position: -540px -540px; }
+  background-position: -864px -864px; }
 
 .ep-e[data-index="881"] {
-  background-position: -540px -480px; }
+  background-position: -864px -768px; }
 
 .ep-e[data-index="998"] {
-  background-position: -640px -20px; }
+  background-position: -1024px -32px; }
 
 .ep-e[data-index="886"] {
-  background-position: -540px -580px; }
+  background-position: -864px -928px; }
 
 .ep-e[data-index="1000"] {
-  background-position: -640px -60px; }
+  background-position: -1024px -96px; }
 
 .ep-e[data-index="1003"] {
-  background-position: -640px -120px; }
+  background-position: -1024px -192px; }
 
 .ep-e[data-index="883"] {
-  background-position: -540px -520px; }
+  background-position: -864px -832px; }
 
 .ep-e[data-index="606"] {
-  background-position: -400px -220px; }
+  background-position: -640px -352px; }
 
 .ep-e[data-index="611"] {
-  background-position: -400px -320px; }
+  background-position: -640px -512px; }
 
 .ep-e[data-index="839"] {
-  background-position: -520px -460px; }
+  background-position: -832px -736px; }
 
 .ep-e[data-index="569"] {
-  background-position: -360px -520px; }
+  background-position: -576px -832px; }
 
 .ep-e[data-index="563"] {
-  background-position: -360px -300px; }
+  background-position: -576px -480px; }
 
 .ep-e[data-index="564"] {
-  background-position: -360px -320px; }
+  background-position: -576px -512px; }
 
 .ep-e[data-index="570"] {
-  background-position: -360px -540px; }
+  background-position: -576px -864px; }
 
 .ep-e[data-index="565"] {
-  background-position: -360px -340px; }
+  background-position: -576px -544px; }
 
 .ep-e[data-index="567"] {
-  background-position: -360px -480px; }
+  background-position: -576px -768px; }
 
 .ep-e[data-index="1004"] {
-  background-position: -640px -140px; }
+  background-position: -1024px -224px; }
 
 .ep-e[data-index="889"] {
-  background-position: -540px -640px; }
+  background-position: -864px -1024px; }
 
 .ep-e[data-index="887"] {
-  background-position: -540px -600px; }
+  background-position: -864px -960px; }
 
 .ep-e[data-index="888"] {
-  background-position: -540px -620px; }
+  background-position: -864px -992px; }
 
 .ep-e[data-index="890"] {
-  background-position: -540px -660px; }
+  background-position: -864px -1056px; }
 
 .ep-e[data-index="891"] {
-  background-position: -540px -680px; }
+  background-position: -864px -1088px; }
 
 .ep-e[data-index="892"] {
-  background-position: -540px -700px; }
+  background-position: -864px -1120px; }
 
 .ep-e[data-index="895"] {
-  background-position: -540px -760px; }
+  background-position: -864px -1216px; }
 
 .ep-e[data-index="894"] {
-  background-position: -540px -740px; }
+  background-position: -864px -1184px; }
 
 .ep-e[data-index="893"] {
-  background-position: -540px -720px; }
+  background-position: -864px -1152px; }
 
 .ep-e[data-index="907"] {
-  background-position: -560px -580px; }
+  background-position: -896px -928px; }
 
 .ep-e[data-index="521"] {
-  background-position: -300px -320px; }
+  background-position: -480px -512px; }
 
 .ep-e[data-index="517"] {
-  background-position: -280px -660px; }
+  background-position: -448px -1056px; }
 
 .ep-e[data-index="519"] {
-  background-position: -300px -80px; }
+  background-position: -480px -128px; }
 
 .ep-e[data-index="520"] {
-  background-position: -300px -200px; }
+  background-position: -480px -320px; }
 
 .ep-e[data-index="516"] {
-  background-position: -280px -540px; }
+  background-position: -448px -864px; }
 
 .ep-e[data-index="122"] {
-  background-position: -60px -180px; }
+  background-position: -96px -288px; }
 
 .ep-e[data-index="124"] {
-  background-position: -60px -420px; }
+  background-position: -96px -672px; }
 
 .ep-e[data-index="518"] {
-  background-position: -280px -780px; }
+  background-position: -448px -1248px; }
 
 .ep-e[data-index="123"] {
-  background-position: -60px -300px; }
+  background-position: -96px -480px; }
 
 .ep-e[data-index="522"] {
-  background-position: -300px -440px; }
+  background-position: -480px -704px; }
 
 .ep-e[data-index="612"] {
-  background-position: -400px -340px; }
+  background-position: -640px -544px; }
 
 .ep-e[data-index="910"] {
-  background-position: -580px -120px; }
+  background-position: -928px -192px; }
 
 .ep-e[data-index="51"] {
-  background-position: -20px -200px; }
+  background-position: -32px -320px; }
 
 .ep-e[data-index="512"] {
-  background-position: -280px -60px; }
+  background-position: -448px -96px; }
 
 .ep-e[data-index="513"] {
-  background-position: -280px -180px; }
+  background-position: -448px -288px; }
 
 .ep-e[data-index="514"] {
-  background-position: -280px -300px; }
+  background-position: -448px -480px; }
 
 .ep-e[data-index="515"] {
-  background-position: -280px -420px; }
+  background-position: -448px -672px; }
 
 .ep-e[data-index="804"] {
-  background-position: -500px -380px; }
+  background-position: -800px -608px; }
 
 .ep-e[data-index="803"] {
-  background-position: -500px -260px; }
+  background-position: -800px -416px; }
 
 .ep-e[data-index="1006"] {
-  background-position: -640px -180px; }
+  background-position: -1024px -288px; }
 
 .ep-e[data-index="805"] {
-  background-position: -500px -500px; }
+  background-position: -800px -800px; }
 
 .ep-e[data-index="125"] {
-  background-position: -60px -540px; }
+  background-position: -96px -864px; }
 
 .ep-e[data-index="575"] {
-  background-position: -380px -120px; }
+  background-position: -608px -192px; }
 
 .ep-e[data-index="510"] {
-  background-position: -280px -20px; }
+  background-position: -448px -32px; }
 
 .ep-e[data-index="511"] {
-  background-position: -280px -40px; }
+  background-position: -448px -64px; }
 
 .ep-e[data-index="508"] {
-  background-position: -260px -600px; }
+  background-position: -416px -960px; }
 
 .ep-e[data-index="509"] {
-  background-position: -260px -720px; }
+  background-position: -416px -1152px; }
 
 .ep-e[data-index="507"] {
-  background-position: -260px -580px; }
+  background-position: -416px -928px; }
 
 .ep-e[data-index="506"] {
-  background-position: -260px -560px; }
+  background-position: -416px -896px; }
 
 .ep-e[data-index="542"] {
-  background-position: -320px -120px; }
+  background-position: -512px -192px; }
 
 .ep-e[data-index="543"] {
-  background-position: -320px -140px; }
+  background-position: -512px -224px; }
 
 .ep-e[data-index="821"] {
-  background-position: -520px -100px; }
+  background-position: -832px -160px; }
 
 .ep-e[data-index="560"] {
-  background-position: -340px -760px; }
+  background-position: -544px -1216px; }
 
 .ep-e[data-index="544"] {
-  background-position: -320px -160px; }
+  background-position: -512px -256px; }
 
 .ep-e[data-index="545"] {
-  background-position: -320px -280px; }
+  background-position: -512px -448px; }
 
 .ep-e[data-index="546"] {
-  background-position: -320px -400px; }
+  background-position: -512px -640px; }
 
 .ep-e[data-index="547"] {
-  background-position: -320px -520px; }
+  background-position: -512px -832px; }
 
 .ep-e[data-index="555"] {
-  background-position: -340px -160px; }
+  background-position: -544px -256px; }
 
 .ep-e[data-index="558"] {
-  background-position: -340px -520px; }
+  background-position: -544px -832px; }
 
 .ep-e[data-index="559"] {
-  background-position: -340px -640px; }
+  background-position: -544px -1024px; }
 
 .ep-e[data-index="556"] {
-  background-position: -340px -280px; }
+  background-position: -544px -448px; }
 
 .ep-e[data-index="557"] {
-  background-position: -340px -400px; }
+  background-position: -544px -640px; }
 
 .ep-e[data-index="552"] {
-  background-position: -320px -720px; }
+  background-position: -512px -1152px; }
 
 .ep-e[data-index="561"] {
-  background-position: -360px -60px; }
+  background-position: -576px -96px; }
 
 .ep-e[data-index="572"] {
-  background-position: -360px -680px; }
+  background-position: -576px -1088px; }
 
 .ep-e[data-index="793"] {
-  background-position: -480px -780px; }
+  background-position: -768px -1248px; }
 
 .ep-e[data-index="327"] {
-  background-position: -160px -580px; }
+  background-position: -256px -928px; }
 
 .ep-e[data-index="566"] {
-  background-position: -360px -360px; }
+  background-position: -576px -576px; }
 
 .ep-e[data-index="562"] {
-  background-position: -360px -180px; }
+  background-position: -576px -288px; }
 
 .ep-e[data-index="554"] {
-  background-position: -340px -40px; }
+  background-position: -544px -64px; }
 
 .ep-e[data-index="965"] {
-  background-position: -600px -800px; }
+  background-position: -960px -1280px; }
 
 .ep-e[data-index="384"] {
-  background-position: -200px -180px; }
+  background-position: -320px -288px; }
 
 .ep-e[data-index="573"] {
-  background-position: -360px -800px; }
+  background-position: -576px -1280px; }
 
 .ep-e[data-index="553"] {
-  background-position: -340px -20px; }
+  background-position: -544px -32px; }
 
 .ep-e[data-index="549"] {
-  background-position: -320px -660px; }
+  background-position: -512px -1056px; }
 
 .ep-e[data-index="550"] {
-  background-position: -320px -680px; }
+  background-position: -512px -1088px; }
 
 .ep-e[data-index="551"] {
-  background-position: -320px -700px; }
+  background-position: -512px -1120px; }
 
 .ep-e[data-index="902"] {
-  background-position: -560px -280px; }
+  background-position: -896px -448px; }
 
 .ep-e[data-index="571"] {
-  background-position: -360px -560px; }
+  background-position: -576px -896px; }
 
 .ep-e[data-index="900"] {
-  background-position: -560px -40px; }
+  background-position: -896px -64px; }
 
 .ep-e[data-index="901"] {
-  background-position: -560px -160px; }
+  background-position: -896px -256px; }
 
 .ep-e[data-index="906"] {
-  background-position: -560px -460px; }
+  background-position: -896px -736px; }
 
 .ep-e[data-index="909"] {
-  background-position: -580px -0px; }
+  background-position: -928px -0px; }
 
 .ep-e[data-index="908"] {
-  background-position: -560px -700px; }
+  background-position: -896px -1120px; }
 
 .ep-e[data-index="577"] {
-  background-position: -380px -360px; }
+  background-position: -608px -576px; }
 
 .ep-e[data-index="576"] {
-  background-position: -380px -240px; }
+  background-position: -608px -384px; }
 
 .ep-e[data-index="587"] {
-  background-position: -380px -660px; }
+  background-position: -608px -1056px; }
 
 .ep-e[data-index="1298"] {
-  background-position: -780px -380px; }
+  background-position: -1248px -608px; }
 
 .ep-e[data-index="1291"] {
-  background-position: -780px -240px; }
+  background-position: -1248px -384px; }
 
 .ep-e[data-index="585"] {
-  background-position: -380px -620px; }
+  background-position: -608px -992px; }
 
 .ep-e[data-index="1299"] {
-  background-position: -780px -400px; }
+  background-position: -1248px -640px; }
 
 .ep-e[data-index="1292"] {
-  background-position: -780px -260px; }
+  background-position: -1248px -416px; }
 
 .ep-e[data-index="548"] {
-  background-position: -320px -640px; }
+  background-position: -512px -1024px; }
 
 .ep-e[data-index="1288"] {
-  background-position: -780px -180px; }
+  background-position: -1248px -288px; }
 
 .ep-e[data-index="1289"] {
-  background-position: -780px -200px; }
+  background-position: -1248px -320px; }
 
 .ep-e[data-index="1287"] {
-  background-position: -780px -160px; }
+  background-position: -1248px -256px; }
 
 .ep-e[data-index="1290"] {
-  background-position: -780px -220px; }
+  background-position: -1248px -352px; }
 
 .ep-e[data-index="1293"] {
-  background-position: -780px -280px; }
+  background-position: -1248px -448px; }
 
 .ep-e[data-index="1295"] {
-  background-position: -780px -320px; }
+  background-position: -1248px -512px; }
 
 .ep-e[data-index="1296"] {
-  background-position: -780px -340px; }
+  background-position: -1248px -544px; }
 
 .ep-e[data-index="1294"] {
-  background-position: -780px -300px; }
+  background-position: -1248px -480px; }
 
 .ep-e[data-index="1297"] {
-  background-position: -780px -360px; }
+  background-position: -1248px -576px; }
 
 .ep-e[data-index="1282"] {
-  background-position: -780px -60px; }
+  background-position: -1248px -96px; }
 
 .ep-e[data-index="1284"] {
-  background-position: -780px -100px; }
+  background-position: -1248px -160px; }
 
 .ep-e[data-index="1285"] {
-  background-position: -780px -120px; }
+  background-position: -1248px -192px; }
 
 .ep-e[data-index="1283"] {
-  background-position: -780px -80px; }
+  background-position: -1248px -128px; }
 
 .ep-e[data-index="1286"] {
-  background-position: -780px -140px; }
+  background-position: -1248px -224px; }
 
 .ep-e[data-index="532"] {
-  background-position: -300px -740px; }
+  background-position: -480px -1184px; }
 
 .ep-e[data-index="527"] {
-  background-position: -300px -640px; }
+  background-position: -480px -1024px; }
 
 .ep-e[data-index="528"] {
-  background-position: -300px -660px; }
+  background-position: -480px -1056px; }
 
 .ep-e[data-index="526"] {
-  background-position: -300px -620px; }
+  background-position: -480px -992px; }
 
 .ep-e[data-index="529"] {
-  background-position: -300px -680px; }
+  background-position: -480px -1088px; }
 
 .ep-e[data-index="531"] {
-  background-position: -300px -720px; }
+  background-position: -480px -1152px; }
 
 .ep-e[data-index="530"] {
-  background-position: -300px -700px; }
+  background-position: -480px -1120px; }
 
 .ep-e[data-index="574"] {
-  background-position: -380px -100px; }
+  background-position: -608px -160px; }
 
 .ep-e[data-index="581"] {
-  background-position: -380px -540px; }
+  background-position: -608px -864px; }
 
 .ep-e[data-index="541"] {
-  background-position: -320px -100px; }
+  background-position: -512px -160px; }
 
 .ep-e[data-index="538"] {
-  background-position: -320px -40px; }
+  background-position: -512px -64px; }
 
 .ep-e[data-index="539"] {
-  background-position: -320px -60px; }
+  background-position: -512px -96px; }
 
 .ep-e[data-index="540"] {
-  background-position: -320px -80px; }
+  background-position: -512px -128px; }
 
 .ep-e[data-index="536"] {
-  background-position: -320px -0px; }
+  background-position: -512px -0px; }
 
 .ep-e[data-index="537"] {
-  background-position: -320px -20px; }
+  background-position: -512px -32px; }
 
 .ep-e[data-index="524"] {
-  background-position: -300px -580px; }
+  background-position: -480px -928px; }
 
 .ep-e[data-index="358"] {
-  background-position: -180px -480px; }
+  background-position: -288px -768px; }
 
 .ep-e[data-index="102"] {
-  background-position: -40px -500px; }
+  background-position: -64px -800px; }
 
 .ep-e[data-index="341"] {
-  background-position: -180px -140px; }
+  background-position: -288px -224px; }
 
 .ep-e[data-index="523"] {
-  background-position: -300px -560px; }
+  background-position: -480px -896px; }
 
 .ep-e[data-index="340"] {
-  background-position: -180px -120px; }
+  background-position: -288px -192px; }
 
 .ep-e[data-index="535"] {
-  background-position: -300px -800px; }
+  background-position: -480px -1280px; }
 
 .ep-e[data-index="533"] {
-  background-position: -300px -760px; }
+  background-position: -480px -1216px; }
 
 .ep-e[data-index="534"] {
-  background-position: -300px -780px; }
+  background-position: -480px -1248px; }
 
 .ep-e[data-index="630"] {
-  background-position: -400px -800px; }
+  background-position: -640px -1280px; }
 
 .ep-e[data-index="525"] {
-  background-position: -300px -600px; }
+  background-position: -480px -960px; }
 
 .ep-e[data-index="794"] {
-  background-position: -500px -80px; }
+  background-position: -800px -128px; }
 
 .ep-e[data-index="583"] {
-  background-position: -380px -580px; }
+  background-position: -608px -928px; }
 
 .ep-e[data-index="198"] {
-  background-position: -100px -460px; }
+  background-position: -160px -736px; }
 
 .ep-e[data-index="496"] {
-  background-position: -260px -360px; }
+  background-position: -416px -576px; }
 
 .ep-e[data-index="491"] {
-  background-position: -260px -260px; }
+  background-position: -416px -416px; }
 
 .ep-e[data-index="487"] {
-  background-position: -260px -180px; }
+  background-position: -416px -288px; }
 
 .ep-e[data-index="499"] {
-  background-position: -260px -420px; }
+  background-position: -416px -672px; }
 
 .ep-e[data-index="490"] {
-  background-position: -260px -240px; }
+  background-position: -416px -384px; }
 
 .ep-e[data-index="501"] {
-  background-position: -260px -460px; }
+  background-position: -416px -736px; }
 
 .ep-e[data-index="502"] {
-  background-position: -260px -480px; }
+  background-position: -416px -768px; }
 
 .ep-e[data-index="482"] {
-  background-position: -260px -80px; }
+  background-position: -416px -128px; }
 
 .ep-e[data-index="489"] {
-  background-position: -260px -220px; }
+  background-position: -416px -352px; }
 
 .ep-e[data-index="1008"] {
-  background-position: -640px -320px; }
+  background-position: -1024px -512px; }
 
 .ep-e[data-index="488"] {
-  background-position: -260px -200px; }
+  background-position: -416px -320px; }
 
 .ep-e[data-index="497"] {
-  background-position: -260px -380px; }
+  background-position: -416px -608px; }
 
 .ep-e[data-index="503"] {
-  background-position: -260px -500px; }
+  background-position: -416px -800px; }
 
 .ep-e[data-index="498"] {
-  background-position: -260px -400px; }
+  background-position: -416px -640px; }
 
 .ep-e[data-index="467"] {
-  background-position: -240px -600px; }
+  background-position: -384px -960px; }
 
 .ep-e[data-index="495"] {
-  background-position: -260px -340px; }
+  background-position: -416px -544px; }
 
 .ep-e[data-index="903"] {
-  background-position: -560px -400px; }
+  background-position: -896px -640px; }
 
 .ep-e[data-index="904"] {
-  background-position: -560px -420px; }
+  background-position: -896px -672px; }
 
 .ep-e[data-index="905"] {
-  background-position: -560px -440px; }
+  background-position: -896px -704px; }
 
 .ep-e[data-index="460"] {
-  background-position: -240px -460px; }
+  background-position: -384px -736px; }
 
 .ep-e[data-index="462"] {
-  background-position: -240px -500px; }
+  background-position: -384px -800px; }
 
 .ep-e[data-index="481"] {
-  background-position: -260px -60px; }
+  background-position: -416px -96px; }
 
 .ep-e[data-index="480"] {
-  background-position: -260px -40px; }
+  background-position: -416px -64px; }
 
 .ep-e[data-index="478"] {
-  background-position: -260px -0px; }
+  background-position: -416px -0px; }
 
 .ep-e[data-index="477"] {
-  background-position: -240px -800px; }
+  background-position: -384px -1280px; }
 
 .ep-e[data-index="479"] {
-  background-position: -260px -20px; }
+  background-position: -416px -32px; }
 
 .ep-e[data-index="500"] {
-  background-position: -260px -440px; }
+  background-position: -416px -704px; }
 
 .ep-e[data-index="465"] {
-  background-position: -240px -560px; }
+  background-position: -384px -896px; }
 
 .ep-e[data-index="494"] {
-  background-position: -260px -320px; }
+  background-position: -416px -512px; }
 
 .ep-e[data-index="1011"] {
-  background-position: -640px -380px; }
+  background-position: -1024px -608px; }
 
 .ep-e[data-index="471"] {
-  background-position: -240px -680px; }
+  background-position: -384px -1088px; }
 
 .ep-e[data-index="469"] {
-  background-position: -240px -640px; }
+  background-position: -384px -1024px; }
 
 .ep-e[data-index="454"] {
-  background-position: -240px -340px; }
+  background-position: -384px -544px; }
 
 .ep-e[data-index="472"] {
-  background-position: -240px -700px; }
+  background-position: -384px -1120px; }
 
 .ep-e[data-index="470"] {
-  background-position: -240px -660px; }
+  background-position: -384px -1056px; }
 
 .ep-e[data-index="795"] {
-  background-position: -500px -100px; }
+  background-position: -800px -160px; }
 
 .ep-e[data-index="1009"] {
-  background-position: -640px -340px; }
+  background-position: -1024px -544px; }
 
 .ep-e[data-index="1007"] {
-  background-position: -640px -300px; }
+  background-position: -1024px -480px; }
 
 .ep-e[data-index="455"] {
-  background-position: -240px -360px; }
+  background-position: -384px -576px; }
 
 .ep-e[data-index="476"] {
-  background-position: -240px -780px; }
+  background-position: -384px -1248px; }
 
 .ep-e[data-index="474"] {
-  background-position: -240px -740px; }
+  background-position: -384px -1184px; }
 
 .ep-e[data-index="473"] {
-  background-position: -240px -720px; }
+  background-position: -384px -1152px; }
 
 .ep-e[data-index="475"] {
-  background-position: -240px -760px; }
+  background-position: -384px -1216px; }
 
 .ep-e[data-index="486"] {
-  background-position: -260px -160px; }
+  background-position: -416px -256px; }
 
 .ep-e[data-index="493"] {
-  background-position: -260px -300px; }
+  background-position: -416px -480px; }
 
 .ep-e[data-index="453"] {
-  background-position: -240px -320px; }
+  background-position: -384px -512px; }
 
 .ep-e[data-index="452"] {
-  background-position: -240px -300px; }
+  background-position: -384px -480px; }
 
 .ep-e[data-index="448"] {
-  background-position: -240px -220px; }
+  background-position: -384px -352px; }
 
 .ep-e[data-index="447"] {
-  background-position: -240px -200px; }
+  background-position: -384px -320px; }
 
 .ep-e[data-index="445"] {
-  background-position: -240px -160px; }
+  background-position: -384px -256px; }
 
 .ep-e[data-index="444"] {
-  background-position: -240px -140px; }
+  background-position: -384px -224px; }
 
 .ep-e[data-index="446"] {
-  background-position: -240px -180px; }
+  background-position: -384px -288px; }
 
 .ep-e[data-index="484"] {
-  background-position: -260px -120px; }
+  background-position: -416px -192px; }
 
 .ep-e[data-index="485"] {
-  background-position: -260px -140px; }
+  background-position: -416px -224px; }
 
 .ep-e[data-index="466"] {
-  background-position: -240px -580px; }
+  background-position: -384px -928px; }
 
 .ep-e[data-index="458"] {
-  background-position: -240px -420px; }
+  background-position: -384px -672px; }
 
 .ep-e[data-index="457"] {
-  background-position: -240px -400px; }
+  background-position: -384px -640px; }
 
 .ep-e[data-index="459"] {
-  background-position: -240px -440px; }
+  background-position: -384px -704px; }
 
 .ep-e[data-index="456"] {
-  background-position: -240px -380px; }
+  background-position: -384px -608px; }
 
 .ep-e[data-index="464"] {
-  background-position: -240px -540px; }
+  background-position: -384px -864px; }
 
 .ep-e[data-index="442"] {
-  background-position: -240px -100px; }
+  background-position: -384px -160px; }
 
 .ep-e[data-index="443"] {
-  background-position: -240px -120px; }
+  background-position: -384px -192px; }
 
 .ep-e[data-index="461"] {
-  background-position: -240px -480px; }
+  background-position: -384px -768px; }
 
 .ep-e[data-index="1010"] {
-  background-position: -640px -360px; }
+  background-position: -1024px -576px; }
 
 .ep-e[data-index="760"] {
-  background-position: -480px -120px; }
+  background-position: -768px -192px; }
 
 .ep-e[data-index="463"] {
-  background-position: -240px -520px; }
+  background-position: -384px -832px; }
 
 .ep-e[data-index="483"] {
-  background-position: -260px -100px; }
+  background-position: -416px -160px; }
 
 .ep-e[data-index="450"] {
-  background-position: -240px -260px; }
+  background-position: -384px -416px; }
 
 .ep-e[data-index="449"] {
-  background-position: -240px -240px; }
+  background-position: -384px -384px; }
 
 .ep-e[data-index="505"] {
-  background-position: -260px -540px; }
+  background-position: -416px -864px; }
 
 .ep-e[data-index="504"] {
-  background-position: -260px -520px; }
+  background-position: -416px -832px; }
 
 .ep-e[data-index="451"] {
-  background-position: -240px -280px; }
+  background-position: -384px -448px; }
 
 .ep-e[data-index="492"] {
-  background-position: -260px -280px; }
+  background-position: -416px -448px; }
 
 .ep-e[data-index="247"] {
-  background-position: -120px -620px; }
+  background-position: -192px -992px; }
 
 .ep-e[data-index="326"] {
-  background-position: -160px -560px; }
+  background-position: -256px -896px; }
 
 .ep-e[data-index="244"] {
-  background-position: -120px -560px; }
+  background-position: -192px -896px; }
 
 .ep-e[data-index="245"] {
-  background-position: -120px -580px; }
+  background-position: -192px -928px; }
 
 .ep-e[data-index="246"] {
-  background-position: -120px -600px; }
+  background-position: -192px -960px; }
 
 .ep-e[data-index="243"] {
-  background-position: -120px -540px; }
+  background-position: -192px -864px; }
 
 .ep-e[data-index="257"] {
-  background-position: -140px -0px; }
+  background-position: -224px -0px; }
 
 .ep-e[data-index="50"] {
-  background-position: -20px -180px; }
+  background-position: -32px -288px; }
 
 .ep-e[data-index="258"] {
-  background-position: -140px -20px; }
+  background-position: -224px -32px; }
 
 .ep-e[data-index="335"] {
-  background-position: -180px -20px; }
+  background-position: -288px -32px; }
 
 .ep-e[data-index="333"] {
-  background-position: -160px -800px; }
+  background-position: -256px -1280px; }
 
 .ep-e[data-index="261"] {
-  background-position: -140px -80px; }
+  background-position: -224px -128px; }
 
 .ep-e[data-index="260"] {
-  background-position: -140px -60px; }
+  background-position: -224px -96px; }
 
 .ep-e[data-index="259"] {
-  background-position: -140px -40px; }
+  background-position: -224px -64px; }
 
 .ep-e[data-index="256"] {
-  background-position: -120px -800px; }
+  background-position: -192px -1280px; }
 
 .ep-e[data-index="252"] {
-  background-position: -120px -720px; }
+  background-position: -192px -1152px; }
 
 .ep-e[data-index="253"] {
-  background-position: -120px -740px; }
+  background-position: -192px -1184px; }
 
 .ep-e[data-index="251"] {
-  background-position: -120px -700px; }
+  background-position: -192px -1120px; }
 
 .ep-e[data-index="249"] {
-  background-position: -120px -660px; }
+  background-position: -192px -1056px; }
 
 .ep-e[data-index="254"] {
-  background-position: -120px -760px; }
+  background-position: -192px -1216px; }
 
 .ep-e[data-index="250"] {
-  background-position: -120px -680px; }
+  background-position: -192px -1088px; }
 
 .ep-e[data-index="586"] {
-  background-position: -380px -640px; }
+  background-position: -608px -1024px; }
 
 .ep-e[data-index="262"] {
-  background-position: -140px -100px; }
+  background-position: -224px -160px; }
 
 .ep-e[data-index="242"] {
-  background-position: -120px -520px; }
+  background-position: -192px -832px; }
 
 .ep-e[data-index="325"] {
-  background-position: -160px -540px; }
+  background-position: -256px -864px; }
 
 .ep-e[data-index="468"] {
-  background-position: -240px -620px; }
+  background-position: -384px -992px; }
 
 .ep-e[data-index="796"] {
-  background-position: -500px -120px; }
+  background-position: -800px -192px; }
 
 .ep-e[data-index="210"] {
-  background-position: -100px -700px; }
+  background-position: -160px -1120px; }
 
 .ep-e[data-index="209"] {
-  background-position: -100px -680px; }
+  background-position: -160px -1088px; }
 
 .ep-e[data-index="211"] {
-  background-position: -100px -720px; }
+  background-position: -160px -1152px; }
 
 .ep-e[data-index="217"] {
-  background-position: -120px -20px; }
+  background-position: -192px -32px; }
 
 .ep-e[data-index="218"] {
-  background-position: -120px -40px; }
+  background-position: -192px -64px; }
 
 .ep-e[data-index="219"] {
-  background-position: -120px -60px; }
+  background-position: -192px -96px; }
 
 .ep-e[data-index="220"] {
-  background-position: -120px -80px; }
+  background-position: -192px -128px; }
 
 .ep-e[data-index="213"] {
-  background-position: -100px -760px; }
+  background-position: -160px -1216px; }
 
 .ep-e[data-index="214"] {
-  background-position: -100px -780px; }
+  background-position: -160px -1248px; }
 
 .ep-e[data-index="215"] {
-  background-position: -100px -800px; }
+  background-position: -160px -1280px; }
 
 .ep-e[data-index="216"] {
-  background-position: -120px -0px; }
+  background-position: -192px -0px; }
 
 .ep-e[data-index="222"] {
-  background-position: -120px -120px; }
+  background-position: -192px -192px; }
 
 .ep-e[data-index="225"] {
-  background-position: -120px -180px; }
+  background-position: -192px -288px; }
 
 .ep-e[data-index="223"] {
-  background-position: -120px -140px; }
+  background-position: -192px -224px; }
 
 .ep-e[data-index="224"] {
-  background-position: -120px -160px; }
+  background-position: -192px -256px; }
 
 .ep-e[data-index="226"] {
-  background-position: -120px -200px; }
+  background-position: -192px -320px; }
 
 .ep-e[data-index="221"] {
-  background-position: -120px -100px; }
+  background-position: -192px -160px; }
 
 .ep-e[data-index="158"] {
-  background-position: -80px -480px; }
+  background-position: -128px -768px; }
 
 .ep-e[data-index="227"] {
-  background-position: -120px -220px; }
+  background-position: -192px -352px; }
 
 .ep-e[data-index="613"] {
-  background-position: -400px -460px; }
+  background-position: -640px -736px; }
 
 .ep-e[data-index="132"] {
-  background-position: -60px -780px; }
+  background-position: -96px -1248px; }
 
 .ep-e[data-index="45"] {
-  background-position: -20px -80px; }
+  background-position: -32px -128px; }
 
 .ep-e[data-index="41"] {
-  background-position: -20px -0px; }
+  background-position: -32px -0px; }
 
 .ep-e[data-index="230"] {
-  background-position: -120px -280px; }
+  background-position: -192px -448px; }
 
 .ep-e[data-index="98"] {
-  background-position: -40px -420px; }
+  background-position: -64px -672px; }
 
 .ep-e[data-index="231"] {
-  background-position: -120px -300px; }
+  background-position: -192px -480px; }
 
 .ep-e[data-index="232"] {
-  background-position: -120px -320px; }
+  background-position: -192px -512px; }
 
 .ep-e[data-index="42"] {
-  background-position: -20px -20px; }
+  background-position: -32px -32px; }
 
 .ep-e[data-index="233"] {
-  background-position: -120px -340px; }
+  background-position: -192px -544px; }
 
 .ep-e[data-index="99"] {
-  background-position: -40px -440px; }
+  background-position: -64px -704px; }
 
 .ep-e[data-index="235"] {
-  background-position: -120px -380px; }
+  background-position: -192px -608px; }
 
 .ep-e[data-index="90"] {
-  background-position: -40px -260px; }
+  background-position: -64px -416px; }
 
 .ep-e[data-index="734"] {
-  background-position: -460px -420px; }
+  background-position: -736px -672px; }
 
 .ep-e[data-index="607"] {
-  background-position: -400px -240px; }
+  background-position: -640px -384px; }
 
 .ep-e[data-index="135"] {
-  background-position: -80px -20px; }
+  background-position: -128px -32px; }
 
 .ep-e[data-index="234"] {
-  background-position: -120px -360px; }
+  background-position: -192px -576px; }
 
 .ep-e[data-index="44"] {
-  background-position: -20px -60px; }
+  background-position: -32px -96px; }
 
 .ep-e[data-index="97"] {
-  background-position: -40px -400px; }
+  background-position: -64px -640px; }
 
 .ep-e[data-index="238"] {
-  background-position: -120px -440px; }
+  background-position: -192px -704px; }
 
 .ep-e[data-index="610"] {
-  background-position: -400px -300px; }
-
-.ep-e[data-index="236"] {
-  background-position: -120px -400px; }
-
-.ep-e[data-index="237"] {
-  background-position: -120px -420px; }
-
-.ep-e[data-index="43"] {
-  background-position: -20px -40px; }
-
-.ep-e[data-index="48"] {
-  background-position: -20px -140px; }
-
-.ep-e[data-index="609"] {
-  background-position: -400px -280px; }
-
-.ep-e[data-index="608"] {
-  background-position: -400px -260px; }
-
-.ep-e[data-index="206"] {
-  background-position: -100px -620px; }
-
-.ep-e[data-index="273"] {
-  background-position: -140px -320px; }
-
-.ep-e[data-index="272"] {
-  background-position: -140px -300px; }
-
-.ep-e[data-index="274"] {
-  background-position: -140px -340px; }
-
-.ep-e[data-index="268"] {
-  background-position: -140px -220px; }
-
-.ep-e[data-index="269"] {
-  background-position: -140px -240px; }
-
-.ep-e[data-index="270"] {
-  background-position: -140px -260px; }
-
-.ep-e[data-index="267"] {
-  background-position: -140px -200px; }
-
-.ep-e[data-index="265"] {
-  background-position: -140px -160px; }
-
-.ep-e[data-index="277"] {
-  background-position: -140px -400px; }
-
-.ep-e[data-index="266"] {
-  background-position: -140px -180px; }
-
-.ep-e[data-index="276"] {
-  background-position: -140px -380px; }
-
-.ep-e[data-index="275"] {
-  background-position: -140px -360px; }
-
-.ep-e[data-index="271"] {
-  background-position: -140px -280px; }
-
-.ep-e[data-index="263"] {
-  background-position: -140px -120px; }
-
-.ep-e[data-index="264"] {
-  background-position: -140px -140px; }
-
-.ep-e[data-index="248"] {
-  background-position: -120px -640px; }
-
-.ep-e[data-index="255"] {
-  background-position: -120px -780px; }
-
-.ep-e[data-index="290"] {
-  background-position: -140px -660px; }
-
-.ep-e[data-index="305"] {
-  background-position: -160px -140px; }
-
-.ep-e[data-index="288"] {
-  background-position: -140px -620px; }
-
-.ep-e[data-index="1012"] {
-  background-position: -640px -400px; }
-
-.ep-e[data-index="281"] {
-  background-position: -140px -480px; }
-
-.ep-e[data-index="280"] {
-  background-position: -140px -460px; }
-
-.ep-e[data-index="294"] {
-  background-position: -140px -740px; }
-
-.ep-e[data-index="309"] {
-  background-position: -160px -220px; }
-
-.ep-e[data-index="278"] {
-  background-position: -140px -420px; }
-
-.ep-e[data-index="289"] {
-  background-position: -140px -640px; }
-
-.ep-e[data-index="239"] {
-  background-position: -120px -460px; }
-
-.ep-e[data-index="279"] {
-  background-position: -140px -440px; }
-
-.ep-e[data-index="287"] {
-  background-position: -140px -600px; }
-
-.ep-e[data-index="240"] {
-  background-position: -120px -480px; }
-
-.ep-e[data-index="241"] {
-  background-position: -120px -500px; }
-
-.ep-e[data-index="286"] {
-  background-position: -140px -580px; }
-
-.ep-e[data-index="308"] {
-  background-position: -160px -200px; }
-
-.ep-e[data-index="295"] {
-  background-position: -140px -760px; }
-
-.ep-e[data-index="293"] {
-  background-position: -140px -720px; }
-
-.ep-e[data-index="307"] {
-  background-position: -160px -180px; }
-
-.ep-e[data-index="285"] {
-  background-position: -140px -560px; }
-
-.ep-e[data-index="283"] {
-  background-position: -140px -520px; }
-
-.ep-e[data-index="284"] {
-  background-position: -140px -540px; }
-
-.ep-e[data-index="282"] {
-  background-position: -140px -500px; }
-
-.ep-e[data-index="292"] {
-  background-position: -140px -700px; }
-
-.ep-e[data-index="291"] {
-  background-position: -140px -680px; }
-
-.ep-e[data-index="297"] {
-  background-position: -140px -800px; }
-
-.ep-e[data-index="298"] {
-  background-position: -160px -0px; }
-
-.ep-e[data-index="296"] {
-  background-position: -140px -780px; }
-
-.ep-e[data-index="306"] {
-  background-position: -160px -160px; }
-
-.ep-e[data-index="324"] {
-  background-position: -160px -520px; }
-
-.ep-e[data-index="304"] {
-  background-position: -160px -120px; }
-
-.ep-e[data-index="302"] {
-  background-position: -160px -80px; }
-
-.ep-e[data-index="303"] {
-  background-position: -160px -100px; }
-
-.ep-e[data-index="301"] {
-  background-position: -160px -60px; }
-
-.ep-e[data-index="321"] {
-  background-position: -160px -460px; }
-
-.ep-e[data-index="299"] {
-  background-position: -160px -20px; }
-
-.ep-e[data-index="300"] {
-  background-position: -160px -40px; }
-
-.ep-e[data-index="316"] {
-  background-position: -160px -360px; }
-
-.ep-e[data-index="317"] {
-  background-position: -160px -380px; }
-
-.ep-e[data-index="313"] {
-  background-position: -160px -300px; }
-
-.ep-e[data-index="314"] {
-  background-position: -160px -320px; }
-
-.ep-e[data-index="315"] {
-  background-position: -160px -340px; }
-
-.ep-e[data-index="320"] {
-  background-position: -160px -440px; }
-
-.ep-e[data-index="312"] {
-  background-position: -160px -280px; }
-
-.ep-e[data-index="311"] {
-  background-position: -160px -260px; }
-
-.ep-e[data-index="49"] {
-  background-position: -20px -160px; }
-
-.ep-e[data-index="318"] {
-  background-position: -160px -400px; }
-
-.ep-e[data-index="310"] {
-  background-position: -160px -240px; }
-
-.ep-e[data-index="319"] {
-  background-position: -160px -420px; }
-
-.ep-e[data-index="95"] {
-  background-position: -40px -360px; }
-
-.ep-e[data-index="381"] {
-  background-position: -200px -120px; }
-
-.ep-e[data-index="389"] {
-  background-position: -200px -480px; }
-
-.ep-e[data-index="96"] {
-  background-position: -40px -380px; }
-
-.ep-e[data-index="379"] {
-  background-position: -200px -80px; }
-
-.ep-e[data-index="397"] {
-  background-position: -220px -20px; }
-
-.ep-e[data-index="390"] {
-  background-position: -200px -500px; }
-
-.ep-e[data-index="366"] {
-  background-position: -180px -640px; }
-
-.ep-e[data-index="110"] {
-  background-position: -40px -660px; }
-
-.ep-e[data-index="393"] {
-  background-position: -200px -760px; }
-
-.ep-e[data-index="400"] {
-  background-position: -220px -80px; }
-
-.ep-e[data-index="434"] {
-  background-position: -220px -760px; }
-
-.ep-e[data-index="399"] {
-  background-position: -220px -60px; }
-
-.ep-e[data-index="398"] {
-  background-position: -220px -40px; }
-
-.ep-e[data-index="396"] {
-  background-position: -220px -0px; }
-
-.ep-e[data-index="380"] {
-  background-position: -200px -100px; }
-
-.ep-e[data-index="113"] {
-  background-position: -40px -720px; }
-
-.ep-e[data-index="383"] {
-  background-position: -200px -160px; }
-
-.ep-e[data-index="114"] {
-  background-position: -40px -740px; }
-
-.ep-e[data-index="435"] {
-  background-position: -220px -780px; }
-
-.ep-e[data-index="352"] {
-  background-position: -180px -360px; }
-
-.ep-e[data-index="946"] {
-  background-position: -600px -120px; }
-
-.ep-e[data-index="391"] {
-  background-position: -200px -520px; }
-
-.ep-e[data-index="385"] {
-  background-position: -200px -300px; }
-
-.ep-e[data-index="975"] {
-  background-position: -620px -280px; }
-
-.ep-e[data-index="115"] {
-  background-position: -40px -760px; }
-
-.ep-e[data-index="392"] {
-  background-position: -200px -640px; }
-
-.ep-e[data-index="963"] {
-  background-position: -600px -560px; }
-
-.ep-e[data-index="964"] {
-  background-position: -600px -680px; }
-
-.ep-e[data-index="388"] {
-  background-position: -200px -460px; }
-
-.ep-e[data-index="792"] {
-  background-position: -480px -760px; }
-
-.ep-e[data-index="387"] {
-  background-position: -200px -440px; }
-
-.ep-e[data-index="378"] {
-  background-position: -200px -60px; }
-
-.ep-e[data-index="386"] {
-  background-position: -200px -420px; }
-
-.ep-e[data-index="342"] {
-  background-position: -180px -160px; }
-
-.ep-e[data-index="343"] {
-  background-position: -180px -180px; }
-
-.ep-e[data-index="432"] {
-  background-position: -220px -720px; }
-
-.ep-e[data-index="360"] {
-  background-position: -180px -520px; }
-
-.ep-e[data-index="348"] {
-  background-position: -180px -280px; }
-
-.ep-e[data-index="362"] {
-  background-position: -180px -560px; }
-
-.ep-e[data-index="357"] {
-  background-position: -180px -460px; }
-
-.ep-e[data-index="359"] {
-  background-position: -180px -500px; }
-
-.ep-e[data-index="353"] {
-  background-position: -180px -380px; }
-
-.ep-e[data-index="356"] {
-  background-position: -180px -440px; }
-
-.ep-e[data-index="377"] {
-  background-position: -200px -40px; }
-
-.ep-e[data-index="374"] {
-  background-position: -180px -800px; }
-
-.ep-e[data-index="372"] {
-  background-position: -180px -760px; }
-
-.ep-e[data-index="375"] {
-  background-position: -200px -0px; }
-
-.ep-e[data-index="373"] {
-  background-position: -180px -780px; }
-
-.ep-e[data-index="376"] {
-  background-position: -200px -20px; }
-
-.ep-e[data-index="361"] {
-  background-position: -180px -540px; }
-
-.ep-e[data-index="363"] {
-  background-position: -180px -580px; }
-
-.ep-e[data-index="568"] {
-  background-position: -360px -500px; }
-
-.ep-e[data-index="364"] {
-  background-position: -180px -600px; }
-
-.ep-e[data-index="367"] {
-  background-position: -180px -660px; }
-
-.ep-e[data-index="365"] {
-  background-position: -180px -620px; }
-
-.ep-e[data-index="368"] {
-  background-position: -180px -680px; }
-
-.ep-e[data-index="934"] {
-  background-position: -580px -700px; }
-
-.ep-e[data-index="932"] {
-  background-position: -580px -660px; }
-
-.ep-e[data-index="936"] {
-  background-position: -580px -740px; }
-
-.ep-e[data-index="923"] {
-  background-position: -580px -480px; }
-
-.ep-e[data-index="925"] {
-  background-position: -580px -520px; }
-
-.ep-e[data-index="395"] {
-  background-position: -200px -800px; }
-
-.ep-e[data-index="930"] {
-  background-position: -580px -620px; }
-
-.ep-e[data-index="928"] {
-  background-position: -580px -580px; }
-
-.ep-e[data-index="929"] {
-  background-position: -580px -600px; }
-
-.ep-e[data-index="927"] {
-  background-position: -580px -560px; }
-
-.ep-e[data-index="937"] {
-  background-position: -580px -760px; }
-
-.ep-e[data-index="938"] {
-  background-position: -580px -780px; }
-
-.ep-e[data-index="939"] {
-  background-position: -580px -800px; }
-
-.ep-e[data-index="394"] {
-  background-position: -200px -780px; }
-
-.ep-e[data-index="961"] {
-  background-position: -600px -520px; }
-
-.ep-e[data-index="951"] {
-  background-position: -600px -320px; }
-
-.ep-e[data-index="931"] {
-  background-position: -580px -640px; }
-
-.ep-e[data-index="924"] {
-  background-position: -580px -500px; }
-
-.ep-e[data-index="935"] {
-  background-position: -580px -720px; }
-
-.ep-e[data-index="933"] {
-  background-position: -580px -680px; }
-
-.ep-e[data-index="944"] {
-  background-position: -600px -80px; }
-
-.ep-e[data-index="943"] {
-  background-position: -600px -60px; }
-
-.ep-e[data-index="942"] {
-  background-position: -600px -40px; }
-
-.ep-e[data-index="914"] {
-  background-position: -580px -300px; }
-
-.ep-e[data-index="922"] {
-  background-position: -580px -460px; }
-
-.ep-e[data-index="940"] {
-  background-position: -600px -0px; }
-
-.ep-e[data-index="915"] {
-  background-position: -580px -320px; }
-
-.ep-e[data-index="916"] {
-  background-position: -580px -340px; }
-
-.ep-e[data-index="919"] {
-  background-position: -580px -400px; }
-
-.ep-e[data-index="941"] {
-  background-position: -600px -20px; }
-
-.ep-e[data-index="913"] {
-  background-position: -580px -280px; }
-
-.ep-e[data-index="917"] {
-  background-position: -580px -360px; }
-
-.ep-e[data-index="918"] {
-  background-position: -580px -380px; }
-
-.ep-e[data-index="921"] {
-  background-position: -580px -440px; }
-
-.ep-e[data-index="920"] {
-  background-position: -580px -420px; }
-
-.ep-e[data-index="912"] {
-  background-position: -580px -260px; }
-
-.ep-e[data-index="993"] {
-  background-position: -620px -740px; }
-
-.ep-e[data-index="120"] {
-  background-position: -60px -140px; }
-
-.ep-e[data-index="994"] {
-  background-position: -620px -760px; }
-
-.ep-e[data-index="995"] {
-  background-position: -620px -780px; }
-
-.ep-e[data-index="112"] {
-  background-position: -40px -700px; }
-
-.ep-e[data-index="992"] {
-  background-position: -620px -720px; }
-
-.ep-e[data-index="947"] {
-  background-position: -600px -240px; }
-
-.ep-e[data-index="111"] {
-  background-position: -40px -680px; }
-
-.ep-e[data-index="997"] {
-  background-position: -640px -0px; }
-
-.ep-e[data-index="911"] {
-  background-position: -580px -240px; }
-
-.ep-e[data-index="996"] {
-  background-position: -620px -800px; }
-
-.ep-e[data-index="628"] {
-  background-position: -400px -760px; }
-
-.ep-e[data-index="82"] {
-  background-position: -40px -100px; }
-
-.ep-e[data-index="950"] {
-  background-position: -600px -300px; }
-
-.ep-e[data-index="117"] {
-  background-position: -60px -80px; }
-
-.ep-e[data-index="926"] {
-  background-position: -580px -540px; }
-
-.ep-e[data-index="949"] {
-  background-position: -600px -280px; }
-
-.ep-e[data-index="948"] {
-  background-position: -600px -260px; }
-
-.ep-e[data-index="382"] {
-  background-position: -200px -140px; }
-
-.ep-e[data-index="945"] {
-  background-position: -600px -100px; }
-
-.ep-e[data-index="350"] {
-  background-position: -180px -320px; }
-
-.ep-e[data-index="351"] {
-  background-position: -180px -340px; }
-
-.ep-e[data-index="349"] {
-  background-position: -180px -300px; }
-
-.ep-e[data-index="404"] {
-  background-position: -220px -160px; }
-
-.ep-e[data-index="197"] {
-  background-position: -100px -440px; }
-
-.ep-e[data-index="827"] {
-  background-position: -520px -220px; }
-
-.ep-e[data-index="426"] {
-  background-position: -220px -600px; }
-
-.ep-e[data-index="109"] {
-  background-position: -40px -640px; }
-
-.ep-e[data-index="339"] {
-  background-position: -180px -100px; }
-
-.ep-e[data-index="107"] {
-  background-position: -40px -600px; }
-
-.ep-e[data-index="401"] {
-  background-position: -220px -100px; }
-
-.ep-e[data-index="826"] {
-  background-position: -520px -200px; }
-
-.ep-e[data-index="207"] {
-  background-position: -100px -640px; }
-
-.ep-e[data-index="829"] {
-  background-position: -520px -260px; }
-
-.ep-e[data-index="402"] {
-  background-position: -220px -120px; }
-
-.ep-e[data-index="116"] {
-  background-position: -60px -60px; }
-
-.ep-e[data-index="411"] {
-  background-position: -220px -300px; }
-
-.ep-e[data-index="990"] {
-  background-position: -620px -680px; }
-
-.ep-e[data-index="991"] {
-  background-position: -620px -700px; }
-
-.ep-e[data-index="201"] {
-  background-position: -100px -520px; }
-
-.ep-e[data-index="200"] {
-  background-position: -100px -500px; }
-
-.ep-e[data-index="409"] {
-  background-position: -220px -260px; }
-
-.ep-e[data-index="403"] {
-  background-position: -220px -140px; }
-
-.ep-e[data-index="410"] {
-  background-position: -220px -280px; }
-
-.ep-e[data-index="203"] {
-  background-position: -100px -560px; }
-
-.ep-e[data-index="202"] {
-  background-position: -100px -540px; }
-
-.ep-e[data-index="406"] {
-  background-position: -220px -200px; }
-
-.ep-e[data-index="199"] {
-  background-position: -100px -480px; }
-
-.ep-e[data-index="205"] {
-  background-position: -100px -600px; }
-
-.ep-e[data-index="208"] {
-  background-position: -100px -660px; }
-
-.ep-e[data-index="228"] {
-  background-position: -120px -240px; }
-
-.ep-e[data-index="329"] {
-  background-position: -160px -720px; }
-
-.ep-e[data-index="328"] {
-  background-position: -160px -700px; }
-
-.ep-e[data-index="204"] {
-  background-position: -100px -580px; }
-
-.ep-e[data-index="405"] {
-  background-position: -220px -180px; }
-
-.ep-e[data-index="429"] {
-  background-position: -220px -660px; }
-
-.ep-e[data-index="428"] {
-  background-position: -220px -640px; }
-
-.ep-e[data-index="412"] {
-  background-position: -220px -320px; }
-
-.ep-e[data-index="828"] {
-  background-position: -520px -240px; }
-
-.ep-e[data-index="413"] {
-  background-position: -220px -340px; }
-
-.ep-e[data-index="414"] {
-  background-position: -220px -360px; }
-
-.ep-e[data-index="407"] {
-  background-position: -220px -220px; }
-
-.ep-e[data-index="415"] {
-  background-position: -220px -380px; }
-
-.ep-e[data-index="425"] {
-  background-position: -220px -580px; }
-
-.ep-e[data-index="416"] {
-  background-position: -220px -400px; }
-
-.ep-e[data-index="417"] {
-  background-position: -220px -420px; }
-
-.ep-e[data-index="418"] {
-  background-position: -220px -440px; }
-
-.ep-e[data-index="419"] {
-  background-position: -220px -460px; }
-
-.ep-e[data-index="421"] {
-  background-position: -220px -500px; }
-
-.ep-e[data-index="423"] {
-  background-position: -220px -540px; }
-
-.ep-e[data-index="424"] {
-  background-position: -220px -560px; }
-
-.ep-e[data-index="422"] {
-  background-position: -220px -520px; }
-
-.ep-e[data-index="588"] {
-  background-position: -380px -680px; }
-
-.ep-e[data-index="408"] {
-  background-position: -220px -240px; }
-
-.ep-e[data-index="106"] {
-  background-position: -40px -580px; }
-
-.ep-e[data-index="762"] {
-  background-position: -480px -160px; }
-
-.ep-e[data-index="763"] {
-  background-position: -480px -180px; }
-
-.ep-e[data-index="761"] {
-  background-position: -480px -140px; }
-
-.ep-e[data-index="105"] {
-  background-position: -40px -560px; }
-
-.ep-e[data-index="14"] {
-  background-position: -0px -280px; }
-
-.ep-e[data-index="683"] {
-  background-position: -440px -220px; }
-
-.ep-e[data-index="684"] {
-  background-position: -440px -240px; }
-
-.ep-e[data-index="629"] {
-  background-position: -400px -780px; }
-
-.ep-e[data-index="16"] {
-  background-position: -0px -320px; }
-
-.ep-e[data-index="806"] {
-  background-position: -500px -620px; }
-
-.ep-e[data-index="807"] {
-  background-position: -500px -640px; }
-
-.ep-e[data-index="808"] {
-  background-position: -500px -660px; }
-
-.ep-e[data-index="809"] {
-  background-position: -500px -680px; }
-
-.ep-e[data-index="797"] {
-  background-position: -500px -140px; }
-
-.ep-e[data-index="817"] {
-  background-position: -520px -20px; }
-
-.ep-e[data-index="631"] {
-  background-position: -420px -0px; }
-
-.ep-e[data-index="632"] {
-  background-position: -420px -20px; }
-
-.ep-e[data-index="633"] {
-  background-position: -420px -40px; }
-
-.ep-e[data-index="634"] {
-  background-position: -420px -60px; }
-
-.ep-e[data-index="694"] {
-  background-position: -440px -440px; }
-
-.ep-e[data-index="689"] {
-  background-position: -440px -340px; }
-
-.ep-e[data-index="690"] {
-  background-position: -440px -360px; }
-
-.ep-e[data-index="691"] {
-  background-position: -440px -380px; }
-
-.ep-e[data-index="354"] {
-  background-position: -180px -400px; }
-
-.ep-e[data-index="695"] {
-  background-position: -440px -460px; }
-
-.ep-e[data-index="347"] {
-  background-position: -180px -260px; }
-
-.ep-e[data-index="664"] {
-  background-position: -420px -660px; }
-
-.ep-e[data-index="46"] {
-  background-position: -20px -100px; }
-
-.ep-e[data-index="665"] {
-  background-position: -420px -680px; }
-
-.ep-e[data-index="666"] {
-  background-position: -420px -700px; }
-
-.ep-e[data-index="692"] {
-  background-position: -440px -400px; }
-
-.ep-e[data-index="693"] {
-  background-position: -440px -420px; }
-
-.ep-e[data-index="344"] {
-  background-position: -180px -200px; }
-
-.ep-e[data-index="345"] {
-  background-position: -180px -220px; }
-
-.ep-e[data-index="346"] {
-  background-position: -180px -240px; }
-
-.ep-e[data-index="26"] {
-  background-position: -0px -520px; }
-
-.ep-e[data-index="27"] {
-  background-position: -0px -540px; }
-
-.ep-e[data-index="25"] {
-  background-position: -0px -500px; }
-
-.ep-e[data-index="790"] {
-  background-position: -480px -720px; }
-
-.ep-e[data-index="28"] {
-  background-position: -0px -560px; }
-
-.ep-e[data-index="15"] {
-  background-position: -0px -300px; }
-
-.ep-e[data-index="667"] {
-  background-position: -420px -720px; }
-
-.ep-e[data-index="708"] {
-  background-position: -440px -720px; }
-
-.ep-e[data-index="709"] {
-  background-position: -440px -740px; }
-
-.ep-e[data-index="603"] {
-  background-position: -400px -160px; }
-
-.ep-e[data-index="735"] {
-  background-position: -460px -440px; }
-
-.ep-e[data-index="789"] {
-  background-position: -480px -700px; }
-
-.ep-e[data-index="814"] {
-  background-position: -500px -780px; }
-
-.ep-e[data-index="989"] {
-  background-position: -620px -660px; }
-
-.ep-e[data-index="626"] {
-  background-position: -400px -720px; }
-
-.ep-e[data-index="623"] {
-  background-position: -400px -660px; }
-
-.ep-e[data-index="622"] {
-  background-position: -400px -640px; }
-
-.ep-e[data-index="624"] {
-  background-position: -400px -680px; }
-
-.ep-e[data-index="625"] {
-  background-position: -400px -700px; }
-
-.ep-e[data-index="618"] {
-  background-position: -400px -560px; }
-
-.ep-e[data-index="621"] {
-  background-position: -400px -620px; }
-
-.ep-e[data-index="584"] {
-  background-position: -380px -600px; }
-
-.ep-e[data-index="84"] {
-  background-position: -40px -140px; }
-
-.ep-e[data-index="736"] {
-  background-position: -460px -460px; }
-
-.ep-e[data-index="737"] {
-  background-position: -460px -480px; }
-
-.ep-e[data-index="81"] {
-  background-position: -40px -80px; }
-
-.ep-e[data-index="987"] {
-  background-position: -620px -620px; }
-
-.ep-e[data-index="101"] {
-  background-position: -40px -480px; }
-
-.ep-e[data-index="738"] {
-  background-position: -460px -500px; }
-
-.ep-e[data-index="86"] {
-  background-position: -40px -180px; }
-
-.ep-e[data-index="103"] {
-  background-position: -40px -520px; }
-
-.ep-e[data-index="740"] {
-  background-position: -460px -540px; }
-
-.ep-e[data-index="605"] {
-  background-position: -400px -200px; }
-
-.ep-e[data-index="739"] {
-  background-position: -460px -520px; }
-
-.ep-e[data-index="820"] {
-  background-position: -520px -80px; }
-
-.ep-e[data-index="83"] {
-  background-position: -40px -120px; }
-
-.ep-e[data-index="988"] {
-  background-position: -620px -640px; }
-
-.ep-e[data-index="955"] {
-  background-position: -600px -400px; }
-
-.ep-e[data-index="52"] {
-  background-position: -20px -320px; }
-
-.ep-e[data-index="93"] {
-  background-position: -40px -320px; }
-
-.ep-e[data-index="94"] {
-  background-position: -40px -340px; }
-
-.ep-e[data-index="436"] {
-  background-position: -220px -800px; }
-
-.ep-e[data-index="743"] {
-  background-position: -460px -600px; }
-
-.ep-e[data-index="696"] {
-  background-position: -440px -480px; }
-
-.ep-e[data-index="578"] {
-  background-position: -380px -480px; }
-
-.ep-e[data-index="85"] {
-  background-position: -40px -160px; }
-
-.ep-e[data-index="742"] {
-  background-position: -460px -580px; }
-
-.ep-e[data-index="741"] {
-  background-position: -460px -560px; }
-
-.ep-e[data-index="791"] {
-  background-position: -480px -740px; }
-
-.ep-e[data-index="580"] {
-  background-position: -380px -520px; }
-
-.ep-e[data-index="579"] {
-  background-position: -380px -500px; }
-
-.ep-e[data-index="229"] {
-  background-position: -120px -260px; }
-
-.ep-e[data-index="433"] {
-  background-position: -220px -740px; }
-
-.ep-e[data-index="719"] {
-  background-position: -460px -120px; }
-
-.ep-e[data-index="972"] {
-  background-position: -620px -220px; }
-
-.ep-e[data-index="974"] {
-  background-position: -620px -260px; }
-
-.ep-e[data-index="976"] {
-  background-position: -620px -400px; }
-
-.ep-e[data-index="714"] {
-  background-position: -460px -20px; }
-
-.ep-e[data-index="818"] {
-  background-position: -520px -40px; }
-
-.ep-e[data-index="981"] {
-  background-position: -620px -500px; }
-
-.ep-e[data-index="982"] {
-  background-position: -620px -520px; }
-
-.ep-e[data-index="985"] {
-  background-position: -620px -580px; }
-
-.ep-e[data-index="953"] {
-  background-position: -600px -360px; }
-
-.ep-e[data-index="984"] {
-  background-position: -620px -560px; }
-
-.ep-e[data-index="810"] {
-  background-position: -500px -700px; }
-
-.ep-e[data-index="825"] {
-  background-position: -520px -180px; }
-
-.ep-e[data-index="108"] {
-  background-position: -40px -620px; }
-
-.ep-e[data-index="830"] {
-  background-position: -520px -280px; }
-
-.ep-e[data-index="983"] {
-  background-position: -620px -540px; }
-
-.ep-e[data-index="330"] {
-  background-position: -160px -740px; }
-
-.ep-e[data-index="337"] {
-  background-position: -180px -60px; }
-
-.ep-e[data-index="322"] {
-  background-position: -160px -480px; }
-
-.ep-e[data-index="323"] {
-  background-position: -160px -500px; }
-
-.ep-e[data-index="332"] {
-  background-position: -160px -780px; }
-
-.ep-e[data-index="331"] {
-  background-position: -160px -760px; }
-
-.ep-e[data-index="336"] {
-  background-position: -180px -40px; }
-
-.ep-e[data-index="338"] {
-  background-position: -180px -80px; }
-
-.ep-e[data-index="334"] {
-  background-position: -180px -0px; }
-
-.ep-e[data-index="427"] {
-  background-position: -220px -620px; }
-
-.ep-e[data-index="121"] {
-  background-position: -60px -160px; }
-
-.ep-e[data-index="675"] {
-  background-position: -440px -60px; }
-
-.ep-e[data-index="674"] {
-  background-position: -440px -40px; }
-
-.ep-e[data-index="673"] {
-  background-position: -440px -20px; }
-
-.ep-e[data-index="582"] {
-  background-position: -380px -560px; }
-
-.ep-e[data-index="680"] {
-  background-position: -440px -160px; }
-
-.ep-e[data-index="676"] {
-  background-position: -440px -80px; }
-
-.ep-e[data-index="677"] {
-  background-position: -440px -100px; }
-
-.ep-e[data-index="678"] {
-  background-position: -440px -120px; }
-
-.ep-e[data-index="679"] {
-  background-position: -440px -140px; }
-
-.ep-e[data-index="672"] {
-  background-position: -440px -0px; }
-
-.ep-e[data-index="681"] {
-  background-position: -440px -180px; }
-
-.ep-e[data-index="671"] {
-  background-position: -420px -800px; }
-
-.ep-e[data-index="670"] {
-  background-position: -420px -780px; }
-
-.ep-e[data-index="662"] {
-  background-position: -420px -620px; }
-
-.ep-e[data-index="637"] {
-  background-position: -420px -120px; }
-
-.ep-e[data-index="651"] {
-  background-position: -420px -400px; }
-
-.ep-e[data-index="644"] {
-  background-position: -420px -260px; }
-
-.ep-e[data-index="642"] {
-  background-position: -420px -220px; }
-
-.ep-e[data-index="643"] {
-  background-position: -420px -240px; }
-
-.ep-e[data-index="638"] {
-  background-position: -420px -140px; }
-
-.ep-e[data-index="639"] {
-  background-position: -420px -160px; }
-
-.ep-e[data-index="640"] {
-  background-position: -420px -180px; }
-
-.ep-e[data-index="816"] {
-  background-position: -520px -0px; }
-
-.ep-e[data-index="641"] {
-  background-position: -420px -200px; }
-
-.ep-e[data-index="812"] {
-  background-position: -500px -740px; }
-
-.ep-e[data-index="824"] {
-  background-position: -520px -160px; }
-
-.ep-e[data-index="813"] {
-  background-position: -500px -760px; }
-
-.ep-e[data-index="645"] {
-  background-position: -420px -280px; }
-
-.ep-e[data-index="815"] {
-  background-position: -500px -800px; }
-
-.ep-e[data-index="635"] {
-  background-position: -420px -80px; }
-
-.ep-e[data-index="636"] {
-  background-position: -420px -100px; }
-
-.ep-e[data-index="811"] {
-  background-position: -500px -720px; }
-
-.ep-e[data-index="819"] {
-  background-position: -520px -60px; }
-
-.ep-e[data-index="682"] {
-  background-position: -440px -200px; }
-
-.ep-e[data-index="653"] {
-  background-position: -420px -440px; }
-
-.ep-e[data-index="655"] {
-  background-position: -420px -480px; }
-
-.ep-e[data-index="657"] {
-  background-position: -420px -520px; }
-
-.ep-e[data-index="658"] {
-  background-position: -420px -540px; }
-
-.ep-e[data-index="659"] {
-  background-position: -420px -560px; }
-
-.ep-e[data-index="654"] {
-  background-position: -420px -460px; }
-
-.ep-e[data-index="652"] {
-  background-position: -420px -420px; }
-
-.ep-e[data-index="660"] {
-  background-position: -420px -580px; }
-
-.ep-e[data-index="656"] {
-  background-position: -420px -500px; }
-
-.ep-e[data-index="720"] {
-  background-position: -460px -140px; }
-
-.ep-e[data-index="648"] {
-  background-position: -420px -340px; }
-
-.ep-e[data-index="798"] {
-  background-position: -500px -160px; }
-
-.ep-e[data-index="118"] {
-  background-position: -60px -100px; }
-
-.ep-e[data-index="650"] {
-  background-position: -420px -380px; }
-
-.ep-e[data-index="649"] {
-  background-position: -420px -360px; }
-
-.ep-e[data-index="646"] {
-  background-position: -420px -300px; }
-
-.ep-e[data-index="647"] {
-  background-position: -420px -320px; }
-
-.ep-e[data-index="952"] {
-  background-position: -600px -340px; }
-
-.ep-e[data-index="430"] {
-  background-position: -220px -680px; }
-
-.ep-e[data-index="431"] {
-  background-position: -220px -700px; }
-
-.ep-e[data-index="713"] {
-  background-position: -460px -0px; }
-
-.ep-e[data-index="715"] {
-  background-position: -460px -40px; }
-
-.ep-e[data-index="716"] {
-  background-position: -460px -60px; }
-
-.ep-e[data-index="712"] {
-  background-position: -440px -800px; }
-
-.ep-e[data-index="799"] {
-  background-position: -500px -180px; }
-
-.ep-e[data-index="800"] {
-  background-position: -500px -200px; }
-
-.ep-e[data-index="127"] {
-  background-position: -60px -680px; }
-
-.ep-e[data-index="663"] {
-  background-position: -420px -640px; }
-
-.ep-e[data-index="126"] {
-  background-position: -60px -660px; }
-
-.ep-e[data-index="802"] {
-  background-position: -500px -240px; }
-
-.ep-e[data-index="801"] {
-  background-position: -500px -220px; }
-
-.ep-e[data-index="710"] {
-  background-position: -440px -760px; }
-
-.ep-e[data-index="711"] {
-  background-position: -440px -780px; }
-
-.ep-e[data-index="144"] {
-  background-position: -80px -200px; }
-
-.ep-e[data-index="597"] {
-  background-position: -400px -40px; }
-
-.ep-e[data-index="596"] {
-  background-position: -400px -20px; }
-
-.ep-e[data-index="595"] {
-  background-position: -400px -0px; }
-
-.ep-e[data-index="598"] {
-  background-position: -400px -60px; }
-
-.ep-e[data-index="590"] {
-  background-position: -380px -720px; }
-
-.ep-e[data-index="143"] {
-  background-position: -80px -180px; }
-
-.ep-e[data-index="591"] {
-  background-position: -380px -740px; }
-
-.ep-e[data-index="600"] {
-  background-position: -400px -100px; }
-
-.ep-e[data-index="589"] {
-  background-position: -380px -700px; }
-
-.ep-e[data-index="593"] {
-  background-position: -380px -780px; }
-
-.ep-e[data-index="592"] {
-  background-position: -380px -760px; }
-
-.ep-e[data-index="594"] {
-  background-position: -380px -800px; }
-
-.ep-e[data-index="599"] {
-  background-position: -400px -80px; }
-
-.ep-e[data-index="601"] {
-  background-position: -400px -120px; }
-
-.ep-e[data-index="57"] {
-  background-position: -20px -420px; }
-
-.ep-e[data-index="130"] {
-  background-position: -60px -740px; }
-
-.ep-e[data-index="56"] {
-  background-position: -20px -400px; }
-
-.ep-e[data-index="759"] {
-  background-position: -480px -100px; }
-
-.ep-e[data-index="59"] {
-  background-position: -20px -460px; }
-
-.ep-e[data-index="131"] {
-  background-position: -60px -760px; }
-
-.ep-e[data-index="744"] {
-  background-position: -460px -620px; }
-
-.ep-e[data-index="764"] {
-  background-position: -480px -200px; }
-
-.ep-e[data-index="58"] {
-  background-position: -20px -440px; }
-
-.ep-e[data-index="55"] {
-  background-position: -20px -380px; }
-
-.ep-e[data-index="986"] {
-  background-position: -620px -600px; }
-
-.ep-e[data-index="100"] {
-  background-position: -40px -460px; }
-
-.ep-e[data-index="62"] {
-  background-position: -20px -520px; }
-
-.ep-e[data-index="63"] {
-  background-position: -20px -540px; }
-
-.ep-e[data-index="64"] {
-  background-position: -20px -560px; }
-
-.ep-e[data-index="65"] {
-  background-position: -20px -580px; }
-
-.ep-e[data-index="66"] {
-  background-position: -20px -600px; }
-
-.ep-e[data-index="67"] {
-  background-position: -20px -620px; }
-
-.ep-e[data-index="68"] {
-  background-position: -20px -640px; }
-
-.ep-e[data-index="69"] {
-  background-position: -20px -660px; }
-
-.ep-e[data-index="70"] {
-  background-position: -20px -680px; }
-
-.ep-e[data-index="71"] {
-  background-position: -20px -700px; }
-
-.ep-e[data-index="72"] {
-  background-position: -20px -720px; }
-
-.ep-e[data-index="73"] {
-  background-position: -20px -740px; }
-
-.ep-e[data-index="174"] {
-  background-position: -80px -800px; }
-
-.ep-e[data-index="87"] {
-  background-position: -40px -200px; }
-
-.ep-e[data-index="186"] {
-  background-position: -100px -220px; }
-
-.ep-e[data-index="192"] {
-  background-position: -100px -340px; }
-
-.ep-e[data-index="53"] {
-  background-position: -20px -340px; }
-
-.ep-e[data-index="54"] {
-  background-position: -20px -360px; }
-
-.ep-e[data-index="686"] {
-  background-position: -440px -280px; }
-
-.ep-e[data-index="685"] {
-  background-position: -440px -260px; }
-
-.ep-e[data-index="189"] {
-  background-position: -100px -280px; }
-
-.ep-e[data-index="183"] {
-  background-position: -100px -160px; }
-
-.ep-e[data-index="191"] {
-  background-position: -100px -320px; }
-
-.ep-e[data-index="193"] {
-  background-position: -100px -360px; }
-
-.ep-e[data-index="190"] {
-  background-position: -100px -300px; }
-
-.ep-e[data-index="134"] {
-  background-position: -80px -0px; }
-
-.ep-e[data-index="180"] {
-  background-position: -100px -100px; }
-
-.ep-e[data-index="195"] {
-  background-position: -100px -400px; }
-
-.ep-e[data-index="616"] {
-  background-position: -400px -520px; }
-
-.ep-e[data-index="194"] {
-  background-position: -100px -380px; }
-
-.ep-e[data-index="163"] {
-  background-position: -80px -580px; }
-
-.ep-e[data-index="162"] {
-  background-position: -80px -560px; }
-
-.ep-e[data-index="187"] {
-  background-position: -100px -240px; }
-
-.ep-e[data-index="188"] {
-  background-position: -100px -260px; }
-
-.ep-e[data-index="185"] {
-  background-position: -100px -200px; }
-
-.ep-e[data-index="166"] {
-  background-position: -80px -640px; }
-
-.ep-e[data-index="167"] {
-  background-position: -80px -660px; }
-
-.ep-e[data-index="170"] {
-  background-position: -80px -720px; }
-
-.ep-e[data-index="171"] {
-  background-position: -80px -740px; }
-
-.ep-e[data-index="168"] {
-  background-position: -80px -680px; }
-
-.ep-e[data-index="178"] {
-  background-position: -100px -60px; }
-
-.ep-e[data-index="104"] {
-  background-position: -40px -540px; }
-
-.ep-e[data-index="661"] {
-  background-position: -420px -600px; }
-
-.ep-e[data-index="954"] {
-  background-position: -600px -380px; }
-
-.ep-e[data-index="137"] {
-  background-position: -80px -60px; }
-
-.ep-e[data-index="159"] {
-  background-position: -80px -500px; }
-
-.ep-e[data-index="604"] {
-  background-position: -400px -180px; }
-
-.ep-e[data-index="78"] {
-  background-position: -40px -20px; }
-
-.ep-e[data-index="966"] {
-  background-position: -620px -100px; }
-
-.ep-e[data-index="958"] {
-  background-position: -600px -460px; }
-
-.ep-e[data-index="962"] {
-  background-position: -600px -540px; }
-
-.ep-e[data-index="960"] {
-  background-position: -600px -500px; }
-
-.ep-e[data-index="727"] {
-  background-position: -460px -280px; }
-
-.ep-e[data-index="687"] {
-  background-position: -440px -300px; }
-
-.ep-e[data-index="142"] {
-  background-position: -80px -160px; }
-
-.ep-e[data-index="141"] {
-  background-position: -80px -140px; }
-
-.ep-e[data-index="139"] {
-  background-position: -80px -100px; }
-
-.ep-e[data-index="140"] {
-  background-position: -80px -120px; }
-
-.ep-e[data-index="2"] {
-  background-position: -0px -40px; }
-
-.ep-e[data-index="3"] {
-  background-position: -0px -60px; }
-
-.ep-e[data-index="617"] {
-  background-position: -400px -540px; }
-
-.ep-e[data-index="702"] {
-  background-position: -440px -600px; }
-
-.ep-e[data-index="703"] {
-  background-position: -440px -620px; }
-
-.ep-e[data-index="746"] {
-  background-position: -460px -660px; }
-
-.ep-e[data-index="88"] {
-  background-position: -40px -220px; }
-
-.ep-e[data-index="161"] {
-  background-position: -80px -540px; }
-
-.ep-e[data-index="89"] {
-  background-position: -40px -240px; }
-
-.ep-e[data-index="967"] {
-  background-position: -620px -120px; }
-
-.ep-e[data-index="745"] {
-  background-position: -460px -640px; }
-
-.ep-e[data-index="79"] {
-  background-position: -40px -40px; }
-
-.ep-e[data-index="184"] {
-  background-position: -100px -180px; }
-
-.ep-e[data-index="627"] {
-  background-position: -400px -740px; }
-
-.ep-e[data-index="136"] {
-  background-position: -80px -40px; }
-
-.ep-e[data-index="133"] {
-  background-position: -60px -800px; }
-
-.ep-e[data-index="138"] {
-  background-position: -80px -80px; }
-
-.ep-e[data-index="119"] {
-  background-position: -60px -120px; }
-
-.ep-e[data-index="602"] {
-  background-position: -400px -140px; }
-
-.ep-e[data-index="196"] {
-  background-position: -100px -420px; }
-
-.ep-e[data-index="150"] {
-  background-position: -80px -320px; }
-
-.ep-e[data-index="212"] {
-  background-position: -100px -740px; }
-
-.ep-e[data-index="32"] {
-  background-position: -0px -640px; }
-
-.ep-e[data-index="420"] {
-  background-position: -220px -480px; }
-
-.ep-e[data-index="182"] {
-  background-position: -100px -140px; }
-
-.ep-e[data-index="977"] {
-  background-position: -620px -420px; }
-
-.ep-e[data-index="978"] {
-  background-position: -620px -440px; }
-
-.ep-e[data-index="979"] {
-  background-position: -620px -460px; }
-
-.ep-e[data-index="980"] {
-  background-position: -620px -480px; }
-
-.ep-e[data-index="80"] {
-  background-position: -40px -60px; }
-
-.ep-e[data-index="956"] {
-  background-position: -600px -420px; }
-
-.ep-e[data-index="973"] {
-  background-position: -620px -240px; }
-
-.ep-e[data-index="169"] {
-  background-position: -80px -700px; }
-
-.ep-e[data-index="959"] {
-  background-position: -600px -480px; }
-
-.ep-e[data-index="968"] {
-  background-position: -620px -140px; }
-
-.ep-e[data-index="969"] {
-  background-position: -620px -160px; }
-
-.ep-e[data-index="971"] {
-  background-position: -620px -200px; }
-
-.ep-e[data-index="970"] {
-  background-position: -620px -180px; }
-
-.ep-e[data-index="957"] {
-  background-position: -600px -440px; }
-
-.ep-e[data-index="355"] {
-  background-position: -180px -420px; }
-
-.ep-e[data-index="688"] {
-  background-position: -440px -320px; }
-
-.ep-e[data-index="181"] {
-  background-position: -100px -120px; }
-
-.ep-e[data-index="176"] {
-  background-position: -100px -20px; }
-
-.ep-e[data-index="177"] {
-  background-position: -100px -40px; }
-
-.ep-e[data-index="179"] {
-  background-position: -100px -80px; }
-
-.ep-e[data-index="172"] {
-  background-position: -80px -760px; }
-
-.ep-e[data-index="175"] {
-  background-position: -100px -0px; }
-
-.ep-e[data-index="173"] {
-  background-position: -80px -780px; }
-
-.ep-e[data-index="1015"] {
-  background-position: -640px -460px; }
-
-.ep-e[data-index="1016"] {
   background-position: -640px -480px; }
 
-.ep-e[data-index="1017"] {
-  background-position: -640px -500px; }
+.ep-e[data-index="236"] {
+  background-position: -192px -640px; }
 
-.ep-e[data-index="1018"] {
-  background-position: -640px -520px; }
+.ep-e[data-index="237"] {
+  background-position: -192px -672px; }
 
-.ep-e[data-index="1019"] {
-  background-position: -640px -540px; }
+.ep-e[data-index="43"] {
+  background-position: -32px -64px; }
 
-.ep-e[data-index="1020"] {
-  background-position: -640px -560px; }
+.ep-e[data-index="48"] {
+  background-position: -32px -224px; }
 
-.ep-e[data-index="1021"] {
-  background-position: -640px -580px; }
+.ep-e[data-index="609"] {
+  background-position: -640px -448px; }
 
-.ep-e[data-index="1022"] {
-  background-position: -640px -600px; }
+.ep-e[data-index="608"] {
+  background-position: -640px -416px; }
 
-.ep-e[data-index="1023"] {
-  background-position: -640px -620px; }
+.ep-e[data-index="206"] {
+  background-position: -160px -992px; }
 
-.ep-e[data-index="1024"] {
-  background-position: -640px -640px; }
+.ep-e[data-index="273"] {
+  background-position: -224px -512px; }
 
-.ep-e[data-index="728"] {
-  background-position: -460px -300px; }
+.ep-e[data-index="272"] {
+  background-position: -224px -480px; }
 
-.ep-e[data-index="1014"] {
-  background-position: -640px -440px; }
+.ep-e[data-index="274"] {
+  background-position: -224px -544px; }
 
-.ep-e[data-index="731"] {
-  background-position: -460px -360px; }
+.ep-e[data-index="268"] {
+  background-position: -224px -352px; }
 
-.ep-e[data-index="35"] {
-  background-position: -0px -700px; }
+.ep-e[data-index="269"] {
+  background-position: -224px -384px; }
 
-.ep-e[data-index="29"] {
-  background-position: -0px -580px; }
+.ep-e[data-index="270"] {
+  background-position: -224px -416px; }
 
-.ep-e[data-index="24"] {
+.ep-e[data-index="267"] {
+  background-position: -224px -320px; }
+
+.ep-e[data-index="265"] {
+  background-position: -224px -256px; }
+
+.ep-e[data-index="277"] {
+  background-position: -224px -640px; }
+
+.ep-e[data-index="266"] {
+  background-position: -224px -288px; }
+
+.ep-e[data-index="276"] {
+  background-position: -224px -608px; }
+
+.ep-e[data-index="275"] {
+  background-position: -224px -576px; }
+
+.ep-e[data-index="271"] {
+  background-position: -224px -448px; }
+
+.ep-e[data-index="263"] {
+  background-position: -224px -192px; }
+
+.ep-e[data-index="264"] {
+  background-position: -224px -224px; }
+
+.ep-e[data-index="248"] {
+  background-position: -192px -1024px; }
+
+.ep-e[data-index="255"] {
+  background-position: -192px -1248px; }
+
+.ep-e[data-index="290"] {
+  background-position: -224px -1056px; }
+
+.ep-e[data-index="305"] {
+  background-position: -256px -224px; }
+
+.ep-e[data-index="288"] {
+  background-position: -224px -992px; }
+
+.ep-e[data-index="1012"] {
+  background-position: -1024px -640px; }
+
+.ep-e[data-index="281"] {
+  background-position: -224px -768px; }
+
+.ep-e[data-index="280"] {
+  background-position: -224px -736px; }
+
+.ep-e[data-index="294"] {
+  background-position: -224px -1184px; }
+
+.ep-e[data-index="309"] {
+  background-position: -256px -352px; }
+
+.ep-e[data-index="278"] {
+  background-position: -224px -672px; }
+
+.ep-e[data-index="289"] {
+  background-position: -224px -1024px; }
+
+.ep-e[data-index="239"] {
+  background-position: -192px -736px; }
+
+.ep-e[data-index="279"] {
+  background-position: -224px -704px; }
+
+.ep-e[data-index="287"] {
+  background-position: -224px -960px; }
+
+.ep-e[data-index="240"] {
+  background-position: -192px -768px; }
+
+.ep-e[data-index="241"] {
+  background-position: -192px -800px; }
+
+.ep-e[data-index="286"] {
+  background-position: -224px -928px; }
+
+.ep-e[data-index="308"] {
+  background-position: -256px -320px; }
+
+.ep-e[data-index="295"] {
+  background-position: -224px -1216px; }
+
+.ep-e[data-index="293"] {
+  background-position: -224px -1152px; }
+
+.ep-e[data-index="307"] {
+  background-position: -256px -288px; }
+
+.ep-e[data-index="285"] {
+  background-position: -224px -896px; }
+
+.ep-e[data-index="283"] {
+  background-position: -224px -832px; }
+
+.ep-e[data-index="284"] {
+  background-position: -224px -864px; }
+
+.ep-e[data-index="282"] {
+  background-position: -224px -800px; }
+
+.ep-e[data-index="292"] {
+  background-position: -224px -1120px; }
+
+.ep-e[data-index="291"] {
+  background-position: -224px -1088px; }
+
+.ep-e[data-index="297"] {
+  background-position: -224px -1280px; }
+
+.ep-e[data-index="298"] {
+  background-position: -256px -0px; }
+
+.ep-e[data-index="296"] {
+  background-position: -224px -1248px; }
+
+.ep-e[data-index="306"] {
+  background-position: -256px -256px; }
+
+.ep-e[data-index="324"] {
+  background-position: -256px -832px; }
+
+.ep-e[data-index="304"] {
+  background-position: -256px -192px; }
+
+.ep-e[data-index="302"] {
+  background-position: -256px -128px; }
+
+.ep-e[data-index="303"] {
+  background-position: -256px -160px; }
+
+.ep-e[data-index="301"] {
+  background-position: -256px -96px; }
+
+.ep-e[data-index="321"] {
+  background-position: -256px -736px; }
+
+.ep-e[data-index="299"] {
+  background-position: -256px -32px; }
+
+.ep-e[data-index="300"] {
+  background-position: -256px -64px; }
+
+.ep-e[data-index="316"] {
+  background-position: -256px -576px; }
+
+.ep-e[data-index="317"] {
+  background-position: -256px -608px; }
+
+.ep-e[data-index="313"] {
+  background-position: -256px -480px; }
+
+.ep-e[data-index="314"] {
+  background-position: -256px -512px; }
+
+.ep-e[data-index="315"] {
+  background-position: -256px -544px; }
+
+.ep-e[data-index="320"] {
+  background-position: -256px -704px; }
+
+.ep-e[data-index="312"] {
+  background-position: -256px -448px; }
+
+.ep-e[data-index="311"] {
+  background-position: -256px -416px; }
+
+.ep-e[data-index="49"] {
+  background-position: -32px -256px; }
+
+.ep-e[data-index="318"] {
+  background-position: -256px -640px; }
+
+.ep-e[data-index="310"] {
+  background-position: -256px -384px; }
+
+.ep-e[data-index="319"] {
+  background-position: -256px -672px; }
+
+.ep-e[data-index="95"] {
+  background-position: -64px -576px; }
+
+.ep-e[data-index="381"] {
+  background-position: -320px -192px; }
+
+.ep-e[data-index="389"] {
+  background-position: -320px -768px; }
+
+.ep-e[data-index="96"] {
+  background-position: -64px -608px; }
+
+.ep-e[data-index="379"] {
+  background-position: -320px -128px; }
+
+.ep-e[data-index="397"] {
+  background-position: -352px -32px; }
+
+.ep-e[data-index="390"] {
+  background-position: -320px -800px; }
+
+.ep-e[data-index="366"] {
+  background-position: -288px -1024px; }
+
+.ep-e[data-index="110"] {
+  background-position: -64px -1056px; }
+
+.ep-e[data-index="393"] {
+  background-position: -320px -1216px; }
+
+.ep-e[data-index="400"] {
+  background-position: -352px -128px; }
+
+.ep-e[data-index="434"] {
+  background-position: -352px -1216px; }
+
+.ep-e[data-index="399"] {
+  background-position: -352px -96px; }
+
+.ep-e[data-index="398"] {
+  background-position: -352px -64px; }
+
+.ep-e[data-index="396"] {
+  background-position: -352px -0px; }
+
+.ep-e[data-index="380"] {
+  background-position: -320px -160px; }
+
+.ep-e[data-index="113"] {
+  background-position: -64px -1152px; }
+
+.ep-e[data-index="383"] {
+  background-position: -320px -256px; }
+
+.ep-e[data-index="114"] {
+  background-position: -64px -1184px; }
+
+.ep-e[data-index="435"] {
+  background-position: -352px -1248px; }
+
+.ep-e[data-index="352"] {
+  background-position: -288px -576px; }
+
+.ep-e[data-index="946"] {
+  background-position: -960px -192px; }
+
+.ep-e[data-index="391"] {
+  background-position: -320px -832px; }
+
+.ep-e[data-index="385"] {
+  background-position: -320px -480px; }
+
+.ep-e[data-index="975"] {
+  background-position: -992px -448px; }
+
+.ep-e[data-index="115"] {
+  background-position: -64px -1216px; }
+
+.ep-e[data-index="392"] {
+  background-position: -320px -1024px; }
+
+.ep-e[data-index="963"] {
+  background-position: -960px -896px; }
+
+.ep-e[data-index="964"] {
+  background-position: -960px -1088px; }
+
+.ep-e[data-index="388"] {
+  background-position: -320px -736px; }
+
+.ep-e[data-index="792"] {
+  background-position: -768px -1216px; }
+
+.ep-e[data-index="387"] {
+  background-position: -320px -704px; }
+
+.ep-e[data-index="378"] {
+  background-position: -320px -96px; }
+
+.ep-e[data-index="386"] {
+  background-position: -320px -672px; }
+
+.ep-e[data-index="342"] {
+  background-position: -288px -256px; }
+
+.ep-e[data-index="343"] {
+  background-position: -288px -288px; }
+
+.ep-e[data-index="432"] {
+  background-position: -352px -1152px; }
+
+.ep-e[data-index="360"] {
+  background-position: -288px -832px; }
+
+.ep-e[data-index="348"] {
+  background-position: -288px -448px; }
+
+.ep-e[data-index="362"] {
+  background-position: -288px -896px; }
+
+.ep-e[data-index="357"] {
+  background-position: -288px -736px; }
+
+.ep-e[data-index="359"] {
+  background-position: -288px -800px; }
+
+.ep-e[data-index="353"] {
+  background-position: -288px -608px; }
+
+.ep-e[data-index="356"] {
+  background-position: -288px -704px; }
+
+.ep-e[data-index="377"] {
+  background-position: -320px -64px; }
+
+.ep-e[data-index="374"] {
+  background-position: -288px -1280px; }
+
+.ep-e[data-index="372"] {
+  background-position: -288px -1216px; }
+
+.ep-e[data-index="375"] {
+  background-position: -320px -0px; }
+
+.ep-e[data-index="373"] {
+  background-position: -288px -1248px; }
+
+.ep-e[data-index="376"] {
+  background-position: -320px -32px; }
+
+.ep-e[data-index="361"] {
+  background-position: -288px -864px; }
+
+.ep-e[data-index="363"] {
+  background-position: -288px -928px; }
+
+.ep-e[data-index="568"] {
+  background-position: -576px -800px; }
+
+.ep-e[data-index="364"] {
+  background-position: -288px -960px; }
+
+.ep-e[data-index="367"] {
+  background-position: -288px -1056px; }
+
+.ep-e[data-index="365"] {
+  background-position: -288px -992px; }
+
+.ep-e[data-index="368"] {
+  background-position: -288px -1088px; }
+
+.ep-e[data-index="934"] {
+  background-position: -928px -1120px; }
+
+.ep-e[data-index="932"] {
+  background-position: -928px -1056px; }
+
+.ep-e[data-index="936"] {
+  background-position: -928px -1184px; }
+
+.ep-e[data-index="923"] {
+  background-position: -928px -768px; }
+
+.ep-e[data-index="925"] {
+  background-position: -928px -832px; }
+
+.ep-e[data-index="395"] {
+  background-position: -320px -1280px; }
+
+.ep-e[data-index="930"] {
+  background-position: -928px -992px; }
+
+.ep-e[data-index="928"] {
+  background-position: -928px -928px; }
+
+.ep-e[data-index="929"] {
+  background-position: -928px -960px; }
+
+.ep-e[data-index="927"] {
+  background-position: -928px -896px; }
+
+.ep-e[data-index="937"] {
+  background-position: -928px -1216px; }
+
+.ep-e[data-index="938"] {
+  background-position: -928px -1248px; }
+
+.ep-e[data-index="939"] {
+  background-position: -928px -1280px; }
+
+.ep-e[data-index="394"] {
+  background-position: -320px -1248px; }
+
+.ep-e[data-index="961"] {
+  background-position: -960px -832px; }
+
+.ep-e[data-index="951"] {
+  background-position: -960px -512px; }
+
+.ep-e[data-index="931"] {
+  background-position: -928px -1024px; }
+
+.ep-e[data-index="924"] {
+  background-position: -928px -800px; }
+
+.ep-e[data-index="935"] {
+  background-position: -928px -1152px; }
+
+.ep-e[data-index="933"] {
+  background-position: -928px -1088px; }
+
+.ep-e[data-index="944"] {
+  background-position: -960px -128px; }
+
+.ep-e[data-index="943"] {
+  background-position: -960px -96px; }
+
+.ep-e[data-index="942"] {
+  background-position: -960px -64px; }
+
+.ep-e[data-index="914"] {
+  background-position: -928px -480px; }
+
+.ep-e[data-index="922"] {
+  background-position: -928px -736px; }
+
+.ep-e[data-index="940"] {
+  background-position: -960px -0px; }
+
+.ep-e[data-index="915"] {
+  background-position: -928px -512px; }
+
+.ep-e[data-index="916"] {
+  background-position: -928px -544px; }
+
+.ep-e[data-index="919"] {
+  background-position: -928px -640px; }
+
+.ep-e[data-index="941"] {
+  background-position: -960px -32px; }
+
+.ep-e[data-index="913"] {
+  background-position: -928px -448px; }
+
+.ep-e[data-index="917"] {
+  background-position: -928px -576px; }
+
+.ep-e[data-index="918"] {
+  background-position: -928px -608px; }
+
+.ep-e[data-index="921"] {
+  background-position: -928px -704px; }
+
+.ep-e[data-index="920"] {
+  background-position: -928px -672px; }
+
+.ep-e[data-index="912"] {
+  background-position: -928px -416px; }
+
+.ep-e[data-index="993"] {
+  background-position: -992px -1184px; }
+
+.ep-e[data-index="120"] {
+  background-position: -96px -224px; }
+
+.ep-e[data-index="994"] {
+  background-position: -992px -1216px; }
+
+.ep-e[data-index="995"] {
+  background-position: -992px -1248px; }
+
+.ep-e[data-index="112"] {
+  background-position: -64px -1120px; }
+
+.ep-e[data-index="992"] {
+  background-position: -992px -1152px; }
+
+.ep-e[data-index="947"] {
+  background-position: -960px -384px; }
+
+.ep-e[data-index="111"] {
+  background-position: -64px -1088px; }
+
+.ep-e[data-index="997"] {
+  background-position: -1024px -0px; }
+
+.ep-e[data-index="911"] {
+  background-position: -928px -384px; }
+
+.ep-e[data-index="996"] {
+  background-position: -992px -1280px; }
+
+.ep-e[data-index="628"] {
+  background-position: -640px -1216px; }
+
+.ep-e[data-index="82"] {
+  background-position: -64px -160px; }
+
+.ep-e[data-index="950"] {
+  background-position: -960px -480px; }
+
+.ep-e[data-index="117"] {
+  background-position: -96px -128px; }
+
+.ep-e[data-index="926"] {
+  background-position: -928px -864px; }
+
+.ep-e[data-index="949"] {
+  background-position: -960px -448px; }
+
+.ep-e[data-index="948"] {
+  background-position: -960px -416px; }
+
+.ep-e[data-index="382"] {
+  background-position: -320px -224px; }
+
+.ep-e[data-index="945"] {
+  background-position: -960px -160px; }
+
+.ep-e[data-index="350"] {
+  background-position: -288px -512px; }
+
+.ep-e[data-index="351"] {
+  background-position: -288px -544px; }
+
+.ep-e[data-index="349"] {
+  background-position: -288px -480px; }
+
+.ep-e[data-index="404"] {
+  background-position: -352px -256px; }
+
+.ep-e[data-index="197"] {
+  background-position: -160px -704px; }
+
+.ep-e[data-index="827"] {
+  background-position: -832px -352px; }
+
+.ep-e[data-index="426"] {
+  background-position: -352px -960px; }
+
+.ep-e[data-index="109"] {
+  background-position: -64px -1024px; }
+
+.ep-e[data-index="339"] {
+  background-position: -288px -160px; }
+
+.ep-e[data-index="107"] {
+  background-position: -64px -960px; }
+
+.ep-e[data-index="401"] {
+  background-position: -352px -160px; }
+
+.ep-e[data-index="826"] {
+  background-position: -832px -320px; }
+
+.ep-e[data-index="207"] {
+  background-position: -160px -1024px; }
+
+.ep-e[data-index="829"] {
+  background-position: -832px -416px; }
+
+.ep-e[data-index="402"] {
+  background-position: -352px -192px; }
+
+.ep-e[data-index="116"] {
+  background-position: -96px -96px; }
+
+.ep-e[data-index="411"] {
+  background-position: -352px -480px; }
+
+.ep-e[data-index="990"] {
+  background-position: -992px -1088px; }
+
+.ep-e[data-index="991"] {
+  background-position: -992px -1120px; }
+
+.ep-e[data-index="201"] {
+  background-position: -160px -832px; }
+
+.ep-e[data-index="200"] {
+  background-position: -160px -800px; }
+
+.ep-e[data-index="409"] {
+  background-position: -352px -416px; }
+
+.ep-e[data-index="403"] {
+  background-position: -352px -224px; }
+
+.ep-e[data-index="410"] {
+  background-position: -352px -448px; }
+
+.ep-e[data-index="203"] {
+  background-position: -160px -896px; }
+
+.ep-e[data-index="202"] {
+  background-position: -160px -864px; }
+
+.ep-e[data-index="406"] {
+  background-position: -352px -320px; }
+
+.ep-e[data-index="199"] {
+  background-position: -160px -768px; }
+
+.ep-e[data-index="205"] {
+  background-position: -160px -960px; }
+
+.ep-e[data-index="208"] {
+  background-position: -160px -1056px; }
+
+.ep-e[data-index="228"] {
+  background-position: -192px -384px; }
+
+.ep-e[data-index="329"] {
+  background-position: -256px -1152px; }
+
+.ep-e[data-index="328"] {
+  background-position: -256px -1120px; }
+
+.ep-e[data-index="204"] {
+  background-position: -160px -928px; }
+
+.ep-e[data-index="405"] {
+  background-position: -352px -288px; }
+
+.ep-e[data-index="429"] {
+  background-position: -352px -1056px; }
+
+.ep-e[data-index="428"] {
+  background-position: -352px -1024px; }
+
+.ep-e[data-index="412"] {
+  background-position: -352px -512px; }
+
+.ep-e[data-index="828"] {
+  background-position: -832px -384px; }
+
+.ep-e[data-index="413"] {
+  background-position: -352px -544px; }
+
+.ep-e[data-index="414"] {
+  background-position: -352px -576px; }
+
+.ep-e[data-index="407"] {
+  background-position: -352px -352px; }
+
+.ep-e[data-index="415"] {
+  background-position: -352px -608px; }
+
+.ep-e[data-index="425"] {
+  background-position: -352px -928px; }
+
+.ep-e[data-index="416"] {
+  background-position: -352px -640px; }
+
+.ep-e[data-index="417"] {
+  background-position: -352px -672px; }
+
+.ep-e[data-index="418"] {
+  background-position: -352px -704px; }
+
+.ep-e[data-index="419"] {
+  background-position: -352px -736px; }
+
+.ep-e[data-index="421"] {
+  background-position: -352px -800px; }
+
+.ep-e[data-index="423"] {
+  background-position: -352px -864px; }
+
+.ep-e[data-index="424"] {
+  background-position: -352px -896px; }
+
+.ep-e[data-index="422"] {
+  background-position: -352px -832px; }
+
+.ep-e[data-index="588"] {
+  background-position: -608px -1088px; }
+
+.ep-e[data-index="408"] {
+  background-position: -352px -384px; }
+
+.ep-e[data-index="106"] {
+  background-position: -64px -928px; }
+
+.ep-e[data-index="762"] {
+  background-position: -768px -256px; }
+
+.ep-e[data-index="763"] {
+  background-position: -768px -288px; }
+
+.ep-e[data-index="761"] {
+  background-position: -768px -224px; }
+
+.ep-e[data-index="105"] {
+  background-position: -64px -896px; }
+
+.ep-e[data-index="14"] {
+  background-position: -0px -448px; }
+
+.ep-e[data-index="683"] {
+  background-position: -704px -352px; }
+
+.ep-e[data-index="684"] {
+  background-position: -704px -384px; }
+
+.ep-e[data-index="629"] {
+  background-position: -640px -1248px; }
+
+.ep-e[data-index="16"] {
+  background-position: -0px -512px; }
+
+.ep-e[data-index="806"] {
+  background-position: -800px -992px; }
+
+.ep-e[data-index="807"] {
+  background-position: -800px -1024px; }
+
+.ep-e[data-index="808"] {
+  background-position: -800px -1056px; }
+
+.ep-e[data-index="809"] {
+  background-position: -800px -1088px; }
+
+.ep-e[data-index="797"] {
+  background-position: -800px -224px; }
+
+.ep-e[data-index="817"] {
+  background-position: -832px -32px; }
+
+.ep-e[data-index="631"] {
+  background-position: -672px -0px; }
+
+.ep-e[data-index="632"] {
+  background-position: -672px -32px; }
+
+.ep-e[data-index="633"] {
+  background-position: -672px -64px; }
+
+.ep-e[data-index="634"] {
+  background-position: -672px -96px; }
+
+.ep-e[data-index="694"] {
+  background-position: -704px -704px; }
+
+.ep-e[data-index="689"] {
+  background-position: -704px -544px; }
+
+.ep-e[data-index="690"] {
+  background-position: -704px -576px; }
+
+.ep-e[data-index="691"] {
+  background-position: -704px -608px; }
+
+.ep-e[data-index="354"] {
+  background-position: -288px -640px; }
+
+.ep-e[data-index="695"] {
+  background-position: -704px -736px; }
+
+.ep-e[data-index="347"] {
+  background-position: -288px -416px; }
+
+.ep-e[data-index="664"] {
+  background-position: -672px -1056px; }
+
+.ep-e[data-index="46"] {
+  background-position: -32px -160px; }
+
+.ep-e[data-index="665"] {
+  background-position: -672px -1088px; }
+
+.ep-e[data-index="666"] {
+  background-position: -672px -1120px; }
+
+.ep-e[data-index="692"] {
+  background-position: -704px -640px; }
+
+.ep-e[data-index="693"] {
+  background-position: -704px -672px; }
+
+.ep-e[data-index="344"] {
+  background-position: -288px -320px; }
+
+.ep-e[data-index="345"] {
+  background-position: -288px -352px; }
+
+.ep-e[data-index="346"] {
+  background-position: -288px -384px; }
+
+.ep-e[data-index="26"] {
+  background-position: -0px -832px; }
+
+.ep-e[data-index="27"] {
+  background-position: -0px -864px; }
+
+.ep-e[data-index="25"] {
+  background-position: -0px -800px; }
+
+.ep-e[data-index="790"] {
+  background-position: -768px -1152px; }
+
+.ep-e[data-index="28"] {
+  background-position: -0px -896px; }
+
+.ep-e[data-index="15"] {
   background-position: -0px -480px; }
 
+.ep-e[data-index="667"] {
+  background-position: -672px -1152px; }
+
+.ep-e[data-index="708"] {
+  background-position: -704px -1152px; }
+
+.ep-e[data-index="709"] {
+  background-position: -704px -1184px; }
+
+.ep-e[data-index="603"] {
+  background-position: -640px -256px; }
+
+.ep-e[data-index="735"] {
+  background-position: -736px -704px; }
+
+.ep-e[data-index="789"] {
+  background-position: -768px -1120px; }
+
+.ep-e[data-index="814"] {
+  background-position: -800px -1248px; }
+
+.ep-e[data-index="989"] {
+  background-position: -992px -1056px; }
+
+.ep-e[data-index="626"] {
+  background-position: -640px -1152px; }
+
+.ep-e[data-index="623"] {
+  background-position: -640px -1056px; }
+
+.ep-e[data-index="622"] {
+  background-position: -640px -1024px; }
+
+.ep-e[data-index="624"] {
+  background-position: -640px -1088px; }
+
+.ep-e[data-index="625"] {
+  background-position: -640px -1120px; }
+
+.ep-e[data-index="618"] {
+  background-position: -640px -896px; }
+
+.ep-e[data-index="621"] {
+  background-position: -640px -992px; }
+
+.ep-e[data-index="584"] {
+  background-position: -608px -960px; }
+
+.ep-e[data-index="84"] {
+  background-position: -64px -224px; }
+
+.ep-e[data-index="736"] {
+  background-position: -736px -736px; }
+
+.ep-e[data-index="737"] {
+  background-position: -736px -768px; }
+
+.ep-e[data-index="81"] {
+  background-position: -64px -128px; }
+
+.ep-e[data-index="987"] {
+  background-position: -992px -992px; }
+
+.ep-e[data-index="101"] {
+  background-position: -64px -768px; }
+
+.ep-e[data-index="738"] {
+  background-position: -736px -800px; }
+
+.ep-e[data-index="86"] {
+  background-position: -64px -288px; }
+
+.ep-e[data-index="103"] {
+  background-position: -64px -832px; }
+
+.ep-e[data-index="740"] {
+  background-position: -736px -864px; }
+
+.ep-e[data-index="605"] {
+  background-position: -640px -320px; }
+
+.ep-e[data-index="739"] {
+  background-position: -736px -832px; }
+
+.ep-e[data-index="820"] {
+  background-position: -832px -128px; }
+
+.ep-e[data-index="83"] {
+  background-position: -64px -192px; }
+
+.ep-e[data-index="988"] {
+  background-position: -992px -1024px; }
+
+.ep-e[data-index="955"] {
+  background-position: -960px -640px; }
+
+.ep-e[data-index="52"] {
+  background-position: -32px -512px; }
+
+.ep-e[data-index="93"] {
+  background-position: -64px -512px; }
+
+.ep-e[data-index="94"] {
+  background-position: -64px -544px; }
+
+.ep-e[data-index="436"] {
+  background-position: -352px -1280px; }
+
+.ep-e[data-index="743"] {
+  background-position: -736px -960px; }
+
+.ep-e[data-index="696"] {
+  background-position: -704px -768px; }
+
+.ep-e[data-index="578"] {
+  background-position: -608px -768px; }
+
+.ep-e[data-index="85"] {
+  background-position: -64px -256px; }
+
+.ep-e[data-index="742"] {
+  background-position: -736px -928px; }
+
+.ep-e[data-index="741"] {
+  background-position: -736px -896px; }
+
+.ep-e[data-index="791"] {
+  background-position: -768px -1184px; }
+
+.ep-e[data-index="580"] {
+  background-position: -608px -832px; }
+
+.ep-e[data-index="579"] {
+  background-position: -608px -800px; }
+
+.ep-e[data-index="229"] {
+  background-position: -192px -416px; }
+
+.ep-e[data-index="433"] {
+  background-position: -352px -1184px; }
+
+.ep-e[data-index="719"] {
+  background-position: -736px -192px; }
+
+.ep-e[data-index="972"] {
+  background-position: -992px -352px; }
+
+.ep-e[data-index="974"] {
+  background-position: -992px -416px; }
+
+.ep-e[data-index="976"] {
+  background-position: -992px -640px; }
+
+.ep-e[data-index="714"] {
+  background-position: -736px -32px; }
+
+.ep-e[data-index="818"] {
+  background-position: -832px -64px; }
+
+.ep-e[data-index="981"] {
+  background-position: -992px -800px; }
+
+.ep-e[data-index="982"] {
+  background-position: -992px -832px; }
+
+.ep-e[data-index="985"] {
+  background-position: -992px -928px; }
+
+.ep-e[data-index="953"] {
+  background-position: -960px -576px; }
+
+.ep-e[data-index="984"] {
+  background-position: -992px -896px; }
+
+.ep-e[data-index="810"] {
+  background-position: -800px -1120px; }
+
+.ep-e[data-index="825"] {
+  background-position: -832px -288px; }
+
+.ep-e[data-index="108"] {
+  background-position: -64px -992px; }
+
+.ep-e[data-index="830"] {
+  background-position: -832px -448px; }
+
+.ep-e[data-index="983"] {
+  background-position: -992px -864px; }
+
+.ep-e[data-index="330"] {
+  background-position: -256px -1184px; }
+
+.ep-e[data-index="337"] {
+  background-position: -288px -96px; }
+
+.ep-e[data-index="322"] {
+  background-position: -256px -768px; }
+
+.ep-e[data-index="323"] {
+  background-position: -256px -800px; }
+
+.ep-e[data-index="332"] {
+  background-position: -256px -1248px; }
+
+.ep-e[data-index="331"] {
+  background-position: -256px -1216px; }
+
+.ep-e[data-index="336"] {
+  background-position: -288px -64px; }
+
+.ep-e[data-index="338"] {
+  background-position: -288px -128px; }
+
+.ep-e[data-index="334"] {
+  background-position: -288px -0px; }
+
+.ep-e[data-index="427"] {
+  background-position: -352px -992px; }
+
+.ep-e[data-index="121"] {
+  background-position: -96px -256px; }
+
+.ep-e[data-index="675"] {
+  background-position: -704px -96px; }
+
+.ep-e[data-index="674"] {
+  background-position: -704px -64px; }
+
+.ep-e[data-index="673"] {
+  background-position: -704px -32px; }
+
+.ep-e[data-index="582"] {
+  background-position: -608px -896px; }
+
+.ep-e[data-index="680"] {
+  background-position: -704px -256px; }
+
+.ep-e[data-index="676"] {
+  background-position: -704px -128px; }
+
+.ep-e[data-index="677"] {
+  background-position: -704px -160px; }
+
+.ep-e[data-index="678"] {
+  background-position: -704px -192px; }
+
+.ep-e[data-index="679"] {
+  background-position: -704px -224px; }
+
+.ep-e[data-index="672"] {
+  background-position: -704px -0px; }
+
+.ep-e[data-index="681"] {
+  background-position: -704px -288px; }
+
+.ep-e[data-index="671"] {
+  background-position: -672px -1280px; }
+
+.ep-e[data-index="670"] {
+  background-position: -672px -1248px; }
+
+.ep-e[data-index="662"] {
+  background-position: -672px -992px; }
+
+.ep-e[data-index="637"] {
+  background-position: -672px -192px; }
+
+.ep-e[data-index="651"] {
+  background-position: -672px -640px; }
+
+.ep-e[data-index="644"] {
+  background-position: -672px -416px; }
+
+.ep-e[data-index="642"] {
+  background-position: -672px -352px; }
+
+.ep-e[data-index="643"] {
+  background-position: -672px -384px; }
+
+.ep-e[data-index="638"] {
+  background-position: -672px -224px; }
+
+.ep-e[data-index="639"] {
+  background-position: -672px -256px; }
+
+.ep-e[data-index="640"] {
+  background-position: -672px -288px; }
+
+.ep-e[data-index="816"] {
+  background-position: -832px -0px; }
+
+.ep-e[data-index="641"] {
+  background-position: -672px -320px; }
+
+.ep-e[data-index="812"] {
+  background-position: -800px -1184px; }
+
+.ep-e[data-index="824"] {
+  background-position: -832px -256px; }
+
+.ep-e[data-index="813"] {
+  background-position: -800px -1216px; }
+
+.ep-e[data-index="645"] {
+  background-position: -672px -448px; }
+
+.ep-e[data-index="815"] {
+  background-position: -800px -1280px; }
+
+.ep-e[data-index="635"] {
+  background-position: -672px -128px; }
+
+.ep-e[data-index="636"] {
+  background-position: -672px -160px; }
+
+.ep-e[data-index="811"] {
+  background-position: -800px -1152px; }
+
+.ep-e[data-index="819"] {
+  background-position: -832px -96px; }
+
+.ep-e[data-index="682"] {
+  background-position: -704px -320px; }
+
+.ep-e[data-index="653"] {
+  background-position: -672px -704px; }
+
+.ep-e[data-index="655"] {
+  background-position: -672px -768px; }
+
+.ep-e[data-index="657"] {
+  background-position: -672px -832px; }
+
+.ep-e[data-index="658"] {
+  background-position: -672px -864px; }
+
+.ep-e[data-index="659"] {
+  background-position: -672px -896px; }
+
+.ep-e[data-index="654"] {
+  background-position: -672px -736px; }
+
+.ep-e[data-index="652"] {
+  background-position: -672px -672px; }
+
+.ep-e[data-index="660"] {
+  background-position: -672px -928px; }
+
+.ep-e[data-index="656"] {
+  background-position: -672px -800px; }
+
+.ep-e[data-index="720"] {
+  background-position: -736px -224px; }
+
+.ep-e[data-index="648"] {
+  background-position: -672px -544px; }
+
+.ep-e[data-index="798"] {
+  background-position: -800px -256px; }
+
+.ep-e[data-index="118"] {
+  background-position: -96px -160px; }
+
+.ep-e[data-index="650"] {
+  background-position: -672px -608px; }
+
+.ep-e[data-index="649"] {
+  background-position: -672px -576px; }
+
+.ep-e[data-index="646"] {
+  background-position: -672px -480px; }
+
+.ep-e[data-index="647"] {
+  background-position: -672px -512px; }
+
+.ep-e[data-index="952"] {
+  background-position: -960px -544px; }
+
+.ep-e[data-index="430"] {
+  background-position: -352px -1088px; }
+
+.ep-e[data-index="431"] {
+  background-position: -352px -1120px; }
+
+.ep-e[data-index="713"] {
+  background-position: -736px -0px; }
+
+.ep-e[data-index="715"] {
+  background-position: -736px -64px; }
+
+.ep-e[data-index="716"] {
+  background-position: -736px -96px; }
+
+.ep-e[data-index="712"] {
+  background-position: -704px -1280px; }
+
+.ep-e[data-index="799"] {
+  background-position: -800px -288px; }
+
+.ep-e[data-index="800"] {
+  background-position: -800px -320px; }
+
+.ep-e[data-index="127"] {
+  background-position: -96px -1088px; }
+
+.ep-e[data-index="663"] {
+  background-position: -672px -1024px; }
+
+.ep-e[data-index="126"] {
+  background-position: -96px -1056px; }
+
+.ep-e[data-index="802"] {
+  background-position: -800px -384px; }
+
+.ep-e[data-index="801"] {
+  background-position: -800px -352px; }
+
+.ep-e[data-index="710"] {
+  background-position: -704px -1216px; }
+
+.ep-e[data-index="711"] {
+  background-position: -704px -1248px; }
+
+.ep-e[data-index="144"] {
+  background-position: -128px -320px; }
+
+.ep-e[data-index="597"] {
+  background-position: -640px -64px; }
+
+.ep-e[data-index="596"] {
+  background-position: -640px -32px; }
+
+.ep-e[data-index="595"] {
+  background-position: -640px -0px; }
+
+.ep-e[data-index="598"] {
+  background-position: -640px -96px; }
+
+.ep-e[data-index="590"] {
+  background-position: -608px -1152px; }
+
+.ep-e[data-index="143"] {
+  background-position: -128px -288px; }
+
+.ep-e[data-index="591"] {
+  background-position: -608px -1184px; }
+
+.ep-e[data-index="600"] {
+  background-position: -640px -160px; }
+
+.ep-e[data-index="589"] {
+  background-position: -608px -1120px; }
+
+.ep-e[data-index="593"] {
+  background-position: -608px -1248px; }
+
+.ep-e[data-index="592"] {
+  background-position: -608px -1216px; }
+
+.ep-e[data-index="594"] {
+  background-position: -608px -1280px; }
+
+.ep-e[data-index="599"] {
+  background-position: -640px -128px; }
+
+.ep-e[data-index="601"] {
+  background-position: -640px -192px; }
+
+.ep-e[data-index="57"] {
+  background-position: -32px -672px; }
+
+.ep-e[data-index="130"] {
+  background-position: -96px -1184px; }
+
+.ep-e[data-index="56"] {
+  background-position: -32px -640px; }
+
+.ep-e[data-index="759"] {
+  background-position: -768px -160px; }
+
+.ep-e[data-index="59"] {
+  background-position: -32px -736px; }
+
+.ep-e[data-index="131"] {
+  background-position: -96px -1216px; }
+
+.ep-e[data-index="744"] {
+  background-position: -736px -992px; }
+
+.ep-e[data-index="764"] {
+  background-position: -768px -320px; }
+
+.ep-e[data-index="58"] {
+  background-position: -32px -704px; }
+
+.ep-e[data-index="55"] {
+  background-position: -32px -608px; }
+
+.ep-e[data-index="986"] {
+  background-position: -992px -960px; }
+
+.ep-e[data-index="100"] {
+  background-position: -64px -736px; }
+
+.ep-e[data-index="62"] {
+  background-position: -32px -832px; }
+
+.ep-e[data-index="63"] {
+  background-position: -32px -864px; }
+
+.ep-e[data-index="64"] {
+  background-position: -32px -896px; }
+
+.ep-e[data-index="65"] {
+  background-position: -32px -928px; }
+
+.ep-e[data-index="66"] {
+  background-position: -32px -960px; }
+
+.ep-e[data-index="67"] {
+  background-position: -32px -992px; }
+
+.ep-e[data-index="68"] {
+  background-position: -32px -1024px; }
+
+.ep-e[data-index="69"] {
+  background-position: -32px -1056px; }
+
+.ep-e[data-index="70"] {
+  background-position: -32px -1088px; }
+
+.ep-e[data-index="71"] {
+  background-position: -32px -1120px; }
+
+.ep-e[data-index="72"] {
+  background-position: -32px -1152px; }
+
+.ep-e[data-index="73"] {
+  background-position: -32px -1184px; }
+
+.ep-e[data-index="174"] {
+  background-position: -128px -1280px; }
+
+.ep-e[data-index="87"] {
+  background-position: -64px -320px; }
+
+.ep-e[data-index="186"] {
+  background-position: -160px -352px; }
+
+.ep-e[data-index="192"] {
+  background-position: -160px -544px; }
+
+.ep-e[data-index="53"] {
+  background-position: -32px -544px; }
+
+.ep-e[data-index="54"] {
+  background-position: -32px -576px; }
+
+.ep-e[data-index="686"] {
+  background-position: -704px -448px; }
+
+.ep-e[data-index="685"] {
+  background-position: -704px -416px; }
+
+.ep-e[data-index="189"] {
+  background-position: -160px -448px; }
+
+.ep-e[data-index="183"] {
+  background-position: -160px -256px; }
+
+.ep-e[data-index="191"] {
+  background-position: -160px -512px; }
+
+.ep-e[data-index="193"] {
+  background-position: -160px -576px; }
+
+.ep-e[data-index="190"] {
+  background-position: -160px -480px; }
+
+.ep-e[data-index="134"] {
+  background-position: -128px -0px; }
+
+.ep-e[data-index="180"] {
+  background-position: -160px -160px; }
+
+.ep-e[data-index="195"] {
+  background-position: -160px -640px; }
+
+.ep-e[data-index="616"] {
+  background-position: -640px -832px; }
+
+.ep-e[data-index="194"] {
+  background-position: -160px -608px; }
+
+.ep-e[data-index="163"] {
+  background-position: -128px -928px; }
+
+.ep-e[data-index="162"] {
+  background-position: -128px -896px; }
+
+.ep-e[data-index="187"] {
+  background-position: -160px -384px; }
+
+.ep-e[data-index="188"] {
+  background-position: -160px -416px; }
+
+.ep-e[data-index="185"] {
+  background-position: -160px -320px; }
+
+.ep-e[data-index="166"] {
+  background-position: -128px -1024px; }
+
+.ep-e[data-index="167"] {
+  background-position: -128px -1056px; }
+
+.ep-e[data-index="170"] {
+  background-position: -128px -1152px; }
+
+.ep-e[data-index="171"] {
+  background-position: -128px -1184px; }
+
+.ep-e[data-index="168"] {
+  background-position: -128px -1088px; }
+
+.ep-e[data-index="178"] {
+  background-position: -160px -96px; }
+
+.ep-e[data-index="104"] {
+  background-position: -64px -864px; }
+
+.ep-e[data-index="661"] {
+  background-position: -672px -960px; }
+
+.ep-e[data-index="954"] {
+  background-position: -960px -608px; }
+
+.ep-e[data-index="137"] {
+  background-position: -128px -96px; }
+
+.ep-e[data-index="159"] {
+  background-position: -128px -800px; }
+
+.ep-e[data-index="604"] {
+  background-position: -640px -288px; }
+
+.ep-e[data-index="78"] {
+  background-position: -64px -32px; }
+
+.ep-e[data-index="966"] {
+  background-position: -992px -160px; }
+
+.ep-e[data-index="958"] {
+  background-position: -960px -736px; }
+
+.ep-e[data-index="962"] {
+  background-position: -960px -864px; }
+
+.ep-e[data-index="960"] {
+  background-position: -960px -800px; }
+
+.ep-e[data-index="727"] {
+  background-position: -736px -448px; }
+
+.ep-e[data-index="687"] {
+  background-position: -704px -480px; }
+
+.ep-e[data-index="142"] {
+  background-position: -128px -256px; }
+
+.ep-e[data-index="141"] {
+  background-position: -128px -224px; }
+
+.ep-e[data-index="139"] {
+  background-position: -128px -160px; }
+
+.ep-e[data-index="140"] {
+  background-position: -128px -192px; }
+
+.ep-e[data-index="2"] {
+  background-position: -0px -64px; }
+
+.ep-e[data-index="3"] {
+  background-position: -0px -96px; }
+
+.ep-e[data-index="617"] {
+  background-position: -640px -864px; }
+
+.ep-e[data-index="702"] {
+  background-position: -704px -960px; }
+
+.ep-e[data-index="703"] {
+  background-position: -704px -992px; }
+
+.ep-e[data-index="746"] {
+  background-position: -736px -1056px; }
+
+.ep-e[data-index="88"] {
+  background-position: -64px -352px; }
+
+.ep-e[data-index="161"] {
+  background-position: -128px -864px; }
+
+.ep-e[data-index="89"] {
+  background-position: -64px -384px; }
+
+.ep-e[data-index="967"] {
+  background-position: -992px -192px; }
+
+.ep-e[data-index="745"] {
+  background-position: -736px -1024px; }
+
+.ep-e[data-index="79"] {
+  background-position: -64px -64px; }
+
+.ep-e[data-index="184"] {
+  background-position: -160px -288px; }
+
+.ep-e[data-index="627"] {
+  background-position: -640px -1184px; }
+
+.ep-e[data-index="136"] {
+  background-position: -128px -64px; }
+
+.ep-e[data-index="133"] {
+  background-position: -96px -1280px; }
+
+.ep-e[data-index="138"] {
+  background-position: -128px -128px; }
+
+.ep-e[data-index="119"] {
+  background-position: -96px -192px; }
+
+.ep-e[data-index="602"] {
+  background-position: -640px -224px; }
+
+.ep-e[data-index="196"] {
+  background-position: -160px -672px; }
+
+.ep-e[data-index="150"] {
+  background-position: -128px -512px; }
+
+.ep-e[data-index="212"] {
+  background-position: -160px -1184px; }
+
+.ep-e[data-index="32"] {
+  background-position: -0px -1024px; }
+
+.ep-e[data-index="420"] {
+  background-position: -352px -768px; }
+
+.ep-e[data-index="182"] {
+  background-position: -160px -224px; }
+
+.ep-e[data-index="977"] {
+  background-position: -992px -672px; }
+
+.ep-e[data-index="978"] {
+  background-position: -992px -704px; }
+
+.ep-e[data-index="979"] {
+  background-position: -992px -736px; }
+
+.ep-e[data-index="980"] {
+  background-position: -992px -768px; }
+
+.ep-e[data-index="80"] {
+  background-position: -64px -96px; }
+
+.ep-e[data-index="956"] {
+  background-position: -960px -672px; }
+
+.ep-e[data-index="973"] {
+  background-position: -992px -384px; }
+
+.ep-e[data-index="169"] {
+  background-position: -128px -1120px; }
+
+.ep-e[data-index="959"] {
+  background-position: -960px -768px; }
+
+.ep-e[data-index="968"] {
+  background-position: -992px -224px; }
+
+.ep-e[data-index="969"] {
+  background-position: -992px -256px; }
+
+.ep-e[data-index="971"] {
+  background-position: -992px -320px; }
+
+.ep-e[data-index="970"] {
+  background-position: -992px -288px; }
+
+.ep-e[data-index="957"] {
+  background-position: -960px -704px; }
+
+.ep-e[data-index="355"] {
+  background-position: -288px -672px; }
+
+.ep-e[data-index="688"] {
+  background-position: -704px -512px; }
+
+.ep-e[data-index="181"] {
+  background-position: -160px -192px; }
+
+.ep-e[data-index="176"] {
+  background-position: -160px -32px; }
+
+.ep-e[data-index="177"] {
+  background-position: -160px -64px; }
+
+.ep-e[data-index="179"] {
+  background-position: -160px -128px; }
+
+.ep-e[data-index="172"] {
+  background-position: -128px -1216px; }
+
+.ep-e[data-index="175"] {
+  background-position: -160px -0px; }
+
+.ep-e[data-index="173"] {
+  background-position: -128px -1248px; }
+
+.ep-e[data-index="1015"] {
+  background-position: -1024px -736px; }
+
+.ep-e[data-index="1016"] {
+  background-position: -1024px -768px; }
+
+.ep-e[data-index="1017"] {
+  background-position: -1024px -800px; }
+
+.ep-e[data-index="1018"] {
+  background-position: -1024px -832px; }
+
+.ep-e[data-index="1019"] {
+  background-position: -1024px -864px; }
+
+.ep-e[data-index="1020"] {
+  background-position: -1024px -896px; }
+
+.ep-e[data-index="1021"] {
+  background-position: -1024px -928px; }
+
+.ep-e[data-index="1022"] {
+  background-position: -1024px -960px; }
+
+.ep-e[data-index="1023"] {
+  background-position: -1024px -992px; }
+
+.ep-e[data-index="1024"] {
+  background-position: -1024px -1024px; }
+
+.ep-e[data-index="728"] {
+  background-position: -736px -480px; }
+
+.ep-e[data-index="1014"] {
+  background-position: -1024px -704px; }
+
+.ep-e[data-index="731"] {
+  background-position: -736px -576px; }
+
+.ep-e[data-index="35"] {
+  background-position: -0px -1120px; }
+
+.ep-e[data-index="29"] {
+  background-position: -0px -928px; }
+
+.ep-e[data-index="24"] {
+  background-position: -0px -768px; }
+
 .ep-e[data-index="30"] {
-  background-position: -0px -600px; }
+  background-position: -0px -960px; }
 
 .ep-e[data-index="17"] {
-  background-position: -0px -340px;
+  background-position: -0px -544px;
   display: none; }
 
 .ep-e[data-index="31"] {
-  background-position: -0px -620px; }
+  background-position: -0px -992px; }
 
 .ep-e[data-index="22"] {
-  background-position: -0px -440px; }
+  background-position: -0px -704px; }
 
 .ep-e[data-index="23"] {
-  background-position: -0px -460px; }
+  background-position: -0px -736px; }
 
 .ep-e[data-index="18"] {
-  background-position: -0px -360px; }
+  background-position: -0px -576px; }
 
 .ep-e[data-index="19"] {
-  background-position: -0px -380px; }
+  background-position: -0px -608px; }
 
 .ep-e[data-index="697"] {
-  background-position: -440px -500px; }
+  background-position: -704px -800px; }
 
 .ep-e[data-index="698"] {
-  background-position: -440px -520px; }
+  background-position: -704px -832px; }
 
 .ep-e[data-index="699"] {
-  background-position: -440px -540px; }
+  background-position: -704px -864px; }
 
 .ep-e[data-index="36"] {
-  background-position: -0px -720px; }
+  background-position: -0px -1152px; }
 
 .ep-e[data-index="757"] {
-  background-position: -480px -60px; }
+  background-position: -768px -96px; }
 
 .ep-e[data-index="758"] {
-  background-position: -480px -80px; }
+  background-position: -768px -128px; }
 
 .ep-e[data-index="20"] {
-  background-position: -0px -400px; }
+  background-position: -0px -640px; }
 
 .ep-e[data-index="21"] {
-  background-position: -0px -420px; }
+  background-position: -0px -672px; }
 
 .ep-e[data-index="148"] {
-  background-position: -80px -280px; }
+  background-position: -128px -448px; }
 
 .ep-e[data-index="153"] {
-  background-position: -80px -380px; }
+  background-position: -128px -608px; }
 
 .ep-e[data-index="154"] {
-  background-position: -80px -400px; }
+  background-position: -128px -640px; }
 
 .ep-e[data-index="155"] {
-  background-position: -80px -420px; }
+  background-position: -128px -672px; }
 
 .ep-e[data-index="9"] {
-  background-position: -0px -180px; }
+  background-position: -0px -288px; }
 
 .ep-e[data-index="10"] {
-  background-position: -0px -200px; }
+  background-position: -0px -320px; }
 
 .ep-e[data-index="11"] {
-  background-position: -0px -220px; }
+  background-position: -0px -352px; }
 
 .ep-e[data-index="8"] {
-  background-position: -0px -160px; }
+  background-position: -0px -256px; }
 
 .ep-e[data-index="7"] {
-  background-position: -0px -140px; }
+  background-position: -0px -224px; }
 
 .ep-e[data-index="6"] {
-  background-position: -0px -120px; }
+  background-position: -0px -192px; }
 
 .ep-e[data-index="701"] {
-  background-position: -440px -580px; }
+  background-position: -704px -928px; }
 
 .ep-e[data-index="13"] {
-  background-position: -0px -260px; }
+  background-position: -0px -416px; }
 
 .ep-e[data-index="12"] {
-  background-position: -0px -240px; }
+  background-position: -0px -384px; }
 
 .ep-e[data-index="151"] {
-  background-position: -80px -340px; }
+  background-position: -128px -544px; }
 
 .ep-e[data-index="152"] {
-  background-position: -80px -360px; }
+  background-position: -128px -576px; }
 
 .ep-e[data-index="1013"] {
-  background-position: -640px -420px; }
+  background-position: -1024px -672px; }
 
 .ep-e[data-index="5"] {
-  background-position: -0px -100px; }
+  background-position: -0px -160px; }
 
 .ep-e[data-index="733"] {
-  background-position: -460px -400px; }
+  background-position: -736px -640px; }
 
 .ep-e[data-index="730"] {
-  background-position: -460px -340px; }
+  background-position: -736px -544px; }
 
 .ep-e[data-index="729"] {
-  background-position: -460px -320px; }
+  background-position: -736px -512px; }
 
 .ep-e[data-index="732"] {
-  background-position: -460px -380px; }
+  background-position: -736px -608px; }
 
 .ep-e[data-index="370"] {
-  background-position: -180px -720px; }
+  background-position: -288px -1152px; }
 
 .ep-e[data-index="371"] {
-  background-position: -180px -740px; }
+  background-position: -288px -1184px; }
 
 .ep-e[data-index="160"] {
-  background-position: -80px -520px; }
+  background-position: -128px -832px; }
 
 .ep-e[data-index="149"] {
-  background-position: -80px -300px; }
+  background-position: -128px -480px; }
 
 .ep-e[data-index="128"] {
-  background-position: -60px -700px; }
+  background-position: -96px -1120px; }
 
 .ep-e[data-index="700"] {
-  background-position: -440px -560px; }
+  background-position: -704px -896px; }
 
 .ep-e[data-index="145"] {
-  background-position: -80px -220px; }
+  background-position: -128px -352px; }
 
 .ep-e[data-index="146"] {
-  background-position: -80px -240px; }
+  background-position: -128px -384px; }
 
 .ep-e[data-index="147"] {
-  background-position: -80px -260px; }
+  background-position: -128px -416px; }
 
 .ep-e[data-index="129"] {
-  background-position: -60px -720px; }
+  background-position: -96px -1152px; }
 
 .ep-e[data-index="620"] {
-  background-position: -400px -600px; }
+  background-position: -640px -960px; }
 
 .ep-e[data-index="619"] {
-  background-position: -400px -580px; }
+  background-position: -640px -928px; }
 
 .ep-e[data-index="0"] {
   background-position: -0px -0px; }
 
 .ep-e[data-index="1"] {
-  background-position: -0px -20px; }
+  background-position: -0px -32px; }
 
 .ep-e[data-index="4"] {
-  background-position: -0px -80px; }
+  background-position: -0px -128px; }
 
 .ep-e[data-index="723"] {
-  background-position: -460px -200px; }
+  background-position: -736px -320px; }
 
 .ep-e[data-index="722"] {
-  background-position: -460px -180px; }
+  background-position: -736px -288px; }
 
 .ep-e[data-index="724"] {
-  background-position: -460px -220px; }
+  background-position: -736px -352px; }
 
 .ep-e[data-index="726"] {
-  background-position: -460px -260px; }
+  background-position: -736px -416px; }
 
 .ep-e[data-index="725"] {
-  background-position: -460px -240px; }
+  background-position: -736px -384px; }
 
 .ep-e[data-index="47"] {
-  background-position: -20px -120px; }
+  background-position: -32px -192px; }
 
 .ep-e[data-index="721"] {
-  background-position: -460px -160px; }
+  background-position: -736px -256px; }
 
 .ep-e[data-index="91"] {
-  background-position: -40px -280px; }
+  background-position: -64px -448px; }
 
 .ep-e[data-index="92"] {
-  background-position: -40px -300px; }
+  background-position: -64px -480px; }
 
 .ep-e[data-index="749"] {
-  background-position: -460px -720px; }
+  background-position: -736px -1152px; }
 
 .ep-e[data-index="750"] {
-  background-position: -460px -740px; }
+  background-position: -736px -1184px; }
 
 .ep-e[data-index="753"] {
-  background-position: -460px -800px; }
+  background-position: -736px -1280px; }
 
 .ep-e[data-index="754"] {
-  background-position: -480px -0px; }
+  background-position: -768px -0px; }
 
 .ep-e[data-index="751"] {
-  background-position: -460px -760px; }
+  background-position: -736px -1216px; }
 
 .ep-e[data-index="752"] {
-  background-position: -460px -780px; }
+  background-position: -736px -1248px; }
 
 .ep-e[data-index="755"] {
-  background-position: -480px -20px; }
+  background-position: -768px -32px; }
 
 .ep-e[data-index="33"] {
-  background-position: -0px -660px; }
+  background-position: -0px -1056px; }
 
 .ep-e[data-index="34"] {
-  background-position: -0px -680px; }
+  background-position: -0px -1088px; }
 
 .ep-e[data-index="156"] {
-  background-position: -80px -440px; }
+  background-position: -128px -704px; }
 
 .ep-e[data-index="157"] {
-  background-position: -80px -460px; }
+  background-position: -128px -736px; }
 
 .ep-e[data-index="756"] {
-  background-position: -480px -40px; }
+  background-position: -768px -64px; }
 
 .ep-e[data-index="38"] {
-  background-position: -0px -760px; }
+  background-position: -0px -1216px; }
 
 .ep-e[data-index="37"] {
-  background-position: -0px -740px; }
+  background-position: -0px -1184px; }
 
 .ep-e[data-index="40"] {
-  background-position: -0px -800px; }
+  background-position: -0px -1280px; }
 
 .ep-e[data-index="39"] {
-  background-position: -0px -780px; }
+  background-position: -0px -1248px; }
 
 .ep-e[data-index="747"] {
-  background-position: -460px -680px; }
+  background-position: -736px -1088px; }
 
 .ep-e[data-index="748"] {
-  background-position: -460px -700px; }
+  background-position: -736px -1120px; }
 
 .ep-e[data-index="705"] {
-  background-position: -440px -660px; }
+  background-position: -704px -1056px; }
 
 .ep-e[data-index="706"] {
-  background-position: -440px -680px; }
+  background-position: -704px -1088px; }
 
 .ep-e[data-index="707"] {
-  background-position: -440px -700px; }
+  background-position: -704px -1120px; }
 
 .ep-e[data-index="704"] {
-  background-position: -440px -640px; }
+  background-position: -704px -1024px; }
 
 .ep-e[data-index="669"] {
-  background-position: -420px -760px; }
+  background-position: -672px -1216px; }
 
 .ep-e[data-index="668"] {
-  background-position: -420px -740px; }
+  background-position: -672px -1184px; }
 
 .ep-e[data-index="717"] {
-  background-position: -460px -80px; }
+  background-position: -736px -128px; }
 
 .ep-e[data-index="718"] {
-  background-position: -460px -100px; }
+  background-position: -736px -160px; }
 
 .ep-e[data-index="165"] {
-  background-position: -80px -620px; }
+  background-position: -128px -992px; }
 
 .ep-e[data-index="164"] {
-  background-position: -80px -600px; }
+  background-position: -128px -960px; }
 
 .ep-e[data-index="74"] {
-  background-position: -20px -760px; }
+  background-position: -32px -1216px; }
 
 .ep-e[data-index="75"] {
-  background-position: -20px -780px; }
+  background-position: -32px -1248px; }
 
 .ep-e[data-index="76"] {
-  background-position: -20px -800px; }
+  background-position: -32px -1280px; }
 
 .ep-e[data-index="77"] {
-  background-position: -40px -0px; }
+  background-position: -64px -0px; }
 
 .ep-e[data-index="369"] {
-  background-position: -180px -700px; }
+  background-position: -288px -1120px; }
 
 .ep-e[data-index="615"] {
-  background-position: -400px -500px; }
-
-.ep-e[data-index="823"] {
-  background-position: -520px -140px; }
-
-.ep-e[data-index="614"] {
-  background-position: -400px -480px; }
-
-.ep-e[data-index="822"] {
-  background-position: -520px -120px; }
-
-.ep-e[data-index="765"] {
-  background-position: -480px -220px; }
-
-.ep-e[data-index="766"] {
-  background-position: -480px -240px; }
-
-.ep-e[data-index="767"] {
-  background-position: -480px -260px; }
-
-.ep-e[data-index="768"] {
-  background-position: -480px -280px; }
-
-.ep-e[data-index="769"] {
-  background-position: -480px -300px; }
-
-.ep-e[data-index="770"] {
-  background-position: -480px -320px; }
-
-.ep-e[data-index="771"] {
-  background-position: -480px -340px; }
-
-.ep-e[data-index="772"] {
-  background-position: -480px -360px; }
-
-.ep-e[data-index="773"] {
-  background-position: -480px -380px; }
-
-.ep-e[data-index="774"] {
-  background-position: -480px -400px; }
-
-.ep-e[data-index="775"] {
-  background-position: -480px -420px; }
-
-.ep-e[data-index="776"] {
-  background-position: -480px -440px; }
-
-.ep-e[data-index="777"] {
-  background-position: -480px -460px; }
-
-.ep-e[data-index="778"] {
-  background-position: -480px -480px; }
-
-.ep-e[data-index="779"] {
-  background-position: -480px -500px; }
-
-.ep-e[data-index="780"] {
-  background-position: -480px -520px; }
-
-.ep-e[data-index="781"] {
-  background-position: -480px -540px; }
-
-.ep-e[data-index="782"] {
-  background-position: -480px -560px; }
-
-.ep-e[data-index="783"] {
-  background-position: -480px -580px; }
-
-.ep-e[data-index="784"] {
-  background-position: -480px -600px; }
-
-.ep-e[data-index="785"] {
-  background-position: -480px -620px; }
-
-.ep-e[data-index="786"] {
-  background-position: -480px -640px; }
-
-.ep-e[data-index="787"] {
-  background-position: -480px -660px; }
-
-.ep-e[data-index="788"] {
-  background-position: -480px -680px; }
-
-.ep-e[data-index="1028"] {
-  background-position: -640px -720px; }
-
-.ep-e[data-index="1040"] {
-  background-position: -660px -140px; }
-
-.ep-e[data-index="1031"] {
-  background-position: -640px -780px; }
-
-.ep-e[data-index="1089"] {
-  background-position: -680px -300px; }
-
-.ep-e[data-index="1036"] {
-  background-position: -660px -60px; }
-
-.ep-e[data-index="1026"] {
-  background-position: -640px -680px; }
-
-.ep-e[data-index="1033"] {
-  background-position: -660px -0px; }
-
-.ep-e[data-index="1030"] {
-  background-position: -640px -760px; }
-
-.ep-e[data-index="1034"] {
-  background-position: -660px -20px; }
-
-.ep-e[data-index="1029"] {
-  background-position: -640px -740px; }
-
-.ep-e[data-index="1035"] {
-  background-position: -660px -40px; }
-
-.ep-e[data-index="1032"] {
   background-position: -640px -800px; }
 
+.ep-e[data-index="823"] {
+  background-position: -832px -224px; }
+
+.ep-e[data-index="614"] {
+  background-position: -640px -768px; }
+
+.ep-e[data-index="822"] {
+  background-position: -832px -192px; }
+
+.ep-e[data-index="765"] {
+  background-position: -768px -352px; }
+
+.ep-e[data-index="766"] {
+  background-position: -768px -384px; }
+
+.ep-e[data-index="767"] {
+  background-position: -768px -416px; }
+
+.ep-e[data-index="768"] {
+  background-position: -768px -448px; }
+
+.ep-e[data-index="769"] {
+  background-position: -768px -480px; }
+
+.ep-e[data-index="770"] {
+  background-position: -768px -512px; }
+
+.ep-e[data-index="771"] {
+  background-position: -768px -544px; }
+
+.ep-e[data-index="772"] {
+  background-position: -768px -576px; }
+
+.ep-e[data-index="773"] {
+  background-position: -768px -608px; }
+
+.ep-e[data-index="774"] {
+  background-position: -768px -640px; }
+
+.ep-e[data-index="775"] {
+  background-position: -768px -672px; }
+
+.ep-e[data-index="776"] {
+  background-position: -768px -704px; }
+
+.ep-e[data-index="777"] {
+  background-position: -768px -736px; }
+
+.ep-e[data-index="778"] {
+  background-position: -768px -768px; }
+
+.ep-e[data-index="779"] {
+  background-position: -768px -800px; }
+
+.ep-e[data-index="780"] {
+  background-position: -768px -832px; }
+
+.ep-e[data-index="781"] {
+  background-position: -768px -864px; }
+
+.ep-e[data-index="782"] {
+  background-position: -768px -896px; }
+
+.ep-e[data-index="783"] {
+  background-position: -768px -928px; }
+
+.ep-e[data-index="784"] {
+  background-position: -768px -960px; }
+
+.ep-e[data-index="785"] {
+  background-position: -768px -992px; }
+
+.ep-e[data-index="786"] {
+  background-position: -768px -1024px; }
+
+.ep-e[data-index="787"] {
+  background-position: -768px -1056px; }
+
+.ep-e[data-index="788"] {
+  background-position: -768px -1088px; }
+
+.ep-e[data-index="1028"] {
+  background-position: -1024px -1152px; }
+
+.ep-e[data-index="1040"] {
+  background-position: -1056px -224px; }
+
+.ep-e[data-index="1031"] {
+  background-position: -1024px -1248px; }
+
+.ep-e[data-index="1089"] {
+  background-position: -1088px -480px; }
+
+.ep-e[data-index="1036"] {
+  background-position: -1056px -96px; }
+
+.ep-e[data-index="1026"] {
+  background-position: -1024px -1088px; }
+
+.ep-e[data-index="1033"] {
+  background-position: -1056px -0px; }
+
+.ep-e[data-index="1030"] {
+  background-position: -1024px -1216px; }
+
+.ep-e[data-index="1034"] {
+  background-position: -1056px -32px; }
+
+.ep-e[data-index="1029"] {
+  background-position: -1024px -1184px; }
+
+.ep-e[data-index="1035"] {
+  background-position: -1056px -64px; }
+
+.ep-e[data-index="1032"] {
+  background-position: -1024px -1280px; }
+
 .ep-e[data-index="1039"] {
-  background-position: -660px -120px; }
+  background-position: -1056px -192px; }
 
 .ep-e[data-index="1038"] {
-  background-position: -660px -100px; }
+  background-position: -1056px -160px; }
 
 .ep-e[data-index="1037"] {
-  background-position: -660px -80px; }
+  background-position: -1056px -128px; }
 
 .ep-e[data-index="1041"] {
-  background-position: -660px -160px; }
+  background-position: -1056px -256px; }
 
 .ep-e[data-index="1057"] {
-  background-position: -660px -480px; }
+  background-position: -1056px -768px; }
 
 .ep-e[data-index="1048"] {
-  background-position: -660px -300px; }
+  background-position: -1056px -480px; }
 
 .ep-e[data-index="1044"] {
-  background-position: -660px -220px; }
+  background-position: -1056px -352px; }
 
 .ep-e[data-index="1043"] {
-  background-position: -660px -200px; }
+  background-position: -1056px -320px; }
 
 .ep-e[data-index="1061"] {
-  background-position: -660px -560px; }
+  background-position: -1056px -896px; }
 
 .ep-e[data-index="1045"] {
-  background-position: -660px -240px; }
+  background-position: -1056px -384px; }
 
 .ep-e[data-index="1062"] {
-  background-position: -660px -580px; }
+  background-position: -1056px -928px; }
 
 .ep-e[data-index="1050"] {
-  background-position: -660px -340px; }
+  background-position: -1056px -544px; }
 
 .ep-e[data-index="1052"] {
-  background-position: -660px -380px; }
+  background-position: -1056px -608px; }
 
 .ep-e[data-index="1058"] {
-  background-position: -660px -500px; }
+  background-position: -1056px -800px; }
 
 .ep-e[data-index="1054"] {
-  background-position: -660px -420px; }
+  background-position: -1056px -672px; }
 
 .ep-e[data-index="1055"] {
-  background-position: -660px -440px; }
+  background-position: -1056px -704px; }
 
 .ep-e[data-index="1042"] {
-  background-position: -660px -180px; }
+  background-position: -1056px -288px; }
 
 .ep-e[data-index="1060"] {
-  background-position: -660px -540px; }
+  background-position: -1056px -864px; }
 
 .ep-e[data-index="1056"] {
-  background-position: -660px -460px; }
+  background-position: -1056px -736px; }
 
 .ep-e[data-index="1136"] {
-  background-position: -700px -420px; }
+  background-position: -1120px -672px; }
 
 .ep-e[data-index="1270"] {
-  background-position: -760px -640px; }
+  background-position: -1216px -1024px; }
 
 .ep-e[data-index="1053"] {
-  background-position: -660px -400px; }
+  background-position: -1056px -640px; }
 
 .ep-e[data-index="1047"] {
-  background-position: -660px -280px; }
+  background-position: -1056px -448px; }
 
 .ep-e[data-index="1046"] {
-  background-position: -660px -260px; }
+  background-position: -1056px -416px; }
 
 .ep-e[data-index="1049"] {
-  background-position: -660px -320px; }
+  background-position: -1056px -512px; }
 
 .ep-e[data-index="1078"] {
-  background-position: -680px -80px; }
+  background-position: -1088px -128px; }
 
 .ep-e[data-index="1147"] {
-  background-position: -700px -640px; }
+  background-position: -1120px -1024px; }
 
 .ep-e[data-index="1072"] {
-  background-position: -660px -780px; }
+  background-position: -1056px -1248px; }
 
 .ep-e[data-index="1063"] {
-  background-position: -660px -600px; }
+  background-position: -1056px -960px; }
 
 .ep-e[data-index="1130"] {
-  background-position: -700px -300px; }
+  background-position: -1120px -480px; }
 
 .ep-e[data-index="1154"] {
-  background-position: -700px -780px; }
+  background-position: -1120px -1248px; }
 
 .ep-e[data-index="1066"] {
-  background-position: -660px -660px; }
+  background-position: -1056px -1056px; }
 
 .ep-e[data-index="1246"] {
-  background-position: -760px -160px; }
+  background-position: -1216px -256px; }
 
 .ep-e[data-index="1071"] {
-  background-position: -660px -760px; }
+  background-position: -1056px -1216px; }
 
 .ep-e[data-index="1073"] {
-  background-position: -660px -800px; }
+  background-position: -1056px -1280px; }
 
 .ep-e[data-index="1080"] {
-  background-position: -680px -120px; }
+  background-position: -1088px -192px; }
 
 .ep-e[data-index="1064"] {
-  background-position: -660px -620px; }
+  background-position: -1056px -992px; }
 
 .ep-e[data-index="1074"] {
-  background-position: -680px -0px; }
+  background-position: -1088px -0px; }
 
 .ep-e[data-index="1149"] {
-  background-position: -700px -680px; }
+  background-position: -1120px -1088px; }
 
 .ep-e[data-index="1067"] {
-  background-position: -660px -680px; }
+  background-position: -1056px -1088px; }
 
 .ep-e[data-index="1065"] {
-  background-position: -660px -640px; }
+  background-position: -1056px -1024px; }
 
 .ep-e[data-index="1070"] {
-  background-position: -660px -740px; }
+  background-position: -1056px -1184px; }
 
 .ep-e[data-index="1076"] {
-  background-position: -680px -40px; }
+  background-position: -1088px -64px; }
 
 .ep-e[data-index="1127"] {
-  background-position: -700px -240px; }
+  background-position: -1120px -384px; }
 
 .ep-e[data-index="1077"] {
-  background-position: -680px -60px; }
+  background-position: -1088px -96px; }
 
 .ep-e[data-index="1079"] {
-  background-position: -680px -100px; }
+  background-position: -1088px -160px; }
 
 .ep-e[data-index="1081"] {
-  background-position: -680px -140px; }
+  background-position: -1088px -224px; }
 
 .ep-e[data-index="1082"] {
-  background-position: -680px -160px; }
+  background-position: -1088px -256px; }
 
 .ep-e[data-index="1086"] {
-  background-position: -680px -240px; }
+  background-position: -1088px -384px; }
 
 .ep-e[data-index="1085"] {
-  background-position: -680px -220px; }
+  background-position: -1088px -352px; }
 
 .ep-e[data-index="1087"] {
-  background-position: -680px -260px; }
+  background-position: -1088px -416px; }
 
 .ep-e[data-index="1088"] {
-  background-position: -680px -280px; }
+  background-position: -1088px -448px; }
 
 .ep-e[data-index="1091"] {
-  background-position: -680px -340px; }
+  background-position: -1088px -544px; }
 
 .ep-e[data-index="1093"] {
-  background-position: -680px -380px; }
+  background-position: -1088px -608px; }
 
 .ep-e[data-index="1240"] {
-  background-position: -760px -40px; }
+  background-position: -1216px -64px; }
 
 .ep-e[data-index="1117"] {
-  background-position: -700px -40px; }
+  background-position: -1120px -64px; }
 
 .ep-e[data-index="1095"] {
-  background-position: -680px -420px; }
+  background-position: -1088px -672px; }
 
 .ep-e[data-index="1092"] {
-  background-position: -680px -360px; }
+  background-position: -1088px -576px; }
 
 .ep-e[data-index="1097"] {
-  background-position: -680px -460px; }
+  background-position: -1088px -736px; }
 
 .ep-e[data-index="1098"] {
-  background-position: -680px -480px; }
+  background-position: -1088px -768px; }
 
 .ep-e[data-index="1101"] {
-  background-position: -680px -540px; }
+  background-position: -1088px -864px; }
 
 .ep-e[data-index="1103"] {
-  background-position: -680px -580px; }
+  background-position: -1088px -928px; }
 
 .ep-e[data-index="1100"] {
-  background-position: -680px -520px; }
+  background-position: -1088px -832px; }
 
 .ep-e[data-index="1099"] {
-  background-position: -680px -500px; }
+  background-position: -1088px -800px; }
 
 .ep-e[data-index="1104"] {
-  background-position: -680px -600px; }
+  background-position: -1088px -960px; }
 
 .ep-e[data-index="1109"] {
-  background-position: -680px -700px; }
+  background-position: -1088px -1120px; }
 
 .ep-e[data-index="1205"] {
-  background-position: -740px -160px; }
+  background-position: -1184px -256px; }
 
 .ep-e[data-index="1247"] {
-  background-position: -760px -180px; }
+  background-position: -1216px -288px; }
 
 .ep-e[data-index="1105"] {
-  background-position: -680px -620px; }
+  background-position: -1088px -992px; }
 
 .ep-e[data-index="1114"] {
-  background-position: -680px -800px; }
+  background-position: -1088px -1280px; }
 
 .ep-e[data-index="1108"] {
-  background-position: -680px -680px; }
+  background-position: -1088px -1088px; }
 
 .ep-e[data-index="1083"] {
-  background-position: -680px -180px; }
+  background-position: -1088px -288px; }
 
 .ep-e[data-index="1111"] {
-  background-position: -680px -740px; }
+  background-position: -1088px -1184px; }
 
 .ep-e[data-index="1112"] {
-  background-position: -680px -760px; }
+  background-position: -1088px -1216px; }
 
 .ep-e[data-index="1118"] {
-  background-position: -700px -60px; }
+  background-position: -1120px -96px; }
 
 .ep-e[data-index="1113"] {
-  background-position: -680px -780px; }
+  background-position: -1088px -1248px; }
 
 .ep-e[data-index="1107"] {
-  background-position: -680px -660px; }
+  background-position: -1088px -1056px; }
 
 .ep-e[data-index="1116"] {
-  background-position: -700px -20px; }
+  background-position: -1120px -32px; }
 
 .ep-e[data-index="1121"] {
-  background-position: -700px -120px; }
+  background-position: -1120px -192px; }
 
 .ep-e[data-index="1120"] {
-  background-position: -700px -100px; }
+  background-position: -1120px -160px; }
 
 .ep-e[data-index="1110"] {
-  background-position: -680px -720px; }
+  background-position: -1088px -1152px; }
 
 .ep-e[data-index="1115"] {
-  background-position: -700px -0px; }
+  background-position: -1120px -0px; }
 
 .ep-e[data-index="1122"] {
-  background-position: -700px -140px; }
+  background-position: -1120px -224px; }
 
 .ep-e[data-index="1123"] {
-  background-position: -700px -160px; }
+  background-position: -1120px -256px; }
 
 .ep-e[data-index="1128"] {
-  background-position: -700px -260px; }
+  background-position: -1120px -416px; }
 
 .ep-e[data-index="1126"] {
-  background-position: -700px -220px; }
+  background-position: -1120px -352px; }
 
 .ep-e[data-index="1124"] {
-  background-position: -700px -180px; }
+  background-position: -1120px -288px; }
 
 .ep-e[data-index="1129"] {
-  background-position: -700px -280px; }
+  background-position: -1120px -448px; }
 
 .ep-e[data-index="1139"] {
-  background-position: -700px -480px; }
+  background-position: -1120px -768px; }
 
 .ep-e[data-index="1135"] {
-  background-position: -700px -400px; }
+  background-position: -1120px -640px; }
 
 .ep-e[data-index="1131"] {
-  background-position: -700px -320px; }
+  background-position: -1120px -512px; }
 
 .ep-e[data-index="1138"] {
-  background-position: -700px -460px; }
+  background-position: -1120px -736px; }
 
 .ep-e[data-index="1137"] {
-  background-position: -700px -440px; }
+  background-position: -1120px -704px; }
 
 .ep-e[data-index="1132"] {
-  background-position: -700px -340px; }
+  background-position: -1120px -544px; }
 
 .ep-e[data-index="1134"] {
-  background-position: -700px -380px; }
+  background-position: -1120px -608px; }
 
 .ep-e[data-index="1133"] {
-  background-position: -700px -360px; }
+  background-position: -1120px -576px; }
 
 .ep-e[data-index="1140"] {
-  background-position: -700px -500px; }
+  background-position: -1120px -800px; }
 
 .ep-e[data-index="1069"] {
-  background-position: -660px -720px; }
+  background-position: -1056px -1152px; }
 
 .ep-e[data-index="1142"] {
-  background-position: -700px -540px; }
+  background-position: -1120px -864px; }
 
 .ep-e[data-index="1144"] {
-  background-position: -700px -580px; }
+  background-position: -1120px -928px; }
 
 .ep-e[data-index="1141"] {
-  background-position: -700px -520px; }
+  background-position: -1120px -832px; }
 
 .ep-e[data-index="1143"] {
-  background-position: -700px -560px; }
+  background-position: -1120px -896px; }
 
 .ep-e[data-index="1155"] {
-  background-position: -700px -800px; }
+  background-position: -1120px -1280px; }
 
 .ep-e[data-index="1145"] {
-  background-position: -700px -600px; }
+  background-position: -1120px -960px; }
 
 .ep-e[data-index="1148"] {
-  background-position: -700px -660px; }
+  background-position: -1120px -1056px; }
 
 .ep-e[data-index="1276"] {
-  background-position: -760px -760px; }
+  background-position: -1216px -1216px; }
 
 .ep-e[data-index="1153"] {
-  background-position: -700px -760px; }
+  background-position: -1120px -1216px; }
 
 .ep-e[data-index="1146"] {
-  background-position: -700px -620px; }
+  background-position: -1120px -992px; }
 
 .ep-e[data-index="1156"] {
-  background-position: -720px -0px; }
+  background-position: -1152px -0px; }
 
 .ep-e[data-index="1165"] {
-  background-position: -720px -180px; }
+  background-position: -1152px -288px; }
 
 .ep-e[data-index="1157"] {
-  background-position: -720px -20px; }
+  background-position: -1152px -32px; }
 
 .ep-e[data-index="1162"] {
-  background-position: -720px -120px; }
+  background-position: -1152px -192px; }
 
 .ep-e[data-index="1161"] {
-  background-position: -720px -100px; }
+  background-position: -1152px -160px; }
 
 .ep-e[data-index="1166"] {
-  background-position: -720px -200px; }
+  background-position: -1152px -320px; }
 
 .ep-e[data-index="1159"] {
-  background-position: -720px -60px; }
+  background-position: -1152px -96px; }
 
 .ep-e[data-index="1163"] {
-  background-position: -720px -140px; }
+  background-position: -1152px -224px; }
 
 .ep-e[data-index="1164"] {
-  background-position: -720px -160px; }
+  background-position: -1152px -256px; }
 
 .ep-e[data-index="1178"] {
-  background-position: -720px -440px; }
+  background-position: -1152px -704px; }
 
 .ep-e[data-index="1174"] {
-  background-position: -720px -360px; }
+  background-position: -1152px -576px; }
 
 .ep-e[data-index="1172"] {
-  background-position: -720px -320px; }
+  background-position: -1152px -512px; }
 
 .ep-e[data-index="1186"] {
-  background-position: -720px -600px; }
+  background-position: -1152px -960px; }
 
 .ep-e[data-index="1188"] {
-  background-position: -720px -640px; }
+  background-position: -1152px -1024px; }
 
 .ep-e[data-index="1185"] {
-  background-position: -720px -580px; }
+  background-position: -1152px -928px; }
 
 .ep-e[data-index="1175"] {
-  background-position: -720px -380px; }
+  background-position: -1152px -608px; }
 
 .ep-e[data-index="1183"] {
-  background-position: -720px -540px; }
+  background-position: -1152px -864px; }
 
 .ep-e[data-index="1173"] {
-  background-position: -720px -340px; }
+  background-position: -1152px -544px; }
 
 .ep-e[data-index="1180"] {
-  background-position: -720px -480px; }
+  background-position: -1152px -768px; }
 
 .ep-e[data-index="1181"] {
-  background-position: -720px -500px; }
+  background-position: -1152px -800px; }
 
 .ep-e[data-index="1184"] {
-  background-position: -720px -560px; }
+  background-position: -1152px -896px; }
 
 .ep-e[data-index="1278"] {
-  background-position: -760px -800px; }
+  background-position: -1216px -1280px; }
 
 .ep-e[data-index="1187"] {
-  background-position: -720px -620px; }
+  background-position: -1152px -992px; }
 
 .ep-e[data-index="1102"] {
-  background-position: -680px -560px; }
+  background-position: -1088px -896px; }
 
 .ep-e[data-index="1169"] {
-  background-position: -720px -260px; }
+  background-position: -1152px -416px; }
 
 .ep-e[data-index="1168"] {
-  background-position: -720px -240px; }
+  background-position: -1152px -384px; }
 
 .ep-e[data-index="1177"] {
-  background-position: -720px -420px; }
+  background-position: -1152px -672px; }
 
 .ep-e[data-index="1170"] {
-  background-position: -720px -280px; }
+  background-position: -1152px -448px; }
 
 .ep-e[data-index="1182"] {
-  background-position: -720px -520px; }
+  background-position: -1152px -832px; }
 
 .ep-e[data-index="1167"] {
-  background-position: -720px -220px; }
+  background-position: -1152px -352px; }
 
 .ep-e[data-index="1189"] {
-  background-position: -720px -660px; }
+  background-position: -1152px -1056px; }
 
 .ep-e[data-index="1176"] {
-  background-position: -720px -400px; }
+  background-position: -1152px -640px; }
 
 .ep-e[data-index="1190"] {
-  background-position: -720px -680px; }
+  background-position: -1152px -1088px; }
 
 .ep-e[data-index="1199"] {
-  background-position: -740px -40px; }
+  background-position: -1184px -64px; }
 
 .ep-e[data-index="1198"] {
-  background-position: -740px -20px; }
+  background-position: -1184px -32px; }
 
 .ep-e[data-index="1196"] {
-  background-position: -720px -800px; }
+  background-position: -1152px -1280px; }
 
 .ep-e[data-index="1191"] {
-  background-position: -720px -700px; }
+  background-position: -1152px -1120px; }
 
 .ep-e[data-index="1201"] {
-  background-position: -740px -80px; }
+  background-position: -1184px -128px; }
 
 .ep-e[data-index="1195"] {
-  background-position: -720px -780px; }
+  background-position: -1152px -1248px; }
 
 .ep-e[data-index="1192"] {
-  background-position: -720px -720px; }
+  background-position: -1152px -1152px; }
 
 .ep-e[data-index="1194"] {
-  background-position: -720px -760px; }
+  background-position: -1152px -1216px; }
 
 .ep-e[data-index="1200"] {
-  background-position: -740px -60px; }
+  background-position: -1184px -96px; }
 
 .ep-e[data-index="1193"] {
-  background-position: -720px -740px; }
+  background-position: -1152px -1184px; }
 
 .ep-e[data-index="1179"] {
-  background-position: -720px -460px; }
+  background-position: -1152px -736px; }
 
 .ep-e[data-index="1151"] {
-  background-position: -700px -720px; }
+  background-position: -1120px -1152px; }
 
 .ep-e[data-index="1197"] {
-  background-position: -740px -0px; }
+  background-position: -1184px -0px; }
 
 .ep-e[data-index="1202"] {
-  background-position: -740px -100px; }
+  background-position: -1184px -160px; }
 
 .ep-e[data-index="1208"] {
-  background-position: -740px -220px; }
+  background-position: -1184px -352px; }
 
 .ep-e[data-index="1215"] {
-  background-position: -740px -360px; }
+  background-position: -1184px -576px; }
 
 .ep-e[data-index="1213"] {
-  background-position: -740px -320px; }
+  background-position: -1184px -512px; }
 
 .ep-e[data-index="1203"] {
-  background-position: -740px -120px; }
+  background-position: -1184px -192px; }
 
 .ep-e[data-index="1206"] {
-  background-position: -740px -180px; }
+  background-position: -1184px -288px; }
 
 .ep-e[data-index="1216"] {
-  background-position: -740px -380px; }
+  background-position: -1184px -608px; }
 
 .ep-e[data-index="1204"] {
-  background-position: -740px -140px; }
+  background-position: -1184px -224px; }
 
 .ep-e[data-index="1207"] {
-  background-position: -740px -200px; }
+  background-position: -1184px -320px; }
 
 .ep-e[data-index="1211"] {
-  background-position: -740px -280px; }
+  background-position: -1184px -448px; }
 
 .ep-e[data-index="1209"] {
-  background-position: -740px -240px; }
+  background-position: -1184px -384px; }
 
 .ep-e[data-index="1214"] {
-  background-position: -740px -340px; }
+  background-position: -1184px -544px; }
 
 .ep-e[data-index="1212"] {
-  background-position: -740px -300px; }
+  background-position: -1184px -480px; }
 
 .ep-e[data-index="1217"] {
-  background-position: -740px -400px; }
+  background-position: -1184px -640px; }
 
 .ep-e[data-index="1218"] {
-  background-position: -740px -420px; }
+  background-position: -1184px -672px; }
 
 .ep-e[data-index="1219"] {
-  background-position: -740px -440px; }
+  background-position: -1184px -704px; }
 
 .ep-e[data-index="1221"] {
-  background-position: -740px -480px; }
+  background-position: -1184px -768px; }
 
 .ep-e[data-index="1222"] {
-  background-position: -740px -500px; }
+  background-position: -1184px -800px; }
 
 .ep-e[data-index="1051"] {
-  background-position: -660px -360px; }
+  background-position: -1056px -576px; }
 
 .ep-e[data-index="1229"] {
-  background-position: -740px -640px; }
+  background-position: -1184px -1024px; }
 
 .ep-e[data-index="1150"] {
-  background-position: -700px -700px; }
+  background-position: -1120px -1120px; }
 
 .ep-e[data-index="1158"] {
-  background-position: -720px -40px; }
+  background-position: -1152px -64px; }
 
 .ep-e[data-index="1210"] {
-  background-position: -740px -260px; }
+  background-position: -1184px -416px; }
 
 .ep-e[data-index="1268"] {
-  background-position: -760px -600px; }
+  background-position: -1216px -960px; }
 
 .ep-e[data-index="1275"] {
-  background-position: -760px -740px; }
+  background-position: -1216px -1184px; }
 
 .ep-e[data-index="1234"] {
-  background-position: -740px -740px; }
+  background-position: -1184px -1184px; }
 
 .ep-e[data-index="1239"] {
-  background-position: -760px -20px; }
+  background-position: -1216px -32px; }
 
 .ep-e[data-index="1223"] {
-  background-position: -740px -520px; }
+  background-position: -1184px -832px; }
 
 .ep-e[data-index="1235"] {
-  background-position: -740px -760px; }
+  background-position: -1184px -1216px; }
 
 .ep-e[data-index="1220"] {
-  background-position: -740px -460px; }
+  background-position: -1184px -736px; }
 
 .ep-e[data-index="1225"] {
-  background-position: -740px -560px; }
+  background-position: -1184px -896px; }
 
 .ep-e[data-index="1233"] {
-  background-position: -740px -720px; }
+  background-position: -1184px -1152px; }
 
 .ep-e[data-index="1228"] {
-  background-position: -740px -620px; }
+  background-position: -1184px -992px; }
 
 .ep-e[data-index="1241"] {
-  background-position: -760px -60px; }
+  background-position: -1216px -96px; }
 
 .ep-e[data-index="1232"] {
-  background-position: -740px -700px; }
+  background-position: -1184px -1120px; }
 
 .ep-e[data-index="1230"] {
-  background-position: -740px -660px; }
+  background-position: -1184px -1056px; }
 
 .ep-e[data-index="1224"] {
-  background-position: -740px -540px; }
+  background-position: -1184px -864px; }
 
 .ep-e[data-index="1236"] {
-  background-position: -740px -780px; }
+  background-position: -1184px -1248px; }
 
 .ep-e[data-index="1279"] {
-  background-position: -780px -0px; }
+  background-position: -1248px -0px; }
 
 .ep-e[data-index="1119"] {
-  background-position: -700px -80px; }
+  background-position: -1120px -128px; }
 
 .ep-e[data-index="1152"] {
-  background-position: -700px -740px; }
+  background-position: -1120px -1184px; }
 
 .ep-e[data-index="1238"] {
-  background-position: -760px -0px; }
+  background-position: -1216px -0px; }
 
 .ep-e[data-index="1096"] {
-  background-position: -680px -440px; }
+  background-position: -1088px -704px; }
 
 .ep-e[data-index="1160"] {
-  background-position: -720px -80px; }
+  background-position: -1152px -128px; }
 
 .ep-e[data-index="1226"] {
-  background-position: -740px -580px; }
+  background-position: -1184px -928px; }
 
 .ep-e[data-index="1237"] {
-  background-position: -740px -800px; }
+  background-position: -1184px -1280px; }
 
 .ep-e[data-index="1243"] {
-  background-position: -760px -100px; }
+  background-position: -1216px -160px; }
 
 .ep-e[data-index="1227"] {
-  background-position: -740px -600px; }
+  background-position: -1184px -960px; }
 
 .ep-e[data-index="1068"] {
-  background-position: -660px -700px; }
+  background-position: -1056px -1120px; }
 
 .ep-e[data-index="1242"] {
-  background-position: -760px -80px; }
+  background-position: -1216px -128px; }
 
 .ep-e[data-index="1259"] {
-  background-position: -760px -420px; }
+  background-position: -1216px -672px; }
 
 .ep-e[data-index="1250"] {
-  background-position: -760px -240px; }
+  background-position: -1216px -384px; }
 
 .ep-e[data-index="1260"] {
-  background-position: -760px -440px; }
+  background-position: -1216px -704px; }
 
 .ep-e[data-index="1249"] {
-  background-position: -760px -220px; }
+  background-position: -1216px -352px; }
 
 .ep-e[data-index="1252"] {
-  background-position: -760px -280px; }
+  background-position: -1216px -448px; }
 
 .ep-e[data-index="1248"] {
-  background-position: -760px -200px; }
+  background-position: -1216px -320px; }
 
 .ep-e[data-index="1251"] {
-  background-position: -760px -260px; }
+  background-position: -1216px -416px; }
 
 .ep-e[data-index="1255"] {
-  background-position: -760px -340px; }
+  background-position: -1216px -544px; }
 
 .ep-e[data-index="1257"] {
-  background-position: -760px -380px; }
+  background-position: -1216px -608px; }
 
 .ep-e[data-index="1254"] {
-  background-position: -760px -320px; }
+  background-position: -1216px -512px; }
 
 .ep-e[data-index="1256"] {
-  background-position: -760px -360px; }
+  background-position: -1216px -576px; }
 
 .ep-e[data-index="1253"] {
-  background-position: -760px -300px; }
+  background-position: -1216px -480px; }
 
 .ep-e[data-index="1245"] {
-  background-position: -760px -140px; }
+  background-position: -1216px -224px; }
 
 .ep-e[data-index="1258"] {
-  background-position: -760px -400px; }
+  background-position: -1216px -640px; }
 
 .ep-e[data-index="1262"] {
-  background-position: -760px -480px; }
+  background-position: -1216px -768px; }
 
 .ep-e[data-index="1261"] {
-  background-position: -760px -460px; }
+  background-position: -1216px -736px; }
 
 .ep-e[data-index="1027"] {
-  background-position: -640px -700px; }
+  background-position: -1024px -1120px; }
 
 .ep-e[data-index="1106"] {
-  background-position: -680px -640px; }
+  background-position: -1088px -1024px; }
 
 .ep-e[data-index="1264"] {
-  background-position: -760px -520px; }
+  background-position: -1216px -832px; }
 
 .ep-e[data-index="1271"] {
-  background-position: -760px -660px; }
+  background-position: -1216px -1056px; }
 
 .ep-e[data-index="1265"] {
-  background-position: -760px -540px; }
+  background-position: -1216px -864px; }
 
 .ep-e[data-index="1266"] {
-  background-position: -760px -560px; }
+  background-position: -1216px -896px; }
 
 .ep-e[data-index="1273"] {
-  background-position: -760px -700px; }
+  background-position: -1216px -1120px; }
 
 .ep-e[data-index="1267"] {
-  background-position: -760px -580px; }
+  background-position: -1216px -928px; }
 
 .ep-e[data-index="1269"] {
-  background-position: -760px -620px; }
+  background-position: -1216px -992px; }
 
 .ep-e[data-index="1272"] {
-  background-position: -760px -680px; }
+  background-position: -1216px -1088px; }
 
 .ep-e[data-index="1274"] {
-  background-position: -760px -720px; }
+  background-position: -1216px -1152px; }
 
 .ep-e[data-index="1094"] {
-  background-position: -680px -400px; }
+  background-position: -1088px -640px; }
 
 .ep-e[data-index="1277"] {
-  background-position: -760px -780px; }
+  background-position: -1216px -1248px; }
 
 .ep-e[data-index="1280"] {
-  background-position: -780px -20px; }
+  background-position: -1248px -32px; }
 
 .ep-e[data-index="1281"] {
-  background-position: -780px -40px; }
+  background-position: -1248px -64px; }
 
 .ep-e[data-index="1025"] {
-  background-position: -640px -660px; }
+  background-position: -1024px -1056px; }
 
 .ep-e[data-index="1059"] {
-  background-position: -660px -520px; }
+  background-position: -1056px -832px; }
 
 .ep-e[data-index="1075"] {
-  background-position: -680px -20px; }
+  background-position: -1088px -32px; }
 
 .ep-e[data-index="1084"] {
-  background-position: -680px -200px; }
+  background-position: -1088px -320px; }
 
 .ep-e[data-index="1090"] {
-  background-position: -680px -320px; }
+  background-position: -1088px -512px; }
 
 .ep-e[data-index="1125"] {
-  background-position: -700px -200px; }
+  background-position: -1120px -320px; }
 
 .ep-e[data-index="1171"] {
-  background-position: -720px -300px; }
+  background-position: -1152px -480px; }
 
 .ep-e[data-index="1231"] {
-  background-position: -740px -680px; }
+  background-position: -1184px -1088px; }
 
 .ep-e[data-index="1244"] {
-  background-position: -760px -120px; }
+  background-position: -1216px -192px; }
 
 .ep-e[data-index="1263"] {
-  background-position: -760px -500px; }
+  background-position: -1216px -800px; }
 
 @font-face {
   font-family: 'apple-category';
@@ -4883,7 +4883,8 @@ button.emoji {
 .emoji-panel-container {
   height: 0px; }
   .emoji-panel-container .ep-e {
-    background-image: url("../node_modules/emoji-datasource/sheet_apple_20.png"); }
+    background-image: url("../node_modules/emoji-datasource/sheet_apple_64.png");
+    background-size: 1312px; }
   .emoji-panel-container .ep-slide {
     background-color: #2090ea; }
 

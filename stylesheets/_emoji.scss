@@ -102,7 +102,7 @@ button.emoji {
 }
 
 // Import emoji panel css and override paths
-@import '../node_modules/emoji-panel/lib/emoji-panel-apple-20.css';
+@import '../node_modules/emoji-panel/lib/emoji-panel-apple-32.css';
 @font-face {
   font-family: 'apple-category';
   src: url(../node_modules/emoji-panel/lib/asset/apple.ttf) format("truetype");
@@ -112,7 +112,8 @@ button.emoji {
 .emoji-panel-container {
   height: 0px;
   .ep-e {
-    background-image: url('../node_modules/emoji-datasource/sheet_apple_20.png');
+    background-image: url('../node_modules/emoji-datasource/sheet_apple_64.png');
+    background-size: 1312px;
   }
   .ep-slide {
     background-color: $blue;
