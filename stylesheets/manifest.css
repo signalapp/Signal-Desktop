@@ -4880,8 +4880,9 @@ button.emoji {
   font-style: normal; }
 
 .emoji-panel-container {
-  height: 0px;
-  padding-bottom: 5px; }
+  height: 0px; }
+  .emoji-panel-container .ep-container {
+    padding-bottom: 5px; }
   .emoji-panel-container .ep-e {
     background-image: url("../node_modules/emoji-datasource/sheet_apple_64.png");
     background-size: 1312px; }
