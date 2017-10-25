@@ -975,11 +975,11 @@
             this.$messageField.val(
                 [ this.$messageField.val(), ':', name, ':' ].join('')
             );
-            this.closeEmojiPanel();
             this.focusMessageField();
         },
         sendMessage: function(e) {
             this.removeLastSeenIndicator();
+            this.closeEmojiPanel();
 
             var toast;
             if (extension.expired()) {
