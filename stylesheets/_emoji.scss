@@ -82,8 +82,8 @@ img.emoji.jumbo {
 
 button.emoji {
   width: 36px;
-  height: 100%;
-  padding: 5px 0 0;
+  height: 36px;
+  padding: 0;
   opacity: 0.5;
   border: none;
   background: transparent;
@@ -111,6 +111,7 @@ button.emoji {
 
 .emoji-panel-container {
   height: 0px;
+  padding-bottom: 5px;
   .ep-e {
     background-image: url('../node_modules/emoji-datasource/sheet_apple_64.png');
     background-size: 1312px;

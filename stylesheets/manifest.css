@@ -177,12 +177,11 @@ button.hamburger {
 .file-input {
   position: relative; }
   .file-input .choose-file {
-    cursor: pointer;
-    padding-left: 10px; }
+    cursor: pointer; }
   .file-input .paperclip {
     width: 36px;
-    height: 100%;
-    padding: 5px 0 0;
+    height: 36px;
+    padding: 0;
     opacity: 0.5;
     border: none;
     background: transparent; }
@@ -846,8 +845,8 @@ img.emoji.jumbo {
 
 button.emoji {
   width: 36px;
-  height: 100%;
-  padding: 5px 0 0;
+  height: 36px;
+  padding: 0;
   opacity: 0.5;
   border: none;
   background: transparent; }
@@ -4881,7 +4880,8 @@ button.emoji {
   font-style: normal; }
 
 .emoji-panel-container {
-  height: 0px; }
+  height: 0px;
+  padding-bottom: 5px; }
   .emoji-panel-container .ep-e {
     background-image: url("../node_modules/emoji-datasource/sheet_apple_64.png");
     background-size: 1312px; }
@@ -5714,6 +5714,7 @@ span.status {
     display: block;
     max-height: 100px;
     padding: 10px;
+    margin: 0 5px;
     border: 0;
     outline: 0;
     z-index: 5;

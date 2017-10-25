@@ -180,13 +180,12 @@ button.hamburger {
   position: relative;
   .choose-file {
     cursor: pointer;
-    padding-left: 10px;
   }
 
   .paperclip {
     width: 36px;
-    height: 100%;
-    padding: 5px 0 0;
+    height: 36px;
+    padding: 0;
     opacity: 0.5;
     border: none;
     background: transparent;
