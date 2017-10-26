@@ -21,12 +21,16 @@ console.log('setting AUMID to ' + aumid);
 app.setAppUserModelId(aumid);
 
 // Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+//   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 const config = require("./app/config");
 
-if (config.environment === 'production' && !process.mas) {
+// Very important to put before the single instance check, since it is based on the
+//   userData directory.
+const userConfig = require('./app/user_config');
+
+if (!process.mas) {
   console.log('making app single instance');
   var shouldQuit = app.makeSingleInstance(function(commandLine, workingDirectory) {
     // Someone tried to run a second instance, we should focus our window
@@ -38,13 +42,12 @@ if (config.environment === 'production' && !process.mas) {
   });
 
   if (shouldQuit) {
-    console.log('quitting');
+    console.log('quitting; we are the second instance');
     app.quit();
     return;
   }
 }
 
-const userConfig = require('./app/user_config');
 const logging = require('./app/logging');
 
 // This must be after we set up appPath in user_config.js, so we know where logs go
