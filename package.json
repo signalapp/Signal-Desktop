@@ -41,6 +41,7 @@
     "build": "build --em.environment=$SIGNAL_ENV",
     "dist": "npm run generate && npm run build",
     "pack": "npm run generate && npm run build -- --dir",
+    "prepare-build": "node prepare_build.js",
     "pack-prod": "SIGNAL_ENV=production npm run pack",
     "dist-prod": "SIGNAL_ENV=production npm run dist",
     "dist-prod-all": "SIGNAL_ENV=production npm run dist -- -mwl",
@@ -51,13 +52,13 @@
     "prep-release": "npm run generate && grunt prep-release && npm run build-release && npm run build-mas-release && grunt test-release",
     "release-mac": "npm run build-release -- -m --prepackaged release/mac/Signal.app --publish=always",
     "release-win": "npm run build-release -- -w --prepackaged release/windows --publish=always",
-    "release-lin": "npm run build-release -- -l --prepackaged release/linux && VERSION=$npm_package_version ./aptly.sh",
+    "release-lin": "npm run build-release -- -l --prepackaged release/linux && NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "release": "npm run release-mac && npm run release-win && npm run release-lin"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
-      "artifactName": "${productName}-mac-${version}.${ext}",
+      "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "icon": "build/icons/mac/icon.icns",
       "publish": [
@@ -81,7 +82,7 @@
     },
     "win": {
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "artifactName": "${productName}-win-${version}.${ext}",
+      "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal",
       "publisherName": "Signal (Quiet Riddle Ventures, LLC)",
       "icon": "build/icons/win/icon.ico",
@@ -106,7 +107,7 @@
     "linux": {
       "category": "Network",
       "desktop": {
-        "StartupWMClass": "Signal"
+        "StartupWMClass": "${productName}"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": [

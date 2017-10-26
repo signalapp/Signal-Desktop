@@ -1,12 +1,9 @@
-const fs = require('fs');
 const path = require('path');
 
-console.log('reading package.json');
-const jsonFile = fs.readFileSync(path.join(__dirname, '..', 'package.json'));
-const package_json = JSON.parse(jsonFile, 'utf-8');
-const environment = package_json.environment || process.env.NODE_ENV || 'development';
+const packageJson = require('../package.json');
 
-console.log('configuring');
+
+const environment = packageJson.environment || process.env.NODE_ENV || 'development';
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = environment;

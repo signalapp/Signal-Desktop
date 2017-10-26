@@ -3,7 +3,7 @@ const url = require('url');
 const os = require('os');
 
 const _ = require('lodash');
-const electron = require('electron')
+const electron = require('electron');
 
 const BrowserWindow = electron.BrowserWindow;
 const app = electron.app;
@@ -11,12 +11,14 @@ const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
 
+const packageJson = require('./package.json');
 const autoUpdate = require('./app/auto_update');
 const windowState = require('./app/window_state');
 
 
-console.log('setting AUMID');
-app.setAppUserModelId('org.whispersystems.signal-desktop')
+const aumid = 'org.whispersystems.' + packageJson.name;
+console.log('setting AUMID to ' + aumid);
+app.setAppUserModelId(aumid);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -45,7 +47,7 @@ if (config.environment === 'production' && !process.mas) {
 const userConfig = require('./app/user_config');
 const logging = require('./app/logging');
 
-// this must be after we set up appPath in user_config.js
+// This must be after we set up appPath in user_config.js, so we know where logs go
 logging.initialize();
 const logger = logging.getLogger();
 
@@ -60,6 +62,7 @@ function prepareURL(pathSegments) {
     protocol: 'file:',
     slashes: true,
     query: {
+      name: packageJson.productName,
       locale: locale.name,
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
@@ -69,6 +72,7 @@ function prepareURL(pathSegments) {
       environment: config.environment,
       node_version: process.versions.node,
       hostname: os.hostname(),
+      appInstance: process.env.NODE_APP_INSTANCE,
     }
   })
 }
