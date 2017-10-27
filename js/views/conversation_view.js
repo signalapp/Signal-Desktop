@@ -971,10 +971,20 @@
             this.updateMessageFieldSize({});
         },
         insertEmoji: function(e) {
-            var name = emoji.data[e.unified.toLowerCase()][3][0];
-            this.$messageField.val(
-                [ this.$messageField.val(), ':', name, ':' ].join('')
-            );
+            var colons = ':' + emoji.data[e.unified.toLowerCase()][3][0] + ':';
+
+            var textarea = this.$messageField[0];
+            if (textarea.selectionStart || textarea.selectionStart == '0') {
+                var startPos = textarea.selectionStart;
+                var endPos = textarea.selectionEnd;
+                textarea.value = textarea.value.substring(0, startPos)
+                    + colons
+                    + textarea.value.substring(endPos, textarea.value.length);
+                textarea.selectionStart = startPos + colons.length;
+                textarea.selectionEnd = startPos + colons.length;
+            } else {
+                textarea.value += colons;
+            }
             this.focusMessageField();
         },
         sendMessage: function(e) {
