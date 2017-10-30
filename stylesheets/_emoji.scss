@@ -111,14 +111,15 @@ button.emoji {
 
 .emoji-panel-container {
   height: 0px;
-  .ep-container {
-    padding-bottom: 5px;
-  }
   .ep-e {
     background-image: url('../node_modules/emoji-datasource/sheet_apple_64.png');
     background-size: 1312px;
   }
   .ep-slide {
     background-color: $blue;
+  }
+  .ep ::-webkit-scrollbar {
+    // matches what is set in _global.scss; needs !important to override emoji panel CSS
+    width: 10px !important;
   }
 }

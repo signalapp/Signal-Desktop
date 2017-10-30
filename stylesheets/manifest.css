@@ -4881,13 +4881,13 @@ button.emoji {
 
 .emoji-panel-container {
   height: 0px; }
-  .emoji-panel-container .ep-container {
-    padding-bottom: 5px; }
   .emoji-panel-container .ep-e {
     background-image: url("../node_modules/emoji-datasource/sheet_apple_64.png");
     background-size: 1312px; }
   .emoji-panel-container .ep-slide {
     background-color: #2090ea; }
+  .emoji-panel-container .ep ::-webkit-scrollbar {
+    width: 10px !important; }
 
 .settings.modal {
   padding: 50px; }
@@ -5680,8 +5680,10 @@ span.status {
 
 .bottom-bar {
   box-sizing: content-box;
-  padding: 5px 5px 5px 0;
+  padding: 5px 0px 5px 0;
   background: #f3f3f3; }
+  .bottom-bar .compose {
+    padding-right: 5px; }
   .bottom-bar form.active {
     outline: solid 1px #2090ea; }
   .bottom-bar form.send {
