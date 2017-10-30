@@ -42,8 +42,6 @@
                 return;
             }
 
-            window.drawAttention();
-
             var audioNotification = storage.get('audio-notification') || false;
             if (audioNotification) {
                 sound.play();
@@ -53,6 +51,8 @@
             if (setting === SETTINGS.OFF) {
                 return;
             }
+
+            window.drawAttention();
 
             var title;
             var message;
