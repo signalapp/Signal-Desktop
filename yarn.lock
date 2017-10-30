@@ -1167,6 +1167,10 @@ emoji-datasource-apple@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-3.0.0.tgz#1e5eb0443d0a9e20ec3ed01e77114ce601b19cec"
 
+emoji-datasource@2.4.x:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-2.4.4.tgz#b97ac1896bc208ecf1833564a20687a5215d0389"
+
 emoji-datasource@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-3.0.0.tgz#3c46c5aa4c39bb7a0c8e6877ae02cc94dbc1b12f"
@@ -1176,6 +1180,12 @@ emoji-js@^3.2.2:
   resolved "https://registry.yarnpkg.com/emoji-js/-/emoji-js-3.2.2.tgz#9f371f4bbd04f18dce08429925620b66f49af6a5"
   dependencies:
     emoji-datasource "3.0.0"
+
+emoji-panel@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/emoji-panel/-/emoji-panel-0.5.2.tgz#866e935bd1220d4c7037ec904e381656dd7d0364"
+  dependencies:
+    emoji-datasource "2.4.x"
 
 encoding@^0.1.11:
   version "0.1.12"
