@@ -1,8 +1,10 @@
-const app = require('electron').app;
 const path = require('path');
+
+const app = require('electron').app;
 const ElectronConfig = require('electron-config');
 
 const config = require('./config');
+
 
 // use a separate data directory for development
 if (config.has('storageProfile')) {

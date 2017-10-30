@@ -64,10 +64,10 @@
 
             if (newUnreadCount > 0) {
                 window.setBadgeCount(newUnreadCount);
-                window.document.title = "Signal (" + newUnreadCount + ")";
+                window.document.title = window.config.title + " (" + newUnreadCount + ")";
             } else {
                 window.setBadgeCount(0);
-                window.document.title = "Signal";
+                window.document.title = window.config.title;
             }
         },
         startPruning: function() {

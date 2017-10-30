@@ -31,6 +31,20 @@ a {
 </script>
 </div>
 <div>
+<script>
+  var states = [];
+
+  if (window.config.environment !== 'production') {
+    states.push(window.config.environment);
+  }
+  if (window.config.appInstance) {
+    states.push(window.config.appInstance);
+  }
+
+  document.write(states.join(' - '));
+</script>
+</div>
+<div>
   <a href="https://signal.org">signal.org</a>
 </div>
 
