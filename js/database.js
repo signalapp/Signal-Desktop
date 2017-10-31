@@ -319,6 +319,15 @@
                         }
                     }
 
+                    var attachmentsWithData = _.filter(attachments, function(attachment) {
+                        return attachment.data;
+                    });
+
+                    if (attachments.length !== attachmentsWithData.length) {
+                        attributes.attachments = attachmentsWithData;
+                        changed = true;
+                    }
+
                     if (!changed) {
                         return cursor.continue();
                     }
