@@ -274,6 +274,71 @@
                 messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], { unique: true });
                 next();
             }
+        },
+        {
+            version: "16.0",
+            migrate: function(transaction, next) {
+                console.log('migration 16.0');
+                console.log('Cleaning up dirty attachment data');
+
+                var messages = transaction.objectStore('messages');
+                var queryRequest = messages.openCursor();
+                var promises = [];
+
+                queryRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (!cursor) {
+                        return Promise.all(promises).then(function() {
+                            console.log('Fixed', promises.length, 'messages with unexpected attachment structure');
+                            next();
+                        });
+                    }
+
+                    var attributes = cursor.value;
+
+                    var attachments = attributes.attachments;
+                    if (!attachments || !attachments.length) {
+                        return cursor.continue();
+                    }
+
+                    var changed = false;
+                    for (var i = 0, max = attachments.length; i < max; i += 1) {
+                        var attachment = attachments[i];
+
+                        if (attachment.fileName && typeof attachment.fileName !== 'string') {
+                            delete attachment.fileName;
+                            changed = true;
+                        }
+                        if (!attachment.id || (typeof attachment.id !== 'number' && typeof attachment.id !== 'string')) {
+                            attachment.id = _.uniqueId('attachment');
+                            changed = true;
+                        }
+                        if (attachment.contentType && typeof attachment.contentType !== 'string') {
+                            delete attachment.contentType;
+                            changed = true;
+                        }
+                    }
+
+                    if (!changed) {
+                        return cursor.continue();
+                    }
+
+                    promises.push(new Promise(function(resolve, reject) {
+                        var putRequest = messages.put(attributes, attributes.id);
+                        putRequest.onsuccess = resolve;
+                        putRequest.onerror = function(e) {
+                            console.log(e);
+                            reject(e);
+                        };
+                    }));
+
+                    return cursor.continue();
+                };
+
+                queryRequest.onerror = function(event) {
+                    console.log(event);
+                };
+            }
         }
     ];
 }());
