@@ -23,7 +23,7 @@
       }
     },
     cancel: function() {
-      storage.remove('migrationState');
+      return storage.remove('migrationState');
     },
     beginExport: function() {
       storage.put('migrationState', State.EXPORTING);
@@ -48,6 +48,7 @@
       'click .install': 'onClickInstall',
       'click .export': 'onClickExport',
       'click .debug-log': 'onClickDebugLog',
+      'click .cancel': 'onClickCancel',
     },
     initialize: function() {
       if (!Whisper.Migration.inProgress()) {
@@ -71,13 +72,20 @@
       var hideProgress = Whisper.Migration.isComplete();
       var debugLogButton = i18n('submitDebugLog');
       var installButton = i18n('installNewSignal');
+      var cancelButton;
 
       if (this.error) {
+        // If we've never successfully exported, then we allow user to cancel out
+        if (!Whisper.Migration.everComplete()) {
+          cancelButton = i18n('cancel');
+        }
+
         return {
           message: i18n('exportError'),
           hideProgress: true,
           exportButton: i18n('exportAgain'),
           debugLogButton: i18n('submitDebugLog'),
+          cancelButton: cancelButton,
         };
       }
 
@@ -109,11 +117,19 @@
         exportButton: exportButton,
         debugLogButton: debugLogButton,
         installButton: installButton,
+        cancelButton: cancelButton,
       };
     },
     onClickInstall: function() {
       var url = 'https://support.whispersystems.org/hc/en-us/articles/214507138';
       window.open(url, '_blank');
+    },
+    onClickCancel: function() {
+      console.log('Cancelling out of migration workflow after error');
+      Whisper.Migration.cancel().then(function() {
+        console.log('Restarting now');
+        window.location.reload();
+      });
     },
     onClickDebugLog: function() {
       this.openDebugLog();

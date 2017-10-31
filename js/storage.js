@@ -44,8 +44,12 @@
             var item = items.get("" + key);
             if (item) {
                 items.remove(item);
-                item.destroy();
+                return new Promise(function(resolve, reject) {
+                    item.destroy().then(resolve, reject);
+                });
             }
+
+            return Promise.resolve();
         },
 
         onready: function(callback) {
