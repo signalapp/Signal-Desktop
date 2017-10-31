@@ -155,16 +155,20 @@
                     this.appLoadingScreen = null;
                 }
                 this.showMigrationScreen();
-            } else if (storage.get('migrationEnabled')) {
-                var migrationBanner = new Whisper.MigrationAlertBanner().render();
-                migrationBanner.$el.prependTo(this.$el);
             }
+            // We'll re-enable this banner when we've made some usability improvements to
+            //   the migration process:
+            // else {
+            //     var migrationBanner = new Whisper.MigrationAlertBanner().render();
+            //     migrationBanner.$el.prependTo(this.$el);
+            // }
         },
         render_attributes: {
             welcomeToSignal         : i18n('welcomeToSignal'),
             selectAContact          : i18n('selectAContact'),
             searchForPeopleOrGroups : i18n('searchForPeopleOrGroups'),
             submitDebugLog          : i18n('submitDebugLog'),
+            migrate                 : i18n('migrateToStandalone'),
             settings                : i18n('settings'),
             restartSignal           : i18n('restartSignal'),
         },

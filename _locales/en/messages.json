@@ -15,6 +15,10 @@
       "message": "Migrate",
       "description": "Button label to begin migrating this client to Electron"
     },
+    "migrateToStandalone": {
+        "message": "Migrate to standalone",
+        "description": "Menu option to begin migrating this client to Electron"
+    },
     "export": {
       "message": "Choose directory",
       "description": "Button to allow the user to export all data from app as part of migration process"
