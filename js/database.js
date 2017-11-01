@@ -305,13 +305,16 @@
                     for (var i = 0, max = attachments.length; i < max; i += 1) {
                         var attachment = attachments[i];
 
-                        if (attachment.fileName && typeof attachment.fileName !== 'string') {
-                            delete attachment.fileName;
-                            changed = true;
-                        }
-                        if (!attachment.id || (typeof attachment.id !== 'number' && typeof attachment.id !== 'string')) {
-                            attachment.id = _.uniqueId('attachment');
-                            changed = true;
+                        if (typeof attachment.fileName !== 'string') {
+                            if (attachment.fileName) {
+                                delete attachment.fileName;
+                                changed = true;
+                            }
+
+                            if (!attachment.id || (typeof attachment.id !== 'number' && typeof attachment.id !== 'string')) {
+                                attachment.id = _.uniqueId('attachment');
+                                changed = true;
+                            }
                         }
                         if (attachment.contentType && typeof attachment.contentType !== 'string') {
                             delete attachment.contentType;
