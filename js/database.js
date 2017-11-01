@@ -9,6 +9,50 @@
     window.Whisper.Database.id = window.Whisper.Database.id || 'signal';
     window.Whisper.Database.nolog = true;
 
+    window.Whisper.Database.cleanMessageAttachments = function(message) {
+        var attachments = message.attachments;
+        var changed = false;
+
+        if (!attachments || !attachments.length) {
+            return false;
+        }
+
+        for (var i = 0, max = attachments.length; i < max; i += 1) {
+            var attachment = attachments[i];
+
+            // catch missing and non-string filenames
+            if (typeof attachment.fileName !== 'string') {
+                if (attachment.fileName) {
+                    delete attachment.fileName;
+                    changed = true;
+                }
+
+                // if id is falsey, or neither number or string, we make our own id
+                if (!attachment.id || (typeof attachment.id !== 'number' && typeof attachment.id !== 'string')) {
+                    attachment.id = _.uniqueId('attachment');
+                    changed = true;
+                }
+            }
+            // if contentType is truthy, we ensure it's a string
+            if (attachment.contentType && typeof attachment.contentType !== 'string') {
+                delete attachment.contentType;
+                changed = true;
+            }
+        }
+
+        // elminate all attachments without data
+        var attachmentsWithData = _.filter(attachments, function(attachment) {
+            return attachment.data;
+        });
+
+        if (attachments.length !== attachmentsWithData.length) {
+            message.attachments = attachmentsWithData;
+            changed = true;
+        }
+
+        return changed;
+    };
+
     Whisper.Database.migrations = [
         {
             version: "1.0",
@@ -273,6 +317,49 @@
                 var messages = transaction.objectStore('messages');
                 messages.createIndex('unique', ['source', 'sourceDevice', 'sent_at'], { unique: true });
                 next();
+            }
+        },
+        {
+            version: "16.0",
+            migrate: function(transaction, next) {
+                console.log('migration 16.0');
+                console.log('Cleaning up dirty attachment data');
+
+                var messages = transaction.objectStore('messages');
+                var queryRequest = messages.openCursor();
+                var promises = [];
+
+                queryRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (!cursor) {
+                        return Promise.all(promises).then(function() {
+                            console.log('Fixed', promises.length, 'messages with unexpected attachment structure');
+                            next();
+                        });
+                    }
+
+                    var message = cursor.value;
+                    var changed = window.Whisper.Database.cleanMessageAttachments(message);
+
+                    if (!changed) {
+                        return cursor.continue();
+                    }
+
+                    promises.push(new Promise(function(resolve, reject) {
+                        var putRequest = messages.put(message, message.id);
+                        putRequest.onsuccess = resolve;
+                        putRequest.onerror = function(e) {
+                            console.log(e);
+                            reject(e);
+                        };
+                    }));
+
+                    return cursor.continue();
+                };
+
+                queryRequest.onerror = function(event) {
+                    console.log(event);
+                };
             }
         }
     ];
