@@ -51,7 +51,7 @@
         }
 
         return changed;
-    }
+    };
 
     Whisper.Database.migrations = [
         {
