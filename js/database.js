@@ -320,7 +320,7 @@
             }
         },
         {
-            version: "17.0",
+            version: "16.0",
             migrate: function(transaction, next) {
                 console.log('migration 16.0');
                 console.log('Cleaning up dirty attachment data');
