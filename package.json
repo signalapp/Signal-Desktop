@@ -13,7 +13,7 @@
   "devDependencies": {
     "asar": "^0.13.0",
     "bower": "^1.3.12",
-    "electron": "~1.6.1",
+    "electron": "~1.7.9",
     "electron-builder": "^19.27.3",
     "electron-icon-maker": "^0.0.3",
     "electron-publisher-s3": "^19.0.1",
