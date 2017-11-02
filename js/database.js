@@ -62,7 +62,7 @@
         }
 
         var attachmentsWithData = _.filter(attachments, function(attachment) {
-            return attachment.data && attachment.data.length;
+            return attachment.data && (attachment.data.length || attachment.data.byteLength);
         });
 
         if (attachments.length !== attachmentsWithData.length) {

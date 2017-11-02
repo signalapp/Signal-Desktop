@@ -150,11 +150,10 @@ describe('Database', function() {
           id: 1,
           data: null,
         }, {
-          id: 2,
-          data: [],
-        }, {
           id: 3,
-          data: 'something'
+          data: {
+            byteLength: 1,
+          },
         }],
       };
       const actual = window.Whisper.Database.dropZeroLengthAttachments(message);
