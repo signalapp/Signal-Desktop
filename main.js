@@ -269,8 +269,10 @@ function showAbout() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+let ready = false;
 app.on('ready', function() {
   logger.info('app ready');
+  ready = true;
 
   if (!locale) {
     locale = loadLocale();
@@ -310,6 +312,10 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
+  if (!ready) {
+    return;
+  }
+
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow) {
