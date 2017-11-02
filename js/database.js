@@ -53,6 +53,26 @@
         return changed;
     };
 
+    window.Whisper.Database.dropZeroLengthAttachments = function(message) {
+        var attachments = message.attachments;
+        var changed = false;
+
+        if (!attachments || !attachments.length) {
+            return false;
+        }
+
+        var attachmentsWithData = _.filter(attachments, function(attachment) {
+            return attachment.data && attachment.data.length;
+        });
+
+        if (attachments.length !== attachmentsWithData.length) {
+            message.attachments = attachmentsWithData;
+            changed = true;
+        }
+
+        return changed;
+    };
+
     Whisper.Database.migrations = [
         {
             version: "1.0",
@@ -340,6 +360,49 @@
 
                     var message = cursor.value;
                     var changed = window.Whisper.Database.cleanMessageAttachments(message);
+
+                    if (!changed) {
+                        return cursor.continue();
+                    }
+
+                    promises.push(new Promise(function(resolve, reject) {
+                        var putRequest = messages.put(message, message.id);
+                        putRequest.onsuccess = resolve;
+                        putRequest.onerror = function(e) {
+                            console.log(e);
+                            reject(e);
+                        };
+                    }));
+
+                    return cursor.continue();
+                };
+
+                queryRequest.onerror = function(event) {
+                    console.log(event);
+                };
+            }
+        },
+        {
+            version: "17.0",
+            migrate: function(transaction, next) {
+                console.log('migration 17.0');
+                console.log('Removing attachments with zero-length data');
+
+                var messages = transaction.objectStore('messages');
+                var queryRequest = messages.openCursor();
+                var promises = [];
+
+                queryRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (!cursor) {
+                        return Promise.all(promises).then(function() {
+                            console.log('Fixed', promises.length, 'messages with unexpected attachment structure');
+                            next();
+                        });
+                    }
+
+                    var message = cursor.value;
+                    var changed = window.Whisper.Database.dropZeroLengthAttachments(message);
 
                     if (!changed) {
                         return cursor.continue();

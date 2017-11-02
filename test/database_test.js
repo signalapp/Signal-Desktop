@@ -114,4 +114,54 @@ describe('Database', function() {
       assert.strictEqual(actual, true);
     });
   });
+
+  describe('dropZeroLengthAttachments', function() {
+    it('does not modify a message with no attachments field', function() {
+      const message = {};
+      const actual = window.Whisper.Database.dropZeroLengthAttachments(message);
+
+      assert.strictEqual(actual, false);
+    });
+
+    it('does not modify a message with no attachments', function() {
+      const message = {
+        attachments: [],
+      };
+      const actual = window.Whisper.Database.dropZeroLengthAttachments(message);
+
+      assert.strictEqual(actual, false);
+    });
+
+    it('does not modify a message with an attachment with a non-zero data field', function() {
+      const message = {
+        attachments: [{
+          fileName: 'blah.jpg',
+          data: 'something',
+        }],
+      };
+      const actual = window.Whisper.Database.dropZeroLengthAttachments(message);
+
+      assert.strictEqual(actual, false);
+    });
+
+    it('drops an attachment with null or zero-length data field', function() {
+      const message = {
+        attachments: [{
+          id: 1,
+          data: null,
+        }, {
+          id: 2,
+          data: [],
+        }, {
+          id: 3,
+          data: 'something'
+        }],
+      };
+      const actual = window.Whisper.Database.dropZeroLengthAttachments(message);
+
+      assert.strictEqual(message.attachments.length, 1);
+      assert.strictEqual(message.attachments[0].id, 3);
+      assert.strictEqual(actual, true);
+    });
+  });
 });

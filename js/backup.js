@@ -219,6 +219,7 @@
 
   function createDirectory(parent, name) {
     var sanitized = sanitizeFileName(name);
+    console._log('-- about to create directory', sanitized);
     return new Promise(function(resolve, reject) {
       parent.getDirectory(sanitized, {create: true, exclusive: true}, resolve, reject);
     });
@@ -226,6 +227,7 @@
 
   function createFileAndWriter(parent, name) {
     var sanitized = sanitizeFileName(name);
+    console._log('-- about to create file', sanitized);
     return new Promise(function(resolve, reject) {
       parent.getFile(sanitized, {create: true, exclusive: true}, function(file) {
         return file.createWriter(function(writer) {
@@ -398,6 +400,7 @@
 
             if (attachments && attachments.length) {
               var process = function() {
+                console._log('-- writing attachments for message', message.id);
                 return writeAttachments(dir, name, messageId, attachments);
               };
               promiseChain = promiseChain.then(process);
