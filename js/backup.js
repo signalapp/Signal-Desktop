@@ -227,7 +227,7 @@
     var sanitized = sanitizeFileName(name);
     console._log('-- about to create directory', sanitized);
     return new Promise(function(resolve, reject) {
-      parent.getDirectory(sanitized, {create: true, exclusive: true}, resolve, reject);
+      parent.getDirectory(sanitized, {create: true}, resolve, reject);
     });
   }
 
@@ -235,7 +235,7 @@
     var sanitized = sanitizeFileName(name);
     console._log('-- about to create file', sanitized);
     return new Promise(function(resolve, reject) {
-      parent.getFile(sanitized, {create: true, exclusive: true}, function(file) {
+      parent.getFile(sanitized, {create: true}, function(file) {
         return file.createWriter(function(writer) {
           resolve(writer);
         }, reject);
