@@ -5,7 +5,8 @@
   var State = {
     DISCONNECTING: 1,
     EXPORTING: 2,
-    COMPLETE: 3
+    COMPLETE: 3,
+    CHOOSE_DIR: 4,
   };
 
   Whisper.Migration = {
@@ -53,6 +54,7 @@
       'click .export': 'onClickExport',
       'click .debug-log': 'onClickDebugLog',
       'click .cancel': 'onClickCancel',
+      'click .next': 'onClickNext',
     },
     initialize: function() {
       if (!Whisper.Migration.inProgress()) {
@@ -77,6 +79,7 @@
       var debugLogButton = i18n('submitDebugLog');
       var installButton = i18n('installNewSignal');
       var cancelButton;
+      var nextButton;
 
       if (this.error) {
         // If we've never successfully exported, then we allow user to cancel out
@@ -99,7 +102,6 @@
           message = i18n('exportComplete', location);
           exportButton = i18n('exportAgain');
           debugLogButton = null;
-          cancelButton = i18n('cancelMigration');
           break;
         case State.EXPORTING:
           message = i18n('exporting');
@@ -108,12 +110,20 @@
           message = i18n('migrationDisconnecting');
           installButton = null;
           break;
-        default:
+        case State.CHOOSE_DIR:
           hideProgress = true;
           message = i18n('exportInstructions');
           exportButton = i18n('export');
           debugLogButton = null;
           installButton = null;
+          break;
+        default:
+          message = i18n('migrateInstallStep');
+          hideProgress = true;
+          debugLogButton = null;
+          nextButton = i18n('installComplete');
+          cancelButton = i18n('cancel');
+          break;
       }
 
       return {
@@ -123,11 +133,16 @@
         debugLogButton: debugLogButton,
         installButton: installButton,
         cancelButton: cancelButton,
+        nextButton: nextButton,
       };
     },
     onClickInstall: function() {
       var url = 'https://support.whispersystems.org/hc/en-us/articles/214507138';
       window.open(url, '_blank');
+    },
+    onClickNext: function() {
+      storage.put('migrationState', State.CHOOSE_DIR);
+      this.render();
     },
     cancel: function() {
       console.log('Cancelling out of migration workflow after error');
