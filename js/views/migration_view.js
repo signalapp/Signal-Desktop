@@ -23,7 +23,11 @@
       }
     },
     cancel: function() {
-      return storage.remove('migrationState');
+      return Promise.all([
+        storage.remove('migrationState'),
+        storage.remove('migrationEverCompleted'),
+        storage.remove('migrationStorageLocation')
+      ]);
     },
     beginExport: function() {
       storage.put('migrationState', State.EXPORTING);
@@ -95,6 +99,7 @@
           message = i18n('exportComplete', location);
           exportButton = i18n('exportAgain');
           debugLogButton = null;
+          cancelButton = i18n('cancelMigration');
           break;
         case State.EXPORTING:
           message = i18n('exporting');
@@ -124,12 +129,23 @@
       var url = 'https://support.whispersystems.org/hc/en-us/articles/214507138';
       window.open(url, '_blank');
     },
-    onClickCancel: function() {
+    cancel: function() {
       console.log('Cancelling out of migration workflow after error');
       Whisper.Migration.cancel().then(function() {
         console.log('Restarting now');
         window.location.reload();
       });
+    },
+    onClickCancel: function() {
+      var dialog = new Whisper.ConfirmationDialogView({
+          message: i18n('cancelWarning'),
+          okText: i18n('cancelMigration'),
+          cancelText: i18n('continueMigration'),
+          resolve: this.cancel.bind(this),
+      });
+
+      this.$el.prepend(dialog.el);
+      dialog.focusCancel();
     },
     onClickDebugLog: function() {
       this.openDebugLog();
@@ -204,3 +220,4 @@
     }
   });
 }());
+

@@ -132,6 +132,12 @@
               stream.write('}').then(function() {
                 console.log('Finished writing all stores to disk');
                 resolve();
+              }, function(error) {
+                console.log(
+                  'Failed to write db.json to disk',
+                  error && error.stack ? error.stack : error
+                );
+                reject(error);
               });
             }
           }
