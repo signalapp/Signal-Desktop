@@ -101,10 +101,12 @@
           var location = Whisper.Migration.getExportLocation() || i18n('selectedLocation');
           message = i18n('exportComplete', location);
           exportButton = i18n('exportAgain');
+          installButton = null;
           debugLogButton = null;
           break;
         case State.EXPORTING:
           message = i18n('exporting');
+          installButton = null;
           break;
         case State.DISCONNECTING:
           message = i18n('migrationDisconnecting');
