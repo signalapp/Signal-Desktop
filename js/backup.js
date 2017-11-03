@@ -407,6 +407,9 @@
             if (attachments && attachments.length) {
               var process = function() {
                 console._log('-- writing attachments for message', message.id);
+                if (!message.received_at) {
+                  return Promise.reject(new Error('Message', message.id, 'had no received_at'));
+                }
                 return writeAttachments(dir, name, messageId, attachments);
               };
               promiseChain = promiseChain.then(process);
