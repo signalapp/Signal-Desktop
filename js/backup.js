@@ -3,6 +3,9 @@
   window.Whisper = window.Whisper || {};
 
   function stringToBlob(string) {
+    if (!string || (typeof string !== 'string' && !(string instanceof ArrayBuffer))) {
+      throw new Error('stringToBlob: provided value is something strange:', string, JSON.stringify(stringify(string)));
+    }
     var buffer = dcodeIO.ByteBuffer.wrap(string).toArrayBuffer();
     return new Blob([buffer]);
   }
@@ -61,7 +64,9 @@
   }
 
   function exportNonMessages(idb_db, parent) {
-    return createFileAndWriter(parent, 'db.json').then(function(writer) {
+    // We wouldn't want to overwrite another db file.
+    var exclusive = true;
+    return createFileAndWriter(parent, 'db.json', exclusive).then(function(writer) {
       return exportToJsonFile(idb_db, writer);
     });
   }
@@ -223,19 +228,19 @@
     });
   }
 
-  function createDirectory(parent, name) {
+  function createDirectory(parent, name, exclusive) {
     var sanitized = sanitizeFileName(name);
     console._log('-- about to create directory', sanitized);
     return new Promise(function(resolve, reject) {
-      parent.getDirectory(sanitized, {create: true, exclusive: true}, resolve, reject);
+      parent.getDirectory(sanitized, {create: true, exclusive: exclusive}, resolve, reject);
     });
   }
 
-  function createFileAndWriter(parent, name) {
+  function createFileAndWriter(parent, name, exclusive) {
     var sanitized = sanitizeFileName(name);
     console._log('-- about to create file', sanitized);
     return new Promise(function(resolve, reject) {
-      parent.getFile(sanitized, {create: true, exclusive: true}, function(file) {
+      parent.getFile(sanitized, {create: true, exclusive: exclusive}, function(file) {
         return file.createWriter(function(writer) {
           resolve(writer);
         }, reject);
@@ -322,14 +327,21 @@
 
   function writeAttachment(dir, attachment) {
     var filename = getAttachmentFileName(attachment);
-    return createFileAndWriter(dir, filename).then(function(writer) {
+    // If attachments are in messages with the same received_at and the same name,
+    //   then we'll let that overwrite happen. It should be very uncommon.
+    var exclusive = false;
+    return createFileAndWriter(dir, filename, exclusive).then(function(writer) {
       var stream = createOutputStream(writer);
       return stream.write(attachment.data);
     });
   }
 
   function writeAttachments(parentDir, name, messageId, attachments) {
-    return createDirectory(parentDir, messageId).then(function(dir) {
+    // We've had a lot of trouble with attachments, likely due to messages with the same
+    //   received_at in the same conversation. So we sacrifice one of the attachments in
+    //   this unusual case.
+    var exclusive = false;
+    return createDirectory(parentDir, messageId, exclusive).then(function(dir) {
       return Promise.all(_.map(attachments, function(attachment) {
         return writeAttachment(dir, attachment);
       }));
@@ -350,7 +362,9 @@
 
   function exportConversation(idb_db, name, conversation, dir) {
     console.log('exporting conversation', name);
-    return createFileAndWriter(dir, 'messages.json').then(function(writer) {
+    // We wouldn't want to overwrite the contents of a different conversation.
+    var exclusive = true;
+    return createFileAndWriter(dir, 'messages.json', exclusive).then(function(writer) {
       return new Promise(function(resolve, reject) {
         var transaction = idb_db.transaction('messages', "readwrite");
         transaction.onerror = function(e) {
@@ -407,6 +421,9 @@
             if (attachments && attachments.length) {
               var process = function() {
                 console._log('-- writing attachments for message', message.id);
+                if (!message.received_at) {
+                  return Promise.reject(new Error('Message', message.id, 'had no received_at'));
+                }
                 return writeAttachments(dir, name, messageId, attachments);
               };
               promiseChain = promiseChain.then(process);
@@ -496,7 +513,10 @@
           var name = getConversationLoggingName(conversation);
 
           var process = function() {
-            return createDirectory(parentDir, dir).then(function(dir) {
+            // If we have a conversation directory collision, the user will lose the
+            //   contents of the first conversation. So we throw an error.
+            var exclusive = true;
+            return createDirectory(parentDir, dir, exclusive).then(function(dir) {
               return exportConversation(idb_db, name, conversation, dir);
             });
           };
@@ -667,7 +687,9 @@
         return openDatabase().then(function(idb_db) {
           idb = idb_db;
           var name = 'Signal Export ' + getTimestamp();
-          return createDirectory(directoryEntry, name);
+          // We don't want to overwrite another signal export, so we set exclusive = true
+          var exclusive = true;
+          return createDirectory(directoryEntry, name, exclusive);
         }).then(function(directory) {
           dir = directory;
           return exportNonMessages(idb, dir);

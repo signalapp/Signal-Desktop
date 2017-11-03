@@ -15,12 +15,20 @@
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
     },
+    "installComplete": {
+      "message": "Install is complete",
+      "description": "Button to click when user has installed the new Signal Desktop"
+    },
     "migrationWarning": {
       "message": "The Signal Desktop Chrome app has been deprecated. Would you like to migrate to the new Signal Desktop now?",
       "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
     },
+    "migrateInstallStep": {
+      "message": "The first step is to install the new Signal Desktop.",
+      "description": "The first step in the export process; installing the standalone desktop app, to ensure it is available for that platform."
+    },
     "exportInstructions": {
-      "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+      "message": "Now, choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
       "description": "Description of the export process"
     },
     "migrate": {
