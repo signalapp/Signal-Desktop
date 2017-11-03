@@ -1,4 +1,16 @@
 {
+    "cancelMigration": {
+      "message": "Cancel migration",
+      "description": "Shown on 'export complete' screen, allowing user to use Chrome App again"
+    },
+    "continueMigration": {
+      "message": "Continue migration",
+      "description": "Shown on 'cancel migration' confirmation dialog, dismissing the dialog without restoring Chrome App use',"
+    },
+    "cancelWarning": {
+      "message": "Are you sure? If you import the data you've already exported, it will conflict with this installation. Please consider deleting all exported data if you continue with cancellation.",
+      "description": "Shown on a confirmation dialog presented before the user cancels out of the migration process"
+    },
     "loading": {
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
