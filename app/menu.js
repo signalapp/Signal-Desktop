@@ -7,7 +7,7 @@ function createTemplate(options, messages) {
   const openForums = options.openForums;
 
   let template = [{
-    label: 'File',
+    label: '&File',
     submenu: [
       {
         role: 'quit',
@@ -15,7 +15,7 @@ function createTemplate(options, messages) {
     ]
   },
   {
-    label: 'Edit',
+    label: '&Edit',
     submenu: [
       {
         role: 'undo',
@@ -47,7 +47,7 @@ function createTemplate(options, messages) {
     ]
   },
   {
-    label: 'View',
+    label: '&View',
     submenu: [
       {
         role: 'resetzoom',
@@ -80,6 +80,7 @@ function createTemplate(options, messages) {
     ]
   },
   {
+    label: '&Window',
     role: 'window',
     submenu: [
       {
@@ -88,6 +89,7 @@ function createTemplate(options, messages) {
     ]
   },
   {
+    label: '&Help',
     role: 'help',
     submenu: [
       {
