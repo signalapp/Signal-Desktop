@@ -37474,7 +37474,7 @@ var TextSecureServer = (function() {
             url = options.host +  '/' + options.path;
         }
         console.log(options.type, url);
-        var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 5000;
+        var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
         var fetchOptions = {
           method: options.type,
@@ -38679,7 +38679,7 @@ MessageReceiver.prototype.extend({
 
             return Promise.all(_.map(items, function(item) {
                 var attempts = 1 + (item.attempts || 0);
-                if (attempts >= 5) {
+                if (attempts >= 2) {
                     console.log('getAllFromCache final attempt for envelope', item.id);
                     return textsecure.storage.unprocessed.remove(item.id);
                 } else {
