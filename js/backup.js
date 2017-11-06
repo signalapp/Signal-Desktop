@@ -3,8 +3,11 @@
   window.Whisper = window.Whisper || {};
 
   function stringToBlob(string) {
-    if (!string || (typeof string !== 'string' && !(string instanceof ArrayBuffer))) {
-      throw new Error('stringToBlob: provided value is something strange:', string, JSON.stringify(stringify(string)));
+    if (string === null || string === undefined) {
+      string = '';
+    }
+    if (typeof string !== 'string' && !(string instanceof ArrayBuffer)) {
+      string = new Uint8Array(string);
     }
     var buffer = dcodeIO.ByteBuffer.wrap(string).toArrayBuffer();
     return new Blob([buffer]);
