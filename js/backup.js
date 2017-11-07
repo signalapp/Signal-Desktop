@@ -7,6 +7,10 @@
       string = '';
     }
     if (typeof string !== 'string' && !(string instanceof ArrayBuffer)) {
+      // Not sure what this is, but perhaps we can make the right thing happen by sending
+      //   it to a Uint8Array, which the wrap() method below handles just fine. Uint8Array
+      //   can take an ArrayBuffer, so it will help if I'm right that the weird attachment
+      //   data is an ArrayBuffer-like thing, while not being techincally an instanceof.
       string = new Uint8Array(string);
     }
     var buffer = dcodeIO.ByteBuffer.wrap(string).toArrayBuffer();
@@ -369,6 +373,38 @@
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
   }
 
+  var conversations = 0;
+  var failedConversations = 0;
+
+  function delay(ms) {
+    console.log('Waiting', ms, 'milliseconds');
+    return new Promise(function(resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  // Because apparently we sometimes create malformed JSON files. Let's double-check them.
+  function checkConversation(conversationId, dir) {
+    return delay(10000).then(function() {
+      console.log('Verifying messages.json produced for conversation', conversationId);
+      return readFileAsText(dir, 'messages.json');
+    }).then(function(contents) {
+      try {
+        conversations += 1;
+        JSON.parse(contents);
+      }
+      catch (error) {
+        failedConversations += 1;
+        console.log(
+          'Export of conversation',
+          conversationId,
+          'was malformed:',
+          error && error.stack ? error.stack : error
+        );
+      }
+    });
+  }
+
   function exportConversation(idb_db, name, conversation, dir) {
     console.log('exporting conversation', name);
     // We wouldn't want to overwrite the contents of a different conversation.
@@ -442,7 +478,9 @@
             cursor.continue();
           } else {
             var promise = stream.write(']}');
-            promiseChain = promiseChain.then(promise);
+            promiseChain = promiseChain
+              .then(promise)
+              .then(checkConversation.bind(null, name, dir));
 
             return promiseChain.then(function() {
               console.log('done exporting conversation', name);
@@ -464,7 +502,7 @@
 
   // Goals for directory names:
   //   1. Human-readable, for easy use and verification by user (names not just ids)
-  //   2. Sorted just like the list of conversations in the left-pan (active_at)
+  //   2. Sorted just like the list of conversations in the left pane (active_at)
   //   3. Disambiguated from other directories (active_at, truncated name, id)
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
@@ -690,8 +728,15 @@
 
   function printAttachmentStats() {
     console.log(
-      'Total attachments', attachments,
-      'Failed attachments', failedAttachments
+      'Total attachments:', attachments,
+      'Failed attachments:', failedAttachments
+    );
+  }
+
+  function printConversationStats() {
+    console.log(
+      'Total conversations:', conversations,
+      'Failed conversations:', failedConversations
     );
   }
 
@@ -716,13 +761,18 @@
         });
       }).then(function(path) {
         printAttachmentStats();
+        printConversationStats();
         console.log('done backing up!');
         if (failedAttachments) {
           throw new Error('Export failed, one or more attachments failed');
         }
+        if (failedConversations) {
+          throw new Error('Export failed, one or more conversations failed');
+        }
         return path;
       }, function(error) {
         printAttachmentStats();
+        printConversationStats();
         console.log(
           'the backup went wrong:',
           error && error.stack ? error.stack : error
