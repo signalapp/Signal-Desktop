@@ -189,8 +189,8 @@
       Whisper.Migration.beginExport()
         .then(this.completeMigration.bind(this))
         .catch(function(error) {
-          if (error.name !== 'ChooseError') {
-            this.error = error.message;
+          if (!error || error.name !== 'ChooseError') {
+            this.error = error || new Error('in case we reject() null!');
           }
           // Even if we run into an error, we call this complete because the user has
           //   completed the process once before.
@@ -223,12 +223,11 @@
       this.render();
     },
     onError: function(error) {
-      if (error.name === 'ChooseError') {
+      if (error && error.name === 'ChooseError') {
         this.cancelMigration();
       } else {
-        Whisper.Migration.cancel();
-        this.error = error.message;
-        this.render();
+        this.error = error || new Error('in case we reject() null!');
+        this.cancelMigration();
       }
     },
     cancelMigration: function() {
