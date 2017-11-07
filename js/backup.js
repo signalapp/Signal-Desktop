@@ -49,10 +49,8 @@
 
   function createOutputStream(fileWriter) {
     var wait = Promise.resolve();
-    var count = 0;
     return {
       write: function(string) {
-        var i = count++;
         wait = wait.then(function() {
           return new Promise(function(resolve, reject) {
             fileWriter.onwriteend = resolve;
