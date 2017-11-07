@@ -708,7 +708,7 @@
             source: deliveryReceipt.source
         });
 
-        receipt.on('remove', ev.confirm);
+        ev.confirm();
 
         // Calling this directly so we can wait for completion
         return Whisper.DeliveryReceipts.onReceipt(receipt);
