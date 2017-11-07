@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Scegli una cartella con i dati esportati",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "Il primo passo consiste nel dirci dove hai esportato i tuoi dati Signal. Si tratta di una cartella il cui nome incomincia con 'Signal Export'.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "I client Android riceveranno solo i primi 2000 caratteri di questo messaggio.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ ha lasciato il gruppo.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Hai settato il timer a $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minuto",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Log di debug",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Capito!",
@@ -114,12 +128,16 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "Esporta di nuovo",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
         "message": "Clicca per salvare",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Segnala un bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Nuovi messaggi a seguire",
@@ -136,6 +154,10 @@
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Nascondi la barra del menu",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Benvenuto in Signal",
@@ -190,15 +212,19 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Sfortunatamente qualcosa non ha funzionante durante l'esportazione. Per prima cosa controlla accuratamente che la cartella di destinazione sia scrivibile ed abbia abbastanza spazio. Dopodiché invia per favore un log di debug così da poterti aiutare nella migrazione!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Informazioni su Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Connessione in corso...",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "il percorso selezionato",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -254,7 +280,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "Attendi per favore il completamento dell'esportazione. L'operazione potrebbe richiedere alcuni minuti. Durante questo tempo potrai usare Signal sul tuo telefono o su altri device.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -270,7 +296,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Dopo",
         "description": ""
     },
     "from": {
@@ -282,7 +308,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Configura come un'esportazione dall'app Chrome",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -346,11 +372,11 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Configura come una nuova installazione",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Attendi per cortesia l'importazione dei dati...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -381,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$ si è unito al gruppo.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Vai ai forum",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizzazione gruppi e contatti in corso",
         "description": ""
@@ -406,6 +446,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Parlato",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Il codice di sicurezza con $name$ è cambiato dall'ultima verifica. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
@@ -447,6 +491,10 @@
         "message": "La privacy è possibile. Signal la rende facile.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "Mostra",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
         "message": "Avvia notifica audio",
         "description": "Description for audio notification setting"
@@ -486,7 +534,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "chooseDirectory": {
-        "message": "Choose directory",
+        "message": "Scegli una cartella",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "timerOption_6_hours_abbreviated": {
@@ -502,11 +550,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "Riavvia",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "Importa",
         "description": ""
     },
     "sync": {
@@ -578,7 +626,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Premi riavvia per installare gli aggiornamenti.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,23 +634,19 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Sfortunatamente qualcosa non ha funzionante durante l'importazione. <p>Per prima cosa controlla la tua cartella di destinazione. Dovrebbe iniziare con 'Signal Export'.</p><p>Poi riprova con una nuova esportazione dall'app Chrome.</p>Se anche questo continua a non funzionare <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>invia un log di debug</a> così da poterti aiutare nella migrazione! ",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
         "message": "Apri Signal sul tuo telefono e vai su Impostazioni > Dispositivi collegati. Premi il bottone per aggiungere un nuovo dispositivo e poi fai lo scan del codice in alto.",
         "description": ""
     },
-    "migrationDisconnecting": {
-        "message": "Disconnettendo...",
-        "description": "Displayed while we wait for pending incoming messages to process"
-    },
     "invalidNumberError": {
         "message": "Numero non valido",
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Dati caricati con successo. Il passo successivo consiste nel riavviare l'applicazione!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -614,7 +658,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "I tuoi dati sono stati esportati in: <p><b>$location$</b></p>. Potrai importarli durante la configurazione del <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>nuovo Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -636,7 +680,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "È disponibile una nuova versione di Signal.",
         "description": ""
     },
     "disableNotifications": {
@@ -712,7 +756,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "Per iniziare installa <a $a_params$>Signal</a>sul tuo telefono. Noi collegheremo i tuoi dispositivi e terremo i i messaggi sincronizzati.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -724,6 +768,10 @@
     "installLinkingWithNumber": {
         "message": "Collegamento con",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "Vai alla pagina di supporto",
+        "description": "Item under the Help menu, takes you to the support page"
     },
     "groupMembers": {
         "message": "Membri del gruppo",
@@ -763,6 +811,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Gruppo aggiornato.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Il codice di sicurezza con $name$ è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il $name$ ha semplicemente reinstallato Signal.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -785,16 +837,20 @@
         "message": "Sembra tutto a posto",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Vai alle note di rilascio",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Dettagli messaggio",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "Installa il nuovo Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "Scegli una cartella di destinazione per i dati",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
@@ -802,7 +858,7 @@
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Esporta",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -837,6 +893,16 @@
         "message": "Errore",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Ora il titolo è '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "Il codice di sicurezza che stai cercando di verificare è cambiato. Si prega di ri-verificarlo con $name$. Ricorda che questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -858,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Aggiornamento Signal disponibile",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -866,7 +932,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "Il primo passo consiste nello scegliere una cartella dove salvare i dati esportati di questa applicazione. Tale cartella conterrà lo storico dei tuoi messaggi ed i dati crittografici sensibili, assicurati quindi di salvarli in un punto privato.",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -874,7 +940,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Riprova",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {

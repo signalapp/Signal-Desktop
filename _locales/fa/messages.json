@@ -42,12 +42,22 @@
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "نمایش شماره امنیتی",
         "description": ""
     },
     "androidMessageLengthWarning": {
         "message": "سیستم‌های اندرویدی فقط 2000 کاراکتر اول این پیام را دریافت خواهند کرد.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$گروه را ترک کرد",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "شما تایمر را روی $time$ تنظیم کردید.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 دقیقه",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "گزارش خطا",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "فهمیدم!",
@@ -121,6 +135,10 @@
         "message": "ذخیره",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "File a bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
         "message": "پیام‌های جدید پایین",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -136,6 +154,10 @@
     "offline": {
         "message": "Offline",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "پنهان کردن نوار منو",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "به سیگنال خوش‌آمدید",
@@ -182,7 +204,7 @@
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "تایید شده",
         "description": ""
     },
     "selectAContact": {
@@ -193,12 +215,16 @@
         "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
+    "aboutSignalDesktop": {
+        "message": "درباره سیگنال دسکتاپ",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
     "installConnecting": {
         "message": "در حال اتصال...",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "مکان انتخابی شما",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -270,7 +296,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "بعدا",
         "description": ""
     },
     "from": {
@@ -381,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$به گروه پیوست.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "به انجمن بروید",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "در حال هماهنگ‌سازی گروه‌ها و مخاطب‌ها",
         "description": ""
@@ -406,6 +446,10 @@
                 "example": "5"
             }
         }
+    },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "changedSinceVerified": {
         "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
@@ -447,6 +491,10 @@
         "message": "حفظ حریم خصوصی ممکن است. سیگنال کار را راحتتر میکند.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "نمایش",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
         "message": "Play audio notification",
         "description": "Description for audio notification setting"
@@ -486,7 +534,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "chooseDirectory": {
-        "message": "Choose directory",
+        "message": "دایرکتوری را انتخاب کنید",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "timerOption_6_hours_abbreviated": {
@@ -502,7 +550,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "راه‌اندازی مجدد",
         "description": ""
     },
     "importButton": {
@@ -586,7 +634,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -624,7 +672,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "علامت گذاری به عنوان تایید نشده",
         "description": ""
     },
     "messageNotSent": {
@@ -721,6 +769,10 @@
         "message": "اتصال به",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "به صفحه پشتیبانی بروید",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
     "groupMembers": {
         "message": "اعضای گروه",
         "description": ""
@@ -759,6 +811,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "گروه را به‌روز کرد.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -781,12 +837,16 @@
         "message": "خوبه!",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
+    },
     "messageDetail": {
         "message": "جزئیات پیام",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "نصب سیگنال دسکتاپ جدید",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
@@ -794,7 +854,7 @@
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
-        "message": "Mark as verified",
+        "message": "علامت گذاری به عنوان تایید شده",
         "description": ""
     },
     "exportButton": {
@@ -833,6 +893,16 @@
         "message": "خطا",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "در حال حاضر عنوان '$name$' می‌باشد.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -854,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "به‌روزرسانی سیگنال در دسترس است",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {

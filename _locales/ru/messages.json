@@ -12,7 +12,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "Посмотреть",
+        "message": "Просмотр",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
@@ -20,7 +20,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
-        "message": "Последний импорт",
+        "message": "Последний импорт в",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
@@ -34,11 +34,11 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "Первый шаг — указать нам, где расположены ранее экспортированные данные Signal. Это должен быть каталог, имя которого начинается с 'Signal Export'.",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
-        "message": "Неподдерживаемый формат вложения. Нажмите, чтобы сохранить.",
+        "message": "Неподдерживаемый тип вложения. Нажмите, чтобы сохранить.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Пользователи Android получат только первые 2000 символов этого сообщения.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ покинул(а) группу.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Вы установили таймер на $time$.",
@@ -75,6 +85,10 @@
         "message": "1 минута",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "Журнал отладки",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "Понятно!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -84,7 +98,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Вы уверены? Нажав «удалить» Вы навсегда удалите данное сообщение с устройства.",
+        "message": "Вы уверены? Нажав 'удалить' вы навсегда удалите данное сообщение с этого устройства.",
         "description": ""
     },
     "showMore": {
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "Если Вы пожелаете подтвердить безопасность вашего соединения с $name$, сравните числа, указанные выше, с числами на устройстве собеседника.",
+        "message": "Если вы хотите подтвердить безопасность вашего соединения с $name$, сравните код, указанные выше, с кодом на устройстве собеседника.",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Ваши коды безопасности с данными участниками группы изменились со времени Вашего последнего подтверждения. Нажмите на участника группы, чтобы увидеть Ваш новый код безопасности.",
+        "message": "Коды безопасности с данными участниками группы изменились со времени последнего подтверждения. Нажмите на участника группы, чтобы увидеть новый код безопасности.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -110,7 +124,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
-        "message": "Неподдерживаемый формат файла",
+        "message": "Неподдерживаемый тип файла",
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
@@ -118,8 +132,12 @@
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
-        "message": "Нажмите, чтобы сохранить",
+        "message": "Нажмите для сохранения",
         "description": "Hover text for attachment filenames"
+    },
+    "fileABug": {
+        "message": "Сообщение об ошибке",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
     },
     "messagesBelow": {
         "message": "Новые сообщения ниже",
@@ -136,6 +154,10 @@
     "offline": {
         "message": "Оффлайн",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Скрыть строку меню",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Добро пожаловать в Signal",
@@ -158,7 +180,7 @@
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Импортировать все группы и контакты Signal с Вашего мобильного устройства.",
+        "message": "Импортировать все группы и контакты Signal с мобильного устройства.",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -173,10 +195,6 @@
         "message": "Удалить сообщения",
         "description": "Menu item for deleting messages, title case."
     },
-    "confirmMigration": {
-        "message": "Начать процесс переноса? Вы не сможете отправлять и получать сообщения во время процесса переноса.",
-        "description": "Confirmation dialogue when beginning migration"
-    },
     "incomingError": {
         "message": "Ошибка обработки входящего сообщения.",
         "description": ""
@@ -186,7 +204,7 @@
         "description": ""
     },
     "verified": {
-        "message": "Подтверждённый",
+        "message": "Подтвержденный",
         "description": ""
     },
     "selectAContact": {
@@ -194,8 +212,12 @@
         "description": ""
     },
     "exportError": {
-        "message": "К сожалению, что-то пошло не так во время экспорта. Сперва, удостоверьтесь, что целевая директория пуста и имеет разрешение на запись, а также достаточно ли свободного места на диске. После этого пришлите лог отладки, чтобы мы смогли помочь Вам с переносом!",
+        "message": "К сожалению, во время экспорта что-то пошло не так. Сперва, удостоверьтесь, что целевая папка пуста и имеет разрешение на запись, а также достаточно ли свободного места на диске. После этого пришлите журнал отладки, чтобы мы смогли помочь вам с переносом!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "О Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Соединение...",
@@ -206,7 +228,7 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
-        "message": "Возможно, вы хотите $tag_start$ подтвердить код безопасности $tag_end$ для данного контакта.",
+        "message": "Возможно, вы хотите $tag_start$ подтвердить $tag_end$ свой код безопасности для этого контакта.",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -218,7 +240,7 @@
         }
     },
     "changedRecently": {
-        "message": "Ваш код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или $name$ попросту переустановил Signal.",
+        "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или $name$ попросту переустановил Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -230,14 +252,6 @@
     "sent": {
         "message": "Отправлено",
         "description": "Label for the time a message was sent"
-    },
-    "migrationWarning": {
-        "message": "Signal Desktop в виде дополнения к браузеру Chrome безвозвратно устарел. Хотите перенести данные в новый Signal Desktop прямо сейчас?",
-        "description": "Warning notification that this version of the app has been deprecated and the user must migrate"
-    },
-    "migrate": {
-        "message": "Перенести",
-        "description": "Button label to begin migrating this client to Electron"
     },
     "theyChangedTheTimer": {
         "message": "$name$ установил(а) таймер на $time$.",
@@ -254,11 +268,11 @@
         }
     },
     "timestamp_s": {
-        "message": "только что",
+        "message": "сейчас",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
-        "message": "Ваши коды безопасности с несколькими участниками группы изменились со времени Вашего последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Signal. ",
+        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Signal. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
@@ -282,7 +296,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Позже",
         "description": ""
     },
     "from": {
@@ -290,27 +304,27 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Удалить навсегда данный разговор?",
+        "message": "Удалить этот разговор без возможности восстановления?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
-        "message": "Использовать данные из Chrome-версии",
+        "message": "Использовать экспортированные данные из приложения для Chrome",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
-        "message": "Привяжите Signal Desktop к вашему мобильному устройству для продолжения общения.",
+        "message": "Повторно свяжите Signal Desktop с вашим мобильным устройством для продолжения общения.",
         "description": ""
     },
     "debugLogExplanation": {
-        "message": "Этот лог будет открыто опубликован для разработчиков. Вы можете проверить и изменить его перед отправкой.",
+        "message": "Этот журнал отладки будет открыто опубликован для разработчиков. Вы можете проверить и изменить его перед отправкой.",
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Введите номер телефона собеседника.",
+        "message": "Введите номер телефона для добавления контакта.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Ваш код безопасности с $name$ изменился и более не является подтверждённым. Нажмите, чтобы показать.",
+        "message": "Код безопасности с $name$ изменился и более не является подтвержденным. Нажмите, чтобы показать.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -324,15 +338,15 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Не всем доставлено сообщение.",
+        "message": "Доставлено не всем получателям.",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
-        "message": "Не показывать ни имени, ни сообщения",
+        "message": "Ни имени, ни сообщения",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Импортировать",
+        "message": "Импортировать сейчас",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
@@ -344,7 +358,7 @@
         "description": ""
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Следите за информацией</a> об обновлениях для iOS устройств.",
+        "message": "<a $a_params$>Подписывайтесь на нас</a> чтобы быть получать обновления о поддержке нескольких устройств для iOS.",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -354,15 +368,15 @@
         }
     },
     "learnMore": {
-        "message": "Узнать больше о подтверждении кодов безопасности",
+        "message": "Дополнительные сведения о проверке кодов безопасности",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Настроить с нуля",
+        "message": "Я новенький",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Подождите, пока импортируются данные...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -393,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$ присоединился(лась) к группе.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Перейти к форумам",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Синхронизация групп и контактов",
         "description": ""
@@ -402,7 +430,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (тёмная)",
+        "message": "Android (темная)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
@@ -410,7 +438,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Загрузка сообщений. Осталось $count$.",
+        "message": "Загрузка сообщений. Осталось $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -419,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Речь",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Ваш код безопасности с $name$ изменился с момента Вашего последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или $name$ попросту переустановил Signal. ",
+        "message": "Код безопасности с $name$ изменился с момента последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или $name$ попросту переустановил Signal. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -459,12 +491,16 @@
         "message": "Приватное общение возможно. Signal помогает его упростить.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "Показать",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
-        "message": "Звуковые уведомления",
+        "message": "Воспроизведение звукового уведомления",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "Вы не подтвердили Ваш код безопасности с $name$.",
+        "message": "Вы не подтвердили свой код безопасности с $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -478,11 +514,11 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
-        "message": "Импортирую...",
+        "message": "Импорт...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Ваши коды безопасности с несколькими участниками данной группы изменились и более не являются подтверждёнными. Нажмите, чтобы показать.",
+        "message": "Коды безопасности с несколькими участниками данной группы изменились и больше не являются подтвержденными. Нажмите, чтобы показать.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -538,7 +574,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Вы пометили Ваш код безопасности с $name$ как неподтверждённый.",
+        "message": "Вы пометили свой код безопасности с $name$ как не подтвержденный.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -548,7 +584,7 @@
         }
     },
     "isVerified": {
-        "message": "Вы подтвердили Ваш код безопасности с $name$.",
+        "message": "Вы подтвердили свой код безопасности с $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -578,11 +614,11 @@
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
-        "message": "Данная версия приложения устарела. Пожалуйста, обновите Signal Desktop до последней версии для дальнейшей отправки сообщений.",
+        "message": "Эта версия Signal Desktop устарела. Выполните обновление до последней версии, чтобы продолжить обмен сообщениями.",
         "description": "Warning notification that this version of the app has expired"
     },
     "fileSizeWarning": {
-        "message": "Извините, размер выбранного файла превышает допустимый лимит.",
+        "message": "К сожалению, выбранный файл превышает ограничения на размер сообщений.",
         "description": ""
     },
     "deleteMessage": {
@@ -590,7 +626,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Нажмите «Перезапустить», чтобы применить обновления.",
+        "message": "Для применения обновлений нажмите кнопку \"Перезапуск\".",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -598,7 +634,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "К сожалению, во время импорта что-то пошло не так. <p>Сперва, перепроверьте целевой каталог с данными. Его название должно начинаться с 'Signal Export'.</p><p>Затем попробуйте повторно экспортировать данные из приложения для Chrome.</p>Если это не поможет, пожалуйста <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>отправьте нам журнал отладки,</a> чтобы мы могли помочь вам с переносом данных!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -610,7 +646,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "Мы успешно загрузили Ваши данные. Следующий шаг — перезапуск приложения!",
+        "message": "Мы успешно загрузили ваши данные. Следующим шагом является перезапуск приложения!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -622,7 +658,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Ваши данные экспортированы в: <p><b>$location$</b></p> Вы сможете импортировать эти данные при настройке <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>нового Signal для компьютера</a>.",
+        "message": "Ваши данные экспортированы в: <p><b>$location$</b></p> Вы сможете импортировать эти данные при настройке <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>нового Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -636,7 +672,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Отметить как не подтверждённый",
+        "message": "Отметить как не подтвержденный",
         "description": ""
     },
     "messageNotSent": {
@@ -644,7 +680,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Доступна новая версия Signal",
         "description": ""
     },
     "disableNotifications": {
@@ -672,7 +708,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "Вы отметили Ваш код безопасности с $name$ как подтверждённый.",
+        "message": "Вы отметили свой код безопасности с $name$ как подтвержденный.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -710,7 +746,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Вы пометили, с другого устройства, что Ваш код безопасности с $name$ не подтверждён.",
+        "message": "Код безопасности с $name$ был помечен на другом устройстве как не подтвержденный.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -720,7 +756,7 @@
         }
     },
     "installSignalLink": {
-        "message": "Сначала установите <a $a_params$>Signal</a> на Ваш смартфон. Мы свяжем Ваши устройства и синхронизируем сообщения между ними.",
+        "message": "Сначала установите <a $a_params$>Signal</a> на мобильный телефон. Мы свяжем ваши устройства и синхронизируем сообщения между ними.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -732,6 +768,10 @@
     "installLinkingWithNumber": {
         "message": "Связать с ",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "Перейти на страницу поддержки",
+        "description": "Item under the Help menu, takes you to the support page"
     },
     "groupMembers": {
         "message": "Участники группы",
@@ -746,7 +786,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Нажмите для создания нового диалога",
+        "message": "Щелкните, чтобы создать новый контакт",
         "description": ""
     },
     "theirIdentityUnknown": {
@@ -762,7 +802,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Ваш код безопасности c пользователем $name$ изменился. Нажмите, чтобы показать.",
+        "message": "Код безопасности c пользователем $name$ изменился. Нажмите, чтобы показать.",
         "description": "",
         "placeholders": {
             "name": {
@@ -771,8 +811,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Обновлена группа.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Ваш код безопасности с $name$ изменился. Это может обозначать, что кто-то пытается перехватить ваши сообщения, либо $name$ попросту переустановил Signal. Также Вы можете подтвердить Ваш код безопасности с данным контактом.",
+        "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, либо $name$ попросту переустановил Signal. Вы можете подтвердить свой код безопасности с данным контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -793,24 +837,28 @@
         "message": "Отлично",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Перейти к заметкам о релизе",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Детали сообщения",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Установить новый Signal для компьютера",
+        "message": "Установить новый Signal Desktop",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Выберите целевой каталог для данных",
+        "message": "Выбор целевого каталога для данных",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
-        "message": "Отметить как подтверждённый",
+        "message": "Отметить как подтвержденный",
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Экспортировать",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -818,7 +866,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Как имя отправителя, так и текст сообщения",
+        "message": "И имя отправителя, и сообщение",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -830,11 +878,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Ваш код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или собеседник попросту переустановил Signal. Вы можете подтвердить новый код безопасности указанный ниже.",
+        "message": "Код безопасности с этим контактом изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, или собеседник попросту переустановил Signal. Вы можете подтвердить новый код безопасности указанный ниже.",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Ваши коды безопасности с несколькими участниками группы изменились со времени Вашего последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Signal.",
+        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников группы переустановил Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -845,8 +893,18 @@
         "message": "Ошибка",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Название сейчас '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "Код безопасности который Вы пытаетесь подтвердить уже изменился. Пожалуйста, перепроверьте Ваш код безопасности с $name$. Помните, что подобные изменения могут означать попытку перехвата ваших сообщений, либо $name$ попросту переустановил Signal.",
+        "message": "Код безопасности который вы пытаетесь подтвердить уже изменился. Пожалуйста, перепроверьте код безопасности с $name$. Помните, что подобные изменения могут означать попытку перехвата ваших сообщений, либо $name$ попросту переустановил Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -866,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Доступно обновление Signal",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -874,7 +932,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "Первый шаг — выбор директории для сохранения экспортируемых данных. Данные содержат историю сообщений, важные криптографические сведения, так что будьте осторожны с выбором места для экспорта.",
+        "message": "Первый шаг — выбор папки для сохранения экспортируемых данных. Данные содержат историю сообщений, конфиденциальные криптографические данные, так что будьте осторожны с выбором места для экспорта.",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -882,15 +940,15 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Попробовать ещё раз",
+        "message": "Повторить",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
-        "message": "Отправить ещё раз",
+        "message": "Отправить еще раз",
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Вы отметили, на другом устройстве, Ваш код безопасности с $name$ как подтверждённый.",
+        "message": "Код безопасности с $name$ был подтвержден на другом устройстве.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
