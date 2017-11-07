@@ -630,8 +630,8 @@
           }
         };
         request.onerror = function(event) {
-          console.log('Error adding object to store:', error);
-          reject();
+          console.log('Error adding object to store:', event);
+          reject(new Error('saveAllMessage: onerror fired'));
         };
       });
     });
