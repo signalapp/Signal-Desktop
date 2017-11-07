@@ -1,4 +1,24 @@
 {
+    "mainMenuFile": {
+      "message": "&File",
+      "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuEdit": {
+      "message": "&Edit",
+      "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuView": {
+      "message": "&View",
+      "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuWindow": {
+      "message": "&Window",
+      "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
+    "mainMenuHelp": {
+      "message": "&Help",
+      "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    },
     "loading": {
       "message": "Loading...",
       "description": "Message shown on the loading screen before we've loaded any messages"
