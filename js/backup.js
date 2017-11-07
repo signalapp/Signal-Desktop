@@ -4,13 +4,15 @@
 
   function stringToBlob(string) {
     if (string === null || string === undefined) {
+      console.log('stringToBlob: replacing null/undefined with empty string');
       string = '';
     }
     if (typeof string !== 'string' && !(string instanceof ArrayBuffer)) {
       // Not sure what this is, but perhaps we can make the right thing happen by sending
       //   it to a Uint8Array, which the wrap() method below handles just fine. Uint8Array
       //   can take an ArrayBuffer, so it will help if I'm right that the weird attachment
-      //   data is an ArrayBuffer-like thing, while not being techincally an instanceof.
+      //   data is an ArrayBuffer-like thing, while not being technically an instanceof.
+      console.log('stringToBlob: sending strange object to Uint8Array --', typeof string, JSON.stringify(string), string);
       string = new Uint8Array(string);
     }
     var buffer = dcodeIO.ByteBuffer.wrap(string).toArrayBuffer();
