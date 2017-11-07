@@ -499,7 +499,7 @@
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Set up with exported data",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "installGetStartedButton": {
