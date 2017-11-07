@@ -325,7 +325,12 @@
     });
   }
 
+  var attachments = 0;
+  var failedAttachments = 0;
+
   function writeAttachment(dir, attachment) {
+    attachments += 1;
+
     var filename = getAttachmentFileName(attachment);
     // If attachments are in messages with the same received_at and the same name,
     //   then we'll let that overwrite happen. It should be very uncommon.
@@ -333,6 +338,9 @@
     return createFileAndWriter(dir, filename, exclusive).then(function(writer) {
       var stream = createOutputStream(writer);
       return stream.write(attachment.data);
+    }).catch(function(error) {
+      failedAttachments += 1;
+      console.log('writeAttachment error:', error && error.stack ? error.stack : error);
     });
   }
 
@@ -679,6 +687,13 @@
     return moment().format('YYYY MMM Do [at] h.mm.ss a');
   }
 
+  function printAttachmentStats() {
+    console.log(
+      'Total attachments', attachments,
+      'Failed attachments', failedAttachments
+    );
+  }
+
   Whisper.Backup = {
     backupToDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
@@ -699,9 +714,14 @@
           return getDisplayPath(dir);
         });
       }).then(function(path) {
+        printAttachmentStats();
         console.log('done backing up!');
+        if (failedAttachments) {
+          throw new Error('Export failed, one or more attachments failed');
+        }
         return path;
       }, function(error) {
+        printAttachmentStats();
         console.log(
           'the backup went wrong:',
           error && error.stack ? error.stack : error
