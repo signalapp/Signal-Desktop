@@ -37474,7 +37474,7 @@ var TextSecureServer = (function() {
             url = options.host +  '/' + options.path;
         }
         console.log(options.type, url);
-        var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 5000;
+        var timeout = typeof options.timeout !== 'undefined' ? options.timeout : 10000;
 
         var fetchOptions = {
           method: options.type,

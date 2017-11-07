@@ -67,6 +67,7 @@
                         receipt.get('source'),
                         receipt.get('timestamp')
                     );
+                    resolve();
                 }
             }.bind(this)).catch(function(error) {
                 console.log(
