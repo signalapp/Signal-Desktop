@@ -38679,7 +38679,7 @@ MessageReceiver.prototype.extend({
 
             return Promise.all(_.map(items, function(item) {
                 var attempts = 1 + (item.attempts || 0);
-                if (attempts >= 2) {
+                if (attempts >= 5) {
                     console.log('getAllFromCache final attempt for envelope', item.id);
                     return textsecure.storage.unprocessed.remove(item.id);
                 } else {
