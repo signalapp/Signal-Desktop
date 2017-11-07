@@ -3,8 +3,17 @@
   window.Whisper = window.Whisper || {};
 
   function stringToBlob(string) {
-    if (!string || (typeof string !== 'string' && !(string instanceof ArrayBuffer))) {
-      throw new Error('stringToBlob: provided value is something strange:', string, JSON.stringify(stringify(string)));
+    if (string === null || string === undefined) {
+      console.log('stringToBlob: replacing null/undefined with empty string');
+      string = '';
+    }
+    if (typeof string !== 'string' && !(string instanceof ArrayBuffer)) {
+      // Not sure what this is, but perhaps we can make the right thing happen by sending
+      //   it to a Uint8Array, which the wrap() method below handles just fine. Uint8Array
+      //   can take an ArrayBuffer, so it will help if I'm right that the weird attachment
+      //   data is an ArrayBuffer-like thing, while not being technically an instanceof.
+      console.log('stringToBlob: sending strange object to Uint8Array --', typeof string, JSON.stringify(string), string);
+      string = new Uint8Array(string);
     }
     var buffer = dcodeIO.ByteBuffer.wrap(string).toArrayBuffer();
     return new Blob([buffer]);
@@ -46,10 +55,8 @@
 
   function createOutputStream(fileWriter) {
     var wait = Promise.resolve();
-    var count = 0;
     return {
       write: function(string) {
-        var i = count++;
         wait = wait.then(function() {
           return new Promise(function(resolve, reject) {
             fileWriter.onwriteend = resolve;
@@ -325,7 +332,12 @@
     });
   }
 
+  var attachments = 0;
+  var failedAttachments = 0;
+
   function writeAttachment(dir, attachment) {
+    attachments += 1;
+
     var filename = getAttachmentFileName(attachment);
     // If attachments are in messages with the same received_at and the same name,
     //   then we'll let that overwrite happen. It should be very uncommon.
@@ -333,6 +345,9 @@
     return createFileAndWriter(dir, filename, exclusive).then(function(writer) {
       var stream = createOutputStream(writer);
       return stream.write(attachment.data);
+    }).catch(function(error) {
+      failedAttachments += 1;
+      console.log('writeAttachment error:', error && error.stack ? error.stack : error);
     });
   }
 
@@ -358,6 +373,38 @@
 
   function sanitizeFileName(filename) {
     return filename.toString().replace(/[^a-z0-9.,+()'#\- ]/gi, '_');
+  }
+
+  var conversations = 0;
+  var failedConversations = 0;
+
+  function delay(ms) {
+    console.log('Waiting', ms, 'milliseconds');
+    return new Promise(function(resolve) {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  // Because apparently we sometimes create malformed JSON files. Let's double-check them.
+  function checkConversation(conversationId, dir) {
+    return delay(10000).then(function() {
+      console.log('Verifying messages.json produced for conversation', conversationId);
+      return readFileAsText(dir, 'messages.json');
+    }).then(function(contents) {
+      try {
+        conversations += 1;
+        JSON.parse(contents);
+      }
+      catch (error) {
+        failedConversations += 1;
+        console.log(
+          'Export of conversation',
+          conversationId,
+          'was malformed:',
+          error && error.stack ? error.stack : error
+        );
+      }
+    });
   }
 
   function exportConversation(idb_db, name, conversation, dir) {
@@ -433,7 +480,9 @@
             cursor.continue();
           } else {
             var promise = stream.write(']}');
-            promiseChain = promiseChain.then(promise);
+            promiseChain = promiseChain
+              .then(promise)
+              .then(checkConversation.bind(null, name, dir));
 
             return promiseChain.then(function() {
               console.log('done exporting conversation', name);
@@ -455,7 +504,7 @@
 
   // Goals for directory names:
   //   1. Human-readable, for easy use and verification by user (names not just ids)
-  //   2. Sorted just like the list of conversations in the left-pan (active_at)
+  //   2. Sorted just like the list of conversations in the left pane (active_at)
   //   3. Disambiguated from other directories (active_at, truncated name, id)
   function getConversationDirName(conversation) {
     var name = conversation.active_at || 'never';
@@ -679,6 +728,20 @@
     return moment().format('YYYY MMM Do [at] h.mm.ss a');
   }
 
+  function printAttachmentStats() {
+    console.log(
+      'Total attachments:', attachments,
+      'Failed attachments:', failedAttachments
+    );
+  }
+
+  function printConversationStats() {
+    console.log(
+      'Total conversations:', conversations,
+      'Failed conversations:', failedConversations
+    );
+  }
+
   Whisper.Backup = {
     backupToDirectory: function() {
       return getDirectory().then(function(directoryEntry) {
@@ -699,9 +762,19 @@
           return getDisplayPath(dir);
         });
       }).then(function(path) {
+        printAttachmentStats();
+        printConversationStats();
         console.log('done backing up!');
+        if (failedAttachments) {
+          throw new Error('Export failed, one or more attachments failed');
+        }
+        if (failedConversations) {
+          throw new Error('Export failed, one or more conversations failed');
+        }
         return path;
       }, function(error) {
+        printAttachmentStats();
+        printConversationStats();
         console.log(
           'the backup went wrong:',
           error && error.stack ? error.stack : error

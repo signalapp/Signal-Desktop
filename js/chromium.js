@@ -255,13 +255,15 @@
 
     if (chrome.runtime.onInstalled) {
         chrome.runtime.onInstalled.addListener(function(options) {
+            var version = chrome.runtime.getManifest().version;
+
             if (options.reason === 'install') {
-                console.log('new install');
+                console.log('new install:', version);
                 extension.install();
             } else if (options.reason === 'update') {
-                console.log('new update. previous version:', options.previousVersion);
+                console.log('new update:', version, '- previous version:', options.previousVersion);
             } else {
-                console.log('onInstalled', options.reason);
+                console.log('onInstalled', options.reason, 'version:', version);
             }
         });
     }
