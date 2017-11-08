@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Izberite mapo z izvoženimi podatki",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -16,7 +16,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Posodabljam bazo podatkov. To lahko traja nekaj časa...",
+        "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "Najprej morate poiskati mesto, kamor ste predhodno izvozili podatke iz stare aplikacije Signal. Ti se nahajajo v mapi z imenom 'Signal Export.'",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Odjemalec za Android bo prejel le prvih 2000 znakov tega sporočila.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "Uporabnik $name$ je zapustil skupino.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Odštevanje ste nastavili na $time$.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minuto",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Sistemska zabeležba",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Razumem!",
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Vaša varnostna števila s temi člani skupine, so bila spremenjena odkar ste nazadnje preverjali. Za ogled novega varnostnega števila z določenim članom skupine kliknite nanj.",
+        "message": "Vaša varnostna števila s temi člani skupine so bila spremenjena, odkar ste nazadnje preverjali. Za ogled novega varnostnega števila z določenim članom skupine kliknite nanj.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -121,6 +135,10 @@
         "message": "Shrani",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "Prijavi programsko napako",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
         "message": "Nova sporočila spodaj",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -134,8 +152,12 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Ni povezave na internet",
+        "message": "Ni povezave z internetom",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Skrij menijsko vrstico",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Dobrodošli v aplikaciji Signal",
@@ -192,6 +214,10 @@
     "exportError": {
         "message": "Na žalost je prišlo do nepredvidenih zapletov pri izvozu podatkov. Prosimo, da dvokliknete izbrano prazno mapo. Nato nam pošljite sistemsko zabeležbo, da vam bomo lahko pomagali pri selitvi podatkov.",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "O aplikaciji Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Povezujem ...",
@@ -254,7 +280,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Prosimo, počakajte, dokler poteka izvoz podatkov. To lahko traja nekaj minut. Med tem lahko še vedno uporabljate aplikacijo Signal na vašem telefonu in drugih napravah.",
+        "message": "Prosimo, počakajte, dokler poteka izvoz podatkov. To lahko traja nekaj minut. Med tem lahko še vedno uporabljate aplikacijo Signal na svojem telefonu in drugih napravah.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -270,7 +296,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Kasneje",
         "description": ""
     },
     "from": {
@@ -282,7 +308,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Nastavi z uvozom podatkov iz aplikacije Chrome",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -342,15 +368,15 @@
         }
     },
     "learnMore": {
-        "message": "Več o verifikaciji varnostnih števil.",
+        "message": "Več o verifikaciji varnostnih števil",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Nastavi od začetka",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
-        "message": "Please wait while we import your data...",
+        "message": "Počakajte, da uvozimo vaše podatke ...",
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
@@ -381,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "Uporabnik $names$ se je pridružil skupini.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Forumi",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Usklajujem skupine in stike ...",
         "description": ""
@@ -398,7 +438,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Nalagam sporočila. $count$ zaenkrat...",
+        "message": "Nalagam sporočila. $count$ doslej ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -407,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Nagovor",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Tvoje varnostno število z uporabnico $name$ je bilo od zadnjega preverjanja spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnica $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo od zadnjega preverjanja spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -446,6 +490,10 @@
     "installTagline": {
         "message": "Zasebnost obstaja. Signal jo naredi preprosto.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Prikaži",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Predvajaj zvočna obvestila",
@@ -502,11 +550,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart",
+        "message": "Ponovni zagon",
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "Uvozi",
         "description": ""
     },
     "sync": {
@@ -526,7 +574,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "Vaše varnostno število z uporabnikom $name$ ste označili kot nepotrjeno.",
+        "message": "Svoje varnostno število z uporabnikom $name$ ste označili kot nepotrjeno.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -578,7 +626,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Za uveljavitev posodobitev pritisnite na Ponovni zagon.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,7 +634,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Žal je prišlo do težav pri uvozu podatkov. <p>Prosimo, ponovno preverite izbrano mapo. Njeno ime mora biti 'Signal Export.'</p><p>Nato ponovno poskusite z izvozom podatkov iz aplikacije Signal v brskalniku Chrome.</p>Če tudi to ne bo uspešno, vas prosimo, da nam <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>pošljete sistemsko zabeležbo,</a> da vam bomo lahko pomagali pri migraciji podatkov!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -598,7 +646,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Uspešno smo uvozili vaše podatke. Naslednji korak je ponovni zagon aplikacije!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -610,7 +658,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Vaši izvoženi podatki so bili shranjeni na: <p><b>$location$</b></p> Ko boste namestili <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>novo aplikacijo Signal Desktop</a> jih boste lahko uvozili vanjo.",
+        "message": "Vaši izvoženi podatki so bili shranjeni na: <p><b>$location$</b></p> Ko boste namestili <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>novo aplikacijo Signal Desktop</a>, jih boste lahko uvozili vanjo.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -632,7 +680,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Na voljo je nova različica aplikacije Signal.",
         "description": ""
     },
     "disableNotifications": {
@@ -721,12 +769,16 @@
         "message": "Povezujem z",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Podporna stran",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
     "groupMembers": {
         "message": "Člani skupine",
         "description": ""
     },
     "loading": {
-        "message": "Nalagam...",
+        "message": "Nalagam ...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
@@ -759,8 +811,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Skpina je bila posodobljena.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal. Morebiti bi želeli preveriti vaše varnostno število z njim.",
+        "message": "Vaše varnostno število z uporabnikom $name$ je bilo spremenjeno. To lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal. Morebiti bi želeli preveriti svoje varnostno število z njim.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -781,6 +837,10 @@
         "message": "Izgleda super",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Opombe k izdaji",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Podrobnosti sporočila",
         "description": ""
@@ -790,7 +850,7 @@
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "Izberite mapo s podatki",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
@@ -798,7 +858,7 @@
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Izvoz",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -833,8 +893,18 @@
         "message": "Napaka",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Novo ime je '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "Varnostno število, ki ga potrjujete je bilo spremenjeno. Prosimo še enkrat preverite vaše novo varnostno število z uporabnikom $name$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
+        "message": "Varnostno število, ki ga potrjujete, je bilo spremenjeno. Prosimo, še enkrat preverite svoje novo varnostno število z uporabnikom $name$. Pozor, ta sprememba lahko pomeni, da skuša nekdo prestrezati vajino komunikacijo ali pa, da je uporabnik $name$ zgolj ponovno namestil aplikacijo Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -854,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Na voljo je posodobitev aplikacije Signal",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -862,7 +932,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "Najprej morate izbrati mapo v katero bomo izvozili podatke te aplikacije. Vanjo bodo prenešena vsa vaša sporočila in podatki potrebni za šifriranje, zato je pomembno, da je ta mapa spravljena na varnem mestu.",
+        "message": "Najprej morate izbrati mapo, v katero bomo izvozili podatke te aplikacije. Vanjo bodo prenesena vsa vaša sporočila in podatki, potrebni za šifriranje, zato je pomembno, da je ta mapa spravljena na varnem mestu.",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -870,7 +940,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "Poskusi znova",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {

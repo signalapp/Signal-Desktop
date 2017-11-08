@@ -49,6 +49,16 @@
         "message": "Android-klienter mottar bare de første 2000 tegnene i denne meldingen.",
         "description": "Warning that long messages could not get received completely by Android clients."
     },
+    "leftTheGroup": {
+        "message": "$name$ left the group.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "youChangedTheTimer": {
         "message": "Du satt tidtakeren til $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
@@ -74,6 +84,10 @@
     "timestamp_m": {
         "message": "1 minutt",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "Debug Log",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "Perfekt!",
@@ -121,6 +135,10 @@
         "message": "Klikk for å lagre",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "File a bug",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
         "message": "Nye meldinger nedenfor",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -136,6 +154,10 @@
     "offline": {
         "message": "Frakoblet",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Hide menu bar",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Velkommen til Signal!",
@@ -192,6 +214,10 @@
     "exportError": {
         "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "About Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Kobler til....",
@@ -381,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$ joined the group.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Go to forums",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "Synkroniserer grupper og kontakter",
         "description": ""
@@ -407,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Speech",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Ditt sikkerhetsnummer sammen med $name$ har endret seg siden sist dere verifiserte. Dette kan bety at noen forsøker å overvåke kommunikasjonen eller at $name$ helt enkelt har installert Signal på nytt.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -446,6 +490,10 @@
     "installTagline": {
         "message": "Personvern er mulig. Signal gjør det enkelt.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
+    },
+    "show": {
+        "message": "Show",
+        "description": "Command under Window menu, to show the window"
     },
     "audioNotificationDescription": {
         "message": "Spill av lydvarsling",
@@ -586,7 +634,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -721,6 +769,10 @@
         "message": "Kobler sammen med",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "Go to support page",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
     "groupMembers": {
         "message": "Gruppemedlemmer",
         "description": ""
@@ -759,6 +811,10 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Updated the group.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
         "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -780,6 +836,10 @@
     "installFinalButton": {
         "message": "Ser bra ut",
         "description": "The final button for the install process, after the user has entered a name for their device"
+    },
+    "goToReleaseNotes": {
+        "message": "Go to release notes",
+        "description": ""
     },
     "messageDetail": {
         "message": "Meldingsdetaljer",
@@ -833,6 +893,16 @@
         "message": "Feil",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Title is now '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
         "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -878,7 +948,7 @@
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as verified from another device.",
+        "message": "Du markerte sikkerhetsnummeret med $name$ som verifisert fra en annen enhet.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

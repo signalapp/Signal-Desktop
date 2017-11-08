@@ -1,30 +1,30 @@
 {
     "scrollDown": {
-        "message": "Scroll to bottom of conversation",
+        "message": "वार्तालाप के नीचे स्क्रॉल करें",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "डेटा के लिए लक्ष्य निर्देशिका चुनें",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
-        "message": "10 seconds",
+        "message": "10 सेकंड",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "view": {
-        "message": "View",
+        "message": "राय",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "upgradingDatabase": {
-        "message": "Upgrading database. This may take some time...",
+        "message": "डेटाबेस का उन्नयन इसमें कुछ समय लग सकता है...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "lastSynced": {
-        "message": "Last import at",
+        "message": "पिछले आयात पर",
         "description": "Label for date and time of last sync operation"
     },
     "attemptingReconnection": {
-        "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+        "message": "फिर से कनेक्ट करने का प्रयास करना$reconnect_duration_in_seconds$सेकंड",
         "description": "",
         "placeholders": {
             "reconnect_duration_in_seconds": {
@@ -38,19 +38,29 @@
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
-        "message": "Unsupported attachment type. Click to save.",
+        "message": "असमर्थित अनुलग्नक प्रकार सहेजने के लिए क्लिक करें",
         "description": "Displayed for incoming unsupported attachment"
     },
     "showSafetyNumber": {
-        "message": "Show safety number",
+        "message": "सुरक्षा नंबर दिखाएं",
         "description": ""
     },
     "androidMessageLengthWarning": {
-        "message": "Android clients will only receive the first 2000 characters of this message.",
+        "message": "एंड्रॉयड क्लाइंट केवल इस संदेश के पहले 2000 वर्ण प्राप्त करेंगे",
         "description": "Warning that long messages could not get received completely by Android clients."
     },
+    "leftTheGroup": {
+        "message": "$name$ left the group.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
     "youChangedTheTimer": {
-        "message": "You set the timer to $time$.",
+        "message": "आप टाइमर को सेट करते हैं $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -60,31 +70,35 @@
         }
     },
     "settings": {
-        "message": "Settings",
+        "message": "सेटिंग्स",
         "description": "Menu item and header for global settings"
     },
     "timerOption_5_seconds_abbreviated": {
-        "message": "5s",
+        "message": "5 एस",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installComputerName": {
-        "message": "This computer's name will be",
+        "message": "इस कंप्यूटर का नाम ",
         "description": "Text displayed before the input where the user can enter the name for this device."
     },
     "timestamp_m": {
-        "message": "1 minute",
+        "message": "1 मिनट",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    },
+    "debugLog": {
+        "message": "लॉग को डीबग करें",
+        "description": "View menu item to open the debug log, capitalized"
     },
     "gotIt": {
         "message": "समझ गया!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "disappearingMessages": {
-        "message": "Disappearing messages",
+        "message": "गायब होने वाले संदेश",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "message": "क्या आपको यकीन है? 'हटाए जाने' पर क्लिक करने से इस संदेश से इस संदेश को स्थायी रूप से निकाल दिया जाएगा।",
         "description": ""
     },
     "showMore": {
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "यदि आप अपने एंड-टू-एंड एन्क्रिप्शन की सुरक्षा की पुष्टि करना चाहते हैं तो$name$ऊपर दिए गए नंबरों की संख्या उनके डिवाइस पर तुलना करें।",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,11 +116,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "आपके द्वारा अंतिम सत्यापित होने के बाद से इन समूह सदस्यों के साथ आपके सुरक्षा नंबर बदले गए हैं। उनके साथ अपने नए सुरक्षा नंबर देखने के लिए किसी समूह के सदस्य पर क्लिक करें।",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5 मी",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unsupportedFileType": {
@@ -114,19 +128,23 @@
         "description": "Displayed for outgoing unsupported attachment"
     },
     "exportAgain": {
-        "message": "Export again",
+        "message": "फिर से निर्यात करें",
         "description": "If user has already exported once, this button allows user to do it again if needed"
     },
     "clickToSave": {
-        "message": "Click to save",
+        "message": "सहेजने के लिए क्लिक करें",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "एक बग फ़ाइल",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
-        "message": "New messages below",
+        "message": "नीचे नया संदेश",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "installGeneratingKeys": {
-        "message": "Generating Keys",
+        "message": "जनरेटिंग कीज़",
         "description": ""
     },
     "resetSession": {
@@ -134,15 +152,19 @@
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "offline": {
-        "message": "Offline",
+        "message": "ऑफ़लाइन",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "मेनू बार छुपाएं",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "सिग्‍नल में आपका स्वागत है ",
         "description": ""
     },
     "checkNetworkConnection": {
-        "message": "Check your network connection.",
+        "message": "अपने नेटवर्क कनेक्शन की जांच करें।",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "notificationSettingsDialog": {
@@ -150,15 +172,15 @@
         "description": "Explain the purpose of the notification settings"
     },
     "timestamp_h": {
-        "message": "1 hour",
+        "message": "1 घंटा",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "बंद",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "syncExplanation": {
-        "message": "Import all Signal groups and contacts from your mobile device.",
+        "message": "अपने मोबाइल डिवाइस से सभी सिग्नल समूहों और संपर्कों को आयात करें",
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
@@ -166,7 +188,7 @@
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": "आपने समूह छोड़ दिया",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "deleteMessages": {
@@ -174,15 +196,15 @@
         "description": "Menu item for deleting messages, title case."
     },
     "incomingError": {
-        "message": "Error handling incoming message.",
+        "message": "आने वाले संदेश को संभालने में त्रुटि।",
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "हटाना",
         "description": ""
     },
     "verified": {
-        "message": "Verified",
+        "message": "सत्यापित",
         "description": ""
     },
     "selectAContact": {
@@ -190,19 +212,23 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "दुर्भाग्य से, निर्यात के दौरान कुछ गलत हो गया था। सबसे पहले, लिखने के लिए और पर्याप्त जगह के लिए अपने लक्षित रिक्त निर्देशिका को दोबारा जांचें। फिर, कृपया एक डीबग लॉग सबमिट करें ताकि हम माइग्रेट हो सकें!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
     },
+    "aboutSignalDesktop": {
+        "message": "सिग्नल डेस्कटॉप के बारे में",
+        "description": "Item under the Help menu, which opens a small about window"
+    },
     "installConnecting": {
-        "message": "Connecting...",
+        "message": "कनेक्टिंग...",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "आपके चयनित स्थान",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
-        "message": "You may wish to $tag_start$ verify $tag_end$ your safety number with this contact.",
+        "message": "आप चाहते हो सकता है कि$tag_start$सत्यापित $tag_end$इस संपर्क के साथ आपकी सुरक्षा संख्या",
         "description": "Use $tag_start$ and $tag_end$ to wrap the word or phrase in this sentence that the user should click on in order to navigate to the verification screen. These placeholders will be replaced with appropriate HTML code.",
         "placeholders": {
             "tag_start": {
@@ -214,7 +240,7 @@
         }
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$हाल ही में बदल गया है|इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -228,7 +254,7 @@
         "description": "Label for the time a message was sent"
     },
     "theyChangedTheTimer": {
-        "message": "$name$ set the timer to $time$.",
+        "message": "$name$टाइमर को सेट करने के लिए$time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -242,23 +268,23 @@
         }
     },
     "timestamp_s": {
-        "message": "now",
+        "message": "अभी व",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या हाल ही में बदल गई हैं इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने सिग्नल को बस पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
-        "message": "1 day",
+        "message": "1 दिन",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "कृपया अपना डेटा निर्यात करते समय प्रतीक्षा करें इसमें कई मिनट लग सकते हैं आप इस समय के दौरान अपने फोन और अन्य उपकरणों पर अभी भी सिग्नल का उपयोग कर सकते हैं।",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
-        "message": "Report an issue",
+        "message": "मामले की रिपोर्ट करें",
         "description": "Link to open the issue tracker"
     },
     "newMessage": {
@@ -266,7 +292,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "nameOnly": {
-        "message": "Only sender name",
+        "message": "केवल प्रेषक का नाम",
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
@@ -278,7 +304,7 @@
         "description": "Label for the sender of a message"
     },
     "deleteConversationConfirmation": {
-        "message": "Permanently delete this conversation?",
+        "message": "इस वार्तालाप को स्थायी रूप से हटाएं?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
@@ -286,7 +312,7 @@
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
-        "message": "Relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "संदेश जारी रखने के लिए सिग्नल डेस्कटॉप को अपने मोबाइल डिवाइस पर लिंक करें।",
         "description": ""
     },
     "debugLogExplanation": {
@@ -294,11 +320,11 @@
         "description": ""
     },
     "newPhoneNumber": {
-        "message": "Enter a phone number to add a contact.",
+        "message": "कोई संपर्क जोड़ने के लिए एक फ़ोन नंबर दर्ज करें",
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है और अब सत्यापित नहीं है। दिखने के लिए क्लिक करें।",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -312,27 +338,27 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "कुछ प्राप्तकर्ता विफल रहे।",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
-        "message": "Neither name nor message",
+        "message": "न तो नाम और न ही संदेश",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "syncNow": {
-        "message": "Import now",
+        "message": "अब आयात करें",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncFailed": {
-        "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
+        "message": "आयात असफल रहा। सुनिश्चित करें कि आपका कंप्यूटर और आपका फ़ोन इंटरनेट से कनेक्ट है",
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Unlinked",
+        "message": "लिंक रद्द",
         "description": ""
     },
     "installFollowUs": {
-        "message": "<a $a_params$>Follow us</a> for updates about multi-device support for iOS.",
+        "message": "<a $a_params$>हमारा अनुसरण करो</a>iOS के लिए बहु-डिवाइस समर्थन के बारे में अपडेट के लिए",
         "description": "",
         "placeholders": {
             "a_params": {
@@ -354,7 +380,7 @@
         "description": "Shown as we are loading the user's data from disk"
     },
     "unreadMessages": {
-        "message": "$count$ Unread Messages",
+        "message": "$count$ अपठित संदेश",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -364,11 +390,11 @@
         }
     },
     "installTooManyDevices": {
-        "message": "Sorry, you have too many devices linked already. Try removing some.",
+        "message": "क्षमा करें, आपके पास बहुत से डिवाइस पहले ही लिंक किए गए हैं कुछ को निकालने का प्रयास करें",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "First, install Signal on your <a $play_store$>Android</a> or <a $app_store$>iPhone</a>.<br /> We'll link your devices and keep your messages in sync.",
+        "message": "सबसे पहले, अपने पर सिग्नल स्थापित करें<a $play_store$>एंड्रॉयड</a> or <a $app_store$>आई - फ़ोन</a><br />हम आपके डिवाइस को लिंक करेंगे और अपने संदेश को सिंक में रखेंगे।",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -381,24 +407,38 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$ joined the group.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "मंचों पर जाएं",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
-        "message": "Syncing groups and contacts",
+        "message": "समूह और संपर्कों को सिंक करना",
         "description": ""
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30 मी",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "themeAndroidDark": {
-        "message": "Android (dark)",
+        "message": "एंड्रॉयड (अंधेरे)",
         "description": "Label text for dark Android theme"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "1 मी",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "संदेशों को लोड करना$count$अब तक...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -407,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "भाषण",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$आपके अंतिम सत्यापन के बाद से बदल गया है। इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -418,11 +462,11 @@
         }
     },
     "upgrade": {
-        "message": "Upgrade",
+        "message": "अपग्रेड",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "yourSafetyNumberWith": {
-        "message": "Your safety number with $name$:",
+        "message": "आपकी सुरक्षा संख्या के साथ $name$",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -436,23 +480,27 @@
         "description": "Hides the details of a key change"
     },
     "theme": {
-        "message": "Theme",
+        "message": "विषय",
         "description": "Header for theme settings"
     },
     "newIdentity": {
-        "message": "New safety number",
+        "message": "नया सुरक्षा नंबर",
         "description": "Header for a key change dialog"
     },
     "installTagline": {
         "message": "गोपनीयता संभव है. सिग्नल उसे आसान बनता है",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "दिखाना",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
-        "message": "Play audio notification",
+        "message": "ऑडियो सूचना चलाएं",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "आपने अपनी सुरक्षा संख्या को इसके साथ सत्यापित नहीं किया $name$है",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -466,11 +514,11 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "syncing": {
-        "message": "Importing...",
+        "message": "आयात करने",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "इस समूह के कई सदस्यों के साथ आपकी सुरक्षा संख्या बदल गई हैं और अब सत्यापित नहीं हैं। दिखने के लिए क्लिक करें।",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -478,27 +526,27 @@
         "description": "Label for a button to accept a new safety number"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12h",
+        "message": "12 घंटे",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "एमएमएम  डीडी ",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "chooseDirectory": {
-        "message": "Choose directory",
+        "message": "निर्देशिका चुनें",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6h",
+        "message": "6 घंटे",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "unregisteredUser": {
-        "message": "Number is not registered",
+        "message": "संख्या पंजीकृत नहीं है",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1d",
+        "message": "1 डी",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "autoUpdateRestartButtonLabel": {
@@ -506,19 +554,19 @@
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "अब आयात करें",
         "description": ""
     },
     "sync": {
-        "message": "Contacts",
+        "message": "संपर्क",
         "description": "Label for contact and group sync settings"
     },
     "timerOption_1_week": {
-        "message": "1 week",
+        "message": "1 सप्ताह",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "installGotIt": {
-        "message": "Got it",
+        "message": "समझ गया",
         "description": "Button for the user to confirm that they have Signal installed."
     },
     "received": {
@@ -526,7 +574,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "आपने अपनी सुरक्षा संख्या को साथ में चिह्नित किया$name$के रूप में असत्यापित",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -536,7 +584,7 @@
         }
     },
     "isVerified": {
-        "message": "You have verified your safety number with $name$.",
+        "message": "आपने अपनी सुरक्षा संख्या को इसके साथ सत्यापित किया $name$",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -546,7 +594,7 @@
         }
     },
     "timerOption_30_seconds": {
-        "message": "30 seconds",
+        "message": "30 सेकंड",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "sendMessage": {
@@ -554,19 +602,19 @@
         "description": "Placeholder text in the message entry field"
     },
     "me": {
-        "message": "Me",
+        "message": "मुझे",
         "description": "The label for yourself when shown in a group member list"
     },
     "mediaMessage": {
-        "message": "Media message",
+        "message": "मीडिया संदेश",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unreadMessage": {
-        "message": "1 Unread Message",
+        "message": "1 अपठित संदेश",
         "description": "Text for unread message separator, just one message"
     },
     "expiredWarning": {
-        "message": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging.",
+        "message": "सिग्नल डेस्कटॉप का यह संस्करण समाप्त हो गया है। संदेश जारी रखने के लिए कृपया नवीनतम संस्करण में नवीनीकृत करें।",
         "description": "Warning notification that this version of the app has expired"
     },
     "fileSizeWarning": {
@@ -574,7 +622,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete this message",
+        "message": "यह संदेश हटाएं",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -582,19 +630,19 @@
         "description": ""
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "बंद",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>submit a debug log</a> so we can help you get migrated!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
-        "message": "Open Signal on your phone and navigate to Settings > Linked devices. Tap the button to add a new device, then scan the code above.",
+        "message": "अपने फोन पर सिग्नल खोलें और सेटिंग > लिंक किए गए डिवाइस पर नेविगेट करें एक नया डिवाइस जोड़ने के लिए बटन टैप करें, फिर ऊपर कोड स्कैन करें।",
         "description": ""
     },
     "invalidNumberError": {
-        "message": "Invalid number",
+        "message": "अमान्य संख्या",
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
@@ -606,11 +654,11 @@
         "description": "Welcome title on the install page"
     },
     "messageBelow": {
-        "message": "New message below",
+        "message": "नीचे नया संदेश",
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "आपका डेटा यहां निर्यात किया गया है:<p><b>$location$</b></p>आप सेट अप किए गए डेटा को आयात करने में सक्षम होंगे<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>नया सिग्नल डेस्कटॉप</a>",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -620,11 +668,11 @@
         }
     },
     "installConnectionFailed": {
-        "message": "Failed to connect to server.",
+        "message": "सर्वर से कनेक्ट करने में विफल",
         "description": "Displayed when we can't connect to the server."
     },
     "unverify": {
-        "message": "Mark as not verified",
+        "message": "सत्यापित नहीं के रूप में चिह्नित करें",
         "description": ""
     },
     "messageNotSent": {
@@ -644,7 +692,7 @@
         "description": ""
     },
     "unblockToSend": {
-        "message": "Unblock this contact to send a message.",
+        "message": "कोई संदेश भेजने के लिए इस संपर्क को अनवरोधित करें",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "installIHaveSignalButton": {
@@ -652,15 +700,15 @@
         "description": "Button for the user to confirm that they have Signal for Android"
     },
     "unnamedFile": {
-        "message": "Unnamed File",
+        "message": "अनाम फ़ाइल",
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "वैसे भी भेजें",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
-        "message": "You marked your safety number with $name$ as verified.",
+        "message": "आपने अपनी सुरक्षा संख्या को साथ में चिह्नित किया$name$के रूप में सत्यापित",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -670,7 +718,7 @@
         }
     },
     "connecting": {
-        "message": "Connecting",
+        "message": "जोड़ने",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "sessionEnded": {
@@ -682,23 +730,23 @@
         "description": ""
     },
     "relink": {
-        "message": "Relink",
+        "message": "फिर से लिंक",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1w",
+        "message": "1 सप्ताह",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_seconds": {
-        "message": "5 seconds",
+        "message": "5 सेकंड",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "showMembers": {
-        "message": "Show members",
+        "message": "सदस्यों को दिखाएं",
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "message": "आपने अपनी सुरक्षा संख्या को साथ में चिह्नित किया$name$जैसा कि किसी अन्य डिवाइस से सत्यापित नहीं है",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -708,7 +756,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "पहले अपने <a $a_params$>सिगनल</a>एंड्रॉइड फोन पर सिग्नल इंस्टॉल करें। <br />\nहम आपके डिवाइस को लिंक करेंगे और अपने संदेशों को सिंक में रखेंगे।",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -718,15 +766,19 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Linking with",
+        "message": "के साथ जोड़ने",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
     },
+    "goToSupportPage": {
+        "message": "पृष्ठ का समर्थन करने के लिए जाएं",
+        "description": "Item under the Help menu, takes you to the support page"
+    },
     "groupMembers": {
-        "message": "Group members",
+        "message": "समूह के सदस्य",
         "description": ""
     },
     "loading": {
-        "message": "Loading...",
+        "message": "लोड हो रहा है",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "newMessages": {
@@ -734,15 +786,15 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "newContact": {
-        "message": "Click to create new contact",
+        "message": "नया संपर्क बनाने के लिए क्लिक करें",
         "description": ""
     },
     "theirIdentityUnknown": {
-        "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
+        "message": "आपने अभी तक इस संपर्क के साथ किसी भी संदेश का आदान-प्रदान नहीं किया है। उनके साथ आपका सुरक्षा नंबर पहले संदेश के बाद उपलब्ध होगा।",
         "description": ""
     },
     "voiceMessage": {
-        "message": "Voice Message",
+        "message": "ध्वनि संदेश",
         "description": "Name for a voice message attachment"
     },
     "submit": {
@@ -750,7 +802,7 @@
         "description": ""
     },
     "keychanged": {
-        "message": "Your safety number with $name$ has changed. Click to show.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है।दिखने के लिए क्लिक करें।",
         "description": "",
         "placeholders": {
             "name": {
@@ -759,8 +811,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Updated the group.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "आपकी सुरक्षा संख्या के साथ$name$बदल गया है।इसका मतलब यह हो सकता है कि कोई आपके संचार को रोकना चाहता है या $name$बस सिग्नल को पुनः स्थापित किया है आप इस संपर्क के साथ अपना सुरक्षा नंबर सत्यापित करना चाह सकते हैं।",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -774,23 +830,27 @@
         "description": "Label for the receiver of a message"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1h",
+        "message": "1 घंटे",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "installFinalButton": {
         "message": "सब ठीक लग रहा है ",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "नोट जारी करने के लिए जाओ",
+        "description": ""
+    },
     "messageDetail": {
         "message": "सन्देश विवरण",
         "description": ""
     },
     "installNewSignal": {
-        "message": "Install new Signal Desktop",
+        "message": "नया सिग्नल डेस्कटॉप स्थापित करें",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "डेटा के लिए लक्ष्य निर्देशिका चुनें",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
@@ -802,11 +862,11 @@
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
-        "message": "10s",
+        "message": "10 एस",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "nameAndMessage": {
-        "message": "Both sender name and message",
+        "message": "प्रेषक का नाम और संदेश दोनों",
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
@@ -818,11 +878,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
+        "message": "इस संपर्क के साथ आपकी सुरक्षा संख्या बदल गई है इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है, या इस संपर्क को केवल सिग्नल को पुनः स्थापित किया गया है आप नीचे नई सुरक्षा संख्या को सत्यापित करना चाह सकते हैं।",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "आपके द्वारा अंतिम सत्यापित होने के बाद से कई समूह सदस्यों के साथ आपकी सुरक्षा संख्या बदल गई हैं। इसका मतलब यह हो सकता है कि कोई आपके संचार को अवरुद्ध करने का प्रयास कर रहा है या उन्होंने सिग्नल को बस पुनः स्थापित किया है",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -833,8 +893,18 @@
         "message": " गलती",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Title is now '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "आपके द्वारा सत्यापित करने की कोशिश कर रहे सुरक्षा नंबर बदल गया है कृपया अपने नए सुरक्षा नंबर के साथ की समीक्षा करें$name$|याद रखें, इस परिवर्तन का मतलब यह हो सकता है कि कोई आपकी संचार को रोकना चाहता है या$name$बस सिग्नल को पुनः स्थापित किया है",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -844,7 +914,7 @@
         }
     },
     "timerSetTo": {
-        "message": "Timer set to $time$",
+        "message": "टाइमर पर सेट $time$",
         "description": "Displayed in the conversation list when the timer is updated.",
         "placeholders": {
             "time": {
@@ -858,11 +928,11 @@
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
-        "message": "30s",
+        "message": "30 एस",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "पहला कदम इस एप्लिकेशन के निर्यात किए गए डेटा को स्टोर करने के लिए एक निर्देशिका चुनना है। इसमें आपके संदेश इतिहास और संवेदनशील क्रिप्टोग्राफ़िक डेटा शामिल होंगे, इसलिए इसे निजी रूप से निजी रूप से सहेजना सुनिश्चित करें",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -870,7 +940,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "फिर से निर्यात करें",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {
@@ -878,7 +948,7 @@
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as verified from another device.",
+        "message": "आपने अपनी सुरक्षा संख्या को साथ में चिह्नित किया$name$जैसा कि किसी अन्य डिवाइस से सत्यापित किया गया है।",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
