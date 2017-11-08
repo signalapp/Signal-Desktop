@@ -38,7 +38,6 @@
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');
-  require('./js/spell_check');
   require('./js/backup');
 
   window.nodeSetImmediate = setImmediate;
@@ -53,4 +52,8 @@
   window.nodeFetch = require('node-fetch');
   window.httpsAgent = require('https').Agent;
   window.nodeBuffer = Buffer;
+
+  // We pull this in last, because the native module involved appears to be sensitive to
+  //   /tmp mounted as noexec on Linux.
+  require('./js/spell_check');
 })();
