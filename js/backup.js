@@ -7,6 +7,10 @@
       console.log('stringToBlob: replacing null/undefined with empty string');
       string = '';
     }
+    if (string.type === 'ArrayBuffer' && string.encoding === 'base64') {
+      console.log('stringToBlob: Processing base64 attachment data');
+      string = dcodeIO.ByteBuffer.wrap(string.data, 'base64').toArrayBuffer();
+    }
     if (typeof string !== 'string' && !(string instanceof ArrayBuffer)) {
       // Not sure what this is, but perhaps we can make the right thing happen by sending
       //   it to a Uint8Array, which the wrap() method below handles just fine. Uint8Array
