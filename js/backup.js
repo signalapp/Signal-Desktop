@@ -391,23 +391,20 @@
 
   // Because apparently we sometimes create malformed JSON files. Let's double-check them.
   function checkConversation(conversationId, dir) {
-    return delay(10000).then(function() {
+    conversations += 1;
+    return delay(5000).then(function() {
       console.log('Verifying messages.json produced for conversation', conversationId);
       return readFileAsText(dir, 'messages.json');
     }).then(function(contents) {
-      try {
-        conversations += 1;
-        JSON.parse(contents);
-      }
-      catch (error) {
-        failedConversations += 1;
-        console.log(
-          'Export of conversation',
-          conversationId,
-          'was malformed:',
-          error && error.stack ? error.stack : error
-        );
-      }
+      JSON.parse(contents);
+    }).catch(function(error) {
+      failedConversations += 1;
+      console.log(
+        'Export of conversation',
+        conversationId,
+        'may be malformed:',
+        error && error.stack ? error.stack : error
+      );
     });
   }
 
@@ -742,7 +739,7 @@
   function printConversationStats() {
     console.log(
       'Total conversations:', conversations,
-      'Failed conversations:', failedConversations
+      'Possibly malformed conversations:', failedConversations
     );
   }
 
@@ -771,9 +768,6 @@
         console.log('done backing up!');
         if (failedAttachments) {
           throw new Error('Export failed, one or more attachments failed');
-        }
-        if (failedConversations) {
-          throw new Error('Export failed, one or more conversations failed');
         }
         return path;
       }, function(error) {
