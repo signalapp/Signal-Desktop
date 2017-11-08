@@ -459,8 +459,16 @@
             var messageId = message.received_at;
             var attachments = message.attachments;
 
+            // eliminate attachment data from the JSON, since it will go to disk
             message.attachments = _.map(attachments, function(attachment) {
               return _.omit(attachment, ['data']);
+            });
+            // completely drop any attachments in messages cached in error objects
+            message.errors = _.map(message.errors, function(error) {
+              if (_.get(error, 'args[0].attachments')) {
+                error.args[0].attachments = [];
+              }
+              return error;
             });
 
             var jsonString = JSON.stringify(stringify(message));
