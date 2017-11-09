@@ -135,6 +135,8 @@
       "audio/**",
       "images/**",
       "fonts/*",
+      "build/assets",
+      "build/icons/png/512x512.png",
       "node_modules/**",
       "!node_modules/spellchecker/vendor/hunspell/**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts}",
