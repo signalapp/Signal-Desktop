@@ -465,7 +465,7 @@
             });
             // completely drop any attachments in messages cached in error objects
             message.errors = _.map(message.errors, function(error) {
-              if (error && error.args && error.args[0] && err.args[0].attachments) {
+              if (error && error.args && error.args[0] && error.args[0].attachments) {
                 error.args[0].attachments = [];
               }
               return error;
