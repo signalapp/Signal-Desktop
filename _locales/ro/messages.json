@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "Alege dosarul cu datele exportate",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "Primul pas este să indici unde ai exportat anterior datele tale din Signal. Este un dosar al cărui nume începe cu 'Signal Export.'",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Clienții Android vor primi doar primele 2000 de caractere din acest mesaj.",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ a părăsit grupul.",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "Ai setat cronometrul la $time$.",
@@ -75,6 +85,10 @@
         "message": "1 minut",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "Jurnalul de depanare",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "Am înţeles!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "Dacă dorești să verifici numărul tău de siguranță a criptării conexiunii cu $name$, compară numerele de mai sus cu cele de pe dispozitivul lui.",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "Numerele tale de siguranță cu acești membri din grup s-a modificat de ultima oară când ai verificat. Apasă pe un membru din grup pentru a vedea noul tău număr de siguranță cu el.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -121,6 +135,10 @@
         "message": "Apasă pentru a salva",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "Deschide un defect",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
         "message": "Mesaje noi mai jos",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -136,6 +154,10 @@
     "offline": {
         "message": "Deconectat",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "Ascunde bara de meniu",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "Bun venit la Signal",
@@ -190,8 +212,12 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Apoi, trimite-ne un debug log pentru a te putea ajuta cu migrarea!",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "Despre Signal Desktop",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "Se conectează...",
@@ -214,7 +240,7 @@
         }
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Numărul tău de siguranță cu $name$ s-a modificat recent. Asta ar putea însemna că cineva încearcă să vă intercepteze comunicarea sau că $name$ a reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -254,7 +280,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "Please wait while we export your data. It may take several minutes. You can still use Signal on your phone and other devices during this time.",
+        "message": "Te rog să aștepți exportul datelor, care poate dura mai multe minute. În acest timp poți folosi Signal pe telefon sau alte dispozitive.",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -282,11 +308,11 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "Setează cu export din Chrome App",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
-        "message": "Reconectează Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
+        "message": "Asociază din nou Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
         "description": ""
     },
     "debugLogExplanation": {
@@ -298,7 +324,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "Numărul tău de siguranță cu $name$ s-a modificat și nu mai este verificat. Apasă pentru a afișa.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -312,7 +338,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "Unii destinatari au eșuat",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -328,7 +354,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "unlinked": {
-        "message": "Deconectat",
+        "message": "Disociat",
         "description": ""
     },
     "installFollowUs": {
@@ -346,7 +372,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "Setează ca instalare nouă",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
@@ -364,11 +390,11 @@
         }
     },
     "installTooManyDevices": {
-        "message": "Ne pare rău, ai prea multe dispozitive conectate deja. Încearcă să elimini câteva.",
+        "message": "Ne pare rău, ai prea multe dispozitive asociate deja. Încearcă să elimini câteva.",
         "description": ""
     },
     "installSignalLinks": {
-        "message": "Mai întâi, instalează Signal pe <a $play_store$>Android</a> sau <a $app_store$>iPhone</a>.<br /> O să conectăm dispozitivele tale și o să sincronizăm mesajele tale.",
+        "message": "Mai întâi, instalează Signal pe <a $play_store$>Android</a> sau <a $app_store$>iPhone</a>.<br /> O să asociem dispozitivele tale și o să sincronizăm mesajele tale.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "play_store": {
@@ -380,6 +406,20 @@
                 "example": "href='http://example.com'"
             }
         }
+    },
+    "joinedTheGroup": {
+        "message": "$names$ s-a alăturat grupului.",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "Navighează la forum",
+        "description": "Item under the Help menu, takes you to the forums"
     },
     "installSyncingGroupsAndContacts": {
         "message": "Sincronizare grupuri şi contacte",
@@ -407,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "Vorbire",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Numărul tău de siguranță cu $name$ s-a modificat de când ai verificat ultima oară. Asta ar putea însemna că cineva încearcă să vă intercepteze comunicarea sau că $name$ a reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -447,12 +491,16 @@
         "message": "Confidențialitatea este posibilă. Signal face asta ușor.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "Afișează",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
         "message": "Redă notificarea audio",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "Nu ai verificat numărul tău de siguranță cu $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -470,7 +518,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "Numerele tale de siguranță cu mai mulți membri din acest grup s-a modificat și nu mai sunt verificate. Apasă pentru a afișa.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -526,7 +574,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca neverificat.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -578,7 +626,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "Apasă pe Repornire pentru a aplica actualizările.",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,11 +634,11 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "Din păcate ceva nu a funcționat la import. <p>Mai întâi, verifică dosarul destinție. Trebuie să înceapă cu 'Signal Export.'</p><p>Apoi, încearcă un nou export al datelor din Chrome App.</p>Dacă nici așa nu funcționează, te rugăm să <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>trimiți un debug log (jurnal depanare)</a> pentru a te putea ajuta cu migrarea!",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
-        "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive conectate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
+        "message": "Deschide Signal de pe telefonul tău şi navighează la Setări > Dispozitive asociate. Apasă pe buton pentru a adăuga un dispozitiv nou, şi scanează codul de deasupra.",
         "description": ""
     },
     "invalidNumberError": {
@@ -598,7 +646,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "Am încărcat datele cu succes. Următorul pas este să restartezi aplicația!",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -610,7 +658,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "Datele au fost exportate în: <p><b>$location$</b></p> Vei putea importa aceste date când vei seta <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>noul Signal Desktop</a>.",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -632,7 +680,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "Este disponibilă o nouă versiune de Signal.",
         "description": ""
     },
     "disableNotifications": {
@@ -682,7 +730,7 @@
         "description": ""
     },
     "relink": {
-        "message": "Conectează din nou",
+        "message": "Asociază din nou",
         "description": ""
     },
     "timerOption_1_week_abbreviated": {
@@ -698,7 +746,7 @@
         "description": ""
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as not verified from another device.",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca neverificat pe alt echipament.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -708,7 +756,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "Mai întâi instalează <a $a_params$>Signal</a> pe telefon. Vom asocia dispozitivele tale și vom sincroniza mesajele.",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -718,8 +766,12 @@
         }
     },
     "installLinkingWithNumber": {
-        "message": "Se conectează cu",
+        "message": "Se asociază cu",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "Navighează la pagina de suport",
+        "description": "Item under the Help menu, takes you to the support page"
     },
     "groupMembers": {
         "message": "Membrii grupului",
@@ -759,8 +811,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "Grupul a fost actualizat.",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "Numărul tău de siguranță cu $name$ s-a modificat. Asta ar putea să însemne fie că cineva încearcă să intercepteze comunicarea voastră fie că $name$ pur și simplu a reinstalat Signal. Ar trebui să verifici numărul tău de siguranță cu acest contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -781,6 +837,10 @@
         "message": "Totul e ok",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "Navighează la notele de lansare",
+        "description": ""
+    },
     "messageDetail": {
         "message": "Detalii mesaj",
         "description": ""
@@ -790,7 +850,7 @@
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "Alege dosarul destinație pentru date",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
@@ -798,7 +858,7 @@
         "description": ""
     },
     "exportButton": {
-        "message": "Export",
+        "message": "Exportă",
         "description": ""
     },
     "timerOption_10_seconds_abbreviated": {
@@ -822,7 +882,7 @@
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "Numerele tale de siguranță cu mai mulți membri din grup s-au modificat de la ultima verificare. Asta poate însemna că cineva încearcă să vă intercepteze comunicarea sau doar că ei au reinstalat Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -833,8 +893,18 @@
         "message": "Eroare",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "Titlul este acum '$name$'.",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Numărul de siguranță pe care il verifici s-a modificat. Te rog să revizuiești numărul de siguranță cu $name$. Reține, această schimbare poate însemna că cineva încearcă sa va intercepteze comunicarea sau că $name$ pur și simplu a reinstalat Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -854,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Este disponibilă o actualizare de Signal ",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -862,7 +932,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "Primul pas este să alegi un dosar în care să salvezi datele exportate din aplicație. Acest va conține istoricul mesajelor tale și date de criptare sensibile, de aceea fii sigur că le salvezi într-un loc confidențial.",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -878,7 +948,7 @@
         "description": ""
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "You marked your safety number with $name$ as verified from another device.",
+        "message": "Ai marcat numărul tău de siguranță cu $name$ ca verificat pe alt dispozitiv.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {

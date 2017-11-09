@@ -38,7 +38,6 @@
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');
-  require('./js/spell_check');
   require('./js/backup');
 
   window.nodeSetImmediate = setImmediate;
@@ -56,4 +55,8 @@
   window.EmojiPanel = require('emoji-panel');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
+
+  // We pull this in last, because the native module involved appears to be sensitive to
+  //   /tmp mounted as noexec on Linux.
+  require('./js/spell_check');
 })();

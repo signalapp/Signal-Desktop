@@ -1156,8 +1156,8 @@ electron-updater@^2.9.3:
     xelement "^1.0.16"
 
 electron@~1.6.1:
-  version "1.6.14"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.14.tgz#47af610f0c21694266254e8b02ff8cd0fa6a64b7"
+  version "1.6.15"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.15.tgz#c34ec54486b7f49a66db58c6f24a0928414faea7"
   dependencies:
     "@types/node" "^7.0.18"
     electron-download "^3.0.1"

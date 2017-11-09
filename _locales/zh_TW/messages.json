@@ -4,7 +4,7 @@
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "importChooserTitle": {
-        "message": "Choose directory with exported data",
+        "message": "選擇匯出資料的資料夾",
         "description": "Title of the popup window used to select data previously exported"
     },
     "timerOption_10_seconds": {
@@ -34,7 +34,7 @@
         }
     },
     "importInstructions": {
-        "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+        "message": "第一步，告訴我們你先前在哪裡匯出 Signal 資料。資料夾的名稱可能是「Signal Export」開頭。",
         "description": "Description of the export process"
     },
     "unsupportedAttachment": {
@@ -48,6 +48,16 @@
     "androidMessageLengthWarning": {
         "message": "Android 使用者將只會收到訊息中的前 2000 個字",
         "description": "Warning that long messages could not get received completely by Android clients."
+    },
+    "leftTheGroup": {
+        "message": "$name$ 已離開群組。",
+        "description": "Shown in the conversation history when someone leaves the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "youChangedTheTimer": {
         "message": "你將定時器設為 $time$。 ",
@@ -75,6 +85,10 @@
         "message": "1 分鐘",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
+    "debugLog": {
+        "message": "除錯日誌",
+        "description": "View menu item to open the debug log, capitalized"
+    },
     "gotIt": {
         "message": "了解！",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
@@ -84,7 +98,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "deleteWarning": {
-        "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device.",
+        "message": "你真的確定？點擊「刪除」後，將會永久從這個裝置移除。",
         "description": ""
     },
     "showMore": {
@@ -92,7 +106,7 @@
         "description": "Displays the details of a key change"
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "如果你想要你與 $name$ 驗證端對端加密的安全性，比較上方的號碼與他們裝置上的號碼。",
         "description": "",
         "placeholders": {
             "name": {
@@ -102,7 +116,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+        "message": "自從上次驗證後，你與這個群組成員的安全碼已經產生變動。點擊一個群組成員，來查看你與他們的安全碼。",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "timerOption_5_minutes_abbreviated": {
@@ -121,6 +135,10 @@
         "message": "點擊儲存",
         "description": "Hover text for attachment filenames"
     },
+    "fileABug": {
+        "message": "送出一個錯誤",
+        "description": "Item under the Help menu, takes you to GitHub new issue form"
+    },
     "messagesBelow": {
         "message": "底下有新訊息",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
@@ -136,6 +154,10 @@
     "offline": {
         "message": "離線",
         "description": "Displayed when the desktop client has no network connection."
+    },
+    "hideMenuBar": {
+        "message": "隱藏選單列",
+        "description": "Label text for menu bar visibility setting"
     },
     "welcomeToSignal": {
         "message": "歡迎來到 Signal",
@@ -162,7 +184,7 @@
         "description": "Explanatory text for sync settings"
     },
     "restartSignal": {
-        "message": "重新開啟Signal",
+        "message": "重新開啟 Signal",
         "description": "Menu item for restarting the program."
     },
     "youLeftTheGroup": {
@@ -190,15 +212,19 @@
         "description": ""
     },
     "exportError": {
-        "message": "Unfortunately, something went wrong during the export. First, double-check your target empty directory for write access and enough space. Then, please submit a debug log so we can help you get migrated!",
+        "message": "很不巧的，在匯出時出現問題。首先，再次檢查匯出的資料夾是空的，有寫入權限及足夠容量。接著，請提交除錯日誌，這樣我們能協助轉移。",
         "description": "Helper text if the user went forward on migrating the app, but ran into an error"
+    },
+    "aboutSignalDesktop": {
+        "message": "關於 Signal 桌面",
+        "description": "Item under the Help menu, which opens a small about window"
     },
     "installConnecting": {
         "message": "正在連線中...",
         "description": "Displayed when waiting for the QR Code"
     },
     "selectedLocation": {
-        "message": "your selected location",
+        "message": "你已選擇的位置",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "verifyContact": {
@@ -214,7 +240,7 @@
         }
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "你與 $name$ 的安全碼在最近已經有了變動。這有可能是有不明人士試圖攔截你的通訊，或是，只因為$name$ 重新安裝 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -246,7 +272,7 @@
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "changedRecentlyMultiple": {
-        "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "你與多個群組成員的安全碼在最近已經有了變動。這有可能是有不明人士試圖攔截你的通訊，或是，只因為他們重新安裝 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "timerOption_1_day": {
@@ -254,7 +280,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "exporting": {
-        "message": "請耐心等待我們匯出你的資料，此過程將需數分鐘。你可以繼續在電話及其他裝置上使用Signal。",
+        "message": "請耐心等待我們匯出你的資料，此過程將需數分鐘。你可以繼續在電話及其他裝置上使用 Signal。",
         "description": "Message shown on the migration screen while we export data"
     },
     "reportIssue": {
@@ -270,7 +296,7 @@
         "description": "Label for setting notifications to display sender name only"
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "稍後",
         "description": ""
     },
     "from": {
@@ -282,7 +308,7 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "installImport": {
-        "message": "Set up with Chrome App export",
+        "message": "用 Chrome 應用程式匯出來設定",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "unlinkedWarning": {
@@ -298,7 +324,7 @@
         "description": "Placeholder for adding a new number to a contact"
     },
     "noLongerVerified": {
-        "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+        "message": "你與 $name$ 的安全已經產生變動，並且不再是經驗證過的。點擊來顯示。",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -312,7 +338,7 @@
         "description": "Placeholder text in the search input"
     },
     "someRecipientsFailed": {
-        "message": "Some recipients failed.",
+        "message": "無法送給一些接收者。",
         "description": "When you send to multiple recipients via a group, and the message went to some recipients but not others."
     },
     "noNameOrMessage": {
@@ -346,7 +372,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "installNew": {
-        "message": "Set up as new install",
+        "message": "設定一個新的安裝",
         "description": "One of two choices presented on the screen shown on first launch"
     },
     "importing": {
@@ -381,6 +407,20 @@
             }
         }
     },
+    "joinedTheGroup": {
+        "message": "$names$ 已加入群組。",
+        "description": "Shown in the conversation history when people join the group",
+        "placeholders": {
+            "names": {
+                "content": "$1",
+                "example": "Alice, Bob"
+            }
+        }
+    },
+    "goToForums": {
+        "message": "前往論壇",
+        "description": "Item under the Help menu, takes you to the forums"
+    },
     "installSyncingGroupsAndContacts": {
         "message": "正在同步群組及聯絡人",
         "description": ""
@@ -398,7 +438,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "loadingMessages": {
-        "message": "Loading messages. $count$ so far...",
+        "message": "正在載入訊息中。目前有 $count$ 則...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -407,8 +447,12 @@
             }
         }
     },
+    "speech": {
+        "message": "語音",
+        "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
+    },
     "changedSinceVerified": {
-        "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "自上次驗證後，你與 $name$ 的安全碼已經產生變動。這有可能是有不明人士試圖攔截您的通訊，或是，只因為 $name$ 重新安裝 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -447,12 +491,16 @@
         "message": "隱私是有可能的。Signal 讓隱私更簡單。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
+    "show": {
+        "message": "顯示",
+        "description": "Command under Window menu, to show the window"
+    },
     "audioNotificationDescription": {
         "message": "播放通知音效",
         "description": "Description for audio notification setting"
     },
     "isNotVerified": {
-        "message": "You have not verified your safety number with $name$.",
+        "message": "你還沒驗證與 $name$ 的安全碼。",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -470,7 +518,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "multipleNoLongerVerified": {
-        "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+        "message": "你與群組中的多個成員的安全碼已經有了變動，不再是經驗證過的。點擊來顯示。",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "acceptNewKey": {
@@ -486,7 +534,7 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "chooseDirectory": {
-        "message": "Choose directory",
+        "message": "選擇資料夾",
         "description": "Button to allow the user to export all data from app as part of migration process"
     },
     "timerOption_6_hours_abbreviated": {
@@ -506,7 +554,7 @@
         "description": ""
     },
     "importButton": {
-        "message": "Import",
+        "message": "匯入",
         "description": ""
     },
     "sync": {
@@ -526,7 +574,7 @@
         "description": "Label for the time a message was received"
     },
     "youMarkedAsNotVerified": {
-        "message": "You marked your safety number with $name$ as unverified.",
+        "message": "你已標記與 $name$ 的安全碼為未驗證。",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the safety number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -578,7 +626,7 @@
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Press Restart to apply the updates.",
+        "message": "點選重啟來套用更新",
         "description": ""
     },
     "timerOption_0_seconds": {
@@ -586,7 +634,7 @@
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "importError": {
-        "message": "Unfortunately, something went wrong during the import. <p>First, double-check your target directory. It should start with 'Signal Export.'</p><p>Next, try with a new export of your data from the Chrome App.</p>If that still fails, please <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737-How-do-I-submit-a-debug-log-from-the-Desktop-'>submit a debug log</a> so we can help you get migrated!",
+        "message": "很不巧的，在匯出時出現問題。<p>首先，再次檢查目標資料夾，資料夾應該是「Signal Export」開頭。</p><p>接著，再從 Chrome 應用程式試著再匯出你的資料。</p>如果依然失敗，<a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/215188737'>請提交除錯日誌</a>，這樣我們才能協助你轉移。",
         "description": "Message shown if the import went wrong."
     },
     "installAndroidInstructions": {
@@ -598,7 +646,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "importComplete": {
-        "message": "We've successfully loaded your data. The next step is to restart the application!",
+        "message": "我們已經成功載入你的資料。下一步將會重啟應用程式！",
         "description": "Shown when the import is complete."
     },
     "installWelcome": {
@@ -610,7 +658,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
     },
     "exportComplete": {
-        "message": "Your data has been exported to: <p><b>$location$</b></p> You'll be able to import this data as you set up <a target='_blank' href='https://support.whispersystems.org/hc/en-us/articles/214507138'>the new Signal Desktop</a>.",
+        "message": "你的資料已經匯出到：<p><b>$location$</b></p>。你將能匯入這些資料來設定新的 Signal 桌面版。",
         "description": "Message shown on the migration screen when we are done exporting data",
         "placeholders": {
             "location": {
@@ -632,7 +680,7 @@
         "description": "Informational label, appears on messages that failed to send"
     },
     "autoUpdateNewVersionMessage": {
-        "message": "There is a new version of Signal available.",
+        "message": "這是新版本的 Signal。",
         "description": ""
     },
     "disableNotifications": {
@@ -656,7 +704,7 @@
         "description": "Hover text for attachment filenames"
     },
     "sendAnyway": {
-        "message": "Send Anyway",
+        "message": "無論如何都送出",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "youMarkedAsVerified": {
@@ -708,7 +756,7 @@
         }
     },
     "installSignalLink": {
-        "message": "First, install <a $a_params$>Signal</a> on your mobile phone. We'll link your devices and keep your messages in sync.",
+        "message": "首先，在你的行動電話中安裝 <a $a_params$>Signal</a>。我們將會連結你的裝置和同步你的訊息。",
         "description": "Prompt the user to install Signal on their phone before linking",
         "placeholders": {
             "a_params": {
@@ -720,6 +768,10 @@
     "installLinkingWithNumber": {
         "message": "正在連結",
         "description": "Text displayed before the phone number that the user is in the process of linking with"
+    },
+    "goToSupportPage": {
+        "message": "前往支援頁面",
+        "description": "Item under the Help menu, takes you to the support page"
     },
     "groupMembers": {
         "message": "群組成員",
@@ -759,8 +811,12 @@
             }
         }
     },
+    "updatedTheGroup": {
+        "message": "已更新群組。",
+        "description": "Shown in the conversation history when someone updates the group"
+    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your saftey number with this contact.",
+        "message": "你與這 $name$ 的安全碼產生變動。這有可能是有不明人士試圖攔截你的通訊，或是，只因為 $name$ 重新安裝 Signal。你也許希望驗證你與聯絡人的安全碼。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -781,16 +837,20 @@
         "message": "看起來不錯",
         "description": "The final button for the install process, after the user has entered a name for their device"
     },
+    "goToReleaseNotes": {
+        "message": "前往發行說明",
+        "description": ""
+    },
     "messageDetail": {
         "message": "詳細訊息",
         "description": ""
     },
     "installNewSignal": {
-        "message": "安裝新的Signal 桌面版",
+        "message": "安裝新的 Signal 桌面版",
         "description": "When export is complete, a button shows which sends user to Signal Desktop install instructions"
     },
     "exportChooserTitle": {
-        "message": "Choose target directory for data",
+        "message": "選擇資料的目的資料夾。",
         "description": "Title of the popup window used to select data storage location"
     },
     "verify": {
@@ -810,7 +870,7 @@
         "description": "Label for setting notifications to display name and message text"
     },
     "failedToSend": {
-        "message": "傳送給一些收件人失敗。檢查你的網路連線。",
+        "message": "無法傳送給一些接收者。檢查你的網路連線。",
         "description": ""
     },
     "ok": {
@@ -818,11 +878,11 @@
         "description": ""
     },
     "identityChanged": {
-        "message": "你與這個聯絡人的安全碼產生變動。這有可能是有不明人士試圖攔截您的通訊，或是，只因為這個聯絡人重新安裝 Signal。你能驗證下方新的安全碼。",
+        "message": "你與這個聯絡人的安全碼產生變動。這有可能是有不明人士試圖攔截你的通訊，或是，只因為這個聯絡人重新安裝 Signal。你能驗證下方新的安全碼。",
         "description": ""
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+        "message": "你與這個多個群組成員的安全碼產生變動。這有可能是有不明人士試圖攔截你的通訊，或是，只因為他們重新安裝 Signal。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "submitDebugLog": {
@@ -833,8 +893,18 @@
         "message": "錯誤",
         "description": ""
     },
+    "titleIsNow": {
+        "message": "現在標題是「$name$」。",
+        "description": "Shown in the conversation history when someone changes the title of the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Book Club"
+            }
+        }
+    },
     "changedRightAfterVerify": {
-        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "你試著驗證的安全已經改變，請檢視你與 $name$ 的新安全碼。記得，這個變動可能是有不明人士試圖攔截你的通訊，或是，只因為 $name$ 重新安裝 Signal。",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -854,7 +924,7 @@
         }
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal update available",
+        "message": "Signal 可用的更新",
         "description": ""
     },
     "timerOption_30_seconds_abbreviated": {
@@ -862,7 +932,7 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "exportInstructions": {
-        "message": "The first step is to choose a directory to store this application's exported data. It will contain your message history and sensitive cryptographic data, so be sure to save it somewhere private.",
+        "message": "現在，選擇一個資料夾來儲存應用程式輸出的資料，因為，這包含了你的歷史訊息及敏感的加密資料，所以，請確認儲存在私密的位置。",
         "description": "Description of the export process"
     },
     "notifications": {
@@ -870,7 +940,7 @@
         "description": "Header for notification settings"
     },
     "tryAgain": {
-        "message": "Try again",
+        "message": "再試一次",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "resend": {

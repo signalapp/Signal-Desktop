@@ -178,8 +178,18 @@
 
       console.log('Importing to these stores:', storeNames.join(', '));
 
+      var finished = false;
+      var finish = function(via) {
+        console.log('non-messages import done via', via);
+        if (finished) {
+          resolve();
+        }
+        finished = true;
+      };
+
       var transaction = idb_db.transaction(storeNames, 'readwrite');
       transaction.onerror = reject;
+      transaction.oncomplete = finish.bind(null, 'transaction complete');
 
       _.each(storeNames, function(storeName) {
           console.log('Importing items for store', storeName);
@@ -202,7 +212,7 @@
                   if (_.keys(importObject).length === 0) {
                     // added all object stores
                     console.log('DB import complete');
-                    resolve();
+                    finish('puts scheduled');
                   }
                 }
               };
@@ -581,6 +591,15 @@
     }
 
     return new Promise(function(resolve, reject) {
+      var finished = false;
+      var finish = function(via) {
+        console.log('messages done saving via', via);
+        if (finished) {
+          resolve();
+        }
+        finished = true;
+      };
+
       var transaction = idb_db.transaction('messages', 'readwrite');
       transaction.onerror = function(e) {
         console.log(
@@ -589,6 +608,7 @@
         );
         return reject(e);
       };
+      transaction.oncomplete = finish.bind(null, 'transaction complete');
 
       var store = transaction.objectStore('messages');
       var conversationId = messages[0].conversationId;
@@ -606,12 +626,12 @@
               // Don't know if group or private conversation, so we blindly redact
               '[REDACTED]' + conversationId.slice(-3)
             );
-            resolve();
+            finish('puts scheduled');
           }
         };
         request.onerror = function(event) {
-          console.log('Error adding object to store:', error);
-          reject();
+          console.log('Error adding object to store:', event);
+          reject(new Error('saveAllMessage: onerror fired'));
         };
       });
     });
