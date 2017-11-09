@@ -104,7 +104,8 @@ function createWindow () {
       nodeIntegration: false,
       //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    icon: __dirname + '/build/icons/png/512x512.png',
   }, windowConfig);
 
   if (windowOptions.fullscreen === false) {
