@@ -15,6 +15,11 @@
 #   aptly repo remove signal-desktop signal-desktop_1.0.35_amd64
 #   aptly publish switch -gpg-key=57F6FB06 xenial signal-desktop_v1.0.34
 #
+# Pruning package set - we generally want 2-3 versions of each stream available,
+#                       production and beta. You can remove old packages like this:
+#   aptly repo show -with-packages signal-desktop
+#   aptly repo remove signal-desktop signal-desktop_1.0.34_amd64
+#
 # Release:
 #   NAME=signal-desktop(-beta) VERSION=X.X.X ./aptly.sh
 
