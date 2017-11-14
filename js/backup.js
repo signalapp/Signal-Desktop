@@ -389,22 +389,36 @@
     });
   }
 
-  // Because apparently we sometimes create malformed JSON files. Let's double-check them.
-  function checkConversation(conversationId, dir) {
-    conversations += 1;
+  // When we write files to disk, those writes sometimes take a while to appear on disk,
+  //   even if the Chrome file-writing APIs tell us that the write is complete. So, to
+  //   ensure that the export is really complete, we repeatedly check the messages.json
+  //   file for well-formed JSON, trying for up to five minutes.
+  var CHECK_MAX = 60;
+  function checkConversation(conversationId, dir, count) {
     return delay(5000).then(function() {
-      console.log('Verifying messages.json produced for conversation', conversationId);
+      console.log(
+        'Verifying messages.json produced for conversation',
+        conversationId,
+        'attempt number',
+        count
+      );
       return readFileAsText(dir, 'messages.json');
     }).then(function(contents) {
       JSON.parse(contents);
     }).catch(function(error) {
-      failedConversations += 1;
       console.log(
         'Export of conversation',
         conversationId,
         'may be malformed:',
         error && error.stack ? error.stack : error
       );
+
+      if (count >= CHECK_MAX) {
+        failedConversations += 1;
+        return;
+      }
+
+      return checkConversation(conversationId, dir, count + 1);
     });
   }
 
@@ -489,9 +503,12 @@
             cursor.continue();
           } else {
             var promise = stream.write(']}');
+
+            conversations += 1;
+
             promiseChain = promiseChain
               .then(promise)
-              .then(checkConversation.bind(null, name, dir));
+              .then(checkConversation.bind(null, name, dir, 0));
 
             return promiseChain.then(function() {
               console.log('done exporting conversation', name);
@@ -776,6 +793,9 @@
         console.log('done backing up!');
         if (failedAttachments) {
           throw new Error('Export failed, one or more attachments failed');
+        }
+        if (failedConversations) {
+          throw new Error('Export failed, one or more conversations failed');
         }
         return path;
       }, function(error) {
