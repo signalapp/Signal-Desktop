@@ -637,7 +637,7 @@
           count += 1;
           if (count === messages.length) {
             console.log(
-              'Done importing',
+              'Saved',
               messages.length,
               'messages for conversation',
               // Don't know if group or private conversation, so we blindly redact
@@ -658,27 +658,51 @@
     });
   }
 
+  // To reduce the memory impact of attachments, we make individual saves to the
+  //   database for every message with an attachment. We load the attachment for a
+  //   message, save it, and only then do we move on to the next message. Thus, every
+  //   message with attachments needs to be removed from our overall message save with the
+  //   filter() call.
   function importConversation(idb_db, dir) {
     return readFileAsText(dir, 'messages.json').then(function(contents) {
       var promiseChain = Promise.resolve();
 
       var json = JSON.parse(contents);
-      var messages = json.messages;
-      _.forEach(messages, function(message) {
+      var conversationId;
+      if (json.messages && json.messages.length) {
+        conversationId = json.messages[0].conversationId;
+      }
+
+      var messages = _.filter(json.messages, function(message) {
         message = unstringify(message);
 
         if (message.attachments && message.attachments.length) {
           var process = function() {
-            return loadAttachments(dir, message);
+            return loadAttachments(dir, message).then(function() {
+              return saveAllMessages(idb_db, [message]);
+            });
           };
 
           promiseChain = promiseChain.then(process);
+
+          return null;
         }
+
+        return message;
       });
 
-      return promiseChain.then(function() {
-        return saveAllMessages(idb_db, messages);
-      });
+      return saveAllMessages(idb_db, messages)
+        .then(function() {
+          return promiseChain;
+        })
+        .then(function() {
+          console.log(
+            'Finished importing conversation',
+            // Don't know if group or private conversation, so we blindly redact
+            conversationId ? '[REDACTED]' + conversationId.slice(-3) : 'with no messages'
+          );
+        });
+
     }, function() {
       console.log('Warning: could not access messages.json in directory: ' + dir);
     });
