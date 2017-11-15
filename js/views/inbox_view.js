@@ -121,6 +121,7 @@
 
             this.listenTo(this.searchView, 'hide', function() {
                 this.searchView.$el.hide();
+                this.inboxListView.render();
                 this.inboxListView.$el.show();
             });
             this.listenTo(this.searchView, 'show', function() {

@@ -849,7 +849,7 @@
         destroyMessages: function(e) {
             this.confirm(i18n('deleteConversationConfirmation')).then(function() {
                 this.model.destroyMessages();
-                this.remove();
+                this.reset();
             }.bind(this)).catch(function() {
                 // clicked cancel, nothing to do.
             });

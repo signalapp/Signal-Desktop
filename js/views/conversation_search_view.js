@@ -101,9 +101,9 @@
                     this.new_contact_view.model.id,
                     'private'
                 ).then(function(conversation) {
-                    this.trigger('open', conversation);
                     this.initNewContact();
                     this.resetTypeahead();
+                    this.trigger('open', conversation);
                 }.bind(this));
             } else {
                 this.new_contact_view.$('.number').text(i18n('invalidNumberError'));
