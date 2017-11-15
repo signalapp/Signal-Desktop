@@ -90,6 +90,33 @@
                         resolve(file);
                         return;
                     }
+                    
+                    
+                    //Fix image orientation
+                    //parse meta data
+                    loadImage.parseMetaData(blobOrFile, function(data) {
+                        //default image orientation
+                        var orientation = 0;
+                        //if exif data available, update orientation
+                        if (data.exif) {
+                            orientation = data.exif.get('Orientation');
+                        }
+                        var loadingImage = loadImage(
+                            blobOrFile,
+                            function(canvas) {
+                                //here's the base64 data result
+                                var base64data = canvas.toDataURL('image/jpeg');
+                                //here's example to show it as on imae preview
+                                var img_src = base64data.replace(/^data\:image\/\w+\;base64\,/, '');
+                                $('#result-preview').attr('src', base64data);
+                            }, {
+                                //should be set to canvas : true to activate auto fix orientation
+                                canvas: true,
+                                orientation: orientation
+                            }
+                        );
+                    });
+
 
                     // loadImage.scale -> components/blueimp-load-image
                     var canvas = loadImage.scale(img, {
