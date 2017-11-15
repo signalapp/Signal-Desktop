@@ -267,10 +267,13 @@
         },
         removeSignedPreKey: function(keyId) {
             var prekey = new SignedPreKey({id: keyId});
-            return new Promise(function(resolve) {
-                prekey.destroy().then(function() {
-                    resolve();
-                });
+            return new Promise(function(resolve, reject) {
+                var deferred = prekey.destroy();
+                if (!deferred) {
+                    return resolve();
+                }
+
+                deferred.then(resolve, reject);
             });
         },
 
