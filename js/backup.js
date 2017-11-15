@@ -188,7 +188,14 @@
       };
 
       var transaction = idb_db.transaction(storeNames, 'readwrite');
-      transaction.onerror = reject;
+      transaction.onerror = function() {
+        var error = transaction.error;
+        console.log(
+          'importFromJsonString error:',
+          error && error.stack ? error.stack : error
+        );
+        reject(error || new Error('importFromJsonString: transaction.onerror'));
+      };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
       _.each(storeNames, function(storeName) {
@@ -216,14 +223,16 @@
                   }
                 }
               };
-              request.onerror = function(error) {
+              request.onerror = function() {
+                var error = request.error;
                 console.log(
                   'Error adding object to store',
                   storeName,
                   ':',
-                  toAdd
+                  toAdd,
+                  error && error.stack ? error.stack : error
                 );
-                reject(error);
+                reject(error || new Error('importFromJsonString: request.onerror'));
               };
           });
       });
@@ -383,14 +392,16 @@
     return createFileAndWriter(dir, 'messages.json').then(function(writer) {
       return new Promise(function(resolve, reject) {
         var transaction = idb_db.transaction('messages', 'readwrite');
-        transaction.onerror = function(e) {
+        transaction.onerror = function() {
+          var error = transaction.error;
+
           console.log(
             'exportConversation transaction error for conversation',
             name,
             ':',
-            e && e.stack ? e.stack : e
+            error && error.stack ? error.stack : error
           );
-          return reject(e);
+          return reject(error || new Error('exportConversation: transaction.onerror'));
         };
         transaction.oncomplete = function() {
           // this doesn't really mean anything - we may have attachment processing to do
@@ -407,14 +418,16 @@
         var stream = createOutputStream(writer);
         stream.write('{"messages":[');
 
-        request.onerror = function(e) {
+        request.onerror = function() {
+          var error = request.error;
+
           console.log(
             'exportConversation: error pulling messages for conversation',
             name,
             ':',
-            e && e.stack ? e.stack : e
+            error && error.stack ? error.stack : error
           );
-          return reject(e);
+          return reject(error || new Error('exportConversation: request.onerror'));
         };
         request.onsuccess = function(event) {
           var cursor = event.target.result;
@@ -497,12 +510,13 @@
   function exportConversations(idb_db, parentDir) {
     return new Promise(function(resolve, reject) {
       var transaction = idb_db.transaction('conversations', 'readwrite');
-      transaction.onerror = function(e) {
+      transaction.onerror = function() {
+        var error = transaction.error;
         console.log(
           'exportConversations: transaction error:',
-          e && e.stack ? e.stack : e
+          error && error.stack ? error.stack : error
         );
-        return reject(e);
+        return reject(error || new Error('exportConversations: transaction.onerror'));
       };
       transaction.oncomplete = function() {
         // not really very useful - fires at unexpected times
@@ -511,12 +525,13 @@
       var promiseChain = Promise.resolve();
       var store = transaction.objectStore('conversations');
       var request = store.openCursor();
-      request.onerror = function(e) {
+      request.onerror = function() {
+        var error = request.error;
         console.log(
           'exportConversations: error pulling conversations:',
-          e && e.stack ? e.stack : e
+          error && error.stack ? error.stack : error
         );
-        return reject(e);
+        return reject(error || new Error('exportConversations: request.onerror'));
       };
       request.onsuccess = function(event) {
         var cursor = event.target.result;
@@ -601,12 +616,14 @@
       };
 
       var transaction = idb_db.transaction('messages', 'readwrite');
-      transaction.onerror = function(e) {
+      transaction.onerror = function() {
+        var error = transaction.error;
+
         console.log(
           'saveAllMessages transaction error:',
-          e && e.stack ? e.stack : e
+          error && error.stack ? error.stack : error
         );
-        return reject(e);
+        return reject(error || new Error('saveAllMessages: transaction.onerror'));
       };
       transaction.oncomplete = finish.bind(null, 'transaction complete');
 
@@ -620,7 +637,7 @@
           count += 1;
           if (count === messages.length) {
             console.log(
-              'Done importing',
+              'Saved',
               messages.length,
               'messages for conversation',
               // Don't know if group or private conversation, so we blindly redact
@@ -629,35 +646,63 @@
             finish('puts scheduled');
           }
         };
-        request.onerror = function(event) {
-          console.log('Error adding object to store:', event);
-          reject(new Error('saveAllMessage: onerror fired'));
+        request.onerror = function() {
+          var event = request.error;
+          console.log(
+            'Error adding object to store:',
+            error && error.stack ? error.stack : error
+          );
+          reject(error || new Error('saveAllMessages: request.onerror'));
         };
       });
     });
   }
 
+  // To reduce the memory impact of attachments, we make individual saves to the
+  //   database for every message with an attachment. We load the attachment for a
+  //   message, save it, and only then do we move on to the next message. Thus, every
+  //   message with attachments needs to be removed from our overall message save with the
+  //   filter() call.
   function importConversation(idb_db, dir) {
     return readFileAsText(dir, 'messages.json').then(function(contents) {
       var promiseChain = Promise.resolve();
 
       var json = JSON.parse(contents);
-      var messages = json.messages;
-      _.forEach(messages, function(message) {
+      var conversationId;
+      if (json.messages && json.messages.length) {
+        conversationId = json.messages[0].conversationId;
+      }
+
+      var messages = _.filter(json.messages, function(message) {
         message = unstringify(message);
 
         if (message.attachments && message.attachments.length) {
           var process = function() {
-            return loadAttachments(dir, message);
+            return loadAttachments(dir, message).then(function() {
+              return saveAllMessages(idb_db, [message]);
+            });
           };
 
           promiseChain = promiseChain.then(process);
+
+          return null;
         }
+
+        return message;
       });
 
-      return promiseChain.then(function() {
-        return saveAllMessages(idb_db, messages);
-      });
+      return saveAllMessages(idb_db, messages)
+        .then(function() {
+          return promiseChain;
+        })
+        .then(function() {
+          console.log(
+            'Finished importing conversation',
+            // Don't know if group or private conversation, so we blindly redact
+            conversationId ? '[REDACTED]' + conversationId.slice(-3) : 'with no messages'
+          );
+        });
+
     }, function() {
       console.log('Warning: could not access messages.json in directory: ' + dir);
     });
@@ -689,10 +734,18 @@
       var storeNames = idb_db.objectStoreNames;
       var transaction = idb_db.transaction(storeNames, 'readwrite');
 
-      transaction.oncomplete = function() {
-        // unused
+      var finished = false;
+      var finish = function(via) {
+        console.log('clearing all stores done via', via);
+        if (finished) {
+          resolve();
+        }
+        finished = true;
       };
-      transaction.onerror = function(error) {
+
+      transaction.oncomplete = finish.bind(null, 'transaction complete');
+      transaction.onerror = function() {
+        var error = transaction.error;
         console.log(
           'saveAllMessages transaction error:',
           error && error.stack ? error.stack : error
@@ -711,16 +764,18 @@
 
           if (count >= storeNames.length) {
             console.log('Done clearing all indexeddb stores');
-            return resolve();
+            return finish('clears complete');
           }
         };
 
-        request.onerror = function(error) {
+        request.onerror = function() {
+          var error = request.error;
+
           console.log(
             'clearAllStores transaction error:',
             error && error.stack ? error.stack : error
           );
-          return reject(error);
+          return reject(error || new Error('clearAllStores: request.onerror'));
         };
       });
     });
