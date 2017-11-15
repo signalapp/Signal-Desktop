@@ -17,7 +17,10 @@
 
     function run() {
         console.log('Rotating signed prekey...');
-        getAccountManager().rotateSignedPreKey();
+        getAccountManager().rotateSignedPreKey().catch(function() {
+            console.log('rotateSignedPrekey() failed. Trying again in five seconds');
+            setTimeout(runWhenOnline, 5000);
+        });
         scheduleNextRotation();
         setTimeoutForNextRun();
     }
@@ -26,6 +29,7 @@
         if (navigator.onLine) {
             run();
         } else {
+            console.log('We are offline; keys will be rotated when we are next online');
             var listener = function() {
                 window.removeEventListener('online', listener);
                 run();
@@ -52,8 +56,15 @@
         timeout = setTimeout(runWhenOnline, waitTime);
     }
 
+    var initComplete;
     Whisper.RotateSignedPreKeyListener = {
         init: function(events) {
+            if (initComplete) {
+                console.log('Rotate signed prekey listener: Already initialized');
+                return;
+            }
+            initComplete = true;
+
             if (Whisper.Registration.isDone()) {
                 setTimeoutForNextRun();
             }
