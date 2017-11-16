@@ -93,7 +93,7 @@ const notifier = require('node-notifier');
                  'sound': false
             });
 
-            notifier.on('click', function(notifierObject, options){
+            notifier.on('click', function(notifierObject, options) {
                 last.get('conversationId');
             });
 
