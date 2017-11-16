@@ -1,6 +1,8 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
+const notifier = require('node-notifier');
+
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
@@ -84,14 +86,16 @@
                 iconUrl = last.get('iconUrl');
                 break;
             }
-            var notification = new Notification(title, {
-                body   : message,
-                icon   : iconUrl,
-                tag    : 'signal',
-                silent : true
-            });
+            notifier.notify({
+  				'title': 'Signal Private Messenger',
+  				'message': message,
+  				'icon': iconUrl,
+  				'sound': false
+			});
 
-            notification.onclick = this.onClick.bind(this, last.get('conversationId'));
+            notifier.on('click', function(notifierObject, options){
+            	last.get('conversationId');
+            });
 
             // We don't want to notify the user about these same messages again
             this.clear();
