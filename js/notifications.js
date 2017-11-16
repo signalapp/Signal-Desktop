@@ -1,6 +1,7 @@
 /*
  * vim: ts=4:sw=4:expandtab
  */
+
 ;(function() {
     'use strict';
     window.Whisper = window.Whisper || {};
@@ -84,14 +85,26 @@
                 iconUrl = last.get('iconUrl');
                 break;
             }
-            var notification = new Notification(title, {
-                body   : message,
-                icon   : iconUrl,
-                tag    : 'signal',
-                silent : true
-            });
 
-            notification.onclick = this.onClick.bind(this, last.get('conversationId'));
+            if (windows.config.polyfillNotifications) {
+                window.nodeNotifier.notify({
+                    title: title,
+                    message: message,
+                    sound: false
+                });
+                window.nodeNotifier.on('click', function(notifierObject, options) {
+                    last.get('conversationId');
+                });
+            } else {
+                var notification = new Notification(title, {
+                    body   : message,
+                    icon   : iconUrl,
+                    tag    : 'signal',
+                    silent : true
+                });
+
+                notification.onclick = this.onClick.bind(this, last.get('conversationId'));
+            }
 
             // We don't want to notify the user about these same messages again
             this.clear();
