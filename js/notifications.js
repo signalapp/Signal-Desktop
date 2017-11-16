@@ -87,14 +87,14 @@ const notifier = require('node-notifier');
                 break;
             }
             notifier.notify({
-  				'title': 'Signal Private Messenger',
-  				'message': message,
-  				'icon': iconUrl,
-  				'sound': false
-			});
+                'title': 'Signal Private Messenger',
+                'message': message,
+                'icon': iconUrl,
+                 'sound': false
+            });
 
             notifier.on('click', function(notifierObject, options){
-            	last.get('conversationId');
+                last.get('conversationId');
             });
 
             // We don't want to notify the user about these same messages again
