@@ -101,7 +101,8 @@
 
       _.each(storeNames, function(storeName) {
         var transaction = idb_db.transaction(storeNames, 'readwrite');
-        transaction.onerror = function(error) {
+        transaction.onerror = function(e) {
+          var error = e.target.error;
           console.log(
             'exportToJsonFile: transaction error',
             error && error.stack ? error.stack : error
@@ -116,8 +117,13 @@
         var request = store.openCursor();
         var count = 0;
         request.onerror = function(e) {
-          console.log('Error attempting to export store', storeName);
-          reject(e);
+          var error = e.target.error;
+          console.log(
+            'Error attempting to export store',
+            storeName,
+            error && error.stack ? error.stack : error
+          );
+          reject(error);
         };
         request.onsuccess = function(event) {
           if (count === 0) {
@@ -188,8 +194,8 @@
       };
 
       var transaction = idb_db.transaction(storeNames, 'readwrite');
-      transaction.onerror = function() {
-        var error = transaction.error;
+      transaction.onerror = function(e) {
+        var error = e.target.error;
         console.log(
           'importFromJsonString error:',
           error && error.stack ? error.stack : error
@@ -223,8 +229,8 @@
                   }
                 }
               };
-              request.onerror = function() {
-                var error = request.error;
+              request.onerror = function(e) {
+                var error = e.target.error;
                 console.log(
                   'Error adding object to store',
                   storeName,
@@ -392,9 +398,8 @@
     return createFileAndWriter(dir, 'messages.json').then(function(writer) {
       return new Promise(function(resolve, reject) {
         var transaction = idb_db.transaction('messages', 'readwrite');
-        transaction.onerror = function() {
-          var error = transaction.error;
-
+        transaction.onerror = function(e) {
+          var error = e.target.error;
           console.log(
             'exportConversation transaction error for conversation',
             name,
@@ -418,9 +423,8 @@
         var stream = createOutputStream(writer);
         stream.write('{"messages":[');
 
-        request.onerror = function() {
-          var error = request.error;
-
+        request.onerror = function(e) {
+          var error = e.target.error;
           console.log(
             'exportConversation: error pulling messages for conversation',
             name,
@@ -510,8 +514,8 @@
   function exportConversations(idb_db, parentDir) {
     return new Promise(function(resolve, reject) {
       var transaction = idb_db.transaction('conversations', 'readwrite');
-      transaction.onerror = function() {
-        var error = transaction.error;
+      transaction.onerror = function(e) {
+        var error = e.target.error;
         console.log(
           'exportConversations: transaction error:',
           error && error.stack ? error.stack : error
@@ -525,8 +529,8 @@
       var promiseChain = Promise.resolve();
       var store = transaction.objectStore('conversations');
       var request = store.openCursor();
-      request.onerror = function() {
-        var error = request.error;
+      request.onerror = function(e) {
+        var error = e.target.error;
         console.log(
           'exportConversations: error pulling conversations:',
           error && error.stack ? error.stack : error
@@ -616,9 +620,8 @@
       };
 
       var transaction = idb_db.transaction('messages', 'readwrite');
-      transaction.onerror = function() {
-        var error = transaction.error;
-
+      transaction.onerror = function(e) {
+        var error = e.target.error;
         console.log(
           'saveAllMessages transaction error:',
           error && error.stack ? error.stack : error
@@ -646,8 +649,8 @@
             finish('puts scheduled');
           }
         };
-        request.onerror = function() {
-          var error = request.error;
+        request.onerror = function(e) {
+          var error = e.target.error;
           console.log(
             'Error adding object to store:',
             error && error.stack ? error.stack : error
@@ -744,8 +747,8 @@
       };
 
       transaction.oncomplete = finish.bind(null, 'transaction complete');
-      transaction.onerror = function() {
-        var error = transaction.error;
+      transaction.onerror = function(e) {
+        var error = e.target.error;
         console.log(
           'saveAllMessages transaction error:',
           error && error.stack ? error.stack : error
@@ -768,9 +771,8 @@
           }
         };
 
-        request.onerror = function() {
-          var error = request.error;
-
+        request.onerror = function(e) {
+          var error = e.target.error;
           console.log(
             'clearAllStores transaction error:',
             error && error.stack ? error.stack : error
