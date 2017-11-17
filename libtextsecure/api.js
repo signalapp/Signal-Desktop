@@ -65,7 +65,16 @@ var TextSecureServer = (function() {
         window.nodeFetch(url, fetchOptions).then(function(response) {
           var resultPromise;
           if (options.responseType === 'json') {
-            resultPromise = response.json();
+            resultPromise = response.json().catch(function(error) {
+                // If the response was otherwise successful, a JSON.parse() failure really
+                //   is a problem. But the Signal server does return HTML in error cases
+                //   when we requested JSON, sadly.
+                if (0 <= response.status && response.status < 400) {
+                    throw error;
+                }
+
+                return null;
+            })
           } else if (!options.responseType || options.responseType === 'text') {
             resultPromise = response.text();
           } else if (options.responseType === 'arraybuffer') {
