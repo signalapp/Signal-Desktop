@@ -9,6 +9,7 @@
           this.installView = null;
           this.applyTheme();
           this.applyHideMenu();
+          this.applyAllowTrayMinimize();
         },
         events: {
             'click .openInstaller': 'openInstaller',
@@ -16,6 +17,7 @@
             'openInbox': 'openInbox',
             'change-theme': 'applyTheme',
             'change-hide-menu': 'applyHideMenu',
+            'change-minimize-tray': 'applyAllowTrayMinimize',
         },
         applyTheme: function() {
             var theme = storage.get('theme-setting') || 'android';
@@ -28,6 +30,10 @@
             var hideMenuBar = storage.get('hide-menu-bar', false);
             window.setAutoHideMenuBar(hideMenuBar);
             window.setMenuBarVisibility(!hideMenuBar);
+        },
+        applyAllowTrayMinimize: function() {
+            var allowTrayMinimize = storage.get('allow-tray-minimize', false);
+            window.setAllowTrayMinimize(allowTrayMinimize);
         },
         openView: function(view) {
           this.el.innerHTML = "";
