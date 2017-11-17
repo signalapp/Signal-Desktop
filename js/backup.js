@@ -647,7 +647,7 @@
           }
         };
         request.onerror = function() {
-          var event = request.error;
+          var error = request.error;
           console.log(
             'Error adding object to store:',
             error && error.stack ? error.stack : error
