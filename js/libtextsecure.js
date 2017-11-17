@@ -37995,19 +37995,26 @@ var TextSecureServer = (function() {
                         keyId     : res.keyId,
                         publicKey : res.keyPair.pubKey,
                         signature : res.signature
-                    }).then(function() {
-                        textsecure.storage.put('signedKeyId', signedKeyId + 1);
-                        textsecure.storage.remove('signedKeyRotationRejected');
-                        return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
-                            return cleanSignedPreKeys();
-                        });
-                    }).catch(function(e) {
-                        if (e instanceof Error && e.name == 'HTTPError' && e.code >= 400 && e.code <= 599) {
-                            var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
-                            textsecure.storage.put('signedKeyRotationRejected', rejections);
-                            console.log('Signed key rotation rejected count:', rejections);
-                        }
                     });
+                }).then(function() {
+                    textsecure.storage.put('signedKeyId', signedKeyId + 1);
+                    textsecure.storage.remove('signedKeyRotationRejected');
+                    return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
+                        return cleanSignedPreKeys();
+                    });
+                }).catch(function(e) {
+                    console.log(
+                        'rotateSignedPrekey error:',
+                        e && e.stack ? e.stack : e
+                    );
+
+                    if (e instanceof Error && e.name == 'HTTPError' && e.code >= 400 && e.code <= 599) {
+                        var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
+                        textsecure.storage.put('signedKeyRotationRejected', rejections);
+                        console.log('Signed key rotation rejected count:', rejections);
+                    }
+
+                    throw e;
                 });
             }.bind(this));
         },
