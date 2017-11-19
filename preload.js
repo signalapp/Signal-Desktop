@@ -35,6 +35,13 @@
     Whisper.events.trigger('showDebugLog');
   });
 
+  window.toggleComposeTouchBar = function(show) {
+    ipc.send('toggle-compose-touchbar', show);
+  };
+  ipc.on('input-compose-touchbar', function(e, input) {
+    Whisper.events.trigger('inputFromTouchBar', input);
+  });
+
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
   require('./js/logging');

@@ -155,6 +155,10 @@
 
             this.$messageField = this.$('.send-message');
 
+            Whisper.events.on('inputFromTouchBar', function(input) {
+              this.$messageField.append(input);
+            }.bind(this));
+
             this.onResize = this.forceUpdateMessageFieldSize.bind(this);
             this.window.addEventListener('resize', this.onResize);
 
@@ -421,9 +425,11 @@
 
         unfocusBottomBar: function() {
             this.$('.bottom-bar form').removeClass('active');
+            window.toggleComposeTouchBar(false);
         },
         focusBottomBar: function() {
             this.$('.bottom-bar form').addClass('active');
+            window.toggleComposeTouchBar(true);
         },
 
         onLazyScroll: function() {
