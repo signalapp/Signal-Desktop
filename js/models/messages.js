@@ -92,9 +92,13 @@
                 if (group_update.name) {
                     messages.push(i18n('titleIsNow', group_update.name));
                 }
-                if (group_update.joined) {
+                if (group_update.joined && group_update.joined.length) {
                     var names = _.map(group_update.joined, this.getNameForNumber.bind(this));
-                    messages.push(i18n('joinedTheGroup', names.join(', ')));
+                    if (names.length > 1) {
+                        messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
+                    } else {
+                        messages.push(i18n('joinedTheGroup', names[0]));
+                    }
                 }
 
                 return messages.join(' ');

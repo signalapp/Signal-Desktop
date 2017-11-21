@@ -929,8 +929,18 @@
       }
     },
     "joinedTheGroup": {
+      "message": "$name$ joined the group.",
+      "description": "Shown in the conversation history when a single person joins the group",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Alice"
+        }
+      }
+    },
+    "multipleJoinedTheGroup": {
       "message": "$names$ joined the group.",
-      "description": "Shown in the conversation history when people join the group",
+      "description": "Shown in the conversation history when more than one person joins the group",
       "placeholders": {
         "names": {
           "content": "$1",
