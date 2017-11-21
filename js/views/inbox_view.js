@@ -108,9 +108,16 @@
                 collection : inboxCollection
             }).render();
 
-            this.inboxListView.listenTo(inboxCollection,
-                    'add change:timestamp change:name change:number',
-                    this.inboxListView.updateLocation);
+            this.inboxListView.listenTo(
+                inboxCollection,
+                'add change:timestamp change:name change:number',
+                this.inboxListView.updateLocation
+            );
+            this.inboxListView.listenTo(
+                inboxCollection,
+                'remove',
+                this.inboxListView.removeItem
+            );
 
             this.searchView = new Whisper.ConversationSearchView({
                 el    : this.$('.search-results'),
