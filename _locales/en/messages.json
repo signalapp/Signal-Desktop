@@ -412,6 +412,14 @@
       "message": "Show",
       "description": "Command under Window menu, to show the window"
     },
+    "hide": {
+      "message": "Hide",
+      "description": "Command under Tray menu, to hide the window"
+    },
+    "quit": {
+      "message": "Quit Signal",
+      "description": "Command under Tray menu, to quit Signal"
+    },
     "searchForPeopleOrGroups": {
       "message": "Search...",
       "description": "Placeholder text in the search input"
@@ -609,6 +617,10 @@
     "notifications": {
         "message": "Notifications",
         "description": "Header for notification settings"
+    },
+    "trayTip": {
+        "message": "Signal Desktop",
+        "description": "Tooltip displayed when mouse hovers over tray icon"
     },
     "notificationSettingsDialog": {
         "message": "When messages arrive, display notifications that reveal:",
@@ -867,6 +879,10 @@
     "hideMenuBar": {
       "message": "Hide menu bar",
       "description": "Label text for menu bar visibility setting"
+    },
+    "allowTrayMinimize": {
+      "message": "Minimize app to tray on close",
+      "description": "Label text for allow minimize to tray setting"
     },
     "newContact": {
       "message": "Click to create new contact",

@@ -27,6 +27,9 @@
   window.setMenuBarVisibility = function(visibility) {
     ipc.send('set-menu-bar-visibility', visibility);
   };
+  window.setAllowTrayMinimize = function(allowTrayMinimize) {
+    ipc.send('set-allow-tray-minimize', allowTrayMinimize);
+  };
   window.restart = function() {
     console.log('restart');
     ipc.send('restart');

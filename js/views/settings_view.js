@@ -78,6 +78,12 @@
                 name: 'hide-menu-bar',
                 event: 'change-hide-menu'
             });
+            new CheckboxView({
+                el: this.$('.tray-minimize-setting'),
+                defaultValue: false,
+                name: 'allow-tray-minimize',
+                event: 'change-minimize-tray'
+            });
             if (textsecure.storage.user.getDeviceId() != '1') {
                 var syncView = new SyncView().render();
                 this.$('.content').append(syncView.el);
@@ -99,6 +105,7 @@
               audioNotificationDescription: i18n('audioNotificationDescription'),
               themeAndroidDark: i18n('themeAndroidDark'),
               hideMenuBar: i18n('hideMenuBar'),
+              allowTrayMinimize: i18n('allowTrayMinimize'),
             };
         }
     });

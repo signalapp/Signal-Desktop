@@ -6,6 +6,7 @@ const _ = require('lodash');
 const electron = require('electron')
 
 const BrowserWindow = electron.BrowserWindow;
+const Tray = electron.Tray;
 const app = electron.app;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
@@ -21,6 +22,7 @@ app.setAppUserModelId('org.whispersystems.signal-desktop')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let trayHolder;
 
 const config = require("./app/config");
 
@@ -109,6 +111,72 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
 
+  // Create the tray icon with the default icon settings, unless on OSX - then use smaller icon
+  var appIcon = new Tray(
+    process.platform == "darwin" ? 
+    path.join(__dirname, 'images', 'icon_16.png') : 
+    path.join(__dirname, 'images', 'icon_256.png'));
+  
+  // Clicking on the tray icon will alternate between hidden/shown on Linux/Windows.
+  appIcon.on('click', function () {
+    trayHolder.handleTrayStateClick();
+  });
+  appIcon.setToolTip(locale.messages.trayTip.message);
+
+  trayHolder = {
+    // Returns one of two locale messages based on current window state
+    getTrayStateLabel : function() {
+      if (mainWindow.isVisible())
+        return locale.messages.hide.message
+      else
+        return locale.messages.show.message
+    },
+    // Returns one of two tray menu templates based on state
+    getTrayTemplate: function () {
+      if (trayHolder.isTrayMinimizeAllowed) {
+        return Menu.buildFromTemplate([
+          {
+            label: trayHolder.getTrayStateLabel(), click: function () {
+              trayHolder.handleTrayStateClick();
+            }
+          },
+          {
+            label: locale.messages.quit.message, click: function () {
+              windowState.markShouldQuit();
+              app.quit();
+            }
+        }]);
+      } else {
+        return Menu.buildFromTemplate([
+          {
+            label: locale.messages.quit.message, click: function () {
+              windowState.markShouldQuit();
+              app.quit();
+            }
+        }]);
+      }
+    },
+    // Handles tray state clicks and updates menu accordingly.
+    handleTrayStateClick : function(updateMenuOnly = false) {
+      if (!updateMenuOnly && trayHolder.isTrayMinimizeAllowed) {
+        mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+      } else if (!updateMenuOnly && !trayHolder.isTrayMinimizeAllowed) {
+        mainWindow.isMinimized() || isMinimizing ? mainWindow.minimize() : mainWindow.show();
+      }
+    
+      trayHolder.tray.setContextMenu(trayHolder.getTrayTemplate());
+    },
+    setTrayMinimizeAllowed: function(trayMinimizedAllowed) {
+      trayHolder.isTrayMinimizeAllowed = trayMinimizedAllowed;
+      trayHolder.handleTrayStateClick(true);
+    },
+    isTrayMinimizeAllowed: false,
+    tray: appIcon
+  } 
+  
+  // Run tray state click handler once for initial setup
+  trayHolder.handleTrayStateClick(true);
+
   function captureAndSaveWindowStats() {
     const size = mainWindow.getSize();
     const position = mainWindow.getPosition();
@@ -165,9 +233,27 @@ function createWindow () {
     e.preventDefault();
   });
 
+  // Emitted when the window is about to be minimized.
+  mainWindow.on('minimize', function(event) {
+    trayHolder.handleTrayStateClick(true);
+  })
+  
+  // Highlight tray icon when window is open
+  mainWindow.on('show', function() {
+    appIcon.setHighlightMode('always');
+  });
+
+  // Un-highlight tray icon when window is hidden
+  mainWindow.on('hide', function() {
+    appIcon.setHighlightMode('never');
+    trayHolder.handleTrayStateClick(true);
+  });
+
+
+
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !windowState.shouldQuit() && config.environment !== 'test') {
+    if (!windowState.shouldQuit() && config.environment !== 'test' && trayHolder.isTrayMinimizeAllowed) {
       e.preventDefault();
       mainWindow.hide();
     }
@@ -293,15 +379,6 @@ app.on('before-quit', function() {
   windowState.markShouldQuit();
 });
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin' || config.environment === 'test') {
-    app.quit()
-  }
-})
-
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -341,4 +418,8 @@ ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
 
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
   mainWindow.setMenuBarVisibility(visibility);
+});
+
+ipc.on("set-allow-tray-minimize", function(event, allowTrayMinimize) {
+  trayHolder.setTrayMinimizeAllowed(allowTrayMinimize);
 });
