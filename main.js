@@ -10,6 +10,7 @@ const app = electron.app;
 const ipc = electron.ipcMain;
 const Menu = electron.Menu;
 const shell = electron.shell;
+const TouchBar = electron.TouchBar;
 
 const packageJson = require('./package.json');
 const autoUpdate = require('./app/auto_update');
@@ -355,4 +356,33 @@ ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
 
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
   mainWindow.setMenuBarVisibility(visibility);
+});
+
+// macOS TouchBar integration
+
+const { TouchBarScrubber, TouchBarButton, TouchBarPopover } = TouchBar;
+const emoji = require('node-emoji').emoji;
+
+var items = Object.keys(emoji).map(function(k) {
+  return { label: emoji[k] };
+});
+
+var scrubber = new TouchBarScrubber({
+  select: function(i) {
+    mainWindow.webContents.send('input-compose-touchbar', items[i].label);
+  },
+  items: items,
+  continuous: false,
+  selectedStyle: 'background',
+});
+
+var popover = new TouchBarPopover({
+  label: '😃',
+  items: new TouchBar({ items: [scrubber] }),
+});
+
+var touchbar = new TouchBar({ items: [popover] });
+
+ipc.on('toggle-compose-touchbar', function(event, show) {
+  mainWindow.setTouchBar(show ? touchbar : null);
 });
