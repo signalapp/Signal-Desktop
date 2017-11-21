@@ -1018,7 +1018,7 @@
 
         var name = this.get('name');
         if (name) {
-            return name + ' (' + this.getNumber() + ')';
+            return name;
         }
 
         var profileName = this.get('profileName');
