@@ -82,7 +82,7 @@
       "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importInstructions": {
-      "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+      "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
       "description": "Description of the export process"
     },
     "importing": {
