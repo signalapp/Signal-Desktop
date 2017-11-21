@@ -19,7 +19,7 @@ function checkForUpdates() {
 }
 
 var showingDialog = false;
-function showUpdateDialog(messages) {
+function showUpdateDialog(mainWindow, messages) {
   if (showingDialog) {
     return;
   }
@@ -38,7 +38,7 @@ function showUpdateDialog(messages) {
     cancelId: LATER_BUTTON
   }
 
-  dialog.showMessageBox(options, function(response) {
+  dialog.showMessageBox(mainWindow, options, function(response) {
     if (response == RESTART_BUTTON) {
       windowState.markShouldQuit();
       autoUpdater.quitAndInstall();
@@ -52,7 +52,7 @@ function onError(error) {
   console.log("Got an error while updating: ", error.stack);
 }
 
-function initialize(messages) {
+function initialize(getMainWindow, messages) {
   if (!messages) {
     throw new Error('auto-update initialize needs localized messages');
   }
@@ -62,7 +62,7 @@ function initialize(messages) {
   }
 
   autoUpdater.addListener('update-downloaded', function() {
-    showUpdateDialog(messages);
+    showUpdateDialog(getMainWindow(), messages);
   });
   autoUpdater.addListener('error', onError);
 

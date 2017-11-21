@@ -131,6 +131,9 @@ module.exports = function(grunt) {
         }, {
           src: 'components/webaudiorecorder/lib/WebAudioRecorderMp3.js',
           dest: 'js/WebAudioRecorderMp3.js'
+        }, {
+          src: 'components/jquery/dist/jquery.js',
+          dest: 'js/jquery.js'
         }],
       },
       res: {
