@@ -1011,6 +1011,24 @@
         }
     },
 
+    getDisplayName: function() {
+        if (!this.isPrivate()) {
+            return this.getTitle();
+        }
+
+        var name = this.get('name');
+        if (name) {
+            return name + ' (' + this.getNumber() + ')';
+        }
+
+        var profileName = this.get('profileName');
+        if (profileName) {
+            return this.getNumber() + ' ~' + profileName;
+        }
+
+        return this.getNumber();
+    },
+
     getNumber: function() {
         if (!this.isPrivate()) {
             return '';

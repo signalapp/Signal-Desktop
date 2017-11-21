@@ -906,7 +906,7 @@
     },
     "leftTheGroup": {
       "message": "$name$ left the group.",
-      "description": "Shown in the conversation history when someone leaves the group",
+      "description": "Shown in the conversation history when a single person leaves the group",
       "placeholders": {
         "name": {
           "content": "$1",
