@@ -152,7 +152,7 @@
     "config": "^1.26.2",
     "electron-config": "^1.0.0",
     "electron-editor-context-menu": "^1.1.1",
-    "electron-updater": "^2.9.3",
+    "electron-updater": "^2.16.1",
     "emoji-datasource-apple": "^3.0.0",
     "emoji-js": "^3.2.2",
     "emoji-panel": "^0.5.2",
