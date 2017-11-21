@@ -156,7 +156,7 @@
             this.$messageField = this.$('.send-message');
 
             Whisper.events.on('inputFromTouchBar', function(input) {
-              this.$messageField.append(input);
+              this.$messageField.val(function(i, v) { return v + input; });
             }.bind(this));
 
             this.onResize = this.forceUpdateMessageFieldSize.bind(this);

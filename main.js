@@ -360,29 +360,28 @@ ipc.on("set-menu-bar-visibility", function(event, visibility) {
 
 // macOS TouchBar integration
 
-const { TouchBarScrubber, TouchBarSpacer } = TouchBar;
+const { TouchBarScrubber, TouchBarButton, TouchBarPopover } = TouchBar;
+const emoji = require('node-emoji').emoji;
 
-// TODO(arlolra): Load from library
-var items = [{
-  label: '😀',
-}, {
-  label: '😃',
-}, {
-  label: '😄',
-}, {
-  label: '💩',
-}];
+var items = Object.keys(emoji).map(function(k) {
+  return { label: emoji[k] };
+});
 
 var scrubber = new TouchBarScrubber({
-  highlight: function(i) {
+  select: function(i) {
     mainWindow.webContents.send('input-compose-touchbar', items[i].label);
   },
   items: items,
+  continuous: false,
+  selectedStyle: 'background',
 });
 
-var touchbar = new TouchBar([
-    scrubber,
-]);
+var popover = new TouchBarPopover({
+  label: '😃',
+  items: new TouchBar({ items: [scrubber] }),
+});
+
+var touchbar = new TouchBar({ items: [popover] });
 
 ipc.on('toggle-compose-touchbar', function(event, show) {
   mainWindow.setTouchBar(show ? touchbar : null);
