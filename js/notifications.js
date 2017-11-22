@@ -86,7 +86,7 @@
                 break;
             }
 
-            if (windows.config.polyfillNotifications) {
+            if (window.config.polyfillNotifications) {
                 window.nodeNotifier.notify({
                     title: title,
                     message: message,

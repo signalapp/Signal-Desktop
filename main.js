@@ -64,7 +64,6 @@ const loadLocale = require('./app/locale').load;
 
 let locale;
 
-
 const WINDOWS_8 = '8.0.0';
 const osRelease = os.release();
 const polyfillNotifications =
@@ -88,7 +87,7 @@ function prepareURL(pathSegments) {
       node_version: process.versions.node,
       hostname: os.hostname(),
       appInstance: process.env.NODE_APP_INSTANCE,
-      polyfillNotifications: polyfillNotifications,
+      polyfillNotifications: polyfillNotifications ? true : undefined, // for stringify()
     }
   })
 }
