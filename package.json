@@ -160,6 +160,7 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.3",
+    "node-notifier": "^5.1.2",
     "os-locale": "^2.1.0",
     "rimraf": "^2.6.2",
     "semver": "^5.4.1",

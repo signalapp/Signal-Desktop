@@ -59,6 +59,7 @@
   window.EmojiPanel = require('emoji-panel');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
+  window.nodeNotifier = require('node-notifier');
 
   // We pull this in last, because the native module involved appears to be sensitive to
   //   /tmp mounted as noexec on Linux.
