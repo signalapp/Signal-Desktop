@@ -367,6 +367,14 @@
         return ConversationController.getOrCreateAndWait(id, 'private')
             .then(function(conversation) {
                 return new Promise(function(resolve, reject) {
+                    var activeAt = conversation.get('active_at');
+
+                    // The idea is to make any new contact show up in the left pane. If
+                    //   activeAt is null, then this contact has been purposefully hidden.
+                    if (activeAt !== null) {
+                        activeAt = activeAt || Date.now();
+                    }
+
                     if (details.profileKey) {
                       conversation.set({profileKey: details.profileKey});
                     }
@@ -374,7 +382,7 @@
                         name: details.name,
                         avatar: details.avatar,
                         color: details.color,
-                        active_at: conversation.get('active_at') || Date.now(),
+                        active_at: activeAt,
                     }).then(resolve, reject);
                 }).then(function() {
                     if (details.verified) {
