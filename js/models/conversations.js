@@ -718,7 +718,7 @@
                 recipients     : this.getRecipients(),
                 flags          : textsecure.protobuf.DataMessage.Flags.END_SESSION
             });
-            message.send(textsecure.messaging.closeSession(this.id, now));
+            message.send(textsecure.messaging.resetSession(this.id, now));
         }
 
     },
@@ -984,8 +984,14 @@
         }).then(function() {
             var models = this.messageCollection.models;
             this.messageCollection.reset([]);
-            _.each(models, function(message) { message.destroy(); });
-            this.save({lastMessage: null, timestamp: null}); // archive
+            _.each(models, function(message) {
+                message.destroy();
+            });
+            this.save({
+                lastMessage: null,
+                timestamp: null,
+                active_at: null,
+            });
         }.bind(this));
     },
 
@@ -1009,6 +1015,24 @@
         if (this.isPrivate() && !this.get('name')) {
           return this.get('profileName');
         }
+    },
+
+    getDisplayName: function() {
+        if (!this.isPrivate()) {
+            return this.getTitle();
+        }
+
+        var name = this.get('name');
+        if (name) {
+            return name;
+        }
+
+        var profileName = this.get('profileName');
+        if (profileName) {
+            return this.getNumber() + ' ~' + profileName;
+        }
+
+        return this.getNumber();
     },
 
     getNumber: function() {

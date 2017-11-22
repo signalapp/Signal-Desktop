@@ -48,6 +48,16 @@ a {
   <a href="https://signal.org">signal.org</a>
 </div>
 
+<script type='text/javascript' src='js/jquery.js'></script>
+<script>
+$(document).on('keyup', function(e) {
+  if (e.keyCode === 27) {
+    window.closeAbout();
+  }
+});
+</script>
+
+
 </body>
 
 </html>

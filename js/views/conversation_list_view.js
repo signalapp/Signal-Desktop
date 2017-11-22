@@ -28,6 +28,12 @@
                     $el.insertBefore(target);
                 }
             }
+        },
+        removeItem: function(conversation) {
+            var $el = this.$('.' + conversation.cid);
+            if ($el && $el.length > 0) {
+                $el.remove();
+            }
         }
     });
 })();

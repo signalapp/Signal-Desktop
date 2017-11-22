@@ -72,19 +72,33 @@
             return this.sync('read', this, options);
         },
         // jscs:enable
+        getNameForNumber: function(number) {
+            var conversation = ConversationController.get(number);
+            if (!conversation) {
+                return number;
+            }
+            return conversation.getDisplayName();
+        },
         getDescription: function() {
             if (this.isGroupUpdate()) {
                 var group_update = this.get('group_update');
-                if (group_update.left) {
-                    return i18n('leftTheGroup', group_update.left);
+                if (group_update.left === 'You') {
+                    return i18n('youLeftTheGroup');
+                } else if (group_update.left) {
+                    return i18n('leftTheGroup', this.getNameForNumber(group_update.left));
                 }
 
                 var messages = [i18n('updatedTheGroup')];
                 if (group_update.name) {
                     messages.push(i18n('titleIsNow', group_update.name));
                 }
-                if (group_update.joined) {
-                    messages.push(i18n('joinedTheGroup', group_update.joined.join(', ')));
+                if (group_update.joined && group_update.joined.length) {
+                    var names = _.map(group_update.joined, this.getNameForNumber.bind(this));
+                    if (names.length > 1) {
+                        messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
+                    } else {
+                        messages.push(i18n('joinedTheGroup', names[0]));
+                    }
                 }
 
                 return messages.join(' ');

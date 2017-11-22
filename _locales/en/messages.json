@@ -82,7 +82,7 @@
       "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importInstructions": {
-      "message": "The first step is to tell us where you previously exported your Signal data. It will be a directory whose name starts with 'Signal Export.'",
+      "message": "The first step is to tell us where you previously <a href='https://support.signal.org/hc/en-us/articles/115002502511'>exported your Signal data</a>. It will be a directory whose name starts with 'Signal Export.'<br><br><b>NOTE</b>: You must only import a set of exported data <b>once</b>. Import makes a copy of the exported client, and duplicate clients interfere with each other.",
       "description": "Description of the export process"
     },
     "importing": {
@@ -906,7 +906,7 @@
     },
     "leftTheGroup": {
       "message": "$name$ left the group.",
-      "description": "Shown in the conversation history when someone leaves the group",
+      "description": "Shown in the conversation history when a single person leaves the group",
       "placeholders": {
         "name": {
           "content": "$1",
@@ -929,8 +929,18 @@
       }
     },
     "joinedTheGroup": {
+      "message": "$name$ joined the group.",
+      "description": "Shown in the conversation history when a single person joins the group",
+      "placeholders": {
+        "name": {
+          "content": "$1",
+          "example": "Alice"
+        }
+      }
+    },
+    "multipleJoinedTheGroup": {
       "message": "$names$ joined the group.",
-      "description": "Shown in the conversation history when people join the group",
+      "description": "Shown in the conversation history when more than one person joins the group",
       "placeholders": {
         "names": {
           "content": "$1",

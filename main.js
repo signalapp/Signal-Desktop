@@ -24,6 +24,10 @@ app.setAppUserModelId(aumid);
 //   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+function getMainWindow() {
+  return mainWindow;
+}
+
 const config = require("./app/config");
 
 // Very important to put before the single instance check, since it is based on the
@@ -249,7 +253,8 @@ function showAbout() {
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    parent: mainWindow,
   };
 
   aboutWindow = new BrowserWindow(options);
@@ -279,7 +284,7 @@ app.on('ready', function() {
     locale = loadLocale();
   }
 
-  autoUpdate.initialize(locale.messages);
+  autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
 
@@ -356,3 +361,10 @@ ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
   mainWindow.setMenuBarVisibility(visibility);
 });
+
+ipc.on("close-about", function() {
+  if (aboutWindow) {
+    aboutWindow.close();
+  }
+});
+

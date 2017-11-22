@@ -844,8 +844,8 @@ MessageReceiver.prototype.extend({
                 var address = new libsignal.SignalProtocolAddress(number, deviceId);
                 var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
 
-                console.log('closing session for', address.toString());
-                return sessionCipher.closeOpenSessionForDevice();
+                console.log('deleting sessions for', address.toString());
+                return sessionCipher.deleteAllSessionsForDevice();
             }));
         });
     },

@@ -275,12 +275,14 @@ MessageSender.prototype = {
 
     sendIndividualProto: function(number, proto, timestamp, silent) {
         return new Promise(function(resolve, reject) {
-            this.sendMessageProto(timestamp, [number], proto, function(res) {
-                if (res.errors.length > 0)
+            var callback = function(res) {
+                if (res.errors.length > 0) {
                     reject(res);
-                else
+                } else {
                     resolve(res);
-            }, silent);
+                }
+            };
+            this.sendMessageProto(timestamp, [number], proto, callback, silent);
         }.bind(this));
     },
 
@@ -455,10 +457,11 @@ MessageSender.prototype = {
         return new Promise(function(resolve, reject) {
             this.sendMessageProto(timestamp, numbers, proto, function(res) {
                 res.dataMessage = proto.toArrayBuffer();
-                if (res.errors.length > 0)
+                if (res.errors.length > 0) {
                     reject(res);
-                else
+                } else {
                     resolve(res);
+                }
             }.bind(this));
         }.bind(this));
     },
@@ -475,25 +478,56 @@ MessageSender.prototype = {
         });
     },
 
-    closeSession: function(number, timestamp) {
-        console.log('sending end session');
+    resetSession: function(number, timestamp) {
+        console.log('resetting secure session');
         var proto = new textsecure.protobuf.DataMessage();
         proto.body = "TERMINATE";
         proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-        return this.sendIndividualProto(number, proto, timestamp).then(function(res) {
-            return this.sendSyncMessage(proto.toArrayBuffer(), timestamp, number).then(function() {
-                return textsecure.storage.protocol.getDeviceIds(number).then(function(deviceIds) {
+
+        var logError = function(prefix) {
+            return function(error) {
+                console.log(
+                    prefix,
+                    error && error.stack ? error.stack : error
+                );
+                throw error;
+            };
+        };
+        var deleteAllSessions = function(number) {
+            return textsecure.storage.protocol.getDeviceIds(number)
+                .then(function(deviceIds) {
                     return Promise.all(deviceIds.map(function(deviceId) {
                         var address = new libsignal.SignalProtocolAddress(number, deviceId);
-                        console.log('closing session for', address.toString());
-                        var sessionCipher = new libsignal.SessionCipher(textsecure.storage.protocol, address);
-                        return sessionCipher.closeOpenSessionForDevice();
-                    })).then(function() {
-                        return res;
-                    });
+                        console.log('deleting sessions for', address.toString());
+                        var sessionCipher = new libsignal.SessionCipher(
+                            textsecure.storage.protocol,
+                            address
+                        );
+                        return sessionCipher.deleteAllSessionsForDevice();
+                    }));
                 });
+        };
+
+        var sendToContact = deleteAllSessions(number)
+            .catch(logError('resetSession/deleteAllSessions1 error:'))
+            .then(function() {
+                console.log('finished closing local sessions, now sending to contact');
+                return this.sendIndividualProto(number, proto, timestamp)
+                    .catch(logError('resetSession/sendToContact error:'))
+            }.bind(this))
+            .then(function() {
+                return deleteAllSessions(number)
+                    .catch(logError('resetSession/deleteAllSessions2 error:'));
             });
-        }.bind(this));
+
+        var buffer = proto.toArrayBuffer();
+        var sendSync = this.sendSyncMessage(buffer, timestamp, number)
+            .catch(logError('resetSession/sendSync error:'));
+
+        return Promise.all([
+            sendToContact,
+            sendSync
+        ]);
     },
 
     sendMessageToGroup: function(groupId, messageText, attachments, timestamp, expireTimer, profileKey) {
@@ -682,7 +716,7 @@ textsecure.MessageSender = function(url, username, password, cdn_url) {
     this.sendRequestContactSyncMessage       = sender.sendRequestContactSyncMessage    .bind(sender);
     this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(sender);
     this.sendMessageToNumber                 = sender.sendMessageToNumber              .bind(sender);
-    this.closeSession                        = sender.closeSession                     .bind(sender);
+    this.resetSession                        = sender.resetSession                     .bind(sender);
     this.sendMessageToGroup                  = sender.sendMessageToGroup               .bind(sender);
     this.createGroup                         = sender.createGroup                      .bind(sender);
     this.updateGroup                         = sender.updateGroup                      .bind(sender);

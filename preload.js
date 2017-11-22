@@ -31,6 +31,10 @@
     console.log('restart');
     ipc.send('restart');
   };
+  window.closeAbout = function() {
+    ipc.send('close-about');
+  };
+
   ipc.on('debug-log', function() {
     Whisper.events.trigger('showDebugLog');
   });

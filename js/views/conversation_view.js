@@ -649,6 +649,9 @@
             this.model.messageCollection.add(message, {merge: true});
             message.setToExpire();
 
+            if (message.isOutgoing()) {
+                this.removeLastSeenIndicator();
+            }
             if (this.lastSeenIndicator) {
                 this.lastSeenIndicator.increment(1);
             }
