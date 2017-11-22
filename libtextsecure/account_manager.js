@@ -132,12 +132,12 @@
                         keyId     : res.keyId,
                         publicKey : res.keyPair.pubKey,
                         signature : res.signature
-                    });
-                }).then(function() {
-                    textsecure.storage.put('signedKeyId', signedKeyId + 1);
-                    textsecure.storage.remove('signedKeyRotationRejected');
-                    return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
-                        return cleanSignedPreKeys();
+                    }).then(function() {
+                        textsecure.storage.put('signedKeyId', signedKeyId + 1);
+                        textsecure.storage.remove('signedKeyRotationRejected');
+                        return store.storeSignedPreKey(res.keyId, res.keyPair).then(function() {
+                            return cleanSignedPreKeys();
+                        });
                     });
                 }).catch(function(e) {
                     console.log(
