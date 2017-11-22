@@ -7091,10 +7091,10 @@ span.status {
     .android-dark #header.inactive {
       background-color: #333333;
       color: #CCCCCC; }
-  .android-dark button, .android-dark .confirmation-dialog .content .buttons button {
+  .android-dark .confirmation-dialog .content .buttons button {
     background-color: #ccc;
     border: 1px solid #292929; }
-    .android-dark button:hover, .android-dark .confirmation-dialog .content .buttons button:hover {
+    .android-dark .confirmation-dialog .content .buttons button:hover {
       background-color: #b8b8b8; }
   .android-dark .message-detail, .android-dark .message-container, .android-dark .conversation,
   .android-dark .discussion-container {
@@ -7400,6 +7400,16 @@ span.status {
     background-color: #333333; }
   .android-dark .capture-audio button:hover {
     background-color: #333333; }
+  .android-dark button.emoji:hover {
+    background-color: #333333; }
+  .android-dark button.emoji:before {
+    -webkit-mask: url("../images/smile.svg") no-repeat center;
+    -webkit-mask-size: 100%;
+    background-color: white; }
+  .android-dark .emoji-panel-container .ep-categories {
+    background-color: #171717; }
+  .android-dark .emoji-panel-container .ep-emojies {
+    background-color: #292929; }
 
 .iti-flag {
   width: 16px;
