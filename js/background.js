@@ -419,7 +419,13 @@
                 type: 'group',
             };
             if (details.active) {
-                updates.active_at = Date.now();
+                var activeAt = conversation.get('active_at');
+
+                // The idea is to make any new group show up in the left pane. If
+                //   activeAt is null, then this group has been purposefully hidden.
+                if (activeAt !== null) {
+                    updates.active_at = activeAt || Date.now();
+                }
             } else {
                 updates.left = true;
             }
