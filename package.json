@@ -16,7 +16,7 @@
     "electron": "~1.7.9",
     "electron-builder": "^19.29.2",
     "electron-icon-maker": "^0.0.3",
-    "electron-publisher-s3": "^19.0.1",
+    "electron-publisher-s3": "^19.30.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-concat": "^1.0.1",
