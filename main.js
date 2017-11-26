@@ -332,6 +332,8 @@ ipc.on('draw-attention', function(event, count) {
     setTimeout(function() {
       mainWindow.flashFrame(false);
     }, 1000);
+  } else if (process.platform == 'linux') {
+    mainWindow.flashFrame(true);
   }
 });
 
