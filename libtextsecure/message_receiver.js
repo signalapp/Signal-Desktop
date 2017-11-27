@@ -730,6 +730,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleBlocked: function(envelope, blocked) {
+        console.log('Setting these numbers as blocked:', blocked.numbers);
         textsecure.storage.put('blocked', blocked.numbers);
     },
     isBlocked: function(number) {
