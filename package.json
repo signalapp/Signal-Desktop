@@ -40,6 +40,7 @@
     "generate": "npm run icon-gen && grunt",
     "build": "build --em.environment=$SIGNAL_ENV",
     "dist": "npm run generate && npm run build",
+    "dist-rpm": "npm run generate && SIGNAL_ENV=production npm run build -- --linux rpm",
     "pack": "npm run generate && npm run build -- --dir",
     "prepare-build": "node prepare_build.js",
     "pack-prod": "SIGNAL_ENV=production npm run pack",
