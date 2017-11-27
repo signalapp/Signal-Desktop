@@ -29,6 +29,11 @@ function getMainWindow() {
   return mainWindow;
 }
 
+// Tray icon and related objects
+let tray = null;
+const startInTray = process.argv.find(arg => arg === '--start-in-tray');
+const usingTrayIcon = startInTray || process.argv.find(arg => arg === '--use-tray-icon');
+
 const config = require("./app/config");
 
 // Very important to put before the single instance check, since it is based on the
@@ -107,6 +112,7 @@ function captureClicks(window) {
 
 function createWindow () {
   const windowOptions = Object.assign({
+    show: !startInTray, // allow to start minimised in tray
     width: 800,
     height: 610,
     minWidth: 700,
@@ -187,9 +193,22 @@ function createWindow () {
 
   // Emitted when the window is about to be closed.
   mainWindow.on('close', function (e) {
-    if (process.platform === 'darwin' && !windowState.shouldQuit() && config.environment !== 'test') {
+
+    // If the application is terminating, just do the default
+    if (windowState.shouldQuit() || config.environment === 'test') {
+      return;
+    }
+
+    // On Mac, or on other platforms when the tray icon is in use, the window
+    // should be only hidden, not closed, when the user clicks the close button
+    if (usingTrayIcon || process.platform === 'darwin') {
       e.preventDefault();
       mainWindow.hide();
+
+      // toggle the visibility of the show/hide tray icon menu entries
+      if (tray) {
+        tray.updateContextMenu();
+      }
     }
   });
 
@@ -210,6 +229,11 @@ function createWindow () {
       mainWindow.focus();
     } else {
       mainWindow.show();
+    }
+
+    // toggle the visibility of the show/hide tray icon menu entries
+    if (tray) {
+      tray.updateContextMenu();
     }
   });
 }
@@ -295,6 +319,11 @@ app.on('ready', function() {
   autoUpdate.initialize(getMainWindow, locale.messages);
 
   createWindow();
+
+  if (usingTrayIcon) {
+    const createTrayIcon = require("./app/tray_icon");
+    tray = createTrayIcon(getMainWindow, locale.messages);
+  }
 
   const options = {
     showDebugLog,
