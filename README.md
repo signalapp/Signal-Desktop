@@ -10,7 +10,7 @@ Signal Desktop is an Electron application that links with your
 
 
 ## Got a question?
-The best place to ask questions is [http://support.whispersystems.org](http://support.whispersystems.org).
+The best place to ask questions is [https://support.signal.org/](https://support.signal.org/).
 
 
 ## Found a Bug?
@@ -29,7 +29,7 @@ https://www.transifex.com/projects/p/signal-desktop
 Please see
 [CONTRIBUTING.md](https://github.com/WhisperSystems/Signal-Desktop/blob/master/CONTRIBUTING.md)
 for setup instructions and contributor guidelines. And don't forget to sign the
-[CLA](https://whispersystems.org/cla/).
+[CLA](https://signal.org/cla/).
 
 ## Contributing Ideas
 Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the [community forum](https://whispersystems.discoursehosting.net)!
