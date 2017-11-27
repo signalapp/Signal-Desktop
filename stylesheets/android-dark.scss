@@ -33,7 +33,7 @@ $text-dark_l2: darken($text-dark, 30%);
       color: $text-dark;
     }
   }
-  button, .confirmation-dialog .content .buttons button {
+  .confirmation-dialog .content .buttons button {
     background-color: $button-dark;
     border: 1px solid $grey-dark_l2;
     &:hover {
@@ -289,5 +289,22 @@ $text-dark_l2: darken($text-dark, 30%);
   }
   .capture-audio button:hover {
     background-color: $grey-dark;
+  }
+  button.emoji {
+    &:hover {
+      background-color: $grey-dark;
+    }
+    &:before {
+      @include color-svg('../images/smile.svg', white);
+    }
+  }
+
+  .emoji-panel-container {
+    .ep-categories {
+      background-color: $grey-dark_l3;
+    }
+    .ep-emojies {
+      background-color: $grey-dark_l2;
+    }
   }
 }
