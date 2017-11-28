@@ -46,6 +46,7 @@
 
   window.nodeSetImmediate = setImmediate;
   window.nodeWebSocket = require("websocket").w3cwebsocket;
+  window.pLimit = require('p-limit');
 
   // Linux seems to periodically let the event loop stop, so this is a global workaround
   setInterval(function() {

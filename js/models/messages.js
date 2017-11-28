@@ -379,6 +379,7 @@
             if (dataMessage.group) {
                 conversationId = dataMessage.group.id;
             }
+            message.attachmentDownloads = dataMessage.attachmentDownloads;
 
             var conversation = ConversationController.get(conversationId);
             return conversation.queueJob(function() {
@@ -537,6 +538,10 @@
                             //   line's trigger() call, we might have marked all messages unread in the
                             //   database. This message might already be read!
                             var previousUnread = message.get('unread');
+
+                            // TODO: what if we just fetched the new unread state here?
+                            //   it wouldn't reset a bunch of stuff like the current global
+                            //   fetch does.
                             message.fetch().then(function() {
                                 try {
                                     if (previousUnread !== message.get('unread')) {
@@ -545,6 +550,25 @@
                                         // We call markRead() even though the message is already marked read
                                         //   because we need to start expiration timers, etc.
                                         message.markRead();
+                                    }
+
+                                    var downloads = _.values(dataMessage.attachmentDownloads);
+                                    if (downloads.length) {
+                                        Promise.all(downloads).then(function(results) {
+                                            var lookup = {};
+                                            _.forEach(results, function(result) {
+                                                lookup[result.id] = result;
+                                            });
+                                            _.forEach(message.get('attachments'), function(attachment) {
+                                                attachment.data = lookup[attachment.id].data;
+                                            });
+                                            console.log(
+                                                'Saving message',
+                                                message.idForLogging(),
+                                                'now that all attachments are done.'
+                                            );
+                                            message.save();
+                                        });
                                     }
 
                                     if (message.get('unread')) {

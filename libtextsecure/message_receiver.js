@@ -2,6 +2,8 @@
  * vim: ts=4:sw=4:expandtab
  */
 
+var MAX_MESSAGE_ATTACHMENT_DOWNLOADS = 2;
+
 function MessageReceiver(url, username, password, signalingKey, options) {
     options = options || {};
 
@@ -22,6 +24,11 @@ function MessageReceiver(url, username, password, signalingKey, options) {
     if (options.retryCached) {
         this.pending = this.queueAllCached();
     }
+
+    // Note that this is not used for contact or group avatar attachments, just
+    //   user-provided message attachments. Because we download them async, we don't want
+    //   to kick off too many at once.
+    this.messageAttachmentPool = window.pLimit(MAX_MESSAGE_ATTACHMENT_DOWNLOADS);
 }
 
 MessageReceiver.prototype = new textsecure.EventTarget();
@@ -738,6 +745,7 @@ MessageReceiver.prototype.extend({
     handleAttachment: function(attachment) {
         attachment.id = attachment.id.toString();
         attachment.key = attachment.key.toArrayBuffer();
+
         if (attachment.digest) {
           attachment.digest = attachment.digest.toArrayBuffer();
         }
@@ -751,6 +759,7 @@ MessageReceiver.prototype.extend({
 
         function updateAttachment(data) {
             attachment.data = data;
+            return attachment;
         }
 
         return this.server.getAttachment(attachment.id)
@@ -933,9 +942,13 @@ MessageReceiver.prototype.extend({
             }.bind(this)));
         }
 
-        for (var i in decrypted.attachments) {
-            promises.push(this.handleAttachment(decrypted.attachments[i]));
-        }
+        // We don't wait for the completion of attachment downloads
+        var downloads = decrypted.attachmentDownloads = {};
+        _.forEach(decrypted.attachments, function(attachment) {
+            downloads[attachment.id] = this.messageAttachmentPool(function() {
+                return this.handleAttachment(attachment);
+            }.bind(this));
+        }.bind(this));
         return Promise.all(promises).then(function() {
             return decrypted;
         });
