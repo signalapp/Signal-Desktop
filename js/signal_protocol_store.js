@@ -211,7 +211,16 @@
             this.trigger('removePreKey');
 
             return new Promise(function(resolve) {
-                prekey.destroy().then(function() {
+                var deferred = prekey.destroy();
+                if (!deferred) {
+                    return resolve();
+                }
+
+                return deferred.then(resolve, function(error) {
+                    console.log(
+                        'removePreKey error:',
+                        error && error.stack ? error.stack : error,
+                    );
                     resolve();
                 });
             });
