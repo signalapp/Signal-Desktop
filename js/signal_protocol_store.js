@@ -219,7 +219,7 @@
                 return deferred.then(resolve, function(error) {
                     console.log(
                         'removePreKey error:',
-                        error && error.stack ? error.stack : error,
+                        error && error.stack ? error.stack : error
                     );
                     resolve();
                 });
