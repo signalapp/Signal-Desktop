@@ -104,12 +104,12 @@ function isVisible(window, bounds) {
   const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
-  const rightSideClearOfLeftBound = (window.x + window.width > boundsX + BOUNDS_BUFFER);
-  const leftSideClearOfRightBound = (window.x < boundsX + boundsWidth - BOUNDS_BUFFER);
+  const rightSideClearOfLeftBound = (window.x + window.width >= boundsX + BOUNDS_BUFFER);
+  const leftSideClearOfRightBound = (window.x <= boundsX + boundsWidth - BOUNDS_BUFFER);
 
   // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
-  const topClearOfUpperBound = window.y > boundsY;
-  const topClearOfLowerBound = (window.y < boundsY + boundsHeight - BOUNDS_BUFFER);
+  const topClearOfUpperBound = window.y >= boundsY;
+  const topClearOfLowerBound = (window.y <= boundsY + boundsHeight - BOUNDS_BUFFER);
 
   return rightSideClearOfLeftBound
     && leftSideClearOfRightBound
