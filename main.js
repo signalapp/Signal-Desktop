@@ -136,7 +136,7 @@ function createWindow () {
     windowOptions.width = DEFAULT_WIDTH;
   }
   if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
-    windowOptions.width = DEFAULT_HEIGHT;
+    windowOptions.height = DEFAULT_HEIGHT;
   }
   if (!_.isBoolean(windowOptions.maximized)) {
     delete windowOptions.maximized;
@@ -391,11 +391,15 @@ ipc.on('restart', function(event) {
 });
 
 ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
-  mainWindow.setAutoHideMenuBar(autoHide);
+  if (mainWindow) {
+    mainWindow.setAutoHideMenuBar(autoHide);
+  }
 });
 
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
-  mainWindow.setMenuBarVisibility(visibility);
+  if (mainWindow) {
+    mainWindow.setMenuBarVisibility(visibility);
+  }
 });
 
 ipc.on("close-about", function() {
