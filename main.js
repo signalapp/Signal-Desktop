@@ -146,7 +146,7 @@ function createWindow () {
   }
 
   const visibleOnAnyScreen = _.some(screen.getAllDisplays(), function(display) {
-    if (!windowOptions.x || !windowOptions.y) {
+    if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
       return false;
     }
 
