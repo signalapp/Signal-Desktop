@@ -95,6 +95,7 @@ const DEFAULT_WIDTH = 800;
 const DEFAULT_HEIGHT = 610;
 const MIN_WIDTH = 700;
 const MIN_HEIGHT = 360;
+const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
   const boundsX = _.get(bounds, 'x') || 0;
@@ -102,13 +103,13 @@ function isVisible(window, bounds) {
   const boundsWidth = _.get(bounds, 'width') || DEFAULT_WIDTH;
   const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
 
-  // Requiring the window to show at least 10 pixels on the left or right side
-  const rightSideClearOfLeftBound = (window.x + window.width > boundsX + 10);
-  const leftSideClearOfRightBound = (window.x < boundsX + boundsWidth - 10);
+  // requiring BOUNDS_BUFFER pixels on the left or right side
+  const rightSideClearOfLeftBound = (window.x + window.width > boundsX + BOUNDS_BUFFER);
+  const leftSideClearOfRightBound = (window.x < boundsX + boundsWidth - BOUNDS_BUFFER);
 
-  // the top of the window can't be offscreen, and must show at least 10 pixels at bottom
+  // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
   const topClearOfUpperBound = window.y > boundsY;
-  const topClearOfLowerBound = (window.y < boundsY + boundsHeight - 10);
+  const topClearOfLowerBound = (window.y < boundsY + boundsHeight - BOUNDS_BUFFER);
 
   return rightSideClearOfLeftBound
     && leftSideClearOfRightBound
