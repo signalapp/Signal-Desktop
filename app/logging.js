@@ -89,6 +89,7 @@ function fetchLog(logFile) {
 
 function fetch(logPath) {
   const files = fs.readdirSync(logPath);
+  logger.info('Loaded this list of log files from logPath: ' + files.join(', '));
   const paths = files.map(function(file) {
     return path.join(logPath, file)
   });
