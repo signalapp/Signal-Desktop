@@ -146,7 +146,11 @@ function createWindow () {
   }
 
   const visibleOnAnyScreen = _.some(screen.getAllDisplays(), function(display) {
-    return isVisible(windowConfig, _.get(display, 'bounds'));
+    if (!windowOptions.x || !windowOptions.y) {
+      return false;
+    }
+
+    return isVisible(windowOptions, _.get(display, 'bounds'));
   });
   if (!visibleOnAnyScreen) {
     console.log('Location reset needed');
