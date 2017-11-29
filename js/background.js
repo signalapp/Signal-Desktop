@@ -557,8 +557,7 @@
 
     function onError(ev) {
         var error = ev.error;
-        console.log(error);
-        console.log(error.stack);
+        console.log('background onError:', error && error.stack ? error.stack : error);
 
         if (error.name === 'HTTPError' && (error.code == 401 || error.code == 403)) {
             Whisper.Registration.remove();

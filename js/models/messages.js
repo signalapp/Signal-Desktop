@@ -314,8 +314,11 @@
                 errors = [errors];
             }
             errors.forEach(function(e) {
-                console.log(e);
-                console.log(e.reason, e.stack);
+                console.log(
+                    'Message.saveErrors:',
+                    e && e.reason ? e.reason : null,
+                    e && e.stack ? e.stack : e
+                );
             });
             errors = errors.map(function(e) {
                 if (e.constructor === Error ||
