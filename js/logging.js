@@ -161,6 +161,9 @@ window.log = {
 };
 
 window.onerror = function(message, script, line, col, error) {
-  window.log.error(error.stack);
+  window.log.error('Top-level unhandled error: ' + error.stack);
 };
 
+window.addEventListener('unhandledrejection', function(rejectionEvent) {
+  window.log.error('Top-level unhandled promise rejection: ' + rejectionEvent.reason);
+});
