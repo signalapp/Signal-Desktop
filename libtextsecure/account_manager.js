@@ -149,9 +149,9 @@
                         var rejections = 1 + textsecure.storage.get('signedKeyRotationRejected', 0);
                         textsecure.storage.put('signedKeyRotationRejected', rejections);
                         console.log('Signed key rotation rejected count:', rejections);
+                    } else {
+                        throw e;
                     }
-
-                    throw e;
                 });
             }.bind(this));
         },
