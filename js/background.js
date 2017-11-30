@@ -83,6 +83,7 @@
 
         if (!lastVersion || currentVersion !== lastVersion) {
             console.log('New version detected:', currentVersion);
+            getAccountManager().rotateSignedPreKey();
         }
 
         window.dispatchEvent(new Event('storage_ready'));
