@@ -93,7 +93,6 @@
         }
 
         Whisper.WallClockListener.init(Whisper.events);
-        Whisper.RotateSignedPreKeyListener.init(Whisper.events);
         Whisper.ExpiringMessagesListener.init(Whisper.events);
     });
 
@@ -118,6 +117,8 @@
         if (Whisper.Migration.inProgress()) { return; }
 
         if (messageReceiver) { messageReceiver.close(); }
+
+        Whisper.RotateSignedPreKeyListener.init(Whisper.events);
 
         var USERNAME = storage.get('number_id');
         var PASSWORD = storage.get('password');
