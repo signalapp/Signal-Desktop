@@ -90,19 +90,73 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
+
+const DEFAULT_WIDTH = 800;
+const DEFAULT_HEIGHT = 610;
+const MIN_WIDTH = 700;
+const MIN_HEIGHT = 360;
+const BOUNDS_BUFFER = 100;
+
+function isVisible(window, bounds) {
+  const boundsX = _.get(bounds, 'x') || 0;
+  const boundsY = _.get(bounds, 'y') || 0;
+  const boundsWidth = _.get(bounds, 'width') || DEFAULT_WIDTH;
+  const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
+
+  // requiring BOUNDS_BUFFER pixels on the left or right side
+  const rightSideClearOfLeftBound = (window.x + window.width >= boundsX + BOUNDS_BUFFER);
+  const leftSideClearOfRightBound = (window.x <= boundsX + boundsWidth - BOUNDS_BUFFER);
+
+  // top can't be offscreen, and must show at least BOUNDS_BUFFER pixels at bottom
+  const topClearOfUpperBound = window.y >= boundsY;
+  const topClearOfLowerBound = (window.y <= boundsY + boundsHeight - BOUNDS_BUFFER);
+
+  return rightSideClearOfLeftBound
+    && leftSideClearOfRightBound
+    && topClearOfUpperBound
+    && topClearOfLowerBound;
+}
+
 function createWindow () {
+  const screen = electron.screen;
   const windowOptions = Object.assign({
-    width: 800,
-    height: 610,
-    minWidth: 700,
-    minHeight: 360,
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
       //sandbox: true,
       preload: path.join(__dirname, 'preload.js')
     }
-  }, windowConfig);
+  }, _.pick(windowConfig, ['maximized', 'autoHideMenuBar', 'width', 'height', 'x', 'y']));
+
+  if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
+    windowOptions.width = DEFAULT_WIDTH;
+  }
+  if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
+    windowOptions.height = DEFAULT_HEIGHT;
+  }
+  if (!_.isBoolean(windowOptions.maximized)) {
+    delete windowOptions.maximized;
+  }
+  if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
+    delete windowOptions.autoHideMenuBar;
+  }
+
+  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), function(display) {
+    if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
+      return false;
+    }
+
+    return isVisible(windowOptions, _.get(display, 'bounds'));
+  });
+  if (!visibleOnAnyScreen) {
+    console.log('Location reset needed');
+    delete windowOptions.x;
+    delete windowOptions.y;
+  }
 
   if (windowOptions.fullscreen === false) {
     delete windowOptions.fullscreen;
@@ -341,11 +395,15 @@ ipc.on('restart', function(event) {
 });
 
 ipc.on("set-auto-hide-menu-bar", function(event, autoHide) {
-  mainWindow.setAutoHideMenuBar(autoHide);
+  if (mainWindow) {
+    mainWindow.setAutoHideMenuBar(autoHide);
+  }
 });
 
 ipc.on("set-menu-bar-visibility", function(event, visibility) {
-  mainWindow.setMenuBarVisibility(visibility);
+  if (mainWindow) {
+    mainWindow.setMenuBarVisibility(visibility);
+  }
 });
 
 ipc.on("close-about", function() {
