@@ -186,11 +186,15 @@
             var prekey = new PreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
+                    console.log('Successfully fetched prekey:', keyId);
                     resolve({
-                        pubKey: prekey.attributes.publicKey,
-                        privKey: prekey.attributes.privateKey
+                        pubKey: prekey.get('publicKey'),
+                        privKey: prekey.get('privateKey'),
                     });
-                }).fail(resolve);
+                }, function() {
+                    console.log('Failed to load prekey:', keyId);
+                    resolve();
+                });
             });
         },
         storePreKey: function(keyId, keyPair) {
