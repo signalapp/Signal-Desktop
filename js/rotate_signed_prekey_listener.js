@@ -59,6 +59,15 @@
                     setTimeoutForNextRun();
                 }
             });
+        },
+        stop: function() {
+            console.log('Stopping signed prekey rotation');
+            clearTimeout(timeout);
+            timeout = null;
+        },
+        start: function() {
+            console.log('Starting signed prekey rotation');
+            setTimeoutForNextRun();
         }
     };
 }());

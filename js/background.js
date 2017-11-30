@@ -101,6 +101,8 @@
     };
 
     Whisper.events.on('start-shutdown', function() {
+      Whisper.RotateSignedPreKeyListener.stop();
+
       if (messageReceiver) {
         messageReceiver.close().then(function() {
           messageReceiver = null;
