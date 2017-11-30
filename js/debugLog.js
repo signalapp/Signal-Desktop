@@ -71,7 +71,7 @@
         };
 
         window.onerror = function(message, script, line, col, error) {
-            console.log(error.stack);
+            console.log(error && error.stack ? error.stack : error);
         };
     }
 })();
