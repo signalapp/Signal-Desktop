@@ -211,7 +211,16 @@
             this.trigger('removePreKey');
 
             return new Promise(function(resolve) {
-                prekey.destroy().then(function() {
+                var deferred = prekey.destroy();
+                if (!deferred) {
+                    return resolve();
+                }
+
+                return deferred.then(resolve, function(error) {
+                    console.log(
+                        'removePreKey error:',
+                        error && error.stack ? error.stack : error
+                    );
                     resolve();
                 });
             });
@@ -222,6 +231,7 @@
             var prekey = new SignedPreKey({id: keyId});
             return new Promise(function(resolve) {
                 prekey.fetch().then(function() {
+                    console.log('Successfully loaded prekey:', prekey.get('id'));
                     resolve({
                         pubKey     : prekey.get('publicKey'),
                         privKey    : prekey.get('privateKey'),
@@ -229,14 +239,14 @@
                         keyId      : prekey.get('id')
                     });
                 }).fail(function() {
-                    console.log("Failed to load signed prekey:", keyId);
+                    console.log('Failed to load signed prekey:', keyId);
                     resolve();
                 });
             });
         },
         loadSignedPreKeys: function() {
             if (arguments.length > 0) {
-              return Promise.reject(new Error("loadSignedPreKeys takes no arguments"));
+              return Promise.reject(new Error('loadSignedPreKeys takes no arguments'));
             }
             var signedPreKeys = new SignedPreKeyCollection();
             return new Promise(function(resolve) {

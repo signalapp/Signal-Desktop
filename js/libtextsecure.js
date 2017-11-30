@@ -38049,7 +38049,7 @@ var TextSecureServer = (function() {
                 console.log("Old signed prekey record count: " + oldRecords.length);
 
                 oldRecords.forEach(function(oldRecord) {
-                    if ( oldRecord.keyId > activeSignedPreKeyId - 3 ) {
+                    if ( oldRecord.keyId >= activeSignedPreKeyId - 3 ) {
                         // keep at least the last 3 signed keys
                         return;
                     }
@@ -39151,6 +39151,7 @@ MessageReceiver.prototype.extend({
         }.bind(this));
     },
     handleBlocked: function(envelope, blocked) {
+        console.log('Setting these numbers as blocked:', blocked.numbers);
         textsecure.storage.put('blocked', blocked.numbers);
     },
     isBlocked: function(number) {

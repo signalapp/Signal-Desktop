@@ -179,7 +179,7 @@
                 console.log("Old signed prekey record count: " + oldRecords.length);
 
                 oldRecords.forEach(function(oldRecord) {
-                    if ( oldRecord.keyId > activeSignedPreKeyId - 3 ) {
+                    if ( oldRecord.keyId >= activeSignedPreKeyId - 3 ) {
                         // keep at least the last 3 signed keys
                         return;
                     }
