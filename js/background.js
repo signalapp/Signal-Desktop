@@ -83,6 +83,7 @@
 
         if (!lastVersion || currentVersion !== lastVersion) {
             console.log('New version detected:', currentVersion);
+            getAccountManager().rotateSignedPreKey();
         }
 
         window.dispatchEvent(new Event('storage_ready'));
@@ -90,19 +91,20 @@
         console.log('listening for registration events');
         Whisper.events.on('registration_done', function() {
             console.log('handling registration event');
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
             connect(true);
         });
 
         var appView = window.owsDesktopApp.appView = new Whisper.AppView({el: $('body')});
 
         Whisper.WallClockListener.init(Whisper.events);
-        Whisper.RotateSignedPreKeyListener.init(Whisper.events);
         Whisper.ExpiringMessagesListener.init(Whisper.events);
 
         if (Whisper.Import.isIncomplete()) {
             console.log('Import was interrupted, showing import error screen');
             appView.openImporter();
         } else if (Whisper.Registration.everDone()) {
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
             connect();
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
