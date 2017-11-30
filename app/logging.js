@@ -89,13 +89,23 @@ function fetchLog(logFile) {
 
 function fetch(logPath) {
   const files = fs.readdirSync(logPath);
-  logger.info('Loaded this list of log files from logPath: ' + files.join(', '));
   const paths = files.map(function(file) {
     return path.join(logPath, file)
   });
 
+  // creating a manual log entry for the final log result
+  var now = new Date();
+  const fileListEntry = {
+    level: 30, // INFO
+    time: now.toJSON(),
+    msg: 'Loaded this list of log files from logPath: ' + files.join(', '),
+  };
+
   return Promise.all(paths.map(fetchLog)).then(function(results) {
     const data = _.flatten(results);
+
+    data.push(fileListEntry);
+
     return _.sortBy(data, 'time');
   });
 }
