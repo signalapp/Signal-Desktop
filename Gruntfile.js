@@ -335,71 +335,82 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('unit-tests', 'Run unit tests inside Electron', function() {
-      var environment = grunt.option('env') || 'test';
-      var done = this.async();
-      var failure;
-
-      var Application = require('spectron').Application;
-      var electronBinary = process.platform === 'win32' ? 'electron.cmd' : 'electron';
-      var app = new Application({
-        path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
-        args: [path.join(__dirname, 'main.js')],
-        env: {
-          NODE_ENV: environment
-        }
-      });
-
-      function getMochaResults() {
-        return window.mochaResults;
+  function runTests(environment, cb) {
+    var failure;
+    var Application = require('spectron').Application;
+    var electronBinary = process.platform === 'win32' ? 'electron.cmd' : 'electron';
+    var app = new Application({
+      path: path.join(__dirname, 'node_modules', '.bin', electronBinary),
+      args: [path.join(__dirname, 'main.js')],
+      env: {
+        NODE_ENV: environment
       }
+    });
 
-      app.start().then(function() {
-        return app.client.waitUntil(function() {
-          return app.client.execute(getMochaResults).then(function(data) {
-            return Boolean(data.value);
-          });
-        }, 10000, 'Expected to find window.mochaResults set!');
-      }).then(function() {
-        return app.client.execute(getMochaResults);
-      }).then(function(data) {
-        var results = data.value;
-        if (results.failures > 0) {
-          console.error(results.reports);
-          failure = function() {
-            grunt.fail.fatal('Found ' + results.failures + ' failing unit tests.');
-          };
-          return app.client.log('browser');
-        } else {
-          grunt.log.ok(results.passes + ' tests passed.');
-        }
-      }).then(function(logs) {
-        if (logs) {
-          console.error();
-          console.error('Because tests failed, printing browser logs:');
-          console.error(logs);
-        }
-      }).catch(function (error) {
+    function getMochaResults() {
+      return window.mochaResults;
+    }
+
+    app.start().then(function() {
+      return app.client.waitUntil(function() {
+        return app.client.execute(getMochaResults).then(function(data) {
+          return Boolean(data.value);
+        });
+      }, 10000, 'Expected to find window.mochaResults set!');
+    }).then(function() {
+      return app.client.execute(getMochaResults);
+    }).then(function(data) {
+      var results = data.value;
+      if (results.failures > 0) {
+        console.error(results.reports);
         failure = function() {
-          grunt.fail.fatal('Something went wrong: ' + error.message + ' ' + error.stack);
+          grunt.fail.fatal('Found ' + results.failures + ' failing unit tests.');
         };
-      }).then(function () {
-        // We need to use the failure variable and this early stop to clean up before
-        // shutting down. Grunt's fail methods are the only way to set the return value,
-        // but they shut the process down immediately!
-        return app.stop();
-      }).then(function() {
-        if (failure) {
-          failure();
-        }
-        done();
-      }).catch(function (error) {
-        console.error('Second-level error:', error.message, error.stack);
-        if (failure) {
-          failure();
-        }
-        done();
-      });
+        return app.client.log('browser');
+      } else {
+        grunt.log.ok(results.passes + ' tests passed.');
+      }
+    }).then(function(logs) {
+      if (logs) {
+        console.error();
+        console.error('Because tests failed, printing browser logs:');
+        console.error(logs);
+      }
+    }).catch(function (error) {
+      failure = function() {
+        grunt.fail.fatal('Something went wrong: ' + error.message + ' ' + error.stack);
+      };
+    }).then(function () {
+      // We need to use the failure variable and this early stop to clean up before
+      // shutting down. Grunt's fail methods are the only way to set the return value,
+      // but they shut the process down immediately!
+      return app.stop();
+    }).then(function() {
+      if (failure) {
+        failure();
+      }
+      cb();
+    }).catch(function (error) {
+      console.error('Second-level error:', error.message, error.stack);
+      if (failure) {
+        failure();
+      }
+      cb();
+    });
+  }
+
+  grunt.registerTask('unit-tests', 'Run unit tests w/Electron', function() {
+    var environment = grunt.option('env') || 'test';
+    var done = this.async();
+
+    runTests(environment, done);
+  });
+
+  grunt.registerTask('lib-unit-tests', 'Run libtextsecure unit tests w/Electron', function() {
+    var environment = grunt.option('env') || 'test-lib';
+    var done = this.async();
+
+    runTests(environment, done);
   });
 
   grunt.registerMultiTask('test-release', 'Test packaged releases', function() {
@@ -473,7 +484,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('tx', ['exec:tx-pull', 'locale-patch']);
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests']);
+  grunt.registerTask('test', ['jshint', 'jscs', 'unit-tests', 'lib-unit-tests']);
   grunt.registerTask('copy_dist', ['gitinfo', 'copy:res', 'copy:src']);
   grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
   grunt.registerTask('prep-release', ['gitinfo', 'clean-release', 'fetch-release']);

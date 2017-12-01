@@ -79,11 +79,11 @@
     function start() {
         var currentVersion = window.config.version;
         var lastVersion = storage.get('version');
+        var newVersion = !lastVersion || currentVersion !== lastVersion;
         storage.put('version', currentVersion);
 
-        if (!lastVersion || currentVersion !== lastVersion) {
+        if (newVersion) {
             console.log('New version detected:', currentVersion);
-            getAccountManager().rotateSignedPreKey();
         }
 
         window.dispatchEvent(new Event('storage_ready'));
@@ -91,7 +91,7 @@
         console.log('listening for registration events');
         Whisper.events.on('registration_done', function() {
             console.log('handling registration event');
-            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
             connect(true);
         });
 
@@ -104,7 +104,7 @@
             console.log('Import was interrupted, showing import error screen');
             appView.openImporter();
         } else if (Whisper.Registration.everDone()) {
-            Whisper.RotateSignedPreKeyListener.init(Whisper.events);
+            Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
             connect();
             appView.openInbox({
                 initialLoadComplete: initialLoadComplete
