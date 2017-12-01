@@ -58,20 +58,19 @@
 
     var initComplete;
     Whisper.RotateSignedPreKeyListener = {
-        init: function(events) {
+        init: function(events, newVersion) {
             if (initComplete) {
                 console.log('Rotate signed prekey listener: Already initialized');
                 return;
             }
             initComplete = true;
 
-            if (Whisper.Registration.isDone()) {
+            if (newVersion) {
+                runWhenOnline();
+            } else {
                 setTimeoutForNextRun();
             }
-            events.on('registration_done', function() {
-                scheduleNextRotation();
-                setTimeoutForNextRun();
-            });
+
             events.on('timetravel', function() {
                 if (Whisper.Registration.isDone()) {
                     setTimeoutForNextRun();
